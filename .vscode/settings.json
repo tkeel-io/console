@@ -1,0 +1,6 @@
+{
+  "path-intellisense.mappings": {
+    "/": "${workspaceFolder}",
+    "@": "${workspaceFolder}/src"
+  }
+}
