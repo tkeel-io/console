@@ -51,6 +51,16 @@ config/local-*.*
 # TypeScript
 *.tsbuildinfo
 
+# Testing
+/coverage
+
+# Next.js
+/.next/
+/out/
+
+# Vercel
+.vercel
+
 # Production
 build/
 dist/
