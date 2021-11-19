@@ -5,6 +5,8 @@
     "packages/*"
   ],
   "scripts": {
+    "dev:core": "yarn workspace @tkeel/console-core run dev",
+    "build:core": "yarn workspace @tkeel/console-core run build",
     "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,json,hbs,handlebars,css,scss,md}\"",
     "eslint": "eslint --fix \"**/*.{js,jsx,ts,tsx}\"",
     "stylelint": "stylelint --fix \"**/*.{css,scss,js,jsx,ts,tsx}\"",
