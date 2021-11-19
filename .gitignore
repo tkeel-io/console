@@ -336,3 +336,11 @@ miniprogram_npm/
 
 config/local.*
 config/local-*.*
+
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
