@@ -5,13 +5,13 @@
     "packages/*"
   ],
   "scripts": {
-    "commit": "git-cz",
+    "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,json,hbs,handlebars,css,scss,md}\"",
+    "eslint": "eslint --fix \"**/*.{js,jsx,ts,tsx}\"",
+    "stylelint": "stylelint --fix \"**/*.{css,scss,js,jsx,ts,tsx}\"",
     "cspell": "cspell --no-must-find-files \"**\"",
-    "eslint": "npx eslint --fix \"**/*.{js,jsx,ts,tsx}\"",
-    "pre-commit": "lint-staged",
     "prepare": "husky install",
-    "prettier": "npx prettier --write \"**/*.{js,jsx,ts,tsx,json,hbs,handlebars,css,scss,md,yaml,yml}\"",
-    "stylelint": "npx stylelint --fix \"**/*.{css,scss,js,jsx,ts,tsx}\""
+    "pre-commit": "lint-staged",
+    "commit": "git-cz"
   },
   "config": {
     "commitizen": {
