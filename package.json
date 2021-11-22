@@ -1,6 +1,15 @@
 {
   "name": "@tkeel/console",
   "private": true,
+  "homepage": "https://github.com/tkeel-io/console#readme",
+  "bugs": {
+    "url": "https://github.com/tkeel-io/console/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tkeel-io/console.git"
+  },
+  "license": "Apache-2.0",
   "workspaces": [
     "packages/*"
   ],
