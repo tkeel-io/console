@@ -16,10 +16,10 @@
   "scripts": {
     "dev:core": "yarn workspace @tkeel/console-core run dev",
     "build:core": "yarn workspace @tkeel/console-core run build",
-    "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,json,hbs,handlebars,css,scss,md}\"",
-    "eslint": "eslint --fix \"**/*.{js,jsx,ts,tsx}\"",
-    "stylelint": "stylelint --fix \"**/*.{css,scss,js,jsx,ts,tsx}\"",
-    "cspell": "cspell --no-must-find-files \"**\"",
+    "lint:format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,hbs,handlebars,css,scss,md}\"",
+    "lint:script": "eslint --fix \"**/*.{js,jsx,ts,tsx}\"",
+    "lint:style": "stylelint --fix \"**/*.{css,scss,js,jsx,ts,tsx}\"",
+    "lint:spell": "cspell --no-must-find-files \"**\"",
     "prepare": "husky install",
     "pre-commit": "lint-staged",
     "commit": "git-cz"
@@ -62,6 +62,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-import-resolver-typescript": "^2.5.0",
     "eslint-import-resolver-webpack": "^0.13.2",
+    "eslint-plugin-eslint-comments": "^3.2.0",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-prettier": "^4.0.0",

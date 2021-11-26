@@ -24,10 +24,10 @@
     "experimentalDecorators": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["packages/**/src/*"]
     }
   },
-  "include": ["src/**/*"],
+  "include": ["**/src/**/*"],
   "exclude": ["**/node_modules", "**/dist"],
   "plugins": [
     {
