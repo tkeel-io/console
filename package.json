@@ -14,6 +14,8 @@
     "packages/*"
   ],
   "scripts": {
+    "dev:all": "yarn workspaces foreach run dev",
+    "build:all": "yarn workspaces foreach run build",
     "dev:core": "yarn workspace @tkeel/console-core run dev",
     "build:core": "yarn workspace @tkeel/console-core run build",
     "lint:format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,hbs,handlebars,css,scss,md}\"",

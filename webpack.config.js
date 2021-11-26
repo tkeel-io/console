@@ -1,3 +1,4 @@
+/* eslint-disable eslint-comments/disable-enable-pair */
 /* eslint-disable import/no-dynamic-require */
 const webpackBaseDir = `${__dirname}/webpack`;
 const { isEnvDevelopment, isEnvProduction } = require(`${webpackBaseDir}/env`);
