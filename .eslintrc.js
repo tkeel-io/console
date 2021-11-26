@@ -1,5 +1,4 @@
 const path = require('path');
-const Process = require('process');
 
 module.exports = {
   root: true,
