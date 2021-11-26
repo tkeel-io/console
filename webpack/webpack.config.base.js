@@ -76,6 +76,9 @@ module.exports = {
         include: srcPath,
         exclude: nodeModulesPath,
         loader: 'babel-loader',
+        options: {
+          rootMode: 'upward',
+        },
       },
       {
         test: /\.(handlebars|hbs)$/,

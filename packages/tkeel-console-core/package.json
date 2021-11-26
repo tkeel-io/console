@@ -12,7 +12,7 @@
   },
   "license": "Apache-2.0",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack serve",
+    "dev": "cross-env NODE_ENV=development webpack serve -c ../../webpack.config.js",
     "build": "cross-env NODE_ENV=production webpack -c ../../webpack.config.js",
     "analyze": "cross-env NODE_ENV=development ANALYZE=true npm run build"
   },

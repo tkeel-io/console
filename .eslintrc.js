@@ -24,11 +24,6 @@ module.exports = {
     'plugin:unicorn/recommended',
     'plugin:prettier/recommended',
   ],
-  settings: {
-    'import/resolver': {
-      webpack: { config: './webpack/webpack.config.dev.js' },
-    },
-  },
   rules: {
     'no-param-reassign': [
       'error',
@@ -94,9 +89,11 @@ module.exports = {
         project: './tsconfig.json',
       },
       settings: {
-        typescript: {
-          alwaysTryTypes: true,
-          project: './tsconfig.json',
+        'import/resolver': {
+          typescript: {
+            alwaysTryTypes: true,
+            project: './tsconfig.json',
+          },
         },
       },
       extends: [
