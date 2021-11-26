@@ -1,3 +1,6 @@
+const path = require('path');
+const Process = require('process');
+
 module.exports = {
   root: true,
   parser: '@babel/eslint-parser',
@@ -20,15 +23,11 @@ module.exports = {
   extends: [
     'airbnb',
     'airbnb/hooks',
+    'plugin:eslint-comments/recommended',
     'plugin:promise/recommended',
     'plugin:unicorn/recommended',
     'plugin:prettier/recommended',
   ],
-  settings: {
-    'import/resolver': {
-      webpack: { config: './webpack/webpack.config.dev.js' },
-    },
-  },
   rules: {
     'no-param-reassign': [
       'error',
@@ -65,7 +64,6 @@ module.exports = {
         'newlines-between': 'always',
       },
     ],
-
     'react/function-component-definition': [
       'error',
       {
@@ -85,6 +83,7 @@ module.exports = {
       },
     ],
     'unicorn/no-null': 'off',
+    'unicorn/prefer-export-from': 'off',
     'unicorn/prefer-query-selector': 'off',
     'unicorn/prevent-abbreviations': 'off',
   },
@@ -92,12 +91,14 @@ module.exports = {
     {
       files: ['**/*.{ts,tsx}'],
       parserOptions: {
-        project: './tsconfig.json',
+        project: path.resolve(__dirname, 'tsconfig.json'),
       },
       settings: {
-        typescript: {
-          alwaysTryTypes: true,
-          project: './tsconfig.json',
+        'import/resolver': {
+          typescript: {
+            alwaysTryTypes: true,
+            project: path.resolve(__dirname, 'tsconfig.json'),
+          },
         },
       },
       extends: [
@@ -111,7 +112,7 @@ module.exports = {
       },
     },
     {
-      files: ['./src/**/*.{js,jsx,ts,tsx}'],
+      files: ['**/src/**/*.{js,jsx,ts,tsx}'],
       plugins: ['simple-import-sort'],
       rules: {
         'sort-imports': 'off',
@@ -137,7 +138,7 @@ module.exports = {
       },
     },
     {
-      files: ['!(./src/**/*.{js,jsx,ts,tsx})'],
+      files: ['!(**/src/**/*.{js,jsx,ts,tsx})'],
       rules: {
         'unicorn/prefer-module': 'off',
       },

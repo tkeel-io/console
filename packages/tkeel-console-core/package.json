@@ -1,0 +1,28 @@
+{
+  "name": "@tkeel/console-core",
+  "version": "0.0.1",
+  "description": "",
+  "homepage": "https://github.com/tkeel-io/console#readme",
+  "bugs": {
+    "url": "https://github.com/tkeel-io/console/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tkeel-io/console.git"
+  },
+  "license": "Apache-2.0",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development webpack serve -c ../../webpack.config.js",
+    "build": "cross-env NODE_ENV=production webpack -c ../../webpack.config.js",
+    "analyze": "cross-env NODE_ENV=development ANALYZE=true npm run build"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^1.7.1",
+    "@emotion/react": "^11.6.0",
+    "@emotion/styled": "^11.6.0",
+    "framer-motion": "^5.3.0",
+    "qiankun": "^2.5.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}

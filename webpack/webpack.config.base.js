@@ -1,6 +1,7 @@
 const path = require('path');
 
 const config = require('config');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
@@ -75,6 +76,9 @@ module.exports = {
         include: srcPath,
         exclude: nodeModulesPath,
         loader: 'babel-loader',
+        options: {
+          rootMode: 'upward',
+        },
       },
       {
         test: /\.(handlebars|hbs)$/,
@@ -108,9 +112,7 @@ module.exports = {
   resolve: {
     modules: [nodeModulesPath, srcPath],
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
-    alias: {
-      '@': srcPath,
-    },
+    plugins: [new TsconfigPathsPlugin()],
   },
   target: 'web',
   plugins: [
@@ -121,7 +123,7 @@ module.exports = {
       favicon: path.resolve(publicPath, 'favicon.png'),
       hash: true,
     }),
-    new ForkTsCheckerWebpackPlugin(),
+    // new ForkTsCheckerWebpackPlugin(),
     new ESLintPlugin({
       context: 'src',
       extensions: ['js', 'jsx', 'ts', 'tsx'],
