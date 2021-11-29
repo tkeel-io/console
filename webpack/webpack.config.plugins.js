@@ -7,9 +7,9 @@ const paths = require('../scripts/utils/paths');
 const webpackConfigPath = path.resolve(paths.root.webpack, 'webpack.config.js');
 
 // eslint-disable-next-line import/no-dynamic-require
-const webpackConfig = require(webpackConfigPath);
+const webpackConfig = require(webpackConfigPath)();
 // eslint-disable-next-line import/no-dynamic-require
-const { packageName } = require(paths.cwd.packageJson);
+const { name: packageName } = require(paths.cwd.packageJson);
 
 const webpackConfigPlugins = {
   output: {
