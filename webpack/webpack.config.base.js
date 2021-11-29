@@ -2,6 +2,7 @@ const path = require('path');
 
 const config = require('config');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
@@ -117,7 +118,7 @@ module.exports = {
       favicon: path.resolve(paths.cwd.public, 'favicon.png'),
       hash: true,
     }),
-    // new ForkTsCheckerWebpackPlugin(),
+    new ForkTsCheckerWebpackPlugin(),
     new ESLintPlugin({
       context: 'src',
       extensions: ['js', 'jsx', 'ts', 'tsx'],

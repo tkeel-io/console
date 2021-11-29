@@ -83,7 +83,6 @@ module.exports = {
     ],
     'unicorn/no-null': 'off',
     'unicorn/prefer-export-from': 'off',
-    'unicorn/prefer-query-selector': 'off',
     'unicorn/prevent-abbreviations': 'off',
   },
   overrides: [
