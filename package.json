@@ -18,7 +18,7 @@
     "dev:core": "yarn workspace @tkeel/console-core run dev",
     "build:core": "yarn workspace @tkeel/console-core run build",
     "dev:plugin-example": "yarn workspace @tkeel/console-plugin-example run dev",
-    "build:plugin-example": "yarn workspace @tkeel/console-plugin-example run dev",
+    "build:plugin-example": "yarn workspace @tkeel/console-plugin-example run build",
     "lint:format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,hbs,handlebars,css,scss,md}\"",
     "lint:script": "eslint --fix \"**/*.{js,jsx,ts,tsx}\"",
     "lint:typescript": "tsc --noEmit",
