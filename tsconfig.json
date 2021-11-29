@@ -1,14 +1,12 @@
 {
   "compilerOptions": {
     "incremental": true,
-    "outDir": "dist",
     "target": "es5",
     "module": "esnext",
     "lib": ["DOM", "ESNext"],
     "sourceMap": true,
     "importHelpers": true,
     "declaration": true,
-    "rootDir": "src",
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -22,6 +20,8 @@
     "suppressImplicitAnyIndexErrors": true,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
+    "rootDir": ".",
+    "outDir": "dist",
     "baseUrl": ".",
     "paths": {
       "@/*": ["packages/tkeel-console-core/src/*"]
@@ -32,6 +32,6 @@
       }
     ]
   },
-  "include": ["**/src/**/*"],
-  "exclude": ["**/node_modules", "**/dist", "**/scripts"]
+  "include": ["packages/*/src/"],
+  "exclude": ["node_modules/", "**/dist/", "**/scripts/"]
 }
