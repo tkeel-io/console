@@ -1307,7 +1307,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.10.5, @babel/runtime@npm:^7.12.13, @babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.8.4":
+"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.10.5, @babel/runtime@npm:^7.12.13, @babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.4":
   version: 7.16.3
   resolution: "@babel/runtime@npm:7.16.3"
   dependencies:
@@ -3084,6 +3084,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@tkeel/console-plugin-example@workspace:packages/tkeel-console-plugin-example":
+  version: 0.0.0-use.local
+  resolution: "@tkeel/console-plugin-example@workspace:packages/tkeel-console-plugin-example"
+  dependencies:
+    "@chakra-ui/react": ^1.7.1
+    "@emotion/react": ^11.6.0
+    "@emotion/styled": ^11.6.0
+    framer-motion: ^5.3.0
+    react: ^17.0.2
+    react-dom: ^17.0.2
+    react-router-dom: ^6.0.2
+  languageName: unknown
+  linkType: soft
+
 "@tkeel/console@workspace:.":
   version: 0.0.0-use.local
   resolution: "@tkeel/console@workspace:."
@@ -3130,7 +3144,7 @@ __metadata:
     eslint-plugin-simple-import-sort: ^7.0.0
     eslint-plugin-unicorn: ^39.0.0
     eslint-webpack-plugin: ^3.1.1
-    fork-ts-checker-webpack-plugin: ^6.4.0
+    fork-ts-checker-webpack-plugin: ^6.4.2
     handlebars: ^4.7.7
     handlebars-loader: ^1.7.1
     html-webpack-plugin: ^5.5.0
@@ -7350,7 +7364,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fork-ts-checker-webpack-plugin@npm:^6.4.0":
+"fork-ts-checker-webpack-plugin@npm:^6.4.2":
   version: 6.4.2
   resolution: "fork-ts-checker-webpack-plugin@npm:6.4.2"
   dependencies:
@@ -8047,6 +8061,15 @@ __metadata:
   version: 1.0.8
   resolution: "hey-listen@npm:1.0.8"
   checksum: 6bad60b367688f5348e25e7ca3276a74b59ac5a09b0455e6ff8ab7d4a9e38cd2116c708a7dcd8a954d27253ce1d8717ec891d175723ea739885b828cf44e4072
+  languageName: node
+  linkType: hard
+
+"history@npm:^5.1.0":
+  version: 5.1.0
+  resolution: "history@npm:5.1.0"
+  dependencies:
+    "@babel/runtime": ^7.7.6
+  checksum: c978710a188ee5ad5d2acf55721c77e27469578c891a66311e71e8920d1390d14476e39a6db07e0ab0f5f8d594f1f62eb55a1059c7549cde7795a36367df5869
   languageName: node
   linkType: hard
 
@@ -12327,6 +12350,30 @@ __metadata:
     "@types/react":
       optional: true
   checksum: 9413b9105088034dc7dc45567897961def26b73d9fd00eef0b3de7ed5e2defdb42e5ef52f218dab35fd2ac0335601d8bc445c46a20e60626bab770e4cf1f6a20
+  languageName: node
+  linkType: hard
+
+"react-router-dom@npm:^6.0.2":
+  version: 6.0.2
+  resolution: "react-router-dom@npm:6.0.2"
+  dependencies:
+    history: ^5.1.0
+    react-router: 6.0.2
+  peerDependencies:
+    react: ">=16.8"
+    react-dom: ">=16.8"
+  checksum: d3680939a4fac286f8df028c1fabe5626567ba065b2029b1cc4ad64fe9444aeba186d0e5e765563fc36ea868e7d17e02fb098f2ebc0b1c70212a8470a4b58ad6
+  languageName: node
+  linkType: hard
+
+"react-router@npm:6.0.2":
+  version: 6.0.2
+  resolution: "react-router@npm:6.0.2"
+  dependencies:
+    history: ^5.1.0
+  peerDependencies:
+    react: ">=16.8"
+  checksum: 9d4f3a8002a90f38be022c6740e11e9bb481e60ad04c5a0ce2d6dbe685059c09b3037c45414d6e7e40eb97308842380413cfb93c5cdcb992e7ee0c50b4f7fcaa
   languageName: node
   linkType: hard
 
