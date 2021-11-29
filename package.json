@@ -14,10 +14,11 @@
     "packages/*"
   ],
   "scripts": {
-    "dev:all": "yarn workspaces foreach run dev",
     "build:all": "yarn workspaces foreach run build",
     "dev:core": "yarn workspace @tkeel/console-core run dev",
     "build:core": "yarn workspace @tkeel/console-core run build",
+    "dev:plugin-example": "yarn workspace @tkeel/console-plugin-example run dev",
+    "build:plugin-example": "yarn workspace @tkeel/console-plugin-example run dev",
     "lint:format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,hbs,handlebars,css,scss,md}\"",
     "lint:script": "eslint --fix \"**/*.{js,jsx,ts,tsx}\"",
     "lint:typescript": "tsc --noEmit",
@@ -75,7 +76,7 @@
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "eslint-plugin-unicorn": "^39.0.0",
     "eslint-webpack-plugin": "^3.1.1",
-    "fork-ts-checker-webpack-plugin": "^6.4.0",
+    "fork-ts-checker-webpack-plugin": "^6.4.2",
     "handlebars": "^4.7.7",
     "handlebars-loader": "^1.7.1",
     "html-webpack-plugin": "^5.5.0",

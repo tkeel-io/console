@@ -20,11 +20,15 @@
     "suppressImplicitAnyIndexErrors": true,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
+    "skipLibCheck": true,
     "rootDir": ".",
     "outDir": "dist",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["packages/tkeel-console-core/src/*"]
+      "@/*": [
+        "packages/tkeel-console-core/src/*",
+        "packages/tkeel-console-plugin-example/src/*"
+      ]
     },
     "plugins": [
       {
