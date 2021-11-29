@@ -90,13 +90,12 @@ module.exports = {
     {
       files: ['**/*.{ts,tsx}'],
       parserOptions: {
-        project: path.resolve(__dirname, 'tsconfig.json'),
+        project: path.resolve(__dirname, 'packages/*/tsconfig.json'),
       },
       settings: {
         'import/resolver': {
           typescript: {
             alwaysTryTypes: true,
-            project: path.resolve(__dirname, 'tsconfig.json'),
           },
         },
       },
@@ -111,7 +110,7 @@ module.exports = {
       },
     },
     {
-      files: ['**/src/**/*.{js,jsx,ts,tsx}'],
+      files: ['packages/*/src/**/*.{js,jsx,ts,tsx}'],
       plugins: ['simple-import-sort'],
       rules: {
         'sort-imports': 'off',
@@ -137,7 +136,7 @@ module.exports = {
       },
     },
     {
-      files: ['!(**/src/**/*.{js,jsx,ts,tsx})'],
+      files: ['!(packages/*/src/**/*.{js,jsx,ts,tsx})'],
       rules: {
         'unicorn/prefer-module': 'off',
       },

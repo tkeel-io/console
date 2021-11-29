@@ -1,20 +1,18 @@
 {
   "compilerOptions": {
     "incremental": true,
-    "outDir": "dist",
     "target": "es5",
     "module": "esnext",
     "lib": ["DOM", "ESNext"],
     "sourceMap": true,
     "importHelpers": true,
     "declaration": true,
-    "rootDir": "src",
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "allowJs": true,
+    "allowJs": false,
     "jsx": "react",
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
@@ -22,16 +20,18 @@
     "suppressImplicitAnyIndexErrors": true,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
+    "rootDir": ".",
+    "outDir": "dist",
     "baseUrl": ".",
     "paths": {
       "@/*": ["packages/tkeel-console-core/src/*"]
-    }
+    },
+    "plugins": [
+      {
+        "name": "typescript-plugin-css-modules"
+      }
+    ]
   },
-  "include": ["**/src/**/*"],
-  "exclude": ["**/node_modules", "**/dist"],
-  "plugins": [
-    {
-      "name": "typescript-plugin-css-modules"
-    }
-  ]
+  "include": ["packages/*/src/"],
+  "exclude": ["node_modules/", "**/dist/", "**/scripts/"]
 }
