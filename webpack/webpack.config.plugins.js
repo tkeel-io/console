@@ -1,10 +1,7 @@
-const path = require('path');
+const paths = require('../scripts/utils/paths');
 
-const paths = require('./paths');
-
-const packageJson = path.resolve(paths.root, 'package.json');
 // eslint-disable-next-line import/no-dynamic-require
-const { packageName } = require(packageJson);
+const { packageName } = require(paths.cwd.packageJson);
 
 module.exports = {
   output: {

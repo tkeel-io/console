@@ -10,12 +10,7 @@ const WebpackBar = require('webpackbar');
 const WebpackNotifierPlugin = require('webpack-notifier');
 
 const { env, isEnvDevelopment, isEnvProduction } = require('./env');
-const {
-  nodeModules: nodeModulesPath,
-  public: publicPath,
-  src: srcPath,
-  dist: distPath,
-} = require('./paths');
+const paths = require('../scripts/utils/paths');
 
 const PUBLIC_PATH = config.get('PUBLIC_PATH');
 const GENERATE_SOURCEMAP = config.get('GENERATE_SOURCEMAP');
@@ -63,17 +58,17 @@ const getStyleLoaders = () => {
 
 module.exports = {
   mode: env,
-  entry: path.resolve(srcPath, 'index'),
+  entry: path.resolve(paths.cwd.src, 'index'),
   output: {
-    path: distPath,
+    path: paths.cwd.dist,
     publicPath: PUBLIC_PATH,
   },
   module: {
     rules: [
       {
         test: /\.(js|jsx|ts|tsx)$/,
-        include: srcPath,
-        exclude: nodeModulesPath,
+        include: paths.cwd.src,
+        exclude: paths.root.nodeModules,
         loader: 'babel-loader',
         options: {
           rootMode: 'upward',
@@ -109,7 +104,7 @@ module.exports = {
     ],
   },
   resolve: {
-    modules: [nodeModulesPath, srcPath],
+    modules: [paths.root.nodeModules, paths.cwd.src],
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
     plugins: [new TsconfigPathsPlugin()],
   },
@@ -117,9 +112,9 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: DOCUMENT_TITLE,
-      template: path.resolve(publicPath, 'index.handlebars'),
+      template: path.resolve(paths.cwd.public, 'index.handlebars'),
       inject: true,
-      favicon: path.resolve(publicPath, 'favicon.png'),
+      favicon: path.resolve(paths.cwd.public, 'favicon.png'),
       hash: true,
     }),
     // new ForkTsCheckerWebpackPlugin(),

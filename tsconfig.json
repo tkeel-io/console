@@ -25,7 +25,7 @@
     "outDir": "dist",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["packages/*/src/*"]
+      "@/*": ["packages/tkeel-console-core/src/*"]
     },
     "plugins": [
       {
