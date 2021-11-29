@@ -20,6 +20,7 @@
     "build:core": "yarn workspace @tkeel/console-core run build",
     "lint:format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,hbs,handlebars,css,scss,md}\"",
     "lint:script": "eslint --fix \"**/*.{js,jsx,ts,tsx}\"",
+    "lint:typescript": "tsc --noEmit",
     "lint:style": "stylelint --fix \"**/*.{css,scss,js,jsx,ts,tsx}\"",
     "lint:spell": "cspell --no-must-find-files \"**\"",
     "prepare": "husky install",
