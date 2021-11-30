@@ -2,11 +2,8 @@
 .DS_Store
 
 # JetBrains
-.idea/**/workspace.xml
-.idea/**/tasks.xml
-.idea/**/usage.statistics.xml
-.idea/**/dictionaries
-.idea/**/shelf
+.idea/**
+**/*.iml
 
 # Visual Studio Code
 .vscode/*
@@ -18,7 +15,7 @@
 .history/
 
 # Node.js
-**/node_modules/
+node_modules/
 
 # Yarn
 .pnp.*
@@ -51,5 +48,8 @@ config/local-*.*
 # TypeScript
 *.tsbuildinfo
 
+# Testing
+coverage/
+
 # Production
-packages/*/dist/
+dist/

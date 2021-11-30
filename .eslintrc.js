@@ -84,6 +84,7 @@ module.exports = {
     'unicorn/no-null': 'off',
     'unicorn/prefer-export-from': 'off',
     'unicorn/prevent-abbreviations': 'off',
+    'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
   },
   overrides: [
     {
@@ -99,12 +100,13 @@ module.exports = {
         },
       },
       extends: [
-        'airbnb-typescript',
         'plugin:@typescript-eslint/recommended',
         'plugin:@typescript-eslint/recommended-requiring-type-checking',
+        'airbnb-typescript',
         'plugin:prettier/recommended',
       ],
       rules: {
+        '@typescript-eslint/ban-ts-comment': 'off',
         '@typescript-eslint/no-floating-promises': 'off',
       },
     },

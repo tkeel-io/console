@@ -27,6 +27,9 @@ const devConfig = {
     devMiddleware: {
       stats: 'errors-warnings',
     },
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
