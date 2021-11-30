@@ -18,7 +18,7 @@
 .history/
 
 # Node.js
-**/node_modules/
+node_modules/
 
 # Yarn
 .pnp.*
@@ -51,5 +51,17 @@ config/local-*.*
 # TypeScript
 *.tsbuildinfo
 
+# Testing
+coverage/
+
+# Next.js
+.next/
+out/
+
+# Vercel
+.vercel
+
 # Production
-packages/*/dist/
+build/
+dist/
+lib/
