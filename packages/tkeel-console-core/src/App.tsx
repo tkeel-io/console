@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-// import { BrowserRouter as Router } from 'react-router-dom';
-import { Button, ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider } from '@chakra-ui/react';
 import { initGlobalState, MicroAppStateActions } from 'qiankun';
 
-import Menus from '@/components/Menus';
-// import Routes from '@/routes';
-import { init as initQiankun } from '@/utils/qiankun';
+import Layout from '@/containers/Layout';
+import Routes from '@/routes';
+import { init as initQiankun, menusToApps } from '@/utils/qiankun';
 
 import { fetchMenus } from '@/mock';
 import { IMenu } from '@/mock/types';
@@ -44,18 +43,9 @@ function App() {
 
   return (
     <ChakraProvider>
-      {/* <Router> */}
-      <Button
-        onClick={() => {
-          actions.setGlobalState({ app: 'main-app' });
-        }}
-      >
-        main-app setGlobalState
-      </Button>
-      <Menus data={menus} />
-      <div id="sub-app" />
-      {/* <Routes data={menus} /> */}
-      {/* </Router> */}
+      <Layout menus={menus}>
+        <Routes data={menusToApps({ menus })} />
+      </Layout>
     </ChakraProvider>
   );
 }
