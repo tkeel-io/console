@@ -1,13 +1,13 @@
 import React from 'react';
 import { RouteObject } from 'react-router-dom';
 
-import Index from '@/pages/Index';
 import PageA from '@/pages/PageA';
+import PluginList from '@/pages/PluginList';
 
 const routes: RouteObject[] = [
   {
     path: '/',
-    element: <Index />,
+    element: <PluginList />,
   },
   {
     path: 'page-a',

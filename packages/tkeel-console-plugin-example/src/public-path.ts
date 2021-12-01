@@ -1,4 +1,5 @@
 /* eslint-disable no-underscore-dangle */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
 // @ts-ignore
 if (window.__POWERED_BY_QIANKUN__) {

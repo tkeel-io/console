@@ -1,13 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import React, { useEffect, useState } from 'react';
 // import { BrowserRouter as Router } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
-import { Button } from '@tkeel/console-components';
 import { useRequest } from '@tkeel/console-hooks';
 import { initGlobalState, MicroAppStateActions } from 'qiankun';
 
-import Menus from '@/components/Menus';
-// import Routes from '@/routes';
-import { init as initQiankun } from '@/utils/qiankun';
+import Layout from '@/containers/Layout';
+import Routes from '@/routes';
+import { init as initQiankun, menusToApps } from '@/utils/qiankun';
 
 import { fetchMenus } from '@/mock';
 import { IMenu } from '@/mock/types';
@@ -27,6 +27,7 @@ function App() {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const r = useRequest({ url: 'https://api.github.com/repositories?q=react' });
   // eslint-disable-next-line no-console
   console.log(r);
@@ -50,18 +51,9 @@ function App() {
 
   return (
     <ChakraProvider>
-      {/* <Router> */}
-      <Button
-        onClick={() => {
-          actions.setGlobalState({ app: 'main-app' });
-        }}
-      >
-        main-app setGlobalState
-      </Button>
-      <Menus data={menus} />
-      <div id="sub-app" />
-      {/* <Routes data={menus} /> */}
-      {/* </Router> */}
+      <Layout menus={menus}>
+        <Routes data={menusToApps({ menus })} />
+      </Layout>
     </ChakraProvider>
   );
 }
