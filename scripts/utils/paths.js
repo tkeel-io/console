@@ -4,10 +4,12 @@ const path = require('path');
 const rootDirectory = path.resolve(__dirname, '../..');
 const currentWorkingDirectory = process.cwd();
 
-const resolveWithRoot = (relativePath) =>
-  path.resolve(rootDirectory, relativePath);
-const resolveWithPackage = (relativePath) =>
-  path.resolve(currentWorkingDirectory, relativePath);
+const resolveWithRoot = (...relativePaths) =>
+  path.resolve(rootDirectory, ...relativePaths);
+const resolveWithPackages = (...relativePaths) =>
+  resolveWithRoot('packages', ...relativePaths);
+const resolveWithCwd = (...relativePaths) =>
+  path.resolve(currentWorkingDirectory, ...relativePaths);
 
 module.exports = {
   root: {
@@ -15,12 +17,15 @@ module.exports = {
     nodeModules: resolveWithRoot('node_modules'),
     webpack: resolveWithRoot('webpack'),
   },
+  packages: {
+    components: resolveWithPackages('tkeel-console-components'),
+  },
   cwd: {
     self: currentWorkingDirectory,
-    packageJson: resolveWithPackage('package.json'),
-    config: resolveWithPackage('config'),
-    public: resolveWithPackage('public'),
-    src: resolveWithPackage('src'),
-    dist: resolveWithPackage('dist'),
+    packageJson: resolveWithCwd('package.json'),
+    config: resolveWithCwd('config'),
+    public: resolveWithCwd('public'),
+    src: resolveWithCwd('src'),
+    dist: resolveWithCwd('dist'),
   },
 };

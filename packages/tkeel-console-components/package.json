@@ -10,11 +10,7 @@
     "url": "git+https://github.com/tkeel-io/console.git"
   },
   "license": "Apache-2.0",
-  "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack serve --config ../../webpack/webpack.config.components.js",
-    "build": "cross-env NODE_ENV=production webpack --config ../../webpack/webpack.config.components.js",
-    "analyze": "cross-env NODE_ENV=development ANALYZE=true npm run build"
-  },
+  "main": "./src/index.ts",
   "peerDependencies": {
     "@chakra-ui/react": "^1.7.2",
     "@emotion/react": "^11.7.0",

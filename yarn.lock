@@ -4067,7 +4067,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tkeel/console-components@workspace:packages/tkeel-console-components":
+"@tkeel/console-components@workspace:^, @tkeel/console-components@workspace:packages/tkeel-console-components":
   version: 0.0.0-use.local
   resolution: "@tkeel/console-components@workspace:packages/tkeel-console-components"
   peerDependencies:
@@ -4075,6 +4075,7 @@ __metadata:
     "@emotion/react": ^11.7.0
     "@emotion/styled": ^11.6.0
     framer-motion: ^5.3.3
+    lodash: ^4.17.21
     react: ^17.0.2
     react-dom: ^17.0.2
   languageName: unknown
@@ -4087,6 +4088,7 @@ __metadata:
     "@chakra-ui/react": ^1.7.2
     "@emotion/react": ^11.7.0
     "@emotion/styled": ^11.6.0
+    "@tkeel/console-components": "workspace:^"
     framer-motion: ^5.3.3
     qiankun: ^2.5.1
     react: ^17.0.2

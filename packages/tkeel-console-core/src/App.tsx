@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 // import { BrowserRouter as Router } from 'react-router-dom';
-import { Button, ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider } from '@chakra-ui/react';
+import { Button } from '@tkeel/console-components';
 import { initGlobalState, MicroAppStateActions } from 'qiankun';
 
 import Menus from '@/components/Menus';
