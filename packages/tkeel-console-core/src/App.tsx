@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import React, { useEffect, useState } from 'react';
-// import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 import { useRequest } from '@tkeel/console-hooks';
 import { initGlobalState, MicroAppStateActions } from 'qiankun';
@@ -51,9 +51,11 @@ function App() {
 
   return (
     <ChakraProvider>
-      <Layout menus={menus}>
-        <Routes data={menusToApps({ menus })} />
-      </Layout>
+      <Router>
+        <Layout menus={menus}>
+          <Routes data={menusToApps({ menus })} />
+        </Layout>
+      </Router>
     </ChakraProvider>
   );
 }
