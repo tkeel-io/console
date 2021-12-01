@@ -27,8 +27,7 @@
     "paths": {
       "@/*": [
         "packages/tkeel-console-core/src/*",
-        "packages/tkeel-console-plugin-example/src/*",
-        "packages/tkeel-console-components/src/*"
+        "packages/tkeel-console-plugin-example/src/*"
       ]
     },
     "plugins": [

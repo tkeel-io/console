@@ -19,6 +19,8 @@ module.exports = {
   },
   packages: {
     components: resolveWithPackages('tkeel-console-components'),
+    hooks: resolveWithPackages('tkeel-console-hooks'),
+    utils: resolveWithPackages('tkeel-console-utils'),
   },
   cwd: {
     self: currentWorkingDirectory,

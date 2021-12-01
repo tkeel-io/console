@@ -1,0 +1,18 @@
+{
+  "name": "@tkeel/console-hooks",
+  "version": "0.0.1",
+  "homepage": "https://github.com/tkeel-io/console#readme",
+  "bugs": {
+    "url": "https://github.com/tkeel-io/console/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tkeel-io/console.git"
+  },
+  "license": "Apache-2.0",
+  "main": "./src/index.ts",
+  "peerDependencies": {
+    "@tkeel/console-utils": "workspace:^",
+    "react": "^17.0.2"
+  }
+}

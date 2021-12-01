@@ -1,0 +1,20 @@
+{
+  "name": "@tkeel/console-utils",
+  "version": "0.0.1",
+  "homepage": "https://github.com/tkeel-io/console#readme",
+  "bugs": {
+    "url": "https://github.com/tkeel-io/console/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tkeel-io/console.git"
+  },
+  "license": "Apache-2.0",
+  "main": "./src/index.ts",
+  "dependencies": {
+    "axios": "^0.24.0"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0"
+  }
+}
