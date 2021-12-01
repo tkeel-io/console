@@ -7,12 +7,12 @@ const MENUS: IMenu[] = [
     path: '/plugin-example',
     entry: 'http://127.0.0.1:3001',
   },
-  /* {
+  {
     id: 'plugin-vue-example',
     name: 'plugin-vue-example',
     path: '/plugin-vue-example',
     entry: 'http://127.0.0.1:3002',
-  }, */
+  },
 ];
 
 function fetchMenus(): Promise<IMenu[]> {

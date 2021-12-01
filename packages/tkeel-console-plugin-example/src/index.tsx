@@ -28,13 +28,13 @@ if (!window.__POWERED_BY_QIANKUN__) {
 // eslint-disable-next-line @typescript-eslint/require-await
 export async function bootstrap() {
   // eslint-disable-next-line no-console
-  console.log('bootstrap');
+  // console.log('bootstrap');
 }
 
 // eslint-disable-next-line @typescript-eslint/require-await
 export async function mount(props: IProps) {
   // eslint-disable-next-line no-console
-  console.log('mount', props);
+  // console.log('mount', props);
   render(props);
 }
 
