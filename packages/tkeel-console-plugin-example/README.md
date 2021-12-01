@@ -1,1 +1,1 @@
-# tkeel-console
+# tkeel-console-plugin-example
