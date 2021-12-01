@@ -15,6 +15,7 @@
   ],
   "scripts": {
     "build:all": "yarn workspaces foreach run build",
+    "build:components": "yarn workspace @tkeel/console-components run build",
     "dev:core": "yarn workspace @tkeel/console-core run dev",
     "build:core": "yarn workspace @tkeel/console-core run build",
     "dev:plugin-example": "yarn workspace @tkeel/console-plugin-example run dev",
@@ -81,6 +82,7 @@
     "handlebars-loader": "^1.7.1",
     "html-webpack-plugin": "^5.5.0",
     "husky": "^7.0.4",
+    "lerna": "^4.0.0",
     "lint-staged": "^12.1.2",
     "mini-css-extract-plugin": "^2.4.5",
     "postcss-flexbugs-fixes": "^5.0.2",
