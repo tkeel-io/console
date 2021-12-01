@@ -16,10 +16,10 @@
     "analyze": "cross-env NODE_ENV=development ANALYZE=true npm run build"
   },
   "dependencies": {
-    "@chakra-ui/react": "^1.7.1",
-    "@emotion/react": "^11.6.0",
+    "@chakra-ui/react": "^1.7.2",
+    "@emotion/react": "^11.7.0",
     "@emotion/styled": "^11.6.0",
-    "framer-motion": "^5.3.0",
+    "framer-motion": "^5.3.3",
     "qiankun": "^2.5.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
