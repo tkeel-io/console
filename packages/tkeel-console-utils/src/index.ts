@@ -1,4 +1,4 @@
-import request from './utils/request';
+import request, { AxiosRequestConfig, AxiosResponse } from './utils/request';
 
 // eslint-disable-next-line import/prefer-default-export
-export { request };
+export { request, AxiosRequestConfig, AxiosResponse };

@@ -1,7 +1,8 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
-function request() {
-  return axios;
+function request(config: AxiosRequestConfig) {
+  return axios(config);
 }
 
+export { AxiosRequestConfig, AxiosResponse };
 export default request;

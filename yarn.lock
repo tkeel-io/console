@@ -4088,6 +4088,8 @@ __metadata:
     "@emotion/react": ^11.7.0
     "@emotion/styled": ^11.6.0
     "@tkeel/console-components": "workspace:^"
+    "@tkeel/console-hooks": "workspace:^"
+    "@tkeel/console-utils": "workspace:^"
     framer-motion: ^5.3.3
     qiankun: ^2.5.1
     react: ^17.0.2
@@ -4095,7 +4097,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tkeel/console-hooks@workspace:packages/tkeel-console-hooks":
+"@tkeel/console-hooks@workspace:^, @tkeel/console-hooks@workspace:packages/tkeel-console-hooks":
   version: 0.0.0-use.local
   resolution: "@tkeel/console-hooks@workspace:packages/tkeel-console-hooks"
   peerDependencies:
@@ -4111,6 +4113,9 @@ __metadata:
     "@chakra-ui/react": ^1.7.2
     "@emotion/react": ^11.7.0
     "@emotion/styled": ^11.6.0
+    "@tkeel/console-components": "workspace:^"
+    "@tkeel/console-hooks": "workspace:^"
+    "@tkeel/console-utils": "workspace:^"
     framer-motion: ^5.3.3
     react: ^17.0.2
     react-dom: ^17.0.2
@@ -4118,7 +4123,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tkeel/console-utils@workspace:packages/tkeel-console-utils":
+"@tkeel/console-utils@workspace:^, @tkeel/console-utils@workspace:packages/tkeel-console-utils":
   version: 0.0.0-use.local
   resolution: "@tkeel/console-utils@workspace:packages/tkeel-console-utils"
   dependencies:
