@@ -116,5 +116,5 @@
     "webpack-notifier": "^1.14.1",
     "webpackbar": "^5.0.2"
   },
-  "packageManager": "yarn@3.1.0"
+  "packageManager": "yarn@3.1.1"
 }
