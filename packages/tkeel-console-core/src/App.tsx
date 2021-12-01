@@ -1,5 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import React, { useEffect, useState } from 'react';
+// import { BrowserRouter as Router } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
+import { useRequest } from '@tkeel/console-hooks';
 import { initGlobalState, MicroAppStateActions } from 'qiankun';
 
 import Layout from '@/containers/Layout';
@@ -23,6 +26,11 @@ function App() {
       console.error(error);
     }
   };
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const r = useRequest({ url: 'https://api.github.com/repositories?q=react' });
+  // eslint-disable-next-line no-console
+  console.log(r);
 
   const init = async () => {
     await fetchData();

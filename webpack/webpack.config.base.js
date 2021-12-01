@@ -68,7 +68,12 @@ module.exports = {
     rules: [
       {
         test: /\.(js|jsx|ts|tsx)$/,
-        include: paths.cwd.src,
+        include: [
+          paths.cwd.src,
+          paths.packages.components,
+          paths.packages.hooks,
+          paths.packages.utils,
+        ],
         exclude: paths.root.nodeModules,
         loader: 'babel-loader',
         options: {
