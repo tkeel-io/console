@@ -38,6 +38,7 @@ export const Content = styled.div`
 
 export const Category = styled.div`
   width: 220px;
+  padding-top: 19px;
   border-right: 1px solid #e2e8f0;
 `;
 
