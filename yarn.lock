@@ -4067,7 +4067,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tkeel/console-components@workspace:packages/tkeel-console-components":
+"@tkeel/console-components@workspace:^, @tkeel/console-components@workspace:packages/tkeel-console-components":
   version: 0.0.0-use.local
   resolution: "@tkeel/console-components@workspace:packages/tkeel-console-components"
   peerDependencies:
@@ -4087,10 +4087,22 @@ __metadata:
     "@chakra-ui/react": ^1.7.2
     "@emotion/react": ^11.7.0
     "@emotion/styled": ^11.6.0
+    "@tkeel/console-components": "workspace:^"
+    "@tkeel/console-hooks": "workspace:^"
+    "@tkeel/console-utils": "workspace:^"
     framer-motion: ^5.3.3
     qiankun: ^2.5.1
     react: ^17.0.2
     react-dom: ^17.0.2
+  languageName: unknown
+  linkType: soft
+
+"@tkeel/console-hooks@workspace:^, @tkeel/console-hooks@workspace:packages/tkeel-console-hooks":
+  version: 0.0.0-use.local
+  resolution: "@tkeel/console-hooks@workspace:packages/tkeel-console-hooks"
+  peerDependencies:
+    "@tkeel/console-utils": "workspace:^"
+    react: ^17.0.2
   languageName: unknown
   linkType: soft
 
@@ -4101,10 +4113,22 @@ __metadata:
     "@chakra-ui/react": ^1.7.2
     "@emotion/react": ^11.7.0
     "@emotion/styled": ^11.6.0
+    "@tkeel/console-components": "workspace:^"
+    "@tkeel/console-hooks": "workspace:^"
+    "@tkeel/console-utils": "workspace:^"
     framer-motion: ^5.3.3
     react: ^17.0.2
     react-dom: ^17.0.2
     react-router-dom: ^6.0.2
+  languageName: unknown
+  linkType: soft
+
+"@tkeel/console-utils@workspace:^, @tkeel/console-utils@workspace:packages/tkeel-console-utils":
+  version: 0.0.0-use.local
+  resolution: "@tkeel/console-utils@workspace:packages/tkeel-console-utils"
+  dependencies:
+    "@types/axios": ^0.14.0
+    axios: ^0.24.0
   languageName: unknown
   linkType: soft
 
@@ -4206,6 +4230,15 @@ __metadata:
   version: 0.2.0
   resolution: "@trysound/sax@npm:0.2.0"
   checksum: 11226c39b52b391719a2a92e10183e4260d9651f86edced166da1d95f39a0a1eaa470e44d14ac685ccd6d3df7e2002433782872c0feeb260d61e80f21250e65c
+  languageName: node
+  linkType: hard
+
+"@types/axios@npm:^0.14.0":
+  version: 0.14.0
+  resolution: "@types/axios@npm:0.14.0"
+  dependencies:
+    axios: "*"
+  checksum: 12a230b9404055d81804cb57fe4739b2317111b28a39e2477b2513250e8b85725e6f6ce509fc2a9494a6da60facb8d80df875fcd747f62f6c3abebc7db60ae66
   languageName: node
   linkType: hard
 
@@ -5365,6 +5398,15 @@ __metadata:
   version: 4.3.5
   resolution: "axe-core@npm:4.3.5"
   checksum: 973c6a80f0aaa663820b209d4202de7a0c240a2dea2f3cff168b09c0f221b27179b1f0988f00ad11ed63cbc50535920f8ca779de1c60dc82090ab2d275f71fdd
+  languageName: node
+  linkType: hard
+
+"axios@npm:*, axios@npm:^0.24.0":
+  version: 0.24.0
+  resolution: "axios@npm:0.24.0"
+  dependencies:
+    follow-redirects: ^1.14.4
+  checksum: 468cf496c08a6aadfb7e699bebdac02851e3043d4e7d282350804ea8900e30d368daa6e3cd4ab83b8ddb5a3b1e17a5a21ada13fc9cebd27b74828f47a4236316
   languageName: node
   linkType: hard
 
@@ -8778,7 +8820,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.0.0":
+"follow-redirects@npm:^1.0.0, follow-redirects@npm:^1.14.4":
   version: 1.14.5
   resolution: "follow-redirects@npm:1.14.5"
   peerDependenciesMeta:

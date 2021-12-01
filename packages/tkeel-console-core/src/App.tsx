@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 // import { BrowserRouter as Router } from 'react-router-dom';
-import { Button, ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider } from '@chakra-ui/react';
+import { Button } from '@tkeel/console-components';
+import { useRequest } from '@tkeel/console-hooks';
 import { initGlobalState, MicroAppStateActions } from 'qiankun';
 
 import Menus from '@/components/Menus';
@@ -24,6 +26,10 @@ function App() {
       console.error(error);
     }
   };
+
+  const r = useRequest({ url: 'https://api.github.com/repositories?q=react' });
+  // eslint-disable-next-line no-console
+  console.log(r);
 
   const init = async () => {
     await fetchData();
