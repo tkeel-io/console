@@ -2,7 +2,6 @@ module.exports = {
   plugins: ['stylelint-order'],
   extends: [
     'stylelint-config-standard',
-    'stylelint-config-standard-scss',
     'stylelint-config-rational-order',
     'stylelint-prettier/recommended',
   ],
@@ -12,6 +11,10 @@ module.exports = {
     'no-unknown-animations': true,
   },
   overrides: [
+    {
+      files: ['**/*.scss'],
+      extends: ['stylelint-config-standard-scss'],
+    },
     {
       files: ['**/*.{js,jsx,ts,tsx}'],
       customSyntax: '@stylelint/postcss-css-in-js',
