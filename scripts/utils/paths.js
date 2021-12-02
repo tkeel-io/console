@@ -12,6 +12,9 @@ const resolveWithCwd = (...relativePaths) =>
   path.resolve(currentWorkingDirectory, ...relativePaths);
 
 module.exports = {
+  resolveWithRoot,
+  resolveWithPackages,
+  resolveWithCwd,
   root: {
     self: rootDirectory,
     nodeModules: resolveWithRoot('node_modules'),
@@ -26,7 +29,6 @@ module.exports = {
   cwd: {
     self: currentWorkingDirectory,
     packageJson: resolveWithCwd('package.json'),
-    config: resolveWithCwd('config'),
     public: resolveWithCwd('public'),
     src: resolveWithCwd('src'),
     dist: resolveWithCwd('dist'),

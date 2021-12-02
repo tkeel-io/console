@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 
 export const LayoutHeader = styled.div`
-  margin-bottom: 20px;
-  height: 22px;
   display: flex;
   justify-content: space-between;
+  height: 22px;
+  margin-bottom: 20px;
 
   a {
     color: #79879c;
