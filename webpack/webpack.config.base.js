@@ -120,6 +120,7 @@ module.exports = {
   },
   target: 'web',
   plugins: [
+    /* cspell: disable-next-line */
     new DotenvWebpack({ systemvars: true }),
     new HtmlWebpackPlugin({
       title: process.env.DOCUMENT_TITLE,
@@ -135,7 +136,8 @@ module.exports = {
       fix: true,
     }),
     new StylelintPlugin({
-      files: 'src/**/*.(css|scss|js|jsx|ts|tsx)',
+      context: 'src',
+      extensions: ['css', 'scss', 'js', 'jsx', 'ts', 'tsx'],
       fix: true,
     }),
     new WebpackBar(),
