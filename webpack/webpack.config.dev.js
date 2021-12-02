@@ -1,4 +1,3 @@
-const config = require('config');
 const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 /* cspell: disable-next-line */
@@ -7,8 +6,12 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 const paths = require('../scripts/utils/paths');
 const baseConfig = require('./webpack.config.base');
 
-const PORT = config.get('PORT');
-const PROXY = config.get('PROXY');
+let PROXY = {};
+
+try {
+  PROXY = JSON.parse(process.env.PROXY);
+  // eslint-disable-next-line no-empty
+} catch {}
 
 const devConfig = {
   output: {
@@ -17,7 +20,7 @@ const devConfig = {
   },
   devtool: 'cheap-module-source-map',
   devServer: {
-    port: PORT,
+    port: process.env.PORT,
     proxy: PROXY,
     historyApiFallback: true,
     hot: true,

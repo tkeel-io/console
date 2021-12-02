@@ -36,14 +36,8 @@ lerna-debug.log*
 .pnpm-debug.log*
 
 # Dotenv
-!.env
-!.env.*
 .env.local
 .env.*.local
-
-# node-config
-config/local.*
-config/local-*.*
 
 # TypeScript
 *.tsbuildinfo
