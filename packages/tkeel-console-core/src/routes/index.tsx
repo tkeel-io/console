@@ -14,10 +14,12 @@ function Routes({ data }: Props) {
     element: <div id={container.replace(/^#/, '')} />,
   }));
 
-  config.push({
-    path: '*',
-    element: <PageNotFound />,
-  });
+  if (config.length > 0) {
+    config.push({
+      path: '*',
+      element: <PageNotFound />,
+    });
+  }
 
   return useRoutes(config);
 }
