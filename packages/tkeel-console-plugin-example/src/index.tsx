@@ -2,18 +2,23 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { ChakraProvider } from '@chakra-ui/react';
 
 import App from './App';
 import './public-path';
 
 interface IProps {
   container?: HTMLElement;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  theme?: { [key: string]: any };
 }
 
 function render(props: IProps) {
-  const { container } = props;
+  const { container, theme } = props;
   ReactDOM.render(
-    <App />,
+    <ChakraProvider theme={theme}>
+      <App />
+    </ChakraProvider>,
     container
       ? container.querySelector('#root')
       : document.querySelector('#root')

@@ -3,6 +3,7 @@ import { registerMicroApps, start } from 'qiankun';
 import { IApp } from './types';
 
 import { IMenu } from '@/mock/types';
+import theme from '@/theme';
 
 function menusToApps({ menus }: { menus: IMenu[] }): IApp[] {
   const token = '123456';
@@ -13,6 +14,7 @@ function menusToApps({ menus }: { menus: IMenu[] }): IApp[] {
     activeRule: path,
     props: {
       token,
+      theme,
     },
   }));
 }

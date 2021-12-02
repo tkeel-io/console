@@ -1,9 +1,15 @@
 import React from 'react';
-import { Link, LinkProps, useMatch, useResolvedPath } from 'react-router-dom';
+import {
+  Link as ReactRouterLink,
+  LinkProps,
+  useMatch,
+  useResolvedPath,
+} from 'react-router-dom';
+import { Image as Logo } from '@chakra-ui/react';
 
-import { LayoutMenus, List, Title, TitleWrapper } from './index.styled';
+import { Item, LayoutMenus, List, Title, TitleWrapper } from './index.styled';
 
-import Logo from '@/assets/images/logo.png';
+import LogoImg from '@/assets/images/logo.png';
 
 import { IMenu } from '@/mock/types';
 
@@ -16,9 +22,9 @@ function CustomLink({ children, to }: LinkProps) {
   const match = useMatch({ path: resolved.pathname, end: true });
 
   return (
-    <Link className={match ? 'active' : ''} to={to}>
+    <Item as={ReactRouterLink} className={match ? 'active' : ''} to={to}>
       {children}
-    </Link>
+    </Item>
   );
 }
 
@@ -26,7 +32,7 @@ function Menus({ data }: Props): JSX.Element {
   return (
     <LayoutMenus>
       <TitleWrapper>
-        <img src={Logo} alt="" />
+        <Logo htmlWidth="27px" src={LogoImg} alt="" />
         <Title>tKeel 管理平台</Title>
       </TitleWrapper>
       <List>

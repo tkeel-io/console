@@ -1,3 +1,4 @@
+import { Link } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
 export const LayoutMenus = styled.div`
@@ -12,36 +13,33 @@ export const TitleWrapper = styled.div`
   padding-left: 24px;
   align-items: center;
   border-bottom: 1px solid #e2e8f0;
-
-  img {
-    width: 27px;
-  }
 `;
 
 export const Title = styled.h1`
   margin-left: 10px;
-  font-size: 48px;
-  font-weight: bold;
+  color: #2d3748;
   font-size: 18px;
+  font-weight: bold;
 `;
 
 export const List = styled.div`
   padding: 24px;
+`;
 
-  a {
-    padding-left: 22px;
-    display: block;
-    margin-bottom: 4px;
-    height: 48px;
-    display: flex;
-    align-items: center;
+export const Item = styled(Link)`
+  padding-left: 22px;
+  margin-bottom: 4px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  color: #718096;
+  font-weight: 500;
 
-    &.active {
-      color: #fff;
-      background-color: #2d3748;
-      box-shadow: 0px 20px 25px -5px rgba(113, 128, 150, 0.1),
-        0px 10px 10px -5px rgba(113, 128, 150, 0.04);
-      border-radius: 4px;
-    }
+  &.active {
+    color: #fff;
+    background-color: #2d3748;
+    box-shadow: 0px 20px 25px -5px rgba(113, 128, 150, 0.1),
+      0px 10px 10px -5px rgba(113, 128, 150, 0.04);
+    border-radius: 4px;
   }
 `;

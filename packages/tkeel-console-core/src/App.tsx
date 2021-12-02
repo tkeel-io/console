@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { ChakraProvider } from '@chakra-ui/react';
+import { Box, Button, ChakraProvider } from '@chakra-ui/react';
+import { Button as CustomButton } from '@tkeel/console-components';
 import { useRequest } from '@tkeel/console-hooks';
 import { initGlobalState, MicroAppStateActions } from 'qiankun';
 
@@ -11,6 +12,7 @@ import { init as initQiankun, menusToApps } from '@/utils/qiankun';
 
 import { fetchMenus } from '@/mock';
 import { IMenu } from '@/mock/types';
+import theme from '@/theme';
 
 function App() {
   const [menus, setMenus] = useState<IMenu[]>([]);
@@ -50,10 +52,17 @@ function App() {
   }, [menus]);
 
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
+      <Box display="flex" justifyContent="center" bg="blue.500">
+        <a href="/">a标签</a>
+        <Button colorScheme="teal">Default Button</Button>
+        <CustomButton size="xl" variant="with-shadow">
+          Custom Button
+        </CustomButton>
+      </Box>
       <Router>
         <Layout menus={menus}>
-          <Routes data={menusToApps({ menus })} />
+          {menus.length > 0 && <Routes data={menusToApps({ menus })} />}
         </Layout>
       </Router>
     </ChakraProvider>

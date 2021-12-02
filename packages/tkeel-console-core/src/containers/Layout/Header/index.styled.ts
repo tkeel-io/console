@@ -15,10 +15,6 @@ export const LayoutHeader = styled.div`
 export const UserInfo = styled.div`
   display: flex;
   align-items: center;
-
-  img {
-    width: 16px;
-  }
 `;
 
 export const Username = styled.span`
