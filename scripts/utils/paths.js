@@ -12,6 +12,9 @@ const resolveWithCwd = (...relativePaths) =>
   path.resolve(currentWorkingDirectory, ...relativePaths);
 
 module.exports = {
+  resolveWithRoot,
+  resolveWithPackages,
+  resolveWithCwd,
   root: {
     self: rootDirectory,
     nodeModules: resolveWithRoot('node_modules'),
