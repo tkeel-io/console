@@ -12,7 +12,11 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WebpackBar = require('webpackbar');
 const WebpackNotifierPlugin = require('webpack-notifier');
 
-const { env, isEnvDevelopment, isEnvProduction } = require('./env');
+const {
+  env,
+  isEnvDevelopment,
+  isEnvProduction,
+} = require('../scripts/utils/env');
 const paths = require('../scripts/utils/paths');
 
 dotenvExpand(dotenvFlow.config());

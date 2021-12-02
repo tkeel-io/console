@@ -15,6 +15,7 @@ module.exports = {
   root: {
     self: rootDirectory,
     nodeModules: resolveWithRoot('node_modules'),
+    scripts: resolveWithRoot('scripts'),
     webpack: resolveWithRoot('webpack'),
   },
   packages: {
