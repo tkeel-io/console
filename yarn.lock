@@ -4203,7 +4203,6 @@ __metadata:
     stylelint-config-rational-order: ^0.1.2
     stylelint-config-standard: ^24.0.0
     stylelint-config-standard-scss: ^3.0.0
-    stylelint-config-styled-components: ^0.1.1
     stylelint-order: ^5.0.0
     stylelint-prettier: ^2.0.0
     stylelint-webpack-plugin: ^3.1.0
@@ -16558,13 +16557,6 @@ __metadata:
   peerDependencies:
     stylelint: ^14.0.0
   checksum: 5993ede913d81410830639db054a7a3f5c87e56254368be45ce876321106fad1c11ee4cb77247049aaf22e283a393dd90d93dec8f796f8f139ed21eb86a9a168
-  languageName: node
-  linkType: hard
-
-"stylelint-config-styled-components@npm:^0.1.1":
-  version: 0.1.1
-  resolution: "stylelint-config-styled-components@npm:0.1.1"
-  checksum: 1421187a27d11740f9ee224163231a9f3194c8055c27b0cb3204e76742c55a9397004bc70da9b3feee9988d0afe0d3c839186ef01d847a163ba7ad3299a9759a
   languageName: node
   linkType: hard
 

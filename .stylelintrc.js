@@ -15,7 +15,6 @@ module.exports = {
     {
       files: ['**/*.{js,jsx,ts,tsx}'],
       customSyntax: '@stylelint/postcss-css-in-js',
-      extends: ['stylelint-config-styled-components'],
       rules: {
         'no-empty-source': null,
         'value-keyword-case': null,
