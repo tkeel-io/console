@@ -19,7 +19,7 @@ type Props = {
 
 function CustomLink({ children, to }: LinkProps) {
   const resolved = useResolvedPath(to);
-  const match = useMatch({ path: resolved.pathname, end: true });
+  const match = useMatch({ path: resolved.pathname, end: false });
 
   return (
     <Item as={ReactRouterLink} className={match ? 'active' : ''} to={to}>

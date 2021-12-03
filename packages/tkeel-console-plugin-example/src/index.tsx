@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { ChakraProvider } from '@chakra-ui/react';
+import { Provider } from '@tkeel/console-components';
 
 import App from './App';
 import './public-path';
@@ -10,15 +10,15 @@ import './public-path';
 interface IProps {
   container?: HTMLElement;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  theme?: { [key: string]: any };
+  theme?: Record<string, any>;
 }
 
 function render(props: IProps) {
   const { container, theme } = props;
   ReactDOM.render(
-    <ChakraProvider theme={theme}>
+    <Provider theme={theme}>
       <App />
-    </ChakraProvider>,
+    </Provider>,
     container
       ? container.querySelector('#root')
       : document.querySelector('#root')

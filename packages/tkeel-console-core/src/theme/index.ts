@@ -1,12 +1,12 @@
 import { extendTheme } from '@chakra-ui/react';
 
-import colors from '@/theme/colors';
 import components from '@/theme/components';
+import foundations from '@/theme/foundations';
 import styles from '@/theme/styles';
 
 const theme = extendTheme({
   config: { initialColorMode: 'light' },
-  colors,
+  ...foundations,
   components,
   styles,
 });

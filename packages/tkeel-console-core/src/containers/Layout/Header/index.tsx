@@ -19,7 +19,7 @@ function Header(): JSX.Element {
         </BreadcrumbItem>
       </Breadcrumb>
       <UserInfo>
-        <Avatar size="16px" src={DefaultAvatar} alt="avatar" />
+        <Avatar width="16px" src={DefaultAvatar} alt="avatar" />
         <Username>Admin</Username>
       </UserInfo>
     </LayoutHeader>

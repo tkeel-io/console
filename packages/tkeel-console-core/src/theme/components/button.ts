@@ -1,7 +1,7 @@
 export default {
-  baseStyle: {
-    fontWeight: 'bold',
-  },
+  // baseStyle: {
+  //   b: 'bold',
+  // },
   sizes: {
     xl: {
       h: '56px',
