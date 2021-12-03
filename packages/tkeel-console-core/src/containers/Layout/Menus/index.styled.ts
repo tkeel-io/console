@@ -1,4 +1,4 @@
-import { Link } from '@chakra-ui/react';
+import { Flex, Heading, Link } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
 export const LayoutMenus = styled.div`
@@ -7,19 +7,16 @@ export const LayoutMenus = styled.div`
   border: 1px solid #eee;
 `;
 
-export const TitleWrapper = styled.div`
-  display: flex;
+export const TitleWrapper = styled(Flex)`
   align-items: center;
   height: 92px;
   padding-left: 24px;
   border-bottom: 1px solid #e2e8f0;
 `;
 
-export const Title = styled.h1`
+export const Title = styled(Heading)`
   margin-left: 10px;
   color: #2d3748;
-  font-weight: bold;
-  font-size: 18px;
 `;
 
 export const List = styled.div`
