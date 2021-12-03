@@ -6,19 +6,13 @@ import {
   useResolvedPath,
 } from 'react-router-dom';
 import { Image as Logo } from '@chakra-ui/react';
-import styled from '@emotion/styled';
 
-import { Item, List, Title, TitleWrapper } from './index.styled';
+import { Item, LayoutMenus, List, Title, TitleWrapper } from './index.styled';
 
 import LogoImg from '@/assets/images/logo.png';
 
 import { IMenu } from '@/mock/types';
 
-const LayoutMenus = styled.div`
-  width: 250px;
-  background-color: #f7fafc;
-  border: 1px solid #eee;
-`;
 type Props = {
   data: IMenu[];
 };

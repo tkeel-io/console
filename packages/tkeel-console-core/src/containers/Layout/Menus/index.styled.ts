@@ -1,6 +1,12 @@
 import { Flex, Heading, Link } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
+export const LayoutMenus = styled.div`
+  width: 250px;
+  background-color: #f7fafc;
+  border: 1px solid #eee;
+`;
+
 export const TitleWrapper = styled(Flex)`
   align-items: center;
   height: 92px;
