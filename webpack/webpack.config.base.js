@@ -1,6 +1,8 @@
 const path = require('path');
 
-const config = require('config');
+const dotenvFlow = require('dotenv-flow');
+const dotenvExpand = require('dotenv-expand');
+const DotenvWebpack = require('dotenv-webpack');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -10,12 +12,14 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WebpackBar = require('webpackbar');
 const WebpackNotifierPlugin = require('webpack-notifier');
 
-const { env, isEnvDevelopment, isEnvProduction } = require('./env');
+const {
+  env,
+  isEnvDevelopment,
+  isEnvProduction,
+} = require('../scripts/utils/env');
 const paths = require('../scripts/utils/paths');
 
-const PUBLIC_PATH = config.get('PUBLIC_PATH');
-const GENERATE_SOURCEMAP = config.get('GENERATE_SOURCEMAP');
-const DOCUMENT_TITLE = config.get('DOCUMENT_TITLE');
+dotenvExpand(dotenvFlow.config());
 
 const getStyleLoaders = () => {
   let [sourceMap, modules] = [true, { auto: true }];
@@ -27,7 +31,7 @@ const getStyleLoaders = () => {
     };
   }
   if (isEnvProduction) {
-    sourceMap = GENERATE_SOURCEMAP;
+    sourceMap = process.env.GENERATE_SOURCEMAP === 'true';
   }
 
   return [
@@ -62,7 +66,7 @@ module.exports = {
   entry: path.resolve(paths.cwd.src, 'index'),
   output: {
     path: paths.cwd.dist,
-    publicPath: PUBLIC_PATH,
+    publicPath: process.env.PUBLIC_PATH,
   },
   module: {
     rules: [
@@ -116,8 +120,10 @@ module.exports = {
   },
   target: 'web',
   plugins: [
+    /* cspell: disable-next-line */
+    new DotenvWebpack({ systemvars: true }),
     new HtmlWebpackPlugin({
-      title: DOCUMENT_TITLE,
+      title: process.env.DOCUMENT_TITLE,
       template: path.resolve(paths.cwd.public, 'index.handlebars'),
       inject: true,
       favicon: path.resolve(paths.cwd.public, 'favicon.png'),
@@ -130,7 +136,8 @@ module.exports = {
       fix: true,
     }),
     new StylelintPlugin({
-      files: 'src/**/*.(css|scss|js|jsx|ts|tsx)',
+      context: 'src',
+      extensions: ['css', 'scss', 'js', 'jsx', 'ts', 'tsx'],
       fix: true,
     }),
     new WebpackBar(),

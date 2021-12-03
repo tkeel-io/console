@@ -2,7 +2,7 @@ const path = require('path');
 
 const paths = require('../scripts/utils/paths');
 
-const envPath = path.resolve(paths.root.webpack, 'env');
+const envPath = path.resolve(paths.root.scripts, 'utils', 'env');
 const webpackConfigDevPath = path.resolve(
   paths.root.webpack,
   'webpack.config.dev'
