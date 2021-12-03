@@ -2,18 +2,23 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from '@tkeel/console-components';
 
 import App from './App';
 import './public-path';
 
 interface IProps {
   container?: HTMLElement;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  theme?: Record<string, any>;
 }
 
 function render(props: IProps) {
-  const { container } = props;
+  const { container, theme } = props;
   ReactDOM.render(
-    <App />,
+    <Provider theme={theme}>
+      <App />
+    </Provider>,
     container
       ? container.querySelector('#root')
       : document.querySelector('#root')
