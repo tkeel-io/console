@@ -8,8 +8,8 @@ export const PluginListWrapper = styled.div`
 
 export const Toolbar = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 `;
 
 export const ToolbarLeft = styled.div`
@@ -18,21 +18,21 @@ export const ToolbarLeft = styled.div`
 `;
 
 export const Book = styled.img`
-  margin-left: 19px;
   width: 16px;
+  margin-left: 19px;
   cursor: pointer;
 `;
 
 export const ModuleName = styled.span`
   color: #2d3748;
-  font-size: 14px;
   font-weight: 600;
+  font-size: 14px;
 `;
 
 export const Content = styled.div`
-  margin-top: 20px;
-  flex: 1;
   display: flex;
+  flex: 1;
+  margin-top: 20px;
   background-color: #fff;
 `;
 
