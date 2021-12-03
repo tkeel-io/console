@@ -1,7 +1,7 @@
+import { Flex, Text } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
-export const LayoutHeader = styled.div`
-  display: flex;
+export const LayoutHeader = styled(Flex)`
   justify-content: space-between;
   height: 22px;
   margin-bottom: 20px;
@@ -12,12 +12,11 @@ export const LayoutHeader = styled.div`
   }
 `;
 
-export const UserInfo = styled.div`
-  display: flex;
+export const UserInfo = styled(Flex)`
   align-items: center;
 `;
 
-export const Username = styled.span`
+export const Username = styled(Text)`
   margin-left: 5px;
   color: #718096;
   font-size: 12px;
