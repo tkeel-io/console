@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { ChakraProvider } from '@chakra-ui/react';
+import { Provider } from '@tkeel/console-components';
 import { initGlobalState, MicroAppStateActions } from 'qiankun';
 
 import Layout from '@/containers/Layout';
@@ -10,6 +10,7 @@ import { init as initQiankun, menusToApps } from '@/utils/qiankun';
 
 import { fetchMenus } from '@/mock';
 import { IMenu } from '@/mock/types';
+import theme from '@/theme';
 
 function App() {
   const [menus, setMenus] = useState<IMenu[]>([]);
@@ -44,13 +45,13 @@ function App() {
   }, [menus]);
 
   return (
-    <ChakraProvider>
+    <Provider theme={theme}>
       <Router>
         <Layout menus={menus}>
-          <Routes data={menusToApps({ menus })} />
+          {menus.length > 0 && <Routes data={menusToApps({ menus })} />}
         </Layout>
       </Router>
-    </ChakraProvider>
+    </Provider>
   );
 }
 

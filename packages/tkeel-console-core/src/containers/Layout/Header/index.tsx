@@ -1,5 +1,10 @@
 import React from 'react';
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  Image as Avatar,
+} from '@chakra-ui/react';
 
 import { LayoutHeader, UserInfo, Username } from './index.styled';
 
@@ -14,7 +19,7 @@ function Header(): JSX.Element {
         </BreadcrumbItem>
       </Breadcrumb>
       <UserInfo>
-        <img src={DefaultAvatar} alt="avatar" />
+        <Avatar width="16px" src={DefaultAvatar} alt="avatar" />
         <Username>Admin</Username>
       </UserInfo>
     </LayoutHeader>

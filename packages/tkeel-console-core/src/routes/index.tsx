@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRoutes } from 'react-router-dom';
+import { Navigate, Route, Routes as ReactRouterRoutes } from 'react-router-dom';
 
 import PageNotFound from '@/components/PageNotFound';
 import { IApp } from '@/utils/qiankun/types';
@@ -9,19 +9,21 @@ type Props = {
 };
 
 function Routes({ data }: Props) {
-  const config = data.map(({ container, activeRule }) => ({
-    path: `${activeRule}/*`,
-    element: <div id={container.replace(/^#/, '')} />,
-  }));
-
-  if (config.length > 0) {
-    config.push({
-      path: '*',
-      element: <PageNotFound />,
-    });
-  }
-
-  return useRoutes(config);
+  return (
+    <ReactRouterRoutes>
+      <Route path="/" element={<Navigate replace to={data[0].activeRule} />} />
+      {data.map(({ name, container, activeRule }) => {
+        return (
+          <Route
+            key={name}
+            path={`${activeRule}/*`}
+            element={<div id={container.replace(/^#/, '')} />}
+          />
+        );
+      })}
+      <Route path="*" element={<PageNotFound />} />
+    </ReactRouterRoutes>
+  );
 }
 
 export default Routes;
