@@ -11,7 +11,7 @@ function App() {
     <ChakraProvider>
       <Router
         // @ts-ignore
-        basename={window.__POWERED_BY_QIANKUN__ ? process.env.BASENAME : '/'}
+        basename={window.__POWERED_BY_QIANKUN__ ? process.env.BASE_PATH : '/'}
       >
         <Routes />
       </Router>
