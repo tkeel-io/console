@@ -11,8 +11,7 @@ function getArgv() {
         type: 'string',
         desc: OPTIONS_MAP.name.desc,
       },
-      bs: {
-        alias: 'base-path',
+      'base-path': {
         type: 'string',
         desc: OPTIONS_MAP.basePath.desc,
       },
