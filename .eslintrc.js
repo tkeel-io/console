@@ -139,6 +139,7 @@ module.exports = {
     {
       files: ['!(packages/*/src/**/*.{js,jsx,ts,tsx})'],
       rules: {
+        'import/no-extraneous-dependencies': 'off',
         'unicorn/prefer-module': 'off',
       },
     },

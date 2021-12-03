@@ -14,6 +14,7 @@
     "packages/*"
   ],
   "scripts": {
+    "plugin:create": "node ./scripts/create-plugin",
     "build:all": "yarn workspaces foreach run build",
     "build:components": "yarn workspace @tkeel/console-components run build",
     "dev:core": "yarn workspace @tkeel/console-core run dev",
@@ -84,6 +85,7 @@
     "handlebars-loader": "^1.7.1",
     "html-webpack-plugin": "^5.5.0",
     "husky": "^7.0.4",
+    "inquirer": "^8.2.0",
     "lerna": "^4.0.0",
     "lint-staged": "^12.1.2",
     "mini-css-extract-plugin": "^2.4.5",
@@ -114,7 +116,12 @@
     "webpack-dev-server": "^4.6.0",
     "webpack-merge": "^5.8.0",
     "webpack-notifier": "^1.14.1",
-    "webpackbar": "^5.0.2"
+    "webpackbar": "^5.0.2",
+    "yargs": "^17.3.0"
   },
-  "packageManager": "yarn@3.1.1"
+  "packageManager": "yarn@3.1.1",
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "validator": "^13.7.0"
+  }
 }
