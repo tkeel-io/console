@@ -22,6 +22,8 @@ module.exports = {
     webpack: resolveWithRoot('webpack'),
   },
   packages: {
+    self: resolveWithPackages('.'),
+    core: resolveWithPackages('tkeel-console-core'),
     components: resolveWithPackages('tkeel-console-components'),
     hooks: resolveWithPackages('tkeel-console-hooks'),
     utils: resolveWithPackages('tkeel-console-utils'),

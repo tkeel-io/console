@@ -14,6 +14,7 @@
     "packages/*"
   ],
   "scripts": {
+    "packages:check": "node ./scripts/check-packages",
     "plugin:create": "node ./scripts/create-plugin",
     "build:all": "yarn workspaces foreach run build",
     "build:components": "yarn workspace @tkeel/console-components run build",
