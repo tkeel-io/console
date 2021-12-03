@@ -33,7 +33,9 @@ function Menus({ data }: Props): JSX.Element {
     <LayoutMenus>
       <TitleWrapper>
         <Logo htmlWidth="27px" src={LogoImg} alt="" />
-        <Title>tKeel 管理平台</Title>
+        <Title as="h1" fontSize="18px">
+          tKeel 管理平台1
+        </Title>
       </TitleWrapper>
       <List>
         {data.map(({ id, name, path }) => (
