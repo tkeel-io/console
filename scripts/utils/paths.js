@@ -2,17 +2,19 @@ const path = require('path');
 
 const { camelCase } = require('lodash');
 
-const { COMMON_PACKAGE_SIMPLE_NAMES } = require('../constants');
-const { getCommonPackageDirName } = require('./packages');
+const {
+  PACKAGE_NAME_PREFIX,
+  COMMON_PACKAGE_SIMPLE_NAMES,
+} = require('../constants');
 
 const rootDirectory = path.resolve(__dirname, '../..');
 const currentWorkingDirectory = process.cwd();
 
-const resolveWithRoot = (...relativePaths) =>
+const resolveRoot = (...relativePaths) =>
   path.resolve(rootDirectory, ...relativePaths);
-const resolveWithPackages = (...relativePaths) =>
-  resolveWithRoot('packages', ...relativePaths);
-const resolveWithCwd = (...relativePaths) =>
+const resolvePackages = (...relativePaths) =>
+  resolveRoot('packages', ...relativePaths);
+const resolveCwd = (...relativePaths) =>
   path.resolve(currentWorkingDirectory, ...relativePaths);
 
 const commonPackages = () => {
@@ -20,32 +22,32 @@ const commonPackages = () => {
 
   COMMON_PACKAGE_SIMPLE_NAMES.forEach((simpleName) => {
     const key = camelCase(simpleName);
-    const name = getCommonPackageDirName({ simpleName });
-    obj[key] = resolveWithPackages(name);
+    const name = `${PACKAGE_NAME_PREFIX}${simpleName}`;
+    obj[key] = resolvePackages(name);
   });
 
   return obj;
 };
 
 module.exports = {
-  resolveWithRoot,
-  resolveWithPackages,
-  resolveWithCwd,
+  resolveRoot,
+  resolvePackages,
+  resolveCwd,
   root: {
     self: rootDirectory,
-    nodeModules: resolveWithRoot('node_modules'),
-    scripts: resolveWithRoot('scripts'),
-    webpack: resolveWithRoot('webpack'),
+    nodeModules: resolveRoot('node_modules'),
+    scripts: resolveRoot('scripts'),
+    webpack: resolveRoot('webpack'),
   },
   packages: {
-    self: resolveWithPackages('.'),
+    self: resolvePackages('.'),
     ...commonPackages(),
   },
   cwd: {
     self: currentWorkingDirectory,
-    packageJson: resolveWithCwd('package.json'),
-    public: resolveWithCwd('public'),
-    src: resolveWithCwd('src'),
-    dist: resolveWithCwd('dist'),
+    packageJson: resolveCwd('package.json'),
+    public: resolveCwd('public'),
+    src: resolveCwd('src'),
+    dist: resolveCwd('dist'),
   },
 };
