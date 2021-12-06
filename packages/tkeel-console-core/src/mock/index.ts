@@ -12,18 +12,18 @@ const MENUS: IMenu[] = [
       },
     ],
   },
-  {
-    categoryId: 'dataOrganization',
-    categoryName: '数据组织',
-    subMenus: [
-      {
-        id: 'plugin-vue-example',
-        name: 'plugin-vue-example',
-        path: '/plugin-vue-example',
-        entry: 'http://127.0.0.1:3002',
-      },
-    ],
-  },
+  // {
+  //   categoryId: 'dataOrganization',
+  //   categoryName: '数据组织',
+  //   subMenus: [
+  //     {
+  //       id: 'plugin-vue-example',
+  //       name: 'plugin-vue-example',
+  //       path: '/plugin-vue-example',
+  //       entry: 'http://127.0.0.1:3002',
+  //     },
+  //   ],
+  // },
 ];
 
 function fetchMenus(): Promise<IMenu[]> {
