@@ -4,13 +4,15 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from '@tkeel/console-components';
 import { initGlobalState, MicroAppStateActions } from 'qiankun';
 
+import { THEME } from '@/constants';
 import Layout from '@/containers/Layout';
 import Routes from '@/routes';
 import { init as initQiankun, menusToApps } from '@/utils/qiankun';
 
+import themes from '@/styles/themes';
+
 import { fetchMenus } from '@/mock';
 import { IMenu } from '@/mock/types';
-import theme from '@/theme';
 
 function App() {
   const [menus, setMenus] = useState<IMenu[]>([]);
@@ -45,7 +47,7 @@ function App() {
   }, [menus]);
 
   return (
-    <Provider theme={theme}>
+    <Provider theme={themes[THEME]}>
       <Router>
         <Layout menus={menus}>
           {menus.length > 0 && <Routes data={menusToApps({ menus })} />}
