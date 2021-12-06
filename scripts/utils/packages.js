@@ -1,5 +1,4 @@
-const fs = require('fs');
-
+const fs = require('fs-extra');
 const { find } = require('lodash');
 const dotenvFlow = require('dotenv-flow');
 const dotenvExpand = require('dotenv-expand');
