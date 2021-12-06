@@ -6,9 +6,9 @@ import styles from '@/styles/themes/kubesphere-light/styles';
 
 const theme = extendTheme({
   config: { initialColorMode: 'light' },
-  ...foundations,
-  components,
   styles,
+  components,
+  ...foundations,
 });
 
 export default theme;
