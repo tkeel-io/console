@@ -82,7 +82,7 @@ function checkPort({ port }) {
     message = 'Error: Duplicate BASE_PATH';
   }
 
-  if (!isPort(String(port))) {
+  if (port && !isPort(String(port))) {
     flag = false;
     message = 'Error: Unavailable Port';
   }
