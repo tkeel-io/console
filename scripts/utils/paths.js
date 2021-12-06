@@ -1,5 +1,9 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 const path = require('path');
+
+const { camelCase } = require('lodash');
+
+const { COMMON_PACKAGE_SIMPLE_NAMES } = require('../constants');
+const { getCommonPackageDirName } = require('./packages');
 
 const rootDirectory = path.resolve(__dirname, '../..');
 const currentWorkingDirectory = process.cwd();
@@ -10,6 +14,18 @@ const resolveWithPackages = (...relativePaths) =>
   resolveWithRoot('packages', ...relativePaths);
 const resolveWithCwd = (...relativePaths) =>
   path.resolve(currentWorkingDirectory, ...relativePaths);
+
+const commonPackages = () => {
+  const obj = {};
+
+  COMMON_PACKAGE_SIMPLE_NAMES.forEach((simpleName) => {
+    const key = camelCase(simpleName);
+    const name = getCommonPackageDirName({ simpleName });
+    obj[key] = resolveWithPackages(name);
+  });
+
+  return obj;
+};
 
 module.exports = {
   resolveWithRoot,
@@ -23,10 +39,7 @@ module.exports = {
   },
   packages: {
     self: resolveWithPackages('.'),
-    core: resolveWithPackages('tkeel-console-core'),
-    components: resolveWithPackages('tkeel-console-components'),
-    hooks: resolveWithPackages('tkeel-console-hooks'),
-    utils: resolveWithPackages('tkeel-console-utils'),
+    ...commonPackages(),
   },
   cwd: {
     self: currentWorkingDirectory,

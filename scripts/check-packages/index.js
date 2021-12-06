@@ -1,7 +1,10 @@
 const fs = require('fs');
 
 const paths = require('../utils/paths');
-const { COMMON } = require('./constants');
+const {
+  PLUGIN_PACKAGE_NAME_PREFIX,
+  COMMON_PACKAGE_SIMPLE_NAMES,
+} = require('../constants');
 
 const res = fs.readdirSync(paths.packages.self);
 const dirs = res.filter((relativePath) => {
@@ -9,8 +12,8 @@ const dirs = res.filter((relativePath) => {
   const stat = fs.statSync(absolutePath);
   return (
     stat.isDirectory() &&
-    !COMMON.includes(absolutePath) &&
-    relativePath.startsWith('tkeel-console-plugin-')
+    !COMMON_PACKAGE_SIMPLE_NAMES.includes(absolutePath) &&
+    relativePath.startsWith(PLUGIN_PACKAGE_NAME_PREFIX)
   );
 });
 

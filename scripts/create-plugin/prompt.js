@@ -2,7 +2,8 @@ const inquirer = require('inquirer');
 const { isString } = require('lodash');
 const { isPort } = require('validator');
 
-const { OPTIONS_MAP, NAME_PREFIX } = require('./constants');
+const { PLUGIN_PACKAGE_NAME_PREFIX } = require('../constants');
+const { OPTIONS_MAP } = require('./constants');
 
 async function prompt({ argv }) {
   const { name, basePath, port } = argv;
@@ -23,7 +24,7 @@ async function prompt({ argv }) {
         return value.trim();
       },
       transformer(value) {
-        return `${NAME_PREFIX}${value}`;
+        return `${PLUGIN_PACKAGE_NAME_PREFIX}${value}`;
       },
     });
   }
