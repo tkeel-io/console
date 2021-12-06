@@ -1,7 +1,4 @@
-const PAGE_SIZE = 10;
+const THEME = 'kubesphere-light';
 
-const BASE_URL = '';
-const API_PATH = '';
-
-export { PAGE_SIZE, BASE_URL, API_PATH };
-export default { PAGE_SIZE, BASE_URL, API_PATH };
+// eslint-disable-next-line import/prefer-default-export
+export { THEME };

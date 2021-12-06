@@ -37,6 +37,7 @@ module.exports = {
     'webstorm',
     'wechat',
     'chakra',
+    'kubesphere',
   ],
   ignorePaths: [
     '**/.idea/**',
