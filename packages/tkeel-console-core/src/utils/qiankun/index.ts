@@ -6,11 +6,16 @@ import { IApp } from './types';
 
 import themes from '@/styles/themes';
 
-import { IMenu } from '@/mock/types';
+import { IMenu, ISubMenu } from '@/mock/types';
 
 function menusToApps({ menus }: { menus: IMenu[] }): IApp[] {
   const token = '123456';
-  return menus.map(({ name, path, entry }) => ({
+  let subMenus: ISubMenu[] = [];
+  // eslint-disable-next-line no-restricted-syntax
+  for (const menu of menus) {
+    subMenus = [...subMenus, ...menu.subMenus];
+  }
+  return subMenus.map(({ name, path, entry }) => ({
     name,
     entry,
     container: `#sub-app`,

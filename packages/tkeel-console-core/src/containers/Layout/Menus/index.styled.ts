@@ -1,4 +1,11 @@
-import { Flex, Heading, Link } from '@chakra-ui/react';
+import {
+  Center,
+  ColorHues,
+  Colors,
+  Flex,
+  Heading,
+  Link,
+} from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
 export const LayoutMenus = styled.div`
@@ -23,6 +30,13 @@ export const List = styled.div`
   padding: 24px;
 `;
 
+export const IconWrapper = styled(Center)`
+  width: 32px;
+  height: 32px;
+  margin-right: 10px;
+  border-radius: 4px;
+`;
+
 export const Item = styled(Link)`
   display: flex;
   align-items: center;
@@ -32,11 +46,21 @@ export const Item = styled(Link)`
   color: #718096;
   font-weight: 500;
 
+  &:hover {
+    background-color: ${({ colors }: { colors: Colors }) =>
+      (colors.gray as Record<string, Partial<ColorHues>>)[100]};
+  }
+
   &.active {
     color: #fff;
     background-color: #2d3748;
     border-radius: 4px;
     box-shadow: 0 20px 25px -5px rgb(113 128 150 / 10%),
       0 10px 10px -5px rgb(113 128 150 / 4%);
+
+    ${IconWrapper} {
+      background-color: ${({ colors }: { colors: Colors }) =>
+        (colors.blue as Record<string, Partial<ColorHues>>)[400]};
+    }
   }
 `;
