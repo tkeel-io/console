@@ -81,6 +81,7 @@ module.exports = {
         },
       },
     ],
+    'unicorn/no-array-for-each': 'off',
     'unicorn/no-null': 'off',
     'unicorn/prefer-export-from': 'off',
     'unicorn/prevent-abbreviations': 'off',

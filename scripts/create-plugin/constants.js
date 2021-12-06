@@ -1,4 +1,4 @@
-const OPTIONS_MAP = {
+const OPTIONS_MAP = Object.freeze({
   name: {
     desc: 'plugin name',
     errorMessage: 'Please input a name.',
@@ -11,10 +11,6 @@ const OPTIONS_MAP = {
     desc: 'devServer port',
     errorMessage: 'Please input a port.',
   },
-};
+});
 
-Object.freeze(OPTIONS_MAP);
-
-const NAME_PREFIX = 'tkeel-console-plugin-';
-
-module.exports = { OPTIONS_MAP, NAME_PREFIX };
+module.exports = { OPTIONS_MAP };
