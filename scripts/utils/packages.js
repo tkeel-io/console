@@ -13,6 +13,42 @@ const {
 } = require('../constants');
 const paths = require('./paths');
 
+function getPluginPackageDirName({ simpleName }) {
+  return `${PLUGIN_PACKAGE_NAME_PREFIX}${simpleName}`;
+}
+
+function getPackagesDirNames() {
+  const dirNames = fs.readdirSync(paths.packages.self);
+
+  return dirNames.filter((dirName) => {
+    const absolutePath = paths.resolvePackages(dirName);
+    const stat = fs.statSync(absolutePath);
+    return stat.isDirectory();
+  });
+}
+
+function getPluginPackagesDirNames() {
+  const dirNames = getPackagesDirNames();
+
+  return dirNames.filter((dirName) => {
+    const simpleName = dirName.replace(PACKAGE_NAME_PREFIX, '');
+
+    return (
+      !COMMON_PACKAGE_SIMPLE_NAMES.includes(simpleName) &&
+      dirName.startsWith(PLUGIN_PACKAGE_NAME_PREFIX)
+    );
+  });
+}
+
+function getCanRunPackagesDirNames() {
+  const dirNames = getPackagesDirNames();
+
+  return dirNames.filter((dirName) => {
+    const simpleName = dirName.replace(PACKAGE_NAME_PREFIX, '');
+    return !SHARED_PACKAGE_SIMPLE_NAMES.includes(simpleName);
+  });
+}
+
 function readPackages({ paths: pathList }) {
   const promises = pathList.map((path) =>
     readPkg({ cwd: path })
@@ -23,37 +59,11 @@ function readPackages({ paths: pathList }) {
   return Promise.all(promises);
 }
 
-function getPluginPackageDirName({ simpleName }) {
-  return `${PLUGIN_PACKAGE_NAME_PREFIX}${simpleName}`;
-}
+async function fetchPackagesNames({ dirNames }) {
+  const pathList = dirNames.map((dirName) => paths.resolvePackages(dirName));
+  const data = await readPackages({ paths: pathList });
 
-function getPluginPackagesDirNames() {
-  const res = fs.readdirSync(paths.packages.self);
-
-  return res.filter((dirName) => {
-    const absolutePath = paths.resolvePackages(dirName);
-    const simpleName = dirName.replace(PACKAGE_NAME_PREFIX, '');
-    const stat = fs.statSync(absolutePath);
-
-    return (
-      stat.isDirectory() &&
-      !COMMON_PACKAGE_SIMPLE_NAMES.includes(simpleName) &&
-      dirName.startsWith(PLUGIN_PACKAGE_NAME_PREFIX)
-    );
-  });
-}
-
-function getCanRunPackagesDirNames() {
-  const res = fs.readdirSync(paths.packages.self);
-
-  return res.filter((dirName) => {
-    const absolutePath = paths.resolvePackages(dirName);
-    const simpleName = dirName.replace(PACKAGE_NAME_PREFIX, '');
-    const stat = fs.statSync(absolutePath);
-    return (
-      stat.isDirectory() && !SHARED_PACKAGE_SIMPLE_NAMES.includes(simpleName)
-    );
-  });
+  return data.map(({ name }) => name);
 }
 
 function checkPluginName({ simpleName }) {
@@ -119,9 +129,11 @@ function checkPluginPort({ port }) {
 }
 
 module.exports = {
-  readPackages,
   getPluginPackageDirName,
+  getPackagesDirNames,
   getCanRunPackagesDirNames,
+  getPluginPackagesDotenvConfigs,
+  fetchPackagesNames,
   checkPluginName,
   checkPluginBasePath,
   checkPluginPort,

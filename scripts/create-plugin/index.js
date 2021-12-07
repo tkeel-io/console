@@ -10,7 +10,7 @@ const {
 } = require('../utils/packages');
 const logger = require('../utils/logger');
 
-async function cli() {
+(async () => {
   const argv = getArgv();
   const { name } = argv;
 
@@ -37,6 +37,4 @@ async function cli() {
 
   copyTemplates(options);
   writeTemplates(options);
-}
-
-cli();
+})();

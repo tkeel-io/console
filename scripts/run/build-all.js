@@ -3,9 +3,7 @@
 const { getCanRunPackagesDirNames } = require('../utils/packages');
 const { run } = require('./commands');
 
-async function cli() {
+(async () => {
   const dirNames = getCanRunPackagesDirNames();
   await run({ dirNames, npmScriptName: 'build' });
-}
-
-cli();
+})();

@@ -1,19 +1,11 @@
 const concurrently = require('concurrently');
 
-const paths = require('../utils/paths');
-const { readPackages } = require('../utils/packages');
+const { fetchPackagesNames } = require('../utils/packages');
 const logger = require('../utils/logger');
-
-async function getPackagesNames({ dirNames }) {
-  const pathList = dirNames.map((dirName) => paths.resolvePackages(dirName));
-  const data = await readPackages({ paths: pathList });
-
-  return data.map(({ name }) => name);
-}
 
 async function run({ dirNames, npmScriptName }) {
   try {
-    const packagesNames = await getPackagesNames({ dirNames });
+    const packagesNames = await fetchPackagesNames({ dirNames });
     const commands = packagesNames.map((name) => {
       const command = `yarn workspace ${name} run ${npmScriptName}`;
       logger.info(command);
