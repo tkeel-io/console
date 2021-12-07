@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 /* cspell: disable-next-line */
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const WebpackNotifierPlugin = require('webpack-notifier');
 
 const paths = require('../scripts/utils/paths');
 const baseConfig = require('./webpack.config.base');
@@ -37,6 +38,7 @@ const devConfig = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new ReactRefreshWebpackPlugin(),
+    new WebpackNotifierPlugin({ emoji: true }),
   ],
 };
 

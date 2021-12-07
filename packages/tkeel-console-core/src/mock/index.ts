@@ -4,7 +4,7 @@ const MENUS: IMenu[] = [
   {
     id: 'plugin-example',
     name: 'plugin-example',
-    path: '/plugin-example',
+    path: '/example',
     entry: 'http://127.0.0.1:3001',
   },
   /* {
