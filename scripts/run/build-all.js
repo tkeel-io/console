@@ -5,7 +5,7 @@ const { run } = require('./commands');
 
 async function cli() {
   const dirNames = getCanRunPackagesDirNames();
-  await run({ dirNames, npmScriptName: 'dev' });
+  await run({ dirNames, npmScriptName: 'build' });
 }
 
 cli();
