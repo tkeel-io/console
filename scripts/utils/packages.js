@@ -90,6 +90,7 @@ function checkPort({ port }) {
 }
 
 module.exports = {
+  getPluginPackageDirName,
   checkName,
   checkBasePath,
   checkPort,
