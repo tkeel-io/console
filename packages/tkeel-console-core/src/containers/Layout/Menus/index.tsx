@@ -34,7 +34,7 @@ function Menus({ data }: Props): JSX.Element {
       <TitleWrapper>
         <Logo htmlWidth="27px" src={LogoImg} alt="" />
         <Title as="h1" fontSize="18px">
-          tKeel 管理平台1
+          tKeel 管理平台
         </Title>
       </TitleWrapper>
       <List>

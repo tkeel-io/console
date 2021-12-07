@@ -1,5 +1,6 @@
 const path = require('path');
 
+const webpack = require('webpack');
 const dotenvFlow = require('dotenv-flow');
 const dotenvExpand = require('dotenv-expand');
 const DotenvWebpack = require('dotenv-webpack');
@@ -138,5 +139,6 @@ module.exports = {
       extensions: ['css', 'scss', 'js', 'jsx', 'ts', 'tsx'],
       fix: true,
     }),
+    new webpack.ProgressPlugin(),
   ],
 };
