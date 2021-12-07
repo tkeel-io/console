@@ -2,6 +2,7 @@
 
 const { getArgv } = require('./argv');
 const prompt = require('./prompt');
+const { copyTemplates, writeTemplates } = require('./files');
 const { checkName, checkBasePath, checkPort } = require('../utils/packages');
 const logger = require('../utils/logger');
 
@@ -30,7 +31,8 @@ async function cli() {
   const answers = await prompt({ argv });
   const options = { ...argv, ...answers };
 
-  console.log(options);
+  copyTemplates(options);
+  writeTemplates(options);
 }
 
 cli();
