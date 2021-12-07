@@ -123,5 +123,8 @@
     "webpackbar": "^5.0.2",
     "yargs": "^17.3.0"
   },
-  "packageManager": "yarn@3.1.1"
+  "packageManager": "yarn@3.1.1",
+  "dependencies": {
+    "@chakra-ui/icons": "^1.1.1"
+  }
 }
