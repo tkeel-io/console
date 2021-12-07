@@ -15,7 +15,7 @@ async function checkPackagesNames() {
   Object.keys(counter).forEach((key) => {
     const value = counter[key];
 
-    if (value === 1) {
+    if (value > 1) {
       logger.error(`Duplicate package: ${key} (${value})`);
     }
   });
@@ -30,7 +30,7 @@ function checkPluginDotenvConfigs({ key }) {
   Object.keys(counter).forEach((k) => {
     const value = counter[k];
 
-    if (value === 1) {
+    if (value > 1) {
       logger.error(`Duplicate ${key}: ${k} (${value})`);
     }
   });
