@@ -1,7 +1,7 @@
-const { checkName } = require('../utils/packages');
+const { checkPluginName } = require('../utils/packages');
 
 console.log(
-  checkName({
+  checkPluginName({
     simpleName: 'example',
   })
 );

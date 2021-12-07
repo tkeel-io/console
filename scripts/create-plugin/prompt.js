@@ -1,16 +1,20 @@
 const inquirer = require('inquirer');
-const { isString } = require('lodash');
+const _ = require('lodash');
 const { isPort } = require('validator');
 
 const { PLUGIN_PACKAGE_NAME_PREFIX } = require('../constants');
 const { OPTIONS_MAP } = require('./constants');
-const { checkName, checkBasePath, checkPort } = require('../utils/packages');
+const {
+  checkPluginName,
+  checkPluginBasePath,
+  checkPluginPort,
+} = require('../utils/packages');
 
 async function prompt({ argv }) {
   const { name, basePath, port } = argv;
   const questions = [];
 
-  if (!isString(name)) {
+  if (!_.isString(name)) {
     questions.push({
       type: 'input',
       name: 'name',
@@ -20,7 +24,7 @@ async function prompt({ argv }) {
           return OPTIONS_MAP.name.errorMessage;
         }
 
-        const { flag, message } = checkName({ simpleName: value });
+        const { flag, message } = checkPluginName({ simpleName: value });
         if (!flag) {
           return message;
         }
@@ -36,7 +40,7 @@ async function prompt({ argv }) {
     });
   }
 
-  if (!isString(basePath)) {
+  if (!_.isString(basePath)) {
     questions.push({
       type: 'input',
       name: 'basePath',
@@ -46,7 +50,7 @@ async function prompt({ argv }) {
           return OPTIONS_MAP.basePath.errorMessage;
         }
 
-        const { flag, message } = checkBasePath({ basePath: value });
+        const { flag, message } = checkPluginBasePath({ basePath: value });
         if (!flag) {
           return message;
         }
@@ -69,7 +73,7 @@ async function prompt({ argv }) {
           return OPTIONS_MAP.port.errorMessage;
         }
 
-        const { flag, message } = checkPort({ port: value });
+        const { flag, message } = checkPluginPort({ port: value });
         if (!flag) {
           return message;
         }
