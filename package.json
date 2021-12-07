@@ -123,5 +123,9 @@
     "webpack-notifier": "^1.14.1",
     "yargs": "^17.3.0"
   },
+  "engines": {
+    "node": ">=16.0.0",
+    "yarn": ">=3.0.0"
+  },
   "packageManager": "yarn@3.1.1"
 }
