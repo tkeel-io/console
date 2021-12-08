@@ -3,26 +3,26 @@ const path = require('path');
 const _ = require('lodash');
 
 const {
-  PACKAGE_NAME_PREFIX,
+  PACKAGE_DIRECTORY_NAME_PREFIX,
   COMMON_PACKAGE_SIMPLE_NAMES,
 } = require('../constants');
 
-const rootDirectory = path.resolve(__dirname, '../..');
-const currentWorkingDirectory = process.cwd();
+const rootPath = path.resolve(__dirname, '../..');
+const currentWorkingPath = process.cwd();
 
 const resolveRoot = (...relativePaths) =>
-  path.resolve(rootDirectory, ...relativePaths);
+  path.resolve(rootPath, ...relativePaths);
 const resolvePackages = (...relativePaths) =>
   resolveRoot('packages', ...relativePaths);
 const resolveCwd = (...relativePaths) =>
-  path.resolve(currentWorkingDirectory, ...relativePaths);
+  path.resolve(currentWorkingPath, ...relativePaths);
 
 const commonPackages = () => {
   const obj = {};
 
   COMMON_PACKAGE_SIMPLE_NAMES.forEach((simpleName) => {
     const key = _.camelCase(simpleName);
-    const name = `${PACKAGE_NAME_PREFIX}${simpleName}`;
+    const name = `${PACKAGE_DIRECTORY_NAME_PREFIX}${simpleName}`;
     obj[key] = resolvePackages(name);
   });
 
@@ -34,7 +34,7 @@ module.exports = {
   resolvePackages,
   resolveCwd,
   root: {
-    self: rootDirectory,
+    self: rootPath,
     nodeModules: resolveRoot('node_modules'),
     scripts: resolveRoot('scripts'),
     webpack: resolveRoot('webpack'),
@@ -44,7 +44,7 @@ module.exports = {
     ...commonPackages(),
   },
   cwd: {
-    self: currentWorkingDirectory,
+    self: currentWorkingPath,
     packageJson: resolveCwd('package.json'),
     public: resolveCwd('public'),
     src: resolveCwd('src'),

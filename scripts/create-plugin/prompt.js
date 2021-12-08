@@ -2,7 +2,7 @@ const inquirer = require('inquirer');
 const _ = require('lodash');
 const { isPort } = require('validator');
 
-const { PLUGIN_PACKAGE_NAME_PREFIX } = require('../constants');
+const { PLUGIN_PACKAGE_DIRECTORY_NAME_PREFIX } = require('../constants');
 const { OPTIONS_MAP } = require('./constants');
 const {
   checkPluginName,
@@ -24,7 +24,7 @@ async function prompt({ argv }) {
           return OPTIONS_MAP.name.errorMessage;
         }
 
-        const { flag, message } = checkPluginName({ simpleName: value });
+        const { flag, message } = checkPluginName({ pluginName: value });
         if (!flag) {
           return message;
         }
@@ -35,7 +35,7 @@ async function prompt({ argv }) {
         return value.trim();
       },
       transformer(value) {
-        return `${PLUGIN_PACKAGE_NAME_PREFIX}${value}`;
+        return `${PLUGIN_PACKAGE_DIRECTORY_NAME_PREFIX}${value}`;
       },
     });
   }
