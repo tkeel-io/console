@@ -1,9 +1,6 @@
 const _ = require('lodash');
 
-const {
-  getPluginPackageDotenvConfigs,
-  getPackages,
-} = require('../utils/packages');
+const { getPackages } = require('../utils/packages');
 const logger = require('../utils/logger');
 
 function checkPackagesNames() {
@@ -13,38 +10,59 @@ function checkPackagesNames() {
   );
   const packages = getPackages({ directoryNames });
   const counter = _.countBy(packages, 'packageJson.name');
+  let isSuccess = true;
   Object.keys(counter).forEach((key) => {
     const value = counter[key];
 
     if (value > 1) {
+      isSuccess = false;
       logger.error(`Duplicate package: ${key} (${value})`);
     }
   });
+
+  if (isSuccess) {
+    logger.success('success');
+  }
   logger.log();
 }
 
-function checkPluginDotenvConfigs({ key }) {
-  logger.log(`check plugins ${key}`);
-  const configs = getPluginPackageDotenvConfigs();
-  const counter = _.countBy(configs, key);
+function checkPluginDotenvConfigs({ dotenvConfigKey }) {
+  logger.log(`check plugins ${dotenvConfigKey}`);
+  const packages = getPackages().filter(({ isPlugin }) => isPlugin);
+  const counter = _.countBy(packages, `dotenvConfig[${dotenvConfigKey}]`);
+  let isSuccess = true;
 
-  Object.keys(counter).forEach((k) => {
-    const value = counter[k];
+  Object.keys(counter).forEach((dotenvConfigValue) => {
+    const count = counter[dotenvConfigValue];
 
-    if (value > 1) {
-      logger.error(`Duplicate ${key}: ${k} (${value})`);
+    if (count > 1) {
+      isSuccess = false;
+      const directoryNames = packages
+        .filter(
+          ({ dotenvConfig }) =>
+            dotenvConfig[dotenvConfigKey] === dotenvConfigValue
+        )
+        .map(({ directoryName }) => directoryName);
+      logger.error(
+        `Duplicate ${dotenvConfigKey}: ${dotenvConfigValue} (${directoryNames.join(
+          ', '
+        )})`
+      );
     }
   });
 
+  if (isSuccess) {
+    logger.success('success');
+  }
   logger.log();
 }
 
 function checkPluginBasePath() {
-  checkPluginDotenvConfigs({ key: 'BASE_PATH' });
+  checkPluginDotenvConfigs({ dotenvConfigKey: 'BASE_PATH' });
 }
 
 function checkPluginPort() {
-  checkPluginDotenvConfigs({ key: 'PORT' });
+  checkPluginDotenvConfigs({ dotenvConfigKey: 'PORT' });
 }
 
 checkPackagesNames();
