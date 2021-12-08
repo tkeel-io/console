@@ -8,7 +8,7 @@ const { getPluginPackageDirectoryName } = require('../utils/packages');
 
 function copyTemplates(options) {
   const { name } = options;
-  const directoryName = getPluginPackageDirectoryName({ simpleName: name });
+  const directoryName = getPluginPackageDirectoryName({ pluginName: name });
   const pluginAbsolutePath = paths.resolvePackages(directoryName);
   fs.ensureDirSync(pluginAbsolutePath);
   fs.copySync(path.resolve(__dirname, 'template'), pluginAbsolutePath, {
@@ -18,7 +18,7 @@ function copyTemplates(options) {
 
 function writeTemplates(options) {
   const { name } = options;
-  const directoryName = getPluginPackageDirectoryName({ simpleName: name });
+  const directoryName = getPluginPackageDirectoryName({ pluginName: name });
   const pluginAbsolutePath = paths.resolvePackages(directoryName);
 
   const handlebarsAbsolutePath = path.resolve(__dirname, 'handlebars');

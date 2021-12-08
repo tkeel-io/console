@@ -1,9 +1,9 @@
 const _ = require('lodash');
 
 const {
+  getPluginPackageDotenvConfigs,
   getPackageDirectoryNames,
   fetchPackageNames,
-  getPluginPackagesDotenvConfigs,
 } = require('../utils/packages');
 const logger = require('../utils/logger');
 
@@ -24,7 +24,7 @@ async function checkPackagesNames() {
 
 function checkPluginDotenvConfigs({ key }) {
   logger.log(`check plugins ${key}`);
-  const configs = getPluginPackagesDotenvConfigs();
+  const configs = getPluginPackageDotenvConfigs();
   const counter = _.countBy(configs, key);
 
   Object.keys(counter).forEach((k) => {
