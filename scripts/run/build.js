@@ -5,5 +5,5 @@ const { run } = require('./commands');
 
 (async () => {
   const { directoryNames } = await prompt();
-  await run({ directoryNames, npmScriptName: 'build' });
+  run({ directoryNames, npmScriptName: 'build' });
 })();

@@ -2,16 +2,17 @@ const _ = require('lodash');
 
 const {
   getPluginPackageDotenvConfigs,
-  getPackageDirectoryNames,
-  fetchPackageNames,
+  getPackages,
 } = require('../utils/packages');
 const logger = require('../utils/logger');
 
-async function checkPackagesNames() {
+function checkPackagesNames() {
   logger.log('check packages names');
-  const directoryNames = getPackageDirectoryNames();
-  const packagesNames = await fetchPackageNames({ directoryNames });
-  const counter = _.countBy(packagesNames);
+  const directoryNames = getPackages().map(
+    ({ directoryName }) => directoryName
+  );
+  const packages = getPackages({ directoryNames });
+  const counter = _.countBy(packages, 'packageJson.name');
   Object.keys(counter).forEach((key) => {
     const value = counter[key];
 
@@ -46,9 +47,7 @@ function checkPluginPort() {
   checkPluginDotenvConfigs({ key: 'PORT' });
 }
 
-(async () => {
-  await checkPackagesNames();
-  checkPluginBasePath();
-  checkPluginPort();
-  logger.log('DONE');
-})();
+checkPackagesNames();
+checkPluginBasePath();
+checkPluginPort();
+logger.log('DONE');
