@@ -3,8 +3,8 @@ const _ = require('lodash');
 const { getPackages } = require('../utils/packages');
 const logger = require('../utils/logger');
 
-function checkPackagesNames() {
-  logger.log('check packages names');
+function checkPackageNames() {
+  logger.log('check package names');
   const directoryNames = getPackages().map(
     ({ directoryName }) => directoryName
   );
@@ -65,7 +65,7 @@ function checkPluginPort() {
   checkPluginDotenvConfigs({ dotenvConfigKey: 'PORT' });
 }
 
-checkPackagesNames();
+checkPackageNames();
 checkPluginBasePath();
 checkPluginPort();
 logger.log('DONE');
