@@ -3,7 +3,5 @@
 const { getCanRunPackageDirectoryNames } = require('../utils/packages');
 const { run } = require('./commands');
 
-(async () => {
-  const directoryNames = getCanRunPackageDirectoryNames();
-  run({ directoryNames, npmScriptName: 'build' });
-})();
+const directoryNames = getCanRunPackageDirectoryNames();
+run({ directoryNames, npmScriptName: 'build' });
