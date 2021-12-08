@@ -7,15 +7,15 @@ const {
   COMMON_PACKAGE_SIMPLE_NAMES,
 } = require('../constants');
 
-const rootDirectory = path.resolve(__dirname, '../..');
-const currentWorkingDirectory = process.cwd();
+const rootPath = path.resolve(__dirname, '../..');
+const currentWorkingPath = process.cwd();
 
 const resolveRoot = (...relativePaths) =>
-  path.resolve(rootDirectory, ...relativePaths);
+  path.resolve(rootPath, ...relativePaths);
 const resolvePackages = (...relativePaths) =>
   resolveRoot('packages', ...relativePaths);
 const resolveCwd = (...relativePaths) =>
-  path.resolve(currentWorkingDirectory, ...relativePaths);
+  path.resolve(currentWorkingPath, ...relativePaths);
 
 const commonPackages = () => {
   const obj = {};
@@ -34,7 +34,7 @@ module.exports = {
   resolvePackages,
   resolveCwd,
   root: {
-    self: rootDirectory,
+    self: rootPath,
     nodeModules: resolveRoot('node_modules'),
     scripts: resolveRoot('scripts'),
     webpack: resolveRoot('webpack'),
@@ -44,7 +44,7 @@ module.exports = {
     ...commonPackages(),
   },
   cwd: {
-    self: currentWorkingDirectory,
+    self: currentWorkingPath,
     packageJson: resolveCwd('package.json'),
     public: resolveCwd('public'),
     src: resolveCwd('src'),

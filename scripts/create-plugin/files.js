@@ -4,12 +4,12 @@ const fs = require('fs-extra');
 const Handlebars = require('handlebars');
 
 const paths = require('../utils/paths');
-const { getPluginPackageDirName } = require('../utils/packages');
+const { getPluginPackageDirectoryName } = require('../utils/packages');
 
 function copyTemplates(options) {
   const { name } = options;
-  const dirName = getPluginPackageDirName({ simpleName: name });
-  const pluginAbsolutePath = paths.resolvePackages(dirName);
+  const directoryName = getPluginPackageDirectoryName({ simpleName: name });
+  const pluginAbsolutePath = paths.resolvePackages(directoryName);
   fs.ensureDirSync(pluginAbsolutePath);
   fs.copySync(path.resolve(__dirname, 'template'), pluginAbsolutePath, {
     overwrite: false,
@@ -18,8 +18,8 @@ function copyTemplates(options) {
 
 function writeTemplates(options) {
   const { name } = options;
-  const dirName = getPluginPackageDirName({ simpleName: name });
-  const pluginAbsolutePath = paths.resolvePackages(dirName);
+  const directoryName = getPluginPackageDirectoryName({ simpleName: name });
+  const pluginAbsolutePath = paths.resolvePackages(directoryName);
 
   const handlebarsAbsolutePath = path.resolve(__dirname, 'handlebars');
   const files = ['.env', '.env.development', 'package.json', 'README.md'];

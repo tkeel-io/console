@@ -13,38 +13,38 @@ const {
 } = require('../constants');
 const paths = require('./paths');
 
-function getPluginPackageDirName({ simpleName }) {
+function getPluginPackageDirectoryName({ simpleName }) {
   return `${PLUGIN_PACKAGE_NAME_PREFIX}${simpleName}`;
 }
 
-function getPackagesDirNames() {
-  const dirNames = fs.readdirSync(paths.packages.self);
+function getPackageDirectoryNames() {
+  const res = fs.readdirSync(paths.packages.self);
 
-  return dirNames.filter((dirName) => {
-    const absolutePath = paths.resolvePackages(dirName);
+  return res.filter((directoryName) => {
+    const absolutePath = paths.resolvePackages(directoryName);
     const stat = fs.statSync(absolutePath);
     return stat.isDirectory();
   });
 }
 
-function getPluginPackagesDirNames() {
-  const dirNames = getPackagesDirNames();
+function getPluginPackageDirectoryNames() {
+  const directoryNames = getPackageDirectoryNames();
 
-  return dirNames.filter((dirName) => {
-    const simpleName = dirName.replace(PACKAGE_NAME_PREFIX, '');
+  return directoryNames.filter((directoryName) => {
+    const simpleName = directoryName.replace(PACKAGE_NAME_PREFIX, '');
 
     return (
       !COMMON_PACKAGE_SIMPLE_NAMES.includes(simpleName) &&
-      dirName.startsWith(PLUGIN_PACKAGE_NAME_PREFIX)
+      directoryName.startsWith(PLUGIN_PACKAGE_NAME_PREFIX)
     );
   });
 }
 
-function getCanRunPackagesDirNames() {
-  const dirNames = getPackagesDirNames();
+function getCanRunPackageDirectoryNames() {
+  const directoryNames = getPackageDirectoryNames();
 
-  return dirNames.filter((dirName) => {
-    const simpleName = dirName.replace(PACKAGE_NAME_PREFIX, '');
+  return directoryNames.filter((directoryName) => {
+    const simpleName = directoryName.replace(PACKAGE_NAME_PREFIX, '');
     return !SHARED_PACKAGE_SIMPLE_NAMES.includes(simpleName);
   });
 }
@@ -59,17 +59,19 @@ function readPackages({ paths: pathList }) {
   return Promise.all(promises);
 }
 
-async function fetchPackagesNames({ dirNames }) {
-  const pathList = dirNames.map((dirName) => paths.resolvePackages(dirName));
+async function fetchPackageNames({ directoryNames }) {
+  const pathList = directoryNames.map((directoryName) =>
+    paths.resolvePackages(directoryName)
+  );
   const data = await readPackages({ paths: pathList });
 
   return data.map(({ name }) => name);
 }
 
 function checkPluginName({ simpleName }) {
-  const pluginDirNames = getPluginPackagesDirNames();
-  const dirName = getPluginPackageDirName({ simpleName });
-  const flag = !pluginDirNames.includes(dirName);
+  const directoryNames = getPluginPackageDirectoryNames();
+  const directoryName = getPluginPackageDirectoryName({ simpleName });
+  const flag = !directoryNames.includes(directoryName);
   let message = '';
 
   if (!flag) {
@@ -80,10 +82,10 @@ function checkPluginName({ simpleName }) {
 }
 
 function getPluginPackagesDotenvConfigs() {
-  const dirNames = getPluginPackagesDirNames();
+  const directoryNames = getPluginPackageDirectoryNames();
 
-  return dirNames.map((dirName) => {
-    const absolutePath = paths.resolvePackages(dirName);
+  return directoryNames.map((directoryName) => {
+    const absolutePath = paths.resolvePackages(directoryName);
     const dotenvFiles = dotenvFlow
       .listDotenvFiles(absolutePath, {
         node_env: 'development',
@@ -129,11 +131,11 @@ function checkPluginPort({ port }) {
 }
 
 module.exports = {
-  getPluginPackageDirName,
-  getPackagesDirNames,
-  getCanRunPackagesDirNames,
+  getPluginPackageDirectoryName,
+  getPackageDirectoryNames,
+  getCanRunPackageDirectoryNames,
   getPluginPackagesDotenvConfigs,
-  fetchPackagesNames,
+  fetchPackageNames,
   checkPluginName,
   checkPluginBasePath,
   checkPluginPort,

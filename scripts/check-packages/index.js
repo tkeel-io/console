@@ -1,16 +1,16 @@
 const _ = require('lodash');
 
 const {
-  getPackagesDirNames,
-  fetchPackagesNames,
+  getPackageDirectoryNames,
+  fetchPackageNames,
   getPluginPackagesDotenvConfigs,
 } = require('../utils/packages');
 const logger = require('../utils/logger');
 
 async function checkPackagesNames() {
   logger.log('check packages names');
-  const dirNames = getPackagesDirNames();
-  const packagesNames = await fetchPackagesNames({ dirNames });
+  const directoryNames = getPackageDirectoryNames();
+  const packagesNames = await fetchPackageNames({ directoryNames });
   const counter = _.countBy(packagesNames);
   Object.keys(counter).forEach((key) => {
     const value = counter[key];
