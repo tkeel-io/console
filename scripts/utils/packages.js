@@ -97,9 +97,9 @@ function checkPluginName({ pluginName }) {
 }
 
 function checkPluginBasePath({ basePath }) {
-  const pluginPackagesDotenvConfigs = getPluginPackageDotenvConfigs();
+  const pluginPackageDotenvConfigs = getPluginPackageDotenvConfigs();
   // eslint-disable-next-line unicorn/prefer-array-some
-  const flag = !_.find(pluginPackagesDotenvConfigs, { BASE_PATH: basePath });
+  const flag = !_.find(pluginPackageDotenvConfigs, { BASE_PATH: basePath });
   let message = '';
 
   if (!flag) {
@@ -110,8 +110,8 @@ function checkPluginBasePath({ basePath }) {
 }
 
 function checkPluginPort({ port }) {
-  const pluginPackagesDotenvConfigs = getPluginPackageDotenvConfigs();
-  const value = _.find(pluginPackagesDotenvConfigs, { PORT: String(port) });
+  const pluginPackageDotenvConfigs = getPluginPackageDotenvConfigs();
+  const value = _.find(pluginPackageDotenvConfigs, { PORT: String(port) });
 
   let flag = true;
   let message = '';
@@ -133,7 +133,6 @@ module.exports = {
   getPluginPackageDirectoryName,
   getPackages,
   getCanRunPackageDirectoryNames,
-  getPluginPackageDotenvConfigs,
   checkPluginName,
   checkPluginBasePath,
   checkPluginPort,
