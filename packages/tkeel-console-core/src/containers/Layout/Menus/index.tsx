@@ -5,7 +5,6 @@ import {
   useMatch,
   useResolvedPath,
 } from 'react-router-dom';
-import { ChevronDownIcon, ChevronUpIcon, SettingsIcon } from '@chakra-ui/icons';
 import {
   Box as Menu,
   Box as MenusWrapper,
@@ -14,6 +13,10 @@ import {
   Image as Logo,
   useTheme,
 } from '@chakra-ui/react';
+
+// import { Button } from '@tkeel/console-components';
+// import SearchInput from '@/components/SearchInput';
+import SvgIcon from '@/components/SvgIcon';
 
 import {
   CategoryName,
@@ -36,18 +39,31 @@ type Props = {
   data: IMenu[];
 };
 
+type CustomLinkProps = {
+  as: typeof Link;
+  className: string;
+  to: string;
+  colors: Colors;
+};
+
 type CustomMenuLinkProps = {
   to: string;
   children: ReactNode | string;
   colors: Colors;
 };
 
-function useCustomLinkProps({ to, colors }: { to: string; colors: Colors }): {
-  as: typeof Link;
-  className: string;
+type SubMenuProps = {
+  subMenus: IMenuDetail[];
+  colors: Colors;
+};
+
+function useCustomLinkProps({
+  to,
+  colors,
+}: {
   to: string;
   colors: Colors;
-} {
+}): CustomLinkProps {
   const resolved = useResolvedPath(to);
   const match = useMatch({ path: resolved.pathname, end: false });
   return {
@@ -68,24 +84,18 @@ function CustomSubMenuLink({ to, children, colors }: CustomMenuLinkProps) {
   return <SubMenuLink {...props}>{children}</SubMenuLink>;
 }
 
-function IconNameWrapper({ name }: { name: string }) {
+function IconNameWrapper({ name, icon }: { name: string; icon: string }) {
   return (
     <IconName>
       <IconWrapper>
-        <SettingsIcon />
+        <SvgIcon iconClass={icon} />
       </IconWrapper>
       {name}
     </IconName>
   );
 }
 
-function SubMenusWrapper({
-  subMenus,
-  colors,
-}: {
-  subMenus: IMenuDetail[];
-  colors: Colors;
-}) {
+function SubMenusWrapper({ subMenus, colors }: SubMenuProps) {
   return (
     <SubMenus>
       {subMenus.map((subMenu) => (
@@ -101,7 +111,7 @@ function SubMenusWrapper({
   );
 }
 
-function Menus({ data }: Props): JSX.Element {
+function Menus({ data }: Props) {
   const [spreadMenuIds, setSpreadMenus] = useState<string[]>([]);
   const { colors }: { colors: Colors } = useTheme();
 
@@ -115,6 +125,8 @@ function Menus({ data }: Props): JSX.Element {
 
   return (
     <LayoutMenus>
+      {/* <SearchInput width="300px" />
+      <Button>Button</Button> */}
       <TitleWrapper>
         <Logo htmlWidth="27px" src={LogoImg} alt="" />
         <Title as="h1" fontSize="18px">
@@ -130,19 +142,20 @@ function Menus({ data }: Props): JSX.Element {
                   {categoryName}
                 </CategoryName>
               )}
-              {menus.map(({ id, name, path, children }) => {
+              {menus.map(({ id, name, icon, path, children }) => {
                 const spread = spreadMenuIds.includes(id);
                 return (
                   <Menu key={id}>
                     {children ? (
                       <MenuItem onClick={() => handleMenuClick(id)}>
-                        <IconNameWrapper name={name} />
-                        {spread ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                        <IconNameWrapper name={name} icon={icon} />
+                        <SvgIcon iconClass="down" />
+                        {/* {spread ? <ChevronUpIcon /> : <ChevronDownIcon />} */}
                       </MenuItem>
                     ) : (
                       <CustomMenuLink to={path || ''} colors={colors}>
                         <MenuItem>
-                          <IconNameWrapper name={name} />
+                          <IconNameWrapper name={name} icon={icon} />
                         </MenuItem>
                       </CustomMenuLink>
                     )}

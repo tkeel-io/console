@@ -12,11 +12,21 @@ export const LayoutHeader = styled(Flex)`
   }
 `;
 
-export const UserInfo = styled(Flex)`
+export const IconWrapper = styled(Flex)`
   align-items: center;
+
+  svg {
+    margin-left: 18px;
+    cursor: pointer;
+  }
 `;
 
-export const Username = styled(Text)`
+export const UserNameWrapper = styled(Flex)`
+  align-items: center;
+  cursor: pointer;
+`;
+
+export const UserName = styled(Text)`
   margin-left: 5px;
   color: #718096;
   font-size: 12px;

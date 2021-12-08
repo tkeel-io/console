@@ -1,3 +1,4 @@
 import Button from './button';
+import Tabs from './tabs';
 
-export default { Button };
+export default { Button, Tabs };

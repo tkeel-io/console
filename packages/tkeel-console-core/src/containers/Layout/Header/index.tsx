@@ -6,11 +6,18 @@ import {
   Image as Avatar,
 } from '@chakra-ui/react';
 
-import { LayoutHeader, UserInfo, Username } from './index.styled';
+import SvgIcon from '@/components/SvgIcon';
+
+import {
+  IconWrapper,
+  LayoutHeader,
+  UserName,
+  UserNameWrapper,
+} from './index.styled';
 
 import DefaultAvatar from '@/assets/images/default-avatar.png';
 
-function Header(): JSX.Element {
+function Header() {
   return (
     <LayoutHeader>
       <Breadcrumb>
@@ -18,10 +25,14 @@ function Header(): JSX.Element {
           <BreadcrumbLink href="#">插件管理</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
-      <UserInfo>
-        <Avatar width="16px" src={DefaultAvatar} alt="avatar" />
-        <Username>Admin</Username>
-      </UserInfo>
+      <IconWrapper>
+        <UserNameWrapper>
+          <Avatar width="16px" src={DefaultAvatar} alt="avatar" />
+          <UserName>Admin</UserName>
+        </UserNameWrapper>
+        <SvgIcon iconClass="setting" />
+        <SvgIcon iconClass="bell" />
+      </IconWrapper>
     </LayoutHeader>
   );
 }
