@@ -1,18 +1,21 @@
 export default {
-  // baseStyle: {
-  //   b: 'bold',
-  // },
-  sizes: {
-    xl: {
-      h: '56px',
-      fontSize: 'lg',
-      px: '32px',
-    },
+  baseStyle: {
+    borderRadius: '30px',
+    bg: 'gray.800',
+    boxShadow: 'none!important',
   },
   variants: {
-    'with-shadow': {
-      bg: 'red.400',
-      boxShadow: '0 0 2px 2px #efdfde',
+    solid: {
+      bg: 'gray.800',
+      color: 'white',
+
+      _hover: {
+        bg: 'gray.800',
+      },
+
+      _active: {
+        bg: 'gray.800',
+      },
     },
   },
 };

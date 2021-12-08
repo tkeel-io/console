@@ -92,7 +92,7 @@ module.exports = {
         use: getStyleLoaders(),
       },
       {
-        test: /\.(png|jpe?g|gif|svg)$/,
+        test: /\.(png|jpe?g|gif)$/,
         type: 'asset',
         generator: {
           filename: `assets/images/[name].${
@@ -108,6 +108,14 @@ module.exports = {
           filename: `assets/fonts/[name].${
             isEnvProduction ? '[contenthash]' : ''
           }[ext][query]`,
+        },
+      },
+      {
+        test: /\.svg$/,
+        loader: 'svg-sprite-loader',
+        include: path.resolve(paths.cwd.src, 'assets/icons'),
+        options: {
+          symbolId: 'icon-[name]',
         },
       },
     ],
