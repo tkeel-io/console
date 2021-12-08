@@ -1,12 +1,19 @@
+declare module '*.module.css' {
+  const classes: { readonly [key: string]: string };
+  export default classes;
+}
+
 declare module '*.module.scss' {
-  const content: { [key: string]: never };
-  export = content;
+  const classes: { readonly [key: string]: string };
+  export default classes;
 }
 
 declare module '*.svg?svgr' {
   import * as React from 'react';
 
-  const ReactComponent: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+  const ReactComponent: React.FunctionComponent<
+    React.SVGProps<SVGSVGElement> & { title?: string }
+  >;
 
   export default ReactComponent;
 }
@@ -32,6 +39,11 @@ declare module '*.jpeg' {
 }
 
 declare module '*.gif' {
+  const src: string;
+  export default src;
+}
+
+declare module '*.webp' {
   const src: string;
   export default src;
 }
