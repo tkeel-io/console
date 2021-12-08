@@ -14,14 +14,12 @@
     "packages/*"
   ],
   "scripts": {
-    "packages:check": "node ./scripts/check-packages",
-    "plugin:create": "node ./scripts/create-plugin",
-    "build:all": "yarn workspaces foreach run build",
-    "build:components": "yarn workspace @tkeel/console-components run build",
-    "dev:core": "yarn workspace @tkeel/console-core run dev",
-    "build:core": "yarn workspace @tkeel/console-core run build",
-    "dev:plugin-example": "yarn workspace @tkeel/console-plugin-example run dev",
-    "build:plugin-example": "yarn workspace @tkeel/console-plugin-example run build",
+    "dev": "node ./scripts/run/dev",
+    "dev:all": "node ./scripts/run/dev-all",
+    "build": "node ./scripts/run/build",
+    "build:all": "node ./scripts/run/build-all",
+    "create-plugin": "node ./scripts/create-plugin",
+    "check-packages": "node ./scripts/check-packages",
     "lint:format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,hbs,handlebars,css,scss,md}\"",
     "lint:script": "eslint --fix \"**/*.{js,jsx,ts,tsx}\"",
     "lint:typescript": "tsc --noEmit",
@@ -58,6 +56,7 @@
     "chalk": "^4.1.2",
     "clean-webpack-plugin": "^4.0.0",
     "commitizen": "^4.2.4",
+    "concurrently": "^6.4.0",
     "cross-env": "^7.0.3",
     "cspell": "^5.13.1",
     "css-loader": "^6.5.1",
@@ -98,8 +97,10 @@
     "postcss-syntax": "^0.36.2",
     "prettier": "^2.5.0",
     "react-refresh": "^0.11.0",
+    "read-pkg": "^5.2.0",
     "sass": "^1.44.0",
     "sass-loader": "^12.3.0",
+    "shelljs": "^0.8.4",
     "style-loader": "^3.3.1",
     "stylelint": "^14.1.0",
     "stylelint-config-prettier": "^9.0.3",
@@ -120,11 +121,11 @@
     "webpack-dev-server": "^4.6.0",
     "webpack-merge": "^5.8.0",
     "webpack-notifier": "^1.14.1",
-    "webpackbar": "^5.0.2",
     "yargs": "^17.3.0"
   },
-  "packageManager": "yarn@3.1.1",
-  "dependencies": {
-    "@chakra-ui/icons": "^1.1.1"
-  }
+  "engines": {
+    "node": ">=16.0.0",
+    "yarn": ">=3.0.0"
+  },
+  "packageManager": "yarn@3.1.1"
 }

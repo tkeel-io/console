@@ -2,26 +2,31 @@
 
 const { getArgv } = require('./argv');
 const prompt = require('./prompt');
-const { checkName, checkBasePath, checkPort } = require('../utils/packages');
+const { copyTemplates, writeTemplates } = require('./files');
+const {
+  checkPluginName,
+  checkPluginBasePath,
+  checkPluginPort,
+} = require('../utils/packages');
 const logger = require('../utils/logger');
 
-async function cli() {
+(async () => {
   const argv = getArgv();
   const { name } = argv;
 
-  const checkNameRes = checkName({ simpleName: name });
+  const checkNameRes = checkPluginName({ simpleName: name });
   if (!checkNameRes.flag) {
     logger.error(checkNameRes.message);
     return;
   }
 
-  const checkBasePathRes = checkBasePath(argv);
+  const checkBasePathRes = checkPluginBasePath(argv);
   if (!checkBasePathRes.flag) {
     logger.error(checkBasePathRes.message);
     return;
   }
 
-  const checkPortRes = checkPort(argv);
+  const checkPortRes = checkPluginPort(argv);
   if (!checkPortRes.flag) {
     logger.error(checkPortRes.message);
     return;
@@ -30,7 +35,6 @@ async function cli() {
   const answers = await prompt({ argv });
   const options = { ...argv, ...answers };
 
-  console.log(options);
-}
-
-cli();
+  copyTemplates(options);
+  writeTemplates(options);
+})();

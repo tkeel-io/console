@@ -1,5 +1,6 @@
 const path = require('path');
 
+const webpack = require('webpack');
 const dotenvFlow = require('dotenv-flow');
 const dotenvExpand = require('dotenv-expand');
 const DotenvWebpack = require('dotenv-webpack');
@@ -9,8 +10,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const WebpackBar = require('webpackbar');
-const WebpackNotifierPlugin = require('webpack-notifier');
 
 const {
   env,
@@ -140,7 +139,6 @@ module.exports = {
       extensions: ['css', 'scss', 'js', 'jsx', 'ts', 'tsx'],
       fix: true,
     }),
-    new WebpackBar(),
-    new WebpackNotifierPlugin({ emoji: true }),
+    new webpack.ProgressPlugin(),
   ],
 };

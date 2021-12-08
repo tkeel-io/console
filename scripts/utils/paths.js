@@ -1,6 +1,6 @@
 const path = require('path');
 
-const { camelCase } = require('lodash');
+const _ = require('lodash');
 
 const {
   PACKAGE_NAME_PREFIX,
@@ -21,7 +21,7 @@ const commonPackages = () => {
   const obj = {};
 
   COMMON_PACKAGE_SIMPLE_NAMES.forEach((simpleName) => {
-    const key = camelCase(simpleName);
+    const key = _.camelCase(simpleName);
     const name = `${PACKAGE_NAME_PREFIX}${simpleName}`;
     obj[key] = resolvePackages(name);
   });
