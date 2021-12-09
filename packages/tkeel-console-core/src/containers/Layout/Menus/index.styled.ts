@@ -1,4 +1,5 @@
 import {
+  Box,
   Center,
   ColorHues,
   Colors,
@@ -12,7 +13,6 @@ import styled from '@emotion/styled';
 export const LayoutMenus = styled.div`
   width: 250px;
   background-color: #f7fafc;
-  border: 1px solid #eee;
 `;
 
 export const TitleWrapper = styled(Flex)`
@@ -76,6 +76,16 @@ export const MenuLink = styled(Link)`
     ${MenuItem} {
       color: #fff;
     }
+  }
+`;
+
+export const SubMenuTitle = styled(Box)`
+  background-color: ${({ active }) =>
+    active === 'true' ? '#2d3748' : 'transparent'};
+  border-radius: 4px;
+
+  ${MenuItem} {
+    color: ${({ active }) => (active === 'true' ? '#fff' : '#36435C')};
   }
 `;
 
