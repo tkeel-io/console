@@ -15,32 +15,38 @@ type Props = {
 function Routes({ menus }: Props) {
   const apps = menusToApps({ menus });
 
+  const renderApps = () => {
+    if (!(Array.isArray(apps) && apps.length > 0)) {
+      return null;
+    }
+
+    return (
+      <>
+        <Route
+          index
+          element={<div id={apps[0].container.replace(/^#/, '')} />}
+        />
+        {apps.map(({ name, container, activeRule }) => {
+          return (
+            <Route
+              key={name}
+              path={`${activeRule}/*`}
+              element={<div id={container.replace(/^#/, '')} />}
+            />
+          );
+        })}
+      </>
+    );
+  };
+
   return (
     <ReactRouterRoutes>
       <Route path="/auth">
         <Route path="login" element={<Login />} />
       </Route>
-
       <Route path="/" element={<Layout menus={menus} />}>
-        {apps.length > 0 && (
-          <>
-            <Route
-              key={0}
-              index
-              element={<div id={apps[0].container.replace(/^#/, '')} />}
-            />
-            {apps.map(({ name, container, activeRule }) => {
-              return (
-                <Route
-                  key={name}
-                  path={`${activeRule}/*`}
-                  element={<div id={container.replace(/^#/, '')} />}
-                />
-              );
-            })}
-            <Route path="*" element={<PageNotFound />} />
-          </>
-        )}
+        {renderApps()}
+        <Route path="*" element={<PageNotFound />} />
       </Route>
     </ReactRouterRoutes>
   );
