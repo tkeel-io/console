@@ -1,28 +1,30 @@
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 
 // import CollapsedMenus from '@/containers/Layout/CollapsedMenus';
 import Header from '@/containers/Layout/Header';
 import Menus from '@/containers/Layout/Menus';
 
-import { LayoutContent, LayoutWrapper } from './index.styled';
-
 import { IMenu } from '@/mock/types';
 
+import { Content, Main, Wrapper } from './index.styled';
+
 type Props = {
-  children: React.ReactNode;
   menus: IMenu[];
 };
 
-function Layout({ children, menus }: Props) {
+function Layout({ menus }: Props) {
   return (
-    <LayoutWrapper>
+    <Wrapper>
       {/* <CollapsedMenus data={menus} /> */}
       <Menus data={menus} />
-      <LayoutContent>
+      <Main>
         <Header />
-        {children}
-      </LayoutContent>
-    </LayoutWrapper>
+        <Content>
+          <Outlet />
+        </Content>
+      </Main>
+    </Wrapper>
   );
 }
 

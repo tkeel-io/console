@@ -6,70 +6,87 @@ const { isPort } = require('validator');
 const readPkg = require('read-pkg');
 
 const {
-  PACKAGE_NAME_PREFIX,
-  PLUGIN_PACKAGE_NAME_PREFIX,
+  PACKAGE_DIRECTORY_NAME_PREFIX,
+  PLUGIN_PACKAGE_DIRECTORY_NAME_PREFIX,
   SHARED_PACKAGE_SIMPLE_NAMES,
-  COMMON_PACKAGE_SIMPLE_NAMES,
 } = require('../constants');
 const paths = require('./paths');
 
-function getPluginPackageDirName({ simpleName }) {
-  return `${PLUGIN_PACKAGE_NAME_PREFIX}${simpleName}`;
+function getSimpleName({ directoryName }) {
+  return directoryName.replace(PACKAGE_DIRECTORY_NAME_PREFIX, '');
 }
 
-function getPackagesDirNames() {
-  const dirNames = fs.readdirSync(paths.packages.self);
+function getPluginName({ directoryName }) {
+  return directoryName.replace(PLUGIN_PACKAGE_DIRECTORY_NAME_PREFIX, '');
+}
 
-  return dirNames.filter((dirName) => {
-    const absolutePath = paths.resolvePackages(dirName);
+function getPluginPackageDirectoryName({ pluginName }) {
+  return `${PLUGIN_PACKAGE_DIRECTORY_NAME_PREFIX}${pluginName}`;
+}
+
+function getPackages({
+  directoryNames = fs.readdirSync(paths.packages.self),
+} = {}) {
+  const packages = [];
+
+  directoryNames.forEach((directoryName) => {
+    const absolutePath = paths.resolvePackages(directoryName);
     const stat = fs.statSync(absolutePath);
-    return stat.isDirectory();
-  });
-}
+    const isDirectory = stat.isDirectory();
 
-function getPluginPackagesDirNames() {
-  const dirNames = getPackagesDirNames();
+    if (!isDirectory) {
+      return;
+    }
 
-  return dirNames.filter((dirName) => {
-    const simpleName = dirName.replace(PACKAGE_NAME_PREFIX, '');
-
-    return (
-      !COMMON_PACKAGE_SIMPLE_NAMES.includes(simpleName) &&
-      dirName.startsWith(PLUGIN_PACKAGE_NAME_PREFIX)
+    const isPlugin = directoryName.startsWith(
+      PLUGIN_PACKAGE_DIRECTORY_NAME_PREFIX
     );
+    const simpleName = getSimpleName({ directoryName });
+    const pluginName = isPlugin ? getPluginName({ directoryName }) : '';
+    const canRun = !SHARED_PACKAGE_SIMPLE_NAMES.includes(simpleName);
+
+    const packageJson = readPkg.sync({ cwd: absolutePath });
+
+    const dotenvFiles = dotenvFlow
+      .listDotenvFiles(absolutePath, {
+        node_env: 'development',
+      })
+      .filter((path) => fs.existsSync(path));
+    const dotenvConfig = dotenvExpand(dotenvFlow.parse(dotenvFiles));
+
+    packages.push({
+      directoryName,
+      absolutePath,
+      isPlugin,
+      canRun,
+      simpleName,
+      pluginName,
+      packageJson,
+      dotenvConfig,
+    });
   });
+
+  return packages;
 }
 
-function getCanRunPackagesDirNames() {
-  const dirNames = getPackagesDirNames();
-
-  return dirNames.filter((dirName) => {
-    const simpleName = dirName.replace(PACKAGE_NAME_PREFIX, '');
-    return !SHARED_PACKAGE_SIMPLE_NAMES.includes(simpleName);
-  });
+function getCanRunPackageDirectoryNames() {
+  return getPackages()
+    .filter(({ canRun }) => canRun)
+    .map(({ directoryName }) => directoryName);
 }
 
-function readPackages({ paths: pathList }) {
-  const promises = pathList.map((path) =>
-    readPkg({ cwd: path })
-      .then((data) => data)
-      .catch((error) => error)
-  );
-
-  return Promise.all(promises);
+function getPluginPackageDotenvConfigs() {
+  return getPackages()
+    .filter(({ isPlugin }) => isPlugin)
+    .map(({ dotenvConfig }) => dotenvConfig);
 }
 
-async function fetchPackagesNames({ dirNames }) {
-  const pathList = dirNames.map((dirName) => paths.resolvePackages(dirName));
-  const data = await readPackages({ paths: pathList });
-
-  return data.map(({ name }) => name);
-}
-
-function checkPluginName({ simpleName }) {
-  const pluginDirNames = getPluginPackagesDirNames();
-  const dirName = getPluginPackageDirName({ simpleName });
-  const flag = !pluginDirNames.includes(dirName);
+function checkPluginName({ pluginName }) {
+  const directoryNames = getPackages()
+    .filter(({ isPlugin }) => isPlugin)
+    .map(({ directoryName }) => directoryName);
+  const directoryName = getPluginPackageDirectoryName({ pluginName });
+  const flag = !directoryNames.includes(directoryName);
   let message = '';
 
   if (!flag) {
@@ -79,26 +96,10 @@ function checkPluginName({ simpleName }) {
   return { flag, message };
 }
 
-function getPluginPackagesDotenvConfigs() {
-  const dirNames = getPluginPackagesDirNames();
-
-  return dirNames.map((dirName) => {
-    const absolutePath = paths.resolvePackages(dirName);
-    const dotenvFiles = dotenvFlow
-      .listDotenvFiles(absolutePath, {
-        node_env: 'development',
-      })
-      .filter((path) => fs.existsSync(path));
-    const config = dotenvExpand(dotenvFlow.parse(dotenvFiles));
-
-    return dotenvExpand(config);
-  });
-}
-
 function checkPluginBasePath({ basePath }) {
-  const pluginPackagesDotenvConfigs = getPluginPackagesDotenvConfigs();
+  const pluginPackageDotenvConfigs = getPluginPackageDotenvConfigs();
   // eslint-disable-next-line unicorn/prefer-array-some
-  const flag = !_.find(pluginPackagesDotenvConfigs, { BASE_PATH: basePath });
+  const flag = !_.find(pluginPackageDotenvConfigs, { BASE_PATH: basePath });
   let message = '';
 
   if (!flag) {
@@ -109,8 +110,8 @@ function checkPluginBasePath({ basePath }) {
 }
 
 function checkPluginPort({ port }) {
-  const pluginPackagesDotenvConfigs = getPluginPackagesDotenvConfigs();
-  const value = _.find(pluginPackagesDotenvConfigs, { PORT: String(port) });
+  const pluginPackageDotenvConfigs = getPluginPackageDotenvConfigs();
+  const value = _.find(pluginPackageDotenvConfigs, { PORT: String(port) });
 
   let flag = true;
   let message = '';
@@ -129,11 +130,9 @@ function checkPluginPort({ port }) {
 }
 
 module.exports = {
-  getPluginPackageDirName,
-  getPackagesDirNames,
-  getCanRunPackagesDirNames,
-  getPluginPackagesDotenvConfigs,
-  fetchPackagesNames,
+  getPluginPackageDirectoryName,
+  getPackages,
+  getCanRunPackageDirectoryNames,
   checkPluginName,
   checkPluginBasePath,
   checkPluginPort,

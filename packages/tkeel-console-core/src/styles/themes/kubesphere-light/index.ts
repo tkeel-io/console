@@ -1,10 +1,12 @@
 import { extendTheme } from '@chakra-ui/react';
 
-import components from '@/styles/themes/kubesphere-light/components';
-import foundations from '@/styles/themes/kubesphere-light/foundations';
-import styles from '@/styles/themes/kubesphere-light/styles';
+import components from './components';
+import foundations from './foundations';
+import styles from './styles';
 
-const theme = extendTheme({
+import baseExtension from '@/styles/themes/base-extension';
+
+const theme = extendTheme(baseExtension, {
   config: { initialColorMode: 'light' },
   styles,
   components,

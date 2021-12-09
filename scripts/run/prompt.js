@@ -1,24 +1,21 @@
 const inquirer = require('inquirer');
 
-const {
-  PACKAGE_NAME_PREFIX,
-  CORE_PACKAGE_SIMPLE_NAME,
-} = require('../constants');
-const { getCanRunPackagesDirNames } = require('../utils/packages');
+const { getCanRunPackageDirectoryNames } = require('../utils/packages');
 
-async function prompt() {
-  const dirNames = getCanRunPackagesDirNames();
+async function prompt({ defaults = [] } = {}) {
+  const directoryNames = getCanRunPackageDirectoryNames();
+  const message = 'Select packages (directories)';
 
   const questions = [
     {
       type: 'checkbox',
-      name: 'dirNames',
-      message: 'Select package directories',
-      default: [`${PACKAGE_NAME_PREFIX}${CORE_PACKAGE_SIMPLE_NAME}`],
-      choices: dirNames,
+      name: 'directoryNames',
+      message,
+      default: defaults,
+      choices: directoryNames,
       validate(value) {
         if (value.length === 0) {
-          return 'Please select package directories';
+          return `Please ${message}`;
         }
         return true;
       },

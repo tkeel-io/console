@@ -5,14 +5,13 @@ import { Provider } from '@tkeel/console-components';
 import { initGlobalState, MicroAppStateActions } from 'qiankun';
 
 import { THEME } from '@/constants';
-import Layout from '@/containers/Layout';
 import Routes from '@/routes';
-import { init as initQiankun, menusToApps } from '@/utils/qiankun';
-
-import themes from '@/styles/themes';
+import { init as initQiankun } from '@/utils/qiankun';
 
 import { fetchMenus } from '@/mock';
 import { IMenu } from '@/mock/types';
+
+import themes from '@/styles/themes';
 
 function App() {
   const [menus, setMenus] = useState<IMenu[]>([]);
@@ -49,9 +48,7 @@ function App() {
   return (
     <Provider theme={themes[THEME]}>
       <Router>
-        <Layout menus={menus}>
-          {menus.length > 0 && <Routes data={menusToApps({ menus })} />}
-        </Layout>
+        <Routes menus={menus} />
       </Router>
     </Provider>
   );

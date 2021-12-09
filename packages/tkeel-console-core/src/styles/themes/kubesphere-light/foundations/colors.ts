@@ -1,6 +1,3 @@
-const colors = {
-  black: '#000',
-  white: '#fff',
-};
+const colors = {};
 
 export default colors;

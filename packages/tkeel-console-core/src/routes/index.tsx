@@ -1,27 +1,62 @@
 import React from 'react';
-import { Navigate, Route, Routes as ReactRouterRoutes } from 'react-router-dom';
+import { Route, Routes as ReactRouterRoutes } from 'react-router-dom';
+import { Box } from '@tkeel/console-components';
 
-import PageNotFound from '@/components/PageNotFound';
-import { IApp } from '@/utils/qiankun/types';
+import Layout from '@/containers/Layout';
+import Login from '@/pages/Login';
+import PageNotFound from '@/pages/PageNotFound';
+import { menusToApps } from '@/utils/qiankun';
+
+import { IMenu } from '@/mock/types';
+
+function getElementIdByContainer(container: string): string {
+  return container.replace(/^#/, '');
+}
 
 type Props = {
-  data: IApp[];
+  menus: IMenu[];
 };
 
-function Routes({ data }: Props) {
+function Routes({ menus }: Props) {
+  const apps = menusToApps({ menus });
+
+  const renderApps = () => {
+    if (!(Array.isArray(apps) && apps.length > 0)) {
+      return null;
+    }
+
+    const [firstApp] = apps;
+
+    return (
+      <>
+        <Route
+          index
+          element={<Box id={getElementIdByContainer(firstApp?.container)} />}
+        />
+        {apps.map(({ name, container, activeRule }) => {
+          return (
+            <Route
+              key={name}
+              path={`${activeRule}/*`}
+              element={<Box id={getElementIdByContainer(container)} />}
+            />
+          );
+        })}
+      </>
+    );
+  };
+
   return (
     <ReactRouterRoutes>
-      <Route path="/" element={<Navigate replace to={data[0].activeRule} />} />
-      {data.map(({ name, container, activeRule }) => {
-        return (
-          <Route
-            key={name}
-            path={`${activeRule}/*`}
-            element={<div id={container.replace(/^#/, '')} />}
-          />
-        );
-      })}
-      <Route path="*" element={<PageNotFound />} />
+      <Route path="/auth">
+        <Route path="login" element={<Login />} />
+      </Route>
+      <Route path="/" element={<Layout menus={menus} />}>
+        {renderApps()}
+        {Array.isArray(apps) && apps.length > 0 && (
+          <Route path="*" element={<PageNotFound />} />
+        )}
+      </Route>
     </ReactRouterRoutes>
   );
 }

@@ -1,7 +1,8 @@
 import { ReactNode } from 'react';
-import { Colors } from '@chakra-ui/react';
-import { IMenu, IMenuDetail } from '@/mock/types';
 import { Link } from 'react-router-dom';
+import { Colors } from '@chakra-ui/react';
+
+import { IMenu, IMenuDetail } from '@/mock/types';
 
 export type Props = {
   data: IMenu[];

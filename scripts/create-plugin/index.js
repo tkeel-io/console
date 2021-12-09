@@ -14,7 +14,7 @@ const logger = require('../utils/logger');
   const argv = getArgv();
   const { name } = argv;
 
-  const checkNameRes = checkPluginName({ simpleName: name });
+  const checkNameRes = checkPluginName({ pluginName: name });
   if (!checkNameRes.flag) {
     logger.error(checkNameRes.message);
     return;

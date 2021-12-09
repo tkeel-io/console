@@ -6,9 +6,9 @@ const MENUS: IMenu[] = [
     menus: [
       {
         id: 'plugin-example',
-        name: '概览',
+        name: 'example',
         icon: 'summary',
-        path: '/summary',
+        path: '/example',
         entry: 'http://127.0.0.1:3001',
       },
     ],
