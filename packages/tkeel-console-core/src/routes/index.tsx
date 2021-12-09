@@ -4,7 +4,7 @@ import { Box } from '@tkeel/console-components';
 
 import Layout from '@/containers/Layout';
 import Login from '@/pages/Login';
-import PageNotFound from '@/pages/PageNotFound';
+import NotFound from '@/pages/NotFound';
 import { menusToApps } from '@/utils/qiankun';
 
 import { IMenu } from '@/mock/types';
@@ -54,7 +54,7 @@ function Routes({ menus }: Props) {
       <Route path="/" element={<Layout menus={menus} />}>
         {renderApps()}
         {Array.isArray(apps) && apps.length > 0 && (
-          <Route path="*" element={<PageNotFound />} />
+          <Route path="*" element={<NotFound />} />
         )}
       </Route>
     </ReactRouterRoutes>
