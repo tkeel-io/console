@@ -3,7 +3,7 @@ import React from 'react';
 import Header from '@/containers/Layout/Header';
 import Menus from '@/containers/Layout/Menus';
 
-import { LayoutContent, LayoutWrapper } from './index.styled';
+import { LayoutContent, LayoutWrapper, Main } from './index.styled';
 
 import { IMenu } from '@/mock/types';
 
@@ -18,7 +18,7 @@ function Layout({ children, menus }: Props): JSX.Element {
       <Menus data={menus} />
       <LayoutContent>
         <Header />
-        {children}
+        <Main>{children}</Main>
       </LayoutContent>
     </LayoutWrapper>
   );

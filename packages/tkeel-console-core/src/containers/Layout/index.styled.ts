@@ -10,3 +10,7 @@ export const LayoutContent = styled(Flex)`
   flex-direction: column;
   padding: 24px;
 `;
+
+export const Main = styled(Flex)`
+  flex: 1;
+`;

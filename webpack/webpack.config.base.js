@@ -142,15 +142,6 @@ module.exports = {
           }[ext][query]`,
         },
       },
-
-      /* {
-        test: /\.svg$/,
-        loader: 'svg-sprite-loader',
-        include: path.resolve(paths.cwd.src, 'assets/icons'),
-        options: {
-          symbolId: 'icon-[name]',
-        },
-      }, */
     ],
   },
   resolve: {
