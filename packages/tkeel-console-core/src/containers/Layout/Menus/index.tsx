@@ -18,8 +18,6 @@ import {
 // import SearchInput from '@/components/SearchInput';
 import SvgIcon from '@/components/SvgIcon';
 
-import { IMenuDetail } from '@/mock/types';
-
 import {
   CategoryName,
   IconName,
@@ -43,6 +41,8 @@ import {
 } from './types';
 
 import LogoImg from '@/assets/images/logo.png';
+
+import { IMenuDetail } from '@/mock/types';
 
 function useActive(to: string): boolean {
   const resolved = useResolvedPath(to);

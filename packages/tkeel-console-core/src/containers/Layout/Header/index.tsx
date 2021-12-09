@@ -10,8 +10,6 @@ import {
 import SvgIcon from '@/components/SvgIcon';
 import { getTotalMenus } from '@/utils/qiankun';
 
-import { MENUS } from '@/mock/index';
-
 import {
   IconWrapper,
   LayoutHeader,
@@ -20,6 +18,8 @@ import {
 } from './index.styled';
 
 import DefaultAvatar from '@/assets/images/default-avatar.png';
+
+import { MENUS } from '@/mock/index';
 
 function Header() {
   const { pathname } = useLocation();
