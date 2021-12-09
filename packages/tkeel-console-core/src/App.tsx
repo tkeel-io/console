@@ -8,10 +8,10 @@ import { THEME } from '@/constants';
 import Routes from '@/routes';
 import { init as initQiankun } from '@/utils/qiankun';
 
+import themes from '@/styles/themes';
+
 import { fetchMenus } from '@/mock';
 import { IMenu } from '@/mock/types';
-
-import themes from '@/styles/themes';
 
 function App() {
   const [menus, setMenus] = useState<IMenu[]>([]);
