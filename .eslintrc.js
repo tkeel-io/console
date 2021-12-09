@@ -49,6 +49,7 @@ module.exports = {
       },
     ],
     'no-useless-call': 'error',
+    'import/no-duplicates': ['error', { considerQueryString: true }],
     'import/order': [
       'error',
       {
@@ -125,6 +126,7 @@ module.exports = {
               [
                 '^(@/(constants|containers|components|routes|pages|hooks|contexts|api|services|utils))(/.*|$)',
               ],
+              ['^(@/mock)(/.*|$)'],
               ['^\\.', '^\\u0000'],
               [
                 '^(@/styles)(/.*|$)',
