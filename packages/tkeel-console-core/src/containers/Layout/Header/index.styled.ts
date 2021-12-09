@@ -1,5 +1,5 @@
-import { Flex, Text } from '@chakra-ui/react';
 import styled from '@emotion/styled';
+import { Flex, Text } from '@tkeel/console-components';
 
 export const LayoutHeader = styled(Flex)`
   justify-content: space-between;

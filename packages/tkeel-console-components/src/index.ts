@@ -6,6 +6,11 @@ import Heading from './components/Heading';
 import Input from './components/Input';
 import InputGroup from './components/InputGroup';
 import InputLeftElement from './components/InputLeftElement';
+import Flex from './components/Flex';
+import Center from './components/Center';
+import Text from './components/Text';
+import Link from './components/Link';
+import Image from './components/Image';
 import Provider from './components/Provider';
 
 export {
@@ -16,6 +21,11 @@ export {
   Input,
   InputGroup,
   InputLeftElement,
+  Flex,
+  Center,
+  Text,
+  Link,
+  Image,
   Drawer,
   Provider,
 };

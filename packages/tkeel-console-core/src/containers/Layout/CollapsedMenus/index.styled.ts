@@ -1,4 +1,5 @@
-import { Box, Center, ColorHues, Colors, Flex, Link } from '@chakra-ui/react';
+import { ColorHues, Colors } from '@chakra-ui/react';
+import { Box, Center, Flex, Link } from '@tkeel/console-components';
 import styled from '@emotion/styled';
 
 export const LayoutCollapsedMenus = styled(Box)`
