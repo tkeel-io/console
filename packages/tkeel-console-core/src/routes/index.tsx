@@ -39,7 +39,6 @@ function Routes({ menus }: Props) {
               key={name}
               path={`${activeRule}/*`}
               element={<Box id={getElementIdByContainer(container)} />}
-
             />
           );
         })}

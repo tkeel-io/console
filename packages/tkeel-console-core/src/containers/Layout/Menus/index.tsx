@@ -18,6 +18,8 @@ import {
 // import SearchInput from '@/components/SearchInput';
 import SvgIcon from '@/components/SvgIcon';
 
+import { IMenu, IMenuDetail } from '@/mock/types';
+
 import {
   CategoryName,
   IconName,
@@ -32,8 +34,6 @@ import {
 } from './index.styled';
 
 import LogoImg from '@/assets/images/logo.png';
-
-import { IMenu, IMenuDetail } from '@/mock/types';
 
 type Props = {
   data: IMenu[];
