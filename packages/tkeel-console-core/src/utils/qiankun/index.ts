@@ -31,10 +31,10 @@ function menusToApps({ menus }: { menus: IMenu[] }): IApp[] {
   for (const menu of menus) {
     totalMenus = [...totalMenus, ...getMenus(menu.menus)];
   }
-  return totalMenus.map(({ name, path, entry }) => ({
+  return totalMenus.map(({ id, name, path, entry }) => ({
     name,
     entry,
-    container: `#sub-app`,
+    container: `#${id}`,
     activeRule: path,
     props: {
       token,

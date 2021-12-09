@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate, Route, Routes as ReactRouterRoutes } from 'react-router-dom';
 
-import PageNotFound from '@/components/PageNotFound';
+import PageNotFound from '@/pages/PageNotFound';
 import { IApp } from '@/utils/qiankun/types';
 
 type Props = {

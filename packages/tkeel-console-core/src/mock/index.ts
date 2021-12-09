@@ -1,7 +1,7 @@
 import { IMenu } from './types';
 
 const MENUS: IMenu[] = [
-  {
+  /* {
     categoryId: 'default',
     menus: [
       {
@@ -25,27 +25,7 @@ const MENUS: IMenu[] = [
         entry: 'http://127.0.0.1:3002',
       },
     ],
-  },
-  // {
-  //   categoryId: 'dataOrganization',
-  //   categoryName: '数据组织',
-  //   menus: [
-  //     {
-  //       id: 'device-manage',
-  //       name: '设备管理',
-  //       icon: 'house',
-  //       children: [
-  //         {
-  //           id: 'plugin-vue-example',
-  //           name: '添加设备',
-  //           icon: 'house',
-  //           path: '/plugin-vue-example',
-  //           entry: 'http://127.0.0.1:3002',
-  //         },
-  //       ],
-  //     },
-  //   ],
-  // },
+  }, */
 ];
 
 function fetchMenus(): Promise<IMenu[]> {
