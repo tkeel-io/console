@@ -1,6 +1,6 @@
 import React from 'react';
 
-function PageNotFound(): JSX.Element {
+function PageNotFound() {
   return <div>PageNotFound</div>;
 }
 

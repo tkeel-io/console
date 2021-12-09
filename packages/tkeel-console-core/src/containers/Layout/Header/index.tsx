@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -7,6 +8,7 @@ import {
 } from '@chakra-ui/react';
 
 import SvgIcon from '@/components/SvgIcon';
+import { getTotalMenus } from '@/utils/qiankun';
 
 import {
   IconWrapper,
@@ -17,12 +19,23 @@ import {
 
 import DefaultAvatar from '@/assets/images/default-avatar.png';
 
+import { MENUS } from '@/mock/index';
+
 function Header() {
+  const { pathname } = useLocation();
+  const totalMenus = getTotalMenus(MENUS);
+  let name = '';
+  totalMenus.forEach((menu) => {
+    if (pathname.includes(menu.path)) {
+      name = menu.name;
+    }
+  });
+
   return (
     <LayoutHeader>
       <Breadcrumb>
         <BreadcrumbItem>
-          <BreadcrumbLink href="#">插件管理</BreadcrumbLink>
+          <BreadcrumbLink href="#">{name}</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
       <IconWrapper>

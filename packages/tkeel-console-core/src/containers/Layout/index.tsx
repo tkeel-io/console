@@ -1,5 +1,6 @@
 import React from 'react';
 
+// import CollapsedMenus from '@/containers/Layout/CollapsedMenus';
 import Header from '@/containers/Layout/Header';
 import Menus from '@/containers/Layout/Menus';
 
@@ -12,9 +13,10 @@ type Props = {
   menus: IMenu[];
 };
 
-function Layout({ children, menus }: Props): JSX.Element {
+function Layout({ children, menus }: Props) {
   return (
     <LayoutWrapper>
+      {/* <CollapsedMenus data={menus} /> */}
       <Menus data={menus} />
       <LayoutContent>
         <Header />
