@@ -1,27 +1,53 @@
 import React from 'react';
-import { Navigate, Route, Routes as ReactRouterRoutes } from 'react-router-dom';
+import { Route, Routes as ReactRouterRoutes } from 'react-router-dom';
 
+import Layout from '@/containers/Layout';
+import Login from '@/pages/Login';
 import PageNotFound from '@/pages/PageNotFound';
-import { IApp } from '@/utils/qiankun/types';
+import { menusToApps } from '@/utils/qiankun';
+
+import { IMenu } from '@/mock/types';
 
 type Props = {
-  data: IApp[];
+  menus: IMenu[];
 };
 
-function Routes({ data }: Props) {
+function Routes({ menus }: Props) {
+  const apps = menusToApps({ menus });
+
+  const renderApps = () => {
+    if (!(Array.isArray(apps) && apps.length > 0)) {
+      return null;
+    }
+
+    return (
+      <>
+        <Route
+          index
+          element={<div id={apps[0].container.replace(/^#/, '')} />}
+        />
+        {apps.map(({ name, container, activeRule }) => {
+          return (
+            <Route
+              key={name}
+              path={`${activeRule}/*`}
+              element={<div id={container.replace(/^#/, '')} />}
+            />
+          );
+        })}
+      </>
+    );
+  };
+
   return (
     <ReactRouterRoutes>
-      <Route path="/" element={<Navigate replace to={data[0].activeRule} />} />
-      {data.map(({ name, container, activeRule }) => {
-        return (
-          <Route
-            key={name}
-            path={`${activeRule}/*`}
-            element={<div id={container.replace(/^#/, '')} />}
-          />
-        );
-      })}
-      <Route path="*" element={<PageNotFound />} />
+      <Route path="/auth">
+        <Route path="login" element={<Login />} />
+      </Route>
+      <Route path="/" element={<Layout menus={menus} />}>
+        {renderApps()}
+        <Route path="*" element={<PageNotFound />} />
+      </Route>
     </ReactRouterRoutes>
   );
 }
