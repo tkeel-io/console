@@ -2,11 +2,11 @@ import { registerMicroApps, start } from 'qiankun';
 
 import { THEME } from '@/constants';
 
+import { IMenu, IMenuDetail } from '@/mock/types';
+
 import { IApp, IMenuInfo } from './types';
 
 import themes from '@/styles/themes';
-
-import { IMenu, IMenuDetail } from '@/mock/types';
 
 function getMenus(menus: IMenuDetail[]): IMenuInfo[] {
   const menuInfoArr: IMenuInfo[] = [];
@@ -24,13 +24,18 @@ function getMenus(menus: IMenuDetail[]): IMenuInfo[] {
   return menuInfoArr;
 }
 
-function menusToApps({ menus }: { menus: IMenu[] }): IApp[] {
-  const token = '123456';
+function getTotalMenus(menus: IMenu[]): IMenuInfo[] {
   let totalMenus: IMenuInfo[] = [];
   // eslint-disable-next-line no-restricted-syntax
   for (const menu of menus) {
     totalMenus = [...totalMenus, ...getMenus(menu.menus)];
   }
+  return totalMenus;
+}
+
+function menusToApps({ menus }: { menus: IMenu[] }): IApp[] {
+  const token = '123456';
+  const totalMenus: IMenuInfo[] = getTotalMenus(menus);
   return totalMenus.map(({ id, name, path, entry }) => ({
     name,
     entry,
@@ -60,4 +65,4 @@ function init({ menus }: { menus: IMenu[] }): void {
   });
 }
 
-export { menusToApps, register, init };
+export { getTotalMenus, menusToApps, register, init };

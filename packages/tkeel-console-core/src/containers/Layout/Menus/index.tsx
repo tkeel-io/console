@@ -1,7 +1,7 @@
-import React, { ReactNode, useState } from 'react';
+import React, { useState } from 'react';
 import {
-  Link,
   Link as ReactRouterLink,
+  useLocation,
   useMatch,
   useResolvedPath,
 } from 'react-router-dom';
@@ -18,6 +18,8 @@ import {
 // import SearchInput from '@/components/SearchInput';
 import SvgIcon from '@/components/SvgIcon';
 
+import { IMenuDetail } from '@/mock/types';
+
 import {
   CategoryName,
   IconName,
@@ -27,51 +29,75 @@ import {
   MenuItem,
   MenuLink,
   SubMenuLink,
+  SubMenuTitle,
   Title,
   TitleWrapper,
 } from './index.styled';
+import {
+  CustomLinkProps,
+  CustomLinkReturnType,
+  CustomMenuLinkProps,
+  IconNameProps,
+  Props,
+  SubMenuProps,
+} from './types';
 
 import LogoImg from '@/assets/images/logo.png';
 
-import { IMenu, IMenuDetail } from '@/mock/types';
-
-type Props = {
-  data: IMenu[];
-};
-
-type CustomLinkProps = {
-  as: typeof Link;
-  className: string;
-  to: string;
-  colors: Colors;
-};
-
-type CustomMenuLinkProps = {
-  to: string;
-  children: ReactNode | string;
-  colors: Colors;
-};
-
-type SubMenuProps = {
-  subMenus: IMenuDetail[];
-  colors: Colors;
-};
+function useActive(to: string): boolean {
+  const resolved = useResolvedPath(to);
+  const active = useMatch({ path: resolved.pathname, end: false });
+  return !!active;
+}
 
 function useCustomLinkProps({
   to,
   colors,
-}: {
-  to: string;
-  colors: Colors;
-}): CustomLinkProps {
-  const resolved = useResolvedPath(to);
-  const match = useMatch({ path: resolved.pathname, end: false });
+}: CustomLinkProps): CustomLinkReturnType {
+  const active = useActive(to);
   return {
     as: ReactRouterLink,
-    className: match ? 'active' : '',
+    className: active ? 'active' : '',
     to,
     colors,
   };
+}
+
+function IconNameWrapper({ name, icon }: IconNameProps) {
+  return (
+    <IconName>
+      <IconWrapper>
+        <SvgIcon iconClass={icon} />
+      </IconWrapper>
+      {name}
+    </IconName>
+  );
+}
+
+function SubMenuTitleWrapper({
+  id,
+  name,
+  icon,
+  children,
+  handleMenuClick,
+}: IMenuDetail & { handleMenuClick: (id: string) => void }) {
+  const location = useLocation();
+  const active: boolean = (children as IMenuDetail[]).some((item) => {
+    return item.path && location.pathname.includes(item.path);
+  });
+
+  return (
+    <SubMenuTitle
+      active={active.toString()}
+      onClick={() => handleMenuClick(id)}
+    >
+      <MenuItem>
+        <IconNameWrapper name={name} icon={icon} />
+        <SvgIcon iconClass="down" />
+        {/* {spread ? <ChevronUpIcon /> : <ChevronDownIcon />} */}
+      </MenuItem>
+    </SubMenuTitle>
+  );
 }
 
 function CustomMenuLink({ to, children, colors }: CustomMenuLinkProps) {
@@ -82,17 +108,6 @@ function CustomMenuLink({ to, children, colors }: CustomMenuLinkProps) {
 function CustomSubMenuLink({ to, children, colors }: CustomMenuLinkProps) {
   const props = useCustomLinkProps({ to, colors });
   return <SubMenuLink {...props}>{children}</SubMenuLink>;
-}
-
-function IconNameWrapper({ name, icon }: { name: string; icon: string }) {
-  return (
-    <IconName>
-      <IconWrapper>
-        <SvgIcon iconClass={icon} />
-      </IconWrapper>
-      {name}
-    </IconName>
-  );
 }
 
 function SubMenusWrapper({ subMenus, colors }: SubMenuProps) {
@@ -142,16 +157,17 @@ function Menus({ data }: Props) {
                   {categoryName}
                 </CategoryName>
               )}
-              {menus.map(({ id, name, icon, path, children }) => {
+              {menus.map((menu) => {
+                const { id, name, icon, path, children } = menu;
                 const spread = spreadMenuIds.includes(id);
+
                 return (
                   <Menu key={id}>
                     {children ? (
-                      <MenuItem onClick={() => handleMenuClick(id)}>
-                        <IconNameWrapper name={name} icon={icon} />
-                        <SvgIcon iconClass="down" />
-                        {/* {spread ? <ChevronUpIcon /> : <ChevronDownIcon />} */}
-                      </MenuItem>
+                      <SubMenuTitleWrapper
+                        {...menu}
+                        handleMenuClick={handleMenuClick}
+                      />
                     ) : (
                       <CustomMenuLink to={path || ''} colors={colors}>
                         <MenuItem>
