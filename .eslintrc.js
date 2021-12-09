@@ -126,7 +126,6 @@ module.exports = {
               [
                 '^(@/(constants|containers|components|routes|pages|hooks|contexts|api|services|utils))(/.*|$)',
               ],
-              ['^(@/mock)(/.*|$)'],
               ['^\\.', '^\\u0000'],
               [
                 '^(@/styles)(/.*|$)',
@@ -134,6 +133,7 @@ module.exports = {
                 '^.+\\.s?css$',
                 '^(@/assets)(/.*|$)',
               ],
+              ['^(@/mock)(/.*|$)'],
             ],
           },
         ],
