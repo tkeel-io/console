@@ -1,3 +1,4 @@
+import BellIcon from './components/BellIcon';
 import Box from './components/Box';
 import Button from './components/Button';
 import Container from './components/Container';
@@ -14,6 +15,7 @@ export {
   Button,
   Container,
   Heading,
+  BellIcon,
   Icon,
   Input,
   InputGroup,
