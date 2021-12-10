@@ -2,7 +2,7 @@ import { ColorHues, Colors } from '@chakra-ui/react';
 import { Box, Center, Flex, Link } from '@tkeel/console-components';
 import styled from '@emotion/styled';
 
-export const LayoutCollapsedMenus = styled(Box)`
+export const Wrapper = styled(Box)`
   width: 80px;
   background-color: #f7fafc;
 `;

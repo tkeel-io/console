@@ -12,7 +12,7 @@ import { getTotalMenus } from '@/utils/qiankun';
 import { IMenuInfo } from '@/utils/qiankun/types';
 
 import {
-  LayoutCollapsedMenus,
+  Wrapper,
   List,
   MenuIconWrapper,
   MenuLink,
@@ -41,7 +41,7 @@ function CollapsedMenus({ data }: Props) {
   const { colors }: { colors: Colors } = useTheme();
 
   return (
-    <LayoutCollapsedMenus>
+    <Wrapper>
       <TitleWrapper>
         <Logo htmlWidth="27px" src={LogoImg} alt="" />
       </TitleWrapper>
@@ -54,7 +54,7 @@ function CollapsedMenus({ data }: Props) {
           </CustomMenuLink>
         ))}
       </List>
-    </LayoutCollapsedMenus>
+    </Wrapper>
   );
 }
 

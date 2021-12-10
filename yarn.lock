@@ -3286,7 +3286,6 @@ __metadata:
     "@tkeel/console-hooks": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
     framer-motion: ^5.3.3
-<<<<<<< HEAD
     react: ^17.0.2
     react-dom: ^17.0.2
     react-router-dom: ^6.0.2
@@ -3304,8 +3303,6 @@ __metadata:
     "@tkeel/console-hooks": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
     framer-motion: ^5.3.3
-=======
->>>>>>> aba5ef4575e8fc37f49b55a639925019123cc9ab
     react: ^17.0.2
     react-dom: ^17.0.2
     react-router-dom: ^6.0.2

@@ -17,13 +17,10 @@ import {
 // import SearchInput from '@/components/SearchInput';
 import SvgIcon from '@/components/SvgIcon';
 
-import { IMenuDetail } from '@/mock/types';
-
 import {
   CategoryName,
   IconName,
   IconWrapper,
-  LayoutMenus,
   List,
   MenuItem,
   MenuLink,
@@ -31,6 +28,7 @@ import {
   SubMenuTitle,
   Title,
   TitleWrapper,
+  Wrapper,
 } from './index.styled';
 import {
   CustomLinkProps,
@@ -42,6 +40,8 @@ import {
 } from './types';
 
 import LogoImg from '@/assets/images/logo.png';
+
+import { IMenuDetail } from '@/mock/types';
 
 function useActive(to: string): boolean {
   const resolved = useResolvedPath(to);
@@ -138,7 +138,7 @@ function Menus({ data }: Props) {
   };
 
   return (
-    <LayoutMenus>
+    <Wrapper>
       {/* <SearchInput width="300px" />
       <Button>Button</Button> */}
       <TitleWrapper>
@@ -184,7 +184,7 @@ function Menus({ data }: Props) {
           );
         })}
       </List>
-    </LayoutMenus>
+    </Wrapper>
   );
 }
 

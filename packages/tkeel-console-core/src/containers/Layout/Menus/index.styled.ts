@@ -9,7 +9,7 @@ import {
   Text,
 } from '@tkeel/console-components';
 
-export const LayoutMenus = styled(Box)`
+export const Wrapper = styled(Box)`
   width: 250px;
   background-color: #f7fafc;
 `;
