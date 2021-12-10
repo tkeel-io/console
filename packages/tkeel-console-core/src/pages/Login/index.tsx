@@ -1,8 +1,13 @@
 import React from 'react';
-import { Box } from '@tkeel/console-components';
+import { Icon } from '@tkeel/console-components';
 
 function Login(): JSX.Element {
-  return <Box>Login</Box>;
+  return (
+    <div>
+      Login
+      <Icon />
+    </div>
+  );
 }
 
 export default Login;

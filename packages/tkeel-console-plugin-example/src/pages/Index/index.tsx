@@ -1,13 +1,12 @@
 import React from 'react';
-import { Box, Container, Heading } from '@tkeel/console-components';
+
+import { Title, Wrapper } from './index.styled';
 
 function Index(): JSX.Element {
   return (
-    <Container>
-      <Box>
-        <Heading>Index</Heading>
-      </Box>
-    </Container>
+    <Wrapper>
+      <Title>Index</Title>
+    </Wrapper>
   );
 }
 
