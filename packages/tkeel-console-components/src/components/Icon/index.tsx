@@ -1,3 +1,9 @@
-import { Box } from '@chakra-ui/react';
+import React from 'react';
 
-export default Box;
+import Book from '../../assets/icons/book.svg?svgr';
+
+function Icon(): JSX.Element {
+  return <Book />;
+}
+
+export default Icon;
