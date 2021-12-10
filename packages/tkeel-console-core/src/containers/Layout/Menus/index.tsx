@@ -13,8 +13,6 @@ import {
   Image as Logo,
 } from '@tkeel/console-components';
 
-// import { Button } from '@tkeel/console-components';
-// import SearchInput from '@/components/SearchInput';
 import SvgIcon from '@/components/SvgIcon';
 
 import {
@@ -139,8 +137,6 @@ function Menus({ data }: Props) {
 
   return (
     <Wrapper>
-      {/* <SearchInput width="300px" />
-      <Button>Button</Button> */}
       <TitleWrapper>
         <Logo htmlWidth="27px" src={LogoImg} alt="" />
         <Title as="h1" fontSize="18px">
