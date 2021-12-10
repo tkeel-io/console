@@ -50,6 +50,7 @@
     "@svgr/webpack": "^6.1.1",
     "@types/react": "^17.0.37",
     "@types/react-dom": "^17.0.11",
+    "@types/tkeel-console": "workspace:^",
     "@typescript-eslint/eslint-plugin": "^5.6.0",
     "@typescript-eslint/parser": "^5.6.0",
     "babel-loader": "^8.2.3",

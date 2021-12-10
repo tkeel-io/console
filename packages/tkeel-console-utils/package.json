@@ -15,6 +15,7 @@
     "axios": "^0.24.0"
   },
   "devDependencies": {
-    "@types/axios": "^0.14.0"
+    "@types/axios": "^0.14.0",
+    "@types/tkeel-console": "workspace:^"
   }
 }
