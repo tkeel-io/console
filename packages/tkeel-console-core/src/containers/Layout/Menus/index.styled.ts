@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-import { ColorHues, Colors } from '@chakra-ui/react';
->>>>>>> 744a43a5a9d68dafa663bb5dd8cf1dc706496db2
 import styled from '@emotion/styled';
 import {
   Box,

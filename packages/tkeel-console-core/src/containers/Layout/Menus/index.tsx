@@ -5,7 +5,6 @@ import {
   useMatch,
   useResolvedPath,
 } from 'react-router-dom';
-import { Colors, useTheme } from '@chakra-ui/react';
 import {
   Box as Menu,
   Box as MenusWrapper,
