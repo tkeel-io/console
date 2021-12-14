@@ -2,7 +2,13 @@ const PACKAGE_DIRECTORY_NAME_PREFIX = 'tkeel-console-';
 const PLUGIN_PACKAGE_DIRECTORY_NAME_PREFIX = `${PACKAGE_DIRECTORY_NAME_PREFIX}plugin-`;
 
 const CORE_PACKAGE_SIMPLE_NAME = 'core';
-const SHARED_PACKAGE_SIMPLE_NAMES = ['types', 'components', 'hooks', 'utils'];
+const SHARED_PACKAGE_SIMPLE_NAMES = [
+  'types',
+  'components',
+  'icons',
+  'hooks',
+  'utils',
+];
 
 const COMMON_PACKAGE_SIMPLE_NAMES = [
   CORE_PACKAGE_SIMPLE_NAME,
