@@ -1,8 +1,9 @@
+import { ColorHues, Colors } from '@chakra-ui/react';
 import styled from '@emotion/styled';
-import { Colors, ColorHues } from '@chakra-ui/react';
-import Text from '../Text';
-import Flex from '../Flex';
+
 import Box from '../Box';
+import Flex from '../Flex';
+import Text from '../Text';
 
 const getGrayColor = ({ colors }: { colors: Colors }) =>
   (colors.gray as Record<string, Partial<ColorHues>>)[700];
