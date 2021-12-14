@@ -21,6 +21,7 @@
     "@emotion/styled": "^11.6.0",
     "@tkeel/console-components": "workspace:^",
     "@tkeel/console-hooks": "workspace:^",
+    "@tkeel/console-icons": "workspace:^",
     "@tkeel/console-utils": "workspace:^",
     "framer-motion": "^5.3.3",
     "react": "^17.0.2",
