@@ -5,7 +5,6 @@ import {
   useMatch,
   useResolvedPath,
 } from 'react-router-dom';
-import { Colors, useTheme } from '@chakra-ui/react';
 import {
   Box as Menu,
   Box as MenusWrapper,
@@ -29,7 +28,6 @@ import {
   Wrapper,
 } from './index.styled';
 import {
-  CustomLinkProps,
   CustomLinkReturnType,
   CustomMenuLinkProps,
   IconNameProps,
@@ -47,16 +45,12 @@ function useActive(to: string): boolean {
   return !!active;
 }
 
-function useCustomLinkProps({
-  to,
-  colors,
-}: CustomLinkProps): CustomLinkReturnType {
+function useCustomLinkProps(to: string): CustomLinkReturnType {
   const active = useActive(to);
   return {
     as: ReactRouterLink,
     className: active ? 'active' : '',
     to,
-    colors,
   };
 }
 
@@ -97,25 +91,29 @@ function SubMenuTitleWrapper({
   );
 }
 
-function CustomMenuLink({ to, children, colors }: CustomMenuLinkProps) {
-  const props = useCustomLinkProps({ to, colors });
-  return <MenuLink {...props}>{children}</MenuLink>;
+function CustomMenuLink({ to, children }: CustomMenuLinkProps) {
+  const props = useCustomLinkProps(to);
+  return (
+    <MenuLink _hover={{ backgroundColor: 'gray.100' }} {...props}>
+      {children}
+    </MenuLink>
+  );
 }
 
-function CustomSubMenuLink({ to, children, colors }: CustomMenuLinkProps) {
-  const props = useCustomLinkProps({ to, colors });
-  return <SubMenuLink {...props}>{children}</SubMenuLink>;
+function CustomSubMenuLink({ to, children }: CustomMenuLinkProps) {
+  const props = useCustomLinkProps(to);
+  return (
+    <SubMenuLink _active={{ backgroundColor: 'blue.400' }} {...props}>
+      {children}
+    </SubMenuLink>
+  );
 }
 
-function SubMenusWrapper({ subMenus, colors }: SubMenuProps) {
+function SubMenusWrapper({ subMenus }: SubMenuProps) {
   return (
     <SubMenus>
       {subMenus.map((subMenu) => (
-        <CustomSubMenuLink
-          key={subMenu.id}
-          to={subMenu.path || ''}
-          colors={colors}
-        >
+        <CustomSubMenuLink key={subMenu.id} to={subMenu.path || ''}>
           {subMenu.name}
         </CustomSubMenuLink>
       ))}
@@ -125,7 +123,6 @@ function SubMenusWrapper({ subMenus, colors }: SubMenuProps) {
 
 function Menus({ data }: Props) {
   const [spreadMenuIds, setSpreadMenus] = useState<string[]>([]);
-  const { colors }: { colors: Colors } = useTheme();
 
   const handleMenuClick = (id: string) => {
     if (spreadMenuIds.includes(id)) {
@@ -164,14 +161,14 @@ function Menus({ data }: Props) {
                         handleMenuClick={handleMenuClick}
                       />
                     ) : (
-                      <CustomMenuLink to={path || ''} colors={colors}>
+                      <CustomMenuLink to={path || ''}>
                         <MenuItem>
                           <IconNameWrapper name={name} icon={icon} />
                         </MenuItem>
                       </CustomMenuLink>
                     )}
                     {children && spread && (
-                      <SubMenusWrapper subMenus={children} colors={colors} />
+                      <SubMenusWrapper subMenus={children} />
                     )}
                   </Menu>
                 );

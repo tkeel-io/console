@@ -1,4 +1,3 @@
-import { ColorHues, Colors } from '@chakra-ui/react';
 import { Box, Center, Flex, Link } from '@tkeel/console-components';
 import styled from '@emotion/styled';
 
@@ -20,11 +19,6 @@ export const List = styled(Flex)`
 export const MenuLink = styled(Link)`
   margin-top: 10px;
   border-radius: 4px;
-
-  &:hover {
-    background-color: ${({ colors }: { colors: Colors }) =>
-      (colors.gray as Record<string, Partial<ColorHues>>)[100]};
-  }
 
   &.active {
     background-color: #242e42;

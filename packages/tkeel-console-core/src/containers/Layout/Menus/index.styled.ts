@@ -1,4 +1,3 @@
-import { ColorHues, Colors } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import {
   Box,
@@ -62,11 +61,6 @@ export const MenuLink = styled(Link)`
   border-radius: 4px;
   box-shadow: none !important;
 
-  &:hover {
-    background-color: ${({ colors }: { colors: Colors }) =>
-      (colors.gray as Record<string, Partial<ColorHues>>)[100]};
-  }
-
   &.active {
     background-color: #2d3748;
     box-shadow: 0 20px 25px -5px rgb(113 128 150 / 10%),
@@ -94,9 +88,4 @@ export const SubMenuLink = styled(Link)`
   height: 44px;
   padding-left: 64px;
   box-shadow: none !important;
-
-  &.active {
-    color: ${({ colors }: { colors: Colors }) =>
-      (colors.blue as Record<string, Partial<ColorHues>>)[400]};
-  }
 `;

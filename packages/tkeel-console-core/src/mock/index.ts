@@ -1,30 +1,30 @@
 import { IMenu } from './types';
 
 const MENUS: IMenu[] = [
-  {
-    categoryId: 'default',
-    menus: [
-      {
-        id: 'plugin-example',
-        name: 'example',
-        icon: 'summary',
-        path: '/example',
-        entry: 'http://127.0.0.1:3001',
-      },
-    ],
-  },
   // {
   //   categoryId: 'default',
   //   menus: [
   //     {
-  //       id: 'plugin-plugins',
-  //       name: 'plugins',
+  //       id: 'plugin-example',
+  //       name: 'example',
   //       icon: 'summary',
-  //       path: '/plugins',
-  //       entry: 'http://127.0.0.1:3002',
+  //       path: '/example',
+  //       entry: 'http://127.0.0.1:3001',
   //     },
   //   ],
   // },
+  {
+    categoryId: 'default',
+    menus: [
+      {
+        id: 'plugin-plugins',
+        name: 'plugins',
+        icon: 'summary',
+        path: '/plugins',
+        entry: 'http://127.0.0.1:3002',
+      },
+    ],
+  },
   // {
   //   categoryId: 'dataOrganization',
   //   categoryName: '数据组织',

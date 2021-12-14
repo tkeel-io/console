@@ -1,13 +1,11 @@
 import React from 'react';
-import { Colors, useTheme } from '@chakra-ui/react';
-import { PageHeader, SearchInput } from '@tkeel/console-components';
+import { Box, Flex, PageHeader, SearchInput } from '@tkeel/console-components';
 
 import {
   BaseInfo,
   Card,
   CardBottom,
   Category,
-  Content,
   Desc,
   IconNameWrapper,
   InstallButton,
@@ -18,12 +16,9 @@ import {
   Num,
   PluginNum,
   Tabs,
-  Wrapper,
 } from './index.styled';
 
 function Index(): JSX.Element {
-  const { colors }: { colors: Colors } = useTheme();
-
   const pluginNum = [
     {
       name: '插件数量',
@@ -40,36 +35,41 @@ function Index(): JSX.Element {
   ];
 
   return (
-    <Wrapper>
+    <Flex flexDir="column" h="100%">
       <PageHeader name="插件管理" desc="一段描述文字" />
       <Tabs />
-      <Content colors={colors}>
+      <Box
+        mt="20px"
+        flex={1}
+        padding="17px 24px 24px"
+        rounded={4}
+        backgroundColor="white"
+      >
         <ListTitle>
           <PluginNum>
             {pluginNum.map((item) => (
               <Item key={item.name}>
-                <Category colors={colors}>{item.name}</Category>
-                <Num colors={colors}>{item.num}</Num>
+                <Category color="gray.700">{item.name}</Category>
+                <Num color="gray.500">{item.num}</Num>
               </Item>
             ))}
           </PluginNum>
           <SearchInput />
         </ListTitle>
-
         <ListContent>
-          <Card>
+          <Card backgroundColor="white" borderColor="gray.200">
             <BaseInfo>
               <IconNameWrapper>
-                <Name colors={colors}>device</Name>
+                <Name color="black">device</Name>
               </IconNameWrapper>
               <InstallButton installed="true">已安装</InstallButton>
             </BaseInfo>
-            <Desc>安装用于管理设备的插件</Desc>
+            <Desc color="gray.500">安装用于管理设备的插件</Desc>
             <CardBottom />
           </Card>
         </ListContent>
-      </Content>
-    </Wrapper>
+      </Box>
+    </Flex>
   );
 }
 

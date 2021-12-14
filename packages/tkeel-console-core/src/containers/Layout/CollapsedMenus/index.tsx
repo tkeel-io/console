@@ -4,7 +4,7 @@ import {
   useMatch,
   useResolvedPath,
 } from 'react-router-dom';
-import { Colors, Image as Logo, useTheme } from '@chakra-ui/react';
+import { Image as Logo } from '@chakra-ui/react';
 
 import SvgIcon from '@/components/SvgIcon';
 import { CustomMenuLinkProps, Props } from '@/containers/Layout/Menus/types';
@@ -21,14 +21,14 @@ import {
 
 import LogoImg from '@/assets/images/logo.png';
 
-function CustomMenuLink({ to, children, colors }: CustomMenuLinkProps) {
+function CustomMenuLink({ to, children }: CustomMenuLinkProps) {
   const resolved = useResolvedPath(to);
   const match = useMatch({ path: resolved.pathname, end: false });
   return (
     <MenuLink
+      _hover={{ backgroundColor: 'gray.100' }}
       as={ReactRouterLink}
       className={match ? 'active' : ''}
-      colors={colors}
       to={to}
     >
       {children}
@@ -38,7 +38,6 @@ function CustomMenuLink({ to, children, colors }: CustomMenuLinkProps) {
 
 function CollapsedMenus({ data }: Props) {
   const menus: IMenuInfo[] = getTotalMenus(data);
-  const { colors }: { colors: Colors } = useTheme();
 
   return (
     <Wrapper>
@@ -47,7 +46,7 @@ function CollapsedMenus({ data }: Props) {
       </TitleWrapper>
       <List>
         {menus.map(({ id, icon, path }) => (
-          <CustomMenuLink key={id} to={path} colors={colors}>
+          <CustomMenuLink key={id} to={path}>
             <MenuIconWrapper key={id}>
               <SvgIcon iconClass={icon} />
             </MenuIconWrapper>
