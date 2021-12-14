@@ -5,10 +5,10 @@ const MENUS: IMenu[] = [
     categoryId: 'default',
     menus: [
       {
-        id: 'plugin-example',
-        name: 'example',
+        id: 'plugin-users',
+        name: '租户管理',
         icon: 'summary',
-        path: '/example',
+        path: '/users',
         entry: 'http://127.0.0.1:3001',
       },
     ],
@@ -18,7 +18,7 @@ const MENUS: IMenu[] = [
     menus: [
       {
         id: 'plugin-plugins',
-        name: 'plugins',
+        name: '插件管理',
         icon: 'summary',
         path: '/plugins',
         entry: 'http://127.0.0.1:3002',

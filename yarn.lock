@@ -3297,9 +3297,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tkeel/console-plugin-example@workspace:packages/tkeel-console-plugin-example":
+"@tkeel/console-plugin-plugins@workspace:packages/tkeel-console-plugin-plugins":
   version: 0.0.0-use.local
-  resolution: "@tkeel/console-plugin-example@workspace:packages/tkeel-console-plugin-example"
+  resolution: "@tkeel/console-plugin-plugins@workspace:packages/tkeel-console-plugin-plugins"
   dependencies:
     "@chakra-ui/react": ^1.7.2
     "@emotion/react": ^11.7.0
@@ -3316,9 +3316,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tkeel/console-plugin-plugins@workspace:packages/tkeel-console-plugin-plugins":
+"@tkeel/console-plugin-users@workspace:packages/tkeel-console-plugin-users":
   version: 0.0.0-use.local
-  resolution: "@tkeel/console-plugin-plugins@workspace:packages/tkeel-console-plugin-plugins"
+  resolution: "@tkeel/console-plugin-users@workspace:packages/tkeel-console-plugin-users"
   dependencies:
     "@chakra-ui/react": ^1.7.2
     "@emotion/react": ^11.7.0
@@ -3362,7 +3362,6 @@ __metadata:
     "@pmmmwh/react-refresh-webpack-plugin": ^0.5.3
     "@stylelint/postcss-css-in-js": ^0.37.2
     "@svgr/webpack": ^6.1.1
-    "@tkeel/console-icons": "workspace:^"
     "@types/react": ^17.0.37
     "@types/react-dom": ^17.0.11
     "@types/tkeel-console": "workspace:^"

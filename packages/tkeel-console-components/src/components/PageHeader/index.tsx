@@ -1,12 +1,13 @@
 import React from 'react';
+import { Colors, useTheme } from '@chakra-ui/react';
+
 import {
-  Wrapper,
-  IconWrapper,
-  TitleWrapper,
-  Title,
   Desc,
+  IconWrapper,
+  Title,
+  TitleWrapper,
+  Wrapper,
 } from './index.styled';
-import { useTheme, Colors } from '@chakra-ui/react';
 
 type Props = {
   name: string;

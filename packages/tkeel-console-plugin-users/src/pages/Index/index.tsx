@@ -4,7 +4,7 @@ import { Box, Heading } from '@tkeel/console-components';
 function Index(): JSX.Element {
   return (
     <Box>
-      <Heading>Index</Heading>
+      <Heading>租户管理</Heading>
     </Box>
   );
 }

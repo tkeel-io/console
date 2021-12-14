@@ -128,8 +128,5 @@
     "node": ">=16.0.0",
     "yarn": ">=3.0.0"
   },
-  "packageManager": "yarn@3.1.1",
-  "dependencies": {
-    "@tkeel/console-icons": "workspace:^"
-  }
+  "packageManager": "yarn@3.1.1"
 }
