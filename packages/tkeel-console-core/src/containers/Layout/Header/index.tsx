@@ -12,9 +12,9 @@ import { getTotalMenus } from '@/utils/qiankun';
 
 import {
   IconWrapper,
-  LayoutHeader,
   UserName,
   UserNameWrapper,
+  Wrapper,
 } from './index.styled';
 
 import DefaultAvatar from '@/assets/images/default-avatar.png';
@@ -32,7 +32,7 @@ function Header() {
   });
 
   return (
-    <LayoutHeader>
+    <Wrapper>
       <Breadcrumb>
         <BreadcrumbItem>
           <BreadcrumbLink href="#">{name}</BreadcrumbLink>
@@ -46,7 +46,7 @@ function Header() {
         <SvgIcon iconClass="setting" />
         <SvgIcon iconClass="bell" />
       </IconWrapper>
-    </LayoutHeader>
+    </Wrapper>
   );
 }
 
