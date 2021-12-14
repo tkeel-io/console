@@ -9,5 +9,11 @@ export default {
     'ol, li': {
       listStyle: 'none',
     },
+
+    a: {
+      _hover: {
+        textDecoration: 'none!important',
+      },
+    },
   },
 };

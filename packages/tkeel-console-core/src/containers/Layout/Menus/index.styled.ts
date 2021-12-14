@@ -1,16 +1,15 @@
+import { ColorHues, Colors } from '@chakra-ui/react';
+import styled from '@emotion/styled';
 import {
   Box,
   Center,
-  ColorHues,
-  Colors,
   Flex,
   Heading,
   Link,
   Text,
-} from '@chakra-ui/react';
-import styled from '@emotion/styled';
+} from '@tkeel/console-components';
 
-export const LayoutMenus = styled.div`
+export const Wrapper = styled(Box)`
   width: 250px;
   background-color: #f7fafc;
 `;
@@ -27,7 +26,7 @@ export const Title = styled(Heading)`
   color: #2d3748;
 `;
 
-export const List = styled.div`
+export const List = styled(Box)`
   padding: 24px;
 `;
 

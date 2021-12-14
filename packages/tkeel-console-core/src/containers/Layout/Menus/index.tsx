@@ -5,24 +5,20 @@ import {
   useMatch,
   useResolvedPath,
 } from 'react-router-dom';
+import { Colors, useTheme } from '@chakra-ui/react';
 import {
   Box as Menu,
   Box as MenusWrapper,
   Box as SubMenus,
-  Colors,
   Image as Logo,
-  useTheme,
-} from '@chakra-ui/react';
+} from '@tkeel/console-components';
 
-// import { Button } from '@tkeel/console-components';
-// import SearchInput from '@/components/SearchInput';
 import SvgIcon from '@/components/SvgIcon';
 
 import {
   CategoryName,
   IconName,
   IconWrapper,
-  LayoutMenus,
   List,
   MenuItem,
   MenuLink,
@@ -30,6 +26,7 @@ import {
   SubMenuTitle,
   Title,
   TitleWrapper,
+  Wrapper,
 } from './index.styled';
 import {
   CustomLinkProps,
@@ -139,9 +136,7 @@ function Menus({ data }: Props) {
   };
 
   return (
-    <LayoutMenus>
-      {/* <SearchInput width="300px" />
-      <Button>Button</Button> */}
+    <Wrapper>
       <TitleWrapper>
         <Logo htmlWidth="27px" src={LogoImg} alt="" />
         <Title as="h1" fontSize="18px">
@@ -185,7 +180,7 @@ function Menus({ data }: Props) {
           );
         })}
       </List>
-    </LayoutMenus>
+    </Wrapper>
   );
 }
 

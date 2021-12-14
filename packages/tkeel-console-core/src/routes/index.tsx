@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Routes as ReactRouterRoutes } from 'react-router-dom';
-import { Box } from '@tkeel/console-components';
+import { Box } from '@chakra-ui/react';
 
 import Layout from '@/containers/Layout';
 import Login from '@/pages/Login';
@@ -31,14 +31,16 @@ function Routes({ menus }: Props) {
       <>
         <Route
           index
-          element={<Box id={getElementIdByContainer(firstApp?.container)} />}
+          element={
+            <Box w="100%" id={getElementIdByContainer(firstApp?.container)} />
+          }
         />
         {apps.map(({ name, container, activeRule }) => {
           return (
             <Route
               key={name}
               path={`${activeRule}/*`}
-              element={<Box id={getElementIdByContainer(container)} />}
+              element={<Box w="100%" id={getElementIdByContainer(container)} />}
             />
           );
         })}
