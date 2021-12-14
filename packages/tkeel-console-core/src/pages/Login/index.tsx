@@ -1,5 +1,5 @@
 import React from 'react';
-import { BellIcon } from '@tkeel/console-components';
+import { BellIcon } from '@tkeel/console-icons';
 
 function Login(): JSX.Element {
   return (
