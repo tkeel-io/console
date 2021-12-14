@@ -118,6 +118,10 @@ module.exports = {
                   },
                   titleProp: true,
                   ref: true,
+                  replaceAttrValues: {
+                    '#324558': '',
+                    '#B6C2CD': 'currentColor',
+                  },
                 },
               },
             ],
