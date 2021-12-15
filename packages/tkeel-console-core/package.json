@@ -22,6 +22,7 @@
     "@tkeel/console-components": "workspace:^",
     "@tkeel/console-hooks": "workspace:^",
     "@tkeel/console-icons": "workspace:^",
+    "@tkeel/console-themes": "workspace:^",
     "@tkeel/console-utils": "workspace:^",
     "framer-motion": "^5.4.4",
     "qiankun": "^2.6.2",

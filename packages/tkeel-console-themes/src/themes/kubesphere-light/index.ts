@@ -1,10 +1,9 @@
 import { extendTheme } from '@chakra-ui/react';
 
+import baseExtension from '../base-extension';
 import components from './components';
 import foundations from './foundations';
 import styles from './styles';
-
-import baseExtension from '@/styles/themes/base-extension';
 
 const theme = extendTheme(baseExtension, {
   config: { initialColorMode: 'light' },
