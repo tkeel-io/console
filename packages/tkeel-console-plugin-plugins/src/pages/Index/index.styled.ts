@@ -1,22 +1,9 @@
 import styled from '@emotion/styled';
-import { Box, Center, Flex, Text } from '@tkeel/console-components';
+import { Center, Flex, Text } from '@tkeel/console-components';
 
 type InstallButtonProps = {
   installed: string;
 };
-
-export const Tabs = styled(Box)`
-  width: 380px;
-  height: 32px;
-  background: #f9fbfd;
-  border: 1px solid #c1c9d1;
-  border-radius: 16px;
-`;
-
-export const ListTitle = styled(Flex)`
-  align-items: center;
-  justify-content: space-between;
-`;
 
 export const PluginNum = styled(Flex)`
   align-items: center;

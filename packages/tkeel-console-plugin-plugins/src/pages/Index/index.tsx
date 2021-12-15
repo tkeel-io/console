@@ -11,11 +11,9 @@ import {
   InstallButton,
   Item,
   ListContent,
-  ListTitle,
   Name,
   Num,
   PluginNum,
-  Tabs,
 } from './index.styled';
 
 function Index(): JSX.Element {
@@ -35,9 +33,15 @@ function Index(): JSX.Element {
   ];
 
   return (
-    <Flex flexDir="column" h="100%">
+    <Flex flexDir="column" height="100%">
       <PageHeader name="插件管理" desc="一段描述文字" />
-      <Tabs />
+      <Box
+        width="380px"
+        height="32px"
+        backgroundColor="#f9fbfd"
+        border="1px solid #c1c9d1"
+        rounded="16px"
+      />
       <Box
         mt="20px"
         flex={1}
@@ -45,7 +49,7 @@ function Index(): JSX.Element {
         rounded={4}
         backgroundColor="white"
       >
-        <ListTitle>
+        <Flex alignItems="center" justifyContent="space-between">
           <PluginNum>
             {pluginNum.map((item) => (
               <Item key={item.name}>
@@ -55,7 +59,7 @@ function Index(): JSX.Element {
             ))}
           </PluginNum>
           <SearchInput />
-        </ListTitle>
+        </Flex>
         <ListContent>
           <Card backgroundColor="white" borderColor="gray.200">
             <BaseInfo>
