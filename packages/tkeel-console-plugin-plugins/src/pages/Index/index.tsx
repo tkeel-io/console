@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box, Flex, PageHeader, SearchInput } from '@tkeel/console-components';
+import { Box, Flex } from '@chakra-ui/react';
+import { PageHeader, SearchInput } from '@tkeel/console-components';
 
 import {
   BaseInfo,

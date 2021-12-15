@@ -16,10 +16,10 @@ type Props = {
 function Layout({ menus }: Props) {
   return (
     <Wrapper>
-      {/* <CollapsedMenus data={menus} /> */}
-      <Menus data={menus} />
+      {/* <CollapsedMenus menus={menus} /> */}
+      <Menus menus={menus} />
       <Main>
-        <Header />
+        <Header menus={menus} />
         <Content>
           <Outlet />
         </Content>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from '@tkeel/console-components';
+import { Box } from '@chakra-ui/react';
 
 function PageNotFound() {
   return <Box>PageNotFound</Box>;

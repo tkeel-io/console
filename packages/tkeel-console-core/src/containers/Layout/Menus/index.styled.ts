@@ -81,4 +81,8 @@ export const SubMenuLink = styled(Link)`
   height: 44px;
   padding-left: 64px;
   box-shadow: none !important;
+
+  &.active {
+    color: #4299e1;
+  }
 `;

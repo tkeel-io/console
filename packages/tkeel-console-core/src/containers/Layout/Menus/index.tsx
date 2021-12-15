@@ -9,9 +9,7 @@ import {
   Box as Menu,
   Box as MenusWrapper,
   Box as SubMenus,
-  Colors,
   Image as Logo,
-  useTheme,
 } from '@chakra-ui/react';
 
 import SvgIcon from '@/components/SvgIcon';
@@ -123,7 +121,7 @@ function SubMenusWrapper({ subMenus }: SubMenuProps) {
   );
 }
 
-function Menus({ data }: Props) {
+function Menus({ menus: menusData }: Props) {
   const [spreadMenuIds, setSpreadMenus] = useState<string[]>([]);
 
   const handleMenuClick = (id: string) => {
@@ -143,7 +141,7 @@ function Menus({ data }: Props) {
         </Title>
       </TitleWrapper>
       <List>
-        {data.map(({ categoryId, categoryName, menus }) => {
+        {menusData.map(({ categoryId, categoryName, menus }) => {
           return (
             <MenusWrapper key={categoryId}>
               {categoryId !== 'default' && (

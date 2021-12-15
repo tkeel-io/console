@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { IMenu, IMenuDetail } from '@/mock/types';
 
 export type Props = {
-  data: IMenu[];
+  menus: IMenu[];
 };
 
 export type CustomLinkReturnType = {

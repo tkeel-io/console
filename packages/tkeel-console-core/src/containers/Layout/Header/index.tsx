@@ -19,11 +19,11 @@ import {
 
 import DefaultAvatar from '@/assets/images/default-avatar.png';
 
-import { MENUS } from '@/mock/index';
+import { IMenu } from '@/mock/types';
 
-function Header() {
+function Header({ menus }: { menus: IMenu[] }) {
   const { pathname } = useLocation();
-  const totalMenus = getTotalMenus(MENUS);
+  const totalMenus = getTotalMenus(menus);
   let name = '';
   totalMenus.forEach((menu) => {
     if (pathname.includes(menu.path)) {

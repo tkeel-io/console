@@ -12,11 +12,11 @@ import { getTotalMenus } from '@/utils/qiankun';
 import { IMenuInfo } from '@/utils/qiankun/types';
 
 import {
-  Wrapper,
   List,
   MenuIconWrapper,
   MenuLink,
   TitleWrapper,
+  Wrapper,
 } from './index.styled';
 
 import LogoImg from '@/assets/images/logo.png';
@@ -36,8 +36,8 @@ function CustomMenuLink({ to, children }: CustomMenuLinkProps) {
   );
 }
 
-function CollapsedMenus({ data }: Props) {
-  const menus: IMenuInfo[] = getTotalMenus(data);
+function CollapsedMenus({ menus: menusData }: Props) {
+  const menus: IMenuInfo[] = getTotalMenus(menusData);
 
   return (
     <Wrapper>
