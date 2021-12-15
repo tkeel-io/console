@@ -1,8 +1,5 @@
 import React from 'react';
-
-import Input from '../Input';
-import InputGroup from '../InputGroup';
-import InputLeftElement from '../InputLeftElement';
+import { Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
 
 type Props = {
   width?: string;

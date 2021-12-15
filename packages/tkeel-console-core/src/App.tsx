@@ -2,13 +2,12 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
+import themes from '@tkeel/console-themes';
 import { initGlobalState, MicroAppStateActions } from 'qiankun';
 
 import { THEME } from '@/constants';
 import Routes from '@/routes';
 import { init as initQiankun } from '@/utils/qiankun';
-
-import themes from '@/styles/themes';
 
 import { fetchMenus } from '@/mock';
 import { IMenu } from '@/mock/types';
