@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Heading } from '@tkeel/console-components';
+import { Box, Heading } from '@chakra-ui/react';
 
 function Index(): JSX.Element {
   return (

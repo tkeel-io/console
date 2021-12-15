@@ -1,1 +1,1 @@
-# tkeel-console-hooks
+# @tkeel/console-hooks
