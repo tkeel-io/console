@@ -1,13 +1,14 @@
-import { ColorHues, Colors } from '@chakra-ui/react';
-import styled from '@emotion/styled';
 import {
   Box,
   Center,
+  ColorHues,
+  Colors,
   Flex,
   Heading,
   Link,
   Text,
-} from '@tkeel/console-components';
+} from '@chakra-ui/react';
+import styled from '@emotion/styled';
 
 export const Wrapper = styled(Box)`
   width: 250px;

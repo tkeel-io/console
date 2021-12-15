@@ -1,5 +1,5 @@
+import { Flex } from '@chakra-ui/react';
 import styled from '@emotion/styled';
-import { Flex } from '@tkeel/console-components';
 
 export const Wrapper = styled(Flex)`
   height: 100%;

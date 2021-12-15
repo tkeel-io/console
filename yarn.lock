@@ -3241,6 +3241,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tkeel/console-business-components@workspace:packages/tkeel-console-business-components":
+  version: 0.0.0-use.local
+  resolution: "@tkeel/console-business-components@workspace:packages/tkeel-console-business-components"
+  dependencies:
+    "@types/tkeel-console": "workspace:^"
+  peerDependencies:
+    "@chakra-ui/react": ^1.7.2
+    "@emotion/react": ^11.7.0
+    "@emotion/styled": ^11.6.0
+    framer-motion: ^5.3.3
+    react: ^17.0.2
+    react-dom: ^17.0.2
+  languageName: unknown
+  linkType: soft
+
 "@tkeel/console-components@workspace:^, @tkeel/console-components@workspace:packages/tkeel-console-components":
   version: 0.0.0-use.local
   resolution: "@tkeel/console-components@workspace:packages/tkeel-console-components"
@@ -3250,7 +3265,6 @@ __metadata:
     "@chakra-ui/react": ^1.7.2
     "@emotion/react": ^11.7.0
     "@emotion/styled": ^11.6.0
-    "@tkeel/console-icons": "workspace:^"
     framer-motion: ^5.3.3
     react: ^17.0.2
     react-dom: ^17.0.2
@@ -3310,9 +3324,7 @@ __metadata:
     "@chakra-ui/react": ^1.7.2
     "@emotion/react": ^11.7.0
     "@emotion/styled": ^11.6.0
-    "@tkeel/console-components": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
-    "@tkeel/console-icons": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
     "@types/tkeel-console": "workspace:^"
     framer-motion: ^5.3.3
@@ -3329,9 +3341,7 @@ __metadata:
     "@chakra-ui/react": ^1.7.2
     "@emotion/react": ^11.7.0
     "@emotion/styled": ^11.6.0
-    "@tkeel/console-components": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
-    "@tkeel/console-icons": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
     "@types/tkeel-console": "workspace:^"
     framer-motion: ^5.3.3

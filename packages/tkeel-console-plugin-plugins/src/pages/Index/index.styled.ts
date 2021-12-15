@@ -1,7 +1,6 @@
 /* eslint-disable import/prefer-default-export */
-import { ColorHues, Colors } from '@chakra-ui/react';
+import { Box, Center, ColorHues, Colors, Flex, Text } from '@chakra-ui/react';
 import styled from '@emotion/styled';
-import { Box, Center, Flex, Text } from '@tkeel/console-components';
 
 type InstallButtonProps = {
   installed: string;
