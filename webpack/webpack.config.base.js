@@ -73,9 +73,10 @@ module.exports = {
         test: /\.(js|jsx|ts|tsx)$/,
         include: [
           paths.cwd.src,
-          paths.packages.components,
-          paths.packages.hooks,
-          paths.packages.utils,
+          ...(() => {
+            const { self, ...rest } = paths.packages;
+            return Object.keys(rest).map((key) => rest[key]);
+          })(),
         ],
         exclude: paths.root.nodeModules,
         loader: 'babel-loader',
