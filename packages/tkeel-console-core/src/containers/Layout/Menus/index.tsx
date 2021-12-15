@@ -9,8 +9,10 @@ import {
   Box as Menu,
   Box as MenusWrapper,
   Box as SubMenus,
+  Colors,
   Image as Logo,
-} from '@tkeel/console-components';
+  useTheme,
+} from '@chakra-ui/react';
 
 import SvgIcon from '@/components/SvgIcon';
 

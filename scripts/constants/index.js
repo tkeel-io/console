@@ -3,10 +3,12 @@ const PLUGIN_PACKAGE_DIRECTORY_NAME_PREFIX = `${PACKAGE_DIRECTORY_NAME_PREFIX}pl
 
 const CORE_PACKAGE_SIMPLE_NAME = 'core';
 const SHARED_PACKAGE_SIMPLE_NAMES = [
-  'types',
+  'business-components',
   'components',
-  'icons',
   'hooks',
+  'icons',
+  'themes',
+  'types',
   'utils',
 ];
 

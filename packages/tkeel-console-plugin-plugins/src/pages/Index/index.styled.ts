@@ -1,5 +1,5 @@
+import { Center, Flex, Text } from '@chakra-ui/react';
 import styled from '@emotion/styled';
-import { Center, Flex, Text } from '@tkeel/console-components';
 
 type InstallButtonProps = {
   installed: string;

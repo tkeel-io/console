@@ -1,10 +1,9 @@
+import themes from '@tkeel/console-themes';
 import { registerMicroApps, start } from 'qiankun';
 
 import { THEME } from '@/constants';
 
 import { IApp, IMenuInfo } from './types';
-
-import themes from '@/styles/themes';
 
 import { IMenu, IMenuDetail } from '@/mock/types';
 
