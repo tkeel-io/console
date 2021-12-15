@@ -1,1 +1,1 @@
-# tkeel-console-plugin-users
+# @tkeel/console-plugin-users
