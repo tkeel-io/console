@@ -1,6 +1,6 @@
 export interface IconProps {
   mode?: 'dark' | 'light';
-  size?: string | number;
+  size?: number | string;
   color?: string;
   className?: string;
   style?: React.CSSProperties;

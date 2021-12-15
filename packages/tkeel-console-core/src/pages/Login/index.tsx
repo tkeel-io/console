@@ -6,7 +6,7 @@ function Login(): JSX.Element {
   return (
     <Box>
       Login
-      <BellIcon mode="dark" size={128} />
+      <BellIcon mode="dark" size="10rem" />
       <BellIcon mode="light" size={128} />
       <BellIcon color="#f38432" size={128} />
       <BellIconTwoTone mode="dark" size={128} />
