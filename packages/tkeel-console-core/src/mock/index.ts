@@ -25,18 +25,6 @@ const MENUS: IMenu[] = [
       },
     ],
   },
-  {
-    categoryId: 'default',
-    menus: [
-      {
-        id: 'plugin-plugins',
-        name: 'plugins',
-        icon: 'summary',
-        path: '/plugins',
-        entry: 'http://127.0.0.1:3002',
-      },
-    ],
-  },
 ];
 
 function fetchMenus(): Promise<IMenu[]> {
