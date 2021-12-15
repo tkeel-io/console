@@ -1,26 +1,21 @@
 import { IMenu } from './types';
 
 const MENUS: IMenu[] = [
-  // {
-  //   categoryId: 'default',
-  //   menus: [
-  //     {
-  //       id: 'plugin-example',
-  //       name: 'example',
-  //       icon: 'summary',
-  //       path: '/example',
-  //       entry: 'http://127.0.0.1:3001',
-  //     },
-  //   ],
-  // },
   {
     categoryId: 'default',
     menus: [
       {
         id: 'plugin-plugins',
-        name: 'plugins',
+        name: '插件管理',
         icon: 'summary',
         path: '/plugins',
+        entry: 'http://127.0.0.1:3001',
+      },
+      {
+        id: 'plugin-users',
+        name: '租户管理',
+        icon: 'summary',
+        path: '/users',
         entry: 'http://127.0.0.1:3002',
       },
     ],
