@@ -1,5 +1,12 @@
 export default {
   global: {
+    '*, *::before, *::after': {
+      boxSizing: 'border-box',
+      margin: 0,
+      padding: 0,
+      border: 0,
+    },
+
     body: {
       '& > #root': {
         height: '100vh',
@@ -11,8 +18,10 @@ export default {
     },
 
     a: {
+      textDecoration: 'none',
+
       _hover: {
-        textDecoration: 'none !important',
+        textDecoration: 'none',
       },
     },
   },
