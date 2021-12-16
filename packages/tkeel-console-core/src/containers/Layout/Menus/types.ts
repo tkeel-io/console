@@ -15,16 +15,24 @@ export type CustomLinkReturnType = {
 
 export type CustomMenuLinkProps = {
   path: string;
-  children: ReactNode | string;
+  name: string;
+  icon: string;
+};
+
+export type CustomSubMenuProps = {
+  path: string;
+  name: string;
 };
 
 export type MenuItemProps = {
+  active: boolean;
   name: string;
   icon: string;
   rightIcon?: ReactNode;
 };
 
 export type IconNameProps = {
+  active: boolean;
   name: string;
   icon: string;
 };

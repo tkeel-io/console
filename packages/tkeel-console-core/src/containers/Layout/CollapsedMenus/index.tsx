@@ -7,13 +7,13 @@ import {
 import { Box, Center, Flex, Image, Link } from '@chakra-ui/react';
 import { AppsAddFilledIcon } from '@tkeel/console-icons';
 
-import { CustomMenuLinkProps, Props } from '@/containers/Layout/Menus/types';
+import { Props } from '@/containers/Layout/Menus/types';
 import { getTotalMenus } from '@/utils/qiankun';
 import { IMenuInfo } from '@/utils/qiankun/types';
 
 import LogoImg from '@/assets/images/logo.png';
 
-function CustomMenuLink({ path, children }: CustomMenuLinkProps) {
+function CustomMenuLink({ path }: { path: string }) {
   const resolved = useResolvedPath(path);
   const match = useMatch({ path: resolved.pathname, end: false });
   return (
@@ -27,10 +27,13 @@ function CustomMenuLink({ path, children }: CustomMenuLinkProps) {
           : 'none'
       }
       _hover={{ backgroundColor: match ? 'gray.800' : 'gray.100' }}
+      _focus={{ boxShadow: 'none' }}
       as={ReactRouterLink}
       to={path}
     >
-      {children}
+      <Center width="48px" height="48px">
+        <AppsAddFilledIcon mode={match ? 'dark' : 'light'} />
+      </Center>
     </Link>
   );
 }
@@ -50,11 +53,7 @@ function CollapsedMenus({ menus: menusData }: Props) {
       </Center>
       <Flex flexDirection="column" alignItems="center">
         {menus.map(({ id, path }) => (
-          <CustomMenuLink key={id} path={path}>
-            <Center width="40px" height="48px" key={id}>
-              <AppsAddFilledIcon />
-            </Center>
-          </CustomMenuLink>
+          <CustomMenuLink key={id} path={path} />
         ))}
       </Flex>
     </Box>

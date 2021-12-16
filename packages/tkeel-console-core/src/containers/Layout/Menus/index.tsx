@@ -15,6 +15,7 @@ import {
 import {
   CustomLinkReturnType,
   CustomMenuLinkProps,
+  CustomSubMenuProps,
   IconNameProps,
   MenuItemProps,
   Props,
@@ -41,16 +42,19 @@ function useCustomLinkProps(to: string): CustomLinkReturnType {
   };
 }
 
-function IconNameWrapper({ name }: IconNameProps) {
+function IconNameWrapper({ active, name }: IconNameProps) {
   return (
     <Flex alignItems="center">
-      <AppsAddFilledIcon style={{ marginRight: '10px' }} />
+      <AppsAddFilledIcon
+        mode={active ? 'dark' : 'light'}
+        style={{ marginRight: '10px' }}
+      />
       {name}
     </Flex>
   );
 }
 
-function MenuItem({ name, icon, rightIcon }: MenuItemProps) {
+function MenuItem({ active, name, icon, rightIcon }: MenuItemProps) {
   return (
     <Flex
       alignItems="center"
@@ -60,7 +64,7 @@ function MenuItem({ name, icon, rightIcon }: MenuItemProps) {
       fontWeight={500}
       cursor="pointer"
     >
-      <IconNameWrapper name={name} icon={icon} />
+      <IconNameWrapper active={active} name={name} icon={icon} />
       {rightIcon}
     </Flex>
   );
@@ -79,6 +83,7 @@ function SubMenuTitleWrapper({
     return item.path && location.pathname.includes(item.path);
   });
 
+  const mode = active ? 'dark' : 'light';
   return (
     <Box
       paddingRight="18px"
@@ -89,15 +94,22 @@ function SubMenuTitleWrapper({
       onClick={() => handleMenuClick(id)}
     >
       <MenuItem
+        active={active}
         name={name}
         icon={icon}
-        rightIcon={spread ? <ChevronUpFilledIcon /> : <ChevronDownFilledIcon />}
+        rightIcon={
+          spread ? (
+            <ChevronUpFilledIcon mode={mode} />
+          ) : (
+            <ChevronDownFilledIcon mode={mode} />
+          )
+        }
       />
     </Box>
   );
 }
 
-function CustomMenuLink({ path, children }: CustomMenuLinkProps) {
+function CustomMenuLink({ path, name, icon }: CustomMenuLinkProps) {
   const { as, to, active } = useCustomLinkProps(path);
   return (
     <Link
@@ -107,23 +119,23 @@ function CustomMenuLink({ path, children }: CustomMenuLinkProps) {
       marginBottom="4px"
       rounded="4px"
       color={active ? 'white' : 'inherit'}
-      _hover={{ backgroundColor: active ? 'grayAlternatives.700' : 'gray.100' }}
       backgroundColor={active ? 'grayAlternatives.700' : 'inherit'}
       boxShadow={
         active
           ? '0px 20px 25px -5px rgba(113, 128, 150, 0.1), 0px 10px 10px -5px rgba(113, 128, 150, 0.04)'
           : 'none'
       }
+      _hover={{ backgroundColor: active ? 'grayAlternatives.700' : 'gray.100' }}
       _focus={{ boxShadow: 'none' }}
       as={as}
       to={to}
     >
-      {children}
+      <MenuItem active={active} name={name} icon={icon} />
     </Link>
   );
 }
 
-function CustomSubMenuLink({ path, children }: CustomMenuLinkProps) {
+function CustomSubMenuLink({ path, name }: CustomSubMenuProps) {
   const { as, to, active } = useCustomLinkProps(path);
   return (
     <Link
@@ -137,7 +149,7 @@ function CustomSubMenuLink({ path, children }: CustomMenuLinkProps) {
       as={as}
       to={to}
     >
-      {children}
+      {name}
     </Link>
   );
 }
@@ -146,9 +158,11 @@ function SubMenusWrapper({ subMenus }: SubMenuProps) {
   return (
     <Box>
       {subMenus.map((subMenu) => (
-        <CustomSubMenuLink key={subMenu.id} path={subMenu.path || ''}>
-          {subMenu.name}
-        </CustomSubMenuLink>
+        <CustomSubMenuLink
+          key={subMenu.id}
+          name={subMenu.name}
+          path={subMenu.path || ''}
+        />
       ))}
     </Box>
   );
@@ -207,9 +221,11 @@ function Menus({ menus: menusData }: Props) {
                         handleMenuClick={handleMenuClick}
                       />
                     ) : (
-                      <CustomMenuLink path={path || ''}>
-                        <MenuItem name={name} icon={icon} />
-                      </CustomMenuLink>
+                      <CustomMenuLink
+                        path={path || ''}
+                        name={name}
+                        icon={icon}
+                      />
                     )}
                     {children && spread && (
                       <SubMenusWrapper subMenus={children} />
