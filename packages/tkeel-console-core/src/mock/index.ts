@@ -77,8 +77,6 @@ function fetchMenus(): Promise<IMenu[]> {
   return fetch('/apis/rudder/v1/entries')
     .then((response) => response.json())
     .then((data: IEntryData) => {
-      // eslint-disable-next-line no-console
-      console.log('data', JSON.stringify(data));
       const entries: IEntry[] = data.entries.map((item) => {
         return {
           ...item,

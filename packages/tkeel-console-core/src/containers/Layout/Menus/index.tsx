@@ -11,8 +11,7 @@ import {
   Box as SubMenus,
   Image as Logo,
 } from '@chakra-ui/react';
-
-import SvgIcon from '@/components/SvgIcon';
+import { BellIcon } from '@tkeel/console-icons';
 
 import {
   CategoryName,
@@ -54,11 +53,11 @@ function useCustomLinkProps(to: string): CustomLinkReturnType {
   };
 }
 
-function IconNameWrapper({ name, icon }: IconNameProps) {
+function IconNameWrapper({ name }: IconNameProps) {
   return (
     <IconName>
       <IconWrapper>
-        <SvgIcon iconClass={icon} />
+        <BellIcon />
       </IconWrapper>
       {name}
     </IconName>
@@ -84,7 +83,7 @@ function SubMenuTitleWrapper({
     >
       <MenuItem>
         <IconNameWrapper name={name} icon={icon} />
-        <SvgIcon iconClass="down" />
+        <BellIcon />
         {/* {spread ? <ChevronUpIcon /> : <ChevronDownIcon />} */}
       </MenuItem>
     </SubMenuTitle>
