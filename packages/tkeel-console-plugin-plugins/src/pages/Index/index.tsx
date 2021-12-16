@@ -39,8 +39,10 @@ function Index(): JSX.Element {
       <Box
         width="380px"
         height="32px"
-        backgroundColor="#f9fbfd"
-        border="1px solid #c1c9d1"
+        backgroundColor="gray.50"
+        borderWidth="1px"
+        borderStyle="solid"
+        borderColor="grayAlternatives.200"
         rounded="16px"
       />
       <Box

@@ -9,13 +9,19 @@ export type Props = {
 
 export type CustomLinkReturnType = {
   as: typeof Link;
-  className: string;
   to: string;
+  active: boolean;
 };
 
 export type CustomMenuLinkProps = {
-  to: string;
+  path: string;
   children: ReactNode | string;
+};
+
+export type MenuItemProps = {
+  name: string;
+  icon: string;
+  rightIcon?: ReactNode;
 };
 
 export type IconNameProps = {
@@ -25,4 +31,9 @@ export type IconNameProps = {
 
 export type SubMenuProps = {
   subMenus: IMenuDetail[];
+};
+
+export type SubMenuTitleWrapperProps = IMenuDetail & {
+  spread: boolean;
+  handleMenuClick: (id: string) => void;
 };

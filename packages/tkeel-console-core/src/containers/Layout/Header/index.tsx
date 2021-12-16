@@ -5,14 +5,11 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   Flex,
-  Image,
   Text,
 } from '@chakra-ui/react';
-import { BellFilledIcon } from '@tkeel/console-icons';
+import { HumanFilledIcon } from '@tkeel/console-icons';
 
 import { getTotalMenus } from '@/utils/qiankun';
-
-import DefaultAvatar from '@/assets/images/default-avatar.png';
 
 import { IMenu } from '@/mock/types';
 
@@ -37,12 +34,11 @@ function Header({ menus }: { menus: IMenu[] }) {
       </Breadcrumb>
       <Flex alignItems="center">
         <Flex alignItems="center" cursor="pointer">
-          <Image width="16px" src={DefaultAvatar} alt="avatar" />
-          <Text marginLeft="5px" color="#718096" fontSize="xs">
+          <HumanFilledIcon />
+          <Text marginLeft="5px" color="gray.500" fontSize="xs">
             Admin
           </Text>
         </Flex>
-        <BellFilledIcon />
       </Flex>
     </Flex>
   );
