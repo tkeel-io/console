@@ -1,4 +1,4 @@
-export interface IconFilledProps {
+export interface FilledIconProps {
   mode?: 'dark' | 'light';
   size?: number | string;
   color?: string;
@@ -6,14 +6,14 @@ export interface IconFilledProps {
   style?: React.CSSProperties;
 }
 
-export interface IconTwoToneProps extends IconFilledProps {
+export interface TwoToneIconProps extends FilledIconProps {
   twoToneColor?: string;
 }
 
-export interface IconFilledPropsWithSvgComponent extends IconFilledProps {
+export interface FilledIconPropsWithSvgComponent extends FilledIconProps {
   svgComponent: React.FunctionComponent<any>;
 }
 
-export interface IconTwoTonePropsWithSvgComponent extends IconTwoToneProps {
+export interface TwoToneIconPropsWithSvgComponent extends TwoToneIconProps {
   svgComponent: React.FunctionComponent<any>;
 }
