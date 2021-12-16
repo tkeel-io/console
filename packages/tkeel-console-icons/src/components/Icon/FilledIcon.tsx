@@ -17,7 +17,7 @@ function FilledIcon({
     dark: colors.white,
     light: colors.gray['700'],
   };
-  const modeColor = mode === 'light' ? modeColors.light : modeColors.dark;
+  const modeColor = mode === 'dark' ? modeColors.dark : modeColors.light;
 
   return (
     <SvgComponent
