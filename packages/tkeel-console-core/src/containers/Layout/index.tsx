@@ -1,11 +1,10 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
+import { Flex } from '@chakra-ui/react';
 
 // import CollapsedMenus from '@/containers/Layout/CollapsedMenus';
 import Header from '@/containers/Layout/Header';
 import Menus from '@/containers/Layout/Menus';
-
-import { Content, Main, Wrapper } from './index.styled';
 
 import { IMenu } from '@/mock/types';
 
@@ -15,16 +14,16 @@ type Props = {
 
 function Layout({ menus }: Props) {
   return (
-    <Wrapper>
-      {/* <CollapsedMenus data={menus} /> */}
-      <Menus data={menus} />
-      <Main>
-        <Header />
-        <Content>
+    <Flex height="100%">
+      {/* <CollapsedMenus menus={menus} /> */}
+      <Menus menus={menus} />
+      <Flex flex={1} flexDirection="column" padding="24px">
+        <Header menus={menus} />
+        <Flex flex={1}>
           <Outlet />
-        </Content>
-      </Main>
-    </Wrapper>
+        </Flex>
+      </Flex>
+    </Flex>
   );
 }
 

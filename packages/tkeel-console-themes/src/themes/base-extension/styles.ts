@@ -1,5 +1,9 @@
 export default {
   global: {
+    html: {
+      fontSize: '16px',
+    },
+
     body: {
       '& > #root': {
         height: '100%',

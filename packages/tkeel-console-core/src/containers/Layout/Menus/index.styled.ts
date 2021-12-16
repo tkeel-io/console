@@ -1,13 +1,4 @@
-import {
-  Box,
-  Center,
-  ColorHues,
-  Colors,
-  Flex,
-  Heading,
-  Link,
-  Text,
-} from '@chakra-ui/react';
+import { Box, Center, Flex, Heading, Link, Text } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
 export const Wrapper = styled(Box)`
@@ -63,11 +54,6 @@ export const MenuLink = styled(Link)`
   border-radius: 4px;
   box-shadow: none !important;
 
-  &:hover {
-    background-color: ${({ colors }: { colors: Colors }) =>
-      (colors.gray as Record<string, Partial<ColorHues>>)[100]};
-  }
-
   &.active {
     background-color: #2d3748;
     box-shadow: 0 20px 25px -5px rgb(113 128 150 / 10%),
@@ -97,7 +83,6 @@ export const SubMenuLink = styled(Link)`
   box-shadow: none !important;
 
   &.active {
-    color: ${({ colors }: { colors: Colors }) =>
-      (colors.blue as Record<string, Partial<ColorHues>>)[400]};
+    color: #4299e1;
   }
 `;
