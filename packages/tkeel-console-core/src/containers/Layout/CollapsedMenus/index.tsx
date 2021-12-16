@@ -5,7 +5,7 @@ import {
   useResolvedPath,
 } from 'react-router-dom';
 import { Box, Center, Flex, Image, Link } from '@chakra-ui/react';
-import { BellIconFilled } from '@tkeel/console-icons';
+import { BellFilledIcon } from '@tkeel/console-icons';
 
 import { CustomMenuLinkProps, Props } from '@/containers/Layout/Menus/types';
 import { getTotalMenus } from '@/utils/qiankun';
@@ -48,7 +48,7 @@ function CollapsedMenus({ menus: menusData }: Props) {
         {menus.map(({ id, path }) => (
           <CustomMenuLink key={id} to={path}>
             <Center width="40px" height="48px" key={id}>
-              <BellIconFilled />
+              <BellFilledIcon />
             </Center>
           </CustomMenuLink>
         ))}
