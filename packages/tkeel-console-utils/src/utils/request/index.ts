@@ -4,5 +4,5 @@ function request(config: AxiosRequestConfig) {
   return axios(config);
 }
 
-export { AxiosResponse, AxiosRequestConfig } from 'axios';
+export { AxiosRequestConfig, AxiosResponse } from 'axios';
 export default request;

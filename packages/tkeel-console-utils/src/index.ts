@@ -1,5 +1,5 @@
 export {
-  default as request,
   AxiosRequestConfig,
   AxiosResponse,
+  default as request,
 } from './utils/request';
