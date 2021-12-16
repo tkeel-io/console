@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { twoToneDefaultProps } from './default-props';
-import Icon from './Icon';
+import { iconTwoToneDefaultProps } from './default-props';
+import IconFilled from './IconFilled';
 import { IconTwoTonePropsWithSvgComponent } from './types';
 
 function IconTwoTone({
@@ -18,7 +18,7 @@ function IconTwoTone({
     mode === 'light' ? modeTwoToneColors.light : modeTwoToneColors.dark;
 
   return (
-    <Icon
+    <IconFilled
       {...rest}
       mode={mode}
       style={{ color: twoToneColor || modeTwoToneColor, ...style }}
@@ -26,6 +26,6 @@ function IconTwoTone({
   );
 }
 
-IconTwoTone.defaultProps = twoToneDefaultProps;
+IconTwoTone.defaultProps = iconTwoToneDefaultProps;
 
 export default IconTwoTone;
