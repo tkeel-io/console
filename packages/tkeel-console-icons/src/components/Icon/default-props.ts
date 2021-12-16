@@ -1,5 +1,5 @@
 export const filledIconDefaultProps = {
-  mode: 'dark',
+  mode: 'light',
   size: 16,
   color: '',
   className: '',

@@ -2,7 +2,7 @@ export default {
   global: {
     body: {
       '& > #root': {
-        height: '100%',
+        height: '100vh',
       },
     },
 
@@ -12,7 +12,7 @@ export default {
 
     a: {
       _hover: {
-        textDecoration: 'none!important',
+        textDecoration: 'none !important',
       },
     },
   },
