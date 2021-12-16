@@ -1,4 +1,4 @@
-import BellIconFilled from './components/BellIconFilled';
-import BellIconTwoTone from './components/BellIconTwoTone';
+import BellFilledIcon from './components/BellFilledIcon';
+import BellTwoToneIcon from './components/BellTwoToneIcon';
 
-export { BellIconFilled, BellIconTwoTone };
+export { BellFilledIcon, BellTwoToneIcon };
