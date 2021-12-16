@@ -3288,6 +3288,7 @@ __metadata:
     qiankun: ^2.6.3
     react: ^17.0.2
     react-dom: ^17.0.2
+    react-hook-form: ^7.22.1
     react-router-dom: ^6.1.1
   languageName: unknown
   linkType: soft
@@ -12904,6 +12905,15 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17.0.0
   checksum: 520b12a4496be21b3228bbf938657f6c33f868e486a0cd355d8bec918129d2c1bf7aabecb20aecdb446a1fbdb61b16f680b5d15b998f544f1b5c0dc5c8914c40
+  languageName: node
+  linkType: hard
+
+"react-hook-form@npm:^7.22.1":
+  version: 7.22.1
+  resolution: "react-hook-form@npm:7.22.1"
+  peerDependencies:
+    react: ^16.8.0 || ^17
+  checksum: 52e01875038bbc74b4cc07daa90829f2f68dcc86443ad5a2361218272de9724c18768b292f7cc136241d9e929db6dc37ba2e732e00486ad1e65a705e582b988b
   languageName: node
   linkType: hard
 

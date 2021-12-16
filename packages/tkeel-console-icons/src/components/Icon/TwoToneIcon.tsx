@@ -26,11 +26,11 @@ function TwoToneIcon({
   };
 
   const modeColor =
-    mode === 'light' ? modeColors.light.color : modeColors.dark.color;
+    mode === 'dark' ? modeColors.dark.color : modeColors.light.color;
   const modeTwoToneColor =
-    mode === 'light'
-      ? modeColors.light.twoToneColor
-      : modeColors.dark.twoToneColor;
+    mode === 'dark'
+      ? modeColors.dark.twoToneColor
+      : modeColors.light.twoToneColor;
 
   return (
     <FilledIcon
