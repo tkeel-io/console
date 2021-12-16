@@ -64,4 +64,4 @@ function init({ menus }: { menus: IMenu[] }): void {
   });
 }
 
-export { getTotalMenus, menusToApps, register, init };
+export { getTotalMenus, init, menusToApps, register };

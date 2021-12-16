@@ -1,4 +1,2 @@
-import BellFilledIcon from './components/BellFilledIcon';
-import BellTwoToneIcon from './components/BellTwoToneIcon';
-
-export { BellFilledIcon, BellTwoToneIcon };
+export { default as BellFilledIcon } from './components/BellFilledIcon';
+export { default as BellTwoToneIcon } from './components/BellTwoToneIcon';
