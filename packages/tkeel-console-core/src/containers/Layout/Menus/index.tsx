@@ -11,7 +11,7 @@ import {
   Box as SubMenus,
   Image as Logo,
 } from '@chakra-ui/react';
-import { BellIcon } from '@tkeel/console-icons';
+import { BellIconFilled } from '@tkeel/console-icons';
 
 import {
   CategoryName,
@@ -57,7 +57,7 @@ function IconNameWrapper({ name }: IconNameProps) {
   return (
     <IconName>
       <IconWrapper>
-        <BellIcon />
+        <BellIconFilled />
       </IconWrapper>
       {name}
     </IconName>
@@ -83,7 +83,7 @@ function SubMenuTitleWrapper({
     >
       <MenuItem>
         <IconNameWrapper name={name} icon={icon} />
-        <BellIcon />
+        <BellIconFilled />
         {/* {spread ? <ChevronUpIcon /> : <ChevronDownIcon />} */}
       </MenuItem>
     </SubMenuTitle>

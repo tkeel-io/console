@@ -8,7 +8,7 @@ import {
   Image,
   Text,
 } from '@chakra-ui/react';
-import { BellIcon } from '@tkeel/console-icons';
+import { BellIconFilled } from '@tkeel/console-icons';
 
 import { getTotalMenus } from '@/utils/qiankun';
 
@@ -42,7 +42,7 @@ function Header({ menus }: { menus: IMenu[] }) {
             Admin
           </Text>
         </Flex>
-        <BellIcon />
+        <BellIconFilled />
       </Flex>
     </Flex>
   );
