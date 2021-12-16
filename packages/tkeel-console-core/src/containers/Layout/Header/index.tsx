@@ -4,26 +4,21 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
-  Image as Avatar,
+  Flex,
+  Image,
+  Text,
 } from '@chakra-ui/react';
+import { BellIconFilled } from '@tkeel/console-icons';
 
-import SvgIcon from '@/components/SvgIcon';
 import { getTotalMenus } from '@/utils/qiankun';
-
-import {
-  IconWrapper,
-  UserName,
-  UserNameWrapper,
-  Wrapper,
-} from './index.styled';
 
 import DefaultAvatar from '@/assets/images/default-avatar.png';
 
-import { MENUS } from '@/mock/index';
+import { IMenu } from '@/mock/types';
 
-function Header() {
+function Header({ menus }: { menus: IMenu[] }) {
   const { pathname } = useLocation();
-  const totalMenus = getTotalMenus(MENUS);
+  const totalMenus = getTotalMenus(menus);
   let name = '';
   totalMenus.forEach((menu) => {
     if (pathname.includes(menu.path)) {
@@ -32,21 +27,24 @@ function Header() {
   });
 
   return (
-    <Wrapper>
+    <Flex justifyContent="space-between" height="22px" marginBottom="20px">
       <Breadcrumb>
         <BreadcrumbItem>
-          <BreadcrumbLink href="#">{name}</BreadcrumbLink>
+          <BreadcrumbLink color="gray.400" fontSize="sm" href="#">
+            {name}
+          </BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
-      <IconWrapper>
-        <UserNameWrapper>
-          <Avatar width="16px" src={DefaultAvatar} alt="avatar" />
-          <UserName>Admin</UserName>
-        </UserNameWrapper>
-        <SvgIcon iconClass="setting" />
-        <SvgIcon iconClass="bell" />
-      </IconWrapper>
-    </Wrapper>
+      <Flex alignItems="center">
+        <Flex alignItems="center" cursor="pointer">
+          <Image width="16px" src={DefaultAvatar} alt="avatar" />
+          <Text marginLeft="5px" color="#718096" fontSize="xs">
+            Admin
+          </Text>
+        </Flex>
+        <BellIconFilled />
+      </Flex>
+    </Flex>
   );
 }
 

@@ -1,35 +1,9 @@
-/* eslint-disable import/prefer-default-export */
-import { Box, Center, ColorHues, Colors, Flex, Text } from '@chakra-ui/react';
+import { Center, Flex, Text } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
 type InstallButtonProps = {
   installed: string;
 };
-
-export const Wrapper = styled(Flex)`
-  flex-direction: column;
-  height: 100%;
-`;
-
-export const Tabs = styled(Box)`
-  width: 380px;
-  height: 32px;
-  border: 1px solid #c1c9d1;
-  border-radius: 16px;
-`;
-
-export const Content = styled(Box)`
-  flex: 1;
-  margin-top: 20px;
-  padding: 17px 24px 24px;
-  background: ${({ colors }: { colors: Colors }) => colors.white};
-  border-radius: 4px; ;
-`;
-
-export const ListTitle = styled(Flex)`
-  align-items: center;
-  justify-content: space-between;
-`;
 
 export const PluginNum = styled(Flex)`
   align-items: center;
@@ -41,16 +15,12 @@ export const Item = styled(Flex)`
 `;
 
 export const Category = styled(Text)`
-  color: ${({ colors }: { colors: Colors }) =>
-    (colors.gray as Record<string, Partial<ColorHues>>)[700]};
   font-weight: 500;
   font-size: 12px;
 `;
 
 export const Num = styled(Text)`
   margin-left: 2px;
-  color: ${({ colors }: { colors: Colors }) =>
-    (colors.gray as Record<string, Partial<ColorHues>>)[500]};
   font-weight: 500;
   font-size: 12px;
 `;
@@ -68,7 +38,8 @@ export const Card = styled(Flex)`
   height: 126px;
   margin-bottom: 8px;
   padding: 12px;
-  border: 1px solid #ebf0f6;
+  border-style: solid;
+  border-width: 1px;
   border-radius: 4px;
 `;
 
@@ -82,7 +53,6 @@ export const IconNameWrapper = styled(Flex)`
 `;
 
 export const Name = styled(Text)`
-  color: ${({ colors }: { colors: Colors }) => colors.black};
   font-size: 14px;
 `;
 
@@ -98,7 +68,6 @@ export const InstallButton = styled(Center)<InstallButtonProps>`
 `;
 
 export const Desc = styled(Flex)`
-  color: #79879c;
   font-size: 12px;
 `;
 
