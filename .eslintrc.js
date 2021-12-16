@@ -64,6 +64,7 @@ module.exports = {
         'newlines-between': 'always',
       },
     ],
+    'import/prefer-default-export': 'off',
     'react/function-component-definition': [
       'error',
       {
@@ -84,7 +85,7 @@ module.exports = {
     ],
     'unicorn/no-array-for-each': 'off',
     'unicorn/no-null': 'off',
-    'unicorn/prefer-export-from': 'off',
+    // 'unicorn/prefer-export-from': 'off',
     'unicorn/prevent-abbreviations': 'off',
     'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
   },

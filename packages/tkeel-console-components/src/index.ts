@@ -1,4 +1,5 @@
-import PageHeader from './components/PageHeader';
-import SearchInput from './components/SearchInput';
+// export * from './components/Form';
 
-export { PageHeader, SearchInput };
+export { default as Form } from './components/Form';
+export { default as PageHeader } from './components/PageHeader';
+export { default as SearchInput } from './components/SearchInput';
