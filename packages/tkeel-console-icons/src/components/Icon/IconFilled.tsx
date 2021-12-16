@@ -1,16 +1,16 @@
 import React from 'react';
 
-import { defaultProps } from './default-props';
-import { IconPropsWithSvgComponent } from './types';
+import { iconFilledDefaultProps } from './default-props';
+import { IconFilledPropsWithSvgComponent } from './types';
 
-function Icon({
+function IconFilled({
   mode,
   size,
   color,
   className,
   style,
   svgComponent: SvgComponent,
-}: IconPropsWithSvgComponent): JSX.Element {
+}: IconFilledPropsWithSvgComponent): JSX.Element {
   const modeColors = {
     dark: '#324558',
     light: '#f9fbfd',
@@ -28,6 +28,6 @@ function Icon({
   );
 }
 
-Icon.defaultProps = defaultProps;
+IconFilled.defaultProps = iconFilledDefaultProps;
 
-export default Icon;
+export default IconFilled;

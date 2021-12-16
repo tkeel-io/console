@@ -1,4 +1,4 @@
-const defaultProps = {
+export const iconFilledDefaultProps = {
   mode: 'dark',
   size: 16,
   color: '',
@@ -6,9 +6,7 @@ const defaultProps = {
   style: null,
 };
 
-const twoToneDefaultProps = {
-  ...defaultProps,
+export const iconTwoToneDefaultProps = {
+  ...iconFilledDefaultProps,
   twoToneColor: '',
 };
-
-export { defaultProps, twoToneDefaultProps };
