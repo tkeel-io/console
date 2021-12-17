@@ -4,6 +4,7 @@ export default {
       boxSizing: 'border-box',
       margin: 0,
       padding: 0,
+      fontSize: '100%',
       border: 0,
     },
 
@@ -13,8 +14,9 @@ export default {
       },
     },
 
-    'ol, li': {
-      listStyle: 'none',
+    img: {
+      maxWidth: '100%',
+      verticalAlign: 'middle',
     },
 
     a: {
@@ -23,6 +25,14 @@ export default {
       _hover: {
         textDecoration: 'none',
       },
+    },
+
+    'ol, li': {
+      listStyle: 'none',
+    },
+
+    table: {
+      borderCollapse: 'collapse',
     },
   },
 };
