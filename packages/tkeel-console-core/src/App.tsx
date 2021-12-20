@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 import themes from '@tkeel/console-themes';
-import { initGlobalState, MicroAppStateActions } from 'qiankun';
 
 import { THEME } from '@/constants';
 import Routes from '@/routes';
@@ -14,8 +13,6 @@ import { IMenu } from '@/mock/types';
 
 function App() {
   const [menus, setMenus] = useState<IMenu[]>([]);
-
-  const actions: MicroAppStateActions = initGlobalState({ app: '' });
 
   const fetchData = async () => {
     try {
@@ -29,10 +26,6 @@ function App() {
 
   const init = async () => {
     await fetchData();
-    actions.onGlobalStateChange((state, prev) => {
-      // eslint-disable-next-line no-console
-      console.log('main-app-onGlobalStateChange', state, prev);
-    });
   };
 
   useEffect(() => {
