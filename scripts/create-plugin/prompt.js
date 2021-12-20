@@ -7,11 +7,11 @@ const { OPTIONS_MAP } = require('./constants');
 const {
   checkPluginName,
   checkPluginBasePath,
-  checkPluginPort,
+  checkPluginDevServerPort,
 } = require('../utils/packages');
 
 async function prompt({ argv }) {
-  const { name, basePath, port } = argv;
+  const { name, basePath, devServerPort } = argv;
   const questions = [];
 
   if (!_.isString(name)) {
@@ -63,17 +63,19 @@ async function prompt({ argv }) {
     });
   }
 
-  if (!isPort(String(port))) {
+  if (!isPort(String(devServerPort))) {
     questions.push({
       type: 'input',
-      name: 'port',
-      message: OPTIONS_MAP.port.desc,
+      name: 'devServerPort',
+      message: OPTIONS_MAP.devServerPort.desc,
       validate(value) {
         if (!value.trim()) {
-          return OPTIONS_MAP.port.errorMessage;
+          return OPTIONS_MAP.devServerPort.errorMessage;
         }
 
-        const { flag, message } = checkPluginPort({ port: value });
+        const { flag, message } = checkPluginDevServerPort({
+          devServerPort: value,
+        });
         if (!flag) {
           return message;
         }

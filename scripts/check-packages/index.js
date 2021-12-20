@@ -61,11 +61,11 @@ function checkPluginBasePath() {
   checkPluginDotenvConfigs({ dotenvConfigKey: 'BASE_PATH' });
 }
 
-function checkPluginPort() {
-  checkPluginDotenvConfigs({ dotenvConfigKey: 'PORT' });
+function checkPluginDevServerPort() {
+  checkPluginDotenvConfigs({ dotenvConfigKey: 'DEV_SERVER_PORT' });
 }
 
 checkPackageNames();
 checkPluginBasePath();
-checkPluginPort();
+checkPluginDevServerPort();
 logger.log('DONE');

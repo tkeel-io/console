@@ -7,8 +7,8 @@ const OPTIONS_MAP = Object.freeze({
     desc: 'plugin BASE_PATH',
     errorMessage: 'Please input a BASE_PATH.',
   },
-  port: {
-    desc: 'devServer port',
+  devServerPort: {
+    desc: 'DevServer port',
     errorMessage: 'Please input a port.',
   },
 });

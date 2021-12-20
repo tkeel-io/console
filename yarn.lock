@@ -3377,6 +3377,7 @@ __metadata:
   dependencies:
     "@types/axios": ^0.14.0
     "@types/tkeel-console": "workspace:^"
+  peerDependencies:
     axios: ^0.24.0
   languageName: unknown
   linkType: soft
@@ -4576,7 +4577,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:*, axios@npm:^0.24.0":
+"axios@npm:*":
   version: 0.24.0
   resolution: "axios@npm:0.24.0"
   dependencies:
