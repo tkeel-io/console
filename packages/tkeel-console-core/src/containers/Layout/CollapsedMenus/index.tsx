@@ -1,42 +1,18 @@
 import React from 'react';
-import {
-  Link as ReactRouterLink,
-  useMatch,
-  useResolvedPath,
-} from 'react-router-dom';
-import { Box, Center, Flex, Image, Link } from '@chakra-ui/react';
-import { AppsAddFilledIcon } from '@tkeel/console-icons';
+import { Box, Center, Flex, Image } from '@chakra-ui/react';
 
-import { Props } from '@/containers/Layout/Menus/types';
 import { getTotalMenus } from '@/utils/qiankun';
 import { IMenuInfo } from '@/utils/qiankun/types';
 
+import CustomMenuLink from './CustomMenuLink';
+
 import LogoImg from '@/assets/images/logo.png';
 
-function CustomMenuLink({ path }: { path: string }) {
-  const resolved = useResolvedPath(path);
-  const match = useMatch({ path: resolved.pathname, end: false });
-  return (
-    <Link
-      marginTop="10px"
-      borderRadius="4px"
-      backgroundColor={match ? 'gray.800' : 'inherit'}
-      boxShadow={
-        match
-          ? '0 20px 25px -5px rgb(113 128 150 / 10%), 0 10px 10px -5px rgb(113 128 150 / 4%)'
-          : 'none'
-      }
-      _focus={{ boxShadow: 'none' }}
-      _hover={{ backgroundColor: match ? 'gray.800' : 'gray.100' }}
-      as={ReactRouterLink}
-      to={path}
-    >
-      <Center width="48px" height="48px">
-        <AppsAddFilledIcon mode={match ? 'dark' : 'light'} />
-      </Center>
-    </Link>
-  );
-}
+import { IMenu } from '@/mock/types';
+
+type Props = {
+  menus: IMenu[];
+};
 
 function CollapsedMenus({ menus: menusData }: Props) {
   const menus: IMenuInfo[] = getTotalMenus(menusData);

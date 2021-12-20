@@ -17,9 +17,11 @@ function SearchInput({ width, height, borderRadius, placeholder }: Props) {
       </InputLeftElement>
       <Input
         height={height}
+        borderColor="gray.200"
         borderRadius={borderRadius}
         boxShadow="none!important"
         placeholder={placeholder}
+        _focus={{ borderColor: 'gray.400' }}
       />
     </InputGroup>
   );

@@ -7,11 +7,9 @@ function Card() {
   return (
     <Flex
       position="relative"
-      marginBottom="8px"
       padding="12px"
       flexDirection="column"
       justifyContent="space-between"
-      width="24.4%"
       height="108px"
       borderWidth="1px"
       borderStyle="solid"
@@ -25,7 +23,7 @@ function Card() {
         top="0"
         width="100%"
         height="2px"
-        backgroundColor="blue.700"
+        backgroundColor="tKeel"
         borderTopLeftRadius="2px"
         borderTopRightRadius="2px"
       />

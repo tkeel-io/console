@@ -3327,7 +3327,9 @@ __metadata:
     "@chakra-ui/react": ^1.7.3
     "@emotion/react": ^11.7.1
     "@emotion/styled": ^11.6.0
+    "@tkeel/console-components": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
+    "@tkeel/console-icons": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
     "@types/tkeel-console": "workspace:^"
     framer-motion: ^5.5.1
