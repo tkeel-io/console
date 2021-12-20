@@ -1,7 +1,5 @@
 import React from 'react';
 import {
-  // Flex,
-  // Box,
   Center,
   FormControl,
   FormErrorMessage,
@@ -14,7 +12,13 @@ import { Form } from '@tkeel/console-components';
 function Login(): JSX.Element {
   return (
     <Center flexDirection="column" height="100vh">
-      <Heading as="h1" lineHeight="48px" fontSize="48px" fontWeight={700}>
+      <Heading
+        as="h1"
+        lineHeight="48px"
+        fontSize="48px"
+        fontWeight={700}
+        color="gray.800"
+      >
         tKeel 平台
       </Heading>
       <Form paddingBottom="100px" onSubmit={() => {}}>

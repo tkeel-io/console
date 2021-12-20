@@ -1,8 +1,29 @@
 export default {
   global: {
+    '*, *::before, *::after': {
+      boxSizing: 'border-box',
+      margin: 0,
+      padding: 0,
+      fontSize: '100%',
+      border: 0,
+    },
+
     body: {
       '& > #root': {
         height: '100vh',
+      },
+    },
+
+    img: {
+      maxWidth: '100%',
+      verticalAlign: 'middle',
+    },
+
+    a: {
+      textDecoration: 'none',
+
+      _hover: {
+        textDecoration: 'none',
       },
     },
 
@@ -10,10 +31,8 @@ export default {
       listStyle: 'none',
     },
 
-    a: {
-      _hover: {
-        textDecoration: 'none !important',
-      },
+    table: {
+      borderCollapse: 'collapse',
     },
   },
 };
