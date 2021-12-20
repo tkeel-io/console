@@ -12,11 +12,16 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { Form } from '@tkeel/console-components';
+import { request } from '@tkeel/console-utils';
 
 type Inputs = {
   username: string;
   password: string;
 };
+
+request({
+  url: '/apis/security/v1/oauth/token?grant_type=password&username=2-demoadmin&password=123456',
+});
 
 const onSubmit: SubmitHandler<Inputs> = (values) => {
   // eslint-disable-next-line no-console

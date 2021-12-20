@@ -20,7 +20,7 @@ const devConfig = {
   },
   devtool: 'cheap-module-source-map',
   devServer: {
-    port: process.env.PORT,
+    port: process.env.DEV_SERVER_PORT,
     proxy: PROXY,
     historyApiFallback: true,
     hot: true,

@@ -11,11 +11,11 @@
   },
   "license": "Apache-2.0",
   "main": "./src/index.ts",
-  "dependencies": {
-    "axios": "^0.24.0"
-  },
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/tkeel-console": "workspace:^"
+  },
+  "peerDependencies": {
+    "axios": "^0.24.0"
   }
 }
