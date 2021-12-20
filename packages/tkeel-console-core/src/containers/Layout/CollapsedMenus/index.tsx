@@ -19,15 +19,15 @@ function CustomMenuLink({ path }: { path: string }) {
   return (
     <Link
       marginTop="10px"
-      rounded="4px"
+      borderRadius="4px"
       backgroundColor={match ? 'gray.800' : 'inherit'}
       boxShadow={
         match
           ? '0 20px 25px -5px rgb(113 128 150 / 10%), 0 10px 10px -5px rgb(113 128 150 / 4%)'
           : 'none'
       }
-      _hover={{ backgroundColor: match ? 'gray.800' : 'gray.100' }}
       _focus={{ boxShadow: 'none' }}
+      _hover={{ backgroundColor: match ? 'gray.800' : 'gray.100' }}
       as={ReactRouterLink}
       to={path}
     >

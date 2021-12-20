@@ -36,24 +36,7 @@ function entriesToMenus(entries: IEntry[]) {
   // eslint-disable-next-line no-console
   console.log('entriesToMenus ~ entries', JSON.stringify(entries));
   const menus: IMenuDetail[] = [];
-  [
-    {
-      id: 'aaa',
-      name: 'aaa manager',
-      path: '/users',
-      entry: 'http://127.0.0.1:3002',
-      menu: ['one', 'aaa'],
-      icon: 'summary',
-    },
-    {
-      id: 'bbb',
-      name: 'bbb manager',
-      path: '/plugins',
-      entry: 'http://127.0.0.1:3001',
-      menu: ['one', 'bbb'],
-      icon: 'summary',
-    },
-  ].forEach((entryItem) => {
+  entries.forEach((entryItem) => {
     const { id, name, icon, path, entry, menu } = entryItem;
     const { length } = menu;
     if (length === 2) {

@@ -1,28 +1,22 @@
 import React from 'react';
 import { Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
+import { MagnifierFilledIcon } from '@tkeel/console-icons';
 
 type Props = {
   width?: string;
   height?: string;
-  // iconSize?: string;
   borderRadius?: string;
   placeholder?: string;
 };
 
-function SearchInput({
-  width,
-  height,
-  // iconSize,
-  borderRadius,
-  placeholder,
-}: Props) {
+function SearchInput({ width, height, borderRadius, placeholder }: Props) {
   return (
-    <InputGroup w={width}>
-      <InputLeftElement h={height} pointerEvents="none">
-        {/* TODO 添加搜索 icon */}
+    <InputGroup width={width}>
+      <InputLeftElement height={height} pointerEvents="none">
+        <MagnifierFilledIcon />
       </InputLeftElement>
       <Input
-        h={height}
+        height={height}
         borderRadius={borderRadius}
         boxShadow="none!important"
         placeholder={placeholder}
@@ -33,8 +27,7 @@ function SearchInput({
 
 SearchInput.defaultProps = {
   width: '300px',
-  height: '36px',
-  // iconSize: '30px',
+  height: '32px',
   borderRadius: '20px',
   placeholder: '请输入...',
 };

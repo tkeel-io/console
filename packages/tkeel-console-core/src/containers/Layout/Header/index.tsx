@@ -27,7 +27,7 @@ function Header({ menus }: { menus: IMenu[] }) {
     <Flex justifyContent="space-between" height="22px" marginBottom="20px">
       <Breadcrumb>
         <BreadcrumbItem>
-          <BreadcrumbLink color="gray.400" fontSize="sm" href="#">
+          <BreadcrumbLink color="gray.400" fontSize="14px" href="#">
             {name}
           </BreadcrumbLink>
         </BreadcrumbItem>
@@ -35,7 +35,7 @@ function Header({ menus }: { menus: IMenu[] }) {
       <Flex alignItems="center">
         <Flex alignItems="center" cursor="pointer">
           <HumanFilledIcon />
-          <Text marginLeft="5px" color="gray.500" fontSize="xs">
+          <Text marginLeft="5px" color="gray.500" fontSize="12px">
             Admin
           </Text>
         </Flex>

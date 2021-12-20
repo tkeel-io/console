@@ -12,6 +12,7 @@
   "license": "Apache-2.0",
   "main": "./src/index.ts",
   "devDependencies": {
+    "@tkeel/console-icons": "workspace:^",
     "@types/tkeel-console": "workspace:^"
   },
   "peerDependencies": {

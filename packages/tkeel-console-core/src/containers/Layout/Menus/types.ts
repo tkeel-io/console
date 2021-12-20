@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 
 import { IMenu, IMenuDetail } from '@/mock/types';
@@ -22,19 +21,6 @@ export type CustomMenuLinkProps = {
 export type CustomSubMenuProps = {
   path: string;
   name: string;
-};
-
-export type MenuItemProps = {
-  active: boolean;
-  name: string;
-  icon: string;
-  rightIcon?: ReactNode;
-};
-
-export type IconNameProps = {
-  active: boolean;
-  name: string;
-  icon: string;
 };
 
 export type SubMenuProps = {

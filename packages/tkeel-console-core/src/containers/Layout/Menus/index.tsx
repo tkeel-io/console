@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useState } from 'react';
 import {
   Link as ReactRouterLink,
@@ -7,17 +8,15 @@ import {
 } from 'react-router-dom';
 import { Box, Flex, Heading, Image, Link, Text } from '@chakra-ui/react';
 import {
-  AppsAddFilledIcon,
   ChevronDownFilledIcon,
   ChevronUpFilledIcon,
 } from '@tkeel/console-icons';
 
+import MenuItem from './MenuItem';
 import {
   CustomLinkReturnType,
   CustomMenuLinkProps,
   CustomSubMenuProps,
-  IconNameProps,
-  MenuItemProps,
   Props,
   SubMenuProps,
   SubMenuTitleWrapperProps,
@@ -42,34 +41,6 @@ function useCustomLinkProps(to: string): CustomLinkReturnType {
   };
 }
 
-function IconNameWrapper({ active, name }: IconNameProps) {
-  return (
-    <Flex alignItems="center">
-      <AppsAddFilledIcon
-        mode={active ? 'dark' : 'light'}
-        style={{ marginRight: '10px' }}
-      />
-      {name}
-    </Flex>
-  );
-}
-
-function MenuItem({ active, name, icon, rightIcon }: MenuItemProps) {
-  return (
-    <Flex
-      alignItems="center"
-      justifyContent="space-between"
-      height="44px"
-      paddingLeft="22px"
-      fontWeight={500}
-      cursor="pointer"
-    >
-      <IconNameWrapper active={active} name={name} icon={icon} />
-      {rightIcon}
-    </Flex>
-  );
-}
-
 function SubMenuTitleWrapper({
   id,
   name,
@@ -89,7 +60,7 @@ function SubMenuTitleWrapper({
       paddingRight="18px"
       color={active ? 'white' : 'gray.600'}
       backgroundColor={active ? 'grayAlternatives.700' : 'inherit'}
-      rounded="4px"
+      borderRadius="4px"
       active={active.toString()}
       onClick={() => handleMenuClick(id)}
     >
@@ -117,7 +88,7 @@ function CustomMenuLink({ path, name, icon }: CustomMenuLinkProps) {
       alignItems="center"
       height="44px"
       marginBottom="4px"
-      rounded="4px"
+      borderRadius="4px"
       color={active ? 'white' : 'inherit'}
       backgroundColor={active ? 'grayAlternatives.700' : 'inherit'}
       boxShadow={
