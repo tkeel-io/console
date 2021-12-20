@@ -109,9 +109,11 @@ function checkPluginBasePath({ basePath }) {
   return { flag, message };
 }
 
-function checkPluginPort({ port }) {
+function checkPluginDevServerPort({ devServerPort }) {
   const pluginPackageDotenvConfigs = getPluginPackageDotenvConfigs();
-  const value = _.find(pluginPackageDotenvConfigs, { PORT: String(port) });
+  const value = _.find(pluginPackageDotenvConfigs, {
+    DEV_SERVER_PORT: String(devServerPort),
+  });
 
   let flag = true;
   let message = '';
@@ -121,7 +123,7 @@ function checkPluginPort({ port }) {
     message = 'Error: Duplicate BASE_PATH';
   }
 
-  if (port && !isPort(String(port))) {
+  if (devServerPort && !isPort(String(devServerPort))) {
     flag = false;
     message = 'Error: Unavailable Port';
   }
@@ -135,5 +137,5 @@ module.exports = {
   getCanRunPackageDirectoryNames,
   checkPluginName,
   checkPluginBasePath,
-  checkPluginPort,
+  checkPluginDevServerPort,
 };

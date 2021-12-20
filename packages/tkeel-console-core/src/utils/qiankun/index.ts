@@ -53,8 +53,6 @@ function register({ apps }: { apps: IApp[] }): void {
 
 function init({ menus }: { menus: IMenu[] }): void {
   const apps = menusToApps({ menus });
-  // eslint-disable-next-line no-console
-  console.log('init ~ apps', apps);
   register({ apps });
   start({
     sandbox: {
