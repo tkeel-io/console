@@ -6,7 +6,7 @@ const { copyTemplates, writeTemplates } = require('./files');
 const {
   checkPluginName,
   checkPluginBasePath,
-  checkPluginPort,
+  checkPluginDevServerPort,
 } = require('../utils/packages');
 const logger = require('../utils/logger');
 
@@ -26,9 +26,9 @@ const logger = require('../utils/logger');
     return;
   }
 
-  const checkPortRes = checkPluginPort(argv);
-  if (!checkPortRes.flag) {
-    logger.error(checkPortRes.message);
+  const checkDevServerPortRes = checkPluginDevServerPort(argv);
+  if (!checkDevServerPortRes.flag) {
+    logger.error(checkDevServerPortRes.message);
     return;
   }
 

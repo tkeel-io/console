@@ -6,10 +6,10 @@ const WebpackNotifierPlugin = require('webpack-notifier');
 const paths = require('../scripts/utils/paths');
 const baseConfig = require('./webpack.config.base');
 
-let PROXY = {};
+let DEV_SERVER_PROXY = {};
 
 try {
-  PROXY = JSON.parse(process.env.PROXY);
+  DEV_SERVER_PROXY = JSON.parse(process.env.DEV_SERVER_PROXY);
   // eslint-disable-next-line no-empty
 } catch {}
 
@@ -20,8 +20,8 @@ const devConfig = {
   },
   devtool: 'cheap-module-source-map',
   devServer: {
-    port: process.env.PORT,
-    proxy: PROXY,
+    port: process.env.DEV_SERVER_PORT,
+    proxy: DEV_SERVER_PROXY,
     historyApiFallback: true,
     hot: true,
     static: {
