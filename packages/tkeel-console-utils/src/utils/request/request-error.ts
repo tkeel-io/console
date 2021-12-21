@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 
-class CustomError extends Error {
+class RequestError extends Error {
   readonly response: AxiosResponse;
 
   constructor({
@@ -15,4 +15,4 @@ class CustomError extends Error {
   }
 }
 
-export default CustomError;
+export default RequestError;

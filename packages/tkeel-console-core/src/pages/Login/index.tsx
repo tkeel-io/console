@@ -12,26 +12,34 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { Form } from '@tkeel/console-components';
-// import { request } from '@tkeel/console-utils';
+import { request, RequestError } from '@tkeel/console-utils';
 
 type Inputs = {
   username: string;
   password: string;
 };
 
-/* (async () => {
+(async () => {
   try {
     const response = await request({
-      url: '/security/v1/oauth/token?grant_type1=password&username=2-demoadmin&password=123456',
-      extras: {
-        isShowErrorMessage: false,
+      url: '/security/v1/oauth/token',
+      method: 'GET',
+      params: {
+        grant_type: 'password',
+        username: '2-demoadmin',
+        password: '123456',
       },
+      extras: {},
     });
+    // eslint-disable-next-line no-console
     console.log('response', response);
-  } catch {
-    //
+  } catch (error) {
+    if (error instanceof RequestError) {
+      // eslint-disable-next-line no-console
+      console.log('error', error.response);
+    }
   }
-})(); */
+})();
 
 const onSubmit: SubmitHandler<Inputs> = (values) => {
   // eslint-disable-next-line no-console
