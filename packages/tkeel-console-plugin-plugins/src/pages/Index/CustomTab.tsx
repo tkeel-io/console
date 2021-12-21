@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Text, useStyles, useTab } from '@chakra-ui/react';
+import { Badge, Box, Text, useStyles, useTab } from '@chakra-ui/react';
 
 type Props = {
   children: React.ReactNode | string;
@@ -33,7 +33,7 @@ function CustomTab(props: Props) {
       >
         {tabProps.children}
       </Text>
-      <Text
+      <Badge
         position="absolute"
         top="4px"
         right="4px"
@@ -47,7 +47,7 @@ function CustomTab(props: Props) {
         backgroundColor={isSelected ? 'tKeel' : 'grayAlternatives.200'}
       >
         12
-      </Text>
+      </Badge>
     </Box>
   );
 }

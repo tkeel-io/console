@@ -7,9 +7,15 @@ import CustomTab from './CustomTab';
 
 function Index(): JSX.Element {
   return (
-    <Flex flexDir="column" height="100%">
+    <Flex flexDirection="column" height="100%">
       <PageHeader name="插件管理" desc="一段描述文字" />
-      <Tabs marginTop="16px">
+      <Tabs
+        display="flex"
+        flexDirection="column"
+        flex="1"
+        overflow="hidden"
+        marginTop="16px"
+      >
         <TabList
           padding="2px"
           width="254px"
@@ -22,11 +28,11 @@ function Index(): JSX.Element {
           <CustomTab>tKeel</CustomTab>
           <CustomTab>已安装</CustomTab>
         </TabList>
-        <TabPanels marginTop="16px">
-          <TabPanel padding="0">
+        <TabPanels flex="1" overflow="hidden" marginTop="16px">
+          <TabPanel height="100%" padding="0">
             <Content />
           </TabPanel>
-          <TabPanel padding="0">
+          <TabPanel height="100%" padding="0">
             <Content />
           </TabPanel>
         </TabPanels>

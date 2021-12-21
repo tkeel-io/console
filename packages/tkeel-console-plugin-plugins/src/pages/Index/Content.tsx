@@ -1,8 +1,8 @@
 import React from 'react';
-import { Box, Flex, Grid, Text } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import { SearchInput } from '@tkeel/console-components';
 
-import Card from './Card';
+import PluginList from './PluginList';
 
 function Content() {
   const pluginNum = [
@@ -21,13 +21,14 @@ function Content() {
   ];
 
   return (
-    <Box
-      flex="1"
-      padding="17px 24px 24px"
+    <Flex
+      flexDirection="column"
+      height="100%"
+      paddingTop="17px"
       borderRadius="4px"
       backgroundColor="white"
     >
-      <Flex alignItems="center" justifyContent="space-between">
+      <Flex margin="0 24px" alignItems="center" justifyContent="space-between">
         <Flex alignItems="center">
           {pluginNum.map((item) => (
             <Flex key={item.name} alignItems="center" marginRight="5px">
@@ -45,17 +46,10 @@ function Content() {
             </Flex>
           ))}
         </Flex>
-        <SearchInput width="452px" />
+        <SearchInput width="452px" placeholder="搜索插件" />
       </Flex>
-      <Grid marginTop="19px" templateColumns="repeat(4, 1fr)" gap="8px">
-        {Array.from({ length: 10 })
-          .fill('')
-          .map((_, index) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <Card key={index} />
-          ))}
-      </Grid>
-    </Box>
+      <PluginList />
+    </Flex>
   );
 }
 

@@ -106,6 +106,22 @@ const variantSolid: SystemStyleFunction = (props) => {
     };
   }
 
+  if (c === 'tKeel') {
+    const bg = mode(`tKeel`, `whiteAlpha.200`)(props);
+
+    return {
+      color: 'white',
+      bg,
+      _hover: {
+        bg: mode(`tKeel`, `whiteAlpha.300`)(props),
+        _disabled: {
+          bg,
+        },
+      },
+      _active: { bg: mode(`tKeel`, `whiteAlpha.400`)(props) },
+    };
+  }
+
   const {
     bg = `${c}.500`,
     color = 'white',
@@ -185,7 +201,7 @@ const sizes: Record<string, SystemStyleObject> = {
     px: 3,
   },
   xs: {
-    h: 6,
+    h: 5,
     minW: 6,
     fontSize: 'xs',
     px: 2,

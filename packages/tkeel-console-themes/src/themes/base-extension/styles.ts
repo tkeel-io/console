@@ -10,7 +10,7 @@ export default {
 
     body: {
       '& > #root': {
-        height: '100vh',
+        // height: '100vh',
       },
     },
 

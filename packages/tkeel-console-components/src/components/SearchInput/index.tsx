@@ -21,6 +21,7 @@ function SearchInput({ width, height, borderRadius, placeholder }: Props) {
         borderRadius={borderRadius}
         boxShadow="none!important"
         placeholder={placeholder}
+        fontSize="12px"
         _focus={{ borderColor: 'gray.400' }}
       />
     </InputGroup>
