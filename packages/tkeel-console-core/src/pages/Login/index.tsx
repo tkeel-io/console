@@ -19,9 +19,9 @@ type Inputs = {
   password: string;
 };
 
-(async () => {
+async function login() {
   try {
-    const response = await request({
+    const { data } = await request({
       url: '/security/v1/oauth/token',
       method: 'GET',
       params: {
@@ -29,16 +29,37 @@ type Inputs = {
         username: '2-demoadmin',
         password: '123456',
       },
-      extras: {},
+      extras: {
+        isWithToken: false,
+      },
     });
-    // eslint-disable-next-line no-console
-    console.log('response', response);
+    return data;
   } catch (error) {
     if (error instanceof RequestError) {
       // eslint-disable-next-line no-console
       console.log('error', error.response);
     }
+    return null;
   }
+}
+
+async function fetchMenus({ accessToken }: { accessToken: string }) {
+  const { data } = await request({
+    url: '/rudder/v1/entries',
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+  // eslint-disable-next-line no-console
+  console.log(data);
+}
+
+(async () => {
+  // @ts-ignore
+  const { access_token: accessToken } = await login();
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  await fetchMenus({ accessToken });
 })();
 
 const onSubmit: SubmitHandler<Inputs> = (values) => {
