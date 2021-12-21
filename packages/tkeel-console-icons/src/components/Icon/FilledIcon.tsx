@@ -1,5 +1,6 @@
 import React from 'react';
 import { Theme, useTheme } from '@chakra-ui/react';
+import { getColor } from '@chakra-ui/theme-tools';
 
 import { filledIconDefaultProps } from './default-props';
 import { FilledIconPropsWithSvgComponent } from './types';
@@ -12,7 +13,10 @@ function FilledIcon({
   style,
   svgComponent: SvgComponent,
 }: FilledIconPropsWithSvgComponent): JSX.Element {
-  const { colors }: Theme = useTheme();
+  const theme: Theme = useTheme();
+  const { colors } = theme;
+  const themeColor =
+    typeof color === 'string' ? (getColor(theme, color, color) as string) : '';
   const modeColors = {
     dark: colors.white,
     light: colors.gray['700'],
@@ -25,7 +29,7 @@ function FilledIcon({
       width={size}
       height={size}
       className={className}
-      style={{ fill: color || modeColor, ...style }}
+      style={{ fill: themeColor || modeColor, ...style }}
     />
   );
 }
