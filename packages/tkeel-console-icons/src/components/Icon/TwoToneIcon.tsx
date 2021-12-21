@@ -1,5 +1,6 @@
 import React from 'react';
 import { Theme, useTheme } from '@chakra-ui/react';
+import { getColor } from '@chakra-ui/theme-tools';
 
 import { twoToneIconDefaultProps } from './default-props';
 import FilledIcon from './FilledIcon';
@@ -12,7 +13,14 @@ function TwoToneIcon({
   style,
   ...rest
 }: TwoToneIconPropsWithSvgComponent): JSX.Element {
-  const { colors }: Theme = useTheme();
+  const theme: Theme = useTheme();
+  const { colors } = theme;
+  const themeColor =
+    typeof color === 'string' ? (getColor(theme, color, color) as string) : '';
+  const themeTwoToneColor =
+    typeof twoToneColor === 'string'
+      ? (getColor(theme, twoToneColor, twoToneColor) as string)
+      : '';
 
   const modeColors = {
     dark: {
@@ -37,8 +45,8 @@ function TwoToneIcon({
       {...rest}
       mode={mode}
       style={{
-        fill: color || modeColor,
-        color: twoToneColor || modeTwoToneColor,
+        fill: themeColor || modeColor,
+        color: themeTwoToneColor || modeTwoToneColor,
         ...style,
       }}
     />
