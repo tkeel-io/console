@@ -10,11 +10,16 @@ export interface Extras {
 }
 
 export interface RequestOptions extends AxiosRequestConfig {
-  extras: Extras;
+  extras?: Extras;
 }
 
 export interface ResponseData {
   code: number;
   msg: string;
-  data: Record<string, any>;
+  data: unknown;
+}
+
+export interface Response {
+  data: unknown;
+  response: AxiosResponse;
 }

@@ -8,11 +8,20 @@ export const DEFAULT_AXIOS_REQUEST_CONFIG: AxiosRequestConfig = {
   validateStatus: (status: number) => !inRange(status, 300, 400),
 };
 
-export const DEFAULT_EXTRAS: Extras = {
-  isWithToken: true,
+export const DEFAULT_BASE_EXTRAS: Extras = {
+  isWithToken: false,
   handleNoAuth: false,
   handleError: false,
   errorMessage: '',
   handleAxiosError: false,
+  axiosErrorMessage: '',
+};
+
+export const DEFAULT_EXTRAS: Extras = {
+  isWithToken: true,
+  handleNoAuth: true,
+  handleError: true,
+  errorMessage: '',
+  handleAxiosError: true,
   axiosErrorMessage: '',
 };
