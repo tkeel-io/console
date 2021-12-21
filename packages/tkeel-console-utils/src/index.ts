@@ -1,5 +1,1 @@
-export {
-  AxiosRequestConfig,
-  AxiosResponse,
-  default as request,
-} from './utils/request';
+export * from './utils/request';
