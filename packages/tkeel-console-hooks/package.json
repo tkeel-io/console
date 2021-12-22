@@ -11,6 +11,9 @@
   },
   "license": "Apache-2.0",
   "main": "./src/index.ts",
+  "dependencies": {
+    "react-query": "^3.34.5"
+  },
   "devDependencies": {
     "@types/tkeel-console": "workspace:^"
   },
