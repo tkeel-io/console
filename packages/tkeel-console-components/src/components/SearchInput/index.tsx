@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
 import { MagnifierFilledIcon } from '@tkeel/console-icons';
 
@@ -7,22 +7,41 @@ type Props = {
   height?: string;
   borderRadius?: string;
   placeholder?: string;
+  onSearch: (keyword: string) => void;
 };
 
-function SearchInput({ width, height, borderRadius, placeholder }: Props) {
+function SearchInput({
+  width,
+  height,
+  borderRadius,
+  placeholder,
+  onSearch,
+}: Props) {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const onKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    const { keyCode } = event;
+    if (keyCode === 13 && inputRef.current) {
+      onSearch(inputRef.current.value.trim());
+    }
+  };
+
   return (
     <InputGroup width={width}>
       <InputLeftElement height={height} pointerEvents="none">
         <MagnifierFilledIcon />
       </InputLeftElement>
       <Input
+        ref={inputRef}
         height={height}
         borderColor="gray.200"
         borderRadius={borderRadius}
-        boxShadow="none!important"
-        placeholder={placeholder}
         fontSize="12px"
+        placeholder={placeholder}
         _focus={{ borderColor: 'gray.400' }}
+        onKeyDown={onKeyDown}
       />
     </InputGroup>
   );

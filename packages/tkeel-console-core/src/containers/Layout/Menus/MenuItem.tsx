@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { Flex } from '@chakra-ui/react';
 import { AppsAddFilledIcon } from '@tkeel/console-icons';
 
@@ -6,7 +6,7 @@ type Props = {
   active: boolean;
   name: string;
   icon: string;
-  rightIcon?: ReactNode;
+  rightIcon?: React.ReactNode;
 };
 
 function MenuItem({ active, name, icon, rightIcon }: Props) {

@@ -1,6 +1,14 @@
 import React from 'react';
-import { Flex, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import {
+  Button,
+  Flex,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+} from '@chakra-ui/react';
 import { PageHeader } from '@tkeel/console-components';
+import { AddFilledIcon, AppsAddFilledIcon } from '@tkeel/console-icons';
 
 import Content from './Content';
 import CustomTab from './CustomTab';
@@ -8,14 +16,28 @@ import CustomTab from './CustomTab';
 function Index(): JSX.Element {
   return (
     <Flex flexDirection="column" height="100%">
-      <PageHeader name="插件管理" desc="一段描述文字" />
+      <PageHeader
+        icon={<AppsAddFilledIcon size={26} />}
+        name="插件管理"
+        desc="一段描述文字"
+      />
       <Tabs
+        position="relative"
         display="flex"
         flexDirection="column"
         flex="1"
         overflow="hidden"
         marginTop="16px"
       >
+        <Button
+          position="absolute"
+          right="2px"
+          top="2px"
+          size="sm"
+          leftIcon={<AddFilledIcon color="white" />}
+        >
+          创建插件源
+        </Button>
         <TabList
           padding="2px"
           width="254px"

@@ -1,6 +1,10 @@
 import React from 'react';
 import { Button, Flex, Tag, Text } from '@chakra-ui/react';
-import { BoxTwoToneIcon, DownloadFilledIcon } from '@tkeel/console-icons';
+import {
+  BoxTwoToneIcon,
+  DownloadFilledIcon,
+  // LoadingFilledIcon,
+} from '@tkeel/console-icons';
 
 function Card() {
   return (
@@ -39,6 +43,7 @@ function Card() {
           colorScheme="tKeel"
           size="xs"
           leftIcon={<DownloadFilledIcon size={12} />}
+          // leftIcon={<LoadingFilledIcon color="white" size={12} />}
         >
           安装
         </Button>

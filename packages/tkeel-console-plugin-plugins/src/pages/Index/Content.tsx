@@ -1,8 +1,14 @@
 import React from 'react';
+import { Column } from 'react-table';
 import { Flex, Text } from '@chakra-ui/react';
 import { SearchInput } from '@tkeel/console-components';
 
-import PluginList from './PluginList';
+import PluginList, { Data } from './PluginList';
+
+const handleSearch = (keyword: string) => {
+  // eslint-disable-next-line no-console
+  console.log('keyword', keyword);
+};
 
 function Content() {
   const pluginNum = [
@@ -19,6 +25,19 @@ function Content() {
       num: 20,
     },
   ];
+
+  const columns: Column<Data>[] = [
+    {
+      Header: 'ID',
+      accessor: 'id',
+    },
+  ];
+
+  const data = Array.from({ length: 1000 }).map((_, index) => {
+    return {
+      id: index.toString(),
+    };
+  });
 
   return (
     <Flex
@@ -46,9 +65,13 @@ function Content() {
             </Flex>
           ))}
         </Flex>
-        <SearchInput width="452px" placeholder="搜索插件" />
+        <SearchInput
+          width="452px"
+          placeholder="搜索插件"
+          onSearch={handleSearch}
+        />
       </Flex>
-      <PluginList />
+      <PluginList columns={columns} data={data} />
     </Flex>
   );
 }

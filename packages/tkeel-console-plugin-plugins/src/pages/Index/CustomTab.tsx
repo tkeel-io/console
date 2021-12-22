@@ -14,14 +14,14 @@ function CustomTab(props: Props) {
     <Box
       as="button"
       position="relative"
+      margin="0"
       padding="0"
       width="50%"
       height="28px"
-      borderRadius="22px"
       border="none"
-      _focus={{ boxShadow: 'none' }}
+      borderRadius="22px"
       backgroundColor={isSelected ? 'gray.800' : 'transparent'}
-      margin="0"
+      _focus={{ boxShadow: 'none' }}
       __css={styles.tab}
       {...tabProps}
     >

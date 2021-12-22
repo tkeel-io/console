@@ -1,15 +1,22 @@
 import React from 'react';
 import { Column, TableInstance, usePagination, useTable } from 'react-table';
 import { Flex, Grid } from '@chakra-ui/react';
+import { Pagination } from '@tkeel/console-components';
 
 import Card from './Card';
-import Pagination from './Pagination';
 
-type Data = {
+export type Data = {
   id: string;
 };
 
-function Table({ columns, data }: { columns: Column<Data>[]; data: Data[] }) {
+function PluginList({
+  columns,
+  data,
+}: {
+  columns: Column<Data>[];
+  data: Data[];
+}) {
+  const defaultPageSize = 20;
   const {
     page,
     canPreviousPage,
@@ -22,7 +29,7 @@ function Table({ columns, data }: { columns: Column<Data>[]; data: Data[] }) {
     {
       columns,
       data,
-      initialState: { pageSize: 12 },
+      initialState: { pageSize: defaultPageSize },
     },
     usePagination
   );
@@ -56,23 +63,6 @@ function Table({ columns, data }: { columns: Column<Data>[]; data: Data[] }) {
       />
     </Flex>
   );
-}
-
-function PluginList() {
-  const columns: Column<Data>[] = [
-    {
-      Header: 'ID',
-      accessor: 'id',
-    },
-  ];
-
-  const data = Array.from({ length: 1000 }).map((_, index) => {
-    return {
-      id: index.toString(),
-    };
-  });
-
-  return <Table columns={columns} data={data} />;
 }
 
 export default PluginList;
