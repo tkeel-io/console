@@ -3375,8 +3375,8 @@ __metadata:
   dependencies:
     "@types/axios": ^0.14.0
     "@types/tkeel-console": "workspace:^"
-  peerDependencies:
     axios: ^0.24.0
+    store2: ^2.13.1
   languageName: unknown
   linkType: soft
 
@@ -4575,7 +4575,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:*":
+"axios@npm:*, axios@npm:^0.24.0":
   version: 0.24.0
   resolution: "axios@npm:0.24.0"
   dependencies:
@@ -14303,6 +14303,13 @@ __metadata:
   version: 1.5.0
   resolution: "statuses@npm:1.5.0"
   checksum: c469b9519de16a4bb19600205cffb39ee471a5f17b82589757ca7bd40a8d92ebb6ed9f98b5a540c5d302ccbc78f15dc03cc0280dd6e00df1335568a5d5758a5c
+  languageName: node
+  linkType: hard
+
+"store2@npm:^2.13.1":
+  version: 2.13.1
+  resolution: "store2@npm:2.13.1"
+  checksum: c5fa1ac7dbf8431d87ad4563d9838311bb421cc6e13696b668c772192942be2e07ef20d36104f7496acab6dc4d569a9b50d6c2299ceaddbcb86628f585323ff4
   languageName: node
   linkType: hard
 
