@@ -39,12 +39,6 @@ async function login() {
 async function fetchMenus() {
   const { data } = await request({
     url: '/rudder/v1/entries',
-    method: 'GET',
-    extras: {
-      isWithToken: true,
-      errorMessage: '123',
-      axiosErrorMessage: '456',
-    },
   });
   // eslint-disable-next-line no-console
   console.log(data);

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { get, merge } from 'lodash';
 
 import { getLocalTokenData } from '../auth';
-import { DEFAULT_AXIOS_REQUEST_CONFIG, DEFAULT_BASE_EXTRAS } from './constants';
+import { DEFAULT_AXIOS_REQUEST_CONFIG, DEFAULT_BASE_EXTRAS } from './defaults';
 import RequestError from './request-error';
 import {
   AxiosErrorExtended,
