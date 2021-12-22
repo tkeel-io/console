@@ -1,12 +1,6 @@
-import { AxiosRequestConfig } from 'axios';
 import { get, inRange } from 'lodash';
 
-import { Extras, ResponseData } from './types';
-
-export const DEFAULT_AXIOS_REQUEST_CONFIG: AxiosRequestConfig = {
-  baseURL: process.env.API_PATHNAME || '/apis',
-  validateStatus: (status: number) => !inRange(status, 300, 400),
-};
+import { AxiosRequestConfigExtended, Extras, ResponseData } from './types';
 
 export const DEFAULT_BASE_EXTRAS: Extras = {
   isWithToken: false,
@@ -35,4 +29,10 @@ export const DEFAULT_EXTRAS: Extras = {
     console.error('handleAxiosError', axiosErrorMessage || message);
   },
   axiosErrorMessage: '',
+};
+
+export const DEFAULT_AXIOS_REQUEST_CONFIG: AxiosRequestConfigExtended = {
+  baseURL: process.env.API_PATHNAME || '/apis',
+  validateStatus: (status: number) => !inRange(status, 300, 400),
+  extras: DEFAULT_BASE_EXTRAS,
 };

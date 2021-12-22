@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import {
   AxiosRequestConfig,
-  AxiosResponse,
+  AxiosResponseExtended,
   request,
 } from '@tkeel/console-utils';
 
 function useRequest(config: AxiosRequestConfig) {
-  const [resp, setResp] = useState<AxiosResponse | null>(null);
+  const [resp, setResp] = useState<AxiosResponseExtended | null>(null);
 
   useEffect(() => {
     (async () => {

@@ -12,18 +12,11 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { Form } from '@tkeel/console-components';
-import { request } from '@tkeel/console-utils';
+import { request, setLocalTokenData, TokenData } from '@tkeel/console-utils';
 
 type Inputs = {
   username: string;
   password: string;
-};
-
-type TokenData = {
-  access_token: string;
-  expires_in: number;
-  refresh_token: string;
-  token_type: string;
 };
 
 async function login() {
@@ -43,14 +36,12 @@ async function login() {
   return data;
 }
 
-async function fetchMenus({ accessToken }: { accessToken: string }) {
+async function fetchMenus() {
   const { data } = await request({
     url: '/rudder/v1/entries',
     method: 'GET',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
     extras: {
+      isWithToken: true,
       errorMessage: '123',
       axiosErrorMessage: '456',
     },
@@ -60,8 +51,9 @@ async function fetchMenus({ accessToken }: { accessToken: string }) {
 }
 
 (async () => {
-  const { access_token: accessToken } = await login();
-  await fetchMenus({ accessToken });
+  const data = await login();
+  setLocalTokenData(data);
+  await fetchMenus();
 })();
 
 const onSubmit: SubmitHandler<Inputs> = (values) => {
