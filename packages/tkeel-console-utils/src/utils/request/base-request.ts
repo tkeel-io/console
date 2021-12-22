@@ -6,10 +6,10 @@ import instance from './instance';
 import RequestError from './request-error';
 import { RequestOptions, Response, ResponseData } from './types';
 
-function baseRequest({
+function baseRequest<T>({
   extras,
   ...axiosRequestConfig
-}: RequestOptions): Promise<Response> {
+}: RequestOptions): Promise<Response<T>> {
   const {
     isWithToken,
     handleNoAuth,
@@ -31,8 +31,7 @@ function baseRequest({
 
   instance.interceptors.response.use(
     (response) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const data: ResponseData = get(response, ['data']);
+      const data: ResponseData<T> = get(response, ['data']);
       const code = get(data, ['code']);
 
       if (code === 0) {
@@ -42,42 +41,27 @@ function baseRequest({
       const message = get(data, ['msg'], '');
       const error = new RequestError({ message, response });
 
-      if (code === 401) {
-        if (handleNoAuth === true) {
-          // redirect to login page
-        } else if (typeof handleNoAuth === 'function') {
-          handleNoAuth(response);
-        }
+      if (code === 401 && typeof handleNoAuth === 'function') {
+        handleNoAuth(response);
       }
 
-      if (handleError === true) {
-        // eslint-disable-next-line no-console
-        console.error('handleError === true', errorMessage || message);
-      } else if (typeof handleError === 'function') {
-        handleError(response);
+      if (typeof handleError === 'function') {
+        handleError({ response, errorMessage });
       }
 
       return Promise.reject(error);
     },
-    (error: AxiosError) => {
-      const { message } = error;
+      (error: AxiosError) => {
+        if (typeof handleAxiosError === 'function') {
+          handleAxiosError({ axiosErrorMessage, error });
+        }
 
-      if (handleAxiosError === true) {
-        // eslint-disable-next-line no-console
-        console.error(
-          'handleAxiosError === true',
-          axiosErrorMessage || message
-        );
-      } else if (typeof handleAxiosError === 'function') {
-        handleAxiosError(error);
-      }
-
-      return Promise.reject(error);
-    }
+        return Promise.reject(error);
+      };
   );
 
   return instance(config).then((response) => {
-    const data: unknown = get(response, ['data', 'data']);
+    const data: T = get(response, ['data', 'data']);
     return { data, response };
   });
 }
