@@ -12,33 +12,56 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { Form } from '@tkeel/console-components';
-import { request, RequestError } from '@tkeel/console-utils';
+import { request } from '@tkeel/console-utils';
 
 type Inputs = {
   username: string;
   password: string;
 };
 
+type TokenData = {
+  access_token: string;
+  expires_in: number;
+  refresh_token: string;
+  token_type: string;
+};
+
+async function login() {
+  const { data } = await request<TokenData>({
+    url: '/security/v1/oauth/token',
+    method: 'GET',
+    params: {
+      grant_type: 'password',
+      username: '2-demoadmin',
+      password: '123456',
+    },
+    extras: {
+      isWithToken: false,
+    },
+  });
+
+  return data;
+}
+
+async function fetchMenus({ accessToken }: { accessToken: string }) {
+  const { data } = await request({
+    url: '/rudder/v1/entries',
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    extras: {
+      errorMessage: '123',
+      axiosErrorMessage: '456',
+    },
+  });
+  // eslint-disable-next-line no-console
+  console.log(data);
+}
+
 (async () => {
-  try {
-    const response = await request({
-      url: '/security/v1/oauth/token',
-      method: 'GET',
-      params: {
-        grant_type: 'password',
-        username: '2-demoadmin',
-        password: '123456',
-      },
-      extras: {},
-    });
-    // eslint-disable-next-line no-console
-    console.log('response', response);
-  } catch (error) {
-    if (error instanceof RequestError) {
-      // eslint-disable-next-line no-console
-      console.log('error', error.response);
-    }
-  }
+  const { access_token: accessToken } = await login();
+  await fetchMenus({ accessToken });
 })();
 
 const onSubmit: SubmitHandler<Inputs> = (values) => {

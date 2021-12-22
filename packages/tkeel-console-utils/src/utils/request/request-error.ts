@@ -1,14 +1,14 @@
-import { AxiosResponse } from 'axios';
+import { AxiosResponse } from './types';
 
 class RequestError extends Error {
-  readonly response: AxiosResponse;
+  readonly response: AxiosResponse<unknown>;
 
   constructor({
     message,
     response,
   }: {
     message: string;
-    response: AxiosResponse;
+    response: AxiosResponse<unknown>;
   }) {
     super(message);
     this.response = response;

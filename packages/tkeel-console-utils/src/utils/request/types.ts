@@ -1,25 +1,49 @@
-import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import {
+  AxiosError,
+  AxiosRequestConfig,
+  AxiosResponse as AxiosBaseResponse,
+} from 'axios';
+
+export interface AxiosResponse<T> extends AxiosBaseResponse {
+  data: ResponseData<T>;
+}
 
 export interface Extras {
   isWithToken?: boolean;
-  handleNoAuth?: boolean | ((response: AxiosResponse) => unknown);
-  handleError?: boolean | ((response: AxiosResponse) => unknown);
-  errorMessage?: string;
-  handleAxiosError?: boolean | ((error: AxiosError) => unknown);
-  axiosErrorMessage?: string;
+  handleNoAuth?: false | ((response: AxiosResponse<unknown>) => unknown);
+  handleError?:
+    | false
+    | (({
+        errorMessage,
+        response,
+      }: {
+        errorMessage: string | undefined;
+        response: AxiosResponse<unknown>;
+      }) => unknown);
+  errorMessage?: string | undefined;
+  handleAxiosError?:
+    | false
+    | (({
+        axiosErrorMessage,
+        error,
+      }: {
+        axiosErrorMessage: string | undefined;
+        error: AxiosError;
+      }) => unknown);
+  axiosErrorMessage?: string | undefined;
 }
 
 export interface RequestOptions extends AxiosRequestConfig {
   extras?: Extras;
 }
 
-export interface ResponseData {
+export interface ResponseData<T = unknown> {
   code: number;
   msg: string;
-  data: unknown;
+  data: T;
 }
 
-export interface Response {
-  data: unknown;
-  response: AxiosResponse;
+export interface Response<T = unknown> {
+  data: T;
+  response: AxiosResponse<T>;
 }
