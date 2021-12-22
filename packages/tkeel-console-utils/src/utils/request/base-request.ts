@@ -4,7 +4,7 @@ import { get, merge } from 'lodash';
 import { DEFAULT_BASE_EXTRAS } from './constants';
 import instance from './instance';
 import RequestError from './request-error';
-import { RequestOptions, Response, ResponseData } from './types';
+import { AxiosResponse, RequestOptions, Response, ResponseData } from './types';
 
 function baseRequest<T>({
   extras,
@@ -30,7 +30,7 @@ function baseRequest<T>({
     : axiosRequestConfig;
 
   instance.interceptors.response.use(
-    (response) => {
+    (response: AxiosResponse<T>) => {
       const data: ResponseData<T> = get(response, ['data']);
       const code = get(data, ['code']);
 
@@ -51,16 +51,16 @@ function baseRequest<T>({
 
       return Promise.reject(error);
     },
-      (error: AxiosError) => {
-        if (typeof handleAxiosError === 'function') {
-          handleAxiosError({ axiosErrorMessage, error });
-        }
+    (error: AxiosError) => {
+      if (typeof handleAxiosError === 'function') {
+        handleAxiosError({ axiosErrorMessage, error });
+      }
 
-        return Promise.reject(error);
-      };
+      return Promise.reject(error);
+    }
   );
 
-  return instance(config).then((response) => {
+  return instance(config).then((response: AxiosResponse<T>) => {
     const data: T = get(response, ['data', 'data']);
     return { data, response };
   });
