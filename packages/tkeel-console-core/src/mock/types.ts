@@ -17,11 +17,11 @@ export interface IEntry {
   icon: string;
   path: string;
   entry: string;
+  category: string;
   menu: string[];
 }
 
 export interface IMenu {
-  categoryId: string;
-  categoryName?: string;
+  category: string;
   menus: IMenuDetail[];
 }

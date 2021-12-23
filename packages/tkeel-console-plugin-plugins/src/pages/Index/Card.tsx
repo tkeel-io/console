@@ -1,12 +1,12 @@
 import React from 'react';
-import { Button, Flex, Tag, Text } from '@chakra-ui/react';
-import {
-  BoxTwoToneIcon,
-  DownloadFilledIcon,
-  // LoadingFilledIcon,
-} from '@tkeel/console-icons';
+import { useNavigate } from 'react-router-dom';
+import { Flex, Tag, Text } from '@chakra-ui/react';
+import { BoxTwoToneIcon } from '@tkeel/console-icons';
+
+import InstallButton from '@/components/InstallButton';
 
 function Card() {
+  const navigate = useNavigate();
   return (
     <Flex
       position="relative"
@@ -31,6 +31,7 @@ function Card() {
         borderTopLeftRadius: '2px',
         borderTopRightRadius: '2px',
       }}
+      onClick={() => navigate('/detail/1')}
     >
       <Flex alignItems="center" justifyContent="space-between">
         <Flex alignItems="center">
@@ -39,14 +40,7 @@ function Card() {
             device
           </Text>
         </Flex>
-        <Button
-          colorScheme="tKeel"
-          size="xs"
-          leftIcon={<DownloadFilledIcon size={12} />}
-          // leftIcon={<LoadingFilledIcon color="white" size={12} />}
-        >
-          安装
-        </Button>
+        <InstallButton />
       </Flex>
       <Text color="gray.500" fontSize="12px" height="20px" isTruncated>
         安装用于管理设备的插件

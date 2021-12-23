@@ -195,14 +195,14 @@ const sizes: Record<string, SystemStyleObject> = {
     px: 4,
   },
   sm: {
-    h: 8,
-    minW: 8,
+    h: 7,
+    minW: 7,
     fontSize: 'sm',
     px: 3,
   },
   xs: {
     h: 5,
-    minW: 6,
+    minW: 5,
     fontSize: 'xs',
     px: 2,
   },

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { useState } from 'react';
 import { Box, Flex, Heading, Image, Text } from '@chakra-ui/react';
 
@@ -46,12 +45,12 @@ function Menus({ menus: menusData }: Props) {
         </Heading>
       </Flex>
       <Box padding="24px">
-        {menusData.map(({ categoryId, categoryName, menus }) => {
+        {menusData.map(({ category, menus }) => {
           return (
-            <Box key={categoryId}>
-              {categoryId !== 'default' && (
+            <Box key={category}>
+              {category && (
                 <Text margin="20px 0" fontSize="12px" color="gray.400">
-                  {categoryName}
+                  {category}
                 </Text>
               )}
               {menus.map((menu) => {
