@@ -1,124 +1,17 @@
 import React, { useState } from 'react';
-import {
-  Link as ReactRouterLink,
-  useLocation,
-  useMatch,
-  useResolvedPath,
-} from 'react-router-dom';
-import {
-  Box as Menu,
-  Box as MenusWrapper,
-  Box as SubMenus,
-  Image as Logo,
-} from '@chakra-ui/react';
-import { BellFilledIcon } from '@tkeel/console-icons';
+import { Box, Flex, Heading, Image } from '@chakra-ui/react';
 
-import {
-  CategoryName,
-  IconName,
-  IconWrapper,
-  List,
-  MenuItem,
-  MenuLink,
-  SubMenuLink,
-  SubMenuTitle,
-  Title,
-  TitleWrapper,
-  Wrapper,
-} from './index.styled';
-import {
-  CustomLinkReturnType,
-  CustomMenuLinkProps,
-  IconNameProps,
-  Props,
-  SubMenuProps,
-} from './types';
+import CustomMenuLink from './CustomMenuLink';
+import CustomSubMenuLink from './CustomSubMenuLink';
+import MenuTitle from './MenuTitle';
 
 import LogoImg from '@/assets/images/logo.png';
 
-import { IMenuDetail } from '@/mock/types';
+import { IMenu } from '@/mock/types';
 
-function useActive(to: string): boolean {
-  const resolved = useResolvedPath(to);
-  const active = useMatch({ path: resolved.pathname, end: false });
-  return !!active;
-}
-
-function useCustomLinkProps(to: string): CustomLinkReturnType {
-  const active = useActive(to);
-  return {
-    as: ReactRouterLink,
-    className: active ? 'active' : '',
-    to,
-  };
-}
-
-function IconNameWrapper({ name }: IconNameProps) {
-  return (
-    <IconName>
-      <IconWrapper>
-        <BellFilledIcon />
-      </IconWrapper>
-      {name}
-    </IconName>
-  );
-}
-
-function SubMenuTitleWrapper({
-  id,
-  name,
-  icon,
-  children,
-  handleMenuClick,
-}: IMenuDetail & { handleMenuClick: (id: string) => void }) {
-  const location = useLocation();
-  const active: boolean = (children as IMenuDetail[]).some((item) => {
-    return item.path && location.pathname.includes(item.path);
-  });
-
-  return (
-    <SubMenuTitle
-      active={active.toString()}
-      onClick={() => handleMenuClick(id)}
-    >
-      <MenuItem>
-        <IconNameWrapper name={name} icon={icon} />
-        <BellFilledIcon />
-        {/* {spread ? <ChevronUpIcon /> : <ChevronDownIcon />} */}
-      </MenuItem>
-    </SubMenuTitle>
-  );
-}
-
-function CustomMenuLink({ to, children }: CustomMenuLinkProps) {
-  const props = useCustomLinkProps(to);
-  return (
-    <MenuLink _hover={{ backgroundColor: 'gray.100' }} {...props}>
-      {children}
-    </MenuLink>
-  );
-}
-
-function CustomSubMenuLink({ to, children }: CustomMenuLinkProps) {
-  const props = useCustomLinkProps(to);
-  return (
-    <SubMenuLink _active={{ backgroundColor: 'blue.400' }} {...props}>
-      {children}
-    </SubMenuLink>
-  );
-}
-
-function SubMenusWrapper({ subMenus }: SubMenuProps) {
-  return (
-    <SubMenus>
-      {subMenus.map((subMenu) => (
-        <CustomSubMenuLink key={subMenu.id} to={subMenu.path || ''}>
-          {subMenu.name}
-        </CustomSubMenuLink>
-      ))}
-    </SubMenus>
-  );
-}
+type Props = {
+  menus: IMenu[];
+};
 
 function Menus({ menus: menusData }: Props) {
   const [spreadMenuIds, setSpreadMenus] = useState<string[]>([]);
@@ -132,51 +25,62 @@ function Menus({ menus: menusData }: Props) {
   };
 
   return (
-    <Wrapper>
-      <TitleWrapper>
-        <Logo htmlWidth="27px" src={LogoImg} alt="" />
-        <Title as="h1" fontSize="18px">
+    <Box width="250px" backgroundColor="gray.50">
+      <Flex
+        alignItems="center"
+        height="92px"
+        paddingLeft="24px"
+        borderBottomWidth="1px"
+        borderBottomStyle="solid"
+        borderBottomColor="grayAlternatives.50"
+      >
+        <Image htmlWidth="27px" src={LogoImg} alt="" />
+        <Heading
+          as="h1"
+          marginLeft="10px"
+          color="grayAlternatives.700"
+          fontSize="18px"
+        >
           tKeel 管理平台
-        </Title>
-      </TitleWrapper>
-      <List>
-        {menusData.map(({ categoryId, categoryName, menus }) => {
+        </Heading>
+      </Flex>
+      <Box padding="24px">
+        {menusData.map((menu) => {
+          const { id, name, icon, path, children } = menu;
+          const spread = spreadMenuIds.includes(id);
           return (
-            <MenusWrapper key={categoryId}>
-              {categoryId !== 'default' && (
-                <CategoryName fontSize="12px" color="gray.400">
-                  {categoryName}
-                </CategoryName>
-              )}
-              {menus.map((menu) => {
-                const { id, name, icon, path, children } = menu;
-                const spread = spreadMenuIds.includes(id);
-
-                return (
-                  <Menu key={id}>
-                    {children ? (
-                      <SubMenuTitleWrapper
-                        {...menu}
-                        handleMenuClick={handleMenuClick}
+            <Box key={id}>
+              <Box key={id}>
+                {children ? (
+                  <MenuTitle
+                    {...menu}
+                    spread={spread}
+                    handleMenuClick={handleMenuClick}
+                  />
+                ) : (
+                  <CustomMenuLink
+                    path={path || ''}
+                    name={name}
+                    icon={icon || ''}
+                  />
+                )}
+                {children && spread && (
+                  <Box>
+                    {children.map((subMenu) => (
+                      <CustomSubMenuLink
+                        key={subMenu.id}
+                        name={subMenu.name}
+                        path={subMenu.path || ''}
                       />
-                    ) : (
-                      <CustomMenuLink to={path || ''}>
-                        <MenuItem>
-                          <IconNameWrapper name={name} icon={icon} />
-                        </MenuItem>
-                      </CustomMenuLink>
-                    )}
-                    {children && spread && (
-                      <SubMenusWrapper subMenus={children} />
-                    )}
-                  </Menu>
-                );
-              })}
-            </MenusWrapper>
+                    ))}
+                  </Box>
+                )}
+              </Box>
+            </Box>
           );
         })}
-      </List>
-    </Wrapper>
+      </Box>
+    </Box>
   );
 }
 

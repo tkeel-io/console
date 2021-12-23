@@ -1,4 +1,4 @@
-import { Box, ColorHues, Colors, Flex, Text } from '@chakra-ui/react';
+import { Center, ColorHues, Colors, Flex, Text } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
 const getGrayColor = ({ colors }: { colors: Colors }) =>
@@ -14,7 +14,7 @@ export const Wrapper = styled(Flex)`
     0px 4px 6px -2px rgba(113, 128, 150, 0.05);
 `;
 
-export const IconWrapper = styled(Box)`
+export const IconWrapper = styled(Center)`
   width: 60px;
   height: 60px;
   background-color: #eff4f9;

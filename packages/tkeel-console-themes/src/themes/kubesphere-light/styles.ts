@@ -1,7 +1,7 @@
 export default {
   global: {
     body: {
-      bg: '#edf2f7',
+      bg: 'gray.100',
     },
   },
 };

@@ -17,9 +17,9 @@ function Layout({ menus }: Props) {
     <Flex height="100%">
       {/* <CollapsedMenus menus={menus} /> */}
       <Menus menus={menus} />
-      <Flex flex={1} flexDirection="column" padding="24px">
+      <Flex flex="1" overflow="hidden" flexDirection="column" padding="24px">
         <Header menus={menus} />
-        <Flex flex={1}>
+        <Flex flex="1" overflow="hidden">
           <Outlet />
         </Flex>
       </Flex>

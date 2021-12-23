@@ -10,21 +10,13 @@ export default {
 
     body: {
       '& > #root': {
-        height: '100vh',
+        // height: '100vh',
       },
     },
 
     img: {
       maxWidth: '100%',
       verticalAlign: 'middle',
-    },
-
-    a: {
-      textDecoration: 'none',
-
-      _hover: {
-        textDecoration: 'none',
-      },
     },
 
     'ol, li': {

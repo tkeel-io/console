@@ -10,16 +10,17 @@ import {
 } from './index.styled';
 
 type Props = {
+  icon: React.ReactNode;
   name: string;
   desc: string;
 };
 
-function PageHeader({ name, desc }: Props) {
+function PageHeader({ icon, name, desc }: Props) {
   const { colors }: { colors: Colors } = useTheme();
 
   return (
     <Wrapper colors={colors}>
-      <IconWrapper />
+      <IconWrapper>{icon}</IconWrapper>
       <TitleWrapper>
         <Title colors={colors}>{name}</Title>
         <Desc colors={colors}>{desc}</Desc>

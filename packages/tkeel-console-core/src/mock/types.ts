@@ -1,27 +1,13 @@
-export interface IMenuDetail {
+export interface IMenu {
   id: string;
   name: string;
-  icon: string;
+  icon?: string;
   path?: string;
   entry?: string | { scripts?: string[]; styles?: string[]; html?: string };
-  children?: IMenuDetail[];
+  children?: IMenu[];
 }
 
-export interface IEntryData {
-  entries: IEntry[];
-}
-
-export interface IEntry {
-  id: string;
-  name: string;
-  icon: string;
-  path: string;
-  entry: string;
-  menu: string[];
-}
-
-export interface IMenu {
-  categoryId: string;
-  categoryName?: string;
-  menus: IMenuDetail[];
+export interface IData {
+  '@type': string;
+  entries: IMenu[];
 }

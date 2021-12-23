@@ -12,6 +12,7 @@ function FilledIcon({
   className,
   style,
   svgComponent: SvgComponent,
+  onClick,
 }: FilledIconPropsWithSvgComponent): JSX.Element {
   const theme: Theme = useTheme();
   const { colors } = theme;
@@ -30,6 +31,7 @@ function FilledIcon({
       height={size}
       className={className}
       style={{ fill: themeColor || modeColor, ...style }}
+      onClick={onClick}
     />
   );
 }
