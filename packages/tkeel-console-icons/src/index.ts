@@ -9,5 +9,6 @@ export { default as ChevronRightFilledIcon } from './components/ChevronRightFill
 export { default as ChevronUpFilledIcon } from './components/ChevronUpFilledIcon';
 export { default as DownloadFilledIcon } from './components/DownloadFilledIcon';
 export { default as HumanFilledIcon } from './components/HumanFilledIcon';
+export { default as HumanVipFilledIcon } from './components/HumanVipFilledIcon';
 export { default as LoadingFilledIcon } from './components/LoadingFilledIcon';
 export { default as MagnifierFilledIcon } from './components/MagnifierFilledIcon';

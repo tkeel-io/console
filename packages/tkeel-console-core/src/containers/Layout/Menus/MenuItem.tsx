@@ -1,15 +1,22 @@
 import React from 'react';
 import { Flex } from '@chakra-ui/react';
-import { AppsAddFilledIcon } from '@tkeel/console-icons';
+import * as icons from '@tkeel/console-icons';
 
 type Props = {
   active: boolean;
   name: string;
-  icon: string;
+  leftIcon?: string;
   rightIcon?: React.ReactNode;
 };
 
-function MenuItem({ active, name, icon, rightIcon }: Props) {
+const defaultProps = {
+  leftIcon: '',
+  rightIcon: null,
+};
+
+function MenuItem({ active, name, leftIcon, rightIcon }: Props) {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const Icon = leftIcon ? icons[leftIcon] : null;
   return (
     <Flex
       alignItems="center"
@@ -20,8 +27,8 @@ function MenuItem({ active, name, icon, rightIcon }: Props) {
       cursor="pointer"
     >
       <Flex alignItems="center">
-        {icon && (
-          <AppsAddFilledIcon
+        {Icon && (
+          <Icon
             mode={active ? 'dark' : 'light'}
             style={{ marginRight: '10px' }}
           />
@@ -33,8 +40,6 @@ function MenuItem({ active, name, icon, rightIcon }: Props) {
   );
 }
 
-MenuItem.defaultProps = {
-  rightIcon: null,
-};
+MenuItem.defaultProps = defaultProps;
 
 export default MenuItem;

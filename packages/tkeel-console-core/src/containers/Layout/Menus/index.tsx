@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Flex, Heading, Image, Text } from '@chakra-ui/react';
+import { Box, Flex, Heading, Image } from '@chakra-ui/react';
 
 import CustomMenuLink from './CustomMenuLink';
 import CustomSubMenuLink from './CustomSubMenuLink';
@@ -45,47 +45,37 @@ function Menus({ menus: menusData }: Props) {
         </Heading>
       </Flex>
       <Box padding="24px">
-        {menusData.map(({ category, menus }) => {
+        {menusData.map((menu) => {
+          const { id, name, icon, path, children } = menu;
+          const spread = spreadMenuIds.includes(id);
           return (
-            <Box key={category}>
-              {category && (
-                <Text margin="20px 0" fontSize="12px" color="gray.400">
-                  {category}
-                </Text>
-              )}
-              {menus.map((menu) => {
-                const { id, name, icon, path, children } = menu;
-                const spread = spreadMenuIds.includes(id);
-
-                return (
-                  <Box key={id}>
-                    {children ? (
-                      <MenuTitle
-                        {...menu}
-                        spread={spread}
-                        handleMenuClick={handleMenuClick}
+            <Box key={id}>
+              <Box key={id}>
+                {children ? (
+                  <MenuTitle
+                    {...menu}
+                    spread={spread}
+                    handleMenuClick={handleMenuClick}
+                  />
+                ) : (
+                  <CustomMenuLink
+                    path={path || ''}
+                    name={name}
+                    icon={icon || ''}
+                  />
+                )}
+                {children && spread && (
+                  <Box>
+                    {children.map((subMenu) => (
+                      <CustomSubMenuLink
+                        key={subMenu.id}
+                        name={subMenu.name}
+                        path={subMenu.path || ''}
                       />
-                    ) : (
-                      <CustomMenuLink
-                        path={path || ''}
-                        name={name}
-                        icon={icon}
-                      />
-                    )}
-                    {children && spread && (
-                      <Box>
-                        {children.map((subMenu) => (
-                          <CustomSubMenuLink
-                            key={subMenu.id}
-                            name={subMenu.name}
-                            path={subMenu.path || ''}
-                          />
-                        ))}
-                      </Box>
-                    )}
+                    ))}
                   </Box>
-                );
-              })}
+                )}
+              </Box>
             </Box>
           );
         })}

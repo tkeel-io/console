@@ -56,7 +56,7 @@ function CustomMenuLink({ path, name, icon }: Props) {
       as={as}
       to={to}
     >
-      <MenuItem active={active} name={name} icon={icon} />
+      <MenuItem active={active} name={name} leftIcon={icon} />
     </Link>
   );
 }
