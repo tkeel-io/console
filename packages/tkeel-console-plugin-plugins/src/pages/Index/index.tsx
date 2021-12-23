@@ -1,79 +1,64 @@
 import React from 'react';
-import { Box, Flex } from '@chakra-ui/react';
-import { PageHeader, SearchInput } from '@tkeel/console-components';
-
 import {
-  BaseInfo,
-  Card,
-  CardBottom,
-  Category,
-  Desc,
-  IconNameWrapper,
-  InstallButton,
-  Item,
-  ListContent,
-  Name,
-  Num,
-  PluginNum,
-} from './index.styled';
+  Button,
+  Flex,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+} from '@chakra-ui/react';
+import { PageHeader } from '@tkeel/console-components';
+import { AddFilledIcon, AppsAddFilledIcon } from '@tkeel/console-icons';
+
+import Content from './Content';
+import CustomTab from './CustomTab';
 
 function Index(): JSX.Element {
-  const pluginNum = [
-    {
-      name: '插件数量',
-      num: 50,
-    },
-    {
-      name: '已启用',
-      num: 30,
-    },
-    {
-      name: '未启用',
-      num: 20,
-    },
-  ];
-
   return (
-    <Flex flexDir="column" height="100%">
-      <PageHeader name="插件管理" desc="一段描述文字" />
-      <Box
-        width="380px"
-        height="32px"
-        backgroundColor="#f9fbfd"
-        border="1px solid #c1c9d1"
-        rounded="16px"
+    <Flex flexDirection="column" height="100%">
+      <PageHeader
+        icon={<AppsAddFilledIcon size={26} />}
+        name="插件管理"
+        desc="一段描述文字"
       />
-      <Box
-        mt="20px"
-        flex={1}
-        padding="17px 24px 24px"
-        rounded={4}
-        backgroundColor="white"
+      <Tabs
+        position="relative"
+        display="flex"
+        flexDirection="column"
+        flex="1"
+        overflow="hidden"
+        marginTop="16px"
       >
-        <Flex alignItems="center" justifyContent="space-between">
-          <PluginNum>
-            {pluginNum.map((item) => (
-              <Item key={item.name}>
-                <Category color="gray.700">{item.name}</Category>
-                <Num color="gray.500">{item.num}</Num>
-              </Item>
-            ))}
-          </PluginNum>
-          <SearchInput />
-        </Flex>
-        <ListContent>
-          <Card backgroundColor="white" borderColor="gray.200">
-            <BaseInfo>
-              <IconNameWrapper>
-                <Name color="black">device</Name>
-              </IconNameWrapper>
-              <InstallButton installed="true">已安装</InstallButton>
-            </BaseInfo>
-            <Desc color="gray.500">安装用于管理设备的插件</Desc>
-            <CardBottom />
-          </Card>
-        </ListContent>
-      </Box>
+        <Button
+          position="absolute"
+          right="2px"
+          top="2px"
+          size="sm"
+          leftIcon={<AddFilledIcon color="white" />}
+        >
+          创建插件源
+        </Button>
+        <TabList
+          padding="2px"
+          width="254px"
+          borderWidth="1px"
+          borderStyle="solid"
+          borderColor="gray.200"
+          backgroundColor="gray.50"
+          borderRadius="22px"
+        >
+          <CustomTab>tKeel</CustomTab>
+          <CustomTab>已安装</CustomTab>
+        </TabList>
+        <TabPanels flex="1" overflow="hidden" marginTop="16px">
+          <TabPanel height="100%" padding="0">
+            <Content />
+          </TabPanel>
+          <TabPanel height="100%" padding="0">
+            <Content />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
     </Flex>
   );
 }

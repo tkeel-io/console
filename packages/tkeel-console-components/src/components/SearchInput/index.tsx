@@ -1,31 +1,47 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
+import { MagnifierFilledIcon } from '@tkeel/console-icons';
 
 type Props = {
   width?: string;
   height?: string;
-  // iconSize?: string;
   borderRadius?: string;
   placeholder?: string;
+  onSearch: (keyword: string) => void;
 };
 
 function SearchInput({
   width,
   height,
-  // iconSize,
   borderRadius,
   placeholder,
+  onSearch,
 }: Props) {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const onKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    const { keyCode } = event;
+    if (keyCode === 13 && inputRef.current) {
+      onSearch(inputRef.current.value.trim());
+    }
+  };
+
   return (
-    <InputGroup w={width}>
-      <InputLeftElement h={height} pointerEvents="none">
-        {/* TODO 添加搜索 icon */}
+    <InputGroup width={width}>
+      <InputLeftElement height={height} pointerEvents="none">
+        <MagnifierFilledIcon />
       </InputLeftElement>
       <Input
-        h={height}
+        ref={inputRef}
+        height={height}
+        borderColor="gray.200"
         borderRadius={borderRadius}
-        boxShadow="none!important"
+        fontSize="12px"
         placeholder={placeholder}
+        _focus={{ borderColor: 'gray.400' }}
+        onKeyDown={onKeyDown}
       />
     </InputGroup>
   );
@@ -33,8 +49,7 @@ function SearchInput({
 
 SearchInput.defaultProps = {
   width: '300px',
-  height: '36px',
-  // iconSize: '30px',
+  height: '32px',
   borderRadius: '20px',
   placeholder: '请输入...',
 };
