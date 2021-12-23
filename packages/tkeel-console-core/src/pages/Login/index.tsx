@@ -12,51 +12,13 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { Form } from '@tkeel/console-components';
-import { request, setLocalTokenData, TokenData } from '@tkeel/console-utils';
+
+// import { setLocalTokenData } from '@tkeel/console-utils';
+import { Params, useLoginMutation } from './requests';
 
 type Inputs = {
   username: string;
   password: string;
-};
-
-async function login() {
-  const { data } = await request<TokenData>({
-    url: '/security/v1/oauth/token',
-    method: 'GET',
-    params: {
-      grant_type: 'password',
-      username: '2-demoadmin',
-      password: '123456',
-    },
-    extras: {
-      isWithToken: false,
-    },
-  });
-
-  return data;
-}
-
-async function fetchMenus() {
-  const { data } = await request({
-    url: '/rudder/v1/entries',
-  });
-  // eslint-disable-next-line no-console
-  console.log(data);
-}
-
-(async () => {
-  const data = await login();
-  setLocalTokenData(data);
-  await fetchMenus();
-})();
-
-const onSubmit: SubmitHandler<Inputs> = (values) => {
-  // eslint-disable-next-line no-console
-  console.log(values);
-
-  return new Promise((resolve) => {
-    setTimeout(resolve, 3000);
-  });
 };
 
 function Login(): JSX.Element {
@@ -83,6 +45,28 @@ function Login(): JSX.Element {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<Inputs>();
+
+  const params: Params = {
+    grant_type: 'password',
+    username: '2-demoadmin',
+    password: '123456',
+  };
+  const ret = useLoginMutation(params);
+  // eslint-disable-next-line no-console
+  console.log(ret);
+
+  const onSubmit: SubmitHandler<Inputs> = (values) => {
+    // eslint-disable-next-line no-console
+    console.log(values);
+
+    const { mutate } = ret;
+    /* const variables = {
+      params: {
+        username: '123',
+      },
+    }; */
+    return mutate();
+  };
 
   return (
     <Center flexDirection="column" height="100vh">

@@ -1,8 +1,12 @@
 import { get, inRange } from 'lodash';
 
-import { AxiosRequestConfigExtended, Extras, ResponseData } from './types';
+import {
+  AxiosRequestConfigExtended,
+  RequestExtras,
+  ResponseData,
+} from './types';
 
-export const DEFAULT_BASE_EXTRAS: Extras = Object.freeze({
+export const DEFAULT_BASE_EXTRAS: RequestExtras = Object.freeze({
   isWithToken: false,
   handleNoAuth: false,
   handleError: false,
@@ -18,7 +22,7 @@ export const DEFAULT_AXIOS_REQUEST_CONFIG: AxiosRequestConfigExtended =
     extras: DEFAULT_BASE_EXTRAS,
   });
 
-export const DEFAULT_EXTRAS: Extras = Object.freeze({
+export const DEFAULT_EXTRAS: RequestExtras = Object.freeze({
   isWithToken: true,
   handleNoAuth() {
     // redirect to login page

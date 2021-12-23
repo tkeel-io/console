@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import React, { useEffect, useState } from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 import themes from '@tkeel/console-themes';
@@ -10,6 +11,8 @@ import { init as initQiankun } from '@/utils/qiankun';
 
 import { fetchMenus } from '@/mock';
 import { IMenu } from '@/mock/types';
+
+const queryClient = new QueryClient();
 
 function App() {
   const [menus, setMenus] = useState<IMenu[]>([]);
@@ -38,11 +41,13 @@ function App() {
   }, [menus]);
 
   return (
-    <ChakraProvider theme={themes[THEME]}>
-      <Router>
-        <Routes menus={menus} />
-      </Router>
-    </ChakraProvider>
+    <QueryClientProvider client={queryClient}>
+      <ChakraProvider theme={themes[THEME]}>
+        <Router>
+          <Routes menus={menus} />
+        </Router>
+      </ChakraProvider>
+    </QueryClientProvider>
   );
 }
 

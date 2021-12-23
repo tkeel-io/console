@@ -1,7 +1,7 @@
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 export interface AxiosRequestConfigExtended extends AxiosRequestConfig {
-  extras?: Extras;
+  extras?: RequestExtras;
 }
 
 export interface AxiosResponseExtended<T> extends AxiosResponse {
@@ -14,7 +14,7 @@ export interface AxiosErrorExtended<T> extends AxiosError {
   response: AxiosResponseExtended<T>;
 }
 
-export interface Extras {
+export interface RequestExtras {
   isWithToken?: boolean;
   handleNoAuth?: false | (<T>(response: AxiosResponseExtended<T>) => unknown);
   handleError?:
@@ -45,7 +45,7 @@ export interface ResponseData<T = unknown> {
   data: T;
 }
 
-export interface Response<T = unknown> {
+export interface RequestRet<T = unknown> {
   data: T;
   response: AxiosResponseExtended<T>;
 }
