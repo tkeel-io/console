@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { get, merge } from 'lodash';
+import { get, isString, merge } from 'lodash';
 
 import { getLocalTokenData } from '../auth';
 import { DEFAULT_AXIOS_REQUEST_CONFIG, DEFAULT_BASE_EXTRAS } from './defaults';
@@ -16,10 +16,11 @@ const instance = axios.create(DEFAULT_AXIOS_REQUEST_CONFIG);
 instance.interceptors.request.use((config: AxiosRequestConfigExtended) => {
   const extras = get(config, ['extras'], DEFAULT_BASE_EXTRAS);
   const { isWithToken } = extras;
-  const { token_type: tokenType, access_token: accessToken } =
-    getLocalTokenData();
+  const tokenData = getLocalTokenData();
+  const tokenType = get(tokenData, ['token_type']);
+  const accessToken = get(tokenData, ['access_token']);
 
-  return isWithToken
+  return isString(accessToken) && accessToken.trim() && isWithToken
     ? merge(
         {
           headers: {
