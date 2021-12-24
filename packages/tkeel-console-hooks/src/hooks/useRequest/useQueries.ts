@@ -2,7 +2,7 @@ import { useQuery as useReactQuery } from 'react-query';
 import {
   AxiosResponseExtended,
   request,
-  RequestRet,
+  RequestResult,
 } from '@tkeel/console-utils';
 import { get, isNil, merge, omitBy } from 'lodash';
 
@@ -25,8 +25,7 @@ export default function useQuery<T>(options: UseQueryOptions) {
     { url, method, params, data, extras },
     axiosRequestConfig
   );
-  const queryFn: () => Promise<RequestRet<T>> = (): Promise<RequestRet<T>> =>
-    request(config);
+  const queryFn = (): Promise<RequestResult<T>> => request(config);
   const opts = merge({}, { queryKey, queryFn }, reactQueryOptions);
   const { data: ret, ...rest } = useReactQuery(opts);
   const d: T | unknown = get(ret, 'data');
