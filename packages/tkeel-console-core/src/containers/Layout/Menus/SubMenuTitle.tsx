@@ -41,7 +41,7 @@ function ParentMenu({
       <MenuItem
         active={active}
         name={name}
-        leftIcon={icon}
+        leftIcon={icon as string}
         rightIcon={
           spread ? (
             <ChevronUpFilledIcon mode={mode} />

@@ -9,28 +9,39 @@ import {
 } from '@chakra-ui/react';
 import { HumanFilledIcon } from '@tkeel/console-icons';
 
-import { getTotalMenus } from '@/utils/qiankun';
-
 import { IMenu } from '@/mock/types';
 
-function Header({ menus }: { menus: IMenu[] }) {
+type Props = {
+  menus: IMenu[];
+};
+
+function Header({ menus }: Props) {
   const { pathname } = useLocation();
-  const totalMenus = getTotalMenus(menus);
-  let name = '';
-  totalMenus.forEach((menu) => {
-    if (pathname.includes(menu.path)) {
-      name = menu.name;
+  let breadcrumbs: string[] = [];
+  menus.forEach((menu) => {
+    const { name, path, children } = menu;
+    if (children) {
+      const menuItem = children.find((item) =>
+        pathname.includes(item.path || '')
+      );
+      if (menuItem) {
+        breadcrumbs = [name, menuItem.name];
+      }
+    } else if (pathname.includes(path || '')) {
+      breadcrumbs = [name];
     }
   });
 
   return (
-    <Flex justifyContent="space-between" height="22px" marginBottom="20px">
-      <Breadcrumb>
-        <BreadcrumbItem>
-          <BreadcrumbLink color="gray.400" fontSize="14px" href="#">
-            {name}
-          </BreadcrumbLink>
-        </BreadcrumbItem>
+    <Flex justifyContent="space-between" height="20px" marginBottom="22px">
+      <Breadcrumb separator={<Text color="gray.400">/</Text>}>
+        {breadcrumbs.map((crumb) => (
+          <BreadcrumbItem key={crumb}>
+            <BreadcrumbLink color="gray.400" fontSize="14px" href="#">
+              {crumb}
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+        ))}
       </Breadcrumb>
       <Flex alignItems="center">
         <Flex alignItems="center" cursor="pointer">

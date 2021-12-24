@@ -58,15 +58,19 @@ function Menus({ menus: menusData }: Props) {
                     handleMenuClick={handleMenuClick}
                   />
                 ) : (
-                  <MenuLink path={path || ''} name={name} icon={icon || ''} />
+                  <MenuLink
+                    path={path as string}
+                    name={name}
+                    icon={icon as string}
+                  />
                 )}
                 {children && spread && (
-                  <Box>
+                  <Box paddingTop="10px">
                     {children.map((subMenu) => (
                       <SubMenuLink
                         key={subMenu.id}
                         name={subMenu.name}
-                        path={subMenu.path || ''}
+                        path={subMenu.path as string}
                       />
                     ))}
                   </Box>

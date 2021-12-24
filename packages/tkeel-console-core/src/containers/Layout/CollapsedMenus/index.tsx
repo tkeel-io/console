@@ -27,10 +27,12 @@ function CollapsedMenus({ menus }: Props) {
         {menus.map(({ id, path, icon, children }) => {
           if (children) {
             return (
-              <SubMenus key={id} icon={icon || ''} subMenus={children || []} />
+              <SubMenus key={id} icon={icon as string} subMenus={children} />
             );
           }
-          return <MenuLink key={id} path={path || ''} icon={icon || ''} />;
+          return (
+            <MenuLink key={id} path={path as string} icon={icon as string} />
+          );
         })}
       </Flex>
     </Box>

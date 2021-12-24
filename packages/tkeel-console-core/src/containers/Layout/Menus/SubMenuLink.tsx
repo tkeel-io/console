@@ -14,11 +14,9 @@ function SubMenuLink({ path, name }: Props) {
     <Link
       display="flex"
       alignItems="center"
-      height="44px"
+      height="40px"
       paddingLeft="48px"
-      boxShadow="none!important"
       color={active ? 'blue.300' : 'gray.500'}
-      _active={{ backgroundColor: 'blue.400' }}
       as={as}
       to={to}
     >
