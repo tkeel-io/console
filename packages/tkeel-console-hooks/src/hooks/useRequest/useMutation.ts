@@ -3,7 +3,7 @@ import {
   AxiosRequestConfigExtended,
   AxiosResponseExtended,
   request,
-  RequestRet,
+  RequestResult,
 } from '@tkeel/console-utils';
 import { get, merge } from 'lodash';
 
@@ -29,7 +29,7 @@ export default function useQuery<T>(options: UseMutationOptions) {
 
   function mutationFn(
     variables: AxiosRequestConfigExtended
-  ): Promise<RequestRet<T>> {
+  ): Promise<RequestResult<T>> {
     return request(merge({}, config, variables));
   }
 

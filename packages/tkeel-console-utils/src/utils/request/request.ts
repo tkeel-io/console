@@ -5,12 +5,12 @@ import instance from './instance';
 import {
   AxiosRequestConfigExtended,
   AxiosResponseExtended,
-  RequestRet,
+  RequestResult,
 } from './types';
 
 export default function Request<T>(
   config: AxiosRequestConfigExtended
-): Promise<RequestRet<T>> {
+): Promise<RequestResult<T>> {
   const axiosRequestConfig = merge({}, { extras: DEFAULT_EXTRAS }, config);
 
   return instance(axiosRequestConfig).then(
