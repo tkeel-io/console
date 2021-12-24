@@ -1,10 +1,8 @@
 import React from 'react';
 import { Box, Center, Flex, Image } from '@chakra-ui/react';
 
-import { getTotalMenus } from '@/utils/qiankun';
-import { IMenuInfo } from '@/utils/qiankun/types';
-
-import CustomMenuLink from './CustomMenuLink';
+import MenuLink from './MenuLink';
+import SubMenus from './SubMenus';
 
 import LogoImg from '@/assets/images/logo.png';
 
@@ -14,9 +12,7 @@ type Props = {
   menus: IMenu[];
 };
 
-function CollapsedMenus({ menus: menusData }: Props) {
-  const menus: IMenuInfo[] = getTotalMenus(menusData);
-
+function CollapsedMenus({ menus }: Props) {
   return (
     <Box width="80px" backgroundColor="gray.50">
       <Center
@@ -28,9 +24,14 @@ function CollapsedMenus({ menus: menusData }: Props) {
         <Image htmlWidth="27px" src={LogoImg} alt="" />
       </Center>
       <Flex flexDirection="column" alignItems="center">
-        {menus.map(({ id, path }) => (
-          <CustomMenuLink key={id} path={path} />
-        ))}
+        {menus.map(({ id, path, icon, children }) => {
+          if (children) {
+            return (
+              <SubMenus key={id} icon={icon || ''} subMenus={children || []} />
+            );
+          }
+          return <MenuLink key={id} path={path || ''} icon={icon || ''} />;
+        })}
       </Flex>
     </Box>
   );

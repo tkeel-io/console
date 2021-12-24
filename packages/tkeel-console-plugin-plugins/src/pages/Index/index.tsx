@@ -33,7 +33,7 @@ function Index(): JSX.Element {
           position="absolute"
           right="2px"
           top="2px"
-          size="sm"
+          size="md"
           leftIcon={<AddFilledIcon color="white" />}
         >
           创建插件源

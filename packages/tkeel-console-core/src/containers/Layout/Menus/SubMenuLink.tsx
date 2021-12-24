@@ -1,15 +1,15 @@
 import React from 'react';
 import { Link } from '@chakra-ui/react';
 
-import { useCustomLinkProps } from './CustomMenuLink';
+import { useMenuLinkProps } from './MenuLink';
 
 type Props = {
   path: string;
   name: string;
 };
 
-function CustomSubMenuLink({ path, name }: Props) {
-  const { as, to, active } = useCustomLinkProps(path);
+function SubMenuLink({ path, name }: Props) {
+  const { as, to, active } = useMenuLinkProps(path);
   return (
     <Link
       display="flex"
@@ -27,4 +27,4 @@ function CustomSubMenuLink({ path, name }: Props) {
   );
 }
 
-export default CustomSubMenuLink;
+export default SubMenuLink;

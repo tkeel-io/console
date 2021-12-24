@@ -15,7 +15,7 @@ type Props = IMenu & {
   handleMenuClick: (id: string) => void;
 };
 
-function MenuTitle({
+function ParentMenu({
   id,
   name,
   icon,
@@ -54,4 +54,4 @@ function MenuTitle({
   );
 }
 
-export default MenuTitle;
+export default ParentMenu;
