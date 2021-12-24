@@ -1,6 +1,2 @@
-// import { useQuery } from 'react-query';
-// import { request } from '@tkeel/console-utils';
-
-function useRequest() {}
-
-export default useRequest;
+export { default as useMutation } from './useMutation';
+export { default as useQuery } from './useQuery';
