@@ -46,26 +46,17 @@ function Login(): JSX.Element {
     formState: { errors, isSubmitting },
   } = useForm<Inputs>();
 
-  const params: Params = {
-    grant_type: 'password',
-    username: '2-demoadmin',
-    password: '123456',
-  };
-  const ret = useLoginMutation(params);
-  // eslint-disable-next-line no-console
-  console.log(ret);
+  const { mutate } = useLoginMutation();
 
   const onSubmit: SubmitHandler<Inputs> = (values) => {
-    // eslint-disable-next-line no-console
-    console.log(values);
+    const { username, password } = values;
+    const params: Params = {
+      grant_type: 'password' as const,
+      username,
+      password,
+    };
 
-    const { mutate } = ret;
-    /* const variables = {
-      params: {
-        username: '123',
-      },
-    }; */
-    return mutate();
+    mutate({ params });
   };
 
   return (
@@ -99,6 +90,7 @@ function Login(): JSX.Element {
             <Input
               type="text"
               placeholder="请输入您的账号"
+              defaultValue={process.env.USERNAME}
               {...inputStyle}
               {...register('username', {
                 required: { value: true, message: 'required' },
@@ -117,6 +109,7 @@ function Login(): JSX.Element {
             <Input
               type="password"
               placeholder="请输入您的密码"
+              defaultValue={process.env.PASSWORD}
               {...inputStyle}
               {...register('password', {
                 required: { value: true, message: 'required' },

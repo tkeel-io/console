@@ -45,7 +45,7 @@ export interface ResponseData<T = unknown> {
   data: T;
 }
 
-export interface RequestRet<T = unknown> {
+export interface RequestResult<T = unknown> {
   data: T;
   response: AxiosResponseExtended<T>;
 }
