@@ -50,13 +50,13 @@ export function useLogin(params: Params) {
   return useQuery<ApiData>({ url, method, params, data });
 }
 
-export function useLoginMutation(params: Params) {
+export function useLoginMutation() {
   const url: Url = '/security/v1/oauth/token';
   const method: Method = 'GET';
   const data: Data = {
     a: '123',
   };
-  return useMutation<ApiData>({ url, method, params, data });
+  return useMutation<ApiData>({ url, method, data });
 }
 
 // /rudder/v1/entries

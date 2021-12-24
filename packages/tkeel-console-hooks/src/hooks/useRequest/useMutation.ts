@@ -19,20 +19,22 @@ export default function useQuery<T>(options: UseMutationOptions) {
     axiosRequestConfig,
     reactQueryOptions,
   } = options;
-  const fn = reactQueryOptions?.mutationFn;
+  // const key = reactQueryOptions?.mutationKey;
+  // const mutationKey = key || [omitBy({ url, method, params, data }, isNil)];
   const config = merge(
     {},
     { url, method, params, data, extras },
     axiosRequestConfig
   );
-  const func: (
-    variables: AxiosRequestConfigExtended | T
-  ) => Promise<RequestRet<T>> = (
+
+  function mutationFn(
     variables: AxiosRequestConfigExtended
-  ): Promise<RequestRet<T>> => request(merge({}, config, variables));
-  const mutationFn = fn || func;
+  ): Promise<RequestRet<T>> {
+    return request(merge({}, config, variables));
+  }
+
   const opts = merge({}, { mutationFn }, reactQueryOptions);
-  const { data: ret, ...rest } = useReactMutation(opts);
+  const { data: ret, ...rest } = useReactMutation<unknown, unknown, any>(opts);
   const d: T | unknown = get(ret, 'data');
   const response: AxiosResponseExtended<T> | unknown = get(ret, 'response');
 
