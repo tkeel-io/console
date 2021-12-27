@@ -1,32 +1,36 @@
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
-type TType = Record<string, unknown>;
-type DefaultT = Record<string, unknown>;
-type DType = undefined | null | Record<string, unknown>;
-type DefaultD = undefined;
+export type ApiResponseData = Record<string, unknown>;
 
-export interface AxiosRequestConfigExtended<D extends DType = DefaultD>
-  extends AxiosRequestConfig<D> {
+export type DefaultApiResponseData = Record<string, unknown>;
+
+export type RequestConfigData = undefined | null | Record<string, unknown>;
+
+export type DefaultRequestConfigData = undefined;
+
+export interface AxiosRequestConfigExtended<
+  D extends RequestConfigData = DefaultRequestConfigData
+> extends AxiosRequestConfig<D> {
   extras?: RequestExtras;
 }
 
 export interface AxiosResponseExtended<
-  T extends TType = DefaultT,
-  D extends DType = DefaultD
-> extends AxiosResponse<ResponseData<T>, D> {
+  T extends ApiResponseData = DefaultApiResponseData,
+  D extends RequestConfigData = DefaultRequestConfigData
+> extends AxiosResponse<ApiResponse<T>, D> {
   config: AxiosRequestConfigExtended<D>;
 }
 
 export interface AxiosErrorExtended<
-  T extends TType = DefaultT,
-  D extends DType = DefaultD
-> extends AxiosError<ResponseData<T>, D> {
+  T extends ApiResponseData = DefaultApiResponseData,
+  D extends RequestConfigData = DefaultRequestConfigData
+> extends AxiosError<ApiResponse<T>, D> {
   config: AxiosRequestConfigExtended<D>;
 }
 
 export interface RequestExtras<
-  T extends TType = DefaultT,
-  D extends DType = DefaultD
+  T extends ApiResponseData = DefaultApiResponseData,
+  D extends RequestConfigData = DefaultRequestConfigData
 > {
   isWithToken?: boolean;
   handleNoAuth?: false | ((response: AxiosResponseExtended<T, D>) => unknown);
@@ -52,15 +56,17 @@ export interface RequestExtras<
   axiosErrorMessage?: string | undefined;
 }
 
-export interface ResponseData<T extends TType = DefaultT> {
+export interface ApiResponse<
+  T extends ApiResponseData = DefaultApiResponseData
+> {
   code: number;
   msg: string;
   data: T;
 }
 
 export interface RequestResult<
-  T extends TType = DefaultT,
-  D extends DType = DefaultD
+  T extends ApiResponseData = DefaultApiResponseData,
+  D extends RequestConfigData = DefaultRequestConfigData
 > {
   data: T;
   response: AxiosResponseExtended<T, D>;

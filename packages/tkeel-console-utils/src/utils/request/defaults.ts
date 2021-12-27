@@ -1,9 +1,9 @@
 import { get, inRange } from 'lodash';
 
 import {
+  ApiResponse,
   AxiosRequestConfigExtended,
   RequestExtras,
-  ResponseData,
 } from './types';
 
 export const DEFAULT_BASE_EXTRAS: RequestExtras = Object.freeze({
@@ -28,7 +28,7 @@ export const DEFAULT_EXTRAS: RequestExtras = Object.freeze({
     // redirect to login page
   },
   handleError({ errorMessage, response }) {
-    const data: ResponseData = get(response, ['data']);
+    const data: ApiResponse = get(response, ['data']);
     const message = get(data, ['msg'], '');
     // eslint-disable-next-line no-console
     console.warn('handleError', errorMessage || message);
