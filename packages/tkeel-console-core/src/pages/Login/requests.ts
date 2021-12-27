@@ -25,20 +25,20 @@ interface ApiData {
 export async function login(params: Params) {
   const url: Url = '/security/v1/oauth/token';
   const method: Method = 'GET';
-  const data: Data = {
-    a: '123',
-  };
-  const ret = await request({
+
+  const result = await request<ApiData, Data>({
     url,
     method,
     params,
-    data,
+    data: {
+      a: '123',
+    },
     extras: {
       isWithToken: false,
     },
   });
 
-  return ret;
+  return result;
 }
 
 async function f() {
@@ -52,6 +52,8 @@ async function f() {
 
   return at;
 }
+
+f();
 
 export function useLogin(params: Params) {
   const url: Url = '/security/v1/oauth/token';
