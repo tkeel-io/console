@@ -2,9 +2,9 @@ import { QueryKey, UseQueryResult } from 'react-query';
 import { request, RequestResult } from '@tkeel/console-utils';
 import { get, isNil, merge, omitBy } from 'lodash';
 
-import { UseQueryOptions } from './types';
+import { UseCustomQueryOptions } from './types';
 
-export function getUseQueryOptions<T>(options: UseQueryOptions<T>) {
+export function getUseQueryOptions<T>(options: UseCustomQueryOptions<T>) {
   const {
     url,
     method,

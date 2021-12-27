@@ -1,3 +1,3 @@
 export { default as useMutation } from './useMutation';
 export { default as useQueries } from './useQueries';
-export { default as useRequestQuery } from './useRequestQuery';
+export { default as useQuery } from './useQuery';

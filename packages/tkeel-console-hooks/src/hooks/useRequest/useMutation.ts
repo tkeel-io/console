@@ -7,9 +7,9 @@ import {
 } from '@tkeel/console-utils';
 import { get, merge } from 'lodash';
 
-import { UseMutationOptions } from './types';
+import { UseCustomMutationOptions } from './types';
 
-export default function useQuery<T>(options: UseMutationOptions) {
+export default function useQuery<T>(options: UseCustomMutationOptions) {
   const {
     url,
     method,

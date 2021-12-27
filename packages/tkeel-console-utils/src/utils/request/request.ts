@@ -8,7 +8,7 @@ import {
   RequestResult,
 } from './types';
 
-export default function Request<T>(
+export default function request<T extends Record<string, unknown>>(
   config: AxiosRequestConfigExtended
 ): Promise<RequestResult<T>> {
   const axiosRequestConfig = merge({}, { extras: DEFAULT_EXTRAS }, config);

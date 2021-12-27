@@ -1,4 +1,4 @@
-import { useMutation, useRequestQuery } from '@tkeel/console-hooks';
+import { useMutation, useQuery } from '@tkeel/console-hooks';
 import { request } from '@tkeel/console-utils';
 
 type Url = '/security/v1/oauth/token';
@@ -28,7 +28,7 @@ export async function login(params: Params) {
   const data: Data = {
     a: '123',
   };
-  const ret = await request<ApiData>({
+  const ret = await request({
     url,
     method,
     params,
@@ -41,13 +41,25 @@ export async function login(params: Params) {
   return ret;
 }
 
+async function f() {
+  const { data } = await login({
+    grant_type: 'password',
+    username: 'string',
+    password: '1',
+  });
+
+  const { access_token: at } = data;
+
+  return at;
+}
+
 export function useLogin(params: Params) {
   const url: Url = '/security/v1/oauth/token';
   const method: Method = 'GET';
   const data: Data = {
     a: '123',
   };
-  return useRequestQuery<ApiData>({ url, method, params, data });
+  return useQuery<ApiData>({ url, method, params, data });
 }
 
 export function useLoginMutation() {

@@ -1,51 +1,67 @@
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
-export interface AxiosRequestConfigExtended extends AxiosRequestConfig {
+type TType = Record<string, unknown>;
+type DefaultT = Record<string, unknown>;
+type DType = undefined | null | Record<string, unknown>;
+type DefaultD = undefined;
+
+export interface AxiosRequestConfigExtended<D extends DType = DefaultD>
+  extends AxiosRequestConfig<D> {
   extras?: RequestExtras;
 }
 
-export interface AxiosResponseExtended<T> extends AxiosResponse {
-  config: AxiosRequestConfigExtended;
-  data: ResponseData<T>;
+export interface AxiosResponseExtended<
+  T extends TType = DefaultT,
+  D extends DType = DefaultD
+> extends AxiosResponse<ResponseData<T>, D> {
+  config: AxiosRequestConfigExtended<D>;
 }
 
-export interface AxiosErrorExtended<T> extends AxiosError {
-  config: AxiosRequestConfigExtended;
-  response: AxiosResponseExtended<T>;
+export interface AxiosErrorExtended<
+  T extends TType = DefaultT,
+  D extends DType = DefaultD
+> extends AxiosError<ResponseData<T>, D> {
+  config: AxiosRequestConfigExtended<D>;
 }
 
-export interface RequestExtras {
+export interface RequestExtras<
+  T extends TType = DefaultT,
+  D extends DType = DefaultD
+> {
   isWithToken?: boolean;
-  handleNoAuth?: false | (<T>(response: AxiosResponseExtended<T>) => unknown);
+  handleNoAuth?: false | ((response: AxiosResponseExtended<T, D>) => unknown);
   handleError?:
     | false
-    | (<T>({
+    | (({
         errorMessage,
         response,
       }: {
         errorMessage: string | undefined;
-        response: AxiosResponseExtended<T>;
+        response: AxiosResponseExtended<T, D>;
       }) => unknown);
   errorMessage?: string | undefined;
   handleAxiosError?:
     | false
-    | (<T>({
+    | (({
         axiosErrorMessage,
         error,
       }: {
         axiosErrorMessage: string | undefined;
-        error: AxiosErrorExtended<T>;
+        error: AxiosErrorExtended<T, D>;
       }) => unknown);
   axiosErrorMessage?: string | undefined;
 }
 
-export interface ResponseData<T = unknown> {
+export interface ResponseData<T extends TType = DefaultT> {
   code: number;
   msg: string;
   data: T;
 }
 
-export interface RequestResult<T = unknown> {
+export interface RequestResult<
+  T extends TType = DefaultT,
+  D extends DType = DefaultD
+> {
   data: T;
-  response: AxiosResponseExtended<T>;
+  response: AxiosResponseExtended<T, D>;
 }
