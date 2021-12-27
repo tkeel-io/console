@@ -4,7 +4,7 @@ import { get, isNil, merge, omitBy } from 'lodash';
 
 import { UseQueryOptions } from './types';
 
-export function getUseQueryOptions<T>(options: UseQueryOptions) {
+export function getUseQueryOptions<T>(options: UseQueryOptions<T>) {
   const {
     url,
     method,

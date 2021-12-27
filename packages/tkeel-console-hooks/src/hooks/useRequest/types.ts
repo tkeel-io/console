@@ -2,7 +2,7 @@ import {
   UseMutationOptions as MutationOptions,
   UseQueryOptions as QueryOptions,
 } from 'react-query';
-import { RequestExtras } from '@tkeel/console-utils';
+import { RequestExtras, RequestResult } from '@tkeel/console-utils';
 import { AxiosRequestConfig, Method } from 'axios';
 
 interface BaseOptions {
@@ -14,8 +14,8 @@ interface BaseOptions {
   axiosRequestConfig?: AxiosRequestConfig;
 }
 
-export interface UseQueryOptions extends BaseOptions {
-  reactQueryOptions?: QueryOptions;
+export interface UseQueryOptions<T> extends BaseOptions {
+  reactQueryOptions?: QueryOptions<RequestResult<T>, Error, RequestResult<T>>;
 }
 
 export interface UseMutationOptions extends BaseOptions {

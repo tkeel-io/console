@@ -35,6 +35,7 @@ module.exports = {
     'todos',
     'webpackbar',
     'wechat',
+    'tkeel',
   ],
   ignorePaths: [
     '**/.idea/**',
