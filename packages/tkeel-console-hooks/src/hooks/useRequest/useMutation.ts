@@ -1,4 +1,4 @@
-import { useMutation as useReactMutation } from 'react-query';
+import { useMutation } from 'react-query';
 import {
   AxiosRequestConfigExtended,
   AxiosResponseExtended,
@@ -9,7 +9,9 @@ import { get, merge } from 'lodash';
 
 import { UseCustomMutationOptions } from './types';
 
-export default function useQuery<T>(options: UseCustomMutationOptions) {
+export default function useCustomMutation<T>(
+  options: UseCustomMutationOptions
+) {
   const {
     url,
     method,
@@ -34,7 +36,7 @@ export default function useQuery<T>(options: UseCustomMutationOptions) {
   }
 
   const opts = merge({}, { mutationFn }, reactQueryOptions);
-  const { data: ret, ...rest } = useReactMutation<unknown, unknown, any>(opts);
+  const { data: ret, ...rest } = useMutation<unknown, unknown, any>(opts);
   const d: T | unknown = get(ret, 'data');
   const response: AxiosResponseExtended<T> | unknown = get(ret, 'response');
 

@@ -8,6 +8,6 @@
 
 // import { UseCustomQueryOptions } from './types';
 
-export default function useQueries() {
+export default function useCustomQueries() {
   return null;
 }

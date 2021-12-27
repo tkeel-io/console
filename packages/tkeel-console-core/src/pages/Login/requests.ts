@@ -27,29 +27,37 @@ const rData = {
 };
 
 export async function login(params: Params) {
-  const result = await request<ApiData, RequestConfigData>({
-    url,
-    method,
-    params,
-    data: rData,
-    extras: {
-      isWithToken: false,
-    },
-  });
+  try {
+    const result = await request<ApiData, RequestConfigData>({
+      url,
+      method,
+      params,
+      data: rData,
+      extras: {
+        isWithToken: false,
+      },
+    });
 
-  return result;
+    return result;
+  } catch {
+    return null;
+  }
 }
 
 async function f() {
-  const { data } = await login({
+  const result = await login({
     grant_type: 'password',
     username: 'string',
     password: '1',
   });
 
-  const { access_token: at } = data;
+  if (!result) {
+    return '';
+  }
 
-  return at;
+  const { access_token: token } = result.data;
+
+  return token;
 }
 
 f();

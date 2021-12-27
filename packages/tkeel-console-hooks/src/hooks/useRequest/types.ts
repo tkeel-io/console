@@ -1,24 +1,51 @@
-import { UseMutationOptions, UseQueryOptions } from 'react-query';
-import { RequestExtras, RequestResult } from '@tkeel/console-utils';
+import {
+  QueryKey,
+  UseMutationOptions,
+  UseQueryOptions,
+  UseQueryResult,
+} from 'react-query';
+import {
+  AxiosResponseExtended,
+  RequestExtras,
+  RequestResult,
+} from '@tkeel/console-utils';
 import { AxiosRequestConfig, Method } from 'axios';
 
-interface BaseOptions {
+export type UseQueryOptionsExtended<T = unknown> = UseQueryOptions<
+  RequestResult<T>,
+  unknown,
+  RequestResult<T>
+>;
+
+export type UseQueryResultExtended<T = unknown, D = unknown> = UseQueryResult<
+  RequestResult<T, D>
+> & {
+  queryKey: QueryKey;
+  data: T;
+  response: AxiosResponseExtended<T, D>;
+};
+
+export type UseMutationOptionsExtended<T = unknown> = UseMutationOptions<
+  RequestResult<T>,
+  unknown,
+  unknown
+>;
+
+interface BaseOptions<D = unknown> {
   url: string;
   method?: Method;
   params?: unknown;
   data?: unknown;
   extras?: RequestExtras;
-  axiosRequestConfig?: AxiosRequestConfig;
+  axiosRequestConfig?: AxiosRequestConfig<D>;
 }
 
-export interface UseCustomQueryOptions<T> extends BaseOptions {
-  reactQueryOptions?: UseQueryOptions<
-    RequestResult<T>,
-    Error,
-    RequestResult<T>
-  >;
+export interface UseCustomQueryOptions<T = unknown, D = unknown>
+  extends BaseOptions<D> {
+  reactQueryOptions?: UseQueryOptionsExtended<T>;
 }
 
-export interface UseCustomMutationOptions extends BaseOptions {
-  reactQueryOptions?: UseMutationOptions;
+export interface UseCustomMutationOptions<T = unknown, D = unknown>
+  extends BaseOptions<D> {
+  reactQueryOptions?: UseMutationOptionsExtended<T>;
 }
