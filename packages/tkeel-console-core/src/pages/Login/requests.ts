@@ -1,18 +1,15 @@
 import { useMutation, useQuery } from '@tkeel/console-hooks';
 import { request } from '@tkeel/console-utils';
 
-type Url = '/security/v1/oauth/token';
-
-type Method = 'GET';
-
 export interface Params {
   grant_type: 'password' | 'authorization_code';
   username?: string;
   password?: string;
 }
 
-interface Data {
+interface RequestConfigData {
   a: string;
+  b: number;
 }
 
 interface ApiData {
@@ -22,17 +19,19 @@ interface ApiData {
   token_type: string;
 }
 
-export async function login(params: Params) {
-  const url: Url = '/security/v1/oauth/token';
-  const method: Method = 'GET';
+const url = '/security/v1/oauth/token';
+const method = 'GET';
+const rData = {
+  a: 'abc',
+  b: 12,
+};
 
-  const result = await request<ApiData, Data>({
+export async function login(params: Params) {
+  const result = await request<ApiData, RequestConfigData>({
     url,
     method,
     params,
-    data: {
-      a: '123',
-    },
+    data: rData,
     extras: {
       isWithToken: false,
     },
@@ -56,21 +55,11 @@ async function f() {
 f();
 
 export function useLogin(params: Params) {
-  const url: Url = '/security/v1/oauth/token';
-  const method: Method = 'GET';
-  const data: Data = {
-    a: '123',
-  };
-  return useQuery<ApiData>({ url, method, params, data });
+  return useQuery<ApiData>({ url, method, params, data: rData });
 }
 
 export function useLoginMutation() {
-  const url: Url = '/security/v1/oauth/token';
-  const method: Method = 'GET';
-  const data: Data = {
-    a: '123',
-  };
-  return useMutation<ApiData>({ url, method, data });
+  return useMutation<ApiData>({ url, method, data: rData });
 }
 
 // /rudder/v1/entries
