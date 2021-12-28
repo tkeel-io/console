@@ -26,7 +26,7 @@
     "lint:typescript": "tsc --noEmit",
     "lint:style": "stylelint --fix \"**/*.{css,scss,js,jsx,ts,tsx}\"",
     "lint:spell": "cspell --no-must-find-files \"**\"",
-    "prepare": "husky install",
+    "postinstall": "husky install",
     "pre-commit": "lint-staged",
     "commit": "git-cz"
   },
@@ -90,7 +90,7 @@
     "handlebars": "^4.7.7",
     "handlebars-loader": "^1.7.1",
     "html-webpack-plugin": "^5.5.0",
-    "husky": "^7.0.4",
+    "husky": "^7.0.0",
     "inquirer": "^8.2.0",
     "lint-staged": "^12.1.2",
     "lodash": "^4.17.21",
