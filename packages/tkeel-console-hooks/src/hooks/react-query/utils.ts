@@ -1,4 +1,9 @@
-import { MutationKey, QueryKey, UseQueryResult } from 'react-query';
+import {
+  MutationKey,
+  QueryKey,
+  UseMutationResult,
+  UseQueryResult,
+} from 'react-query';
 import {
   AxiosRequestConfigExtended,
   request,
@@ -61,20 +66,38 @@ export function getUseMutationOptions<T, D>(
   return merge({}, { mutationKey, mutationFn }, reactQueryOptions);
 }
 
-type TransformResultOptions<T, D> = {
-  keyName: 'queryKey' | 'mutationKey';
-  key: QueryKey | MutationKey;
+type TransformUseQueryResultOptions<T, D> = {
+  queryKey: QueryKey;
   result: UseQueryResult<RequestResult<T, D>>;
 };
 
-export function transformResult<T = unknown, D = unknown>({
-  keyName,
-  key,
+export function transformUseQueryResult<T = unknown, D = unknown>({
+  queryKey,
   result,
-}: TransformResultOptions<T, D>) {
+}: TransformUseQueryResultOptions<T, D>) {
   const { data: requestResult, ...rest } = result;
   const apiData = get(requestResult, 'data');
   const response = get(requestResult, 'response');
 
-  return { [keyName]: key, data: apiData, response, ...rest };
+  return { queryKey, data: apiData, response, ...rest };
+}
+
+type TransformUseMutationResultOptions<T, D> = {
+  mutationKey: MutationKey;
+  result: UseMutationResult<
+    RequestResult<T, D>,
+    unknown,
+    AxiosRequestConfig<D>
+  >;
+};
+
+export function transformUseMutationResult<T = unknown, D = unknown>({
+  mutationKey,
+  result,
+}: TransformUseMutationResultOptions<T, D>) {
+  const { data: requestResult, ...rest } = result;
+  const apiData = get(requestResult, 'data');
+  const response = get(requestResult, 'response');
+
+  return { mutationKey, data: apiData, response, ...rest };
 }
