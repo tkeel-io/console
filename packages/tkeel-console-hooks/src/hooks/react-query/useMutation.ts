@@ -5,7 +5,7 @@ import { AxiosRequestConfig } from 'axios';
 import { UseCustomMutationOptions } from './types';
 import { getUseMutationOptions, transformUseMutationResult } from './utils';
 
-export default function useCustomMutation<T, D>(
+export default function useCustomMutation<T, D = undefined>(
   options: UseCustomMutationOptions<T, D>
 ) {
   const opts = getUseMutationOptions<T, D>(options);

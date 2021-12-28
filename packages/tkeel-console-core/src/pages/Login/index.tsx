@@ -12,6 +12,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { Form } from '@tkeel/console-components';
+import { useQueries } from '@tkeel/console-hooks';
 
 // import { setLocalTokenData } from '@tkeel/console-utils';
 import useLoginMutation, { Params } from '@/hooks/mutations/useLoginMutation';
@@ -22,6 +23,27 @@ type Inputs = {
 };
 
 function Login(): JSX.Element {
+  const results = useQueries([
+    {
+      url: '/security/v1/oauth/token',
+      params: {
+        grant_type: 'password',
+        username: '2',
+        password: '123456',
+      },
+    },
+    {
+      url: '/security/v1/oauth/token',
+      params: {
+        grant_type: 'password',
+        username: '2',
+        password: '1234567',
+      },
+    },
+  ]);
+
+  console.log(results);
+
   const formLabelStyle = {
     marginBottom: '5px',
     fontSize: '14px',

@@ -4,7 +4,7 @@ import { RequestResult } from '@tkeel/console-utils';
 import { UseCustomQueryOptions } from './types';
 import { getUseQueryOptions, transformUseQueryResult } from './utils';
 
-export default function useCustomQuery<T, D>(
+export default function useCustomQuery<T, D = undefined>(
   options: UseCustomQueryOptions<T, D>
 ) {
   const opts = getUseQueryOptions<T, D>(options);

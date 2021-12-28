@@ -36,7 +36,7 @@ export function getUseQueryOptions<T, D>(options: UseCustomQueryOptions<T, D>) {
     return request<T, D>(config);
   }
 
-  return merge({}, { queryKey, queryFn }, reactQueryOptions);
+  return merge({}, { queryFn, queryKey }, reactQueryOptions);
 }
 
 export function getUseMutationOptions<T, D>(

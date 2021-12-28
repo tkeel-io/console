@@ -1,13 +1,14 @@
-// import { useQuery as useReactQuery } from 'react-query';
-// import {
-//   AxiosResponseExtended,
-//   request,
-//   RequestResult,
-// } from '@tkeel/console-utils';
-// import { get, isNil, merge, omitBy } from 'lodash';
+import { useQueries } from 'react-query';
 
-// import { UseCustomQueryOptions } from './types';
+import { UseCustomQueryOptions } from './types';
+import { getUseQueryOptions, transformUseQueryResult } from './utils';
 
-export default function useCustomQueries() {
-  return null;
+export default function useCustomQueries(optionsList: UseCustomQueryOptions[]) {
+  const queries = optionsList.map((options) => getUseQueryOptions(options));
+  const results = useQueries(queries);
+  const r = results.map((result, index) =>
+    transformUseQueryResult({ queryKey: queries[index]?.queryKey, result })
+  );
+
+  return r;
 }
