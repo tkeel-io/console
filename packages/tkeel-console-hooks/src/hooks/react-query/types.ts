@@ -1,6 +1,18 @@
-import { UseMutationOptions, UseQueryOptions } from 'react-query';
+import {
+  DefaultOptions,
+  MutationCache,
+  QueryCache,
+  UseMutationOptions,
+  UseQueryOptions,
+} from 'react-query';
 import { RequestExtras, RequestResult } from '@tkeel/console-utils';
 import { AxiosRequestConfig, Method } from 'axios';
+
+export interface QueryClientConfig {
+  queryCache?: QueryCache;
+  mutationCache?: MutationCache;
+  defaultOptions?: DefaultOptions;
+}
 
 export type UseQueryOptionsExtended<T = unknown, D = unknown> = UseQueryOptions<
   RequestResult<T, D>,

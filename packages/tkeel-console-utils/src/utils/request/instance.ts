@@ -2,8 +2,8 @@ import axios from 'axios';
 import { get, isString, merge } from 'lodash';
 
 import { getLocalTokenData } from '../auth';
+import ApiError from './api-error';
 import { DEFAULT_AXIOS_REQUEST_CONFIG, DEFAULT_BASE_EXTRAS } from './defaults';
-import RequestError from './request-error';
 import {
   AxiosErrorExtended,
   AxiosRequestConfigExtended,
@@ -51,7 +51,7 @@ instance.interceptors.response.use(
     }
 
     const message = get(data, ['msg'], '');
-    const error = new RequestError({ message, response });
+    const error = new ApiError({ message, response });
 
     if (typeof handleError === 'function') {
       handleError({ response, errorMessage });

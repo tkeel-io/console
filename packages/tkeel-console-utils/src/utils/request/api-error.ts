@@ -1,6 +1,6 @@
 import { AxiosResponseExtended } from './types';
 
-class RequestError extends Error {
+export default class ApiError extends Error {
   readonly response: AxiosResponseExtended;
 
   constructor({
@@ -14,5 +14,3 @@ class RequestError extends Error {
     this.response = response;
   }
 }
-
-export default RequestError;
