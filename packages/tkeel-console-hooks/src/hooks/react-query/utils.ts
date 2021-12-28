@@ -6,11 +6,7 @@ import {
 } from '@tkeel/console-utils';
 import { get, isNil, merge, omitBy } from 'lodash';
 
-import {
-  UseCustomQueryOptions,
-  UseQueryOptionsExtended,
-  UseQueryResultExtended,
-} from './types';
+import { UseCustomQueryOptions, UseQueryOptionsExtended } from './types';
 
 export function getUseQueryOptions<T, D>(
   options: UseCustomQueryOptions<T, D>
@@ -47,7 +43,7 @@ type TransformResultOptions<T, D> = {
 export function transformResult<T = unknown, D = unknown>({
   queryKey,
   result,
-}: TransformResultOptions<T, D>): UseQueryResultExtended<T, D> {
+}: TransformResultOptions<T, D>) {
   const { data: requestResult, ...rest } = result;
   const apiData = get(requestResult, 'data');
   const response = get(requestResult, 'response');

@@ -1,14 +1,5 @@
-import {
-  QueryKey,
-  UseMutationOptions,
-  UseQueryOptions,
-  UseQueryResult,
-} from 'react-query';
-import {
-  AxiosResponseExtended,
-  RequestExtras,
-  RequestResult,
-} from '@tkeel/console-utils';
+import { UseMutationOptions, UseQueryOptions } from 'react-query';
+import { RequestExtras, RequestResult } from '@tkeel/console-utils';
 import { AxiosRequestConfig, Method } from 'axios';
 
 export type UseQueryOptionsExtended<T = unknown> = UseQueryOptions<
@@ -16,14 +7,6 @@ export type UseQueryOptionsExtended<T = unknown> = UseQueryOptions<
   unknown,
   RequestResult<T>
 >;
-
-export type UseQueryResultExtended<T = unknown, D = unknown> = UseQueryResult<
-  RequestResult<T, D>
-> & {
-  queryKey: QueryKey;
-  data: T;
-  response: AxiosResponseExtended<T, D>;
-};
 
 export type UseMutationOptionsExtended<T = unknown> = UseMutationOptions<
   RequestResult<T>,

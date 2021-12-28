@@ -9,6 +9,6 @@ export default function useCustomQuery<T, D>(
 ) {
   const opts = getUseQueryOptions<T, D>(options);
   const { queryKey } = opts;
-  const result = useQuery<RequestResult<T>, Error, RequestResult<T>>(opts);
+  const result = useQuery<RequestResult<T>, unknown, RequestResult<T>>(opts);
   return transformResult<T>({ queryKey, result });
 }
