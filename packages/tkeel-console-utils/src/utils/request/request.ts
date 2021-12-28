@@ -8,15 +8,19 @@ import {
   RequestResult,
 } from './types';
 
-export default function Request<T>(
-  config: AxiosRequestConfigExtended
-): Promise<RequestResult<T>> {
-  const axiosRequestConfig = merge({}, { extras: DEFAULT_EXTRAS }, config);
-
-  return instance(axiosRequestConfig).then(
-    (response: AxiosResponseExtended<T>) => {
-      const data: T = get(response, ['data', 'data']);
-      return { data, response };
-    }
+export default function request<T, D = undefined>(
+  config: AxiosRequestConfigExtended<D>
+): Promise<RequestResult<T, D>> {
+  const axiosRequestConfig: AxiosRequestConfigExtended<D> = merge(
+    {},
+    { extras: DEFAULT_EXTRAS },
+    config
   );
+
+  return instance
+    .request<T, AxiosResponseExtended<T, D>, D>(axiosRequestConfig)
+    .then((response: AxiosResponseExtended<T, D>) => {
+      const data: T = get(response, ['data', 'data']);
+      return Object.freeze({ data, response });
+    });
 }

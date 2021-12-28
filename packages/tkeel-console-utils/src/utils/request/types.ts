@@ -1,51 +1,52 @@
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
-export interface AxiosRequestConfigExtended extends AxiosRequestConfig {
+export interface AxiosRequestConfigExtended<D = unknown>
+  extends AxiosRequestConfig<D> {
   extras?: RequestExtras;
 }
 
-export interface AxiosResponseExtended<T> extends AxiosResponse {
-  config: AxiosRequestConfigExtended;
-  data: ResponseData<T>;
+export interface AxiosResponseExtended<T = unknown, D = unknown>
+  extends AxiosResponse<ApiResponse<T>, D> {
+  config: AxiosRequestConfigExtended<D>;
 }
 
-export interface AxiosErrorExtended<T> extends AxiosError {
-  config: AxiosRequestConfigExtended;
-  response: AxiosResponseExtended<T>;
+export interface AxiosErrorExtended<T = unknown, D = unknown>
+  extends AxiosError<ApiResponse<T>, D> {
+  config: AxiosRequestConfigExtended<D>;
 }
 
-export interface RequestExtras {
+export interface RequestExtras<T = unknown, D = unknown> {
   isWithToken?: boolean;
-  handleNoAuth?: false | (<T>(response: AxiosResponseExtended<T>) => unknown);
+  handleNoAuth?: false | ((response: AxiosResponseExtended<T, D>) => unknown);
   handleError?:
     | false
-    | (<T>({
+    | (({
         errorMessage,
         response,
       }: {
         errorMessage: string | undefined;
-        response: AxiosResponseExtended<T>;
+        response: AxiosResponseExtended<T, D>;
       }) => unknown);
   errorMessage?: string | undefined;
   handleAxiosError?:
     | false
-    | (<T>({
+    | (({
         axiosErrorMessage,
         error,
       }: {
         axiosErrorMessage: string | undefined;
-        error: AxiosErrorExtended<T>;
+        error: AxiosErrorExtended<T, D>;
       }) => unknown);
   axiosErrorMessage?: string | undefined;
 }
 
-export interface ResponseData<T = unknown> {
+export interface ApiResponse<T = unknown> {
   code: number;
   msg: string;
   data: T;
 }
 
-export interface RequestResult<T = unknown> {
+export interface RequestResult<T = unknown, D = unknown> {
   data: T;
-  response: AxiosResponseExtended<T>;
+  response: AxiosResponseExtended<T, D>;
 }
