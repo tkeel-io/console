@@ -24,13 +24,13 @@
     "@tkeel/console-icons": "workspace:^",
     "@tkeel/console-themes": "workspace:^",
     "@tkeel/console-utils": "workspace:^",
-    "framer-motion": "^5.5.1",
+    "framer-motion": "^5.5.5",
     "qiankun": "^2.6.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-hook-form": "^7.22.1",
+    "react-hook-form": "^7.22.5",
     "react-query": "^3.34.6",
-    "react-router-dom": "^6.1.1"
+    "react-router-dom": "^6.2.1"
   },
   "devDependencies": {
     "@types/tkeel-console": "workspace:^"
