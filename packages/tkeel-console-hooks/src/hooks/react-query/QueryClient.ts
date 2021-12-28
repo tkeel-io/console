@@ -8,7 +8,3 @@ export default class CustomQueryClient extends QueryClient {
     super(config);
   }
 }
-
-const client = new CustomQueryClient();
-
-console.log(client);
