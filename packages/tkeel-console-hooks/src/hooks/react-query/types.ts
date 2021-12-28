@@ -2,16 +2,16 @@ import { UseMutationOptions, UseQueryOptions } from 'react-query';
 import { RequestExtras, RequestResult } from '@tkeel/console-utils';
 import { AxiosRequestConfig, Method } from 'axios';
 
-export interface UseQueryOptionsExtended<T = unknown>
-  extends UseQueryOptions<RequestResult<T>, unknown, RequestResult<T>> {
-  queryKey: '';
-}
-
-export type UseMutationOptionsExtended<T = unknown> = UseMutationOptions<
-  RequestResult<T>,
+export type UseQueryOptionsExtended<T = unknown, D = unknown> = UseQueryOptions<
+  RequestResult<T, D>,
   unknown,
-  unknown
+  RequestResult<T, D>
 >;
+
+export type UseMutationOptionsExtended<
+  T = unknown,
+  D = unknown
+> = UseMutationOptions<RequestResult<T, D>, unknown, unknown>;
 
 interface BaseOptions<D = unknown> {
   url: string;
@@ -24,10 +24,10 @@ interface BaseOptions<D = unknown> {
 
 export interface UseCustomQueryOptions<T = unknown, D = unknown>
   extends BaseOptions<D> {
-  reactQueryOptions?: UseQueryOptionsExtended<T>;
+  reactQueryOptions?: UseQueryOptionsExtended<T, D>;
 }
 
 export interface UseCustomMutationOptions<T = unknown, D = unknown>
   extends BaseOptions<D> {
-  reactQueryOptions?: UseMutationOptionsExtended<T>;
+  reactQueryOptions?: UseMutationOptionsExtended<T, D>;
 }

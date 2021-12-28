@@ -4,18 +4,12 @@ import {
   request,
   RequestResult,
 } from '@tkeel/console-utils';
+import { AxiosRequestConfig } from 'axios';
 import { get, merge } from 'lodash';
 
-import {
-  UseCustomMutationOptions,
-  UseCustomQueryOptions,
-  UseMutationOptionsExtended,
-  UseQueryOptionsExtended,
-} from './types';
+import { UseCustomMutationOptions, UseCustomQueryOptions } from './types';
 
-export function getUseQueryOptions<T, D>(
-  options: UseCustomQueryOptions<T, D>
-): UseQueryOptionsExtended<T> {
+export function getUseQueryOptions<T, D>(options: UseCustomQueryOptions<T, D>) {
   const {
     url,
     method,
@@ -42,7 +36,7 @@ export function getUseQueryOptions<T, D>(
 
 export function getUseMutationOptions<T, D>(
   options: UseCustomMutationOptions<T, D>
-): UseMutationOptionsExtended<T> {
+) {
   const {
     url,
     method,
@@ -60,7 +54,7 @@ export function getUseMutationOptions<T, D>(
     axiosRequestConfig
   );
 
-  function mutationFn(variables: AxiosRequestConfigExtended) {
+  function mutationFn(variables: AxiosRequestConfig<D>) {
     return request<T, D>(merge({}, config, variables));
   }
 
