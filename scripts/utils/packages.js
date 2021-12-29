@@ -8,7 +8,9 @@ const readPkg = require('read-pkg');
 const {
   PACKAGE_DIRECTORY_NAME_PREFIX,
   PLUGIN_PACKAGE_DIRECTORY_NAME_PREFIX,
+  CORE_PACKAGE_SIMPLE_NAME,
   SHARED_PACKAGE_SIMPLE_NAMES,
+  EXCLUDE_PACKAGE_NAMES,
 } = require('../constants');
 const paths = require('./paths');
 
@@ -24,9 +26,19 @@ function getPluginPackageDirectoryName({ pluginName }) {
   return `${PLUGIN_PACKAGE_DIRECTORY_NAME_PREFIX}${pluginName}`;
 }
 
-function getPackages({
-  directoryNames = fs.readdirSync(paths.packages.self),
-} = {}) {
+function getDirectoryNames() {
+  return fs
+    .readdirSync(paths.packages.self)
+    .filter((directoryName) => !EXCLUDE_PACKAGE_NAMES.includes(directoryName))
+    .sort((directoryName) =>
+      directoryName ===
+      `${PACKAGE_DIRECTORY_NAME_PREFIX}${CORE_PACKAGE_SIMPLE_NAME}`
+        ? -1
+        : 1
+    );
+}
+
+function getPackages({ directoryNames = getDirectoryNames() } = {}) {
   const packages = [];
 
   directoryNames.forEach((directoryName) => {
