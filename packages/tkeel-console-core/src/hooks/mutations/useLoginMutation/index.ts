@@ -6,7 +6,7 @@ export interface Params {
   password?: string;
 }
 
-interface ApiData {
+export interface ApiData {
   access_token: string;
   expires_in: number;
   refresh_token: string;
