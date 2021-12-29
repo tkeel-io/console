@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import React, { useEffect, useState } from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClientProvider } from 'react-query';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
-import themes from '@tkeel/console-themes';
+import { QueryClient } from '@tkeel/console-hooks';
+import themes, { DEFAULT_THEME_NAME } from '@tkeel/console-themes';
 
-import { THEME } from '@/constants';
 import Routes from '@/routes';
 import { init as initQiankun } from '@/utils/qiankun';
 
@@ -13,6 +13,8 @@ import { fetchMenus } from '@/mock';
 import { IMenu } from '@/mock/types';
 
 const queryClient = new QueryClient();
+
+const themeName = DEFAULT_THEME_NAME;
 
 function App() {
   const [menus, setMenus] = useState<IMenu[]>([]);
@@ -37,12 +39,12 @@ function App() {
   }, []);
 
   useEffect(() => {
-    initQiankun({ menus });
+    initQiankun({ menus, themeName });
   }, [menus]);
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ChakraProvider theme={themes[THEME]}>
+      <ChakraProvider theme={themes[themeName]}>
         <Router>
           <Routes menus={menus} />
         </Router>
