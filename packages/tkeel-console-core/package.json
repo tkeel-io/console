@@ -31,8 +31,5 @@
     "react-hook-form": "^7.22.5",
     "react-query": "^3.34.6",
     "react-router-dom": "^6.2.1"
-  },
-  "devDependencies": {
-    "@types/tkeel-console": "workspace:^"
   }
 }

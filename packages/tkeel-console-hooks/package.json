@@ -11,9 +11,6 @@
   },
   "license": "Apache-2.0",
   "main": "./src/index.ts",
-  "devDependencies": {
-    "@types/tkeel-console": "workspace:^"
-  },
   "peerDependencies": {
     "@tkeel/console-utils": "workspace:^",
     "react": "^17.0.2",

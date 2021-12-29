@@ -1,1 +1,1 @@
-# @types/tkeel-console
+# @tkeel/console-types
