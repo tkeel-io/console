@@ -32,6 +32,7 @@ module.exports = {
     'stylelint',
     'stylelintignore',
     'stylelintrc',
+    'svgr',
     'todos',
     'webpackbar',
     'wechat',

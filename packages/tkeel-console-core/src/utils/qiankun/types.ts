@@ -15,6 +15,5 @@ export interface IApp {
   container: string;
   activeRule: string;
   loader?: (loading: boolean) => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  props?: Record<string, any>;
+  props?: Record<string, unknown>;
 }
