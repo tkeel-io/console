@@ -1,4 +1,4 @@
-import themes, { ThemeNames } from '@tkeel/console-themes';
+import themes, { DEFAULT_THEME_NAME, ThemeNames } from '@tkeel/console-themes';
 import { registerMicroApps, start } from 'qiankun';
 
 import { IApp, IMenuInfo } from './types';
@@ -28,10 +28,10 @@ function getTotalMenus(menus: IMenu[]): IMenuInfo[] {
 
 function menusToApps({
   menus,
-  themeName,
+  themeName = DEFAULT_THEME_NAME,
 }: {
   menus: IMenu[];
-  themeName: ThemeNames;
+  themeName?: ThemeNames;
 }): IApp[] {
   const token = '123456';
   const totalMenus: IMenuInfo[] = getTotalMenus(menus);
