@@ -7,9 +7,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import App from './App';
-import { IProps } from './types';
+import { Props } from './types';
 
-function render(props: IProps) {
+function render(props: Props) {
   const { container } = props;
   ReactDOM.render(
     <App {...props} />,
@@ -31,14 +31,14 @@ export async function bootstrap() {
 }
 
 // eslint-disable-next-line @typescript-eslint/require-await
-export async function mount(props: IProps) {
+export async function mount(props: Props) {
   // eslint-disable-next-line no-console
   // console.log('mount', props);
   render(props);
 }
 
 // eslint-disable-next-line @typescript-eslint/require-await
-export async function unmount(props: IProps) {
+export async function unmount(props: Props) {
   const { container } = props;
 
   ReactDOM.unmountComponentAtNode(

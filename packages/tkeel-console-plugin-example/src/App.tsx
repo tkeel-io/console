@@ -5,9 +5,9 @@ import { ChakraProvider } from '@chakra-ui/react';
 
 import Routes from '@/containers/Routes';
 
-import { IProps } from './types';
+import { Props } from './types';
 
-function App({ theme }: IProps) {
+function App({ theme }: Props) {
   return (
     <ChakraProvider theme={theme}>
       <Router

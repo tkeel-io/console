@@ -10,14 +10,14 @@ import Routes from '@/routes';
 import { init as initQiankun } from '@/utils/qiankun';
 
 import { fetchMenus } from '@/mock';
-import { IMenu } from '@/mock/types';
+import { Menu } from '@/mock/types';
 
 const queryClient = new QueryClient();
 
 const themeName = DEFAULT_THEME_NAME;
 
 function App() {
-  const [menus, setMenus] = useState<IMenu[]>([]);
+  const [menus, setMenus] = useState<Menu[]>([]);
 
   const fetchData = async () => {
     try {

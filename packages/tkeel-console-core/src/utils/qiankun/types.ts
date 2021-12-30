@@ -1,15 +1,15 @@
-export interface IMenuInfo {
+export interface MenuInfo {
   id: string;
   name: string;
   path: string;
   entry: string | { scripts?: string[]; styles?: string[]; html?: string };
 }
 
-export interface IActiveRuleFunction {
+export interface ActiveRuleFunction {
   (location: Location): boolean;
 }
 
-export interface IApp {
+export interface App {
   name: string;
   entry: string | { scripts?: string[]; styles?: string[]; html?: string };
   container: string;

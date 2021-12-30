@@ -2,20 +2,20 @@ import React from 'react';
 import { Box, Center, Flex, Image } from '@chakra-ui/react';
 
 import { getTotalMenus } from '@/utils/qiankun';
-import { IMenuInfo } from '@/utils/qiankun/types';
+import { MenuInfo } from '@/utils/qiankun/types';
 
 import CustomMenuLink from './CustomMenuLink';
 
 import LogoImg from '@/assets/images/logo.png';
 
-import { IMenu } from '@/mock/types';
+import { Menu } from '@/mock/types';
 
 type Props = {
-  menus: IMenu[];
+  menus: Menu[];
 };
 
 function CollapsedMenus({ menus: menusData }: Props) {
-  const menus: IMenuInfo[] = getTotalMenus(menusData);
+  const menus: MenuInfo[] = getTotalMenus(menusData);
 
   return (
     <Box width="80px" backgroundColor="gray.50">

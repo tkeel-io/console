@@ -7,10 +7,10 @@ import MenuTitle from './MenuTitle';
 
 import LogoImg from '@/assets/images/logo.png';
 
-import { IMenu } from '@/mock/types';
+import { Menu } from '@/mock/types';
 
 type Props = {
-  menus: IMenu[];
+  menus: Menu[];
 };
 
 function Menus({ menus: menusData }: Props) {

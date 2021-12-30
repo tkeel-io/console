@@ -7,14 +7,14 @@ import Login from '@/pages/Login';
 import NotFound from '@/pages/NotFound';
 import { menusToApps } from '@/utils/qiankun';
 
-import { IMenu } from '@/mock/types';
+import { Menu } from '@/mock/types';
 
 function getElementIdByContainer(container: string): string {
   return container.replace(/^#/, '');
 }
 
 type Props = {
-  menus: IMenu[];
+  menus: Menu[];
 };
 
 function Routes({ menus }: Props) {
