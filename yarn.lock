@@ -3390,6 +3390,8 @@ __metadata:
   dependencies:
     axios: ^0.24.0
     store2: ^2.13.1
+  peerDependencies:
+    "@tkeel/console-components": "workspace:^"
   languageName: unknown
   linkType: soft
 
