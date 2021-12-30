@@ -22,12 +22,12 @@ function Header({ menus }: Props) {
     const { name, path, children } = menu;
     if (children) {
       const menuItem = children.find((item) =>
-        pathname.includes(item.path || '')
+        pathname.includes(item.path as string)
       );
       if (menuItem) {
         breadcrumbs = [name, menuItem.name];
       }
-    } else if (pathname.includes(path || '')) {
+    } else if (pathname.includes(path as string)) {
       breadcrumbs = [name];
     }
   });

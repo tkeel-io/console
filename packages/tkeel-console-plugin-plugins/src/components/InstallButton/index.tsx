@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { MouseEventHandler, useState } from 'react';
 import { Button } from '@chakra-ui/react';
 import { DownloadFilledIcon, LoadingFilledIcon } from '@tkeel/console-icons';
 
@@ -14,7 +14,8 @@ function InstallButton({ size }: Props) {
   const [loading, setLoading] = useState(false);
   let timer: number | null = null;
 
-  const handleInstall = () => {
+  const handleInstall: MouseEventHandler<HTMLButtonElement> = (event) => {
+    event.stopPropagation();
     if (!timer) {
       setLoading(true);
       setInterval(() => {});

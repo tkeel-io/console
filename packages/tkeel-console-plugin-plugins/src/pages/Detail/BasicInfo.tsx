@@ -3,7 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { Box, Button, Center, Flex, Text } from '@chakra-ui/react';
 import { BoxTwoToneIcon, ChevronLeftFilledIcon } from '@tkeel/console-icons';
 
-import InstallButton from '@/components/InstallButton';
+import MoreActionButton from './MoreActionButton';
+
+// import InstallButton from '@/components/InstallButton';
 
 function BasicInfo() {
   const navigate = useNavigate();
@@ -33,10 +35,11 @@ function BasicInfo() {
   return (
     <Box
       width="360px"
+      height="350px"
       backgroundColor="white"
       boxShadow="0px 10px 15px -3px rgba(113, 128, 150, 0.1), 0px 4px 6px -2px rgba(113, 128, 150, 0.05);"
     >
-      <Box height="124px" padding="16px" backgroundColor="gray.50">
+      <Box height="130px" padding="16px" backgroundColor="gray.50">
         <Flex height="28px" justifyContent="space-between">
           <Button
             variant="outline"
@@ -48,7 +51,8 @@ function BasicInfo() {
           >
             返回
           </Button>
-          <InstallButton size="sm" />
+          {/* <InstallButton size="sm" /> */}
+          <MoreActionButton />
         </Flex>
         <Flex marginTop="16px" alignItems="center">
           <Center

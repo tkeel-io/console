@@ -1,9 +1,12 @@
 import React from 'react';
 // import { useParams } from 'react-router-dom';
 import { Flex, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { Editor } from '@tkeel/console-components';
 
 import BasicInfo from './BasicInfo';
 import CustomTab from './CustomTab';
+import Introduce from './Introduce';
+import paramsData from './mockParams';
 
 function Detail() {
   // const params = useParams();
@@ -11,9 +14,9 @@ function Detail() {
   // console.log('Detail ~ params.id', params.id);
 
   return (
-    <Flex paddingBottom="20px" justifyContent="space-between">
+    <Flex height="100%" paddingBottom="20px" justifyContent="space-between">
       <BasicInfo />
-      <Tabs marginLeft="20px" flex="1">
+      <Tabs display="flex" flexDirection="column" marginLeft="20px" flex="1">
         <TabList
           padding="8px"
           height="48px"
@@ -25,13 +28,14 @@ function Detail() {
           <CustomTab>参数</CustomTab>
           <CustomTab>启用列表</CustomTab>
         </TabList>
-        <TabPanels marginTop="16px">
-          <TabPanel padding="24px" backgroundColor="white">
-            功能点
-          </TabPanel>
+        <TabPanels marginTop="16px" flex="1" overflow="hidden">
           <TabPanel padding="16px" backgroundColor="white">
-            参数
+            <Introduce />
           </TabPanel>
+          <TabPanel padding="24px" backgroundColor="white">
+            <Editor language="yaml" value={paramsData} />
+          </TabPanel>
+
           <TabPanel padding="0" backgroundColor="white">
             列表
           </TabPanel>

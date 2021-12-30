@@ -2916,6 +2916,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@monaco-editor/loader@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@monaco-editor/loader@npm:1.2.0"
+  dependencies:
+    state-local: ^1.0.6
+  peerDependencies:
+    monaco-editor: ">= 0.21.0 < 1"
+  checksum: b483d8d74830f8bcfe18111b0dfe526e038b704e9a461ce2ecb25d66db2abb19fbb704569ba84b06e4b5ead4e483ae7335e3d5e2201613d4f0c077401d540bd3
+  languageName: node
+  linkType: hard
+
+"@monaco-editor/react@npm:^4.3.1":
+  version: 4.3.1
+  resolution: "@monaco-editor/react@npm:4.3.1"
+  dependencies:
+    "@monaco-editor/loader": ^1.2.0
+    prop-types: ^15.7.2
+  peerDependencies:
+    monaco-editor: ">= 0.25.0 < 1"
+    react: ^16.8.0 || ^17.0.0
+    react-dom: ^16.8.0 || ^17.0.0
+  checksum: 477349e64078ab3fc30e75577fbe51519c5af621cd1e3fa557e21f2a5e7291c4eabe34caa3013d578be0379c5bc43b199ee1c74853d571b05598ce866ad5a3a1
+  languageName: node
+  linkType: hard
+
 "@mrmlnc/readdir-enhanced@npm:^2.2.1":
   version: 2.2.1
   resolution: "@mrmlnc/readdir-enhanced@npm:2.2.1"
@@ -3330,11 +3355,14 @@ __metadata:
     "@chakra-ui/react": ^1.7.3
     "@emotion/react": ^11.7.1
     "@emotion/styled": ^11.6.0
+    "@monaco-editor/react": ^4.3.1
     "@tkeel/console-components": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
     "@tkeel/console-icons": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
     framer-motion: ^5.5.1
+    monaco-editor: ^0.31.1
+    monaco-themes: ^0.4.0
     react: ^17.0.2
     react-dom: ^17.0.2
     react-router-dom: ^6.1.1
@@ -7749,6 +7777,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fast-plist@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "fast-plist@npm:0.1.2"
+  checksum: 3baf1b4c533024561595f28eae7c36f4fa0782f52374b2f4e067561bd62464240f4bcff8d47b1ed6b981333be5f2bb613ce10229c5ec1e0194dfc271b873ade8
+  languageName: node
+  linkType: hard
+
 "fastest-levenshtein@npm:^1.0.12":
   version: 1.0.12
   resolution: "fastest-levenshtein@npm:1.0.12"
@@ -10907,6 +10942,22 @@ __metadata:
   bin:
     mkdirp: bin/cmd.js
   checksum: a96865108c6c3b1b8e1d5e9f11843de1e077e57737602de1b82030815f311be11f96f09cce59bd5b903d0b29834733e5313f9301e3ed6d6f6fba2eae0df4298f
+  languageName: node
+  linkType: hard
+
+"monaco-editor@npm:^0.31.1":
+  version: 0.31.1
+  resolution: "monaco-editor@npm:0.31.1"
+  checksum: 65be40c5570e1186938490e47ac3a23ecd8faf1bda631091a6da1de8275f049efb8d9514fcb780ca40053adf8fe9229413b4c801d86ebbade078371acbb9df3b
+  languageName: node
+  linkType: hard
+
+"monaco-themes@npm:^0.4.0":
+  version: 0.4.0
+  resolution: "monaco-themes@npm:0.4.0"
+  dependencies:
+    fast-plist: ^0.1.2
+  checksum: b48e9597bed6a333ce51a1ebcef3f047a555a463c76d86f66e1f7161d99cf9e8ded0d0ed182dbd48e80b3f73cb5a930ad26954d368b2aed8ef529449fb4b380d
   languageName: node
   linkType: hard
 
@@ -14432,6 +14483,13 @@ __metadata:
   version: 1.2.0
   resolution: "stackframe@npm:1.2.0"
   checksum: 37d659bdd574e118a48c445a9a054a2b8dee6d6ad54eb16c51c7dae622c0f4994b9ff4e47d744aa6cfd14c00b477e145f34db3df78771f3e783ce8f357616d00
+  languageName: node
+  linkType: hard
+
+"state-local@npm:^1.0.6":
+  version: 1.0.7
+  resolution: "state-local@npm:1.0.7"
+  checksum: d1afcf1429e7e6eb08685b3a94be8797db847369316d4776fd51f3962b15b984dacc7f8e401ad20968e5798c9565b4b377afedf4e4c4d60fe7495e1cbe14a251
   languageName: node
   linkType: hard
 
