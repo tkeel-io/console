@@ -1,3 +1,4 @@
+import { toast } from '@tkeel/console-components';
 import { get, inRange } from 'lodash';
 
 import {
@@ -17,6 +18,7 @@ export const DEFAULT_BASE_EXTRAS: RequestExtras = Object.freeze({
 
 export const DEFAULT_AXIOS_REQUEST_CONFIG: AxiosRequestConfigExtended =
   Object.freeze({
+    // custom codes
     baseURL: process.env.API_PATHNAME || '/apis',
     validateStatus: (status: number) => !inRange(status, 300, 400),
     extras: DEFAULT_BASE_EXTRAS,
@@ -25,19 +27,19 @@ export const DEFAULT_AXIOS_REQUEST_CONFIG: AxiosRequestConfigExtended =
 export const DEFAULT_EXTRAS: RequestExtras = Object.freeze({
   isWithToken: true,
   handleNoAuth() {
-    // redirect to login page
+    // custom codes
   },
   handleError({ errorMessage, response }) {
     const data: ApiResponse = get(response, ['data']);
     const message = get(data, ['msg'], '');
-    // eslint-disable-next-line no-console
-    console.warn('handleError', errorMessage || message);
+    // custom codes
+    toast({ title: errorMessage || message, status: 'error' });
   },
   errorMessage: '',
   handleAxiosError({ axiosErrorMessage, error }) {
     const { message } = error;
-    // eslint-disable-next-line no-console
-    console.warn('handleAxiosError', axiosErrorMessage || message);
+    // custom codes
+    toast({ title: axiosErrorMessage || message, status: 'error' });
   },
   axiosErrorMessage: '',
 });
