@@ -1,7 +1,5 @@
-import themes from '@tkeel/console-themes';
+import themes, { DEFAULT_THEME_NAME, ThemeNames } from '@tkeel/console-themes';
 import { registerMicroApps, start } from 'qiankun';
-
-import { THEME } from '@/constants';
 
 import { IApp, IMenuInfo } from './types';
 
@@ -28,7 +26,13 @@ function getTotalMenus(menus: IMenu[]): IMenuInfo[] {
   return menuInfoArr;
 }
 
-function menusToApps({ menus }: { menus: IMenu[] }): IApp[] {
+function menusToApps({
+  menus,
+  themeName = DEFAULT_THEME_NAME,
+}: {
+  menus: IMenu[];
+  themeName?: ThemeNames;
+}): IApp[] {
   const token = '123456';
   const totalMenus: IMenuInfo[] = getTotalMenus(menus);
 
@@ -39,7 +43,8 @@ function menusToApps({ menus }: { menus: IMenu[] }): IApp[] {
     activeRule: path,
     props: {
       token,
-      theme: themes[THEME],
+      themeName,
+      theme: themes[themeName],
     },
   }));
 }
@@ -48,8 +53,14 @@ function register({ apps }: { apps: IApp[] }): void {
   registerMicroApps(apps);
 }
 
-function init({ menus }: { menus: IMenu[] }): void {
-  const apps = menusToApps({ menus });
+function init({
+  menus,
+  themeName,
+}: {
+  menus: IMenu[];
+  themeName: ThemeNames;
+}): void {
+  const apps = menusToApps({ menus, themeName });
   register({ apps });
   start({
     sandbox: {

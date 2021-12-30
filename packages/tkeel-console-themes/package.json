@@ -11,9 +11,6 @@
   },
   "license": "Apache-2.0",
   "main": "./src/index.ts",
-  "devDependencies": {
-    "@types/tkeel-console": "workspace:^"
-  },
   "peerDependencies": {
     "@chakra-ui/react": "^1.7.2",
     "@emotion/react": "^11.7.0",

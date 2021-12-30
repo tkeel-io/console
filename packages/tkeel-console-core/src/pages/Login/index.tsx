@@ -12,14 +12,25 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { Form } from '@tkeel/console-components';
+import { setLocalTokenData } from '@tkeel/console-utils';
 
-// import { setLocalTokenData } from '@tkeel/console-utils';
-import { Params, useLoginMutation } from './requests';
+import useLoginMutation, {
+  ApiData,
+  Params,
+} from '@/hooks/mutations/useLoginMutation';
 
 type Inputs = {
   username: string;
   password: string;
 };
+
+function handleLogin({ data }: { data: ApiData | undefined }) {
+  if (!data) {
+    return;
+  }
+
+  setLocalTokenData(data);
+}
 
 function Login(): JSX.Element {
   const formLabelStyle = {
@@ -46,12 +57,13 @@ function Login(): JSX.Element {
     formState: { errors, isSubmitting },
   } = useForm<Inputs>();
 
-  const { mutate } = useLoginMutation();
+  const { data, mutate } = useLoginMutation();
+  handleLogin({ data });
 
   const onSubmit: SubmitHandler<Inputs> = (values) => {
     const { username, password } = values;
     const params: Params = {
-      grant_type: 'password' as const,
+      grant_type: 'password',
       username,
       password,
     };

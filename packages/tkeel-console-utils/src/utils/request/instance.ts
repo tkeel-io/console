@@ -2,13 +2,12 @@ import axios from 'axios';
 import { get, isString, merge } from 'lodash';
 
 import { getLocalTokenData } from '../auth';
+import ApiError from './api-error';
 import { DEFAULT_AXIOS_REQUEST_CONFIG, DEFAULT_BASE_EXTRAS } from './defaults';
-import RequestError from './request-error';
 import {
   AxiosErrorExtended,
   AxiosRequestConfigExtended,
   AxiosResponseExtended,
-  ResponseData,
 } from './types';
 
 const instance = axios.create(DEFAULT_AXIOS_REQUEST_CONFIG);
@@ -33,8 +32,8 @@ instance.interceptors.request.use((config: AxiosRequestConfigExtended) => {
 });
 
 instance.interceptors.response.use(
-  <T>(response: AxiosResponseExtended<T>) => {
-    const data: ResponseData<T> = get(response, ['data']);
+  (response: AxiosResponseExtended) => {
+    const data = get(response, ['data']);
     const code = get(data, ['code']);
 
     if (code === 200) {
@@ -52,7 +51,7 @@ instance.interceptors.response.use(
     }
 
     const message = get(data, ['msg'], '');
-    const error = new RequestError({ message, response });
+    const error = new ApiError({ message, response });
 
     if (typeof handleError === 'function') {
       handleError({ response, errorMessage });
@@ -60,7 +59,7 @@ instance.interceptors.response.use(
 
     return Promise.reject(error);
   },
-  <T>(error: AxiosErrorExtended<T>) => {
+  (error: AxiosErrorExtended) => {
     const { handleAxiosError, axiosErrorMessage } = get(
       error,
       ['config', 'extras'],

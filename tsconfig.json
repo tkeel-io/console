@@ -22,13 +22,13 @@
     "experimentalDecorators": true,
     "skipLibCheck": true,
     "rootDir": ".",
-    "outDir": "dist",
+    "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
       "@/*": [
-        "packages/tkeel-console-core/src/*",
-        "packages/tkeel-console-plugin-plugins/src/*",
-        "packages/tkeel-console-plugin-user/src/*"
+        "./packages/tkeel-console-core/src/*",
+        "./packages/tkeel-console-plugin-plugins/src/*",
+        "./packages/tkeel-console-plugin-user/src/*"
       ]
     },
     "plugins": [
@@ -37,6 +37,6 @@
       }
     ]
   },
-  "include": ["packages/*/src/"],
-  "exclude": ["node_modules/", "**/dist/", "**/scripts/"]
+  "include": ["./packages/*/src/"],
+  "exclude": ["./node_modules/", "**/dist/", "**/scripts/"]
 }

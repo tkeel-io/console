@@ -1,5 +1,7 @@
 const path = require('path');
 
+const { isEnvDevelopment } = require('./scripts/utils/env');
+
 module.exports = {
   root: true,
   parser: '@babel/eslint-parser',
@@ -28,6 +30,7 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   rules: {
+    'no-console': isEnvDevelopment ? 'warn' : 'error',
     'no-param-reassign': [
       'error',
       {
