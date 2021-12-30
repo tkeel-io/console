@@ -36,6 +36,7 @@ function BasicInfo() {
     <Box
       width="360px"
       height="350px"
+      flexShrink="0"
       backgroundColor="white"
       boxShadow="0px 10px 15px -3px rgba(113, 128, 150, 0.1), 0px 4px 6px -2px rgba(113, 128, 150, 0.05);"
     >
@@ -88,7 +89,13 @@ function BasicInfo() {
               <Text width="72px" color="gray.500" fontSize="12px">
                 {info.label}
               </Text>
-              <Text color="gray.800" fontSize="12px">
+              <Text
+                color="gray.800"
+                fontSize="12px"
+                maxWidth="240px"
+                isTruncated
+                title={info.value}
+              >
                 {info.value}
               </Text>
             </Flex>

@@ -1,11 +1,8 @@
-/* eslint-disable promise/always-return */
 import React from 'react';
 import { Box, Theme } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import MonacoEditor from '@monaco-editor/react';
 
-// import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
-// import monokaiTheme from 'monaco-themes/themes/Monokai.json';
 import registerCompletion from './registerCompletion';
 
 const Wrapper = styled(Box)`
@@ -22,23 +19,17 @@ type Props = {
   theme?: 'vs-dark' | 'light';
   language: string;
   value: string;
-  width?: string;
-  height?: string;
+  width: string;
+  height: string;
+  readOnly?: boolean;
 };
 
 const defaultProps = {
   theme: 'vs-dark',
-  width: '100%',
-  height: '100%',
+  readOnly: false,
 };
 
-// const handleEditorWillMount = (monacoInstance: typeof monaco) => {
-//   monacoInstance.editor.defineTheme('monokai', {
-//     ...(monokaiTheme as monaco.editor.IStandaloneThemeData),
-//   });
-// };
-
-function Editor({ theme, language, value, width, height }: Props) {
+function Editor({ theme, language, value, width, height, readOnly }: Props) {
   return (
     <Wrapper>
       <MonacoEditor
@@ -46,11 +37,14 @@ function Editor({ theme, language, value, width, height }: Props) {
         defaultLanguage={language}
         defaultValue={value}
         options={{
+          readOnly,
           minimap: {
             enabled: false,
           },
           quickSuggestions: { other: true, strings: true },
           scrollBeyondLastLine: false,
+          folding: !readOnly,
+          tabSize: 2,
         }}
         beforeMount={(monacoInstance) => {
           registerCompletion({

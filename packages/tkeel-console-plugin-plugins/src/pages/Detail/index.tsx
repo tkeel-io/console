@@ -6,7 +6,8 @@ import { Editor } from '@tkeel/console-components';
 import BasicInfo from './BasicInfo';
 import CustomTab from './CustomTab';
 import Introduce from './Introduce';
-import paramsData from './mockParams';
+import mockParams from './mockParams';
+// import paramsData from './mockParams';
 
 function Detail() {
   // const params = useParams();
@@ -32,10 +33,15 @@ function Detail() {
           <TabPanel padding="16px" backgroundColor="white">
             <Introduce />
           </TabPanel>
-          <TabPanel padding="24px" backgroundColor="white">
-            <Editor language="yaml" value={paramsData} />
+          <TabPanel height="100%" padding="24px" backgroundColor="white">
+            <Editor
+              width="100%"
+              height="100%"
+              language="json"
+              value={mockParams}
+              readOnly
+            />
           </TabPanel>
-
           <TabPanel padding="0" backgroundColor="white">
             列表
           </TabPanel>
