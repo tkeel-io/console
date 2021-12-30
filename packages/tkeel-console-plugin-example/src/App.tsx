@@ -2,12 +2,11 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
+import { PluginProps } from '@tkeel/console-types';
 
-import Routes from '@/containers/Routes';
+import Routes from '@/routes';
 
-import { Props } from './types';
-
-function App({ theme }: Props) {
+function App({ theme }: PluginProps) {
   return (
     <ChakraProvider theme={theme}>
       <Router

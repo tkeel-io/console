@@ -1,3 +1,5 @@
+import { PluginProps } from '@tkeel/console-types';
+
 export interface MenuInfo {
   id: string;
   name: string;
@@ -15,5 +17,5 @@ export interface App {
   container: string;
   activeRule: string;
   loader?: (loading: boolean) => void;
-  props?: Record<string, unknown>;
+  props?: PluginProps;
 }

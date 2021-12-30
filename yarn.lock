@@ -3295,6 +3295,7 @@ __metadata:
     "@tkeel/console-hooks": "workspace:^"
     "@tkeel/console-icons": "workspace:^"
     "@tkeel/console-themes": "workspace:^"
+    "@tkeel/console-types": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
     framer-motion: ^5.5.5
     qiankun: ^2.6.3
@@ -3338,6 +3339,7 @@ __metadata:
     "@emotion/react": ^11.7.0
     "@emotion/styled": ^11.6.0
     "@tkeel/console-hooks": "workspace:^"
+    "@tkeel/console-types": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
     framer-motion: ^5.3.3
     react: ^17.0.2
@@ -3378,7 +3380,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tkeel/console-types@workspace:packages/tkeel-console-types":
+"@tkeel/console-types@workspace:^, @tkeel/console-types@workspace:packages/tkeel-console-types":
   version: 0.0.0-use.local
   resolution: "@tkeel/console-types@workspace:packages/tkeel-console-types"
   languageName: unknown
@@ -3388,6 +3390,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tkeel/console-utils@workspace:packages/tkeel-console-utils"
   dependencies:
+    "@tkeel/console-types": "workspace:^"
     axios: ^0.24.0
     store2: ^2.13.1
   peerDependencies:

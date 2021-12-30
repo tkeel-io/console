@@ -12,6 +12,7 @@
   "license": "Apache-2.0",
   "main": "./src/index.ts",
   "dependencies": {
+    "@tkeel/console-types": "workspace:^",
     "axios": "^0.24.0",
     "store2": "^2.13.1"
   },

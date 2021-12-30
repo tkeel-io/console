@@ -1,4 +1,5 @@
 import themes, { DEFAULT_THEME_NAME, ThemeNames } from '@tkeel/console-themes';
+import { PluginProps, TokenData } from '@tkeel/console-types';
 import { registerMicroApps, start } from 'qiankun';
 
 import { App, MenuInfo } from './types';
@@ -33,19 +34,25 @@ function menusToApps({
   menus: Menu[];
   themeName?: ThemeNames;
 }): App[] {
-  const token = '123456';
+  const tokenData: TokenData = {
+    access_token: '',
+    expires_in: 1,
+    refresh_token: '',
+    token_type: '',
+  };
   const totalMenus: MenuInfo[] = getTotalMenus(menus);
+  const props: PluginProps = {
+    tokenData,
+    themeName,
+    theme: themes[themeName],
+  };
 
   return totalMenus.map(({ id, name, path, entry }) => ({
     name,
     entry,
     container: `#${id}`,
     activeRule: path,
-    props: {
-      token,
-      themeName,
-      theme: themes[themeName],
-    },
+    props,
   }));
 }
 
