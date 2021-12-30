@@ -8,9 +8,9 @@ import {
 
 import MenuItem from './MenuItem';
 
-import { IMenu } from '@/mock/types';
+import { Menu } from '@/mock/types';
 
-type Props = IMenu & {
+type Props = Menu & {
   spread: boolean;
   handleMenuClick: (id: string) => void;
 };
@@ -24,7 +24,7 @@ function MenuTitle({
   handleMenuClick,
 }: Props) {
   const location = useLocation();
-  const active: boolean = (children as IMenu[]).some((item) => {
+  const active: boolean = (children as Menu[]).some((item) => {
     return item.path && location.pathname.includes(item.path);
   });
 

@@ -6,10 +6,10 @@ import { Flex } from '@chakra-ui/react';
 import Header from '@/containers/Layout/Header';
 import Menus from '@/containers/Layout/Menus';
 
-import { IMenu } from '@/mock/types';
+import { Menu } from '@/mock/types';
 
 type Props = {
-  menus: IMenu[];
+  menus: Menu[];
 };
 
 function Layout({ menus }: Props) {

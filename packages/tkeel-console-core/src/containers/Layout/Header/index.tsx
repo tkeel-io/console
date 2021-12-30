@@ -11,9 +11,9 @@ import { HumanFilledIcon } from '@tkeel/console-icons';
 
 import { getTotalMenus } from '@/utils/qiankun';
 
-import { IMenu } from '@/mock/types';
+import { Menu } from '@/mock/types';
 
-function Header({ menus }: { menus: IMenu[] }) {
+function Header({ menus }: { menus: Menu[] }) {
   const { pathname } = useLocation();
   const totalMenus = getTotalMenus(menus);
   let name = '';
