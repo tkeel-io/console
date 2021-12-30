@@ -16,6 +16,7 @@ instance.interceptors.request.use((config: AxiosRequestConfigExtended) => {
   const extras = get(config, ['extras'], DEFAULT_BASE_EXTRAS);
   const { isWithToken } = extras;
   const tokenData = getLocalTokenData();
+  // custom codes
   const tokenType = get(tokenData, ['token_type']);
   const accessToken = get(tokenData, ['access_token']);
 
@@ -23,6 +24,7 @@ instance.interceptors.request.use((config: AxiosRequestConfigExtended) => {
     ? merge(
         {
           headers: {
+            // custom codes
             Authorization: `${tokenType} ${accessToken}`,
           },
         },
@@ -36,6 +38,7 @@ instance.interceptors.response.use(
     const data = get(response, ['data']);
     const code = get(data, ['code']);
 
+    // custom codes
     if (code === 200) {
       return response;
     }
@@ -46,6 +49,7 @@ instance.interceptors.response.use(
       DEFAULT_BASE_EXTRAS
     );
 
+    // custom codes
     if (code === 401 && typeof handleNoAuth === 'function') {
       handleNoAuth(response);
     }

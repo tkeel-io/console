@@ -40,6 +40,7 @@ export interface RequestExtras<T = unknown, D = unknown> {
   axiosErrorMessage?: string | undefined;
 }
 
+// custom codes
 export interface ApiResponse<T = unknown> {
   code: number;
   msg: string;
