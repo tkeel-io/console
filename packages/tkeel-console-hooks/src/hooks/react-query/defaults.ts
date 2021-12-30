@@ -1,6 +1,11 @@
 import { QueryClientConfig } from './types';
 
-export const DEFAULT_USE_QUERY_OPTIONS = {};
+export const DEFAULT_USE_QUERY_OPTIONS = {
+  retry: false,
+  staleTime: 5 * 1000,
+  cacheTime: 5 * 1000,
+  refetchOnWindowFocus: false,
+};
 
 export const DEFAULT_USE_MUTATION_OPTIONS = {};
 

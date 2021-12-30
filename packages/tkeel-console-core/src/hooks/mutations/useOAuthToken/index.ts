@@ -1,4 +1,4 @@
-import { useMutation } from '@tkeel/console-hooks';
+import useMutation from '@/hooks/useMutation';
 
 export interface Params {
   grant_type: 'password' | 'authorization_code';
@@ -16,7 +16,7 @@ export interface ApiData {
 const url = '/security/v1/oauth/token';
 const method = 'GET';
 
-export default function useLoginMutation() {
+export default function useOAuthToken() {
   return useMutation<ApiData>({
     url,
     method,

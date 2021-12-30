@@ -1,23 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Routes as ReactRouterRoutes } from 'react-router-dom';
 import { Box } from '@chakra-ui/react';
+import { ThemeNames } from '@tkeel/console-themes';
 
 import Layout from '@/containers/Layout';
+import useEntriesQuery from '@/hooks/queries/useEntriesQuery';
 import Login from '@/pages/Login';
 import NotFound from '@/pages/NotFound';
-import { menusToApps } from '@/utils/qiankun';
-
-import { Menu } from '@/mock/types';
+import { init as initQiankun, menusToApps } from '@/utils/qiankun';
 
 function getElementIdByContainer(container: string): string {
   return container.replace(/^#/, '');
 }
 
 type Props = {
-  menus: Menu[];
+  themeName: ThemeNames;
 };
 
-function Routes({ menus }: Props) {
+function Routes({ themeName }: Props) {
+  const { entries: menus } = useEntriesQuery();
   const apps = menusToApps({ menus });
 
   const renderApps = () => {
@@ -47,6 +48,10 @@ function Routes({ menus }: Props) {
       </>
     );
   };
+
+  useEffect(() => {
+    initQiankun({ menus, themeName });
+  }, [menus, themeName]);
 
   return (
     <ReactRouterRoutes>
