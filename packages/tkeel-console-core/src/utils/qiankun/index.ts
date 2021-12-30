@@ -1,3 +1,4 @@
+import { toast } from '@tkeel/console-components';
 import themes, { DEFAULT_THEME_NAME, ThemeNames } from '@tkeel/console-themes';
 import { registerMicroApps, start } from 'qiankun';
 
@@ -45,6 +46,7 @@ function menusToApps({
       token,
       themeName,
       theme: themes[themeName],
+      toast,
     },
   }));
 }
