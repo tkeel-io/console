@@ -7,10 +7,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import App from './App';
-import { IProps } from './types';
+import { PluginProps } from '@tkeel/console-types';
 
-function render(props: IProps) {
-  const { container } = props;
+interface Props extends PluginProps {
+  container: HTMLElement;
+}
+
+function render(props?: Props) {
+  const container = props?.container;
+
   ReactDOM.render(
     <App {...props} />,
     container
@@ -21,24 +26,18 @@ function render(props: IProps) {
 
 // @ts-ignore
 if (!window.__POWERED_BY_QIANKUN__) {
-  render({});
+  render();
 }
 
-// eslint-disable-next-line @typescript-eslint/require-await
 export async function bootstrap() {
-  // eslint-disable-next-line no-console
-  // console.log('bootstrap');
+  //
 }
 
-// eslint-disable-next-line @typescript-eslint/require-await
-export async function mount(props: IProps) {
-  // eslint-disable-next-line no-console
-  // console.log('mount', props);
+export async function mount(props: Props) {
   render(props);
 }
 
-// eslint-disable-next-line @typescript-eslint/require-await
-export async function unmount(props: IProps) {
+export async function unmount(props: Props) {
   const { container } = props;
 
   ReactDOM.unmountComponentAtNode(

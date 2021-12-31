@@ -50,14 +50,12 @@ instance.interceptors.response.use(
     );
 
     // custom codes
-    if (code === 401 && typeof handleNoAuth === 'function') {
-      handleNoAuth(response);
-    }
-
     const message = get(data, ['msg'], '');
     const error = new ApiError({ message, response });
 
-    if (typeof handleError === 'function') {
+    if ([401, 403].includes(code) && typeof handleNoAuth === 'function') {
+      handleNoAuth(response);
+    } else if (typeof handleError === 'function') {
       handleError({ response, errorMessage });
     }
 

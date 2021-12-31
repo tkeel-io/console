@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { Box, Flex, Heading, Image } from '@chakra-ui/react';
 
+import { Menu } from '@/hooks/queries/useMenusQuery';
+
 import MenuLink from './MenuLink';
 import SubMenuLink from './SubMenuLink';
 import SubMenuTitle from './SubMenuTitle';
 
 import LogoImg from '@/assets/images/logo.png';
 
-import { IMenu } from '@/mock/types';
-
 type Props = {
-  menus: IMenu[];
+  menus: Menu[];
 };
 
 function Menus({ menus: menusData }: Props) {
