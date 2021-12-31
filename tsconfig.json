@@ -22,14 +22,20 @@
     "experimentalDecorators": true,
     "skipLibCheck": true,
     "rootDir": ".",
-    "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./packages/tkeel-console-core/src/*",
-        "./packages/tkeel-console-plugin-plugins/src/*",
-        "./packages/tkeel-console-plugin-user/src/*"
-      ]
+      "@/core/*": ["./packages/tkeel-console-core/src/*"],
+      "@/business-components/*": [
+        "./packages/tkeel-console-business-components/src/*"
+      ],
+      "@/components/*": ["./packages/tkeel-console-components/src/*"],
+      "@/hooks/*": ["./packages/tkeel-console-hooks/src/*"],
+      "@/icons/*": ["./packages/tkeel-console-icons/src/*"],
+      "@/plugin-example/*": ["./packages/tkeel-console-plugin-example/src/*"],
+      "@/plugin-plugins/*": ["./packages/tkeel-console-plugin-plugins/src/*"],
+      "@/themes/*": ["./packages/tkeel-console-themes/src/*"],
+      "@/types/*": ["./packages/tkeel-console-types/src/*"],
+      "@/utils/*": ["./packages/tkeel-console-utils/src/*"]
     },
     "plugins": [
       {
@@ -38,5 +44,6 @@
     ]
   },
   "include": ["./packages/*/src/"],
-  "exclude": ["./node_modules/", "**/dist/", "**/scripts/"]
+  "exclude": ["./node_modules/", "**/dist/", "**/scripts/"],
+  "references": []
 }

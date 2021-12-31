@@ -1,4 +1,4 @@
-import useMutation from '@/hooks/useMutation';
+import useMutation from '@/core/hooks/useMutation';
 
 export interface Params {
   grant_type: 'password' | 'authorization_code';

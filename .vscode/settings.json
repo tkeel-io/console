@@ -1,6 +1,14 @@
 {
   "path-intellisense.mappings": {
-    "/": "${workspaceFolder}",
-    "@": "${workspaceFolder}/src"
+    "@/core": "${workspaceFolder}/packages/tkeel-console-core/src",
+    "@/business-components": "${workspaceFolder}/packages/tkeel-console-business-components/src",
+    "@/components": "${workspaceFolder}/packages/tkeel-console-components/src",
+    "@/hooks": "${workspaceFolder}/packages/tkeel-console-hooks/src",
+    "@/icons": "${workspaceFolder}/packages/tkeel-console-icons/src",
+    "@/plugin-example": "${workspaceFolder}/packages/tkeel-console-plugin-example/src",
+    "@/plugin-plugins": "${workspaceFolder}/packages/tkeel-console-plugin-plugins/src",
+    "@/themes": "${workspaceFolder}/packages/tkeel-console-themes/src",
+    "@/types": "${workspaceFolder}/packages/tkeel-console-types/src",
+    "@/utils": "${workspaceFolder}/packages/tkeel-console-utils/src"
   }
 }

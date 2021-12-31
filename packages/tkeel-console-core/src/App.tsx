@@ -5,7 +5,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { QueryClient } from '@tkeel/console-hooks';
 import themes, { DEFAULT_THEME_NAME } from '@tkeel/console-themes';
 
-import Routes from '@/routes';
+import Routes from '@/core/routes/';
 
 const queryClient = new QueryClient();
 

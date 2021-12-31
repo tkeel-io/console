@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Flex, Tag, Text } from '@chakra-ui/react';
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
 
-import InstallButton from '@/components/InstallButton';
+import InstallButton from '@/plugin-plugins/components/InstallButton';
 
 function Card() {
   const [showTopBorder, setShowTopBorder] = useState(false);

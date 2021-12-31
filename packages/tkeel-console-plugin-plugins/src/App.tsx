@@ -3,9 +3,9 @@ import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 
-import Routes from '@/containers/Routes';
-
 import { IProps } from './types';
+
+import Routes from '@/plugin-plugins//routes';
 
 function App({ theme }: IProps) {
   return (

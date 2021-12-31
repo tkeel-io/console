@@ -1,6 +1,6 @@
 import { useRoutes } from 'react-router-dom';
 
-import routes from '@/routes';
+import routes from '@/plugin-plugins/routes';
 
 function Routes() {
   const element = useRoutes(routes);

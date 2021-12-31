@@ -6,9 +6,9 @@ import {
   ChevronUpFilledIcon,
 } from '@tkeel/console-icons';
 
-import { Menu } from '@/hooks/queries/useMenusQuery';
-
 import MenuItem from './MenuItem';
+
+import { Menu } from '@/core/hooks/queries/useMenusQuery';
 
 type Props = Menu & {
   spread: boolean;

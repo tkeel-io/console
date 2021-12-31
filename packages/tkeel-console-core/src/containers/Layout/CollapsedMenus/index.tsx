@@ -1,12 +1,11 @@
 import React from 'react';
 import { Box, Center, Flex, Image } from '@chakra-ui/react';
 
-import { Menu } from '@/hooks/queries/useMenusQuery';
-
 import MenuLink from './MenuLink';
 import SubMenus from './SubMenus';
 
-import LogoImg from '@/assets/images/logo.png';
+import LogoImg from '@/core/assets/images/logo.png';
+import { Menu } from '@/core/hooks/queries/useMenusQuery';
 
 type Props = {
   menus: Menu[];

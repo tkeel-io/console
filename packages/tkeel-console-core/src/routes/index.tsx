@@ -3,11 +3,11 @@ import { Route, Routes as ReactRouterRoutes } from 'react-router-dom';
 import { Box } from '@chakra-ui/react';
 import { ThemeNames } from '@tkeel/console-themes';
 
-import Layout from '@/containers/Layout';
-import useMenusQuery from '@/hooks/queries/useMenusQuery';
-import Login from '@/pages/Login';
-import NotFound from '@/pages/NotFound';
-import { init as initQiankun, menusToApps } from '@/utils/qiankun';
+import Layout from '@/core/containers/Layout';
+import useMenusQuery from '@/core/hooks/queries/useMenusQuery';
+import Login from '@/core/pages/Login';
+import NotFound from '@/core/pages/NotFound';
+import { init as initQiankun, menusToApps } from '@/core/utils/qiankun';
 
 function getElementIdByContainer(container: string): string {
   return container.replace(/^#/, '');
