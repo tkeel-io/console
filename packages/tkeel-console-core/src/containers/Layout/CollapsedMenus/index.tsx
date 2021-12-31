@@ -1,14 +1,13 @@
 import React from 'react';
 import { Box, Center, Flex, Image } from '@chakra-ui/react';
 
+import { Menu } from '@/hooks/queries/useMenusQuery';
 import { getTotalMenus } from '@/utils/qiankun';
 import { MenuInfo } from '@/utils/qiankun/types';
 
 import CustomMenuLink from './CustomMenuLink';
 
 import LogoImg from '@/assets/images/logo.png';
-
-import { Menu } from '@/mock/types';
 
 type Props = {
   menus: Menu[];

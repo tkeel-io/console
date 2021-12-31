@@ -9,9 +9,8 @@ import {
 } from '@chakra-ui/react';
 import { HumanFilledIcon } from '@tkeel/console-icons';
 
+import { Menu } from '@/hooks/queries/useMenusQuery';
 import { getTotalMenus } from '@/utils/qiankun';
-
-import { Menu } from '@/mock/types';
 
 function Header({ menus }: { menus: Menu[] }) {
   const { pathname } = useLocation();

@@ -5,8 +5,7 @@ import { Flex } from '@chakra-ui/react';
 // import CollapsedMenus from '@/containers/Layout/CollapsedMenus';
 import Header from '@/containers/Layout/Header';
 import Menus from '@/containers/Layout/Menus';
-
-import { Menu } from '@/mock/types';
+import { Menu } from '@/hooks/queries/useMenusQuery';
 
 type Props = {
   menus: Menu[];

@@ -3,40 +3,39 @@ import useQuery from '@/hooks/useQuery';
 const url = '/rudder/v1/entries';
 const method = 'GET';
 
-export interface Entry {
+export interface Menu {
   id: string;
   name: string;
   icon?: string;
   path?: string;
   entry?: string | { scripts?: string[]; styles?: string[]; html?: string };
-  children?: Entry[];
+  children?: Menu[];
 }
 
 export interface ApiData {
   '@type': string;
-  entries: Entry[];
+  entries: Menu[];
 }
 
-export default function useEntriesQuery() {
+export default function useMenusQuery() {
   const { data, ...rest } = useQuery<ApiData>({ url, method });
-  const entries = data?.entries || [];
+  const menus = data?.entries || [];
 
   if (process.env.NODE_ENV === 'development') {
+    let mockMenus: Menu[] = [];
+
+    try {
+      mockMenus = JSON.parse(process.env.MOCK_MENUS || '') as Menu[];
+    } catch {
+      //
+    }
+
     return {
-      entries: [
-        ...entries,
-        {
-          id: 'plugin-example',
-          name: 'example',
-          icon: 'HumanVipFilledIcon',
-          path: '/example',
-          entry: 'http://127.0.0.1:3002',
-        },
-      ],
+      menus: [...menus, ...mockMenus],
       data,
       ...rest,
     };
   }
 
-  return { entries, data, ...rest };
+  return { menus, data, ...rest };
 }
