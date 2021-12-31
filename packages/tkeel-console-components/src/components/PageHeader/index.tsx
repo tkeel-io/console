@@ -1,5 +1,5 @@
 import React from 'react';
-import { Center, Text, Flex } from '@chakra-ui/react';
+import { Center, Flex, Text } from '@chakra-ui/react';
 
 type Props = {
   icon: React.ReactNode;

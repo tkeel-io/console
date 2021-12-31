@@ -22,14 +22,26 @@
     "experimentalDecorators": true,
     "skipLibCheck": true,
     "rootDir": ".",
-    "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./packages/tkeel-console-core/src/*",
-        "./packages/tkeel-console-plugin-plugins/src/*",
-        "./packages/tkeel-console-plugin-user/src/*"
-      ]
+      "@/tkeel-console-business-components/*": [
+        "./packages/tkeel-console-business-components/src/*"
+      ],
+      "@/tkeel-console-components/*": [
+        "./packages/tkeel-console-components/src/*"
+      ],
+      "@/tkeel-console-core/*": ["./packages/tkeel-console-core/src/*"],
+      "@/tkeel-console-hooks/*": ["./packages/tkeel-console-hooks/src/*"],
+      "@/tkeel-console-icons/*": ["./packages/tkeel-console-icons/src/*"],
+      "@/tkeel-console-plugin-example/*": [
+        "./packages/tkeel-console-plugin-example/src/*"
+      ],
+      "@/tkeel-console-plugin-plugins/*": [
+        "./packages/tkeel-console-plugin-plugins/src/*"
+      ],
+      "@/tkeel-console-themes/*": ["./packages/tkeel-console-themes/src/*"],
+      "@/tkeel-console-types/*": ["./packages/tkeel-console-types/src/*"],
+      "@/tkeel-console-utils/*": ["./packages/tkeel-console-utils/src/*"]
     },
     "plugins": [
       {
@@ -38,5 +50,6 @@
     ]
   },
   "include": ["./packages/*/src/"],
-  "exclude": ["./node_modules/", "**/dist/", "**/scripts/"]
+  "exclude": ["**/node_modules/", "**/dist/", "**/scripts/"],
+  "references": []
 }
