@@ -5,7 +5,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 
 import { IProps } from './types';
 
-import Routes from '@/plugin-plugins//routes';
+import Routes from '@/plugin-plugins/routes';
 
 function App({ theme }: IProps) {
   return (
