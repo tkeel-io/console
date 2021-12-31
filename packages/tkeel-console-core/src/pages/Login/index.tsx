@@ -1,6 +1,11 @@
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import {
+  NavigateFunction,
+  useNavigate,
+  useSearchParams,
+} from 'react-router-dom';
+import {
   Box,
   Button,
   Center,
@@ -14,22 +19,31 @@ import {
 import { Form } from '@tkeel/console-components';
 import { setLocalTokenData } from '@tkeel/console-utils';
 
-import useLoginMutation, {
+import useOAuthToken, {
   ApiData,
   Params,
-} from '@/hooks/mutations/useLoginMutation';
+} from '@/hooks/mutations/useOAuthToken';
 
 type Inputs = {
   username: string;
   password: string;
 };
 
-function handleLogin({ data }: { data: ApiData | undefined }) {
+function handleLogin({
+  data,
+  redirect,
+  navigate,
+}: {
+  data: ApiData | undefined;
+  redirect: string;
+  navigate: NavigateFunction;
+}) {
   if (!data) {
     return;
   }
 
   setLocalTokenData(data);
+  navigate(redirect);
 }
 
 function Login(): JSX.Element {
@@ -54,11 +68,15 @@ function Login(): JSX.Element {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<Inputs>();
 
-  const { data, mutate } = useLoginMutation();
-  handleLogin({ data });
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirect = searchParams.get('redirect') || '/';
+
+  const { data, mutate, isLoading } = useOAuthToken();
+  handleLogin({ data, redirect, navigate });
 
   const onSubmit: SubmitHandler<Inputs> = (values) => {
     const { username, password } = values;
@@ -136,7 +154,7 @@ function Login(): JSX.Element {
               type="submit"
               colorScheme="blue"
               isFullWidth
-              isLoading={isSubmitting}
+              isLoading={isLoading}
             >
               登录
             </Button>

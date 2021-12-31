@@ -9,13 +9,9 @@ import {
 } from '@chakra-ui/react';
 import { HumanFilledIcon } from '@tkeel/console-icons';
 
-import { IMenu } from '@/mock/types';
+import { Menu } from '@/hooks/queries/useMenusQuery';
 
-type Props = {
-  menus: IMenu[];
-};
-
-function Header({ menus }: Props) {
+function Header({ menus }: { menus: Menu[] }) {
   const { pathname } = useLocation();
   let breadcrumbs: string[] = [];
   menus.forEach((menu) => {

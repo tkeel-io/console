@@ -6,11 +6,11 @@ import {
   ChevronUpFilledIcon,
 } from '@tkeel/console-icons';
 
+import { Menu } from '@/hooks/queries/useMenusQuery';
+
 import MenuItem from './MenuItem';
 
-import { IMenu } from '@/mock/types';
-
-type Props = IMenu & {
+type Props = Menu & {
   spread: boolean;
   handleMenuClick: (id: string) => void;
 };
@@ -24,7 +24,7 @@ function ParentMenu({
   handleMenuClick,
 }: Props) {
   const location = useLocation();
-  const active: boolean = (children as IMenu[]).some((item) => {
+  const active: boolean = (children as Menu[]).some((item) => {
     return item.path && location.pathname.includes(item.path);
   });
 

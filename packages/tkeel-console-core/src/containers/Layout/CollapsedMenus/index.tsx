@@ -1,15 +1,15 @@
 import React from 'react';
 import { Box, Center, Flex, Image } from '@chakra-ui/react';
 
+import { Menu } from '@/hooks/queries/useMenusQuery';
+
 import MenuLink from './MenuLink';
 import SubMenus from './SubMenus';
 
 import LogoImg from '@/assets/images/logo.png';
 
-import { IMenu } from '@/mock/types';
-
 type Props = {
-  menus: IMenu[];
+  menus: Menu[];
 };
 
 function CollapsedMenus({ menus }: Props) {
