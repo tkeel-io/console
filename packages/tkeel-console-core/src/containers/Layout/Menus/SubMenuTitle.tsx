@@ -15,7 +15,7 @@ type Props = Menu & {
   handleMenuClick: (id: string) => void;
 };
 
-function MenuTitle({
+function ParentMenu({
   id,
   name,
   icon,
@@ -41,7 +41,7 @@ function MenuTitle({
       <MenuItem
         active={active}
         name={name}
-        leftIcon={icon}
+        leftIcon={icon as string}
         rightIcon={
           spread ? (
             <ChevronUpFilledIcon mode={mode} />
@@ -54,4 +54,4 @@ function MenuTitle({
   );
 }
 
-export default MenuTitle;
+export default ParentMenu;

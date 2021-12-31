@@ -3,5 +3,8 @@ export default {
     _hover: {
       textDecoration: 'none',
     },
+    _focus: {
+      boxShadow: 'none',
+    },
   },
 };

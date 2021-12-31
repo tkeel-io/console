@@ -5,18 +5,18 @@ import * as icons from '@tkeel/console-icons';
 type Props = {
   active: boolean;
   name: string;
-  leftIcon?: string;
+  leftIcon: string;
   rightIcon?: React.ReactNode;
 };
 
 const defaultProps = {
-  leftIcon: '',
   rightIcon: null,
 };
 
 function MenuItem({ active, name, leftIcon, rightIcon }: Props) {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const Icon = leftIcon ? icons[leftIcon] : null;
+  const Icon = icons[leftIcon || 'AppsAddFilledIcon'];
+
   return (
     <Flex
       alignItems="center"
