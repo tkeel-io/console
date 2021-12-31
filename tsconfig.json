@@ -24,18 +24,24 @@
     "rootDir": ".",
     "baseUrl": ".",
     "paths": {
-      "@/core/*": ["./packages/tkeel-console-core/src/*"],
-      "@/business-components/*": [
+      "@/tkeel-console-core/*": ["./packages/tkeel-console-core/src/*"],
+      "@/tkeel-console-business-components/*": [
         "./packages/tkeel-console-business-components/src/*"
       ],
-      "@/components/*": ["./packages/tkeel-console-components/src/*"],
-      "@/hooks/*": ["./packages/tkeel-console-hooks/src/*"],
-      "@/icons/*": ["./packages/tkeel-console-icons/src/*"],
-      "@/plugin-example/*": ["./packages/tkeel-console-plugin-example/src/*"],
-      "@/plugin-plugins/*": ["./packages/tkeel-console-plugin-plugins/src/*"],
-      "@/themes/*": ["./packages/tkeel-console-themes/src/*"],
-      "@/types/*": ["./packages/tkeel-console-types/src/*"],
-      "@/utils/*": ["./packages/tkeel-console-utils/src/*"]
+      "@/tkeel-console-components/*": [
+        "./packages/tkeel-console-components/src/*"
+      ],
+      "@/tkeel-console-hooks/*": ["./packages/tkeel-console-hooks/src/*"],
+      "@/tkeel-console-icons/*": ["./packages/tkeel-console-icons/src/*"],
+      "@/tkeel-console-plugin-example/*": [
+        "./packages/tkeel-console-plugin-example/src/*"
+      ],
+      "@/tkeel-console-plugin-plugins/*": [
+        "./packages/tkeel-console-plugin-plugins/src/*"
+      ],
+      "@/tkeel-console-themes/*": ["./packages/tkeel-console-themes/src/*"],
+      "@/tkeel-console-types/*": ["./packages/tkeel-console-types/src/*"],
+      "@/tkeel-console-utils/*": ["./packages/tkeel-console-utils/src/*"]
     },
     "plugins": [
       {

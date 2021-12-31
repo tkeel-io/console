@@ -5,7 +5,7 @@ import { Box } from '@chakra-ui/react';
 import MenuItem from './MenuItem';
 import SubMenuLinks from './SubMenuLinks';
 
-import { Menu } from '@/core/hooks/queries/useMenusQuery';
+import { Menu } from '@/tkeel-console-core/hooks/queries/useMenusQuery';
 
 type Props = {
   icon: string;

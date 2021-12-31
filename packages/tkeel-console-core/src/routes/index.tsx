@@ -3,11 +3,14 @@ import { Route, Routes as ReactRouterRoutes } from 'react-router-dom';
 import { Box } from '@chakra-ui/react';
 import { ThemeNames } from '@tkeel/console-themes';
 
-import Layout from '@/core/containers/Layout';
-import useMenusQuery from '@/core/hooks/queries/useMenusQuery';
-import Login from '@/core/pages/Login';
-import NotFound from '@/core/pages/NotFound';
-import { init as initQiankun, menusToApps } from '@/core/utils/qiankun';
+import Layout from '@/tkeel-console-core/containers/Layout';
+import useMenusQuery from '@/tkeel-console-core/hooks/queries/useMenusQuery';
+import Login from '@/tkeel-console-core/pages/Login';
+import NotFound from '@/tkeel-console-core/pages/NotFound';
+import {
+  init as initQiankun,
+  menusToApps,
+} from '@/tkeel-console-core/utils/qiankun';
 
 function getElementIdByContainer(container: string): string {
   return container.replace(/^#/, '');

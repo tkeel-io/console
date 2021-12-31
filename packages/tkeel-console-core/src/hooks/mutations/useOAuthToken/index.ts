@@ -1,4 +1,4 @@
-import useMutation from '@/core/hooks/useMutation';
+import useMutation from '@/tkeel-console-core/hooks/useMutation';
 
 export interface Params {
   grant_type: 'password' | 'authorization_code';

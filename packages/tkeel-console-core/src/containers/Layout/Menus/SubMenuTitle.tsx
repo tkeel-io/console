@@ -8,7 +8,7 @@ import {
 
 import MenuItem from './MenuItem';
 
-import { Menu } from '@/core/hooks/queries/useMenusQuery';
+import { Menu } from '@/tkeel-console-core/hooks/queries/useMenusQuery';
 
 type Props = Menu & {
   spread: boolean;

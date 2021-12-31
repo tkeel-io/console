@@ -4,7 +4,7 @@ import { registerMicroApps, start } from 'qiankun';
 
 import { App, MenuInfo } from './types';
 
-import { Menu } from '@/core/hooks/queries/useMenusQuery';
+import { Menu } from '@/tkeel-console-core/hooks/queries/useMenusQuery';
 
 function getTotalMenus(menus: Menu[]): MenuInfo[] {
   let menuInfoArr: MenuInfo[] = [];

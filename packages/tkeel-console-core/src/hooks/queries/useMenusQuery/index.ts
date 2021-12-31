@@ -1,4 +1,4 @@
-import useQuery from '@/core/hooks/useQuery';
+import useQuery from '@/tkeel-console-core/hooks/useQuery';
 
 const url = '/rudder/v1/entries';
 const method = 'GET';

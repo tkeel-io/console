@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route, Routes as ReactRouterRoutes } from 'react-router-dom';
 
-import Detail from '@/plugin-plugins/pages/Detail';
-import Index from '@/plugin-plugins/pages/Index';
+import Detail from '@/tkeel-console-plugin-plugins/pages/Detail';
+import Index from '@/tkeel-console-plugin-plugins/pages/Index';
 
 function Routes() {
   return (

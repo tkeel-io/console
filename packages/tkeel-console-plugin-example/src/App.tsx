@@ -4,7 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 import { PluginProps } from '@tkeel/console-types';
 
-import Routes from '@/plugin-example/routes';
+import Routes from '@/tkeel-console-plugin-example/routes';
 
 function App({ theme }: PluginProps) {
   return (

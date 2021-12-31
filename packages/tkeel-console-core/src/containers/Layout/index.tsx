@@ -2,10 +2,10 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { Flex } from '@chakra-ui/react';
 
-// import CollapsedMenus from '@/core/containers/Layout/CollapsedMenus';
-import Header from '@/core/containers/Layout/Header';
-import Menus from '@/core/containers/Layout/Menus';
-import { Menu } from '@/core/hooks/queries/useMenusQuery';
+// import CollapsedMenus from '@/tkeel-console-core/containers/Layout/CollapsedMenus';
+import Header from '@/tkeel-console-core/containers/Layout/Header';
+import Menus from '@/tkeel-console-core/containers/Layout/Menus';
+import { Menu } from '@/tkeel-console-core/hooks/queries/useMenusQuery';
 
 type Props = {
   menus: Menu[];

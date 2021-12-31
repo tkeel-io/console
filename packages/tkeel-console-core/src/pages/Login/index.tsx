@@ -22,7 +22,7 @@ import { setLocalTokenData } from '@tkeel/console-utils';
 import useOAuthToken, {
   ApiData,
   Params,
-} from '@/core/hooks/mutations/useOAuthToken';
+} from '@/tkeel-console-core/hooks/mutations/useOAuthToken';
 
 type Inputs = {
   username: string;
