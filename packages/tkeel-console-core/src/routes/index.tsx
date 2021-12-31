@@ -4,7 +4,7 @@ import { Box } from '@chakra-ui/react';
 import { ThemeNames } from '@tkeel/console-themes';
 
 import Layout from '@/containers/Layout';
-import useEntriesQuery from '@/hooks/queries/useEntriesQuery';
+import useMenusQuery from '@/hooks/queries/useMenusQuery';
 import Login from '@/pages/Login';
 import NotFound from '@/pages/NotFound';
 import { init as initQiankun, menusToApps } from '@/utils/qiankun';
@@ -18,7 +18,7 @@ type Props = {
 };
 
 function Routes({ themeName }: Props) {
-  const { entries: menus } = useEntriesQuery();
+  const { menus } = useMenusQuery();
   const apps = menusToApps({ menus });
 
   const renderApps = () => {
