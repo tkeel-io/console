@@ -1,14 +1,7 @@
 import React from 'react';
-import {
-  Button,
-  Flex,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-} from '@chakra-ui/react';
+import { Flex, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { PageHeader } from '@tkeel/console-components';
-import { AddFilledIcon, AppsAddFilledIcon } from '@tkeel/console-icons';
+import { AppsAddFilledIcon } from '@tkeel/console-icons';
 
 import Content from './Content';
 import CustomTab from './CustomTab';
@@ -29,15 +22,15 @@ function Index(): JSX.Element {
         overflow="hidden"
         marginTop="16px"
       >
-        <Button
+        {/* <Button
           position="absolute"
           right="2px"
           top="2px"
-          size="sm"
+          size="md"
           leftIcon={<AddFilledIcon color="white" />}
         >
           创建插件源
-        </Button>
+        </Button> */}
         <TabList
           padding="2px"
           width="254px"

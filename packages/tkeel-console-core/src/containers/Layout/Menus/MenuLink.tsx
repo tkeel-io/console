@@ -14,7 +14,7 @@ type Props = {
   icon: string;
 };
 
-type CustomLinkReturnType = {
+type MenuLinkReturnType = {
   as: typeof ReactRouterLink;
   to: string;
   active: boolean;
@@ -26,7 +26,7 @@ function useActive(to: string): boolean {
   return !!active;
 }
 
-export function useCustomLinkProps(to: string): CustomLinkReturnType {
+export function useMenuLinkProps(to: string): MenuLinkReturnType {
   const active = useActive(to);
   return {
     as: ReactRouterLink,
@@ -35,8 +35,8 @@ export function useCustomLinkProps(to: string): CustomLinkReturnType {
   };
 }
 
-function CustomMenuLink({ path, name, icon }: Props) {
-  const { as, to, active } = useCustomLinkProps(path);
+function MenuLink({ path, name, icon }: Props) {
+  const { as, to, active } = useMenuLinkProps(path);
   return (
     <Link
       display="flex"
@@ -61,4 +61,4 @@ function CustomMenuLink({ path, name, icon }: Props) {
   );
 }
 
-export default CustomMenuLink;
+export default MenuLink;

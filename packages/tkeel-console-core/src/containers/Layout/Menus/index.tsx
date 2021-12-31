@@ -3,9 +3,9 @@ import { Box, Flex, Heading, Image } from '@chakra-ui/react';
 
 import { Menu } from '@/hooks/queries/useMenusQuery';
 
-import CustomMenuLink from './CustomMenuLink';
-import CustomSubMenuLink from './CustomSubMenuLink';
-import MenuTitle from './MenuTitle';
+import MenuLink from './MenuLink';
+import SubMenuLink from './SubMenuLink';
+import SubMenuTitle from './SubMenuTitle';
 
 import LogoImg from '@/assets/images/logo.png';
 
@@ -52,25 +52,25 @@ function Menus({ menus: menusData }: Props) {
             <Box key={id}>
               <Box key={id}>
                 {children ? (
-                  <MenuTitle
+                  <SubMenuTitle
                     {...menu}
                     spread={spread}
                     handleMenuClick={handleMenuClick}
                   />
                 ) : (
-                  <CustomMenuLink
-                    path={path || ''}
+                  <MenuLink
+                    path={path as string}
                     name={name}
-                    icon={icon || ''}
+                    icon={icon as string}
                   />
                 )}
                 {children && spread && (
-                  <Box>
+                  <Box paddingTop="10px">
                     {children.map((subMenu) => (
-                      <CustomSubMenuLink
+                      <SubMenuLink
                         key={subMenu.id}
                         name={subMenu.name}
-                        path={subMenu.path || ''}
+                        path={subMenu.path as string}
                       />
                     ))}
                   </Box>
