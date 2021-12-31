@@ -24,13 +24,13 @@
     "rootDir": ".",
     "baseUrl": ".",
     "paths": {
-      "@/tkeel-console-core/*": ["./packages/tkeel-console-core/src/*"],
       "@/tkeel-console-business-components/*": [
         "./packages/tkeel-console-business-components/src/*"
       ],
       "@/tkeel-console-components/*": [
         "./packages/tkeel-console-components/src/*"
       ],
+      "@/tkeel-console-core/*": ["./packages/tkeel-console-core/src/*"],
       "@/tkeel-console-hooks/*": ["./packages/tkeel-console-hooks/src/*"],
       "@/tkeel-console-icons/*": ["./packages/tkeel-console-icons/src/*"],
       "@/tkeel-console-plugin-example/*": [
