@@ -2,10 +2,10 @@ import React from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { Box, Link } from '@chakra-ui/react';
 
-import { IMenu } from '@/mock/types';
+import { Menu } from '@/hooks/queries/useMenusQuery';
 
 type Props = {
-  data: IMenu[];
+  data: Menu[];
 };
 
 function SubMenuLinks({ data }: Props) {
