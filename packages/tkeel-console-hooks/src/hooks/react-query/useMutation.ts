@@ -5,17 +5,17 @@ import { AxiosRequestConfig } from 'axios';
 import { UseCustomMutationOptions } from './types';
 import { getUseMutationOptions, transformUseMutationResult } from './utils';
 
-export default function useCustomMutation<T, D = undefined>(
-  options: UseCustomMutationOptions<T, D>
+export default function useCustomMutation<TApiData, D = undefined>(
+  options: UseCustomMutationOptions<TApiData, D>
 ) {
-  const opts = getUseMutationOptions<T, D>(options);
+  const opts = getUseMutationOptions<TApiData, D>(options);
   const { mutationKey } = opts;
   const result = useMutation<
-    RequestResult<T, D>,
+    RequestResult<TApiData, D>,
     unknown,
     AxiosRequestConfig<D>
   >(opts);
-  const r = transformUseMutationResult<T, D>({
+  const r = transformUseMutationResult<TApiData, D>({
     mutationKey,
     result,
   });

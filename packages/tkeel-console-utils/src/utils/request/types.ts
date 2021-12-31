@@ -5,19 +5,21 @@ export interface AxiosRequestConfigExtended<D = unknown>
   extras?: RequestExtras;
 }
 
-export interface AxiosResponseExtended<T = unknown, D = unknown>
-  extends AxiosResponse<ApiResponse<T>, D> {
+export interface AxiosResponseExtended<TApiData = unknown, D = unknown>
+  extends AxiosResponse<ApiResponse<TApiData>, D> {
   config: AxiosRequestConfigExtended<D>;
 }
 
-export interface AxiosErrorExtended<T = unknown, D = unknown>
-  extends AxiosError<ApiResponse<T>, D> {
+export interface AxiosErrorExtended<TApiData = unknown, D = unknown>
+  extends AxiosError<ApiResponse<TApiData>, D> {
   config: AxiosRequestConfigExtended<D>;
 }
 
-export interface RequestExtras<T = unknown, D = unknown> {
+export interface RequestExtras<TApiData = unknown, D = unknown> {
   isWithToken?: boolean;
-  handleNoAuth?: false | ((response: AxiosResponseExtended<T, D>) => unknown);
+  handleNoAuth?:
+    | false
+    | ((response: AxiosResponseExtended<TApiData, D>) => unknown);
   handleError?:
     | false
     | (({
@@ -25,7 +27,7 @@ export interface RequestExtras<T = unknown, D = unknown> {
         response,
       }: {
         errorMessage: string | undefined;
-        response: AxiosResponseExtended<T, D>;
+        response: AxiosResponseExtended<TApiData, D>;
       }) => unknown);
   errorMessage?: string | undefined;
   handleAxiosError?:
@@ -35,19 +37,19 @@ export interface RequestExtras<T = unknown, D = unknown> {
         error,
       }: {
         axiosErrorMessage: string | undefined;
-        error: AxiosErrorExtended<T, D>;
+        error: AxiosErrorExtended<TApiData, D>;
       }) => unknown);
   axiosErrorMessage?: string | undefined;
 }
 
 // custom codes
-export interface ApiResponse<T = unknown> {
+export interface ApiResponse<TApiData = unknown> {
   code: number;
   msg: string;
-  data: T;
+  data: TApiData;
 }
 
-export interface RequestResult<T = unknown, D = unknown> {
-  data: T;
-  response: AxiosResponseExtended<T, D>;
+export interface RequestResult<TApiData = unknown, D = unknown> {
+  data: TApiData;
+  response: AxiosResponseExtended<TApiData, D>;
 }

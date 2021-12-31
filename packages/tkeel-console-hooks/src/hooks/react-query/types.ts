@@ -14,16 +14,19 @@ export interface QueryClientConfig {
   defaultOptions?: DefaultOptions;
 }
 
-export type UseQueryOptionsExtended<T = unknown, D = unknown> = UseQueryOptions<
-  RequestResult<T, D>,
+export type UseQueryOptionsExtended<
+  TApiData = unknown,
+  D = unknown
+> = UseQueryOptions<
+  RequestResult<TApiData, D>,
   unknown,
-  RequestResult<T, D>
+  RequestResult<TApiData, D>
 >;
 
 export type UseMutationOptionsExtended<
-  T = unknown,
+  TApiData = unknown,
   D = unknown
-> = UseMutationOptions<RequestResult<T, D>, unknown, unknown>;
+> = UseMutationOptions<RequestResult<TApiData, D>, unknown, unknown>;
 
 interface BaseOptions<D = unknown> {
   url: string;
@@ -34,12 +37,12 @@ interface BaseOptions<D = unknown> {
   axiosRequestConfig?: AxiosRequestConfig<D>;
 }
 
-export interface UseCustomQueryOptions<T = unknown, D = unknown>
+export interface UseCustomQueryOptions<TApiData = unknown, D = unknown>
   extends BaseOptions<D> {
-  reactQueryOptions?: UseQueryOptionsExtended<T, D>;
+  reactQueryOptions?: UseQueryOptionsExtended<TApiData, D>;
 }
 
-export interface UseCustomMutationOptions<T = unknown, D = unknown>
+export interface UseCustomMutationOptions<TApiData = unknown, D = unknown>
   extends BaseOptions<D> {
-  reactQueryOptions?: UseMutationOptionsExtended<T, D>;
+  reactQueryOptions?: UseMutationOptionsExtended<TApiData, D>;
 }

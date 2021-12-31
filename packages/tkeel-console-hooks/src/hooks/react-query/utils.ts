@@ -14,7 +14,9 @@ import { get, merge } from 'lodash';
 
 import { UseCustomMutationOptions, UseCustomQueryOptions } from './types';
 
-export function getUseQueryOptions<T, D>(options: UseCustomQueryOptions<T, D>) {
+export function getUseQueryOptions<TApiData, D>(
+  options: UseCustomQueryOptions<TApiData, D>
+) {
   const {
     url,
     method,
@@ -33,14 +35,14 @@ export function getUseQueryOptions<T, D>(options: UseCustomQueryOptions<T, D>) {
   );
 
   function queryFn() {
-    return request<T, D>(config);
+    return request<TApiData, D>(config);
   }
 
   return merge({}, { queryFn, queryKey }, reactQueryOptions);
 }
 
-export function getUseMutationOptions<T, D>(
-  options: UseCustomMutationOptions<T, D>
+export function getUseMutationOptions<TApiData, D>(
+  options: UseCustomMutationOptions<TApiData, D>
 ) {
   const {
     url,
@@ -60,21 +62,21 @@ export function getUseMutationOptions<T, D>(
   );
 
   function mutationFn(variables: AxiosRequestConfig<D>) {
-    return request<T, D>(merge({}, config, variables));
+    return request<TApiData, D>(merge({}, config, variables));
   }
 
   return merge({}, { mutationKey, mutationFn }, reactQueryOptions);
 }
 
-type TransformUseQueryResultOptions<T, D> = {
+type TransformUseQueryResultOptions<TApiData, D> = {
   queryKey: QueryKey;
-  result: UseQueryResult<RequestResult<T, D>>;
+  result: UseQueryResult<RequestResult<TApiData, D>>;
 };
 
-export function transformUseQueryResult<T = unknown, D = unknown>({
+export function transformUseQueryResult<TApiData = unknown, D = unknown>({
   queryKey,
   result,
-}: TransformUseQueryResultOptions<T, D>) {
+}: TransformUseQueryResultOptions<TApiData, D>) {
   const { data: requestResult, ...rest } = result;
   const apiData = get(requestResult, 'data');
   const response = get(requestResult, 'response');
@@ -82,19 +84,19 @@ export function transformUseQueryResult<T = unknown, D = unknown>({
   return { queryKey, data: apiData, response, ...rest };
 }
 
-type TransformUseMutationResultOptions<T, D> = {
+type TransformUseMutationResultOptions<TApiData, D> = {
   mutationKey: MutationKey;
   result: UseMutationResult<
-    RequestResult<T, D>,
+    RequestResult<TApiData, D>,
     unknown,
     AxiosRequestConfig<D>
   >;
 };
 
-export function transformUseMutationResult<T = unknown, D = unknown>({
+export function transformUseMutationResult<TApiData = unknown, D = unknown>({
   mutationKey,
   result,
-}: TransformUseMutationResultOptions<T, D>) {
+}: TransformUseMutationResultOptions<TApiData, D>) {
   const { data: requestResult, ...rest } = result;
   const apiData = get(requestResult, 'data');
   const response = get(requestResult, 'response');

@@ -8,9 +8,9 @@ import {
   RequestResult,
 } from './types';
 
-export default function request<T, D = undefined>(
+export default function request<TApiData, D = undefined>(
   config: AxiosRequestConfigExtended<D>
-): Promise<RequestResult<T, D>> {
+): Promise<RequestResult<TApiData, D>> {
   const axiosRequestConfig: AxiosRequestConfigExtended<D> = merge(
     {},
     { extras: DEFAULT_EXTRAS },
@@ -18,9 +18,11 @@ export default function request<T, D = undefined>(
   );
 
   return instance
-    .request<T, AxiosResponseExtended<T, D>, D>(axiosRequestConfig)
-    .then((response: AxiosResponseExtended<T, D>) => {
-      const data: T = get(response, ['data', 'data']);
+    .request<TApiData, AxiosResponseExtended<TApiData, D>, D>(
+      axiosRequestConfig
+    )
+    .then((response: AxiosResponseExtended<TApiData, D>) => {
+      const data: TApiData = get(response, ['data', 'data']);
       return Object.freeze({ data, response });
     });
 }
