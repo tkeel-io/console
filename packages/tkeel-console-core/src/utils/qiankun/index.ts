@@ -2,9 +2,9 @@ import themes, { DEFAULT_THEME_NAME, ThemeNames } from '@tkeel/console-themes';
 import { PluginProps, TokenData } from '@tkeel/console-types';
 import { registerMicroApps, start } from 'qiankun';
 
-import { App, MenuInfo } from './types';
-
 import { Menu } from '@/tkeel-console-core/hooks/queries/useMenusQuery';
+
+import { App, MenuInfo } from './types';
 
 function getTotalMenus(menus: Menu[]): MenuInfo[] {
   let menuInfoArr: MenuInfo[] = [];

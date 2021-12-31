@@ -127,18 +127,13 @@ module.exports = {
             groups: [
               ['^react', '^prop-types', '^@?\\w'],
               [
-                '^(@/tkeel-console-core/(types|constants|containers|components|routes|pages|hooks|contexts|apis|services|utils))(/.*|$)',
+                '^(@/tkeel-console-core/(types|constants|containers|components|routes|pages|hooks|contexts|apis|services|utils|styles|assets))(/.*|$)',
               ],
               [
-                '^(@/tkeel-console-plugin-([a-z]+)/(types|constants|containers|components|routes|pages|hooks|contexts|apis|services|utils))(/.*|$)',
+                '^(@/tkeel-console-plugin-([a-z]+)/(types|constants|containers|components|routes|pages|hooks|contexts|apis|services|utils|styles|assets))(/.*|$)',
               ],
               ['^\\.', '^\\u0000'],
-              [
-                '^(@/styles)(/.*|$)',
-                '^.+\\.module.s?css$',
-                '^.+\\.s?css$',
-                '^(@/assets)(/.*|$)',
-              ],
+              ['^.+\\.module.s?css$', '^.+\\.s?css$'],
             ],
           },
         ],

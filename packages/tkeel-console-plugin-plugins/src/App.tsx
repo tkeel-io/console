@@ -3,9 +3,9 @@ import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 
-import { IProps } from './types';
-
 import Routes from '@/tkeel-console-plugin-plugins/routes';
+
+import { IProps } from './types';
 
 function App({ theme }: IProps) {
   return (
