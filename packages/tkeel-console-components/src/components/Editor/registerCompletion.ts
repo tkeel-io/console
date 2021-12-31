@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { isArray, uniq } from 'lodash';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 
@@ -25,6 +26,7 @@ const registerCompletion = ({ monacoInstance, language }: Params) => {
       const suggestions: monaco.languages.CompletionItem[] = [];
       if (match) {
         const matchStr = match[0].toUpperCase();
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         const languageInfo = languageObj[language].language;
         const { keywords, operators, builtinFunctions } = languageInfo;
         if (isArray(keywords)) {

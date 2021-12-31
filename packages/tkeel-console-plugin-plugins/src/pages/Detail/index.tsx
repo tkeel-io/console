@@ -37,7 +37,7 @@ function Detail() {
             <Editor
               width="100%"
               height="100%"
-              language="json"
+              language="yaml"
               value={mockParams}
               readOnly
             />

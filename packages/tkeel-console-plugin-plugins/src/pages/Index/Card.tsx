@@ -34,6 +34,7 @@ function Card() {
         borderTopLeftRadius: '2px',
         borderTopRightRadius: '2px',
       }}
+      _hover={{ boxShadow: '0px 4px 8px rgba(36, 46, 66, 0.06)' }}
       onClick={() => {
         navigate('/detail/1');
       }}
