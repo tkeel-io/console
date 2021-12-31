@@ -21,10 +21,8 @@ export default function useCustomMutation<
     unknown,
     AxiosRequestConfigExtended<TRequestParams, TRequestBody>
   >(opts);
-  const r = transformUseMutationResult<TApiData, TRequestParams, TRequestBody>({
+  return transformUseMutationResult<TApiData, TRequestParams, TRequestBody>({
     mutationKey,
     result,
   });
-
-  return r;
 }

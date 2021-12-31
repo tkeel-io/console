@@ -18,10 +18,8 @@ export default function useCustomQuery<
     unknown,
     RequestResult<TApiData, TRequestParams, TRequestBody>
   >(opts);
-  const r = transformUseQueryResult<TApiData, TRequestParams, TRequestBody>({
+  return transformUseQueryResult<TApiData, TRequestParams, TRequestBody>({
     queryKey,
     result,
   });
-
-  return r;
 }
