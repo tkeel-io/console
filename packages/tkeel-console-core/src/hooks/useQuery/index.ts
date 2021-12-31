@@ -5,8 +5,8 @@ import {
 } from '@tkeel/console-hooks';
 import { merge } from 'lodash';
 
-export default function useQuery<TApiData, D = undefined>(
-  options: UseCustomQueryOptions<TApiData, D>
+export default function useQuery<TApiData, TRequestBody = undefined>(
+  options: UseCustomQueryOptions<TApiData, TRequestBody>
 ) {
   const { pathname, search, hash } = useLocation();
   const navigate = useNavigate();
@@ -18,5 +18,5 @@ export default function useQuery<TApiData, D = undefined>(
   };
   const opts = merge({}, { extras }, options);
 
-  return useCustomQuery<TApiData, D>(opts);
+  return useCustomQuery<TApiData, TRequestBody>(opts);
 }

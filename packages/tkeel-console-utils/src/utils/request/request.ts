@@ -8,20 +8,22 @@ import {
   RequestResult,
 } from './types';
 
-export default function request<TApiData, D = undefined>(
-  config: AxiosRequestConfigExtended<D>
-): Promise<RequestResult<TApiData, D>> {
-  const axiosRequestConfig: AxiosRequestConfigExtended<D> = merge(
+export default function request<TApiData, TRequestBody = undefined>(
+  config: AxiosRequestConfigExtended<TRequestBody>
+): Promise<RequestResult<TApiData, TRequestBody>> {
+  const axiosRequestConfig: AxiosRequestConfigExtended<TRequestBody> = merge(
     {},
     { extras: DEFAULT_EXTRAS },
     config
   );
 
   return instance
-    .request<TApiData, AxiosResponseExtended<TApiData, D>, D>(
-      axiosRequestConfig
-    )
-    .then((response: AxiosResponseExtended<TApiData, D>) => {
+    .request<
+      TApiData,
+      AxiosResponseExtended<TApiData, TRequestBody>,
+      TRequestBody
+    >(axiosRequestConfig)
+    .then((response: AxiosResponseExtended<TApiData, TRequestBody>) => {
       const data: TApiData = get(response, ['data', 'data']);
       return Object.freeze({ data, response });
     });

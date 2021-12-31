@@ -14,8 +14,8 @@ import { get, merge } from 'lodash';
 
 import { UseCustomMutationOptions, UseCustomQueryOptions } from './types';
 
-export function getUseQueryOptions<TApiData, D>(
-  options: UseCustomQueryOptions<TApiData, D>
+export function getUseQueryOptions<TApiData, TRequestBody>(
+  options: UseCustomQueryOptions<TApiData, TRequestBody>
 ) {
   const {
     url,
@@ -28,21 +28,21 @@ export function getUseQueryOptions<TApiData, D>(
   } = options;
   const key = reactQueryOptions?.queryKey;
   const queryKey: QueryKey = key || [url, method, params, data];
-  const config: AxiosRequestConfigExtended<D> = merge(
+  const config: AxiosRequestConfigExtended<TRequestBody> = merge(
     {},
     { url, method, params, data, extras },
     axiosRequestConfig
   );
 
   function queryFn() {
-    return request<TApiData, D>(config);
+    return request<TApiData, TRequestBody>(config);
   }
 
   return merge({}, { queryFn, queryKey }, reactQueryOptions);
 }
 
-export function getUseMutationOptions<TApiData, D>(
-  options: UseCustomMutationOptions<TApiData, D>
+export function getUseMutationOptions<TApiData, TRequestBody>(
+  options: UseCustomMutationOptions<TApiData, TRequestBody>
 ) {
   const {
     url,
@@ -55,28 +55,31 @@ export function getUseMutationOptions<TApiData, D>(
   } = options;
   const key = reactQueryOptions?.mutationKey;
   const mutationKey: MutationKey = key || [url, method, params, data];
-  const config: AxiosRequestConfigExtended<D> = merge(
+  const config: AxiosRequestConfigExtended<TRequestBody> = merge(
     {},
     { url, method, params, data, extras },
     axiosRequestConfig
   );
 
-  function mutationFn(variables: AxiosRequestConfig<D>) {
-    return request<TApiData, D>(merge({}, config, variables));
+  function mutationFn(variables: AxiosRequestConfig<TRequestBody>) {
+    return request<TApiData, TRequestBody>(merge({}, config, variables));
   }
 
   return merge({}, { mutationKey, mutationFn }, reactQueryOptions);
 }
 
-type TransformUseQueryResultOptions<TApiData, D> = {
+type TransformUseQueryResultOptions<TApiData, TRequestBody> = {
   queryKey: QueryKey;
-  result: UseQueryResult<RequestResult<TApiData, D>>;
+  result: UseQueryResult<RequestResult<TApiData, TRequestBody>>;
 };
 
-export function transformUseQueryResult<TApiData = unknown, D = unknown>({
+export function transformUseQueryResult<
+  TApiData = unknown,
+  TRequestBody = unknown
+>({
   queryKey,
   result,
-}: TransformUseQueryResultOptions<TApiData, D>) {
+}: TransformUseQueryResultOptions<TApiData, TRequestBody>) {
   const { data: requestResult, ...rest } = result;
   const apiData = get(requestResult, 'data');
   const response = get(requestResult, 'response');
@@ -84,19 +87,22 @@ export function transformUseQueryResult<TApiData = unknown, D = unknown>({
   return { queryKey, data: apiData, response, ...rest };
 }
 
-type TransformUseMutationResultOptions<TApiData, D> = {
+type TransformUseMutationResultOptions<TApiData, TRequestBody> = {
   mutationKey: MutationKey;
   result: UseMutationResult<
-    RequestResult<TApiData, D>,
+    RequestResult<TApiData, TRequestBody>,
     unknown,
-    AxiosRequestConfig<D>
+    AxiosRequestConfig<TRequestBody>
   >;
 };
 
-export function transformUseMutationResult<TApiData = unknown, D = unknown>({
+export function transformUseMutationResult<
+  TApiData = unknown,
+  TRequestBody = unknown
+>({
   mutationKey,
   result,
-}: TransformUseMutationResultOptions<TApiData, D>) {
+}: TransformUseMutationResultOptions<TApiData, TRequestBody>) {
   const { data: requestResult, ...rest } = result;
   const apiData = get(requestResult, 'data');
   const response = get(requestResult, 'response');

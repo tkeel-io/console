@@ -1,25 +1,27 @@
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
-export interface AxiosRequestConfigExtended<D = unknown>
-  extends AxiosRequestConfig<D> {
+export interface AxiosRequestConfigExtended<TRequestBody = unknown>
+  extends AxiosRequestConfig<TRequestBody> {
   extras?: RequestExtras;
 }
 
-export interface AxiosResponseExtended<TApiData = unknown, D = unknown>
-  extends AxiosResponse<ApiResponse<TApiData>, D> {
-  config: AxiosRequestConfigExtended<D>;
+export interface AxiosResponseExtended<
+  TApiData = unknown,
+  TRequestBody = unknown
+> extends AxiosResponse<ApiResponse<TApiData>, TRequestBody> {
+  config: AxiosRequestConfigExtended<TRequestBody>;
 }
 
-export interface AxiosErrorExtended<TApiData = unknown, D = unknown>
-  extends AxiosError<ApiResponse<TApiData>, D> {
-  config: AxiosRequestConfigExtended<D>;
+export interface AxiosErrorExtended<TApiData = unknown, TRequestBody = unknown>
+  extends AxiosError<ApiResponse<TApiData>, TRequestBody> {
+  config: AxiosRequestConfigExtended<TRequestBody>;
 }
 
-export interface RequestExtras<TApiData = unknown, D = unknown> {
+export interface RequestExtras<TApiData = unknown, TRequestBody = unknown> {
   isWithToken?: boolean;
   handleNoAuth?:
     | false
-    | ((response: AxiosResponseExtended<TApiData, D>) => unknown);
+    | ((response: AxiosResponseExtended<TApiData, TRequestBody>) => unknown);
   handleError?:
     | false
     | (({
@@ -27,7 +29,7 @@ export interface RequestExtras<TApiData = unknown, D = unknown> {
         response,
       }: {
         errorMessage: string | undefined;
-        response: AxiosResponseExtended<TApiData, D>;
+        response: AxiosResponseExtended<TApiData, TRequestBody>;
       }) => unknown);
   errorMessage?: string | undefined;
   handleAxiosError?:
@@ -37,7 +39,7 @@ export interface RequestExtras<TApiData = unknown, D = unknown> {
         error,
       }: {
         axiosErrorMessage: string | undefined;
-        error: AxiosErrorExtended<TApiData, D>;
+        error: AxiosErrorExtended<TApiData, TRequestBody>;
       }) => unknown);
   axiosErrorMessage?: string | undefined;
 }
@@ -49,7 +51,7 @@ export interface ApiResponse<TApiData = unknown> {
   data: TApiData;
 }
 
-export interface RequestResult<TApiData = unknown, D = unknown> {
+export interface RequestResult<TApiData = unknown, TRequestBody = unknown> {
   data: TApiData;
-  response: AxiosResponseExtended<TApiData, D>;
+  response: AxiosResponseExtended<TApiData, TRequestBody>;
 }

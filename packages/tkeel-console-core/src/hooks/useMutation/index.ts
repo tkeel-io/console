@@ -5,8 +5,8 @@ import {
 } from '@tkeel/console-hooks';
 import { merge } from 'lodash';
 
-export default function useMutation<TApiData, D = undefined>(
-  options: UseCustomMutationOptions<TApiData, D>
+export default function useMutation<TApiData, TRequestBody = undefined>(
+  options: UseCustomMutationOptions<TApiData, TRequestBody>
 ) {
   const { pathname, search, hash } = useLocation();
   const navigate = useNavigate();
@@ -18,5 +18,5 @@ export default function useMutation<TApiData, D = undefined>(
   };
   const opts = merge({}, { extras }, options);
 
-  return useCustomMutation<TApiData, D>(opts);
+  return useCustomMutation<TApiData, TRequestBody>(opts);
 }
