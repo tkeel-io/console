@@ -24,13 +24,13 @@
     "rootDir": ".",
     "baseUrl": ".",
     "paths": {
+      "@/tkeel-console-core/*": ["./packages/tkeel-console-core/src/*"],
       "@/tkeel-console-business-components/*": [
         "./packages/tkeel-console-business-components/src/*"
       ],
       "@/tkeel-console-components/*": [
         "./packages/tkeel-console-components/src/*"
       ],
-      "@/tkeel-console-core/*": ["./packages/tkeel-console-core/src/*"],
       "@/tkeel-console-hooks/*": ["./packages/tkeel-console-hooks/src/*"],
       "@/tkeel-console-icons/*": ["./packages/tkeel-console-icons/src/*"],
       "@/tkeel-console-plugin-example/*": [
@@ -48,9 +48,9 @@
   "include": ["./packages/*/src/"],
   "exclude": ["**/node_modules/", "**/dist/", "**/scripts/"],
   "references": [
-    { "path": "./packages/tkeel-console-core/" },
     { "path": "./packages/tkeel-console-business-components/" },
     { "path": "./packages/tkeel-console-components/" },
+    { "path": "./packages/tkeel-console-core/" },
     { "path": "./packages/tkeel-console-hooks/" },
     { "path": "./packages/tkeel-console-icons/" },
     { "path": "./packages/tkeel-console-plugin-example/" },

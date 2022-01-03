@@ -8,7 +8,7 @@ const paths = require('../utils/paths');
 
 const tsconfig = fs.readJSONSync(paths.root.tsconfig);
 
-const packages = getPackages();
+const packages = getPackages({ coreFirst: false });
 const data = {
   compilerOptions: {
     paths: {},
