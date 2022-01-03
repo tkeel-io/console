@@ -7,8 +7,6 @@ const paths = require('../utils/paths');
 
 const tsconfig = fs.readJSONSync(paths.root.tsconfig);
 
-log(typeof tsconfig);
-
 const packages = getPackages();
 const data = {
   compilerOptions: {
@@ -18,9 +16,9 @@ const data = {
 };
 
 packages.forEach(({ directoryName }) => {
-  data.compilerOptions.paths[
-    `@/${directoryName}/*`
-  ] = `./packages/${directoryName}/src/*`;
+  data.compilerOptions.paths[`@/${directoryName}/*`] = [
+    `./packages/${directoryName}/src/*`,
+  ];
   data.references.push({
     path: `./packages/${directoryName}/`,
   });
@@ -29,3 +27,5 @@ packages.forEach(({ directoryName }) => {
 const json = _.merge({}, tsconfig, data);
 
 fs.writeJSONSync(paths.root.tsconfig, json);
+
+log('check root tsconfig.json: DONE');
