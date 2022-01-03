@@ -1,5 +1,4 @@
 const fs = require('fs-extra');
-const _ = require('lodash');
 const shell = require('shelljs');
 
 const { getPackages } = require('../utils/packages');
@@ -9,25 +8,20 @@ const paths = require('../utils/paths');
 const tsconfig = fs.readJSONSync(paths.root.tsconfig);
 
 const packages = getPackages({ coreFirst: false });
-const data = {
-  compilerOptions: {
-    paths: {},
-  },
-  references: [],
-};
+
+tsconfig.compilerOptions.paths = {};
+tsconfig.references = [];
 
 packages.forEach(({ directoryName }) => {
-  data.compilerOptions.paths[`@/${directoryName}/*`] = [
+  tsconfig.compilerOptions.paths[`@/${directoryName}/*`] = [
     `./packages/${directoryName}/src/*`,
   ];
-  data.references.push({
+  tsconfig.references.push({
     path: `./packages/${directoryName}/`,
   });
 });
 
-const json = _.merge({}, tsconfig, data);
-
-fs.writeJSONSync(paths.root.tsconfig, json);
+fs.writeJSONSync(paths.root.tsconfig, tsconfig);
 
 shell.exec(`prettier --write ${paths.root.tsconfig}`);
 
