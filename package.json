@@ -106,6 +106,7 @@
     "read-pkg": "^5.2.0",
     "sass": "^1.45.2",
     "sass-loader": "^12.4.0",
+    "shelljs": "^0.8.4",
     "sort-package-json": "^1.53.1",
     "style-loader": "^3.3.1",
     "stylelint": "^14.2.0",

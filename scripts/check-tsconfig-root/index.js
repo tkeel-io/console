@@ -1,5 +1,6 @@
 const fs = require('fs-extra');
 const _ = require('lodash');
+const shell = require('shelljs');
 
 const { getPackages } = require('../utils/packages');
 const { log } = require('../utils/logger');
@@ -27,5 +28,7 @@ packages.forEach(({ directoryName }) => {
 const json = _.merge({}, tsconfig, data);
 
 fs.writeJSONSync(paths.root.tsconfig, json);
+
+shell.exec(`prettier --write ${paths.root.tsconfig}`);
 
 log('check root tsconfig.json: DONE');
