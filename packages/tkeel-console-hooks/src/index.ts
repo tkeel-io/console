@@ -1,1 +1,1 @@
-export * from '@/tkeel-console-hooks/hooks/react-query';
+export * from './hooks/react-query';

@@ -130,7 +130,10 @@ module.exports = {
                 '^(@/tkeel-console-core/(types|constants|containers|components|routes|pages|hooks|contexts|apis|services|utils|styles|assets))(/.*|$)',
               ],
               [
-                '^(@/tkeel-console-plugin-([a-z]+)/(types|constants|containers|components|routes|pages|hooks|contexts|apis|services|utils|styles|assets))(/.*|$)',
+                '^(@/tkeel-console-plugin-([a-z0-9]+)/(types|constants|containers|components|routes|pages|hooks|contexts|apis|services|utils|styles|assets))(/.*|$)',
+              ],
+              [
+                '^(@/tkeel-console-(.+)/(types|constants|containers|components|routes|pages|hooks|contexts|apis|services|utils|styles|assets))(/.*|$)',
               ],
               ['^\\.', '^\\u0000'],
               ['^.+\\.module.s?css$', '^.+\\.s?css$'],
