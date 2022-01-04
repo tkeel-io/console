@@ -13,7 +13,7 @@ interface Props extends PluginGlobalProps {
   container: HTMLElement;
 }
 
-function render(props?: Props) {
+function render(props: Props) {
   const container = props?.container;
 
   ReactDOM.render(
@@ -24,10 +24,9 @@ function render(props?: Props) {
   );
 }
 
-// @ts-ignore
-if (!window.__POWERED_BY_QIANKUN__) {
+/* if (!window.__POWERED_BY_QIANKUN__) {
   render();
-}
+} */
 
 export async function bootstrap() {
   //
