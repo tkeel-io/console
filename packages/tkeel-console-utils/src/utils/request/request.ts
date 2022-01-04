@@ -1,4 +1,4 @@
-import { get, merge } from 'lodash';
+import { merge } from 'lodash';
 
 import { DEFAULT_CUSTOM_EXTRAS } from './defaults';
 import instance from './instance';
@@ -30,7 +30,7 @@ export default function request<
       (
         response: AxiosResponseExtended<TApiData, TRequestParams, TRequestBody>
       ) => {
-        const data: TApiData = get(response, ['data', 'data']);
+        const data: TApiData = response?.data?.data;
         return { data, response };
       }
     );
