@@ -30,38 +30,32 @@ export interface RequestExtras<
   TRequestBody = unknown
 > {
   isWithToken?: boolean;
+  isSuccessFunction?: (
+    response: AxiosResponseExtended<TApiData, TRequestParams, TRequestBody>
+  ) => boolean;
+  isNoAuthFunction?: (
+    response: AxiosResponseExtended<TApiData, TRequestParams, TRequestBody>
+  ) => boolean;
   handleNoAuth?:
     | false
     | ((
         response: AxiosResponseExtended<TApiData, TRequestParams, TRequestBody>
       ) => unknown);
-  handleError?:
+  handleApiError?:
     | false
-    | (({
-        errorMessage,
-        response,
-      }: {
-        errorMessage: string | undefined;
-        response: AxiosResponseExtended<TApiData, TRequestParams, TRequestBody>;
-      }) => unknown);
-  errorMessage?: string | undefined;
+    | ((
+        response: AxiosResponseExtended<TApiData, TRequestParams, TRequestBody>
+      ) => unknown);
+  getApiErrorMessage?: (
+    response: AxiosResponseExtended<TApiData, TRequestParams, TRequestBody>
+  ) => string;
+  customApiErrorMessage?: string | undefined;
   handleAxiosError?:
     | false
-    | (({
-        axiosErrorMessage,
-        error,
-      }: {
-        axiosErrorMessage: string | undefined;
-        error: AxiosErrorExtended<TApiData, TRequestParams, TRequestBody>;
-      }) => unknown);
-  axiosErrorMessage?: string | undefined;
-}
-
-// custom codes
-export interface ApiResponse<TApiData = unknown> {
-  code: number;
-  msg: string;
-  data: TApiData;
+    | ((
+        error: AxiosErrorExtended<TApiData, TRequestParams, TRequestBody>
+      ) => unknown);
+  customAxiosErrorMessage?: string | undefined;
 }
 
 export interface RequestResult<
@@ -71,4 +65,12 @@ export interface RequestResult<
 > {
   data: TApiData;
   response: AxiosResponseExtended<TApiData, TRequestParams, TRequestBody>;
+}
+
+// custom codes
+export interface ApiResponse<TApiData = unknown> {
+  code: number;
+  msg: string;
+
+  data: TApiData;
 }
