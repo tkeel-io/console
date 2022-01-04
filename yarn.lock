@@ -3364,13 +3364,10 @@ __metadata:
     "@chakra-ui/react": ^1.7.3
     "@emotion/react": ^11.7.1
     "@emotion/styled": ^11.6.0
-    "@monaco-editor/react": ^4.3.1
     "@tkeel/console-hooks": "workspace:^"
     "@tkeel/console-types": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
     framer-motion: ^5.5.5
-    monaco-editor: ^0.31.1
-    monaco-themes: ^0.4.0
     react: ^17.0.2
     react-dom: ^17.0.2
     react-router-dom: ^6.2.1
