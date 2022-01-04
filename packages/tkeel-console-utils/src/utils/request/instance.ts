@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { get, isString, merge } from 'lodash';
 
-import { getLocalTokenData } from '../auth';
+import { getLocalTokenData } from '@/tkeel-console-utils/utils/auth';
+
 import ApiError from './api-error';
 import { DEFAULT_AXIOS_REQUEST_CONFIG, DEFAULT_BASE_EXTRAS } from './defaults';
 import {

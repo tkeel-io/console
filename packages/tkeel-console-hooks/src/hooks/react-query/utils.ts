@@ -9,12 +9,13 @@ import {
   request,
   RequestResult,
 } from '@tkeel/console-utils';
-import { AxiosRequestConfig } from 'axios';
 import { get, merge } from 'lodash';
 
 import { UseCustomMutationOptions, UseCustomQueryOptions } from './types';
 
-export function getUseQueryOptions<T, D>(options: UseCustomQueryOptions<T, D>) {
+export function getUseQueryOptions<TApiData, TRequestParams, TRequestBody>(
+  options: UseCustomQueryOptions<TApiData, TRequestParams, TRequestBody>
+) {
   const {
     url,
     method,
@@ -26,21 +27,18 @@ export function getUseQueryOptions<T, D>(options: UseCustomQueryOptions<T, D>) {
   } = options;
   const key = reactQueryOptions?.queryKey;
   const queryKey: QueryKey = key || [url, method, params, data];
-  const config: AxiosRequestConfigExtended<D> = merge(
-    {},
-    { url, method, params, data, extras },
-    axiosRequestConfig
-  );
+  const config: AxiosRequestConfigExtended<TRequestParams, TRequestBody> =
+    merge({}, { url, method, params, data, extras }, axiosRequestConfig);
 
   function queryFn() {
-    return request<T, D>(config);
+    return request<TApiData, TRequestParams, TRequestBody>(config);
   }
 
   return merge({}, { queryFn, queryKey }, reactQueryOptions);
 }
 
-export function getUseMutationOptions<T, D>(
-  options: UseCustomMutationOptions<T, D>
+export function getUseMutationOptions<TApiData, TRequestParams, TRequestBody>(
+  options: UseCustomMutationOptions<TApiData, TRequestParams, TRequestBody>
 ) {
   const {
     url,
@@ -53,28 +51,33 @@ export function getUseMutationOptions<T, D>(
   } = options;
   const key = reactQueryOptions?.mutationKey;
   const mutationKey: MutationKey = key || [url, method, params, data];
-  const config: AxiosRequestConfigExtended<D> = merge(
-    {},
-    { url, method, params, data, extras },
-    axiosRequestConfig
-  );
+  const config: AxiosRequestConfigExtended<TRequestParams, TRequestBody> =
+    merge({}, { url, method, params, data, extras }, axiosRequestConfig);
 
-  function mutationFn(variables: AxiosRequestConfig<D>) {
-    return request<T, D>(merge({}, config, variables));
+  function mutationFn(
+    variables: AxiosRequestConfigExtended<TRequestParams, TRequestBody>
+  ) {
+    return request<TApiData, TRequestParams, TRequestBody>(
+      merge({}, config, variables)
+    );
   }
 
   return merge({}, { mutationKey, mutationFn }, reactQueryOptions);
 }
 
-type TransformUseQueryResultOptions<T, D> = {
+type TransformUseQueryResultOptions<TApiData, TRequestParams, TRequestBody> = {
   queryKey: QueryKey;
-  result: UseQueryResult<RequestResult<T, D>>;
+  result: UseQueryResult<RequestResult<TApiData, TRequestParams, TRequestBody>>;
 };
 
-export function transformUseQueryResult<T = unknown, D = unknown>({
+export function transformUseQueryResult<
+  TApiData,
+  TRequestParams,
+  TRequestBody
+>({
   queryKey,
   result,
-}: TransformUseQueryResultOptions<T, D>) {
+}: TransformUseQueryResultOptions<TApiData, TRequestParams, TRequestBody>) {
   const { data: requestResult, ...rest } = result;
   const apiData = get(requestResult, 'data');
   const response = get(requestResult, 'response');
@@ -82,19 +85,24 @@ export function transformUseQueryResult<T = unknown, D = unknown>({
   return { queryKey, data: apiData, response, ...rest };
 }
 
-type TransformUseMutationResultOptions<T, D> = {
-  mutationKey: MutationKey;
-  result: UseMutationResult<
-    RequestResult<T, D>,
-    unknown,
-    AxiosRequestConfig<D>
-  >;
-};
+type TransformUseMutationResultOptions<TApiData, TRequestParams, TRequestBody> =
+  {
+    mutationKey: MutationKey;
+    result: UseMutationResult<
+      RequestResult<TApiData, TRequestParams, TRequestBody>,
+      unknown,
+      AxiosRequestConfigExtended<TRequestParams, TRequestBody>
+    >;
+  };
 
-export function transformUseMutationResult<T = unknown, D = unknown>({
+export function transformUseMutationResult<
+  TApiData,
+  TRequestParams,
+  TRequestBody
+>({
   mutationKey,
   result,
-}: TransformUseMutationResultOptions<T, D>) {
+}: TransformUseMutationResultOptions<TApiData, TRequestParams, TRequestBody>) {
   const { data: requestResult, ...rest } = result;
   const apiData = get(requestResult, 'data');
   const response = get(requestResult, 'response');

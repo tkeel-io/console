@@ -1,24 +1,28 @@
 import { useMutation } from 'react-query';
-import { RequestResult } from '@tkeel/console-utils';
-import { AxiosRequestConfig } from 'axios';
+import {
+  AxiosRequestConfigExtended,
+  RequestResult,
+} from '@tkeel/console-utils';
 
 import { UseCustomMutationOptions } from './types';
 import { getUseMutationOptions, transformUseMutationResult } from './utils';
 
-export default function useCustomMutation<T, D = undefined>(
-  options: UseCustomMutationOptions<T, D>
-) {
-  const opts = getUseMutationOptions<T, D>(options);
+export default function useCustomMutation<
+  TApiData,
+  TRequestParams = undefined,
+  TRequestBody = undefined
+>(options: UseCustomMutationOptions<TApiData, TRequestParams, TRequestBody>) {
+  const opts = getUseMutationOptions<TApiData, TRequestParams, TRequestBody>(
+    options
+  );
   const { mutationKey } = opts;
   const result = useMutation<
-    RequestResult<T, D>,
+    RequestResult<TApiData, TRequestParams, TRequestBody>,
     unknown,
-    AxiosRequestConfig<D>
+    AxiosRequestConfigExtended<TRequestParams, TRequestBody>
   >(opts);
-  const r = transformUseMutationResult<T, D>({
+  return transformUseMutationResult<TApiData, TRequestParams, TRequestBody>({
     mutationKey,
     result,
   });
-
-  return r;
 }

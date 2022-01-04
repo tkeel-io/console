@@ -21,8 +21,7 @@ import { setLocalTokenData } from '@tkeel/console-utils';
 
 import useOAuthToken, {
   ApiData,
-  Params,
-} from '@/hooks/mutations/useOAuthToken';
+} from '@/tkeel-console-core/hooks/mutations/useOAuthToken';
 
 type Inputs = {
   username: string;
@@ -80,8 +79,8 @@ function Login(): JSX.Element {
 
   const onSubmit: SubmitHandler<Inputs> = (values) => {
     const { username, password } = values;
-    const params: Params = {
-      grant_type: 'password',
+    const params = {
+      grant_type: 'password' as const,
       username,
       password,
     };

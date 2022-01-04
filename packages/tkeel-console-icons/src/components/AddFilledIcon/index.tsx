@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Add from '../../assets/icons/filled/add.svg?svgr';
-import FilledIcon from '../Icon/FilledIcon';
-import { FilledIconProps } from '../Icon/types';
+import Add from '@/tkeel-console-icons/assets/icons/filled/add.svg?svgr';
+import FilledIcon from '@/tkeel-console-icons/components/Icon/FilledIcon';
+import { FilledIconProps } from '@/tkeel-console-icons/components/Icon/types';
 
 function AddFilledIcon(props: FilledIconProps) {
   return <FilledIcon {...props} svgComponent={Add} />;

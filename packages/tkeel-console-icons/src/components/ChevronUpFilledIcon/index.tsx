@@ -1,8 +1,8 @@
 import React from 'react';
 
-import ChevronUp from '../../assets/icons/filled/chevron_up.svg?svgr';
-import FilledIcon from '../Icon/FilledIcon';
-import { FilledIconProps } from '../Icon/types';
+import ChevronUp from '@/tkeel-console-icons/assets/icons/filled/chevron_up.svg?svgr';
+import FilledIcon from '@/tkeel-console-icons/components/Icon/FilledIcon';
+import { FilledIconProps } from '@/tkeel-console-icons/components/Icon/types';
 
 function ChevronUpFilledIcon(props: FilledIconProps) {
   return <FilledIcon {...props} svgComponent={ChevronUp} />;

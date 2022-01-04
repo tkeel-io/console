@@ -6,7 +6,7 @@ import { BoxTwoToneIcon, ChevronLeftFilledIcon } from '@tkeel/console-icons';
 import InfoCard from './InfoCard';
 import MoreActionButton from './MoreActionButton';
 
-// import InstallButton from '@/components/InstallButton';
+// import InstallButton from '@/tkeel-console-plugin-plugins/components/InstallButton';
 
 function BasicInfo() {
   const navigate = useNavigate();
