@@ -3367,6 +3367,23 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@tkeel/console-plugin-tenant@workspace:packages/tkeel-console-plugin-tenant":
+  version: 0.0.0-use.local
+  resolution: "@tkeel/console-plugin-tenant@workspace:packages/tkeel-console-plugin-tenant"
+  dependencies:
+    "@chakra-ui/react": ^1.7.2
+    "@emotion/react": ^11.7.0
+    "@emotion/styled": ^11.6.0
+    "@tkeel/console-hooks": "workspace:^"
+    "@tkeel/console-types": "workspace:^"
+    "@tkeel/console-utils": "workspace:^"
+    framer-motion: ^5.3.3
+    react: ^17.0.2
+    react-dom: ^17.0.2
+    react-router-dom: ^6.0.2
+  languageName: unknown
+  linkType: soft
+
 "@tkeel/console-themes@workspace:^, @tkeel/console-themes@workspace:packages/tkeel-console-themes":
   version: 0.0.0-use.local
   resolution: "@tkeel/console-themes@workspace:packages/tkeel-console-themes"
