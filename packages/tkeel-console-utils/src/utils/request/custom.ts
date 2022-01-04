@@ -76,11 +76,10 @@ export function createHandleNoAuth({
   basePath?: string;
 }) {
   const { pathname, search, hash } = location;
+  const url = `${basePath}${pathname}${search}${hash}`;
 
   return function handleNoAuth() {
-    const redirect = encodeURIComponent(
-      `${basePath}${pathname}${search}${hash}`
-    );
+    const redirect = encodeURIComponent(url);
     navigate(`/auth/login?redirect=${redirect}`, { replace: true });
   };
 }
