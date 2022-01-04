@@ -1,5 +1,9 @@
 import React, { useEffect } from 'react';
-import { Route, Routes as ReactRouterRoutes } from 'react-router-dom';
+import {
+  Route,
+  Routes as ReactRouterRoutes,
+  useNavigate,
+} from 'react-router-dom';
 import { Box } from '@chakra-ui/react';
 import { ThemeNames } from '@tkeel/console-themes';
 
@@ -21,8 +25,9 @@ type Props = {
 };
 
 function Routes({ themeName }: Props) {
+  const navigate = useNavigate();
   const { menus } = useMenusQuery();
-  const apps = menusToApps({ menus });
+  const apps = menusToApps({ menus, navigate, themeName });
 
   const renderApps = () => {
     if (!(Array.isArray(apps) && apps.length > 0)) {
@@ -53,8 +58,8 @@ function Routes({ themeName }: Props) {
   };
 
   useEffect(() => {
-    initQiankun({ menus, themeName });
-  }, [menus, themeName]);
+    initQiankun({ menus, navigate, themeName });
+  }, [menus, navigate, themeName]);
 
   return (
     <ReactRouterRoutes>
