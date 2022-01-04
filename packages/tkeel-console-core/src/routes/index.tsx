@@ -8,6 +8,7 @@ import { Box } from '@chakra-ui/react';
 import { ThemeNames } from '@tkeel/console-themes';
 
 import Layout from '@/tkeel-console-core/containers/Layout';
+import RequireAuth from '@/tkeel-console-core/containers/RequireAuth';
 import useMenusQuery from '@/tkeel-console-core/hooks/queries/useMenusQuery';
 import Login from '@/tkeel-console-core/pages/Login';
 import NotFound from '@/tkeel-console-core/pages/NotFound';
@@ -41,7 +42,10 @@ function Routes({ themeName }: Props) {
         <Route
           index
           element={
-            <Box w="100%" id={getElementIdByContainer(firstApp?.container)} />
+            <Box
+              width="100%"
+              id={getElementIdByContainer(firstApp?.container)}
+            />
           }
         />
         {apps.map(({ name, container, activeRule }) => {
@@ -49,7 +53,9 @@ function Routes({ themeName }: Props) {
             <Route
               key={name}
               path={`${activeRule}/*`}
-              element={<Box w="100%" id={getElementIdByContainer(container)} />}
+              element={
+                <Box width="100%" id={getElementIdByContainer(container)} />
+              }
             />
           );
         })}
@@ -66,11 +72,13 @@ function Routes({ themeName }: Props) {
       <Route path="/auth">
         <Route path="login" element={<Login />} />
       </Route>
-      <Route path="/" element={<Layout menus={menus} />}>
-        {renderApps()}
-        {Array.isArray(apps) && apps.length > 0 && (
-          <Route path="*" element={<NotFound />} />
-        )}
+      <Route element={<RequireAuth />}>
+        <Route path="/" element={<Layout menus={menus} />}>
+          {renderApps()}
+          {Array.isArray(apps) && apps.length > 0 && (
+            <Route path="*" element={<NotFound />} />
+          )}
+        </Route>
       </Route>
     </ReactRouterRoutes>
   );

@@ -1,5 +1,3 @@
-import { UseQueryOptionsExtended } from '@tkeel/console-hooks';
-
 import useQuery from '@/tkeel-console-core/hooks/useQuery';
 
 const url = '/rudder/v1/entries';
@@ -19,15 +17,10 @@ export interface ApiData {
   entries: Menu[];
 }
 
-export default function useMenusQuery({
-  reactQueryOptions,
-}: {
-  reactQueryOptions?: UseQueryOptionsExtended<ApiData, undefined, undefined>;
-}) {
+export default function useMenusQuery() {
   const { data, ...rest } = useQuery<ApiData>({
     url,
     method,
-    reactQueryOptions,
   });
   const menus = data?.entries || [];
 
