@@ -183,14 +183,14 @@ const variants = {
 
 const sizes: Record<string, SystemStyleObject> = {
   lg: {
-    h: 12,
-    minW: 12,
+    h: 10,
+    minW: 10,
     fontSize: 'lg',
     px: 6,
   },
   md: {
-    h: 10,
-    minW: 10,
+    h: 8,
+    minW: 8,
     fontSize: 'md',
     px: 4,
   },

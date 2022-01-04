@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Flex, Tag, Text } from '@chakra-ui/react';
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
 
-import InstallButton from '@/components/InstallButton';
+import InstallButton from '@/tkeel-console-plugin-plugins/components/InstallButton';
 
 function Card() {
+  const [showTopBorder, setShowTopBorder] = useState(false);
   const navigate = useNavigate();
+
   return (
     <Flex
       position="relative"
@@ -21,17 +23,27 @@ function Card() {
       backgroundColor="white"
       cursor="pointer"
       _after={{
+        display: showTopBorder ? 'block' : 'none',
         content: '""',
         position: 'absolute',
         left: '0',
         top: '-1px',
         width: '100%',
-        height: '2px',
+        height: '4px',
         backgroundColor: 'tKeel',
         borderTopLeftRadius: '2px',
         borderTopRightRadius: '2px',
       }}
-      onClick={() => navigate('/detail/1')}
+      _hover={{ boxShadow: '0px 4px 8px rgba(36, 46, 66, 0.06)' }}
+      onClick={() => {
+        navigate('/detail/1');
+      }}
+      onMouseEnter={() => {
+        setShowTopBorder(true);
+      }}
+      onMouseLeave={() => {
+        setShowTopBorder(false);
+      }}
     >
       <Flex alignItems="center" justifyContent="space-between">
         <Flex alignItems="center">

@@ -22,21 +22,41 @@
     "experimentalDecorators": true,
     "skipLibCheck": true,
     "rootDir": ".",
-    "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./packages/tkeel-console-core/src/*",
-        "./packages/tkeel-console-plugin-plugins/src/*",
-        "./packages/tkeel-console-plugin-user/src/*"
-      ]
+      "@/tkeel-console-business-components/*": [
+        "./packages/tkeel-console-business-components/src/*"
+      ],
+      "@/tkeel-console-components/*": [
+        "./packages/tkeel-console-components/src/*"
+      ],
+      "@/tkeel-console-core/*": ["./packages/tkeel-console-core/src/*"],
+      "@/tkeel-console-hooks/*": ["./packages/tkeel-console-hooks/src/*"],
+      "@/tkeel-console-icons/*": ["./packages/tkeel-console-icons/src/*"],
+      "@/tkeel-console-plugin-example/*": [
+        "./packages/tkeel-console-plugin-example/src/*"
+      ],
+      "@/tkeel-console-plugin-plugins/*": [
+        "./packages/tkeel-console-plugin-plugins/src/*"
+      ],
+      "@/tkeel-console-themes/*": ["./packages/tkeel-console-themes/src/*"],
+      "@/tkeel-console-types/*": ["./packages/tkeel-console-types/src/*"],
+      "@/tkeel-console-utils/*": ["./packages/tkeel-console-utils/src/*"]
     },
-    "plugins": [
-      {
-        "name": "typescript-plugin-css-modules"
-      }
-    ]
+    "plugins": [{ "name": "typescript-plugin-css-modules" }]
   },
   "include": ["./packages/*/src/"],
-  "exclude": ["./node_modules/", "**/dist/", "**/scripts/"]
+  "exclude": ["**/node_modules/", "**/dist/", "**/scripts/"],
+  "references": [
+    { "path": "./packages/tkeel-console-business-components/" },
+    { "path": "./packages/tkeel-console-components/" },
+    { "path": "./packages/tkeel-console-core/" },
+    { "path": "./packages/tkeel-console-hooks/" },
+    { "path": "./packages/tkeel-console-icons/" },
+    { "path": "./packages/tkeel-console-plugin-example/" },
+    { "path": "./packages/tkeel-console-plugin-plugins/" },
+    { "path": "./packages/tkeel-console-themes/" },
+    { "path": "./packages/tkeel-console-types/" },
+    { "path": "./packages/tkeel-console-utils/" }
+  ]
 }

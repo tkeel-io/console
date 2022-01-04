@@ -26,19 +26,27 @@ function getPluginPackageDirectoryName({ pluginName }) {
   return `${PLUGIN_PACKAGE_DIRECTORY_NAME_PREFIX}${pluginName}`;
 }
 
-function getDirectoryNames() {
-  return fs
+function getDirectoryNames({ coreFirst } = {}) {
+  const directoryNames = fs
     .readdirSync(paths.packages.self)
-    .filter((directoryName) => !EXCLUDE_PACKAGE_NAMES.includes(directoryName))
-    .sort((directoryName) =>
+    .filter((directoryName) => !EXCLUDE_PACKAGE_NAMES.includes(directoryName));
+
+  if (coreFirst) {
+    return directoryNames.sort((directoryName) =>
       directoryName ===
       `${PACKAGE_DIRECTORY_NAME_PREFIX}${CORE_PACKAGE_SIMPLE_NAME}`
         ? -1
         : 1
     );
+  }
+
+  return directoryNames;
 }
 
-function getPackages({ directoryNames = getDirectoryNames() } = {}) {
+function getPackages({
+  coreFirst = true,
+  directoryNames = getDirectoryNames({ coreFirst }),
+} = {}) {
   const packages = [];
 
   directoryNames.forEach((directoryName) => {

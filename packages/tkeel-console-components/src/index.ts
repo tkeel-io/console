@@ -1,3 +1,4 @@
+export { default as Editor } from './components/Editor';
 export { default as Form } from './components/Form';
 export { default as PageHeader } from './components/PageHeader';
 export { default as Pagination } from './components/Pagination';

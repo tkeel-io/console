@@ -1,21 +1,17 @@
 import React from 'react';
 import { Box, Center, Flex, Image } from '@chakra-ui/react';
 
-import { Menu } from '@/hooks/queries/useMenusQuery';
-import { getTotalMenus } from '@/utils/qiankun';
-import { MenuInfo } from '@/utils/qiankun/types';
+import LogoImg from '@/tkeel-console-core/assets/images/logo.png';
+import { Menu } from '@/tkeel-console-core/hooks/queries/useMenusQuery';
 
-import CustomMenuLink from './CustomMenuLink';
-
-import LogoImg from '@/assets/images/logo.png';
+import MenuLink from './MenuLink';
+import SubMenus from './SubMenus';
 
 type Props = {
   menus: Menu[];
 };
 
-function CollapsedMenus({ menus: menusData }: Props) {
-  const menus: MenuInfo[] = getTotalMenus(menusData);
-
+function CollapsedMenus({ menus }: Props) {
   return (
     <Box width="80px" backgroundColor="gray.50">
       <Center
@@ -27,9 +23,16 @@ function CollapsedMenus({ menus: menusData }: Props) {
         <Image htmlWidth="27px" src={LogoImg} alt="" />
       </Center>
       <Flex flexDirection="column" alignItems="center">
-        {menus.map(({ id, path }) => (
-          <CustomMenuLink key={id} path={path} />
-        ))}
+        {menus.map(({ id, path, icon, children }) => {
+          if (children) {
+            return (
+              <SubMenus key={id} icon={icon as string} subMenus={children} />
+            );
+          }
+          return (
+            <MenuLink key={id} path={path as string} icon={icon as string} />
+          );
+        })}
       </Flex>
     </Box>
   );
