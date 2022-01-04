@@ -1,6 +1,6 @@
 import { NavigateFunction } from 'react-router-dom';
 import themes, { DEFAULT_THEME_NAME, ThemeNames } from '@tkeel/console-themes';
-import { PluginProps } from '@tkeel/console-types';
+import { PluginGlobalProps } from '@tkeel/console-types';
 import { getLocalTokenData } from '@tkeel/console-utils';
 import { registerMicroApps, start } from 'qiankun';
 
@@ -40,7 +40,7 @@ function menusToApps({
 }): App[] {
   const totalMenus: MenuInfo[] = getTotalMenus(menus);
   const tokenData = getLocalTokenData();
-  const props: PluginProps = {
+  const props: PluginGlobalProps = {
     tokenData,
     navigate,
     themeName,

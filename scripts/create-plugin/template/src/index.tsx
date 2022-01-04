@@ -7,9 +7,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import App from './App';
-import { PluginProps } from '@tkeel/console-types';
+import { PluginGlobalProps } from '@tkeel/console-types';
 
-interface Props extends PluginProps {
+interface Props extends PluginGlobalProps {
   container: HTMLElement;
 }
 
