@@ -5,5 +5,4 @@ module.exports = {
   // '*.{ts,tsx}': 'tsc --noEmit',
   '*.{css,scss,js,jsx,ts,tsx}': 'stylelint --fix',
   '**': 'cspell --no-must-find-files',
-  './tsconfig.json': 'node ./scripts/init-root-tsconfig',
 };
