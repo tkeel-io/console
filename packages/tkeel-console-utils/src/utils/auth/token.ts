@@ -16,3 +16,7 @@ export function setLocalTokenData(tokenData: TokenData) {
 export function removeLocalTokenData() {
   authStore.remove(key);
 }
+
+export function hasLocalTokenData() {
+  return authStore.has(key);
+}

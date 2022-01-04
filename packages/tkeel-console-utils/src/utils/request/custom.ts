@@ -3,7 +3,10 @@ import { toast } from '@tkeel/console-components';
 import { AxiosRequestConfig } from 'axios';
 import { inRange, merge } from 'lodash';
 
-import { getLocalTokenData } from '@/tkeel-console-utils/utils/auth';
+import {
+  getLocalTokenData,
+  removeLocalTokenData,
+} from '@/tkeel-console-utils/utils/auth';
 
 import { AxiosRequestConfigExtended, RequestExtras } from './types';
 
@@ -80,6 +83,7 @@ export function createHandleNoAuth({
 
   return function handleNoAuth() {
     const redirect = encodeURIComponent(url);
+    removeLocalTokenData();
     navigate(`/auth/login?redirect=${redirect}`, { replace: true });
   };
 }
