@@ -9,7 +9,7 @@ import {
   request,
   RequestResult,
 } from '@tkeel/console-utils';
-import { get, merge } from 'lodash';
+import { merge } from 'lodash';
 
 import { UseCustomMutationOptions, UseCustomQueryOptions } from './types';
 
@@ -79,8 +79,8 @@ export function transformUseQueryResult<
   result,
 }: TransformUseQueryResultOptions<TApiData, TRequestParams, TRequestBody>) {
   const { data: requestResult, ...rest } = result;
-  const apiData = get(requestResult, 'data');
-  const response = get(requestResult, 'response');
+  const apiData = requestResult?.data;
+  const response = requestResult?.response;
 
   return { queryKey, data: apiData, response, ...rest };
 }
@@ -104,8 +104,8 @@ export function transformUseMutationResult<
   result,
 }: TransformUseMutationResultOptions<TApiData, TRequestParams, TRequestBody>) {
   const { data: requestResult, ...rest } = result;
-  const apiData = get(requestResult, 'data');
-  const response = get(requestResult, 'response');
+  const apiData = requestResult?.data;
+  const response = requestResult?.response;
 
   return { mutationKey, data: apiData, response, ...rest };
 }

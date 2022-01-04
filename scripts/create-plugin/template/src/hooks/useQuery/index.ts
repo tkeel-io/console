@@ -1,4 +1,5 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { useGlobalProps } from '@tkeel/console-business-components';
 import {
   UseCustomQueryOptions,
   useQuery as useCustomQuery,
@@ -12,9 +13,9 @@ export default function useQuery<
   TRequestBody = undefined
 >(options: UseCustomQueryOptions<TApiData, TRequestParams, TRequestBody>) {
   const location = useLocation();
-  const navigate = useNavigate();
-  const handleNoAuth = createHandleNoAuth({ location, navigate });
-
+  const { navigate } = useGlobalProps();
+  const basePath = process.env.BASE_PATH;
+  const handleNoAuth = createHandleNoAuth({ location, navigate, basePath });
   const opts = merge({}, { extras: { handleNoAuth } }, options);
 
   return useCustomQuery<TApiData, TRequestParams, TRequestBody>(opts);

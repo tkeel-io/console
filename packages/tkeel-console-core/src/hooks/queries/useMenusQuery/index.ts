@@ -18,7 +18,10 @@ export interface ApiData {
 }
 
 export default function useMenusQuery() {
-  const { data, ...rest } = useQuery<ApiData>({ url, method });
+  const { data, ...rest } = useQuery<ApiData>({
+    url,
+    method,
+  });
   const menus = data?.entries || [];
 
   if (process.env.NODE_ENV === 'development') {

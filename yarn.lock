@@ -3282,7 +3282,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tkeel/console-business-components@workspace:packages/tkeel-console-business-components":
+"@tkeel/console-business-components@workspace:^, @tkeel/console-business-components@workspace:packages/tkeel-console-business-components":
   version: 0.0.0-use.local
   resolution: "@tkeel/console-business-components@workspace:packages/tkeel-console-business-components"
   peerDependencies:
@@ -3364,12 +3364,14 @@ __metadata:
     "@chakra-ui/react": ^1.7.3
     "@emotion/react": ^11.7.1
     "@emotion/styled": ^11.6.0
+    "@tkeel/console-business-components": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
     "@tkeel/console-types": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
     framer-motion: ^5.5.5
     react: ^17.0.2
     react-dom: ^17.0.2
+    react-query: ^3.34.7
     react-router-dom: ^6.2.1
   languageName: unknown
   linkType: soft
@@ -3421,6 +3423,7 @@ __metadata:
   dependencies:
     "@tkeel/console-types": "workspace:^"
     axios: ^0.24.0
+    react-router-dom: ^6.2.1
     store2: ^2.13.1
   peerDependencies:
     "@tkeel/console-components": "workspace:^"
