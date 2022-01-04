@@ -38,6 +38,7 @@ module.exports = {
     nodeModules: resolveRoot('node_modules'),
     scripts: resolveRoot('scripts'),
     webpack: resolveRoot('webpack'),
+    tsconfig: resolveRoot('tsconfig.json'),
   },
   packages: {
     self: resolvePackages('.'),

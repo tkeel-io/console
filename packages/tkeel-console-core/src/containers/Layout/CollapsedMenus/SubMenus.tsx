@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Box } from '@chakra-ui/react';
 
-import { Menu } from '@/hooks/queries/useMenusQuery';
+import { Menu } from '@/tkeel-console-core/hooks/queries/useMenusQuery';
 
 import MenuItem from './MenuItem';
 import SubMenuLinks from './SubMenuLinks';

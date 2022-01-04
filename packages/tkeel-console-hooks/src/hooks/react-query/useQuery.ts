@@ -4,15 +4,22 @@ import { RequestResult } from '@tkeel/console-utils';
 import { UseCustomQueryOptions } from './types';
 import { getUseQueryOptions, transformUseQueryResult } from './utils';
 
-export default function useCustomQuery<T, D = undefined>(
-  options: UseCustomQueryOptions<T, D>
-) {
-  const opts = getUseQueryOptions<T, D>(options);
-  const { queryKey } = opts;
-  const result = useQuery<RequestResult<T, D>, unknown, RequestResult<T, D>>(
-    opts
+export default function useCustomQuery<
+  TApiData,
+  TRequestParams = undefined,
+  TRequestBody = undefined
+>(options: UseCustomQueryOptions<TApiData, TRequestParams, TRequestBody>) {
+  const opts = getUseQueryOptions<TApiData, TRequestParams, TRequestBody>(
+    options
   );
-  const r = transformUseQueryResult<T, D>({ queryKey, result });
-
-  return r;
+  const { queryKey } = opts;
+  const result = useQuery<
+    RequestResult<TApiData, TRequestParams, TRequestBody>,
+    unknown,
+    RequestResult<TApiData, TRequestParams, TRequestBody>
+  >(opts);
+  return transformUseQueryResult<TApiData, TRequestParams, TRequestBody>({
+    queryKey,
+    result,
+  });
 }

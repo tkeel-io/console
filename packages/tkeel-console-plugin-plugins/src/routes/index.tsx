@@ -1,18 +1,16 @@
 import React from 'react';
-import { RouteObject } from 'react-router-dom';
+import { Route, Routes as ReactRouterRoutes } from 'react-router-dom';
 
-import Detail from '@/pages/Detail';
-import Index from '@/pages/Index';
+import Detail from '@/tkeel-console-plugin-plugins/pages/Detail';
+import Index from '@/tkeel-console-plugin-plugins/pages/Index';
 
-const routes: RouteObject[] = [
-  {
-    path: '/',
-    element: <Index />,
-  },
-  {
-    path: '/detail/:id',
-    element: <Detail />,
-  },
-];
+function Routes() {
+  return (
+    <ReactRouterRoutes>
+      <Route path="/" element={<Index />} />
+      <Route path="/detail/:id" element={<Detail />} />
+    </ReactRouterRoutes>
+  );
+}
 
-export default routes;
+export default Routes;
