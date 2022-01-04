@@ -3,6 +3,7 @@ import {
   UseCustomMutationOptions,
   useMutation as useCustomMutation,
 } from '@tkeel/console-hooks';
+import { createHandleNoAuth } from '@tkeel/console-utils';
 import { merge } from 'lodash';
 
 export default function useMutation<
@@ -10,15 +11,10 @@ export default function useMutation<
   TRequestParams = undefined,
   TRequestBody = undefined
 >(options: UseCustomMutationOptions<TApiData, TRequestParams, TRequestBody>) {
-  const { pathname, search, hash } = useLocation();
+  const location = useLocation();
   const navigate = useNavigate();
-  const extras = {
-    handleNoAuth() {
-      const redirect = encodeURIComponent(`${pathname}${search}${hash}`);
-      navigate(`/auth/login?redirect=${redirect}`, { replace: true });
-    },
-  };
-  const opts = merge({}, { extras }, options);
+  const handleNoAuth = createHandleNoAuth({ location, navigate });
+  const opts = merge({}, { extras: { handleNoAuth } }, options);
 
   return useCustomMutation<TApiData, TRequestParams, TRequestBody>(opts);
 }

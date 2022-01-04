@@ -3371,6 +3371,7 @@ __metadata:
     framer-motion: ^5.5.5
     react: ^17.0.2
     react-dom: ^17.0.2
+    react-query: ^3.34.7
     react-router-dom: ^6.2.1
   languageName: unknown
   linkType: soft
@@ -3422,6 +3423,7 @@ __metadata:
   dependencies:
     "@tkeel/console-types": "workspace:^"
     axios: ^0.24.0
+    react-router-dom: ^6.2.1
     store2: ^2.13.1
   peerDependencies:
     "@tkeel/console-components": "workspace:^"

@@ -1,3 +1,4 @@
+import { Location, NavigateFunction } from 'react-router-dom';
 import { toast } from '@tkeel/console-components';
 import { AxiosRequestConfig } from 'axios';
 import { inRange, merge } from 'lodash';
@@ -63,4 +64,23 @@ export function requestInterceptors(config: AxiosRequestConfigExtended) {
         config
       )
     : config;
+}
+
+export function createHandleNoAuth({
+  location,
+  navigate,
+  basePath = '',
+}: {
+  location: Location;
+  navigate: NavigateFunction;
+  basePath?: string;
+}) {
+  const { pathname, search, hash } = location;
+
+  return function handleNoAuth() {
+    const redirect = encodeURIComponent(
+      `${basePath}${pathname}${search}${hash}`
+    );
+    navigate(`/auth/login?redirect=${redirect}`, { replace: true });
+  };
 }
