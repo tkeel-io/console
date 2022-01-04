@@ -14,14 +14,15 @@
     "packages/*"
   ],
   "scripts": {
+    "init:all": "yarn init:root-tsconfig && yarn init:vscode-settings",
+    "init:root-tsconfig": "node ./scripts/init-root-tsconfig",
+    "init:vscode-settings": "node ./scripts/init-vscode-settings",
     "dev": "node ./scripts/run/dev",
     "dev:all": "node ./scripts/run/dev-all",
     "build": "node ./scripts/run/build",
     "build:all": "node ./scripts/run/build-all",
-    "create:plugin": "node ./scripts/create-plugin",
+    "create:plugin": "node ./scripts/create-plugin && yarn init:all",
     "check:packages": "node ./scripts/check-packages",
-    "check:root-tsconfig": "node ./scripts/check-root-tsconfig",
-    "check:vscode-settings": "node ./scripts/check-vscode-settings",
     "sort-package-json": "sort-package-json 'package.json' 'packages/*/package.json'",
     "lint:format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,hbs,handlebars,css,scss,md}\"",
     "lint:script": "eslint --fix \"**/*.{js,jsx,ts,tsx}\"",
