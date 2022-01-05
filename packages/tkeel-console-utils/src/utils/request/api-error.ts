@@ -3,12 +3,12 @@ import { AxiosResponseExtended } from './types';
 export default class ApiError<
   TApiData = unknown,
   TRequestParams = unknown,
-  TRequestBody = unknown
+  TRequestData = unknown
 > extends Error {
   readonly response: AxiosResponseExtended<
     TApiData,
     TRequestParams,
-    TRequestBody
+    TRequestData
   >;
 
   constructor({
@@ -16,7 +16,7 @@ export default class ApiError<
     response,
   }: {
     message: string;
-    response: AxiosResponseExtended<TApiData, TRequestParams, TRequestBody>;
+    response: AxiosResponseExtended<TApiData, TRequestParams, TRequestData>;
   }) {
     super(message);
     this.response = response;

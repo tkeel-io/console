@@ -2,8 +2,8 @@ import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 export interface AxiosRequestConfigExtended<
   TRequestParams = unknown,
-  TRequestBody = unknown
-> extends AxiosRequestConfig<TRequestBody> {
+  TRequestData = unknown
+> extends AxiosRequestConfig<TRequestData> {
   params?: TRequestParams;
   extras?: RequestExtras;
 }
@@ -11,49 +11,49 @@ export interface AxiosRequestConfigExtended<
 export interface AxiosResponseExtended<
   TApiData = unknown,
   TRequestParams = unknown,
-  TRequestBody = unknown
-> extends AxiosResponse<ApiResponse<TApiData>, TRequestBody> {
-  config: AxiosRequestConfigExtended<TRequestParams, TRequestBody>;
+  TRequestData = unknown
+> extends AxiosResponse<ApiResponse<TApiData>, TRequestData> {
+  config: AxiosRequestConfigExtended<TRequestParams, TRequestData>;
 }
 
 export interface AxiosErrorExtended<
   TApiData = unknown,
   TRequestParams = unknown,
-  TRequestBody = unknown
-> extends AxiosError<ApiResponse<TApiData>, TRequestBody> {
-  config: AxiosRequestConfigExtended<TRequestParams, TRequestBody>;
+  TRequestData = unknown
+> extends AxiosError<ApiResponse<TApiData>, TRequestData> {
+  config: AxiosRequestConfigExtended<TRequestParams, TRequestData>;
 }
 
 export interface RequestExtras<
   TApiData = unknown,
   TRequestParams = unknown,
-  TRequestBody = unknown
+  TRequestData = unknown
 > {
   isWithToken?: boolean;
   isSuccessFunction?: (
-    response: AxiosResponseExtended<TApiData, TRequestParams, TRequestBody>
+    response: AxiosResponseExtended<TApiData, TRequestParams, TRequestData>
   ) => boolean;
   isNoAuthFunction?: (
-    response: AxiosResponseExtended<TApiData, TRequestParams, TRequestBody>
+    response: AxiosResponseExtended<TApiData, TRequestParams, TRequestData>
   ) => boolean;
   handleNoAuth?:
     | false
     | ((
-        response: AxiosResponseExtended<TApiData, TRequestParams, TRequestBody>
+        response: AxiosResponseExtended<TApiData, TRequestParams, TRequestData>
       ) => unknown);
   handleApiError?:
     | false
     | ((
-        response: AxiosResponseExtended<TApiData, TRequestParams, TRequestBody>
+        response: AxiosResponseExtended<TApiData, TRequestParams, TRequestData>
       ) => unknown);
   getApiErrorMessage?: (
-    response: AxiosResponseExtended<TApiData, TRequestParams, TRequestBody>
+    response: AxiosResponseExtended<TApiData, TRequestParams, TRequestData>
   ) => string;
   customApiErrorMessage?: string | undefined;
   handleAxiosError?:
     | false
     | ((
-        error: AxiosErrorExtended<TApiData, TRequestParams, TRequestBody>
+        error: AxiosErrorExtended<TApiData, TRequestParams, TRequestData>
       ) => unknown);
   customAxiosErrorMessage?: string | undefined;
 }
@@ -61,10 +61,10 @@ export interface RequestExtras<
 export interface RequestResult<
   TApiData = unknown,
   TRequestParams = undefined,
-  TRequestBody = unknown
+  TRequestData = unknown
 > {
   data: TApiData;
-  response: AxiosResponseExtended<TApiData, TRequestParams, TRequestBody>;
+  response: AxiosResponseExtended<TApiData, TRequestParams, TRequestData>;
 }
 
 // custom codes

@@ -16,7 +16,7 @@ export interface ApiData {
 const url = '/security/v1/oauth/token';
 const method = 'GET';
 
-export default function useOAuthToken() {
+export default function useOAuthTokenMutation() {
   return useMutation<ApiData, RequestParams>({
     url,
     method,

@@ -10,13 +10,13 @@ import { merge } from 'lodash';
 export default function useMutation<
   TApiData,
   TRequestParams = undefined,
-  TRequestBody = undefined
->(options: UseCustomMutationOptions<TApiData, TRequestParams, TRequestBody>) {
+  TRequestData = undefined
+>(options: UseCustomMutationOptions<TApiData, TRequestParams, TRequestData>) {
   const { navigate } = useGlobalProps();
   const basePath = process.env.BASE_PATH;
   const redirectPath = useNoAuthRedirectPath({ basePath });
   const handleNoAuth = createHandleNoAuth({ navigate, redirectPath });
   const opts = merge({}, { extras: { handleNoAuth } }, options);
 
-  return useCustomMutation<TApiData, TRequestParams, TRequestBody>(opts);
+  return useCustomMutation<TApiData, TRequestParams, TRequestData>(opts);
 }

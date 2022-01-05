@@ -11,24 +11,24 @@ import {
 export default function request<
   TApiData,
   TRequestParams = undefined,
-  TRequestBody = undefined
+  TRequestData = undefined
 >(
-  config: AxiosRequestConfigExtended<TRequestParams, TRequestBody>
-): Promise<RequestResult<TApiData, TRequestParams, TRequestBody>> {
+  config: AxiosRequestConfigExtended<TRequestParams, TRequestData>
+): Promise<RequestResult<TApiData, TRequestParams, TRequestData>> {
   const axiosRequestConfig: AxiosRequestConfigExtended<
     TRequestParams,
-    TRequestBody
+    TRequestData
   > = merge({}, { extras: DEFAULT_CUSTOM_EXTRAS }, config);
 
   return instance
     .request<
       TApiData,
-      AxiosResponseExtended<TApiData, TRequestParams, TRequestBody>,
-      TRequestBody
+      AxiosResponseExtended<TApiData, TRequestParams, TRequestData>,
+      TRequestData
     >(axiosRequestConfig)
     .then(
       (
-        response: AxiosResponseExtended<TApiData, TRequestParams, TRequestBody>
+        response: AxiosResponseExtended<TApiData, TRequestParams, TRequestData>
       ) => {
         const data: TApiData = response?.data?.data;
         return { data, response };

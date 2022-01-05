@@ -10,18 +10,18 @@ import { getUseMutationOptions, transformUseMutationResult } from './utils';
 export default function useCustomMutation<
   TApiData,
   TRequestParams = undefined,
-  TRequestBody = undefined
->(options: UseCustomMutationOptions<TApiData, TRequestParams, TRequestBody>) {
-  const opts = getUseMutationOptions<TApiData, TRequestParams, TRequestBody>(
+  TRequestData = undefined
+>(options: UseCustomMutationOptions<TApiData, TRequestParams, TRequestData>) {
+  const opts = getUseMutationOptions<TApiData, TRequestParams, TRequestData>(
     options
   );
   const { mutationKey } = opts;
   const result = useMutation<
-    RequestResult<TApiData, TRequestParams, TRequestBody>,
+    RequestResult<TApiData, TRequestParams, TRequestData>,
     unknown,
-    AxiosRequestConfigExtended<TRequestParams, TRequestBody>
+    AxiosRequestConfigExtended<TRequestParams, TRequestData>
   >(opts);
-  return transformUseMutationResult<TApiData, TRequestParams, TRequestBody>({
+  return transformUseMutationResult<TApiData, TRequestParams, TRequestData>({
     mutationKey,
     result,
   });
