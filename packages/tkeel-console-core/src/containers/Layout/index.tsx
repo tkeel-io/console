@@ -70,7 +70,6 @@ function Layout({ themeName }: Props) {
       <Flex flex="1" overflow="hidden" flexDirection="column" padding="24px">
         <Header menus={menus} />
         <Flex flex="1" overflow="hidden">
-          {/* <Outlet /> */}
           <Routes>
             {renderApps()}
             {Array.isArray(apps) && apps.length > 0 && (
