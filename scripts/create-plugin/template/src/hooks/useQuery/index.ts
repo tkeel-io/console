@@ -10,13 +10,13 @@ import { merge } from 'lodash';
 export default function useQuery<
   TApiData,
   TRequestParams = undefined,
-  TRequestBody = undefined
->(options: UseCustomQueryOptions<TApiData, TRequestParams, TRequestBody>) {
+  TRequestData = undefined
+>(options: UseCustomQueryOptions<TApiData, TRequestParams, TRequestData>) {
   const { navigate } = useGlobalProps();
   const basePath = process.env.BASE_PATH;
   const redirectPath = useNoAuthRedirectPath({ basePath });
   const handleNoAuth = createHandleNoAuth({ navigate, redirectPath });
   const opts = merge({}, { extras: { handleNoAuth } }, options);
 
-  return useCustomQuery<TApiData, TRequestParams, TRequestBody>(opts);
+  return useCustomQuery<TApiData, TRequestParams, TRequestData>(opts);
 }
