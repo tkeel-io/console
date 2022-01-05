@@ -5,13 +5,11 @@ import { useNoAuthRedirectPath } from '@tkeel/console-hooks';
 
 import useAuth from '@/tkeel-console-core/hooks/useAuth';
 
-// import {} from '@/tkeel-console-core';
-
 export default function RequireAuth() {
   const { isLoading, isError } = useAuth({
     extras: { handleNoAuth: false, handleApiError: false },
   });
-  const path = useNoAuthRedirectPath();
+  const redirectPath = useNoAuthRedirectPath();
 
   if (isLoading) {
     return (
@@ -22,7 +20,7 @@ export default function RequireAuth() {
   }
 
   if (isError) {
-    return <Navigate to={path} replace />;
+    return <Navigate to={redirectPath} replace />;
   }
 
   return <Outlet />;
