@@ -3340,6 +3340,7 @@ __metadata:
     "@tkeel/console-utils": "workspace:^"
     react: ^17.0.2
     react-query: ^3.34.5
+    react-router-dom: "*"
   languageName: unknown
   linkType: soft
 

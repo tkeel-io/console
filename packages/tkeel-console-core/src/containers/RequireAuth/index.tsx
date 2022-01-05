@@ -1,17 +1,28 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
+import { Center, Spinner } from '@chakra-ui/react';
+import { useNoAuthRedirectPath } from '@tkeel/console-hooks';
 
 import useAuth from '@/tkeel-console-core/hooks/useAuth';
 
+// import {} from '@/tkeel-console-core';
+
 export default function RequireAuth() {
-  const { isLoading, data } = useAuth();
+  const { isLoading, isError } = useAuth({
+    extras: { handleNoAuth: false, handleApiError: false },
+  });
+  const path = useNoAuthRedirectPath();
 
   if (isLoading) {
-    return <div>loading</div>;
+    return (
+      <Center height="100%">
+        <Spinner />
+      </Center>
+    );
   }
 
-  if (!data) {
-    return <Navigate to="/auth/login" replace />;
+  if (isError) {
+    return <Navigate to={path} replace />;
   }
 
   return <Outlet />;

@@ -1,6 +1,7 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   UseCustomQueryOptions,
+  useNoAuthRedirectPath,
   useQuery as useCustomQuery,
 } from '@tkeel/console-hooks';
 import { createHandleNoAuth } from '@tkeel/console-utils';
@@ -11,9 +12,9 @@ export default function useQuery<
   TRequestParams = undefined,
   TRequestBody = undefined
 >(options: UseCustomQueryOptions<TApiData, TRequestParams, TRequestBody>) {
-  const location = useLocation();
   const navigate = useNavigate();
-  const handleNoAuth = createHandleNoAuth({ location, navigate });
+  const redirectPath = useNoAuthRedirectPath();
+  const handleNoAuth = createHandleNoAuth({ navigate, redirectPath });
 
   const opts = merge({}, { extras: { handleNoAuth } }, options);
 

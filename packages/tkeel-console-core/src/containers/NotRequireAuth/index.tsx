@@ -1,18 +1,16 @@
 import React from 'react';
-import {
-  /* Navigate, */ Outlet /* , useSearchParams */,
-} from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import { Center, Spinner } from '@chakra-ui/react';
+import { useRedirectParams } from '@tkeel/console-hooks';
 
 import useAuth from '@/tkeel-console-core/hooks/useAuth';
 
 export default function NotRequireAuth() {
-  const { isLoading /*  isSuccess */ } = useAuth({
+  const { isLoading, isSuccess } = useAuth({
     extras: { handleNoAuth: false, handleApiError: false },
   });
 
-  // const [searchParams] = useSearchParams();
-  // const redirect = searchParams.get('redirect') || '/';
+  const redirect = useRedirectParams();
 
   if (isLoading) {
     return (
@@ -22,9 +20,9 @@ export default function NotRequireAuth() {
     );
   }
 
-  /* if (isSuccess) {
+  if (isSuccess) {
     return <Navigate to={redirect} replace />;
-  } */
+  }
 
   return <Outlet />;
 }

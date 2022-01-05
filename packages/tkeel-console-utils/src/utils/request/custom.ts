@@ -1,11 +1,10 @@
-import { Location, NavigateFunction } from 'react-router-dom';
+import { NavigateFunction } from 'react-router-dom';
 import { toast } from '@tkeel/console-components';
 import { AxiosRequestConfig } from 'axios';
 import { inRange, merge } from 'lodash';
 
 import {
   getLocalTokenData,
-  getRedirect,
   removeLocalTokenData,
 } from '@/tkeel-console-utils/utils/auth';
 
@@ -71,18 +70,14 @@ export function requestInterceptors(config: AxiosRequestConfigExtended) {
 }
 
 export function createHandleNoAuth({
-  basePath = '',
-  location,
   navigate,
+  redirectPath = '/',
 }: {
-  basePath?: string;
-  location: Location;
   navigate: NavigateFunction;
+  redirectPath?: string;
 }) {
-  const url = getRedirect({ basePath, location, isWithLogin: true });
-
   return function handleNoAuth() {
     removeLocalTokenData();
-    navigate(url, { replace: true });
+    navigate(redirectPath, { replace: true });
   };
 }
