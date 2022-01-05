@@ -17,10 +17,17 @@ export interface ApiData {
   entries: Menu[];
 }
 
-export default function useMenusQuery() {
+export default function useMenusQuery({
+  enabled = true,
+}: {
+  enabled?: boolean;
+} = {}) {
   const { data, ...rest } = useQuery<ApiData>({
     url,
     method,
+    reactQueryOptions: {
+      enabled,
+    },
   });
   const menus = data?.entries || [];
 

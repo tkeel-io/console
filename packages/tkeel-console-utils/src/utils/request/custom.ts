@@ -5,6 +5,7 @@ import { inRange, merge } from 'lodash';
 
 import {
   getLocalTokenData,
+  getRedirect,
   removeLocalTokenData,
 } from '@/tkeel-console-utils/utils/auth';
 
@@ -70,20 +71,18 @@ export function requestInterceptors(config: AxiosRequestConfigExtended) {
 }
 
 export function createHandleNoAuth({
+  basePath = '',
   location,
   navigate,
-  basePath = '',
 }: {
+  basePath?: string;
   location: Location;
   navigate: NavigateFunction;
-  basePath?: string;
 }) {
-  const { pathname, search, hash } = location;
-  const url = `${basePath}${pathname}${search}${hash}`;
+  const url = getRedirect({ basePath, location, isWithLogin: true });
 
   return function handleNoAuth() {
-    const redirect = encodeURIComponent(url);
     removeLocalTokenData();
-    navigate(`/auth/login?redirect=${redirect}`, { replace: true });
+    navigate(url, { replace: true });
   };
 }

@@ -5,13 +5,11 @@ import { Flex } from '@chakra-ui/react';
 // import CollapsedMenus from '@/tkeel-console-core/containers/Layout/CollapsedMenus';
 import Header from '@/tkeel-console-core/containers/Layout/Header';
 import Menus from '@/tkeel-console-core/containers/Layout/Menus';
-import { Menu } from '@/tkeel-console-core/hooks/queries/useMenusQuery';
+import useMenusQuery from '@/tkeel-console-core/hooks/queries/useMenusQuery';
 
-type Props = {
-  menus: Menu[];
-};
+function Layout() {
+  const { menus } = useMenusQuery();
 
-function Layout({ menus }: Props) {
   return (
     <Flex height="100%">
       {/* <CollapsedMenus menus={menus} /> */}
