@@ -1,10 +1,6 @@
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import {
-  NavigateFunction,
-  useNavigate,
-  useSearchParams,
-} from 'react-router-dom';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 import {
   Box,
   Button,
@@ -17,6 +13,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { Form } from '@tkeel/console-components';
+import { useRedirectParams } from '@tkeel/console-hooks';
 import { setLocalTokenData } from '@tkeel/console-utils';
 
 import useOAuthToken, {
@@ -71,8 +68,7 @@ function Login(): JSX.Element {
   } = useForm<Inputs>();
 
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const redirect = searchParams.get('redirect') || '/';
+  const redirect = useRedirectParams();
 
   const { data, mutate, isLoading } = useOAuthToken();
   handleLogin({ data, redirect, navigate });

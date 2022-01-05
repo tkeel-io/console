@@ -1,5 +1,11 @@
+import { RequestExtras } from '@tkeel/console-utils';
+
 import useOAuthAuthenticate from '@/tkeel-console-core/hooks/queries/useOAuthAuthenticate';
 
-export default function useAuth() {
-  return useOAuthAuthenticate();
+type Options = {
+  extras?: RequestExtras;
+};
+
+export default function useAuth(options?: Options) {
+  return useOAuthAuthenticate(options);
 }

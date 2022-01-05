@@ -1,12 +1,15 @@
+import { RequestExtras } from '@tkeel/console-utils';
+
 import useQuery from '@/tkeel-console-core/hooks/useQuery';
 
 const url = '/security/v1/oauth/authenticate';
 const method = 'GET';
 
-export interface ApiData {
-  [key: string]: unknown;
-}
+type Options = {
+  extras?: RequestExtras;
+};
 
-export default function useOAuthAuthenticate() {
-  return useQuery<ApiData>({ url, method });
+export default function useOAuthAuthenticate(options?: Options) {
+  const extras = options?.extras;
+  return useQuery({ url, method, extras });
 }
