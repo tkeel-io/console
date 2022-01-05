@@ -16,9 +16,9 @@ import { Form } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
 import { setLocalTokenData } from '@tkeel/console-utils';
 
-import useOAuthToken, {
+import useOAuthTokenMutation, {
   ApiData,
-} from '@/tkeel-console-core/hooks/mutations/useOAuthToken';
+} from '@/tkeel-console-core/hooks/mutations/useOAuthTokenMutation';
 
 type Inputs = {
   username: string;
@@ -70,7 +70,7 @@ function Login(): JSX.Element {
   const navigate = useNavigate();
   const redirect = useRedirectParams();
 
-  const { data, mutate, isLoading } = useOAuthToken();
+  const { data, mutate, isLoading } = useOAuthTokenMutation();
   handleLogin({ data, redirect, navigate });
 
   const onSubmit: SubmitHandler<Inputs> = (values) => {
