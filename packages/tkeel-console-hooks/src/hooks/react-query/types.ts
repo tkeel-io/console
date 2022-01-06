@@ -21,52 +21,52 @@ export interface QueryClientConfig {
 export type UseQueryOptionsExtended<
   TApiData = unknown,
   TRequestParams = unknown,
-  TRequestBody = unknown
+  TRequestData = unknown
 > = UseQueryOptions<
-  RequestResult<TApiData, TRequestParams, TRequestBody>,
+  RequestResult<TApiData, TRequestParams, TRequestData>,
   unknown,
-  RequestResult<TApiData, TRequestParams, TRequestBody>
+  RequestResult<TApiData, TRequestParams, TRequestData>
 >;
 
 export type UseMutationOptionsExtended<
   TApiData = unknown,
   TRequestParams = unknown,
-  TRequestBody = unknown
+  TRequestData = unknown
 > = UseMutationOptions<
-  RequestResult<TApiData, TRequestParams, TRequestBody>,
+  RequestResult<TApiData, TRequestParams, TRequestData>,
   unknown,
   unknown
 >;
 
-interface BaseOptions<TRequestParams = unknown, TRequestBody = unknown> {
+interface BaseOptions<TRequestParams = unknown, TRequestData = unknown> {
   url: string;
   method?: Method;
   params?: TRequestParams;
-  data?: TRequestBody;
+  data?: TRequestData;
   extras?: RequestExtras;
-  axiosRequestConfig?: AxiosRequestConfigExtended<TRequestParams, TRequestBody>;
+  axiosRequestConfig?: AxiosRequestConfigExtended<TRequestParams, TRequestData>;
 }
 
 export interface UseCustomQueryOptions<
   TApiData = unknown,
   TRequestParams = unknown,
-  TRequestBody = unknown
-> extends BaseOptions<TRequestParams, TRequestBody> {
+  TRequestData = unknown
+> extends BaseOptions<TRequestParams, TRequestData> {
   reactQueryOptions?: UseQueryOptionsExtended<
     TApiData,
     TRequestParams,
-    TRequestBody
+    TRequestData
   >;
 }
 
 export interface UseCustomMutationOptions<
   TApiData = unknown,
   TRequestParams = unknown,
-  TRequestBody = unknown
-> extends BaseOptions<TRequestParams, TRequestBody> {
+  TRequestData = unknown
+> extends BaseOptions<TRequestParams, TRequestData> {
   reactQueryOptions?: UseMutationOptionsExtended<
     TApiData,
     TRequestParams,
-    TRequestBody
+    TRequestData
   >;
 }
