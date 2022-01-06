@@ -47,6 +47,7 @@ module.exports = {
     '**/.dockerignore',
     '**/package.json',
     '**/yarn.json',
+    '**/*.svg',
     '**/dist/**',
   ],
 };

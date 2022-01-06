@@ -7,18 +7,18 @@ import { getUseQueryOptions, transformUseQueryResult } from './utils';
 export default function useCustomQuery<
   TApiData,
   TRequestParams = undefined,
-  TRequestBody = undefined
->(options: UseCustomQueryOptions<TApiData, TRequestParams, TRequestBody>) {
-  const opts = getUseQueryOptions<TApiData, TRequestParams, TRequestBody>(
+  TRequestData = undefined
+>(options: UseCustomQueryOptions<TApiData, TRequestParams, TRequestData>) {
+  const opts = getUseQueryOptions<TApiData, TRequestParams, TRequestData>(
     options
   );
   const { queryKey } = opts;
   const result = useQuery<
-    RequestResult<TApiData, TRequestParams, TRequestBody>,
+    RequestResult<TApiData, TRequestParams, TRequestData>,
     unknown,
-    RequestResult<TApiData, TRequestParams, TRequestBody>
+    RequestResult<TApiData, TRequestParams, TRequestData>
   >(opts);
-  return transformUseQueryResult<TApiData, TRequestParams, TRequestBody>({
+  return transformUseQueryResult<TApiData, TRequestParams, TRequestData>({
     queryKey,
     result,
   });
