@@ -39,6 +39,9 @@
       "@/tkeel-console-plugin-plugins/*": [
         "./packages/tkeel-console-plugin-plugins/src/*"
       ],
+      "@/tkeel-console-plugin-tenant/*": [
+        "./packages/tkeel-console-plugin-tenant/src/*"
+      ],
       "@/tkeel-console-themes/*": ["./packages/tkeel-console-themes/src/*"],
       "@/tkeel-console-types/*": ["./packages/tkeel-console-types/src/*"],
       "@/tkeel-console-utils/*": ["./packages/tkeel-console-utils/src/*"]
@@ -55,6 +58,7 @@
     { "path": "./packages/tkeel-console-icons/" },
     { "path": "./packages/tkeel-console-plugin-example/" },
     { "path": "./packages/tkeel-console-plugin-plugins/" },
+    { "path": "./packages/tkeel-console-plugin-tenant/" },
     { "path": "./packages/tkeel-console-themes/" },
     { "path": "./packages/tkeel-console-types/" },
     { "path": "./packages/tkeel-console-utils/" }

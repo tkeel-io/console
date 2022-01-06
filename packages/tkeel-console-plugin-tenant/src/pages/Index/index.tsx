@@ -1,3 +1,4 @@
+/* eslint-disable import/extensions */
 /* eslint-disable no-console */
 import React from 'react';
 import { Box, Button, Flex } from '@chakra-ui/react';
@@ -24,7 +25,7 @@ function Index(): JSX.Element {
         boxSize="border-box"
         boxShadow="xl"
       >
-        <Flex align="center" h="36px">
+        <Flex align="center" h="36px" mb="16px">
           <Box flex="1" mr="16px">
             <SearchInput
               width="100%"
