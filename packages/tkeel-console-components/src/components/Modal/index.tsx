@@ -62,7 +62,7 @@ function CustomModal({
           _hover={{ backgroundColor: 'gray.800' }}
           _focus={{ boxShadow: 'none' }}
         />
-        <ModalBody>{children}</ModalBody>
+        <ModalBody padding="32px 40px">{children}</ModalBody>
         <ModalFooter
           padding="0 20px"
           height="60px"

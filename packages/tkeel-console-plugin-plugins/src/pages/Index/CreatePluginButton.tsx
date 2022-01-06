@@ -1,7 +1,9 @@
 import React from 'react';
 import { Button, Text, useDisclosure } from '@chakra-ui/react';
-import { Modal } from '@tkeel/console-components';
+import { Editor, Modal } from '@tkeel/console-components';
 import { AddFilledIcon } from '@tkeel/console-icons';
+
+import mockParams from '../Detail/mockParams';
 
 function CreatePluginButton() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -34,7 +36,13 @@ function CreatePluginButton() {
         isOpen={isOpen}
         onClose={onClose}
       >
-        content
+        <Editor
+          width="100%"
+          height="416px"
+          language="yaml"
+          value={mockParams}
+          readOnly
+        />
       </Modal>
     </>
   );

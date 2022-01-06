@@ -13,6 +13,7 @@ import { Editor } from '@tkeel/console-components';
 import BasicInfo from './BasicInfo';
 import CustomTab from './CustomTab';
 import DeveloperInfo from './DeveloperInfo';
+import EnablePluginList from './EnablePluginList';
 // import paramsData from './mockParams';
 import Introduce from './Introduce';
 import mockParams from './mockParams';
@@ -54,7 +55,7 @@ function Detail() {
             />
           </TabPanel>
           <TabPanel padding="0" backgroundColor="white">
-            列表
+            <EnablePluginList />
           </TabPanel>
         </TabPanels>
       </Tabs>
