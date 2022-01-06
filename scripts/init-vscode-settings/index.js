@@ -7,7 +7,7 @@ const paths = require('../utils/paths');
 
 const settingsFilePath = paths.resolveRoot('.vscode', 'settings.json');
 const settings = fs.readJSONSync(settingsFilePath);
-const packages = getPackages({ coreFirst: false });
+const packages = getPackages({ portalFirst: false });
 
 settings['path-intellisense.mappings'] = {};
 
