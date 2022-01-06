@@ -3,8 +3,8 @@ import React from 'react';
 import { useTable } from 'react-table';
 
 interface Props {
-  data: [];
-  columns: [];
+  data: Array<any>;
+  columns: Array<any>;
 }
 
 export default function Table({ data, columns }: Props): JSX.Element {
