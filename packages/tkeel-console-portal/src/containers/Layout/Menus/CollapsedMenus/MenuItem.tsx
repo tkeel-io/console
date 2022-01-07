@@ -4,30 +4,32 @@ import * as icons from '@tkeel/console-icons';
 
 type Props = {
   icon: string;
+  iconSize?: number | string;
   active: boolean;
 };
 
-function MenuItem({ icon, active }: Props) {
+const defaultProps = {
+  iconSize: 16,
+};
+
+function MenuItem({ icon, iconSize, active }: Props) {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const Icon = icons[icon || 'AppsAddFilledIcon'];
 
   return (
     <Box
       borderRadius="4px"
-      backgroundColor={active ? 'gray.800' : 'inherit'}
-      boxShadow={
-        active
-          ? '0 20px 25px -5px rgb(113 128 150 / 10%), 0 10px 10px -5px rgb(113 128 150 / 4%)'
-          : 'none'
-      }
-      _hover={{ backgroundColor: active ? 'gray.800' : 'gray.100' }}
+      backgroundColor={active ? 'tKeel' : 'inherit'}
+      _hover={{ backgroundColor: active ? 'tKeel' : 'gray.100' }}
       cursor="pointer"
     >
-      <Center width="48px" height="48px">
-        <Icon mode={active ? 'dark' : 'light'} />
+      <Center width="44px" height="44px">
+        <Icon mode={active ? 'dark' : 'light'} size={iconSize} />
       </Center>
     </Box>
   );
 }
+
+MenuItem.defaultProps = defaultProps;
 
 export default MenuItem;

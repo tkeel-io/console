@@ -3,7 +3,7 @@ const colors = {
   current: 'currentColor',
   black: '#000000',
   white: '#FFFFFF',
-  tKeel: '#0B78E5',
+  tKeel: '#2580FF',
 };
 
 export default colors;
