@@ -1,7 +1,7 @@
 export interface RequestParams {
   grant_type: 'password' | 'authorization_code';
-  username: string;
-  password: string;
+  username?: string;
+  password?: string;
 }
 
 export interface ApiData {
