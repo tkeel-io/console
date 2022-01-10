@@ -4,11 +4,11 @@ const { getArgv } = require('./argv');
 const prompt = require('./prompt');
 const { copyTemplates, writeTemplates } = require('./files');
 const {
-  showPluginBasePaths,
-  showDevServerPorts,
   checkPluginName,
   checkPluginBasePath,
   checkPluginDevServerPort,
+  showPluginBasePaths,
+  showDevServerPorts,
 } = require('../utils/packages');
 const logger = require('../utils/logger');
 
