@@ -18,6 +18,8 @@
     "init:root-tsconfig": "node ./scripts/init-root-tsconfig",
     "init:vscode-settings": "node ./scripts/init-vscode-settings",
     "dev": "node ./scripts/run/dev",
+    "dev:portal-admin": "node ./scripts/run/dev-portal-admin",
+    "dev:portal-tenant": "node ./scripts/run/dev-portal-admin",
     "dev:all": "node ./scripts/run/dev-all",
     "build": "node ./scripts/run/build",
     "build:all": "node ./scripts/run/build-all",

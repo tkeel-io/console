@@ -11,9 +11,14 @@
   },
   "license": "Apache-2.0",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack serve --config ../../webpack/webpack.config.js",
-    "build": "cross-env NODE_ENV=production webpack --config ../../webpack/webpack.config.js",
-    "analyze": "cross-env NODE_ENV=development ANALYZE=true npm run build"
+    "dev:base": "cross-env NODE_ENV=development webpack serve --config ../../webpack/webpack.config.js",
+    "dev:admin": "cross-env PLATFORM=admin PORT=3000 yarn dev:base",
+    "dev:tenant": "cross-env PLATFORM=tenant PORT=3001 yarn dev:base",
+    "build:base": "cross-env NODE_ENV=production webpack --config ../../webpack/webpack.config.js",
+    "build:admin": "cross-env PLATFORM=admin yarn build:base",
+    "build:tenant": "cross-env PLATFORM=tenant yarn yarn:base",
+    "analyze:admin": "cross-env PLATFORM=admin NODE_ENV=development ANALYZE=true yarn build:admin",
+    "analyze:tenant": "cross-env PLATFORM=tenant NODE_ENV=development ANALYZE=true yarn build:tenant"
   },
   "dependencies": {
     "@chakra-ui/react": "^1.7.3",

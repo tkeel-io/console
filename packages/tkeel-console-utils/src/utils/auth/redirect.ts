@@ -8,9 +8,15 @@ export function getNoAuthRedirectPath({
   location: Location;
   basePath?: string;
 }) {
+  const loginPath = '/auth/login';
   const { pathname, search, hash } = location;
-  const url = `${basePath}${pathname}${search}${hash}`;
+  const url = `${basePath}${pathname}${search}${hash}`.trim();
+
+  if (['', '/'].includes(url)) {
+    return loginPath;
+  }
+
   const redirect = encodeURIComponent(url);
 
-  return `/auth/login?redirect=${redirect}`;
+  return `${loginPath}?redirect=${redirect}`;
 }
