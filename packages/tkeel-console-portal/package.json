@@ -12,8 +12,8 @@
   "license": "Apache-2.0",
   "scripts": {
     "dev:base": "cross-env NODE_ENV=development webpack serve --config ../../webpack/webpack.config.js",
-    "dev:admin": "cross-env PLATFORM=admin PORT=3000 yarn dev:base",
-    "dev:tenant": "cross-env PLATFORM=tenant PORT=3001 yarn dev:base",
+    "dev:admin": "cross-env PLATFORM=admin DEV_SERVER_PORT=3000 yarn dev:base",
+    "dev:tenant": "cross-env PLATFORM=tenant DEV_SERVER_PORT=3001 yarn dev:base",
     "build:base": "cross-env NODE_ENV=production webpack --config ../../webpack/webpack.config.js",
     "build:admin": "cross-env PLATFORM=admin yarn build:base",
     "build:tenant": "cross-env PLATFORM=tenant yarn yarn:base",
@@ -21,7 +21,7 @@
     "analyze:tenant": "cross-env PLATFORM=tenant NODE_ENV=development ANALYZE=true yarn build:tenant"
   },
   "dependencies": {
-    "@chakra-ui/react": "^1.7.3",
+    "@chakra-ui/react": "^1.7.4",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@tkeel/console-components": "workspace:^",
@@ -30,7 +30,7 @@
     "@tkeel/console-themes": "workspace:^",
     "@tkeel/console-types": "workspace:^",
     "@tkeel/console-utils": "workspace:^",
-    "framer-motion": "^5.5.5",
+    "framer-motion": "^5.5.6",
     "qiankun": "^2.6.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
