@@ -16,7 +16,7 @@
     "dev:tenant": "cross-env PLATFORM=tenant DEV_SERVER_PORT=3001 yarn dev:base",
     "build:base": "cross-env NODE_ENV=production webpack --config ../../webpack/webpack.config.js",
     "build:admin": "cross-env PLATFORM=admin yarn build:base",
-    "build:tenant": "cross-env PLATFORM=tenant yarn yarn:base",
+    "build:tenant": "cross-env PLATFORM=tenant yarn build:base",
     "analyze:admin": "cross-env PLATFORM=admin NODE_ENV=development ANALYZE=true yarn build:admin",
     "analyze:tenant": "cross-env PLATFORM=tenant NODE_ENV=development ANALYZE=true yarn build:tenant"
   },
