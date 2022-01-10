@@ -14,6 +14,7 @@ const {
   PORTAL_PACKAGE_INFOS,
 } = require('../constants');
 const paths = require('./paths');
+const logger = require('./logger');
 
 function getSimpleName({ directoryName }) {
   return directoryName.replace(PACKAGE_DIRECTORY_NAME_PREFIX, '');
@@ -107,6 +108,75 @@ function getPluginPackageDotenvConfigs() {
     .map(({ dotenvConfig }) => dotenvConfig);
 }
 
+function getPluginBasePaths() {
+  const data = [];
+
+  getPackages().forEach(({ directoryName, dotenvConfig }) => {
+    const basePath = dotenvConfig?.BASE_PATH;
+    if (basePath) {
+      const items = _.find(data, { basePath });
+      if (items) {
+        items.directoryNames.push(directoryName);
+      } else {
+        data.push({
+          basePath,
+          directoryNames: [directoryName],
+        });
+      }
+    }
+  });
+
+  return data.sort((a, b) => a.devServerPort - b.devServerPort);
+}
+
+function showPluginBasePaths() {
+  const data = getPluginBasePaths();
+  let content = '';
+  data.forEach(({ basePath, directoryNames }) => {
+    content += `${basePath}: ${directoryNames.join(', ')}\n`;
+  });
+  logger.info('Current BASE_PATHs:');
+  logger.info(content);
+}
+
+function getDevServerPorts() {
+  const data = [];
+
+  PORTAL_PACKAGE_INFOS.forEach(({ devServerPort }) => {
+    data.push({
+      devServerPort: Number(devServerPort),
+      directoryNames: [PORTAL_PACKAGE_DIRECTORY_NAME],
+    });
+  });
+
+  getPackages().forEach(({ directoryName, dotenvConfig }) => {
+    const devServerPort = dotenvConfig?.DEV_SERVER_PORT;
+    if (devServerPort) {
+      const items = _.find(data, { devServerPort: Number(devServerPort) });
+      if (items) {
+        items.directoryNames.push(directoryName);
+      } else {
+        data.push({
+          devServerPort: Number(devServerPort),
+          directoryNames: [directoryName],
+        });
+      }
+    }
+  });
+
+  return data.sort((a, b) => a.devServerPort - b.devServerPort);
+}
+
+function showDevServerPorts() {
+  const devServerPorts = getDevServerPorts();
+  let content = '';
+  devServerPorts.forEach(({ devServerPort, directoryNames }) => {
+    content += `${devServerPort}: ${directoryNames.join(', ')}\n`;
+  });
+  logger.info('Current DEV_SERVER_PORTs:');
+  logger.info(content);
+}
+
 function checkPluginName({ pluginName }) {
   const directoryNames = getPackages()
     .filter(({ isPlugin }) => isPlugin)
@@ -163,6 +233,8 @@ function checkPluginDevServerPort({ devServerPort }) {
 module.exports = {
   getPluginPackageDirectoryName,
   getPackages,
+  showPluginBasePaths,
+  showDevServerPorts,
   checkPluginName,
   checkPluginBasePath,
   checkPluginDevServerPort,

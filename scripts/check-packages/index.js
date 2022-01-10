@@ -4,7 +4,11 @@ const {
   PORTAL_PACKAGE_DIRECTORY_NAME,
   PORTAL_PACKAGE_INFOS,
 } = require('../constants');
-const { getPackages } = require('../utils/packages');
+const {
+  getPackages,
+  showPluginBasePaths,
+  showDevServerPorts,
+} = require('../utils/packages');
 const logger = require('../utils/logger');
 
 function checkPackageNames() {
@@ -75,13 +79,16 @@ function checkPluginDotenvConfigs({ dotenvConfigKey }) {
 
 function checkPluginBasePath() {
   checkPluginDotenvConfigs({ dotenvConfigKey: 'BASE_PATH' });
+  showPluginBasePaths();
 }
 
 function checkPluginDevServerPort() {
   checkPluginDotenvConfigs({ dotenvConfigKey: 'DEV_SERVER_PORT' });
+  showDevServerPorts();
 }
 
 checkPackageNames();
 checkPluginBasePath();
 checkPluginDevServerPort();
+
 logger.log('DONE');
