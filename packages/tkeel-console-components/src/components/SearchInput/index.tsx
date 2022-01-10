@@ -5,6 +5,9 @@ import { MagnifierFilledIcon } from '@tkeel/console-icons';
 type Props = {
   width?: string;
   height?: string;
+  borderRadius?: string;
+  backgroundColor?: string;
+  icon?: React.ReactNode;
   iconSize?: number | string;
   placeholder?: string;
   onSearch: (keyword: string) => void;
@@ -13,6 +16,9 @@ type Props = {
 function SearchInput({
   width,
   height,
+  borderRadius,
+  backgroundColor,
+  icon,
   iconSize,
   placeholder,
   onSearch,
@@ -29,14 +35,14 @@ function SearchInput({
   };
 
   return (
-    <InputGroup width={width} height={height}>
+    <InputGroup width={width} height={height} backgroundColor={backgroundColor}>
       <InputLeftElement pointerEvents="none">
-        <MagnifierFilledIcon size={iconSize} />
+        {icon || <MagnifierFilledIcon size={iconSize} />}
       </InputLeftElement>
       <Input
         ref={inputRef}
         borderColor="gray.200"
-        borderRadius="20px"
+        borderRadius={borderRadius}
         fontSize="12px"
         placeholder={placeholder}
         _focus={{ borderColor: 'gray.400' }}
@@ -49,6 +55,9 @@ function SearchInput({
 SearchInput.defaultProps = {
   width: '300px',
   height: '32px',
+  borderRadius: '20px',
+  backgroundColor: 'white',
+  icon: null,
   iconSize: 16,
   placeholder: '请输入...',
 };

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Box, Flex, Image } from '@chakra-ui/react';
 
 // import { SearchInput } from '@tkeel/console-components';
+// import { MagnifierTwoToneIcon } from '@tkeel/console-icons';
 import Logo from '@/tkeel-console-portal/assets/images/logo.png';
 import tKeelBlack from '@/tkeel-console-portal/assets/images/tkeel-black.png';
 import tKeelWhite from '@/tkeel-console-portal/assets/images/tkeel-white.png';
@@ -12,13 +13,11 @@ import SubMenuLink from './SubMenuLink';
 import SubMenuTitle from './SubMenuTitle';
 
 type Props = {
-  handleSearch: () => void;
+  // handleSearch: () => void;
   isDarkTheme: boolean;
 };
 
-function Menus({ handleSearch, isDarkTheme }: Props) {
-  // eslint-disable-next-line no-console
-  console.log('Menus ~ handleSearch', handleSearch);
+function Menus({ isDarkTheme }: Props) {
   const { menus } = useMenusQuery();
   const [spreadMenuIds, setSpreadMenus] = useState<string[]>([]);
 
@@ -44,6 +43,9 @@ function Menus({ handleSearch, isDarkTheme }: Props) {
       {/* <SearchInput
         width="200px"
         height="44px"
+        borderRadius="4px"
+        backgroundColor="gray.100"
+        icon={<MagnifierTwoToneIcon color={isDarkTheme ? 'white' : ''} />}
         iconSize={20}
         placeholder="搜索"
         onSearch={handleSearch}
