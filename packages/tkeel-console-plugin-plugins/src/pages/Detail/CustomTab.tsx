@@ -22,9 +22,9 @@ function CustomTab(props: Props) {
       border="none"
       borderRadius="4px"
       cursor="pointer"
-      _hover={{ backgroundColor: isSelected ? 'tKeel' : 'gray.600' }}
+      _hover={{ backgroundColor: isSelected ? 'primary' : 'gray.600' }}
       _focus={{ boxShadow: 'none', outline: 'none' }}
-      _selected={{ backgroundColor: 'tKeel' }}
+      _selected={{ backgroundColor: 'primary' }}
       __css={styles.tab}
       {...tabProps}
     >

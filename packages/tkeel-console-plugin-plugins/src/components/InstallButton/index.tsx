@@ -28,7 +28,7 @@ function InstallButton({ size }: Props) {
 
   return (
     <Button
-      colorScheme="tKeel"
+      colorScheme="primary"
       size={size}
       leftIcon={
         loading ? (

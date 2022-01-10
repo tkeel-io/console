@@ -45,8 +45,8 @@ function MenuLink({ path, name, icon }: Props) {
       marginBottom="4px"
       borderRadius="4px"
       color={active ? 'white' : 'inherit'}
-      backgroundColor={active ? 'tKeel' : 'inherit'}
-      _hover={{ backgroundColor: active ? 'tKeel' : 'gray.100' }}
+      backgroundColor={active ? 'primary' : 'inherit'}
+      _hover={{ backgroundColor: active ? 'primary' : 'gray.100' }}
       as={as}
       to={to}
     >

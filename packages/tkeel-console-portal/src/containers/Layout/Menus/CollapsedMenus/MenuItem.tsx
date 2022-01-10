@@ -19,8 +19,8 @@ function MenuItem({ icon, iconSize, active }: Props) {
   return (
     <Box
       borderRadius="4px"
-      backgroundColor={active ? 'tKeel' : 'inherit'}
-      _hover={{ backgroundColor: active ? 'tKeel' : 'gray.100' }}
+      backgroundColor={active ? 'primary' : 'inherit'}
+      _hover={{ backgroundColor: active ? 'primary' : 'gray.100' }}
       cursor="pointer"
     >
       <Center width="44px" height="44px">

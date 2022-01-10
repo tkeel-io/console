@@ -30,7 +30,7 @@ function MoreActionButton() {
   return (
     <Box position="relative" onClick={handleClick}>
       <Button
-        colorScheme="tKeel"
+        colorScheme="primary"
         size="sm"
         rightIcon={
           showActionList ? (

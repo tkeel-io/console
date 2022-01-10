@@ -33,7 +33,7 @@ function ParentMenu({
     <Box
       paddingRight="18px"
       color={active ? 'white' : 'gray.600'}
-      backgroundColor={active ? 'tKeel' : 'inherit'}
+      backgroundColor={active ? 'primary' : 'inherit'}
       borderRadius="4px"
       active={active.toString()}
       onClick={() => handleMenuClick(id)}

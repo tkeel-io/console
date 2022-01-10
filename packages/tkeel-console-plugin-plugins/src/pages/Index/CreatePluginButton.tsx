@@ -28,7 +28,7 @@ function CreatePluginButton() {
         footer={
           <>
             <Button onClick={onClose}>取消</Button>
-            <Button marginLeft="12px" colorScheme="tKeel">
+            <Button marginLeft="12px" colorScheme="primary">
               确定
             </Button>
           </>

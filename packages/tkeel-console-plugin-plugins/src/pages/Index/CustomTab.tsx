@@ -44,7 +44,7 @@ function CustomTab(props: Props) {
         fontSize="12px"
         fontWeight="bold"
         borderRadius="10px"
-        backgroundColor={isSelected ? 'tKeel' : 'grayAlternatives.200'}
+        backgroundColor={isSelected ? 'primary' : 'grayAlternatives.200'}
       >
         12
       </Badge>

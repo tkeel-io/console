@@ -16,7 +16,7 @@ function SubMenuLink({ path, name }: Props) {
       alignItems="center"
       height="40px"
       paddingLeft="48px"
-      color={active ? 'tKeel' : 'gray.500'}
+      color={active ? 'primary' : 'gray.500'}
       as={as}
       to={to}
     >
