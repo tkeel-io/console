@@ -3300,6 +3300,7 @@ __metadata:
   resolution: "@tkeel/console-components@workspace:packages/tkeel-console-components"
   dependencies:
     "@tkeel/console-icons": "workspace:^"
+    react-table: ^7.7.0
   peerDependencies:
     "@chakra-ui/react": ^1.7.2
     "@emotion/react": ^11.7.0

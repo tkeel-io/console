@@ -65,8 +65,7 @@ function Layout({ themeName }: Props) {
 
   return (
     <Flex height="100%">
-      {/* <CollapsedMenus menus={menus} /> */}
-      <Menus menus={menus} />
+      <Menus />
       <Flex flex="1" overflow="hidden" flexDirection="column" padding="24px">
         <Header menus={menus} />
         <Flex flex="1" overflow="hidden">

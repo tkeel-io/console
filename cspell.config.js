@@ -37,6 +37,9 @@ module.exports = {
     'webpackbar',
     'wechat',
     'tkeel',
+    'semibold',
+    'Unstyled',
+    'unstyled',
   ],
   ignorePaths: [
     '**/.idea/**',

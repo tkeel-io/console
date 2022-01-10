@@ -30,7 +30,7 @@ function Card() {
         top: '-1px',
         width: '100%',
         height: '4px',
-        backgroundColor: 'tKeel',
+        backgroundColor: 'primary',
         borderTopLeftRadius: '2px',
         borderTopRightRadius: '2px',
       }}
