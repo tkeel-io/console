@@ -101,12 +101,6 @@ function getPackages({
   return packages;
 }
 
-function getCanRunPackageDirectoryNames() {
-  return getPackages()
-    .filter(({ canRun }) => canRun)
-    .map(({ directoryName }) => directoryName);
-}
-
 function getPluginPackageDotenvConfigs() {
   return getPackages()
     .filter(({ isPlugin }) => isPlugin)
@@ -169,7 +163,6 @@ function checkPluginDevServerPort({ devServerPort }) {
 module.exports = {
   getPluginPackageDirectoryName,
   getPackages,
-  getCanRunPackageDirectoryNames,
   checkPluginName,
   checkPluginBasePath,
   checkPluginDevServerPort,
