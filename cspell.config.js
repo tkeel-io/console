@@ -27,6 +27,7 @@ module.exports = {
     'miniprogram',
     'prettierignore',
     'qiankun',
+    'qingcloud',
     'readonly',
     'sourcemap',
     'stylelint',
