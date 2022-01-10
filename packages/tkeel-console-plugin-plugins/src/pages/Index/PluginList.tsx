@@ -1,5 +1,5 @@
 import React from 'react';
-import { Column, TableInstance, usePagination, useTable } from 'react-table';
+import { Column, usePagination, useTable } from 'react-table';
 import { Flex, Grid } from '@chakra-ui/react';
 import { Pagination } from '@tkeel/console-components';
 
@@ -25,7 +25,7 @@ function PluginList({
     previousPage,
     setPageSize,
     state: { pageIndex, pageSize },
-  }: TableInstance<Data> = useTable<Data>(
+  } = useTable<Data>(
     {
       columns,
       data,

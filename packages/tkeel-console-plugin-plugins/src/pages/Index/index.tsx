@@ -4,6 +4,7 @@ import { PageHeader } from '@tkeel/console-components';
 import { AppsAddFilledIcon } from '@tkeel/console-icons';
 
 import Content from './Content';
+import CreatePluginButton from './CreatePluginButton';
 import CustomTab from './CustomTab';
 
 function Index(): JSX.Element {
@@ -22,15 +23,7 @@ function Index(): JSX.Element {
         overflow="hidden"
         marginTop="16px"
       >
-        {/* <Button
-          position="absolute"
-          right="2px"
-          top="2px"
-          size="md"
-          leftIcon={<AddFilledIcon color="white" />}
-        >
-          创建插件源
-        </Button> */}
+        <CreatePluginButton />
         <TabList
           padding="2px"
           width="254px"

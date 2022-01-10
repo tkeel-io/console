@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Box, Button, Center, Flex, Text } from '@chakra-ui/react';
 import { BoxTwoToneIcon, ChevronLeftFilledIcon } from '@tkeel/console-icons';
 
+import InfoCard from './InfoCard';
 import MoreActionButton from './MoreActionButton';
 
 // import InstallButton from '@/tkeel-console-plugin-plugins/components/InstallButton';
@@ -34,9 +35,8 @@ function BasicInfo() {
 
   return (
     <Box
-      width="360px"
+      width="100%"
       height="350px"
-      flexShrink="0"
       backgroundColor="white"
       boxShadow="0px 10px 15px -3px rgba(113, 128, 150, 0.1), 0px 4px 6px -2px rgba(113, 128, 150, 0.05);"
     >
@@ -74,34 +74,7 @@ function BasicInfo() {
           </Box>
         </Flex>
       </Box>
-      <Box padding="16px 24px 20px">
-        <Text
-          color="gray.800"
-          fontSize="14px"
-          lineHeight="20px"
-          fontWeight="600"
-        >
-          基本信息
-        </Text>
-        <Box marginTop="4px">
-          {basicInfo.map((info) => (
-            <Flex key={info.label} marginTop="8px" lineHeight="24px">
-              <Text width="72px" color="gray.500" fontSize="12px">
-                {info.label}
-              </Text>
-              <Text
-                color="gray.800"
-                fontSize="12px"
-                maxWidth="240px"
-                isTruncated
-                title={info.value}
-              >
-                {info.value}
-              </Text>
-            </Flex>
-          ))}
-        </Box>
-      </Box>
+      <InfoCard data={basicInfo} />
     </Box>
   );
 }

@@ -1,13 +1,22 @@
 import React from 'react';
 // import { useParams } from 'react-router-dom';
-import { Flex, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+} from '@chakra-ui/react';
 import { Editor } from '@tkeel/console-components';
 
 import BasicInfo from './BasicInfo';
 import CustomTab from './CustomTab';
+import DeveloperInfo from './DeveloperInfo';
+import EnablePluginList from './EnablePluginList';
+// import paramsData from './mockParams';
 import Introduce from './Introduce';
 import mockParams from './mockParams';
-// import paramsData from './mockParams';
 
 function Detail() {
   // const params = useParams();
@@ -16,7 +25,10 @@ function Detail() {
 
   return (
     <Flex height="100%" paddingBottom="20px" justifyContent="space-between">
-      <BasicInfo />
+      <Box width="360px" flexShrink="0">
+        <BasicInfo />
+        <DeveloperInfo />
+      </Box>
       <Tabs display="flex" flexDirection="column" marginLeft="20px" flex="1">
         <TabList
           padding="8px"
@@ -43,7 +55,7 @@ function Detail() {
             />
           </TabPanel>
           <TabPanel padding="0" backgroundColor="white">
-            列表
+            <EnablePluginList />
           </TabPanel>
         </TabPanels>
       </Tabs>

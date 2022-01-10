@@ -27,6 +27,7 @@ module.exports = {
     'miniprogram',
     'prettierignore',
     'qiankun',
+    'qingcloud',
     'readonly',
     'sourcemap',
     'stylelint',
@@ -37,6 +38,9 @@ module.exports = {
     'webpackbar',
     'wechat',
     'tkeel',
+    'semibold',
+    'Unstyled',
+    'unstyled',
   ],
   ignorePaths: [
     '**/.idea/**',

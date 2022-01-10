@@ -1,28 +1,25 @@
 import React from 'react';
 import { Box, Center, Flex, Image } from '@chakra-ui/react';
 
-import LogoImg from '@/tkeel-console-portal/assets/images/logo.png';
-import { Menu } from '@/tkeel-console-portal/hooks/queries/useMenusQuery';
+import Logo from '@/tkeel-console-portal/assets/images/logo.png';
+import useMenusQuery from '@/tkeel-console-portal/hooks/queries/useMenusQuery';
 
+import MenuItem from './MenuItem';
 import MenuLink from './MenuLink';
 import SubMenus from './SubMenus';
 
-type Props = {
-  menus: Menu[];
-};
+function CollapsedMenus() {
+  const { menus } = useMenusQuery();
 
-function CollapsedMenus({ menus }: Props) {
   return (
-    <Box width="80px" backgroundColor="gray.50">
-      <Center
-        height="92px"
-        borderBottomWidth="1px"
-        borderBottomStyle="solid"
-        borderBottomColor="gray.100"
-      >
-        <Image htmlWidth="27px" src={LogoImg} alt="" />
+    <Box position="relative" width="60px" height="100%">
+      <Center height="96px">
+        <Image htmlWidth="47px" src={Logo} alt="" />
       </Center>
       <Flex flexDirection="column" alignItems="center">
+        <Box>
+          <MenuItem icon="MagnifierFilledIcon" iconSize={20} active={false} />
+        </Box>
         {menus.map(({ id, path, icon, children }) => {
           if (children) {
             return (
