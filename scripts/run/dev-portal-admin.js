@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 
-const {
-  PACKAGE_DIRECTORY_NAME_PREFIX,
-  PORTAL_PACKAGE_SIMPLE_NAME,
-} = require('../constants');
-const { run } = require('./commands');
+const { PORTAL_PACKAGE_NAME, PORTAL_PACKAGE_INFOS } = require('../constants');
+const { runNpmScripts } = require('./commands');
 
-const directoryNames = [
-  `${PACKAGE_DIRECTORY_NAME_PREFIX}${PORTAL_PACKAGE_SIMPLE_NAME}`,
-];
-run({ directoryNames, npmScriptName: 'dev:admin' });
+runNpmScripts({
+  data: [
+    {
+      packageName: PORTAL_PACKAGE_NAME,
+      npmScriptName: `dev:${PORTAL_PACKAGE_INFOS[0].platform}`,
+    },
+  ],
+});
