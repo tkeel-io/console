@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Flex, Text, useColorMode } from '@chakra-ui/react';
+import { Box, Flex, Text } from '@chakra-ui/react';
 import { CollapseFilledIcon, ExpandFilledIcon } from '@tkeel/console-icons';
 
 import CollapsedMenus from './CollapsedMenus';
@@ -9,17 +9,20 @@ const handleSearch = () => {};
 
 function Menus() {
   const [collapsed, setCollapsed] = useState(false);
-  const { colorMode } = useColorMode();
+  const [menuTheme] = useState<'light' | 'dark'>('dark');
+  const isDarkTheme = menuTheme === 'light';
+
+  const iconColor = isDarkTheme ? 'white' : 'grayAlternatives.300';
 
   return (
     <Box
       height="100%"
-      backgroundColor={colorMode === 'dark' ? '#000' : 'gray.50'}
+      backgroundColor={isDarkTheme ? 'grayAlternatives.800' : 'gray.50'}
     >
       {collapsed ? (
         <CollapsedMenus />
       ) : (
-        <ExpandMenus handleSearch={handleSearch} />
+        <ExpandMenus handleSearch={handleSearch} isDarkTheme={isDarkTheme} />
       )}
       <Flex
         position="absolute"
@@ -30,11 +33,15 @@ function Menus() {
         onClick={() => setCollapsed(!collapsed)}
       >
         {collapsed ? (
-          <ExpandFilledIcon color="grayAlternatives.300" />
+          <ExpandFilledIcon color={iconColor} />
         ) : (
           <>
-            <CollapseFilledIcon color="grayAlternatives.300" />
-            <Text marginLeft="8px" color="grayAlternatives.500" fontSize="12px">
+            <CollapseFilledIcon color={iconColor} />
+            <Text
+              marginLeft="8px"
+              color={isDarkTheme ? 'white' : 'grayAlternatives.500'}
+              fontSize="12px"
+            >
               收起
             </Text>
           </>

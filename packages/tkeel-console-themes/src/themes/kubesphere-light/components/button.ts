@@ -106,19 +106,19 @@ const variantSolid: SystemStyleFunction = (props) => {
     };
   }
 
-  if (['primary', 'tKeel'].includes(c)) {
-    const bg = mode(c, `whiteAlpha.200`)(props);
+  if (c === 'primary') {
+    const bg = mode(`primary`, `whiteAlpha.200`)(props);
 
     return {
       color: 'white',
       bg,
       _hover: {
-        bg: mode(c, `whiteAlpha.300`)(props),
+        bg: mode(`primary`, `whiteAlpha.300`)(props),
         _disabled: {
           bg,
         },
       },
-      _active: { bg: mode(c, `whiteAlpha.400`)(props) },
+      _active: { bg: mode(`primary`, `whiteAlpha.400`)(props) },
     };
   }
 

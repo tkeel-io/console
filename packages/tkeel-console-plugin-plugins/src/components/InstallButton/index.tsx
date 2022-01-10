@@ -29,6 +29,7 @@ function InstallButton({ size }: Props) {
   return (
     <Button
       colorScheme="primary"
+      variant="solid-no-shadow"
       size={size}
       leftIcon={
         loading ? (

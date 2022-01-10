@@ -3,7 +3,8 @@ import { Box, Flex, Image } from '@chakra-ui/react';
 
 // import { SearchInput } from '@tkeel/console-components';
 import Logo from '@/tkeel-console-portal/assets/images/logo.png';
-import tKeel from '@/tkeel-console-portal/assets/images/tkeel.png';
+import tKeelBlack from '@/tkeel-console-portal/assets/images/tkeel-black.png';
+import tKeelWhite from '@/tkeel-console-portal/assets/images/tkeel-white.png';
 import useMenusQuery from '@/tkeel-console-portal/hooks/queries/useMenusQuery';
 
 import MenuLink from './MenuLink';
@@ -12,9 +13,10 @@ import SubMenuTitle from './SubMenuTitle';
 
 type Props = {
   handleSearch: () => void;
+  isDarkTheme: boolean;
 };
 
-function Menus({ handleSearch }: Props) {
+function Menus({ handleSearch, isDarkTheme }: Props) {
   // eslint-disable-next-line no-console
   console.log('Menus ~ handleSearch', handleSearch);
   const { menus } = useMenusQuery();
@@ -32,7 +34,12 @@ function Menus({ handleSearch }: Props) {
     <Box position="relative" width="240px" height="100%">
       <Flex alignItems="center" height="96px" paddingLeft="40px">
         <Image htmlWidth="47px" src={Logo} alt="" />
-        <Image marginLeft="8px" htmlWidth="93px" src={tKeel} alt="" />
+        <Image
+          marginLeft="8px"
+          htmlWidth="93px"
+          src={isDarkTheme ? tKeelWhite : tKeelBlack}
+          alt=""
+        />
       </Flex>
       {/* <SearchInput
         width="200px"
@@ -65,7 +72,9 @@ function Menus({ handleSearch }: Props) {
                   <Box
                     marginTop="10px"
                     borderRadius="4px"
-                    backgroundColor="gray.100"
+                    backgroundColor={
+                      isDarkTheme ? 'whiteAlpha.100' : 'gray.100'
+                    }
                   >
                     {children.map((subMenu) => (
                       <SubMenuLink
