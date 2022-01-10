@@ -1,6 +1,14 @@
 const _ = require('lodash');
 
-const { getPackages } = require('../utils/packages');
+const {
+  PORTAL_PACKAGE_DIRECTORY_NAME,
+  PORTAL_PACKAGE_INFOS,
+} = require('../constants');
+const {
+  getPackages,
+  showPluginBasePaths,
+  showDevServerPorts,
+} = require('../utils/packages');
 const logger = require('../utils/logger');
 
 function checkPackageNames() {
@@ -8,7 +16,7 @@ function checkPackageNames() {
   const directoryNames = getPackages().map(
     ({ directoryName }) => directoryName
   );
-  const packages = getPackages({ directoryNames });
+  const packages = getPackages({ includeDirectoryNames: directoryNames });
   const counter = _.countBy(packages, 'packageJson.name');
   let isSuccess = true;
   Object.keys(counter).forEach((key) => {
@@ -29,6 +37,18 @@ function checkPackageNames() {
 function checkPluginDotenvConfigs({ dotenvConfigKey }) {
   logger.log(`check plugins ${dotenvConfigKey}`);
   const packages = getPackages().filter(({ isPlugin }) => isPlugin);
+
+  if (dotenvConfigKey === 'DEV_SERVER_PORT') {
+    packages.unshift(
+      ...PORTAL_PACKAGE_INFOS.map(({ devServerPort }) => ({
+        directoryName: PORTAL_PACKAGE_DIRECTORY_NAME,
+        dotenvConfig: {
+          DEV_SERVER_PORT: devServerPort,
+        },
+      }))
+    );
+  }
+
   const counter = _.countBy(packages, `dotenvConfig[${dotenvConfigKey}]`);
   let isSuccess = true;
 
@@ -59,13 +79,16 @@ function checkPluginDotenvConfigs({ dotenvConfigKey }) {
 
 function checkPluginBasePath() {
   checkPluginDotenvConfigs({ dotenvConfigKey: 'BASE_PATH' });
+  showPluginBasePaths();
 }
 
 function checkPluginDevServerPort() {
   checkPluginDotenvConfigs({ dotenvConfigKey: 'DEV_SERVER_PORT' });
+  showDevServerPorts();
 }
 
 checkPackageNames();
 checkPluginBasePath();
 checkPluginDevServerPort();
+
 logger.log('DONE');

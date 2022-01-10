@@ -7,6 +7,8 @@ const {
   checkPluginName,
   checkPluginBasePath,
   checkPluginDevServerPort,
+  showPluginBasePaths,
+  showDevServerPorts,
 } = require('../utils/packages');
 const logger = require('../utils/logger');
 
@@ -23,12 +25,14 @@ const logger = require('../utils/logger');
   const checkBasePathRes = checkPluginBasePath(argv);
   if (!checkBasePathRes.flag) {
     logger.error(checkBasePathRes.message);
+    showPluginBasePaths();
     return;
   }
 
   const checkDevServerPortRes = checkPluginDevServerPort(argv);
   if (!checkDevServerPortRes.flag) {
     logger.error(checkDevServerPortRes.message);
+    showDevServerPorts();
     return;
   }
 
