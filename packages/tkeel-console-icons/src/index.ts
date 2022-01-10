@@ -9,9 +9,12 @@ export { default as ChevronDownFilledIcon } from './components/ChevronDownFilled
 export { default as ChevronLeftFilledIcon } from './components/ChevronLeftFilledIcon';
 export { default as ChevronRightFilledIcon } from './components/ChevronRightFilledIcon';
 export { default as ChevronUpFilledIcon } from './components/ChevronUpFilledIcon';
+export { default as CollapseFilledIcon } from './components/CollapseFilledIcon';
 export { default as DownloadFilledIcon } from './components/DownloadFilledIcon';
+export { default as ExpandFilledIcon } from './components/ExpandFilledIcon';
 export { default as HumanFilledIcon } from './components/HumanFilledIcon';
 export { default as HumanVipFilledIcon } from './components/HumanVipFilledIcon';
 export { default as LoadingFilledIcon } from './components/LoadingFilledIcon';
 export { default as MagnifierFilledIcon } from './components/MagnifierFilledIcon';
+export { default as MagnifierTwoToneIcon } from './components/MagnifierTwoToneIcon';
 export { default as TrashFilledIcon } from './components/TrashFilledIcon';

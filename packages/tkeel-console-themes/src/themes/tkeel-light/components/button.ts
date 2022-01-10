@@ -90,12 +90,15 @@ const accessibleColorMap: { [key: string]: AccessibleColor } = {
 const variantSolid: SystemStyleFunction = (props) => {
   const { colorScheme: c } = props;
 
+  const boxShadow = '0px 4px 8px rgba(36, 46, 66, 0.2)';
+
   if (c === 'gray') {
     const bg = mode(`gray.900`, `whiteAlpha.200`)(props);
 
     return {
       color: 'white',
       bg,
+      boxShadow,
       _hover: {
         bg: mode(`gray.800`, `whiteAlpha.300`)(props),
         _disabled: {
@@ -112,6 +115,7 @@ const variantSolid: SystemStyleFunction = (props) => {
     return {
       color: 'white',
       bg,
+      boxShadow,
       _hover: {
         bg: mode(`primary`, `whiteAlpha.300`)(props),
         _disabled: {
@@ -133,6 +137,7 @@ const variantSolid: SystemStyleFunction = (props) => {
 
   return {
     bg: background,
+    boxShadow,
     color: mode(color, `gray.800`)(props),
     _hover: {
       bg: mode(hoverBg, `${c}.300`)(props),
@@ -141,6 +146,13 @@ const variantSolid: SystemStyleFunction = (props) => {
       },
     },
     _active: { bg: mode(activeBg, `${c}.400`)(props) },
+  };
+};
+
+const variantSolidNoShadow: SystemStyleFunction = (props) => {
+  return {
+    ...variantSolid(props),
+    boxShadow: 'none',
   };
 };
 
@@ -177,6 +189,7 @@ const variants = {
   ghost: variantGhost,
   outline: variantOutline,
   solid: variantSolid,
+  'solid-no-shadow': variantSolidNoShadow,
   link: variantLink,
   unstyled: variantUnstyled,
 };

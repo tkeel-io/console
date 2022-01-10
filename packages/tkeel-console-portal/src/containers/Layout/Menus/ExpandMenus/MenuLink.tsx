@@ -45,14 +45,8 @@ function MenuLink({ path, name, icon }: Props) {
       marginBottom="4px"
       borderRadius="4px"
       color={active ? 'white' : 'inherit'}
-      backgroundColor={active ? 'grayAlternatives.700' : 'inherit'}
-      boxShadow={
-        active
-          ? '0px 20px 25px -5px rgba(113, 128, 150, 0.1), 0px 10px 10px -5px rgba(113, 128, 150, 0.04)'
-          : 'none'
-      }
-      _hover={{ backgroundColor: active ? 'grayAlternatives.700' : 'gray.100' }}
-      _focus={{ boxShadow: 'none' }}
+      backgroundColor={active ? 'primary' : 'inherit'}
+      _hover={{ backgroundColor: active ? 'primary' : 'gray.100' }}
       as={as}
       to={to}
     >
