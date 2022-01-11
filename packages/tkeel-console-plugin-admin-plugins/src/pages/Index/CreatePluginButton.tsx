@@ -6,7 +6,7 @@ import { AddFilledIcon } from '@tkeel/console-icons';
 
 const { TextField, SelectField } = FormField;
 
-type Inputs = {
+type Controls = {
   name: string;
   address: string;
   version: string;
@@ -19,9 +19,20 @@ function CreatePluginButton() {
     formState: { errors },
     trigger,
     getValues,
-  } = useForm<Inputs>();
+    clearErrors,
+  } = useForm<Controls>();
 
-  const onSubmit: SubmitHandler<Inputs> = (values) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    id: keyof Controls
+  ) => {
+    const { value } = e.target;
+    if (value) {
+      clearErrors(id);
+    }
+  };
+
+  const onSubmit: SubmitHandler<Controls> = (values) => {
     return new Promise((resolve) => {
       setTimeout(() => {
         // eslint-disable-next-line no-console
@@ -81,6 +92,9 @@ function CreatePluginButton() {
             schemas={register('name', {
               required: { value: true, message: 'required' },
             })}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              handleInputChange(e, 'name')
+            }
           />
           <TextField
             id="address"
@@ -90,6 +104,9 @@ function CreatePluginButton() {
               required: { value: true, message: 'required' },
             })}
             formControlStyle={{ marginTop: '16px' }}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              handleInputChange(e, 'address')
+            }
           />
           <SelectField
             id="version"

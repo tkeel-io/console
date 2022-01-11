@@ -13,11 +13,13 @@ type Props = FormControlProps & {
   placeholder?: string;
   schemas?: UseFormRegisterReturn;
   inputStyle?: StyleProps;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
 };
 
 const defaultProps = {
   type: 'text',
   inputStyle: {},
+  onChange: undefined,
   ...fieldDefaultProps,
 };
 
@@ -28,6 +30,7 @@ function InputField({
   placeholder,
   schemas,
   inputStyle,
+  onChange,
   ...rest
 }: Props) {
   return (
@@ -42,6 +45,7 @@ function InputField({
         _focus={getFocusStyle(!!rest.error)}
         {...schemas}
         {...inputStyle}
+        onChange={onChange}
       />
     </FormControl>
   );
