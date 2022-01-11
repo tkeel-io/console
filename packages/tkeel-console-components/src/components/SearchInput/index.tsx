@@ -1,12 +1,17 @@
 import React, { useRef } from 'react';
-import { Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
+import {
+  Input,
+  InputGroup,
+  InputLeftElement,
+  StyleProps,
+} from '@chakra-ui/react';
 import { MagnifierFilledIcon } from '@tkeel/console-icons';
 
 type Props = {
   width?: string;
   height?: string;
-  borderRadius?: string;
-  backgroundColor?: string;
+  inputGroupStyle?: StyleProps;
+  inputStyle?: StyleProps;
   icon?: React.ReactNode;
   iconSize?: number | string;
   placeholder?: string;
@@ -16,8 +21,8 @@ type Props = {
 function SearchInput({
   width,
   height,
-  borderRadius,
-  backgroundColor,
+  inputGroupStyle,
+  inputStyle,
   icon,
   iconSize,
   placeholder,
@@ -35,17 +40,19 @@ function SearchInput({
   };
 
   return (
-    <InputGroup width={width} height={height} backgroundColor={backgroundColor}>
+    <InputGroup width={width} height={height} {...inputGroupStyle}>
       <InputLeftElement pointerEvents="none">
         {icon || <MagnifierFilledIcon size={iconSize} />}
       </InputLeftElement>
       <Input
         ref={inputRef}
         borderColor="gray.200"
-        borderRadius={borderRadius}
+        borderRadius="20px"
+        color="gray.400"
         fontSize="12px"
-        placeholder={placeholder}
+        {...inputStyle}
         _focus={{ borderColor: 'gray.400' }}
+        placeholder={placeholder}
         onKeyDown={onKeyDown}
       />
     </InputGroup>
@@ -55,8 +62,8 @@ function SearchInput({
 SearchInput.defaultProps = {
   width: '300px',
   height: '32px',
-  borderRadius: '20px',
-  backgroundColor: 'white',
+  inputGroupStyle: {},
+  inputStyle: {},
   icon: null,
   iconSize: 16,
   placeholder: '请输入...',
