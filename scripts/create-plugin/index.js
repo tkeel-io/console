@@ -5,9 +5,9 @@ const prompt = require('./prompt');
 const { copyTemplates, writeTemplates } = require('./files');
 const {
   checkPluginName,
-  checkPluginBasePath,
-  checkPluginDevServerPort,
-  showPluginBasePaths,
+  checkCanRunPackageBasePath,
+  checkCanRunPackageDevServerPort,
+  showBasePaths,
   showDevServerPorts,
 } = require('../utils/packages');
 const logger = require('../utils/logger');
@@ -22,14 +22,14 @@ const logger = require('../utils/logger');
     return;
   }
 
-  const checkBasePathRes = checkPluginBasePath(argv);
+  const checkBasePathRes = checkCanRunPackageBasePath(argv);
   if (!checkBasePathRes.flag) {
     logger.error(checkBasePathRes.message);
-    showPluginBasePaths();
+    showBasePaths();
     return;
   }
 
-  const checkDevServerPortRes = checkPluginDevServerPort(argv);
+  const checkDevServerPortRes = checkCanRunPackageDevServerPort(argv);
   if (!checkDevServerPortRes.flag) {
     logger.error(checkDevServerPortRes.message);
     showDevServerPorts();

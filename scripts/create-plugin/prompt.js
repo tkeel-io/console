@@ -2,12 +2,12 @@ const inquirer = require('inquirer');
 const _ = require('lodash');
 const { isPort } = require('validator');
 
-const { PLUGIN_PACKAGE_DIRECTORY_NAME_PREFIX } = require('../constants');
+const { PACKAGES_PREFIX } = require('../constants');
 const { OPTIONS_MAP } = require('./constants');
 const {
   checkPluginName,
-  checkPluginBasePath,
-  checkPluginDevServerPort,
+  checkCanRunPackageBasePath,
+  checkCanRunPackageDevServerPort,
 } = require('../utils/packages');
 
 async function prompt({ argv }) {
@@ -35,7 +35,7 @@ async function prompt({ argv }) {
         return value.trim();
       },
       transformer(value) {
-        return `${PLUGIN_PACKAGE_DIRECTORY_NAME_PREFIX}${value}`;
+        return `${PACKAGES_PREFIX.pluginDirectoryName}${value}`;
       },
     });
   }
@@ -50,7 +50,9 @@ async function prompt({ argv }) {
           return OPTIONS_MAP.basePath.errorMessage;
         }
 
-        const { flag, message } = checkPluginBasePath({ basePath: value });
+        const { flag, message } = checkCanRunPackageBasePath({
+          basePath: value,
+        });
         if (!flag) {
           return message;
         }
@@ -73,7 +75,7 @@ async function prompt({ argv }) {
           return OPTIONS_MAP.devServerPort.errorMessage;
         }
 
-        const { flag, message } = checkPluginDevServerPort({
+        const { flag, message } = checkCanRunPackageDevServerPort({
           devServerPort: value,
         });
         if (!flag) {

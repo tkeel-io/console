@@ -1,22 +1,15 @@
 const _ = require('lodash');
 
 const {
-  PORTAL_PACKAGE_DIRECTORY_NAME,
-  PORTAL_PACKAGE_INFOS,
-} = require('../constants');
-const {
-  getPackages,
-  showPluginBasePaths,
+  readPackages,
+  showBasePaths,
   showDevServerPorts,
 } = require('../utils/packages');
 const logger = require('../utils/logger');
 
 function checkPackageNames() {
   logger.log('check package names');
-  const directoryNames = getPackages().map(
-    ({ directoryName }) => directoryName
-  );
-  const packages = getPackages({ includeDirectoryNames: directoryNames });
+  const packages = readPackages();
   const counter = _.countBy(packages, 'packageJson.name');
   let isSuccess = true;
   Object.keys(counter).forEach((key) => {
@@ -34,21 +27,9 @@ function checkPackageNames() {
   logger.log();
 }
 
-function checkPluginDotenvConfigs({ dotenvConfigKey }) {
+function checkCanRunPackageDotenvConfigs({ dotenvConfigKey }) {
   logger.log(`check plugins ${dotenvConfigKey}`);
-  const packages = getPackages().filter(({ isPlugin }) => isPlugin);
-
-  if (dotenvConfigKey === 'DEV_SERVER_PORT') {
-    packages.unshift(
-      ...PORTAL_PACKAGE_INFOS.map(({ devServerPort }) => ({
-        directoryName: PORTAL_PACKAGE_DIRECTORY_NAME,
-        dotenvConfig: {
-          DEV_SERVER_PORT: devServerPort,
-        },
-      }))
-    );
-  }
-
+  const packages = readPackages().filter(({ canRun }) => canRun);
   const counter = _.countBy(packages, `dotenvConfig[${dotenvConfigKey}]`);
   let isSuccess = true;
 
@@ -77,18 +58,18 @@ function checkPluginDotenvConfigs({ dotenvConfigKey }) {
   logger.log();
 }
 
-function checkPluginBasePath() {
-  checkPluginDotenvConfigs({ dotenvConfigKey: 'BASE_PATH' });
-  showPluginBasePaths();
+function checkCanRunPackageBasePath() {
+  checkCanRunPackageDotenvConfigs({ dotenvConfigKey: 'BASE_PATH' });
+  showBasePaths();
 }
 
-function checkPluginDevServerPort() {
-  checkPluginDotenvConfigs({ dotenvConfigKey: 'DEV_SERVER_PORT' });
+function checkCanRunPackageDevServerPort() {
+  checkCanRunPackageDotenvConfigs({ dotenvConfigKey: 'DEV_SERVER_PORT' });
   showDevServerPorts();
 }
 
 checkPackageNames();
-checkPluginBasePath();
-checkPluginDevServerPort();
+checkCanRunPackageBasePath();
+checkCanRunPackageDevServerPort();
 
 logger.log('DONE');
