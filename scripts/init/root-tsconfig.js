@@ -1,9 +1,11 @@
+#!/usr/bin/env node
+
 const fs = require('fs-extra');
 const shell = require('shelljs');
 
 const { readPackages } = require('../utils/packages');
-const { log } = require('../utils/logger');
 const paths = require('../utils/paths');
+const logger = require('../utils/logger');
 
 const tsconfig = fs.readJSONSync(paths.root.tsconfig);
 
@@ -25,4 +27,4 @@ fs.writeJSONSync(paths.root.tsconfig, tsconfig);
 
 shell.exec(`prettier --write ${paths.root.tsconfig}`);
 
-log('init root tsconfig.json: DONE');
+logger.info('\ninit root tsconfig.json: DONE');
