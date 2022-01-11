@@ -13,32 +13,38 @@ const {
 const logger = require('../utils/logger');
 
 (async () => {
-  const argv = getArgv();
-  const { name } = argv;
+  try {
+    const argv = getArgv();
+    const { name } = argv;
 
-  const checkNameRes = checkPluginName({ pluginName: name });
-  if (!checkNameRes.flag) {
-    logger.error(checkNameRes.message);
-    return;
+    const checkNameRes = checkPluginName({ pluginName: name });
+    if (!checkNameRes.flag) {
+      logger.error(checkNameRes.message);
+      return;
+    }
+
+    const checkBasePathRes = checkCanRunPackageBasePath(argv);
+    if (!checkBasePathRes.flag) {
+      logger.error(checkBasePathRes.message);
+      showBasePaths();
+      return;
+    }
+
+    const checkDevServerPortRes = checkCanRunPackageDevServerPort(argv);
+    if (!checkDevServerPortRes.flag) {
+      logger.error(checkDevServerPortRes.message);
+      showDevServerPorts();
+      return;
+    }
+
+    const answers = await prompt({ argv });
+    const options = { ...argv, ...answers };
+
+    copyTemplates(options);
+    writeTemplates(options);
+
+    logger.success('\nDONE\n');
+  } catch (error) {
+    logger.error(error);
   }
-
-  const checkBasePathRes = checkCanRunPackageBasePath(argv);
-  if (!checkBasePathRes.flag) {
-    logger.error(checkBasePathRes.message);
-    showBasePaths();
-    return;
-  }
-
-  const checkDevServerPortRes = checkCanRunPackageDevServerPort(argv);
-  if (!checkDevServerPortRes.flag) {
-    logger.error(checkDevServerPortRes.message);
-    showDevServerPorts();
-    return;
-  }
-
-  const answers = await prompt({ argv });
-  const options = { ...argv, ...answers };
-
-  copyTemplates(options);
-  writeTemplates(options);
 })();

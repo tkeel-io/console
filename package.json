@@ -14,15 +14,18 @@
     "packages/*"
   ],
   "scripts": {
-    "init:all": "yarn init:root-tsconfig && yarn init:vscode-settings",
-    "init:root-tsconfig": "node ./scripts/init-root-tsconfig",
-    "init:vscode-settings": "node ./scripts/init-vscode-settings",
+    "init:all": "yarn init:package-names && yarn init:root-tsconfig && yarn init:vscode-settings",
+    "init:package-names": "node ./scripts/init/package-names",
+    "init:root-tsconfig": "node ./scripts/init/root-tsconfig",
+    "init:vscode-settings": "node ./scripts/init/vscode-settings",
     "dev": "node ./scripts/run/dev",
     "dev:portal-admin": "node ./scripts/run/dev-portal-admin",
     "dev:portal-tenant": "node ./scripts/run/dev-portal-tenant",
+    "dev:all": "node ./scripts/run/dev-all",
     "build": "node ./scripts/run/build",
-    "create:plugin": "node ./scripts/create-plugin && yarn init:all",
-    "check:packages": "node ./scripts/check-packages",
+    "build:all": "node ./scripts/run/build-all",
+    "create:plugin": "node ./scripts/create-plugin && yarn && yarn init:all",
+    "check:packages": "node ./scripts/check/packages",
     "sort-package-json": "sort-package-json 'package.json' 'packages/*/package.json'",
     "lint:format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,hbs,handlebars,css,scss,md}\"",
     "lint:script": "eslint --fix \"**/*.{js,jsx,ts,tsx}\"",
@@ -130,6 +133,7 @@
     "webpack-dev-server": "^4.7.2",
     "webpack-merge": "^5.8.0",
     "webpack-notifier": "^1.15.0",
+    "write-pkg": "^4.0.0",
     "yargs": "^17.3.1"
   },
   "engines": {

@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const _ = require('lodash');
 
 const {
@@ -29,7 +31,9 @@ function checkPackageNames() {
 
 function checkCanRunPackageDotenvConfigs({ dotenvConfigKey }) {
   logger.log(`check plugins ${dotenvConfigKey}`);
-  const packages = readPackages().filter(({ canRun }) => canRun);
+  const packages = readPackages().filter(
+    ({ canRun, dotenvConfig }) => canRun && dotenvConfig[dotenvConfigKey]
+  );
   const counter = _.countBy(packages, `dotenvConfig[${dotenvConfigKey}]`);
   let isSuccess = true;
 
@@ -54,18 +58,28 @@ function checkCanRunPackageDotenvConfigs({ dotenvConfigKey }) {
 
   if (isSuccess) {
     logger.success('success');
+    logger.log();
+  } else {
+    logger.log();
+    switch (dotenvConfigKey) {
+      case 'BASE_PATH':
+        showBasePaths();
+        break;
+      case 'DEV_SERVER_PORT':
+        showDevServerPorts();
+        break;
+      default:
+        break;
+    }
   }
-  logger.log();
 }
 
 function checkCanRunPackageBasePath() {
   checkCanRunPackageDotenvConfigs({ dotenvConfigKey: 'BASE_PATH' });
-  showBasePaths();
 }
 
 function checkCanRunPackageDevServerPort() {
   checkCanRunPackageDotenvConfigs({ dotenvConfigKey: 'DEV_SERVER_PORT' });
-  showDevServerPorts();
 }
 
 checkPackageNames();
