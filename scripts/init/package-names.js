@@ -35,4 +35,4 @@ packages.forEach(({ directoryName, absolutePath }) => {
   shell.exec(`prettier --write ${packageJsonPath} ${ReadMePath}`);
 });
 
-logger.info('\ninit package name: DONE');
+logger.info('\ninit package names: DONE');

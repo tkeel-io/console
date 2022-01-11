@@ -25,7 +25,7 @@
     "build": "node ./scripts/run/build",
     "build:all": "node ./scripts/run/build-all",
     "create:plugin": "node ./scripts/create-plugin && yarn && yarn init:all",
-    "check:packages": "node scripts/check/packages",
+    "check:packages": "node ./scripts/check/packages",
     "sort-package-json": "sort-package-json 'package.json' 'packages/*/package.json'",
     "lint:format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,hbs,handlebars,css,scss,md}\"",
     "lint:script": "eslint --fix \"**/*.{js,jsx,ts,tsx}\"",
