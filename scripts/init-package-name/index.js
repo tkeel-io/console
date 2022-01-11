@@ -8,16 +8,17 @@ const shell = require('shelljs');
 const writePackage = require('write-pkg');
 
 const { readPackages } = require('../utils/packages');
-const { log } = require('../utils/logger');
+const logger = require('../utils/logger');
 
 const packages = readPackages({ portalFirst: false });
 
-packages.forEach(({ directoryName, absolutePath, packageJson }) => {
+packages.forEach(({ directoryName, absolutePath }) => {
   const [scope, ...rest] = directoryName.split('-');
   const correctPackageName = `@${scope}/${rest.join('-')}`;
 
   const packageJsonPath = path.resolve(absolutePath, 'package.json');
   const ReadMePath = path.resolve(absolutePath, 'README.md');
+  const packageJson = fs.readJsonSync(packageJsonPath);
 
   writePackage.sync(
     path.resolve(absolutePath, 'package.json'),
@@ -34,4 +35,4 @@ packages.forEach(({ directoryName, absolutePath, packageJson }) => {
   shell.exec(`prettier --write ${packageJsonPath} ${ReadMePath}`);
 });
 
-log('init package name: DONE');
+logger.info('\ninit package name: DONE');
