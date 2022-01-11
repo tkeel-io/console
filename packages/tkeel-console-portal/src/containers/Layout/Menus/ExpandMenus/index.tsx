@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Box, Flex, Image } from '@chakra-ui/react';
+import { SearchInput } from '@tkeel/console-components';
+import { MagnifierTwoToneIcon } from '@tkeel/console-icons';
 
-// import { SearchInput } from '@tkeel/console-components';
-// import { MagnifierTwoToneIcon } from '@tkeel/console-icons';
-import Logo from '@/tkeel-console-portal/assets/images/logo.png';
-import tKeelBlack from '@/tkeel-console-portal/assets/images/tkeel-black.png';
-import tKeelWhite from '@/tkeel-console-portal/assets/images/tkeel-white.png';
+import Logo from '@/tkeel-console-portal/assets/images/logo.svg';
+import tKeelBlack from '@/tkeel-console-portal/assets/images/tkeel-black.svg';
+import tKeelWhite from '@/tkeel-console-portal/assets/images/tkeel-white.svg';
 import useMenusQuery from '@/tkeel-console-portal/hooks/queries/useMenusQuery';
 
 import MenuLink from './MenuLink';
@@ -13,11 +13,11 @@ import SubMenuLink from './SubMenuLink';
 import SubMenuTitle from './SubMenuTitle';
 
 type Props = {
-  // handleSearch: () => void;
+  handleSearch: () => void;
   isDarkTheme: boolean;
 };
 
-function Menus({ isDarkTheme }: Props) {
+function Menus({ handleSearch, isDarkTheme }: Props) {
   const { menus } = useMenusQuery();
   const [spreadMenuIds, setSpreadMenus] = useState<string[]>([]);
 
@@ -40,16 +40,20 @@ function Menus({ isDarkTheme }: Props) {
           alt=""
         />
       </Flex>
-      {/* <SearchInput
+      <SearchInput
         width="200px"
         height="44px"
-        borderRadius="4px"
-        backgroundColor="gray.100"
+        inputGroupStyle={{ marginLeft: '20px' }}
+        inputStyle={{
+          border: 'none',
+          borderRadius: '4px',
+          backgroundColor: isDarkTheme ? 'whiteAlpha.50' : 'gray.100',
+        }}
         icon={<MagnifierTwoToneIcon color={isDarkTheme ? 'white' : ''} />}
         iconSize={20}
         placeholder="搜索"
         onSearch={handleSearch}
-      /> */}
+      />
       <Box padding="20px">
         {menus.map((menu) => {
           const { id, name, icon, path, children } = menu;

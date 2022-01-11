@@ -3,7 +3,7 @@ import { Button, Text, useDisclosure } from '@chakra-ui/react';
 import { Editor, Modal } from '@tkeel/console-components';
 import { DownloadFilledIcon } from '@tkeel/console-icons';
 
-import mockParams from '@/tkeel-console-plugin-plugins/pages/Detail/mockParams';
+import mockParams from '@/tkeel-console-plugin-admin-plugins/pages/Detail/mockParams';
 
 type Props = {
   size?: string;

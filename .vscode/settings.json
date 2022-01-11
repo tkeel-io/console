@@ -2,11 +2,11 @@
   "path-intellisense.mappings": {
     "@/tkeel-console-business-components": "${workspaceFolder}/packages/tkeel-console-business-components/src",
     "@/tkeel-console-components": "${workspaceFolder}/packages/tkeel-console-components/src",
-    "@/tkeel-console-portal": "${workspaceFolder}/packages/tkeel-console-portal/src",
     "@/tkeel-console-hooks": "${workspaceFolder}/packages/tkeel-console-hooks/src",
     "@/tkeel-console-icons": "${workspaceFolder}/packages/tkeel-console-icons/src",
+    "@/tkeel-console-plugin-admin-plugins": "${workspaceFolder}/packages/tkeel-console-plugin-admin-plugins/src",
     "@/tkeel-console-plugin-example": "${workspaceFolder}/packages/tkeel-console-plugin-example/src",
-    "@/tkeel-console-plugin-plugins": "${workspaceFolder}/packages/tkeel-console-plugin-plugins/src",
+    "@/tkeel-console-portal": "${workspaceFolder}/packages/tkeel-console-portal/src",
     "@/tkeel-console-themes": "${workspaceFolder}/packages/tkeel-console-themes/src",
     "@/tkeel-console-types": "${workspaceFolder}/packages/tkeel-console-types/src",
     "@/tkeel-console-utils": "${workspaceFolder}/packages/tkeel-console-utils/src"

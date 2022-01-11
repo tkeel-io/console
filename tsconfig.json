@@ -30,15 +30,15 @@
       "@/tkeel-console-components/*": [
         "./packages/tkeel-console-components/src/*"
       ],
-      "@/tkeel-console-portal/*": ["./packages/tkeel-console-portal/src/*"],
       "@/tkeel-console-hooks/*": ["./packages/tkeel-console-hooks/src/*"],
       "@/tkeel-console-icons/*": ["./packages/tkeel-console-icons/src/*"],
+      "@/tkeel-console-plugin-admin-plugins/*": [
+        "./packages/tkeel-console-plugin-admin-plugins/src/*"
+      ],
       "@/tkeel-console-plugin-example/*": [
         "./packages/tkeel-console-plugin-example/src/*"
       ],
-      "@/tkeel-console-plugin-plugins/*": [
-        "./packages/tkeel-console-plugin-plugins/src/*"
-      ],
+      "@/tkeel-console-portal/*": ["./packages/tkeel-console-portal/src/*"],
       "@/tkeel-console-themes/*": ["./packages/tkeel-console-themes/src/*"],
       "@/tkeel-console-types/*": ["./packages/tkeel-console-types/src/*"],
       "@/tkeel-console-utils/*": ["./packages/tkeel-console-utils/src/*"]
@@ -50,11 +50,11 @@
   "references": [
     { "path": "./packages/tkeel-console-business-components/" },
     { "path": "./packages/tkeel-console-components/" },
-    { "path": "./packages/tkeel-console-portal/" },
     { "path": "./packages/tkeel-console-hooks/" },
     { "path": "./packages/tkeel-console-icons/" },
+    { "path": "./packages/tkeel-console-plugin-admin-plugins/" },
     { "path": "./packages/tkeel-console-plugin-example/" },
-    { "path": "./packages/tkeel-console-plugin-plugins/" },
+    { "path": "./packages/tkeel-console-portal/" },
     { "path": "./packages/tkeel-console-themes/" },
     { "path": "./packages/tkeel-console-types/" },
     { "path": "./packages/tkeel-console-utils/" }

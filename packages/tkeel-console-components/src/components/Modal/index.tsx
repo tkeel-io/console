@@ -59,8 +59,9 @@ function CustomModal({
           borderRadius="4px"
           color="white"
           backgroundColor="gray.800"
+          boxShadow="0px 8px 16px rgba(36, 46, 66, 0.28)"
           _hover={{ backgroundColor: 'gray.800' }}
-          _focus={{ boxShadow: 'none' }}
+          _focus={{ outline: 'none' }}
         />
         <ModalBody padding="32px 40px">{children}</ModalBody>
         <ModalFooter

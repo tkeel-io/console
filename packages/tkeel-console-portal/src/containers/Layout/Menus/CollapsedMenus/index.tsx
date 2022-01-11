@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Center, Flex, Image } from '@chakra-ui/react';
 
-import Logo from '@/tkeel-console-portal/assets/images/logo.png';
+import Logo from '@/tkeel-console-portal/assets/images/logo.svg';
 import useMenusQuery from '@/tkeel-console-portal/hooks/queries/useMenusQuery';
 
 import MenuItem from './MenuItem';

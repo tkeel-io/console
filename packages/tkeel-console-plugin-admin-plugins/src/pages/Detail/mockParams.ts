@@ -1,9 +1,5 @@
 const mockParams = `metadata:
   name: pvc-016a5372-881d-4f6e-a03f-5d62ecfc8fdf
-  annotations:
-    pv.kubernetes.io/provisioned-by: disk.csi.qingcloud.com
-  finalizers:
-    - kubernetes.io/pv-protection
   spec:
   capacity:
     storage: 20Gi
@@ -13,7 +9,6 @@ const mockParams = `metadata:
     fsType: ext4
     volumeAttributes:
       fsType: ext4
-      storage.kubernetes.io/csiProvisionerIdentity: 1632280636567-8081-disk.csi.qingcloud.com
   accessModes:
     - ReadWriteOnce
   claimRef:
