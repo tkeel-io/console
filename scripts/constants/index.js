@@ -54,10 +54,7 @@ const COMMON_PACKAGE_SIMPLE_NAMES = [
   ...SHARED_PACKAGE_SIMPLE_NAMES,
 ];
 
-const EXCLUDE_PACKAGE_DIRECTORY_NAMES = [
-  'tkeel-console-portal-base',
-  'types-tkeel-console',
-];
+const EXCLUDE_PACKAGE_DIRECTORY_NAMES = ['types-tkeel-console'];
 
 module.exports = {
   PACKAGES_PREFIX,
