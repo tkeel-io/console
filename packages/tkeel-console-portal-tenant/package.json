@@ -1,5 +1,5 @@
 {
-  "name": "@tkeel/console-portal-admin",
+  "name": "@tkeel/console-portal-tenant",
   "version": "0.0.1",
   "homepage": "https://github.com/tkeel-io/console#readme",
   "bugs": {
@@ -11,8 +11,8 @@
   },
   "license": "Apache-2.0",
   "scripts": {
-    "dev": "cross-env PLATFORM=admin NODE_ENV=development webpack serve --config ../../webpack/webpack.config.js",
-    "build": "cross-env PLATFORM=admin NODE_ENV=production webpack --config ../../webpack/webpack.config.js",
+    "dev": "cross-env PLATFORM=tenant NODE_ENV=development webpack serve --config ../../webpack/webpack.config.js",
+    "build": "cross-env PLATFORM=tenant NODE_ENV=production webpack --config ../../webpack/webpack.config.js",
     "analyze": "cross-env NODE_ENV=development ANALYZE=true yarn build"
   },
   "dependencies": {
