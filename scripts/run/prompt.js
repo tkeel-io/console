@@ -1,7 +1,6 @@
 const inquirer = require('inquirer');
 
-const { PORTAL_PACKAGE_INFOS } = require('../constants');
-const { getPackages } = require('../utils/packages');
+const { readPackages } = require('../utils/packages');
 
 const connector = ' - ';
 
@@ -11,21 +10,13 @@ const connector = ' - ';
  * @returns {Promise<Object[]>}
  */
 async function prompt({ npmScriptName }) {
-  const packages = getPackages();
+  const message = 'Select packages';
+  const packages = readPackages();
   const canRunPackages = packages.filter(({ canRun }) => canRun);
-  const portalPackage = canRunPackages.shift();
-  canRunPackages.unshift(portalPackage, portalPackage);
-  const choices = canRunPackages.map(({ packageJson, isPortal }, index) => {
+  const choices = canRunPackages.map(({ packageJson }) => {
     const { name } = packageJson;
-
-    if (isPortal && index < PORTAL_PACKAGE_INFOS.length) {
-      return `${name} - ${npmScriptName}:${PORTAL_PACKAGE_INFOS[index].platform}`;
-    }
-
     return `${name}${connector}${npmScriptName}`;
   });
-
-  const message = 'Select packages';
 
   const questions = [
     {

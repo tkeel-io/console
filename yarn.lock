@@ -3377,9 +3377,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tkeel/console-portal@workspace:packages/tkeel-console-portal":
+"@tkeel/console-portal-admin@workspace:packages/tkeel-console-portal-admin":
   version: 0.0.0-use.local
-  resolution: "@tkeel/console-portal@workspace:packages/tkeel-console-portal"
+  resolution: "@tkeel/console-portal-admin@workspace:packages/tkeel-console-portal-admin"
+  dependencies:
+    "@tkeel/console-portal-base": "workspace:^"
+    react: ^17.0.2
+    react-dom: ^17.0.2
+  languageName: unknown
+  linkType: soft
+
+"@tkeel/console-portal-base@workspace:^, @tkeel/console-portal-base@workspace:packages/tkeel-console-portal-base":
+  version: 0.0.0-use.local
+  resolution: "@tkeel/console-portal-base@workspace:packages/tkeel-console-portal-base"
   dependencies:
     "@chakra-ui/react": ^1.7.4
     "@emotion/react": ^11.7.1
@@ -3397,6 +3407,16 @@ __metadata:
     react-hook-form: ^7.22.5
     react-query: ^3.34.7
     react-router-dom: ^6.2.1
+  languageName: unknown
+  linkType: soft
+
+"@tkeel/console-portal-tenant@workspace:packages/tkeel-console-portal-tenant":
+  version: 0.0.0-use.local
+  resolution: "@tkeel/console-portal-tenant@workspace:packages/tkeel-console-portal-tenant"
+  dependencies:
+    "@tkeel/console-portal-base": "workspace:^"
+    react: ^17.0.2
+    react-dom: ^17.0.2
   languageName: unknown
   linkType: soft
 

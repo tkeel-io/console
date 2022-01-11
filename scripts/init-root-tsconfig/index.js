@@ -1,13 +1,13 @@
 const fs = require('fs-extra');
 const shell = require('shelljs');
 
-const { getPackages } = require('../utils/packages');
+const { readPackages } = require('../utils/packages');
 const { log } = require('../utils/logger');
 const paths = require('../utils/paths');
 
 const tsconfig = fs.readJSONSync(paths.root.tsconfig);
 
-const packages = getPackages({ portalFirst: false });
+const packages = readPackages({ portalFirst: false });
 
 tsconfig.compilerOptions.paths = {};
 tsconfig.references = [];
