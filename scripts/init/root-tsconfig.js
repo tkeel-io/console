@@ -27,4 +27,4 @@ fs.writeJSONSync(paths.root.tsconfig, tsconfig);
 
 shell.exec(`prettier --write ${paths.root.tsconfig}`);
 
-logger.info('init root tsconfig.json: DONE');
+logger.info('\ninit root tsconfig.json: DONE');

@@ -23,4 +23,4 @@ fs.writeJSONSync(settingsFilePath, settings);
 
 shell.exec(`prettier --write ${settingsFilePath}`);
 
-logger.info('init .vscode/settings.json: DONE');
+logger.info('\ninit .vscode/settings.json: DONE');
