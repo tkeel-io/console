@@ -15,6 +15,7 @@
   ],
   "scripts": {
     "init:all": "yarn init:root-tsconfig && yarn init:vscode-settings",
+    "init:package-name": "node ./scripts/init-package-name",
     "init:root-tsconfig": "node ./scripts/init-root-tsconfig",
     "init:vscode-settings": "node ./scripts/init-vscode-settings",
     "dev": "node ./scripts/run/dev",
@@ -132,6 +133,7 @@
     "webpack-dev-server": "^4.7.2",
     "webpack-merge": "^5.8.0",
     "webpack-notifier": "^1.15.0",
+    "write-pkg": "^4.0.0",
     "yargs": "^17.3.1"
   },
   "engines": {
