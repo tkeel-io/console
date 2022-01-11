@@ -5,6 +5,8 @@ import { CollapseFilledIcon, ExpandFilledIcon } from '@tkeel/console-icons';
 import CollapsedMenus from './CollapsedMenus';
 import ExpandMenus from './ExpandMenus';
 
+const handleSearch = () => {};
+
 function Menus() {
   const [collapsed, setCollapsed] = useState(false);
   const [menuTheme] = useState<'light' | 'dark'>('light');
@@ -20,7 +22,7 @@ function Menus() {
       {collapsed ? (
         <CollapsedMenus />
       ) : (
-        <ExpandMenus isDarkTheme={isDarkTheme} />
+        <ExpandMenus isDarkTheme={isDarkTheme} handleSearch={handleSearch} />
       )}
       <Flex
         position="absolute"
