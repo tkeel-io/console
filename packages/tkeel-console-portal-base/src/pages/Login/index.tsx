@@ -1,24 +1,16 @@
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
-import {
-  Box,
-  Button,
-  Center,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Heading,
-  Input,
-  Text,
-} from '@chakra-ui/react';
-import { Form } from '@tkeel/console-components';
+import { Box, Button, Center, Heading, Text } from '@chakra-ui/react';
+import { Form, FormField } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
 import { setLocalTokenData } from '@tkeel/console-utils';
 
 import useOAuthTokenMutation, {
   ApiData,
 } from '@/tkeel-console-portal-base/hooks/mutations/useOAuthTokenMutation';
+
+const { TextField } = FormField;
 
 type Inputs = {
   username: string;
@@ -110,45 +102,38 @@ function Login(): JSX.Element {
           paddingBottom="100px"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <FormControl id="username" isInvalid={!!errors.username}>
-            <FormLabel {...formLabelStyle}>账号</FormLabel>
-            <Input
-              type="text"
-              placeholder="请输入您的账号"
-              defaultValue={process.env.USERNAME}
-              {...inputStyle}
-              {...register('username', {
-                required: { value: true, message: 'required' },
-              })}
-            />
-            <FormErrorMessage>
-              {errors.username && errors.username.message}
-            </FormErrorMessage>
-          </FormControl>
-          <FormControl
+          <TextField
+            type="text"
+            id="username"
+            label="账号"
+            value={process.env.USERNAME}
+            placeholder="请输入您的账号"
+            error={errors.username}
+            schemas={register('username', {
+              required: { value: true, message: 'required' },
+            })}
+            formLabelStyle={formLabelStyle}
+            inputStyle={inputStyle}
+          />
+          <TextField
+            type="password"
             id="password"
-            isInvalid={!!errors.password}
-            paddingTop="24px"
-          >
-            <FormLabel {...formLabelStyle}>密码</FormLabel>
-            <Input
-              type="password"
-              placeholder="请输入您的密码"
-              defaultValue={process.env.PASSWORD}
-              {...inputStyle}
-              {...register('password', {
-                required: { value: true, message: 'required' },
-              })}
-            />
-            <FormErrorMessage>
-              {errors.password && errors.password.message}
-            </FormErrorMessage>
-          </FormControl>
+            label="密码"
+            value={process.env.PASSWORD}
+            placeholder="请输入您的密码"
+            error={errors.username}
+            schemas={register('password', {
+              required: { value: true, message: 'required' },
+            })}
+            formControlStyle={{ paddingTop: '24px' }}
+            formLabelStyle={formLabelStyle}
+            inputStyle={inputStyle}
+          />
           <Box paddingTop="46px">
             <Button
               type="submit"
-              colorScheme="blue"
               isFullWidth
+              height="45px"
               isLoading={isLoading}
             >
               登录
