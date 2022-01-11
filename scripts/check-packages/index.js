@@ -1,14 +1,15 @@
 const _ = require('lodash');
 
-const { getPackages } = require('../utils/packages');
+const {
+  readPackages,
+  showBasePaths,
+  showDevServerPorts,
+} = require('../utils/packages');
 const logger = require('../utils/logger');
 
 function checkPackageNames() {
   logger.log('check package names');
-  const directoryNames = getPackages().map(
-    ({ directoryName }) => directoryName
-  );
-  const packages = getPackages({ directoryNames });
+  const packages = readPackages();
   const counter = _.countBy(packages, 'packageJson.name');
   let isSuccess = true;
   Object.keys(counter).forEach((key) => {
@@ -26,9 +27,9 @@ function checkPackageNames() {
   logger.log();
 }
 
-function checkPluginDotenvConfigs({ dotenvConfigKey }) {
+function checkCanRunPackageDotenvConfigs({ dotenvConfigKey }) {
   logger.log(`check plugins ${dotenvConfigKey}`);
-  const packages = getPackages().filter(({ isPlugin }) => isPlugin);
+  const packages = readPackages().filter(({ canRun }) => canRun);
   const counter = _.countBy(packages, `dotenvConfig[${dotenvConfigKey}]`);
   let isSuccess = true;
 
@@ -57,15 +58,18 @@ function checkPluginDotenvConfigs({ dotenvConfigKey }) {
   logger.log();
 }
 
-function checkPluginBasePath() {
-  checkPluginDotenvConfigs({ dotenvConfigKey: 'BASE_PATH' });
+function checkCanRunPackageBasePath() {
+  checkCanRunPackageDotenvConfigs({ dotenvConfigKey: 'BASE_PATH' });
+  showBasePaths();
 }
 
-function checkPluginDevServerPort() {
-  checkPluginDotenvConfigs({ dotenvConfigKey: 'DEV_SERVER_PORT' });
+function checkCanRunPackageDevServerPort() {
+  checkCanRunPackageDotenvConfigs({ dotenvConfigKey: 'DEV_SERVER_PORT' });
+  showDevServerPorts();
 }
 
 checkPackageNames();
-checkPluginBasePath();
-checkPluginDevServerPort();
+checkCanRunPackageBasePath();
+checkCanRunPackageDevServerPort();
+
 logger.log('DONE');

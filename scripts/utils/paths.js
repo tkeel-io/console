@@ -3,7 +3,7 @@ const path = require('path');
 const _ = require('lodash');
 
 const {
-  PACKAGE_DIRECTORY_NAME_PREFIX,
+  PACKAGES_PREFIX,
   COMMON_PACKAGE_SIMPLE_NAMES,
 } = require('../constants');
 
@@ -22,7 +22,7 @@ const commonPackages = () => {
 
   COMMON_PACKAGE_SIMPLE_NAMES.forEach((simpleName) => {
     const key = _.camelCase(simpleName);
-    const name = `${PACKAGE_DIRECTORY_NAME_PREFIX}${simpleName}`;
+    const name = `${PACKAGES_PREFIX.directoryName}${simpleName}`;
     obj[key] = resolvePackages(name);
   });
 
