@@ -179,7 +179,7 @@ function checkPluginName({ pluginName }) {
 
 function checkCanRunPackageBasePath({ basePath }) {
   const dotenvConfigs = readPackages()
-    .filter(({ canRun }) => canRun)
+    .filter(({ canRun, dotenvConfig }) => canRun && dotenvConfig.BASE_PATH)
     .map(({ dotenvConfig }) => dotenvConfig);
   // eslint-disable-next-line unicorn/prefer-array-some
   const flag = !_.find(dotenvConfigs, { BASE_PATH: basePath });
