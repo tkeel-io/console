@@ -11,8 +11,8 @@
   },
   "license": "Apache-2.0",
   "scripts": {
-    "dev": "cross-env PLATFORM=admin NODE_ENV=development webpack serve --config ../../webpack/webpack.config.js",
-    "build": "cross-env PLATFORM=admin NODE_ENV=production webpack --config ../../webpack/webpack.config.js",
+    "dev": "cross-env PLATFORM=admin NODE_ENV=development webpack serve --config ../../webpack/webpack.config",
+    "build": "cross-env PLATFORM=admin NODE_ENV=production webpack --config ../../webpack/webpack.config",
     "analyze": "cross-env NODE_ENV=development ANALYZE=true yarn build"
   },
   "dependencies": {
