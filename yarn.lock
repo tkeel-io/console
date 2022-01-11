@@ -3410,6 +3410,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@tkeel/console-portal-tenant@workspace:packages/tkeel-console-portal-tenant":
+  version: 0.0.0-use.local
+  resolution: "@tkeel/console-portal-tenant@workspace:packages/tkeel-console-portal-tenant"
+  dependencies:
+    "@tkeel/console-portal-base": "workspace:^"
+    react: ^17.0.2
+    react-dom: ^17.0.2
+  languageName: unknown
+  linkType: soft
+
 "@tkeel/console-themes@workspace:^, @tkeel/console-themes@workspace:packages/tkeel-console-themes":
   version: 0.0.0-use.local
   resolution: "@tkeel/console-themes@workspace:packages/tkeel-console-themes"
