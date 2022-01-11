@@ -6,7 +6,8 @@
     "@/tkeel-console-icons": "${workspaceFolder}/packages/tkeel-console-icons/src",
     "@/tkeel-console-plugin-admin-plugins": "${workspaceFolder}/packages/tkeel-console-plugin-admin-plugins/src",
     "@/tkeel-console-plugin-example": "${workspaceFolder}/packages/tkeel-console-plugin-example/src",
-    "@/tkeel-console-portal": "${workspaceFolder}/packages/tkeel-console-portal/src",
+    "@/tkeel-console-portal-admin": "${workspaceFolder}/packages/tkeel-console-portal-admin/src",
+    "@/tkeel-console-portal-base": "${workspaceFolder}/packages/tkeel-console-portal-base/src",
     "@/tkeel-console-themes": "${workspaceFolder}/packages/tkeel-console-themes/src",
     "@/tkeel-console-types": "${workspaceFolder}/packages/tkeel-console-types/src",
     "@/tkeel-console-utils": "${workspaceFolder}/packages/tkeel-console-utils/src"

@@ -1,18 +1,29 @@
 const inquirer = require('inquirer');
 
-const { getCanRunPackageDirectoryNames } = require('../utils/packages');
+const { readPackages } = require('../utils/packages');
 
-async function prompt({ defaults = [] } = {}) {
-  const directoryNames = getCanRunPackageDirectoryNames();
-  const message = 'Select packages (directories)';
+const connector = ' - ';
+
+/**
+ *
+ * @param {string} npmScriptName
+ * @returns {Promise<Object[]>}
+ */
+async function prompt({ npmScriptName }) {
+  const message = 'Select packages';
+  const packages = readPackages();
+  const canRunPackages = packages.filter(({ canRun }) => canRun);
+  const choices = canRunPackages.map(({ packageJson }) => {
+    const { name } = packageJson;
+    return `${name}${connector}${npmScriptName}`;
+  });
 
   const questions = [
     {
       type: 'checkbox',
-      name: 'directoryNames',
+      name: 'data',
       message,
-      default: defaults,
-      choices: directoryNames,
+      choices,
       validate(value) {
         if (value.length === 0) {
           return `Please ${message}`;
@@ -22,9 +33,12 @@ async function prompt({ defaults = [] } = {}) {
     },
   ];
 
-  const answers = await inquirer.prompt(questions);
+  const { data } = await inquirer.prompt(questions);
 
-  return answers;
+  return data.map((value) => {
+    const [packageName, scriptName] = value.trim().split(connector);
+    return { packageName, npmScriptName: scriptName };
+  });
 }
 
 module.exports = prompt;

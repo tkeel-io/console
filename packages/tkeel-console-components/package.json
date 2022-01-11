@@ -11,6 +11,9 @@
   },
   "license": "Apache-2.0",
   "main": "./src/index.ts",
+  "dependencies": {
+    "react-table": "^7.7.0"
+  },
   "devDependencies": {
     "@tkeel/console-icons": "workspace:^"
   },
