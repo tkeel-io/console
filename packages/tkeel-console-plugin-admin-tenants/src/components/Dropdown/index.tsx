@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button } from '@chakra-ui/react';
 import { CaretDownFilledIcon, CaretUpFilledIcon } from '@tkeel/console-icons';
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, Theme } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import MonacoEditor from '@monaco-editor/react';

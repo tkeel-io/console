@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   Box,
@@ -39,6 +39,7 @@ export default function EditSpaceModal({ isOpen, onClose }: IProps) {
   const handleSelectAuth = (key: string) => () => {
     setSelectedAuth(key);
   };
+
   return (
     <Modal
       title={

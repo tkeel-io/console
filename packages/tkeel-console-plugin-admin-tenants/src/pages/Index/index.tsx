@@ -3,7 +3,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable no-console */
-import React from 'react';
 import { Box, Button, Flex, useDisclosure } from '@chakra-ui/react';
 import { useGlobalProps } from '@tkeel/console-business-components';
 import { PageHeader, SearchInput } from '@tkeel/console-components';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Column, usePagination, useTable } from 'react-table';
 import { Flex, Grid } from '@chakra-ui/react';
 import { Pagination } from '@tkeel/console-components';

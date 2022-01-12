@@ -1,4 +1,4 @@
-import React from 'react';
+import { ChangeEvent, ChangeEventHandler } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Button, Text, useDisclosure } from '@chakra-ui/react';
 import { FormField, Modal } from '@tkeel/console-components';
@@ -24,7 +24,7 @@ function CreatePluginButton() {
   } = useForm<Controls>();
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: ChangeEvent<HTMLInputElement>,
     id: 'name' | 'address'
   ) => {
     const { value } = e.target;
@@ -35,9 +35,7 @@ function CreatePluginButton() {
     }
   };
 
-  const handleVersionChange: React.ChangeEventHandler<HTMLSelectElement> = (
-    e
-  ) => {
+  const handleVersionChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
     const { value } = e.target;
     if (value) {
       clearErrors('version');
@@ -106,7 +104,7 @@ function CreatePluginButton() {
             schemas={register('name', {
               required: { value: true, message: 'required' },
             })}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
               handleInputChange(e, 'name')
             }
           />
@@ -118,7 +116,7 @@ function CreatePluginButton() {
               required: { value: true, message: 'required' },
             })}
             formControlStyle={{ marginTop: '16px' }}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
               handleInputChange(e, 'address')
             }
           />

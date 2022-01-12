@@ -1,8 +1,8 @@
-import React from 'react';
+import { ReactNode } from 'react';
 import { Box, useStyles, useTab } from '@chakra-ui/react';
 
 type Props = {
-  children: React.ReactNode | string;
+  children: ReactNode;
 };
 
 function CustomTab(props: Props) {

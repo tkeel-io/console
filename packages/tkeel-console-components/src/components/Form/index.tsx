@@ -1,8 +1,8 @@
-import React from 'react';
+import { FormEventHandler } from 'react';
 import { Box, BoxProps } from '@chakra-ui/react';
 
 type Props = BoxProps & {
-  onSubmit: React.FormEventHandler<HTMLFormElement>;
+  onSubmit: FormEventHandler<HTMLFormElement>;
 };
 
 function Form({ onSubmit, children, ...boxProps }: Props) {

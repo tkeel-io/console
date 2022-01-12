@@ -1,4 +1,3 @@
-import React from 'react';
 import { Route, Routes as ReactRouterRoutes } from 'react-router-dom';
 import { ThemeNames } from '@tkeel/console-themes';
 
