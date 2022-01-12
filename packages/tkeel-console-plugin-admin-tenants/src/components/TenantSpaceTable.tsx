@@ -42,17 +42,3 @@ function TenantSpaceTable({ data, columns }: Props): ReactElement {
 }
 
 export default TenantSpaceTable;
-
-// {
-//         // Make an expander cell
-//         Header: () => null, // No header
-//         id: 'expander', // It needs an ID
-//         Cell: ({ row }) => (
-//           // Use Cell to render an expander for each row.
-//           // We can use the getToggleRowExpandedProps prop-getter
-//           // to build the expander.
-//           <span {...row.getToggleRowExpandedProps()}>
-//             {row.isExpanded ? '👇' : '👉'}
-//           </span>
-//         ),
-//       },

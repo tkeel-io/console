@@ -13,6 +13,7 @@ import SpaceInfoCard from './SpaceInfoCard';
 import {
   BackButton,
   CustomTab,
+  Dropdown,
 } from '@/tkeel-console-plugin-admin-tenants/components';
 
 const infos = {
@@ -32,6 +33,7 @@ function Detail(): ReactElement {
       <Box w="360px" mr="20px">
         <Flex bg="gray.50" pt="16px" px="16px" justify="space-between">
           <BackButton />
+          <Dropdown>更多操作</Dropdown>
         </Flex>
         <SpaceInfoCard infos={infos} />
       </Box>
