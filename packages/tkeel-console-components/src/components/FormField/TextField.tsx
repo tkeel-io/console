@@ -19,7 +19,6 @@ type Props = FormControlProps & {
 const defaultProps = {
   type: 'text',
   inputStyle: {},
-  onChange: undefined,
   ...fieldDefaultProps,
 };
 
