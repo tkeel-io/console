@@ -67,13 +67,6 @@ module.exports = {
         'newlines-between': 'always',
       },
     ],
-    'react/function-component-definition': [
-      'error',
-      {
-        namedComponents: 'function-declaration',
-        unnamedComponents: 'function-expression',
-      },
-    ],
     'react/jsx-key': 'error',
     'react/jsx-props-no-spreading': 'off',
     'react/jsx-uses-react': 'off',
