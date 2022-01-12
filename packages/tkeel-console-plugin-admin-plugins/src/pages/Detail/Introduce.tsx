@@ -16,7 +16,7 @@ function Introduce() {
   ];
 
   return (
-    <Box>
+    <Box padding="16px" backgroundColor="white">
       {data.map((item) => (
         <Box key={item.title} marginBottom="30px">
           <Heading color="gray.800" fontSize="20px" lineHeight="24px">

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Column } from 'react-table';
-import { Table } from '@tkeel/console-components';
+import { Box, Flex, Text } from '@chakra-ui/react';
+import { SearchInput, Table } from '@tkeel/console-components';
 
 type Data = {
   enableTime: string;
@@ -10,6 +11,8 @@ type Data = {
   remark: string;
   userNumber: string;
 };
+
+const handleSearch = () => {};
 
 function EnablePluginList() {
   const columns: ReadonlyArray<Column<Data>> = [
@@ -50,7 +53,22 @@ function EnablePluginList() {
       userNumber: '10',
     };
   });
-  return <Table columns={columns} data={data} />;
+  return (
+    <Box padding="12px 20px" backgroundColor="white">
+      <Flex
+        marginBottom="12px"
+        height="32px"
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        <Text color="gray.800" fontSize="14px" fontWeight="600">
+          启用列表
+        </Text>
+        <SearchInput width="284px" placeholder="搜索" onSearch={handleSearch} />
+      </Flex>
+      <Table columns={columns} data={data} />
+    </Box>
+  );
 }
 
 export default EnablePluginList;

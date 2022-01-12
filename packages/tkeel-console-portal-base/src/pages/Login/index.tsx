@@ -112,6 +112,7 @@ function Login(): JSX.Element {
             schemas={register('username', {
               required: { value: true, message: 'required' },
             })}
+            formControlStyle={{ marginBottom: '24px' }}
             formLabelStyle={formLabelStyle}
             inputStyle={inputStyle}
           />
@@ -125,7 +126,6 @@ function Login(): JSX.Element {
             schemas={register('password', {
               required: { value: true, message: 'required' },
             })}
-            formControlStyle={{ paddingTop: '24px' }}
             formLabelStyle={formLabelStyle}
             inputStyle={inputStyle}
           />

@@ -39,7 +39,6 @@ function CustomFormControl({
         id={id}
         placeholder={placeholder}
         boxShadow="none!important"
-        color="blackAlpha.500"
         _focus={getFocusStyle(!!rest.error)}
         {...schemas}
         onChange={onChange}

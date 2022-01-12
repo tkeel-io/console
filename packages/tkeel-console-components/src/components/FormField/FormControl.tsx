@@ -32,7 +32,12 @@ function CustomFormControl({
   children,
 }: Props) {
   return (
-    <FormControl id={id} {...formControlStyle} isInvalid={!!error}>
+    <FormControl
+      marginBottom="16px"
+      id={id}
+      {...formControlStyle}
+      isInvalid={!!error}
+    >
       <FormLabel
         htmlFor={id}
         color="gray.600"

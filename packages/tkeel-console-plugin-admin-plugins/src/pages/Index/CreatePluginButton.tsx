@@ -117,7 +117,6 @@ function CreatePluginButton() {
             schemas={register('address', {
               required: { value: true, message: 'required' },
             })}
-            formControlStyle={{ marginTop: '16px' }}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               handleInputChange(e, 'address')
             }
@@ -133,7 +132,6 @@ function CreatePluginButton() {
             schemas={register('version', {
               required: { value: true, message: 'required' },
             })}
-            formControlStyle={{ marginTop: '16px' }}
             onChange={handleVersionChange}
           />
         </>
