@@ -18,7 +18,10 @@ type Props = FormControlProps & {
   onChange?: React.ChangeEventHandler<HTMLSelectElement>;
 };
 
-const defaultProps = fieldDefaultProps;
+const defaultProps = {
+  ...fieldDefaultProps,
+  placeholder: '请选择',
+};
 
 function CustomFormControl({
   id,
