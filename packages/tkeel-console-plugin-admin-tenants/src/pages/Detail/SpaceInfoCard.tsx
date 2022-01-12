@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { Box, Center, Flex, List, ListItem, Text } from '@chakra-ui/react';
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
 

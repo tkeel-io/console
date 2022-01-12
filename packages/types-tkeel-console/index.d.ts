@@ -9,10 +9,10 @@ declare module '*.module.scss' {
 }
 
 declare module '*.svg?svgr' {
-  import * as React from 'react';
+  import { FunctionComponent, SVGProps } from 'react';
 
-  const ReactComponent: React.FunctionComponent<
-    React.SVGProps<SVGSVGElement> & { title?: string }
+  const ReactComponent: FunctionComponent<
+    SVGProps<SVGSVGElement> & { title?: string }
   >;
 
   export default ReactComponent;

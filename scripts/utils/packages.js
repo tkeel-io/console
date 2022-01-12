@@ -32,9 +32,16 @@ function readDirectoryNames({ portalFirst, excludeDirectoryNames } = {}) {
     .filter((directoryName) => !excludeDirectoryNames.includes(directoryName));
 
   if (portalFirst) {
-    return directoryNames.sort((directoryName) =>
-      PORTAL_PACKAGES.directoryNames.includes(directoryName) ? -1 : 1
-    );
+    return directoryNames
+      .sort((directoryName) =>
+        PORTAL_PACKAGES.directoryNames.includes(directoryName) ? -1 : 1
+      )
+      .sort((directoryName) => {
+        if (PORTAL_PACKAGES.directoryNames[0] === directoryName) {
+          return -1;
+        }
+        return 0;
+      });
   }
 
   return directoryNames;

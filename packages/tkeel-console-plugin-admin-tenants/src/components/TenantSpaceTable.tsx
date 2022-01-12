@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-key */
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { useTable } from 'react-table';
 import { Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 

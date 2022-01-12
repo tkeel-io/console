@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { PluginGlobalProps } from '@tkeel/console-types';
 
 import Context from './context';

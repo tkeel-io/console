@@ -1,4 +1,3 @@
-import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { Box } from '@chakra-ui/react';
 import {

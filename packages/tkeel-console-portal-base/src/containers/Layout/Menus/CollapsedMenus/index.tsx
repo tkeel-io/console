@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, Center, Flex, Image } from '@chakra-ui/react';
 
 import Logo from '@/tkeel-console-portal-base/assets/images/logo.png';

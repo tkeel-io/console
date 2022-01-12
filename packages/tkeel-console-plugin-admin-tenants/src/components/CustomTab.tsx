@@ -1,11 +1,11 @@
-import * as React from 'react';
+import { ReactNode } from 'react';
 import { Box, Center, useStyles, useTab } from '@chakra-ui/react';
 
 type Props = {
-  children: React.ReactNode | string;
+  children: ReactNode;
 };
 
-function CustomTab(props: Props): React.ReactElement {
+function CustomTab(props: Props) {
   const styles = useStyles();
   const tabProps = useTab(props);
   const isSelected = !!tabProps['aria-selected'];

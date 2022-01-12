@@ -1,4 +1,4 @@
-import React, { HTMLInputTypeAttribute } from 'react';
+import { ChangeEventHandler, HTMLInputTypeAttribute } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 import { Input, StyleProps } from '@chakra-ui/react';
 
@@ -13,7 +13,7 @@ type Props = FormControlProps & {
   placeholder?: string;
   schemas?: UseFormRegisterReturn;
   inputStyle?: StyleProps;
-  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
 };
 
 const defaultProps = {
