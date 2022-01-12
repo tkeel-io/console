@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from 'react';
+import { MouseEventHandler } from 'react';
 import { Button, Text, useDisclosure } from '@chakra-ui/react';
 import { Editor, Modal } from '@tkeel/console-components';
 import { DownloadFilledIcon } from '@tkeel/console-icons';

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react';
+import { ChangeEventHandler } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 import { Select } from '@chakra-ui/react';
 
@@ -15,7 +15,7 @@ type Props = FormControlProps & {
   value?: Value;
   placeholder?: string;
   schemas?: UseFormRegisterReturn;
-  onChange?: React.ChangeEventHandler<HTMLSelectElement>;
+  onChange?: ChangeEventHandler<HTMLSelectElement>;
 };
 
 const defaultProps = {
@@ -39,6 +39,7 @@ function CustomFormControl({
         id={id}
         placeholder={placeholder}
         boxShadow="none!important"
+        color="blackAlpha.500"
         _focus={getFocusStyle(!!rest.error)}
         {...schemas}
         onChange={onChange}

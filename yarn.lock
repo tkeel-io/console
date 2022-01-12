@@ -1879,7 +1879,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chakra-ui/react@npm:^1.7.4":
+"@chakra-ui/react@npm:^1.7.3, @chakra-ui/react@npm:^1.7.4":
   version: 1.7.5
   resolution: "@chakra-ui/react@npm:1.7.5"
   dependencies:
@@ -3358,6 +3358,25 @@ __metadata:
     react-hook-form: ^7.22.5
     react-router-dom: ^6.2.1
     react-table: ^7.7.0
+  languageName: unknown
+  linkType: soft
+
+"@tkeel/console-plugin-admin-tenants@workspace:packages/tkeel-console-plugin-admin-tenants":
+  version: 0.0.0-use.local
+  resolution: "@tkeel/console-plugin-admin-tenants@workspace:packages/tkeel-console-plugin-admin-tenants"
+  dependencies:
+    "@chakra-ui/react": ^1.7.3
+    "@emotion/react": ^11.7.1
+    "@emotion/styled": ^11.6.0
+    "@tkeel/console-business-components": "workspace:^"
+    "@tkeel/console-hooks": "workspace:^"
+    "@tkeel/console-types": "workspace:^"
+    "@tkeel/console-utils": "workspace:^"
+    framer-motion: ^5.5.5
+    react: ^17.0.2
+    react-dom: ^17.0.2
+    react-query: ^3.34.7
+    react-router-dom: ^6.2.1
   languageName: unknown
   linkType: soft
 
@@ -8177,6 +8196,35 @@ __metadata:
   dependencies:
     map-cache: ^0.2.2
   checksum: 1cbbd0b0116b67d5790175de0038a11df23c1cd2e8dcdbade58ebba5594c2d641dade6b4f126d82a7b4a6ffc2ea12e3d387dbb64ea2ae97cf02847d436f60fdc
+  languageName: node
+  linkType: hard
+
+"framer-motion@npm:^5.5.5":
+  version: 5.5.7
+  resolution: "framer-motion@npm:5.5.7"
+  dependencies:
+    "@emotion/is-prop-valid": ^0.8.2
+    framesync: 6.0.1
+    hey-listen: ^1.0.8
+    popmotion: 11.0.3
+    react-merge-refs: ^1.1.0
+    react-use-measure: ^2.1.1
+    style-value-types: 5.0.0
+    tslib: ^2.1.0
+  peerDependencies:
+    "@react-three/fiber": "*"
+    react: ">=16.8 || ^17.0.0"
+    react-dom: ">=16.8 || ^17.0.0"
+    three: ^0.135.0
+  dependenciesMeta:
+    "@emotion/is-prop-valid":
+      optional: true
+  peerDependenciesMeta:
+    "@react-three/fiber":
+      optional: true
+    three:
+      optional: true
+  checksum: 14d6c9918faf9224dcaf71d0ab36cbc3d198054ad17962e46946115dbeed45d3a38305975fd7c4bbd4c5d9326951ca79ea6ea0b3d778430572622a5da6293e54
   languageName: node
   linkType: hard
 

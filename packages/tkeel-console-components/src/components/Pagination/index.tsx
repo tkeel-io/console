@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { Flex, Select, Text } from '@chakra-ui/react';
 import {
   ChevronLeftFilledIcon,

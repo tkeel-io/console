@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { KeyboardEvent, KeyboardEventHandler, ReactNode, useRef } from 'react';
 import {
   Input,
   InputGroup,
@@ -12,7 +12,7 @@ type Props = {
   height?: string;
   inputGroupStyle?: StyleProps;
   inputStyle?: StyleProps;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
   iconSize?: number | string;
   placeholder?: string;
   onSearch: (keyword: string) => void;
@@ -30,8 +30,8 @@ function SearchInput({
 }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const onKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (
-    event: React.KeyboardEvent<HTMLInputElement>
+  const onKeyDown: KeyboardEventHandler<HTMLInputElement> = (
+    event: KeyboardEvent<HTMLInputElement>
   ) => {
     const { keyCode } = event;
     if (keyCode === 13 && inputRef.current) {
