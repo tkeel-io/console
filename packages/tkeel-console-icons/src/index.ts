@@ -17,4 +17,5 @@ export { default as HumanVipFilledIcon } from './components/HumanVipFilledIcon';
 export { default as LoadingFilledIcon } from './components/LoadingFilledIcon';
 export { default as MagnifierFilledIcon } from './components/MagnifierFilledIcon';
 export { default as MagnifierTwoToneIcon } from './components/MagnifierTwoToneIcon';
+export { default as PuzzleTwoToneIcon } from './components/PuzzleTwoToneIcon';
 export { default as TrashFilledIcon } from './components/TrashFilledIcon';

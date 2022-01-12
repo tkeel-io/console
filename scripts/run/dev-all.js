@@ -1,7 +1,12 @@
 #!/usr/bin/env node
 
-const { getCanRunPackageDirectoryNames } = require('../utils/packages');
-const { run } = require('./commands');
+const { readPackages } = require('../utils/packages');
+const { runNpmScripts } = require('./commands');
 
-const directoryNames = getCanRunPackageDirectoryNames();
-run({ directoryNames, npmScriptName: 'dev' });
+const data = readPackages()
+  .filter(({ canRun }) => canRun)
+  .map(({ packageJson }) => ({
+    packageName: packageJson?.name,
+    npmScriptName: 'dev',
+  }));
+runNpmScripts({ data });

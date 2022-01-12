@@ -6,50 +6,57 @@ const { isPort } = require('validator');
 const readPkg = require('read-pkg');
 
 const {
-  PACKAGE_DIRECTORY_NAME_PREFIX,
-  PLUGIN_PACKAGE_DIRECTORY_NAME_PREFIX,
-  PORTAL_PACKAGE_SIMPLE_NAME,
+  PACKAGES_PREFIX,
+  PORTAL_PACKAGES,
   SHARED_PACKAGE_SIMPLE_NAMES,
-  EXCLUDE_PACKAGE_NAMES,
+  EXCLUDE_PACKAGE_DIRECTORY_NAMES,
 } = require('../constants');
 const paths = require('./paths');
+const logger = require('./logger');
 
 function getSimpleName({ directoryName }) {
-  return directoryName.replace(PACKAGE_DIRECTORY_NAME_PREFIX, '');
+  return directoryName.replace(PACKAGES_PREFIX.directoryName, '');
 }
 
 function getPluginName({ directoryName }) {
-  return directoryName.replace(PLUGIN_PACKAGE_DIRECTORY_NAME_PREFIX, '');
+  return directoryName.replace(PACKAGES_PREFIX.pluginDirectoryName, '');
 }
 
 function getPluginPackageDirectoryName({ pluginName }) {
-  return `${PLUGIN_PACKAGE_DIRECTORY_NAME_PREFIX}${pluginName}`;
+  return `${PACKAGES_PREFIX.pluginDirectoryName}${pluginName}`;
 }
 
-function getDirectoryNames({ portalFirst } = {}) {
+function readDirectoryNames({ portalFirst, excludeDirectoryNames } = {}) {
   const directoryNames = fs
     .readdirSync(paths.packages.self)
-    .filter((directoryName) => !EXCLUDE_PACKAGE_NAMES.includes(directoryName));
+    .filter((directoryName) => !excludeDirectoryNames.includes(directoryName));
 
   if (portalFirst) {
     return directoryNames.sort((directoryName) =>
-      directoryName ===
-      `${PACKAGE_DIRECTORY_NAME_PREFIX}${PORTAL_PACKAGE_SIMPLE_NAME}`
-        ? -1
-        : 1
+      PORTAL_PACKAGES.directoryNames.includes(directoryName) ? -1 : 1
     );
   }
 
   return directoryNames;
 }
 
-function getPackages({
+/**
+ * @param {boolean} portalFirst
+ * @param {string[]} excludeDirectoryNames
+ * @param {string[]} includeDirectoryNames
+ * @returns {Object[]}
+ */
+function readPackages({
   portalFirst = true,
-  directoryNames = getDirectoryNames({ portalFirst }),
+  excludeDirectoryNames = EXCLUDE_PACKAGE_DIRECTORY_NAMES,
+  includeDirectoryNames = readDirectoryNames({
+    portalFirst,
+    excludeDirectoryNames,
+  }),
 } = {}) {
   const packages = [];
 
-  directoryNames.forEach((directoryName) => {
+  includeDirectoryNames.forEach((directoryName) => {
     const absolutePath = paths.resolvePackages(directoryName);
     const stat = fs.statSync(absolutePath);
     const isDirectory = stat.isDirectory();
@@ -58,11 +65,13 @@ function getPackages({
       return;
     }
 
+    const isPortal = PORTAL_PACKAGES.directoryNames.includes(directoryName);
     const isPlugin = directoryName.startsWith(
-      PLUGIN_PACKAGE_DIRECTORY_NAME_PREFIX
+      PACKAGES_PREFIX.pluginDirectoryName
     );
     const simpleName = getSimpleName({ directoryName });
     const pluginName = isPlugin ? getPluginName({ directoryName }) : '';
+    const isShared = SHARED_PACKAGE_SIMPLE_NAMES.includes(simpleName);
     const canRun = !SHARED_PACKAGE_SIMPLE_NAMES.includes(simpleName);
 
     const packageJson = readPkg.sync({ cwd: absolutePath });
@@ -77,6 +86,8 @@ function getPackages({
     packages.push({
       directoryName,
       absolutePath,
+      isPortal,
+      isShared,
       isPlugin,
       canRun,
       simpleName,
@@ -89,20 +100,70 @@ function getPackages({
   return packages;
 }
 
-function getCanRunPackageDirectoryNames() {
-  return getPackages()
-    .filter(({ canRun }) => canRun)
-    .map(({ directoryName }) => directoryName);
+function readBasePaths() {
+  const data = [];
+
+  readPackages().forEach(({ directoryName, dotenvConfig }) => {
+    const basePath = dotenvConfig?.BASE_PATH;
+    if (basePath) {
+      const items = _.find(data, { basePath });
+      if (items) {
+        items.directoryNames.push(directoryName);
+      } else {
+        data.push({
+          basePath,
+          directoryNames: [directoryName],
+        });
+      }
+    }
+  });
+
+  return data.sort((a, b) => a.devServerPort - b.devServerPort);
 }
 
-function getPluginPackageDotenvConfigs() {
-  return getPackages()
-    .filter(({ isPlugin }) => isPlugin)
-    .map(({ dotenvConfig }) => dotenvConfig);
+function showBasePaths() {
+  const data = readBasePaths();
+  let content = '';
+  data.forEach(({ basePath, directoryNames }) => {
+    content += `${basePath}: ${directoryNames.join(', ')}\n`;
+  });
+  logger.info('Current BASE_PATHs:');
+  logger.info(content);
+}
+
+function readDevServerPorts() {
+  const data = [];
+
+  readPackages().forEach(({ directoryName, dotenvConfig }) => {
+    const devServerPort = dotenvConfig?.DEV_SERVER_PORT;
+    if (devServerPort) {
+      const items = _.find(data, { devServerPort: Number(devServerPort) });
+      if (items) {
+        items.directoryNames.push(directoryName);
+      } else {
+        data.push({
+          devServerPort: Number(devServerPort),
+          directoryNames: [directoryName],
+        });
+      }
+    }
+  });
+
+  return data.sort((a, b) => a.devServerPort - b.devServerPort);
+}
+
+function showDevServerPorts() {
+  const devServerPorts = readDevServerPorts();
+  let content = '';
+  devServerPorts.forEach(({ devServerPort, directoryNames }) => {
+    content += `${devServerPort}: ${directoryNames.join(', ')}\n`;
+  });
+  logger.info('Current DEV_SERVER_PORTs:');
+  logger.info(content);
 }
 
 function checkPluginName({ pluginName }) {
-  const directoryNames = getPackages()
+  const directoryNames = readPackages()
     .filter(({ isPlugin }) => isPlugin)
     .map(({ directoryName }) => directoryName);
   const directoryName = getPluginPackageDirectoryName({ pluginName });
@@ -116,10 +177,12 @@ function checkPluginName({ pluginName }) {
   return { flag, message };
 }
 
-function checkPluginBasePath({ basePath }) {
-  const pluginPackageDotenvConfigs = getPluginPackageDotenvConfigs();
+function checkCanRunPackageBasePath({ basePath }) {
+  const dotenvConfigs = readPackages()
+    .filter(({ canRun, dotenvConfig }) => canRun && dotenvConfig.BASE_PATH)
+    .map(({ dotenvConfig }) => dotenvConfig);
   // eslint-disable-next-line unicorn/prefer-array-some
-  const flag = !_.find(pluginPackageDotenvConfigs, { BASE_PATH: basePath });
+  const flag = !_.find(dotenvConfigs, { BASE_PATH: basePath });
   let message = '';
 
   if (!flag) {
@@ -129,9 +192,11 @@ function checkPluginBasePath({ basePath }) {
   return { flag, message };
 }
 
-function checkPluginDevServerPort({ devServerPort }) {
-  const pluginPackageDotenvConfigs = getPluginPackageDotenvConfigs();
-  const value = _.find(pluginPackageDotenvConfigs, {
+function checkCanRunPackageDevServerPort({ devServerPort }) {
+  const dotenvConfigs = readPackages()
+    .filter(({ canRun }) => canRun)
+    .map(({ dotenvConfig }) => dotenvConfig);
+  const value = _.find(dotenvConfigs, {
     DEV_SERVER_PORT: String(devServerPort),
   });
 
@@ -140,7 +205,7 @@ function checkPluginDevServerPort({ devServerPort }) {
 
   if (value) {
     flag = false;
-    message = 'Error: Duplicate BASE_PATH';
+    message = 'Error: Duplicate DEV_SERVER_PORT';
   }
 
   if (devServerPort && !isPort(String(devServerPort))) {
@@ -153,9 +218,10 @@ function checkPluginDevServerPort({ devServerPort }) {
 
 module.exports = {
   getPluginPackageDirectoryName,
-  getPackages,
-  getCanRunPackageDirectoryNames,
+  readPackages,
+  showBasePaths,
+  showDevServerPorts,
   checkPluginName,
-  checkPluginBasePath,
-  checkPluginDevServerPort,
+  checkCanRunPackageBasePath,
+  checkCanRunPackageDevServerPort,
 };

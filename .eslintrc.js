@@ -127,7 +127,7 @@ module.exports = {
             groups: [
               ['^react', '^prop-types', '^@?\\w'],
               [
-                '^(@/tkeel-console-portal/(types|constants|containers|components|routes|pages|hooks|contexts|utils|apis|services|styles|assets))(/.*|$)',
+                '^(@/tkeel-console-portal-base/(types|constants|containers|components|routes|pages|hooks|contexts|utils|apis|services|styles|assets))(/.*|$)',
               ],
               [
                 '^(@/tkeel-console-plugin-([a-z0-9]+)/(types|constants|containers|components|routes|pages|hooks|contexts|utils|apis|services|styles|assets))(/.*|$)',

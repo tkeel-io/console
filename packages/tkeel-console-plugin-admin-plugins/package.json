@@ -1,0 +1,36 @@
+{
+  "name": "@tkeel/console-plugin-admin-plugins",
+  "version": "0.0.1",
+  "homepage": "https://github.com/tkeel-io/console#readme",
+  "bugs": {
+    "url": "https://github.com/tkeel-io/console/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tkeel-io/console.git"
+  },
+  "license": "Apache-2.0",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development webpack serve --config ../../webpack/webpack.config.plugins",
+    "build": "cross-env NODE_ENV=production webpack --config ../../webpack/webpack.config.plugins",
+    "analyze": "cross-env NODE_ENV=development ANALYZE=true npm run build"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^1.7.4",
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
+    "@monaco-editor/react": "^4.3.1",
+    "@tkeel/console-components": "workspace:^",
+    "@tkeel/console-hooks": "workspace:^",
+    "@tkeel/console-icons": "workspace:^",
+    "@tkeel/console-utils": "workspace:^",
+    "framer-motion": "^5.5.6",
+    "monaco-editor": "^0.31.1",
+    "monaco-themes": "^0.4.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-hook-form": "^7.22.5",
+    "react-router-dom": "^6.2.1",
+    "react-table": "^7.7.0"
+  }
+}

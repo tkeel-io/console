@@ -11,6 +11,10 @@
   },
   "license": "Apache-2.0",
   "main": "./src/index.ts",
+  "dependencies": {
+    "react-hook-form": "^7.22.5",
+    "react-table": "^7.7.0"
+  },
   "devDependencies": {
     "@tkeel/console-icons": "workspace:^"
   },
@@ -21,8 +25,5 @@
     "framer-motion": "^5.3.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
-  },
-  "dependencies": {
-    "react-table": "^7.7.0"
   }
 }
