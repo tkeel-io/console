@@ -5,9 +5,9 @@ import { Form, FormField } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
 import { setLocalTokenData } from '@tkeel/console-utils';
 
-import useOAuthTokenMutation, {
+import useOAuthAdminTokenMutation, {
   ApiData,
-} from '@/tkeel-console-portal-base/hooks/mutations/useOAuthTokenMutation';
+} from '@/tkeel-console-portal-base/hooks/mutations/useOAuthAdminTokenMutation';
 
 const { TextField } = FormField;
 
@@ -61,15 +61,14 @@ function LoginAdmin(): JSX.Element {
   const navigate = useNavigate();
   const redirect = useRedirectParams();
 
-  const { data, mutate, isLoading } = useOAuthTokenMutation();
+  const { data, mutate, isLoading } = useOAuthAdminTokenMutation();
   handleLogin({ data, redirect, navigate });
 
   const onSubmit: SubmitHandler<Inputs> = (values) => {
-    const { username, password } = values;
+    const { password } = values;
+
     const params = {
-      grant_type: 'password' as const,
-      username,
-      password,
+      password: window.btoa(password),
     };
 
     mutate({ params });
