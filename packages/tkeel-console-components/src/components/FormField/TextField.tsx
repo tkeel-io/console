@@ -19,7 +19,6 @@ type Props = FormControlProps & {
 const defaultProps = {
   type: 'text',
   inputStyle: {},
-  onChange: undefined,
   ...fieldDefaultProps,
 };
 
@@ -42,6 +41,7 @@ function InputField({
         placeholder={placeholder}
         borderColor="gray.200"
         boxShadow="none!important"
+        _placeholder={{ color: 'blackAlpha.500' }}
         _focus={getFocusStyle(!!rest.error)}
         {...schemas}
         {...inputStyle}
