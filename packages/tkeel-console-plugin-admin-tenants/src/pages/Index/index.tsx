@@ -21,7 +21,7 @@ const handleSearch = (keyword: string) => {
 function IndexComponent(): JSX.Element {
   const { navigate } = useGlobalProps();
   const LinkToSpaceDetail = () => {
-    navigate('/tenant/detail/12029389');
+    navigate('/admin-tenants/detail/12029389');
   };
   const data = Array.from({ length: 20 }).fill({
     col1: 'IDC项目',
