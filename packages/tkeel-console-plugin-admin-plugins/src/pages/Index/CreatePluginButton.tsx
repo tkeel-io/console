@@ -19,16 +19,30 @@ function CreatePluginButton() {
     formState: { errors },
     trigger,
     getValues,
+    setError,
     clearErrors,
   } = useForm<Controls>();
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    id: keyof Controls
+    id: 'name' | 'address'
   ) => {
     const { value } = e.target;
     if (value) {
       clearErrors(id);
+    } else {
+      setError(id, { type: 'manual', message: 'required' });
+    }
+  };
+
+  const handleVersionChange: React.ChangeEventHandler<HTMLSelectElement> = (
+    e
+  ) => {
+    const { value } = e.target;
+    if (value) {
+      clearErrors('version');
+    } else {
+      setError('version', { type: 'manual', message: 'required' });
     }
   };
 
@@ -120,6 +134,7 @@ function CreatePluginButton() {
               required: { value: true, message: 'required' },
             })}
             formControlStyle={{ marginTop: '16px' }}
+            onChange={handleVersionChange}
           />
         </>
       </Modal>
