@@ -9,7 +9,7 @@ type Options = {
   extras?: RequestExtras;
 };
 
-export default function useOAuthAuthenticate(options?: Options) {
+export default function useOAuthAuthenticateQuery(options?: Options) {
   const extras = options?.extras;
   return useQuery({ url, method, extras });
 }
