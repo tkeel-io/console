@@ -33,7 +33,7 @@ function handleLogin({
   navigate(redirect);
 }
 
-function Login(): JSX.Element {
+function LoginTenant(): JSX.Element {
   const formLabelStyle = {
     marginBottom: '5px',
     fontSize: '14px',
@@ -144,4 +144,4 @@ function Login(): JSX.Element {
   );
 }
 
-export default Login;
+export default LoginTenant;

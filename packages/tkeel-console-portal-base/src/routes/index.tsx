@@ -4,7 +4,8 @@ import { ThemeNames } from '@tkeel/console-themes';
 import Layout from '@/tkeel-console-portal-base/containers/Layout';
 import NotRequireAuth from '@/tkeel-console-portal-base/containers/NotRequireAuth';
 import RequireAuth from '@/tkeel-console-portal-base/containers/RequireAuth';
-import Login from '@/tkeel-console-portal-base/pages/Login';
+import LoginAdmin from '@/tkeel-console-portal-base/pages/LoginAdmin';
+import LoginTenant from '@/tkeel-console-portal-base/pages/LoginTenant';
 
 type Props = {
   themeName: ThemeNames;
@@ -15,7 +16,12 @@ function Routes({ themeName }: Props) {
     <ReactRouterRoutes>
       <Route element={<NotRequireAuth />}>
         <Route path="/auth">
-          <Route path="login" element={<Login />} />
+          {process.env.PLATFORM === 'admin' && (
+            <Route path="login" element={<LoginAdmin />} />
+          )}
+          {process.env.PLATFORM === 'tenant' && (
+            <Route path="login" element={<LoginTenant />} />
+          )}
         </Route>
       </Route>
       <Route element={<RequireAuth />}>
