@@ -1,4 +1,3 @@
-import React from 'react';
 import { Column } from 'react-table';
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { SearchInput, Table } from '@tkeel/console-components';
