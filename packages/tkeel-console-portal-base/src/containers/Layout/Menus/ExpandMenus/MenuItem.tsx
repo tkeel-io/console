@@ -1,4 +1,4 @@
-import React from 'react';
+import { ReactNode } from 'react';
 import { Flex } from '@chakra-ui/react';
 import * as icons from '@tkeel/console-icons';
 
@@ -6,7 +6,7 @@ type Props = {
   active: boolean;
   name: string;
   leftIcon: string;
-  rightIcon?: React.ReactNode;
+  rightIcon?: ReactNode;
 };
 
 const defaultProps = {

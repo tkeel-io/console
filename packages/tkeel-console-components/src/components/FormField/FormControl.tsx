@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react';
+import { ReactNode } from 'react';
 import { FieldError } from 'react-hook-form';
 import {
   FormControl,
@@ -19,7 +19,7 @@ export interface FormControlProps {
 
 type Props = FormControlProps & {
   id: string;
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 function CustomFormControl({

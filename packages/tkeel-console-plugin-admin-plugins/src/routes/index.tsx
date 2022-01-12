@@ -1,4 +1,3 @@
-import React from 'react';
 import { Route, Routes as ReactRouterRoutes } from 'react-router-dom';
 
 import Detail from '@/tkeel-console-plugin-admin-plugins/pages/Detail';

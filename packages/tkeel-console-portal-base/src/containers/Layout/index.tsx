@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { Box, Flex } from '@chakra-ui/react';
 import { ThemeNames } from '@tkeel/console-themes';

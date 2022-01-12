@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button, Center, Flex, Text } from '@chakra-ui/react';
 import { BoxTwoToneIcon, ChevronLeftFilledIcon } from '@tkeel/console-icons';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Theme, useTheme } from '@chakra-ui/react';
 import { getColor } from '@chakra-ui/theme-tools';
 

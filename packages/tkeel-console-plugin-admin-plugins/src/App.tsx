@@ -1,5 +1,4 @@
 /* eslint-disable no-underscore-dangle */
-import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 

@@ -3,7 +3,6 @@
 /* eslint-disable-next-line simple-import-sort/imports */
 import './public-path';
 
-import React from 'react';
 import ReactDOM from 'react-dom';
 
 import App from './App';

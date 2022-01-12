@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Add from '@/tkeel-console-icons/assets/icons/filled/add.svg?svgr';
 import FilledIcon from '@/tkeel-console-icons/components/Icon/FilledIcon';
 import { FilledIconProps } from '@/tkeel-console-icons/components/Icon/types';
