@@ -7,4 +7,5 @@ export const fieldDefaultProps = {
   schemas: {},
   formControlStyle: {},
   formLabelStyle: {},
+  onChange: undefined,
 };

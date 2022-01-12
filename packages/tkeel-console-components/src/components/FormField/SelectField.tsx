@@ -15,16 +15,21 @@ type Props = FormControlProps & {
   value?: Value;
   placeholder?: string;
   schemas?: UseFormRegisterReturn;
+  onChange?: React.ChangeEventHandler<HTMLSelectElement>;
 };
 
-const defaultProps = fieldDefaultProps;
+const defaultProps = {
+  ...fieldDefaultProps,
+  placeholder: '请选择',
+};
 
 function CustomFormControl({
   id,
-  placeholder,
-  schemas,
   options,
+  placeholder,
   value: defaultValue,
+  schemas,
+  onChange,
   ...rest
 }: Props) {
   return (
@@ -34,8 +39,10 @@ function CustomFormControl({
         id={id}
         placeholder={placeholder}
         boxShadow="none!important"
+        color="blackAlpha.500"
         _focus={getFocusStyle(!!rest.error)}
         {...schemas}
+        onChange={onChange}
       >
         {options.map(({ value, label }) => (
           <option key={value} value={value}>
