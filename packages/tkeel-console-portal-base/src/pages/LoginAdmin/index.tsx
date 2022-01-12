@@ -1,6 +1,6 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
-import { Box, Button, Center, Heading, Text } from '@chakra-ui/react';
+import { Box, Button, Center, Flex, Heading, Text } from '@chakra-ui/react';
 import { Form, FormField } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
 import { setLocalTokenData } from '@tkeel/console-utils';
@@ -76,58 +76,60 @@ function LoginAdmin(): JSX.Element {
   };
 
   return (
-    <Center flexDirection="column" height="100vh">
-      <Box>
-        <Heading
-          as="h1"
-          fontSize="48px"
-          fontWeight="700"
-          lineHeight="48px"
-          color="gray.800"
-        >
-          tKeel 管理平台
-        </Heading>
-        <Text
-          paddingTop="12px"
-          fontSize="14px"
-          fontWeight="700"
-          lineHeight="20px"
-          color="gray.400"
-        >
-          tKeel，颠覆传统物联网应用开发的新一代核心架构
-        </Text>
-        <Form
-          paddingTop="24px"
-          paddingBottom="100px"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <TextField
-            type="password"
-            id="password"
-            label="密码"
-            value={process.env.PASSWORD}
-            placeholder="请输入您的密码"
-            error={errors.username}
-            schemas={register('password', {
-              required: { value: true, message: 'required' },
-            })}
-            formControlStyle={{ paddingTop: '24px' }}
-            formLabelStyle={formLabelStyle}
-            inputStyle={inputStyle}
-          />
-          <Box paddingTop="46px">
-            <Button
-              type="submit"
-              isFullWidth
-              height="45px"
-              isLoading={isLoading}
-            >
-              登录
-            </Button>
-          </Box>
-        </Form>
-      </Box>
-    </Center>
+    <Flex justifyContent="flex-end" backgroundColor="gray.900" height="100vh">
+      <Center flexDirection="column" width="50%" backgroundColor="gray.100">
+        <Box>
+          <Heading
+            as="h1"
+            fontSize="48px"
+            fontWeight="700"
+            lineHeight="48px"
+            color="gray.800"
+          >
+            tKeel 管理平台
+          </Heading>
+          <Text
+            paddingTop="12px"
+            fontSize="14px"
+            fontWeight="700"
+            lineHeight="20px"
+            color="gray.400"
+          >
+            tKeel，颠覆传统物联网应用开发的新一代核心架构
+          </Text>
+          <Form
+            paddingTop="24px"
+            paddingBottom="100px"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <TextField
+              type="password"
+              id="password"
+              label="密码"
+              value={process.env.PASSWORD}
+              placeholder="请输入您的密码"
+              error={errors.username}
+              schemas={register('password', {
+                required: { value: true, message: 'required' },
+              })}
+              formControlStyle={{ paddingTop: '24px' }}
+              formLabelStyle={formLabelStyle}
+              inputStyle={inputStyle}
+            />
+            <Box paddingTop="46px">
+              <Button
+                type="submit"
+                isFullWidth
+                height="45px"
+                isLoading={isLoading}
+              >
+                登录
+              </Button>
+            </Box>
+          </Form>
+        </Box>
+      </Center>
+    </Flex>
   );
 }
 
