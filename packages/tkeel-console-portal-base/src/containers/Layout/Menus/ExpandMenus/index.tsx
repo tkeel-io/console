@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Box, Flex, Image } from '@chakra-ui/react';
 import { SearchInput } from '@tkeel/console-components';
 import { MagnifierTwoToneIcon } from '@tkeel/console-icons';

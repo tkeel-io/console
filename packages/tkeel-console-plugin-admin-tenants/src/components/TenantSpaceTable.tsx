@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-key */
-import React, { ReactElement } from 'react';
 import { useTable } from 'react-table';
 import { Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 
@@ -8,7 +7,7 @@ interface Props {
   columns: Array<any>;
 }
 
-function TenantSpaceTable({ data, columns }: Props): ReactElement {
+function TenantSpaceTable({ data, columns }: Props): JSX.Element {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,

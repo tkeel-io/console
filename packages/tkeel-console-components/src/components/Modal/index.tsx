@@ -1,4 +1,4 @@
-import React from 'react';
+import { ReactNode } from 'react';
 import {
   Modal,
   ModalBody,
@@ -11,9 +11,9 @@ import {
 
 type Props = {
   width?: string | number;
-  title: React.ReactNode;
-  children: React.ReactNode;
-  footer?: React.ReactNode;
+  title: ReactNode;
+  children: ReactNode;
+  footer?: ReactNode;
   isOpen: boolean;
   onClose: () => void;
 };

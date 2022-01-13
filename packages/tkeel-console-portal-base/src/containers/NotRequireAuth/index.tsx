@@ -1,4 +1,3 @@
-import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { Center, Spinner } from '@chakra-ui/react';
 import { useRedirectParams } from '@tkeel/console-hooks';

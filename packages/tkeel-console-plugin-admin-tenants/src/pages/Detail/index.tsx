@@ -1,4 +1,3 @@
-import React, { ReactElement } from 'react';
 import {
   Box,
   Flex,
@@ -27,7 +26,7 @@ const infos = {
   ],
 };
 
-function Detail(): ReactElement {
+function Detail() {
   return (
     <Flex h="100%">
       <Box w="360px" mr="20px">

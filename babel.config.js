@@ -7,7 +7,12 @@ module.exports = {
       },
     ],
     '@babel/preset-typescript',
-    '@babel/preset-react',
+    [
+      '@babel/preset-react',
+      {
+        runtime: 'automatic',
+      },
+    ],
   ],
   plugins: [
     '@emotion',

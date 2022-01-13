@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Flex, Tag, Text } from '@chakra-ui/react';
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
