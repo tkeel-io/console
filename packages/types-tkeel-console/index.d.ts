@@ -49,8 +49,8 @@ declare module '*.webp' {
 }
 
 interface Window {
+  __POWERED_BY_QIANKUN__: boolean;
   __INJECTED_PUBLIC_PATH_BY_QIANKUN__: string;
-  __POWERED_BY_QIANKUN__: string;
 }
 
 // eslint-disable-next-line no-underscore-dangle, @typescript-eslint/naming-convention
