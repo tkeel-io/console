@@ -1,7 +1,10 @@
 import { Route, Routes as ReactRouterRoutes } from 'react-router-dom';
 import { ThemeNames } from '@tkeel/console-themes';
 
-import { PLATFORMS } from '@/tkeel-console-portal-base/constants';
+import {
+  PlatformNames,
+  PLATFORMS,
+} from '@/tkeel-console-portal-base/constants';
 import Layout from '@/tkeel-console-portal-base/containers/Layout';
 import NotRequireAuth from '@/tkeel-console-portal-base/containers/NotRequireAuth';
 import RequireAuth from '@/tkeel-console-portal-base/containers/RequireAuth';
@@ -12,30 +15,25 @@ type Props = {
   themeName: ThemeNames;
 };
 
-const platform = process.env.PLATFORM;
+const platformName =
+  (process.env.PLATFORM_NAME as PlatformNames) || PlatformNames.TENANT;
 
 function Routes({ themeName }: Props) {
   return (
     <ReactRouterRoutes>
-      <Route element={<NotRequireAuth />}>
+      <Route element={<NotRequireAuth platformName={platformName} />}>
         <Route path="/auth">
-          {platform === PLATFORMS.admin && (
+          {platformName === PLATFORMS[PlatformNames.ADMIN].name && (
             <Route path="login" element={<LoginAdmin />} />
           )}
-          {platform === PLATFORMS.tenant && (
+          {platformName === PLATFORMS[PlatformNames.TENANT].name && (
             <Route path="login" element={<LoginTenant />} />
           )}
         </Route>
       </Route>
-      {/* TODO: 临时 */}
-      {platform === PLATFORMS.admin && (
+      <Route element={<RequireAuth platformName={platformName} />}>
         <Route path="/*" element={<Layout themeName={themeName} />} />
-      )}
-      {platform === PLATFORMS.tenant && (
-        <Route element={<RequireAuth />}>
-          <Route path="/*" element={<Layout themeName={themeName} />} />
-        </Route>
-      )}
+      </Route>
     </ReactRouterRoutes>
   );
 }
