@@ -2,8 +2,8 @@ import { Route, Routes as ReactRouterRoutes } from 'react-router-dom';
 import { ThemeNames } from '@tkeel/console-themes';
 
 import {
+  PLATFORM_INFOS,
   PlatformNames,
-  PLATFORMS,
 } from '@/tkeel-console-portal-base/constants';
 import Layout from '@/tkeel-console-portal-base/containers/Layout';
 import NotRequireAuth from '@/tkeel-console-portal-base/containers/NotRequireAuth';
@@ -23,10 +23,10 @@ function Routes({ themeName }: Props) {
     <ReactRouterRoutes>
       <Route element={<NotRequireAuth platformName={platformName} />}>
         <Route path="/auth">
-          {platformName === PLATFORMS[PlatformNames.ADMIN].name && (
+          {platformName === PLATFORM_INFOS[PlatformNames.ADMIN].name && (
             <Route path="login" element={<LoginAdmin />} />
           )}
-          {platformName === PLATFORMS[PlatformNames.TENANT].name && (
+          {platformName === PLATFORM_INFOS[PlatformNames.TENANT].name && (
             <Route path="login" element={<LoginTenant />} />
           )}
         </Route>
