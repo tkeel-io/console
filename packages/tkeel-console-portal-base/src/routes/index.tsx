@@ -27,9 +27,15 @@ function Routes({ themeName }: Props) {
           )}
         </Route>
       </Route>
-      <Route element={<RequireAuth />}>
+      {/* TODO: 临时 */}
+      {platform === PLATFORMS.admin && (
         <Route path="/*" element={<Layout themeName={themeName} />} />
-      </Route>
+      )}
+      {platform === PLATFORMS.tenant && (
+        <Route element={<RequireAuth />}>
+          <Route path="/*" element={<Layout themeName={themeName} />} />
+        </Route>
+      )}
     </ReactRouterRoutes>
   );
 }
