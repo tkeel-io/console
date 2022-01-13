@@ -53,5 +53,5 @@ interface Window {
   __POWERED_BY_QIANKUN__: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle
+// eslint-disable-next-line no-underscore-dangle, @typescript-eslint/naming-convention
 declare let __webpack_public_path__: string;
