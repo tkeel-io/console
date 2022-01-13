@@ -1,4 +1,3 @@
-import { ReactElement } from 'react';
 import { Box, Center, Flex, List, ListItem, Text } from '@chakra-ui/react';
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
 
@@ -9,7 +8,7 @@ interface Props {
     list: Array<{ label: string; value: string }>;
   };
 }
-function SpaceInfoCard({ infos }: Props): ReactElement {
+function SpaceInfoCard({ infos }: Props): JSX.Element {
   const { title, desc, list } = infos;
   return (
     <Box w="360px" mr="20px">
