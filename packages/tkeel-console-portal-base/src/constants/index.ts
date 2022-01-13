@@ -9,7 +9,7 @@ export const PLATFORMS = {
     validateAuthApi: '/rudder/v1/oauth2/authorize',
   },
   [PlatformNames.TENANT]: {
-    name: PlatformNames.ADMIN,
+    name: PlatformNames.TENANT,
     validateAuthApi: '/security/v1/oauth/authenticate',
   },
 };
