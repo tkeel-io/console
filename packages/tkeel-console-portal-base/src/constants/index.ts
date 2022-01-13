@@ -3,7 +3,7 @@ export const enum PlatformNames {
   TENANT = 'tenant',
 }
 
-export const PLATFORM_INFOS = {
+export const PLATFORMS = {
   [PlatformNames.ADMIN]: {
     name: PlatformNames.ADMIN,
     validateAuthApi: '/rudder/v1/oauth2/authorize',
