@@ -12,12 +12,12 @@ import {
 } from '@chakra-ui/react';
 import { Modal } from '@tkeel/console-components';
 
-interface IProps {
+interface Props {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export default function EditSpaceModal({ isOpen, onClose }: IProps) {
+export default function EditSpaceModal({ isOpen, onClose }: Props) {
   return (
     <Modal
       title={

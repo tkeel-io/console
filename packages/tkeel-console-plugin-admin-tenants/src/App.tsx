@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import { QueryClientProvider } from 'react-query';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
@@ -19,7 +18,6 @@ function App(props: PluginGlobalProps) {
         <ChakraProvider theme={theme}>
           <Router
             basename={
-              // @ts-ignore
               window.__POWERED_BY_QIANKUN__ ? process.env.BASE_PATH : '/'
             }
           >

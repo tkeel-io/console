@@ -1,15 +1,13 @@
-/* eslint-disable no-underscore-dangle */
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
+import { PluginGlobalProps } from '@tkeel/console-types';
 
 import Routes from './routes';
-import { IProps } from './types';
 
-function App({ theme }: IProps) {
+function App({ theme }: PluginGlobalProps) {
   return (
     <ChakraProvider theme={theme}>
       <Router
-        // @ts-ignore
         basename={window.__POWERED_BY_QIANKUN__ ? process.env.BASE_PATH : '/'}
       >
         <Routes />

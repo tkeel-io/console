@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import { QueryClientProvider } from 'react-query';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';

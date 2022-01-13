@@ -1,14 +1,12 @@
-/* eslint-disable no-underscore-dangle */
-
 /* eslint-disable-next-line simple-import-sort/imports */
 import './public-path';
 
 import * as ReactDOM from 'react-dom';
 
 import App from './App';
-import { IProps } from './types';
+import { PluginGlobalProps } from '@tkeel/console-types';
 
-function render(props: IProps) {
+function render(props: PluginGlobalProps) {
   const { container } = props;
 
   ReactDOM.render(
@@ -19,32 +17,25 @@ function render(props: IProps) {
   );
 }
 
-// @ts-ignore
-if (!window.__POWERED_BY_QIANKUN__) {
-  render({});
-}
+/* if (!window.__POWERED_BY_QIANKUN__) {
+  render();
+} */
 
-// eslint-disable-next-line @typescript-eslint/require-await
 export async function bootstrap() {
-  // eslint-disable-next-line no-console
-  // console.log('bootstrap');
+  //
 }
 
-// eslint-disable-next-line @typescript-eslint/require-await
-export async function mount(props: IProps) {
-  // eslint-disable-next-line no-console
-  // console.log('mount', props);
+export async function mount(props: PluginGlobalProps) {
   render(props);
 }
 
-// eslint-disable-next-line @typescript-eslint/require-await
-export async function unmount(props: IProps) {
+export async function unmount(props: PluginGlobalProps) {
   const { container } = props;
-
-  ReactDOM.unmountComponentAtNode(
-    // @ts-ignore
+  const rootContainer = (
     container
       ? container.querySelector('#root')
       : document.querySelector('#root')
-  );
+  ) as Element;
+
+  ReactDOM.unmountComponentAtNode(rootContainer);
 }

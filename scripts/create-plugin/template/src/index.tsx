@@ -1,5 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-
 /* eslint-disable-next-line simple-import-sort/imports */
 import './public-path';
 
