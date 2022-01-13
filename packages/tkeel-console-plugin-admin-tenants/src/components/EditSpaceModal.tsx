@@ -13,7 +13,7 @@ import { FormField, Modal } from '@tkeel/console-components';
 
 import AuthConfigOption from './AuthConfigOption';
 
-interface IProps {
+interface Props {
   isOpen: boolean;
   onClose: () => void;
 }
@@ -33,7 +33,7 @@ const AuthConfig = [
   },
 ];
 
-export default function EditSpaceModal({ isOpen, onClose }: IProps) {
+export default function EditSpaceModal({ isOpen, onClose }: Props) {
   const { register } = useForm();
   const [selectedAuth, setSelectedAuth] = useState<string>('default');
   const handleSelectAuth = (key: string) => () => {

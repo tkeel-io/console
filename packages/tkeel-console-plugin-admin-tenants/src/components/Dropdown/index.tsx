@@ -1,20 +1,27 @@
-import { useState } from 'react';
-import { Button } from '@chakra-ui/react';
+import { ReactNode, useState } from 'react';
+import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
 import { CaretDownFilledIcon, CaretUpFilledIcon } from '@tkeel/console-icons';
 
+type TMenu = {
+  key: string;
+  label: string;
+  [propName: string]: any;
+};
 type DropdownProps = {
-  children: React.ReactNode;
+  children: ReactNode;
+  menu: TMenu[];
 };
 
 export default function Dropdown(props: DropdownProps) {
-  const { children } = props;
+  const { children, menu } = props;
   const [showActionList, setShowActionList] = useState(false);
   const handleDropdownListShow = () => {
     setShowActionList(!showActionList);
   };
   return (
-    <div>
-      <Button
+    <Menu>
+      <MenuButton
+        as={Button}
         colorScheme="primary"
         size="sm"
         rightIcon={
@@ -27,7 +34,12 @@ export default function Dropdown(props: DropdownProps) {
         onClick={handleDropdownListShow}
       >
         {children}
-      </Button>
-    </div>
+      </MenuButton>
+      <MenuList>
+        {menu.map((item) => (
+          <MenuItem key={item.key}>{item.label}</MenuItem>
+        ))}
+      </MenuList>
+    </Menu>
   );
 }
