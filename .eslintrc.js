@@ -52,6 +52,15 @@ module.exports = {
       },
     ],
     'no-useless-call': 'error',
+    'no-underscore-dangle': [
+      'error',
+      {
+        allow: [
+          '__POWERED_BY_QIANKUN__',
+          '__INJECTED_PUBLIC_PATH_BY_QIANKUN__',
+        ],
+      },
+    ],
     'import/no-duplicates': ['error', { considerQueryString: true }],
     'import/order': [
       'error',

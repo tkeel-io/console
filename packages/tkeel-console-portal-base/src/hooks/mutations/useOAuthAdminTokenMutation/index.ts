@@ -1,9 +1,7 @@
 import useMutation from '@/tkeel-console-portal-base/hooks/useMutation';
 
 interface RequestParams {
-  grant_type: 'password' | 'authorization_code';
-  username: string;
-  password: string;
+  password?: string;
 }
 
 export interface ApiData {
@@ -13,10 +11,10 @@ export interface ApiData {
   token_type: string;
 }
 
-const url = '/security/v1/oauth/token';
+const url = '/rudder/v1/oauth2/admin';
 const method = 'GET';
 
-export default function useOAuthTokenMutation() {
+export default function useOAuthAdminTokenMutation() {
   return useMutation<ApiData, RequestParams>({
     url,
     method,
