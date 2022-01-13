@@ -1,6 +1,6 @@
 import { Route, Routes as ReactRouterRoutes } from 'react-router-dom';
 
-import Index from '../pages/Index';
+import Index from '@/tkeel-console-plugin-example/pages/Index';
 
 function Routes() {
   return (

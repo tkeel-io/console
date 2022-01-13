@@ -18,7 +18,6 @@ function App(props: PluginGlobalProps) {
         <ChakraProvider theme={theme}>
           <Router
             basename={
-              // @ts-ignore
               window.__POWERED_BY_QIANKUN__ ? process.env.BASE_PATH : '/'
             }
           >
