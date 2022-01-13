@@ -2,10 +2,16 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { Center, Spinner } from '@chakra-ui/react';
 import { useNoAuthRedirectPath } from '@tkeel/console-hooks';
 
+import { PlatformNames } from '@/tkeel-console-portal-base/constants';
 import useAuth from '@/tkeel-console-portal-base/hooks/useAuth';
 
-export default function RequireAuth() {
+type Props = {
+  platformName: PlatformNames;
+};
+
+export default function RequireAuth({ platformName }: Props) {
   const { isLoading, isError } = useAuth({
+    platformName,
     extras: { handleNoAuth: false, handleApiError: false },
   });
   const redirectPath = useNoAuthRedirectPath();

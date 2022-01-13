@@ -8,7 +8,11 @@ function App({ theme }: PluginGlobalProps) {
   return (
     <ChakraProvider theme={theme}>
       <Router
-        basename={window.__POWERED_BY_QIANKUN__ ? process.env.BASE_PATH : '/'}
+        basename={
+          window.__POWERED_BY_QIANKUN__
+            ? process.env.BASE_PATH
+            : process.env.PUBLIC_PATH
+        }
       >
         <Routes />
       </Router>
