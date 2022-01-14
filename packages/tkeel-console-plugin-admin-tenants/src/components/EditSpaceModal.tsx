@@ -1,23 +1,45 @@
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import {
+  Box,
   Button,
-  // Center,
   FormControl,
-  // FormErrorMessage,
-  // FormHelperText,
   FormLabel,
   Grid,
   GridItem,
-  Input,
   Text,
 } from '@chakra-ui/react';
-import { Modal } from '@tkeel/console-components';
+import { FormField, Modal } from '@tkeel/console-components';
 
-interface IProps {
+import AuthConfigOption from './AuthConfigOption';
+
+interface Props {
   isOpen: boolean;
   onClose: () => void;
 }
+const { TextField } = FormField;
+const AuthConfig = [
+  {
+    title: '平台默认',
+    key: 'default',
+    description:
+      '用户的管理在平台侧，管理员可在 tkeel 租户平台注册、管理用户。',
+  },
+  {
+    title: '第三方',
+    key: 'third',
+    description:
+      '用户的管理在第三方，用户登录 tkeel 平台需要跳转至第三方登录。',
+  },
+];
 
-export default function EditSpaceModal({ isOpen, onClose }: IProps) {
+export default function EditSpaceModal({ isOpen, onClose }: Props) {
+  const { register } = useForm();
+  const [selectedAuth, setSelectedAuth] = useState<string>('default');
+  const handleSelectAuth = (key: string) => () => {
+    setSelectedAuth(key);
+  };
+
   return (
     <Modal
       title={
@@ -36,32 +58,52 @@ export default function EditSpaceModal({ isOpen, onClose }: IProps) {
         </>
       }
     >
-      <FormControl isRequired mb="16px">
-        <FormLabel htmlFor="space-name">空间名称</FormLabel>
-        <Input id="space-name" placeholder="请输入" />
-      </FormControl>
-      <FormControl>
-        <FormLabel>平台选择</FormLabel>
-        <Grid templateColumns="repeat(2, 1fr)" gap={4}>
-          {[1, 2].map((opt) => {
-            const isSelected = opt === 1;
-            return (
-              <GridItem
-                h="84px"
-                cursor="pointer"
-                colSpan={1}
-                key={opt}
-                border={isSelected ? '2px' : '1px'}
-                bg={isSelected ? 'blue.50' : 'white'}
-                borderRadius="4px"
-                borderColor={isSelected ? 'primary' : 'gray.200'}
-              >
-                {opt}
-              </GridItem>
-            );
+      <Box h="530px" overflowY="scroll">
+        <TextField
+          id="space-name"
+          label="空间名称"
+          schemas={register('space-name', {
+            required: { value: true, message: 'required' },
           })}
-        </Grid>
-      </FormControl>
+        />
+        <FormControl mb="16px">
+          <FormLabel fontSize="14px" lineHeight="24px" color="gray.600">
+            平台选择
+          </FormLabel>
+          <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+            {AuthConfig.map((opt) => {
+              return (
+                <GridItem
+                  colSpan={1}
+                  key={opt.key}
+                  onClick={handleSelectAuth(opt.key)}
+                >
+                  <AuthConfigOption
+                    {...opt}
+                    isSelected={selectedAuth === opt.key}
+                  />
+                </GridItem>
+              );
+            })}
+          </Grid>
+        </FormControl>
+        <TextField
+          id="admin-account"
+          label="管理员账号"
+          schemas={register('admin-account', {
+            required: { value: true, message: 'required' },
+          })}
+          help="6~18 位字符串, 只能包含英文字母、数字、下划线"
+        />
+        <TextField
+          id="admin-name"
+          label="管理员姓名"
+          schemas={register('admin-name', {
+            required: { value: true, message: 'required' },
+          })}
+        />
+        <TextField id="tips" label="备注" />
+      </Box>
     </Modal>
   );
 }

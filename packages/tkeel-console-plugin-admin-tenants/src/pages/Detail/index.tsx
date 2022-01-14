@@ -1,4 +1,3 @@
-import { ReactElement } from 'react';
 import {
   Box,
   Flex,
@@ -13,6 +12,7 @@ import SpaceInfoCard from './SpaceInfoCard';
 import {
   BackButton,
   CustomTab,
+  Dropdown,
 } from '@/tkeel-console-plugin-admin-tenants/components';
 
 const infos = {
@@ -26,12 +26,18 @@ const infos = {
   ],
 };
 
-function Detail(): ReactElement {
+function Detail() {
+  const menu = [
+    { key: 'edit', label: '编辑基础信息' },
+    { key: 'rest', label: '重置管理员密码' },
+    { key: 'delete', label: '删除租户空间' },
+  ];
   return (
     <Flex h="100%">
       <Box w="360px" mr="20px">
         <Flex bg="gray.50" pt="16px" px="16px" justify="space-between">
           <BackButton />
+          <Dropdown menu={menu}>更多操作</Dropdown>
         </Flex>
         <SpaceInfoCard infos={infos} />
       </Box>

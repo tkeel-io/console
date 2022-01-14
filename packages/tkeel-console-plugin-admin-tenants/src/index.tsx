@@ -1,8 +1,5 @@
-/* eslint-disable no-underscore-dangle */
-
 /* eslint-disable-next-line simple-import-sort/imports */
 import './public-path';
-
 import * as ReactDOM from 'react-dom';
 
 import App from './App';
@@ -37,11 +34,11 @@ export async function mount(props: Props) {
 
 export async function unmount(props: Props) {
   const { container } = props;
-
-  ReactDOM.unmountComponentAtNode(
-    // @ts-ignore
+  const rootContainer = (
     container
       ? container.querySelector('#root')
       : document.querySelector('#root')
-  );
+  ) as Element;
+
+  ReactDOM.unmountComponentAtNode(rootContainer);
 }
