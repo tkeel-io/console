@@ -40,7 +40,7 @@ function Detail() {
           <CustomTab>参数</CustomTab>
         </TabList>
         <TabPanels marginTop="16px" flex="1" overflow="hidden">
-          <TabPanel padding="0">
+          <TabPanel padding="0" height="100%">
             <EnablePluginList />
           </TabPanel>
           <TabPanel padding="0">
