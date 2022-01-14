@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { Column, IdType, Row } from 'react-table';
+import { Column, IdType, Row, SortingRule } from 'react-table';
 import { Flex, Text } from '@chakra-ui/react';
 import { SearchInput, Table } from '@tkeel/console-components';
 
@@ -9,22 +9,14 @@ type Data = {
   tenantID: string;
   adminAccount: string;
   remark: string;
-  userNumber: string;
+  userNumber: number;
 };
 
 const handleSearch = () => {};
 
-const handleSort = ({
-  id,
-  isSorted,
-  isSortedDesc,
-}: {
-  id: IdType<Data>;
-  isSorted: boolean;
-  isSortedDesc: boolean;
-}) => {
+const handleSort = (sortBy: Array<SortingRule<Data>>) => {
   // eslint-disable-next-line no-console
-  console.log('id, isSorted, isSortedDesc', id, isSorted, isSortedDesc);
+  console.log('sortBy', sortBy);
 };
 
 function EnablePluginList() {
@@ -35,7 +27,7 @@ function EnablePluginList() {
       selectedFlatRows,
     }: {
       isAllRowsSelected: boolean;
-      selectedRowIds: Record<IdType<Data>, boolean>;
+      selectedRowIds: IdType<Data>[];
       selectedFlatRows: Row<Data>[];
     }) => {
       // eslint-disable-next-line no-console
@@ -48,13 +40,13 @@ function EnablePluginList() {
     },
     []
   );
+
   const columns: ReadonlyArray<Column<Data>> = [
     {
       Header: '启用时间',
       accessor: 'enableTime',
       width: 200,
       disableSortBy: true,
-      // defaultCanSort: false,
     },
     {
       Header: '租户空间',
@@ -88,7 +80,7 @@ function EnablePluginList() {
       tenantID: 'ID_20111010',
       adminAccount: 'esthera@simmmple.com',
       remark: 'IDC项目',
-      userNumber: '10',
+      userNumber: index,
     };
   });
 
@@ -113,6 +105,8 @@ function EnablePluginList() {
       <Table
         columns={columns}
         data={data}
+        defaultPageSize={20}
+        scroll={{ y: '100%' }}
         onSelect={handleSelect}
         onSort={handleSort}
       />

@@ -2,12 +2,15 @@
 import { useEffect } from 'react';
 import {
   ColumnInstance,
+  Hooks,
+  PluginHook,
   useFlexLayout,
   usePagination,
   useRowSelect,
   useSortBy,
   useTable,
 } from 'react-table';
+import { useDeepCompareEffect } from 'react-use';
 import { Flex, Table as ChakraTable } from '@chakra-ui/react';
 
 import Pagination from '@/tkeel-console-components/components/Pagination';
@@ -20,10 +23,32 @@ import { ITableInstance, ITableOptions, Props } from './types';
 function Table<D extends object>({
   columns,
   data,
+  defaultPageSize,
+  scroll,
   onSelect,
   onSort,
 }: Props<D>) {
-  const defaultPageSize = 15;
+  let plugins: PluginHook<D>[] = [usePagination];
+  const pushSelectionColumn = (hooks: Hooks<D>) => {
+    hooks.visibleColumns.push((allColumns: ColumnInstance<D>[]) => [
+      {
+        id: 'selection',
+        Header: SelectHeader,
+        Cell: SelectCell,
+        width: 50,
+      },
+      ...allColumns,
+    ]);
+  };
+
+  if (onSelect) {
+    plugins = [...plugins, useRowSelect, pushSelectionColumn];
+  }
+
+  if (onSort) {
+    plugins.unshift(useSortBy);
+  }
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -37,35 +62,33 @@ function Table<D extends object>({
     setPageSize,
     selectedFlatRows,
     isAllRowsSelected,
-    state: { pageIndex, pageSize, selectedRowIds },
+    state: { sortBy, pageIndex, pageSize, selectedRowIds },
   } = useTable<D>(
     {
       columns,
       data,
       initialState: { pageSize: defaultPageSize },
+      manualSortBy: true,
     } as ITableOptions<D>,
     useFlexLayout,
-    useSortBy,
-    usePagination,
-    useRowSelect,
-    (hooks) => {
-      hooks.visibleColumns.push((allColumns: ColumnInstance<D>[]) => [
-        {
-          id: 'selection',
-          Header: SelectHeader,
-          Cell: SelectCell,
-          width: 50,
-        },
-        ...allColumns,
-      ]);
-    }
+    ...plugins
   ) as ITableInstance<D>;
 
-  useEffect(() => {
+  useDeepCompareEffect(() => {
     if (onSelect) {
-      onSelect({ isAllRowsSelected, selectedRowIds, selectedFlatRows });
+      onSelect({
+        isAllRowsSelected,
+        selectedRowIds: Object.keys(selectedRowIds),
+        selectedFlatRows,
+      });
     }
   }, [onSelect, isAllRowsSelected, selectedRowIds, selectedFlatRows]);
+
+  useEffect(() => {
+    if (onSort) {
+      onSort(sortBy);
+    }
+  }, [sortBy, onSort]);
 
   return (
     <Flex flexDirection="column" flex="1" overflow="hidden">
@@ -76,11 +99,12 @@ function Table<D extends object>({
         display="flex"
         flexDirection="column"
       >
-        <Head headerGroups={headerGroups} onSort={onSort} />
+        <Head headerGroups={headerGroups} />
         <Body
           page={page}
           getTableBodyProps={getTableBodyProps}
           prepareRow={prepareRow}
+          scroll={scroll}
         />
       </ChakraTable>
       <Pagination
@@ -96,5 +120,12 @@ function Table<D extends object>({
     </Flex>
   );
 }
+
+Table.defaultProps = {
+  defaultPageSize: 15,
+  scroll: undefined,
+  onSelect: undefined,
+  onSort: undefined,
+};
 
 export default Table;

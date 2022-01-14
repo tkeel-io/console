@@ -2,6 +2,7 @@ import {
   HeaderGroup,
   IdType,
   Row,
+  SortingRule,
   TableHeaderProps,
   TableInstance,
   TableOptions,
@@ -14,34 +15,34 @@ import {
   UseRowSelectRowProps,
   UseRowSelectState,
   UseSortByColumnProps,
+  UseSortByState,
   UseTableOptions,
 } from 'react-table';
 
 type OnSelectProps<D extends object> = {
   isAllRowsSelected: boolean;
-  selectedRowIds: Record<IdType<D>, boolean>;
+  selectedRowIds: IdType<D>[];
   selectedFlatRows: Row<D>[];
 };
 
-export type OnSortProps<D extends object> = {
-  id: IdType<D>;
-  isSorted: boolean;
-  isSortedDesc: boolean;
-};
-
 export interface Props<D extends object> extends UseTableOptions<D> {
-  onSelect: ({
+  defaultPageSize?: number;
+  scroll?: {
+    y: string;
+  };
+  onSelect?: ({
     isAllRowsSelected,
     selectedRowIds,
     selectedFlatRows,
-  }: OnSelectProps<D>) => void | undefined;
-  onSort: ({ id, isSorted, isSortedDesc }: OnSortProps<D>) => void | undefined;
+  }: OnSelectProps<D>) => void;
+  onSort?: (sortBy: Array<SortingRule<D>>) => void;
 }
 
 export interface ITableState<D extends object>
   extends TableState<D>,
-    UseRowSelectState<D>,
-    UsePaginationState<D> {}
+    UseSortByState<D>,
+    UsePaginationState<D>,
+    UseRowSelectState<D> {}
 
 export interface IHeaderGroup<D extends object>
   extends HeaderGroup<D>,
