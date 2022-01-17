@@ -12,15 +12,13 @@
   "license": "Apache-2.0",
   "main": "./src/index.ts",
   "dependencies": {
-    "rc-table": "^7.22.2",
     "react-hook-form": "^7.22.5",
     "react-table": "^7.7.0",
     "react-use": "^17.3.2"
   },
   "devDependencies": {
     "@tkeel/console-icons": "workspace:^",
-    "@types/react-table": "^7.7.9",
-    "@types/react-window": "^1.8.5"
+    "@types/react-table": "^7.7.9"
   },
   "peerDependencies": {
     "@chakra-ui/react": "^1.7.2",

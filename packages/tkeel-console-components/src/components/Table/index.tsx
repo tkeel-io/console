@@ -27,6 +27,7 @@ function Table<D extends object>({
   scroll,
   onSelect,
   onSort,
+  style,
 }: Props<D>) {
   let plugins: PluginHook<D>[] = [usePagination];
   const pushSelectionColumn = (hooks: Hooks<D>) => {
@@ -91,7 +92,7 @@ function Table<D extends object>({
   }, [sortBy, onSort]);
 
   return (
-    <Flex flexDirection="column" flex="1" overflow="hidden">
+    <Flex {...style} flexDirection="column" flex="1" overflow="hidden">
       <ChakraTable
         {...getTableProps()}
         flex="1"
@@ -99,7 +100,11 @@ function Table<D extends object>({
         display="flex"
         flexDirection="column"
       >
-        <Head headerGroups={headerGroups} />
+        <Head
+          headerGroups={headerGroups}
+          fixHead={Boolean(scroll?.y)}
+          canSort={Boolean(onSort)}
+        />
         <Body
           page={page}
           getTableBodyProps={getTableBodyProps}
@@ -126,6 +131,7 @@ Table.defaultProps = {
   scroll: undefined,
   onSelect: undefined,
   onSort: undefined,
+  style: {},
 };
 
 export default Table;

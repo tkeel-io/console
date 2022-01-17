@@ -5,9 +5,11 @@ import { IHeaderGroup, ITableHeaderProps } from './types';
 
 type Props<D extends object> = {
   headerGroups: IHeaderGroup<D>[];
+  fixHead: boolean;
+  canSort: boolean;
 };
 
-function Head<D extends object>({ headerGroups }: Props<D>) {
+function Head<D extends object>({ headerGroups, fixHead, canSort }: Props<D>) {
   return (
     <Thead>
       {headerGroups.map((headerGroup) => {
@@ -15,24 +17,26 @@ function Head<D extends object>({ headerGroups }: Props<D>) {
           <Tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column: IHeaderGroup<D>) => {
               const headerProps = column.getHeaderProps(
-                column.getSortByToggleProps ? column.getSortByToggleProps() : {}
+                canSort ? column.getSortByToggleProps() : {}
               ) as ITableHeaderProps;
 
               return (
                 <Th
                   display="flex"
-                  position="sticky"
+                  position={fixHead ? 'sticky' : 'static'}
                   color="gray.400"
                   {...headerProps}
                 >
                   {column.render('Header')}
-                  <Box>
-                    {column.isSorted
-                      ? column.isSortedDesc
-                        ? ' 🔽'
-                        : ' 🔼'
-                      : ''}
-                  </Box>
+                  {canSort && (
+                    <Box>
+                      {column.isSorted
+                        ? column.isSortedDesc
+                          ? ' 🔽'
+                          : ' 🔼'
+                        : ''}
+                    </Box>
+                  )}
                 </Th>
               );
             })}

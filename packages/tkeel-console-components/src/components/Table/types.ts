@@ -18,6 +18,7 @@ import {
   UseSortByState,
   UseTableOptions,
 } from 'react-table';
+import { StyleProps } from '@chakra-ui/react';
 
 type OnSelectProps<D extends object> = {
   isAllRowsSelected: boolean;
@@ -36,6 +37,7 @@ export interface Props<D extends object> extends UseTableOptions<D> {
     selectedFlatRows,
   }: OnSelectProps<D>) => void;
   onSort?: (sortBy: Array<SortingRule<D>>) => void;
+  style?: StyleProps;
 }
 
 export interface ITableState<D extends object>
