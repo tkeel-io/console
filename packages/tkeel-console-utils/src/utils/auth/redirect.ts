@@ -9,7 +9,7 @@ export function getNoAuthRedirectPath({
   basePath = '',
   location,
 }: {
-  platformName?: PlatformNames;
+  platformName: PlatformNames;
   location: Location;
   basePath?: string;
 }) {

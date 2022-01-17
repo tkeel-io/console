@@ -3467,6 +3467,8 @@ __metadata:
 "@tkeel/console-types@workspace:^, @tkeel/console-types@workspace:packages/tkeel-console-types":
   version: 0.0.0-use.local
   resolution: "@tkeel/console-types@workspace:packages/tkeel-console-types"
+  dependencies:
+    "@tkeel/console-constants": "workspace:^"
   languageName: unknown
   linkType: soft
 
