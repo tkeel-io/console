@@ -8,10 +8,9 @@ import { useGlobalProps } from '@tkeel/console-business-components';
 import { PageHeader, SearchInput } from '@tkeel/console-components';
 import { AddFilledIcon, HumanVipFilledIcon } from '@tkeel/console-icons';
 
-import {
-  EditSpaceModal,
-  TenantSpaceTable,
-} from '@/tkeel-console-plugin-admin-tenants/components';
+import { EditSpaceModal } from '@/tkeel-console-plugin-admin-tenants/components';
+import TenantSpaceTable from '@/tkeel-console-plugin-admin-tenants/components/TenantSpaceTable';
+import useTenantsQuery from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useTenantsQuery';
 
 const handleSearch = (keyword: string) => {
   console.log('keyword', keyword);
@@ -19,20 +18,14 @@ const handleSearch = (keyword: string) => {
 
 function IndexComponent(): JSX.Element {
   const { navigate } = useGlobalProps();
+  const { tenantList } = useTenantsQuery();
   const LinkToSpaceDetail = () => {
     navigate('/admin-tenants/detail/12029389');
   };
-  const dataMock = Array.from({ length: 20 }).fill({
-    col1: 'IDC项目',
-    col2: 'ID_2011010',
-    col3: 'admin',
-    col4: '2021-04-23 12:11:11',
-    col5: 'important',
-  });
   const columns = [
     {
       Header: '租户空间',
-      accessor: 'col1',
+      accessor: 'title',
       Cell: () => {
         return (
           <Button size="small" variant="link" onClick={LinkToSpaceDetail}>
@@ -41,10 +34,10 @@ function IndexComponent(): JSX.Element {
         );
       },
     },
-    { Header: '用户ID', accessor: 'col2' },
-    { Header: '管理员账号', accessor: 'col3' },
-    { Header: '创建时间', accessor: 'col4' },
-    { Header: '备注', accessor: 'col5' },
+    { Header: '用户ID', accessor: 'id' },
+    { Header: '管理员账号', accessor: 'admin' },
+    { Header: '创建时间', accessor: 'createTime' },
+    { Header: '备注', accessor: 'remark' },
   ];
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -83,9 +76,7 @@ function IndexComponent(): JSX.Element {
           </Button>
           <EditSpaceModal isOpen={isOpen} onClose={onClose} />
         </Flex>
-        <Box p="0 24px" h="100%" overflowY="scroll" flex="1">
-          <TenantSpaceTable data={dataMock} columns={columns} />
-        </Box>
+        <TenantSpaceTable data={tenantList} columns={columns} />
       </Flex>
     </Flex>
   );
