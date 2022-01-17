@@ -13,10 +13,12 @@
   "main": "./src/index.ts",
   "dependencies": {
     "react-hook-form": "^7.22.5",
-    "react-table": "^7.7.0"
+    "react-table": "^7.7.0",
+    "react-use": "^17.3.2"
   },
   "devDependencies": {
-    "@tkeel/console-icons": "workspace:^"
+    "@tkeel/console-icons": "workspace:^",
+    "@types/react-table": "^7.7.9"
   },
   "peerDependencies": {
     "@chakra-ui/react": "^1.7.2",

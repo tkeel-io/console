@@ -131,7 +131,6 @@ function CreatePluginButton() {
             schemas={register('version', {
               required: { value: true, message: 'required' },
             })}
-            formControlStyle={{ marginTop: '16px' }}
             onChange={handleVersionChange}
           />
         </>
