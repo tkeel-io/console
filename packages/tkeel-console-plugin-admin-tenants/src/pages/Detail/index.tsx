@@ -6,6 +6,7 @@ import {
   TabPanels,
   Tabs,
 } from '@chakra-ui/react';
+import { HumanFilledIcon } from '@tkeel/console-icons';
 
 import SpaceInfoCard from './SpaceInfoCard';
 
@@ -28,9 +29,13 @@ const infos = {
 
 function Detail() {
   const menu = [
-    { key: 'edit', label: '编辑基础信息' },
-    { key: 'rest', label: '重置管理员密码' },
-    { key: 'delete', label: '删除租户空间' },
+    {
+      key: 'edit',
+      label: '编辑基础信息',
+      icon: HumanFilledIcon,
+    },
+    { key: 'rest', label: '重置管理员密码', icon: HumanFilledIcon },
+    { key: 'delete', label: '删除租户空间', icon: HumanFilledIcon },
   ];
   return (
     <Flex h="100%">

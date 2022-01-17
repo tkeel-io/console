@@ -22,7 +22,7 @@ function IndexComponent(): JSX.Element {
   const LinkToSpaceDetail = () => {
     navigate('/admin-tenants/detail/12029389');
   };
-  const data = Array.from({ length: 20 }).fill({
+  const dataMock = Array.from({ length: 20 }).fill({
     col1: 'IDC项目',
     col2: 'ID_2011010',
     col3: 'admin',
@@ -84,7 +84,7 @@ function IndexComponent(): JSX.Element {
           <EditSpaceModal isOpen={isOpen} onClose={onClose} />
         </Flex>
         <Box p="0 24px" h="100%" overflowY="scroll" flex="1">
-          <TenantSpaceTable data={data} columns={columns} />
+          <TenantSpaceTable data={dataMock} columns={columns} />
         </Box>
       </Flex>
     </Flex>
