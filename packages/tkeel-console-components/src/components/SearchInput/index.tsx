@@ -41,17 +41,21 @@ function SearchInput({
 
   return (
     <InputGroup width={width} height={height} {...inputGroupStyle}>
-      <InputLeftElement pointerEvents="none">
-        {icon || <MagnifierFilledIcon size={iconSize} />}
+      <InputLeftElement height="100%" pointerEvents="none">
+        {icon || (
+          <MagnifierFilledIcon size={iconSize} color="grayAlternatives.300" />
+        )}
       </InputLeftElement>
       <Input
         ref={inputRef}
+        height="100%"
         borderColor="gray.200"
         borderRadius="20px"
         color="gray.400"
         fontSize="12px"
         {...inputStyle}
         _focus={{ borderColor: 'gray.400' }}
+        _placeholder={{ fontWeight: 500 }}
         placeholder={placeholder}
         onKeyDown={onKeyDown}
       />

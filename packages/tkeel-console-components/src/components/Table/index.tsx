@@ -1,79 +1,116 @@
-/* eslint-disable react/jsx-key */
-import { usePagination, useTable } from 'react-table';
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+import { useEffect } from 'react';
 import {
-  Box,
-  Table as ChakraTable,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
-} from '@chakra-ui/react';
+  ColumnInstance,
+  Hooks,
+  PluginHook,
+  useFlexLayout,
+  usePagination,
+  useRowSelect,
+  useSortBy,
+  useTable,
+} from 'react-table';
+import { useDeepCompareEffect } from 'react-use';
+import { Flex, Table as ChakraTable } from '@chakra-ui/react';
 
 import Pagination from '@/tkeel-console-components/components/Pagination';
 
+import Body from './Body';
+import Head from './Head';
+import { SelectCell, SelectHeader } from './Select';
 import { ITableInstance, ITableOptions, Props } from './types';
 
-function Table<D extends Record<string, unknown>>({ columns, data }: Props<D>) {
-  const defaultPageSize = 10;
+function Table<D extends object>({
+  columns,
+  data,
+  defaultPageSize,
+  scroll,
+  onSelect,
+  onSort,
+  style,
+}: Props<D>) {
+  let plugins: PluginHook<D>[] = [usePagination];
+  const pushSelectionColumn = (hooks: Hooks<D>) => {
+    hooks.visibleColumns.push((allColumns: ColumnInstance<D>[]) => [
+      {
+        id: 'selection',
+        Header: SelectHeader,
+        Cell: SelectCell,
+        width: 50,
+      },
+      ...allColumns,
+    ]);
+  };
+
+  if (onSelect) {
+    plugins = [...plugins, useRowSelect, pushSelectionColumn];
+  }
+
+  if (onSort) {
+    plugins.unshift(useSortBy);
+  }
 
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    rows,
+    page,
     prepareRow,
     canPreviousPage,
     canNextPage,
     nextPage,
     previousPage,
     setPageSize,
-    state: { pageIndex, pageSize },
+    selectedFlatRows,
+    isAllRowsSelected,
+    state: { sortBy, pageIndex, pageSize, selectedRowIds },
   } = useTable<D>(
     {
       columns,
       data,
       initialState: { pageSize: defaultPageSize },
+      manualSortBy: true,
     } as ITableOptions<D>,
-    usePagination
+    useFlexLayout,
+    ...plugins
   ) as ITableInstance<D>;
 
+  useDeepCompareEffect(() => {
+    if (onSelect) {
+      onSelect({
+        isAllRowsSelected,
+        selectedRowIds: Object.keys(selectedRowIds),
+        selectedFlatRows,
+      });
+    }
+  }, [onSelect, isAllRowsSelected, selectedRowIds, selectedFlatRows]);
+
+  useEffect(() => {
+    if (onSort) {
+      onSort(sortBy);
+    }
+  }, [sortBy, onSort]);
+
   return (
-    <Box>
-      <ChakraTable {...getTableProps()}>
-        <Thead>
-          {headerGroups.map((headerGroup) => (
-            <Tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <Th color="gray.400" {...column.getHeaderProps()}>
-                  {column.render('Header')}
-                </Th>
-              ))}
-            </Tr>
-          ))}
-        </Thead>
-        <Tbody {...getTableBodyProps()}>
-          {rows.map((row) => {
-            prepareRow(row);
-            return (
-              <Tr {...row.getRowProps()}>
-                {row.cells.map((cell) => {
-                  return (
-                    <Td
-                      paddingTop="12px"
-                      paddingBottom="12px"
-                      color="gray.500"
-                      fontSize="14px"
-                      {...cell.getCellProps()}
-                    >
-                      {cell.render('Cell')}
-                    </Td>
-                  );
-                })}
-              </Tr>
-            );
-          })}
-        </Tbody>
+    <Flex {...style} flexDirection="column" flex="1" overflow="hidden">
+      <ChakraTable
+        {...getTableProps()}
+        flex="1"
+        overflow="hidden"
+        display="flex"
+        flexDirection="column"
+      >
+        <Head
+          headerGroups={headerGroups}
+          fixHead={Boolean(scroll?.y)}
+          canSort={Boolean(onSort)}
+        />
+        <Body
+          page={page}
+          getTableBodyProps={getTableBodyProps}
+          prepareRow={prepareRow}
+          scroll={scroll}
+        />
       </ChakraTable>
       <Pagination
         pageIndex={pageIndex}
@@ -85,8 +122,16 @@ function Table<D extends Record<string, unknown>>({ columns, data }: Props<D>) {
         nextPage={nextPage}
         setPageSize={setPageSize}
       />
-    </Box>
+    </Flex>
   );
 }
+
+Table.defaultProps = {
+  defaultPageSize: 15,
+  scroll: undefined,
+  onSelect: undefined,
+  onSort: undefined,
+  style: {},
+};
 
 export default Table;
