@@ -3,7 +3,6 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import { Box, Flex } from '@chakra-ui/react';
 import { ThemeNames } from '@tkeel/console-themes';
 
-// import CollapsedMenus from '@/tkeel-console-portal-base/containers/Layout/CollapsedMenus';
 import Header from '@/tkeel-console-portal-base/containers/Layout/Header';
 import Menus from '@/tkeel-console-portal-base/containers/Layout/Menus';
 import useMenusQuery from '@/tkeel-console-portal-base/hooks/queries/useMenusQuery';

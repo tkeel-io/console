@@ -35,12 +35,15 @@ function Detail() {
           borderRadius="4px"
           backgroundColor="gray.800"
         >
+          <CustomTab>启用列表</CustomTab>
           <CustomTab>说明</CustomTab>
           <CustomTab>参数</CustomTab>
-          <CustomTab>启用列表</CustomTab>
         </TabList>
         <TabPanels marginTop="16px" flex="1" overflow="hidden">
-          <TabPanel padding="16px" backgroundColor="white">
+          <TabPanel padding="0" height="100%">
+            <EnablePluginList />
+          </TabPanel>
+          <TabPanel padding="0">
             <Introduce />
           </TabPanel>
           <TabPanel height="100%" padding="24px" backgroundColor="white">
@@ -51,9 +54,6 @@ function Detail() {
               value={mockParams}
               readOnly
             />
-          </TabPanel>
-          <TabPanel padding="0" backgroundColor="white">
-            <EnablePluginList />
           </TabPanel>
         </TabPanels>
       </Tabs>
