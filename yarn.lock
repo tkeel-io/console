@@ -3314,9 +3314,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@tkeel/console-constants@workspace:^, @tkeel/console-constants@workspace:packages/tkeel-console-constants":
+  version: 0.0.0-use.local
+  resolution: "@tkeel/console-constants@workspace:packages/tkeel-console-constants"
+  languageName: unknown
+  linkType: soft
+
 "@tkeel/console-hooks@workspace:^, @tkeel/console-hooks@workspace:packages/tkeel-console-hooks":
   version: 0.0.0-use.local
   resolution: "@tkeel/console-hooks@workspace:packages/tkeel-console-hooks"
+  dependencies:
+    "@tkeel/console-constants": "workspace:^"
   peerDependencies:
     "@tkeel/console-utils": "workspace:^"
     react: ^17.0.2
@@ -3417,6 +3425,7 @@ __metadata:
     "@emotion/react": ^11.7.1
     "@emotion/styled": ^11.6.0
     "@tkeel/console-components": "workspace:^"
+    "@tkeel/console-constants": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
     "@tkeel/console-icons": "workspace:^"
     "@tkeel/console-themes": "workspace:^"
@@ -3465,6 +3474,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tkeel/console-utils@workspace:packages/tkeel-console-utils"
   dependencies:
+    "@tkeel/console-constants": "workspace:^"
     "@tkeel/console-types": "workspace:^"
     axios: ^0.24.0
     react-router-dom: ^6.2.1

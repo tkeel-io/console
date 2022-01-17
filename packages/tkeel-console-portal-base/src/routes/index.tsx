@@ -1,10 +1,7 @@
 import { Route, Routes as ReactRouterRoutes } from 'react-router-dom';
+import { PLATFORM_INFOS, PlatformNames } from '@tkeel/console-constants';
 import { ThemeNames } from '@tkeel/console-themes';
 
-import {
-  PLATFORM_INFOS,
-  PlatformNames,
-} from '@/tkeel-console-portal-base/constants';
 import Layout from '@/tkeel-console-portal-base/containers/Layout';
 import NotRequireAuth from '@/tkeel-console-portal-base/containers/NotRequireAuth';
 import RequireAuth from '@/tkeel-console-portal-base/containers/RequireAuth';

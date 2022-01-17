@@ -1,9 +1,6 @@
+import { PLATFORM_INFOS, PlatformNames } from '@tkeel/console-constants';
 import { RequestExtras } from '@tkeel/console-utils';
 
-import {
-  PLATFORM_INFOS,
-  PlatformNames,
-} from '@/tkeel-console-portal-base/constants';
 import useQuery from '@/tkeel-console-portal-base/hooks/useQuery';
 
 type Options = {
