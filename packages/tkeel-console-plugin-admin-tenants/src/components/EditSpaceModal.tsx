@@ -1,4 +1,5 @@
-import { useState } from 'react';
+/* eslint-disable no-console */
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   Box,
@@ -12,6 +13,8 @@ import {
 import { FormField, Modal } from '@tkeel/console-components';
 
 import AuthConfigOption from './AuthConfigOption';
+
+import useCreateTenantMutation from '@/tkeel-console-plugin-admin-tenants/hooks/mutations/useCreateTenantMutation';
 
 interface Props {
   isOpen: boolean;
@@ -36,9 +39,30 @@ const AuthConfig = [
 export default function EditSpaceModal({ isOpen, onClose }: Props) {
   const { register } = useForm();
   const [selectedAuth, setSelectedAuth] = useState<string>('default');
+  const [title, setTitle] = useState('');
+  const [username, setUsername] = useState('');
+  const [nickName, setNickName] = useState('');
+  const [remark, setRemark] = useState('');
   const handleSelectAuth = (key: string) => () => {
     setSelectedAuth(key);
   };
+  const { data, mutate, isLoading } = useCreateTenantMutation();
+  console.log(data, mutate, isLoading);
+  const handleCreateTenant = () => {
+    const params = {
+      title,
+      remark,
+      admin: {
+        username,
+        nickName,
+      },
+    };
+    console.log(params);
+    // mutate({ data: params });
+  };
+  useEffect(() => {
+    console.table({ title, username, nickName, remark });
+  });
 
   return (
     <Modal
@@ -52,7 +76,12 @@ export default function EditSpaceModal({ isOpen, onClose }: Props) {
       footer={
         <>
           <Button onClick={onClose}>取消</Button>
-          <Button ml="12px" colorScheme="primary">
+          <Button
+            ml="12px"
+            colorScheme="primary"
+            onClick={handleCreateTenant}
+            isLoading={isLoading}
+          >
             确定
           </Button>
         </>
@@ -60,11 +89,13 @@ export default function EditSpaceModal({ isOpen, onClose }: Props) {
     >
       <Box h="530px" overflowY="scroll">
         <TextField
-          id="space-name"
+          id="title"
+          value={title}
           label="空间名称"
-          schemas={register('space-name', {
+          schemas={register('title', {
             required: { value: true, message: 'required' },
           })}
+          onChange={(e) => setTitle(e.target.value)}
         />
         <FormControl mb="16px">
           <FormLabel fontSize="14px" lineHeight="24px" color="gray.600">
@@ -88,21 +119,30 @@ export default function EditSpaceModal({ isOpen, onClose }: Props) {
           </Grid>
         </FormControl>
         <TextField
-          id="admin-account"
+          id="username"
           label="管理员账号"
-          schemas={register('admin-account', {
+          value={username}
+          schemas={register('username', {
             required: { value: true, message: 'required' },
           })}
           help="6~18 位字符串, 只能包含英文字母、数字、下划线"
+          onChange={(e) => setUsername(e.target.value)}
         />
         <TextField
-          id="admin-name"
+          id="nickName"
+          value={nickName}
           label="管理员姓名"
-          schemas={register('admin-name', {
+          schemas={register('nickName', {
             required: { value: true, message: 'required' },
           })}
+          onChange={(e) => setNickName(e.target.value)}
         />
-        <TextField id="tips" label="备注" />
+        <TextField
+          id="remark"
+          label="备注"
+          value={remark}
+          onChange={(e) => setRemark(e.target.value)}
+        />
       </Box>
     </Modal>
   );
