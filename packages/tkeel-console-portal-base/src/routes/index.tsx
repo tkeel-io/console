@@ -10,6 +10,7 @@ import NotRequireAuth from '@/tkeel-console-portal-base/containers/NotRequireAut
 import RequireAuth from '@/tkeel-console-portal-base/containers/RequireAuth';
 import LoginAdmin from '@/tkeel-console-portal-base/pages/LoginAdmin';
 import LoginTenant from '@/tkeel-console-portal-base/pages/LoginTenant';
+import NotFound from '@/tkeel-console-portal-base/pages/NotFound';
 
 type Props = {
   themeName: ThemeNames;
@@ -24,10 +25,16 @@ function Routes({ themeName }: Props) {
       <Route element={<NotRequireAuth platformName={platformName} />}>
         <Route path="/auth">
           {platformName === PLATFORM_INFOS[PlatformNames.ADMIN].name && (
-            <Route path="login" element={<LoginAdmin />} />
+            <>
+              <Route path="login" element={<LoginAdmin />} />
+              <Route path="*" element={<NotFound />} />
+            </>
           )}
           {platformName === PLATFORM_INFOS[PlatformNames.TENANT].name && (
-            <Route path="login" element={<LoginTenant />} />
+            <>
+              <Route path="login/:tenantId" element={<LoginTenant />} />
+              <Route path="*" element={<NotFound />} />
+            </>
           )}
         </Route>
       </Route>
