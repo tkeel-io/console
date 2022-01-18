@@ -30,6 +30,9 @@
       "@/tkeel-console-components/*": [
         "./packages/tkeel-console-components/src/*"
       ],
+      "@/tkeel-console-constants/*": [
+        "./packages/tkeel-console-constants/src/*"
+      ],
       "@/tkeel-console-hooks/*": ["./packages/tkeel-console-hooks/src/*"],
       "@/tkeel-console-icons/*": ["./packages/tkeel-console-icons/src/*"],
       "@/tkeel-console-plugin-admin-plugins/*": [
@@ -59,18 +62,47 @@
   "include": ["./packages/*/src/"],
   "exclude": ["**/node_modules/", "**/dist/", "**/scripts/"],
   "references": [
-    { "path": "./packages/tkeel-console-business-components/" },
-    { "path": "./packages/tkeel-console-components/" },
-    { "path": "./packages/tkeel-console-hooks/" },
-    { "path": "./packages/tkeel-console-icons/" },
-    { "path": "./packages/tkeel-console-plugin-admin-plugins/" },
-    { "path": "./packages/tkeel-console-plugin-admin-tenants/" },
-    { "path": "./packages/tkeel-console-plugin-example/" },
-    { "path": "./packages/tkeel-console-portal-admin/" },
-    { "path": "./packages/tkeel-console-portal-base/" },
-    { "path": "./packages/tkeel-console-portal-tenant/" },
-    { "path": "./packages/tkeel-console-themes/" },
-    { "path": "./packages/tkeel-console-types/" },
-    { "path": "./packages/tkeel-console-utils/" }
+    {
+      "path": "./packages/tkeel-console-business-components/"
+    },
+    {
+      "path": "./packages/tkeel-console-components/"
+    },
+    {
+      "path": "./packages/tkeel-console-constants/"
+    },
+    {
+      "path": "./packages/tkeel-console-hooks/"
+    },
+    {
+      "path": "./packages/tkeel-console-icons/"
+    },
+    {
+      "path": "./packages/tkeel-console-plugin-admin-plugins/"
+    },
+    {
+      "path": "./packages/tkeel-console-plugin-admin-tenants/"
+    },
+    {
+      "path": "./packages/tkeel-console-plugin-example/"
+    },
+    {
+      "path": "./packages/tkeel-console-portal-admin/"
+    },
+    {
+      "path": "./packages/tkeel-console-portal-base/"
+    },
+    {
+      "path": "./packages/tkeel-console-portal-tenant/"
+    },
+    {
+      "path": "./packages/tkeel-console-themes/"
+    },
+    {
+      "path": "./packages/tkeel-console-types/"
+    },
+    {
+      "path": "./packages/tkeel-console-utils/"
+    }
   ]
 }
