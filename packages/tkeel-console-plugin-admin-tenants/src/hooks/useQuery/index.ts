@@ -12,9 +12,9 @@ export default function useQuery<
   TRequestParams = undefined,
   TRequestData = undefined
 >(options: UseCustomQueryOptions<TApiData, TRequestParams, TRequestData>) {
-  const { navigate } = useGlobalProps();
+  const { platformName, navigate } = useGlobalProps();
   const basePath = process.env.BASE_PATH;
-  const redirectPath = useNoAuthRedirectPath({ basePath });
+  const redirectPath = useNoAuthRedirectPath({ platformName, basePath });
   const handleNoAuth = createHandleNoAuth({ navigate, redirectPath });
   const opts = merge({}, { extras: { handleNoAuth } }, options);
 

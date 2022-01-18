@@ -6,6 +6,7 @@ import { ThemeNames } from '@tkeel/console-themes';
 import Header from '@/tkeel-console-portal-base/containers/Layout/Header';
 import Menus from '@/tkeel-console-portal-base/containers/Layout/Menus';
 import useMenusQuery from '@/tkeel-console-portal-base/hooks/queries/useMenusQuery';
+import useGlobalProps from '@/tkeel-console-portal-base/hooks/useGlobalProps';
 import NotFound from '@/tkeel-console-portal-base/pages/NotFound';
 import {
   init as initQiankun,
@@ -21,9 +22,10 @@ type Props = {
 };
 
 function Layout({ themeName }: Props) {
+  const { platformName } = useGlobalProps();
   const { menus } = useMenusQuery();
   const navigate = useNavigate();
-  const apps = menusToApps({ menus, navigate, themeName });
+  const apps = menusToApps({ platformName, menus, navigate, themeName });
 
   const renderApps = () => {
     if (!(Array.isArray(apps) && apps.length > 0)) {
@@ -59,8 +61,8 @@ function Layout({ themeName }: Props) {
   };
 
   useEffect(() => {
-    initQiankun({ menus, navigate, themeName });
-  }, [menus, navigate, themeName]);
+    initQiankun({ platformName, menus, navigate, themeName });
+  }, [platformName, menus, navigate, themeName]);
 
   return (
     <Flex height="100%">

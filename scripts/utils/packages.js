@@ -88,7 +88,7 @@ function readPackages({
         node_env: 'development',
       })
       .filter((path) => fs.existsSync(path));
-    const dotenvConfig = dotenvExpand(dotenvFlow.parse(dotenvFiles));
+    const dotenvConfig = dotenvExpand.expand(dotenvFlow.parse(dotenvFiles));
 
     packages.push({
       directoryName,

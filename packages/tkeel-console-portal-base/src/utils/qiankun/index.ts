@@ -1,4 +1,5 @@
 import { NavigateFunction } from 'react-router-dom';
+import { PlatformNames } from '@tkeel/console-constants';
 import themes, { DEFAULT_THEME_NAME, ThemeNames } from '@tkeel/console-themes';
 import { PluginGlobalProps } from '@tkeel/console-types';
 import { getLocalTokenData } from '@tkeel/console-utils';
@@ -30,10 +31,12 @@ function getTotalMenus(menus: Menu[]): MenuInfo[] {
 }
 
 function menusToApps({
+  platformName,
   menus,
   navigate,
   themeName = DEFAULT_THEME_NAME,
 }: {
+  platformName: PlatformNames;
   menus: Menu[];
   navigate: NavigateFunction;
   themeName: ThemeNames;
@@ -41,6 +44,7 @@ function menusToApps({
   const totalMenus: MenuInfo[] = getTotalMenus(menus);
   const tokenData = getLocalTokenData();
   const props: PluginGlobalProps = {
+    platformName,
     tokenData,
     navigate,
     themeName,
@@ -61,15 +65,17 @@ function register({ apps }: { apps: App[] }): void {
 }
 
 function init({
+  platformName,
   menus,
   navigate,
   themeName,
 }: {
+  platformName: PlatformNames;
   menus: Menu[];
   navigate: NavigateFunction;
   themeName: ThemeNames;
 }) {
-  const apps = menusToApps({ menus, navigate, themeName });
+  const apps = menusToApps({ platformName, menus, navigate, themeName });
   register({ apps });
   start();
 }
