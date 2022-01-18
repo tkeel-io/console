@@ -101,6 +101,8 @@
     {
       "path": "./packages/tkeel-console-types/"
     },
-    { "path": "./packages/tkeel-console-utils/" }
+    {
+      "path": "./packages/tkeel-console-utils/"
+    }
   ]
 }
