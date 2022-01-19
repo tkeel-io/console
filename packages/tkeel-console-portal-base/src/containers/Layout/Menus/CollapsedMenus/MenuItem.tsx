@@ -7,11 +7,7 @@ type Props = {
   active: boolean;
 };
 
-const defaultProps = {
-  iconSize: 16,
-};
-
-function MenuItem({ icon, iconSize, active }: Props) {
+function MenuItem({ icon, iconSize = 16, active }: Props) {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const Icon = icons[icon || 'AppsAddFilledIcon'];
 
@@ -28,7 +24,5 @@ function MenuItem({ icon, iconSize, active }: Props) {
     </Box>
   );
 }
-
-MenuItem.defaultProps = defaultProps;
 
 export default MenuItem;

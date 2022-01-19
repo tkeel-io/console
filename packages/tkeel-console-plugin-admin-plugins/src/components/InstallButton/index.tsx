@@ -9,11 +9,7 @@ type Props = {
   size?: string;
 };
 
-const defaultProps = {
-  size: 'xs',
-};
-
-function InstallButton({ size }: Props) {
+function InstallButton({ size = 'xs' }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   let timer: number | null = null;
@@ -74,7 +70,5 @@ function InstallButton({ size }: Props) {
     </>
   );
 }
-
-InstallButton.defaultProps = defaultProps;
 
 export default InstallButton;

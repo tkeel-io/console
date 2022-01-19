@@ -9,6 +9,7 @@
     "@/tkeel-console-plugin-admin-tenants": "${workspaceFolder}/packages/tkeel-console-plugin-admin-tenants/src",
     "@/tkeel-console-plugin-example": "${workspaceFolder}/packages/tkeel-console-plugin-example/src",
     "@/tkeel-console-plugin-tenant-devices": "${workspaceFolder}/packages/tkeel-console-plugin-tenant-devices/src",
+    "@/tkeel-console-plugin-tenant-users": "${workspaceFolder}/packages/tkeel-console-plugin-tenant-users/src",
     "@/tkeel-console-portal-admin": "${workspaceFolder}/packages/tkeel-console-portal-admin/src",
     "@/tkeel-console-portal-base": "${workspaceFolder}/packages/tkeel-console-portal-base/src",
     "@/tkeel-console-portal-tenant": "${workspaceFolder}/packages/tkeel-console-portal-tenant/src",

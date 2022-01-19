@@ -13,6 +13,7 @@ export { default as CollapseFilledIcon } from './components/CollapseFilledIcon';
 export { default as DownloadFilledIcon } from './components/DownloadFilledIcon';
 export { default as ExpandFilledIcon } from './components/ExpandFilledIcon';
 export { default as HumanFilledIcon } from './components/HumanFilledIcon';
+export { default as HumanGearTwoToneIcon } from './components/HumanGearTwoToneIcon';
 export { default as HumanVipFilledIcon } from './components/HumanVipFilledIcon';
 export { default as LoadingFilledIcon } from './components/LoadingFilledIcon';
 export { default as MagnifierFilledIcon } from './components/MagnifierFilledIcon';
