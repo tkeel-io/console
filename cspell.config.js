@@ -42,6 +42,7 @@ module.exports = {
     'Unstyled',
     'unstyled',
     'tenantes',
+    'sonarjs',
   ],
   ignorePaths: [
     '**/.idea/**',

@@ -44,7 +44,6 @@ function Pagination({
       alignItems="center"
       flexShrink="0"
       height="56px"
-      boxShadow="0px -1px 1px #EBF0F6"
       backgroundColor="gray.50"
     >
       <Flex alignItems="center" height="32px">

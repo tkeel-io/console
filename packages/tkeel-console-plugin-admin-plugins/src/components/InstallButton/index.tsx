@@ -10,11 +10,7 @@ type Props = {
   pluginInfo: PluginInfo;
 };
 
-const defaultProps = {
-  size: 'xs',
-};
-
-function InstallButton({ size, pluginInfo }: Props) {
+function InstallButton({ size = 'xs', pluginInfo }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -39,7 +35,5 @@ function InstallButton({ size, pluginInfo }: Props) {
     </>
   );
 }
-
-InstallButton.defaultProps = defaultProps;
 
 export default InstallButton;
