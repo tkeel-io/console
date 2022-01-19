@@ -1,5 +1,5 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { NavigateFunction, useNavigate } from 'react-router-dom';
+import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
 import { Box, Button, Center, Heading, Text } from '@chakra-ui/react';
 import { Form, FormField } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
@@ -58,6 +58,7 @@ function LoginTenant(): JSX.Element {
     formState: { errors },
   } = useForm<Inputs>();
 
+  const pathParams = useParams();
   const navigate = useNavigate();
   const redirect = useRedirectParams();
 
@@ -65,10 +66,11 @@ function LoginTenant(): JSX.Element {
   handleLogin({ data, redirect, navigate });
 
   const onSubmit: SubmitHandler<Inputs> = (values) => {
+    const { tenantId = '' } = pathParams;
     const { username, password } = values;
     const params = {
       grant_type: 'password' as const,
-      username,
+      username: `${tenantId}-${username}`,
       password,
     };
 
