@@ -9,11 +9,7 @@ type Props = {
   rightIcon?: ReactNode;
 };
 
-const defaultProps = {
-  rightIcon: null,
-};
-
-function MenuItem({ active, name, leftIcon, rightIcon }: Props) {
+function MenuItem({ active, name, leftIcon, rightIcon = null }: Props) {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const Icon = icons[leftIcon || 'AppsAddFilledIcon'];
 
@@ -40,7 +36,5 @@ function MenuItem({ active, name, leftIcon, rightIcon }: Props) {
     </Flex>
   );
 }
-
-MenuItem.defaultProps = defaultProps;
 
 export default MenuItem;

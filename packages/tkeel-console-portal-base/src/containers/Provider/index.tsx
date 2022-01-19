@@ -8,10 +8,6 @@ type Props = {
   children?: ReactNode;
 };
 
-export default function Provider({ globalProps, children }: Props) {
+export default function Provider({ globalProps, children = null }: Props) {
   return <Context.Provider value={globalProps}>{children}</Context.Provider>;
 }
-
-Provider.defaultProps = {
-  children: null,
-};

@@ -1,10 +1,11 @@
-import { Box, Heading } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
+import { PageHeaderToolbar } from '@tkeel/console-components';
 
 function Index(): JSX.Element {
   return (
-    <Box>
-      <Heading>Example</Heading>
-    </Box>
+    <Flex>
+      <PageHeaderToolbar name="用户管理" />
+    </Flex>
   );
 }
 
