@@ -27,6 +27,7 @@ module.exports = {
     'plugin:eslint-comments/recommended',
     'plugin:promise/recommended',
     'plugin:unicorn/recommended',
+    'plugin:sonarjs/recommended',
     'plugin:prettier/recommended',
   ],
   rules: {
