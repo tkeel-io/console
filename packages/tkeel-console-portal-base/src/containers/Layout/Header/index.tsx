@@ -7,8 +7,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { HumanFilledIcon } from '@tkeel/console-icons';
-
-import { Menu } from '@/tkeel-console-portal-base/hooks/queries/useMenusQuery';
+import { Menu } from '@tkeel/console-types';
 
 function Header({ menus }: { menus: Menu[] }) {
   const { pathname } = useLocation();

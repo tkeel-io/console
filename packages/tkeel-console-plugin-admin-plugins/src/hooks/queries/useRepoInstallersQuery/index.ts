@@ -1,0 +1,20 @@
+import useQuery from '@/tkeel-console-plugin-admin-plugins/hooks/useQuery';
+import { BriefInstallerInfo } from '@/tkeel-console-plugin-admin-plugins/types/plugin-info';
+
+export interface ApiData {
+  '@type': string;
+  brief_installers: BriefInstallerInfo[];
+}
+
+const url = '/rudder/v1/repos';
+const method = 'GET';
+
+export default function useRepoPluginsQuery(repo: string) {
+  const { data, ...rest } = useQuery<ApiData>({
+    url: `${url}/${repo}/installers`,
+    method,
+  });
+  const plugins = data?.brief_installers || [];
+
+  return { plugins, data, ...rest };
+}

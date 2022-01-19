@@ -1,32 +1,21 @@
-import { MouseEventHandler } from 'react';
-import { Button, Text, useDisclosure } from '@chakra-ui/react';
-import { Editor, Modal } from '@tkeel/console-components';
+import { Button, useDisclosure } from '@chakra-ui/react';
 import { DownloadFilledIcon } from '@tkeel/console-icons';
 
-import mockParams from '@/tkeel-console-plugin-admin-plugins/pages/Detail/mockParams';
+import EditConfigModal from './EditConfigModal';
+
+import { PluginInfo } from '@/tkeel-console-plugin-admin-plugins/types/plugin-info';
 
 type Props = {
   size?: string;
+  pluginInfo: PluginInfo;
 };
 
 const defaultProps = {
   size: 'xs',
 };
 
-function InstallButton({ size }: Props) {
+function InstallButton({ size, pluginInfo }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  let timer: number | null = null;
-
-  const handleInstall: MouseEventHandler<HTMLButtonElement> = (event) => {
-    event.stopPropagation();
-    if (!timer) {
-      timer = window.setTimeout(() => {
-        timer = null;
-        onClose();
-      }, 500);
-    }
-  };
 
   return (
     <>
@@ -42,35 +31,11 @@ function InstallButton({ size }: Props) {
       >
         安装
       </Button>
-      <Modal
-        title={
-          <Text color="gray.800" fontSize="14px">
-            设置配置
-          </Text>
-        }
-        footer={
-          <>
-            <Button onClick={onClose}>取消</Button>
-            <Button
-              marginLeft="12px"
-              colorScheme="primary"
-              onClick={handleInstall}
-            >
-              确定
-            </Button>
-          </>
-        }
+      <EditConfigModal
+        pluginInfo={pluginInfo}
         isOpen={isOpen}
         onClose={onClose}
-      >
-        <Editor
-          width="100%"
-          height="416px"
-          language="yaml"
-          value={mockParams}
-          readOnly
-        />
-      </Modal>
+      />
     </>
   );
 }

@@ -6,7 +6,23 @@ import Content from './Content';
 import CreatePluginButton from './CreatePluginButton';
 import CustomTab from './CustomTab';
 
+import useInstalledPluginsQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/useInstalledPluginsQuery';
+import useRepoInstallersQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/useRepoInstallersQuery';
+
 function Index(): JSX.Element {
+  const { plugins: repoPlugins } = useRepoInstallersQuery('tkeel-default');
+  const { plugins: installedPlugins } = useInstalledPluginsQuery();
+
+  const repoPluginInfos = repoPlugins.map((plugin) => ({
+    ...plugin,
+    installed: !!plugin.installed,
+  }));
+
+  const installedPluginInfos = installedPlugins.map((plugin) => ({
+    ...plugin.brief_installer_info,
+    installed: true,
+  }));
+
   return (
     <Flex flexDirection="column" height="100%">
       <PageHeader
@@ -32,15 +48,15 @@ function Index(): JSX.Element {
           backgroundColor="gray.50"
           borderRadius="22px"
         >
-          <CustomTab>tKeel</CustomTab>
-          <CustomTab>已安装</CustomTab>
+          <CustomTab num={repoPlugins.length}>tKeel</CustomTab>
+          <CustomTab num={installedPluginInfos.length}>已安装</CustomTab>
         </TabList>
         <TabPanels flex="1" overflow="hidden" marginTop="16px">
           <TabPanel height="100%" padding="0">
-            <Content />
+            <Content pluginInfos={repoPluginInfos} />
           </TabPanel>
           <TabPanel height="100%" padding="0">
-            <Content />
+            <Content pluginInfos={installedPluginInfos} />
           </TabPanel>
         </TabPanels>
       </Tabs>

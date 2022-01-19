@@ -1,3 +1,4 @@
+import { useParams } from 'react-router-dom';
 import {
   Box,
   Flex,
@@ -12,19 +13,24 @@ import BasicInfo from './BasicInfo';
 import CustomTab from './CustomTab';
 import DeveloperInfo from './DeveloperInfo';
 import EnablePluginList from './EnablePluginList';
-// import paramsData from './mockParams';
 import Introduce from './Introduce';
-import mockParams from './mockParams';
+
+import usePluginDetailQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/usePluginDetailQuery';
 
 function Detail() {
-  // const params = useParams();
+  const params = useParams();
   // eslint-disable-next-line no-console
-  // console.log('Detail ~ params.id', params.id);
+  console.log('Detail ~ params.id', params.id);
+  const { pluginDetail } = usePluginDetailQuery({
+    repoName: 'tkeel-default',
+    installerName: 'keel',
+    installerVersion: '0.1.0',
+  });
 
   return (
     <Flex height="100%" paddingBottom="20px" justifyContent="space-between">
       <Box width="360px" flexShrink="0">
-        <BasicInfo />
+        <BasicInfo data={pluginDetail} />
         <DeveloperInfo />
       </Box>
       <Tabs display="flex" flexDirection="column" marginLeft="20px" flex="1">
@@ -35,14 +41,11 @@ function Detail() {
           borderRadius="4px"
           backgroundColor="gray.800"
         >
-          <CustomTab>启用列表</CustomTab>
           <CustomTab>说明</CustomTab>
           <CustomTab>参数</CustomTab>
+          <CustomTab>启用列表</CustomTab>
         </TabList>
         <TabPanels marginTop="16px" flex="1" overflow="hidden">
-          <TabPanel padding="0" height="100%">
-            <EnablePluginList />
-          </TabPanel>
           <TabPanel padding="0">
             <Introduce />
           </TabPanel>
@@ -51,9 +54,12 @@ function Detail() {
               width="100%"
               height="100%"
               language="yaml"
-              value={mockParams}
+              value={atob(pluginDetail?.configuration || '')}
               readOnly
             />
+          </TabPanel>
+          <TabPanel padding="0" height="100%">
+            <EnablePluginList />
           </TabPanel>
         </TabPanels>
       </Tabs>

@@ -92,7 +92,7 @@ function Table<D extends object>({
   }, [sortBy, onSort]);
 
   return (
-    <Flex {...style} flexDirection="column" flex="1" overflow="hidden">
+    <Flex {...style} flexDirection="column">
       <ChakraTable
         {...getTableProps()}
         flex="1"

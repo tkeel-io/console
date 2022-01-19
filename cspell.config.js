@@ -41,6 +41,7 @@ module.exports = {
     'semibold',
     'Unstyled',
     'unstyled',
+    'tenantes',
   ],
   ignorePaths: [
     '**/.idea/**',
