@@ -14,9 +14,9 @@ export interface TwoToneIconProps extends FilledIconProps {
 }
 
 export interface FilledIconPropsWithSvgComponent extends FilledIconProps {
-  svgComponent: React.FunctionComponent<any>;
+  svgComponent: React.FunctionComponent<unknown>;
 }
 
 export interface TwoToneIconPropsWithSvgComponent extends TwoToneIconProps {
-  svgComponent: React.FunctionComponent<any>;
+  svgComponent: React.FunctionComponent<unknown>;
 }
