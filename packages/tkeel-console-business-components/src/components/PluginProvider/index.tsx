@@ -8,12 +8,11 @@ type Props = {
   children?: ReactNode;
 };
 
-export default function PluginProvider({ globalProps, children }: Props) {
+export default function PluginProvider({
+  globalProps,
+  children = null,
+}: Props) {
   return <Context.Provider value={globalProps}>{children}</Context.Provider>;
 }
-
-PluginProvider.defaultProps = {
-  children: null,
-};
 
 export { default as useGlobalProps } from './useGlobalProps';

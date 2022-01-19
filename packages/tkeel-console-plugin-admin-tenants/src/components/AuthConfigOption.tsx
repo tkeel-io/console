@@ -1,12 +1,12 @@
 import { Box, Text } from '@chakra-ui/react';
 
-export interface IProps {
+export interface Props {
   title: string;
   description: string;
   isSelected: boolean;
 }
 
-export default function AuthConfigOption(props: IProps) {
+export default function AuthConfigOption(props: Props) {
   const { title, description, isSelected } = props;
   return (
     <Box

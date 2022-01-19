@@ -23,12 +23,14 @@ type Props = {
   readOnly?: boolean;
 };
 
-const defaultProps = {
-  theme: 'vs-dark',
-  readOnly: false,
-};
-
-function Editor({ theme, language, value, width, height, readOnly }: Props) {
+function Editor({
+  theme = 'vs-dark',
+  language,
+  value,
+  width,
+  height,
+  readOnly = false,
+}: Props) {
   return (
     <Wrapper>
       <MonacoEditor
@@ -58,7 +60,5 @@ function Editor({ theme, language, value, width, height, readOnly }: Props) {
     </Wrapper>
   );
 }
-
-Editor.defaultProps = defaultProps;
 
 export default Editor;
