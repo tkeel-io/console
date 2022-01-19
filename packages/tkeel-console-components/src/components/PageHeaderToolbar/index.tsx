@@ -1,12 +1,21 @@
 import { Flex, Text } from '@chakra-ui/react';
+import { noop } from 'lodash';
 
-import SearchInput from '@/tkeel-console-components/components/SearchInput';
+import SearchInput, {
+  Props as SearchInputProps,
+} from '@/tkeel-console-components/components/SearchInput';
 
 type Props = {
   name: string;
+  hasSearchInput?: boolean;
+  searchInputProps?: SearchInputProps;
 };
 
-function PageHeaderToolbar({ name }: Props) {
+function PageHeaderToolbar({
+  name,
+  hasSearchInput = false,
+  searchInputProps = { onSearch: noop },
+}: Props) {
   return (
     <Flex
       alignItems="center"
@@ -20,8 +29,8 @@ function PageHeaderToolbar({ name }: Props) {
           {name}
         </Text>
       </Flex>
-      <Flex padding="0 16px">
-        <SearchInput onSearch={() => {}} />
+      <Flex flex={1} padding="0 16px">
+        {hasSearchInput && <SearchInput {...searchInputProps} />}
       </Flex>
     </Flex>
   );

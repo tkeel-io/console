@@ -7,7 +7,7 @@ import {
 } from '@chakra-ui/react';
 import { MagnifierFilledIcon } from '@tkeel/console-icons';
 
-type Props = {
+export interface Props {
   width?: string;
   height?: string;
   inputGroupStyle?: StyleProps;
@@ -15,8 +15,8 @@ type Props = {
   icon?: ReactNode;
   iconSize?: number | string;
   placeholder?: string;
-  onSearch: (keyword: string) => void;
-};
+  onSearch: (keyword: string) => unknown;
+}
 
 function SearchInput({
   width,
