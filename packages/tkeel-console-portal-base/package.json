@@ -16,17 +16,18 @@
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@tkeel/console-components": "workspace:^",
+    "@tkeel/console-constants": "workspace:^",
     "@tkeel/console-hooks": "workspace:^",
     "@tkeel/console-icons": "workspace:^",
     "@tkeel/console-themes": "workspace:^",
     "@tkeel/console-types": "workspace:^",
     "@tkeel/console-utils": "workspace:^",
-    "framer-motion": "^5.5.6",
+    "framer-motion": "^5.6.0",
     "qiankun": "^2.6.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-hook-form": "^7.22.5",
-    "react-query": "^3.34.7",
+    "react-hook-form": "^7.24.1",
+    "react-query": "^3.34.8",
     "react-router-dom": "^6.2.1"
   }
 }

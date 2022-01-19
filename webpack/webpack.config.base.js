@@ -18,7 +18,7 @@ const {
 } = require('../scripts/utils/env');
 const paths = require('../scripts/utils/paths');
 
-dotenvExpand(dotenvFlow.config());
+dotenvExpand.expand(dotenvFlow.config());
 
 const getStyleLoaders = () => {
   let [sourceMap, modules] = [true, { auto: true }];
