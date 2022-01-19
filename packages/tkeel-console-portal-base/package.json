@@ -12,7 +12,7 @@
   "license": "Apache-2.0",
   "main": "./src/index.ts",
   "dependencies": {
-    "@chakra-ui/react": "^1.7.5",
+    "@chakra-ui/react": "^1.7.4",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@tkeel/console-components": "workspace:^",
@@ -26,7 +26,7 @@
     "qiankun": "^2.6.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-hook-form": "^7.24.0",
+    "react-hook-form": "^7.24.1",
     "react-query": "^3.34.8",
     "react-router-dom": "^6.2.1"
   }

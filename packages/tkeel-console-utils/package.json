@@ -14,7 +14,7 @@
   "dependencies": {
     "@tkeel/console-constants": "workspace:^",
     "@tkeel/console-types": "workspace:^",
-    "axios": "^0.24.0",
+    "axios": "^0.25.0",
     "react-router-dom": "^6.2.1",
     "store2": "^2.13.1"
   },
