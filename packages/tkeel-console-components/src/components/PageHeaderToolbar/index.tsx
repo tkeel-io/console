@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { Flex, Text } from '@chakra-ui/react';
+import { BookOpenedFilledIcon } from '@tkeel/console-icons';
 import { noop } from 'lodash';
 
 import SearchInput, {
@@ -42,6 +43,7 @@ function PageHeaderToolbar({
           <Text fontSize="14px" lineHeight="24px" color="gray.800">
             {name}
           </Text>
+          <BookOpenedFilledIcon />
         </Flex>
       )}
       <Flex flex={1} justifyContent="flex-end">
