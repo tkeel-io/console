@@ -1879,7 +1879,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chakra-ui/react@npm:^1.7.5":
+"@chakra-ui/react@npm:^1.7.4":
   version: 1.7.5
   resolution: "@chakra-ui/react@npm:1.7.5"
   dependencies:
@@ -3301,7 +3301,7 @@ __metadata:
   dependencies:
     "@tkeel/console-icons": "workspace:^"
     "@types/react-table": ^7.7.9
-    react-hook-form: ^7.24.0
+    react-hook-form: ^7.24.1
     react-table: ^7.7.0
     react-use: ^17.3.2
   peerDependencies:
@@ -3351,7 +3351,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tkeel/console-plugin-admin-plugins@workspace:packages/tkeel-console-plugin-admin-plugins"
   dependencies:
-    "@chakra-ui/react": ^1.7.5
+    "@chakra-ui/react": ^1.7.4
     "@emotion/react": ^11.7.1
     "@emotion/styled": ^11.6.0
     "@monaco-editor/react": ^4.3.1
@@ -3364,7 +3364,7 @@ __metadata:
     monaco-themes: ^0.4.0
     react: ^17.0.2
     react-dom: ^17.0.2
-    react-hook-form: ^7.24.0
+    react-hook-form: ^7.24.1
     react-router-dom: ^6.2.1
   languageName: unknown
   linkType: soft
@@ -3373,7 +3373,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tkeel/console-plugin-admin-tenants@workspace:packages/tkeel-console-plugin-admin-tenants"
   dependencies:
-    "@chakra-ui/react": ^1.7.5
+    "@chakra-ui/react": ^1.7.4
     "@emotion/react": ^11.7.1
     "@emotion/styled": ^11.6.0
     "@tkeel/console-business-components": "workspace:^"
@@ -3392,7 +3392,26 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tkeel/console-plugin-example@workspace:packages/tkeel-console-plugin-example"
   dependencies:
-    "@chakra-ui/react": ^1.7.5
+    "@chakra-ui/react": ^1.7.4
+    "@emotion/react": ^11.7.1
+    "@emotion/styled": ^11.6.0
+    "@tkeel/console-business-components": "workspace:^"
+    "@tkeel/console-hooks": "workspace:^"
+    "@tkeel/console-types": "workspace:^"
+    "@tkeel/console-utils": "workspace:^"
+    framer-motion: ^5.6.0
+    react: ^17.0.2
+    react-dom: ^17.0.2
+    react-query: ^3.34.8
+    react-router-dom: ^6.2.1
+  languageName: unknown
+  linkType: soft
+
+"@tkeel/console-plugin-tenant-users@workspace:packages/tkeel-console-plugin-tenant-users":
+  version: 0.0.0-use.local
+  resolution: "@tkeel/console-plugin-tenant-users@workspace:packages/tkeel-console-plugin-tenant-users"
+  dependencies:
+    "@chakra-ui/react": ^1.7.4
     "@emotion/react": ^11.7.1
     "@emotion/styled": ^11.6.0
     "@tkeel/console-business-components": "workspace:^"
@@ -3421,7 +3440,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tkeel/console-portal-base@workspace:packages/tkeel-console-portal-base"
   dependencies:
-    "@chakra-ui/react": ^1.7.5
+    "@chakra-ui/react": ^1.7.4
     "@emotion/react": ^11.7.1
     "@emotion/styled": ^11.6.0
     "@tkeel/console-components": "workspace:^"
@@ -3435,7 +3454,7 @@ __metadata:
     qiankun: ^2.6.3
     react: ^17.0.2
     react-dom: ^17.0.2
-    react-hook-form: ^7.24.0
+    react-hook-form: ^7.24.1
     react-query: ^3.34.8
     react-router-dom: ^6.2.1
   languageName: unknown
@@ -3478,7 +3497,7 @@ __metadata:
   dependencies:
     "@tkeel/console-constants": "workspace:^"
     "@tkeel/console-types": "workspace:^"
-    axios: ^0.24.0
+    axios: ^0.25.0
     react-router-dom: ^6.2.1
     store2: ^2.13.1
   peerDependencies:
@@ -3518,7 +3537,7 @@ __metadata:
     cross-env: ^7.0.3
     cspell: ^5.15.2
     css-loader: ^6.5.1
-    css-minimizer-webpack-plugin: ^3.3.1
+    css-minimizer-webpack-plugin: ^3.4.1
     cz-conventional-changelog: ^3.3.0
     dotenv-expand: ^6.0.1
     dotenv-flow: ^3.2.0
@@ -3537,6 +3556,7 @@ __metadata:
     eslint-plugin-react: ^7.28.0
     eslint-plugin-react-hooks: ^4.3.0
     eslint-plugin-simple-import-sort: ^7.0.0
+    eslint-plugin-sonarjs: ^0.11.0
     eslint-plugin-unicorn: ^40.1.0
     eslint-webpack-plugin: ^3.1.1
     fork-ts-checker-webpack-plugin: ^6.5.0
@@ -3546,7 +3566,7 @@ __metadata:
     html-webpack-plugin: ^5.5.0
     husky: ^7.0.4
     inquirer: ^8.2.0
-    lint-staged: ^12.1.7
+    lint-staged: ^12.2.0
     lodash: ^4.17.21
     mini-css-extract-plugin: ^2.5.2
     postcss-flexbugs-fixes: ^5.0.2
@@ -3556,7 +3576,7 @@ __metadata:
     prettier: ^2.5.1
     react-refresh: ^0.11.0
     read-pkg: ^5.2.0
-    sass: ^1.48.0
+    sass: ^1.49.0
     sass-loader: ^12.4.0
     shelljs: ^0.8.5
     sort-package-json: ^1.53.1
@@ -3819,9 +3839,9 @@ __metadata:
   linkType: hard
 
 "@types/node@npm:*":
-  version: 17.0.9
-  resolution: "@types/node@npm:17.0.9"
-  checksum: 64a1fa91979e3c37c5f42c6e7836b02aad333f2ed41114b8d975b4754e4f4a7fe3343e77ee4daceed6b5706c6662ade13ec1e955326cd1b1e8bf35800de5faf8
+  version: 17.0.10
+  resolution: "@types/node@npm:17.0.10"
+  checksum: 979e83d642a2b4f18fa1a4233f884822c05abc7acd0836024aa964187f8446432b21f7913e72fe2b3927c4a811c27a0b6cd60ac7c4ac6a6762cfbab70782aa6a
   languageName: node
   linkType: hard
 
@@ -4845,12 +4865,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:*, axios@npm:^0.24.0":
-  version: 0.24.0
-  resolution: "axios@npm:0.24.0"
+"axios@npm:*, axios@npm:^0.25.0":
+  version: 0.25.0
+  resolution: "axios@npm:0.25.0"
   dependencies:
-    follow-redirects: ^1.14.4
-  checksum: 468cf496c08a6aadfb7e699bebdac02851e3043d4e7d282350804ea8900e30d368daa6e3cd4ab83b8ddb5a3b1e17a5a21ada13fc9cebd27b74828f47a4236316
+    follow-redirects: ^1.14.7
+  checksum: 2a8a3787c05f2a0c9c3878f49782357e2a9f38945b93018fb0c4fd788171c43dceefbb577988628e09fea53952744d1ecebde234b561f1e703aa43e0a598a3ad
   languageName: node
   linkType: hard
 
@@ -5421,8 +5441,8 @@ __metadata:
   linkType: hard
 
 "chokidar@npm:>=3.0.0 <4.0.0, chokidar@npm:^3.4.2, chokidar@npm:^3.5.2":
-  version: 3.5.2
-  resolution: "chokidar@npm:3.5.2"
+  version: 3.5.3
+  resolution: "chokidar@npm:3.5.3"
   dependencies:
     anymatch: ~3.1.2
     braces: ~3.0.2
@@ -5435,7 +5455,7 @@ __metadata:
   dependenciesMeta:
     fsevents:
       optional: true
-  checksum: d1fda32fcd67d9f6170a8468ad2630a3c6194949c9db3f6a91b16478c328b2800f433fb5d2592511b6cb145a47c013ea1cce60b432b1a001ae3ee978a8bffc2d
+  checksum: b49fcde40176ba007ff361b198a2d35df60d9bb2a5aab228279eb810feae9294a6b4649ab15981304447afe1e6ffbf4788ad5db77235dc770ab777c6e771980c
   languageName: node
   linkType: hard
 
@@ -6261,9 +6281,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"css-minimizer-webpack-plugin@npm:^3.3.1":
-  version: 3.3.1
-  resolution: "css-minimizer-webpack-plugin@npm:3.3.1"
+"css-minimizer-webpack-plugin@npm:^3.4.1":
+  version: 3.4.1
+  resolution: "css-minimizer-webpack-plugin@npm:3.4.1"
   dependencies:
     cssnano: ^5.0.6
     jest-worker: ^27.0.2
@@ -6274,13 +6294,15 @@ __metadata:
   peerDependencies:
     webpack: ^5.0.0
   peerDependenciesMeta:
+    "@parcel/css":
+      optional: true
     clean-css:
       optional: true
     csso:
       optional: true
     esbuild:
       optional: true
-  checksum: 5e054ef608702dba55dec629503618acfbebb9566f92058a1ebf372f0feb47b9faa3de7142372be629fa327a7223c614b325a08d955d080a64a06983c8782321
+  checksum: 065c6c1eadb7c99267db5d04d6f3909e9968b73c4cb79ab9e4502a5fbf1a3d564cfe6f8e0bff8e4ab00d4ed233e9c3c76a4ebe0ee89150b3d9ecb064ddf1e5e9
   languageName: node
   linkType: hard
 
@@ -7026,9 +7048,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.17":
-  version: 1.4.47
-  resolution: "electron-to-chromium@npm:1.4.47"
-  checksum: 7535d8deb3b7bd7b32d183e03f0c86e0cb05c7891b08901ebda27397219cec7c927590a514185aaaa36b2a3e7b048e5cb58e1bfddd7030a2452c213ef4f26dcf
+  version: 1.4.48
+  resolution: "electron-to-chromium@npm:1.4.48"
+  checksum: 928bfd2a452ff6344e97936224d307889735a18d553db1de68762d961a6d3445ac6749740de0a26173f1d9893d1ca2af8ee30c14113bebb077dbf26f7ffb3571
   languageName: node
   linkType: hard
 
@@ -7484,6 +7506,15 @@ __metadata:
   peerDependencies:
     eslint: ">=5.0.0"
   checksum: 6aacb7179c213cd2081950630368d1f3b1dcb4f5674d8b989fe7839e7b317ee521d74761676e8b1a7cab49f20405dbcc9aac05358ae804e6bcba6cbf1daccb3d
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-sonarjs@npm:^0.11.0":
+  version: 0.11.0
+  resolution: "eslint-plugin-sonarjs@npm:0.11.0"
+  peerDependencies:
+    eslint: ^5.0.0 || ^6.0.0 || ^7.0.0|| ^8.0.0
+  checksum: ef9633e518f6d8365b7370bf48f70fb837124c68318e14146c13ffa8f4c5a747b5f776956124549f81252131ebb8c139d071b9c66e2af77889d0eada725d6d25
   languageName: node
   linkType: hard
 
@@ -8141,7 +8172,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.0.0, follow-redirects@npm:^1.14.4":
+"follow-redirects@npm:^1.0.0, follow-redirects@npm:^1.14.7":
   version: 1.14.7
   resolution: "follow-redirects@npm:1.14.7"
   peerDependenciesMeta:
@@ -10313,9 +10344,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lint-staged@npm:^12.1.7":
-  version: 12.1.7
-  resolution: "lint-staged@npm:12.1.7"
+"lint-staged@npm:^12.2.0":
+  version: 12.2.0
+  resolution: "lint-staged@npm:12.2.0"
   dependencies:
     cli-truncate: ^3.1.0
     colorette: ^2.0.16
@@ -10332,7 +10363,7 @@ __metadata:
     yaml: ^1.10.2
   bin:
     lint-staged: bin/lint-staged.js
-  checksum: 3d0757706c8b0ca3f004bb2ffa89a9d5fc97ccdebfa4cde29a9636c661538780e194b99cbc5e4b8b89b13986187b33c97e009b09014511bbd45ee05ba557d0eb
+  checksum: 940cb0f1d56dcd5a69fafc6c2e5ea946805ecc0c65403828a7612851d33e52947e1a6523579a18bed6f9e781e1362bf17c89aeecf8ec28e3a9ccd1dea6efbe78
   languageName: node
   linkType: hard
 
@@ -13173,12 +13204,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:^7.24.0":
-  version: 7.24.0
-  resolution: "react-hook-form@npm:7.24.0"
+"react-hook-form@npm:^7.24.1":
+  version: 7.24.1
+  resolution: "react-hook-form@npm:7.24.1"
   peerDependencies:
     react: ^16.8.0 || ^17
-  checksum: 6df7b33c7e8023fadd7cf7415f975497d55866b0d5ae32f9735def3e2c7eb1455989f997e726b84e878d895e8ae0901db337f78eb9bb8edc3a146b7858b7d805
+  checksum: 2c2dce2e503d2a2e680af553b3df2f7df3fa95e4a5837fbe2c84e9cb3eebaf67011ee83f939884671b6d3e14e160ce2fea1b20b78c7e480d49f2ed1514b4365a
   languageName: node
   linkType: hard
 
@@ -14020,16 +14051,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass@npm:^1.32.13, sass@npm:^1.48.0":
-  version: 1.48.0
-  resolution: "sass@npm:1.48.0"
+"sass@npm:^1.32.13, sass@npm:^1.49.0":
+  version: 1.49.0
+  resolution: "sass@npm:1.49.0"
   dependencies:
     chokidar: ">=3.0.0 <4.0.0"
     immutable: ^4.0.0
     source-map-js: ">=0.6.2 <2.0.0"
   bin:
     sass: sass.js
-  checksum: 0fa57d17a9ac9eff914719a3c9cf986cb81c6714cc09214ace65e9f1af0bd47f750793dfc39bbd1b199c9b8c12b1e4aba669ba08dfbd649cfb581c55d20a839f
+  checksum: 7cd60868594fb0b6fed87bf4870ad5a7da7e3746cb5127f3ede2565380f3e30ba2de72d64e9083f2d55d0de81f756894fe6d9314c97acb704cf9fc97fbbafd0c
   languageName: node
   linkType: hard
 
@@ -14499,9 +14530,9 @@ __metadata:
   linkType: hard
 
 "source-map-js@npm:>=0.6.2 <2.0.0, source-map-js@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "source-map-js@npm:1.0.1"
-  checksum: 22606113d62bbd468712b0cb0c46e9a8629de7eb081049c62a04d977a211abafd7d61455617f8b78daba0b6c0c7e7c88f8c6b5aaeacffac0a6676ecf5caac5ce
+  version: 1.0.2
+  resolution: "source-map-js@npm:1.0.2"
+  checksum: c049a7fc4deb9a7e9b481ae3d424cc793cb4845daa690bc5a05d428bf41bf231ced49b4cf0c9e77f9d42fdb3d20d6187619fc586605f5eabe995a316da8d377c
   languageName: node
   linkType: hard
 

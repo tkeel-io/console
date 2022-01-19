@@ -10,6 +10,7 @@ const {
   checkCanRunPackageDevServerPort,
 } = require('../utils/packages');
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 async function prompt({ argv }) {
   const { name, basePath, devServerPort } = argv;
   const questions = [];
@@ -94,9 +95,8 @@ async function prompt({ argv }) {
     return null;
   }
 
-  const answers = await inquirer.prompt(questions);
-
-  return answers;
+  // eslint-disable-next-line no-return-await
+  return await inquirer.prompt(questions);
 }
 
 module.exports = prompt;

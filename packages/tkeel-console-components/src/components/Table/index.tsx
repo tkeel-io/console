@@ -23,11 +23,11 @@ import { ITableInstance, ITableOptions, Props } from './types';
 function Table<D extends object>({
   columns,
   data,
-  defaultPageSize,
+  defaultPageSize = 15,
   scroll,
   onSelect,
   onSort,
-  style,
+  style = {},
 }: Props<D>) {
   let plugins: PluginHook<D>[] = [usePagination];
   const pushSelectionColumn = (hooks: Hooks<D>) => {
@@ -125,13 +125,5 @@ function Table<D extends object>({
     </Flex>
   );
 }
-
-Table.defaultProps = {
-  defaultPageSize: 15,
-  scroll: undefined,
-  onSelect: undefined,
-  onSort: undefined,
-  style: {},
-};
 
 export default Table;

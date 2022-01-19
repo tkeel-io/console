@@ -18,16 +18,11 @@ type Props = {
   onClose: () => void;
 };
 
-const defaultProps = {
-  width: '600px',
-  footer: null,
-};
-
 function CustomModal({
-  width,
+  width = '600px',
   title,
   children,
-  footer,
+  footer = null,
   isOpen,
   onClose,
 }: Props) {
@@ -77,7 +72,5 @@ function CustomModal({
     </Modal>
   );
 }
-
-CustomModal.defaultProps = defaultProps;
 
 export default CustomModal;

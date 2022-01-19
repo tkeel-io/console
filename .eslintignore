@@ -2,3 +2,11 @@
 **/node_modules/
 packages/*/dist/
 scripts/**/template/
+
+# Editor
+packages/tkeel-console-components/src/components/Editor/basic-languages/sql.ts
+packages/tkeel-console-components/src/components/Editor/basic-languages/yaml.ts
+packages/tkeel-console-components/src/components/Editor/registerCompletion.ts
+
+# react-table
+packages/tkeel-console-plugin-admin-plugins/src/types/react-table-config.d.ts
