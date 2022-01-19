@@ -19,13 +19,13 @@ export interface Props {
 }
 
 function SearchInput({
-  width,
-  height,
-  inputGroupStyle,
-  inputStyle,
-  icon,
-  iconSize,
-  placeholder,
+  width = '300px',
+  height = '32px',
+  inputGroupStyle = {},
+  inputStyle = {},
+  icon = null,
+  iconSize = 16,
+  placeholder = '请输入...',
   onSearch,
 }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -62,15 +62,5 @@ function SearchInput({
     </InputGroup>
   );
 }
-
-SearchInput.defaultProps = {
-  width: '300px',
-  height: '32px',
-  inputGroupStyle: {},
-  inputStyle: {},
-  icon: null,
-  iconSize: 16,
-  placeholder: '请输入...',
-};
 
 export default SearchInput;
