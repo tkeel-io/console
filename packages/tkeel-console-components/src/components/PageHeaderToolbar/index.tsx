@@ -36,13 +36,7 @@ function PageHeaderToolbar({
   const { colors }: { colors: CustomColor } = useTheme();
 
   return (
-    <Flex
-      alignItems="center"
-      width="100%"
-      height="48px"
-      padding="0 20px"
-      backgroundColor="#fff"
-    >
+    <Flex alignItems="center" width="100%" height="48px" padding="0 20px">
       {name && (
         <Flex paddingRight="30px">
           <Text fontSize="14px" lineHeight="24px" color="gray.800">
