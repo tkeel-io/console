@@ -2,6 +2,7 @@ export { default as AddFilledIcon } from './components/AddFilledIcon';
 export { default as AppsAddFilledIcon } from './components/AppsAddFilledIcon';
 export { default as BellFilledIcon } from './components/BellFilledIcon';
 export { default as BellTwoToneIcon } from './components/BellTwoToneIcon';
+export { default as BookOpenedFilledIcon } from './components/BookOpenedFilledIcon';
 export { default as BoxTwoToneIcon } from './components/BoxTwoToneIcon';
 export { default as CaretDownFilledIcon } from './components/CaretDownFilledIcon';
 export { default as CaretUpFilledIcon } from './components/CaretUpFilledIcon';

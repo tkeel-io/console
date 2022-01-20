@@ -107,7 +107,7 @@ function LoginTenant(): JSX.Element {
             type="text"
             id="username"
             label="账号"
-            value={process.env.USERNAME}
+            value={String(GLOBAL_CONFIG?.mock?.username ?? '')}
             placeholder="请输入您的账号"
             error={errors.username}
             schemas={register('username', {
@@ -121,7 +121,7 @@ function LoginTenant(): JSX.Element {
             type="password"
             id="password"
             label="密码"
-            value={process.env.PASSWORD}
+            value={String(GLOBAL_CONFIG?.mock?.password ?? '')}
             placeholder="请输入您的密码"
             error={errors.username}
             schemas={register('password', {
