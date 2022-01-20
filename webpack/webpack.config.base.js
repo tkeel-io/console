@@ -1,6 +1,7 @@
 const path = require('path');
 
 const webpack = require('webpack');
+const config = require('config');
 const dotenvFlow = require('dotenv-flow');
 const dotenvExpand = require('dotenv-expand');
 const DotenvWebpack = require('dotenv-webpack');
@@ -10,6 +11,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ConfigWebpackPlugin = require('config-webpack');
+
+const publicPath = config.get('publicPath');
+const documentTitle = config.get('documentTitle');
+const generateSourcemap = config.get('builder.generateSourcemap');
 
 const {
   env,
@@ -30,7 +36,7 @@ const getStyleLoaders = () => {
     };
   }
   if (isEnvProduction) {
-    sourceMap = process.env.GENERATE_SOURCEMAP === 'true';
+    sourceMap = !!generateSourcemap;
   }
 
   return [
@@ -67,7 +73,7 @@ module.exports = {
   entry: path.resolve(paths.cwd.src, 'index'),
   output: {
     path: paths.cwd.dist,
-    publicPath: process.env.PUBLIC_PATH,
+    publicPath,
   },
   module: {
     rules: [
@@ -161,13 +167,14 @@ module.exports = {
     /* cspell: disable-next-line */
     new DotenvWebpack({ systemvars: true }),
     new HtmlWebpackPlugin({
-      title: process.env.DOCUMENT_TITLE,
+      title: documentTitle,
       template: path.resolve(paths.cwd.public, 'index.handlebars'),
       inject: true,
       favicon: path.resolve(paths.cwd.public, 'favicon.svg'),
       hash: true,
     }),
     new ForkTsCheckerWebpackPlugin(),
+    new ConfigWebpackPlugin('GLOBAL_CONFIG'),
     new ESLintPlugin({
       context: 'src',
       extensions: ['js', 'jsx', 'ts', 'tsx'],

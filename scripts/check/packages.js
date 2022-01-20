@@ -5,7 +5,7 @@ const _ = require('lodash');
 const {
   readPackages,
   showBasePaths,
-  showDevServerPorts,
+  showServerPorts,
 } = require('../utils/packages');
 const logger = require('../utils/logger');
 
@@ -29,29 +29,24 @@ function checkPackageNames() {
   logger.log();
 }
 
-function checkCanRunPackageDotenvConfigs({ dotenvConfigKey }) {
-  logger.log(`check plugins ${dotenvConfigKey}`);
+function checkCanRunPackageConfigs({ configKey }) {
+  logger.log(`check plugins ${configKey}`);
   const packages = readPackages().filter(
-    ({ canRun, dotenvConfig }) => canRun && dotenvConfig[dotenvConfigKey]
+    ({ canRun, config }) => canRun && config[configKey]
   );
-  const counter = _.countBy(packages, `dotenvConfig[${dotenvConfigKey}]`);
+  const counter = _.countBy(packages, `config[${configKey}]`);
   let isSuccess = true;
 
-  Object.keys(counter).forEach((dotenvConfigValue) => {
-    const count = counter[dotenvConfigValue];
+  Object.keys(counter).forEach((configValue) => {
+    const count = counter[configValue];
 
     if (count > 1) {
       isSuccess = false;
       const directoryNames = packages
-        .filter(
-          ({ dotenvConfig }) =>
-            dotenvConfig[dotenvConfigKey] === dotenvConfigValue
-        )
+        .filter(({ config }) => config[configKey] === configValue)
         .map(({ directoryName }) => directoryName);
       logger.error(
-        `Duplicate ${dotenvConfigKey}: ${dotenvConfigValue} (${directoryNames.join(
-          ', '
-        )})`
+        `Duplicate ${configKey}: ${configValue} (${directoryNames.join(', ')})`
       );
     }
   });
@@ -61,12 +56,12 @@ function checkCanRunPackageDotenvConfigs({ dotenvConfigKey }) {
     logger.log();
   } else {
     logger.log();
-    switch (dotenvConfigKey) {
-      case 'BASE_PATH':
+    switch (configKey) {
+      case 'basePath':
         showBasePaths();
         break;
-      case 'DEV_SERVER_PORT':
-        showDevServerPorts();
+      case 'server.port':
+        showServerPorts();
         break;
       default:
         break;
@@ -75,15 +70,15 @@ function checkCanRunPackageDotenvConfigs({ dotenvConfigKey }) {
 }
 
 function checkCanRunPackageBasePath() {
-  checkCanRunPackageDotenvConfigs({ dotenvConfigKey: 'BASE_PATH' });
+  checkCanRunPackageConfigs({ configKey: 'basePath' });
 }
 
-function checkCanRunPackageDevServerPort() {
-  checkCanRunPackageDotenvConfigs({ dotenvConfigKey: 'DEV_SERVER_PORT' });
+function checkCanRunPackageServerPort() {
+  checkCanRunPackageConfigs({ configKey: 'server.port' });
 }
 
 checkPackageNames();
 checkCanRunPackageBasePath();
-checkCanRunPackageDevServerPort();
+checkCanRunPackageServerPort();
 
 logger.log('DONE');

@@ -1,5 +1,8 @@
+const path = require('path');
+
 const fs = require('fs-extra');
 const _ = require('lodash');
+const nodeConfig = require('config');
 const dotenvFlow = require('dotenv-flow');
 const dotenvExpand = require('dotenv-expand');
 const { isPort } = require('validator');
@@ -83,16 +86,20 @@ function readPackages({
 
     const packageJson = readPkg.sync({ cwd: absolutePath });
 
+    const configAbsolutePath = path.resolve(absolutePath, 'config');
+    const config = nodeConfig.util.loadFileConfigs(configAbsolutePath);
+
     const dotenvFiles = dotenvFlow
       .listDotenvFiles(absolutePath, {
         node_env: 'development',
       })
-      .filter((path) => fs.existsSync(path));
+      .filter((filePath) => fs.existsSync(filePath));
     const dotenvConfig = dotenvExpand.expand(dotenvFlow.parse(dotenvFiles));
 
     packages.push({
       directoryName,
       absolutePath,
+      configAbsolutePath,
       isPortal,
       isShared,
       isPlugin,
@@ -100,6 +107,7 @@ function readPackages({
       simpleName,
       pluginName,
       packageJson,
+      config,
       dotenvConfig,
     });
   });
@@ -110,8 +118,8 @@ function readPackages({
 function readBasePaths() {
   const data = [];
 
-  readPackages().forEach(({ directoryName, dotenvConfig }) => {
-    const basePath = dotenvConfig?.BASE_PATH;
+  readPackages().forEach(({ directoryName, config }) => {
+    const basePath = config?.basePath;
     if (basePath) {
       const items = _.find(data, { basePath });
       if (items) {
@@ -125,7 +133,7 @@ function readBasePaths() {
     }
   });
 
-  return data.sort((a, b) => a.devServerPort - b.devServerPort);
+  return data.sort((a, b) => a.basePath - b.basePath);
 }
 
 function showBasePaths() {
@@ -138,34 +146,34 @@ function showBasePaths() {
   logger.info(content);
 }
 
-function readDevServerPorts() {
+function readServerPorts() {
   const data = [];
 
-  readPackages().forEach(({ directoryName, dotenvConfig }) => {
-    const devServerPort = dotenvConfig?.DEV_SERVER_PORT;
-    if (devServerPort) {
-      const items = _.find(data, { devServerPort: Number(devServerPort) });
+  readPackages().forEach(({ directoryName, config }) => {
+    const serverPort = config?.server?.port;
+    if (serverPort) {
+      const items = _.find(data, { serverPort: String(serverPort) });
       if (items) {
         items.directoryNames.push(directoryName);
       } else {
         data.push({
-          devServerPort: Number(devServerPort),
+          serverPort: String(serverPort),
           directoryNames: [directoryName],
         });
       }
     }
   });
 
-  return data.sort((a, b) => a.devServerPort - b.devServerPort);
+  return data.sort((a, b) => a.serverPort - b.serverPort);
 }
 
-function showDevServerPorts() {
-  const devServerPorts = readDevServerPorts();
+function showServerPorts() {
+  const serverPorts = readServerPorts();
   let content = '';
-  devServerPorts.forEach(({ devServerPort, directoryNames }) => {
-    content += `${devServerPort}: ${directoryNames.join(', ')}\n`;
+  serverPorts.forEach(({ serverPort, directoryNames }) => {
+    content += `${serverPort}: ${directoryNames.join(', ')}\n`;
   });
-  logger.info('Current DEV_SERVER_PORTs:');
+  logger.info('Current server ports: ');
   logger.info(content);
 }
 
@@ -185,26 +193,28 @@ function checkPluginName({ pluginName }) {
 }
 
 function checkCanRunPackageBasePath({ basePath }) {
-  const dotenvConfigs = readPackages()
-    .filter(({ canRun, dotenvConfig }) => canRun && dotenvConfig.BASE_PATH)
-    .map(({ dotenvConfig }) => dotenvConfig);
+  const configs = readPackages()
+    .filter(({ canRun, config }) => canRun && config?.basePath)
+    .map(({ config }) => config);
   // eslint-disable-next-line unicorn/prefer-array-some
-  const flag = !_.find(dotenvConfigs, { BASE_PATH: basePath });
+  const flag = !_.find(configs, { basePath });
   let message = '';
 
   if (!flag) {
-    message = 'Error: Duplicate BASE_PATH';
+    message = 'Error: Duplicate base path';
   }
 
   return { flag, message };
 }
 
-function checkCanRunPackageDevServerPort({ devServerPort }) {
-  const dotenvConfigs = readPackages()
+function checkCanRunPackageServerPort({ serverPort }) {
+  const configs = readPackages()
     .filter(({ canRun }) => canRun)
-    .map(({ dotenvConfig }) => dotenvConfig);
-  const value = _.find(dotenvConfigs, {
-    DEV_SERVER_PORT: String(devServerPort),
+    .map(({ config }) => config);
+  const value = _.find(configs, {
+    server: {
+      port: String(serverPort),
+    },
   });
 
   let flag = true;
@@ -212,10 +222,10 @@ function checkCanRunPackageDevServerPort({ devServerPort }) {
 
   if (value) {
     flag = false;
-    message = 'Error: Duplicate DEV_SERVER_PORT';
+    message = 'Error: Duplicate port';
   }
 
-  if (devServerPort && !isPort(String(devServerPort))) {
+  if (serverPort && !isPort(String(serverPort))) {
     flag = false;
     message = 'Error: Unavailable Port';
   }
@@ -227,8 +237,8 @@ module.exports = {
   getPluginPackageDirectoryName,
   readPackages,
   showBasePaths,
-  showDevServerPorts,
+  showServerPorts,
   checkPluginName,
   checkCanRunPackageBasePath,
-  checkCanRunPackageDevServerPort,
+  checkCanRunPackageServerPort,
 };

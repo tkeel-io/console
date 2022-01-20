@@ -70,6 +70,8 @@
     "clean-webpack-plugin": "^4.0.0",
     "commitizen": "^4.2.4",
     "concurrently": "^7.0.0",
+    "config": "^3.3.7",
+    "config-webpack": "^1.0.5",
     "cross-env": "^7.0.3",
     "cspell": "^5.15.2",
     "css-loader": "^6.5.1",

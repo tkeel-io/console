@@ -11,7 +11,7 @@ import {
 import { AxiosRequestConfigExtended, RequestExtras } from './types';
 
 export const DEFAULT_AXIOS_REQUEST_CONFIG: AxiosRequestConfig = {
-  baseURL: process.env.API_PATHNAME || '/apis',
+  baseURL: GLOBAL_CONFIG.api.pathname || '/apis',
   validateStatus: (status: number) => !inRange(status, 300, 400),
 };
 
