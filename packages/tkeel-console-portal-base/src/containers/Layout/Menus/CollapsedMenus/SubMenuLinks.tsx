@@ -1,7 +1,6 @@
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { Box, Link } from '@chakra-ui/react';
-
-import { Menu } from '@/tkeel-console-portal-base/hooks/queries/useMenusQuery';
+import { Menu } from '@tkeel/console-types';
 
 type Props = {
   data: Menu[];

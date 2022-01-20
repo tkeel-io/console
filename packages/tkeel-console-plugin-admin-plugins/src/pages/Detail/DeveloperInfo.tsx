@@ -20,7 +20,7 @@ function DeveloperInfo() {
       backgroundColor="white"
       boxShadow="0px 10px 15px -3px rgba(113, 128, 150, 0.1), 0px 4px 6px -2px rgba(113, 128, 150, 0.05);"
     >
-      <InfoCard data={developerInfo} />
+      <InfoCard title="开发者信息" data={developerInfo} />
     </Box>
   );
 }

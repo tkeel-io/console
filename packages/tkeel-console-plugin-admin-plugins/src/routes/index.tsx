@@ -7,7 +7,7 @@ function Routes() {
   return (
     <ReactRouterRoutes>
       <Route path="/" element={<Index />} />
-      <Route path="/detail/:id" element={<Detail />} />
+      <Route path="/detail/:repo/:name/:version" element={<Detail />} />
     </ReactRouterRoutes>
   );
 }

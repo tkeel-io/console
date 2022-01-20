@@ -1,38 +1,18 @@
-import { Column, usePagination, useTable } from 'react-table';
 import { Flex, Grid } from '@chakra-ui/react';
 import { Pagination } from '@tkeel/console-components';
 
 import Card from './Card';
 
-export type Data = {
-  id: string;
+import { PluginInfo } from '@/tkeel-console-plugin-admin-plugins/types/plugin-info';
+
+type Props = {
+  pluginInfos: PluginInfo[];
 };
 
-function PluginList({
-  columns,
-  data,
-}: {
-  columns: Column<Data>[];
-  data: Data[];
-}) {
-  const defaultPageSize = 20;
-  const {
-    page,
-    canPreviousPage,
-    canNextPage,
-    nextPage,
-    previousPage,
-    setPageSize,
-    state: { pageIndex, pageSize },
-  } = useTable<Data>(
-    {
-      columns,
-      data,
-      initialState: { pageSize: defaultPageSize },
-    },
-    usePagination
-  );
-
+const handlePreviousPage = () => {};
+const handleNextPage = () => {};
+const handleSetPageSize = () => {};
+function PluginList({ pluginInfos }: Props) {
   return (
     <Flex
       flexDirection="column"
@@ -46,19 +26,22 @@ function PluginList({
         gap="8px"
         overflowY="auto"
       >
-        {page.map(({ id }) => (
-          <Card key={id} />
+        {pluginInfos.map((pluginInfo) => (
+          <Card
+            key={`${pluginInfo.name}${pluginInfo.version}`}
+            pluginInfo={pluginInfo}
+          />
         ))}
       </Grid>
       <Pagination
-        pageIndex={pageIndex}
-        pageSize={pageSize}
-        totalSize={data.length}
-        canPreviousPage={canPreviousPage}
-        canNextPage={canNextPage}
-        previousPage={previousPage}
-        nextPage={nextPage}
-        setPageSize={setPageSize}
+        pageIndex={0}
+        pageSize={40}
+        totalSize={40}
+        canPreviousPage={false}
+        canNextPage={false}
+        previousPage={handlePreviousPage}
+        nextPage={handleNextPage}
+        setPageSize={handleSetPageSize}
       />
     </Flex>
   );
