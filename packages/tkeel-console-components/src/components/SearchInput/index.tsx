@@ -15,6 +15,7 @@ export interface Props {
   icon?: ReactNode;
   iconSize?: number | string;
   placeholder?: string;
+  defaultValue?: string;
   onSearch: (keyword: string) => unknown;
 }
 
@@ -26,6 +27,7 @@ function SearchInput({
   icon = null,
   iconSize = 16,
   placeholder = '请输入...',
+  defaultValue = '',
   onSearch,
 }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -57,6 +59,7 @@ function SearchInput({
         _focus={{ borderColor: 'gray.400' }}
         _placeholder={{ fontWeight: 500 }}
         placeholder={placeholder}
+        defaultValue={defaultValue}
         onKeyDown={onKeyDown}
       />
     </InputGroup>

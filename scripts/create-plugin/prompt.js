@@ -7,12 +7,12 @@ const { OPTIONS_MAP } = require('./constants');
 const {
   checkPluginName,
   checkCanRunPackageBasePath,
-  checkCanRunPackageDevServerPort,
+  checkCanRunPackageServerPort,
 } = require('../utils/packages');
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 async function prompt({ argv }) {
-  const { name, basePath, devServerPort } = argv;
+  const { name, basePath, serverPort } = argv;
   const questions = [];
 
   if (!_.isString(name)) {
@@ -66,18 +66,18 @@ async function prompt({ argv }) {
     });
   }
 
-  if (!isPort(String(devServerPort))) {
+  if (!isPort(String(serverPort))) {
     questions.push({
       type: 'input',
-      name: 'devServerPort',
-      message: OPTIONS_MAP.devServerPort.desc,
+      name: 'serverPort',
+      message: OPTIONS_MAP.serverPort.desc,
       validate(value) {
         if (!value.trim()) {
-          return OPTIONS_MAP.devServerPort.errorMessage;
+          return OPTIONS_MAP.serverPort.errorMessage;
         }
 
-        const { flag, message } = checkCanRunPackageDevServerPort({
-          devServerPort: value,
+        const { flag, message } = checkCanRunPackageServerPort({
+          serverPort: value,
         });
         if (!flag) {
           return message;

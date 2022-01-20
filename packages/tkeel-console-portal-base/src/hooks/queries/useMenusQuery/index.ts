@@ -28,7 +28,7 @@ export default function useMenusQuery() {
     let mockMenus: Menu[] = [];
 
     try {
-      mockMenus = JSON.parse(process.env.MOCK_MENUS || '') as Menu[];
+      mockMenus = (GLOBAL_CONFIG?.mock?.menus ?? []) as Menu[];
     } catch {
       //
     }

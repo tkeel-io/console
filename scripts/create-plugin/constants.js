@@ -4,11 +4,11 @@ const OPTIONS_MAP = Object.freeze({
     errorMessage: 'Please input a name.',
   },
   basePath: {
-    desc: 'plugin BASE_PATH',
-    errorMessage: 'Please input a BASE_PATH.',
+    desc: 'plugin base path',
+    errorMessage: 'Please input a base path.',
   },
-  devServerPort: {
-    desc: 'DevServer port',
+  serverPort: {
+    desc: 'server port',
     errorMessage: 'Please input a port.',
   },
 });

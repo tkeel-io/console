@@ -1,3 +1,4 @@
+const config = require('config');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -7,12 +8,14 @@ const { merge } = require('webpack-merge');
 
 const baseConfig = require('./webpack.config.base');
 
+const generateSourcemap = config?.builder?.generateSourcemap;
+
 const prodConfig = {
   output: {
     filename: 'js/[name].[contenthash].js',
     chunkFilename: 'js/[name].[contenthash].chunk.js',
   },
-  devtool: process.env.GENERATE_SOURCEMAP === 'true' ? 'source-map' : false,
+  devtool: generateSourcemap ? 'source-map' : false,
   optimization: {
     minimizer: [
       new CssMinimizerPlugin({

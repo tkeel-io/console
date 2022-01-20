@@ -22,7 +22,7 @@ function writeTemplates(options) {
   const pluginAbsolutePath = paths.resolvePackages(directoryName);
 
   const handlebarsAbsolutePath = path.resolve(__dirname, 'handlebars');
-  const files = ['.env', '.env.development', 'package.json', 'README.md'];
+  const files = ['package.json', 'README.md', 'config/default.js'];
 
   files.forEach((file) => {
     const absolutePath = path.resolve(handlebarsAbsolutePath, file);

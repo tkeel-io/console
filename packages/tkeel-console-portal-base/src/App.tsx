@@ -13,7 +13,7 @@ const queryClient = new QueryClient();
 const themeName = DEFAULT_THEME_NAME;
 
 const platformName =
-  (process.env.PLATFORM_NAME as PlatformNames) || PlatformNames.TENANT;
+  (GLOBAL_CONFIG.platformName as PlatformNames) || PlatformNames.TENANT;
 
 function App() {
   return (
