@@ -9,7 +9,7 @@ module.exports = {
   platformName: 'tenant',
   publicPath: '/',
   client: {
-    documentTitle: '',
+    documentTitle: 'tKeel',
   },
   server: {
     port: '3001',

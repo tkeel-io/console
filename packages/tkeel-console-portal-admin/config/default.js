@@ -9,7 +9,7 @@ module.exports = {
   platformName: 'admin',
   publicPath: '/',
   client: {
-    documentTitle: '',
+    documentTitle: 'tKeel',
   },
   server: {
     port: '3000',
