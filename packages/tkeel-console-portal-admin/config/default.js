@@ -11,7 +11,7 @@ module.exports = {
     documentTitle: '',
   },
   server: {
-    port: '3001',
+    port: '3000',
     proxy: {
       [API.pathname]: `${API.protocol}:${API.hostname}:${API.port}`,
     },

@@ -29,12 +29,12 @@ function checkPackageNames() {
   logger.log();
 }
 
-function checkCanRunPackageConfigs({ configKey }) {
-  logger.log(`check plugins ${configKey}`);
+function checkCanRunPackageConfigs({ configKeyPath }) {
+  logger.log(`check plugins ${configKeyPath}`);
   const packages = readPackages().filter(
-    ({ canRun, config }) => canRun && config[configKey]
+    ({ canRun, config }) => canRun && _.get(config, configKeyPath)
   );
-  const counter = _.countBy(packages, `config[${configKey}]`);
+  const counter = _.countBy(packages, `config.${configKeyPath}`);
   let isSuccess = true;
 
   Object.keys(counter).forEach((configValue) => {
@@ -43,10 +43,12 @@ function checkCanRunPackageConfigs({ configKey }) {
     if (count > 1) {
       isSuccess = false;
       const directoryNames = packages
-        .filter(({ config }) => config[configKey] === configValue)
+        .filter(({ config }) => _.get(config, configKeyPath) === configValue)
         .map(({ directoryName }) => directoryName);
       logger.error(
-        `Duplicate ${configKey}: ${configValue} (${directoryNames.join(', ')})`
+        `Duplicate ${configKeyPath}: ${configValue} (${directoryNames.join(
+          ', '
+        )})`
       );
     }
   });
@@ -56,7 +58,7 @@ function checkCanRunPackageConfigs({ configKey }) {
     logger.log();
   } else {
     logger.log();
-    switch (configKey) {
+    switch (configKeyPath) {
       case 'basePath':
         showBasePaths();
         break;
@@ -70,11 +72,11 @@ function checkCanRunPackageConfigs({ configKey }) {
 }
 
 function checkCanRunPackageBasePath() {
-  checkCanRunPackageConfigs({ configKey: 'basePath' });
+  checkCanRunPackageConfigs({ configKeyPath: 'basePath' });
 }
 
 function checkCanRunPackageServerPort() {
-  checkCanRunPackageConfigs({ configKey: 'server.port' });
+  checkCanRunPackageConfigs({ configKeyPath: 'server.port' });
 }
 
 checkPackageNames();

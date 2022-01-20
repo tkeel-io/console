@@ -8,15 +8,17 @@ const API = {
 module.exports = {
   publicPath: '/',
   basePath: '/plugin-example',
-  documentTitle: '',
+  client: {
+    documentTitle: '',
+  },
+  builder: {
+    generateSourcemap: false, // production
+  },
   server: {
-    port: 3099,
+    port: '3099',
     proxy: {
       [API.pathname]: `${API.protocol}:${API.hostname}:${API.port}`,
     },
   },
   api: API,
-  builder: {
-    generateSourcemap: false, // production
-  },
 };

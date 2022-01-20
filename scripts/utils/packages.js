@@ -140,9 +140,11 @@ function showBasePaths() {
   const data = readBasePaths();
   let content = '';
   data.forEach(({ basePath, directoryNames }) => {
-    content += `${basePath}: ${directoryNames.join(', ')}\n`;
+    content += `${basePath} (${directoryNames.length}): ${directoryNames.join(
+      ', '
+    )}\n`;
   });
-  logger.info('Current BASE_PATHs:');
+  logger.info('Current base paths:');
   logger.info(content);
 }
 
@@ -171,7 +173,9 @@ function showServerPorts() {
   const serverPorts = readServerPorts();
   let content = '';
   serverPorts.forEach(({ serverPort, directoryNames }) => {
-    content += `${serverPort}: ${directoryNames.join(', ')}\n`;
+    content += `${serverPort} (${directoryNames.length}): ${directoryNames.join(
+      ', '
+    )}\n`;
   });
   logger.info('Current server ports: ');
   logger.info(content);

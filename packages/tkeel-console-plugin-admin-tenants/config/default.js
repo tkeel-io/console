@@ -7,11 +7,12 @@ const API = {
 
 module.exports = {
   publicPath: '/',
+  basePath: '/admin-tenants',
   client: {
     documentTitle: '',
   },
   server: {
-    port: '3001',
+    port: '3003',
     proxy: {
       [API.pathname]: `${API.protocol}:${API.hostname}:${API.port}`,
     },

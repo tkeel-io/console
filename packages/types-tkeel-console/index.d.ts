@@ -54,7 +54,12 @@ declare let __webpack_public_path__: string;
 interface GlobalConfig {
   publicPath: string;
   basePath?: string; // plugin
-  documentTitle: string | number;
+  client: {
+    documentTitle: string | number;
+  };
+  builder: {
+    generateSourcemap: boolean; // production
+  };
   server: {
     port: string | number;
     proxy: Record<string, string>;
@@ -65,14 +70,12 @@ interface GlobalConfig {
     port: string | number;
     pathname: string;
   };
-  client?: {
-    username?: string | number; // portal admin, local development
-    password?: string | number; // portal, local development
+  // local development
+  mock?: {
+    username?: string | number; // portal admin
+    password?: string | number; // portal
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    mockMenus?: Array<Record<string, any>>; // portal, local development
-  };
-  builder: {
-    generateSourcemap: boolean; // production
+    menus?: Array<Record<string, any>>; // portal
   };
 }
 

@@ -7,20 +7,23 @@ const API = {
 
 module.exports = {
   publicPath: '/',
-  documentTitle: '',
+  client: {
+    documentTitle: '',
+  },
+  builder: {
+    generateSourcemap: false, // production
+  },
   server: {
-    port: 3000,
+    port: '3000',
     proxy: {
       [API.pathname]: `${API.protocol}:${API.hostname}:${API.port}`,
     },
   },
   api: API,
-  client: {
-    username: '', // portal admin, local development
-    password: '', // portal, local development
-    mockMenus: '', // portal, local development
-  },
-  builder: {
-    generateSourcemap: false, // production
+  // local development
+  mock: {
+    username: '', // portal admin
+    password: '', // portal
+    mockMenus: [], // portal
   },
 };

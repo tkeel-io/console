@@ -1,17 +1,18 @@
 const API = {
   protocol: 'http',
-  hostname: '192.168.123.11',
+  hostname: '127.0.0.1',
   port: '30707',
   pathname: '/apis',
 };
 
 module.exports = {
   publicPath: '/',
+  basePath: '{{basePath}}',
   client: {
-    documentTitle: '',
+    documentTitle: 'tKeel',
   },
   server: {
-    port: '3001',
+    port: '{{serverPort}}',
     proxy: {
       [API.pathname]: `${API.protocol}:${API.hostname}:${API.port}`,
     },

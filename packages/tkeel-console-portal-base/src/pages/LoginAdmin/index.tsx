@@ -105,7 +105,7 @@ function LoginAdmin(): JSX.Element {
               type="password"
               id="password"
               label="密码"
-              value={String(GLOBAL_CONFIG?.client?.password ?? '')}
+              value={String(GLOBAL_CONFIG?.mock?.password ?? '')}
               placeholder="请输入您的密码"
               error={errors.username}
               schemas={register('password', {

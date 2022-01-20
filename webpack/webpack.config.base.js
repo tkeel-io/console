@@ -14,7 +14,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ConfigWebpackPlugin = require('config-webpack');
 
 const publicPath = config.get('publicPath');
-const documentTitle = config.get('documentTitle');
+const documentTitle = config.get('client.documentTitle');
 const generateSourcemap = config.get('builder.generateSourcemap');
 
 const {
