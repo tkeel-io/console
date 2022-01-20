@@ -52,6 +52,7 @@ declare module '*.webp' {
 declare let __webpack_public_path__: string;
 
 interface GlobalConfig {
+  platformName?: 'admin' | 'tenant'; // portal
   publicPath: string;
   basePath?: string; // plugin
   client: {

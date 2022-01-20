@@ -6,6 +6,7 @@ const API = {
 };
 
 module.exports = {
+  platformName: '', // admin, tenant
   publicPath: '/',
   client: {
     documentTitle: '',

@@ -13,16 +13,16 @@ const StylelintPlugin = require('stylelint-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ConfigWebpackPlugin = require('config-webpack');
 
-const publicPath = config.get('publicPath');
-const documentTitle = config.get('client.documentTitle');
-const generateSourcemap = config.get('builder.generateSourcemap');
-
 const {
   env,
   isEnvDevelopment,
   isEnvProduction,
 } = require('../scripts/utils/env');
 const paths = require('../scripts/utils/paths');
+
+const publicPath = config.get('publicPath');
+const documentTitle = config.get('client.documentTitle');
+const generateSourcemap = config?.builder?.generateSourcemap;
 
 dotenvExpand.expand(dotenvFlow.config());
 

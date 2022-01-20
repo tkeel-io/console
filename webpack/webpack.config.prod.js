@@ -8,7 +8,7 @@ const { merge } = require('webpack-merge');
 
 const baseConfig = require('./webpack.config.base');
 
-const generateSourcemap = config.get('builder.generateSourcemap');
+const generateSourcemap = config?.builder?.generateSourcemap;
 
 const prodConfig = {
   output: {
