@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Flex, Text } from '@chakra-ui/react';
+import { Center, Circle, Colors, Flex, Text, useTheme } from '@chakra-ui/react';
 import { BookOpenedFilledIcon } from '@tkeel/console-icons';
 import { noop } from 'lodash';
 
@@ -16,6 +16,10 @@ type Props = {
   buttons?: ReactNode[];
 };
 
+interface CustomColor extends Colors {
+  primary: string;
+}
+
 const defaultSearchInputProps = {
   width: '180px',
   placeholder: '搜索',
@@ -29,6 +33,7 @@ function PageHeaderToolbar({
   buttons = [],
 }: Props) {
   const siProps = { ...defaultSearchInputProps, ...searchInputProps };
+  const { colors }: { colors: CustomColor } = useTheme();
 
   return (
     <Flex
@@ -43,7 +48,21 @@ function PageHeaderToolbar({
           <Text fontSize="14px" lineHeight="24px" color="gray.800">
             {name}
           </Text>
-          <BookOpenedFilledIcon />
+          <Center paddingLeft="4px">
+            <Circle
+              size="24px"
+              _hover={{
+                backgroundColor: 'grayAlternatives.50',
+                cursor: 'pointer',
+
+                '& > svg': {
+                  fill: `${colors.primary} !important`,
+                },
+              }}
+            >
+              <BookOpenedFilledIcon />
+            </Circle>
+          </Center>
         </Flex>
       )}
       <Flex flex={1} justifyContent="flex-end">
