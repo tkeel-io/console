@@ -4,8 +4,7 @@ import {
   ChevronDownFilledIcon,
   ChevronUpFilledIcon,
 } from '@tkeel/console-icons';
-
-import { Menu } from '@/tkeel-console-portal-base/hooks/queries/useMenusQuery';
+import { Menu } from '@tkeel/console-types';
 
 import MenuItem from './MenuItem';
 

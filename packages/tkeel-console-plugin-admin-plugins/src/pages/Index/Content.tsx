@@ -1,42 +1,40 @@
-import { Column } from 'react-table';
 import { Flex, Text } from '@chakra-ui/react';
 import { SearchInput } from '@tkeel/console-components';
 
-import PluginList, { Data } from './PluginList';
+import PluginList from './PluginList';
+
+import { PluginInfo } from '@/tkeel-console-plugin-admin-plugins/types/plugin-info';
 
 const handleSearch = (keyword: string) => {
   // eslint-disable-next-line no-console
   console.log('keyword', keyword);
 };
 
-function Content() {
-  const pluginNum = [
+type Props = {
+  isInstalledPlugins?: boolean;
+  pluginInfos: PluginInfo[];
+};
+
+function Content({ isInstalledPlugins = false, pluginInfos }: Props) {
+  const { length: totalNum } = pluginInfos;
+  const installedNum = pluginInfos.filter((info) => !!info.installed).length;
+  let pluginNum = [
     {
       name: '插件数量',
-      num: 50,
+      num: totalNum,
     },
     {
-      name: '已启用',
-      num: 30,
+      name: '已安装',
+      num: installedNum,
     },
     {
-      name: '未启用',
-      num: 20,
+      name: '未安装',
+      num: totalNum - installedNum,
     },
   ];
-
-  const columns: Column<Data>[] = [
-    {
-      Header: 'ID',
-      accessor: 'id',
-    },
-  ];
-
-  const data = Array.from({ length: 1000 }).map((_, index) => {
-    return {
-      id: index.toString(),
-    };
-  });
+  if (isInstalledPlugins) {
+    pluginNum = [pluginNum[1]];
+  }
 
   return (
     <Flex
@@ -70,7 +68,7 @@ function Content() {
           onSearch={handleSearch}
         />
       </Flex>
-      <PluginList columns={columns} data={data} />
+      <PluginList pluginInfos={pluginInfos} />
     </Flex>
   );
 }

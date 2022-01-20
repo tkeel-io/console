@@ -1,11 +1,9 @@
 import { NavigateFunction } from 'react-router-dom';
 import { PlatformNames } from '@tkeel/console-constants';
 import themes, { DEFAULT_THEME_NAME, ThemeNames } from '@tkeel/console-themes';
-import { PluginGlobalProps } from '@tkeel/console-types';
+import { Menu, PluginGlobalProps } from '@tkeel/console-types';
 import { getLocalTokenData } from '@tkeel/console-utils';
 import { registerMicroApps, start } from 'qiankun';
-
-import { Menu } from '@/tkeel-console-portal-base/hooks/queries/useMenusQuery';
 
 import { App, MenuInfo } from './types';
 

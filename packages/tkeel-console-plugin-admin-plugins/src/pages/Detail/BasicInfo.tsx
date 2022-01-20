@@ -5,18 +5,19 @@ import { BoxTwoToneIcon, ChevronLeftFilledIcon } from '@tkeel/console-icons';
 import InfoCard from './InfoCard';
 import MoreActionButton from './MoreActionButton';
 
-// import InstallButton from '@/tkeel-console-plugin-admin-plugins/components/InstallButton';
+import InstallButton from '@/tkeel-console-plugin-admin-plugins/components/InstallButton';
+import { BriefInstallerInfo } from '@/tkeel-console-plugin-admin-plugins/types/plugin-info';
 
-function BasicInfo() {
+type Props = {
+  data: BriefInstallerInfo | undefined;
+};
+
+function BasicInfo({ data }: Props) {
   const navigate = useNavigate();
   const basicInfo = [
     {
       label: 'Repo',
-      value: 'tKeel',
-    },
-    {
-      label: '仓库地址',
-      value: 'https://tkeel-io.github.io/helm-charts',
+      value: data?.repo || '',
     },
     {
       label: 'Tag',
@@ -24,7 +25,7 @@ function BasicInfo() {
     },
     {
       label: 'Ver',
-      value: '3.1.1',
+      value: data?.version || '',
     },
     {
       label: '更新时间',
@@ -51,8 +52,19 @@ function BasicInfo() {
           >
             返回
           </Button>
-          {/* <InstallButton size="sm" /> */}
-          <MoreActionButton />
+          {data ? (
+            !data.installed ? (
+              <MoreActionButton pluginName={data.name} />
+            ) : (
+              <InstallButton
+                size="sm"
+                pluginInfo={{
+                  ...data,
+                  installed: !!data?.installed,
+                }}
+              />
+            )
+          ) : null}
         </Flex>
         <Flex marginTop="16px" alignItems="center">
           <Center
@@ -65,7 +77,7 @@ function BasicInfo() {
           </Center>
           <Box marginLeft="16px">
             <Text color="gray.800" fontSize="14px" lineHeight="20px">
-              device
+              {data?.name || ''}
             </Text>
             <Text color="gray.500" fontSize="12px" lineHeight="17px">
               安装用于管理设备的插件

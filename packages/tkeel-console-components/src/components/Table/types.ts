@@ -40,34 +40,34 @@ export interface Props<D extends object> extends UseTableOptions<D> {
   style?: StyleProps;
 }
 
-export interface ITableState<D extends object>
+export interface TableStateExtended<D extends object>
   extends TableState<D>,
     UseSortByState<D>,
     UsePaginationState<D>,
     UseRowSelectState<D> {}
 
-export interface IHeaderGroup<D extends object>
+export interface HeaderGroupExtended<D extends object>
   extends HeaderGroup<D>,
     UseSortByColumnProps<D> {
-  headers: Array<IHeaderGroup<D>>;
+  headers: Array<HeaderGroupExtended<D>>;
 }
 
-export interface ITableHeaderProps
+export interface TableHeaderPropsExtended
   extends TableHeaderProps,
     TableSortByToggleProps {}
 
-export interface ITableInstance<D extends object>
+export interface TableInstanceExtended<D extends object>
   extends TableInstance<D>,
     UseRowSelectInstanceProps<D>,
     UsePaginationInstanceProps<D> {
-  headerGroups: IHeaderGroup<D>[];
-  state: ITableState<D>;
+  headerGroups: HeaderGroupExtended<D>[];
+  state: TableStateExtended<D>;
 }
 
-export interface IRow<D extends object>
+export interface RowExtended<D extends object>
   extends Row<D>,
     UseRowSelectRowProps<D> {}
 
-export interface ITableOptions<D extends object>
+export interface TableOptionsExtended<D extends object>
   extends TableOptions<D>,
     UsePaginationOptions<D> {}

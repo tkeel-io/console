@@ -53,7 +53,7 @@ const colors = {
   },
 
   grayAlternatives: {
-    50: '#E3E9EF',
+    50: '#E2E8F0',
     100: '#D1D7DF',
     200: '#C1C9D1',
     300: '#6B7B95',

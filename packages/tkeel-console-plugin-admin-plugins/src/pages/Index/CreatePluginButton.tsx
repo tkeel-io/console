@@ -1,10 +1,10 @@
-import { ChangeEvent, ChangeEventHandler } from 'react';
+import { ChangeEvent } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Button, Text, useDisclosure } from '@chakra-ui/react';
 import { FormField, Modal } from '@tkeel/console-components';
 import { AddFilledIcon } from '@tkeel/console-icons';
 
-const { TextField, SelectField } = FormField;
+const { TextField } = FormField;
 
 type Controls = {
   name: string;
@@ -32,15 +32,6 @@ function CreatePluginButton() {
       clearErrors(id);
     } else {
       setError(id, { type: 'manual', message: 'required' });
-    }
-  };
-
-  const handleVersionChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
-    const { value } = e.target;
-    if (value) {
-      clearErrors('version');
-    } else {
-      setError('version', { type: 'manual', message: 'required' });
     }
   };
 
@@ -119,19 +110,6 @@ function CreatePluginButton() {
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               handleInputChange(e, 'address')
             }
-          />
-          <SelectField
-            id="version"
-            label="插件源版本"
-            error={errors.version}
-            options={[
-              { value: '1.0', label: '1.0' },
-              { value: '1.1', label: '1.1' },
-            ]}
-            schemas={register('version', {
-              required: { value: true, message: 'required' },
-            })}
-            onChange={handleVersionChange}
           />
         </>
       </Modal>

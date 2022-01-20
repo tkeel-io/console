@@ -4,8 +4,15 @@ import { Flex, Tag, Text } from '@chakra-ui/react';
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
 
 import InstallButton from '@/tkeel-console-plugin-admin-plugins/components/InstallButton';
+import { PluginInfo } from '@/tkeel-console-plugin-admin-plugins/types/plugin-info';
 
-function Card() {
+type Props = {
+  pluginInfo: PluginInfo;
+};
+
+function Card({ pluginInfo }: Props) {
+  const { name, version, repo, installed } = pluginInfo;
+
   const [showTopBorder, setShowTopBorder] = useState(false);
   const navigate = useNavigate();
 
@@ -36,7 +43,7 @@ function Card() {
       }}
       _hover={{ boxShadow: '0px 4px 8px rgba(36, 46, 66, 0.06)' }}
       onClick={() => {
-        navigate('/detail/1');
+        navigate(`/detail/${repo}/${name}/${version}`);
       }}
       onMouseEnter={() => {
         setShowTopBorder(true);
@@ -49,10 +56,10 @@ function Card() {
         <Flex alignItems="center">
           <BoxTwoToneIcon size={28} />
           <Text marginLeft="8px" color="gray.800" fontSize="14px">
-            device
+            {name}
           </Text>
         </Flex>
-        <InstallButton />
+        {!installed && <InstallButton pluginInfo={pluginInfo} />}
       </Flex>
       <Text color="gray.500" fontSize="12px" height="20px" isTruncated>
         安装用于管理设备的插件
@@ -62,8 +69,8 @@ function Card() {
           用户
         </Tag>
         <Flex alignItems="center" color="gray.500" fontSize="12px">
-          <Text>Ver：4.4.10</Text>
-          <Text marginLeft="20px">Repo：tKeel</Text>
+          <Text>Ver：{version}</Text>
+          <Text marginLeft="20px">Repo：{repo}</Text>
         </Flex>
       </Flex>
     </Flex>

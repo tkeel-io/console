@@ -103,6 +103,7 @@ function EnablePluginList() {
         <SearchInput width="284px" placeholder="搜索" onSearch={handleSearch} />
       </Flex>
       <Table
+        style={{ flex: 1, overflow: 'hidden' }}
         columns={columns}
         data={data}
         defaultPageSize={20}
