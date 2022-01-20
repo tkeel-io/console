@@ -7,11 +7,11 @@ const dotenvExpand = require('dotenv-expand');
 const DotenvWebpack = require('dotenv-webpack');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const ConfigWebpackPlugin = require('config-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const ConfigWebpackPlugin = require('config-webpack');
 
 const {
   env,
