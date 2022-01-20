@@ -8,17 +8,28 @@ import {
 
 import useDeletePluginMutation from '@/tkeel-console-plugin-admin-plugins/hooks/mutations/useDeletePluginMutation';
 
-function MoreActionButton() {
+type Props = {
+  pluginName: string;
+};
+function MoreActionButton({ pluginName }: Props) {
   const [showActionList, setShowActionList] = useState(false);
 
-  const { mutate } = useDeletePluginMutation('1');
+  const { mutate } = useDeletePluginMutation({
+    name: pluginName,
+    onSuccess: () => {
+      setShowActionList(false);
+    },
+  });
 
   const handleClick: MouseEventHandler<HTMLDivElement> = (event) => {
     event.stopPropagation();
     setShowActionList(!showActionList);
   };
 
-  const handleDeletePlugin: MouseEventHandler<HTMLParagraphElement> = () => {
+  const handleDeletePlugin: MouseEventHandler<HTMLParagraphElement> = (
+    event
+  ) => {
+    event.stopPropagation();
     mutate({});
   };
 

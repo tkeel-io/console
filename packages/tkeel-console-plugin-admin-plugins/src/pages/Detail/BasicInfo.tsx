@@ -20,10 +20,6 @@ function BasicInfo({ data }: Props) {
       value: data?.repo || '',
     },
     {
-      label: '仓库地址',
-      value: 'https://tkeel-io.github.io/helm-charts',
-    },
-    {
       label: 'Tag',
       value: '用户',
     },
@@ -56,19 +52,9 @@ function BasicInfo({ data }: Props) {
           >
             返回
           </Button>
-          {data && (
-            <InstallButton
-              size="sm"
-              pluginInfo={{
-                ...data,
-                installed: !!data?.installed,
-              }}
-            />
-          )}
-
           {data ? (
             !data.installed ? (
-              <MoreActionButton />
+              <MoreActionButton pluginName={data.name} />
             ) : (
               <InstallButton
                 size="sm"

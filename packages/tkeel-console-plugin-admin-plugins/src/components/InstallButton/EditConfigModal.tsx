@@ -14,15 +14,16 @@ type Props = {
 
 function EditConfigModal({ pluginInfo, isOpen, onClose }: Props) {
   const { repo, name, version } = pluginInfo;
-  const { pluginDetail } = usePluginDetailQuery({
-    repoName: repo,
-    installerName: name,
-    installerVersion: version,
-    enabled: isOpen,
-  });
+  const { pluginDetail, isLoading: isQueryDetailLoading } =
+    usePluginDetailQuery({
+      repoName: repo,
+      installerName: name,
+      installerVersion: version,
+      enabled: isOpen,
+    });
 
-  const { mutate } = useInstallPluginMutation({
-    id: '',
+  const { mutate, isLoading: isInstallLoading } = useInstallPluginMutation({
+    name,
     onSuccess: onClose,
   });
 
@@ -51,6 +52,7 @@ function EditConfigModal({ pluginInfo, isOpen, onClose }: Props) {
           <Button
             marginLeft="12px"
             colorScheme="primary"
+            disabled={isQueryDetailLoading || isInstallLoading}
             onClick={handleInstall}
           >
             确定

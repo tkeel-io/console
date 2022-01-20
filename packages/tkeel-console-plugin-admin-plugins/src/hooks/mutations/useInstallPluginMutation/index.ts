@@ -21,15 +21,14 @@ export interface ApiData {
 const url = '/rudder/v1/plugins';
 const method = 'POST';
 
-export default function useInstallPluginMutation({
-  id,
-  onSuccess,
-}: {
-  id: string;
+type Props = {
+  name: string;
   onSuccess: () => void;
-}) {
+};
+
+export default function useInstallPluginMutation({ name, onSuccess }: Props) {
   return useMutation<ApiData, undefined, RequestData>({
-    url: `${url}/${id}`,
+    url: `${url}/${name}`,
     method,
     reactQueryOptions: {
       onSuccess,

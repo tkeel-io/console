@@ -43,7 +43,7 @@ function Card({ pluginInfo }: Props) {
       }}
       _hover={{ boxShadow: '0px 4px 8px rgba(36, 46, 66, 0.06)' }}
       onClick={() => {
-        navigate(`/detail/tkeel-device`);
+        navigate(`/detail/${repo}/${name}/${version}`);
       }}
       onMouseEnter={() => {
         setShowTopBorder(true);

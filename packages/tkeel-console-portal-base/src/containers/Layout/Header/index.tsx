@@ -28,10 +28,16 @@ function Header({ menus }: { menus: Menu[] }) {
 
   return (
     <Flex justifyContent="space-between" height="20px" marginBottom="22px">
-      <Breadcrumb separator={<Text color="gray.400">/</Text>}>
+      <Breadcrumb
+        separator={
+          <Text margin="0" color="gray.400" fontSize="12px">
+            /
+          </Text>
+        }
+      >
         {breadcrumbs.map((crumb) => (
           <BreadcrumbItem key={crumb}>
-            <BreadcrumbLink color="gray.400" fontSize="14px" href="#">
+            <BreadcrumbLink color="gray.400" fontSize="12px" href="#">
               {crumb}
             </BreadcrumbLink>
           </BreadcrumbItem>

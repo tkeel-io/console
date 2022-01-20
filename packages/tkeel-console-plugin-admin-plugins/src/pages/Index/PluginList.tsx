@@ -27,7 +27,10 @@ function PluginList({ pluginInfos }: Props) {
         overflowY="auto"
       >
         {pluginInfos.map((pluginInfo) => (
-          <Card key={pluginInfo.name} pluginInfo={pluginInfo} />
+          <Card
+            key={`${pluginInfo.name}${pluginInfo.version}`}
+            pluginInfo={pluginInfo}
+          />
         ))}
       </Grid>
       <Pagination

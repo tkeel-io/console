@@ -11,13 +11,14 @@ const handleSearch = (keyword: string) => {
 };
 
 type Props = {
+  isInstalledPlugins?: boolean;
   pluginInfos: PluginInfo[];
 };
 
-function Content({ pluginInfos }: Props) {
+function Content({ isInstalledPlugins = false, pluginInfos }: Props) {
   const { length: totalNum } = pluginInfos;
   const installedNum = pluginInfos.filter((info) => !!info.installed).length;
-  const pluginNum = [
+  let pluginNum = [
     {
       name: '插件数量',
       num: totalNum,
@@ -31,6 +32,9 @@ function Content({ pluginInfos }: Props) {
       num: totalNum - installedNum,
     },
   ];
+  if (isInstalledPlugins) {
+    pluginNum = [pluginNum[1]];
+  }
 
   return (
     <Flex

@@ -21,9 +21,17 @@ export interface ApiData {
 const url = '/rudder/v1/plugins';
 const method = 'DELETE';
 
-export default function useDeletePluginMutation(id: string) {
+type Props = {
+  name: string;
+  onSuccess: () => void;
+};
+
+export default function useDeletePluginMutation({ name, onSuccess }: Props) {
   return useMutation<ApiData>({
-    url: `${url}/${id}`,
+    url: `${url}/${name}`,
     method,
+    reactQueryOptions: {
+      onSuccess,
+    },
   });
 }

@@ -9,10 +9,18 @@ export interface ApiData {
 const url = '/rudder/v1/repos';
 const method = 'GET';
 
-export default function useRepoPluginsQuery(repo: string) {
+type Props = {
+  repo: string;
+  enabled: boolean;
+};
+
+export default function useRepoPluginsQuery({ repo, enabled }: Props) {
   const { data, ...rest } = useQuery<ApiData>({
     url: `${url}/${repo}/installers`,
     method,
+    reactQueryOptions: {
+      enabled,
+    },
   });
   const plugins = data?.brief_installers || [];
 

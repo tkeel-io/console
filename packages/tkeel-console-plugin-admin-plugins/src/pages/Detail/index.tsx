@@ -18,13 +18,11 @@ import Introduce from './Introduce';
 import usePluginDetailQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/usePluginDetailQuery';
 
 function Detail() {
-  const params = useParams();
-  // eslint-disable-next-line no-console
-  console.log('Detail ~ params.id', params.id);
+  const { repo, name, version } = useParams();
   const { pluginDetail } = usePluginDetailQuery({
-    repoName: 'tkeel-default',
-    installerName: 'keel',
-    installerVersion: '0.1.0',
+    repoName: repo || '',
+    installerName: name || '',
+    installerVersion: version || '',
   });
 
   return (
@@ -41,9 +39,9 @@ function Detail() {
           borderRadius="4px"
           backgroundColor="gray.800"
         >
-          <CustomTab>启用列表</CustomTab>
           <CustomTab>说明</CustomTab>
           <CustomTab>参数</CustomTab>
+          <CustomTab>启用列表</CustomTab>
         </TabList>
         <TabPanels marginTop="16px" flex="1" overflow="hidden">
           <TabPanel padding="0">
