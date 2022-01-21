@@ -7,55 +7,46 @@ import {
 } from '@tkeel/console-components';
 
 type Data = {
-  enableTime: string;
-  tenantSpace: string;
-  tenantID: string;
-  adminAccount: string;
-  remark: string;
-  userNumber: number;
+  user_id: string;
+  username: string;
+  nick_name: string;
+  create_time: string;
+  role: string;
 };
 
 function Index(): JSX.Element {
   const columns: ReadonlyArray<Column<Data>> = [
     {
-      Header: '启用时间',
-      accessor: 'enableTime',
-      width: 200,
-      // disableSortBy: true,
+      Header: '用户账号',
+      accessor: 'username',
+      disableSortBy: false,
     },
     {
-      Header: '租户空间',
-      accessor: 'tenantSpace',
+      Header: '用户昵称',
+      accessor: 'nick_name',
     },
     {
-      Header: '租户ID',
-      accessor: 'tenantID',
+      Header: '创建时间',
+      accessor: 'create_time',
     },
     {
-      Header: '管理员账号',
-      accessor: 'adminAccount',
-      width: 220,
+      Header: '用户角色',
+      accessor: 'role',
     },
     {
-      Header: '备注',
-      accessor: 'remark',
-    },
-    {
-      Header: '用户数',
-      accessor: 'userNumber',
-      width: 100,
+      Header: '操作',
+      // accessor: 'remark',
+      Cell: <div>1</div>,
     },
   ];
 
   const data: Data[] = Array.from({ length: 100 }).map((_, index) => {
     return {
-      id: index,
-      enableTime: '2021-04-32 12:11:11',
-      tenantSpace: 'IDC项目',
-      tenantID: 'ID_20111010',
-      adminAccount: 'esthera@simmmple.com',
-      remark: 'IDC项目',
-      userNumber: index,
+      user_id: `${index}`,
+      username: '111',
+      nick_name: '222',
+      create_time: '2021-04-32 12:11:11',
+      role: 'IDC项目',
     };
   });
 
