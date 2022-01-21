@@ -56,23 +56,24 @@ function CustomModal({
           height="32px"
           borderRadius="4px"
           color="white"
-          backgroundColor="gray.800"
-          boxShadow="0px 8px 16px rgba(36, 46, 66, 0.28)"
+          backgroundColor="gray.700"
           _hover={{ backgroundColor: 'gray.800' }}
           _focus={{ outline: 'none' }}
         />
         <ModalBody padding="19px 40px" {...modalBodyStyle}>
           {children}
         </ModalBody>
-        <ModalFooter
-          padding="0 20px"
-          height="60px"
-          borderBottomLeftRadius="4px"
-          borderBottomRightRadius="4px"
-          backgroundColor="gray.50"
-        >
-          {footer}
-        </ModalFooter>
+        {footer && (
+          <ModalFooter
+            padding="0 20px"
+            height="60px"
+            borderBottomLeftRadius="4px"
+            borderBottomRightRadius="4px"
+            backgroundColor="gray.50"
+          >
+            {footer}
+          </ModalFooter>
+        )}
       </ModalContent>
     </Modal>
   );
