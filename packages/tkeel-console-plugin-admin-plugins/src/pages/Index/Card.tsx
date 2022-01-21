@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Flex, Tag, Text } from '@chakra-ui/react';
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
@@ -13,7 +12,6 @@ type Props = {
 function Card({ pluginInfo }: Props) {
   const { name, version, repo, installed } = pluginInfo;
 
-  const [showTopBorder, setShowTopBorder] = useState(false);
   const navigate = useNavigate();
 
   return (
@@ -30,7 +28,7 @@ function Card({ pluginInfo }: Props) {
       backgroundColor="white"
       cursor="pointer"
       _after={{
-        display: showTopBorder ? 'block' : 'none',
+        display: 'none',
         content: '""',
         position: 'absolute',
         left: '0',
@@ -41,15 +39,14 @@ function Card({ pluginInfo }: Props) {
         borderTopLeftRadius: '2px',
         borderTopRightRadius: '2px',
       }}
-      _hover={{ boxShadow: '0px 4px 8px rgba(36, 46, 66, 0.06)' }}
+      _hover={{
+        boxShadow: '0px 4px 8px rgba(36, 46, 66, 0.06)',
+        '&::after': {
+          display: 'block',
+        },
+      }}
       onClick={() => {
         navigate(`/detail/${repo}/${name}/${version}`);
-      }}
-      onMouseEnter={() => {
-        setShowTopBorder(true);
-      }}
-      onMouseLeave={() => {
-        setShowTopBorder(false);
       }}
     >
       <Flex alignItems="center" justifyContent="space-between">
