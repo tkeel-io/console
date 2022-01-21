@@ -27,21 +27,5 @@ export default function usePluginsQuery() {
   });
   const plugins = data?.plugin_list || [];
 
-  if (process.env.NODE_ENV === 'development') {
-    let mockPlugins: Plugin[] = [];
-
-    try {
-      mockPlugins = JSON.parse(process.env.MOCK_PLUGINS || '') as Plugin[];
-    } catch {
-      //
-    }
-
-    return {
-      plugins: [...plugins, ...mockPlugins],
-      data,
-      ...rest,
-    };
-  }
-
   return { plugins, data, ...rest };
 }

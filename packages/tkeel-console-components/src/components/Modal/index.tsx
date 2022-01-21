@@ -7,6 +7,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  StyleProps,
 } from '@chakra-ui/react';
 
 type Props = {
@@ -15,6 +16,7 @@ type Props = {
   children: ReactNode;
   footer?: ReactNode;
   isOpen: boolean;
+  modalBodyStyle?: StyleProps;
   onClose: () => void;
 };
 
@@ -24,6 +26,7 @@ function CustomModal({
   children,
   footer = null,
   isOpen,
+  modalBodyStyle = {},
   onClose,
 }: Props) {
   return (
@@ -48,7 +51,7 @@ function CustomModal({
         </ModalHeader>
         <ModalCloseButton
           top="9px"
-          right="20px "
+          right="20px"
           width="32px"
           height="32px"
           borderRadius="4px"
@@ -58,7 +61,9 @@ function CustomModal({
           _hover={{ backgroundColor: 'gray.800' }}
           _focus={{ outline: 'none' }}
         />
-        <ModalBody padding="32px 40px">{children}</ModalBody>
+        <ModalBody padding="19px 40px" {...modalBodyStyle}>
+          {children}
+        </ModalBody>
         <ModalFooter
           padding="0 20px"
           height="60px"
