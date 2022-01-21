@@ -11,7 +11,7 @@ function CreateButton({ children, ...rest }: ButtonProps) {
       }
       colorScheme="primary"
       fontWeight={600}
-      fontsize="12px"
+      fontSize="12px"
       lineHeight="24px"
       {...rest}
     >
