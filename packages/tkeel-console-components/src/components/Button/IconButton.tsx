@@ -1,12 +1,16 @@
+import { ReactNode } from 'react';
 import { Button, ButtonProps, Circle } from '@chakra-ui/react';
-import { AddFilledIcon } from '@tkeel/console-icons';
 
-function CreateButton({ children, ...rest }: ButtonProps) {
+interface Props extends ButtonProps {
+  icon: ReactNode;
+}
+
+function IconButton({ icon, children, ...rest }: Props) {
   return (
     <Button
       leftIcon={
         <Circle size="20px" backgroundColor="primarySub3">
-          <AddFilledIcon color="white" />
+          {icon}
         </Circle>
       }
       colorScheme="primary"
@@ -20,4 +24,4 @@ function CreateButton({ children, ...rest }: ButtonProps) {
   );
 }
 
-export default CreateButton;
+export default IconButton;
