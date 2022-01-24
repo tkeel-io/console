@@ -3,6 +3,7 @@ import { Badge, Box, Text, useStyles, useTab } from '@chakra-ui/react';
 
 type Props = {
   children: ReactNode;
+  num: number;
 };
 
 function CustomTab(props: Props) {
@@ -10,18 +11,21 @@ function CustomTab(props: Props) {
   const tabProps = useTab(props);
   const isSelected = !!tabProps['aria-selected'];
 
+  const { children, num } = props;
+  const backgroundColor = isSelected ? 'gray.800' : 'transparent';
   return (
     <Box
       as="button"
       position="relative"
       margin="0"
-      padding="0"
-      width="50%"
+      width="max-content"
+      padding="0 25px"
       height="28px"
       border="none"
       borderRadius="22px"
-      backgroundColor={isSelected ? 'gray.800' : 'transparent'}
+      backgroundColor={backgroundColor}
       _focus={{ boxShadow: 'none' }}
+      _active={{ backgroundColor }}
       __css={styles.tab}
       {...tabProps}
     >
@@ -31,7 +35,7 @@ function CustomTab(props: Props) {
         fontSize="12px"
         fontWeight="600"
       >
-        {tabProps.children}
+        {children}
       </Text>
       <Badge
         position="absolute"
@@ -46,7 +50,7 @@ function CustomTab(props: Props) {
         borderRadius="10px"
         backgroundColor={isSelected ? 'primary' : 'grayAlternatives.200'}
       >
-        12
+        {num}
       </Badge>
     </Box>
   );

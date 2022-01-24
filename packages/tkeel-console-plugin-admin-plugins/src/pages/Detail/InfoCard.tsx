@@ -1,17 +1,22 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 
 type Props = {
+  title?: string;
   data: {
     label: string;
     value: string;
   }[];
 };
 
-function InfoCard({ data }: Props) {
+const defaultProps = {
+  title: '基本信息',
+};
+
+function InfoCard({ title, data }: Props) {
   return (
     <Box padding="16px 24px 20px">
       <Text color="gray.800" fontSize="14px" lineHeight="20px" fontWeight="600">
-        基本信息
+        {title}
       </Text>
       <Box marginTop="4px">
         {data.map((info) => (
@@ -34,5 +39,7 @@ function InfoCard({ data }: Props) {
     </Box>
   );
 }
+
+InfoCard.defaultProps = defaultProps;
 
 export default InfoCard;

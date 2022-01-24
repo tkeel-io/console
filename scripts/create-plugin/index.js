@@ -6,9 +6,9 @@ const { copyTemplates, writeTemplates } = require('./files');
 const {
   checkPluginName,
   checkCanRunPackageBasePath,
-  checkCanRunPackageDevServerPort,
+  checkCanRunPackageServerPort,
   showBasePaths,
-  showDevServerPorts,
+  showServerPorts,
 } = require('../utils/packages');
 const logger = require('../utils/logger');
 
@@ -30,10 +30,10 @@ const logger = require('../utils/logger');
       return;
     }
 
-    const checkDevServerPortRes = checkCanRunPackageDevServerPort(argv);
-    if (!checkDevServerPortRes.flag) {
-      logger.error(checkDevServerPortRes.message);
-      showDevServerPorts();
+    const checkServerPortRes = checkCanRunPackageServerPort(argv);
+    if (!checkServerPortRes.flag) {
+      logger.error(checkServerPortRes.message);
+      showServerPorts();
       return;
     }
 

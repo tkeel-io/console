@@ -1,10 +1,10 @@
 /* eslint-disable react/jsx-key */
 import { Box, Th, Thead, Tr } from '@chakra-ui/react';
 
-import { IHeaderGroup, ITableHeaderProps } from './types';
+import { HeaderGroupExtended, TableHeaderPropsExtended } from './types';
 
 type Props<D extends object> = {
-  headerGroups: IHeaderGroup<D>[];
+  headerGroups: HeaderGroupExtended<D>[];
   fixHead: boolean;
   canSort: boolean;
 };
@@ -15,10 +15,10 @@ function Head<D extends object>({ headerGroups, fixHead, canSort }: Props<D>) {
       {headerGroups.map((headerGroup) => {
         return (
           <Tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map((column: IHeaderGroup<D>) => {
+            {headerGroup.headers.map((column: HeaderGroupExtended<D>) => {
               const headerProps = column.getHeaderProps(
                 canSort ? column.getSortByToggleProps() : {}
-              ) as ITableHeaderProps;
+              ) as TableHeaderPropsExtended;
 
               return (
                 <Th
