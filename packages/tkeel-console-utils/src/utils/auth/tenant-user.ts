@@ -8,7 +8,7 @@ export interface UserInfo {
   username: string;
 }
 
-const namespace = 'tenant';
+const namespace = 'auth';
 const key = 'userInfo';
 const tenantStore = store.namespace(namespace);
 
