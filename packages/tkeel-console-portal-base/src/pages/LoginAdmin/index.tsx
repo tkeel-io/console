@@ -3,7 +3,7 @@ import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { Box, Button, Center, Flex, Heading, Text } from '@chakra-ui/react';
 import { Form, FormField } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
-import { setLocalTokenData } from '@tkeel/console-utils';
+import { setLocalTokenInfo } from '@tkeel/console-utils';
 
 import useOAuthAdminTokenMutation, {
   ApiData,
@@ -29,7 +29,7 @@ function handleLogin({
     return;
   }
 
-  setLocalTokenData(data);
+  setLocalTokenInfo(data);
   navigate(redirect);
 }
 
