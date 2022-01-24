@@ -18,7 +18,7 @@ function getArgv() {
       p: {
         alias: 'dev-server-port',
         type: 'number',
-        desc: OPTIONS_MAP.devServerPort.desc,
+        desc: OPTIONS_MAP.serverPort.desc,
       },
     })
     .help()

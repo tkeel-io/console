@@ -1,37 +1,74 @@
-import { Flex, Text } from '@chakra-ui/react';
+import { ReactNode } from 'react';
+import { Center, Circle, Colors, Flex, Text, useTheme } from '@chakra-ui/react';
+import { BookOpenedFilledIcon } from '@tkeel/console-icons';
 import { noop } from 'lodash';
 
 import SearchInput, {
   Props as SearchInputProps,
 } from '@/tkeel-console-components/components/SearchInput';
 
+import { ButtonWrapper } from './index.styled';
+
 type Props = {
   name: string;
   hasSearchInput?: boolean;
   searchInputProps?: SearchInputProps;
+  buttons?: ReactNode[];
+};
+
+interface CustomColor extends Colors {
+  primary: string;
+}
+
+const defaultSearchInputProps = {
+  width: '180px',
+  placeholder: '搜索',
+  onSearch: noop,
 };
 
 function PageHeaderToolbar({
   name,
   hasSearchInput = false,
-  searchInputProps = { onSearch: noop },
+  searchInputProps = defaultSearchInputProps,
+  buttons = [],
 }: Props) {
+  const siProps = { ...defaultSearchInputProps, ...searchInputProps };
+  const { colors }: { colors: CustomColor } = useTheme();
+
   return (
-    <Flex
-      alignItems="center"
-      width="100%"
-      height="48px"
-      padding="0 20px"
-      backgroundColor="#fff"
-    >
-      <Flex>
-        <Text fontSize="14px" lineHeight="24px" color="gray.800">
-          {name}
-        </Text>
+    <Flex alignItems="center" width="100%" height="48px">
+      {name && (
+        <Flex paddingRight="30px">
+          <Text fontSize="14px" lineHeight="24px" color="gray.800">
+            {name}
+          </Text>
+          <Center paddingLeft="4px">
+            <Circle
+              size="24px"
+              _hover={{
+                backgroundColor: 'grayAlternatives.50',
+                cursor: 'pointer',
+
+                '& > svg': {
+                  fill: `${colors.primary} !important`,
+                },
+              }}
+            >
+              <BookOpenedFilledIcon />
+            </Circle>
+          </Center>
+        </Flex>
+      )}
+      <Flex flex={1} justifyContent="flex-end">
+        {hasSearchInput && <SearchInput {...siProps} />}
       </Flex>
-      <Flex flex={1} padding="0 16px">
-        {hasSearchInput && <SearchInput {...searchInputProps} />}
-      </Flex>
+      {buttons.length > 0 && (
+        <Flex paddingLeft="8px">
+          {buttons.map((button, index) => (
+            <ButtonWrapper key={String(index)}>{button}</ButtonWrapper>
+          ))}
+        </Flex>
+      )}
     </Flex>
   );
 }

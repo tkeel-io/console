@@ -1,3 +1,4 @@
+export * from './components/Button';
 export { default as Editor } from './components/Editor';
 export { default as Form } from './components/Form';
 export { default as FormField } from './components/FormField';

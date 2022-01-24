@@ -6,12 +6,31 @@ import {
   TrashFilledIcon,
 } from '@tkeel/console-icons';
 
-function MoreActionButton() {
+import useDeletePluginMutation from '@/tkeel-console-plugin-admin-plugins/hooks/mutations/useDeletePluginMutation';
+
+type Props = {
+  pluginName: string;
+};
+function MoreActionButton({ pluginName }: Props) {
   const [showActionList, setShowActionList] = useState(false);
+
+  const { mutate } = useDeletePluginMutation({
+    name: pluginName,
+    onSuccess: () => {
+      setShowActionList(false);
+    },
+  });
 
   const handleClick: MouseEventHandler<HTMLDivElement> = (event) => {
     event.stopPropagation();
     setShowActionList(!showActionList);
+  };
+
+  const handleDeletePlugin: MouseEventHandler<HTMLParagraphElement> = (
+    event
+  ) => {
+    event.stopPropagation();
+    mutate({});
   };
 
   const handleDocumentClick = () => {
@@ -61,7 +80,12 @@ function MoreActionButton() {
             _hover={{ backgroundColor: 'gray.700' }}
           >
             <TrashFilledIcon color="white" />
-            <Text marginLeft="6px" color="white" fontSize="12px">
+            <Text
+              marginLeft="6px"
+              color="white"
+              fontSize="12px"
+              onClick={handleDeletePlugin}
+            >
               卸载
             </Text>
           </Flex>

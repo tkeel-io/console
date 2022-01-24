@@ -1,5 +1,5 @@
 #!/usr/bin/env node
 
-const { showDevServerPorts } = require('../utils/packages');
+const { showServerPorts } = require('../utils/packages');
 
-showDevServerPorts();
+showServerPorts();

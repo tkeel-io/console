@@ -36,7 +36,8 @@ function Editor({
       <MonacoEditor
         theme={theme}
         defaultLanguage={language}
-        defaultValue={value}
+        // defaultValue={value}
+        value={value}
         options={{
           readOnly,
           minimap: {

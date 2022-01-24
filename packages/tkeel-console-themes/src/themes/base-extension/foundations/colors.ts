@@ -10,8 +10,10 @@ const colors = {
   transparent: 'transparent',
   current: 'currentColor',
 
-  black: '#000000',
-  white: '#FFFFFF',
+  black: '#000',
+  white: '#FFF',
+  blackAlias: '#000',
+  whiteAlias: '#FFF',
 
   whiteAlpha: {
     50: 'rgba(255, 255, 255, 0.04)',
@@ -53,7 +55,7 @@ const colors = {
   },
 
   grayAlternatives: {
-    50: '#E3E9EF',
+    50: '#E2E8F0',
     100: '#D1D7DF',
     200: '#C1C9D1',
     300: '#6B7B95',
