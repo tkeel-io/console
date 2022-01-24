@@ -4,8 +4,8 @@ import { AxiosRequestConfig } from 'axios';
 import { inRange, merge } from 'lodash';
 
 import {
-  getLocalTokenData,
-  removeLocalTokenData,
+  getLocalTokenInfo,
+  removeLocalTokenInfo,
 } from '@/tkeel-console-utils/utils/auth';
 
 import { AxiosRequestConfigExtended, RequestExtras } from './types';
@@ -52,9 +52,9 @@ export const DEFAULT_CUSTOM_EXTRAS: RequestExtras = {
 export function requestInterceptors(config: AxiosRequestConfigExtended) {
   const extras = config?.extras ?? DEFAULT_CUSTOM_EXTRAS;
   const isWithToken = extras?.isWithToken;
-  const tokenData = getLocalTokenData();
-  const tokenType = tokenData?.token_type;
-  const accessToken = tokenData?.access_token;
+  const tokenInfo = getLocalTokenInfo();
+  const tokenType = tokenInfo?.token_type;
+  const accessToken = tokenInfo?.access_token;
 
   return typeof accessToken === 'string' && accessToken.trim() && isWithToken
     ? merge(
@@ -77,7 +77,7 @@ export function createHandleNoAuth({
   redirectPath?: string;
 }) {
   return function handleNoAuth() {
-    removeLocalTokenData();
+    removeLocalTokenInfo();
     navigate(redirectPath, { replace: true });
   };
 }

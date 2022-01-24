@@ -1,7 +1,7 @@
 import { Location } from 'react-router-dom';
 import { PlatformNames } from '@tkeel/console-constants';
 
-// import { getLocalTokenData } from '@/tkeel-console-utils/utils/auth/token';
+// import { getLocalTokenInfo } from '@/tkeel-console-utils/utils/auth/token';
 
 // eslint-disable-next-line import/prefer-default-export
 export function getNoAuthRedirectPath({
@@ -15,7 +15,7 @@ export function getNoAuthRedirectPath({
 }) {
   let loginPath = '/auth/login';
   if (platformName === PlatformNames.TENANT) {
-    // const tokenData = getLocalTokenData();
+    // const tokenInfo = getLocalTokenInfo();
     // TODO: temp
     const tenantId = 2;
     loginPath += `/${tenantId}`;
