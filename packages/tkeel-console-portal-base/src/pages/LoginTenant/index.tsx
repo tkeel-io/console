@@ -3,7 +3,7 @@ import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
 import { Box, Button, Center, Heading, Text } from '@chakra-ui/react';
 import { Form, FormField } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
-import { setLocalTokenData } from '@tkeel/console-utils';
+import { setLocalTokenInfo } from '@tkeel/console-utils';
 
 import useOAuthTokenMutation, {
   ApiData,
@@ -29,7 +29,7 @@ function handleLogin({
     return;
   }
 
-  setLocalTokenData(data);
+  setLocalTokenInfo(data);
   navigate(redirect);
 }
 
@@ -59,18 +59,18 @@ function LoginTenant(): JSX.Element {
   } = useForm<Inputs>();
 
   const pathParams = useParams();
+  const { tenantId = '' } = pathParams;
   const navigate = useNavigate();
   const redirect = useRedirectParams();
 
-  const { data, mutate, isLoading } = useOAuthTokenMutation();
+  const { data, mutate, isLoading } = useOAuthTokenMutation({ tenantId });
   handleLogin({ data, redirect, navigate });
 
   const onSubmit: SubmitHandler<Inputs> = (values) => {
-    const { tenantId = '' } = pathParams;
     const { username, password } = values;
     const params = {
       grant_type: 'password' as const,
-      username: `${tenantId}-${username}`,
+      username,
       password,
     };
 

@@ -13,10 +13,15 @@ export interface ApiData {
   token_type: string;
 }
 
-const url = '/security/v1/oauth/token';
 const method = 'GET';
 
-export default function useOAuthTokenMutation() {
+export default function useOAuthTokenMutation({
+  tenantId,
+}: {
+  tenantId: string;
+}) {
+  const url = `/security/v1/oauth/${tenantId}/token`;
+
   return useMutation<ApiData, RequestParams>({
     url,
     method,
