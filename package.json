@@ -20,7 +20,7 @@
     "init:vscode-settings": "node ./scripts/init/vscode-settings",
     "dev": "node ./scripts/run/dev",
     "dev:portal-admin": "node ./scripts/run/dev-portal-admin",
-    "dev:portal-tenant": "node ./scripts/run/dev-portal-tenant",
+    "dev:portal-tenant": "NODE_OPTIONS='--max-old-space-size=4096' node ./scripts/run/dev-portal-tenant",
     "dev:all": "node ./scripts/run/dev-all",
     "build": "node ./scripts/run/build",
     "build:all": "node ./scripts/run/build-all",

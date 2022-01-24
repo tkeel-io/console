@@ -1,4 +1,6 @@
+import { Fragment } from 'react';
 import { Box, Center, Flex, Text } from '@chakra-ui/react';
+import { CheckFilledIcon } from '@tkeel/console-icons';
 
 export interface Props {
   infos?: string[];
@@ -42,8 +44,10 @@ function renderProgressDot(status: number, index: number, label: string) {
         fontSize="14px"
         lineHeight="24px"
         fontWeight="600"
-      >{`0${index}`}</Center>
-      <Text fontSize="12px" color={FontColor[status]} pos="relative">
+      >
+        {status === STATUS.COMPLETED ? <CheckFilledIcon /> : `0${index}`}
+      </Center>
+      <Box fontSize="12px" color={FontColor[status]} pos="relative">
         {label}
         {STATUS.COMPLETED === status && (
           <Text
@@ -55,14 +59,12 @@ function renderProgressDot(status: number, index: number, label: string) {
             已完成
           </Text>
         )}
-      </Text>
+      </Box>
     </Flex>
   );
 }
 
 function getStatus(idx: number, current: number) {
-  // eslint-disable-next-line no-console
-  console.log(idx);
   return idx < current
     ? STATUS.COMPLETED
     : idx === current
@@ -74,16 +76,15 @@ export default function ProgressSchedule({
   infos = [],
   currentStep = 0,
 }: Props) {
-  // eslint-disable-next-line no-console
   return (
     <Flex h="100%" flexDirection="column">
       {infos.map((item, idx) => {
         return (
-          <>
+          <Fragment key={item}>
             {renderProgressDot(getStatus(idx, currentStep), idx + 1, item)}
             {idx !== infos.length - 1 &&
               renderProgressLine(getStatus(idx, currentStep))}
-          </>
+          </Fragment>
         );
       })}
     </Flex>
