@@ -27,20 +27,7 @@ export default function RequireAuth() {
   }
 
   if (platformName === PlatformNames.TENANT && isSuccess) {
-    const {
-      avatar,
-      nick_name: nickName,
-      tenant_id: tenantId,
-      user_id: userId,
-      username,
-    } = data as UserInfo;
-    setLocalUserInfo({
-      avatar,
-      nick_name: nickName,
-      tenant_id: tenantId,
-      user_id: userId,
-      username,
-    });
+    setLocalUserInfo(data as UserInfo);
   }
 
   return <Outlet />;

@@ -2,6 +2,8 @@ import store from 'store2';
 
 export interface UserInfo {
   avatar: string;
+  expires_in: string;
+  external_id: string;
   nick_name: string;
   tenant_id: string;
   user_id: string;
