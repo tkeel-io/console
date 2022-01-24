@@ -1,22 +1,22 @@
-import { TokenData } from '@tkeel/console-types';
+import { TokenInfo } from '@tkeel/console-types';
 import store from 'store2';
 
 const namespace = 'auth';
-const key = 'tokenData';
+const key = 'tokenInfo';
 const authStore = store.namespace(namespace);
 
-export function getLocalTokenData(): TokenData {
-  return authStore.get(key) as TokenData;
+export function getLocalTokenInfo(): TokenInfo {
+  return authStore.get(key) as TokenInfo;
 }
 
-export function setLocalTokenData(tokenData: TokenData) {
-  authStore.set(key, tokenData);
+export function setLocalTokenInfo(value: TokenInfo) {
+  authStore.set(key, value);
 }
 
-export function removeLocalTokenData() {
+export function removeLocalTokenInfo() {
   authStore.remove(key);
 }
 
-export function hasLocalTokenData() {
+export function hasLocalTokenInfo() {
   return authStore.has(key);
 }

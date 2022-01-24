@@ -1,12 +1,12 @@
 import { NavigateFunction } from 'react-router-dom';
 import { PlatformNames } from '@tkeel/console-constants';
 
-import { TokenData } from './auth';
+import { TokenInfo } from './auth';
 
 export interface PluginGlobalProps {
   container?: HTMLElement;
   platformName: PlatformNames;
-  tokenData: TokenData;
+  tokenInfo: TokenInfo;
   navigate: NavigateFunction;
   themeName: string;
   theme: Record<string, unknown>;
