@@ -8,6 +8,9 @@ import {
 } from '@tkeel/console-components';
 import { formatDateTime } from '@tkeel/console-utils';
 
+import CreateUserModal from './components/CreateUserModal';
+
+// import ModifyUserModal from './components/ModifyUserModal';
 import useUsersQuery, {
   User,
 } from '@/tkeel-console-plugin-tenant-users/hooks/queries/useUsersQuery';
@@ -74,6 +77,7 @@ function Index(): JSX.Element {
         defaultPageSize={20}
         scroll={{ y: '100%' }}
       />
+      <CreateUserModal />
     </Flex>
   );
 }
