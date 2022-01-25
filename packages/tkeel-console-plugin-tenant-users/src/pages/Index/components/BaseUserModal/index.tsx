@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { useForm } from 'react-hook-form';
+import { Box, Checkbox, CheckboxGroup } from '@chakra-ui/react';
 import { FormControl, FormField, Modal } from '@tkeel/console-components';
 
 const { TextField } = FormField;
@@ -63,7 +64,17 @@ export default function BaseUserModal({
         })}
       />
       <FormControl id="roles" label="用户角色设置">
-        123
+        <CheckboxGroup>
+          <Box>
+            <Checkbox value="a">1</Checkbox>
+          </Box>
+          <Box>
+            <Checkbox value="b">2</Checkbox>
+          </Box>
+          <Box>
+            <Checkbox value="c">3</Checkbox>
+          </Box>
+        </CheckboxGroup>
       </FormControl>
     </Modal>
   );
