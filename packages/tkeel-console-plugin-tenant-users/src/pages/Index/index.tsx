@@ -1,6 +1,7 @@
 import { Column } from 'react-table';
 import { Flex } from '@chakra-ui/react';
 import {
+  ActionButtons,
   CreateButton,
   PageHeaderToolbar,
   Table,
@@ -36,7 +37,16 @@ function Index(): JSX.Element {
     {
       Header: '操作',
       // accessor: 'remark',
-      Cell: <div>111</div>,
+      Cell: (
+        <ActionButtons
+          variant="link"
+          data={[
+            { key: '1', children: 'a', onClick() {} },
+            { key: '2', children: 'b', onClick() {} },
+            { key: '3', children: 'c', onClick() {} },
+          ]}
+        />
+      ),
     },
   ];
 
