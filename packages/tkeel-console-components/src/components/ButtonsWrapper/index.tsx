@@ -7,8 +7,8 @@ interface Props extends FlexProps {
   children: ReactNode;
 }
 
-function LinkButtonsWrapper({ children }: Props) {
+function ButtonsWrapper({ children }: Props) {
   return <StyledFlex>{children}</StyledFlex>;
 }
 
-export default LinkButtonsWrapper;
+export default ButtonsWrapper;

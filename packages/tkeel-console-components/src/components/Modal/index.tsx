@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import {
+  Button,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -9,25 +10,36 @@ import {
   ModalOverlay,
   StyleProps,
 } from '@chakra-ui/react';
+import { noop } from 'lodash';
+
+import ButtonsWrapper from '@/tkeel-console-components/components/ButtonsWrapper';
 
 type Props = {
   width?: string | number;
   title: ReactNode;
   children: ReactNode;
-  footer?: ReactNode;
+  footer?: boolean | ReactNode;
   isOpen: boolean;
   modalBodyStyle?: StyleProps;
+  isConfirmButtonDisabled?: boolean;
+  isConfirmButtonLoading?: boolean;
   onClose: () => unknown;
+  onCancel?: () => unknown;
+  onConfirm?: () => unknown;
 };
 
 function CustomModal({
   width = '600px',
   title,
   children,
-  footer = null,
+  footer = true,
   isOpen,
   modalBodyStyle = {},
+  isConfirmButtonDisabled = false,
+  isConfirmButtonLoading = false,
   onClose,
+  onCancel = onClose,
+  onConfirm = noop,
 }: Props) {
   return (
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
@@ -71,7 +83,21 @@ function CustomModal({
             borderBottomRightRadius="4px"
             backgroundColor="gray.50"
           >
-            {footer}
+            {footer === true ? (
+              <ButtonsWrapper>
+                <Button onClick={onCancel}>取消</Button>
+                <Button
+                  isDisabled={isConfirmButtonDisabled}
+                  isLoading={isConfirmButtonLoading}
+                  colorScheme="primary"
+                  onClick={onConfirm}
+                >
+                  确定
+                </Button>
+              </ButtonsWrapper>
+            ) : (
+              footer
+            )}
           </ModalFooter>
         )}
       </ModalContent>

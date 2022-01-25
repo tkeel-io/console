@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 import { LinkButton } from '@/tkeel-console-components/components/Button';
-import LinkButtonsWrapper from '@/tkeel-console-components/components/LinkButtonsWrapper';
+import ButtonsWrapper from '@/tkeel-console-components/components/ButtonsWrapper';
 
 interface Button {
   key: string | number;
@@ -17,13 +17,13 @@ interface Props {
 function ActionButtons({ variant, data }: Props) {
   if (variant === 'link') {
     return (
-      <LinkButtonsWrapper>
+      <ButtonsWrapper>
         {data.map(({ key, children, onClick }) => (
           <LinkButton key={key} onClick={onClick}>
             {children}
           </LinkButton>
         ))}
-      </LinkButtonsWrapper>
+      </ButtonsWrapper>
     );
   }
 
