@@ -1,5 +1,5 @@
 import { Column } from 'react-table';
-import { Flex, Text } from '@chakra-ui/react';
+import { Flex, Text, useDisclosure } from '@chakra-ui/react';
 import {
   ActionButtons,
   CreateButton,
@@ -16,6 +16,11 @@ import useUsersQuery, {
 } from '@/tkeel-console-plugin-tenant-users/hooks/queries/useUsersQuery';
 
 function Index(): JSX.Element {
+  const {
+    isOpen: isCreateUserModalOpen,
+    onOpen: onCreateUserModalOpen,
+    onClose: onCreateUserModalClose,
+  } = useDisclosure();
   const { data } = useUsersQuery();
   const users = data?.users ?? [];
 
@@ -68,7 +73,11 @@ function Index(): JSX.Element {
         name="用户管理"
         hasSearchInput
         searchInputProps={{ onSearch() {} }}
-        buttons={[<CreateButton key="add">创建用户</CreateButton>]}
+        buttons={[
+          <CreateButton key="create" onClick={onCreateUserModalOpen}>
+            创建用户
+          </CreateButton>,
+        ]}
       />
       <Table
         style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
@@ -77,7 +86,10 @@ function Index(): JSX.Element {
         defaultPageSize={20}
         scroll={{ y: '100%' }}
       />
-      <CreateUserModal />
+      <CreateUserModal
+        isOpen={isCreateUserModalOpen}
+        onClose={onCreateUserModalClose}
+      />
     </Flex>
   );
 }
