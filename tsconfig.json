@@ -16,7 +16,7 @@
     "jsx": "react-jsx",
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
-    "esModuleInterop": true,
+    "esModuleInterop": false,
     "suppressImplicitAnyIndexErrors": true,
     "allowSyntheticDefaultImports": false,
     "experimentalDecorators": true,
