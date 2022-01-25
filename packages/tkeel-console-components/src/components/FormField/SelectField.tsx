@@ -3,8 +3,11 @@ import { ChangeEventHandler } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 import { Select } from '@chakra-ui/react';
 
+import FormControl, {
+  FormControlProps,
+} from '@/tkeel-console-components/components/FormControl';
+
 import { fieldDefaultProps } from './default-props';
-import FormControl, { FormControlProps } from './FormControl';
 import { getFocusStyle } from './utils';
 
 type Value = string | number;

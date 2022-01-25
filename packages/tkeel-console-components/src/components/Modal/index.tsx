@@ -25,7 +25,7 @@ type Props = {
   isConfirmButtonLoading?: boolean;
   onClose: () => unknown;
   onCancel?: () => unknown;
-  onConfirm?: () => unknown;
+  onConfirm?: (arg: any) => unknown;
 };
 
 function CustomModal({
