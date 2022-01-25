@@ -15,6 +15,7 @@
     "@tkeel/console-constants": "workspace:^",
     "@tkeel/console-types": "workspace:^",
     "axios": "^0.25.0",
+    "dayjs": "^1.10.7",
     "react-router-dom": "^6.2.1",
     "store2": "^2.13.1"
   },

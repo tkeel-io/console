@@ -1,26 +1,33 @@
 import { Column } from 'react-table';
-import { Flex } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import {
   ActionButtons,
   CreateButton,
   PageHeaderToolbar,
   Table,
 } from '@tkeel/console-components';
+import { formatDateTime } from '@tkeel/console-utils';
 
-type Data = {
-  user_id: string;
-  username: string;
-  nick_name: string;
-  create_time: string;
-  role: string;
-};
+import useUsersQuery, {
+  User,
+} from '@/tkeel-console-plugin-tenant-users/hooks/queries/useUsersQuery';
 
 function Index(): JSX.Element {
-  const columns: ReadonlyArray<Column<Data>> = [
+  const { data } = useUsersQuery();
+  const users = data?.users ?? [];
+
+  const columns: ReadonlyArray<Column<User>> = [
     {
       Header: '用户账号',
       accessor: 'username',
-      disableSortBy: false,
+      // eslint-disable-next-line react/no-unstable-nested-components
+      Cell({ value }: { value: string }) {
+        return (
+          <Text color="gray.800" fontWeight="600">
+            {value}
+          </Text>
+        );
+      },
     },
     {
       Header: '用户昵称',
@@ -28,37 +35,29 @@ function Index(): JSX.Element {
     },
     {
       Header: '创建时间',
-      accessor: 'create_time',
+      accessor: 'create_at',
+      Cell({ value }) {
+        return formatDateTime({ date: value });
+      },
     },
     {
       Header: '用户角色',
-      accessor: 'role',
+      accessor: 'roles',
     },
     {
       Header: '操作',
-      // accessor: 'remark',
       Cell: (
         <ActionButtons
           variant="link"
           data={[
-            { key: '1', children: 'a', onClick() {} },
-            { key: '2', children: 'b', onClick() {} },
-            { key: '3', children: 'c', onClick() {} },
+            { key: 'edit', children: '编辑', onClick() {} },
+            { key: 'reset-password', children: '重置密码', onClick() {} },
+            { key: 'delete', children: '删除', onClick() {} },
           ]}
         />
       ),
     },
   ];
-
-  const data: Data[] = Array.from({ length: 100 }).map((_, index) => {
-    return {
-      user_id: `${index}`,
-      username: '111',
-      nick_name: '222',
-      create_time: '2021-04-32 12:11:11',
-      role: 'IDC项目',
-    };
-  });
 
   return (
     <Flex flexDirection="column" height="100%">
@@ -71,11 +70,9 @@ function Index(): JSX.Element {
       <Table
         style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
         columns={columns}
-        data={data}
+        data={users}
         defaultPageSize={20}
         scroll={{ y: '100%' }}
-        // onSelect={handleSelect}
-        // onSort={handleSort}
       />
     </Flex>
   );
