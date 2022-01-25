@@ -17,7 +17,7 @@ type Props = {
   footer?: ReactNode;
   isOpen: boolean;
   modalBodyStyle?: StyleProps;
-  onClose: () => void;
+  onClose: () => unknown;
 };
 
 function CustomModal({
