@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import {
   Box,
-  Center,
+  // Center,
   Flex,
   Heading,
   ModalCloseButton,
@@ -87,40 +87,15 @@ export default function Alert(props: Props) {
     return null;
   };
 
-  if (iconPosition === 'left') {
-    return (
-      <Modal
-        hasCloseButton={false}
-        modalBodyStyle={{ padding: '40px 20px' }}
-        {...rest}
-      >
-        <ModalCloseButton />
-        <Flex>
-          {renderIcon()}
-          <Box>
-            <Heading
-              as="h6"
-              fontWeight="600"
-              fontSize="14px"
-              lineHeight="32px"
-              color="gray.800"
-            >
-              {title}
-            </Heading>
-            {description && (
-              <Text
-                paddingTop="3px"
-                fontSize="12px"
-                lineHeight="24px"
-                color="grayAlternatives.300"
-              >
-                {description}
-              </Text>
-            )}
-          </Box>
-        </Flex>
-      </Modal>
-    );
+  // let [Container, containerFlexDirection] = [Center, 'column'];
+
+  let style = {};
+  if (iconPosition === 'top') {
+    style = {
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+    };
   }
 
   return (
@@ -130,7 +105,7 @@ export default function Alert(props: Props) {
       {...rest}
     >
       <ModalCloseButton />
-      <Center flexDirection="column">
+      <Flex style={style}>
         {renderIcon()}
         <Box>
           <Heading
@@ -153,7 +128,7 @@ export default function Alert(props: Props) {
             </Text>
           )}
         </Box>
-      </Center>
+      </Flex>
     </Modal>
   );
 }
