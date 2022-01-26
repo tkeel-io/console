@@ -1,28 +1,29 @@
+import { useQueryClient } from 'react-query';
 import { Column } from 'react-table';
-import { Flex, Text, useDisclosure } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import {
-  ActionButtons,
-  CreateButton,
+  ButtonsWrapper,
+  LinkButton,
   PageHeaderToolbar,
   Table,
 } from '@tkeel/console-components';
-import { formatDateTime } from '@tkeel/console-utils';
+import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
-import CreateUserModal from './components/CreateUserModal';
+import CreateUserButton from './components/CreateUserButton';
+import ModifyUserButton from './components/ModifyUserButton';
 
-// import ModifyUserModal from './components/ModifyUserModal';
 import useUsersQuery, {
   User,
 } from '@/tkeel-console-plugin-tenant-users/hooks/queries/useUsersQuery';
 
 function Index(): JSX.Element {
-  const {
-    isOpen: isCreateUserModalOpen,
-    onOpen: onCreateUserModalOpen,
-    onClose: onCreateUserModalClose,
-  } = useDisclosure();
-  const { data } = useUsersQuery();
+  const queryClient = useQueryClient();
+  const { data, queryKey } = useUsersQuery();
   const users = data?.users ?? [];
+
+  const handleCreateUserSuccess = () => {
+    queryClient.invalidateQueries(queryKey);
+  };
 
   const columns: ReadonlyArray<Column<User>> = [
     {
@@ -45,7 +46,7 @@ function Index(): JSX.Element {
       Header: '创建时间',
       accessor: 'create_at',
       Cell({ value }) {
-        return formatDateTime({ date: value });
+        return formatDateTimeByTimestamp({ timestamp: value });
       },
     },
     {
@@ -55,14 +56,11 @@ function Index(): JSX.Element {
     {
       Header: '操作',
       Cell: (
-        <ActionButtons
-          variant="link"
-          data={[
-            { key: 'edit', children: '编辑', onClick() {} },
-            { key: 'reset-password', children: '重置密码', onClick() {} },
-            { key: 'delete', children: '删除', onClick() {} },
-          ]}
-        />
+        <ButtonsWrapper>
+          <ModifyUserButton />
+          <LinkButton>重置密码</LinkButton>
+          <LinkButton>删除</LinkButton>
+        </ButtonsWrapper>
       ),
     },
   ];
@@ -74,9 +72,7 @@ function Index(): JSX.Element {
         hasSearchInput
         searchInputProps={{ onSearch() {} }}
         buttons={[
-          <CreateButton key="create" onClick={onCreateUserModalOpen}>
-            创建用户
-          </CreateButton>,
+          <CreateUserButton key="create" onSuccess={handleCreateUserSuccess} />,
         ]}
       />
       <Table
@@ -85,10 +81,6 @@ function Index(): JSX.Element {
         data={users}
         defaultPageSize={20}
         scroll={{ y: '100%' }}
-      />
-      <CreateUserModal
-        isOpen={isCreateUserModalOpen}
-        onClose={onCreateUserModalClose}
       />
     </Flex>
   );

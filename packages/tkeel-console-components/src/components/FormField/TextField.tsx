@@ -2,8 +2,11 @@ import { ChangeEventHandler, HTMLInputTypeAttribute } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 import { Input, StyleProps } from '@chakra-ui/react';
 
+import FormControl, {
+  FormControlProps,
+} from '@/tkeel-console-components/components/FormControl';
+
 import { fieldDefaultProps } from './default-props';
-import FormControl, { FormControlProps } from './FormControl';
 import { getFocusStyle } from './utils';
 
 type Props = FormControlProps & {

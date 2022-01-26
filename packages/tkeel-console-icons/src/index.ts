@@ -21,3 +21,4 @@ export { default as MagnifierFilledIcon } from './components/MagnifierFilledIcon
 export { default as MagnifierTwoToneIcon } from './components/MagnifierTwoToneIcon';
 export { default as PuzzleTwoToneIcon } from './components/PuzzleTwoToneIcon';
 export { default as TrashFilledIcon } from './components/TrashFilledIcon';
+export { default as WarningTwoToneIcon } from './components/WarningTwoToneIcon';

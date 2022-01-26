@@ -4,13 +4,27 @@ import 'dayjs/locale/zh-cn';
 
 dayjs.locale('zh-cn');
 
-// eslint-disable-next-line import/prefer-default-export
+const DEFAULT_TEMPLATE = 'YYYY-MM-DD HH:mm:ss';
+
 export function formatDateTime({
   date,
-  template = 'YYYY-MM-DD HH:mm:ss',
+  template = DEFAULT_TEMPLATE,
 }: {
   date?: dayjs.ConfigType;
   template?: string;
-} = {}) {
+} = {}): string {
   return dayjs(date).format(template);
+}
+
+export function formatDateTimeByTimestamp({
+  timestamp,
+  template = DEFAULT_TEMPLATE,
+}: {
+  timestamp?: number | string;
+  template?: string;
+} = {}) {
+  return formatDateTime({
+    date: timestamp ? Number(timestamp) : undefined,
+    template,
+  });
 }

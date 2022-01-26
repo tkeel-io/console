@@ -7,6 +7,8 @@ const colors = {
   primarySub2: primaryColors[2],
   primarySub3: primaryColors[3],
 
+  'primary.500': primaryColors[0],
+
   transparent: 'transparent',
   current: 'currentColor',
 
