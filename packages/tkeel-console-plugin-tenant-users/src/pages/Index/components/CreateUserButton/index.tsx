@@ -5,9 +5,18 @@ import useCreateUserMutation from '@/tkeel-console-plugin-tenant-users/hooks/mut
 import { FormValues } from '@/tkeel-console-plugin-tenant-users/pages/Index/components/BaseUserModal';
 import CreateUserModal from '@/tkeel-console-plugin-tenant-users/pages/Index/components/CreateUserModal';
 
-export default function CreateUserButton() {
+type Props = {
+  onSuccess: () => void;
+};
+
+export default function CreateUserButton({ onSuccess }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { isSuccess, isLoading, mutate } = useCreateUserMutation();
+  const { isLoading, mutate } = useCreateUserMutation({
+    onSuccess() {
+      onSuccess();
+      onClose();
+    },
+  });
 
   const handleConfirm = (formValues: FormValues) => {
     const { roles = [] } = formValues;
@@ -16,10 +25,6 @@ export default function CreateUserButton() {
     }
 
     mutate({ data: formValues });
-
-    if (isSuccess) {
-      onClose();
-    }
   };
 
   return (

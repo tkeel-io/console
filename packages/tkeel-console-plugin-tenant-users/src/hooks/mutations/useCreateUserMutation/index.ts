@@ -17,9 +17,17 @@ export interface ApiData {
 
 const method = 'POST';
 
-export default function useCreateUserMutation() {
+export default function useCreateUserMutation({
+  onSuccess,
+}: {
+  onSuccess: () => void;
+}) {
   const { tenant_id: tenantId } = getLocalUserInfo();
   const url = `/security/v1/tenants/${tenantId}/users`;
 
-  return useMutation<ApiData, undefined, RequestData>({ url, method });
+  return useMutation<ApiData, undefined, RequestData>({
+    url,
+    method,
+    reactQueryOptions: { onSuccess },
+  });
 }

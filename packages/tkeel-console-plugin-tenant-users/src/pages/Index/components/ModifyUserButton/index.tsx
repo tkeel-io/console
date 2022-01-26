@@ -15,12 +15,14 @@ export default function ModifyUserButton() {
   return (
     <>
       <LinkButton onClick={onOpen}>编辑</LinkButton>
-      <ModifyUserModal
-        isOpen={isOpen}
-        isConfirmButtonLoading={false}
-        onClose={onClose}
-        onConfirm={handleConfirm}
-      />
+      {isOpen && (
+        <ModifyUserModal
+          isOpen={isOpen}
+          isConfirmButtonLoading={false}
+          onClose={onClose}
+          onConfirm={handleConfirm}
+        />
+      )}
     </>
   );
 }

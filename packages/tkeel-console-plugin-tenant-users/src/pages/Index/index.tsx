@@ -1,3 +1,4 @@
+import { useQueryClient } from 'react-query';
 import { Column } from 'react-table';
 import { Flex, Text } from '@chakra-ui/react';
 import {
@@ -16,8 +17,13 @@ import useUsersQuery, {
 } from '@/tkeel-console-plugin-tenant-users/hooks/queries/useUsersQuery';
 
 function Index(): JSX.Element {
-  const { data } = useUsersQuery();
+  const queryClient = useQueryClient();
+  const { data, queryKey } = useUsersQuery();
   const users = data?.users ?? [];
+
+  const handleCreateUserSuccess = () => {
+    queryClient.invalidateQueries(queryKey);
+  };
 
   const columns: ReadonlyArray<Column<User>> = [
     {
@@ -65,7 +71,9 @@ function Index(): JSX.Element {
         name="用户管理"
         hasSearchInput
         searchInputProps={{ onSearch() {} }}
-        buttons={[<CreateUserButton key="create" />]}
+        buttons={[
+          <CreateUserButton key="create" onSuccess={handleCreateUserSuccess} />,
+        ]}
       />
       <Table
         style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}

@@ -75,7 +75,7 @@ export default function BaseUserModal({
         label="用户昵称"
         error={errors.nick_name}
         schemas={register('nick_name', {
-          required: { value: true, message: '用户昵称' },
+          required: { value: false, message: '用户昵称' },
         })}
       />
       <FormControl id="roles" label="用户角色设置">
