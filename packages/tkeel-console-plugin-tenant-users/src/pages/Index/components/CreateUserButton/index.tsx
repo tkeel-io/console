@@ -1,5 +1,5 @@
 import { useDisclosure } from '@chakra-ui/react';
-import { CreateButton } from '@tkeel/console-components';
+import { Alert, CreateButton } from '@tkeel/console-components';
 
 import useCreateUserMutation from '@/tkeel-console-plugin-tenant-users/hooks/mutations/useCreateUserMutation';
 import { FormValues } from '@/tkeel-console-plugin-tenant-users/pages/Index/components/BaseUserModal';
@@ -38,6 +38,14 @@ export default function CreateUserButton({ onSuccess }: Props) {
           onConfirm={handleConfirm}
         />
       )}
+      <Alert
+        isOpen
+        iconPosition="left"
+        icon="warning"
+        title="ok"
+        description="111111"
+        onClose={() => {}}
+      />
     </>
   );
 }
