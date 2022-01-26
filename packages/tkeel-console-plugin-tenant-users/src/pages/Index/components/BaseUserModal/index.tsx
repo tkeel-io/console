@@ -1,7 +1,15 @@
 import { ReactNode } from 'react';
 import { useForm } from 'react-hook-form';
-import { Box, Checkbox, CheckboxGroup } from '@chakra-ui/react';
-import { FormControl, FormField, Modal } from '@tkeel/console-components';
+import { Box } from '@chakra-ui/react';
+import {
+  Checkbox,
+  CheckboxGroup,
+  FormControl,
+  FormField,
+  Modal,
+} from '@tkeel/console-components';
+
+import useRolesQuery from '@/tkeel-console-plugin-tenant-users/hooks/queries/useRolesQuery';
 
 const { TextField } = FormField;
 
@@ -24,11 +32,15 @@ export default function BaseUserModal({
   onClose,
   onConfirm,
 }: Props) {
+  const { data } = useRolesQuery();
+  const roles = data?.roles ?? [];
+
   const {
     register,
     formState: { errors },
     trigger,
     getValues,
+    setValue,
   } = useForm<FormValues>();
 
   const handleConfirm = async () => {
@@ -64,17 +76,20 @@ export default function BaseUserModal({
         })}
       />
       <FormControl id="roles" label="用户角色设置">
-        <CheckboxGroup>
-          <Box>
-            <Checkbox value="a">1</Checkbox>
-          </Box>
-          <Box>
-            <Checkbox value="b">2</Checkbox>
-          </Box>
-          <Box>
-            <Checkbox value="c">3</Checkbox>
-          </Box>
-        </CheckboxGroup>
+        <Box padding="20px" borderRadius="4px" backgroundColor="gray.50">
+          <CheckboxGroup
+            defaultValue={[]}
+            onChange={(value: string[]) => {
+              setValue('roles', value);
+            }}
+          >
+            {roles.map((role) => (
+              <Box key={role}>
+                <Checkbox value={role}>{role}</Checkbox>
+              </Box>
+            ))}
+          </CheckboxGroup>
+        </Box>
       </FormControl>
     </Modal>
   );

@@ -15,11 +15,13 @@ export default function CreateUserButton() {
   return (
     <>
       <CreateButton onClick={onOpen}>创建用户</CreateButton>
-      <CreateUserModal
-        isOpen={isOpen}
-        onClose={onClose}
-        onConfirm={handleConfirm}
-      />
+      {isOpen && (
+        <CreateUserModal
+          isOpen={isOpen}
+          onClose={onClose}
+          onConfirm={handleConfirm}
+        />
+      )}
     </>
   );
 }
