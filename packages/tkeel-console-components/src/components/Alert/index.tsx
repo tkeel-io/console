@@ -1,25 +1,20 @@
 import { ReactNode } from 'react';
-import {
-  Box,
-  // Center,
-  Flex,
-  Heading,
-  ModalCloseButton,
-  Text,
-} from '@chakra-ui/react';
+import { Box, Flex, Heading, ModalCloseButton, Text } from '@chakra-ui/react';
 import { noop } from 'lodash';
 
 import Modal from '@/tkeel-console-components/components/Modal';
 
+import SuccessIcon from './SuccessIcon';
 import WarningIcon from './WarningIcon';
 
 type Props = {
   isOpen: boolean;
   width?: string | number;
   iconPosition?: 'top' | 'left';
-  icon?: 'warning' | ReactNode;
+  icon?: 'warning' | 'success' | ReactNode;
   title: ReactNode;
   description?: ReactNode;
+  children?: ReactNode;
   hasCancelButton?: boolean;
   hasConfirmButton?: boolean;
   isConfirmButtonDisabled?: boolean;
@@ -57,7 +52,8 @@ export default function Alert(props: Props) {
     properties = { ...defaultProps, ...defaultPropsIconLeft, ...props };
   }
 
-  const { iconPosition, icon, title, description, ...rest } = properties;
+  const { iconPosition, icon, title, description, children, ...rest } =
+    properties;
 
   const renderIcon = () => {
     let [paddingRight, paddingBottom] = ['', ''];
@@ -72,6 +68,14 @@ export default function Alert(props: Props) {
       return (
         <Box paddingRight={paddingRight} paddingBottom={paddingBottom}>
           <WarningIcon />
+        </Box>
+      );
+    }
+
+    if (icon === 'success') {
+      return (
+        <Box paddingRight={paddingRight} paddingBottom={paddingBottom}>
+          <SuccessIcon />
         </Box>
       );
     }
@@ -114,6 +118,7 @@ export default function Alert(props: Props) {
             fontSize="14px"
             lineHeight="32px"
             color="gray.800"
+            textAlign={iconPosition === 'top' ? 'center' : 'left'}
           >
             {title}
           </Heading>
@@ -123,10 +128,12 @@ export default function Alert(props: Props) {
               fontSize="12px"
               lineHeight="24px"
               color="grayAlternatives.300"
+              textAlign={iconPosition === 'top' ? 'center' : 'left'}
             >
               {description}
             </Text>
           )}
+          {children}
         </Box>
       </Flex>
     </Modal>
