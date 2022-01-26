@@ -6,7 +6,7 @@ import {
   PageHeaderToolbar,
   Table,
 } from '@tkeel/console-components';
-import { formatDateTime } from '@tkeel/console-utils';
+import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import CreateUserButton from './components/CreateUserButton';
 import ModifyUserButton from './components/ModifyUserButton';
@@ -40,7 +40,7 @@ function Index(): JSX.Element {
       Header: '创建时间',
       accessor: 'create_at',
       Cell({ value }) {
-        return formatDateTime({ date: value });
+        return formatDateTimeByTimestamp({ timestamp: value });
       },
     },
     {

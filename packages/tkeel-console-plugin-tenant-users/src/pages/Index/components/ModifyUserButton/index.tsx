@@ -17,6 +17,7 @@ export default function ModifyUserButton() {
       <LinkButton onClick={onOpen}>编辑</LinkButton>
       <ModifyUserModal
         isOpen={isOpen}
+        isConfirmButtonLoading={false}
         onClose={onClose}
         onConfirm={handleConfirm}
       />

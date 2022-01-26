@@ -26,7 +26,7 @@ export interface ApiData {
 
 export default function useUsersQuery() {
   const { tenant_id: tenantId } = getLocalUserInfo();
-  const url = `/rudder/v1/tenants/${tenantId}/users`;
+  const url = `/security/v1/tenants/${tenantId}/users`;
 
   return useQuery<ApiData>({
     url,

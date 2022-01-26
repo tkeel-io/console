@@ -22,6 +22,7 @@ export interface FormValues {
 type Props = {
   title: ReactNode;
   isOpen: boolean;
+  isConfirmButtonLoading: boolean;
   onClose: () => unknown;
   onConfirm: (formValues: FormValues) => unknown;
 };
@@ -29,6 +30,7 @@ type Props = {
 export default function BaseUserModal({
   title,
   isOpen,
+  isConfirmButtonLoading,
   onClose,
   onConfirm,
 }: Props) {
@@ -55,6 +57,7 @@ export default function BaseUserModal({
     <Modal
       title={title}
       isOpen={isOpen}
+      isConfirmButtonLoading={isConfirmButtonLoading}
       onClose={onClose}
       onConfirm={handleConfirm}
     >
