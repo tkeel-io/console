@@ -35,17 +35,17 @@ const defaultProps = {
 };
 
 const defaultPropsIconTop = {
-  width: '500px',
+  width: '400px',
   iconPosition: 'top',
-  hasCancelButton: true,
-  hasConfirmButton: true,
+  hasCancelButton: false,
+  hasConfirmButton: false,
 };
 
 const defaultPropsIconLeft = {
-  width: '400px',
+  width: '500px',
   iconPosition: 'left',
-  hasCancelButton: false,
-  hasConfirmButton: false,
+  hasCancelButton: true,
+  hasConfirmButton: true,
 };
 
 export default function Alert(props: Props) {
@@ -63,9 +63,9 @@ export default function Alert(props: Props) {
     let [paddingRight, paddingBottom] = ['', ''];
 
     if (iconPosition === 'top') {
-      paddingRight = '20px';
-    } else if (iconPosition === 'left') {
       paddingBottom = '20px';
+    } else if (iconPosition === 'left') {
+      paddingRight = '20px';
     }
 
     if (icon === 'warning') {
@@ -77,7 +77,11 @@ export default function Alert(props: Props) {
     }
 
     if (icon) {
-      return <Box paddingRight="20px">{icon}</Box>;
+      return (
+        <Box paddingRight={paddingRight} paddingBottom={paddingBottom}>
+          {icon}
+        </Box>
+      );
     }
 
     return null;
@@ -91,7 +95,7 @@ export default function Alert(props: Props) {
         {...rest}
       >
         <ModalCloseButton />
-        <Center flexDirection="column">
+        <Flex>
           {renderIcon()}
           <Box>
             <Heading
@@ -114,7 +118,7 @@ export default function Alert(props: Props) {
               </Text>
             )}
           </Box>
-        </Center>
+        </Flex>
       </Modal>
     );
   }
@@ -126,10 +130,11 @@ export default function Alert(props: Props) {
       {...rest}
     >
       <ModalCloseButton />
-      <Flex>
+      <Center flexDirection="column">
         {renderIcon()}
         <Box>
           <Heading
+            as="h6"
             fontWeight="600"
             fontSize="14px"
             lineHeight="32px"
@@ -148,7 +153,7 @@ export default function Alert(props: Props) {
             </Text>
           )}
         </Box>
-      </Flex>
+      </Center>
     </Modal>
   );
 }

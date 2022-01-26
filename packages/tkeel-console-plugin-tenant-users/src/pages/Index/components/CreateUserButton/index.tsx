@@ -11,6 +11,11 @@ type Props = {
 
 export default function CreateUserButton({ onSuccess }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isAlertOpen,
+    onOpen: onAlertOpen,
+    onClose: onAlertClose,
+  } = useDisclosure();
   const { isLoading, mutate } = useCreateUserMutation({
     onSuccess() {
       onSuccess();
@@ -20,7 +25,9 @@ export default function CreateUserButton({ onSuccess }: Props) {
 
   const handleConfirm = (formValues: FormValues) => {
     const { roles = [] } = formValues;
+
     if (roles.length === 0) {
+      onAlertOpen();
       return;
     }
 
@@ -39,12 +46,10 @@ export default function CreateUserButton({ onSuccess }: Props) {
         />
       )}
       <Alert
-        isOpen
-        iconPosition="left"
+        isOpen={isAlertOpen}
         icon="warning"
-        title="ok"
-        description="111111"
-        onClose={() => {}}
+        title="请选择角色"
+        onClose={onAlertClose}
       />
     </>
   );
