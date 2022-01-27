@@ -1,7 +1,7 @@
-const config = require('config');
-const { merge } = require('webpack-merge');
 /* cspell: disable-next-line */
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const config = require('config');
+const { merge } = require('webpack-merge');
 const WebpackNotifierPlugin = require('webpack-notifier');
 
 const paths = require('../scripts/utils/paths');
