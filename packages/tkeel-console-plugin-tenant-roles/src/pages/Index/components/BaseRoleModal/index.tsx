@@ -14,7 +14,7 @@ import useRolesQuery from '@/tkeel-console-plugin-tenant-roles/hooks/queries/use
 const { TextField } = FormField;
 
 export interface FormValues {
-  username: string;
+  role: string;
   nick_name: string;
   roles: string[];
 }
@@ -27,7 +27,7 @@ type Props = {
   onConfirm: (formValues: FormValues) => unknown;
 };
 
-export default function BaseUserModal({
+export default function BaseRoleModal({
   title,
   isOpen,
   isConfirmButtonLoading,
@@ -62,23 +62,14 @@ export default function BaseUserModal({
       onConfirm={handleConfirm}
     >
       <TextField
-        id="username"
-        label="用户账号"
-        // help="6~18 位字符串, 只能包含英文字母、数字、下划线"
-        error={errors.username}
-        schemas={register('username', {
-          required: { value: true, message: '请输入正确的用户账号' },
+        id="role"
+        label="角色名称"
+        error={errors.role}
+        schemas={register('role', {
+          required: { value: true, message: '请输入正确的角色名称' },
         })}
       />
-      <TextField
-        id="nick_name"
-        label="用户昵称"
-        error={errors.nick_name}
-        schemas={register('nick_name', {
-          required: { value: false, message: '用户昵称' },
-        })}
-      />
-      <FormControl id="roles" label="用户角色设置">
+      <FormControl id="plugins" label="用户权限设置">
         <Box padding="20px" borderRadius="4px" backgroundColor="gray.50">
           <CheckboxGroup
             defaultValue={[]}

@@ -3,7 +3,7 @@ import { useQueryClient } from 'react-query';
 import { Column } from 'react-table';
 import { Flex, Text } from '@chakra-ui/react';
 import {
-  ButtonsWrapper,
+  ButtonsHStack,
   LinkButton,
   PageHeaderToolbar,
   Table,
@@ -17,7 +17,7 @@ import useUsersQuery, {
   User,
 } from '@/tkeel-console-plugin-tenant-users/hooks/queries/useUsersQuery';
 
-function Index(): JSX.Element {
+function Index() {
   const [keyword, setKeyWord] = useState('');
   const queryClient = useQueryClient();
 
@@ -63,11 +63,11 @@ function Index(): JSX.Element {
     {
       Header: '操作',
       Cell: (
-        <ButtonsWrapper>
+        <ButtonsHStack>
           <ModifyUserButton />
           <LinkButton>重置密码</LinkButton>
           <LinkButton>删除</LinkButton>
-        </ButtonsWrapper>
+        </ButtonsHStack>
       ),
     },
   ];

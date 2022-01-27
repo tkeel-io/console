@@ -1,7 +1,7 @@
 export { default as ActionButtons } from './components/ActionButtons';
 export { default as Alert } from './components/Alert';
 export * from './components/Button';
-export { default as ButtonsWrapper } from './components/ButtonsWrapper';
+export { default as ButtonsHStack } from './components/ButtonsHStack';
 export * from './components/Checkbox';
 export { default as Editor } from './components/Editor';
 export { default as Form } from './components/Form';
