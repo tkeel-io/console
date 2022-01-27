@@ -11,9 +11,9 @@
   },
   "license": "Apache-2.0",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack serve --config ../../webpack/webpack.config.plugins.js",
+    "analyze": "cross-env NODE_ENV=development ANALYZE=true npm run build",
     "build": "cross-env NODE_ENV=production webpack --config ../../webpack/webpack.config.plugins.js",
-    "analyze": "cross-env NODE_ENV=development ANALYZE=true npm run build"
+    "dev": "cross-env NODE_ENV=development webpack serve --config ../../webpack/webpack.config.plugins.js"
   },
   "dependencies": {
     "@chakra-ui/react": "^1.7.4",
