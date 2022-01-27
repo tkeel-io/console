@@ -8,16 +8,17 @@ import {
   PageHeaderToolbar,
   Table,
 } from '@tkeel/console-components';
-import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
-import CreateUserButton from './components/CreateUserButton';
-import ModifyUserButton from './components/ModifyUserButton';
+import CreateRoleButton from './components/CreateRoleButton';
+import ModifyRoleButton from './components/ModifyRoleButton';
 
-import useUsersQuery, {
-  User,
-} from '@/tkeel-console-plugin-tenant-roles/hooks/queries/useUsersQuery';
+import useRolesQuery from '@/tkeel-console-plugin-tenant-roles/hooks/queries/useRolesQuery';
 
-function Index(): JSX.Element {
+type Role = {
+  roleName: string;
+};
+
+function Index() {
   const [keyword, setKeyWord] = useState('');
   const queryClient = useQueryClient();
 
@@ -25,17 +26,18 @@ function Index(): JSX.Element {
   if (keyword) {
     params = { ...params, key_words: keyword };
   }
-  const { data, queryKey } = useUsersQuery({ params });
-  const users = data?.users ?? [];
+  const { data, queryKey } = useRolesQuery({ params });
+  const roleNames = data?.roles ?? [];
+  const roles = roleNames.map((roleName) => ({ roleName }));
 
-  const handleCreateUserSuccess = () => {
+  const handleCreateRoleSuccess = () => {
     queryClient.invalidateQueries(queryKey);
   };
 
-  const columns: ReadonlyArray<Column<User>> = [
+  const columns: ReadonlyArray<Column<Role>> = [
     {
-      Header: '用户账号',
-      accessor: 'username',
+      Header: '角色名称',
+      accessor: 'roleName',
       // eslint-disable-next-line react/no-unstable-nested-components
       Cell({ value }: { value: string }) {
         return (
@@ -46,26 +48,23 @@ function Index(): JSX.Element {
       },
     },
     {
-      Header: '用户昵称',
-      accessor: 'nick_name',
+      Header: '描述',
+      // accessor: '',
     },
     {
-      Header: '创建时间',
-      accessor: 'create_at',
-      Cell({ value }) {
-        return formatDateTimeByTimestamp({ timestamp: value });
-      },
+      Header: '权限资源',
+      // accessor: '',
     },
     {
-      Header: '用户角色',
-      accessor: 'roles',
+      Header: '绑定用户数',
+      // accessor: '',
     },
     {
       Header: '操作',
       Cell: (
         <ButtonsWrapper>
-          <ModifyUserButton />
-          <LinkButton>重置密码</LinkButton>
+          <ModifyRoleButton />
+          <LinkButton>编辑</LinkButton>
           <LinkButton>删除</LinkButton>
         </ButtonsWrapper>
       ),
@@ -83,13 +82,13 @@ function Index(): JSX.Element {
           },
         }}
         buttons={[
-          <CreateUserButton key="create" onSuccess={handleCreateUserSuccess} />,
+          <CreateRoleButton key="create" onSuccess={handleCreateRoleSuccess} />,
         ]}
       />
       <Table
         style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
         columns={columns}
-        data={users}
+        data={roles}
         defaultPageSize={20}
         scroll={{ y: '100%' }}
       />

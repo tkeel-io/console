@@ -17,7 +17,7 @@ import useUsersQuery, {
   User,
 } from '@/tkeel-console-plugin-tenant-users/hooks/queries/useUsersQuery';
 
-function Index(): JSX.Element {
+function Index() {
   const [keyword, setKeyWord] = useState('');
   const queryClient = useQueryClient();
 

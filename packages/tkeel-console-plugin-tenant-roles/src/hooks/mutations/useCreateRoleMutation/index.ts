@@ -3,9 +3,7 @@ import { getLocalUserInfo } from '@tkeel/console-utils';
 import useMutation from '@/tkeel-console-plugin-tenant-roles/hooks/useMutation';
 
 interface RequestData {
-  username: string;
-  nick_name?: string;
-  roles: string[];
+  role: string;
 }
 
 export interface ApiData {
@@ -17,13 +15,13 @@ export interface ApiData {
 
 const method = 'POST';
 
-export default function useCreateUserMutation({
+export default function useCreateRoleMutation({
   onSuccess,
 }: {
   onSuccess: () => void;
 }) {
   const { tenant_id: tenantId } = getLocalUserInfo();
-  const url = `/security/v1/tenants/${tenantId}/users`;
+  const url = `/security/v1/rbac/tenant/${tenantId}/roles`;
 
   return useMutation<ApiData, undefined, RequestData>({
     url,

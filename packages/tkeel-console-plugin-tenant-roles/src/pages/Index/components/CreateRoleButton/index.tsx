@@ -1,32 +1,25 @@
 import { useDisclosure } from '@chakra-ui/react';
 import { Alert, CreateButton } from '@tkeel/console-components';
 
-import useCreateUserMutation from '@/tkeel-console-plugin-tenant-roles/hooks/mutations/useCreateUserMutation';
-import { FormValues } from '@/tkeel-console-plugin-tenant-roles/pages/Index/components/BaseUserModal';
-import CreateUserModal from '@/tkeel-console-plugin-tenant-roles/pages/Index/components/CreateUserModal';
-import CreateUserSuccessModal from '@/tkeel-console-plugin-tenant-roles/pages/Index/components/CreateUserSuccessModal';
+import useCreateRoleMutation from '@/tkeel-console-plugin-tenant-roles/hooks/mutations/useCreateRoleMutation';
+import { FormValues } from '@/tkeel-console-plugin-tenant-roles/pages/Index/components/BaseRoleModal';
+import CreateRoleModal from '@/tkeel-console-plugin-tenant-roles/pages/Index/components/CreateRoleModal';
 
 type Props = {
   onSuccess: () => void;
 };
 
-export default function CreateUserButton({ onSuccess }: Props) {
+export default function CreateRoleButton({ onSuccess }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     isOpen: isWarningAlertOpen,
     onOpen: onWarningAlertOpen,
     onClose: onWarningAlertClose,
   } = useDisclosure();
-  const {
-    isOpen: isSuccessModalOpen,
-    onOpen: onSuccessModalOpen,
-    onClose: onSuccessModalClose,
-  } = useDisclosure();
-  const { isLoading, mutate } = useCreateUserMutation({
+  const { isLoading, mutate } = useCreateRoleMutation({
     onSuccess() {
       onSuccess();
       onClose();
-      onSuccessModalOpen();
     },
   });
 
@@ -45,7 +38,7 @@ export default function CreateUserButton({ onSuccess }: Props) {
     <>
       <CreateButton onClick={onOpen}>创建用户</CreateButton>
       {isOpen && (
-        <CreateUserModal
+        <CreateRoleModal
           isOpen={isOpen}
           isConfirmButtonLoading={isLoading}
           onClose={onClose}
@@ -58,12 +51,6 @@ export default function CreateUserButton({ onSuccess }: Props) {
         title="请选择角色"
         onClose={onWarningAlertClose}
       />
-      {isSuccessModalOpen && (
-        <CreateUserSuccessModal
-          isOpen={isSuccessModalOpen}
-          onClose={onSuccessModalClose}
-        />
-      )}
     </>
   );
 }
