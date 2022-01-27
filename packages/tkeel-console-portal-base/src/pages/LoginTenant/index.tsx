@@ -1,5 +1,10 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
+import {
+  Navigate,
+  NavigateFunction,
+  useNavigate,
+  useParams,
+} from 'react-router-dom';
 import { Box, Button, Center, Heading, Text } from '@chakra-ui/react';
 import { Form, FormField } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
@@ -11,7 +16,7 @@ import useOAuthTokenMutation, {
 
 const { TextField } = FormField;
 
-type Inputs = {
+type FormValues = {
   username: string;
   password: string;
 };
@@ -30,10 +35,10 @@ function handleLogin({
   }
 
   setLocalTokenInfo(data);
-  navigate(redirect);
+  navigate(redirect, { replace: true });
 }
 
-function LoginTenant(): JSX.Element {
+function LoginTenant() {
   const formLabelStyle = {
     marginBottom: '5px',
     fontSize: '14px',
@@ -56,18 +61,24 @@ function LoginTenant(): JSX.Element {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>();
+  } = useForm<FormValues>();
 
   const pathParams = useParams();
   const { tenantId = '' } = pathParams;
+
   const navigate = useNavigate();
   const redirect = useRedirectParams();
 
   const { data, mutate, isLoading } = useOAuthTokenMutation({ tenantId });
+
+  if (!tenantId) {
+    return <Navigate to="/auth/tenant" replace />;
+  }
+
   handleLogin({ data, redirect, navigate });
 
-  const onSubmit: SubmitHandler<Inputs> = (values) => {
-    const { username, password } = values;
+  const onSubmit: SubmitHandler<FormValues> = (formValues) => {
+    const { username, password } = formValues;
     const params = {
       grant_type: 'password' as const,
       username,
