@@ -3446,6 +3446,29 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@tkeel/console-plugin-tenant-roles@workspace:packages/tkeel-console-plugin-tenant-roles":
+  version: 0.0.0-use.local
+  resolution: "@tkeel/console-plugin-tenant-roles@workspace:packages/tkeel-console-plugin-tenant-roles"
+  dependencies:
+    "@chakra-ui/react": ^1.7.4
+    "@emotion/react": ^11.7.1
+    "@emotion/styled": ^11.6.0
+    "@tkeel/console-business-components": "workspace:^"
+    "@tkeel/console-components": "workspace:^"
+    "@tkeel/console-hooks": "workspace:^"
+    "@tkeel/console-types": "workspace:^"
+    "@tkeel/console-utils": "workspace:^"
+    "@types/lodash": ^4.14.178
+    "@types/react-table": ^7.7.9
+    framer-motion: ^6.0.0
+    react: ^17.0.2
+    react-dom: ^17.0.2
+    react-hook-form: ^7.24.1
+    react-query: ^3.34.8
+    react-router-dom: ^6.2.1
+  languageName: unknown
+  linkType: soft
+
 "@tkeel/console-plugin-tenant-users@workspace:packages/tkeel-console-plugin-tenant-users":
   version: 0.0.0-use.local
   resolution: "@tkeel/console-plugin-tenant-users@workspace:packages/tkeel-console-plugin-tenant-users"
