@@ -1,7 +1,5 @@
 const path = require('path');
 
-const { isEnvDevelopment } = require('./scripts/utils/env');
-
 module.exports = {
   root: true,
   parser: '@babel/eslint-parser',
@@ -31,7 +29,7 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   rules: {
-    'no-console': isEnvDevelopment ? 'warn' : 'error',
+    'no-console': process.env.NODE_ENV === 'development' ? 'warn' : 'error',
     'no-param-reassign': [
       'error',
       {
@@ -72,18 +70,15 @@ module.exports = {
           'internal',
           ['parent', 'sibling', 'index'],
           'object',
+          'type',
           'unknown',
         ],
         'newlines-between': 'always',
+        alphabetize: {
+          order: 'asc',
+        },
+        warnOnUnassignedImports: true,
       },
-    ],
-    'react/jsx-key': 'error',
-    'react/jsx-props-no-spreading': 'off',
-    'react/jsx-uses-react': 'off',
-    'react/react-in-jsx-scope': 'off',
-    'react/require-default-props': [
-      'error',
-      { forbidDefaultForRequired: true, ignoreFunctionalComponents: true },
     ],
     'unicorn/filename-case': [
       'error',
@@ -99,6 +94,14 @@ module.exports = {
     'unicorn/no-null': 'off',
     'unicorn/prevent-abbreviations': 'off',
     'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
+    'react/jsx-key': 'error',
+    'react/jsx-props-no-spreading': 'off',
+    'react/jsx-uses-react': 'off',
+    'react/react-in-jsx-scope': 'off',
+    'react/require-default-props': [
+      'error',
+      { forbidDefaultForRequired: true, ignoreFunctionalComponents: true },
+    ],
   },
   overrides: [
     {
