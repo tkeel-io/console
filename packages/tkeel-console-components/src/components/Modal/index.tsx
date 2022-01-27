@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { noop } from 'lodash';
 
-import ButtonsWrapper from '@/tkeel-console-components/components/ButtonsWrapper';
+import ButtonsHStack from '@/tkeel-console-components/components/ButtonsHStack';
 
 type Props = {
   isOpen: boolean;
@@ -63,7 +63,7 @@ function CustomModal({
     if (hasCancelButton || hasConfirmButton) {
       return (
         <ModalFooter {...modalFooterProps}>
-          <ButtonsWrapper>
+          <ButtonsHStack>
             {hasCancelButton && <Button onClick={onCancel}>取消</Button>}
             {hasConfirmButton && (
               <Button
@@ -75,7 +75,7 @@ function CustomModal({
                 确定
               </Button>
             )}
-          </ButtonsWrapper>
+          </ButtonsHStack>
         </ModalFooter>
       );
     }
