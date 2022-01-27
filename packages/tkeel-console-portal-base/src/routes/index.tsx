@@ -8,6 +8,7 @@ import useGlobalProps from '@/tkeel-console-portal-base/hooks/useGlobalProps';
 import LoginAdmin from '@/tkeel-console-portal-base/pages/LoginAdmin';
 import LoginTenant from '@/tkeel-console-portal-base/pages/LoginTenant';
 import NotFound from '@/tkeel-console-portal-base/pages/NotFound';
+import Tenant from '@/tkeel-console-portal-base/pages/Tenant';
 
 function Routes() {
   const { platformName } = useGlobalProps();
@@ -24,7 +25,10 @@ function Routes() {
           )}
           {platformName === PLATFORM_INFOS[PlatformNames.TENANT].name && (
             <>
-              <Route path="login/:tenantId" element={<LoginTenant />} />
+              <Route path="tenant" element={<Tenant />} />
+              <Route path="login" element={<LoginTenant />}>
+                <Route path=":tenantId" />
+              </Route>
               <Route path="*" element={<NotFound />} />
             </>
           )}

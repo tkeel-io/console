@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useQueryClient } from 'react-query';
 import { Column } from 'react-table';
 import { Flex, Text } from '@chakra-ui/react';
@@ -17,8 +18,14 @@ import useUsersQuery, {
 } from '@/tkeel-console-plugin-tenant-users/hooks/queries/useUsersQuery';
 
 function Index(): JSX.Element {
+  const [keyword, setKeyWord] = useState('');
   const queryClient = useQueryClient();
-  const { data, queryKey } = useUsersQuery();
+
+  let params = {};
+  if (keyword) {
+    params = { ...params, key_words: keyword };
+  }
+  const { data, queryKey } = useUsersQuery({ params });
   const users = data?.users ?? [];
 
   const handleCreateUserSuccess = () => {
@@ -70,7 +77,11 @@ function Index(): JSX.Element {
       <PageHeaderToolbar
         name="用户管理"
         hasSearchInput
-        searchInputProps={{ onSearch() {} }}
+        searchInputProps={{
+          onSearch(value) {
+            setKeyWord(value.trim());
+          },
+        }}
         buttons={[
           <CreateUserButton key="create" onSuccess={handleCreateUserSuccess} />,
         ]}

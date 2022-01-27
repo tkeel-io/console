@@ -102,6 +102,13 @@ module.exports = {
   },
   overrides: [
     {
+      files: ['**/*.js'],
+      rules: {
+        'import/no-extraneous-dependencies': 'off',
+        'unicorn/prefer-module': 'off',
+      },
+    },
+    {
       files: ['**/*.{ts,tsx}'],
       parserOptions: {
         project: path.resolve(__dirname, 'packages/*/tsconfig.json'),
@@ -150,13 +157,6 @@ module.exports = {
           },
         ],
         'simple-import-sort/exports': 'error',
-      },
-    },
-    {
-      files: ['!(packages/*/src/**/*.{js,jsx,ts,tsx})'],
-      rules: {
-        'import/no-extraneous-dependencies': 'off',
-        'unicorn/prefer-module': 'off',
       },
     },
   ],

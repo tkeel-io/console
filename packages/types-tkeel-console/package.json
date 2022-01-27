@@ -10,5 +10,9 @@
     "url": "git+https://github.com/tkeel-io/console.git"
   },
   "license": "Apache-2.0",
-  "types": "index.d.ts"
+  "types": "index.d.ts",
+  "dependencies": {
+    "@types/react": "^17.0.38",
+    "@types/react-table": "^7.7.9"
+  }
 }

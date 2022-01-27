@@ -9,6 +9,7 @@ type RequestParams = {
   page_size?: number;
   order_by?: string;
   is_descending?: boolean;
+  key_words?: string;
 };
 
 export interface User {
