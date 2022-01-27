@@ -126,13 +126,6 @@ module.exports = {
         'airbnb-typescript',
         'plugin:prettier/recommended',
       ],
-      rules: {
-        '@typescript-eslint/ban-ts-comment': 'off',
-        '@typescript-eslint/no-floating-promises': 'off',
-      },
-    },
-    {
-      files: ['packages/*/src/**/*.{js,jsx,ts,tsx}'],
       plugins: ['simple-import-sort'],
       rules: {
         'sort-imports': 'off',
@@ -157,6 +150,8 @@ module.exports = {
           },
         ],
         'simple-import-sort/exports': 'error',
+        '@typescript-eslint/ban-ts-comment': 'off',
+        '@typescript-eslint/no-floating-promises': 'off',
       },
     },
   ],
