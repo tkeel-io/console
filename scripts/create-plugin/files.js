@@ -3,8 +3,8 @@ const path = require('path');
 const fs = require('fs-extra');
 const Handlebars = require('handlebars');
 
-const paths = require('../utils/paths');
 const { getPluginPackageDirectoryName } = require('../utils/packages');
+const paths = require('../utils/paths');
 
 function copyTemplates(options) {
   const { name } = options;
