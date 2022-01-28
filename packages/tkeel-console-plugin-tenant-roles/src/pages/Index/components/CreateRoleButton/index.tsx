@@ -36,7 +36,7 @@ export default function CreateRoleButton({ onSuccess }: Props) {
 
   return (
     <>
-      <CreateButton onClick={onOpen}>创建用户</CreateButton>
+      <CreateButton onClick={onOpen}>创建角色</CreateButton>
       {isOpen && (
         <CreateRoleModal
           isOpen={isOpen}
@@ -48,7 +48,7 @@ export default function CreateRoleButton({ onSuccess }: Props) {
       <Alert
         isOpen={isWarningAlertOpen}
         icon="warning"
-        title="请选择角色"
+        title="请选择角色权限"
         onClose={onWarningAlertClose}
       />
     </>
