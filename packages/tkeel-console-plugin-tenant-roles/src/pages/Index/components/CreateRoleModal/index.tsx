@@ -17,7 +17,7 @@ export default function CreateRoleModal({
 }: Props) {
   return (
     <BaseRoleModal
-      title="创建用户"
+      title="创建角色"
       isOpen={isOpen}
       isConfirmButtonLoading={isConfirmButtonLoading}
       onClose={onClose}

@@ -6,7 +6,7 @@ const API = {
 };
 
 module.exports = {
-  publicPath: '/',
+  publicPath: '/plugins/tenant-devices/',
   basePath: '/tenant-devices',
   client: {
     documentTitle: '',
