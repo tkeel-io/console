@@ -19,12 +19,12 @@ type Role = {
 };
 
 function Index() {
-  const [keyword, setKeyWord] = useState('');
+  const [keywords, setKeyWords] = useState('');
   const queryClient = useQueryClient();
 
   let params = {};
-  if (keyword) {
-    params = { ...params, key_words: keyword };
+  if (keywords) {
+    params = { ...params, key_words: keywords };
   }
   const { data, queryKey } = useRolesQuery({ params });
   const roleNames = data?.roles ?? [];
@@ -78,7 +78,7 @@ function Index() {
         hasSearchInput
         searchInputProps={{
           onSearch(value) {
-            setKeyWord(value.trim());
+            setKeyWords(value.trim());
           },
         }}
         buttons={[

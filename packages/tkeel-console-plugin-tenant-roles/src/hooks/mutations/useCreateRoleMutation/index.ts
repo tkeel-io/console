@@ -8,9 +8,6 @@ interface RequestData {
 
 export interface ApiData {
   '@type': string;
-  tenant_id: string;
-  user_id: string;
-  username: string;
 }
 
 const method = 'POST';

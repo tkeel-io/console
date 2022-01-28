@@ -1,22 +1,22 @@
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Box } from '@chakra-ui/react';
+import { Box, Center, Divider, Spinner, Text, VStack } from '@chakra-ui/react';
 import {
   Checkbox,
   CheckboxGroup,
   FormControl,
   FormField,
   Modal,
+  SearchInput,
 } from '@tkeel/console-components';
 
-import useRolesQuery from '@/tkeel-console-plugin-tenant-roles/hooks/queries/useRolesQuery';
+import useTenantPluginsQuery from '@/tkeel-console-plugin-tenant-roles/hooks/queries/useTenantPluginsQuery';
 
 const { TextField } = FormField;
 
 export interface FormValues {
   role: string;
-  nick_name: string;
-  roles: string[];
+  plugins: string[];
 }
 
 type Props = {
@@ -34,8 +34,15 @@ export default function BaseRoleModal({
   onClose,
   onConfirm,
 }: Props) {
-  const { data } = useRolesQuery();
-  const roles = data?.roles ?? [];
+  const [keywords, setKeywords] = useState('');
+  let params = {};
+
+  if (keywords) {
+    params = { ...params, key_words: keywords };
+  }
+
+  const { data, isLoading } = useTenantPluginsQuery({ params });
+  const plugins = data?.plugins ?? [];
 
   const {
     register,
@@ -70,19 +77,48 @@ export default function BaseRoleModal({
         })}
       />
       <FormControl id="plugins" label="用户权限设置">
-        <Box padding="20px" borderRadius="4px" backgroundColor="gray.50">
-          <CheckboxGroup
-            defaultValue={[]}
-            onChange={(value: string[]) => {
-              setValue('roles', value);
-            }}
-          >
-            {roles.map((role) => (
-              <Box key={role}>
-                <Checkbox value={role}>{role}</Checkbox>
-              </Box>
-            ))}
-          </CheckboxGroup>
+        <Box padding="12px" borderRadius="4px" backgroundColor="gray.50">
+          <SearchInput width="100%" placeholder="搜索" onSearch={setKeywords} />
+          <Box paddingTop="12px">
+            <Text
+              paddingBottom="8px"
+              color="grayAlternatives.400"
+              fontSize="12px"
+              lineHeight="150%"
+            >
+              资源名称
+            </Text>
+            <Divider backgroundColor="gray.200" />
+            <Box overflowY="auto" maxHeight="300px">
+              {isLoading ? (
+                <Center paddingTop="12px">
+                  <Spinner />
+                </Center>
+              ) : (
+                <CheckboxGroup
+                  defaultValue={[]}
+                  onChange={(value: string[]) => {
+                    setValue('plugins', value);
+                  }}
+                >
+                  <VStack spacing="18px" align="left" paddingTop="12px">
+                    {plugins.map((plugin) => (
+                      <Box key={plugin}>
+                        <Checkbox
+                          color="grayAlternatives.300"
+                          fontSize="12px"
+                          lineHeight="150%"
+                          value={plugin}
+                        >
+                          {plugin}
+                        </Checkbox>
+                      </Box>
+                    ))}
+                  </VStack>
+                </CheckboxGroup>
+              )}
+            </Box>
+          </Box>
         </Box>
       </FormControl>
     </Modal>

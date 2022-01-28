@@ -24,9 +24,9 @@ export default function CreateRoleButton({ onSuccess }: Props) {
   });
 
   const handleConfirm = (formValues: FormValues) => {
-    const { roles = [] } = formValues;
+    const { plugins = [] } = formValues;
 
-    if (roles.length === 0) {
+    if (plugins.length === 0) {
       onWarningAlertOpen();
       return;
     }

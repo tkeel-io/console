@@ -79,7 +79,7 @@ export default function BaseUserModal({
         })}
       />
       <FormControl id="roles" label="用户角色设置">
-        <Box padding="20px" borderRadius="4px" backgroundColor="gray.50">
+        <Box padding="16px 20px" borderRadius="4px" backgroundColor="gray.50">
           <CheckboxGroup
             defaultValue={[]}
             onChange={(value: string[]) => {

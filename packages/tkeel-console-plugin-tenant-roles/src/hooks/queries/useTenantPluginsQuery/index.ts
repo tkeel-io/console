@@ -10,7 +10,7 @@ type RequestParams = {
 
 export interface ApiData {
   '@type': string;
-  roles: string[];
+  plugins: string[];
 }
 
 export default function useTenantPluginsQuery({
