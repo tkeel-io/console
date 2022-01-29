@@ -14,6 +14,16 @@ import useTenantPluginsQuery from '@/tkeel-console-plugin-tenant-roles/hooks/que
 
 const { TextField } = FormField;
 
+export interface FormFields {
+  role?: {
+    disabled?: boolean;
+  };
+
+  plugins?: {
+    disabled?: boolean;
+  };
+}
+
 export interface FormValues {
   role: string;
   plugins: string[];
@@ -23,6 +33,8 @@ type Props = {
   title: ReactNode;
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
+  formFields?: FormFields;
+  defaultValues?: FormValues;
   onClose: () => unknown;
   onConfirm: (formValues: FormValues) => unknown;
 };
@@ -31,6 +43,8 @@ export default function BaseRoleModal({
   title,
   isOpen,
   isConfirmButtonLoading,
+  formFields,
+  defaultValues,
   onClose,
   onConfirm,
 }: Props) {
@@ -50,7 +64,7 @@ export default function BaseRoleModal({
     trigger,
     getValues,
     setValue,
-  } = useForm<FormValues>();
+  } = useForm<FormValues>({ defaultValues });
 
   const handleConfirm = async () => {
     const result = await trigger();
@@ -72,6 +86,7 @@ export default function BaseRoleModal({
         id="role"
         label="角色名称"
         error={errors.role}
+        disabled={formFields?.role?.disabled}
         schemas={register('role', {
           required: { value: true, message: '请输入正确的角色名称' },
         })}
@@ -96,7 +111,7 @@ export default function BaseRoleModal({
                 </Center>
               ) : (
                 <CheckboxGroup
-                  defaultValue={[]}
+                  defaultValue={defaultValues?.plugins}
                   onChange={(value: string[]) => {
                     setValue('plugins', value);
                   }}

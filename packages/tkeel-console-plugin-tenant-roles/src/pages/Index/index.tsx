@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useQueryClient } from 'react-query';
-import { Column } from 'react-table';
+import { Cell, Column } from 'react-table';
 import { Flex, Text } from '@chakra-ui/react';
 import {
   ButtonsHStack,
@@ -61,13 +61,18 @@ function Index() {
     },
     {
       Header: '操作',
-      Cell: (
-        <ButtonsHStack>
-          <ModifyRoleButton />
-          <LinkButton>编辑</LinkButton>
-          <LinkButton>删除</LinkButton>
-        </ButtonsHStack>
-      ),
+      // eslint-disable-next-line react/no-unstable-nested-components
+      Cell({ row }: Cell<Role>) {
+        const { original } = row;
+        const { roleName } = original;
+
+        return (
+          <ButtonsHStack>
+            <ModifyRoleButton data={{ role: roleName, plugins: [] }} />
+            <LinkButton>删除</LinkButton>
+          </ButtonsHStack>
+        );
+      },
     },
   ];
 

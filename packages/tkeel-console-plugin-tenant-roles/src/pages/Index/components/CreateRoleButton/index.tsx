@@ -40,7 +40,7 @@ export default function CreateRoleButton({ onSuccess }: Props) {
     }
 
     try {
-      await mutateRoleAsync({ data: formValues });
+      await mutateRoleAsync({ data: { role } });
       const { tenant_id: tenantId } = getLocalUserInfo();
       mutatePermissions({
         url: `/security/v1/rbac/tenant/${tenantId}/roles/${role}/permissions`,

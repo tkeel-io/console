@@ -4,6 +4,7 @@ export const fieldDefaultProps = {
   placeholder: '请输入',
   help: '',
   error: undefined,
+  disabled: false,
   schemas: {},
   formControlStyle: {},
   formLabelStyle: {},
