@@ -7,6 +7,7 @@ import {
   LinkButton,
   PageHeaderToolbar,
   Table,
+  toast,
 } from '@tkeel/console-components';
 
 import CreateRoleButton from './components/CreateRoleButton';
@@ -31,6 +32,12 @@ function Index() {
   const roles = roleNames.map((roleName) => ({ roleName }));
 
   const handleCreateRoleSuccess = () => {
+    toast({ status: 'success', title: '创建成功' });
+    queryClient.invalidateQueries(queryKey);
+  };
+
+  const handleModifyRoleSuccess = () => {
+    toast({ status: 'success', title: '修改成功' });
     queryClient.invalidateQueries(queryKey);
   };
 
@@ -68,7 +75,10 @@ function Index() {
 
         return (
           <ButtonsHStack>
-            <ModifyRoleButton data={{ role: roleName, plugins: [] }} />
+            <ModifyRoleButton
+              data={{ role: roleName, plugins: [] }}
+              onSuccess={handleModifyRoleSuccess}
+            />
             <LinkButton>删除</LinkButton>
           </ButtonsHStack>
         );
