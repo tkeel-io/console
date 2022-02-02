@@ -4,13 +4,13 @@ import { Cell, Column } from 'react-table';
 import { Flex, Text } from '@chakra-ui/react';
 import {
   ButtonsHStack,
-  LinkButton,
   PageHeaderToolbar,
   Table,
   toast,
 } from '@tkeel/console-components';
 
 import CreateRoleButton from './components/CreateRoleButton';
+import DeleteRoleButton from './components/DeleteRoleButton';
 import ModifyRoleButton from './components/ModifyRoleButton';
 
 import useRolesQuery from '@/tkeel-console-plugin-tenant-roles/hooks/queries/useRolesQuery';
@@ -38,6 +38,11 @@ function Index() {
 
   const handleModifyRoleSuccess = () => {
     toast({ status: 'success', title: '修改成功' });
+    queryClient.invalidateQueries(queryKey);
+  };
+
+  const handleDeleteRoleSuccess = () => {
+    toast({ status: 'success', title: '删除成功' });
     queryClient.invalidateQueries(queryKey);
   };
 
@@ -79,7 +84,10 @@ function Index() {
               data={{ role: roleName, plugins: [] }}
               onSuccess={handleModifyRoleSuccess}
             />
-            <LinkButton>删除</LinkButton>
+            <DeleteRoleButton
+              data={{ role: roleName }}
+              onSuccess={handleDeleteRoleSuccess}
+            />
           </ButtonsHStack>
         );
       },

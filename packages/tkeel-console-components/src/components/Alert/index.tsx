@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Box, Flex, Heading, ModalCloseButton, Text } from '@chakra-ui/react';
+import { Box, Flex, ModalCloseButton } from '@chakra-ui/react';
 import { noop } from 'lodash';
 
 import Modal from '@/tkeel-console-components/components/Modal';
@@ -112,8 +112,7 @@ export default function Alert(props: Props) {
       <Flex style={style}>
         {renderIcon()}
         <Box>
-          <Heading
-            as="h6"
+          <Box
             fontWeight="600"
             fontSize="14px"
             lineHeight="32px"
@@ -121,9 +120,9 @@ export default function Alert(props: Props) {
             textAlign={iconPosition === 'top' ? 'center' : 'left'}
           >
             {title}
-          </Heading>
+          </Box>
           {description && (
-            <Text
+            <Box
               paddingTop="3px"
               fontSize="12px"
               lineHeight="24px"
@@ -131,7 +130,7 @@ export default function Alert(props: Props) {
               textAlign={iconPosition === 'top' ? 'center' : 'left'}
             >
               {description}
-            </Text>
+            </Box>
           )}
           {children}
         </Box>
