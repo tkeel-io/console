@@ -108,7 +108,7 @@ export default function Alert(props: Props) {
       modalBodyStyle={{ padding: '40px 20px' }}
       {...rest}
     >
-      <ModalCloseButton />
+      <ModalCloseButton _focus={{ boxShadow: 0 }} />
       <Flex style={style}>
         {renderIcon()}
         <Box>

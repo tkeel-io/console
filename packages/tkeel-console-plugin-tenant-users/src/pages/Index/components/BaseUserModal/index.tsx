@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { useForm } from 'react-hook-form';
-import { Box } from '@chakra-ui/react';
+import { Box, VStack } from '@chakra-ui/react';
 import {
   Checkbox,
   CheckboxGroup,
@@ -79,19 +79,27 @@ export default function BaseUserModal({
         })}
       />
       <FormControl id="roles" label="用户角色设置">
-        <Box padding="16px 20px" borderRadius="4px" backgroundColor="gray.50">
-          <CheckboxGroup
-            defaultValue={[]}
-            onChange={(value: string[]) => {
-              setValue('roles', value);
-            }}
+        <Box overflowY="auto" maxHeight="300px">
+          <VStack
+            spacing="12px"
+            alignItems="flex-start"
+            padding="16px 20px 20px 20px"
+            borderRadius="4px"
+            backgroundColor="gray.50"
           >
-            {roles.map((role) => (
-              <Box key={role}>
-                <Checkbox value={role}>{role}</Checkbox>
-              </Box>
-            ))}
-          </CheckboxGroup>
+            <CheckboxGroup
+              defaultValue={[]}
+              onChange={(value: string[]) => {
+                setValue('roles', value);
+              }}
+            >
+              {roles.map((role) => (
+                <Box key={role}>
+                  <Checkbox value={role}>{role}</Checkbox>
+                </Box>
+              ))}
+            </CheckboxGroup>
+          </VStack>
         </Box>
       </FormControl>
     </Modal>
