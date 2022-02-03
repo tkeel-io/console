@@ -8,6 +8,7 @@ import useGlobalProps from '@/tkeel-console-portal-base/hooks/useGlobalProps';
 import LoginAdmin from '@/tkeel-console-portal-base/pages/LoginAdmin';
 import LoginTenant from '@/tkeel-console-portal-base/pages/LoginTenant';
 import NotFound from '@/tkeel-console-portal-base/pages/NotFound';
+import SetPassword from '@/tkeel-console-portal-base/pages/SetPassword';
 import Tenant from '@/tkeel-console-portal-base/pages/Tenant';
 
 function Routes() {
@@ -29,6 +30,7 @@ function Routes() {
               <Route path="login" element={<LoginTenant />}>
                 <Route path=":tenantId" />
               </Route>
+              <Route path="set-password" element={<SetPassword />} />
               <Route path="*" element={<NotFound />} />
             </>
           )}

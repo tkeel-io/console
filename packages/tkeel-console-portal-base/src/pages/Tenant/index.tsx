@@ -76,7 +76,7 @@ export default function Tenant() {
           <TextField
             type="text"
             id="tenantId"
-            label="账号"
+            label="租户空间"
             value={String(GLOBAL_CONFIG?.mock?.tenantId ?? '')}
             placeholder="请输入您的租户空间"
             error={errors.tenantId}
