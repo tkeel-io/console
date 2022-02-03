@@ -1,9 +1,12 @@
-import { getLocalUserInfo } from '@tkeel/console-utils';
-
 import useMutation from '@/tkeel-console-plugin-tenant-roles/hooks/useMutation';
 
+interface Permission {
+  permission_action: string;
+  permission_object: string;
+}
+
 interface RequestData {
-  role: string;
+  permissions: Permission[];
 }
 
 export interface ApiData {
@@ -12,16 +15,13 @@ export interface ApiData {
 
 const method = 'POST';
 
-export default function useCreateRoleMutation({
+export default function useSetRolePermissionsMutation({
   onSuccess,
 }: {
   onSuccess?: () => void;
-} = {}) {
-  const { tenant_id: tenantId } = getLocalUserInfo();
-  const url = `/security/v1/rbac/tenant/${tenantId}/roles`;
-
+}) {
   return useMutation<ApiData, undefined, RequestData>({
-    url,
+    // url,
     method,
     reactQueryOptions: { onSuccess },
   });

@@ -1,16 +1,57 @@
 import { useDisclosure } from '@chakra-ui/react';
-import { LinkButton } from '@tkeel/console-components';
+import { LinkButton, toast } from '@tkeel/console-components';
 
+import useModifyUserMutation from '@/tkeel-console-plugin-tenant-users/hooks/mutations/useModifyUserMutation';
+import { User } from '@/tkeel-console-plugin-tenant-users/hooks/queries/useUsersQuery';
 import { FormValues } from '@/tkeel-console-plugin-tenant-users/pages/Index/components/BaseUserModal';
 import ModifyUserModal from '@/tkeel-console-plugin-tenant-users/pages/Index/components/ModifyUserModal';
 
-const handleConfirm = (formValues: FormValues) => {
-  // eslint-disable-next-line no-console
-  console.log(formValues);
+type Props = {
+  data: User;
+  onSuccess: () => void;
 };
 
-export default function ModifyUserButton() {
+const formFields = {
+  username: {
+    disabled: true,
+  },
+};
+
+export default function ModifyUserButton({ data, onSuccess }: Props) {
+  const {
+    tenant_id: tenantId,
+    user_id: userId,
+    username,
+    nick_name: nickName,
+    roles,
+  } = data;
+  const defaultValues = {
+    username,
+    nick_name: nickName,
+    roles,
+  };
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { mutate, isLoading } = useModifyUserMutation({
+    tenantId,
+    userId,
+    onSuccess() {
+      onSuccess();
+      onClose();
+    },
+  });
+
+  const handleConfirm = (formValues: FormValues) => {
+    const { nick_name: newNickName, roles: newRoles = [] } = formValues;
+
+    if (newRoles.length === 0) {
+      toast({ status: 'warning', title: '请选择角色' });
+      return;
+    }
+
+    mutate({
+      data: { nick_name: newNickName, roles: newRoles },
+    });
+  };
 
   return (
     <>
@@ -18,7 +59,9 @@ export default function ModifyUserButton() {
       {isOpen && (
         <ModifyUserModal
           isOpen={isOpen}
-          isConfirmButtonLoading={false}
+          isConfirmButtonLoading={isLoading}
+          formFields={formFields}
+          defaultValues={defaultValues}
           onClose={onClose}
           onConfirm={handleConfirm}
         />

@@ -16,7 +16,7 @@ export interface Props {
   iconSize?: number | string;
   placeholder?: string;
   defaultValue?: string;
-  onSearch: (keyword: string) => unknown;
+  onSearch: (value: string) => unknown;
 }
 
 function SearchInput({

@@ -1,10 +1,10 @@
 import { useDisclosure } from '@chakra-ui/react';
-import { Alert, CreateButton } from '@tkeel/console-components';
+import { CreateButton, toast } from '@tkeel/console-components';
 
 import useCreateUserMutation from '@/tkeel-console-plugin-tenant-users/hooks/mutations/useCreateUserMutation';
 import { FormValues } from '@/tkeel-console-plugin-tenant-users/pages/Index/components/BaseUserModal';
 import CreateUserModal from '@/tkeel-console-plugin-tenant-users/pages/Index/components/CreateUserModal';
-import CreateUserSuccessModal from '@/tkeel-console-plugin-tenant-users/pages/Index/components/CreateUserSuccessModal';
+import SetPasswordModal from '@/tkeel-console-plugin-tenant-users/pages/Index/components/SetPasswordModal';
 
 type Props = {
   onSuccess: () => void;
@@ -13,28 +13,28 @@ type Props = {
 export default function CreateUserButton({ onSuccess }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
-    isOpen: isWarningAlertOpen,
-    onOpen: onWarningAlertOpen,
-    onClose: onWarningAlertClose,
-  } = useDisclosure();
-  const {
     isOpen: isSuccessModalOpen,
     onOpen: onSuccessModalOpen,
     onClose: onSuccessModalClose,
   } = useDisclosure();
-  const { isLoading, mutate } = useCreateUserMutation({
+  const { isLoading, mutate, data } = useCreateUserMutation({
     onSuccess() {
       onSuccess();
       onClose();
       onSuccessModalOpen();
     },
   });
+  const setPasswordModalData = {
+    tenant_id: data?.tenant_id ?? '',
+    user_id: data?.user_id ?? '',
+    username: data?.username ?? '',
+  };
 
   const handleConfirm = (formValues: FormValues) => {
     const { roles = [] } = formValues;
 
     if (roles.length === 0) {
-      onWarningAlertOpen();
+      toast({ status: 'warning', title: '请选择角色' });
       return;
     }
 
@@ -52,15 +52,11 @@ export default function CreateUserButton({ onSuccess }: Props) {
           onConfirm={handleConfirm}
         />
       )}
-      <Alert
-        isOpen={isWarningAlertOpen}
-        icon="warning"
-        title="请选择角色"
-        onClose={onWarningAlertClose}
-      />
       {isSuccessModalOpen && (
-        <CreateUserSuccessModal
+        <SetPasswordModal
           isOpen={isSuccessModalOpen}
+          title="创建成功"
+          data={setPasswordModalData}
           onClose={onSuccessModalClose}
         />
       )}

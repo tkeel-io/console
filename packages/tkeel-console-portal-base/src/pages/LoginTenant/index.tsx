@@ -134,7 +134,7 @@ function LoginTenant() {
             label="密码"
             value={String(GLOBAL_CONFIG?.mock?.password ?? '')}
             placeholder="请输入您的密码"
-            error={errors.username}
+            error={errors.password}
             schemas={register('password', {
               required: { value: true, message: 'required' },
             })}

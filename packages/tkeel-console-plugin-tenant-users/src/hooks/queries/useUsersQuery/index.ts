@@ -15,11 +15,11 @@ type RequestParams = {
 export interface User {
   tenant_id: string;
   user_id: string;
-  external_id: string;
+  external_id?: string;
   username: string;
-  email: string;
-  nick_name: string;
-  avatar: string;
+  email?: string;
+  nick_name?: string;
+  avatar?: string;
   create_at: string;
   roles: string[];
 }

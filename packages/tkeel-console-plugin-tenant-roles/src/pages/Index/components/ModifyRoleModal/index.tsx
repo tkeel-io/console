@@ -1,10 +1,13 @@
 import BaseRoleModal, {
+  FormFields,
   FormValues,
 } from '@/tkeel-console-plugin-tenant-roles/pages/Index/components/BaseRoleModal';
 
 type Props = {
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
+  formFields: FormFields;
+  defaultValues: FormValues;
   onClose: () => unknown;
   onConfirm: (formValues: FormValues) => unknown;
 };
@@ -12,6 +15,8 @@ type Props = {
 export default function CreateRoleModal({
   isOpen,
   isConfirmButtonLoading,
+  formFields,
+  defaultValues,
   onClose,
   onConfirm,
 }: Props) {
@@ -20,6 +25,8 @@ export default function CreateRoleModal({
       title="编辑用户"
       isOpen={isOpen}
       isConfirmButtonLoading={isConfirmButtonLoading}
+      formFields={formFields}
+      defaultValues={defaultValues}
       onClose={onClose}
       onConfirm={onConfirm}
     />

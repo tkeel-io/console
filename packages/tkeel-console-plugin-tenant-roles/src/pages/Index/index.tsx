@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import { useQueryClient } from 'react-query';
-import { Column } from 'react-table';
+import { Cell, Column } from 'react-table';
 import { Flex, Text } from '@chakra-ui/react';
 import {
   ButtonsHStack,
-  LinkButton,
   PageHeaderToolbar,
   Table,
+  toast,
 } from '@tkeel/console-components';
 
 import CreateRoleButton from './components/CreateRoleButton';
+import DeleteRoleButton from './components/DeleteRoleButton';
 import ModifyRoleButton from './components/ModifyRoleButton';
 
 import useRolesQuery from '@/tkeel-console-plugin-tenant-roles/hooks/queries/useRolesQuery';
@@ -19,18 +20,29 @@ type Role = {
 };
 
 function Index() {
-  const [keyword, setKeyWord] = useState('');
+  const [keywords, setKeyWords] = useState('');
   const queryClient = useQueryClient();
 
   let params = {};
-  if (keyword) {
-    params = { ...params, key_words: keyword };
+  if (keywords) {
+    params = { ...params, key_words: keywords };
   }
   const { data, queryKey } = useRolesQuery({ params });
   const roleNames = data?.roles ?? [];
   const roles = roleNames.map((roleName) => ({ roleName }));
 
   const handleCreateRoleSuccess = () => {
+    toast({ status: 'success', title: '创建成功' });
+    queryClient.invalidateQueries(queryKey);
+  };
+
+  const handleModifyRoleSuccess = () => {
+    toast({ status: 'success', title: '修改成功' });
+    queryClient.invalidateQueries(queryKey);
+  };
+
+  const handleDeleteRoleSuccess = () => {
+    toast({ status: 'success', title: '删除成功' });
     queryClient.invalidateQueries(queryKey);
   };
 
@@ -61,13 +73,24 @@ function Index() {
     },
     {
       Header: '操作',
-      Cell: (
-        <ButtonsHStack>
-          <ModifyRoleButton />
-          <LinkButton>编辑</LinkButton>
-          <LinkButton>删除</LinkButton>
-        </ButtonsHStack>
-      ),
+      // eslint-disable-next-line react/no-unstable-nested-components
+      Cell({ row }: Cell<Role>) {
+        const { original } = row;
+        const { roleName } = original;
+
+        return (
+          <ButtonsHStack>
+            <ModifyRoleButton
+              data={{ role: roleName, plugins: [] }}
+              onSuccess={handleModifyRoleSuccess}
+            />
+            <DeleteRoleButton
+              data={{ role: roleName }}
+              onSuccess={handleDeleteRoleSuccess}
+            />
+          </ButtonsHStack>
+        );
+      },
     },
   ];
 
@@ -78,7 +101,7 @@ function Index() {
         hasSearchInput
         searchInputProps={{
           onSearch(value) {
-            setKeyWord(value.trim());
+            setKeyWords(value.trim());
           },
         }}
         buttons={[
