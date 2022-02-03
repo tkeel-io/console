@@ -14,7 +14,7 @@ type Props = FormControlProps & {
   type?: HTMLInputTypeAttribute;
   value?: string;
   placeholder?: string;
-  disabled?: boolean;
+  isDisabled?: boolean;
   schemas?: UseFormRegisterReturn;
   inputStyle?: StyleProps;
   onChange?: ChangeEventHandler<HTMLInputElement>;
@@ -31,7 +31,7 @@ function InputField({
   type,
   value,
   placeholder,
-  disabled,
+  isDisabled,
   schemas,
   inputStyle,
   onChange,
@@ -44,7 +44,7 @@ function InputField({
         type={type}
         defaultValue={value}
         placeholder={placeholder}
-        disabled={disabled}
+        isDisabled={isDisabled}
         borderColor="gray.200"
         boxShadow="none!important"
         _placeholder={{ color: 'blackAlpha.500' }}

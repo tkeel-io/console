@@ -13,6 +13,20 @@ import useRolesQuery from '@/tkeel-console-plugin-tenant-users/hooks/queries/use
 
 const { TextField } = FormField;
 
+export interface FormFields {
+  username?: {
+    disabled?: boolean;
+  };
+
+  nick_name?: {
+    disabled?: boolean;
+  };
+
+  roles?: {
+    disabled?: boolean;
+  };
+}
+
 export interface FormValues {
   username: string;
   nick_name: string;
@@ -23,6 +37,8 @@ type Props = {
   title: ReactNode;
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
+  formFields?: FormFields;
+  defaultValues?: FormValues;
   onClose: () => unknown;
   onConfirm: (formValues: FormValues) => unknown;
 };
@@ -31,6 +47,8 @@ export default function BaseUserModal({
   title,
   isOpen,
   isConfirmButtonLoading,
+  formFields,
+  defaultValues,
   onClose,
   onConfirm,
 }: Props) {
@@ -43,7 +61,7 @@ export default function BaseUserModal({
     trigger,
     getValues,
     setValue,
-  } = useForm<FormValues>();
+  } = useForm<FormValues>({ defaultValues });
 
   const handleConfirm = async () => {
     const result = await trigger();
@@ -64,6 +82,7 @@ export default function BaseUserModal({
       <TextField
         id="username"
         label="用户账号"
+        isDisabled={formFields?.username?.disabled}
         // help="6~18 位字符串, 只能包含英文字母、数字、下划线"
         error={errors.username}
         schemas={register('username', {
