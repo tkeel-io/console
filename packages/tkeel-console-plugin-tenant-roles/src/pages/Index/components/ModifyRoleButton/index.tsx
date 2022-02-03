@@ -1,5 +1,5 @@
 import { useDisclosure } from '@chakra-ui/react';
-import { LinkButton } from '@tkeel/console-components';
+import { LinkButton, toast } from '@tkeel/console-components';
 import { getLocalUserInfo } from '@tkeel/console-utils';
 
 import useSetRolePermissionsMutation from '@/tkeel-console-plugin-tenant-roles/hooks/mutations/useSetRolePermissionsMutation';
@@ -32,6 +32,12 @@ export default function ModifyRoleButton({ data, onSuccess }: Props) {
   const handleConfirm = (formValues: FormValues) => {
     const { tenant_id: tenantId } = getLocalUserInfo();
     const { role, plugins = [] } = formValues;
+
+    if (plugins.length === 0) {
+      toast({ status: 'warning', title: '请选择角色权限' });
+      return;
+    }
+
     mutate({
       url: `/security/v1/rbac/tenant/${tenantId}/roles/${role}/permissions`,
       data: {

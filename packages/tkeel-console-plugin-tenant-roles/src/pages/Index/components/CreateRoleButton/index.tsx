@@ -1,6 +1,6 @@
 import { useIsMutating } from 'react-query';
 import { useDisclosure } from '@chakra-ui/react';
-import { Alert, CreateButton } from '@tkeel/console-components';
+import { CreateButton, toast } from '@tkeel/console-components';
 import { getLocalUserInfo } from '@tkeel/console-utils';
 
 import useCreateRoleMutation from '@/tkeel-console-plugin-tenant-roles/hooks/mutations/useCreateRoleMutation';
@@ -17,12 +17,6 @@ export default function CreateRoleButton({ onSuccess }: Props) {
   const isMutating = useIsMutating();
   const isLoading = isMutating > 0;
 
-  const {
-    isOpen: isWarningAlertOpen,
-    onOpen: onWarningAlertOpen,
-    onClose: onWarningAlertClose,
-  } = useDisclosure();
-
   const { mutateAsync: mutateRoleAsync } = useCreateRoleMutation();
   const { mutate: mutatePermissions } = useSetRolePermissionsMutation({
     onSuccess() {
@@ -35,7 +29,7 @@ export default function CreateRoleButton({ onSuccess }: Props) {
     const { role, plugins = [] } = formValues;
 
     if (plugins.length === 0) {
-      onWarningAlertOpen();
+      toast({ status: 'warning', title: '请选择角色权限' });
       return;
     }
 
@@ -67,12 +61,6 @@ export default function CreateRoleButton({ onSuccess }: Props) {
           onConfirm={handleConfirm}
         />
       )}
-      <Alert
-        isOpen={isWarningAlertOpen}
-        icon="warning"
-        title="请选择角色权限"
-        onClose={onWarningAlertClose}
-      />
     </>
   );
 }

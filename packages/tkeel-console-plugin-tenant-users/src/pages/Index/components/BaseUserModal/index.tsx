@@ -29,7 +29,7 @@ export interface FormFields {
 
 export interface FormValues {
   username: string;
-  nick_name: string;
+  nick_name?: string;
   roles: string[];
 }
 

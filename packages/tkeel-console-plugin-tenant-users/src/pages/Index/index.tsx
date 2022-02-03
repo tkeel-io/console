@@ -12,6 +12,7 @@ import {
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import CreateUserButton from './components/CreateUserButton';
+import DeleteUserButton from './components/DeleteUserButton';
 import ModifyUserButton from './components/ModifyUserButton';
 
 import useUsersQuery, {
@@ -35,6 +36,11 @@ function Index() {
 
   const handleModifyUserSuccess = () => {
     toast({ status: 'success', title: '修改成功' });
+    queryClient.invalidateQueries(queryKey);
+  };
+
+  const handleDeleteUserSuccess = () => {
+    toast({ status: 'success', title: '删除成功' });
     queryClient.invalidateQueries(queryKey);
   };
 
@@ -82,7 +88,10 @@ function Index() {
               onSuccess={handleModifyUserSuccess}
             />
             <LinkButton>重置密码</LinkButton>
-            <LinkButton>删除</LinkButton>
+            <DeleteUserButton
+              data={original}
+              onSuccess={handleDeleteUserSuccess}
+            />
           </ButtonsHStack>
         );
       },
