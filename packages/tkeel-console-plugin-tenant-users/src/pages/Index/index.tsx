@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { useQueryClient } from 'react-query';
-import { Column } from 'react-table';
+import { Cell, Column } from 'react-table';
 import { Flex, Text } from '@chakra-ui/react';
 import {
   ButtonsHStack,
   LinkButton,
   PageHeaderToolbar,
   Table,
+  toast,
 } from '@tkeel/console-components';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
@@ -29,6 +30,11 @@ function Index() {
   const users = data?.users ?? [];
 
   const handleCreateUserSuccess = () => {
+    queryClient.invalidateQueries(queryKey);
+  };
+
+  const handleModifyUserSuccess = () => {
+    toast({ status: 'success', title: '修改成功' });
     queryClient.invalidateQueries(queryKey);
   };
 
@@ -59,16 +65,27 @@ function Index() {
     {
       Header: '用户角色',
       accessor: 'roles',
+      Cell({ value = [] }) {
+        return value.join('，');
+      },
     },
     {
       Header: '操作',
-      Cell: (
-        <ButtonsHStack>
-          <ModifyUserButton />
-          <LinkButton>重置密码</LinkButton>
-          <LinkButton>删除</LinkButton>
-        </ButtonsHStack>
-      ),
+      // eslint-disable-next-line react/no-unstable-nested-components
+      Cell({ row }: Cell<User>) {
+        const { original } = row;
+
+        return (
+          <ButtonsHStack>
+            <ModifyUserButton
+              data={original}
+              onSuccess={handleModifyUserSuccess}
+            />
+            <LinkButton>重置密码</LinkButton>
+            <LinkButton>删除</LinkButton>
+          </ButtonsHStack>
+        );
+      },
     },
   ];
 

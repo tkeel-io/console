@@ -14,6 +14,12 @@ type Props = {
   onSuccess: () => void;
 };
 
+const formFields = {
+  role: {
+    disabled: true,
+  },
+};
+
 export default function ModifyRoleButton({ data, onSuccess }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate, isLoading } = useSetRolePermissionsMutation({
@@ -22,12 +28,6 @@ export default function ModifyRoleButton({ data, onSuccess }: Props) {
       onClose();
     },
   });
-
-  const formFields = {
-    role: {
-      disabled: true,
-    },
-  };
 
   const handleConfirm = (formValues: FormValues) => {
     const { tenant_id: tenantId } = getLocalUserInfo();
