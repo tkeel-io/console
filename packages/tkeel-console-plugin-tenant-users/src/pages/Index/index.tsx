@@ -4,7 +4,6 @@ import { Cell, Column } from 'react-table';
 import { Flex, Text } from '@chakra-ui/react';
 import {
   ButtonsHStack,
-  LinkButton,
   PageHeaderToolbar,
   Table,
   toast,
@@ -14,6 +13,7 @@ import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 import CreateUserButton from './components/CreateUserButton';
 import DeleteUserButton from './components/DeleteUserButton';
 import ModifyUserButton from './components/ModifyUserButton';
+import ResetPasswordButton from './components/ResetPasswordButton';
 
 import useUsersQuery, {
   User,
@@ -87,7 +87,7 @@ function Index() {
               data={original}
               onSuccess={handleModifyUserSuccess}
             />
-            <LinkButton>重置密码</LinkButton>
+            <ResetPasswordButton data={original} />
             <DeleteUserButton
               data={original}
               onSuccess={handleDeleteUserSuccess}
