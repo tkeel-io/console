@@ -2,8 +2,11 @@ import { ChangeEventHandler, HTMLInputTypeAttribute } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 import { Input, StyleProps } from '@chakra-ui/react';
 
+import FormControl, {
+  FormControlProps,
+} from '@/tkeel-console-components/components/FormControl';
+
 import { fieldDefaultProps } from './default-props';
-import FormControl, { FormControlProps } from './FormControl';
 import { getFocusStyle } from './utils';
 
 type Props = FormControlProps & {
@@ -11,6 +14,7 @@ type Props = FormControlProps & {
   type?: HTMLInputTypeAttribute;
   value?: string;
   placeholder?: string;
+  isDisabled?: boolean;
   schemas?: UseFormRegisterReturn;
   inputStyle?: StyleProps;
   onChange?: ChangeEventHandler<HTMLInputElement>;
@@ -27,6 +31,7 @@ function InputField({
   type,
   value,
   placeholder,
+  isDisabled,
   schemas,
   inputStyle,
   onChange,
@@ -39,6 +44,7 @@ function InputField({
         type={type}
         defaultValue={value}
         placeholder={placeholder}
+        isDisabled={isDisabled}
         borderColor="gray.200"
         boxShadow="none!important"
         _placeholder={{ color: 'blackAlpha.500' }}

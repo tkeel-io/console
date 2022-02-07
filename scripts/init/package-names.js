@@ -7,8 +7,8 @@ const _ = require('lodash');
 const shell = require('shelljs');
 const writePackage = require('write-pkg');
 
-const { readPackages } = require('../utils/packages');
 const logger = require('../utils/logger');
+const { readPackages } = require('../utils/packages');
 
 const packages = readPackages({ portalFirst: false });
 

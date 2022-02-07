@@ -3,9 +3,9 @@
 const fs = require('fs-extra');
 const shell = require('shelljs');
 
+const logger = require('../utils/logger');
 const { readPackages } = require('../utils/packages');
 const paths = require('../utils/paths');
-const logger = require('../utils/logger');
 
 const tsconfig = fs.readJSONSync(paths.root.tsconfig);
 
