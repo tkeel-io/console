@@ -17,11 +17,11 @@ const platformName =
 
 function App() {
   return (
-    <Provider globalProps={{ platformName }}>
+    <Provider globalProps={{ platformName, themeName }}>
       <QueryClientProvider client={queryClient}>
         <ChakraProvider theme={themes[themeName]}>
           <Router>
-            <Routes themeName={themeName} />
+            <Routes />
           </Router>
         </ChakraProvider>
       </QueryClientProvider>

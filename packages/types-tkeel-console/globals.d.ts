@@ -73,7 +73,8 @@ interface GlobalConfig {
   };
   // local development
   mock?: {
-    username?: string | number; // portal admin
+    tenantId?: string | number; // portal tenant
+    username?: string | number; // portal tenant
     password?: string | number; // portal
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     menus?: Array<Record<string, any>>; // portal

@@ -11,6 +11,7 @@ export { default as ChevronLeftFilledIcon } from './components/ChevronLeftFilled
 export { default as ChevronRightFilledIcon } from './components/ChevronRightFilledIcon';
 export { default as ChevronUpFilledIcon } from './components/ChevronUpFilledIcon';
 export { default as CollapseFilledIcon } from './components/CollapseFilledIcon';
+export { default as CopyFilledIcon } from './components/CopyFilledIcon';
 export { default as DownloadFilledIcon } from './components/DownloadFilledIcon';
 export { default as ExpandFilledIcon } from './components/ExpandFilledIcon';
 export { default as HumanFilledIcon } from './components/HumanFilledIcon';
@@ -20,4 +21,6 @@ export { default as LoadingFilledIcon } from './components/LoadingFilledIcon';
 export { default as MagnifierFilledIcon } from './components/MagnifierFilledIcon';
 export { default as MagnifierTwoToneIcon } from './components/MagnifierTwoToneIcon';
 export { default as PuzzleTwoToneIcon } from './components/PuzzleTwoToneIcon';
+export { default as SuccessTwoToneIcon } from './components/SuccessTwoToneIcon';
 export { default as TrashFilledIcon } from './components/TrashFilledIcon';
+export { default as WarningTwoToneIcon } from './components/WarningTwoToneIcon';

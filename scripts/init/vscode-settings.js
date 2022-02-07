@@ -3,8 +3,8 @@
 const fs = require('fs-extra');
 const shell = require('shelljs');
 
-const { readPackages } = require('../utils/packages');
 const logger = require('../utils/logger');
+const { readPackages } = require('../utils/packages');
 const paths = require('../utils/paths');
 
 const settingsFilePath = paths.resolveRoot('.vscode', 'settings.json');

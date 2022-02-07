@@ -1,6 +1,11 @@
+export { default as ActionButtons } from './components/ActionButtons';
+export { default as Alert } from './components/Alert';
 export * from './components/Button';
+export { default as ButtonsHStack } from './components/ButtonsHStack';
+export * from './components/Checkbox';
 export { default as Editor } from './components/Editor';
 export { default as Form } from './components/Form';
+export { default as FormControl } from './components/FormControl';
 export { default as FormField } from './components/FormField';
 export { default as Modal } from './components/Modal';
 export { default as PageHeader } from './components/PageHeader';

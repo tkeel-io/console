@@ -26,7 +26,7 @@ export function getUseQueryOptions<TApiData, TRequestParams, TRequestData>(
     reactQueryOptions,
   } = options;
   const key = reactQueryOptions?.queryKey;
-  const queryKey: QueryKey = key || [url, method, params, data];
+  const queryKey: QueryKey = key || [url, method, params, data].filter(Boolean);
   const config: AxiosRequestConfigExtended<TRequestParams, TRequestData> =
     merge({}, { url, method, params, data, extras }, axiosRequestConfig);
 
@@ -50,7 +50,8 @@ export function getUseMutationOptions<TApiData, TRequestParams, TRequestData>(
     reactQueryOptions,
   } = options;
   const key = reactQueryOptions?.mutationKey;
-  const mutationKey: MutationKey = key || [url, method, params, data];
+  const mutationKey: MutationKey =
+    key || [url, method, params, data].filter(Boolean);
   const config: AxiosRequestConfigExtended<TRequestParams, TRequestData> =
     merge({}, { url, method, params, data, extras }, axiosRequestConfig);
 

@@ -11,13 +11,15 @@
   },
   "license": "Apache-2.0",
   "main": "./src/index.ts",
+  "dependencies": {
+    "@tkeel/console-constants": "workspace:^",
+    "@types/lodash": "^4.14.178"
+  },
   "peerDependencies": {
     "@tkeel/console-utils": "workspace:^",
+    "axios": "^0.24.0",
     "react": "^17.0.2",
     "react-query": "^3.34.5",
     "react-router-dom": "^6.2.1"
-  },
-  "dependencies": {
-    "@tkeel/console-constants": "workspace:^"
   }
 }

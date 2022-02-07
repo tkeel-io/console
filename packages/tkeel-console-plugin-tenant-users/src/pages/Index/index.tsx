@@ -1,25 +1,61 @@
-import { Column } from 'react-table';
-import { Flex } from '@chakra-ui/react';
+import { useState } from 'react';
+import { useQueryClient } from 'react-query';
+import { Cell, Column } from 'react-table';
+import { Flex, Text } from '@chakra-ui/react';
 import {
-  CreateButton,
+  ButtonsHStack,
   PageHeaderToolbar,
   Table,
+  toast,
 } from '@tkeel/console-components';
+import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
-type Data = {
-  user_id: string;
-  username: string;
-  nick_name: string;
-  create_time: string;
-  role: string;
-};
+import CreateUserButton from './components/CreateUserButton';
+import DeleteUserButton from './components/DeleteUserButton';
+import ModifyUserButton from './components/ModifyUserButton';
+import ResetPasswordButton from './components/ResetPasswordButton';
 
-function Index(): JSX.Element {
-  const columns: ReadonlyArray<Column<Data>> = [
+import useUsersQuery, {
+  User,
+} from '@/tkeel-console-plugin-tenant-users/hooks/queries/useUsersQuery';
+
+function Index() {
+  const [keyword, setKeyWord] = useState('');
+  const queryClient = useQueryClient();
+
+  let params = {};
+  if (keyword) {
+    params = { ...params, key_words: keyword };
+  }
+  const { data, queryKey } = useUsersQuery({ params });
+  const users = data?.users ?? [];
+
+  const handleCreateUserSuccess = () => {
+    queryClient.invalidateQueries(queryKey);
+  };
+
+  const handleModifyUserSuccess = () => {
+    toast({ status: 'success', title: '修改成功' });
+    queryClient.invalidateQueries(queryKey);
+  };
+
+  const handleDeleteUserSuccess = () => {
+    toast({ status: 'success', title: '删除成功' });
+    queryClient.invalidateQueries(queryKey);
+  };
+
+  const columns: ReadonlyArray<Column<User>> = [
     {
       Header: '用户账号',
       accessor: 'username',
-      disableSortBy: false,
+      // eslint-disable-next-line react/no-unstable-nested-components
+      Cell({ value }: { value: string }) {
+        return (
+          <Text color="gray.800" fontWeight="600">
+            {value}
+          </Text>
+        );
+      },
     },
     {
       Header: '用户昵称',
@@ -27,45 +63,61 @@ function Index(): JSX.Element {
     },
     {
       Header: '创建时间',
-      accessor: 'create_time',
+      accessor: 'create_at',
+      Cell({ value }) {
+        return formatDateTimeByTimestamp({ timestamp: value });
+      },
     },
     {
       Header: '用户角色',
-      accessor: 'role',
+      accessor: 'roles',
+      Cell({ value = [] }) {
+        return value.join('，');
+      },
     },
     {
       Header: '操作',
-      // accessor: 'remark',
-      Cell: <div>111</div>,
+      // eslint-disable-next-line react/no-unstable-nested-components
+      Cell({ row }: Cell<User>) {
+        const { original } = row;
+
+        return (
+          <ButtonsHStack>
+            <ModifyUserButton
+              data={original}
+              onSuccess={handleModifyUserSuccess}
+            />
+            <ResetPasswordButton data={original} />
+            <DeleteUserButton
+              data={original}
+              onSuccess={handleDeleteUserSuccess}
+            />
+          </ButtonsHStack>
+        );
+      },
     },
   ];
-
-  const data: Data[] = Array.from({ length: 100 }).map((_, index) => {
-    return {
-      user_id: `${index}`,
-      username: '111',
-      nick_name: '222',
-      create_time: '2021-04-32 12:11:11',
-      role: 'IDC项目',
-    };
-  });
 
   return (
     <Flex flexDirection="column" height="100%">
       <PageHeaderToolbar
         name="用户管理"
         hasSearchInput
-        searchInputProps={{ onSearch() {} }}
-        buttons={[<CreateButton key="add">创建用户</CreateButton>]}
+        searchInputProps={{
+          onSearch(value) {
+            setKeyWord(value.trim());
+          },
+        }}
+        buttons={[
+          <CreateUserButton key="create" onSuccess={handleCreateUserSuccess} />,
+        ]}
       />
       <Table
         style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
         columns={columns}
-        data={data}
+        data={users}
         defaultPageSize={20}
         scroll={{ y: '100%' }}
-        // onSelect={handleSelect}
-        // onSort={handleSort}
       />
     </Flex>
   );

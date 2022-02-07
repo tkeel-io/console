@@ -39,7 +39,7 @@ export type UseMutationOptionsExtended<
 >;
 
 interface BaseOptions<TRequestParams = unknown, TRequestData = unknown> {
-  url: string;
+  url?: string;
   method?: Method;
   params?: TRequestParams;
   data?: TRequestData;
