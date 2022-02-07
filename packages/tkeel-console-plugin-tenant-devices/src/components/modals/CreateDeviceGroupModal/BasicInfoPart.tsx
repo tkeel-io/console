@@ -1,44 +1,49 @@
-import { ChangeEvent, ChangeEventHandler, useState } from 'react';
+// import { ChangeEvent, ChangeEventHandler, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { FormField } from '@tkeel/console-components';
+
+import { RequestData as GroupInfo } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceGroupMutation';
+
+interface Props {
+  groupInfo: GroupInfo;
+  setGroupInfo: (params: { key: string; value: unknown }) => void;
+}
 
 const { TextField, SelectField, TextareaField } = FormField;
 
-export default function BasicInfoPart() {
-  const [groupName, setGroupName] = useState('');
-  const [groupParent, setGroupParent] = useState('');
-  const [groupDesc, setGroupDesc] = useState('');
-  const handleGroupNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setGroupName(e.target.value);
-  };
-  const handleGroupParentChange: ChangeEventHandler<HTMLSelectElement> = (
-    e
-  ) => {
-    setGroupParent(e.target.value);
-  };
-  const handleDescChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
-    setGroupDesc(e.target.value);
-  };
+export default function BasicInfoPart({ groupInfo, setGroupInfo }: Props) {
+  const { name, desc, parent } = groupInfo;
+  const { register } = useForm();
   return (
     <>
       <TextField
-        id="groupName"
-        value={groupName}
+        id="name"
+        value={name}
         label="设备组名称"
-        onChange={handleGroupNameChange}
+        schemas={register('name', {
+          required: { value: true, message: 'required' },
+        })}
+        onChange={(e) => {
+          setGroupInfo({ key: 'name', value: e.target.value });
+        }}
       />
       <SelectField
         id="parent"
         label="父设备组"
-        value={groupParent}
+        value={parent}
         options={[{ value: 1, label: '默认设备组' }]}
-        onChange={handleGroupParentChange}
+        onChange={(e) => {
+          setGroupInfo({ key: 'parent', value: e.target.value });
+        }}
       />
       <TextareaField
-        value={groupDesc}
+        value={desc}
         id="desc"
         label="描述"
         placeholder="请输入"
-        onChange={handleDescChange}
+        onChange={(e) => {
+          setGroupInfo({ key: 'desc', value: e.target.value });
+        }}
       />
     </>
   );

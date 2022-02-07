@@ -4,7 +4,7 @@ import { AddFilledIcon } from '@tkeel/console-icons';
 import CreateDeviceGroupModal from '@/tkeel-console-plugin-tenant-devices/components/modals/CreateDeviceGroupModal';
 
 export default function CreateDeviceButton() {
-  const { isOpen, onOpen, onClose } = useDisclosure({ isOpen: true });
+  const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
       <Button

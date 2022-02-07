@@ -9,11 +9,8 @@ import {
   Wrap,
 } from '@chakra-ui/react';
 import { FormField } from '@tkeel/console-components/';
-import {
-  AddFilledIcon,
-  PencilFilledIcon,
-  TrashFilledIcon,
-} from '@tkeel/console-icons';
+import { PencilFilledIcon, TrashFilledIcon } from '@tkeel/console-icons';
+// import { keyBy, mapValues } from 'lodash';
 
 const { TextField } = FormField;
 
@@ -28,20 +25,24 @@ const BASIC_EXTEND_ITEMS = [
 ];
 
 export default function ExtendInfoPart() {
-  const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
-  const handleSelectKey = (item: string) => {
-    if (!selectedKeys.includes(item)) {
-      setSelectedKeys([...selectedKeys, item]);
+  // const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
+  const [extendInfo, setExtendInfo] = useState<
+    { key: string; value: string }[]
+  >([]);
+  const handleSelectKey = (key: string) => {
+    if (extendInfo.findIndex((item) => item.key === key) === -1) {
+      setExtendInfo([...extendInfo, { key, value: '' }]);
     }
   };
-  const deleteExtendItem = (item: string) => {
-    setSelectedKeys(selectedKeys.filter((val) => val !== item));
+  const deleteExtendItem = (key: string) => {
+    setExtendInfo(extendInfo.filter((item) => item.key !== key));
   };
-  const renderLabel = (item: string) => {
+
+  const renderLabel = (key: string) => {
     const fontColor = 'grayAlternatives.300';
     return (
       <Flex justify="space-between">
-        <Text color="gray.700">{item}</Text>
+        <Text color="gray.700">{key}</Text>
         <Center>
           <IconButton
             variant="link"
@@ -56,7 +57,7 @@ export default function ExtendInfoPart() {
             aria-label="delete"
             icon={<TrashFilledIcon color={fontColor} />}
             onClick={() => {
-              deleteExtendItem(item);
+              deleteExtendItem(key);
             }}
           />
         </Center>
@@ -68,8 +69,8 @@ export default function ExtendInfoPart() {
     <Flex pos="relative" flexDirection="column" h="100%">
       <Button
         pos="absolute"
-        top="-30px"
-        right="14px"
+        top="-24px"
+        right="0"
         variant="link"
         size="xs"
         color="grayAlternatives.300"
@@ -77,19 +78,19 @@ export default function ExtendInfoPart() {
           color: 'primary',
         }}
       >
-        <AddFilledIcon />
         添加
       </Button>
       <Text fontSize="12px" color="grayAlternatives.300" mb="12px">
         支持用户自定义扩展信息
       </Text>
       <Wrap spacing="8px" mb="20px">
-        {BASIC_EXTEND_ITEMS.map((item) => {
-          const isSelected = selectedKeys.includes(item);
+        {BASIC_EXTEND_ITEMS.map((key) => {
+          const isSelected =
+            extendInfo.findIndex((item) => item.key === key) !== -1;
           return (
             <Button
               variant="outline"
-              key={item}
+              key={key}
               borderRadius="4px"
               color={isSelected ? 'primary' : 'gray.400'}
               borderColor={isSelected ? 'primary' : 'gray.200'}
@@ -98,17 +99,24 @@ export default function ExtendInfoPart() {
               p="0 12px"
               fontSize="12px"
               onClick={() => {
-                handleSelectKey(item);
+                handleSelectKey(key);
               }}
             >
-              {item}
+              {key}
             </Button>
           );
         })}
       </Wrap>
-      <Box overflowY="scroll" flex="1">
-        {selectedKeys.map((item) => {
-          return <TextField key={item} label={renderLabel(item)} id="item" />;
+      <Box overflowY="scroll" h="390px">
+        {extendInfo.map((item) => {
+          return (
+            <TextField
+              key={item.key}
+              value={item.value}
+              label={renderLabel(item.key)}
+              id="item"
+            />
+          );
         })}
       </Box>
     </Flex>
