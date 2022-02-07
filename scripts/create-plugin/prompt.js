@@ -3,12 +3,12 @@ const _ = require('lodash');
 const { isPort } = require('validator');
 
 const { PACKAGES_PREFIX } = require('../constants');
-const { OPTIONS_MAP } = require('./constants');
 const {
   checkPluginName,
   checkCanRunPackageBasePath,
   checkCanRunPackageServerPort,
 } = require('../utils/packages');
+const { OPTIONS_MAP } = require('./constants');
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 async function prompt({ argv }) {

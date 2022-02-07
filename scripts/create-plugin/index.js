@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 
-const { getArgv } = require('./argv');
-const prompt = require('./prompt');
-const { copyTemplates, writeTemplates } = require('./files');
+const logger = require('../utils/logger');
 const {
   checkPluginName,
   checkCanRunPackageBasePath,
@@ -10,7 +8,9 @@ const {
   showBasePaths,
   showServerPorts,
 } = require('../utils/packages');
-const logger = require('../utils/logger');
+const { getArgv } = require('./argv');
+const { copyTemplates, writeTemplates } = require('./files');
+const prompt = require('./prompt');
 
 (async () => {
   try {

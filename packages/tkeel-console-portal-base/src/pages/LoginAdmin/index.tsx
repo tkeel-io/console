@@ -3,7 +3,7 @@ import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { Box, Button, Center, Flex, Heading, Text } from '@chakra-ui/react';
 import { Form, FormField } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
-import { setLocalTokenData } from '@tkeel/console-utils';
+import { setLocalTokenInfo } from '@tkeel/console-utils';
 
 import useOAuthAdminTokenMutation, {
   ApiData,
@@ -11,7 +11,7 @@ import useOAuthAdminTokenMutation, {
 
 const { TextField } = FormField;
 
-type Inputs = {
+type FormValues = {
   username: string;
   password: string;
 };
@@ -29,11 +29,11 @@ function handleLogin({
     return;
   }
 
-  setLocalTokenData(data);
+  setLocalTokenInfo(data);
   navigate(redirect);
 }
 
-function LoginAdmin(): JSX.Element {
+function LoginAdmin() {
   const formLabelStyle = {
     marginBottom: '5px',
     fontSize: '14px',
@@ -56,7 +56,7 @@ function LoginAdmin(): JSX.Element {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>();
+  } = useForm<FormValues>();
 
   const navigate = useNavigate();
   const redirect = useRedirectParams();
@@ -64,8 +64,8 @@ function LoginAdmin(): JSX.Element {
   const { data, mutate, isLoading } = useOAuthAdminTokenMutation();
   handleLogin({ data, redirect, navigate });
 
-  const onSubmit: SubmitHandler<Inputs> = (values) => {
-    const { password } = values;
+  const onSubmit: SubmitHandler<FormValues> = (formValues) => {
+    const { password } = formValues;
 
     const params = {
       password: window.btoa(password),
@@ -107,7 +107,7 @@ function LoginAdmin(): JSX.Element {
               label="密码"
               value={String(GLOBAL_CONFIG?.mock?.password ?? '')}
               placeholder="请输入您的密码"
-              error={errors.username}
+              error={errors.password}
               schemas={register('password', {
                 required: { value: true, message: 'required' },
               })}

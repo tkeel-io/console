@@ -2,12 +2,12 @@
 
 const _ = require('lodash');
 
+const logger = require('../utils/logger');
 const {
   readPackages,
   showBasePaths,
   showServerPorts,
 } = require('../utils/packages');
-const logger = require('../utils/logger');
 
 function checkPackageNames() {
   logger.log('check package names');

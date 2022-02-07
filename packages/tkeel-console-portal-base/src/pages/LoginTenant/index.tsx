@@ -1,9 +1,14 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
+import {
+  Navigate,
+  NavigateFunction,
+  useNavigate,
+  useParams,
+} from 'react-router-dom';
 import { Box, Button, Center, Heading, Text } from '@chakra-ui/react';
 import { Form, FormField } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
-import { setLocalTokenData } from '@tkeel/console-utils';
+import { setLocalTokenInfo } from '@tkeel/console-utils';
 
 import useOAuthTokenMutation, {
   ApiData,
@@ -11,7 +16,7 @@ import useOAuthTokenMutation, {
 
 const { TextField } = FormField;
 
-type Inputs = {
+type FormValues = {
   username: string;
   password: string;
 };
@@ -29,11 +34,11 @@ function handleLogin({
     return;
   }
 
-  setLocalTokenData(data);
-  navigate(redirect);
+  setLocalTokenInfo(data);
+  navigate(redirect, { replace: true });
 }
 
-function LoginTenant(): JSX.Element {
+function LoginTenant() {
   const formLabelStyle = {
     marginBottom: '5px',
     fontSize: '14px',
@@ -56,21 +61,27 @@ function LoginTenant(): JSX.Element {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>();
+  } = useForm<FormValues>();
 
   const pathParams = useParams();
+  const { tenantId = '' } = pathParams;
+
   const navigate = useNavigate();
   const redirect = useRedirectParams();
 
-  const { data, mutate, isLoading } = useOAuthTokenMutation();
+  const { data, mutate, isLoading } = useOAuthTokenMutation({ tenantId });
+
+  if (!tenantId) {
+    return <Navigate to="/auth/tenant" replace />;
+  }
+
   handleLogin({ data, redirect, navigate });
 
-  const onSubmit: SubmitHandler<Inputs> = (values) => {
-    const { tenantId = '' } = pathParams;
-    const { username, password } = values;
+  const onSubmit: SubmitHandler<FormValues> = (formValues) => {
+    const { username, password } = formValues;
     const params = {
       grant_type: 'password' as const,
-      username: `${tenantId}-${username}`,
+      username,
       password,
     };
 
@@ -123,7 +134,7 @@ function LoginTenant(): JSX.Element {
             label="密码"
             value={String(GLOBAL_CONFIG?.mock?.password ?? '')}
             placeholder="请输入您的密码"
-            error={errors.username}
+            error={errors.password}
             schemas={register('password', {
               required: { value: true, message: 'required' },
             })}

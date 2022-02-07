@@ -6,7 +6,7 @@ const API = {
 };
 
 module.exports = {
-  publicPath: '/',
+  publicPath: '/plugins/{{name}}',
   basePath: '{{basePath}}',
   client: {
     documentTitle: 'tKeel',

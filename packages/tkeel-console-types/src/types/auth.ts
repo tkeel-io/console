@@ -1,4 +1,4 @@
-export interface TokenData {
+export interface TokenInfo {
   access_token: string;
   expires_in: number;
   refresh_token: string;

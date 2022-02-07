@@ -1,7 +1,5 @@
 const path = require('path');
 
-const { isEnvDevelopment } = require('./scripts/utils/env');
-
 module.exports = {
   root: true,
   parser: '@babel/eslint-parser',
@@ -31,7 +29,7 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   rules: {
-    'no-console': isEnvDevelopment ? 'warn' : 'error',
+    'no-console': process.env.NODE_ENV === 'development' ? 'warn' : 'error',
     'no-param-reassign': [
       'error',
       {
@@ -72,18 +70,15 @@ module.exports = {
           'internal',
           ['parent', 'sibling', 'index'],
           'object',
+          'type',
           'unknown',
         ],
         'newlines-between': 'always',
+        alphabetize: {
+          order: 'asc',
+        },
+        warnOnUnassignedImports: true,
       },
-    ],
-    'react/jsx-key': 'error',
-    'react/jsx-props-no-spreading': 'off',
-    'react/jsx-uses-react': 'off',
-    'react/react-in-jsx-scope': 'off',
-    'react/require-default-props': [
-      'error',
-      { forbidDefaultForRequired: true, ignoreFunctionalComponents: true },
     ],
     'unicorn/filename-case': [
       'error',
@@ -99,8 +94,23 @@ module.exports = {
     'unicorn/no-null': 'off',
     'unicorn/prevent-abbreviations': 'off',
     'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
+    'react/jsx-key': 'error',
+    'react/jsx-props-no-spreading': 'off',
+    'react/jsx-uses-react': 'off',
+    'react/react-in-jsx-scope': 'off',
+    'react/require-default-props': [
+      'error',
+      { forbidDefaultForRequired: true, ignoreFunctionalComponents: true },
+    ],
   },
   overrides: [
+    {
+      files: ['**/*.js'],
+      rules: {
+        'import/no-extraneous-dependencies': 'off',
+        'unicorn/prefer-module': 'off',
+      },
+    },
     {
       files: ['**/*.{ts,tsx}'],
       parserOptions: {
@@ -119,13 +129,6 @@ module.exports = {
         'airbnb-typescript',
         'plugin:prettier/recommended',
       ],
-      rules: {
-        '@typescript-eslint/ban-ts-comment': 'off',
-        '@typescript-eslint/no-floating-promises': 'off',
-      },
-    },
-    {
-      files: ['packages/*/src/**/*.{js,jsx,ts,tsx}'],
       plugins: ['simple-import-sort'],
       rules: {
         'sort-imports': 'off',
@@ -150,13 +153,8 @@ module.exports = {
           },
         ],
         'simple-import-sort/exports': 'error',
-      },
-    },
-    {
-      files: ['!(packages/*/src/**/*.{js,jsx,ts,tsx})'],
-      rules: {
-        'import/no-extraneous-dependencies': 'off',
-        'unicorn/prefer-module': 'off',
+        '@typescript-eslint/ban-ts-comment': 'off',
+        '@typescript-eslint/no-floating-promises': 'off',
       },
     },
   ],

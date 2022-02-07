@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { Box, Flex } from '@chakra-ui/react';
-import { ThemeNames } from '@tkeel/console-themes';
 
 import Header from '@/tkeel-console-portal-base/containers/Layout/Header';
 import Menus from '@/tkeel-console-portal-base/containers/Layout/Menus';
@@ -17,12 +16,8 @@ function getElementIdByContainer(container: string): string {
   return container.replace(/^#/, '');
 }
 
-type Props = {
-  themeName: ThemeNames;
-};
-
-function Layout({ themeName }: Props) {
-  const { platformName } = useGlobalProps();
+function Layout() {
+  const { platformName, themeName } = useGlobalProps();
   const { menus } = useMenusQuery();
   const navigate = useNavigate();
   const apps = menusToApps({ platformName, menus, navigate, themeName });

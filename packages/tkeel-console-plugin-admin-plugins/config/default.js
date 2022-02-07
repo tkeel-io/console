@@ -1,12 +1,12 @@
 const API = {
   protocol: 'http',
-  hostname: '192.168.123.11',
+  hostname: '192.168.100.6',
   port: '30707',
   pathname: '/apis',
 };
 
 module.exports = {
-  publicPath: '/',
+  publicPath: '/plugins/admin-plugins/',
   basePath: '/admin-plugins',
   client: {
     documentTitle: '',

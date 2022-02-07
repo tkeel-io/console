@@ -1,12 +1,12 @@
 const path = require('path');
 
+const nodeConfig = require('config');
+const dotenvExpand = require('dotenv-expand');
+const dotenvFlow = require('dotenv-flow');
 const fs = require('fs-extra');
 const _ = require('lodash');
-const nodeConfig = require('config');
-const dotenvFlow = require('dotenv-flow');
-const dotenvExpand = require('dotenv-expand');
-const { isPort } = require('validator');
 const readPkg = require('read-pkg');
+const { isPort } = require('validator');
 
 const {
   PACKAGES_PREFIX,
@@ -14,8 +14,8 @@ const {
   SHARED_PACKAGE_SIMPLE_NAMES,
   EXCLUDE_PACKAGE_DIRECTORY_NAMES,
 } = require('../constants');
-const paths = require('./paths');
 const logger = require('./logger');
+const paths = require('./paths');
 
 function getSimpleName({ directoryName }) {
   return directoryName.replace(PACKAGES_PREFIX.directoryName, '');
