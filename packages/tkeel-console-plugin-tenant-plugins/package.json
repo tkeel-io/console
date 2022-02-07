@@ -1,0 +1,33 @@
+{
+  "name": "@tkeel/console-plugin-tenant-plugins",
+  "version": "0.0.1",
+  "homepage": "https://github.com/tkeel-io/console#readme",
+  "bugs": {
+    "url": "https://github.com/tkeel-io/console/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tkeel-io/console.git"
+  },
+  "license": "Apache-2.0",
+  "scripts": {
+    "analyze": "cross-env NODE_ENV=development ANALYZE=true npm run build",
+    "build": "cross-env NODE_ENV=production webpack --config ../../webpack/webpack.config.plugins",
+    "dev": "cross-env NODE_ENV=development webpack serve --config ../../webpack/webpack.config.plugins"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^1.8.1",
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
+    "@tkeel/console-business-components": "workspace:^",
+    "@tkeel/console-hooks": "workspace:^",
+    "@tkeel/console-types": "workspace:^",
+    "@tkeel/console-utils": "workspace:^",
+    "@types/lodash": "^4.14.178",
+    "framer-motion": "^6.2.3",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-query": "^3.34.12",
+    "react-router-dom": "^6.2.1"
+  }
+}
