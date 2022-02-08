@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react';
 
 export interface FormControlProps {
-  label?: string;
+  label?: ReactNode;
   help?: string;
   error?: FieldError;
   formControlStyle?: StyleProps;
