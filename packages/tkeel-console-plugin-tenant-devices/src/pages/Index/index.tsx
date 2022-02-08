@@ -3,12 +3,13 @@ import { SearchInput } from '@tkeel/console-components/';
 
 import DeviceGroupNav from './DeviceGroupNav';
 
-import { CreateDeviceButton } from '@/tkeel-console-plugin-tenant-devices/components';
+import { CreateDeviceButton } from '@/tkeel-console-plugin-tenant-devices/components/buttons';
 
 const handleSearchDevice = (keyword: string) => {
   // eslint-disable-next-line no-console
   console.log(keyword);
 };
+
 function Index(): JSX.Element {
   return (
     <Flex flexDirection="column" h="100%">
