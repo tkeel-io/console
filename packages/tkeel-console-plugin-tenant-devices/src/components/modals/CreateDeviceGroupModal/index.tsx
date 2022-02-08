@@ -13,7 +13,7 @@ interface Props {
   isOpen: boolean;
   onClose: () => void;
 }
-const infos = ['基本信息', '扩展信息', '创建完成'];
+const progressLabels = ['基本信息', '扩展信息', '创建完成'];
 const BUTTON_TEXT = {
   NEXT: '下一步',
   SKIP: '跳过',
@@ -50,10 +50,10 @@ export default function CreateDeviceGroupModal({ isOpen, onClose }: Props) {
   );
 
   const getButtonText = () => {
-    if (currentStep >= infos.length - 1 || extendInfo.length > 0) {
+    if (currentStep >= progressLabels.length - 1 || extendInfo.length > 0) {
       return BUTTON_TEXT.COMPLETE;
     }
-    if (currentStep === infos.indexOf('扩展信息')) {
+    if (currentStep === progressLabels.indexOf('扩展信息')) {
       return BUTTON_TEXT.SKIP;
     }
     return BUTTON_TEXT.NEXT;
@@ -64,8 +64,9 @@ export default function CreateDeviceGroupModal({ isOpen, onClose }: Props) {
       title={<Text fontSize="14px">创建设备组</Text>}
       isOpen={isOpen}
       onClose={onClose}
-      footer={null}
       width="800px"
+      hasCancelButton={false}
+      hasConfirmButton={false}
     >
       <Flex
         bg="gray.50"
@@ -75,7 +76,7 @@ export default function CreateDeviceGroupModal({ isOpen, onClose }: Props) {
         minH="600px"
       >
         <Box w="127px">
-          <ProgressSchedule infos={infos} currentStep={currentStep} />
+          <ProgressSchedule infos={progressLabels} currentStep={currentStep} />
         </Box>
         <Flex
           flexDirection="column"
@@ -89,7 +90,7 @@ export default function CreateDeviceGroupModal({ isOpen, onClose }: Props) {
             fontSize="sm"
             mb={currentStep === 0 ? '20px' : '8px'}
           >
-            {infos[currentStep]}
+            {progressLabels[currentStep]}
           </Text>
           <Box flex="1" h="540px" pb="16px">
             {currentStep === 0 && (

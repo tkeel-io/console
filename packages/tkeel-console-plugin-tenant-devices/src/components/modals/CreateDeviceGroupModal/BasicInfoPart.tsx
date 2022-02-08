@@ -1,4 +1,5 @@
-// import { ChangeEvent, ChangeEventHandler, useState } from 'react';
+/* eslint-disable import/no-extraneous-dependencies */
+import { ChangeEvent } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormField } from '@tkeel/console-components';
 
@@ -23,7 +24,7 @@ export default function BasicInfoPart({ groupInfo, setGroupInfo }: Props) {
         schemas={register('name', {
           required: { value: true, message: 'required' },
         })}
-        onChange={(e) => {
+        onChange={(e: ChangeEvent<HTMLInputElement>) => {
           setGroupInfo({ key: 'name', value: e.target.value });
         }}
       />
@@ -32,7 +33,7 @@ export default function BasicInfoPart({ groupInfo, setGroupInfo }: Props) {
         label="父设备组"
         value={parent}
         options={[{ value: 1, label: '默认设备组' }]}
-        onChange={(e) => {
+        onChange={(e: ChangeEvent<HTMLSelectElement>) => {
           setGroupInfo({ key: 'parent', value: e.target.value });
         }}
       />
@@ -41,7 +42,7 @@ export default function BasicInfoPart({ groupInfo, setGroupInfo }: Props) {
         id="desc"
         label="描述"
         placeholder="请输入"
-        onChange={(e) => {
+        onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
           setGroupInfo({ key: 'desc', value: e.target.value });
         }}
       />
