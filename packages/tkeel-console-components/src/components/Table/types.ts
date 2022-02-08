@@ -28,6 +28,7 @@ type OnSelectProps<D extends object> = {
 
 export interface Props<D extends object> extends UseTableOptions<D> {
   defaultPageSize?: number;
+  hasPagination?: boolean;
   scroll?: {
     y: string;
   };

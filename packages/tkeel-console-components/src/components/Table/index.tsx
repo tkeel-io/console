@@ -24,6 +24,7 @@ function Table<D extends object>({
   columns,
   data,
   defaultPageSize = 15,
+  hasPagination = true,
   scroll,
   onSelect,
   onSort,
@@ -112,16 +113,18 @@ function Table<D extends object>({
           scroll={scroll}
         />
       </ChakraTable>
-      <Pagination
-        pageIndex={pageIndex}
-        pageSize={pageSize}
-        totalSize={data.length}
-        canPreviousPage={canPreviousPage}
-        canNextPage={canNextPage}
-        previousPage={previousPage}
-        nextPage={nextPage}
-        setPageSize={setPageSize}
-      />
+      {hasPagination && (
+        <Pagination
+          pageIndex={pageIndex}
+          pageSize={pageSize}
+          totalSize={data.length}
+          canPreviousPage={canPreviousPage}
+          canNextPage={canNextPage}
+          previousPage={previousPage}
+          nextPage={nextPage}
+          setPageSize={setPageSize}
+        />
+      )}
     </Flex>
   );
 }
