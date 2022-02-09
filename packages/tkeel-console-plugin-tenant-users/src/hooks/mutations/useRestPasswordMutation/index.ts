@@ -15,7 +15,7 @@ export default function useDeleteUserMutation({
   userId: string;
   onSuccess: () => void;
 }) {
-  const url = `/security/v1/tenants/${tenantId}/users/${userId}/pwd`;
+  const url = `/security/v1/tenants/${tenantId}/user/${userId}/pwd`;
 
   return useMutation<ApiData, undefined, undefined>({
     url,

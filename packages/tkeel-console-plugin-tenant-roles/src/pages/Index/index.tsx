@@ -60,10 +60,6 @@ function Index() {
       },
     },
     {
-      Header: '描述',
-      // accessor: '',
-    },
-    {
       Header: '权限资源',
       // accessor: '',
     },
@@ -98,7 +94,8 @@ function Index() {
     <Flex flexDirection="column" height="100%">
       <PageHeaderToolbar
         name="角色管理"
-        hasSearchInput
+        // TODO: useless search
+        hasSearchInput={false}
         searchInputProps={{
           onSearch(value) {
             setKeyWords(value.trim());
@@ -112,7 +109,7 @@ function Index() {
         style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
         columns={columns}
         data={roles}
-        defaultPageSize={20}
+        hasPagination={false}
         scroll={{ y: '100%' }}
       />
     </Flex>

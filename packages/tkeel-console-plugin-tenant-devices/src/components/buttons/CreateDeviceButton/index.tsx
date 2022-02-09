@@ -1,8 +1,8 @@
 import { Box, Button, Flex, Text, useDisclosure } from '@chakra-ui/react';
+import Modal from '@tkeel/console-components/src/components/Modal';
 import { AddFilledIcon } from '@tkeel/console-icons';
 
-import Modal from '../CustomModal';
-import ProgressSchedule from '../ProgressSchedule';
+import ProgressSchedule from '@/tkeel-console-plugin-tenant-devices/components/ProgressSchedule';
 
 export default function CreateDeviceButton() {
   const { isOpen, onOpen, onClose } = useDisclosure();
