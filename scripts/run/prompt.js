@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
 
-const { readPackages } = require('../utils/packages');
+const { readPackageInfos } = require('../utils/packages');
 
 /**
  *
@@ -8,7 +8,7 @@ const { readPackages } = require('../utils/packages');
  */
 async function prompt() {
   const message = 'Select packages';
-  const packages = readPackages();
+  const packages = readPackageInfos();
   const canRunPackages = packages.filter(({ canRun }) => canRun);
   const choices = canRunPackages.map((packageInfo) => {
     const { packageJson } = packageInfo;

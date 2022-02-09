@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const logger = require('../utils/logger');
-const { readPackages } = require('../utils/packages');
+const { readPackageInfos } = require('../utils/packages');
 
-const packageInfos = readPackages().filter(({ canRun }) => canRun);
+const packageInfos = readPackageInfos().filter(({ canRun }) => canRun);
 logger.log(packageInfos);
