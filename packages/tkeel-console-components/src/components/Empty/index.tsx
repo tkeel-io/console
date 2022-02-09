@@ -1,19 +1,19 @@
-import { CSSProperties, ReactNode } from 'react';
-import { Box } from '@chakra-ui/react';
+import { ReactNode } from 'react';
+import { Box, StyleProps } from '@chakra-ui/react';
 
 import EmptyImage from './assets/images/empty.svg?svgr';
 
-export interface Props {
+interface Props {
   image?: ReactNode;
   title?: ReactNode;
   description?: ReactNode;
   content?: ReactNode;
   styles?: {
-    wrapper?: CSSProperties;
-    image?: CSSProperties;
-    title?: CSSProperties;
-    description?: CSSProperties;
-    content?: CSSProperties;
+    wrapper?: StyleProps;
+    image?: StyleProps;
+    title?: StyleProps;
+    description?: StyleProps;
+    content?: StyleProps;
   };
 }
 
@@ -30,15 +30,15 @@ export default function Empty({
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
-      style={styles?.wrapper}
+      {...styles?.wrapper}
     >
-      <Box style={styles?.image}>{image}</Box>
+      <Box {...styles?.image}>{image}</Box>
       <Box
         marginTop="28px"
         fontSize="18px"
         lineHeight="28px"
         color="gray.800"
-        style={styles?.title}
+        {...styles?.title}
       >
         {title}
       </Box>
@@ -47,11 +47,11 @@ export default function Empty({
         fontSize="14px"
         lineHeight="20px"
         color="gray.500"
-        style={styles?.description}
+        {...styles?.description}
       >
         {description}
       </Box>
-      <Box style={styles?.content}>{content}</Box>
+      <Box {...styles?.content}>{content}</Box>
     </Box>
   );
 }
