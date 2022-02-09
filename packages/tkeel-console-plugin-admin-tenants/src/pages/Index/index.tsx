@@ -21,7 +21,8 @@ const handleSearch = (keyword: string) => {
 
 function IndexComponent() {
   const { navigate } = useGlobalProps();
-  const { tenants } = useTenantsQuery();
+  const { isLoading, tenants } = useTenantsQuery();
+
   const LinkToSpaceDetail = () => {
     navigate('/admin-tenants/detail/12029389');
   };
@@ -46,6 +47,7 @@ function IndexComponent() {
   ];
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <Flex flexDirection="column" height="100%">
       <PageHeader
@@ -82,9 +84,10 @@ function IndexComponent() {
           <EditSpaceModal isOpen={isOpen} onClose={onClose} />
         </Flex>
         <Table
-          data={tenants}
           columns={columns}
+          data={tenants}
           scroll={{ y: 'scroll' }}
+          isLoading={isLoading}
           empty={
             <Empty
               title="暂无空间"
@@ -92,6 +95,7 @@ function IndexComponent() {
               styles={{ wrapper: { height: '100%' } }}
             />
           }
+          style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
         />
       </Flex>
     </Flex>
