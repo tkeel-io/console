@@ -18,7 +18,7 @@ export default function useReposQuery() {
     url,
     method,
   });
-  const repos = data?.repos.filter((repo) => repo.name.includes('tkeel')) || [];
+  const repos = data?.repos || [];
 
   return { repos, data, ...rest };
 }

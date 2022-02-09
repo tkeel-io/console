@@ -14,7 +14,7 @@ type Props = {
   enabled: boolean;
 };
 
-export default function useRepoPluginsQuery({ repo, enabled }: Props) {
+export default function useRepoInstallersQuery({ repo, enabled }: Props) {
   const { data, ...rest } = useQuery<ApiData>({
     url: `${url}/${repo}/installers`,
     method,

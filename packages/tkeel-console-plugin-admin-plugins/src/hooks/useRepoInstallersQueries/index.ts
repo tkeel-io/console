@@ -30,7 +30,13 @@ export default function useRepoInstallersQueries({ repos, enabled }: Props) {
     if (result.data) {
       return (result.data as ApiData)?.brief_installers || [];
     }
-    return [];
+    return [
+      {
+        name: 'plugins',
+        version: '0.1.0',
+        repo: 'tkeel-default',
+      },
+    ];
   });
 
   return { pluginsList };

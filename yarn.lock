@@ -3286,6 +3286,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tkeel/console-business-components@workspace:packages/tkeel-console-business-components"
   dependencies:
+    "@tkeel/console-icons": "workspace:^"
     "@tkeel/console-types": "workspace:^"
   peerDependencies:
     "@chakra-ui/react": ^1.7.2
@@ -3434,7 +3435,9 @@ __metadata:
     "@emotion/react": ^11.7.1
     "@emotion/styled": ^11.6.0
     "@tkeel/console-business-components": "workspace:^"
+    "@tkeel/console-components": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
+    "@tkeel/console-icons": "workspace:^"
     "@tkeel/console-types": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
     "@types/lodash": ^4.14.178

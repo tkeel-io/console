@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import { Flex, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { PageHeader } from '@tkeel/console-components';
 import { AppsAddFilledIcon } from '@tkeel/console-icons';
