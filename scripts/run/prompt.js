@@ -10,9 +10,10 @@ async function prompt() {
   const message = 'Select packages';
   const packages = readPackages();
   const canRunPackages = packages.filter(({ canRun }) => canRun);
-  const choices = canRunPackages.map(({ packageJson }) => {
+  const choices = canRunPackages.map((packageInfo) => {
+    const { packageJson } = packageInfo;
     const { name } = packageJson;
-    return name;
+    return { name, value: packageInfo };
   });
 
   const questions = [
@@ -32,10 +33,7 @@ async function prompt() {
 
   const { data } = await inquirer.prompt(questions);
 
-  return data.map((value) => {
-    const packageName = value.trim();
-    return { packageName };
-  });
+  return data;
 }
 
 module.exports = prompt;
