@@ -55,5 +55,6 @@ module.exports = {
     '**/yarn.json',
     '**/*.svg',
     '**/dist/**',
+    './docker/',
   ],
 };
