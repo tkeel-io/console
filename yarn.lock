@@ -3401,6 +3401,7 @@ __metadata:
     react-hook-form: ^7.25.1
     react-query: ^3.34.12
     react-router-dom: ^6.2.1
+    react-table: ^7.7.0
   languageName: unknown
   linkType: soft
 

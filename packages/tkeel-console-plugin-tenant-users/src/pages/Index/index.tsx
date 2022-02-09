@@ -27,8 +27,7 @@ function Index() {
   if (keyword) {
     params = { ...params, key_words: keyword };
   }
-  const { isLoading, data, queryKey } = useUsersQuery({ params });
-  const users = data?.users ?? [];
+  const { isLoading, users, queryKey } = useUsersQuery({ params });
 
   const handleCreateUserSuccess = () => {
     queryClient.invalidateQueries(queryKey);

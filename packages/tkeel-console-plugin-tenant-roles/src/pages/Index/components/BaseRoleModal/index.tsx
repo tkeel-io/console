@@ -56,8 +56,7 @@ export default function BaseRoleModal({
     params = { ...params, key_words: keywords };
   }
 
-  const { data, isLoading } = useTenantPluginsQuery({ params });
-  const plugins = data?.plugins ?? [];
+  const { plugins, isLoading } = useTenantPluginsQuery({ params });
 
   const {
     register,

@@ -4,13 +4,22 @@ const url = '/security/v1/tenants';
 const method = 'GET';
 
 export interface Tenant {
-  id: number;
-  remark: string;
+  tenant_id: string;
   title: string;
-  [propName: string]: unknown;
+  remark: string;
+
+  num_user: number;
+  created_at: string;
+  roles: string[];
 }
+
+interface AipData {
+  '@type': string;
+  tenants: Tenant[];
+}
+
 export default function useTenantsQuery() {
-  const { data, ...rest } = useQuery<Tenant[]>({ url, method });
-  const tenantList = data || [];
-  return { tenantList, ...rest };
+  const { data, ...rest } = useQuery<AipData>({ url, method });
+  const tenants = data?.tenants ?? [];
+  return { tenants, data, ...rest };
 }
