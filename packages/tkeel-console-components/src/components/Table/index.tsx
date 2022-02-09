@@ -101,7 +101,7 @@ function Table<D extends object>({
       return <Loading styles={{ wrapper: { height: '100%' } }} />;
     }
 
-    if (data?.length > 0) {
+    if (data?.length === 0) {
       return empty;
     }
 

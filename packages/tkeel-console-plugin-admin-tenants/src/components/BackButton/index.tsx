@@ -2,8 +2,9 @@ import { Button } from '@chakra-ui/react';
 import { useGlobalProps } from '@tkeel/console-business-components';
 import { ChevronLeftFilledIcon } from '@tkeel/console-icons';
 
-export function BackButton() {
+export default function BackButton() {
   const { navigate } = useGlobalProps();
+
   return (
     <Button
       variant="outline"
@@ -19,4 +20,3 @@ export function BackButton() {
     </Button>
   );
 }
-export default BackButton;

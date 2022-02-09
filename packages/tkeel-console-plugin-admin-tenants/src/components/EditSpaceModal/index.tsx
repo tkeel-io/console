@@ -12,8 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { FormField, Modal } from '@tkeel/console-components';
 
-import AuthConfigOption from './AuthConfigOption';
-
+import AuthConfigOption from '@/tkeel-console-plugin-admin-tenants/components/AuthConfigOption';
 import useCreateTenantMutation from '@/tkeel-console-plugin-admin-tenants/hooks/mutations/useCreateTenantMutation';
 
 interface Props {
