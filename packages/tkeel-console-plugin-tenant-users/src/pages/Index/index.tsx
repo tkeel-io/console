@@ -58,7 +58,7 @@ function Index() {
       },
     },
     {
-      Header: '用户昵称',
+      Header: '用户名称',
       accessor: 'nick_name',
     },
     {

@@ -22,5 +22,8 @@ export default function useOAuthResetPasswordMutation({
     url,
     method,
     reactQueryOptions: { onSuccess },
+    extras: {
+      isWithToken: false,
+    },
   });
 }

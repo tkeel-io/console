@@ -5,7 +5,7 @@
 /* eslint-disable no-console */
 import { Box, Button, Flex, useDisclosure } from '@chakra-ui/react';
 import { useGlobalProps } from '@tkeel/console-business-components';
-import { PageHeader, SearchInput } from '@tkeel/console-components';
+import { Empty, PageHeader, SearchInput } from '@tkeel/console-components';
 import { AddFilledIcon, HumanVipFilledIcon } from '@tkeel/console-icons';
 
 import { EditSpaceModal } from '@/tkeel-console-plugin-admin-tenants/components';
@@ -76,7 +76,15 @@ function IndexComponent(): JSX.Element {
           </Button>
           <EditSpaceModal isOpen={isOpen} onClose={onClose} />
         </Flex>
-        <TenantSpaceTable data={tenantList} columns={columns} />
+        {tenantList?.length > 0 ? (
+          <TenantSpaceTable data={tenantList} columns={columns} />
+        ) : (
+          <Empty
+            title="暂无空间"
+            description="您可前往页面右上角「创建租户空间」"
+            styles={{ wrapper: { height: '100%' } }}
+          />
+        )}
       </Flex>
     </Flex>
   );
