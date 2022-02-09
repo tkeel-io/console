@@ -19,7 +19,7 @@ const handleSearch = (keyword: string) => {
   console.log('keyword', keyword);
 };
 
-function IndexComponent() {
+export default function Index() {
   const { navigate } = useGlobalProps();
   const { isLoading, tenants } = useTenantsQuery();
 
@@ -101,5 +101,3 @@ function IndexComponent() {
     </Flex>
   );
 }
-
-export default IndexComponent;
