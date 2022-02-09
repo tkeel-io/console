@@ -2,20 +2,17 @@ const inquirer = require('inquirer');
 
 const { readPackages } = require('../utils/packages');
 
-const connector = ' - ';
-
 /**
  *
- * @param {string} npmScriptName
  * @returns {Promise<Object[]>}
  */
-async function prompt({ npmScriptName }) {
+async function prompt() {
   const message = 'Select packages';
   const packages = readPackages();
   const canRunPackages = packages.filter(({ canRun }) => canRun);
   const choices = canRunPackages.map(({ packageJson }) => {
     const { name } = packageJson;
-    return `${name}${connector}${npmScriptName}`;
+    return name;
   });
 
   const questions = [
@@ -36,8 +33,8 @@ async function prompt({ npmScriptName }) {
   const { data } = await inquirer.prompt(questions);
 
   return data.map((value) => {
-    const [packageName, scriptName] = value.trim().split(connector);
-    return { packageName, npmScriptName: scriptName };
+    const packageName = value.trim();
+    return { packageName };
   });
 }
 
