@@ -83,7 +83,7 @@ export default function BaseUserModal({
         id="username"
         label="用户账号"
         isDisabled={formFields?.username?.disabled}
-        // help="6~18 位字符串, 只能包含英文字母、数字、下划线"
+        help="6~18 位字符串, 只能包含英文字母、数字、下划线和 @"
         error={errors.username}
         schemas={register('username', {
           required: { value: true, message: '请输入正确的用户账号' },
@@ -91,10 +91,10 @@ export default function BaseUserModal({
       />
       <TextField
         id="nick_name"
-        label="用户昵称"
+        label="用户名称"
         error={errors.nick_name}
         schemas={register('nick_name', {
-          required: { value: false, message: '用户昵称' },
+          required: { value: false, message: '用户名称' },
         })}
       />
       <FormControl id="roles" label="用户角色设置">
