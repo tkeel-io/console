@@ -101,6 +101,10 @@ function CustomModal({
             borderBottomWidth="1px"
             borderBottomStyle="solid"
             borderBottomColor="gray.200"
+            fontSize="14px"
+            fontWeight="400"
+            lineHeight="24px"
+            color="gray.800"
           >
             {title}
           </ModalHeader>
