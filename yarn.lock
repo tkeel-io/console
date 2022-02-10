@@ -3405,6 +3405,30 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@tkeel/console-plugin-tenant-data-subscription@workspace:packages/tkeel-console-plugin-tenant-data-subscription":
+  version: 0.0.0-use.local
+  resolution: "@tkeel/console-plugin-tenant-data-subscription@workspace:packages/tkeel-console-plugin-tenant-data-subscription"
+  dependencies:
+    "@chakra-ui/react": ^1.8.1
+    "@emotion/react": ^11.7.1
+    "@emotion/styled": ^11.6.0
+    "@tkeel/console-business-components": "workspace:^"
+    "@tkeel/console-components": "workspace:^"
+    "@tkeel/console-hooks": "workspace:^"
+    "@tkeel/console-icons": "workspace:^"
+    "@tkeel/console-types": "workspace:^"
+    "@tkeel/console-utils": "workspace:^"
+    "@types/lodash": ^4.14.178
+    "@types/qs": ^6.9.7
+    framer-motion: ^6.2.3
+    react: ^17.0.2
+    react-dom: ^17.0.2
+    react-hook-form: ^7.26.1
+    react-query: ^3.34.12
+    react-router-dom: ^6.2.1
+  languageName: unknown
+  linkType: soft
+
 "@tkeel/console-plugin-tenant-devices@workspace:packages/tkeel-console-plugin-tenant-devices":
   version: 0.0.0-use.local
   resolution: "@tkeel/console-plugin-tenant-devices@workspace:packages/tkeel-console-plugin-tenant-devices"
@@ -3923,7 +3947,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/qs@npm:*":
+"@types/qs@npm:*, @types/qs@npm:^6.9.7":
   version: 6.9.7
   resolution: "@types/qs@npm:6.9.7"
   checksum: 7fd6f9c25053e9b5bb6bc9f9f76c1d89e6c04f7707a7ba0e44cc01f17ef5284adb82f230f542c2d5557d69407c9a40f0f3515e8319afd14e1e16b5543ac6cdba
@@ -13288,6 +13312,15 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17
   checksum: 17762fc4f8cd3aa1036e3874c39831c8aed59fabf99bfe2951506a47153157e648eb4b5545b9a5bed70e50ef9aa4ba6d0e48d7a3ad3dfea6c29a62e527b1dc71
+  languageName: node
+  linkType: hard
+
+"react-hook-form@npm:^7.26.1":
+  version: 7.26.1
+  resolution: "react-hook-form@npm:7.26.1"
+  peerDependencies:
+    react: ^16.8.0 || ^17
+  checksum: e873924a0bb16b312424a1fe98e402c478f4e10fdd2bb171dc36e27778216508c4e263e12eb6fcb015e50e108d91fd38ab729f73a7b5a5ad626ad97254ff15c0
   languageName: node
   linkType: hard
 
