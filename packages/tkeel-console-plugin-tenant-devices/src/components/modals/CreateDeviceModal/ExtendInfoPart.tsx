@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import {
   Box,
   Button,
@@ -10,7 +10,11 @@ import {
 } from '@chakra-ui/react';
 import { FormField } from '@tkeel/console-components/';
 import { PencilFilledIcon, TrashFilledIcon } from '@tkeel/console-icons';
-// import { keyBy, mapValues } from 'lodash';
+import { keyBy, mapValues } from 'lodash';
+
+interface Props {
+  setGroupInfo: (params: { key: string; value: unknown }) => void;
+}
 
 const { TextField } = FormField;
 
@@ -24,19 +28,56 @@ const BASIC_EXTEND_ITEMS = [
   '安装时间',
 ];
 
-export default function ExtendInfoPart() {
-  // const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
+export default function ExtendInfoPart({ setGroupInfo }: Props) {
   const [extendInfo, setExtendInfo] = useState<
     { key: string; value: string }[]
   >([]);
   const handleSelectKey = (key: string) => {
     if (extendInfo.findIndex((item) => item.key === key) === -1) {
       setExtendInfo([...extendInfo, { key, value: '' }]);
+      setGroupInfo({
+        key: 'ext',
+        value: mapValues(
+          keyBy([...extendInfo, { key, value: '' }], 'key'),
+          'value'
+        ),
+      });
     }
   };
   const deleteExtendItem = (key: string) => {
     setExtendInfo(extendInfo.filter((item) => item.key !== key));
+    setGroupInfo({
+      key: 'ext',
+      value: mapValues(
+        keyBy(
+          extendInfo.filter((item) => item.key !== key),
+          'key'
+        ),
+        'value'
+      ),
+    });
   };
+  const handleExtendInfoChange =
+    (key: string) => (e: ChangeEvent<HTMLInputElement>) => {
+      // eslint-disable-next-line no-console
+      const { value } = e.target;
+
+      // setExtendInfo()
+      const newExtendInfo = extendInfo.map((item) => {
+        const obj = item;
+        if (item.key === key) {
+          obj.value = value;
+          return obj;
+        }
+        return item;
+      });
+
+      setExtendInfo(newExtendInfo);
+      setGroupInfo({
+        key: 'ext',
+        value: mapValues(keyBy(newExtendInfo, 'key'), 'value'),
+      });
+    };
 
   const renderLabel = (key: string) => {
     const fontColor = 'grayAlternatives.300';
@@ -64,7 +105,6 @@ export default function ExtendInfoPart() {
       </Flex>
     );
   };
-
   return (
     <Flex pos="relative" flexDirection="column" h="100%">
       <Button
@@ -115,6 +155,7 @@ export default function ExtendInfoPart() {
               value={item.value}
               label={renderLabel(item.key)}
               id="item"
+              onChange={handleExtendInfoChange(item.key)}
             />
           );
         })}
