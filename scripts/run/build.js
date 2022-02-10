@@ -4,6 +4,10 @@ const { runNpmScripts } = require('./commands');
 const prompt = require('./prompt');
 
 (async () => {
-  const data = await prompt({ npmScriptName: 'build' });
+  const packageInfos = await prompt();
+  const data = packageInfos.map(({ packageJson }) => ({
+    packageName: packageJson.name,
+    npmScriptName: 'build',
+  }));
   runNpmScripts({ data });
 })();

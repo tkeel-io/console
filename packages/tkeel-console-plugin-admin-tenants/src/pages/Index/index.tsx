@@ -1,31 +1,36 @@
-/* eslint-disable react/no-unstable-nested-components */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable react/prop-types */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable no-console */
+import { Column } from 'react-table';
 import { Box, Button, Flex, useDisclosure } from '@chakra-ui/react';
 import { useGlobalProps } from '@tkeel/console-business-components';
-import { Empty, PageHeader, SearchInput } from '@tkeel/console-components';
+import {
+  Empty,
+  PageHeader,
+  SearchInput,
+  Table,
+} from '@tkeel/console-components';
 import { AddFilledIcon, HumanVipFilledIcon } from '@tkeel/console-icons';
 
-import { EditSpaceModal } from '@/tkeel-console-plugin-admin-tenants/components';
-import TenantSpaceTable from '@/tkeel-console-plugin-admin-tenants/components/TenantSpaceTable';
-import useTenantsQuery from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useTenantsQuery';
+import EditSpaceModal from '@/tkeel-console-plugin-admin-tenants/components/EditSpaceModal';
+import useTenantsQuery, {
+  Tenant,
+} from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useTenantsQuery';
 
 const handleSearch = (keyword: string) => {
+  // eslint-disable-next-line no-console
   console.log('keyword', keyword);
 };
 
-function IndexComponent(): JSX.Element {
+export default function Index() {
   const { navigate } = useGlobalProps();
-  const { tenantList } = useTenantsQuery();
+  const { isLoading, tenants } = useTenantsQuery();
+
   const LinkToSpaceDetail = () => {
     navigate('/admin-tenants/detail/12029389');
   };
-  const columns = [
+  const columns: ReadonlyArray<Column<Tenant>> = [
     {
       Header: '租户空间',
       accessor: 'title',
+      // eslint-disable-next-line react/no-unstable-nested-components
       Cell: () => {
         return (
           <Button size="small" variant="link" onClick={LinkToSpaceDetail}>
@@ -34,13 +39,15 @@ function IndexComponent(): JSX.Element {
         );
       },
     },
-    { Header: '用户ID', accessor: 'id' },
-    { Header: '管理员账号', accessor: 'admin' },
-    { Header: '创建时间', accessor: 'createTime' },
+    { Header: '租户 ID', accessor: 'tenant_id' },
+    { Header: '管理员账号' },
+    { Header: '创建时间', accessor: 'created_at' },
     { Header: '备注', accessor: 'remark' },
+    { Header: '用户数', accessor: 'num_user' },
   ];
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <Flex flexDirection="column" height="100%">
       <PageHeader
@@ -76,18 +83,21 @@ function IndexComponent(): JSX.Element {
           </Button>
           <EditSpaceModal isOpen={isOpen} onClose={onClose} />
         </Flex>
-        {tenantList?.length > 0 ? (
-          <TenantSpaceTable data={tenantList} columns={columns} />
-        ) : (
-          <Empty
-            title="暂无空间"
-            description="您可前往页面右上角「创建租户空间」"
-            styles={{ wrapper: { height: '100%' } }}
-          />
-        )}
+        <Table
+          columns={columns}
+          data={tenants}
+          scroll={{ y: 'scroll' }}
+          isLoading={isLoading}
+          empty={
+            <Empty
+              title="暂无空间"
+              description="您可前往页面右上角「创建租户空间」"
+              styles={{ wrapper: { height: '100%' } }}
+            />
+          }
+          style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
+        />
       </Flex>
     </Flex>
   );
 }
-
-export default IndexComponent;

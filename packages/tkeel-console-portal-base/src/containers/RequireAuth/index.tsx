@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { Center, Spinner } from '@chakra-ui/react';
+import { Loading } from '@tkeel/console-components';
 import { PlatformNames } from '@tkeel/console-constants';
 import { useNoAuthRedirectPath } from '@tkeel/console-hooks';
 import { setLocalUserInfo, UserInfo } from '@tkeel/console-utils';
@@ -15,11 +15,7 @@ export default function RequireAuth() {
   const redirectPath = useNoAuthRedirectPath({ platformName });
 
   if (isLoading) {
-    return (
-      <Center height="100%">
-        <Spinner />
-      </Center>
-    );
+    return <Loading styles={{ wrapper: { height: '100%' } }} />;
   }
 
   if (isError) {

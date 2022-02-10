@@ -27,8 +27,7 @@ function Index() {
   if (keyword) {
     params = { ...params, key_words: keyword };
   }
-  const { data, queryKey } = useUsersQuery({ params });
-  const users = data?.users ?? [];
+  const { isLoading, users, queryKey } = useUsersQuery({ params });
 
   const handleCreateUserSuccess = () => {
     queryClient.invalidateQueries(queryKey);
@@ -113,11 +112,11 @@ function Index() {
         ]}
       />
       <Table
-        style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
         columns={columns}
         data={users}
-        defaultPageSize={20}
         scroll={{ y: '100%' }}
+        isLoading={isLoading}
+        style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
       />
     </Flex>
   );

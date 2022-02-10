@@ -1,11 +1,12 @@
 import { ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Box, Center, Divider, Spinner, Text, VStack } from '@chakra-ui/react';
+import { Box, Divider, Text, VStack } from '@chakra-ui/react';
 import {
   Checkbox,
   CheckboxGroup,
   FormControl,
   FormField,
+  Loading,
   Modal,
   SearchInput,
 } from '@tkeel/console-components';
@@ -55,8 +56,7 @@ export default function BaseRoleModal({
     params = { ...params, key_words: keywords };
   }
 
-  const { data, isLoading } = useTenantPluginsQuery({ params });
-  const plugins = data?.plugins ?? [];
+  const { plugins, isLoading } = useTenantPluginsQuery({ params });
 
   const {
     register,
@@ -106,9 +106,7 @@ export default function BaseRoleModal({
             <Divider backgroundColor="gray.200" />
             <Box overflowY="auto" maxHeight="300px">
               {isLoading ? (
-                <Center paddingTop="12px">
-                  <Spinner />
-                </Center>
+                <Loading styles={{ wrapper: { paddingTop: '12px' } }} />
               ) : (
                 <CheckboxGroup
                   defaultValue={defaultValues?.plugins}

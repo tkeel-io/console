@@ -52,8 +52,7 @@ export default function BaseUserModal({
   onClose,
   onConfirm,
 }: Props) {
-  const { data } = useRolesQuery();
-  const roles = data?.roles ?? [];
+  const { roles } = useRolesQuery();
 
   const {
     register,

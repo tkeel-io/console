@@ -19,9 +19,12 @@ export default function useTenantPluginsQuery({
   const { tenant_id: tenantId } = getLocalUserInfo();
   const url = `/security/v1/tenants/${tenantId}/plugins`;
 
-  return useQuery<ApiData, RequestParams>({
+  const { data, ...rest } = useQuery<ApiData, RequestParams>({
     url,
     method,
     params,
   });
+  const plugins = data?.plugins ?? [];
+
+  return { plugins, data, ...rest };
 }

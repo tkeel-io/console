@@ -8,6 +8,7 @@ export { default as Empty } from './components/Empty';
 export { default as Form } from './components/Form';
 export { default as FormControl } from './components/FormControl';
 export { default as FormField } from './components/FormField';
+export { default as Loading } from './components/Loading';
 export { default as Modal } from './components/Modal';
 export { default as PageHeader } from './components/PageHeader';
 export { default as PageHeaderToolbar } from './components/PageHeaderToolbar';
