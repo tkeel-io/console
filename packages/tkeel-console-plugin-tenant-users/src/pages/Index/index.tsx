@@ -19,16 +19,21 @@ import useUsersQuery, {
   User,
 } from '@/tkeel-console-plugin-tenant-users/hooks/queries/useUsersQuery';
 
-function Index() {
-  const [keyword, setKeyWord] = useState('');
+export default function Index() {
+  const [keyWords, setKeyWords] = useState('');
   const queryClient = useQueryClient();
 
-  let params = {};
-  if (keyword) {
-    params = { ...params, key_words: keyword };
+  let params = {
+    page_num: 1,
+    page_size: 1000,
+    order_by: 'created_at',
+    is_descending: true,
+    key_words: '',
+  };
+  if (keyWords) {
+    params = { ...params, key_words: keyWords };
   }
-  const { data, queryKey } = useUsersQuery({ params });
-  const users = data?.users ?? [];
+  const { isLoading, users, queryKey } = useUsersQuery({ params });
 
   const handleCreateUserSuccess = () => {
     queryClient.invalidateQueries(queryKey);
@@ -58,14 +63,14 @@ function Index() {
       },
     },
     {
-      Header: '用户昵称',
+      Header: '用户名称',
       accessor: 'nick_name',
     },
     {
       Header: '创建时间',
-      accessor: 'create_at',
+      accessor: 'created_at',
       Cell({ value }) {
-        return formatDateTimeByTimestamp({ timestamp: value });
+        return value ? formatDateTimeByTimestamp({ timestamp: value }) : '';
       },
     },
     {
@@ -105,7 +110,7 @@ function Index() {
         hasSearchInput
         searchInputProps={{
           onSearch(value) {
-            setKeyWord(value.trim());
+            setKeyWords(value.trim());
           },
         }}
         buttons={[
@@ -113,14 +118,12 @@ function Index() {
         ]}
       />
       <Table
-        style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
         columns={columns}
         data={users}
-        defaultPageSize={20}
         scroll={{ y: '100%' }}
+        isLoading={isLoading}
+        style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
       />
     </Flex>
   );
 }
-
-export default Index;

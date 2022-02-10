@@ -12,8 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { FormField, Modal } from '@tkeel/console-components';
 
-import AuthConfigOption from './AuthConfigOption';
-
+import AuthConfigOption from '@/tkeel-console-plugin-admin-tenants/components/AuthConfigOption';
 import useCreateTenantMutation from '@/tkeel-console-plugin-admin-tenants/hooks/mutations/useCreateTenantMutation';
 
 interface Props {
@@ -39,10 +38,6 @@ const AuthConfig = [
 export default function EditSpaceModal({ isOpen, onClose }: Props) {
   const { register } = useForm();
   const [selectedAuth, setSelectedAuth] = useState<string>('default');
-  const [title, setTitle] = useState('');
-  const [username, setUsername] = useState('');
-  const [nickName, setNickName] = useState('');
-  const [remark, setRemark] = useState('');
   const handleSelectAuth = (key: string) => () => {
     setSelectedAuth(key);
   };
@@ -50,18 +45,18 @@ export default function EditSpaceModal({ isOpen, onClose }: Props) {
   console.log(data, mutate, isLoading);
   const handleCreateTenant = () => {
     const params = {
-      title,
+      /* title,
       remark,
       admin: {
         username,
         nickName,
-      },
+      }, */
     };
     console.log(params);
     // mutate({ data: params });
   };
   useEffect(() => {
-    console.table({ title, username, nickName, remark });
+    // console.table({ title, username, nickName, remark });
   });
 
   return (
@@ -90,12 +85,10 @@ export default function EditSpaceModal({ isOpen, onClose }: Props) {
       <Box h="530px" overflowY="scroll">
         <TextField
           id="title"
-          value={title}
           label="空间名称"
-          schemas={register('title', {
+          registerReturn={register('title', {
             required: { value: true, message: 'required' },
           })}
-          onChange={(e) => setTitle(e.target.value)}
         />
         <FormControl mb="16px">
           <FormLabel fontSize="14px" lineHeight="24px" color="gray.600">
@@ -121,27 +114,22 @@ export default function EditSpaceModal({ isOpen, onClose }: Props) {
         <TextField
           id="username"
           label="管理员账号"
-          value={username}
-          schemas={register('username', {
+          help="6~18 位字符串, 只能包含英文字母、数字、下划线"
+          registerReturn={register('username', {
             required: { value: true, message: 'required' },
           })}
-          help="6~18 位字符串, 只能包含英文字母、数字、下划线"
-          onChange={(e) => setUsername(e.target.value)}
         />
         <TextField
           id="nickName"
-          value={nickName}
           label="管理员姓名"
-          schemas={register('nickName', {
+          registerReturn={register('nickName', {
             required: { value: true, message: 'required' },
           })}
-          onChange={(e) => setNickName(e.target.value)}
         />
         <TextField
           id="remark"
           label="备注"
-          value={remark}
-          onChange={(e) => setRemark(e.target.value)}
+          registerReturn={register('remark')}
         />
       </Box>
     </Modal>

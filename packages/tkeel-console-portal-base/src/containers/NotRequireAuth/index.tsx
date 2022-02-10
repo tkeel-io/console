@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { Center, Spinner } from '@chakra-ui/react';
+import { Loading } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
 
 import useAuth from '@/tkeel-console-portal-base/hooks/useAuth';
@@ -12,11 +12,7 @@ export default function NotRequireAuth() {
   const redirect = useRedirectParams();
 
   if (isLoading) {
-    return (
-      <Center height="100%">
-        <Spinner />
-      </Center>
-    );
+    return <Loading styles={{ wrapper: { height: '100%' } }} />;
   }
 
   if (isSuccess) {

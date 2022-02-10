@@ -20,7 +20,7 @@ export interface User {
   email?: string;
   nick_name?: string;
   avatar?: string;
-  create_at: string;
+  created_at: string;
   roles: string[];
 }
 
@@ -38,9 +38,12 @@ export default function useUsersQuery({
   const { tenant_id: tenantId } = getLocalUserInfo();
   const url = `/security/v1/tenants/${tenantId}/users`;
 
-  return useQuery<ApiData, RequestParams>({
+  const { data, ...rest } = useQuery<ApiData, RequestParams>({
     url,
     method,
     params,
   });
+  const users = data?.users ?? [];
+
+  return { users, data, ...rest };
 }

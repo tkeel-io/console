@@ -4,14 +4,14 @@ const _ = require('lodash');
 
 const logger = require('../utils/logger');
 const {
-  readPackages,
+  readPackageInfos,
   showBasePaths,
   showServerPorts,
 } = require('../utils/packages');
 
 function checkPackageNames() {
   logger.log('check package names');
-  const packages = readPackages();
+  const packages = readPackageInfos();
   const counter = _.countBy(packages, 'packageJson.name');
   let isSuccess = true;
   Object.keys(counter).forEach((key) => {
@@ -31,7 +31,7 @@ function checkPackageNames() {
 
 function checkCanRunPackageConfigs({ configKeyPath }) {
   logger.log(`check plugins ${configKeyPath}`);
-  const packages = readPackages().filter(
+  const packages = readPackageInfos().filter(
     ({ canRun, config }) => canRun && _.get(config, configKeyPath)
   );
   const counter = _.countBy(packages, `config.${configKeyPath}`);
