@@ -4,12 +4,12 @@ const fs = require('fs-extra');
 const shell = require('shelljs');
 
 const logger = require('../utils/logger');
-const { readPackages } = require('../utils/packages');
+const { readPackageInfos } = require('../utils/packages');
 const paths = require('../utils/paths');
 
 const settingsFilePath = paths.resolveRoot('.vscode', 'settings.json');
 const settings = fs.readJSONSync(settingsFilePath);
-const packages = readPackages({ portalFirst: false });
+const packages = readPackageInfos({ portalFirst: false });
 
 settings['path-intellisense.mappings'] = {};
 

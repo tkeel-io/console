@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
-const { readPackages } = require('../utils/packages');
+const { readPackageInfos } = require('../utils/packages');
 const { runNpmScripts } = require('./commands');
 
-const data = readPackages()
+const data = readPackageInfos()
   .filter(({ canRun }) => canRun)
   .map(({ packageJson }) => ({
     packageName: packageJson?.name,

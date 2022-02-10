@@ -14,6 +14,8 @@ import {
 import { useDeepCompareEffect } from 'react-use';
 import { Flex, Table as ChakraTable } from '@chakra-ui/react';
 
+import Empty from '@/tkeel-console-components/components/Empty';
+import Loading from '@/tkeel-console-components/components/Loading';
 import Pagination from '@/tkeel-console-components/components/Pagination';
 
 import Body from './Body';
@@ -23,7 +25,7 @@ import { Props, TableInstanceExtended, TableOptionsExtended } from './types';
 
 function Table<D extends object>({
   columns,
-  data,
+  data = [],
   defaultPageSize = 15,
   hasPagination = true,
   paginationProps = {
@@ -43,6 +45,8 @@ function Table<D extends object>({
     },
   },
   scroll,
+  isLoading,
+  empty = <Empty styles={{ wrapper: { height: '100%' } }} />,
   onSelect,
   onSort,
   style = {},
@@ -104,28 +108,44 @@ function Table<D extends object>({
     }
   }, [sortBy, onSort]);
 
+  const render = () => {
+    if (isLoading) {
+      return <Loading styles={{ wrapper: { height: '100%' } }} />;
+    }
+
+    if (data?.length === 0) {
+      return empty;
+    }
+
+    return (
+      <>
+        <ChakraTable
+          {...getTableProps()}
+          flex="1"
+          overflow="hidden"
+          display="flex"
+          flexDirection="column"
+        >
+          <Head
+            headerGroups={headerGroups}
+            fixHead={Boolean(scroll?.y)}
+            canSort={Boolean(onSort)}
+          />
+          <Body
+            page={rows}
+            getTableBodyProps={getTableBodyProps}
+            prepareRow={prepareRow}
+            scroll={scroll}
+          />
+        </ChakraTable>
+        {hasPagination && <Pagination {...paginationProps} />}
+      </>
+    );
+  };
+
   return (
     <Flex {...style} flexDirection="column">
-      <ChakraTable
-        {...getTableProps()}
-        flex="1"
-        overflow="hidden"
-        display="flex"
-        flexDirection="column"
-      >
-        <Head
-          headerGroups={headerGroups}
-          fixHead={Boolean(scroll?.y)}
-          canSort={Boolean(onSort)}
-        />
-        <Body
-          page={rows}
-          getTableBodyProps={getTableBodyProps}
-          prepareRow={prepareRow}
-          scroll={scroll}
-        />
-      </ChakraTable>
-      {hasPagination && <Pagination {...paginationProps} />}
+      {render()}
     </Flex>
   );
 }

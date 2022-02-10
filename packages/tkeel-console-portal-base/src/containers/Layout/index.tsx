@@ -19,6 +19,7 @@ function getElementIdByContainer(container: string): string {
 function Layout() {
   const { platformName, themeName } = useGlobalProps();
   const { menus } = useMenusQuery();
+
   const navigate = useNavigate();
   const apps = menusToApps({ platformName, menus, navigate, themeName });
 

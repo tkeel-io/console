@@ -9,8 +9,10 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { Alert, Form, FormField, toast } from '@tkeel/console-components';
+import { schemas } from '@tkeel/console-utils';
 
 import useOAuthResetPasswordMutation from '@/tkeel-console-portal-base/hooks/mutations/useOAuthResetPasswordMutation';
+import useResetPasswordKeyInfo from '@/tkeel-console-portal-base/hooks/queries/useResetPasswordKeyInfo';
 
 const { TextField } = FormField;
 
@@ -45,13 +47,19 @@ export default function SetPassword() {
   } = useForm<FormValues>();
 
   const [searchParams] = useSearchParams();
-  const tenantId = searchParams.get('tenant_id') ?? '';
-  const userId = searchParams.get('user_id') ?? '';
-  const username = searchParams.get('username') ?? '';
+  const resetKey = searchParams.get('reset_key') ?? '';
+  const { data: resetPasswordKeyInfo, isSuccess } = useResetPasswordKeyInfo({
+    data: { reset_key: resetKey },
+  });
+  const username = resetPasswordKeyInfo?.username ?? '';
 
   const { isOpen, onOpen } = useDisclosure();
   const navigate = useNavigate();
-  const { mutate, isLoading } = useOAuthResetPasswordMutation({
+  const {
+    data: resetPasswordData,
+    mutate,
+    isLoading,
+  } = useOAuthResetPasswordMutation({
     onSuccess() {
       onOpen();
     },
@@ -65,13 +73,17 @@ export default function SetPassword() {
       return;
     }
 
-    const data = {
-      tenant_id: tenantId,
-      user_id: userId,
-      new_password: password,
-    };
+    mutate({
+      data: {
+        reset_key: resetKey,
+        new_password: password,
+      },
+    });
+  };
 
-    mutate({ data });
+  const jumpToLoginPage = () => {
+    const tenantId = resetPasswordData?.tenant_id ?? '';
+    navigate(`/auth/login/${tenantId}`, { replace: true });
   };
 
   return (
@@ -107,11 +119,12 @@ export default function SetPassword() {
               label="密码"
               placeholder="请输入"
               error={errors.password}
-              schemas={register('password', {
-                required: { value: true, message: 'required' },
-              })}
               formLabelStyle={formLabelStyle}
               inputStyle={inputStyle}
+              registerReturn={register(
+                'password',
+                schemas.password.registerOptions
+              )}
             />
             <TextField
               type="password"
@@ -119,18 +132,21 @@ export default function SetPassword() {
               label="再次输入密码"
               placeholder="请输入"
               error={errors.confirmPassword}
-              schemas={register('confirmPassword', {
-                required: { value: true, message: 'required' },
-              })}
               formControlStyle={{ marginBottom: '24px' }}
               formLabelStyle={formLabelStyle}
               inputStyle={inputStyle}
+              registerReturn={register(
+                'confirmPassword',
+                schemas.password.registerOptions
+              )}
             />
             <Box paddingTop="46px">
               <Button
                 type="submit"
                 isFullWidth
+                width="350px"
                 height="45px"
+                isDisabled={!isSuccess}
                 isLoading={isLoading}
               >
                 确定
@@ -145,8 +161,8 @@ export default function SetPassword() {
         iconPosition="left"
         title="密码设置成功"
         hasCancelButton={false}
-        onClose={() => navigate('/auth/login', { replace: true })}
-        onConfirm={() => navigate('/auth/login', { replace: true })}
+        onClose={jumpToLoginPage}
+        onConfirm={jumpToLoginPage}
       />
     </>
   );

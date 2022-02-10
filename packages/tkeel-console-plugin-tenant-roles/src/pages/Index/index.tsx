@@ -27,8 +27,7 @@ function Index() {
   if (keywords) {
     params = { ...params, key_words: keywords };
   }
-  const { data, queryKey } = useRolesQuery({ params });
-  const roleNames = data?.roles ?? [];
+  const { roles: roleNames, queryKey } = useRolesQuery({ params });
   const roles = roleNames.map((roleName) => ({ roleName }));
 
   const handleCreateRoleSuccess = () => {
