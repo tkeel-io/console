@@ -24,9 +24,7 @@ function Content({ isInstalledPlugins = false, repo }: Props) {
     pageSize,
     enabled: !isInstalledPlugins,
     onSuccess: (result) => {
-      // eslint-disable-next-line no-console
-      console.log('Content ~ result', result);
-      setTotalSize(1);
+      setTotalSize(result?.data?.total ?? 0);
     },
   });
 
