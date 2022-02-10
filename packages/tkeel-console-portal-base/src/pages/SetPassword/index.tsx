@@ -9,6 +9,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { Alert, Form, FormField, toast } from '@tkeel/console-components';
+import { schemas } from '@tkeel/console-utils';
 
 import useOAuthResetPasswordMutation from '@/tkeel-console-portal-base/hooks/mutations/useOAuthResetPasswordMutation';
 import useResetPasswordKeyInfo from '@/tkeel-console-portal-base/hooks/queries/useResetPasswordKeyInfo';
@@ -120,9 +121,10 @@ export default function SetPassword() {
               error={errors.password}
               formLabelStyle={formLabelStyle}
               inputStyle={inputStyle}
-              registerReturn={register('password', {
-                required: { value: true, message: 'required' },
-              })}
+              registerReturn={register(
+                'password',
+                schemas.password.registerOptions
+              )}
             />
             <TextField
               type="password"
@@ -133,9 +135,10 @@ export default function SetPassword() {
               formControlStyle={{ marginBottom: '24px' }}
               formLabelStyle={formLabelStyle}
               inputStyle={inputStyle}
-              registerReturn={register('confirmPassword', {
-                required: { value: true, message: 'required' },
-              })}
+              registerReturn={register(
+                'confirmPassword',
+                schemas.password.registerOptions
+              )}
             />
             <Box paddingTop="46px">
               <Button

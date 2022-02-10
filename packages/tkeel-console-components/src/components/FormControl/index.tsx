@@ -10,7 +10,7 @@ import {
 
 export interface FormControlProps {
   label?: ReactNode;
-  help?: string;
+  help?: ReactNode;
   error?: FieldError;
   formControlStyle?: StyleProps;
   formLabelStyle?: StyleProps;

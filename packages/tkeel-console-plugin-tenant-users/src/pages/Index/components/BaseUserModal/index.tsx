@@ -8,6 +8,7 @@ import {
   FormField,
   Modal,
 } from '@tkeel/console-components';
+import { schemas } from '@tkeel/console-utils';
 
 import useRolesQuery from '@/tkeel-console-plugin-tenant-users/hooks/queries/useRolesQuery';
 
@@ -84,19 +85,15 @@ export default function BaseUserModal({
         id="username"
         label="用户账号"
         isDisabled={formFields?.username?.disabled}
-        help="6~18 位字符串, 只能包含英文字母、数字、下划线和 @"
+        help={schemas.username.help}
         error={errors.username}
-        registerReturn={register('username', {
-          required: { value: true, message: '请输入正确的用户账号' },
-        })}
+        registerReturn={register('username', schemas.username.registerOptions)}
       />
       <TextField
         id="nick_name"
         label="用户名称"
         error={errors.nick_name}
-        registerReturn={register('nick_name', {
-          required: { value: false, message: '用户名称' },
-        })}
+        registerReturn={register('nick_name')}
       />
       <FormControl id="roles" label="用户角色设置">
         <Box overflowY="auto" maxHeight="300px">

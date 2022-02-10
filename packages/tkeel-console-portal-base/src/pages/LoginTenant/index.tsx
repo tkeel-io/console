@@ -8,7 +8,7 @@ import {
 import { Box, Button, Center, Heading, Text } from '@chakra-ui/react';
 import { Form, FormField } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
-import { setLocalTokenInfo } from '@tkeel/console-utils';
+import { schemas, setLocalTokenInfo } from '@tkeel/console-utils';
 
 import useOAuthTokenMutation, {
   ApiData,
@@ -124,9 +124,10 @@ function LoginTenant() {
             formControlStyle={{ marginBottom: '24px' }}
             formLabelStyle={formLabelStyle}
             inputStyle={inputStyle}
-            registerReturn={register('username', {
-              required: { value: true, message: '请输入您的账号' },
-            })}
+            registerReturn={register(
+              'username',
+              schemas.username.registerOptions
+            )}
           />
           <TextField
             id="password"
@@ -137,9 +138,10 @@ function LoginTenant() {
             error={errors.password}
             formLabelStyle={formLabelStyle}
             inputStyle={inputStyle}
-            registerReturn={register('password', {
-              required: { value: true, message: '请输入您的密码' },
-            })}
+            registerReturn={register(
+              'password',
+              schemas.password.registerOptions
+            )}
           />
           <Box paddingTop="46px">
             <Button
