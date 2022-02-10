@@ -3,7 +3,7 @@ import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { Box, Button, Center, Flex, Heading, Text } from '@chakra-ui/react';
 import { Form, FormField } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
-import { setLocalTokenInfo } from '@tkeel/console-utils';
+import { schemas, setLocalTokenInfo } from '@tkeel/console-utils';
 
 import useOAuthAdminTokenMutation, {
   ApiData,
@@ -105,15 +105,16 @@ function LoginAdmin() {
               type="password"
               id="password"
               label="密码"
-              value={String(GLOBAL_CONFIG?.mock?.password ?? '')}
+              defaultValue={String(GLOBAL_CONFIG?.mock?.password ?? '')}
               placeholder="请输入您的密码"
               error={errors.password}
               formControlStyle={{ paddingTop: '24px' }}
               formLabelStyle={formLabelStyle}
               inputStyle={inputStyle}
-              registerReturn={register('password', {
-                required: { value: true, message: 'required' },
-              })}
+              registerReturn={register(
+                'password',
+                schemas.password.registerOptions
+              )}
             />
             <Box paddingTop="46px">
               <Button
