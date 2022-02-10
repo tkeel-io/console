@@ -24,7 +24,7 @@ export default function Index() {
   const queryClient = useQueryClient();
   const [keyWords, setKeyWords] = useState('');
   const pagination = usePagination();
-  const { pageNum, pageSize, setTotalSize } = pagination;
+  const { pageNum, pageSize, setPageNum, setTotalSize } = pagination;
 
   let params = {
     page_num: pageNum,
@@ -36,9 +36,13 @@ export default function Index() {
   if (keyWords) {
     params = { ...params, key_words: keyWords };
   }
-  const { isLoading, users, data, queryKey } = useUsersQuery({ params });
-  const total = data?.total ?? 0;
-  setTotalSize(total);
+  const { isLoading, users, queryKey } = useUsersQuery({
+    params,
+    onSuccess(data) {
+      const total = data?.data?.total ?? 0;
+      setTotalSize(total);
+    },
+  });
 
   const handleCreateUserSuccess = () => {
     queryClient.invalidateQueries(queryKey);
@@ -115,6 +119,7 @@ export default function Index() {
         hasSearchInput
         searchInputProps={{
           onSearch(value) {
+            setPageNum(1);
             setKeyWords(value.trim());
           },
         }}
