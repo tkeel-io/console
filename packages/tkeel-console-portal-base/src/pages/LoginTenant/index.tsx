@@ -115,31 +115,31 @@ function LoginTenant() {
           onSubmit={handleSubmit(onSubmit)}
         >
           <TextField
-            type="text"
             id="username"
+            type="text"
             label="账号"
-            value={String(GLOBAL_CONFIG?.mock?.username ?? '')}
+            defaultValue={String(GLOBAL_CONFIG?.mock?.username ?? '')}
             placeholder="请输入您的账号"
             error={errors.username}
-            schemas={register('username', {
-              required: { value: true, message: 'required' },
-            })}
             formControlStyle={{ marginBottom: '24px' }}
             formLabelStyle={formLabelStyle}
             inputStyle={inputStyle}
+            registerReturn={register('username', {
+              required: { value: true, message: '请输入您的账号' },
+            })}
           />
           <TextField
-            type="password"
             id="password"
+            type="password"
             label="密码"
-            value={String(GLOBAL_CONFIG?.mock?.password ?? '')}
+            defaultValue={String(GLOBAL_CONFIG?.mock?.password ?? '')}
             placeholder="请输入您的密码"
             error={errors.password}
-            schemas={register('password', {
-              required: { value: true, message: 'required' },
-            })}
             formLabelStyle={formLabelStyle}
             inputStyle={inputStyle}
+            registerReturn={register('password', {
+              required: { value: true, message: '请输入您的密码' },
+            })}
           />
           <Box paddingTop="46px">
             <Button

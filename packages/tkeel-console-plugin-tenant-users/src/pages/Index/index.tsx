@@ -19,13 +19,19 @@ import useUsersQuery, {
   User,
 } from '@/tkeel-console-plugin-tenant-users/hooks/queries/useUsersQuery';
 
-function Index() {
-  const [keyword, setKeyWord] = useState('');
+export default function Index() {
+  const [keyWords, setKeyWords] = useState('');
   const queryClient = useQueryClient();
 
-  let params = {};
-  if (keyword) {
-    params = { ...params, key_words: keyword };
+  let params = {
+    page_num: 1,
+    page_size: 1000,
+    order_by: 'created_at',
+    is_descending: true,
+    key_words: '',
+  };
+  if (keyWords) {
+    params = { ...params, key_words: keyWords };
   }
   const { isLoading, users, queryKey } = useUsersQuery({ params });
 
@@ -62,9 +68,9 @@ function Index() {
     },
     {
       Header: '创建时间',
-      accessor: 'create_at',
+      accessor: 'created_at',
       Cell({ value }) {
-        return formatDateTimeByTimestamp({ timestamp: value });
+        return value ? formatDateTimeByTimestamp({ timestamp: value }) : '';
       },
     },
     {
@@ -104,7 +110,7 @@ function Index() {
         hasSearchInput
         searchInputProps={{
           onSearch(value) {
-            setKeyWord(value.trim());
+            setKeyWords(value.trim());
           },
         }}
         buttons={[
@@ -121,5 +127,3 @@ function Index() {
     </Flex>
   );
 }
-
-export default Index;

@@ -1,14 +1,15 @@
 import useMutation from '@/tkeel-console-portal-base/hooks/useMutation';
 
-interface RequestData {
-  tenant_id: string;
-  user_id: string;
+type RequestData = {
+  reset_key: string;
   new_password: string;
-}
+};
 
-export interface ApiData {
+type ApiData = {
   '@type': string;
-}
+  has_reset: boolean;
+  tenant_id: string;
+};
 
 const url = '/security/v1/oauth/pwd';
 const method = 'POST';

@@ -20,7 +20,7 @@ export interface User {
   email?: string;
   nick_name?: string;
   avatar?: string;
-  create_at: string;
+  created_at: string;
   roles: string[];
 }
 
