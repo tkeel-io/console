@@ -4,16 +4,22 @@ import { Editor, Modal } from '@tkeel/console-components';
 
 import useInstallPluginMutation from '@/tkeel-console-plugin-admin-plugins/hooks/mutations/useInstallPluginMutation';
 import usePluginDetailQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/usePluginDetailQuery';
-import { PluginInfo } from '@/tkeel-console-plugin-admin-plugins/types/plugin-info';
+
+export interface InstallPluginInfo {
+  name: string;
+  version: string;
+  repo: string;
+  installed: boolean;
+}
 
 type Props = {
-  pluginInfo: PluginInfo;
+  installPluginInfo: InstallPluginInfo;
   isOpen: boolean;
   onClose: () => void;
 };
 
-function EditConfigModal({ pluginInfo, isOpen, onClose }: Props) {
-  const { repo, name, version } = pluginInfo;
+function EditConfigModal({ installPluginInfo, isOpen, onClose }: Props) {
+  const { repo, name, version } = installPluginInfo;
   const { pluginDetail, isLoading: isQueryDetailLoading } =
     usePluginDetailQuery({
       repoName: repo,
@@ -33,7 +39,7 @@ function EditConfigModal({ pluginInfo, isOpen, onClose }: Props) {
         name,
         version,
         repo,
-        configuration: pluginDetail?.configuration || '',
+        configuration: pluginDetail?.metadata?.configuration || '',
         type: 1,
       },
     });
@@ -66,7 +72,7 @@ function EditConfigModal({ pluginInfo, isOpen, onClose }: Props) {
         width="100%"
         height="416px"
         language="yaml"
-        value={atob(pluginDetail?.configuration || '')}
+        value={atob(pluginDetail?.metadata?.configuration ?? '')}
         readOnly
       />
     </Modal>

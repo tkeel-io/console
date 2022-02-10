@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { useParams } from 'react-router-dom';
 import {
   Box,
@@ -8,12 +9,13 @@ import {
   Tabs,
 } from '@chakra-ui/react';
 import { Editor } from '@tkeel/console-components';
+import { markdown } from 'markdown';
 
 import BasicInfo from './BasicInfo';
 import CustomTab from './CustomTab';
 import DeveloperInfo from './DeveloperInfo';
 import EnablePluginList from './EnablePluginList';
-import Introduce from './Introduce';
+import { MarkdownWrapper } from './index.style';
 
 import usePluginDetailQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/usePluginDetailQuery';
 
@@ -45,19 +47,29 @@ function Detail() {
         </TabList>
         <TabPanels marginTop="16px" flex="1" overflow="hidden">
           <TabPanel padding="0">
-            <Introduce />
+            <MarkdownWrapper
+              padding="24px"
+              backgroundColor="white"
+              dangerouslySetInnerHTML={{
+                __html: markdown.toHTML(
+                  decodeURIComponent(
+                    escape(window.atob(pluginDetail?.metadata?.readme ?? ''))
+                  )
+                ),
+              }}
+            />
           </TabPanel>
           <TabPanel height="100%" padding="24px" backgroundColor="white">
             <Editor
               width="100%"
               height="100%"
               language="yaml"
-              value={atob(pluginDetail?.configuration || '')}
+              value={atob(pluginDetail?.metadata?.configuration ?? '')}
               readOnly
             />
           </TabPanel>
           <TabPanel padding="0" height="100%">
-            <EnablePluginList />
+            <EnablePluginList pluginName={name || ''} />
           </TabPanel>
         </TabPanels>
       </Tabs>

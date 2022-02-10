@@ -3,6 +3,9 @@ import useQuery from '@/tkeel-console-plugin-admin-plugins/hooks/useQuery';
 export interface Repo {
   name: string;
   url: string;
+  metadata: object;
+  annotations: object;
+  installer_num: number;
 }
 
 export interface ApiData {
@@ -18,7 +21,7 @@ export default function useReposQuery() {
     url,
     method,
   });
-  const repos = data?.repos.filter((repo) => repo.name.includes('tkeel')) || [];
+  const repos = data?.repos || [];
 
   return { repos, data, ...rest };
 }

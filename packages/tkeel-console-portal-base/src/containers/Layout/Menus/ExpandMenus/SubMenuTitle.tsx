@@ -26,14 +26,11 @@ function ParentMenu({
     return item.path && location.pathname.includes(item.path);
   });
 
-  const mode = active ? 'dark' : 'light';
   return (
     <Box
       paddingRight="18px"
-      color={active ? 'white' : 'gray.600'}
-      backgroundColor={active ? 'primary' : 'inherit'}
+      color={active ? 'primary' : 'inherit'}
       borderRadius="4px"
-      active={active.toString()}
       onClick={() => handleMenuClick(id)}
     >
       <MenuItem
@@ -42,9 +39,9 @@ function ParentMenu({
         leftIcon={icon as string}
         rightIcon={
           spread ? (
-            <ChevronUpFilledIcon mode={mode} />
+            <ChevronUpFilledIcon color="grayAlternatives.300" />
           ) : (
-            <ChevronDownFilledIcon mode={mode} />
+            <ChevronDownFilledIcon color="grayAlternatives.300" />
           )
         }
       />
