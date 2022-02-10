@@ -87,7 +87,7 @@ export default function BaseRoleModal({
         label="角色名称"
         error={errors.role}
         isDisabled={formFields?.role?.disabled}
-        schemas={register('role', {
+        registerReturn={register('role', {
           required: { value: true, message: '请输入正确的角色名称' },
         })}
       />

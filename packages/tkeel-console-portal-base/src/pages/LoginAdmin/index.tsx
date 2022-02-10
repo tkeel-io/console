@@ -108,12 +108,12 @@ function LoginAdmin() {
               value={String(GLOBAL_CONFIG?.mock?.password ?? '')}
               placeholder="请输入您的密码"
               error={errors.password}
-              schemas={register('password', {
-                required: { value: true, message: 'required' },
-              })}
               formControlStyle={{ paddingTop: '24px' }}
               formLabelStyle={formLabelStyle}
               inputStyle={inputStyle}
+              registerReturn={register('password', {
+                required: { value: true, message: 'required' },
+              })}
             />
             <Box paddingTop="46px">
               <Button

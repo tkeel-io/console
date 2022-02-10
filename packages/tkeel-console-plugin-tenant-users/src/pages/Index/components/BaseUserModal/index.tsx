@@ -60,7 +60,9 @@ export default function BaseUserModal({
     trigger,
     getValues,
     setValue,
-  } = useForm<FormValues>({ defaultValues });
+  } = useForm<FormValues>({
+    defaultValues,
+  });
 
   const handleConfirm = async () => {
     const result = await trigger();
@@ -84,7 +86,7 @@ export default function BaseUserModal({
         isDisabled={formFields?.username?.disabled}
         help="6~18 位字符串, 只能包含英文字母、数字、下划线和 @"
         error={errors.username}
-        schemas={register('username', {
+        registerReturn={register('username', {
           required: { value: true, message: '请输入正确的用户账号' },
         })}
       />
@@ -92,7 +94,7 @@ export default function BaseUserModal({
         id="nick_name"
         label="用户名称"
         error={errors.nick_name}
-        schemas={register('nick_name', {
+        registerReturn={register('nick_name', {
           required: { value: false, message: '用户名称' },
         })}
       />

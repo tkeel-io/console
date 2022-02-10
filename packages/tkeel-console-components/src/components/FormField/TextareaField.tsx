@@ -1,4 +1,4 @@
-import { ChangeEventHandler, HTMLInputTypeAttribute } from 'react';
+import { HTMLInputTypeAttribute } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 import { StyleProps, Textarea } from '@chakra-ui/react';
 
@@ -9,15 +9,15 @@ import FormControl, {
 import { fieldDefaultProps } from './default-props';
 import { getFocusStyle } from './utils';
 
-type Props = FormControlProps & {
-  id: string;
-  type?: HTMLInputTypeAttribute;
-  value?: string;
-  placeholder?: string;
-  schemas?: UseFormRegisterReturn;
-  inputStyle?: StyleProps;
-  onChange?: ChangeEventHandler<HTMLTextAreaElement>;
-};
+type Props = FormControlProps &
+  UseFormRegisterReturn & {
+    id: string;
+    type?: HTMLInputTypeAttribute;
+    defaultValue?: string;
+    placeholder?: string;
+    registerReturn?: UseFormRegisterReturn;
+    inputStyle?: StyleProps;
+  };
 
 const defaultProps = {
   inputStyle: {},
@@ -26,26 +26,24 @@ const defaultProps = {
 
 function TextareaField({
   id,
-  value,
+  defaultValue,
   placeholder,
-  schemas,
+  registerReturn,
   inputStyle,
-  onChange,
   ...rest
 }: Props) {
   return (
     <FormControl id={id} {...rest}>
       <Textarea
         id={id}
-        defaultValue={value}
+        defaultValue={defaultValue}
         placeholder={placeholder}
         borderColor="gray.200"
         boxShadow="none!important"
         _placeholder={{ color: 'blackAlpha.500' }}
         _focus={getFocusStyle(!!rest.error)}
-        {...schemas}
+        {...registerReturn}
         {...inputStyle}
-        onChange={onChange}
       />
     </FormControl>
   );

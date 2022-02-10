@@ -118,11 +118,11 @@ export default function SetPassword() {
               label="密码"
               placeholder="请输入"
               error={errors.password}
-              schemas={register('password', {
-                required: { value: true, message: 'required' },
-              })}
               formLabelStyle={formLabelStyle}
               inputStyle={inputStyle}
+              registerReturn={register('password', {
+                required: { value: true, message: 'required' },
+              })}
             />
             <TextField
               type="password"
@@ -130,12 +130,12 @@ export default function SetPassword() {
               label="再次输入密码"
               placeholder="请输入"
               error={errors.confirmPassword}
-              schemas={register('confirmPassword', {
-                required: { value: true, message: 'required' },
-              })}
               formControlStyle={{ marginBottom: '24px' }}
               formLabelStyle={formLabelStyle}
               inputStyle={inputStyle}
+              registerReturn={register('confirmPassword', {
+                required: { value: true, message: 'required' },
+              })}
             />
             <Box paddingTop="46px">
               <Button
