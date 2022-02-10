@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { useEffect } from 'react';
 import {
@@ -5,7 +7,6 @@ import {
   Hooks,
   PluginHook,
   useFlexLayout,
-  usePagination,
   useRowSelect,
   useSortBy,
   useTable,
@@ -27,6 +28,22 @@ function Table<D extends object>({
   data = [],
   defaultPageSize = 15,
   hasPagination = true,
+  paginationProps = {
+    pageNum: 1,
+    pageSize: 1,
+    totalSize: 0,
+    canPreviousPage: false,
+    canNextPage: false,
+    setPageNum: (pageNum: number) => {
+      console.log('pageNum', pageNum);
+    },
+    setPageSize: (pageSize: number) => {
+      console.log(pageSize);
+    },
+    setTotalSize: (totalSize: number) => {
+      console.log(totalSize);
+    },
+  },
   scroll,
   isLoading,
   empty = <Empty styles={{ wrapper: { height: '100%' } }} />,
@@ -34,7 +51,7 @@ function Table<D extends object>({
   onSort,
   style = {},
 }: Props<D>) {
-  let plugins: PluginHook<D>[] = [usePagination];
+  let plugins: PluginHook<D>[] = [];
   const pushSelectionColumn = (hooks: Hooks<D>) => {
     hooks.visibleColumns.push((allColumns: ColumnInstance<D>[]) => [
       {
@@ -48,7 +65,7 @@ function Table<D extends object>({
   };
 
   if (onSelect) {
-    plugins = [...plugins, useRowSelect, pushSelectionColumn];
+    plugins = [useRowSelect, pushSelectionColumn];
   }
 
   if (onSort) {
@@ -59,16 +76,11 @@ function Table<D extends object>({
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    page,
+    rows,
     prepareRow,
-    canPreviousPage,
-    canNextPage,
-    nextPage,
-    previousPage,
-    setPageSize,
     selectedFlatRows,
     isAllRowsSelected,
-    state: { sortBy, pageIndex, pageSize, selectedRowIds },
+    state: { sortBy, selectedRowIds },
   } = useTable<D>(
     {
       columns,
@@ -120,24 +132,13 @@ function Table<D extends object>({
             canSort={Boolean(onSort)}
           />
           <Body
-            page={page}
+            page={rows}
             getTableBodyProps={getTableBodyProps}
             prepareRow={prepareRow}
             scroll={scroll}
           />
         </ChakraTable>
-        {hasPagination && (
-          <Pagination
-            pageIndex={pageIndex}
-            pageSize={pageSize}
-            totalSize={data.length}
-            canPreviousPage={canPreviousPage}
-            canNextPage={canNextPage}
-            previousPage={previousPage}
-            nextPage={nextPage}
-            setPageSize={setPageSize}
-          />
-        )}
+        {hasPagination && <Pagination {...paginationProps} />}
       </>
     );
   };

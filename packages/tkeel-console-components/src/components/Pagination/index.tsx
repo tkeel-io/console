@@ -4,32 +4,21 @@ import {
   ChevronLeftFilledIcon,
   ChevronRightFilledIcon,
 } from '@tkeel/console-icons';
+import { UsePaginationReturnType } from '@tkeel/console-types';
+import RCPagination from 'rc-pagination';
 
-type Props = {
-  pageIndex: number;
-  pageSize: number;
-  totalSize: number;
-  canPreviousPage: boolean;
-  canNextPage: boolean;
-  previousPage: () => void;
-  nextPage: () => void;
-  setPageSize: (pageSize: number) => void;
-};
+import './index.scss';
 
 function Pagination({
-  pageIndex,
+  pageNum,
   pageSize,
   totalSize,
   canPreviousPage,
   canNextPage,
-  previousPage,
-  nextPage,
+  setPageNum,
   setPageSize,
-}: Props) {
+}: UsePaginationReturnType) {
   const pageSizeRef = useRef(pageSize);
-
-  const startIndex = pageIndex * pageSize + 1;
-  const endIndex = canNextPage ? startIndex + pageSize - 1 : totalSize;
 
   const pageSizeArr: number[] = [];
 
@@ -39,19 +28,24 @@ function Pagination({
 
   return (
     <Flex
-      padding="0 24px"
+      paddingLeft="20px"
+      paddingRight="10px"
       justifyContent="space-between"
       alignItems="center"
       flexShrink="0"
       height="56px"
       backgroundColor="gray.50"
     >
-      <Flex alignItems="center" height="32px">
-        <Text color="gray.800" fontSize="14px" fontWeight="600">
-          每页显示
+      <Flex alignItems="center" height="32px" fontSize="12px">
+        共
+        <Text margin="0 3px" color="primary">
+          {totalSize}
         </Text>
+        项数据
+      </Flex>
+      <Flex alignItems="center">
         <Select
-          marginLeft="5px"
+          marginRight="16px"
           width="75px"
           borderColor="gray.200"
           _focus={{ boxShadow: 'none' }}
@@ -67,28 +61,27 @@ function Pagination({
             </option>
           ))}
         </Select>
-      </Flex>
-      <Flex alignItems="center">
-        <Flex marginRight="30px" alignItems="center">
-          <Text fontSize="14px" color="gray.800">
-            {startIndex}-{endIndex}
-          </Text>
-          <Text marginLeft="3px" fontSize="14px" color="gray.500">
-            of {totalSize}
-          </Text>
-        </Flex>
-        <ChevronLeftFilledIcon
-          color={canPreviousPage ? 'gray.700' : 'gray.500'}
-          style={{ cursor: canPreviousPage ? 'pointer' : 'not-allowed' }}
-          onClick={previousPage}
-        />
-        <ChevronRightFilledIcon
-          color={canNextPage ? 'gray.700' : 'gray.500'}
-          style={{
-            marginLeft: '30px',
-            cursor: canNextPage ? 'pointer' : 'not-allowed',
-          }}
-          onClick={nextPage}
+        <RCPagination
+          current={pageNum}
+          pageSize={pageSize}
+          total={totalSize}
+          prevIcon={
+            <ChevronLeftFilledIcon
+              color={canPreviousPage ? 'gray.700' : 'gray.500'}
+              style={{ cursor: canPreviousPage ? 'pointer' : 'not-allowed' }}
+            />
+          }
+          nextIcon={
+            <ChevronRightFilledIcon
+              color={canNextPage ? 'gray.700' : 'gray.500'}
+              style={{
+                cursor: canNextPage ? 'pointer' : 'not-allowed',
+              }}
+            />
+          }
+          jumpPrevIcon="..."
+          jumpNextIcon="..."
+          onChange={setPageNum}
         />
       </Flex>
     </Flex>
