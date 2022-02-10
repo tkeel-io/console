@@ -106,7 +106,7 @@ export default function BaseUserModal({
             backgroundColor="gray.50"
           >
             <CheckboxGroup
-              defaultValue={[]}
+              defaultValue={defaultValues?.roles ?? []}
               onChange={(value: string[]) => {
                 setValue('roles', value);
               }}

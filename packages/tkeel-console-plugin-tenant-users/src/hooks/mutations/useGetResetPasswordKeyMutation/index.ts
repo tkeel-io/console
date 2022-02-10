@@ -4,9 +4,9 @@ export interface ApiData {
   '@type': string;
 }
 
-const method = 'PUT';
+const method = 'GET';
 
-export default function useDeleteUserMutation({
+export default function useGetResetPasswordKeyMutation({
   tenantId,
   userId,
   onSuccess,
@@ -15,7 +15,7 @@ export default function useDeleteUserMutation({
   userId: string;
   onSuccess: () => void;
 }) {
-  const url = `/security/v1/tenants/${tenantId}/user/${userId}/pwd`;
+  const url = `/security/v1/tenants/${tenantId}/user/${userId}/rpk`;
 
   return useMutation<ApiData, undefined, undefined>({
     url,

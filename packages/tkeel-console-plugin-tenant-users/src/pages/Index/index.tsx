@@ -19,13 +19,13 @@ import useUsersQuery, {
   User,
 } from '@/tkeel-console-plugin-tenant-users/hooks/queries/useUsersQuery';
 
-function Index() {
-  const [keyword, setKeyWord] = useState('');
+export default function Index() {
+  const [keyWords, setKeyWords] = useState('');
   const queryClient = useQueryClient();
 
-  let params = {};
-  if (keyword) {
-    params = { ...params, key_words: keyword };
+  let params = { page_num: 1, page_size: 10, key_words: '' };
+  if (keyWords) {
+    params = { ...params, key_words: keyWords };
   }
   const { isLoading, users, queryKey } = useUsersQuery({ params });
 
@@ -104,7 +104,7 @@ function Index() {
         hasSearchInput
         searchInputProps={{
           onSearch(value) {
-            setKeyWord(value.trim());
+            setKeyWords(value.trim());
           },
         }}
         buttons={[
@@ -121,5 +121,3 @@ function Index() {
     </Flex>
   );
 }
-
-export default Index;

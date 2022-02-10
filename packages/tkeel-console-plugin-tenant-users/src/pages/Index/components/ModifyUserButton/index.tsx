@@ -30,6 +30,7 @@ export default function ModifyUserButton({ data, onSuccess }: Props) {
     nick_name: nickName,
     roles,
   };
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate, isLoading } = useModifyUserMutation({
     tenantId,

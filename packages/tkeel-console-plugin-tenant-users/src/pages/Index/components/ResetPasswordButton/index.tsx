@@ -1,7 +1,7 @@
 import { Text, useDisclosure } from '@chakra-ui/react';
 import { Alert, LinkButton } from '@tkeel/console-components';
 
-import useRestPasswordMutation from '@/tkeel-console-plugin-tenant-users/hooks/mutations/useRestPasswordMutation';
+import useGetResetPasswordKeyMutation from '@/tkeel-console-plugin-tenant-users/hooks/mutations/useGetResetPasswordKeyMutation';
 import { User } from '@/tkeel-console-plugin-tenant-users/hooks/queries/useUsersQuery';
 import SetPasswordModal from '@/tkeel-console-plugin-tenant-users/pages/Index/components/SetPasswordModal';
 
@@ -21,7 +21,7 @@ export default function ResetPasswordButton({ data }: Props) {
     onOpen: onSetPasswordModalOpen,
     onClose: onSetPasswordModalClose,
   } = useDisclosure();
-  const { mutate, isLoading } = useRestPasswordMutation({
+  const { mutate, isLoading } = useGetResetPasswordKeyMutation({
     tenantId,
     userId,
     onSuccess() {
