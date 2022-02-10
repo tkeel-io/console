@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import { Cell, Column } from 'react-table';
 import { Flex, Text } from '@chakra-ui/react';
@@ -91,24 +91,24 @@ export default function Index() {
     },
     {
       Header: '操作',
-      // eslint-disable-next-line react/no-unstable-nested-components
-      Cell({ row }: Cell<User>) {
-        const { original } = row;
+      Cell: ({ row }: Cell<User>) =>
+        useMemo(() => {
+          const { original } = row;
 
-        return (
-          <ButtonsHStack>
-            <ModifyUserButton
-              data={original}
-              onSuccess={handleModifyUserSuccess}
-            />
-            <ResetPasswordButton data={original} />
-            <DeleteUserButton
-              data={original}
-              onSuccess={handleDeleteUserSuccess}
-            />
-          </ButtonsHStack>
-        );
-      },
+          return (
+            <ButtonsHStack>
+              <ModifyUserButton
+                data={original}
+                onSuccess={handleModifyUserSuccess}
+              />
+              <ResetPasswordButton data={original} />
+              <DeleteUserButton
+                data={original}
+                onSuccess={handleDeleteUserSuccess}
+              />
+            </ButtonsHStack>
+          );
+        }, [row]),
     },
   ];
 
