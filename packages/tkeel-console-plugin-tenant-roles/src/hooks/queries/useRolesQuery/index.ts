@@ -22,10 +22,12 @@ export default function useRolesQuery({
 }: { params?: RequestParams } = {}) {
   const { tenant_id: tenantId } = getLocalUserInfo();
   const url = `/security/v1/rbac/tenant/${tenantId}/roles`;
-
-  return useQuery<ApiData, RequestParams>({
+  const { data, ...rest } = useQuery<ApiData, RequestParams>({
     url,
     method,
     params,
   });
+  const roles = data?.roles ?? [];
+
+  return { roles, data, ...rest };
 }

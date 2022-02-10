@@ -1,10 +1,10 @@
-import useMutation from '@/tkeel-console-plugin-tenant-users/hooks/useMutation';
+import useMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/useMutation';
 
 export interface ApiData {
   '@type': string;
 }
 
-const method = 'PUT';
+const method = 'DELETE';
 
 export default function useDeleteUserMutation({
   tenantId,
@@ -15,7 +15,7 @@ export default function useDeleteUserMutation({
   userId: string;
   onSuccess: () => void;
 }) {
-  const url = `/security/v1/tenants/${tenantId}/users/${userId}/pwd`;
+  const url = `/security/v1/tenants/${tenantId}/users/${userId}`;
 
   return useMutation<ApiData, undefined, undefined>({
     url,

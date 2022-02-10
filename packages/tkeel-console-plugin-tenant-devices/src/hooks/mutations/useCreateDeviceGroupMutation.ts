@@ -10,7 +10,6 @@ export interface RequestData {
   desc: string;
   name: string;
   parent: string;
-  directConnection?: boolean;
   ext: {
     [propName: string]: unknown;
   };

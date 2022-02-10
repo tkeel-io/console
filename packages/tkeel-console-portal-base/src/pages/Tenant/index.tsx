@@ -80,12 +80,12 @@ export default function Tenant() {
             value={String(GLOBAL_CONFIG?.mock?.tenantId ?? '')}
             placeholder="请输入您的租户空间"
             error={errors.tenantId}
-            schemas={register('tenantId', {
-              required: { value: true, message: 'required' },
-            })}
             formControlStyle={{ marginBottom: '24px' }}
             formLabelStyle={formLabelStyle}
             inputStyle={inputStyle}
+            registerReturn={register('tenantId', {
+              required: { value: true, message: '请输入您的租户空间' },
+            })}
           />
           <Box paddingTop="46px">
             <Button type="submit" isFullWidth height="45px">

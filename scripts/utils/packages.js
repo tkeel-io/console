@@ -56,7 +56,7 @@ function readDirectoryNames({ portalFirst, excludeDirectoryNames } = {}) {
  * @param {string[]} includeDirectoryNames
  * @returns {Object[]}
  */
-function readPackages({
+function readPackageInfos({
   portalFirst = true,
   excludeDirectoryNames = EXCLUDE_PACKAGE_DIRECTORY_NAMES,
   includeDirectoryNames = readDirectoryNames({
@@ -118,7 +118,7 @@ function readPackages({
 function readBasePaths() {
   const data = [];
 
-  readPackages().forEach(({ directoryName, config }) => {
+  readPackageInfos().forEach(({ directoryName, config }) => {
     const basePath = config?.basePath;
     if (basePath) {
       const items = _.find(data, { basePath });
@@ -151,7 +151,7 @@ function showBasePaths() {
 function readServerPorts() {
   const data = [];
 
-  readPackages().forEach(({ directoryName, config }) => {
+  readPackageInfos().forEach(({ directoryName, config }) => {
     const serverPort = config?.server?.port;
     if (serverPort) {
       const items = _.find(data, { serverPort: String(serverPort) });
@@ -182,7 +182,7 @@ function showServerPorts() {
 }
 
 function checkPluginName({ pluginName }) {
-  const directoryNames = readPackages()
+  const directoryNames = readPackageInfos()
     .filter(({ isPlugin }) => isPlugin)
     .map(({ directoryName }) => directoryName);
   const directoryName = getPluginPackageDirectoryName({ pluginName });
@@ -197,7 +197,7 @@ function checkPluginName({ pluginName }) {
 }
 
 function checkCanRunPackageBasePath({ basePath }) {
-  const configs = readPackages()
+  const configs = readPackageInfos()
     .filter(({ canRun, config }) => canRun && config?.basePath)
     .map(({ config }) => config);
   // eslint-disable-next-line unicorn/prefer-array-some
@@ -212,7 +212,7 @@ function checkCanRunPackageBasePath({ basePath }) {
 }
 
 function checkCanRunPackageServerPort({ serverPort }) {
-  const configs = readPackages()
+  const configs = readPackageInfos()
     .filter(({ canRun }) => canRun)
     .map(({ config }) => config);
   const value = _.find(configs, {
@@ -239,7 +239,7 @@ function checkCanRunPackageServerPort({ serverPort }) {
 
 module.exports = {
   getPluginPackageDirectoryName,
-  readPackages,
+  readPackageInfos,
   showBasePaths,
   showServerPorts,
   checkPluginName,

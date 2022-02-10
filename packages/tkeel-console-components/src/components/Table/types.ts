@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import {
   HeaderGroup,
   IdType,
@@ -28,16 +29,19 @@ type OnSelectProps<D extends object> = {
 
 export interface Props<D extends object> extends UseTableOptions<D> {
   defaultPageSize?: number;
+  hasPagination?: boolean;
   scroll?: {
     y: string;
   };
+  isLoading?: boolean;
+  empty?: ReactNode;
+  style?: StyleProps;
   onSelect?: ({
     isAllRowsSelected,
     selectedRowIds,
     selectedFlatRows,
   }: OnSelectProps<D>) => void;
   onSort?: (sortBy: Array<SortingRule<D>>) => void;
-  style?: StyleProps;
 }
 
 export interface TableStateExtended<D extends object>

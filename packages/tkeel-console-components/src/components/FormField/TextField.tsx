@@ -1,4 +1,4 @@
-import { ChangeEventHandler, HTMLInputTypeAttribute } from 'react';
+import { HTMLInputTypeAttribute } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 import { Input, StyleProps } from '@chakra-ui/react';
 
@@ -12,12 +12,12 @@ import { getFocusStyle } from './utils';
 type Props = FormControlProps & {
   id: string;
   type?: HTMLInputTypeAttribute;
+  defaultValue?: string;
   value?: string;
   placeholder?: string;
   isDisabled?: boolean;
-  schemas?: UseFormRegisterReturn;
+  registerReturn?: UseFormRegisterReturn;
   inputStyle?: StyleProps;
-  onChange?: ChangeEventHandler<HTMLInputElement>;
 };
 
 const defaultProps = {
@@ -26,15 +26,15 @@ const defaultProps = {
   ...fieldDefaultProps,
 };
 
-function InputField({
+export default function TextField({
   id,
   type,
+  defaultValue,
   value,
   placeholder,
   isDisabled,
-  schemas,
+  registerReturn,
   inputStyle,
-  onChange,
   ...rest
 }: Props) {
   return (
@@ -42,21 +42,19 @@ function InputField({
       <Input
         id={id}
         type={type}
-        defaultValue={value}
+        defaultValue={defaultValue}
+        value={value}
         placeholder={placeholder}
         isDisabled={isDisabled}
         borderColor="gray.200"
         boxShadow="none!important"
         _placeholder={{ color: 'blackAlpha.500' }}
         _focus={getFocusStyle(!!rest.error)}
-        {...schemas}
+        {...registerReturn}
         {...inputStyle}
-        onChange={onChange}
       />
     </FormControl>
   );
 }
 
-InputField.defaultProps = defaultProps;
-
-export default InputField;
+TextField.defaultProps = defaultProps;

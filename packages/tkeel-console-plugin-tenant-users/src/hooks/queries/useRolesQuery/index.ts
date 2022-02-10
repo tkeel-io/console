@@ -13,8 +13,8 @@ export default function useRolesQuery() {
   const { tenant_id: tenantId } = getLocalUserInfo();
   const url = `/security/v1/rbac/tenant/${tenantId}/roles`;
 
-  return useQuery<ApiData>({
-    url,
-    method,
-  });
+  const { data, ...rest } = useQuery<ApiData>({ url, method });
+  const roles = data?.roles ?? [];
+
+  return { roles, data, ...rest };
 }
