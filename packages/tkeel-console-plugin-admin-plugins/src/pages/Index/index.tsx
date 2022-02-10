@@ -9,27 +9,10 @@ import CustomTab from './CustomTab';
 
 import useInstalledPluginsQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/useInstalledPluginsQuery';
 import useReposQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/useReposQuery';
-import useRepoInstallersQueries from '@/tkeel-console-plugin-admin-plugins/hooks/useRepoInstallersQueries';
 
 function Index(): JSX.Element {
-  const { repos } = useReposQuery();
-  const { pluginsList: repoPluginsList } = useRepoInstallersQueries({
-    repos: repos.map((repo) => repo.name),
-    enabled: repos.length > 0,
-  });
-  const { plugins: installedPlugins } = useInstalledPluginsQuery();
-
-  const repoPluginInfosList = repoPluginsList.map((repoPlugin) => {
-    return repoPlugin.map((plugin) => ({
-      ...plugin,
-      installed: !!plugin.installed,
-    }));
-  });
-
-  const installedPluginInfos = installedPlugins.map((plugin) => ({
-    ...plugin.brief_installer_info,
-    installed: true,
-  }));
+  const { repos, isLoading } = useReposQuery();
+  const { plugins: installedPlugins } = useInstalledPluginsQuery({});
 
   return (
     <Flex flexDirection="column" height="100%">
@@ -45,7 +28,6 @@ function Index(): JSX.Element {
         flex="1"
         overflow="hidden"
         marginTop="16px"
-        // onChange={handleTabChange}
       >
         <CreatePluginButton />
         <TabList
@@ -57,22 +39,26 @@ function Index(): JSX.Element {
           backgroundColor="gray.50"
           borderRadius="22px"
         >
-          {repos.map((item, i) => (
-            <CustomTab key={item.name} num={repoPluginsList[i]?.length}>
-              {item.name}
+          {repos.map((repo) => (
+            <CustomTab key={repo.name} num={repo.installer_num}>
+              {repo.name}
             </CustomTab>
           ))}
-          <CustomTab num={installedPluginInfos.length}>已安装</CustomTab>
+          {!isLoading && (
+            <CustomTab num={installedPlugins.length}>已安装</CustomTab>
+          )}
         </TabList>
         <TabPanels flex="1" overflow="hidden" marginTop="16px">
-          {repos.map((item, i) => (
-            <TabPanel key={item.name} height="100%" padding="0">
-              <Content pluginInfos={repoPluginInfosList[i]} />
+          {repos.map((repo) => (
+            <TabPanel key={repo.name} height="100%" padding="0">
+              <Content repo={repo.name} />
             </TabPanel>
           ))}
-          <TabPanel height="100%" padding="0">
-            <Content pluginInfos={installedPluginInfos} isInstalledPlugins />
-          </TabPanel>
+          {!isLoading && (
+            <TabPanel height="100%" padding="0">
+              <Content isInstalledPlugins />
+            </TabPanel>
+          )}
         </TabPanels>
       </Tabs>
     </Flex>

@@ -2,18 +2,26 @@ import { useNavigate } from 'react-router-dom';
 import { Flex, Grid, Tag, Text } from '@chakra-ui/react';
 import { PluginCard } from '@tkeel/console-business-components';
 import { Pagination } from '@tkeel/console-components';
+import { UsePaginationReturnType } from '@tkeel/console-types';
 
 import InstallButton from '@/tkeel-console-plugin-admin-plugins/components/InstallButton';
 import { PluginInfo } from '@/tkeel-console-plugin-admin-plugins/types/plugin-info';
 
-type Props = {
-  pluginInfos: PluginInfo[];
-};
+interface Props extends UsePaginationReturnType {
+  plugins: PluginInfo[];
+}
 
-const handlePreviousPage = () => {};
-const handleNextPage = () => {};
-const handleSetPageSize = () => {};
-function PluginList({ pluginInfos }: Props) {
+function PluginList({
+  plugins,
+  pageNum,
+  pageSize,
+  totalSize,
+  canPreviousPage,
+  canNextPage,
+  setPageNum,
+  setPageSize,
+  setTotalSize,
+}: Props) {
   const navigate = useNavigate();
   return (
     <Flex
@@ -28,17 +36,34 @@ function PluginList({ pluginInfos }: Props) {
         gap="8px"
         overflowY="auto"
       >
-        {pluginInfos.map((pluginInfo) => {
-          const { repo, name, version, installed } = pluginInfo;
+        {plugins.map((pluginInfo) => {
+          const { name, version, icon, desc, repo, installed } = pluginInfo;
+          const installPluginInfo = {
+            name,
+            version,
+            repo,
+            installed,
+          };
+
+          const briefPluginInfo = {
+            ...installPluginInfo,
+            icon,
+            desc,
+          };
+
           return (
             <PluginCard
               key={`${name}${version}`}
-              pluginName={name}
+              briefPluginInfo={briefPluginInfo}
               onClick={() => {
                 navigate(`/detail/${repo}/${name}/${version}`);
               }}
               operatorButton={
-                installed ? '' : <InstallButton pluginInfo={pluginInfo} />
+                installed ? (
+                  ''
+                ) : (
+                  <InstallButton installPluginInfo={installPluginInfo} />
+                )
               }
               bottomInfo={
                 <Flex justifyContent="space-between">
@@ -56,14 +81,14 @@ function PluginList({ pluginInfos }: Props) {
         })}
       </Grid>
       <Pagination
-        pageIndex={0}
-        pageSize={40}
-        totalSize={40}
-        canPreviousPage={false}
-        canNextPage={false}
-        previousPage={handlePreviousPage}
-        nextPage={handleNextPage}
-        setPageSize={handleSetPageSize}
+        pageNum={pageNum}
+        pageSize={pageSize}
+        totalSize={totalSize}
+        canPreviousPage={canPreviousPage}
+        canNextPage={canNextPage}
+        setPageNum={setPageNum}
+        setPageSize={setPageSize}
+        setTotalSize={setTotalSize}
       />
     </Flex>
   );

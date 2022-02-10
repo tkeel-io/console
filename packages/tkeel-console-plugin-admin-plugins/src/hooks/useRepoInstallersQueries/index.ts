@@ -1,11 +1,11 @@
 import { Method } from 'axios';
 
 import useQueries from '@/tkeel-console-plugin-admin-plugins/hooks/useQueries';
-import { BriefInstallerInfo } from '@/tkeel-console-plugin-admin-plugins/types/plugin-info';
+import { PluginInfo } from '@/tkeel-console-plugin-admin-plugins/types/plugin-info';
 
 export interface ApiData {
   '@type': string;
-  brief_installers: BriefInstallerInfo[];
+  brief_installers: PluginInfo[];
 }
 
 const url = '/rudder/v1/repos';

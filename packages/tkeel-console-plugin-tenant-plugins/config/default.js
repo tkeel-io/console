@@ -12,7 +12,7 @@ module.exports = {
     documentTitle: 'tKeel',
   },
   server: {
-    port: '3007',
+    port: '3009',
     proxy: {
       [API.pathname]: `${API.protocol}://${API.hostname}:${API.port}`,
     },

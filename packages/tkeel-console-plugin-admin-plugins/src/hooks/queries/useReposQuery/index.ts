@@ -3,6 +3,9 @@ import useQuery from '@/tkeel-console-plugin-admin-plugins/hooks/useQuery';
 export interface Repo {
   name: string;
   url: string;
+  metadata: object;
+  annotations: object;
+  installer_num: number;
 }
 
 export interface ApiData {

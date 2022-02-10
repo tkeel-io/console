@@ -31,7 +31,6 @@ function ParentMenu({
       paddingRight="18px"
       color={active ? 'primary' : 'inherit'}
       borderRadius="4px"
-      active={active.toString()}
       onClick={() => handleMenuClick(id)}
     >
       <MenuItem

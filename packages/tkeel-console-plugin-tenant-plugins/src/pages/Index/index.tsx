@@ -9,6 +9,7 @@ function Index(): JSX.Element {
     {
       name: 'plugins',
       version: '0.1.0',
+      icon: '',
       repo: 'tkeel-default',
       installed: true,
     },
@@ -30,7 +31,7 @@ function Index(): JSX.Element {
             {pluginInfos.map((pluginInfo) => (
               <PluginCard
                 key={`${pluginInfo.name}${pluginInfo.version}`}
-                pluginName={pluginInfo.name}
+                briefPluginInfo={pluginInfo}
                 operatorButton={<Box>启用</Box>}
                 bottomInfo={<Box>bottomInfo</Box>}
                 onClick={() => {

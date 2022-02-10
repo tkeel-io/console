@@ -1,16 +1,23 @@
 import { ReactNode } from 'react';
-import { Flex, Text } from '@chakra-ui/react';
+import { Flex, Image, Text } from '@chakra-ui/react';
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
 
 type Props = {
-  pluginName: string;
+  briefPluginInfo: {
+    name: string;
+    version: string;
+    icon: string;
+    desc: string;
+    repo: string;
+    installed: boolean;
+  };
   operatorButton: ReactNode;
   bottomInfo: ReactNode;
   onClick: () => unknown;
 };
 
 function PluginCard({
-  pluginName,
+  briefPluginInfo,
   operatorButton,
   bottomInfo,
   onClick,
@@ -35,15 +42,19 @@ function PluginCard({
     >
       <Flex alignItems="center" justifyContent="space-between">
         <Flex alignItems="center">
-          <BoxTwoToneIcon size={28} />
+          {briefPluginInfo.icon ? (
+            <Image width="28px" height="28px" src={briefPluginInfo.icon} />
+          ) : (
+            <BoxTwoToneIcon size={28} />
+          )}
           <Text marginLeft="8px" color="gray.800" fontSize="14px">
-            {pluginName}
+            {briefPluginInfo.name}
           </Text>
         </Flex>
         {operatorButton}
       </Flex>
       <Text color="gray.500" fontSize="12px" height="20px" isTruncated>
-        安装用于管理设备的插件
+        {briefPluginInfo.desc}
       </Text>
       {bottomInfo}
     </Flex>

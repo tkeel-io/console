@@ -1,26 +1,32 @@
 import { RequestResult } from '@tkeel/console-utils';
 
 import useQuery from '@/tkeel-console-plugin-admin-plugins/hooks/useQuery';
-import { PluginInfo } from '@/tkeel-console-plugin-admin-plugins/types/plugin-info';
+
+export interface Tenant {
+  title: string;
+  remark: string;
+  tenant_id: string;
+  operator_id: string;
+  enable_timestamp: string;
+  user_num: number;
+}
 
 export interface ApiData {
   '@type': string;
   total: number;
   page_num: number;
   page_size: number;
-  brief_installers: PluginInfo[];
-  installed_num: number;
+  tenants: Tenant[];
 }
 
-const url = '/rudder/v1/repos';
+const url = '/rudder/v1/plugins';
 const method = 'GET';
 
 type Props = {
-  repo: string;
-  keywords: string;
+  pluginName: string;
   pageNum: number;
   pageSize: number;
-  enabled: boolean;
+  keywords: string;
   onSuccess: (
     data: RequestResult<ApiData, TRequestParams, undefined>
   ) => unknown;
@@ -32,16 +38,15 @@ type TRequestParams = {
   key_words: string;
 };
 
-export default function useRepoInstallersQuery({
-  repo,
-  keywords,
+export default function usePluginsTenantsQuery({
+  pluginName,
   pageNum,
   pageSize,
-  enabled,
+  keywords,
   onSuccess,
 }: Props) {
   const { data, ...rest } = useQuery<ApiData, TRequestParams>({
-    url: `${url}/${repo}/installers`,
+    url: `${url}/${pluginName}/tenants`,
     method,
     params: {
       page_num: pageNum,
@@ -49,12 +54,10 @@ export default function useRepoInstallersQuery({
       key_words: keywords,
     },
     reactQueryOptions: {
-      enabled,
       onSuccess,
     },
   });
-  const plugins =
-    data?.brief_installers.map((item) => ({ ...item, icon: '' })) || [];
+  const tenants = data?.tenants || [];
 
-  return { plugins, data, ...rest };
+  return { tenants, data, ...rest };
 }
