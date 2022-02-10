@@ -8,6 +8,7 @@ import {
   FormField,
   Modal,
 } from '@tkeel/console-components';
+import { schemas } from '@tkeel/console-utils';
 
 import useRolesQuery from '@/tkeel-console-plugin-tenant-users/hooks/queries/useRolesQuery';
 
@@ -52,8 +53,7 @@ export default function BaseUserModal({
   onClose,
   onConfirm,
 }: Props) {
-  const { data } = useRolesQuery();
-  const roles = data?.roles ?? [];
+  const { roles } = useRolesQuery();
 
   const {
     register,
@@ -61,7 +61,9 @@ export default function BaseUserModal({
     trigger,
     getValues,
     setValue,
-  } = useForm<FormValues>({ defaultValues });
+  } = useForm<FormValues>({
+    defaultValues,
+  });
 
   const handleConfirm = async () => {
     const result = await trigger();
@@ -83,19 +85,15 @@ export default function BaseUserModal({
         id="username"
         label="用户账号"
         isDisabled={formFields?.username?.disabled}
-        // help="6~18 位字符串, 只能包含英文字母、数字、下划线"
+        help={schemas.username.help}
         error={errors.username}
-        schemas={register('username', {
-          required: { value: true, message: '请输入正确的用户账号' },
-        })}
+        registerReturn={register('username', schemas.username.registerOptions)}
       />
       <TextField
         id="nick_name"
-        label="用户昵称"
+        label="用户名称"
         error={errors.nick_name}
-        schemas={register('nick_name', {
-          required: { value: false, message: '用户昵称' },
-        })}
+        registerReturn={register('nick_name')}
       />
       <FormControl id="roles" label="用户角色设置">
         <Box overflowY="auto" maxHeight="300px">
@@ -107,7 +105,7 @@ export default function BaseUserModal({
             backgroundColor="gray.50"
           >
             <CheckboxGroup
-              defaultValue={[]}
+              defaultValue={defaultValues?.roles ?? []}
               onChange={(value: string[]) => {
                 setValue('roles', value);
               }}

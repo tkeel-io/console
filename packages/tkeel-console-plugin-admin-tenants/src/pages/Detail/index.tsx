@@ -10,11 +10,9 @@ import { HumanFilledIcon } from '@tkeel/console-icons';
 
 import SpaceInfoCard from './SpaceInfoCard';
 
-import {
-  BackButton,
-  CustomTab,
-  Dropdown,
-} from '@/tkeel-console-plugin-admin-tenants/components';
+import BackButton from '@/tkeel-console-plugin-admin-tenants/components/BackButton';
+import CustomTab from '@/tkeel-console-plugin-admin-tenants/components/CustomTab';
+import Dropdown from '@/tkeel-console-plugin-admin-tenants/components/Dropdown';
 
 const infos = {
   title: '设备名称',

@@ -8,9 +8,9 @@ const shell = require('shelljs');
 const writePackage = require('write-pkg');
 
 const logger = require('../utils/logger');
-const { readPackages } = require('../utils/packages');
+const { readPackageInfos } = require('../utils/packages');
 
-const packages = readPackages({ portalFirst: false });
+const packages = readPackageInfos({ portalFirst: false });
 
 packages.forEach(({ directoryName, absolutePath }) => {
   const [scope, ...rest] = directoryName.split('-');

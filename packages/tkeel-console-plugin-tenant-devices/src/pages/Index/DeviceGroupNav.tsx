@@ -1,6 +1,6 @@
 import { Box, Text } from '@chakra-ui/react';
 
-import CreateDeviceGroupButton from '@/tkeel-console-plugin-tenant-devices/components/CreateDeviceGroupButton';
+import { CreateDeviceGroupButton } from '@/tkeel-console-plugin-tenant-devices/components/buttons';
 
 export default function DeviceGroupNav() {
   return (
