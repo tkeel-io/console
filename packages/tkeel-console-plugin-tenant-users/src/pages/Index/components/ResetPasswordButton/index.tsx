@@ -21,7 +21,11 @@ export default function ResetPasswordButton({ data }: Props) {
     onOpen: onSetPasswordModalOpen,
     onClose: onSetPasswordModalClose,
   } = useDisclosure();
-  const { mutate, isLoading } = useGetResetPasswordKeyMutation({
+  const {
+    data: resetData,
+    mutate,
+    isLoading,
+  } = useGetResetPasswordKeyMutation({
     tenantId,
     userId,
     onSuccess() {
@@ -60,7 +64,7 @@ export default function ResetPasswordButton({ data }: Props) {
       {isSetPasswordModalOpen && (
         <SetPasswordModal
           isOpen={isSetPasswordModalOpen}
-          data={{ tenant_id: tenantId, user_id: userId, username }}
+          data={{ reset_key: resetData?.reset_key ?? '' }}
           title="重置成功"
           onClose={onSetPasswordModalClose}
         />

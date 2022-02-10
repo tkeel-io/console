@@ -25,9 +25,10 @@ export default function CreateUserButton({ onSuccess }: Props) {
     },
   });
   const setPasswordModalData = {
-    tenant_id: data?.tenant_id ?? '',
-    user_id: data?.user_id ?? '',
-    username: data?.username ?? '',
+    // tenant_id: data?.tenant_id ?? '',
+    // user_id: data?.user_id ?? '',
+    // username: data?.username ?? '',
+    reset_key: data?.reset_key ?? '',
   };
 
   const handleConfirm = (formValues: FormValues) => {

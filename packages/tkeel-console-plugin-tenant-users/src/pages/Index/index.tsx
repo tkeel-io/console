@@ -23,7 +23,13 @@ export default function Index() {
   const [keyWords, setKeyWords] = useState('');
   const queryClient = useQueryClient();
 
-  let params = { page_num: 1, page_size: 10, key_words: '' };
+  let params = {
+    page_num: 1,
+    page_size: 1000,
+    order_by: 'created_at',
+    is_descending: true,
+    key_words: '',
+  };
   if (keyWords) {
     params = { ...params, key_words: keyWords };
   }
@@ -62,9 +68,9 @@ export default function Index() {
     },
     {
       Header: '创建时间',
-      accessor: 'create_at',
+      accessor: 'created_at',
       Cell({ value }) {
-        return formatDateTimeByTimestamp({ timestamp: value });
+        return value ? formatDateTimeByTimestamp({ timestamp: value }) : '';
       },
     },
     {

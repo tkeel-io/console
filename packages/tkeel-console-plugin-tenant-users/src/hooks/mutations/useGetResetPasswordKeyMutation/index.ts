@@ -2,6 +2,11 @@ import useMutation from '@/tkeel-console-plugin-tenant-users/hooks/useMutation';
 
 export interface ApiData {
   '@type': string;
+  tenant_id: string;
+  user_id: string;
+  username: string;
+  nick_name: string;
+  reset_key: string;
 }
 
 const method = 'GET';
@@ -15,7 +20,7 @@ export default function useGetResetPasswordKeyMutation({
   userId: string;
   onSuccess: () => void;
 }) {
-  const url = `/security/v1/tenants/${tenantId}/user/${userId}/rpk`;
+  const url = `/security/v1/tenants/${tenantId}/users/${userId}/rpk`;
 
   return useMutation<ApiData, undefined, undefined>({
     url,
