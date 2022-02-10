@@ -7,11 +7,15 @@ type Props = {
   totalSize?: number;
 };
 
-const usePagination = ({
-  pageNum = 1,
-  pageSize = 20,
-  totalSize = 0,
-}: Props): UsePaginationReturnType => {
+const defaultProps = {
+  pageNum: 1,
+  pageSize: 20,
+  totalSize: 0,
+};
+
+const usePagination = (props?: Props): UsePaginationReturnType => {
+  const { pageNum, pageSize, totalSize } = { ...defaultProps, ...props };
+
   const [total, setTotal] = useState(totalSize);
   const [size, setSize] = useState(pageSize);
   const [page, setPage] = useState(pageNum);
