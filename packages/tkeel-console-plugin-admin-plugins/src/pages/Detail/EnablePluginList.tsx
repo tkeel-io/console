@@ -16,7 +16,7 @@ function EnablePluginList({ pluginName }: Props) {
   const [keywords, setKeywords] = useState('');
   const { pageNum, pageSize, setTotalSize, ...rest } = usePagination({});
 
-  const { tenants } = usePluginsTenantsQuery({
+  const { tenants, isLoading } = usePluginsTenantsQuery({
     pluginName,
     pageNum,
     pageSize,
@@ -83,6 +83,7 @@ function EnablePluginList({ pluginName }: Props) {
         style={{ flex: 1, overflow: 'hidden' }}
         columns={columns}
         data={tenants}
+        isLoading={isLoading}
         defaultPageSize={20}
         scroll={{ y: '100%' }}
         paginationProps={{ pageNum, pageSize, setTotalSize, ...rest }}
