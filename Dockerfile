@@ -9,5 +9,5 @@ ARG PACKAGE_NAME
 
 WORKDIR /app
 COPY ./ ./
-RUN yarn \
-  && yarn workspace ${PACKAGE_NAME} build
+RUN yarn
+RUN yarn workspace ${PACKAGE_NAME} build
