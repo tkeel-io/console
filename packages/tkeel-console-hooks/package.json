@@ -13,8 +13,8 @@
   "main": "./src/index.ts",
   "dependencies": {
     "@tkeel/console-constants": "workspace:^",
-    "@types/lodash": "^4.14.178",
-    "@tkeel/console-types": "workspace:^"
+    "@tkeel/console-types": "workspace:^",
+    "@types/lodash": "^4.14.178"
   },
   "peerDependencies": {
     "@tkeel/console-utils": "workspace:^",
