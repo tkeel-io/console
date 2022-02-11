@@ -8,6 +8,7 @@ import {
   Table,
   toast,
 } from '@tkeel/console-components';
+import { usePagination } from '@tkeel/console-hooks';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import CreateUserButton from './components/CreateUserButton';
@@ -20,12 +21,14 @@ import useUsersQuery, {
 } from '@/tkeel-console-plugin-tenant-users/hooks/queries/useUsersQuery';
 
 export default function Index() {
-  const [keyWords, setKeyWords] = useState('');
   const queryClient = useQueryClient();
+  const [keyWords, setKeyWords] = useState('');
+  const pagination = usePagination();
+  const { pageNum, pageSize, setTotalSize } = pagination;
 
   let params = {
-    page_num: 1,
-    page_size: 1000,
+    page_num: pageNum,
+    page_size: pageSize,
     order_by: 'created_at',
     is_descending: true,
     key_words: '',
@@ -33,7 +36,9 @@ export default function Index() {
   if (keyWords) {
     params = { ...params, key_words: keyWords };
   }
-  const { isLoading, users, queryKey } = useUsersQuery({ params });
+  const { isLoading, users, data, queryKey } = useUsersQuery({ params });
+  const total = data?.total ?? 0;
+  setTotalSize(total);
 
   const handleCreateUserSuccess = () => {
     queryClient.invalidateQueries(queryKey);
@@ -120,6 +125,7 @@ export default function Index() {
       <Table
         columns={columns}
         data={users}
+        paginationProps={pagination}
         scroll={{ y: '100%' }}
         isLoading={isLoading}
         style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
