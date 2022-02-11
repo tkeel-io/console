@@ -1,8 +1,7 @@
-import { Flex, Text, useDisclosure } from '@chakra-ui/react';
+import { useDisclosure } from '@chakra-ui/react';
 import { CreateButton } from '@tkeel/console-components';
-import Modal from '@tkeel/console-components/src/components/Modal';
 
-import CustomTemplateButton from '@/tkeel-console-plugin-tenant-device-template/components/buttons/CustomTemplateButton';
+import { CreateTemplateModal } from '@/tkeel-console-plugin-tenant-device-template/components/modals';
 
 type Props = {
   onSuccess: () => void;
@@ -14,21 +13,13 @@ export default function CreateTemplateButton({ onSuccess }: Props) {
   return (
     <>
       <CreateButton onClick={onOpen}>添加模板</CreateButton>
-      <Modal
-        title={<Text fontSize="14px">创建模板</Text>}
-        isOpen={isOpen}
-        onClose={onClose}
-        modalBodyStyle={{ padding: '20px 20px', minWidth: '900px' }}
-        hasCancelButton={false}
-        hasConfirmButton={false}
-        width="900px"
-        footer={null}
-      >
-        <Flex justifyContent="space-between" w="100%">
-          <CustomTemplateButton onSuccess={onSuccess} />
-          <CustomTemplateButton onSuccess={onSuccess} />
-        </Flex>
-      </Modal>
+      {isOpen && (
+        <CreateTemplateModal
+          isOpen={isOpen}
+          onClose={onClose}
+          handleCreateSuccess={onSuccess}
+        />
+      )}
     </>
   );
 }

@@ -1,18 +1,21 @@
 import { useState } from 'react';
 import { Flex } from '@chakra-ui/react';
-import { PageHeaderToolbar } from '@tkeel/console-components';
+import { PageHeaderToolbar, toast } from '@tkeel/console-components';
 
 import { CreateTemplateButton } from '@/tkeel-console-plugin-tenant-device-template/components/buttons';
+// import useTemplatesQuery from '@/tkeel-console-plugin-tenant-device-template/hooks/queries/useTemplatesQuery';
 
 function Index(): JSX.Element {
   // const result = useTemplatesQuery();
   const [keyWord, setKeyWord] = useState('');
   // eslint-disable-next-line no-console
   console.log(keyWord);
+  // console.log(keyWord, result);
 
   const handleCreateSuccess = () => {
+    toast({ status: 'warning', title: '请选择角色权限' });
     // eslint-disable-next-line no-console
-    console.log('67576');
+    console.log(keyWord);
   };
 
   return (
