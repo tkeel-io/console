@@ -3,7 +3,7 @@ FROM node:16-slim as BUILDER
 RUN apt clean \
   && apt update \
   && yarn set version stable \
-  && npm install -g cross-env
+  && npm install -g cross-env webpack webpack-cli
 
 ARG PACKAGE_NAME
 
