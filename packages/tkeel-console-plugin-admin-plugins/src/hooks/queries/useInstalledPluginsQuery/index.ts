@@ -1,31 +1,42 @@
 import useQuery from '@/tkeel-console-plugin-admin-plugins/hooks/useQuery';
-import { BriefInstallerInfo } from '@/tkeel-console-plugin-admin-plugins/types/plugin-info';
-
-export interface Plugin {
-  id: string;
-  plugin_version: string;
-  tkeel_version: string;
-  secret: string;
-  register_timestamp: string;
-  active_tenantes: string[];
-  status: string;
-  brief_installer_info: BriefInstallerInfo;
-}
+import { PluginInfo } from '@/tkeel-console-plugin-admin-plugins/types/plugin-info';
 
 export interface ApiData {
   '@type': string;
-  plugin_list: Plugin[];
+  total: number;
+  page_num: number;
+  page_size: number;
+  brief_installers: PluginInfo[];
+  installed_num: number;
 }
 
-const url = '/rudder/v1/plugins';
+type TRequestParams = {
+  page_num: number;
+  page_size: number;
+  installed: boolean;
+};
+
+const url = '/rudder/v1/repos/installers';
 const method = 'GET';
 
-export default function usePluginsQuery() {
-  const { data, ...rest } = useQuery<ApiData>({
+type Props = {
+  enabled?: boolean;
+};
+
+export default function useInstalledPluginsQuery({ enabled = true }: Props) {
+  const { data, ...rest } = useQuery<ApiData, TRequestParams>({
     url,
     method,
+    params: {
+      page_num: 1,
+      page_size: 10,
+      installed: true,
+    },
+    reactQueryOptions: {
+      enabled,
+    },
   });
-  const plugins = data?.plugin_list || [];
+  const plugins = data?.brief_installers || [];
 
   return { plugins, data, ...rest };
 }

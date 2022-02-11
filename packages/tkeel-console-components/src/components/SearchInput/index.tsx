@@ -53,8 +53,9 @@ function SearchInput({
         height="100%"
         borderColor="gray.200"
         borderRadius="20px"
-        color="gray.400"
+        color="gray.600"
         fontSize="12px"
+        backgroundColor="gray.50"
         {...inputStyle}
         _focus={{ borderColor: 'gray.400' }}
         _placeholder={{ fontWeight: 500 }}
