@@ -20,6 +20,7 @@ import {
   UseTableOptions,
 } from 'react-table';
 import { StyleProps } from '@chakra-ui/react';
+import { UsePaginationReturnType } from '@tkeel/console-types';
 
 type OnSelectProps<D extends object> = {
   isAllRowsSelected: boolean;
@@ -30,6 +31,7 @@ type OnSelectProps<D extends object> = {
 export interface Props<D extends object> extends UseTableOptions<D> {
   defaultPageSize?: number;
   hasPagination?: boolean;
+  paginationProps?: UsePaginationReturnType;
   scroll?: {
     y: string;
   };

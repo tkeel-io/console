@@ -4,10 +4,31 @@ export interface Installer {
   name: string;
   version: string;
   repo: string;
-  configuration: string;
+  metadata: {
+    Chart: string;
+    configuration: string;
+    readme: string;
+  };
+  annotations: {
+    'tkeel.io/deployment-name': string;
+    'tkeel.io/enable': string;
+    'tkeel.io/plugin-port': string;
+    'tkeel.io/tag': string;
+    'tkeel.io/version': string;
+  };
+  maintainers: [
+    {
+      name: string;
+      email: string;
+      url: string;
+    }
+  ];
+  installed: boolean;
+  desc: string;
+  timestamp: string;
 }
 
-export interface ApiData {
+export interface PluginDetail {
   '@type': string;
   installer: Installer;
 }
@@ -28,7 +49,7 @@ export default function usePluginDetailQuery({
   installerVersion,
   enabled = true,
 }: Props) {
-  const { data, ...rest } = useQuery<ApiData>({
+  const { data, ...rest } = useQuery<PluginDetail>({
     url: `${url}/${repoName}/installers/${installerName}/${installerVersion}`,
     method,
     reactQueryOptions: {

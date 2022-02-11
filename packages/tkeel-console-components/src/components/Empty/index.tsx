@@ -37,7 +37,7 @@ export default function Empty({
         marginTop="28px"
         fontSize="18px"
         lineHeight="28px"
-        color="gray.800"
+        color="gray.500"
         {...styles?.title}
       >
         {title}

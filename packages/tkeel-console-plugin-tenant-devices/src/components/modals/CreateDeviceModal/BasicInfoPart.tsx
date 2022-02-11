@@ -68,7 +68,6 @@ export default function BasicInfoPart({ formHandler }: Props) {
           </Text>
         </Checkbox>
       </FormControl>
-
       {/* <TextareaField
         name="desc"
         id="desc"

@@ -1,37 +1,49 @@
 import { useNavigate } from 'react-router-dom';
 import { Box, Button, Center, Flex, Text } from '@chakra-ui/react';
 import { BoxTwoToneIcon, ChevronLeftFilledIcon } from '@tkeel/console-icons';
+import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import InfoCard from './InfoCard';
 import MoreActionButton from './MoreActionButton';
 
 import InstallButton from '@/tkeel-console-plugin-admin-plugins/components/InstallButton';
-import { BriefInstallerInfo } from '@/tkeel-console-plugin-admin-plugins/types/plugin-info';
+import { Installer } from '@/tkeel-console-plugin-admin-plugins/hooks/queries/usePluginDetailQuery';
 
 type Props = {
-  data: BriefInstallerInfo | undefined;
+  data: Installer | undefined;
 };
 
 function BasicInfo({ data }: Props) {
   const navigate = useNavigate();
+  const repo = data?.repo ?? '';
+  const version = data?.version ?? '';
   const basicInfo = [
     {
       label: 'Repo',
-      value: data?.repo || '',
+      value: repo,
     },
     {
       label: 'Tag',
-      value: '用户',
+      value: data?.annotations?.['tkeel.io/tag'] ?? '',
     },
     {
       label: 'Ver',
-      value: data?.version || '',
+      value: version,
     },
     {
       label: '更新时间',
-      value: '2020.12.21 12:43:41',
+      value: data?.timestamp
+        ? formatDateTimeByTimestamp({ timestamp: `${data.timestamp}000` })
+        : '',
     },
   ];
+
+  const installPluginInfo = {
+    name: data?.name ?? '',
+    version,
+    repo,
+    installed: data?.installed ?? false,
+  };
 
   return (
     <Box
@@ -52,19 +64,11 @@ function BasicInfo({ data }: Props) {
           >
             返回
           </Button>
-          {data ? (
-            !data.installed ? (
-              <MoreActionButton pluginName={data.name} />
-            ) : (
-              <InstallButton
-                size="sm"
-                pluginInfo={{
-                  ...data,
-                  installed: !!data?.installed,
-                }}
-              />
-            )
-          ) : null}
+          {data?.installed ? (
+            <MoreActionButton pluginName={data.name} />
+          ) : (
+            <InstallButton size="sm" installPluginInfo={installPluginInfo} />
+          )}
         </Flex>
         <Flex marginTop="16px" alignItems="center">
           <Center
@@ -77,10 +81,10 @@ function BasicInfo({ data }: Props) {
           </Center>
           <Box marginLeft="16px">
             <Text color="gray.800" fontSize="14px" lineHeight="20px">
-              {data?.name || ''}
+              {data?.name ?? ''}
             </Text>
             <Text color="gray.500" fontSize="12px" lineHeight="17px">
-              安装用于管理设备的插件
+              {data?.desc ?? ''}
             </Text>
           </Box>
         </Flex>

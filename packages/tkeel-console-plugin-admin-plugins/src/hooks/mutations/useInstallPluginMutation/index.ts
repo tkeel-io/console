@@ -1,5 +1,5 @@
 import useMutation from '@/tkeel-console-plugin-admin-plugins/hooks/useMutation';
-import { BriefInstallerInfo } from '@/tkeel-console-plugin-admin-plugins/types/plugin-info';
+import { PluginInfo } from '@/tkeel-console-plugin-admin-plugins/types/plugin-info';
 
 interface RequestData {
   name: string;
@@ -14,7 +14,7 @@ export interface ApiData {
   plugin: {
     id: string;
     status: string;
-    brief_installer_info: BriefInstallerInfo;
+    brief_installer_info: PluginInfo;
   };
 }
 
