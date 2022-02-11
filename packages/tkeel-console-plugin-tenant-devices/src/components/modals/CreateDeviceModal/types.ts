@@ -1,11 +1,17 @@
+export enum ConnectInfoType {
+  useTemplate = 'useTemplate',
+  selfLearn = 'selfLearn',
+}
 export type DeviceValueType = {
   name: string;
   parent: string;
-  ext?: {
-    [propName: string]: any;
+  ext: {
+    [propName: string]: string;
   };
-  directConnection?: number;
-  useTemplate: boolean;
-  selfLearn: boolean;
+  directConnection?: string;
+  useTemplate?: boolean;
+  selfLearn?: boolean;
+  connectOption: ConnectInfoType[];
   desc: string;
+  extendItemValue?: string;
 };

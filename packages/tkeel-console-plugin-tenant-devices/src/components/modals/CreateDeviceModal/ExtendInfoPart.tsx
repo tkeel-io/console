@@ -1,4 +1,5 @@
-import { ChangeEvent, useState } from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { UseFormReturn } from 'react-hook-form';
 import {
   Box,
   Button,
@@ -10,10 +11,13 @@ import {
 } from '@chakra-ui/react';
 import { FormField } from '@tkeel/console-components/';
 import { PencilFilledIcon, TrashFilledIcon } from '@tkeel/console-icons';
-import { keyBy, mapValues } from 'lodash';
+import { has, omit } from 'lodash';
+
+import { DeviceValueType } from './types';
 
 interface Props {
-  setGroupInfo: (params: { key: string; value: unknown }) => void;
+  formHandler: UseFormReturn<DeviceValueType, object>;
+  watchFields: DeviceValueType;
 }
 
 const { TextField } = FormField;
@@ -28,56 +32,17 @@ const BASIC_EXTEND_ITEMS = [
   '安装时间',
 ];
 
-export default function ExtendInfoPart({ setGroupInfo }: Props) {
-  const [extendInfo, setExtendInfo] = useState<
-    { key: string; value: string }[]
-  >([]);
+export default function ExtendInfoPart({ formHandler, watchFields }: Props) {
+  const { register, setValue, formState } = formHandler;
+  const { errors } = formState;
   const handleSelectKey = (key: string) => {
-    if (extendInfo.findIndex((item) => item.key === key) === -1) {
-      setExtendInfo([...extendInfo, { key, value: '' }]);
-      setGroupInfo({
-        key: 'ext',
-        value: mapValues(
-          keyBy([...extendInfo, { key, value: '' }], 'key'),
-          'value'
-        ),
-      });
+    if (!has(watchFields.ext, key)) {
+      setValue('ext', { ...watchFields.ext, [key]: '' });
     }
   };
   const deleteExtendItem = (key: string) => {
-    setExtendInfo(extendInfo.filter((item) => item.key !== key));
-    setGroupInfo({
-      key: 'ext',
-      value: mapValues(
-        keyBy(
-          extendInfo.filter((item) => item.key !== key),
-          'key'
-        ),
-        'value'
-      ),
-    });
+    setValue('ext', omit(watchFields.ext, key));
   };
-  const handleExtendInfoChange =
-    (key: string) => (e: ChangeEvent<HTMLInputElement>) => {
-      // eslint-disable-next-line no-console
-      const { value } = e.target;
-
-      // setExtendInfo()
-      const newExtendInfo = extendInfo.map((item) => {
-        const obj = item;
-        if (item.key === key) {
-          obj.value = value;
-          return obj;
-        }
-        return item;
-      });
-
-      setExtendInfo(newExtendInfo);
-      setGroupInfo({
-        key: 'ext',
-        value: mapValues(keyBy(newExtendInfo, 'key'), 'value'),
-      });
-    };
 
   const renderLabel = (key: string) => {
     const fontColor = 'grayAlternatives.300';
@@ -125,8 +90,7 @@ export default function ExtendInfoPart({ setGroupInfo }: Props) {
       </Text>
       <Wrap spacing="8px" mb="20px">
         {BASIC_EXTEND_ITEMS.map((key) => {
-          const isSelected =
-            extendInfo.findIndex((item) => item.key === key) !== -1;
+          const isSelected = has(watchFields.ext, key);
           return (
             <Button
               variant="outline"
@@ -148,14 +112,16 @@ export default function ExtendInfoPart({ setGroupInfo }: Props) {
         })}
       </Wrap>
       <Box overflowY="scroll" h="390px">
-        {extendInfo.map((item) => {
+        {Object.keys({ ...watchFields.ext }).map((key: string) => {
           return (
             <TextField
-              key={item.key}
-              value={item.value}
-              label={renderLabel(item.key)}
-              id="item"
-              onChange={handleExtendInfoChange(item.key)}
+              key={key}
+              label={renderLabel(key)}
+              id={key}
+              registerReturn={register(`ext.${key}`, {
+                required: { value: true, message: 'required' },
+              })}
+              error={errors.extendItemValue}
             />
           );
         })}
