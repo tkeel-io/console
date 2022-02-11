@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { useEffect } from 'react';
 import {
@@ -5,7 +7,6 @@ import {
   Hooks,
   PluginHook,
   useFlexLayout,
-  usePagination,
   useRowSelect,
   useSortBy,
   useTable,
@@ -13,6 +14,8 @@ import {
 import { useDeepCompareEffect } from 'react-use';
 import { Flex, Table as ChakraTable } from '@chakra-ui/react';
 
+import Empty from '@/tkeel-console-components/components/Empty';
+import Loading from '@/tkeel-console-components/components/Loading';
 import Pagination from '@/tkeel-console-components/components/Pagination';
 
 import Body from './Body';
@@ -22,15 +25,33 @@ import { Props, TableInstanceExtended, TableOptionsExtended } from './types';
 
 function Table<D extends object>({
   columns,
-  data,
+  data = [],
   defaultPageSize = 15,
   hasPagination = true,
+  paginationProps = {
+    pageNum: 1,
+    pageSize: 1,
+    totalSize: 0,
+    canPreviousPage: false,
+    canNextPage: false,
+    setPageNum: (pageNum: number) => {
+      console.log('pageNum', pageNum);
+    },
+    setPageSize: (pageSize: number) => {
+      console.log(pageSize);
+    },
+    setTotalSize: (totalSize: number) => {
+      console.log(totalSize);
+    },
+  },
   scroll,
+  isLoading,
+  empty = <Empty styles={{ wrapper: { height: '100%' } }} />,
   onSelect,
   onSort,
   style = {},
 }: Props<D>) {
-  let plugins: PluginHook<D>[] = [usePagination];
+  let plugins: PluginHook<D>[] = [];
   const pushSelectionColumn = (hooks: Hooks<D>) => {
     hooks.visibleColumns.push((allColumns: ColumnInstance<D>[]) => [
       {
@@ -44,7 +65,7 @@ function Table<D extends object>({
   };
 
   if (onSelect) {
-    plugins = [...plugins, useRowSelect, pushSelectionColumn];
+    plugins = [useRowSelect, pushSelectionColumn];
   }
 
   if (onSort) {
@@ -55,16 +76,11 @@ function Table<D extends object>({
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    page,
+    rows,
     prepareRow,
-    canPreviousPage,
-    canNextPage,
-    nextPage,
-    previousPage,
-    setPageSize,
     selectedFlatRows,
     isAllRowsSelected,
-    state: { sortBy, pageIndex, pageSize, selectedRowIds },
+    state: { sortBy, selectedRowIds },
   } = useTable<D>(
     {
       columns,
@@ -92,39 +108,44 @@ function Table<D extends object>({
     }
   }, [sortBy, onSort]);
 
+  const render = () => {
+    if (isLoading) {
+      return <Loading styles={{ wrapper: { height: '100%' } }} />;
+    }
+
+    if (data?.length === 0) {
+      return empty;
+    }
+
+    return (
+      <>
+        <ChakraTable
+          {...getTableProps()}
+          flex="1"
+          overflow="hidden"
+          display="flex"
+          flexDirection="column"
+        >
+          <Head
+            headerGroups={headerGroups}
+            fixHead={Boolean(scroll?.y)}
+            canSort={Boolean(onSort)}
+          />
+          <Body
+            page={rows}
+            getTableBodyProps={getTableBodyProps}
+            prepareRow={prepareRow}
+            scroll={scroll}
+          />
+        </ChakraTable>
+        {hasPagination && <Pagination {...paginationProps} />}
+      </>
+    );
+  };
+
   return (
     <Flex {...style} flexDirection="column">
-      <ChakraTable
-        {...getTableProps()}
-        flex="1"
-        overflow="hidden"
-        display="flex"
-        flexDirection="column"
-      >
-        <Head
-          headerGroups={headerGroups}
-          fixHead={Boolean(scroll?.y)}
-          canSort={Boolean(onSort)}
-        />
-        <Body
-          page={page}
-          getTableBodyProps={getTableBodyProps}
-          prepareRow={prepareRow}
-          scroll={scroll}
-        />
-      </ChakraTable>
-      {hasPagination && (
-        <Pagination
-          pageIndex={pageIndex}
-          pageSize={pageSize}
-          totalSize={data.length}
-          canPreviousPage={canPreviousPage}
-          canNextPage={canNextPage}
-          previousPage={previousPage}
-          nextPage={nextPage}
-          setPageSize={setPageSize}
-        />
-      )}
+      {render()}
     </Flex>
   );
 }

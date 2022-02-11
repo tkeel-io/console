@@ -15,7 +15,10 @@ function SubMenuLink({ path, name }: Props) {
       alignItems="center"
       height="40px"
       paddingLeft="48px"
-      color={active ? 'primary' : 'gray.500'}
+      color={active ? 'white' : 'inherit'}
+      borderRadius="4px"
+      backgroundColor={active ? 'primary' : 'inherit'}
+      _hover={{ color: active ? 'white' : 'primary' }}
       as={as}
       to={to}
     >

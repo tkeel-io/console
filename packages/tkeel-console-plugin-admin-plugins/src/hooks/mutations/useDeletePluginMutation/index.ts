@@ -1,7 +1,7 @@
 import { Menu } from '@tkeel/console-types';
 
 import useMutation from '@/tkeel-console-plugin-admin-plugins/hooks/useMutation';
-import { BriefInstallerInfo } from '@/tkeel-console-plugin-admin-plugins/types/plugin-info';
+import { PluginInfo } from '@/tkeel-console-plugin-admin-plugins/types/plugin-info';
 
 export interface PluginDetail {
   id: string;
@@ -9,7 +9,7 @@ export interface PluginDetail {
   secret: string;
   register_timestamp: string;
   status: string;
-  brief_installer_info: BriefInstallerInfo;
+  brief_installer_info: PluginInfo;
   console_entries: Menu[];
 }
 

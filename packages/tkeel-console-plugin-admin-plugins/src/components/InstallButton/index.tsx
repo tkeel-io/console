@@ -1,16 +1,14 @@
 import { Button, useDisclosure } from '@chakra-ui/react';
 import { DownloadFilledIcon } from '@tkeel/console-icons';
 
-import EditConfigModal from './EditConfigModal';
+import EditConfigModal, { InstallPluginInfo } from './EditConfigModal';
 
-import { PluginInfo } from '@/tkeel-console-plugin-admin-plugins/types/plugin-info';
-
-type Props = {
+interface Props {
   size?: string;
-  pluginInfo: PluginInfo;
-};
+  installPluginInfo: InstallPluginInfo;
+}
 
-function InstallButton({ size = 'xs', pluginInfo }: Props) {
+function InstallButton({ size = 'xs', installPluginInfo }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -28,7 +26,7 @@ function InstallButton({ size = 'xs', pluginInfo }: Props) {
         安装
       </Button>
       <EditConfigModal
-        pluginInfo={pluginInfo}
+        installPluginInfo={installPluginInfo}
         isOpen={isOpen}
         onClose={onClose}
       />

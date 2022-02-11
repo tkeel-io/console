@@ -5,7 +5,6 @@ export const fieldDefaultProps = {
   help: '',
   error: undefined,
   disabled: false,
-  schemas: {},
   formControlStyle: {},
   formLabelStyle: {},
   onChange: undefined,

@@ -1,23 +1,40 @@
+import { useState } from 'react';
 import { Flex, Text } from '@chakra-ui/react';
 import { SearchInput } from '@tkeel/console-components';
+import { usePagination } from '@tkeel/console-hooks';
 
 import PluginList from './PluginList';
 
-import { PluginInfo } from '@/tkeel-console-plugin-admin-plugins/types/plugin-info';
-
-const handleSearch = (keyword: string) => {
-  // eslint-disable-next-line no-console
-  console.log('keyword', keyword);
-};
+import useInstalledPluginsQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/useInstalledPluginsQuery';
+import useRepoInstallersQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/useRepoInstallersQuery';
 
 type Props = {
   isInstalledPlugins?: boolean;
-  pluginInfos: PluginInfo[];
+  repo?: string;
 };
 
-function Content({ isInstalledPlugins = false, pluginInfos }: Props) {
-  const { length: totalNum } = pluginInfos;
-  const installedNum = pluginInfos.filter((info) => !!info.installed).length;
+function Content({ isInstalledPlugins = false, repo }: Props) {
+  const [keywords, setKeywords] = useState('');
+  const { pageNum, pageSize, setTotalSize, ...rest } = usePagination({});
+
+  const { plugins: repoPlugins, data } = useRepoInstallersQuery({
+    repo: repo as string,
+    keywords,
+    pageNum,
+    pageSize,
+    enabled: !isInstalledPlugins,
+    onSuccess: (result) => {
+      setTotalSize(result?.data?.total ?? 0);
+    },
+  });
+
+  const { plugins: repoInstalledPlugins } = useInstalledPluginsQuery({
+    enabled: isInstalledPlugins,
+  });
+
+  const plugins = isInstalledPlugins ? repoInstalledPlugins : repoPlugins;
+  const totalNum = data?.total || 0;
+  const installedNum = data?.installed_num || 0;
   let pluginNum = [
     {
       name: '插件数量',
@@ -65,10 +82,18 @@ function Content({ isInstalledPlugins = false, pluginInfos }: Props) {
         <SearchInput
           width="452px"
           placeholder="搜索插件"
-          onSearch={handleSearch}
+          onSearch={(value) => {
+            setKeywords(value);
+          }}
         />
       </Flex>
-      <PluginList pluginInfos={pluginInfos} />
+      <PluginList
+        plugins={plugins}
+        pageNum={pageNum}
+        pageSize={pageSize}
+        setTotalSize={setTotalSize}
+        {...rest}
+      />
     </Flex>
   );
 }

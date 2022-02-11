@@ -8,6 +8,7 @@ import {
   Table,
   toast,
 } from '@tkeel/console-components';
+import { usePagination } from '@tkeel/console-hooks';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import CreateUserButton from './components/CreateUserButton';
@@ -19,16 +20,25 @@ import useUsersQuery, {
   User,
 } from '@/tkeel-console-plugin-tenant-users/hooks/queries/useUsersQuery';
 
-function Index() {
-  const [keyword, setKeyWord] = useState('');
+export default function Index() {
   const queryClient = useQueryClient();
+  const [keyWords, setKeyWords] = useState('');
+  const pagination = usePagination();
+  const { pageNum, pageSize, setTotalSize } = pagination;
 
-  let params = {};
-  if (keyword) {
-    params = { ...params, key_words: keyword };
+  let params = {
+    page_num: pageNum,
+    page_size: pageSize,
+    order_by: 'created_at',
+    is_descending: true,
+    key_words: '',
+  };
+  if (keyWords) {
+    params = { ...params, key_words: keyWords };
   }
-  const { data, queryKey } = useUsersQuery({ params });
-  const users = data?.users ?? [];
+  const { isLoading, users, data, queryKey } = useUsersQuery({ params });
+  const total = data?.total ?? 0;
+  setTotalSize(total);
 
   const handleCreateUserSuccess = () => {
     queryClient.invalidateQueries(queryKey);
@@ -58,14 +68,14 @@ function Index() {
       },
     },
     {
-      Header: '用户昵称',
+      Header: '用户名称',
       accessor: 'nick_name',
     },
     {
       Header: '创建时间',
-      accessor: 'create_at',
+      accessor: 'created_at',
       Cell({ value }) {
-        return formatDateTimeByTimestamp({ timestamp: value });
+        return value ? formatDateTimeByTimestamp({ timestamp: value }) : '';
       },
     },
     {
@@ -105,7 +115,7 @@ function Index() {
         hasSearchInput
         searchInputProps={{
           onSearch(value) {
-            setKeyWord(value.trim());
+            setKeyWords(value.trim());
           },
         }}
         buttons={[
@@ -113,14 +123,13 @@ function Index() {
         ]}
       />
       <Table
-        style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
         columns={columns}
         data={users}
-        defaultPageSize={20}
+        paginationProps={pagination}
         scroll={{ y: '100%' }}
+        isLoading={isLoading}
+        style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
       />
     </Flex>
   );
 }
-
-export default Index;

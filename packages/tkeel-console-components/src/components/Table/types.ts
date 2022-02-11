@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import {
   HeaderGroup,
   IdType,
@@ -19,6 +20,7 @@ import {
   UseTableOptions,
 } from 'react-table';
 import { StyleProps } from '@chakra-ui/react';
+import { UsePaginationReturnType } from '@tkeel/console-types';
 
 type OnSelectProps<D extends object> = {
   isAllRowsSelected: boolean;
@@ -29,16 +31,19 @@ type OnSelectProps<D extends object> = {
 export interface Props<D extends object> extends UseTableOptions<D> {
   defaultPageSize?: number;
   hasPagination?: boolean;
+  paginationProps?: UsePaginationReturnType;
   scroll?: {
     y: string;
   };
+  isLoading?: boolean;
+  empty?: ReactNode;
+  style?: StyleProps;
   onSelect?: ({
     isAllRowsSelected,
     selectedRowIds,
     selectedFlatRows,
   }: OnSelectProps<D>) => void;
   onSort?: (sortBy: Array<SortingRule<D>>) => void;
-  style?: StyleProps;
 }
 
 export interface TableStateExtended<D extends object>
