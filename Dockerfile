@@ -2,12 +2,12 @@ FROM node:16-slim as BUILDER
 
 RUN apt clean \
   && apt update \
-  && yarn set version stable
+  && yarn set version stable \
+  && npm install -g cross-env
 
 ARG PACKAGE_NAME
 
 WORKDIR /app
 COPY ./ ./
-RUN echo ${PACKAGE_NAME}
-RUN yarn
-RUN yarn workspace ${PACKAGE_NAME} build
+RUN yarn \
+  && yarn workspace ${PACKAGE_NAME} build
