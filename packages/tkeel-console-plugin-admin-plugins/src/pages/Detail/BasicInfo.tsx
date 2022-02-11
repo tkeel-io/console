@@ -4,16 +4,17 @@ import { BoxTwoToneIcon, ChevronLeftFilledIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import InfoCard from './InfoCard';
-import MoreActionButton from './MoreActionButton';
 
 import InstallButton from '@/tkeel-console-plugin-admin-plugins/components/InstallButton';
+import UnInstallButton from '@/tkeel-console-plugin-admin-plugins/components/UnInstallButton';
 import { Installer } from '@/tkeel-console-plugin-admin-plugins/hooks/queries/usePluginDetailQuery';
 
 type Props = {
   data: Installer | undefined;
+  refetchDetails: () => unknown;
 };
 
-function BasicInfo({ data }: Props) {
+function BasicInfo({ data, refetchDetails }: Props) {
   const navigate = useNavigate();
   const repo = data?.repo ?? '';
   const version = data?.version ?? '';
@@ -48,7 +49,6 @@ function BasicInfo({ data }: Props) {
   return (
     <Box
       width="100%"
-      height="350px"
       backgroundColor="white"
       boxShadow="0px 10px 15px -3px rgba(113, 128, 150, 0.1), 0px 4px 6px -2px rgba(113, 128, 150, 0.05);"
     >
@@ -64,11 +64,19 @@ function BasicInfo({ data }: Props) {
           >
             返回
           </Button>
-          {data?.installed ? (
-            <MoreActionButton pluginName={data.name} />
-          ) : (
-            <InstallButton size="sm" installPluginInfo={installPluginInfo} />
-          )}
+          {data ? (
+            data.installed ? (
+              <UnInstallButton
+                pluginName={data.name}
+                onSuccess={refetchDetails}
+              />
+            ) : (
+              <InstallButton
+                installPluginInfo={installPluginInfo}
+                onSuccess={refetchDetails}
+              />
+            )
+          ) : null}
         </Flex>
         <Flex marginTop="16px" alignItems="center">
           <Center

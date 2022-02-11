@@ -1,4 +1,4 @@
-import { MouseEventHandler, useEffect, useState } from 'react';
+import { MouseEventHandler, useState } from 'react';
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import {
   CaretDownFilledIcon,
@@ -33,18 +33,18 @@ function MoreActionButton({ pluginName }: Props) {
     mutate({});
   };
 
-  const handleDocumentClick = () => {
-    setShowActionList(false);
-  };
+  // const handleDocumentClick = () => {
+  //   setShowActionList(false);
+  // };
 
-  useEffect(() => {
-    document.addEventListener('click', handleDocumentClick);
+  // useEffect(() => {
+  //   document.addEventListener('click', handleDocumentClick);
 
-    return () => {
-      document.removeEventListener('click', handleDocumentClick);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  //   return () => {
+  //     document.removeEventListener('click', handleDocumentClick);
+  //   };
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   return (
     <Box position="relative" onClick={handleClick}>
