@@ -21,6 +21,7 @@ export { default as HumanVipFilledIcon } from './components/HumanVipFilledIcon';
 export { default as LoadingFilledIcon } from './components/LoadingFilledIcon';
 export { default as MagnifierFilledIcon } from './components/MagnifierFilledIcon';
 export { default as MagnifierTwoToneIcon } from './components/MagnifierTwoToneIcon';
+export { default as MessageWarningTwoToneIcon } from './components/MessageWarningTwoToneIcon';
 export { default as PencilFilledIcon } from './components/PencilFilledIcon';
 export { default as PuzzleTwoToneIcon } from './components/PuzzleTwoToneIcon';
 export { default as SuccessTwoToneIcon } from './components/SuccessTwoToneIcon';
