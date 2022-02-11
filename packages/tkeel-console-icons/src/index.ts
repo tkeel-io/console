@@ -13,6 +13,7 @@ export { default as ChevronRightFilledIcon } from './components/ChevronRightFill
 export { default as ChevronUpFilledIcon } from './components/ChevronUpFilledIcon';
 export { default as CollapseFilledIcon } from './components/CollapseFilledIcon';
 export { default as CopyFilledIcon } from './components/CopyFilledIcon';
+export { default as DocumentPencilTowToneIcon } from './components/DocumentPencilTowToneIcon';
 export { default as DownloadFilledIcon } from './components/DownloadFilledIcon';
 export { default as ExpandFilledIcon } from './components/ExpandFilledIcon';
 export { default as HumanFilledIcon } from './components/HumanFilledIcon';
