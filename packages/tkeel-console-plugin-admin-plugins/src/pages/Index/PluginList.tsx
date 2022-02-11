@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { Flex, Grid, Tag, Text } from '@chakra-ui/react';
 import { PluginCard } from '@tkeel/console-business-components';
-import { Loading, Pagination } from '@tkeel/console-components';
+import { Loading, MoreAction, Pagination } from '@tkeel/console-components';
 import { UsePaginationReturnType } from '@tkeel/console-types';
 
 import InstallButton from '@/tkeel-console-plugin-admin-plugins/components/InstallButton';
@@ -27,6 +27,7 @@ function PluginList({
   setPageSize,
 }: Props) {
   const navigate = useNavigate();
+
   return (
     <Flex
       flexDirection="column"
@@ -68,9 +69,14 @@ function PluginList({
                   }}
                   operatorButton={
                     installed ? (
-                      <UnInstallButton
-                        pluginName={installPluginInfo.name}
-                        onSuccess={refetchPlugins}
+                      <MoreAction
+                        buttons={[
+                          <UnInstallButton
+                            key="delete"
+                            pluginName={installPluginInfo.name}
+                            onSuccess={refetchPlugins}
+                          />,
+                        ]}
                       />
                     ) : (
                       <InstallButton

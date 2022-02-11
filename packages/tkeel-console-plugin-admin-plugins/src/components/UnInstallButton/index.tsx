@@ -1,5 +1,5 @@
-import { Button } from '@chakra-ui/react';
-import { toast } from '@tkeel/console-components';
+import { MoreActionButton, toast } from '@tkeel/console-components';
+import { TrashFilledIcon } from '@tkeel/console-icons';
 
 import useDeletePluginMutation from '@/tkeel-console-plugin-admin-plugins/hooks/mutations/useDeletePluginMutation';
 
@@ -18,19 +18,13 @@ function UnInstallButton({ pluginName, onSuccess }: Props) {
   });
 
   return (
-    <Button
-      size="sm"
-      colorScheme="primary"
-      padding="0 12px"
-      boxShadow="none"
-      borderRadius="4px"
-      onClick={(e) => {
-        e.stopPropagation();
+    <MoreActionButton
+      icon={<TrashFilledIcon />}
+      title="卸载"
+      onClick={() => {
         mutate({});
       }}
-    >
-      卸载
-    </Button>
+    />
   );
 }
 
