@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 import {
   Box,
   Button,
@@ -57,27 +57,6 @@ export default function ExtendInfoPart({ setGroupInfo }: Props) {
       ),
     });
   };
-  const handleExtendInfoChange =
-    (key: string) => (e: ChangeEvent<HTMLInputElement>) => {
-      // eslint-disable-next-line no-console
-      const { value } = e.target;
-
-      // setExtendInfo()
-      const newExtendInfo = extendInfo.map((item) => {
-        const obj = item;
-        if (item.key === key) {
-          obj.value = value;
-          return obj;
-        }
-        return item;
-      });
-
-      setExtendInfo(newExtendInfo);
-      setGroupInfo({
-        key: 'ext',
-        value: mapValues(keyBy(newExtendInfo, 'key'), 'value'),
-      });
-    };
 
   const renderLabel = (key: string) => {
     const fontColor = 'grayAlternatives.300';
@@ -155,7 +134,6 @@ export default function ExtendInfoPart({ setGroupInfo }: Props) {
               value={item.value}
               label={renderLabel(item.key)}
               id="item"
-              onChange={handleExtendInfoChange(item.key)}
             />
           );
         })}
