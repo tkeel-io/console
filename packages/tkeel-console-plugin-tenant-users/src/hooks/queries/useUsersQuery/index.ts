@@ -1,4 +1,4 @@
-import { getLocalUserInfo } from '@tkeel/console-utils';
+import { getLocalUserInfo, RequestResult } from '@tkeel/console-utils';
 
 import useQuery from '@/tkeel-console-plugin-tenant-users/hooks/useQuery';
 
@@ -34,7 +34,13 @@ export interface ApiData {
 
 export default function useUsersQuery({
   params,
-}: { params?: RequestParams } = {}) {
+  onSuccess,
+}: {
+  params?: RequestParams;
+  onSuccess?: (
+    data: RequestResult<ApiData, RequestParams, undefined>
+  ) => unknown;
+} = {}) {
   const { tenant_id: tenantId } = getLocalUserInfo();
   const url = `/security/v1/tenants/${tenantId}/users`;
 
@@ -42,6 +48,7 @@ export default function useUsersQuery({
     url,
     method,
     params,
+    reactQueryOptions: { onSuccess },
   });
   const users = data?.users ?? [];
 
