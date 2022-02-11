@@ -1,21 +1,32 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { UseFormReturn } from 'react-hook-form';
-import { Checkbox, Text } from '@chakra-ui/react';
-import { FormControl, FormField } from '@tkeel/console-components';
+import { Stack, Text } from '@chakra-ui/react';
+import {
+  Checkbox,
+  CheckboxGroup,
+  FormControl,
+  FormField,
+} from '@tkeel/console-components';
+import { map } from 'lodash';
 
-import { DeviceValueType } from './types';
+import { ConnectInfoType, DeviceValueType } from './types';
 
-const { TextField, SelectField } = FormField;
+const { TextField, SelectField, TextareaField } = FormField;
+
+const CONNECT_OPTION = {
+  DIRECT: '直连',
+  INDIRECT: '非直连',
+};
 
 interface Props {
   formHandler: UseFormReturn<DeviceValueType, object>;
+  watchFields: DeviceValueType;
 }
-export default function BasicInfoPart({ formHandler }: Props) {
-  const { register, watch, formState } = formHandler;
+export default function BasicInfoPart({ formHandler, watchFields }: Props) {
+  const { register, formState, setValue } = formHandler;
   const { errors } = formState;
-  const watchFields = watch();
   // eslint-disable-next-line no-console
-  console.log('watchFields', watchFields);
+  console.log(watchFields);
   return (
     <>
       <TextField
@@ -38,44 +49,57 @@ export default function BasicInfoPart({ formHandler }: Props) {
       <SelectField
         label="设备连接方式"
         id="directConnection"
-        options={[
-          { value: 1, label: '直连' },
-          { value: 0, label: '非直连' },
-        ]}
+        options={map(CONNECT_OPTION, (value) => {
+          return { label: value, value };
+        })}
         registerReturn={register('directConnection', {
           required: { value: true, message: 'required' },
         })}
         error={errors.directConnection}
       />
-      <FormControl id="useTemplate">
-        <Checkbox
-          colorScheme="primary"
-          registerReturn={register('useTemplate')}
+      <FormControl id="connectOption">
+        <CheckboxGroup
+          onChange={(value: ConnectInfoType[]) => {
+            setValue('connectOption', value);
+          }}
+          value={
+            watchFields.directConnection === '非直连'
+              ? [ConnectInfoType.useTemplate]
+              : watchFields.connectOption
+          }
         >
-          <Text color="gray.600" fontSize="14px">
-            使用设备模版
-          </Text>
-        </Checkbox>
+          <Stack spacing="16px" direction="column">
+            <Checkbox
+              colorScheme="primary"
+              id="useTemplate"
+              value={ConnectInfoType.useTemplate}
+              isDisabled={watchFields.directConnection === '非直连'}
+            >
+              <Text color="gray.600" fontSize="14px">
+                使用设备模版
+              </Text>
+            </Checkbox>
+            <Checkbox
+              colorScheme="primary"
+              id="selfLearn"
+              value={ConnectInfoType.selfLearn}
+              isDisabled={watchFields.directConnection === '非直连'}
+            >
+              <Text color="gray.600" fontSize="14px">
+                自学习模式
+              </Text>
+            </Checkbox>
+          </Stack>
+        </CheckboxGroup>
       </FormControl>
-      <FormControl id="selfLearn">
-        <Checkbox
-          colorScheme="primary"
-          color="gray.600"
-          registerReturn={register('selfLearn', {})}
-        >
-          <Text color="gray.600" fontSize="14px">
-            自学习模式
-          </Text>
-        </Checkbox>
-      </FormControl>
-      {/* <TextareaField
-        name="desc"
+      <TextareaField
         id="desc"
         label="描述"
         placeholder="请输入"
+        type="text"
         registerReturn={register('desc')}
         error={errors.desc}
-      /> */}
+      />
     </>
   );
 }
