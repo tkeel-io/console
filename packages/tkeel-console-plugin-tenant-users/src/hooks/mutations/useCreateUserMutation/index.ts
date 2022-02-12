@@ -13,6 +13,7 @@ export interface ApiData {
   tenant_id: string;
   user_id: string;
   username: string;
+  reset_key: string;
 }
 
 const method = 'POST';

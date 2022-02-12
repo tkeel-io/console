@@ -26,7 +26,7 @@ function MenuItem({ active, name, leftIcon, rightIcon = null }: Props) {
       <Flex alignItems="center">
         {Icon && (
           <Icon
-            mode={active ? 'dark' : 'light'}
+            color={active ? 'primary' : 'gray.300'}
             style={{ marginRight: '10px' }}
           />
         )}

@@ -14,9 +14,7 @@ type Props = {
   isOpen: boolean;
   title: string;
   data: {
-    tenant_id: string;
-    user_id: string;
-    username: string;
+    reset_key: string;
   };
   onClose: () => unknown;
 };
@@ -29,6 +27,7 @@ export default function SetPasswordModal({
 }: Props) {
   const { origin } = window.location;
   const path = '/auth/set-password';
+
   const query = stringify(data, { addQueryPrefix: true });
   const url = `${origin}${path}${query}`;
   const { hasCopied, onCopy } = useClipboard(url);

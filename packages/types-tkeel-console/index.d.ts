@@ -3,3 +3,5 @@
 /// <reference path="globals.d.ts" />
 
 /// <reference path="react-table-config.d.ts" />
+
+/// <reference path="markdown.d.ts" />

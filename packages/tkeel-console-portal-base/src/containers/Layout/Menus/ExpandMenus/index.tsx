@@ -77,6 +77,7 @@ function Menus({ handleSearch, isDarkTheme }: Props) {
                 {children && spread && (
                   <Box
                     marginTop="10px"
+                    padding="8px"
                     borderRadius="4px"
                     backgroundColor={
                       isDarkTheme ? 'whiteAlpha.100' : 'gray.100'

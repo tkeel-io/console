@@ -1,4 +1,3 @@
-import { ChangeEvent } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Button, Text, useDisclosure } from '@chakra-ui/react';
 import { FormField, Modal } from '@tkeel/console-components';
@@ -19,21 +18,7 @@ function CreatePluginButton() {
     formState: { errors },
     trigger,
     getValues,
-    setError,
-    clearErrors,
   } = useForm<Controls>();
-
-  const handleInputChange = (
-    e: ChangeEvent<HTMLInputElement>,
-    id: 'name' | 'address'
-  ) => {
-    const { value } = e.target;
-    if (value) {
-      clearErrors(id);
-    } else {
-      setError(id, { type: 'manual', message: 'required' });
-    }
-  };
 
   const onSubmit: SubmitHandler<Controls> = (values) => {
     return new Promise((resolve) => {
@@ -92,24 +77,18 @@ function CreatePluginButton() {
             id="name"
             label="插件源名称"
             error={errors.name}
-            schemas={register('name', {
+            registerReturn={register('name', {
               required: { value: true, message: 'required' },
             })}
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              handleInputChange(e, 'name')
-            }
           />
           <TextField
             id="address"
             label="插件源地址"
             error={errors.address}
-            schemas={register('address', {
+            registerReturn={register('address', {
               required: { value: true, message: 'required' },
             })}
             formControlStyle={{ marginTop: '16px' }}
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              handleInputChange(e, 'address')
-            }
           />
         </>
       </Modal>
