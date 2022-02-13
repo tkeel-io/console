@@ -8,7 +8,7 @@ const paths = require('../utils/paths');
 const nginxConfigTemplatePath = paths.resolveRoot(
   'scripts/docker/handlebars/nginx.conf'
 );
-const nginxConfigPath = paths.resolveRoot('nginx.conf');
+const nginxConfigPath = paths.resolveRoot('.tmp/nginx.conf');
 
 function build(packageInfo) {
   const { simpleName, directoryName, config } = packageInfo;
@@ -29,11 +29,15 @@ function build(packageInfo) {
   logger.info('nginx.conf\n');
   logger.info(nginxConfig);
   fs.outputFileSync(nginxConfigPath, nginxConfig);
+  logger.success('created nginx.conf');
 
   const command = `docker build -t=${simpleName} --build-arg DIRECTORY_NAME=${directoryName} .`;
   logger.info(command);
   shell.exec(command);
+  logger.success('docker build success');
+
   fs.removeSync(nginxConfigPath);
+  logger.success('deleted nginx.conf');
 }
 
 module.exports = build;
