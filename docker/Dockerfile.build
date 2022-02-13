@@ -6,6 +6,7 @@ RUN apt clean \
   && npm install -g cross-env webpack webpack-cli
 
 ARG PACKAGE_NAME
+ENV NODE_OPTIONS=--max_old_space_size=2048
 
 WORKDIR /app
 COPY ./ ./

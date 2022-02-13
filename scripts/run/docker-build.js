@@ -6,9 +6,8 @@ const logger = require('../utils/logger');
 const prompt = require('./prompt');
 
 function build(packageInfo) {
-  const { simpleName, packageJson } = packageInfo;
-  const { name: packageName } = packageJson;
-  const command = `docker build -t=${simpleName} --build-arg PACKAGE_NAME=${packageName} .`;
+  const { simpleName, directoryName } = packageInfo;
+  const command = `docker build -t=${simpleName} --build-arg DIRECTORY_NAME=${directoryName} .`;
   logger.info(command);
   shell.exec(command);
 }
