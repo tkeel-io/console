@@ -41,11 +41,11 @@
       "@/tkeel-console-plugin-admin-tenants/*": [
         "./packages/tkeel-console-plugin-admin-tenants/src/*"
       ],
-      "@/tkeel-console-plugin-tenant-device-template/*": [
-        "./packages/tkeel-console-plugin-tenant-device-template/src/*"
-      ],
       "@/tkeel-console-plugin-tenant-data-subscription/*": [
         "./packages/tkeel-console-plugin-tenant-data-subscription/src/*"
+      ],
+      "@/tkeel-console-plugin-tenant-device-template/*": [
+        "./packages/tkeel-console-plugin-tenant-device-template/src/*"
       ],
       "@/tkeel-console-plugin-tenant-devices/*": [
         "./packages/tkeel-console-plugin-tenant-devices/src/*"
@@ -84,8 +84,8 @@
     { "path": "./packages/tkeel-console-icons/" },
     { "path": "./packages/tkeel-console-plugin-admin-plugins/" },
     { "path": "./packages/tkeel-console-plugin-admin-tenants/" },
-    { "path": "./packages/tkeel-console-plugin-tenant-device-template/" },
     { "path": "./packages/tkeel-console-plugin-tenant-data-subscription/" },
+    { "path": "./packages/tkeel-console-plugin-tenant-device-template/" },
     { "path": "./packages/tkeel-console-plugin-tenant-devices/" },
     { "path": "./packages/tkeel-console-plugin-tenant-plugins/" },
     { "path": "./packages/tkeel-console-plugin-tenant-roles/" },
