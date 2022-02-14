@@ -6,7 +6,7 @@ const API = {
 };
 
 module.exports = {
-  publicPath: '/static/admin-plugins',
+  publicPath: '/static/console-plugin-admin-plugins',
   basePath: '/admin-plugins',
   client: {
     documentTitle: '',

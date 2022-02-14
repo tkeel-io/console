@@ -6,7 +6,7 @@ const API = {
 };
 
 module.exports = {
-  publicPath: '/static/admin-tenants/',
+  publicPath: '/static/console-plugin-tenant-users/',
   basePath: '/admin-tenants',
   client: {
     documentTitle: '',
@@ -20,4 +20,15 @@ module.exports = {
     },
   },
   api: API,
+  plugin: {
+    plugin_id: 'console-plugin-admin-tenants',
+    entries: [
+      {
+        id: 'console-plugin-admin-tenants',
+        name: '租户管理',
+        icon: 'HumanGearTwoToneIcon',
+      },
+    ],
+    dependence: [{ id: '' }],
+  },
 };
