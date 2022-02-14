@@ -56,6 +56,7 @@ interface GlobalConfig {
   publicPath: string;
   basePath?: string; // plugin
   client: {
+    themeName: string;
     documentTitle: string | number;
   };
   builder: {
