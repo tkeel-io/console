@@ -4,6 +4,7 @@ import { Editor, Modal } from '@tkeel/console-components';
 
 import useInstallPluginMutation from '@/tkeel-console-plugin-admin-plugins/hooks/mutations/useInstallPluginMutation';
 import usePluginDetailQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/usePluginDetailQuery';
+import { b64ToUTF8 } from '@/tkeel-console-plugin-admin-plugins/utils';
 
 export interface InstallPluginInfo {
   name: string;
@@ -16,9 +17,15 @@ type Props = {
   installPluginInfo: InstallPluginInfo;
   isOpen: boolean;
   onClose: () => void;
+  onSuccess: () => unknown;
 };
 
-function EditConfigModal({ installPluginInfo, isOpen, onClose }: Props) {
+function EditConfigModal({
+  installPluginInfo,
+  isOpen,
+  onClose,
+  onSuccess,
+}: Props) {
   const { repo, name, version } = installPluginInfo;
   const { pluginDetail, isLoading: isQueryDetailLoading } =
     usePluginDetailQuery({
@@ -30,7 +37,7 @@ function EditConfigModal({ installPluginInfo, isOpen, onClose }: Props) {
 
   const { mutate, isLoading: isInstallLoading } = useInstallPluginMutation({
     name,
-    onSuccess: onClose,
+    onSuccess,
   });
 
   const handleInstall: MouseEventHandler<HTMLButtonElement> = () => {
@@ -72,7 +79,7 @@ function EditConfigModal({ installPluginInfo, isOpen, onClose }: Props) {
         width="100%"
         height="416px"
         language="yaml"
-        value={atob(pluginDetail?.metadata?.configuration ?? '')}
+        value={b64ToUTF8(pluginDetail?.metadata?.configuration ?? '')}
         readOnly
       />
     </Modal>

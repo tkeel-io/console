@@ -6,7 +6,7 @@ import IconButton from './IconButton';
 function CreateButton({ children, ...rest }: ButtonProps) {
   return (
     // @ts-ignore
-    <IconButton icon={<AddFilledIcon color="white" />} {...rest}>
+    <IconButton isShowCircle icon={<AddFilledIcon color="white" />} {...rest}>
       {children}
     </IconButton>
   );

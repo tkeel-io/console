@@ -28,22 +28,7 @@ function Table<D extends object>({
   data = [],
   defaultPageSize = 15,
   hasPagination = true,
-  paginationProps = {
-    pageNum: 1,
-    pageSize: 1,
-    totalSize: 0,
-    canPreviousPage: false,
-    canNextPage: false,
-    setPageNum: (pageNum: number) => {
-      console.log('pageNum', pageNum);
-    },
-    setPageSize: (pageSize: number) => {
-      console.log(pageSize);
-    },
-    setTotalSize: (totalSize: number) => {
-      console.log(totalSize);
-    },
-  },
+  paginationProps,
   scroll,
   isLoading,
   empty = <Empty styles={{ wrapper: { height: '100%' } }} />,

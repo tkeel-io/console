@@ -1,5 +1,3 @@
-import { RequestResult } from '@tkeel/console-utils';
-
 import useQuery from '@/tkeel-console-plugin-admin-plugins/hooks/useQuery';
 
 export interface Tenant {
@@ -27,9 +25,6 @@ type Props = {
   pageNum: number;
   pageSize: number;
   keywords: string;
-  onSuccess: (
-    data: RequestResult<ApiData, TRequestParams, undefined>
-  ) => unknown;
 };
 
 type TRequestParams = {
@@ -43,7 +38,6 @@ export default function usePluginsTenantsQuery({
   pageNum,
   pageSize,
   keywords,
-  onSuccess,
 }: Props) {
   const { data, ...rest } = useQuery<ApiData, TRequestParams>({
     url: `${url}/${pluginName}/tenants`,
@@ -52,9 +46,6 @@ export default function usePluginsTenantsQuery({
       page_num: pageNum,
       page_size: pageSize,
       key_words: keywords,
-    },
-    reactQueryOptions: {
-      onSuccess,
     },
   });
   const tenants = data?.tenants || [];
