@@ -46,7 +46,15 @@ function PluginList({
             overflowY="auto"
           >
             {plugins.map((pluginInfo) => {
-              const { name, version, icon, desc, repo, installed } = pluginInfo;
+              const {
+                name,
+                version,
+                icon,
+                desc,
+                repo,
+                installed,
+                annotations,
+              } = pluginInfo;
               const installPluginInfo = {
                 name,
                 version,
@@ -59,10 +67,15 @@ function PluginList({
                 icon,
                 desc,
               };
+              const tagMap = {
+                User: '用户',
+                manager: '系统',
+              };
+              const tag = annotations['tkeel.io/tag'];
 
               return (
                 <PluginCard
-                  key={`${name}${version}`}
+                  key={`${repo}${name}${version}`}
                   briefPluginInfo={briefPluginInfo}
                   onClick={() => {
                     navigate(`/detail/${repo}/${name}/${version}`);
@@ -87,8 +100,11 @@ function PluginList({
                   }
                   bottomInfo={
                     <Flex justifyContent="space-between">
-                      <Tag colorScheme="orange" size="sm">
-                        用户
+                      <Tag
+                        colorScheme={tag === 'User' ? 'orange' : 'green'}
+                        size="sm"
+                      >
+                        {tagMap[tag] || ''}
                       </Tag>
                       <Flex
                         alignItems="center"
