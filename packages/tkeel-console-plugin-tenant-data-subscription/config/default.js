@@ -6,7 +6,7 @@ const API = {
 };
 
 module.exports = {
-  publicPath: '/plugins/tenant-data-subscription',
+  publicPath: '/static/tenant-data-subscription',
   basePath: '/tenant-data-subscription',
   client: {
     documentTitle: 'tKeel',
