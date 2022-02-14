@@ -9,12 +9,15 @@ module.exports = {
   platformName: 'admin',
   publicPath: '/',
   client: {
+    themeName: 'qingcloud-light',
     documentTitle: 'tKeel',
   },
   server: {
     port: '3000',
     proxy: {
-      [API.pathname]: `${API.protocol}://${API.hostname}:${API.port}`,
+      [API.pathname]: API.port
+        ? `${API.protocol}://${API.hostname}:${API.port}`
+        : `${API.protocol}://${API.hostname}`,
     },
   },
   api: API,

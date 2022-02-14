@@ -35,10 +35,12 @@ const usePagination = (props?: Props): UsePaginationReturnType => {
   };
 
   const setPageSize = (pageSizeValue: number) => {
+    if (pageSizeValue === size) return;
     setSize(pageSizeValue);
   };
 
   const setTotalSize = (totalValue: number) => {
+    if (totalValue === total) return;
     setTotal(totalValue);
   };
 

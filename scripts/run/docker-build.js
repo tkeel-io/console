@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
-const logger = require('../utils/logger');
+const build = require('../docker/build');
 const prompt = require('./prompt');
 
 (async () => {
-  const packageInfos = await prompt();
-  logger.log(packageInfos);
+  const packages = await prompt();
+  packages.forEach((packageInfo) => build(packageInfo));
 })();

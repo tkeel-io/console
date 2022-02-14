@@ -4,20 +4,29 @@ import {
   ChevronLeftFilledIcon,
   ChevronRightFilledIcon,
 } from '@tkeel/console-icons';
-import { UsePaginationReturnType } from '@tkeel/console-types';
 import RCPagination from 'rc-pagination';
 
 import './index.scss';
 
+type Props = {
+  pageNum?: number;
+  pageSize?: number;
+  totalSize?: number;
+  canPreviousPage?: boolean;
+  canNextPage?: boolean;
+  setPageNum?: (pageNum: number) => unknown;
+  setPageSize?: (pageSize: number) => unknown;
+};
+
 function Pagination({
-  pageNum,
-  pageSize,
-  totalSize,
-  canPreviousPage,
-  canNextPage,
+  pageNum = 1,
+  pageSize = 1,
+  totalSize = 0,
+  canPreviousPage = false,
+  canNextPage = false,
   setPageNum,
   setPageSize,
-}: UsePaginationReturnType) {
+}: Props) {
   const pageSizeRef = useRef(pageSize);
 
   const pageSizeArr: number[] = [];
@@ -51,7 +60,9 @@ function Pagination({
           _focus={{ boxShadow: 'none' }}
           value={pageSize}
           onChange={(e) => {
-            setPageSize(Number(e.target.value));
+            if (setPageSize) {
+              setPageSize(Number(e.target.value));
+            }
           }}
           size="sm"
         >
@@ -81,7 +92,11 @@ function Pagination({
           }
           jumpPrevIcon="..."
           jumpNextIcon="..."
-          onChange={setPageNum}
+          onChange={(value) => {
+            if (setPageNum) {
+              setPageNum(value);
+            }
+          }}
         />
       </Flex>
     </Flex>

@@ -28,6 +28,8 @@ async function prompt() {
         }
         return true;
       },
+      pageSize: 10,
+      loop: false,
     },
   ];
 

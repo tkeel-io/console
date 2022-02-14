@@ -13,6 +13,7 @@ export interface ApiData {
 type TRequestParams = {
   page_num: number;
   page_size: number;
+  key_words: string;
   installed: boolean;
 };
 
@@ -20,16 +21,31 @@ const url = '/rudder/v1/repos/installers';
 const method = 'GET';
 
 type Props = {
+  pageNum: number;
+  pageSize: number;
+  keywords?: string;
   enabled?: boolean;
 };
 
-export default function useInstalledPluginsQuery({ enabled = true }: Props) {
+const defaultProps = {
+  pageNum: 1,
+  pageSize: 20,
+  keywords: '',
+  enabled: true,
+};
+
+export default function useInstalledPluginsQuery(props?: Props) {
+  const { pageNum, pageSize, keywords, enabled } = {
+    ...defaultProps,
+    ...props,
+  };
   const { data, ...rest } = useQuery<ApiData, TRequestParams>({
     url,
     method,
     params: {
-      page_num: 1,
-      page_size: 10,
+      page_num: pageNum,
+      page_size: pageSize,
+      key_words: keywords,
       installed: true,
     },
     reactQueryOptions: {
