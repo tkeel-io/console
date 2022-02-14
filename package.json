@@ -15,6 +15,7 @@
   ],
   "scripts": {
     "build-and-docker:build": "node ./scripts/run/build-and-docker-build",
+    "build-and-docker:build-all": "node ./scripts/run/build-and-docker-build-all",
     "build": "node ./scripts/run/build",
     "build:all": "node ./scripts/run/build-all",
     "check:packages": "node ./scripts/check/packages",
