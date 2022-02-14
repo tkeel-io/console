@@ -12,7 +12,7 @@ import useReposQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/us
 
 function Index(): JSX.Element {
   const { repos, isLoading } = useReposQuery();
-  const { plugins: installedPlugins } = useInstalledPluginsQuery({});
+  const { plugins: installedPlugins } = useInstalledPluginsQuery();
 
   return (
     <Flex flexDirection="column" height="100%">
