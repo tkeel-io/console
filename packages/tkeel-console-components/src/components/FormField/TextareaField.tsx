@@ -9,15 +9,14 @@ import FormControl, {
 import { fieldDefaultProps } from './default-props';
 import { getFocusStyle } from './utils';
 
-type Props = FormControlProps &
-  UseFormRegisterReturn & {
-    id: string;
-    type?: HTMLInputTypeAttribute;
-    defaultValue?: string;
-    placeholder?: string;
-    registerReturn?: UseFormRegisterReturn;
-    inputStyle?: StyleProps;
-  };
+type Props = FormControlProps & {
+  id: string;
+  type?: HTMLInputTypeAttribute;
+  defaultValue?: string;
+  placeholder?: string;
+  registerReturn?: UseFormRegisterReturn;
+  inputStyle?: StyleProps;
+};
 
 const defaultProps = {
   inputStyle: {},

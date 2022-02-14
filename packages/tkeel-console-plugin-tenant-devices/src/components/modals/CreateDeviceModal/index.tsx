@@ -11,9 +11,14 @@ import CompleteInfoPart from './CompleteInfoPart';
 import ExtendInfoPart from './ExtendInfoPart';
 import { DeviceValueType } from './types';
 
-import useCreateDeviceGroupMutation, {
-  RequestData as GroupInfo,
-} from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceGroupMutation';
+import useCreateDeviceGroupMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceGroupMutation';
+
+const defaultFormInfo = {
+  name: '',
+  parent: '',
+  ext: {},
+  desc: '',
+};
 
 interface Props {
   isOpen: boolean;
@@ -25,41 +30,32 @@ const BUTTON_TEXT = {
   SKIP: '跳过',
   COMPLETE: '完成',
 };
-const defaultInfo = {
-  name: '',
-  parent: '',
-  ext: {},
-  desc: '',
-};
 
 export default function CreateDeviceGroupModal({ isOpen, onClose }: Props) {
-  const [info, setInfo] = useState<GroupInfo>(defaultInfo);
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(1);
 
   const formHandler = useForm<DeviceValueType>();
 
-  const { handleSubmit, trigger } = formHandler;
+  const { handleSubmit, trigger, watch, reset } = formHandler;
+  const watchFields = watch();
+  // eslint-disable-next-line no-console
+  console.log('watchFields', watchFields);
 
   useEffect(() => {
     if (!isOpen) {
-      setCurrentStep(0);
-      setInfo(defaultInfo);
+      setCurrentStep(1);
+      reset(defaultFormInfo);
     }
-  }, [isOpen]);
-
-  const setGroupInfo = (params: { key: string; value: unknown }) => {
-    const { key, value } = params;
-    setInfo({ ...info, [key]: value });
-    // eslint-disable-next-line no-console
-    console.log({ ...info, [key]: value });
-  };
+  }, [isOpen, reset]);
 
   const getButtonText = () => {
-    const { ext } = info;
     if (currentStep >= progressLabels.length - 1) {
       return BUTTON_TEXT.COMPLETE;
     }
-    if (currentStep === progressLabels.indexOf('扩展信息') && isEmpty(ext)) {
+    if (
+      currentStep === progressLabels.indexOf('扩展信息') &&
+      isEmpty(watchFields.ext)
+    ) {
       return BUTTON_TEXT.SKIP;
     }
     return BUTTON_TEXT.NEXT;
@@ -67,14 +63,6 @@ export default function CreateDeviceGroupModal({ isOpen, onClose }: Props) {
   const { data } = useCreateDeviceGroupMutation();
   // eslint-disable-next-line no-console
   console.log(data);
-  // const handleCreateDeviceGroup = () => {
-  //   // mutate({ data: info });
-  //   // eslint-disable-next-line no-console
-  //   console.log(info);
-  //   window.setTimeout(() => {
-  //     onClose();
-  //   }, 5000);
-  // };
   const handleVerifyValue = async (step: number) => {
     let verifyKeys;
     if (step === 0) {
@@ -86,6 +74,8 @@ export default function CreateDeviceGroupModal({ isOpen, onClose }: Props) {
         'selfLearn',
         'desc',
       ] as const;
+    } else if (step === 1) {
+      verifyKeys = ['ext'] as const;
     }
     const result = await trigger(verifyKeys);
     if (result) {
@@ -139,9 +129,17 @@ export default function CreateDeviceGroupModal({ isOpen, onClose }: Props) {
             mb="0px"
             pb="40px"
           >
-            {currentStep === 0 && <BasicInfoPart formHandler={formHandler} />}
+            {currentStep === 0 && (
+              <BasicInfoPart
+                formHandler={formHandler}
+                watchFields={watchFields}
+              />
+            )}
             {currentStep === 1 && (
-              <ExtendInfoPart setGroupInfo={setGroupInfo} />
+              <ExtendInfoPart
+                formHandler={formHandler}
+                watchFields={watchFields}
+              />
             )}
             {currentStep === 2 && <CompleteInfoPart />}
             <Button
