@@ -1,7 +1,6 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Button, Text, useDisclosure } from '@chakra-ui/react';
-import { FormField, Modal } from '@tkeel/console-components';
-import { AddFilledIcon } from '@tkeel/console-icons';
+import { CreateButton, FormField, Modal } from '@tkeel/console-components';
 
 const { TextField } = FormField;
 
@@ -41,16 +40,9 @@ function CreatePluginButton() {
 
   return (
     <>
-      <Button
-        position="absolute"
-        right="2px"
-        top="2px"
-        size="md"
-        leftIcon={<AddFilledIcon color="white" />}
-        onClick={onOpen}
-      >
+      <CreateButton position="absolute" right="2px" top="2px" onClick={onOpen}>
         创建插件源
-      </Button>
+      </CreateButton>
       <Modal
         title={
           <Text color="gray.800" fontSize="14px">

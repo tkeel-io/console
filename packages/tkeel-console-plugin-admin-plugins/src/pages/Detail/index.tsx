@@ -8,7 +8,7 @@ import {
   TabPanels,
   Tabs,
 } from '@chakra-ui/react';
-import { Editor } from '@tkeel/console-components';
+import { Editor, Empty } from '@tkeel/console-components';
 import { markdown } from 'markdown';
 
 import BasicInfo from './BasicInfo';
@@ -18,19 +18,22 @@ import EnablePluginList from './EnablePluginList';
 import { MarkdownWrapper } from './index.style';
 
 import usePluginDetailQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/usePluginDetailQuery';
+import { b64ToUTF8 } from '@/tkeel-console-plugin-admin-plugins/utils';
 
 function Detail() {
   const { repo, name, version } = useParams();
-  const { pluginDetail } = usePluginDetailQuery({
+  const { pluginDetail, refetch } = usePluginDetailQuery({
     repoName: repo || '',
     installerName: name || '',
     installerVersion: version || '',
   });
 
+  const readme = pluginDetail?.metadata?.readme ?? '';
+
   return (
     <Flex height="100%" paddingBottom="20px" justifyContent="space-between">
       <Box width="360px" flexShrink="0">
-        <BasicInfo data={pluginDetail} />
+        <BasicInfo data={pluginDetail} refetchDetails={refetch} />
         <DeveloperInfo />
       </Box>
       <Tabs display="flex" flexDirection="column" marginLeft="20px" flex="1">
@@ -46,18 +49,20 @@ function Detail() {
           <CustomTab>启用列表</CustomTab>
         </TabList>
         <TabPanels marginTop="16px" flex="1" overflow="hidden">
-          <TabPanel padding="0">
-            <MarkdownWrapper
-              padding="24px"
-              backgroundColor="white"
-              dangerouslySetInnerHTML={{
-                __html: markdown.toHTML(
-                  decodeURIComponent(
-                    escape(window.atob(pluginDetail?.metadata?.readme ?? ''))
-                  )
-                ),
-              }}
-            />
+          <TabPanel padding="0" height="100%" backgroundColor="white">
+            {readme ? (
+              <MarkdownWrapper
+                padding="24px"
+                dangerouslySetInnerHTML={{
+                  __html: markdown.toHTML(b64ToUTF8(readme)),
+                }}
+              />
+            ) : (
+              <Empty
+                title="暂无内容"
+                styles={{ wrapper: { height: '100%' } }}
+              />
+            )}
           </TabPanel>
           <TabPanel height="100%" padding="24px" backgroundColor="white">
             <Editor

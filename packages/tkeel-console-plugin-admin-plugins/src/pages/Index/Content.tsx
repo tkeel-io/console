@@ -17,24 +17,47 @@ function Content({ isInstalledPlugins = false, repo }: Props) {
   const [keywords, setKeywords] = useState('');
   const { pageNum, pageSize, setTotalSize, ...rest } = usePagination({});
 
-  const { plugins: repoPlugins, data } = useRepoInstallersQuery({
+  const {
+    plugins: repoPlugins,
+    data: repoPluginsData,
+    refetch: repoPluginsRefetch,
+    isLoading: repoPluginsLoading,
+  } = useRepoInstallersQuery({
     repo: repo as string,
     keywords,
     pageNum,
     pageSize,
     enabled: !isInstalledPlugins,
-    onSuccess: (result) => {
-      setTotalSize(result?.data?.total ?? 0);
-    },
   });
 
-  const { plugins: repoInstalledPlugins } = useInstalledPluginsQuery({
+  const {
+    plugins: repoInstalledPlugins,
+    data: repoInstalledPluginsData,
+    refetch: repoInstalledPluginsRefetch,
+    isLoading: repoInstalledPluginsLoading,
+  } = useInstalledPluginsQuery({
+    pageNum,
+    pageSize,
+    keywords,
     enabled: isInstalledPlugins,
   });
 
+  let isLoading = false;
+  if (isInstalledPlugins) {
+    isLoading = repoInstalledPluginsLoading;
+    setTotalSize(repoInstalledPluginsData?.total ?? 0);
+  } else {
+    isLoading = repoPluginsLoading;
+    setTotalSize(repoPluginsData?.total ?? 0);
+  }
+
   const plugins = isInstalledPlugins ? repoInstalledPlugins : repoPlugins;
-  const totalNum = data?.total || 0;
-  const installedNum = data?.installed_num || 0;
+  const pluginsData = isInstalledPlugins
+    ? repoInstalledPluginsData
+    : repoPluginsData;
+  const totalNum = pluginsData?.total || 0;
+  const installedNum = pluginsData?.installed_num || 0;
+
   let pluginNum = [
     {
       name: '插件数量',
@@ -52,6 +75,14 @@ function Content({ isInstalledPlugins = false, repo }: Props) {
   if (isInstalledPlugins) {
     pluginNum = [pluginNum[1]];
   }
+
+  const refetchPlugins = () => {
+    if (isInstalledPlugins) {
+      repoInstalledPluginsRefetch();
+    } else {
+      repoPluginsRefetch();
+    }
+  };
 
   return (
     <Flex
@@ -88,6 +119,8 @@ function Content({ isInstalledPlugins = false, repo }: Props) {
         />
       </Flex>
       <PluginList
+        refetchPlugins={refetchPlugins}
+        isLoading={isLoading}
         plugins={plugins}
         pageNum={pageNum}
         pageSize={pageSize}

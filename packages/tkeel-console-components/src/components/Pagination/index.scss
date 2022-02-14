@@ -28,7 +28,7 @@
 
     &.rc-pagination-item-active {
       color: #fff;
-      background-color: #2580ff;
+      background-color: var(--chakra-colors-primary);
     }
   }
 }
