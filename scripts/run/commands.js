@@ -25,7 +25,7 @@ function runNpmScript({ data }) {
 function runNpmScripts({ data }) {
   const commands = data.map(({ packageName, npmScriptName }) => {
     const command = `yarn workspace ${packageName} ${npmScriptName}`;
-    logger.info(`${command}\n`);
+    logger.info(command);
     return { command, name: npmScriptName };
   });
   concurrently(commands);
