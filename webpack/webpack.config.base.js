@@ -182,7 +182,6 @@ module.exports = {
       context: 'src',
       extensions: ['js', 'jsx', 'ts', 'tsx'],
       fix: true,
-      threads: true,
       emitWarning: false,
     }),
     new StylelintPlugin({
