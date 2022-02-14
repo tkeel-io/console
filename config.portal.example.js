@@ -9,6 +9,7 @@ module.exports = {
   platformName: '', // admin, tenant
   publicPath: '/',
   client: {
+    themeName: '',
     documentTitle: '',
   },
   builder: {

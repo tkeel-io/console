@@ -9,6 +9,7 @@ module.exports = {
   platformName: 'admin',
   publicPath: '/',
   client: {
+    themeName: 'qingcloud-light',
     documentTitle: 'tKeel',
   },
   server: {
