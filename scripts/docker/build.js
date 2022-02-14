@@ -41,8 +41,9 @@ function createNginxConfig(packageInfo) {
 }
 
 function execCommand(packageInfo) {
-  const { simpleName, directoryName } = packageInfo;
-  const command = `docker build -t=${simpleName} --build-arg DIRECTORY_NAME=${directoryName} .`;
+  const { simpleName, directoryName, packageJson } = packageInfo;
+  const { name: packageName } = packageJson;
+  const command = `docker build -t=${simpleName} --build-arg DIRECTORY_NAME=${directoryName} --build-arg PACKAGE_NAME=${packageName} .`;
   logger.info(`${command}\n`);
   shell.exec(command);
   logger.success('docker build success\n');
