@@ -14,7 +14,7 @@ type Props = {
 };
 
 function Content({ isInstalledPlugins = false, repo }: Props) {
-  const [keywords, setKeywords] = useState('');
+  const [keyWords, setKeywords] = useState('');
   const { pageNum, pageSize, setTotalSize, ...rest } = usePagination({});
 
   const {
@@ -24,7 +24,7 @@ function Content({ isInstalledPlugins = false, repo }: Props) {
     isLoading: repoPluginsLoading,
   } = useRepoInstallersQuery({
     repo: repo as string,
-    keywords,
+    keyWords,
     pageNum,
     pageSize,
     enabled: !isInstalledPlugins,
@@ -38,7 +38,7 @@ function Content({ isInstalledPlugins = false, repo }: Props) {
   } = useInstalledPluginsQuery({
     pageNum,
     pageSize,
-    keywords,
+    keyWords,
     enabled: isInstalledPlugins,
   });
 

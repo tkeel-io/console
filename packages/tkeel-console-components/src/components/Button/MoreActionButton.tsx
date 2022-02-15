@@ -26,10 +26,7 @@ function MoreActionButton({ icon, title, onClick }: Props) {
           color: 'white',
         },
       }}
-      onClick={(e) => {
-        e.stopPropagation();
-        onClick();
-      }}
+      onClick={onClick}
     >
       {icon}
       <Text marginLeft="6px" fontSize="12px">

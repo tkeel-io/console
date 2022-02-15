@@ -23,19 +23,19 @@ const method = 'GET';
 type Props = {
   pageNum: number;
   pageSize: number;
-  keywords?: string;
+  keyWords?: string;
   enabled?: boolean;
 };
 
 const defaultProps = {
   pageNum: 1,
   pageSize: 20,
-  keywords: '',
+  keyWords: '',
   enabled: true,
 };
 
 export default function useInstalledPluginsQuery(props?: Props) {
-  const { pageNum, pageSize, keywords, enabled } = {
+  const { pageNum, pageSize, keyWords, enabled } = {
     ...defaultProps,
     ...props,
   };
@@ -45,7 +45,7 @@ export default function useInstalledPluginsQuery(props?: Props) {
     params: {
       page_num: pageNum,
       page_size: pageSize,
-      key_words: keywords,
+      key_words: keyWords,
       installed: true,
     },
     reactQueryOptions: {
