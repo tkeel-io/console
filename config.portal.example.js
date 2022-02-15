@@ -32,6 +32,7 @@ module.exports = {
   },
   // local development
   mock: {
+    tenantId: '', // portal tenant
     username: '', // portal admin
     password: '', // portal
     menus: [], // portal
