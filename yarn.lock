@@ -3457,6 +3457,25 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@tkeel/console-plugin-abc@workspace:packages/tkeel-console-plugin-abc":
+  version: 0.0.0-use.local
+  resolution: "@tkeel/console-plugin-abc@workspace:packages/tkeel-console-plugin-abc"
+  dependencies:
+    "@chakra-ui/react": ^1.8.1
+    "@emotion/react": ^11.7.1
+    "@emotion/styled": ^11.6.0
+    "@tkeel/console-business-components": "workspace:^"
+    "@tkeel/console-hooks": "workspace:^"
+    "@tkeel/console-types": "workspace:^"
+    "@tkeel/console-utils": "workspace:^"
+    framer-motion: ^6.2.3
+    react: ^17.0.2
+    react-dom: ^17.0.2
+    react-query: ^3.34.12
+    react-router-dom: ^6.2.1
+  languageName: unknown
+  linkType: soft
+
 "@tkeel/console-plugin-admin-plugins@workspace:packages/tkeel-console-plugin-admin-plugins":
   version: 0.0.0-use.local
   resolution: "@tkeel/console-plugin-admin-plugins@workspace:packages/tkeel-console-plugin-admin-plugins"
@@ -13538,15 +13557,6 @@ __metadata:
   linkType: hard
 
 "react-hook-form@npm:^7.25.1, react-hook-form@npm:^7.26.1":
-  version: 7.26.1
-  resolution: "react-hook-form@npm:7.26.1"
-  peerDependencies:
-    react: ^16.8.0 || ^17
-  checksum: e873924a0bb16b312424a1fe98e402c478f4e10fdd2bb171dc36e27778216508c4e263e12eb6fcb015e50e108d91fd38ab729f73a7b5a5ad626ad97254ff15c0
-  languageName: node
-  linkType: hard
-
-"react-hook-form@npm:^7.26.1":
   version: 7.26.1
   resolution: "react-hook-form@npm:7.26.1"
   peerDependencies:
