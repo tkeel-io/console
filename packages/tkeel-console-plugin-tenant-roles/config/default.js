@@ -1,3 +1,5 @@
+const { tkeel } = require('../../../config/default');
+
 const API = {
   protocol: 'http',
   hostname: '192.168.100.6',
@@ -21,20 +23,24 @@ module.exports = {
   },
   api: API,
   plugin: {
-    plugin_id: 'console-plugin-tenant-roles',
-    entries: [
-      {
-        id: 'users',
-        name: '用户管理',
-        icon: 'HumanGearTwoToneIcon',
-        children: [
-          {
-            id: 'console-plugin-tenant-roles',
-            name: '角色管理',
-          },
-        ],
-      },
-    ],
-    dependence: [{ id: '' }],
+    identify: {
+      plugin_id: 'console-plugin-tenant-roles',
+      entries: [
+        {
+          id: 'users',
+          name: '用户管理',
+          icon: 'HumanGearTwoToneIcon',
+          children: [
+            {
+              id: 'console-plugin-tenant-roles',
+              name: '角色管理',
+              path: '/tenant-roles',
+              entry: '/static/console-plugin-tenant-roles/',
+            },
+          ],
+        },
+      ],
+      dependence: [{ id: 'rudder', version: tkeel.version }],
+    },
   },
 };
