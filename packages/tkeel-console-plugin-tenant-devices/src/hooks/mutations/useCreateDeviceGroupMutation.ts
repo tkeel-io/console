@@ -7,9 +7,12 @@ export interface ApiData {
   details?: unknown;
 }
 export interface RequestData {
-  desc: string;
+  description?: string;
   name: string;
-  parent: string;
+  directConnection: boolean;
+  selfLearn: boolean;
+  templateId?: string;
+  parentId: string;
   ext: {
     [propName: string]: unknown;
   };
