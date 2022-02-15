@@ -9,6 +9,7 @@ module.exports = {
   platformName: '', // admin, tenant
   publicPath: '/',
   client: {
+    themeName: '',
     documentTitle: '',
   },
   builder: {
@@ -17,7 +18,9 @@ module.exports = {
   server: {
     port: '3000',
     proxy: {
-      [API.pathname]: `${API.protocol}://${API.hostname}:${API.port}`,
+      [API.pathname]: API.port
+        ? `${API.protocol}://${API.hostname}:${API.port}`
+        : `${API.protocol}://${API.hostname}`,
     },
   },
   api: API,

@@ -6,7 +6,7 @@ const API = {
 };
 
 module.exports = {
-  publicPath: '/plugins/{{name}}',
+  publicPath: '/static/{{name}}',
   basePath: '{{basePath}}',
   client: {
     documentTitle: 'tKeel',
@@ -14,7 +14,9 @@ module.exports = {
   server: {
     port: '{{serverPort}}',
     proxy: {
-      [API.pathname]: `${API.protocol}://${API.hostname}:${API.port}`,
+      [API.pathname]: API.port
+        ? `${API.protocol}://${API.hostname}:${API.port}`
+        : `${API.protocol}://${API.hostname}`,
     },
   },
   api: API,
