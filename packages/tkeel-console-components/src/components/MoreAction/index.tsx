@@ -37,6 +37,7 @@ function MoreAction({ buttons }: Props) {
       <Circle
         size="28px"
         backgroundColor={showActionList ? 'gray.100' : 'transparent'}
+        cursor="pointer"
         _hover={{
           backgroundColor: 'gray.100',
           '& > svg': {
