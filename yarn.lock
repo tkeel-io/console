@@ -13568,15 +13568,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:^7.26.1":
-  version: 7.26.1
-  resolution: "react-hook-form@npm:7.26.1"
-  peerDependencies:
-    react: ^16.8.0 || ^17
-  checksum: e873924a0bb16b312424a1fe98e402c478f4e10fdd2bb171dc36e27778216508c4e263e12eb6fcb015e50e108d91fd38ab729f73a7b5a5ad626ad97254ff15c0
-  languageName: node
-  linkType: hard
-
 "react-is@npm:^16.13.1, react-is@npm:^16.7.0":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
