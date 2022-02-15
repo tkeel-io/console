@@ -3457,9 +3457,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tkeel/console-plugin-abc@workspace:packages/tkeel-console-plugin-abc":
+"@tkeel/console-plugin-admin-abc@workspace:packages/tkeel-console-plugin-admin-abc":
   version: 0.0.0-use.local
-  resolution: "@tkeel/console-plugin-abc@workspace:packages/tkeel-console-plugin-abc"
+  resolution: "@tkeel/console-plugin-admin-abc@workspace:packages/tkeel-console-plugin-admin-abc"
   dependencies:
     "@chakra-ui/react": ^1.8.1
     "@emotion/react": ^11.7.1

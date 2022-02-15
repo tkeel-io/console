@@ -30,12 +30,8 @@ module.exports = {
         id: '',
         name: '',
         icon: '',
-        children: [
-          {
-            id: '',
-            name: '',
-          },
-        ],
+        path: '',
+        entry: '',
       },
     ],
     dependence: [{ id: '' }],

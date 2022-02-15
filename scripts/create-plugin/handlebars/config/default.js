@@ -24,15 +24,11 @@ module.exports = {
     plugin_id: 'console-plugin-{{name}}',
     entries: [
       {
-        id: '',
+        id: 'console-plugin-{{name}}',
         name: '',
         icon: '',
-        children: [
-          {
-            id: 'console-plugin-{{name}}',
-            name: '',
-          },
-        ],
+        path: '{{basePath}}',
+        entry: '/static/console-plugin-{{name}}',
       },
     ],
     dependence: [{ id: '' }],
