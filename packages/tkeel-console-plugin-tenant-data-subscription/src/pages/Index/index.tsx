@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { Box, Flex, Text } from '@chakra-ui/react';
 import {
   BookOpenedFilledIcon,
@@ -7,7 +8,11 @@ import {
 import SubscriptionButton from './components/Button/SubscriptionButton';
 import CreateUserButton from './components/CreateUserButton';
 
+// import useListSubscribeQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useListSubscribeQuery';
+
 function SubscriptionCard() {
+  const navigate = useNavigate();
+
   return (
     <Box
       bg="gray.50"
@@ -42,7 +47,13 @@ function SubscriptionCard() {
             >
               <Flex height="76px" flexDir="column" padding="0 20">
                 <Flex alignItems="center" justifyContent="space-between">
-                  <Flex alignItems="center">
+                  <Flex
+                    alignItems="center"
+                    onClick={() => {
+                      navigate('/detail');
+                    }}
+                    style={{ cursor: 'pointer' }}
+                  >
                     <MessageWarningTwoToneIcon
                       style={{ width: '24px', height: '22px' }}
                     />
@@ -117,6 +128,9 @@ const handleCreateUserSuccess = () => {
 };
 
 function Index(): JSX.Element {
+  // const data1 = useListSubscribeQuery();
+  // console.log('data1', data1);
+
   return (
     <Box>
       <Flex height="30px" alignItems="center" justifyContent="space-between">
@@ -162,6 +176,7 @@ function Index(): JSX.Element {
           height="40px"
           alignItems="center"
           fontSize="12px"
+          background="gray.50"
         >
           <Box color="gray.700">
             订阅设备：
