@@ -24,20 +24,18 @@ module.exports = {
   },
   api: API,
   plugin: {
-    plugin_id: 'console-plugin-example',
-    entries: [
-      {
-        id: '',
-        name: '',
-        icon: '',
-        children: [
-          {
-            id: '',
-            name: '',
-          },
-        ],
-      },
-    ],
-    dependence: [{ id: '' }],
+    identify: {
+      plugin_id: 'console-plugin-example',
+      entries: [
+        {
+          id: '',
+          name: '',
+          icon: '',
+          path: '',
+          entry: '',
+        },
+      ],
+      dependence: [{ id: '', version: '' }],
+    },
   },
 };

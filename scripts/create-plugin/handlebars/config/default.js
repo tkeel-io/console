@@ -21,20 +21,18 @@ module.exports = {
   },
   api: API,
   plugin: {
-    plugin_id: 'console-plugin-{{name}}',
-    entries: [
-      {
-        id: '',
-        name: '',
-        icon: '',
-        children: [
-          {
-            id: 'console-plugin-{{name}}',
-            name: '',
-          },
-        ],
-      },
-    ],
-    dependence: [{ id: '' }],
+    identify: {
+      plugin_id: 'console-plugin-{{name}}',
+      entries: [
+        {
+          id: 'console-plugin-{{name}}',
+          name: '',
+          icon: '',
+          path: '{{basePath}}',
+          entry: '/static/console-plugin-{{name}}',
+        },
+      ],
+      dependence: [],
+    },
   },
 };

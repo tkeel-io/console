@@ -24,6 +24,12 @@ module.exports = {
     },
   },
   api: API,
+  plugin: {
+    identify: {
+      plugin_id: '',
+      dependence: [],
+    },
+  },
   // local development
   mock: {
     username: '', // portal admin
