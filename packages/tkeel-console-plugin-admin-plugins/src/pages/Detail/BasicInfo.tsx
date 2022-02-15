@@ -6,10 +6,8 @@ import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import InfoCard from './InfoCard';
 
-import {
-  InstallButton,
-  UnInstallButton,
-} from '@/tkeel-console-plugin-admin-plugins/components';
+import InstallButton from '@/tkeel-console-plugin-admin-plugins/components/InstallButton';
+import UnInstallButton from '@/tkeel-console-plugin-admin-plugins/components/UnInstallButton';
 import { Installer } from '@/tkeel-console-plugin-admin-plugins/hooks/queries/usePluginDetailQuery';
 
 type Props = {

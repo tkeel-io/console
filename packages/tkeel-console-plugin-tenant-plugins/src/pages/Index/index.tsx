@@ -9,22 +9,43 @@ import {
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
 
-import { DisableButton } from '@/tkeel-console-plugin-tenant-plugins/components';
-// import { CaretRightFilledIcon } from '@tkeel/console-icons';
+import {
+  DisableButton,
+  EnableButton,
+} from '@/tkeel-console-plugin-tenant-plugins/components';
 import usePluginsQuery from '@/tkeel-console-plugin-tenant-plugins/hooks/queries/usePluginsQuery';
 import Detail from '@/tkeel-console-plugin-tenant-plugins/pages/Detail';
 
 function Index(): JSX.Element {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const [keyWords, setKeyWords] = useState('');
   const [pluginName, setPluginName] = useState('');
 
   const pagination = usePagination();
-  const { setTotalSize } = pagination;
-  const { plugins, data, isSuccess } = usePluginsQuery();
+  const { pageNum, pageSize, setTotalSize } = pagination;
+  const { plugins, data, isSuccess, refetch } = usePluginsQuery({
+    pageNum,
+    pageSize,
+    keyWords,
+  });
   if (isSuccess) {
     setTotalSize(data?.total ?? 0);
   }
+
+  const pluginNum = [
+    {
+      name: '插件数量',
+      num: 1,
+    },
+    {
+      name: '已启用',
+      num: 1,
+    },
+    {
+      name: '未启用',
+      num: 0,
+    },
+  ];
 
   const bottomData = [
     {
@@ -38,13 +59,34 @@ function Index(): JSX.Element {
   ];
   return (
     <Flex flexDirection="column" height="100%">
-      <PageHeaderToolbar name="插件管理" hasSearchInput />
+      <PageHeaderToolbar
+        name="插件管理"
+        hasSearchInput
+        searchInputProps={{ onSearch: (value) => setKeyWords(value) }}
+      />
       <Flex
         flexDirection="column"
         flex="1"
         overflow="hidden"
         backgroundColor="gray.50"
       >
+        <Flex alignItems="center">
+          {pluginNum.map((item) => (
+            <Flex key={item.name} alignItems="center" marginRight="5px">
+              <Text color="gray.700" fontSize="12px" fontWeight="500">
+                {item.name}
+              </Text>
+              <Text
+                marginLeft="2px"
+                color="gray.500"
+                fontSize="12px"
+                fontWeight="500"
+              >
+                {item.num}
+              </Text>
+            </Flex>
+          ))}
+        </Flex>
         <Grid
           templateColumns="repeat(4, 1fr)"
           gap="8px"
@@ -52,19 +94,38 @@ function Index(): JSX.Element {
           padding="12px 20px"
           flex="1"
         >
-          {plugins.map((plugin) => {
-            const { id, brief_installer_info: briefInstallerInfo } = plugin;
+          {[...plugins, ...plugins, ...plugins].map((plugin) => {
+            const {
+              id,
+              installer_brief: installerBrief,
+              tenant_enable: tenantEnable,
+            } = plugin;
+            const { name } = installerBrief;
             return (
               <PluginCard
                 key={id}
-                briefPluginInfo={briefInstallerInfo}
+                briefPluginInfo={installerBrief}
                 operatorButton={
-                  // <RectangleButton
-                  //   leftIcon={<CaretRightFilledIcon color="primary" />}
-                  // >
-                  //   启用
-                  // </RectangleButton>
-                  <MoreAction buttons={[<DisableButton key="disable" />]} />
+                  tenantEnable ? (
+                    <MoreAction
+                      buttons={[
+                        <DisableButton
+                          key="disable"
+                          pluginName={name}
+                          refetchList={() => {
+                            refetch();
+                          }}
+                        />,
+                      ]}
+                    />
+                  ) : (
+                    <EnableButton
+                      pluginName={name}
+                      refetchList={() => {
+                        refetch();
+                      }}
+                    />
+                  )
                 }
                 bottomInfo={
                   <Flex>
@@ -76,13 +137,13 @@ function Index(): JSX.Element {
                         fontSize="12px"
                       >
                         <Text>{item.label}：</Text>
-                        <Text>{briefInstallerInfo[item.key]}</Text>
+                        <Text>{installerBrief[item.key]}</Text>
                       </Flex>
                     ))}
                   </Flex>
                 }
                 onClick={() => {
-                  setPluginName(briefInstallerInfo.name);
+                  setPluginName(name);
                   onOpen();
                 }}
               />
