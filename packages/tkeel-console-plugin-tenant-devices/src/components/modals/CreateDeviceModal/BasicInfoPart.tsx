@@ -9,14 +9,9 @@ import {
 } from '@tkeel/console-components';
 import { map } from 'lodash';
 
-import { ConnectInfoType, DeviceValueType } from './types';
+import { ConnectInfoType, ConnectOption, DeviceValueType } from './types';
 
 const { TextField, SelectField, TextareaField } = FormField;
-
-const CONNECT_OPTION = {
-  DIRECT: '直连',
-  INDIRECT: '非直连',
-};
 
 interface Props {
   formHandler: UseFormReturn<DeviceValueType, object>;
@@ -25,8 +20,6 @@ interface Props {
 export default function BasicInfoPart({ formHandler, watchFields }: Props) {
   const { register, formState, setValue } = formHandler;
   const { errors } = formState;
-  // eslint-disable-next-line no-console
-  console.log(watchFields);
   return (
     <>
       <TextField
@@ -38,18 +31,18 @@ export default function BasicInfoPart({ formHandler, watchFields }: Props) {
         error={errors.name}
       />
       <SelectField
-        id="parent"
+        id="parentId"
         label="父设备组"
         options={[{ value: 1, label: '默认设备组' }]}
-        registerReturn={register('parent', {
+        registerReturn={register('parentId', {
           required: { value: true, message: 'required' },
         })}
-        error={errors.parent}
+        error={errors.parentId}
       />
       <SelectField
         label="设备连接方式"
         id="directConnection"
-        options={map(CONNECT_OPTION, (value) => {
+        options={map(ConnectOption, (value) => {
           return { label: value, value };
         })}
         registerReturn={register('directConnection', {
@@ -57,15 +50,15 @@ export default function BasicInfoPart({ formHandler, watchFields }: Props) {
         })}
         error={errors.directConnection}
       />
-      <FormControl id="connectOption">
+      <FormControl id="connectInfo">
         <CheckboxGroup
           onChange={(value: ConnectInfoType[]) => {
-            setValue('connectOption', value);
+            setValue('connectInfo', value);
           }}
           value={
-            watchFields.directConnection === CONNECT_OPTION.INDIRECT
+            watchFields.directConnection === ConnectOption.INDIRECT
               ? [ConnectInfoType.useTemplate]
-              : watchFields.connectOption
+              : watchFields.connectInfo
           }
         >
           <Stack spacing="16px" direction="column">
@@ -74,7 +67,7 @@ export default function BasicInfoPart({ formHandler, watchFields }: Props) {
               id="useTemplate"
               value={ConnectInfoType.useTemplate}
               isDisabled={
-                watchFields.directConnection === CONNECT_OPTION.INDIRECT
+                watchFields.directConnection === ConnectOption.INDIRECT
               }
             >
               <Text color="gray.600" fontSize="14px">
@@ -86,7 +79,7 @@ export default function BasicInfoPart({ formHandler, watchFields }: Props) {
               id="selfLearn"
               value={ConnectInfoType.selfLearn}
               isDisabled={
-                watchFields.directConnection === CONNECT_OPTION.INDIRECT
+                watchFields.directConnection === ConnectOption.INDIRECT
               }
             >
               <Text color="gray.600" fontSize="14px">
@@ -97,12 +90,12 @@ export default function BasicInfoPart({ formHandler, watchFields }: Props) {
         </CheckboxGroup>
       </FormControl>
       <TextareaField
-        id="desc"
+        id="description"
         label="描述"
         placeholder="请输入"
         type="text"
-        registerReturn={register('desc')}
-        error={errors.desc}
+        registerReturn={register('description')}
+        error={errors.description}
       />
     </>
   );

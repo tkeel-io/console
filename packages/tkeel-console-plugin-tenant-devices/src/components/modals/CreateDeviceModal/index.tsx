@@ -1,23 +1,24 @@
+/* eslint-disable no-console */
 import { useEffect, useState } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import { Form, Modal } from '@tkeel/console-components';
-import { isEmpty } from 'lodash';
+import { has, isEmpty, keyBy, mapValues } from 'lodash';
 
 import ProgressSchedule from '../../ProgressSchedule';
 import BasicInfoPart from './BasicInfoPart';
 import CompleteInfoPart from './CompleteInfoPart';
 import ExtendInfoPart from './ExtendInfoPart';
-import { DeviceValueType } from './types';
+import { ConnectInfoType, ConnectOption, DeviceValueType } from './types';
 
 import useCreateDeviceGroupMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceGroupMutation';
 
 const defaultFormInfo = {
   name: '',
-  parent: '',
-  ext: {},
-  desc: '',
+  parentId: '',
+  extendInfo: [],
+  description: '',
 };
 
 interface Props {
@@ -32,21 +33,73 @@ const BUTTON_TEXT = {
 };
 
 export default function CreateDeviceGroupModal({ isOpen, onClose }: Props) {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(0);
 
-  const formHandler = useForm<DeviceValueType>();
+  const formHandler = useForm<DeviceValueType>({
+    defaultValues: defaultFormInfo,
+  });
+  const fieldArrayHandler = useFieldArray({
+    control: formHandler.control,
+    name: 'extendInfo',
+  });
 
   const { handleSubmit, trigger, watch, reset } = formHandler;
   const watchFields = watch();
-  // eslint-disable-next-line no-console
-  console.log('watchFields', watchFields);
 
   useEffect(() => {
     if (!isOpen) {
-      setCurrentStep(1);
+      setCurrentStep(0);
       reset(defaultFormInfo);
     }
   }, [isOpen, reset]);
+
+  const { data, isLoading, mutate } = useCreateDeviceGroupMutation();
+  console.log(data, mutate, isLoading);
+
+  const onSubmit: SubmitHandler<DeviceValueType> = async (formValues) => {
+    if (currentStep >= 2) {
+      onClose();
+    } else {
+      let verifyKeys;
+      if (currentStep === 0) {
+        verifyKeys = [
+          'name',
+          'parentId',
+          'directConnection',
+          'description',
+        ] as const;
+      } else if (currentStep === 1) {
+        verifyKeys = ['extendInfo'] as const;
+      }
+      const result = await trigger(verifyKeys);
+      if (result) {
+        setCurrentStep(currentStep + 1);
+        if (currentStep === 1) {
+          const {
+            description,
+            name,
+            directConnection,
+            connectInfo,
+            extendInfo,
+          } = formValues;
+          const params = {
+            description,
+            name,
+            directConnection: directConnection === ConnectOption.DIRECT,
+            selfLearn: has(connectInfo, ConnectInfoType.selfLearn),
+            templateId: has(connectInfo, ConnectInfoType.useTemplate)
+              ? '123'
+              : '',
+            ext: mapValues(keyBy(extendInfo, 'label'), 'value'),
+            parentId: '',
+          };
+
+          console.log(params);
+          // mutate({ data: params });
+        }
+      }
+    }
+  };
 
   const getButtonText = () => {
     if (currentStep >= progressLabels.length - 1) {
@@ -54,38 +107,11 @@ export default function CreateDeviceGroupModal({ isOpen, onClose }: Props) {
     }
     if (
       currentStep === progressLabels.indexOf('扩展信息') &&
-      isEmpty(watchFields.ext)
+      isEmpty(watchFields.extendInfo)
     ) {
       return BUTTON_TEXT.SKIP;
     }
     return BUTTON_TEXT.NEXT;
-  };
-  const { data } = useCreateDeviceGroupMutation();
-  // eslint-disable-next-line no-console
-  console.log(data);
-  const handleVerifyValue = async (step: number) => {
-    let verifyKeys;
-    if (step === 0) {
-      verifyKeys = [
-        'name',
-        'parent',
-        'directConnection',
-        'useTemplate',
-        'selfLearn',
-        'desc',
-      ] as const;
-    } else if (step === 1) {
-      verifyKeys = ['ext'] as const;
-    }
-    const result = await trigger(verifyKeys);
-    if (result) {
-      setCurrentStep(currentStep + 1);
-    }
-  };
-
-  const onSubmit: SubmitHandler<DeviceValueType> = (formValues) => {
-    // eslint-disable-next-line no-console
-    console.log('提交', formValues);
   };
 
   return (
@@ -139,6 +165,7 @@ export default function CreateDeviceGroupModal({ isOpen, onClose }: Props) {
               <ExtendInfoPart
                 formHandler={formHandler}
                 watchFields={watchFields}
+                fieldArrayHandler={fieldArrayHandler}
               />
             )}
             {currentStep === 2 && <CompleteInfoPart />}
@@ -151,14 +178,8 @@ export default function CreateDeviceGroupModal({ isOpen, onClose }: Props) {
               }
               fontSize="14px"
               px="30px"
-              type={currentStep === 1 ? 'submit' : 'button'}
-              onClick={() => {
-                if (currentStep < 2) {
-                  handleVerifyValue(currentStep);
-                } else {
-                  onClose();
-                }
-              }}
+              type="submit"
+              isLoading={isLoading}
             >
               {getButtonText()}
             </Button>
