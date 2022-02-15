@@ -12,9 +12,8 @@ module.exports = {
     themeName: '',
     documentTitle: '',
   },
-  builder: {
-    generateSourcemap: false, // production
-  },
+  api: API, // development
+  // development
   server: {
     port: '3000',
     proxy: {
@@ -23,7 +22,9 @@ module.exports = {
         : `${API.protocol}://${API.hostname}`,
     },
   },
-  api: API,
+  builder: {
+    generateSourcemap: false, // production
+  },
   plugin: {
     identify: {
       plugin_id: '',
