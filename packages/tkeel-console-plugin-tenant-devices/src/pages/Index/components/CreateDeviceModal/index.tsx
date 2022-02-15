@@ -3,15 +3,15 @@ import { useEffect, useState } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
-import { Form, Modal } from '@tkeel/console-components';
+import { Form, Modal, toast } from '@tkeel/console-components';
 import { has, isEmpty, keyBy, mapValues } from 'lodash';
 
-import ProgressSchedule from '../../ProgressSchedule';
 import BasicInfoPart from './BasicInfoPart';
 import CompleteInfoPart from './CompleteInfoPart';
 import ExtendInfoPart from './ExtendInfoPart';
 import { ConnectInfoType, ConnectOption, DeviceValueType } from './types';
 
+import ProgressSchedule from '@/tkeel-console-plugin-tenant-devices/components/ProgressSchedule';
 import useCreateDeviceGroupMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceGroupMutation';
 
 const defaultFormInfo = {
@@ -53,7 +53,11 @@ export default function CreateDeviceGroupModal({ isOpen, onClose }: Props) {
     }
   }, [isOpen, reset]);
 
-  const { data, isLoading, mutate } = useCreateDeviceGroupMutation();
+  const { data, isLoading, mutate } = useCreateDeviceGroupMutation({
+    onSuccess() {
+      toast({ status: 'success', title: '创建设备组成功' });
+    },
+  });
   console.log(data, mutate, isLoading);
 
   const onSubmit: SubmitHandler<DeviceValueType> = async (formValues) => {
@@ -95,7 +99,7 @@ export default function CreateDeviceGroupModal({ isOpen, onClose }: Props) {
           };
 
           console.log(params);
-          // mutate({ data: params });
+          mutate({ data: params });
         }
       }
     }
