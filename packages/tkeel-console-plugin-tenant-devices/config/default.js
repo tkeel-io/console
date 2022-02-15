@@ -6,7 +6,7 @@ const API = {
 };
 
 module.exports = {
-  publicPath: '/plugins/tenant-devices/',
+  publicPath: '/static/tenant-devices/',
   basePath: '/tenant-devices',
   client: {
     documentTitle: '',
@@ -14,7 +14,9 @@ module.exports = {
   server: {
     port: '3004',
     proxy: {
-      [API.pathname]: `${API.protocol}://${API.hostname}:${API.port}`,
+      [API.pathname]: API.port
+        ? `${API.protocol}://${API.hostname}:${API.port}`
+        : `${API.protocol}://${API.hostname}`,
     },
   },
   api: API,

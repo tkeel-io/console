@@ -6,7 +6,7 @@ const API = {
 };
 
 module.exports = {
-  publicPath: '/plugins/tenant-plugins',
+  publicPath: '/static/tenant-plugins',
   basePath: '/tenant-plugins',
   client: {
     documentTitle: 'tKeel',
@@ -14,7 +14,9 @@ module.exports = {
   server: {
     port: '3009',
     proxy: {
-      [API.pathname]: `${API.protocol}://${API.hostname}:${API.port}`,
+      [API.pathname]: API.port
+        ? `${API.protocol}://${API.hostname}:${API.port}`
+        : `${API.protocol}://${API.hostname}`,
     },
   },
   api: API,

@@ -1,6 +1,10 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { BookOpenedFilledIcon } from '@tkeel/console-icons';
+import {
+  BookOpenedFilledIcon,
+  MessageWarningTwoToneIcon,
+} from '@tkeel/console-icons';
 
+import SubscriptionButton from './components/Button/SubscriptionButton';
 import CreateUserButton from './components/CreateUserButton';
 
 function SubscriptionCard() {
@@ -35,7 +39,41 @@ function SubscriptionCard() {
               margin="0 20px 12px 0"
             >
               <Flex height="76px" flexDir="column" padding="0 20">
-                <Box lineHeight="50px">IDC设备分组订阅</Box>
+                <Flex alignItems="center" justifyContent="space-between">
+                  <Flex alignItems="center">
+                    <MessageWarningTwoToneIcon
+                      style={{ width: '24px', height: '22px' }}
+                    />
+                    <Box lineHeight="50px" ml="12px">
+                      IDC设备分组订阅
+                    </Box>
+                    <Text
+                      display="inline"
+                      ml="12px"
+                      color="#F5A623"
+                      background="#FFF4E8"
+                      width="44px"
+                      fontSize="12px"
+                      textAlign="center"
+                    >
+                      已订阅
+                    </Text>
+                  </Flex>
+
+                  <Flex>
+                    <SubscriptionButton
+                      style={{
+                        width: '60px',
+                        height: '28px',
+                        borderRadius: '4px',
+                        marginLeft: '12px',
+                      }}
+                    >
+                      订阅
+                    </SubscriptionButton>
+                  </Flex>
+                </Flex>
+
                 <Text color="#6B7B95" fontSize="12px">
                   IDC b1会议室所有设备IDC b1会议室所有设备IDC
                   b1会议室所有设备IDC b1会议室所有设备...

@@ -33,7 +33,7 @@ lerna-debug.log*
 *.tsbuildinfo
 
 # Production
-**/dist/
+# **/dist/
 
 .git/
 .husky/
