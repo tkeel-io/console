@@ -41,11 +41,10 @@ function createJsonFiles(packageInfo) {
 }
 
 function deleteJsonFiles() {
-  /* [...jsonTemplateFileNames, ...jsonFileNames].forEach((fileName) => {
+  [...jsonTemplateFileNames, ...jsonFileNames].forEach((fileName) => {
     const destPath = path.resolve(jsonDestDirectoryPath, fileName);
     fs.removeSync(destPath);
-  }); */
-
+  });
   logger.success('deleted json files\n');
 }
 
