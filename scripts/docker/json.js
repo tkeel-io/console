@@ -18,13 +18,8 @@ const jsonSrcDirectoryPath = paths.resolveRoot('scripts/docker/templates/');
 const jsonDestDirectoryPath = paths.resolveRoot('.tmp/api-json/');
 
 function createJsonFiles(packageInfo) {
-  const { isPortal, packageJson, config: packageConfig } = packageInfo;
+  const { packageJson, config: packageConfig } = packageInfo;
   const { version } = packageJson;
-
-  if (isPortal) {
-    fs.ensureDirSync(jsonDestDirectoryPath);
-    return;
-  }
 
   jsonTemplateFileNames.forEach((fileName) => {
     const srcPath = path.resolve(jsonSrcDirectoryPath, fileName);
