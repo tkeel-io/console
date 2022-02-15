@@ -23,4 +23,19 @@ module.exports = {
     },
   },
   api: API,
+  plugin: {
+    identify: {
+      plugin_id: 'console-plugin-example',
+      entries: [
+        {
+          id: '',
+          name: '',
+          icon: '',
+          path: '',
+          entry: '',
+        },
+      ],
+      dependence: [{ id: '', version: '' }],
+    },
+  },
 };
