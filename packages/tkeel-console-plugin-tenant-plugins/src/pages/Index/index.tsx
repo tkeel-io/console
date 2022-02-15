@@ -3,13 +3,14 @@ import { Flex, Grid, Text, useDisclosure } from '@chakra-ui/react';
 import { PluginCard } from '@tkeel/console-business-components';
 import {
   Drawer,
+  MoreAction,
   PageHeaderToolbar,
   Pagination,
-  RectangleButton,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
-import { CaretRightFilledIcon } from '@tkeel/console-icons';
 
+import { DisableButton } from '@/tkeel-console-plugin-tenant-plugins/components';
+// import { CaretRightFilledIcon } from '@tkeel/console-icons';
 import usePluginsQuery from '@/tkeel-console-plugin-tenant-plugins/hooks/queries/usePluginsQuery';
 import Detail from '@/tkeel-console-plugin-tenant-plugins/pages/Detail';
 
@@ -58,11 +59,12 @@ function Index(): JSX.Element {
                 key={id}
                 briefPluginInfo={briefInstallerInfo}
                 operatorButton={
-                  <RectangleButton
-                    leftIcon={<CaretRightFilledIcon color="primary" />}
-                  >
-                    启用
-                  </RectangleButton>
+                  // <RectangleButton
+                  //   leftIcon={<CaretRightFilledIcon color="primary" />}
+                  // >
+                  //   启用
+                  // </RectangleButton>
+                  <MoreAction buttons={[<DisableButton key="disable" />]} />
                 }
                 bottomInfo={
                   <Flex>

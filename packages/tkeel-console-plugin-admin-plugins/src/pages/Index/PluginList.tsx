@@ -4,8 +4,10 @@ import { PluginCard } from '@tkeel/console-business-components';
 import { Loading, MoreAction, Pagination } from '@tkeel/console-components';
 import { UsePaginationReturnType } from '@tkeel/console-types';
 
-import InstallButton from '@/tkeel-console-plugin-admin-plugins/components/InstallButton';
-import UnInstallButton from '@/tkeel-console-plugin-admin-plugins/components/UnInstallButton';
+import {
+  InstallButton,
+  UnInstallButton,
+} from '@/tkeel-console-plugin-admin-plugins/components';
 import { PluginInfo } from '@/tkeel-console-plugin-admin-plugins/types/plugin-info';
 
 interface Props extends UsePaginationReturnType {

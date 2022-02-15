@@ -1,7 +1,7 @@
 import { MoreActionButton } from '@tkeel/console-components';
 import { TrashFilledIcon } from '@tkeel/console-icons';
 
-function StopButton() {
+function DisableButton() {
   return (
     <MoreActionButton
       icon={<TrashFilledIcon />}
@@ -14,4 +14,4 @@ function StopButton() {
   );
 }
 
-export default StopButton;
+export default DisableButton;
