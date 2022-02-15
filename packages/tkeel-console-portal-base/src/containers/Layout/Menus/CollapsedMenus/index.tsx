@@ -20,7 +20,7 @@ function CollapsedMenus() {
           <MenuItem icon="MagnifierFilledIcon" iconSize={20} active={false} />
         </Box>
         {menus.map(({ id, path, icon, children }) => {
-          if (children) {
+          if (children && children[0]) {
             return (
               <SubMenus key={id} icon={icon as string} subMenus={children} />
             );

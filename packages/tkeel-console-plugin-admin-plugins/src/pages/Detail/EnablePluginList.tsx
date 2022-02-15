@@ -13,14 +13,14 @@ type Props = {
 };
 
 function EnablePluginList({ pluginName }: Props) {
-  const [keywords, setKeywords] = useState('');
+  const [keyWords, setKeywords] = useState('');
   const { pageNum, pageSize, setTotalSize, ...rest } = usePagination({});
 
   const { tenants, data, isLoading } = usePluginsTenantsQuery({
     pluginName,
     pageNum,
     pageSize,
-    keywords,
+    keyWords,
   });
   setTotalSize(data?.total ?? 0);
 
