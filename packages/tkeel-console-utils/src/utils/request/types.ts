@@ -69,7 +69,7 @@ export interface RequestResult<
 
 // custom codes
 export interface ApiResponse<TApiData = unknown> {
-  code: number;
+  code: string;
   msg: string;
 
   data: TApiData;
