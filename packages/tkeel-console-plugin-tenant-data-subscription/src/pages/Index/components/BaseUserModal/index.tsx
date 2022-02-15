@@ -40,7 +40,7 @@ export default function BaseUserModal({
   onConfirm,
 }: Props) {
   const {
-    register,
+    // register,
     formState: { errors },
     trigger,
     getValues,
@@ -67,9 +67,9 @@ export default function BaseUserModal({
         label="订阅名称"
         isDisabled={formFields?.username?.disabled}
         error={errors.username}
-        schemas={register('username', {
-          required: { value: true, message: '请输入正确的名称' },
-        })}
+        // schemas={register('username', {
+        //   required: { value: true, message: '请输入正确的名称' },
+        // })}
       />
       <Box>
         <Text color="var(--chakra-colors-gray-600)" fontSize="14px" mb="4px">
@@ -77,10 +77,10 @@ export default function BaseUserModal({
         </Text>
         <Textarea
           id="nick_name"
-          error={errors.nick_name}
-          schemas={register('nick_name', {
-            required: { value: false, message: '用户名称' },
-          })}
+          // error={errors.nick_name}
+          // schemas={register('nick_name', {
+          //   required: { value: false, message: '用户名称' },
+          // })}
         />
       </Box>
     </Modal>
