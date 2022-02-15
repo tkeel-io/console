@@ -1,12 +1,13 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
+import { MessageWarningTwoToneIcon } from '@tkeel/console-icons';
 
 function BaseInfo(name = '', value = '') {
   return (
-    <Flex fontSize=" 12px" mb="4px">
-      <Box color=" #6B7B95" width="100px">
+    <Flex fontSize="12px" mb="8px">
+      <Box color="grayAlternatives.300" width="100px">
         {name}
       </Box>
-      <Box flex="1 " color=" #242E42">
+      <Box flex="1 " color="gray.800">
         {value}
       </Box>
     </Flex>
@@ -22,7 +23,28 @@ function Detail(): JSX.Element {
           background="linear-gradient(180deg, #FFFFFF 0%, #F9FBFD 100%)"
           borderRadius="4px"
         >
-          1
+          <Flex height="108px" align="center" padding="0 20px">
+            <MessageWarningTwoToneIcon
+              style={{ width: '24px', height: '22px' }}
+            />
+            <Box
+              lineHeight="50px"
+              ml="12px"
+              color="gray.700"
+              fontWeight="600"
+              fontSize="14px"
+            >
+              IDC设备分组订阅
+            </Box>
+          </Flex>
+          <Flex background="White" height="39px" alignItems="center">
+            <Box fontSize="12px" color="grayAlternatives.300" padding="0 20px">
+              订阅地址：
+              <Text display="inline" color="gray.800">
+                amqp://host:port/virtual_host
+              </Text>
+            </Box>
+          </Flex>
         </Box>
         <Box
           height="210px"
@@ -31,7 +53,7 @@ function Detail(): JSX.Element {
           borderRadius="4px"
           padding="12px 20px"
         >
-          <Text fontWeight="600" fontSize="14px" color="#36435C" mb="12px">
+          <Text fontWeight="600" fontSize="14px" color="gray.700" mb="12px">
             基本信息
           </Text>
 
