@@ -5,11 +5,8 @@ import { BoxTwoToneIcon } from '@tkeel/console-icons';
 type Props = {
   briefPluginInfo: {
     name: string;
-    version: string;
-    icon: string;
-    desc: string;
-    repo: string;
-    installed: boolean;
+    icon?: string;
+    desc?: string;
   };
   operatorButton: ReactNode;
   bottomInfo: ReactNode;

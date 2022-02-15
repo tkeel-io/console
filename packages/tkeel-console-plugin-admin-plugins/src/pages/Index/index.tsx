@@ -3,8 +3,8 @@ import { Flex, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { PageHeader } from '@tkeel/console-components';
 import { AppsAddFilledIcon } from '@tkeel/console-icons';
 
+import AddRepoButton from './AddRepoButton';
 import Content from './Content';
-import CreatePluginButton from './CreatePluginButton';
 import CustomTab from './CustomTab';
 
 import useInstalledPluginsQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/useInstalledPluginsQuery';
@@ -29,7 +29,7 @@ function Index(): JSX.Element {
         overflow="hidden"
         marginTop="16px"
       >
-        <CreatePluginButton />
+        <AddRepoButton />
         <TabList
           padding="2px"
           width="max-content"

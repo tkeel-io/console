@@ -1,16 +1,22 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Button, Text, useDisclosure } from '@chakra-ui/react';
-import { CreateButton, FormField, Modal } from '@tkeel/console-components';
+import {
+  CreateButton,
+  FormField,
+  Modal,
+  toast,
+} from '@tkeel/console-components';
+
+import useAddRepoMutation from '@/tkeel-console-plugin-admin-plugins/hooks/mutations/useAddRepoMutation';
 
 const { TextField } = FormField;
 
 type Controls = {
   name: string;
   address: string;
-  version: string;
 };
 
-function CreatePluginButton() {
+function AddRepoButton() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     register,
@@ -19,14 +25,19 @@ function CreatePluginButton() {
     getValues,
   } = useForm<Controls>();
 
+  const { mutate } = useAddRepoMutation({
+    onSuccess() {
+      onClose();
+      toast({ status: 'success', title: '添加仓库成功' });
+    },
+  });
+
   const onSubmit: SubmitHandler<Controls> = (values) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        // eslint-disable-next-line no-console
-        console.log('onSubmit ~ values', values);
-        onClose();
-        resolve(values);
-      }, 300);
+    mutate({
+      url: `/rudder/v1/repos/${values.name}`,
+      data: {
+        url: values.address,
+      },
     });
   };
 
@@ -88,4 +99,4 @@ function CreatePluginButton() {
   );
 }
 
-export default CreatePluginButton;
+export default AddRepoButton;
