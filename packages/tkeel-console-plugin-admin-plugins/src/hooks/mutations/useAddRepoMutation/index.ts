@@ -1,19 +1,31 @@
+import { RequestResult } from '@tkeel/console-utils';
+
 import useMutation from '@/tkeel-console-plugin-admin-plugins/hooks/useMutation';
 
 export interface ApiData {
   '@types': string;
+  value: object;
 }
 
-const url = '/rudder/v1/repos';
 const method = 'POST';
 
-type Props = {
-  repoName: string;
+type RequestData = {
+  url: string;
 };
 
-export default function useAddRepoMutation({ repoName }: Props) {
-  return useMutation<ApiData>({
-    url: `${url}/${repoName}`,
+type Props = {
+  onSuccess: (
+    data: RequestResult<ApiData, undefined, RequestData>,
+    variables: unknown,
+    context: unknown
+  ) => void | Promise<unknown>;
+};
+
+export default function useAddRepoMutation({ onSuccess }: Props) {
+  return useMutation<ApiData, undefined, RequestData>({
     method,
+    reactQueryOptions: {
+      onSuccess,
+    },
   });
 }
