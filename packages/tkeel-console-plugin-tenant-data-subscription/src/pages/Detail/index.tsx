@@ -3,10 +3,10 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 function BaseInfo(name = '', value = '') {
   return (
     <Flex fontSize=" 12px" mb="4px">
-      <Box color=" #6B7B95" width="100px">
+      <Box color="grayAlternatives.300" width="100px">
         {name}
       </Box>
-      <Box flex="1 " color=" #242E42">
+      <Box flex="1 " color="gray.800">
         {value}
       </Box>
     </Flex>
@@ -31,7 +31,7 @@ function Detail(): JSX.Element {
           borderRadius="4px"
           padding="12px 20px"
         >
-          <Text fontWeight="600" fontSize="14px" color="#36435C" mb="12px">
+          <Text fontWeight="600" fontSize="14px" color="gray.700" mb="12px">
             基本信息
           </Text>
 
