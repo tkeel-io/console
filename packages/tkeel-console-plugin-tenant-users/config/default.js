@@ -1,3 +1,5 @@
+const { tkeel } = require('../../../config/default');
+
 const API = {
   protocol: 'http',
   hostname: '192.168.100.6',
@@ -38,7 +40,7 @@ module.exports = {
           ],
         },
       ],
-      dependence: [{ id: 'rudder', version: '' }],
+      dependence: [{ id: 'rudder', version: tkeel.version }],
     },
   },
 };

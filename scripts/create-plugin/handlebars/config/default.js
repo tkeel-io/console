@@ -32,7 +32,7 @@ module.exports = {
           entry: '/static/console-plugin-{{name}}',
         },
       ],
-      dependence: [{ id: '' }],
+      dependence: [],
     },
   },
 };

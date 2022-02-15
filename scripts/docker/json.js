@@ -1,11 +1,13 @@
 const path = require('path');
 
+const config = require('config');
 const fs = require('fs-extra');
 const _ = require('lodash');
 
 const logger = require('../utils/logger');
 const paths = require('../utils/paths');
 
+const tkeelVersion = config.get('tkeel.version');
 const jsonTemplateFileNames = ['identify.json'];
 const jsonFileNames = [
   'status.json',
@@ -16,7 +18,8 @@ const jsonSrcDirectoryPath = paths.resolveRoot('scripts/docker/templates/');
 const jsonDestDirectoryPath = paths.resolveRoot('.tmp/api-json/');
 
 function createJsonFiles(packageInfo) {
-  const { config, isPortal } = packageInfo;
+  const { isPortal, packageJson, config: packageConfig } = packageInfo;
+  const { version } = packageJson;
 
   if (isPortal) {
     fs.ensureDirSync(jsonDestDirectoryPath);
@@ -27,7 +30,12 @@ function createJsonFiles(packageInfo) {
     const srcPath = path.resolve(jsonSrcDirectoryPath, fileName);
     const destPath = path.resolve(jsonDestDirectoryPath, fileName);
     const content = fs.readJsonSync(srcPath);
-    const response = _.merge({}, content, config);
+    const response = _.merge(
+      {},
+      content,
+      { version, tkeel_version: tkeelVersion },
+      packageConfig?.plugin?.identify
+    );
     fs.outputJSONSync(destPath, response);
   });
 
