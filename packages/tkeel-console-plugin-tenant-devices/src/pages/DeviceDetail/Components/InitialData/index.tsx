@@ -29,8 +29,13 @@ function Index() {
         <Flex pl="12px">21</Flex>
       </Flex>
       <Accordion allowMultiple p="12px 12px" bg="gray.50">
-        <AccordionItem border="1px" borderRadius="4px" p="10px 12px 10px 20px">
-          <AccordionButton>
+        <AccordionItem
+          borderWidth="1px"
+          borderColor="gray.200"
+          borderRadius="4px"
+          p="10px 12px 10px 20px"
+        >
+          <AccordionButton _focus={{ boxShadow: 'none' }}>
             <Box flex="1" textAlign="left">
               Section 1 title
             </Box>
