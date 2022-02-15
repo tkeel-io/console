@@ -6,7 +6,7 @@ const API = {
 };
 
 module.exports = {
-  publicPath: '/static/tenant-users/',
+  publicPath: '/static/console-plugin-tenant-users/',
   basePath: '/tenant-users',
   client: {
     documentTitle: '',
@@ -20,4 +20,21 @@ module.exports = {
     },
   },
   api: API,
+  plugin: {
+    plugin_id: 'console-plugin-tenant-users',
+    entries: [
+      {
+        id: 'users',
+        name: '用户管理',
+        icon: 'HumanGearTwoToneIcon',
+        children: [
+          {
+            id: 'console-plugin-tenant-users',
+            name: '用户列表',
+          },
+        ],
+      },
+    ],
+    dependence: [{ id: '' }],
+  },
 };

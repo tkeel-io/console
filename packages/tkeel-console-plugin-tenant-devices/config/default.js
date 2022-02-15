@@ -1,12 +1,12 @@
 const API = {
   protocol: 'http',
-  hostname: '192.168.100.6',
+  hostname: '192.168.123.9',
   port: '30707',
   pathname: '/apis',
 };
 
 module.exports = {
-  publicPath: '/static/tenant-devices/',
+  publicPath: '/static/console-plugin-tenant-devices/',
   basePath: '/tenant-devices',
   client: {
     documentTitle: '',
