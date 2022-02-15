@@ -59,17 +59,7 @@ interface GlobalConfig {
     themeName: string;
     documentTitle: string | number;
   };
-  builder: {
-    generateSourcemap: boolean; // production
-  };
-  server: {
-    port: string | number;
-    proxy: Record<string, string>;
-  };
   api: {
-    protocol: 'http' | 'https';
-    hostname: string;
-    port: string | number;
     pathname: string;
   };
   // local development
