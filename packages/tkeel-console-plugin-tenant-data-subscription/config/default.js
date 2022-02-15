@@ -20,4 +20,11 @@ module.exports = {
     },
   },
   api: API,
+  plugin: {
+    identify: {
+      plugin_id: 'console-plugin-tenant-data-subscription',
+      entries: [],
+      dependence: [],
+    },
+  },
 };

@@ -6,7 +6,7 @@ const API = {
 };
 
 module.exports = {
-  publicPath: '/plugins/tenant-device-template/',
+  publicPath: '/static/console-plugin-tenant-device-template/',
   basePath: '/tenant-device-template',
   client: {
     documentTitle: 'tKeel',
@@ -18,4 +18,11 @@ module.exports = {
     },
   },
   api: API,
+  plugin: {
+    identify: {
+      plugin_id: 'console-plugin-tenant-device-template',
+      entries: [],
+      dependence: [],
+    },
+  },
 };
