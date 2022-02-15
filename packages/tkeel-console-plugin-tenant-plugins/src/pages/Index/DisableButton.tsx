@@ -5,15 +5,15 @@ import useDisablePluginMutation from '@/tkeel-console-plugin-tenant-plugins/hook
 
 type Props = {
   pluginName: string;
-  refetchList: () => unknown;
+  refetchData: () => unknown;
 };
 
-function DisableButton({ pluginName, refetchList }: Props) {
+function DisableButton({ pluginName, refetchData }: Props) {
   const { mutate } = useDisablePluginMutation({
     pluginName,
     onSuccess() {
       toast({ status: 'success', title: '停用插件成功' });
-      refetchList();
+      refetchData();
     },
   });
 
