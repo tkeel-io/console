@@ -51,3 +51,6 @@ coverage/
 
 # Production
 dist/
+
+# Temporary
+.tmp/

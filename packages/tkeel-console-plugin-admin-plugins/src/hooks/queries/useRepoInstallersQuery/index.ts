@@ -1,5 +1,3 @@
-import { RequestResult } from '@tkeel/console-utils';
-
 import useQuery from '@/tkeel-console-plugin-admin-plugins/hooks/useQuery';
 import { PluginInfo } from '@/tkeel-console-plugin-admin-plugins/types/plugin-info';
 
@@ -21,9 +19,6 @@ type Props = {
   pageNum: number;
   pageSize: number;
   enabled: boolean;
-  onSuccess: (
-    data: RequestResult<ApiData, TRequestParams, undefined>
-  ) => unknown;
 };
 
 type TRequestParams = {
@@ -38,7 +33,6 @@ export default function useRepoInstallersQuery({
   pageNum,
   pageSize,
   enabled,
-  onSuccess,
 }: Props) {
   const { data, ...rest } = useQuery<ApiData, TRequestParams>({
     url: `${url}/${repo}/installers`,
@@ -50,7 +44,6 @@ export default function useRepoInstallersQuery({
     },
     reactQueryOptions: {
       enabled,
-      onSuccess,
     },
   });
   const plugins =

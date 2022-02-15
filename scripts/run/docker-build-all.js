@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-const logger = require('../utils/logger');
+const build = require('../docker/build');
 const { readPackageInfos } = require('../utils/packages');
 
 const packages = readPackageInfos().filter(({ canRun }) => canRun);
-logger.log(packages);
+packages.forEach((packageInfo) => build(packageInfo));
