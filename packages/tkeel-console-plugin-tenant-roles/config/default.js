@@ -6,7 +6,7 @@ const API = {
 };
 
 module.exports = {
-  publicPath: '/static/console-plugin-tenant-users/',
+  publicPath: '/static/console-plugin-tenant-roles/',
   basePath: '/tenant-roles',
   client: {
     documentTitle: '',
