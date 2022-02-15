@@ -1,3 +1,5 @@
+const { tkeel } = require('../../../config/default');
+
 const API = {
   protocol: 'http',
   hostname: '192.168.100.6',
@@ -20,4 +22,19 @@ module.exports = {
     },
   },
   api: API,
+  plugin: {
+    identify: {
+      plugin_id: 'console-plugin-admin-plugins',
+      entries: [
+        {
+          id: 'console-plugin-admin-plugins',
+          name: '插件管理',
+          icon: 'PuzzleTwoToneIcon',
+          path: '/admin-plugins',
+          entry: '/static/console-plugin-admin-tenants/',
+        },
+      ],
+      dependence: [{ id: 'rudder', version: tkeel.version }],
+    },
+  },
 };
