@@ -77,7 +77,7 @@ export default function Tenant() {
             type="text"
             id="tenantId"
             label="租户空间"
-            value={String(GLOBAL_CONFIG?.mock?.tenantId ?? '')}
+            defaultValue={String(GLOBAL_CONFIG?.mock?.tenantId ?? '')}
             placeholder="请输入您的租户空间"
             error={errors.tenantId}
             formControlStyle={{ marginBottom: '24px' }}

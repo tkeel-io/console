@@ -1,48 +1,99 @@
-import { Box, Flex, Grid, Text } from '@chakra-ui/react';
+import { useState } from 'react';
+import { Flex, Grid, Text, useDisclosure } from '@chakra-ui/react';
 import { PluginCard } from '@tkeel/console-business-components';
-import { PageHeaderToolbar } from '@tkeel/console-components';
+import {
+  Drawer,
+  MoreAction,
+  PageHeaderToolbar,
+  Pagination,
+} from '@tkeel/console-components';
+import { usePagination } from '@tkeel/console-hooks';
 
-import Category from './Category';
+import { DisableButton } from '@/tkeel-console-plugin-tenant-plugins/components';
+// import { CaretRightFilledIcon } from '@tkeel/console-icons';
+import usePluginsQuery from '@/tkeel-console-plugin-tenant-plugins/hooks/queries/usePluginsQuery';
+import Detail from '@/tkeel-console-plugin-tenant-plugins/pages/Detail';
 
 function Index(): JSX.Element {
-  const pluginInfos = [
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [pluginName, setPluginName] = useState('');
+
+  const pagination = usePagination();
+  const { setTotalSize } = pagination;
+  const { plugins, data, isSuccess } = usePluginsQuery();
+  if (isSuccess) {
+    setTotalSize(data?.total ?? 0);
+  }
+
+  const bottomData = [
     {
-      name: 'plugins',
-      version: '0.1.0',
-      icon: '',
-      repo: 'tkeel-default',
-      installed: true,
+      label: '插件源',
+      key: 'repo',
+    },
+    {
+      label: '版本',
+      key: 'version',
     },
   ];
   return (
     <Flex flexDirection="column" height="100%">
       <PageHeaderToolbar name="插件管理" hasSearchInput />
-      <Flex flex="1" overflow="hidden">
-        <Category />
-        <Flex flexDirection="column" flex="1" backgroundColor="gray.50">
-          <Text>全部</Text>
-          <Grid
-            templateColumns="repeat(4, 1fr)"
-            gap="8px"
-            overflowY="auto"
-            padding="12px 20px"
-            flex="1"
-          >
-            {pluginInfos.map((pluginInfo) => (
+      <Flex
+        flexDirection="column"
+        flex="1"
+        overflow="hidden"
+        backgroundColor="gray.50"
+      >
+        <Grid
+          templateColumns="repeat(4, 1fr)"
+          gap="8px"
+          overflowY="auto"
+          padding="12px 20px"
+          flex="1"
+        >
+          {plugins.map((plugin) => {
+            const { id, brief_installer_info: briefInstallerInfo } = plugin;
+            return (
               <PluginCard
-                key={`${pluginInfo.name}${pluginInfo.version}`}
-                briefPluginInfo={pluginInfo}
-                operatorButton={<Box>启用</Box>}
-                bottomInfo={<Box>bottomInfo</Box>}
+                key={id}
+                briefPluginInfo={briefInstallerInfo}
+                operatorButton={
+                  // <RectangleButton
+                  //   leftIcon={<CaretRightFilledIcon color="primary" />}
+                  // >
+                  //   启用
+                  // </RectangleButton>
+                  <MoreAction buttons={[<DisableButton key="disable" />]} />
+                }
+                bottomInfo={
+                  <Flex>
+                    {bottomData.map((item) => (
+                      <Flex
+                        key={item.key}
+                        marginRight="20px"
+                        color="gray.600"
+                        fontSize="12px"
+                      >
+                        <Text>{item.label}：</Text>
+                        <Text>{briefInstallerInfo[item.key]}</Text>
+                      </Flex>
+                    ))}
+                  </Flex>
+                }
                 onClick={() => {
-                  // eslint-disable-next-line no-console
-                  console.log('click card');
+                  setPluginName(briefInstallerInfo.name);
+                  onOpen();
                 }}
               />
-            ))}
-          </Grid>
-        </Flex>
+            );
+          })}
+        </Grid>
+        <Pagination {...pagination} />
       </Flex>
+      <Drawer title="插件详情" isOpen={isOpen} onClose={onClose}>
+        <Detail pluginName={pluginName} />
+      </Drawer>
     </Flex>
   );
 }
