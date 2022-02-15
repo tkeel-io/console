@@ -6,7 +6,7 @@ const API = {
 };
 
 module.exports = {
-  publicPath: '/plugins/tenant-data-subscription',
+  publicPath: '/static/tenant-data-subscription',
   basePath: '/tenant-data-subscription',
   client: {
     documentTitle: 'tKeel',
@@ -14,7 +14,9 @@ module.exports = {
   server: {
     port: '3008',
     proxy: {
-      [API.pathname]: `${API.protocol}://${API.hostname}:${API.port}`,
+      [API.pathname]: API.port
+        ? `${API.protocol}://${API.hostname}:${API.port}`
+        : `${API.protocol}://${API.hostname}`,
     },
   },
   api: API,

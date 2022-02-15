@@ -43,6 +43,8 @@ module.exports = {
     'unstyled',
     'tenantes',
     'sonarjs',
+    'WORKDIR',
+    'tkeelio',
   ],
   ignorePaths: [
     '**/.idea/**',

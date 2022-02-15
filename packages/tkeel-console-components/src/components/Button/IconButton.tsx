@@ -1,17 +1,22 @@
-import { ReactNode } from 'react';
+import { ReactElement } from 'react';
 import { Button, ButtonProps, Circle } from '@chakra-ui/react';
 
 interface Props extends ButtonProps {
-  icon: ReactNode;
+  isShowCircle?: boolean;
+  icon: ReactElement;
 }
 
-function IconButton({ icon, children, ...rest }: Props) {
+function IconButton({ isShowCircle = false, icon, children, ...rest }: Props) {
   return (
     <Button
       leftIcon={
-        <Circle size="20px" backgroundColor="primarySub3">
-          {icon}
-        </Circle>
+        isShowCircle ? (
+          <Circle size="20px" backgroundColor="primarySub3">
+            {icon}
+          </Circle>
+        ) : (
+          icon
+        )
       }
       colorScheme="primary"
       fontWeight={600}

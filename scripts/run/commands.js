@@ -1,6 +1,20 @@
 const concurrently = require('concurrently');
+const shell = require('shelljs');
 
 const logger = require('../utils/logger');
+
+/**
+ *
+ * @param {Object} data
+ * @param {string} data.packageName
+ * @param {string} data.npmScriptName
+ */
+function runNpmScript({ data }) {
+  const { packageName, npmScriptName } = data;
+  const command = `yarn workspace ${packageName} ${npmScriptName}`;
+  logger.info(`${command}\n`);
+  shell.exec(command);
+}
 
 /**
  *
@@ -17,4 +31,4 @@ function runNpmScripts({ data }) {
   concurrently(commands);
 }
 
-module.exports = { runNpmScripts };
+module.exports = { runNpmScript, runNpmScripts };

@@ -1,13 +1,9 @@
-FROM node:16-slim as BUILDER
+FROM nginx:alpine
 
-RUN apt clean \
-  && apt update \
-  && yarn set version stable \
-  && npm install -g cross-env
+ARG DIRECTORY_NAME
 
-ARG PACKAGE_NAME
+COPY packages/${DIRECTORY_NAME}/dist/ /usr/share/nginx/html/
+COPY .tmp/api-json/ /usr/share/nginx/api-json/
+COPY .tmp/nginx.conf /etc/nginx/conf.d/default.conf
 
-WORKDIR /app
-COPY ./ ./
-RUN yarn \
-  && yarn workspace ${PACKAGE_NAME} build
+EXPOSE 80
