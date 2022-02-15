@@ -6,7 +6,7 @@ const API = {
 };
 
 module.exports = {
-  publicPath: '/static/{{name}}',
+  publicPath: '/static/console-plugin-{{name}}',
   basePath: '{{basePath}}',
   client: {
     documentTitle: 'tKeel',
@@ -20,4 +20,21 @@ module.exports = {
     },
   },
   api: API,
+  plugin: {
+    plugin_id: 'console-plugin-{{name}}',
+    entries: [
+      {
+        id: '',
+        name: '',
+        icon: '',
+        children: [
+          {
+            id: 'console-plugin-{{name}}',
+            name: '',
+          },
+        ],
+      },
+    ],
+    dependence: [{ id: '' }],
+  },
 };

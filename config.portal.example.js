@@ -28,6 +28,6 @@ module.exports = {
   mock: {
     username: '', // portal admin
     password: '', // portal
-    mockMenus: [], // portal
+    menus: [], // portal
   },
 };
