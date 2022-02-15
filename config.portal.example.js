@@ -24,10 +24,16 @@ module.exports = {
     },
   },
   api: API,
+  plugin: {
+    identify: {
+      plugin_id: '',
+      dependence: [],
+    },
+  },
   // local development
   mock: {
     username: '', // portal admin
     password: '', // portal
-    mockMenus: [], // portal
+    menus: [], // portal
   },
 };

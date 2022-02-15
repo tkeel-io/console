@@ -94,7 +94,7 @@ function Index(): JSX.Element {
           padding="12px 20px"
           flex="1"
         >
-          {[...plugins, ...plugins, ...plugins].map((plugin) => {
+          {plugins.map((plugin) => {
             const {
               id,
               installer_brief: installerBrief,
