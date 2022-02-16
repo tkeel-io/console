@@ -3,6 +3,7 @@ import { Column } from 'react-table';
 import { Flex, Text } from '@chakra-ui/react';
 import { SearchInput, Table } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
+import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import usePluginsTenantsQuery, {
   Tenant,
@@ -30,6 +31,9 @@ function EnablePluginList({ pluginName }: Props) {
       accessor: 'enable_timestamp',
       width: 150,
       disableSortBy: true,
+      Cell({ value }) {
+        return value ? formatDateTimeByTimestamp({ timestamp: value }) : '';
+      },
     },
     {
       Header: '租户空间',

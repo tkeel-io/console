@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-key */
 import { Row, TableBodyPropGetter, TableBodyProps } from 'react-table';
-import { Tbody, Td, Text, Tr } from '@chakra-ui/react';
+import { Tbody, Td, Tr } from '@chakra-ui/react';
 
 type Props<D extends object> = {
   page: Row<D>[];
@@ -45,7 +45,6 @@ function Body<D extends object>({
         return (
           <Tr backgroundColor={backgroundColor} {...row.getRowProps()}>
             {row.cells.map((cell) => {
-              const isString = ['string', 'number'].includes(typeof cell.value);
               return (
                 <Td
                   height="40px"
@@ -58,13 +57,10 @@ function Body<D extends object>({
                   }
                   {...cell.getCellProps()}
                 >
-                  {isString ? (
-                    <Text title={String(cell.value)} isTruncated>
+                  {/* <Text title={String(cell.value)} isTruncated>
                       {cell.value}
-                    </Text>
-                  ) : (
-                    cell.render('Cell')
-                  )}
+                    </Text> */}
+                  {cell.render('Cell')}
                 </Td>
               );
             })}
