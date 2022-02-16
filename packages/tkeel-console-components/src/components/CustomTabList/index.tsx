@@ -10,6 +10,7 @@ function CustomTabList(props: BoxProps) {
       height="40px"
       border="none"
       borderTopLeftRadius="4px"
+      borderTopRightRadius="4px"
       backgroundColor="gray.700"
       __css={styles.tabList}
       {...tabListProps}
