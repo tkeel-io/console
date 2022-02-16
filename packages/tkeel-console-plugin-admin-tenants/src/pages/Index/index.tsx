@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Column } from 'react-table';
-import { Box, Button, Flex, Text } from '@chakra-ui/react';
+import { Box, Button, Flex } from '@chakra-ui/react';
 import { useGlobalProps } from '@tkeel/console-business-components';
 import {
   Empty,
@@ -40,19 +40,6 @@ export default function Index() {
             <Button size="small" variant="link" onClick={LinkToSpaceDetail}>
               {value}
             </Button>
-          ),
-          [value]
-        ),
-    },
-    {
-      Header: '用户账号',
-      accessor: 'tenant_id',
-      Cell: ({ value }: { value: string }) =>
-        useMemo(
-          () => (
-            <Text color="gray.800" fontWeight="600">
-              {value}
-            </Text>
           ),
           [value]
         ),
