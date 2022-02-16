@@ -36,7 +36,7 @@ function Detail() {
       </Box>
       <Tabs display="flex" flexDirection="column" marginLeft="20px" flex="1">
         <CustomTabList>
-          <CustomTab borderTopLeftRadius="4px">说明</CustomTab>
+          <CustomTab>说明</CustomTab>
           <CustomTab>参数</CustomTab>
           <CustomTab>启用列表</CustomTab>
         </CustomTabList>
