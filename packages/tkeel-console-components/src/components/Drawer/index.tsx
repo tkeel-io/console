@@ -13,6 +13,7 @@ type Props = {
   title: string;
   children: ReactNode;
   placement?: 'top' | 'left' | 'bottom' | 'right';
+  width?: string;
   isOpen: boolean;
   onClose: () => unknown;
 };
@@ -21,6 +22,7 @@ function Drawer({
   title,
   children,
   placement = 'right',
+  width = '400px',
   isOpen,
   onClose,
   ...rest
@@ -33,7 +35,7 @@ function Drawer({
       {...rest}
     >
       <DrawerOverlay />
-      <DrawerContent>
+      <DrawerContent width={width} maxWidth={width}>
         <DrawerCloseButton
           top="11px"
           right="20px"

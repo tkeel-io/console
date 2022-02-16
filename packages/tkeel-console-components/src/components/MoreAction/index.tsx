@@ -1,16 +1,23 @@
-import { MouseEventHandler, ReactNode, useEffect, useState } from 'react';
+import {
+  cloneElement,
+  MouseEventHandler,
+  ReactElement,
+  useEffect,
+  useState,
+} from 'react';
 import { Box, Circle, Colors, useTheme } from '@chakra-ui/react';
 import { MoreVerticalFilledIcon } from '@tkeel/console-icons';
 
 type Props = {
-  buttons: ReactNode[];
+  buttons: ReactElement[];
+  buttonProps?: object;
 };
 
 interface CustomColor extends Colors {
   primary: string;
 }
 
-function MoreAction({ buttons }: Props) {
+function MoreAction({ buttons, buttonProps = {} }: Props) {
   const [showActionList, setShowActionList] = useState(false);
   const { colors }: { colors: CustomColor } = useTheme();
   let timer: number | null = null;
@@ -49,6 +56,12 @@ function MoreAction({ buttons }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const menus = buttons.map((button) => {
+    return cloneElement(button, {
+      ...buttonProps,
+    });
+  });
+
   return (
     <Box
       position="relative"
@@ -85,7 +98,7 @@ function MoreAction({ buttons }: Props) {
           borderRadius="4px"
           onMouseEnter={handleActionListMouseEnter}
         >
-          {buttons}
+          {menus}
         </Box>
       )}
     </Box>
