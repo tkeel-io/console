@@ -8,7 +8,7 @@ module.exports = {
     port: '{{serverPort}}',
   },
   api: {
-    basePath: '/apis1',
+    basePath: '/apis',
   },
   plugin: {
     identify: {
