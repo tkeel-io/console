@@ -1,13 +1,11 @@
 import { useSearchParams } from 'react-router-dom';
+import { Box, Flex, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import {
-  Box,
-  Flex,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-} from '@chakra-ui/react';
-import { CustomTab, Editor, Empty } from '@tkeel/console-components';
+  CustomTab,
+  CustomTabList,
+  Editor,
+  Empty,
+} from '@tkeel/console-components';
 import { Base64 } from 'js-base64';
 import { markdown } from 'markdown';
 
@@ -37,16 +35,11 @@ function Detail() {
         <DeveloperInfo data={maintainers} />
       </Box>
       <Tabs display="flex" flexDirection="column" marginLeft="20px" flex="1">
-        <TabList
-          height="48px"
-          border="none"
-          borderTopLeftRadius="4px"
-          backgroundColor="gray.800"
-        >
-          <CustomTab borderTopLeftRadius="4px">说明</CustomTab>
+        <CustomTabList>
+          <CustomTab>说明</CustomTab>
           <CustomTab>参数</CustomTab>
           <CustomTab>启用列表</CustomTab>
-        </TabList>
+        </CustomTabList>
         <TabPanels flex="1" overflow="hidden">
           <TabPanel padding="0" height="100%" backgroundColor="white">
             {readme ? (
