@@ -96,6 +96,7 @@ function MoreAction({ buttons, buttonProps = {} }: Props) {
           width="144px"
           backgroundColor="white"
           borderRadius="4px"
+          zIndex="9"
           onMouseEnter={handleActionListMouseEnter}
         >
           {menus}

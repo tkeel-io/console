@@ -60,7 +60,8 @@ interface GlobalConfig {
     documentTitle: string | number;
   };
   api: {
-    pathname: string;
+    origin?: string;
+    basePath: string;
   };
   // local development
   mock?: {

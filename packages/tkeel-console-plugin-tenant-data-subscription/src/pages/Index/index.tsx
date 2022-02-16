@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Box, Flex, Text } from '@chakra-ui/react';
+import { MoreAction } from '@tkeel/console-components';
 import {
   BookOpenedFilledIcon,
   MessageWarningTwoToneIcon,
@@ -7,6 +8,8 @@ import {
 
 import SubscriptionButton from './components/Button/SubscriptionButton';
 import CreateUserButton from './components/CreateUserButton';
+
+import DisableButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/DisableButton';
 
 // import useListSubscribeQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useListSubscribeQuery';
 
@@ -84,6 +87,9 @@ function SubscriptionCard() {
                     >
                       订阅
                     </SubscriptionButton>
+                    <Box ml="6px">
+                      <MoreAction buttons={[<DisableButton key="disable" />]} />
+                    </Box>
                   </Flex>
                 </Flex>
 

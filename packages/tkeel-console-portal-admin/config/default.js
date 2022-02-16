@@ -8,7 +8,7 @@ module.exports = {
     documentTitle: 'tKeel',
   },
   api: {
-    pathname: '/apis',
+    basePath: '/apis',
   },
   plugin: {
     identify: {

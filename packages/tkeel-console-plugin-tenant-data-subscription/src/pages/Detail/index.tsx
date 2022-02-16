@@ -1,6 +1,8 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { MessageWarningTwoToneIcon } from '@tkeel/console-icons';
 
+import Table from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/Table';
+
 function BaseInfo(name = '', value = '') {
   return (
     <Flex fontSize="12px" mb="8px">
@@ -72,7 +74,7 @@ function Detail(): JSX.Element {
         background="linear-gradient(180deg, #FFFFFF 0%, #F9FBFD 100%)"
         borderRadius="4px"
       >
-        3
+        <Table />
       </Box>
     </Flex>
   );
