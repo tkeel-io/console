@@ -1,7 +1,5 @@
 const API = {
-  protocol: 'http',
-  hostname: '127.0.0.1',
-  port: '30707',
+  origin: 'http://127.0.0.1:30707',
   pathname: '/apis',
 };
 
@@ -17,9 +15,7 @@ module.exports = {
   server: {
     port: '3000',
     proxy: {
-      [API.pathname]: API.port
-        ? `${API.protocol}://${API.hostname}:${API.port}`
-        : `${API.protocol}://${API.hostname}`,
+      [API.pathname]: API.origin,
     },
   },
   builder: {
