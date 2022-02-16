@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-key */
 import { Row, TableBodyPropGetter, TableBodyProps } from 'react-table';
-import { Tbody, Td, Text, Tr } from '@chakra-ui/react';
+import { Tbody, Td, Tr } from '@chakra-ui/react';
 
 type Props<D extends object> = {
   page: Row<D>[];
@@ -13,6 +13,7 @@ type Props<D extends object> = {
         y: string;
       }
     | undefined;
+  isShowStripe: boolean;
 };
 
 type BodyStyle = {
@@ -25,6 +26,7 @@ function Body<D extends object>({
   getTableBodyProps,
   prepareRow,
   scroll,
+  isShowStripe,
 }: Props<D>) {
   const bodyStyle = {};
   if (scroll && scroll.y) {
@@ -34,28 +36,31 @@ function Body<D extends object>({
 
   return (
     <Tbody {...bodyStyle} {...getTableBodyProps()}>
-      {page.map((row) => {
+      {page.map((row, i) => {
         prepareRow(row);
+        let backgroundColor = 'transparent';
+        if (isShowStripe && i % 2 === 1) {
+          backgroundColor = 'gray.50';
+        }
         return (
-          <Tr {...row.getRowProps()}>
+          <Tr backgroundColor={backgroundColor} {...row.getRowProps()}>
             {row.cells.map((cell) => {
-              const isString = ['string', 'number'].includes(typeof cell.value);
               return (
                 <Td
                   height="40px"
                   paddingTop="12px"
                   paddingBottom="12px"
-                  color="gray.500"
+                  color="grayAlternatives.300"
                   fontSize="14px"
+                  borderColor={
+                    isShowStripe ? 'transparent' : 'grayAlternatives.50'
+                  }
                   {...cell.getCellProps()}
                 >
-                  {isString ? (
-                    <Text title={String(cell.value)} isTruncated>
+                  {/* <Text title={String(cell.value)} isTruncated>
                       {cell.value}
-                    </Text>
-                  ) : (
-                    cell.render('Cell')
-                  )}
+                    </Text> */}
+                  {cell.render('Cell')}
                 </Td>
               );
             })}
