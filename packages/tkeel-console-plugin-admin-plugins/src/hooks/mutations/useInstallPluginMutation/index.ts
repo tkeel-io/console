@@ -14,7 +14,7 @@ export interface ApiData {
   plugin: {
     id: string;
     status: string;
-    brief_installer_info: PluginInfo;
+    installer_brief: PluginInfo;
   };
 }
 

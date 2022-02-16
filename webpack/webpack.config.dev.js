@@ -8,7 +8,7 @@ const paths = require('../scripts/utils/paths');
 const baseConfig = require('./webpack.config.base');
 
 const serverPort = config.get('server.port');
-const serverProxy = config.get('server.proxy');
+const serverProxy = config?.server?.proxy ?? {};
 
 const devConfig = {
   output: {

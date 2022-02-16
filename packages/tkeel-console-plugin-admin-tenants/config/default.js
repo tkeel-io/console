@@ -1,27 +1,14 @@
 const { tkeel } = require('../../../config/default');
 
-const API = {
-  protocol: 'http',
-  hostname: '192.168.100.6',
-  port: '30707',
-  pathname: '/apis',
-};
-
 module.exports = {
   publicPath: '/static/console-plugin-admin-tenants/',
   basePath: '/admin-tenants',
   client: {
     documentTitle: '',
   },
-  server: {
-    port: '3003',
-    proxy: {
-      [API.pathname]: API.port
-        ? `${API.protocol}://${API.hostname}:${API.port}`
-        : `${API.protocol}://${API.hostname}`,
-    },
+  api: {
+    pathname: '/apis',
   },
-  api: API,
   plugin: {
     identify: {
       plugin_id: 'console-plugin-admin-tenants',

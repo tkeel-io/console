@@ -57,11 +57,12 @@ function Menus({ handleSearch, isDarkTheme }: Props) {
       <Box padding="20px">
         {menus.map((menu) => {
           const { id, name, icon, path, children } = menu;
+          const hasChildren = children && children[0];
           const spread = spreadMenuIds.includes(id);
           return (
             <Box key={id}>
               <Box key={id}>
-                {children ? (
+                {hasChildren ? (
                   <SubMenuTitle
                     {...menu}
                     spread={spread}
@@ -74,7 +75,7 @@ function Menus({ handleSearch, isDarkTheme }: Props) {
                     icon={icon as string}
                   />
                 )}
-                {children && spread && (
+                {hasChildren && spread && (
                   <Box
                     marginTop="10px"
                     padding="8px"

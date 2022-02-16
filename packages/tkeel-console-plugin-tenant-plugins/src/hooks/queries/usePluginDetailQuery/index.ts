@@ -3,7 +3,7 @@ import useQuery from '@/tkeel-console-plugin-tenant-plugins/hooks/useQuery';
 export interface Plugin {
   id: string;
   register_timestamp: string;
-  brief_installer_info: {
+  installer_brief: {
     name: string;
     version: string;
     repo: string;

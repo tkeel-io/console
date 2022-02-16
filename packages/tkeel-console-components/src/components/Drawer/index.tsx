@@ -6,6 +6,7 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerOverlay,
+  DrawerProps,
 } from '@chakra-ui/react';
 
 type Props = {
@@ -22,13 +23,19 @@ function Drawer({
   placement = 'right',
   isOpen,
   onClose,
-}: Props) {
+  ...rest
+}: Props & DrawerProps) {
   return (
-    <ChakraDrawer placement={placement} isOpen={isOpen} onClose={onClose}>
+    <ChakraDrawer
+      placement={placement}
+      isOpen={isOpen}
+      onClose={onClose}
+      {...rest}
+    >
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton
-          top="14px"
+          top="11px"
           right="20px"
           width="32px"
           height="32px"
@@ -38,8 +45,17 @@ function Drawer({
           _hover={{ backgroundColor: 'gray.800' }}
           _focus={{ outline: 'none' }}
         />
-        <DrawerHeader>{title}</DrawerHeader>
-        <DrawerBody>{children}</DrawerBody>
+        <DrawerHeader
+          color="gray.800"
+          fontSize="14px"
+          fontWeight="500"
+          borderBottomWidth="1px"
+          borderBottomStyle="solid"
+          borderBottomColor="grayAlternatives.50"
+        >
+          {title}
+        </DrawerHeader>
+        <DrawerBody padding="0">{children}</DrawerBody>
       </DrawerContent>
     </ChakraDrawer>
   );
