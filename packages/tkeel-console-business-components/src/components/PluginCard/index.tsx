@@ -19,6 +19,8 @@ function PluginCard({
   bottomInfo,
   onClick,
 }: Props) {
+  const desc = briefPluginInfo?.desc ?? '';
+
   return (
     <Flex
       position="relative"
@@ -50,8 +52,14 @@ function PluginCard({
         </Flex>
         {operatorButton}
       </Flex>
-      <Text color="gray.500" fontSize="12px" height="20px" isTruncated>
-        {briefPluginInfo.desc}
+      <Text
+        color="gray.500"
+        fontSize="12px"
+        height="20px"
+        isTruncated
+        title={desc}
+      >
+        {desc}
       </Text>
       {bottomInfo}
     </Flex>
