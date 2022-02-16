@@ -29,12 +29,12 @@ function Detail() {
   });
 
   const readme = pluginDetail?.metadata?.readme ?? '';
-
+  const maintainers = pluginDetail?.maintainers ?? [];
   return (
     <Flex height="100%" paddingBottom="20px" justifyContent="space-between">
       <Box width="360px" flexShrink="0">
         <BasicInfo data={pluginDetail} refetchDetails={refetch} />
-        <DeveloperInfo />
+        <DeveloperInfo data={maintainers} />
       </Box>
       <Tabs display="flex" flexDirection="column" marginLeft="20px" flex="1">
         <TabList

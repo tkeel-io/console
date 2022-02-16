@@ -5,28 +5,34 @@ import useEnablePluginMutation from '@/tkeel-console-plugin-tenant-plugins/hooks
 
 type Props = {
   pluginName: string;
-  refetchList: () => unknown;
+  buttonCanHover?: boolean;
+  refetchData: () => unknown;
 };
 
-function EnableButton({ pluginName, refetchList }: Props) {
+function EnableButton({
+  pluginName,
+  buttonCanHover = false,
+  refetchData,
+}: Props) {
   const { mutate, isLoading } = useEnablePluginMutation({
     pluginName,
     onSuccess() {
       toast({ status: 'success', title: '启用插件成功' });
-      refetchList();
+      refetchData();
     },
   });
 
+  const iconColor = buttonCanHover ? 'primary' : 'white';
   return (
     <RectangleButton
       leftIcon={
         isLoading ? (
-          <LoadingFilledIcon color="primary" />
+          <LoadingFilledIcon color={iconColor} />
         ) : (
-          <CaretRightFilledIcon color="primary" />
+          <CaretRightFilledIcon color={iconColor} />
         )
       }
-      canHover
+      canHover={buttonCanHover}
       onClick={(e) => {
         e.stopPropagation();
         mutate({
