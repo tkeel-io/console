@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
-import { Box, useStyles, useTab } from '@chakra-ui/react';
+import { Box, BoxProps, useStyles, useTab } from '@chakra-ui/react';
 
-type Props = {
+type Props = BoxProps & {
   children: ReactNode;
 };
 
@@ -12,15 +12,15 @@ function CustomTab(props: Props) {
 
   return (
     <Box
-      marginRight="12px"
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
       width="96px"
-      height="32px"
-      textAlign="center"
+      height="100%"
       color="white"
       fontSize="12px"
       fontWeight="600"
       border="none"
-      borderRadius="4px"
       cursor="pointer"
       _hover={{ backgroundColor: isSelected ? 'primary' : 'gray.600' }}
       _focus={{ boxShadow: 'none', outline: 'none' }}

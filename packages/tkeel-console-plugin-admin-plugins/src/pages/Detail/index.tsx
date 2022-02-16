@@ -7,12 +7,11 @@ import {
   TabPanels,
   Tabs,
 } from '@chakra-ui/react';
-import { Editor, Empty } from '@tkeel/console-components';
+import { CustomTab, Editor, Empty } from '@tkeel/console-components';
 import { Base64 } from 'js-base64';
 import { markdown } from 'markdown';
 
 import BasicInfo from './BasicInfo';
-import CustomTab from './CustomTab';
 import DeveloperInfo from './DeveloperInfo';
 import EnablePluginList from './EnablePluginList';
 import { MarkdownWrapper } from './index.style';
@@ -39,17 +38,16 @@ function Detail() {
       </Box>
       <Tabs display="flex" flexDirection="column" marginLeft="20px" flex="1">
         <TabList
-          padding="8px"
           height="48px"
           border="none"
-          borderRadius="4px"
+          borderTopLeftRadius="4px"
           backgroundColor="gray.800"
         >
-          <CustomTab>说明</CustomTab>
+          <CustomTab borderTopLeftRadius="4px">说明</CustomTab>
           <CustomTab>参数</CustomTab>
           <CustomTab>启用列表</CustomTab>
         </TabList>
-        <TabPanels marginTop="16px" flex="1" overflow="hidden">
+        <TabPanels flex="1" overflow="hidden">
           <TabPanel padding="0" height="100%" backgroundColor="white">
             {readme ? (
               <MarkdownWrapper
