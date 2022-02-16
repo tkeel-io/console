@@ -3,12 +3,22 @@ const API = {
   basePath: '/apis',
 };
 
+const WebSocket = {
+  origin: 'ws://192.168.123.9:32390',
+  basePath: '/v1/ws',
+};
+
 module.exports = {
   server: {
     port: '3001',
     proxy: {
       [API.basePath]: API.origin,
+      [WebSocket.basePath]: {
+        target: WebSocket.origin,
+        ws: true,
+      },
     },
   },
   api: API,
+  webSocket: WebSocket,
 };

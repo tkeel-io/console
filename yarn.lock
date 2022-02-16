@@ -3454,6 +3454,7 @@ __metadata:
     "@tkeel/console-constants": "workspace:^"
     "@tkeel/console-types": "workspace:^"
     "@types/lodash": ^4.14.178
+    react-use-websocket: ^3.0.0
   peerDependencies:
     "@tkeel/console-utils": "workspace:^"
     axios: ^0.24.0
@@ -13732,6 +13733,16 @@ __metadata:
     react: "*"
     tslib: "*"
   checksum: 070a7e9e3cdd8b0ec91a2ac9ac0a8df6bcb3fd183d2775bf0f439b9870fc1faf5b4fa9fe9741abd5187f0a35be645cb4004e1c9ebda9ada7e5d0a624f94910cb
+  languageName: node
+  linkType: hard
+
+"react-use-websocket@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "react-use-websocket@npm:3.0.0"
+  peerDependencies:
+    react: ">= 16.8.0"
+    react-dom: ">= 16.8.0"
+  checksum: 71d493aa5c55b1978480d8162e484cde8982bd3b71eca8842fc3c0c4af8687f46e98f8ed1088c74e340107e60292339d76fb4fbff27784277f78a9f86ef764e7
   languageName: node
   linkType: hard
 
