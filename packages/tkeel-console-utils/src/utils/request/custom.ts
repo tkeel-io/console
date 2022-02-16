@@ -13,6 +13,7 @@ import { AxiosRequestConfigExtended, RequestExtras } from './types';
 
 export const DEFAULT_AXIOS_REQUEST_CONFIG: AxiosRequestConfig = {
   baseURL: GLOBAL_CONFIG.api.pathname || '/apis',
+  // baseURL: 'http://192.168.100.6:30707/apis',
   validateStatus: (status: number) => !inRange(status, 300, 400),
 };
 
