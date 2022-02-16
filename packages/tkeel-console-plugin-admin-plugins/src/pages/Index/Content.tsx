@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Flex, Text } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
+import { PluginNum } from '@tkeel/console-business-components';
 import { SearchInput } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
 
@@ -14,7 +15,7 @@ type Props = {
 };
 
 function Content({ isInstalledPlugins = false, repo }: Props) {
-  const [keywords, setKeywords] = useState('');
+  const [keyWords, setKeywords] = useState('');
   const { pageNum, pageSize, setTotalSize, ...rest } = usePagination({});
 
   const {
@@ -24,7 +25,7 @@ function Content({ isInstalledPlugins = false, repo }: Props) {
     isLoading: repoPluginsLoading,
   } = useRepoInstallersQuery({
     repo: repo as string,
-    keywords,
+    keyWords,
     pageNum,
     pageSize,
     enabled: !isInstalledPlugins,
@@ -38,7 +39,7 @@ function Content({ isInstalledPlugins = false, repo }: Props) {
   } = useInstalledPluginsQuery({
     pageNum,
     pageSize,
-    keywords,
+    keyWords,
     enabled: isInstalledPlugins,
   });
 
@@ -58,7 +59,7 @@ function Content({ isInstalledPlugins = false, repo }: Props) {
   const totalNum = pluginsData?.total || 0;
   const installedNum = pluginsData?.installed_num || 0;
 
-  let pluginNum = [
+  let pluginNumData = [
     {
       name: '插件数量',
       num: totalNum,
@@ -73,7 +74,7 @@ function Content({ isInstalledPlugins = false, repo }: Props) {
     },
   ];
   if (isInstalledPlugins) {
-    pluginNum = [pluginNum[1]];
+    pluginNumData = [pluginNumData[1]];
   }
 
   const refetchPlugins = () => {
@@ -93,23 +94,7 @@ function Content({ isInstalledPlugins = false, repo }: Props) {
       backgroundColor="white"
     >
       <Flex margin="0 24px" alignItems="center" justifyContent="space-between">
-        <Flex alignItems="center">
-          {pluginNum.map((item) => (
-            <Flex key={item.name} alignItems="center" marginRight="5px">
-              <Text color="gray.700" fontSize="12px" fontWeight="500">
-                {item.name}
-              </Text>
-              <Text
-                marginLeft="2px"
-                color="gray.500"
-                fontSize="12px"
-                fontWeight="500"
-              >
-                {item.num}
-              </Text>
-            </Flex>
-          ))}
-        </Flex>
+        <PluginNum data={pluginNumData} />
         <SearchInput
           width="452px"
           placeholder="搜索插件"

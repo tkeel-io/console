@@ -13,10 +13,27 @@ interface CustomColor extends Colors {
 function MoreAction({ buttons }: Props) {
   const [showActionList, setShowActionList] = useState(false);
   const { colors }: { colors: CustomColor } = useTheme();
+  let timer: number | null = null;
 
   const handleClick: MouseEventHandler<HTMLDivElement> = (event) => {
     event.stopPropagation();
     setShowActionList(!showActionList);
+  };
+
+  const handleMouseLeave: MouseEventHandler<HTMLDivElement> = () => {
+    if (timer) {
+      clearTimeout(timer);
+      timer = null;
+    }
+    timer = window.setTimeout(() => {
+      setShowActionList(false);
+    }, 200);
+  };
+
+  const handleActionListMouseEnter: MouseEventHandler<HTMLDivElement> = () => {
+    if (timer) {
+      clearTimeout(timer);
+    }
   };
 
   const handleDocumentClick = () => {
@@ -33,7 +50,11 @@ function MoreAction({ buttons }: Props) {
   }, []);
 
   return (
-    <Box position="relative" onClick={handleClick}>
+    <Box
+      position="relative"
+      onClick={handleClick}
+      onMouseLeave={handleMouseLeave}
+    >
       <Circle
         size="28px"
         backgroundColor={showActionList ? 'gray.100' : 'transparent'}
@@ -62,6 +83,8 @@ function MoreAction({ buttons }: Props) {
           width="144px"
           backgroundColor="white"
           borderRadius="4px"
+          zIndex="9"
+          onMouseEnter={handleActionListMouseEnter}
         >
           {buttons}
         </Box>

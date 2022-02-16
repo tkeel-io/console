@@ -14,6 +14,7 @@ type Props = {
   hasSearchInput?: boolean;
   searchInputProps?: SearchInputProps;
   buttons?: ReactNode[];
+  hasIcon?: boolean;
 };
 
 interface CustomColor extends Colors {
@@ -31,6 +32,7 @@ function PageHeaderToolbar({
   hasSearchInput = false,
   searchInputProps = defaultSearchInputProps,
   buttons = [],
+  hasIcon = false,
 }: Props) {
   const siProps = { ...defaultSearchInputProps, ...searchInputProps };
   const { colors }: { colors: CustomColor } = useTheme();
@@ -42,21 +44,23 @@ function PageHeaderToolbar({
           <Text fontSize="14px" lineHeight="24px" color="gray.800">
             {name}
           </Text>
-          <Center paddingLeft="4px">
-            <Circle
-              size="24px"
-              _hover={{
-                backgroundColor: 'grayAlternatives.50',
-                cursor: 'pointer',
+          {hasIcon && (
+            <Center paddingLeft="4px">
+              <Circle
+                size="24px"
+                _hover={{
+                  backgroundColor: 'grayAlternatives.50',
+                  cursor: 'pointer',
 
-                '& > svg': {
-                  fill: `${colors.primary} !important`,
-                },
-              }}
-            >
-              <BookOpenedFilledIcon />
-            </Circle>
-          </Center>
+                  '& > svg': {
+                    fill: `${colors.primary} !important`,
+                  },
+                }}
+              >
+                <BookOpenedFilledIcon />
+              </Circle>
+            </Center>
+          )}
         </Flex>
       )}
       <Flex flex={1} justifyContent="flex-end">
