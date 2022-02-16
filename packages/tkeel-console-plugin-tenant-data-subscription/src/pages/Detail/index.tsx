@@ -1,7 +1,7 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { MessageWarningTwoToneIcon } from '@tkeel/console-icons';
 
-import Table from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/table';
+import Table from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/Table';
 
 function BaseInfo(name = '', value = '') {
   return (

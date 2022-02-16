@@ -62,6 +62,7 @@ function MoreAction({ buttons }: Props) {
           width="144px"
           backgroundColor="white"
           borderRadius="4px"
+          zIndex="9"
         >
           {buttons}
         </Box>
