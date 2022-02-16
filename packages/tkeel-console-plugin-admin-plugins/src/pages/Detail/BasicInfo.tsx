@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, Center, Flex, Text } from '@chakra-ui/react';
-import { MoreAction } from '@tkeel/console-components';
-import { BoxTwoToneIcon, ChevronLeftFilledIcon } from '@tkeel/console-icons';
+import { Box, Center, Flex, Text } from '@chakra-ui/react';
+import { BackButton, MoreAction } from '@tkeel/console-components';
+import { BoxTwoToneIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import InfoCard from './InfoCard';
@@ -23,15 +23,15 @@ function BasicInfo({ data, refetchDetails }: Props) {
   const version = data?.version ?? '';
   const basicInfo = [
     {
-      label: 'Repo',
+      label: '插件源',
       value: repo,
     },
     {
-      label: 'Tag',
+      label: '标签',
       value: data?.annotations?.['tkeel.io/tag'] ?? '',
     },
     {
-      label: 'Ver',
+      label: '版本',
       value: version,
     },
     {
@@ -57,16 +57,11 @@ function BasicInfo({ data, refetchDetails }: Props) {
     >
       <Box height="130px" padding="16px" backgroundColor="gray.50">
         <Flex height="28px" justifyContent="space-between">
-          <Button
-            variant="outline"
-            size="sm"
-            leftIcon={<ChevronLeftFilledIcon />}
+          <BackButton
             onClick={() => {
               navigate('/');
             }}
-          >
-            返回
-          </Button>
+          />
           {data ? (
             data.installed ? (
               <MoreAction

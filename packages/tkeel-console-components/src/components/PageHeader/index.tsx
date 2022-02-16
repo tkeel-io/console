@@ -18,7 +18,12 @@ function PageHeader({ icon, name, desc }: Props) {
       boxShadow="0px 10px 15px -3px rgba(113, 128, 150, 0.1),
     0px 4px 6px -2px rgba(113, 128, 150, 0.05)"
     >
-      <Center width="60px" height="60px" backgroundColor="gray.100">
+      <Center
+        width="60px"
+        height="60px"
+        borderRadius="14px"
+        backgroundColor="gray.100"
+      >
         {icon}
       </Center>
       <Flex

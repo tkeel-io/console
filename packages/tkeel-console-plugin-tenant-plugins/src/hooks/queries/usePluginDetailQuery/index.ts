@@ -1,19 +1,24 @@
 import useQuery from '@/tkeel-console-plugin-tenant-plugins/hooks/useQuery';
 
-export interface Plugin {
+type Plugin = {
   id: string;
   register_timestamp: string;
+  tenant_enable: boolean;
   installer_brief: {
     name: string;
+    icon: string;
     version: string;
     repo: string;
+    desc: string;
   };
-}
+};
 
-interface ApiData {
+type ApiData = {
   '@type': string;
-  plugin: Plugin;
-}
+  plugin: {
+    plugin: Plugin;
+  };
+};
 
 const url = '/rudder/v1/plugins';
 const method = 'GET';
@@ -27,7 +32,7 @@ export default function usePluginDetailQuery({ pluginName }: Props) {
     url: `${url}/${pluginName}`,
     method,
   });
-  const plugin = data?.plugin || {};
+  const plugin = data?.plugin?.plugin;
 
   return { plugin, data, ...rest };
 }

@@ -113,8 +113,8 @@ function PluginList({
                         color="gray.500"
                         fontSize="12px"
                       >
-                        <Text>Ver：{version}</Text>
-                        <Text marginLeft="20px">Repo：{repo}</Text>
+                        <Text>版本：{version}</Text>
+                        <Text marginLeft="20px">插件源：{repo}</Text>
                       </Flex>
                     </Flex>
                   }
