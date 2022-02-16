@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-import { useParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import {
   Box,
   Flex,
@@ -9,6 +8,7 @@ import {
   Tabs,
 } from '@chakra-ui/react';
 import { Editor, Empty } from '@tkeel/console-components';
+import { Base64 } from 'js-base64';
 import { markdown } from 'markdown';
 
 import BasicInfo from './BasicInfo';
@@ -18,14 +18,15 @@ import EnablePluginList from './EnablePluginList';
 import { MarkdownWrapper } from './index.style';
 
 import usePluginDetailQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/usePluginDetailQuery';
-import { b64ToUTF8 } from '@/tkeel-console-plugin-admin-plugins/utils';
 
 function Detail() {
-  const { repo, name, version } = useParams();
+  const [searchParams] = useSearchParams();
+  const name = searchParams.get('name') || '';
+
   const { pluginDetail, refetch } = usePluginDetailQuery({
-    repoName: repo || '',
-    installerName: name || '',
-    installerVersion: version || '',
+    repoName: searchParams.get('repo') || '',
+    installerName: name,
+    installerVersion: searchParams.get('version') || '',
   });
 
   const readme = pluginDetail?.metadata?.readme ?? '';
@@ -54,7 +55,7 @@ function Detail() {
               <MarkdownWrapper
                 padding="24px"
                 dangerouslySetInnerHTML={{
-                  __html: markdown.toHTML(b64ToUTF8(readme)),
+                  __html: markdown.toHTML(Base64.decode(readme)),
                 }}
               />
             ) : (
