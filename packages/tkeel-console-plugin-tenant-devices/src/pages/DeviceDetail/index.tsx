@@ -30,11 +30,9 @@ import ConnectionInfo from './Components/ConnectionInfo';
 import InitialData from './Components/InitialData';
 import { CardContentFlex, InfoCardWrapper } from './index.style';
 
-import {
-  CreateDeviceButton,
-  CreateDeviceGroupButton,
-} from '@/tkeel-console-plugin-tenant-devices/components/buttons';
 import useDeviceDetailQuery from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
+import CreateDeviceButton from '@/tkeel-console-plugin-tenant-devices/pages/Index/components/CreateDeviceButton';
+import CreateDeviceGroupButton from '@/tkeel-console-plugin-tenant-devices/pages/Index/components/CreateDeviceGroupButton';
 
 const basicInfo = [
   {

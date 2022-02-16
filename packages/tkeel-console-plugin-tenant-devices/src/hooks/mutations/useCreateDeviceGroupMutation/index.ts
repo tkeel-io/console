@@ -18,6 +18,14 @@ export interface RequestData {
   };
 }
 
-export default function useCreateTemplateMutation() {
-  return useMutation<ApiData, undefined, RequestData>({ url, method });
+export default function useCreateTemplateMutation({
+  onSuccess,
+}: {
+  onSuccess?: () => void;
+}) {
+  return useMutation<ApiData, undefined, RequestData>({
+    url,
+    method,
+    reactQueryOptions: { onSuccess },
+  });
 }
