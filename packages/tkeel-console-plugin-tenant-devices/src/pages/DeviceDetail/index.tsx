@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
+  Button,
   Colors,
   Flex,
   HStack,
@@ -13,28 +15,26 @@ import {
   useTheme,
   VStack,
 } from '@chakra-ui/react';
+import { css } from '@emotion/react';
+import { MoreAction } from '@tkeel/console-components';
 import {
   ChevronLeftFilledIcon,
-  DocumentPencilTowToneIcon,
+  MessageWarningTwoToneIcon,
+  VpcTwoToneIcon,
+  WebcamTwoToneIcon,
+  WifiFilledIcon,
+  WifiOffFilledIcon,
 } from '@tkeel/console-icons';
 
 import ConnectionInfo from './Components/ConnectionInfo';
 import InitialData from './Components/InitialData';
+import { CardContentFlex, InfoCardWrapper } from './index.style';
 
-const styleProps = {
-  w: '100%',
-  bg: 'white',
-  p: '12px 12px 12px 20px',
-  borderRadius: '4px',
-};
-
-const centerFlex = {
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  w: '100%',
-  h: '24px',
-  lineHeight: '24px',
-};
+import {
+  CreateDeviceButton,
+  CreateDeviceGroupButton,
+} from '@/tkeel-console-plugin-tenant-devices/components/buttons';
+import useDeviceDetailQuery from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
 
 const basicInfo = [
   {
@@ -72,6 +72,10 @@ interface CustomColor extends Colors {
 }
 
 function Index(): JSX.Element {
+  const result = useDeviceDetailQuery();
+  const navigate = useNavigate();
+  // eslint-disable-next-line no-console
+  console.log(result);
   const { colors }: { colors: CustomColor } = useTheme();
   const [tabIndex, setTabIndex] = useState(0);
   const tabs = [
@@ -87,6 +91,39 @@ function Index(): JSX.Element {
     },
   ];
 
+  const status = {
+    isConnect: 1,
+    isSub: 1,
+    isSelfLearn: 0,
+  };
+
+  const connectionIcon = [
+    <WifiOffFilledIcon key="wifi-off" />,
+    <WifiFilledIcon key="wifi" />,
+  ];
+
+  const subscribe = [
+    {
+      color: '#fff',
+      twoToneColor: '#79879C',
+    },
+    {
+      color: '#fff',
+      twoToneColor: '#31B8B8',
+    },
+  ];
+
+  const selfLearn = [
+    {
+      color: '#79879C',
+      twoToneColor: '#79879C',
+    },
+    {
+      color: '#2580FF',
+      twoToneColor: '#55BC8A',
+    },
+  ];
+
   const handleTabChange = (index: number) => {
     setTabIndex(index);
   };
@@ -94,8 +131,15 @@ function Index(): JSX.Element {
   const renderLeftPanel = () => {
     return (
       <VStack spacing="12px" minWidth="360px" flex="1" mr="20px">
-        <VStack {...styleProps} spacing="20px" align="left">
-          <Flex {...centerFlex}>
+        <VStack
+          w="100%"
+          bg="white"
+          p="12px 12px 12px 20px"
+          borderRadius="4px"
+          spacing="20px"
+          align="left"
+        >
+          <CardContentFlex>
             <Flex
               w="64px"
               h="32px"
@@ -111,36 +155,99 @@ function Index(): JSX.Element {
                 },
               }}
             >
-              <ChevronLeftFilledIcon size="16px" />
-              <Box as="span" ml="4px" fontWeight="600">
+              <Button
+                variant="outline"
+                size="sm"
+                leftIcon={<ChevronLeftFilledIcon />}
+                onClick={() => {
+                  navigate('/');
+                }}
+              >
                 返回
-              </Box>
+              </Button>
             </Flex>
-            <Box>MoreAction</Box>
-          </Flex>
-          <Flex {...centerFlex}>
+            <Box>
+              <MoreAction
+                buttons={[
+                  <CreateDeviceButton key="device" />,
+                  <CreateDeviceGroupButton key="device-group" />,
+                ]}
+              />
+            </Box>
+          </CardContentFlex>
+          <CardContentFlex>
             <Box display="flex">
-              <DocumentPencilTowToneIcon size="24px" />
-              <Box as="span" fontSize="14px" fontWeight="600" ml="8px">
+              <WebcamTwoToneIcon size="24px" />
+              <Box as="span" fontSize="14px" fontWeight={600} ml="8px">
                 OPC协议设备
               </Box>
             </Box>
-            <Box />
-          </Flex>
+            <Flex flex={1} justifyContent="flex-end">
+              <Flex
+                w="24px"
+                h="24px"
+                justifyContent="center"
+                alignItems="center"
+                borderRadius="4px"
+                ml="4px"
+                bg={status.isConnect ? '#E8F7F7' : '#79879C'}
+              >
+                {connectionIcon[status.isConnect]}
+              </Flex>
+              <Flex
+                w="24px"
+                h="24px"
+                justifyContent="center"
+                alignItems="center"
+                borderRadius="4px"
+                ml="4px"
+                bg={status.isSub ? '#E8F7F7' : '#79879C'}
+              >
+                <MessageWarningTwoToneIcon
+                  color={subscribe[status.isSub].color}
+                  twoToneColor={subscribe[status.isSub].twoToneColor}
+                />
+              </Flex>
+              <Flex
+                w="24px"
+                h="24px"
+                justifyContent="center"
+                alignItems="center"
+                borderRadius="4px"
+                ml="4px"
+                bg={status.isSelfLearn ? '#E9F2FF' : '#EFF4F9'}
+                css={css`
+                  .vpc-icon-control {
+                    path {
+                      &:first-child {
+                        fill: ${selfLearn[status.isSelfLearn].color};
+                      }
+
+                      &:last-child {
+                        fill: ${selfLearn[status.isSelfLearn].twoToneColor};
+                      }
+                    }
+                  }
+                `}
+              >
+                <VpcTwoToneIcon className="vpc-icon-control" />
+              </Flex>
+            </Flex>
+          </CardContentFlex>
           <HStack spacing="26px" fontSize="12px">
             <Text h="39px" lineHeight="39px">
               订阅地址
             </Text>
-            <Text h="39px" lineHeight="39px" fontWeight="400">
+            <Text h="39px" lineHeight="39px" fontWeight={400}>
               pubsub://client-pubsub/core-pub
             </Text>
           </HStack>
         </VStack>
-        <Box {...styleProps}>
+        <InfoCardWrapper>
           <Text
             fontSize="14px"
-            fontWeight="600"
-            height="20px"
+            fontWeight={600}
+            h="20px"
             lineHeight="20px"
             mb="12px"
           >
@@ -163,7 +270,7 @@ function Index(): JSX.Element {
                     h="20px"
                     lineHeight="24px"
                     color="gray.800"
-                    fontWeight="400"
+                    fontWeight={400}
                   >
                     {r.content}
                   </Text>
@@ -171,9 +278,9 @@ function Index(): JSX.Element {
               );
             })}
           </VStack>
-        </Box>
-        <Box {...styleProps}>
-          <Text fontSize="14px" fontWeight="600" mb="12px">
+        </InfoCardWrapper>
+        <InfoCardWrapper>
+          <Text fontSize="14px" fontWeight={600} mb="12px">
             扩展信息
           </Text>
           <Flex fontSize="12px">
@@ -186,7 +293,7 @@ function Index(): JSX.Element {
             >
               厂商
             </Text>
-            <Text h="20px" lineHeight="24px" color="gray.800" fontWeight="400">
+            <Text h="20px" lineHeight="24px" color="gray.800" fontWeight={400}>
               青云
             </Text>
           </Flex>
@@ -200,11 +307,11 @@ function Index(): JSX.Element {
             >
               硬件版本
             </Text>
-            <Text h="20px" lineHeight="24px" color="gray.800" fontWeight="400">
+            <Text h="20px" lineHeight="24px" color="gray.800" fontWeight={400}>
               硬件版本：v1.1.1
             </Text>
           </Flex>
-        </Box>
+        </InfoCardWrapper>
       </VStack>
     );
   };
@@ -227,6 +334,8 @@ function Index(): JSX.Element {
                   borderRadius: `${tabIndex === 0 ? '4px' : 0} 0 0 0`,
                   boxShadow: 'none',
                 }}
+                fontSize="12px"
+                fontWeight={600}
                 borderRight="1px"
                 borderColor="gray.600"
               >
