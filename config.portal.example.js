@@ -1,8 +1,6 @@
 const API = {
-  protocol: 'http',
-  hostname: '127.0.0.1',
-  port: '30707',
-  pathname: '/apis',
+  origin: 'http://127.0.0.1:30707', // development
+  basePath: '/apis',
 };
 
 module.exports = {
@@ -12,14 +10,12 @@ module.exports = {
     themeName: '',
     documentTitle: '',
   },
-  api: API, // development
+  api: API,
   // development
   server: {
     port: '3000',
     proxy: {
-      [API.pathname]: API.port
-        ? `${API.protocol}://${API.hostname}:${API.port}`
-        : `${API.protocol}://${API.hostname}`,
+      [API.basePath]: API.origin,
     },
   },
   builder: {
