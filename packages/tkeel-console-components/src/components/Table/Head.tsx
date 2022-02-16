@@ -7,14 +7,23 @@ type Props<D extends object> = {
   headerGroups: HeaderGroupExtended<D>[];
   fixHead: boolean;
   canSort: boolean;
+  isShowStripe: boolean;
 };
 
-function Head<D extends object>({ headerGroups, fixHead, canSort }: Props<D>) {
+function Head<D extends object>({
+  headerGroups,
+  fixHead,
+  canSort,
+  isShowStripe,
+}: Props<D>) {
   return (
     <Thead>
       {headerGroups.map((headerGroup) => {
         return (
-          <Tr {...headerGroup.getHeaderGroupProps()}>
+          <Tr
+            {...headerGroup.getHeaderGroupProps()}
+            backgroundColor={isShowStripe ? 'gray.100' : 'transparent'}
+          >
             {headerGroup.headers.map((column: HeaderGroupExtended<D>) => {
               const headerProps = column.getHeaderProps(
                 canSort ? column.getSortByToggleProps() : {}
@@ -25,6 +34,9 @@ function Head<D extends object>({ headerGroups, fixHead, canSort }: Props<D>) {
                   display="flex"
                   position={fixHead ? 'sticky' : 'static'}
                   color="gray.400"
+                  borderColor={
+                    isShowStripe ? 'transparent' : 'grayAlternatives.50'
+                  }
                   {...headerProps}
                 >
                   {column.render('Header')}
