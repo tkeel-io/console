@@ -15,7 +15,7 @@ const method = 'GET';
 
 type Props = {
   repo: string;
-  keywords: string;
+  keyWords: string;
   pageNum: number;
   pageSize: number;
   enabled: boolean;
@@ -29,7 +29,7 @@ type TRequestParams = {
 
 export default function useRepoInstallersQuery({
   repo,
-  keywords,
+  keyWords,
   pageNum,
   pageSize,
   enabled,
@@ -40,7 +40,7 @@ export default function useRepoInstallersQuery({
     params: {
       page_num: pageNum,
       page_size: pageSize,
-      key_words: keywords,
+      key_words: keyWords,
     },
     reactQueryOptions: {
       enabled,

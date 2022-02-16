@@ -1,9 +1,8 @@
 import { Box, Flex, Heading, Spacer } from '@chakra-ui/react';
 import { SearchInput } from '@tkeel/console-components/';
 
-import DeviceGroupNav from './DeviceGroupNav';
-
-import { CreateDeviceButton } from '@/tkeel-console-plugin-tenant-devices/components/buttons';
+import CreateDeviceButton from './components/CreateDeviceButton';
+import DeviceGroupNav from './components/DeviceGroupNav';
 
 const handleSearchDevice = (keyword: string) => {
   // eslint-disable-next-line no-console

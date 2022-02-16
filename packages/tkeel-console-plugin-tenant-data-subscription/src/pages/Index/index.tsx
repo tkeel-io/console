@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { Box, Flex, Text } from '@chakra-ui/react';
 import {
   BookOpenedFilledIcon,
@@ -7,10 +8,14 @@ import {
 import SubscriptionButton from './components/Button/SubscriptionButton';
 import CreateUserButton from './components/CreateUserButton';
 
+// import useListSubscribeQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useListSubscribeQuery';
+
 function SubscriptionCard() {
+  const navigate = useNavigate();
+
   return (
     <Box
-      bg="#F9FBFD"
+      bg="gray.50"
       boxShadow="0px 8px 8px rgba(152, 163, 180, 0.1)"
       borderRadius="4px"
       mt="20px"
@@ -19,7 +24,7 @@ function SubscriptionCard() {
       <Text
         fontWeight="600"
         fontSize="14px"
-        color="#242E42"
+        color="gray.800"
         mt="20px"
         mb="12px"
         display="inline-block"
@@ -32,15 +37,23 @@ function SubscriptionCard() {
           return (
             <Box
               borderRadius="4px"
-              background="#F9FBFD"
-              border="1px solid #E2E8F0"
+              background="gray.50"
+              border="1px"
+              borderStyle="solid"
+              borderColor="blue.50"
               flex="1"
               key={index}
               margin="0 20px 12px 0"
             >
               <Flex height="76px" flexDir="column" padding="0 20">
                 <Flex alignItems="center" justifyContent="space-between">
-                  <Flex alignItems="center">
+                  <Flex
+                    alignItems="center"
+                    onClick={() => {
+                      navigate('/detail');
+                    }}
+                    style={{ cursor: 'pointer' }}
+                  >
                     <MessageWarningTwoToneIcon
                       style={{ width: '24px', height: '22px' }}
                     />
@@ -50,8 +63,8 @@ function SubscriptionCard() {
                     <Text
                       display="inline"
                       ml="12px"
-                      color="#F5A623"
-                      background="#FFF4E8"
+                      color="orange.300"
+                      background="orange.50"
                       width="44px"
                       fontSize="12px"
                       textAlign="center"
@@ -74,22 +87,22 @@ function SubscriptionCard() {
                   </Flex>
                 </Flex>
 
-                <Text color="#6B7B95" fontSize="12px">
+                <Text color="grayAlternatives.300" fontSize="12px">
                   IDC b1会议室所有设备IDC b1会议室所有设备IDC
                   b1会议室所有设备IDC b1会议室所有设备...
                 </Text>
               </Flex>
               <Flex
-                background="#FFFFFF"
+                background="white"
                 height="40px"
                 alignItems="center"
                 fontSize="12px"
                 borderRadius="0 0 4px 4px"
                 padding="0 20"
               >
-                <Box color="#36435C">
+                <Box color="gray.700">
                   订阅设备：
-                  <Text display="inline" color="#2580FF">
+                  <Text display="inline" color="primary">
                     1098
                   </Text>
                 </Box>
@@ -115,13 +128,16 @@ const handleCreateUserSuccess = () => {
 };
 
 function Index(): JSX.Element {
+  // const data1 = useListSubscribeQuery();
+  // console.log('data1', data1);
+
   return (
     <Box>
       <Flex height="30px" alignItems="center" justifyContent="space-between">
         <Flex
           fontWeight="600"
           fontSize="14px"
-          color="#2D3748"
+          color="grayAlternatives.700"
           alignItems="center"
           lineHeight="20px"
         >
@@ -130,35 +146,41 @@ function Index(): JSX.Element {
         <CreateUserButton key="create" onSuccess={handleCreateUserSuccess} />
       </Flex>
       <Box
-        border="1px solid #E2E8F0"
+        border="1px solid grayAlternatives.50"
         borderRadius="4px"
-        background="#FFF"
+        background="white"
         mt="16px"
       >
         <Flex
           padding="0 20"
           lineHeight="53px"
-          borderBottom="1px solid #E2E8F0"
+          borderBottom="1px solid grayAlternatives.50"
           fontWeight="600"
           fontSize="14px"
-          color="#242E42"
+          color="gray.800"
         >
           我的订阅
-          <Text display="inline" color="#6B7B95" ml="12px" fontSize="12px">
+          <Text
+            display="inline"
+            color="grayAlternatives.300"
+            ml="12px"
+            fontSize="12px"
+          >
             IDC b1会议室所有设备IDC b1会议室所有设备IDC b1会议室所有设备IDC
             b1会议室所有设备...
           </Text>
         </Flex>
         <Flex
           padding="0 20"
-          background="#F9FBFD"
+          color="grayAlternatives.300"
           height="40px"
           alignItems="center"
           fontSize="12px"
+          background="gray.50"
         >
-          <Box color="#36435C">
+          <Box color="gray.700">
             订阅设备：
-            <Text display="inline" color="#2580FF">
+            <Text display="inline" color="primary">
               1098
             </Text>
           </Box>
