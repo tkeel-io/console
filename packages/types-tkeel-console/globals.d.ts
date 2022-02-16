@@ -63,6 +63,10 @@ interface GlobalConfig {
     origin?: string;
     basePath: string;
   };
+  webSocket: {
+    origin?: string;
+    basePath: string;
+  };
   // local development
   mock?: {
     tenantId?: string | number; // portal tenant
