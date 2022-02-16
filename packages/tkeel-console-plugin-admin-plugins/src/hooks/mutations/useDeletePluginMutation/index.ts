@@ -9,7 +9,7 @@ export interface PluginDetail {
   secret: string;
   register_timestamp: string;
   status: string;
-  brief_installer_info: PluginInfo;
+  installer_brief: PluginInfo;
   console_entries: Menu[];
 }
 

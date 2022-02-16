@@ -1,7 +1,7 @@
 import { Button, useDisclosure } from '@chakra-ui/react';
 import { AddFilledIcon } from '@tkeel/console-icons';
 
-import CreateDeviceModal from '@/tkeel-console-plugin-tenant-devices/components/modals/CreateDeviceModal';
+import CreateDeviceModal from '../CreateDeviceModal';
 
 export default function CreateDeviceButton() {
   const { isOpen, onOpen, onClose } = useDisclosure();
