@@ -1,4 +1,4 @@
-import useQuery from '../useQuery';
+import useQuery from '@/tkeel-console-plugin-admin-tenants/hooks/useQuery';
 
 const url = '/security/v1/tenants';
 const method = 'GET';

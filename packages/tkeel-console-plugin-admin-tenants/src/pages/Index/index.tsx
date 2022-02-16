@@ -13,6 +13,7 @@ import EditSpaceModal from '@/tkeel-console-plugin-admin-tenants/components/Edit
 import useTenantsQuery, {
   Tenant,
 } from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useTenantsQuery';
+// import useWebSocketDemo from '@/tkeel-console-plugin-admin-tenants/hooks/webSockets/useWebSocketDemo';
 
 const handleSearch = (keyword: string) => {
   // eslint-disable-next-line no-console
