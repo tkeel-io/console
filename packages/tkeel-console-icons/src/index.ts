@@ -30,6 +30,7 @@ export { default as MessageWarningTwoToneIcon } from './components/MessageWarnin
 export { default as MoreVerticalFilledIcon } from './components/MoreVerticalFilledIcon';
 export { default as PauseFilledIcon } from './components/PauseFilledIcon';
 export { default as PencilFilledIcon } from './components/PencilFilledIcon';
+export { default as PersonGroupTwoToneIcon } from './components/PersonGroupTwoToneIcon';
 export { default as PuzzleTwoToneIcon } from './components/PuzzleTwoToneIcon';
 export { default as SuccessTwoToneIcon } from './components/SuccessTwoToneIcon';
 export { default as TagsTwoToneIcon } from './components/TagsTwoToneIcon';
