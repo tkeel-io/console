@@ -2,7 +2,17 @@ import { Box } from '@chakra-ui/react';
 
 import InfoCard from './InfoCard';
 
-function DeveloperInfo() {
+type Props = {
+  data: {
+    name: string;
+    email: string;
+    url: string;
+  }[];
+};
+
+function DeveloperInfo({ data }: Props) {
+  // eslint-disable-next-line no-console
+  console.log('DeveloperInfo ~ data', data);
   const developerInfo = [
     {
       label: '提供者',
