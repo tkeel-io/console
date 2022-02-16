@@ -1,13 +1,13 @@
 const API = {
   origin: 'http://192.168.100.6:30707',
-  pathname: '/apis',
+  basePath: '/apis',
 };
 
 module.exports = {
   server: {
     port: '3000',
     proxy: {
-      [API.pathname]: API.origin,
+      [API.basePath]: API.origin,
     },
   },
   api: API,

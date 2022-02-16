@@ -7,7 +7,7 @@ module.exports = {
     documentTitle: '',
   },
   api: {
-    pathname: '/apis',
+    basePath: '/apis',
   },
   plugin: {
     identify: {
