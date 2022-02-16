@@ -9,6 +9,9 @@ module.exports = {
   api: {
     basePath: '/apis',
   },
+  webSocket: {
+    basePath: '/v1/ws',
+  },
   plugin: {
     identify: {
       plugin_id: 'console-plugin-admin-plugins',

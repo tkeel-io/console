@@ -13,6 +13,10 @@ module.exports = {
     port: '3001',
     proxy: {
       [API.basePath]: API.origin,
+      [WebSocket.basePath]: {
+        target: WebSocket.origin,
+        ws: true,
+      },
     },
   },
   api: API,
