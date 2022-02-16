@@ -4,6 +4,7 @@ export * from './components/Button';
 export { default as ButtonsHStack } from './components/ButtonsHStack';
 export * from './components/Checkbox';
 export { default as CustomTab } from './components/CustomTab';
+export { default as CustomTabList } from './components/CustomTabList';
 export { default as Drawer } from './components/Drawer';
 export { default as Editor } from './components/Editor';
 export { default as Empty } from './components/Empty';
