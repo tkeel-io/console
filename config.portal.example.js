@@ -1,5 +1,5 @@
 const API = {
-  origin: 'http://127.0.0.1:30707',
+  origin: 'http://127.0.0.1:30707', // development
   pathname: '/apis',
 };
 
@@ -10,7 +10,7 @@ module.exports = {
     themeName: '',
     documentTitle: '',
   },
-  api: API, // development
+  api: API,
   // development
   server: {
     port: '3000',
