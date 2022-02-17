@@ -15,3 +15,11 @@ export const InfoCardWrapper = styled(Box)`
   background-color: ${({ theme }) => (theme as Theme).colors.white};
   border-radius: 4px;
 `;
+
+export const IconWrapper = styled(Flex)`
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  padding: 4px;
+  border-radius: 4px;
+`;
