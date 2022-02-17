@@ -10,7 +10,7 @@ import NotFound from '@/tkeel-console-portal-base/pages/NotFound';
 import {
   init as initQiankun,
   menusToApps,
-} from '@/tkeel-console-portal-base/utils/qiankun';
+} from '@/tkeel-console-portal-base/utils';
 
 function getElementIdByContainer(container: string): string {
   return container.replace(/^#/, '');
