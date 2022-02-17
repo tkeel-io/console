@@ -44,7 +44,7 @@ type Props = {
   onConfirm: (formValues: FormValues) => unknown;
 };
 
-const AuthTypes = [
+const AUTH_TYPES = [
   {
     title: '平台默认',
     key: 'default',
@@ -98,7 +98,7 @@ export default function BaseTenantModal({
       onClose={onClose}
       onConfirm={handleConfirm}
     >
-      <Box h="530px" overflowY="scroll">
+      <Box height="530px" overflowY="scroll">
         <TextField
           id="title"
           label="空间名称"
@@ -110,21 +110,21 @@ export default function BaseTenantModal({
           )}
         />
 
-        <FormControl mb="16px">
+        <FormControl display="none" marginBottom="16px">
           <FormLabel fontSize="14px" lineHeight="24px" color="gray.600">
             平台选择
           </FormLabel>
           <Grid templateColumns="repeat(2, 1fr)" gap={4}>
-            {AuthTypes.map((opt) => {
+            {AUTH_TYPES.map((item) => {
               return (
                 <GridItem
                   colSpan={1}
-                  key={opt.key}
-                  onClick={handleSelectAuth(opt.key)}
+                  key={item.key}
+                  onClick={handleSelectAuth(item.key)}
                 >
                   <AuthTypeOption
-                    {...opt}
-                    isSelected={selectedAuthType === opt.key}
+                    {...item}
+                    isSelected={selectedAuthType === item.key}
                   />
                 </GridItem>
               );
@@ -137,7 +137,7 @@ export default function BaseTenantModal({
           label="管理员账号"
           isDisabled={formFields?.admin?.disabled}
           help={schemas.username.help}
-          error={errors.title}
+          error={errors.admin}
           registerReturn={register('admin', schemas.username.registerOptions)}
         />
         <TextField
