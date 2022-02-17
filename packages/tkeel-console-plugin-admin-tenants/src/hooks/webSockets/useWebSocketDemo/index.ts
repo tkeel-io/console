@@ -2,7 +2,9 @@ import { useEffect } from 'react';
 import { useWebSocket } from '@tkeel/console-hooks';
 
 type Message = {
-  rawData: string;
+  rawData: {
+    id: string;
+  };
 };
 
 export default function WebSocketDemo() {
