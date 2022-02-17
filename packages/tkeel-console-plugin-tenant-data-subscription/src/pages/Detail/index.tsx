@@ -1,7 +1,12 @@
+import { useNavigate } from 'react-router-dom';
 import { Box, Flex, Text } from '@chakra-ui/react';
+import { BackButton, MoreAction } from '@tkeel/console-components';
 import { MessageWarningTwoToneIcon } from '@tkeel/console-icons';
 
 import Table from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/Table';
+import DeleteSubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/DeleteSubscriptionButton';
+import DisableButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/DisableButton';
+import ModifySubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/ModifySubscriptionButton';
 
 function BaseInfo(name = '', value = '') {
   return (
@@ -17,6 +22,8 @@ function BaseInfo(name = '', value = '') {
 }
 
 function Detail(): JSX.Element {
+  const navigate = useNavigate();
+
   return (
     <Flex>
       <Box width="360px" mr="20px">
@@ -25,7 +32,40 @@ function Detail(): JSX.Element {
           background="linear-gradient(180deg, #FFFFFF 0%, #F9FBFD 100%)"
           borderRadius="4px"
         >
-          <Flex height="108px" align="center" padding="0 20px">
+          <Flex
+            alignItems="center"
+            justifyContent="space-between"
+            padding="0 10px"
+            paddingTop="10px"
+          >
+            <BackButton
+              onClick={() => {
+                navigate('/');
+              }}
+            />
+            <MoreAction
+              buttons={[
+                <DisableButton key="disable" />,
+                <ModifySubscriptionButton
+                  key="modify"
+                  onSuccess={() => {
+                    // console.log('123');
+                    // refetch();
+                  }}
+                />,
+                <DeleteSubscriptionButton
+                  key="delete"
+                  id="123"
+                  refetchData={() => {
+                    // console.log('123');
+                    // refetch();
+                  }}
+                />,
+              ]}
+            />
+          </Flex>
+
+          <Flex height="70px" align="center" padding="0 20px">
             <MessageWarningTwoToneIcon
               style={{ width: '24px', height: '22px' }}
             />
@@ -39,7 +79,7 @@ function Detail(): JSX.Element {
               IDC设备分组订阅
             </Box>
           </Flex>
-          <Flex background="White" height="39px" alignItems="center">
+          <Flex background="White" height="40px" alignItems="center">
             <Box fontSize="12px" color="grayAlternatives.300" padding="0 20px">
               订阅地址：
               <Text display="inline" color="gray.800">

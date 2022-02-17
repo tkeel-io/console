@@ -9,25 +9,17 @@ function DisableButton() {
         title="取消订阅"
         onClick={() => {
           // eslint-disable-next-line no-console
-          console.log('停用插件');
+          // console.log('停用插件');
         }}
       />
-      <MoreActionButton
+      {/* <MoreActionButton
         icon={<TrashFilledIcon />}
         title="编辑信息"
         onClick={() => {
           // eslint-disable-next-line no-console
           console.log('停用插件');
         }}
-      />
-      <MoreActionButton
-        icon={<TrashFilledIcon />}
-        title="删除订阅"
-        onClick={() => {
-          // eslint-disable-next-line no-console
-          console.log('停用插件');
-        }}
-      />
+      /> */}
     </>
   );
 }

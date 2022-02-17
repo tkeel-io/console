@@ -1,12 +1,8 @@
 import useMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/useMutation';
 
-interface Permission {
-  permission_action: string;
-  permission_object: string;
-}
-
 interface RequestData {
-  permissions: Permission[];
+  title: string;
+  description: string;
 }
 
 export interface ApiData {
@@ -15,13 +11,15 @@ export interface ApiData {
 
 const method = 'POST';
 
-export default function useSetRolePermissionsMutation({
+export default function useCreateSubscribeMutation({
   onSuccess,
 }: {
   onSuccess?: () => void;
-}) {
+} = {}) {
+  const url = `/core-broker/v1/subscribe`;
+
   return useMutation<ApiData, undefined, RequestData>({
-    // url,
+    url,
     method,
     reactQueryOptions: { onSuccess },
   });
