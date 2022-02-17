@@ -23,6 +23,9 @@ export interface Tenant {
 
 interface AipData {
   '@type': string;
+  page_num: number;
+  page_size: number;
+  total: number;
   tenants: Tenant[];
 }
 
@@ -37,5 +40,6 @@ export default function useTenantsQuery({
     params,
   });
   const tenants = data?.tenants ?? [];
-  return { tenants, data, ...rest };
+  const total = data?.total ?? 0;
+  return { total, tenants, data, ...rest };
 }
