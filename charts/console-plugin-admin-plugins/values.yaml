@@ -1,0 +1,8 @@
+replicaCount: 1
+
+imagePullSecrets: ""
+
+image:
+  repository: tkeelio/console-plugin-admin-plugins
+  tag: 0.0.2
+  pullPolicy: Always
