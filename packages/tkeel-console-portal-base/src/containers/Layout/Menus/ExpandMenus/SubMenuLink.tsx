@@ -23,7 +23,7 @@ function SubMenuLink({ path, name }: Props) {
       paddingLeft="40px"
       color={active ? 'white' : defaultColor}
       borderRadius="4px"
-      backgroundColor={active ? 'primary' : 'inherit'}
+      backgroundColor={active ? 'primary' : 'transparent'}
       _hover={hoverStyle}
       as={as}
       to={to}

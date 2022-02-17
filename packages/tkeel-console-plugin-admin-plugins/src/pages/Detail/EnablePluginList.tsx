@@ -35,7 +35,9 @@ function EnablePluginList({ pluginName }: Props) {
       width: 150,
       disableSortBy: true,
       Cell({ value }) {
-        return value ? formatDateTimeByTimestamp({ timestamp: value }) : '';
+        return value
+          ? formatDateTimeByTimestamp({ timestamp: `${value}000` })
+          : '';
       },
     },
     {
