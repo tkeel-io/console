@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import {
   Box,
-  Button,
   Colors,
   Flex,
   HStack,
@@ -10,9 +9,8 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { css } from '@emotion/react';
-import { MoreAction } from '@tkeel/console-components';
+import { BackButton, MoreAction } from '@tkeel/console-components';
 import {
-  ChevronLeftFilledIcon,
   MessageWarningTwoToneIcon,
   VpcTwoToneIcon,
   WebcamTwoToneIcon,
@@ -82,16 +80,11 @@ function DeviceInfoCard({
             },
           }}
         >
-          <Button
-            variant="outline"
-            size="sm"
-            leftIcon={<ChevronLeftFilledIcon />}
+          <BackButton
             onClick={() => {
               navigate('/');
             }}
-          >
-            返回
-          </Button>
+          />
         </Flex>
         <MoreAction
           buttons={[

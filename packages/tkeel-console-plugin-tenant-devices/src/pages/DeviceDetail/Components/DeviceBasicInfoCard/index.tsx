@@ -11,7 +11,18 @@ type Props = {
 };
 
 function DeviceBasicInfoCard({ basic }: Props) {
-  return <InfoCard data={basic} />;
+  return (
+    <InfoCard
+      data={basic}
+      styles={{
+        wrapper: {
+          bg: 'white',
+          w: '100%',
+          minHeight: '108px',
+        },
+      }}
+    />
+  );
 }
 
 export default DeviceBasicInfoCard;

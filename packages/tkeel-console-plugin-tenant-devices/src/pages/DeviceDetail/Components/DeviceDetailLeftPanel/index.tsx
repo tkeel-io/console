@@ -38,7 +38,7 @@ function DeviceDetailLeftPanel({ id }: { id: string }): JSX.Element {
           color={basicInfo?.directConnection ? '#4257ED' : '#FA7474'}
         >
           <DotLineFilledIcon />
-          <Box as="span" ml="4px">
+          <Box as="span" ml="4px" fontSize="12px">
             {basicInfo?.directConnection ? '直连' : '非直连'}
           </Box>
         </IconWrapper>
@@ -48,7 +48,7 @@ function DeviceDetailLeftPanel({ id }: { id: string }): JSX.Element {
           color={basicInfo?.directConnection ? '#4257ED' : '#FA7474'}
         >
           <BranchTowToneIcon />
-          <Box as="span" ml="4px">
+          <Box as="span" ml="4px" fontSize="12px">
             {basicInfo?.directConnection ? '直连' : '非直连'}
           </Box>
         </IconWrapper>
@@ -91,7 +91,18 @@ function DeviceDetailLeftPanel({ id }: { id: string }): JSX.Element {
         status={status}
       />
       <DeviceBasicInfoCard basic={basic} />
-      <InfoCard data={extInfo} />)
+      <InfoCard
+        data={extInfo}
+        title="扩展信息"
+        styles={{
+          wrapper: {
+            bg: 'white',
+            w: '100%',
+            minHeight: '108px',
+          },
+        }}
+      />
+      )
     </VStack>
   );
 }
