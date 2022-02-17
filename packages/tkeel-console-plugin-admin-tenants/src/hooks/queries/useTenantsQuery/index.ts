@@ -3,6 +3,14 @@ import useQuery from '@/tkeel-console-plugin-admin-tenants/hooks/useQuery';
 const url = '/security/v1/tenants';
 const method = 'GET';
 
+type RequestParams = {
+  page_num?: number;
+  page_size?: number;
+  order_by?: string;
+  is_descending?: boolean;
+  key_words?: string;
+};
+
 export interface Tenant {
   tenant_id: string;
   title: string;
@@ -18,8 +26,16 @@ interface AipData {
   tenants: Tenant[];
 }
 
-export default function useTenantsQuery() {
-  const { data, ...rest } = useQuery<AipData>({ url, method });
+export default function useTenantsQuery({
+  params,
+}: {
+  params?: RequestParams;
+}) {
+  const { data, ...rest } = useQuery<AipData, RequestParams>({
+    url,
+    method,
+    params,
+  });
   const tenants = data?.tenants ?? [];
   return { tenants, data, ...rest };
 }

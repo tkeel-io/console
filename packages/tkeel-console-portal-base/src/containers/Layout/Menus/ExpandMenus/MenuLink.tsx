@@ -5,6 +5,8 @@ import {
 } from 'react-router-dom';
 import { Link } from '@chakra-ui/react';
 
+import { isDarkMenuTheme } from '@/tkeel-console-portal-base/utils';
+
 import MenuItem from './MenuItem';
 
 type Props = {
@@ -36,16 +38,27 @@ export function useMenuLinkProps(to: string): MenuLinkReturnType {
 
 function MenuLink({ path, name, icon }: Props) {
   const { as, to, active } = useMenuLinkProps(path);
+  const isDarkTheme = isDarkMenuTheme();
+  const hoverStyle = active
+    ? {}
+    : {
+        backgroundColor: 'primary',
+        '& > svg': {
+          color: 'blue.800',
+        },
+        color: 'white !important',
+      };
+  const defaultColor = isDarkTheme ? 'gray.400' : 'gray.600';
+
   return (
     <Link
       display="flex"
       alignItems="center"
       height="44px"
-      marginBottom="4px"
       borderRadius="4px"
-      color={active ? 'white' : 'inherit'}
-      backgroundColor={active ? 'primary' : 'inherit'}
-      _hover={{ backgroundColor: active ? 'primary' : 'gray.100' }}
+      color={active ? 'white' : defaultColor}
+      backgroundColor={active ? 'primary' : 'transparent'}
+      _hover={hoverStyle}
       as={as}
       to={to}
     >
