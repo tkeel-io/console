@@ -58,5 +58,6 @@ module.exports = {
     '**/*.svg',
     '**/dist/**',
     './docker/',
+    './charts/',
   ],
 };
