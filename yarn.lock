@@ -3454,6 +3454,7 @@ __metadata:
     "@tkeel/console-constants": "workspace:^"
     "@tkeel/console-types": "workspace:^"
     "@types/lodash": ^4.14.178
+    react-use-websocket: ^3.0.0
   peerDependencies:
     "@tkeel/console-utils": "workspace:^"
     axios: ^0.24.0
@@ -3494,6 +3495,7 @@ __metadata:
     "@types/react-table": ^7.7.9
     axios: ^0.25.0
     framer-motion: ^6.2.3
+    js-base64: ^3.7.2
     markdown: ^0.5.0
     marked: ^4.0.12
     monaco-editor: ^0.31.1
@@ -10351,6 +10353,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"js-base64@npm:^3.7.2":
+  version: 3.7.2
+  resolution: "js-base64@npm:3.7.2"
+  checksum: 573f28e9a27c3df60096d4d3f551bcb4fcb6d49161cf83396e9bad9b76f94736a70bb70b8808fe834dff2a388f76604ba09d6e153bbf181646e407720139fa5b
+  languageName: node
+  linkType: hard
+
 "js-cookie@npm:^2.2.1":
   version: 2.2.1
   resolution: "js-cookie@npm:2.2.1"
@@ -13724,6 +13733,16 @@ __metadata:
     react: "*"
     tslib: "*"
   checksum: 070a7e9e3cdd8b0ec91a2ac9ac0a8df6bcb3fd183d2775bf0f439b9870fc1faf5b4fa9fe9741abd5187f0a35be645cb4004e1c9ebda9ada7e5d0a624f94910cb
+  languageName: node
+  linkType: hard
+
+"react-use-websocket@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "react-use-websocket@npm:3.0.0"
+  peerDependencies:
+    react: ">= 16.8.0"
+    react-dom: ">= 16.8.0"
+  checksum: 71d493aa5c55b1978480d8162e484cde8982bd3b71eca8842fc3c0c4af8687f46e98f8ed1088c74e340107e60292339d76fb4fbff27784277f78a9f86ef764e7
   languageName: node
   linkType: hard
 

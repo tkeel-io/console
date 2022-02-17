@@ -3,6 +3,7 @@ import { Column } from 'react-table';
 import { Flex, Text } from '@chakra-ui/react';
 import { SearchInput, Table } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
+import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import usePluginsTenantsQuery, {
   Tenant,
@@ -16,13 +17,16 @@ function EnablePluginList({ pluginName }: Props) {
   const [keyWords, setKeywords] = useState('');
   const { pageNum, pageSize, setTotalSize, ...rest } = usePagination({});
 
-  const { tenants, data, isLoading } = usePluginsTenantsQuery({
+  const { tenants, data, isLoading, isSuccess } = usePluginsTenantsQuery({
     pluginName,
     pageNum,
     pageSize,
     keyWords,
   });
-  setTotalSize(data?.total ?? 0);
+
+  if (isSuccess) {
+    setTotalSize(data?.total ?? 0);
+  }
 
   const columns: ReadonlyArray<Column<Tenant>> = [
     {
@@ -30,6 +34,9 @@ function EnablePluginList({ pluginName }: Props) {
       accessor: 'enable_timestamp',
       width: 150,
       disableSortBy: true,
+      Cell({ value }) {
+        return value ? formatDateTimeByTimestamp({ timestamp: value }) : '';
+      },
     },
     {
       Header: '租户空间',
@@ -82,6 +89,7 @@ function EnablePluginList({ pluginName }: Props) {
         columns={columns}
         data={tenants}
         isLoading={isLoading}
+        isShowStripe
         defaultPageSize={20}
         scroll={{ y: '100%' }}
         paginationProps={{ pageNum, pageSize, setTotalSize, ...rest }}

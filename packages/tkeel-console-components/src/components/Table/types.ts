@@ -36,6 +36,7 @@ export interface Props<D extends object> extends UseTableOptions<D> {
     y: string;
   };
   isLoading?: boolean;
+  isShowStripe?: boolean;
   empty?: ReactNode;
   style?: StyleProps;
   onSelect?: ({

@@ -14,7 +14,8 @@
   "dependencies": {
     "@tkeel/console-constants": "workspace:^",
     "@tkeel/console-types": "workspace:^",
-    "@types/lodash": "^4.14.178"
+    "@types/lodash": "^4.14.178",
+    "react-use-websocket": "^3.0.0"
   },
   "peerDependencies": {
     "@tkeel/console-utils": "workspace:^",

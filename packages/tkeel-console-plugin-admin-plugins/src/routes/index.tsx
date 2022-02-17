@@ -7,7 +7,7 @@ function Routes() {
   return (
     <ReactRouterRoutes>
       <Route path="/" element={<Index />} />
-      <Route path="/detail/:repo/:name/:version" element={<Detail />} />
+      <Route path="/detail" element={<Detail />} />
     </ReactRouterRoutes>
   );
 }
