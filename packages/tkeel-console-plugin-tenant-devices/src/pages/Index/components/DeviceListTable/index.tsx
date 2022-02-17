@@ -1,24 +1,26 @@
 /* eslint-disable no-console */
-// import { useMemo } from 'react';
+import { useMemo } from 'react';
 import { Cell, Column } from 'react-table';
-import { Flex, Link } from '@chakra-ui/react';
+import { Flex, Link, Text } from '@chakra-ui/react';
 import {
   // PageHeaderToolbar,
   Table,
   // toast,
 } from '@tkeel/console-components';
+import { usePagination } from '@tkeel/console-hooks';
+import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
-// import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
-// import { usePagination } from '@tkeel/console-hooks';
 import useDeviceListQuery, {
   DeviceApiItem,
   DeviceItem,
 } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceListQuery';
 
 function DeviceListTable(): JSX.Element {
+  const pagination = usePagination();
+  const { pageNum, pageSize, setTotalSize } = pagination;
   const params = {
-    page_num: 1,
-    page_size: 1000,
+    page_num: pageNum,
+    page_size: pageSize,
     order_by: 'name',
     is_descending: false,
     query: '',
@@ -35,8 +37,14 @@ function DeviceListTable(): JSX.Element {
       },
     ],
   };
-  const { deviceList } = useDeviceListQuery({ params });
-
+  const { deviceList, isLoading } = useDeviceListQuery({
+    params,
+    onSuccess: (data) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const total = data?.data?.listDeviceObject?.total ?? 0;
+      setTotalSize(total as number);
+    },
+  });
   const deviceTableData = deviceList.map((item: DeviceApiItem) => {
     const { id, properties } = item;
     const { basicInfo, sysField } = properties;
@@ -53,27 +61,24 @@ function DeviceListTable(): JSX.Element {
       originData: item,
     };
   });
-  console.log(deviceTableData.map((v) => v.selfLearn));
   const columns: ReadonlyArray<Column<DeviceItem>> = [
     {
       Header: '设备名称',
-      // eslint-disable-next-line react/no-unstable-nested-components
-      Cell({ row }: Cell<DeviceItem>) {
-        // useMemo(() => {
-        const { original } = row;
-        const { id } = original;
-        return (
-          <Link
-            href={`/tenant-devices/detail?id=${id}`}
-            color="gray.600"
-            fontWeight="600"
-            _hover={{ color: 'primary' }}
-          >
-            {original.name}
-          </Link>
-        );
-        // }, [value]);
-      },
+      Cell: ({ row }: Cell<DeviceItem>) =>
+        useMemo(() => {
+          const { original } = row;
+          const { id } = original;
+          return (
+            <Link
+              href={`/tenant-devices/detail?id=${id}`}
+              color="gray.600"
+              fontWeight="600"
+              _hover={{ color: 'primary' }}
+            >
+              {original.name}
+            </Link>
+          );
+        }, [row]),
     },
     {
       Header: '连接方式',
@@ -85,6 +90,9 @@ function DeviceListTable(): JSX.Element {
     {
       Header: '设备模版',
       accessor: 'templateId',
+      Cell({ value }: { value: string }) {
+        return value.slice(-9, -1);
+      },
     },
     {
       Header: '设备状态',
@@ -96,18 +104,29 @@ function DeviceListTable(): JSX.Element {
     {
       Header: '创建时间',
       accessor: 'createTime',
-      // Cell({ value }: { value: number }) {
-      //   return value ? formatDateTimeByTimestamp({ timestamp: value }) : '';
-      // },
+      Cell: ({ value }: { value: number }) =>
+        useMemo(
+          () => (
+            <Text minWidth="180px" fontSize="12px" color="gray.600">
+              {value
+                ? // eslint-disable-next-line unicorn/numeric-separators-style
+                  formatDateTimeByTimestamp({ timestamp: value * 0.000001 })
+                : ''}
+            </Text>
+          ),
+          [value]
+        ),
     },
   ];
   return (
-    <Flex flexDirection="column" height="100%">
+    <Flex flexDirection="column" flex="1">
       <Table
-        style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
         columns={columns}
         data={deviceTableData}
         scroll={{ y: '100%' }}
+        paginationProps={pagination}
+        isLoading={isLoading as boolean}
+        style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
       />
     </Flex>
   );

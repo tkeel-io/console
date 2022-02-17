@@ -1,3 +1,5 @@
+import { RequestResult } from '@tkeel/console-utils';
+
 import useQuery from '@/tkeel-console-plugin-tenant-devices/hooks/useQuery';
 
 const url = '/tkeel-device/v1/search';
@@ -52,13 +54,18 @@ interface ApiData {
 
 export default function useDeviceListQuery({
   params,
+  onSuccess,
 }: {
   params?: RequestParams;
+  onSuccess?: (
+    data: RequestResult<ApiData, undefined, RequestParams>
+  ) => unknown;
 }): { deviceList: DeviceApiItem[]; [propName: string]: unknown } {
   const { data, ...rest } = useQuery<ApiData, undefined, RequestParams>({
     url,
     method,
     data: params,
+    reactQueryOptions: { onSuccess },
   });
   const deviceList = data?.listDeviceObject?.items ?? [];
   return { deviceList, data, ...rest };

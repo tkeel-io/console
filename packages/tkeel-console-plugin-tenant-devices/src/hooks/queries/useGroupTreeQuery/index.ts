@@ -37,7 +37,7 @@ interface ApiData {
 }
 const defaultRequestParams = {
   page_num: 1,
-  page_size: 0,
+  page_size: 9_999_999_999_999,
   order_by: 'name',
   is_descending: false,
   query: '',

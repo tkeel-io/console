@@ -36,7 +36,7 @@ function Index(): JSX.Element {
       </Flex>
       <Flex flex="1">
         <DeviceGroupNav />
-        <Box flex="1" bg="white" p="12px 20px">
+        <Flex flex="1" bg="white" p="12px 20px" flexDirection="column">
           <Box
             color="grayAlternatives.300"
             h="24px"
@@ -48,7 +48,7 @@ function Index(): JSX.Element {
           </Box>
           <GroupBasicInfo groupInfo={groupInfo} />
           <DeviceListTable />
-        </Box>
+        </Flex>
       </Flex>
     </Flex>
   );
