@@ -31,6 +31,7 @@ function Table<D extends object>({
   paginationProps,
   scroll,
   isLoading,
+  isShowStripe = false,
   empty = <Empty styles={{ wrapper: { height: '100%' } }} />,
   onSelect,
   onSort,
@@ -115,12 +116,14 @@ function Table<D extends object>({
             headerGroups={headerGroups}
             fixHead={Boolean(scroll?.y)}
             canSort={Boolean(onSort)}
+            isShowStripe={isShowStripe}
           />
           <Body
             page={rows}
             getTableBodyProps={getTableBodyProps}
             prepareRow={prepareRow}
             scroll={scroll}
+            isShowStripe
           />
         </ChakraTable>
         {hasPagination && <Pagination {...paginationProps} />}

@@ -1,16 +1,23 @@
-import { MouseEventHandler, ReactNode, useEffect, useState } from 'react';
+import {
+  cloneElement,
+  MouseEventHandler,
+  ReactElement,
+  useEffect,
+  useState,
+} from 'react';
 import { Box, Circle, Colors, useTheme } from '@chakra-ui/react';
 import { MoreVerticalFilledIcon } from '@tkeel/console-icons';
 
 type Props = {
-  buttons: ReactNode[];
+  buttons: ReactElement[];
+  buttonProps?: object;
 };
 
 interface CustomColor extends Colors {
   primary: string;
 }
 
-function MoreAction({ buttons }: Props) {
+function MoreAction({ buttons, buttonProps = {} }: Props) {
   const [showActionList, setShowActionList] = useState(false);
   const { colors }: { colors: CustomColor } = useTheme();
   let timer: number | null = null;
@@ -49,6 +56,12 @@ function MoreAction({ buttons }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const menus = buttons.map((button) => {
+    return cloneElement(button, {
+      ...buttonProps,
+    });
+  });
+
   return (
     <Box
       position="relative"
@@ -71,23 +84,23 @@ function MoreAction({ buttons }: Props) {
         />
       </Circle>
 
-      {showActionList && (
-        <Box
-          position="absolute"
-          right="0"
-          top="38px"
-          padding="8px"
-          borderWidth="1px"
-          borderStyle="solid"
-          borderColor="gray.300"
-          width="144px"
-          backgroundColor="white"
-          borderRadius="4px"
-          onMouseEnter={handleActionListMouseEnter}
-        >
-          {buttons}
-        </Box>
-      )}
+      <Box
+        display={showActionList ? 'block' : 'none'}
+        position="absolute"
+        right="0"
+        top="38px"
+        padding="8px"
+        borderWidth="1px"
+        borderStyle="solid"
+        borderColor="gray.300"
+        width="144px"
+        backgroundColor="white"
+        borderRadius="4px"
+        zIndex="9"
+        onMouseEnter={handleActionListMouseEnter}
+      >
+        {menus}
+      </Box>
     </Box>
   );
 }

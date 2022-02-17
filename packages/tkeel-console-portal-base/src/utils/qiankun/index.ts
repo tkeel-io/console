@@ -78,4 +78,4 @@ function init({
   start();
 }
 
-export { getTotalMenus, init, menusToApps, register };
+export { init, menusToApps };

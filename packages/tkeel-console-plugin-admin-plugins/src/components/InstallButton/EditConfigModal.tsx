@@ -1,10 +1,10 @@
 import { MouseEventHandler } from 'react';
 import { Button, Text } from '@chakra-ui/react';
 import { Editor, Modal } from '@tkeel/console-components';
+import { Base64 } from 'js-base64';
 
 import useInstallPluginMutation from '@/tkeel-console-plugin-admin-plugins/hooks/mutations/useInstallPluginMutation';
 import usePluginDetailQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/usePluginDetailQuery';
-import { b64ToUTF8 } from '@/tkeel-console-plugin-admin-plugins/utils';
 
 export interface InstallPluginInfo {
   name: string;
@@ -79,7 +79,7 @@ function EditConfigModal({
         width="100%"
         height="416px"
         language="yaml"
-        value={b64ToUTF8(pluginDetail?.metadata?.configuration ?? '')}
+        value={Base64.decode(pluginDetail?.metadata?.configuration ?? '')}
         readOnly
       />
     </Modal>

@@ -1,52 +1,92 @@
-import { Column } from 'react-table';
-import { Box, Button, Flex, useDisclosure } from '@chakra-ui/react';
+import { useMemo, useState } from 'react';
+import { Cell, Column } from 'react-table';
+import { Box, Button, Flex } from '@chakra-ui/react';
 import { useGlobalProps } from '@tkeel/console-business-components';
 import {
+  ButtonsHStack,
   Empty,
   PageHeader,
   SearchInput,
   Table,
 } from '@tkeel/console-components';
-import { AddFilledIcon, HumanVipFilledIcon } from '@tkeel/console-icons';
+import { usePagination } from '@tkeel/console-hooks';
+import { HumanVipFilledIcon } from '@tkeel/console-icons';
 
-import EditSpaceModal from '@/tkeel-console-plugin-admin-tenants/components/EditSpaceModal';
+import ModifyTenantButton from '@/tkeel-console-plugin-admin-tenants/components/ModifyTenantButton';
 import useTenantsQuery, {
   Tenant,
 } from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useTenantsQuery';
-
-const handleSearch = (keyword: string) => {
-  // eslint-disable-next-line no-console
-  console.log('keyword', keyword);
-};
+// import useWebSocketDemo from '@/tkeel-console-plugin-admin-tenants/hooks/webSockets/useWebSocketDemo';
+import CreateTenantButton from '@/tkeel-console-plugin-admin-tenants/pages/Index/components/CreateTenantButton';
 
 export default function Index() {
   const { navigate } = useGlobalProps();
-  const { isLoading, tenants } = useTenantsQuery();
+  const [keyWords, setKeyWords] = useState('');
+  const pagination = usePagination();
+  const { pageNum, pageSize, setPageNum, setTotalSize } = pagination;
+
+  // TODO: tmp
+  setTotalSize(10);
+
+  let params = {
+    page_num: pageNum,
+    page_size: pageSize,
+    order_by: 'created_at',
+    is_descending: true,
+    key_words: '',
+  };
+  if (keyWords) {
+    params = { ...params, key_words: keyWords };
+  }
+
+  const { isLoading, tenants } = useTenantsQuery({ params });
 
   const LinkToSpaceDetail = () => {
     navigate('/admin-tenants/detail/12029389');
   };
+
   const columns: ReadonlyArray<Column<Tenant>> = [
     {
       Header: '租户空间',
       accessor: 'title',
-      // eslint-disable-next-line react/no-unstable-nested-components
-      Cell: () => {
-        return (
-          <Button size="small" variant="link" onClick={LinkToSpaceDetail}>
-            IDC项目
-          </Button>
-        );
-      },
+      Cell: ({ value }: { value: string }) =>
+        useMemo(
+          () => (
+            <Button size="small" variant="link" onClick={LinkToSpaceDetail}>
+              {value}
+            </Button>
+          ),
+          [value]
+        ),
     },
     { Header: '租户 ID', accessor: 'tenant_id' },
     { Header: '管理员账号' },
     { Header: '创建时间', accessor: 'created_at' },
     { Header: '备注', accessor: 'remark' },
     { Header: '用户数', accessor: 'num_user' },
-  ];
+    {
+      Header: '操作',
+      Cell: ({ row }: Cell<Tenant>) =>
+        useMemo(() => {
+          const { original } = row;
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
+          return (
+            <ButtonsHStack>
+              <ModifyTenantButton
+                variant="link"
+                data={original}
+                onSuccess={() => {}}
+              />
+              {/* <ResetPasswordButton data={original} /> */}
+              {/* <DeleteUserButton
+                data={original}
+                onSuccess={handleDeleteUserSuccess}
+              /> */}
+            </ButtonsHStack>
+          );
+        }, [row]),
+    },
+  ];
 
   return (
     <Flex flexDirection="column" height="100%">
@@ -57,35 +97,29 @@ export default function Index() {
       />
       <Flex
         flexDirection="column"
-        // display="flex"
         flex="1"
-        bg="white"
+        marginTop="16px"
+        backgroundColor="white"
         boxShadow="xl"
         overflow="hidden"
-        // pos="relative"
-        mt="16px"
       >
         <Flex align="center" h="40px" m="16px 24px">
           <Box flex="1" mr="16px">
             <SearchInput
               width="100%"
               placeholder="搜索租户空间、ID、管理员账号、备注"
-              onSearch={handleSearch}
+              onSearch={(value) => {
+                setPageNum(1);
+                setKeyWords(value.trim());
+              }}
             />
           </Box>
-          <Button
-            leftIcon={<AddFilledIcon color="white" />}
-            size="sm"
-            w="140px"
-            onClick={onOpen}
-          >
-            创建租户空间
-          </Button>
-          <EditSpaceModal isOpen={isOpen} onClose={onClose} />
+          <CreateTenantButton />
         </Flex>
         <Table
           columns={columns}
           data={tenants}
+          paginationProps={pagination}
           scroll={{ y: 'scroll' }}
           isLoading={isLoading}
           empty={
