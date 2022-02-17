@@ -32,7 +32,7 @@ function EnablePluginList({ pluginName }: Props) {
     {
       Header: '启用时间',
       accessor: 'enable_timestamp',
-      width: 150,
+      width: 200,
       disableSortBy: true,
       Cell({ value }) {
         return value
@@ -43,6 +43,7 @@ function EnablePluginList({ pluginName }: Props) {
     {
       Header: '租户空间',
       accessor: 'title',
+      width: 100,
     },
     {
       Header: '租户ID',

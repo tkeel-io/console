@@ -53,9 +53,18 @@ function Menus() {
     },
   };
 
+  const collapseHoverStyle = isDarkTheme
+    ? {
+        ...iconHoverStyle,
+        '& > p': {
+          color: whiteColor,
+        },
+      }
+    : {};
+
   return (
     <Box
-      paddingBottom="60px"
+      paddingBottom="90px"
       height="100%"
       backgroundColor={isDarkTheme ? 'grayAlternatives.800' : 'gray.50'}
     >
@@ -69,7 +78,7 @@ function Menus() {
         alignItems="flex-start"
         position="absolute"
         left={collapsed ? '22px' : '32px'}
-        bottom="24px"
+        bottom="20px"
         cursor="pointer"
       >
         {isDarkTheme ? (
@@ -90,12 +99,7 @@ function Menus() {
           <Flex
             alignItems="center"
             onClick={() => setCollapsed(true)}
-            _hover={{
-              ...iconHoverStyle,
-              '& > p': {
-                color: whiteColor,
-              },
-            }}
+            _hover={collapseHoverStyle}
           >
             <CollapseFilledIcon color={iconColor} />
             <Text
