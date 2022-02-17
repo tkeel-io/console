@@ -13,27 +13,53 @@ type RequestParams = {
 };
 
 export interface DeviceItem {
+  id: string;
   name: string;
   directConnection: boolean;
-  templateId: string;
-  status?: object;
+  templateId?: string;
+  createTime: number;
+  status: boolean;
+  selfLearn?: boolean;
+  [propName: string]: unknown;
+}
+
+export interface DeviceApiItem {
+  id: string;
+  properties: {
+    basicInfo: {
+      name: string;
+      directConnection: boolean;
+      templateId?: string;
+      selfLearn: boolean;
+      [propName: string]: any;
+    };
+    sysField: {
+      _status: boolean;
+      _createdAt: number;
+      [propName: string]: any;
+    };
+  };
+  [propName: string]: any;
 }
 
 interface ApiData {
   '@type': string;
-  listDeviceObject: object;
+  listDeviceObject: {
+    items?: DeviceApiItem[];
+    [propName: string]: any;
+  };
 }
 
 export default function useDeviceListQuery({
   params,
 }: {
   params?: RequestParams;
-}) {
+}): { deviceList: DeviceApiItem[]; [propName: string]: unknown } {
   const { data, ...rest } = useQuery<ApiData, undefined, RequestParams>({
     url,
     method,
     data: params,
   });
-  const listDeviceObject = data?.listDeviceObject ?? [];
-  return { listDeviceObject, data, ...rest };
+  const deviceList = data?.listDeviceObject?.items ?? [];
+  return { deviceList, data, ...rest };
 }

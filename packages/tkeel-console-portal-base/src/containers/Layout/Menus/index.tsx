@@ -8,14 +8,17 @@ import ExpandMenus from './ExpandMenus';
 const handleSearch = () => {};
 
 function Menus() {
+  const { themeName } = GLOBAL_CONFIG.client;
   const [collapsed, setCollapsed] = useState(false);
-  const [menuTheme] = useState<'light' | 'dark'>('light');
+  const defaultMenuTheme = themeName === '' ? 'dark' : 'light';
+  const [menuTheme] = useState(defaultMenuTheme);
   const isDarkTheme = menuTheme === 'dark';
 
   const iconColor = isDarkTheme ? 'white' : 'grayAlternatives.300';
 
   return (
     <Box
+      paddingBottom="60px"
       height="100%"
       backgroundColor={isDarkTheme ? 'grayAlternatives.800' : 'gray.50'}
     >

@@ -1,10 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { Box, Center, Flex, Text } from '@chakra-ui/react';
-import { BackButton, MoreAction } from '@tkeel/console-components';
+import { BackButton, InfoCard, MoreAction } from '@tkeel/console-components';
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
-
-import InfoCard from './InfoCard';
 
 import {
   InstallButton,
@@ -100,7 +98,7 @@ function BasicInfo({ data, refetchDetails }: Props) {
           </Box>
         </Flex>
       </Box>
-      <InfoCard data={basicInfo} />
+      <InfoCard data={basicInfo} styles={{ wrapper: { boxShadow: 'none' } }} />
     </Box>
   );
 }

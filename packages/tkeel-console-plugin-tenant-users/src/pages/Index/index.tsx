@@ -62,14 +62,15 @@ export default function Index() {
     {
       Header: '用户账号',
       accessor: 'username',
-      // eslint-disable-next-line react/no-unstable-nested-components
-      Cell({ value }: { value: string }) {
-        return (
-          <Text color="gray.800" fontWeight="600">
-            {value}
-          </Text>
-        );
-      },
+      Cell: ({ value }: { value: string }) =>
+        useMemo(
+          () => (
+            <Text color="gray.800" fontWeight="600">
+              {value}
+            </Text>
+          ),
+          [value]
+        ),
     },
     {
       Header: '用户名称',

@@ -12,7 +12,7 @@ interface Props {
 function renderInfoItem(item: { key: string; value: string }) {
   const { key, value } = item;
   return (
-    <HStack fontSize="12px" lineHeight="24px" fontWeight="500">
+    <HStack fontSize="12px" lineHeight="24px" fontWeight="500" minWidth="160px">
       <Text color="grayAlternatives.300">{key}:</Text>
       <Text color="gray.600">{value}</Text>
     </HStack>
@@ -38,7 +38,7 @@ function GroupBasicInfo({ groupInfo }: Props): JSX.Element {
       borderWidth="1px"
       mb="12px"
     >
-      <Flex flex="1" justify="space-around">
+      <Flex flex="1" justify="space-around" flexWrap="wrap">
         {[...groupInfoArray].map((item) => renderInfoItem(item))}
       </Flex>
       <Button variant="link" colorScheme="primary" fontSize="12px">

@@ -80,7 +80,9 @@ function PluginList({
                   key={`${repo}${name}${version}`}
                   briefPluginInfo={briefPluginInfo}
                   onClick={() => {
-                    navigate(`/detail/${repo}/${name}/${version}`);
+                    navigate(
+                      `/detail?repo=${repo}&name=${name}&version=${version}`
+                    );
                   }}
                   operatorButton={
                     installed ? (

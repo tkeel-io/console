@@ -10,8 +10,16 @@ type Props = {
 };
 
 function MenuItem({ active, name, leftIcon, rightIcon = null }: Props) {
+  const icon = leftIcon || 'AppsAddFilledIcon';
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const Icon = icons[leftIcon || 'AppsAddFilledIcon'];
+  const Icon = icons[icon];
+  const isTwoTone = icon.includes('TwoTone');
+  const activeColor = isTwoTone ? 'gray.300' : 'white';
+  const iconProps = isTwoTone
+    ? {
+        twoToneColor: active ? 'white' : 'gray.300',
+      }
+    : {};
 
   return (
     <Flex
@@ -26,8 +34,9 @@ function MenuItem({ active, name, leftIcon, rightIcon = null }: Props) {
       <Flex alignItems="center">
         {Icon && (
           <Icon
-            color={active ? 'primary' : 'gray.300'}
+            color={active ? activeColor : 'gray.700'}
             style={{ marginRight: '10px' }}
+            {...iconProps}
           />
         )}
         {name}

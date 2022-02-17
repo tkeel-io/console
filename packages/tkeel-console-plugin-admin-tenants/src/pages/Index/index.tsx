@@ -1,5 +1,6 @@
+import { useMemo } from 'react';
 import { Column } from 'react-table';
-import { Box, Button, Flex, useDisclosure } from '@chakra-ui/react';
+import { Box, Button, Flex } from '@chakra-ui/react';
 import { useGlobalProps } from '@tkeel/console-business-components';
 import {
   Empty,
@@ -7,12 +8,14 @@ import {
   SearchInput,
   Table,
 } from '@tkeel/console-components';
-import { AddFilledIcon, HumanVipFilledIcon } from '@tkeel/console-icons';
+import { HumanVipFilledIcon } from '@tkeel/console-icons';
 
-import EditSpaceModal from '@/tkeel-console-plugin-admin-tenants/components/EditSpaceModal';
 import useTenantsQuery, {
   Tenant,
 } from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useTenantsQuery';
+import CreateTenantButton from '@/tkeel-console-plugin-admin-tenants/pages/Index/components/CreateTenantButton';
+
+// import useWebSocketDemo from '@/tkeel-console-plugin-admin-tenants/hooks/webSockets/useWebSocketDemo';
 
 const handleSearch = (keyword: string) => {
   // eslint-disable-next-line no-console
@@ -26,18 +29,20 @@ export default function Index() {
   const LinkToSpaceDetail = () => {
     navigate('/admin-tenants/detail/12029389');
   };
+
   const columns: ReadonlyArray<Column<Tenant>> = [
     {
       Header: '租户空间',
       accessor: 'title',
-      // eslint-disable-next-line react/no-unstable-nested-components
-      Cell: () => {
-        return (
-          <Button size="small" variant="link" onClick={LinkToSpaceDetail}>
-            IDC项目
-          </Button>
-        );
-      },
+      Cell: ({ value }: { value: string }) =>
+        useMemo(
+          () => (
+            <Button size="small" variant="link" onClick={LinkToSpaceDetail}>
+              {value}
+            </Button>
+          ),
+          [value]
+        ),
     },
     { Header: '租户 ID', accessor: 'tenant_id' },
     { Header: '管理员账号' },
@@ -45,8 +50,6 @@ export default function Index() {
     { Header: '备注', accessor: 'remark' },
     { Header: '用户数', accessor: 'num_user' },
   ];
-
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <Flex flexDirection="column" height="100%">
@@ -57,13 +60,11 @@ export default function Index() {
       />
       <Flex
         flexDirection="column"
-        // display="flex"
         flex="1"
-        bg="white"
+        marginTop="16px"
+        backgroundColor="white"
         boxShadow="xl"
         overflow="hidden"
-        // pos="relative"
-        mt="16px"
       >
         <Flex align="center" h="40px" m="16px 24px">
           <Box flex="1" mr="16px">
@@ -73,15 +74,7 @@ export default function Index() {
               onSearch={handleSearch}
             />
           </Box>
-          <Button
-            leftIcon={<AddFilledIcon color="white" />}
-            size="sm"
-            w="140px"
-            onClick={onOpen}
-          >
-            创建租户空间
-          </Button>
-          <EditSpaceModal isOpen={isOpen} onClose={onClose} />
+          <CreateTenantButton />
         </Flex>
         <Table
           columns={columns}
