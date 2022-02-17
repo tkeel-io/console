@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import {
   Button,
-  Modal,
+  Modal as ChakraModal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
@@ -39,7 +39,7 @@ const modalFooterProps = {
   backgroundColor: 'gray.50',
 };
 
-function CustomModal({
+function Modal({
   isOpen,
   width = '600px',
   title,
@@ -84,7 +84,7 @@ function CustomModal({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
+    <ChakraModal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
       <ModalOverlay />
       <ModalContent
         width={width}
@@ -127,8 +127,8 @@ function CustomModal({
         </ModalBody>
         {renderFooter()}
       </ModalContent>
-    </Modal>
+    </ChakraModal>
   );
 }
 
-export default CustomModal;
+export default Modal;

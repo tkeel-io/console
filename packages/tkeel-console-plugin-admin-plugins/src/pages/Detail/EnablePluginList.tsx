@@ -17,13 +17,16 @@ function EnablePluginList({ pluginName }: Props) {
   const [keyWords, setKeywords] = useState('');
   const { pageNum, pageSize, setTotalSize, ...rest } = usePagination({});
 
-  const { tenants, data, isLoading } = usePluginsTenantsQuery({
+  const { tenants, data, isLoading, isSuccess } = usePluginsTenantsQuery({
     pluginName,
     pageNum,
     pageSize,
     keyWords,
   });
-  setTotalSize(data?.total ?? 0);
+
+  if (isSuccess) {
+    setTotalSize(data?.total ?? 0);
+  }
 
   const columns: ReadonlyArray<Column<Tenant>> = [
     {
