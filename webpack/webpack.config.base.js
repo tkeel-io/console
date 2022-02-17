@@ -19,6 +19,7 @@ const {
   isEnvProduction,
 } = require('../scripts/utils/env');
 const paths = require('../scripts/utils/paths');
+const { staticDirectory } = require('./utils');
 
 const publicPath = config.get('publicPath');
 const documentTitle = config.get('client.documentTitle');
@@ -105,7 +106,7 @@ module.exports = {
         test: /\.(png|jpg|jpeg|gif)$/i,
         type: 'asset',
         generator: {
-          filename: `static/images/[name].${
+          filename: `${staticDirectory}images/[name].${
             isEnvProduction ? contenthash : ''
           }[ext][query]`,
         },
@@ -138,7 +139,7 @@ module.exports = {
           {
             type: 'asset',
             generator: {
-              filename: `static/images/[name].${
+              filename: `${staticDirectory}images/[name].${
                 isEnvProduction ? contenthash : ''
               }[ext][query]`,
             },
@@ -150,7 +151,7 @@ module.exports = {
         type: 'asset/resource',
         include: /\/fonts\//,
         generator: {
-          filename: `static/fonts/[name].${
+          filename: `${staticDirectory}fonts/[name].${
             isEnvProduction ? contenthash : ''
           }[ext][query]`,
         },

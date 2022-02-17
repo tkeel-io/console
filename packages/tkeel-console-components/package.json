@@ -18,7 +18,7 @@
     "@types/lodash": "^4.14.178",
     "lodash": "^4.17.21",
     "rc-pagination": "^3.1.15",
-    "react-hook-form": "^7.25.1",
+    "react-hook-form": "^7.27.0",
     "react-table": "^7.7.0",
     "react-use": "^17.3.2"
   },
@@ -26,7 +26,7 @@
     "@types/react-table": "^7.7.9"
   },
   "peerDependencies": {
-    "@chakra-ui/react": "^1.7.2",
+    "@chakra-ui/react": "^1.8.3",
     "@emotion/react": "^11.7.0",
     "@emotion/styled": "^11.6.0",
     "framer-motion": "^5.3.3",

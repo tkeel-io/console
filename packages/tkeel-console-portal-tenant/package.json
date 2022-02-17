@@ -12,8 +12,8 @@
   "license": "Apache-2.0",
   "scripts": {
     "analyze": "cross-env NODE_ENV=development ANALYZE=true yarn build",
-    "build": "cross-env NODE_ENV=production webpack --config ../../webpack/webpack.config",
-    "dev": "cross-env NODE_ENV=development webpack serve --config ../../webpack/webpack.config"
+    "build": "cross-env NODE_ENV=production PORTAL_NAME=tenant webpack --config ../../webpack/webpack.config",
+    "dev": "cross-env NODE_ENV=development PORTAL_NAME=tenant webpack serve --config ../../webpack/webpack.config"
   },
   "dependencies": {
     "@tkeel/console-portal-base": "workspace:^",
