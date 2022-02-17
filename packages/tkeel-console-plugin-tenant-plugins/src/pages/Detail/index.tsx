@@ -1,13 +1,11 @@
-import { Box, Circle, Flex, Text } from '@chakra-ui/react';
-import { RectangleButton } from '@tkeel/console-components';
-import {
-  BoxTwoToneIcon,
-  CaretRightFilledIcon,
-  PauseFilledIcon,
-} from '@tkeel/console-icons';
+import { Box, Circle, Flex, Image, Text } from '@chakra-ui/react';
+import { InfoCard } from '@tkeel/console-components';
+import { BoxTwoToneIcon } from '@tkeel/console-icons';
+import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
-import InfoCard from './InfoCard';
+import DisableButton from './DisableButton';
 
+import EnableButton from '@/tkeel-console-plugin-tenant-plugins/components/EnableButton';
 import usePluginDetailQuery from '@/tkeel-console-plugin-tenant-plugins/hooks/queries/usePluginDetailQuery';
 
 type Props = {
@@ -15,25 +13,24 @@ type Props = {
 };
 
 function Detail({ pluginName }: Props) {
-  const { plugin } = usePluginDetailQuery({ pluginName });
-  // eslint-disable-next-line no-console
-  console.log('Detail ~ plugin', plugin);
+  const { plugin, refetch } = usePluginDetailQuery({ pluginName });
+  const installerBrief = plugin?.installer_brief;
   const basicInfo = [
     {
-      label: 'Repo',
-      value: 'repo',
+      label: '插件源',
+      value: installerBrief?.repo ?? '',
     },
     {
-      label: 'Tag',
-      value: 'tag',
+      label: '安装时间',
+      value: plugin?.register_timestamp
+        ? formatDateTimeByTimestamp({
+            timestamp: `${plugin.register_timestamp}000`,
+          })
+        : '',
     },
     {
-      label: 'Ver',
-      value: 'ver',
-    },
-    {
-      label: '更新时间',
-      value: '',
+      label: '版本',
+      value: installerBrief?.version ?? '',
     },
   ];
 
@@ -48,6 +45,21 @@ function Detail({ pluginName }: Props) {
     },
   ];
 
+  const name = installerBrief?.name ?? '';
+  const icon = installerBrief?.icon ?? '';
+  const desc = installerBrief?.desc ?? '';
+
+  const infoCardStyles = {
+    wrapper: { marginBottom: '24px', padding: '0', boxShadow: 'none' },
+    content: {
+      marginTop: '12px',
+      padding: '8px 24px 16px',
+      backgroundColor: 'gray.50',
+    },
+    label: {
+      color: 'grayAlternatives.300',
+    },
+  };
   return (
     <Box>
       <Flex
@@ -57,8 +69,11 @@ function Detail({ pluginName }: Props) {
         borderBottomColor="grayAlternatives.50"
       >
         <Circle size="76px" backgroundColor="gray.50">
-          {/* <Image width="28px" height="28px" src={icon} /> */}
-          <BoxTwoToneIcon size={32} />
+          {icon ? (
+            <Image width="28px" height="28px" src={icon} />
+          ) : (
+            <BoxTwoToneIcon size={32} />
+          )}
         </Circle>
         <Box marginLeft="20px">
           <Text
@@ -67,30 +82,43 @@ function Detail({ pluginName }: Props) {
             fontWeight="500"
             lineHeight="22px"
           >
-            数据路由
+            {name}
           </Text>
           <Text
             margin="4px 0"
+            height="24px"
             color="grayAlternatives.300"
             fontSize="12px"
             lineHeight="24px"
+            isTruncated
+            title={desc}
           >
-            描述
+            {desc}
           </Text>
-          <RectangleButton leftIcon={<CaretRightFilledIcon color="white" />}>
-            启用
-          </RectangleButton>
-          <RectangleButton
-            leftIcon={<PauseFilledIcon color="white" />}
-            backgroundColor="gray.800"
-          >
-            停用
-          </RectangleButton>
+          {plugin?.tenant_enable ? (
+            <DisableButton
+              pluginName={name}
+              refetchData={() => {
+                refetch();
+              }}
+            />
+          ) : (
+            <EnableButton
+              pluginName={name}
+              refetchData={() => {
+                refetch();
+              }}
+            />
+          )}
         </Box>
       </Flex>
       <Box padding="24px 24px">
-        <InfoCard data={basicInfo} />
-        <InfoCard data={developerInfo} marginTop="24px" />
+        <InfoCard data={basicInfo} styles={infoCardStyles} />
+        <InfoCard
+          title="开发者信息"
+          data={developerInfo}
+          styles={infoCardStyles}
+        />
       </Box>
     </Box>
   );

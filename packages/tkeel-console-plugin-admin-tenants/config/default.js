@@ -7,7 +7,10 @@ module.exports = {
     documentTitle: '',
   },
   api: {
-    pathname: '/apis',
+    basePath: '/apis',
+  },
+  webSocket: {
+    basePath: '/v1/ws',
   },
   plugin: {
     identify: {
@@ -16,7 +19,7 @@ module.exports = {
         {
           id: 'console-plugin-admin-tenants',
           name: '租户管理',
-          icon: 'HumanGearTwoToneIcon',
+          icon: 'PersonGroupTwoToneIcon',
           path: '/admin-tenants',
           entry: '/static/console-plugin-admin-tenants/',
         },

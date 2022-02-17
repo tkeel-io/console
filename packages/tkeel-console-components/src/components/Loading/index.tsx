@@ -6,7 +6,7 @@ interface Props extends SpinnerProps {
   };
 }
 
-export default function Empty({ styles, ...rest }: Props) {
+export default function Loading({ styles, ...rest }: Props) {
   return (
     <Box
       display="flex"

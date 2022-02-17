@@ -6,6 +6,8 @@ import {
 } from '@tkeel/console-icons';
 import { Menu } from '@tkeel/console-types';
 
+import { isDarkMenuTheme } from '@/tkeel-console-portal-base/utils';
+
 import MenuItem from './MenuItem';
 
 type Props = Menu & {
@@ -26,10 +28,12 @@ function ParentMenu({
     return item.path && location.pathname.includes(item.path);
   });
 
+  const defaultColor = isDarkMenuTheme() ? 'gray.400' : 'gray.600';
+
   return (
     <Box
       paddingRight="18px"
-      color={active ? 'primary' : 'inherit'}
+      color={active ? 'white' : defaultColor}
       borderRadius="4px"
       onClick={() => handleMenuClick(id)}
     >

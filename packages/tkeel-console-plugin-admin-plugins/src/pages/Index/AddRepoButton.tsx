@@ -55,6 +55,7 @@ function AddRepoButton() {
         创建插件源
       </CreateButton>
       <Modal
+        modalBodyStyle={{ padding: '20px 40px 60px' }}
         title={
           <Text color="gray.800" fontSize="14px">
             设置配置

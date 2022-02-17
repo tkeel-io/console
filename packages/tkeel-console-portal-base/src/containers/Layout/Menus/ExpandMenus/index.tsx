@@ -30,7 +30,12 @@ function Menus({ handleSearch, isDarkTheme }: Props) {
   };
 
   return (
-    <Box position="relative" width="240px" height="100%">
+    <Flex
+      flexDirection="column"
+      position="relative"
+      width="240px"
+      height="100%"
+    >
       <Flex alignItems="center" height="96px" paddingLeft="40px">
         <Image htmlWidth="47px" src={Logo} alt="" />
         <Image
@@ -54,13 +59,13 @@ function Menus({ handleSearch, isDarkTheme }: Props) {
         placeholder="搜索"
         onSearch={handleSearch}
       />
-      <Box padding="20px">
+      <Box flex="1" overflow="auto" padding="20px">
         {menus.map((menu) => {
           const { id, name, icon, path, children } = menu;
           const hasChildren = children && children[0];
           const spread = spreadMenuIds.includes(id);
           return (
-            <Box key={id}>
+            <Box key={id} marginBottom="4px">
               <Box key={id}>
                 {hasChildren ? (
                   <SubMenuTitle
@@ -98,7 +103,7 @@ function Menus({ handleSearch, isDarkTheme }: Props) {
           );
         })}
       </Box>
-    </Box>
+    </Flex>
   );
 }
 

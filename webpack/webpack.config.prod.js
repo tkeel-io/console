@@ -6,14 +6,15 @@ const TerserPlugin = require('terser-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { merge } = require('webpack-merge');
 
+const { staticDirectory } = require('./utils');
 const baseConfig = require('./webpack.config.base');
 
 const generateSourcemap = config?.builder?.generateSourcemap;
 
 const prodConfig = {
   output: {
-    filename: 'static/js/[name].[contenthash].js',
-    chunkFilename: 'static/js/[name].[contenthash].chunk.js',
+    filename: `${staticDirectory}js/[name].[contenthash].js`,
+    chunkFilename: `${staticDirectory}js/[name].[contenthash].chunk.js`,
   },
   devtool: generateSourcemap ? 'source-map' : false,
   optimization: {
@@ -38,8 +39,8 @@ const prodConfig = {
   plugins: [
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
-      filename: 'static/css/[name].[contenthash].css',
-      chunkFilename: 'static/css/[name].[contenthash].chunk.css',
+      filename: `${staticDirectory}css/[name].[contenthash].css`,
+      chunkFilename: `${staticDirectory}css/[name].[contenthash].chunk.css`,
     }),
     process.env.ANALYZE && new BundleAnalyzerPlugin(),
   ].filter(Boolean),

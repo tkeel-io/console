@@ -5,15 +5,16 @@ const { merge } = require('webpack-merge');
 const WebpackNotifierPlugin = require('webpack-notifier');
 
 const paths = require('../scripts/utils/paths');
+const { staticDirectory } = require('./utils');
 const baseConfig = require('./webpack.config.base');
 
-const serverPort = config.get('server.port');
+const serverPort = config?.server?.port ?? '';
 const serverProxy = config?.server?.proxy ?? {};
 
 const devConfig = {
   output: {
-    filename: 'static/js/[name].js',
-    chunkFilename: 'static/js/[name].chunk.js',
+    filename: `${staticDirectory}js/[name].js`,
+    chunkFilename: `${staticDirectory}js/[name].chunk.js`,
   },
   devtool: 'cheap-module-source-map',
   devServer: {

@@ -7,7 +7,10 @@ module.exports = {
     documentTitle: '',
   },
   api: {
-    pathname: '/apis',
+    basePath: '/apis',
+  },
+  webSocket: {
+    basePath: '/v1/ws',
   },
   plugin: {
     identify: {
@@ -18,7 +21,7 @@ module.exports = {
           name: '插件管理',
           icon: 'PuzzleTwoToneIcon',
           path: '/admin-plugins',
-          entry: '/static/console-plugin-admin-tenants/',
+          entry: '/static/console-plugin-admin-plugins/',
         },
       ],
       dependence: [{ id: 'rudder', version: tkeel.version }],
