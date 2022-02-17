@@ -1,6 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { CollapseFilledIcon, ExpandFilledIcon } from '@tkeel/console-icons';
+import {
+  CollapseFilledIcon,
+  ExpandFilledIcon,
+  // MoonCircleFilledIcon,
+  // SunFilledIcon,
+} from '@tkeel/console-icons';
+import { ThemeNames } from '@tkeel/console-themes';
+
+import {
+  isDarkMenuTheme,
+  setMenuTheme,
+} from '@/tkeel-console-portal-base/utils';
 
 import CollapsedMenus from './CollapsedMenus';
 import ExpandMenus from './ExpandMenus';
@@ -10,11 +21,18 @@ const handleSearch = () => {};
 function Menus() {
   const { themeName } = GLOBAL_CONFIG.client;
   const [collapsed, setCollapsed] = useState(false);
-  const defaultMenuTheme = themeName === '' ? 'dark' : 'light';
-  const [menuTheme] = useState(defaultMenuTheme);
-  const isDarkTheme = menuTheme === 'dark';
+  const localMenuTheme = localStorage.getItem('menuTheme');
+  const defaultMenuTheme =
+    themeName === ThemeNames.QingcloudLight ? 'dark' : 'light';
+  const [menuTheme] = useState(localMenuTheme || defaultMenuTheme);
+  const isDarkTheme = isDarkMenuTheme(menuTheme);
 
   const iconColor = isDarkTheme ? 'white' : 'grayAlternatives.300';
+
+  useEffect(() => {
+    setMenuTheme(menuTheme);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Box
@@ -35,6 +53,7 @@ function Menus() {
         cursor="pointer"
         onClick={() => setCollapsed(!collapsed)}
       >
+        {/* {isDarkTheme ? <SunFilledIcon /> : <MoonCircleFilledIcon />} */}
         {collapsed ? (
           <ExpandFilledIcon color={iconColor} />
         ) : (

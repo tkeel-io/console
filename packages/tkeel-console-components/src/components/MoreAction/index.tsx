@@ -84,24 +84,23 @@ function MoreAction({ buttons, buttonProps = {} }: Props) {
         />
       </Circle>
 
-      {showActionList && (
-        <Box
-          position="absolute"
-          right="0"
-          top="38px"
-          padding="8px"
-          borderWidth="1px"
-          borderStyle="solid"
-          borderColor="gray.300"
-          width="144px"
-          backgroundColor="white"
-          borderRadius="4px"
-          zIndex="9"
-          onMouseEnter={handleActionListMouseEnter}
-        >
-          {menus}
-        </Box>
-      )}
+      <Box
+        display={showActionList ? 'block' : 'none'}
+        position="absolute"
+        right="0"
+        top="38px"
+        padding="8px"
+        borderWidth="1px"
+        borderStyle="solid"
+        borderColor="gray.300"
+        width="144px"
+        backgroundColor="white"
+        borderRadius="4px"
+        zIndex="9"
+        onMouseEnter={handleActionListMouseEnter}
+      >
+        {menus}
+      </Box>
     </Box>
   );
 }

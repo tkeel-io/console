@@ -65,7 +65,7 @@ function Menus({ handleSearch, isDarkTheme }: Props) {
           const hasChildren = children && children[0];
           const spread = spreadMenuIds.includes(id);
           return (
-            <Box key={id}>
+            <Box key={id} marginBottom="4px">
               <Box key={id}>
                 {hasChildren ? (
                   <SubMenuTitle
