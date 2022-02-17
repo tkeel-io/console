@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import { Cell, Column } from 'react-table';
 import { Flex, Text } from '@chakra-ui/react';
@@ -50,14 +50,15 @@ function Index() {
     {
       Header: '角色名称',
       accessor: 'roleName',
-      // eslint-disable-next-line react/no-unstable-nested-components
-      Cell({ value }: { value: string }) {
-        return (
-          <Text color="gray.800" fontWeight="600">
-            {value}
-          </Text>
-        );
-      },
+      Cell: ({ value }: { value: string }) =>
+        useMemo(
+          () => (
+            <Text color="gray.800" fontWeight="600">
+              {value}
+            </Text>
+          ),
+          [value]
+        ),
     },
     {
       Header: '设备状态',
@@ -76,7 +77,6 @@ function Index() {
     },
     {
       Header: '操作',
-      // eslint-disable-next-line react/no-unstable-nested-components
       Cell({ row }: Cell<Role>) {
         const { original } = row;
         const { roleName } = original;
@@ -94,19 +94,22 @@ function Index() {
         //   </ButtonsHStack>
         // );
 
-        return (
-          <ButtonsHStack>
-            <MoreAction buttons={[<DisableButton key="disable" />]} />
+        useMemo(
+          () => (
+            <ButtonsHStack>
+              <MoreAction buttons={[<DisableButton key="disable" />]} />
 
-            <ModifyRoleButton
-              data={{ role: roleName, plugins: [] }}
-              onSuccess={handleModifyRoleSuccess}
-            />
-            <DeleteRoleButton
-              data={{ role: roleName }}
-              onSuccess={handleDeleteRoleSuccess}
-            />
-          </ButtonsHStack>
+              <ModifyRoleButton
+                data={{ role: roleName, plugins: [] }}
+                onSuccess={handleModifyRoleSuccess}
+              />
+              <DeleteRoleButton
+                data={{ role: roleName }}
+                onSuccess={handleDeleteRoleSuccess}
+              />
+            </ButtonsHStack>
+          ),
+          [roleName]
         );
       },
     },

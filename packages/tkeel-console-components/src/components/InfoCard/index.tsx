@@ -1,0 +1,74 @@
+import { ReactNode } from 'react';
+import { Box, BoxProps, Flex, StyleProps, Text } from '@chakra-ui/react';
+
+type Props = BoxProps & {
+  title?: string;
+  data: {
+    label: string;
+    value: ReactNode;
+    isTruncated?: boolean;
+  }[];
+  styles?: {
+    wrapper?: StyleProps;
+    content?: StyleProps;
+    title?: StyleProps;
+    label?: StyleProps;
+    value?: StyleProps;
+  };
+};
+
+const defaultProps = {
+  title: '基本信息',
+};
+
+function InfoCard({ title, data, styles }: Props) {
+  return (
+    <Box
+      padding="16px 24px 20px"
+      boxShadow="0px 10px 15px -3px rgba(113, 128, 150, 0.1), 0px 4px 6px -2px rgba(113, 128, 150, 0.05);"
+      {...styles?.wrapper}
+    >
+      <Text
+        color="gray.800"
+        fontSize="14px"
+        lineHeight="20px"
+        fontWeight="600"
+        {...styles?.title}
+      >
+        {title}
+      </Text>
+      <Box marginTop="4px" {...styles?.content}>
+        {data.map((info) => (
+          <Flex key={info.label} marginTop="8px" lineHeight="24px">
+            <Text
+              width="72px"
+              color="gray.500"
+              fontSize="12px"
+              {...styles?.label}
+            >
+              {info.label}
+            </Text>
+            {typeof info.value === 'string' ? (
+              <Text
+                color="gray.800"
+                fontSize="12px"
+                maxWidth="240px"
+                isTruncated={!!info.isTruncated}
+                title={info.value}
+                {...styles?.value}
+              >
+                {info.value}
+              </Text>
+            ) : (
+              info.value
+            )}
+          </Flex>
+        ))}
+      </Box>
+    </Box>
+  );
+}
+
+InfoCard.defaultProps = defaultProps;
+
+export default InfoCard;

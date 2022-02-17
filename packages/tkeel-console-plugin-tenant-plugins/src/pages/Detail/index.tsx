@@ -1,9 +1,9 @@
 import { Box, Circle, Flex, Image, Text } from '@chakra-ui/react';
+import { InfoCard } from '@tkeel/console-components';
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import DisableButton from './DisableButton';
-import InfoCard from './InfoCard';
 
 import EnableButton from '@/tkeel-console-plugin-tenant-plugins/components/EnableButton';
 import usePluginDetailQuery from '@/tkeel-console-plugin-tenant-plugins/hooks/queries/usePluginDetailQuery';
@@ -49,6 +49,17 @@ function Detail({ pluginName }: Props) {
   const icon = installerBrief?.icon ?? '';
   const desc = installerBrief?.desc ?? '';
 
+  const infoCardStyles = {
+    wrapper: { marginBottom: '24px', padding: '0', boxShadow: 'none' },
+    content: {
+      marginTop: '12px',
+      padding: '8px 24px 16px',
+      backgroundColor: 'gray.50',
+    },
+    label: {
+      color: 'grayAlternatives.300',
+    },
+  };
   return (
     <Box>
       <Flex
@@ -102,8 +113,12 @@ function Detail({ pluginName }: Props) {
         </Box>
       </Flex>
       <Box padding="24px 24px">
-        <InfoCard data={basicInfo} />
-        <InfoCard data={developerInfo} marginTop="24px" />
+        <InfoCard data={basicInfo} styles={infoCardStyles} />
+        <InfoCard
+          title="开发者信息"
+          data={developerInfo}
+          styles={infoCardStyles}
+        />
       </Box>
     </Box>
   );

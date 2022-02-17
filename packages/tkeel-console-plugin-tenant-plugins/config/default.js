@@ -5,7 +5,10 @@ module.exports = {
     documentTitle: 'tKeel',
   },
   api: {
-    pathname: '/apis',
+    basePath: '/apis',
+  },
+  webSocket: {
+    basePath: '/v1/ws',
   },
   plugin: {
     identify: {

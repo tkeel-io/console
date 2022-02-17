@@ -7,7 +7,10 @@ module.exports = {
     documentTitle: '',
   },
   api: {
-    pathname: '/apis',
+    basePath: '/apis',
+  },
+  webSocket: {
+    basePath: '/v1/ws',
   },
   plugin: {
     identify: {
