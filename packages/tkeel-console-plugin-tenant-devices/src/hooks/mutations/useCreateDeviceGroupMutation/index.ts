@@ -18,7 +18,7 @@ export interface RequestData {
   };
 }
 
-export default function useCreateTemplateMutation({
+export default function useCreateDeviceGroupMutation({
   onSuccess,
 }: {
   onSuccess?: () => void;
