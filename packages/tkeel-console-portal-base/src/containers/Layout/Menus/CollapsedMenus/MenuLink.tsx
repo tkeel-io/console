@@ -1,9 +1,7 @@
-import {
-  Link as ReactRouterLink,
-  useMatch,
-  useResolvedPath,
-} from 'react-router-dom';
+import { Link as ReactRouterLink } from 'react-router-dom';
 import { Link } from '@chakra-ui/react';
+
+import { useActive } from '@/tkeel-console-portal-base/containers/Layout/Menus/ExpandMenus/MenuLink';
 
 import MenuItem from './MenuItem';
 
@@ -13,12 +11,11 @@ type Props = {
 };
 
 function MenuLink({ path, icon }: Props) {
-  const resolved = useResolvedPath(path);
-  const match = useMatch({ path: resolved.pathname, end: false });
+  const match = useActive(path);
 
   return (
     <Link marginTop="10px" as={ReactRouterLink} to={path}>
-      <MenuItem icon={icon} active={!!match} />
+      <MenuItem icon={icon} active={!!match} isMenuLink />
     </Link>
   );
 }

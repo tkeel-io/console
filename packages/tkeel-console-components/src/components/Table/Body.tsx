@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable react/jsx-key */
 import { Row, TableBodyPropGetter, TableBodyProps } from 'react-table';
-import { Tbody, Td, Tr } from '@chakra-ui/react';
+import { Tbody, Td, Text, Tr } from '@chakra-ui/react';
 
 type Props<D extends object> = {
   page: Row<D>[];
@@ -45,11 +47,14 @@ function Body<D extends object>({
         return (
           <Tr backgroundColor={backgroundColor} {...row.getRowProps()}>
             {row.cells.map((cell) => {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              const funcName = (cell.column.Cell as any).name;
               return (
                 <Td
+                  display="flex"
+                  alignItems="center"
                   height="40px"
-                  paddingTop="12px"
-                  paddingBottom="12px"
+                  padding="0 10px"
                   color="grayAlternatives.300"
                   fontSize="14px"
                   borderColor={
@@ -57,10 +62,13 @@ function Body<D extends object>({
                   }
                   {...cell.getCellProps()}
                 >
-                  {/* <Text title={String(cell.value)} isTruncated>
+                  {funcName === 'defaultRenderer' ? (
+                    <Text title={String(cell.value)} isTruncated>
                       {cell.value}
-                    </Text> */}
-                  {cell.render('Cell')}
+                    </Text>
+                  ) : (
+                    cell.render('Cell')
+                  )}
                 </Td>
               );
             })}
