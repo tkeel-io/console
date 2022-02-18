@@ -2,6 +2,7 @@ import {
   cloneElement,
   MouseEventHandler,
   ReactElement,
+  ReactNode,
   useEffect,
   useState,
 } from 'react';
@@ -9,6 +10,7 @@ import { Box, Circle, Colors, useTheme } from '@chakra-ui/react';
 import { MoreVerticalFilledIcon } from '@tkeel/console-icons';
 
 type Props = {
+  element?: ReactNode;
   buttons: ReactElement[];
   buttonProps?: object;
 };
@@ -17,7 +19,7 @@ interface CustomColor extends Colors {
   primary: string;
 }
 
-function MoreAction({ buttons, buttonProps = {} }: Props) {
+function MoreAction({ element, buttons, buttonProps = {} }: Props) {
   const [showActionList, setShowActionList] = useState(false);
   const { colors }: { colors: CustomColor } = useTheme();
   let timer: number | null = null;
@@ -68,22 +70,23 @@ function MoreAction({ buttons, buttonProps = {} }: Props) {
       onClick={handleClick}
       onMouseLeave={handleMouseLeave}
     >
-      <Circle
-        size="28px"
-        backgroundColor={showActionList ? 'gray.100' : 'transparent'}
-        cursor="pointer"
-        _hover={{
-          backgroundColor: 'gray.100',
-          '& > svg': {
-            fill: `${colors.primary} !important`,
-          },
-        }}
-      >
-        <MoreVerticalFilledIcon
-          color={showActionList ? 'primary' : 'gray.700'}
-        />
-      </Circle>
-
+      {element || (
+        <Circle
+          size="28px"
+          backgroundColor={showActionList ? 'gray.100' : 'transparent'}
+          cursor="pointer"
+          _hover={{
+            backgroundColor: 'gray.100',
+            '& > svg': {
+              fill: `${colors.primary} !important`,
+            },
+          }}
+        >
+          <MoreVerticalFilledIcon
+            color={showActionList ? 'primary' : 'gray.700'}
+          />
+        </Circle>
+      )}
       <Box
         display={showActionList ? 'block' : 'none'}
         position="absolute"

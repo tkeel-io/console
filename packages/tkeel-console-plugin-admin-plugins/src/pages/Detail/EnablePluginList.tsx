@@ -32,15 +32,18 @@ function EnablePluginList({ pluginName }: Props) {
     {
       Header: '启用时间',
       accessor: 'enable_timestamp',
-      width: 150,
+      width: 200,
       disableSortBy: true,
       Cell({ value }) {
-        return value ? formatDateTimeByTimestamp({ timestamp: value }) : '';
+        return value
+          ? formatDateTimeByTimestamp({ timestamp: `${value}000` })
+          : '';
       },
     },
     {
       Header: '租户空间',
       accessor: 'title',
+      width: 100,
     },
     {
       Header: '租户ID',
@@ -49,7 +52,7 @@ function EnablePluginList({ pluginName }: Props) {
     {
       Header: '管理员账号',
       accessor: 'operator_id',
-      width: 320,
+      width: 280,
     },
     {
       Header: '备注',
