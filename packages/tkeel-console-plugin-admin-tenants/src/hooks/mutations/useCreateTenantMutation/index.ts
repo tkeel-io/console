@@ -10,11 +10,11 @@ interface RequestData {
 }
 
 export interface ApiData {
-  admin: { username: string; password: string };
-  remark: string;
-  tenant_id: number;
-  title: string;
-  reset_key: string;
+  '@type': string;
+  tenant_id: string;
+  tenant_title: string;
+  admin_username: string;
+  reset_key?: string;
 }
 
 export default function useCreateTenantMutation({
