@@ -3441,7 +3441,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tkeel/console-business-components@workspace:packages/tkeel-console-business-components"
   dependencies:
+    "@tkeel/console-components": "workspace:^"
     "@tkeel/console-icons": "workspace:^"
+    qs: ^6.10.3
     react-router-dom: ^6.2.1
   peerDependencies:
     "@chakra-ui/react": ^1.8.3
@@ -3721,7 +3723,6 @@ __metadata:
     "@types/lodash": ^4.14.178
     "@types/react-table": ^7.7.9
     framer-motion: ^6.2.6
-    qs: ^6.10.3
     react: ^17.0.2
     react-dom: ^17.0.2
     react-hook-form: ^7.27.0

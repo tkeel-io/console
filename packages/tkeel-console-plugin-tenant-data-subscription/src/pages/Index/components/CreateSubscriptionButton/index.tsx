@@ -1,23 +1,40 @@
 import { useDisclosure } from '@chakra-ui/react';
 import { CreateButton } from '@tkeel/console-components';
 
+import useCreateSubscribeMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useCreateSubscribeMutation';
 import useCreateUserMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useCreateUserMutation';
-import { FormValues } from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/BaseUserModal';
-import CreateUserModal from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/CreateUserModal';
+import { FormValues } from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/BaseSubscriptionModal';
+import CreateSubscriptionModal from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/CreateSubscriptionModal';
 import SetPasswordModal from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/SetPasswordModal';
 
 type Props = {
   onSuccess: () => void;
 };
-const handleConfirm = (formValues: FormValues) => {
-  if (formValues) {
-    return null;
-  }
-  return null;
-};
 
 export default function CreateUserButton({ onSuccess }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const { mutate } = useCreateSubscribeMutation({
+    onSuccess() {
+      onSuccess();
+      onClose();
+    },
+  });
+
+  const handleConfirm = (formValues: FormValues) => {
+    // console.log('formValues', formValues);
+    const { title, description } = formValues;
+    if (formValues) {
+      mutate({
+        data: {
+          title,
+          description,
+        },
+      });
+    }
+    return null;
+  };
+
   const {
     isOpen: isSuccessModalOpen,
     onOpen: onSuccessModalOpen,
@@ -39,14 +56,12 @@ export default function CreateUserButton({ onSuccess }: Props) {
   return (
     <>
       <CreateButton onClick={onOpen}>创建订阅</CreateButton>
-      {isOpen && (
-        <CreateUserModal
-          isOpen={isOpen}
-          isConfirmButtonLoading={isLoading}
-          onClose={onClose}
-          onConfirm={handleConfirm}
-        />
-      )}
+      <CreateSubscriptionModal
+        isOpen={isOpen}
+        isConfirmButtonLoading={isLoading}
+        onClose={onClose}
+        onConfirm={handleConfirm}
+      />
       {isSuccessModalOpen && (
         <SetPasswordModal
           isOpen={isSuccessModalOpen}

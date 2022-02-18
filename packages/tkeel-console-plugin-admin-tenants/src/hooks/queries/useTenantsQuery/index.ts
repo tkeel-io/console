@@ -11,9 +11,15 @@ type RequestParams = {
   key_words?: string;
 };
 
+export interface Admin {
+  username: '';
+  password: '';
+}
+
 export interface Tenant {
   tenant_id: string;
   title: string;
+  admins: Admin[];
   remark: string;
 
   num_user: number;
