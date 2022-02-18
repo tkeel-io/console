@@ -1,9 +1,9 @@
 import { ReactNode } from 'react';
 import { useForm } from 'react-hook-form';
-import { Box, Text, Textarea } from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
 import { FormField, Modal } from '@tkeel/console-components';
 
-const { TextField } = FormField;
+const { TextField, TextareaField } = FormField;
 
 export interface FormFields {
   username?: {
@@ -16,8 +16,8 @@ export interface FormFields {
 }
 
 export interface FormValues {
-  username: string;
-  nick_name?: string;
+  title: string;
+  description: string;
 }
 
 type Props = {
@@ -30,7 +30,7 @@ type Props = {
   onConfirm: (formValues: FormValues) => unknown;
 };
 
-export default function BaseUserModal({
+export default function BaseSubscriptionModal({
   title,
   isOpen,
   isConfirmButtonLoading,
@@ -40,7 +40,7 @@ export default function BaseUserModal({
   onConfirm,
 }: Props) {
   const {
-    // register,
+    register,
     formState: { errors },
     trigger,
     getValues,
@@ -63,24 +63,24 @@ export default function BaseUserModal({
       onConfirm={handleConfirm}
     >
       <TextField
-        id="username"
+        id="title"
         label="订阅名称"
         isDisabled={formFields?.username?.disabled}
-        error={errors.username}
-        // schemas={register('username', {
-        //   required: { value: true, message: '请输入正确的名称' },
-        // })}
+        error={errors.title}
+        registerReturn={register('title', {
+          required: { value: true, message: 'required' },
+        })}
       />
       <Box>
         <Text color="var(--chakra-colors-gray-600)" fontSize="14px" mb="4px">
           用户名称
         </Text>
-        <Textarea
-          id="nick_name"
-          // error={errors.nick_name}
-          // schemas={register('nick_name', {
-          //   required: { value: false, message: '用户名称' },
-          // })}
+        <TextareaField
+          id="description"
+          error={errors.description}
+          registerReturn={register('description', {
+            required: { value: false, message: '用户名称' },
+          })}
         />
       </Box>
     </Modal>
