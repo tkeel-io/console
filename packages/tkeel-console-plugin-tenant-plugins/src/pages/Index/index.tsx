@@ -67,81 +67,86 @@ function Index(): JSX.Element {
       <Flex
         flexDirection="column"
         flex="1"
-        paddingTop="14px"
         overflow="hidden"
+        paddingTop="14px"
         backgroundColor="gray.50"
       >
         <PluginNum data={pluginNumData} padding="0 20px" />
-        {isLoading ? (
-          <Loading styles={{ wrapper: { flex: 1 } }} />
-        ) : (
-          <Grid
-            templateColumns="repeat(4, 1fr)"
-            gap="8px"
-            overflowY="auto"
-            padding="12px 20px"
-            flex="1"
-          >
-            {plugins.map((plugin) => {
-              const {
-                id,
-                installer_brief: installerBrief,
-                tenant_enable: tenantEnable,
-              } = plugin;
-              const { name } = installerBrief;
-              return (
-                <PluginCard
-                  key={id}
-                  briefPluginInfo={installerBrief}
-                  operatorButton={
-                    tenantEnable ? (
-                      <MoreAction
-                        buttons={[
-                          <DisableButton
-                            key="disable"
-                            pluginName={name}
-                            refetchData={() => {
-                              refetch();
-                            }}
-                          />,
-                        ]}
-                      />
-                    ) : (
-                      <EnableButton
-                        pluginName={name}
-                        buttonCanHover
-                        refetchData={() => {
-                          refetch();
-                        }}
-                      />
-                    )
-                  }
-                  bottomInfo={
-                    <Flex>
-                      {bottomData.map((item) => (
-                        <Flex
-                          key={item.key}
-                          marginRight="20px"
-                          color="gray.600"
-                          fontSize="12px"
-                        >
-                          <Text>{item.label}：</Text>
-                          <Text>{installerBrief[item.key]}</Text>
-                        </Flex>
-                      ))}
-                    </Flex>
-                  }
-                  onClick={() => {
-                    setPluginName(name);
-                    onOpen();
-                  }}
-                />
-              );
-            })}
-          </Grid>
-        )}
-
-        <Pagination {...pagination} />
+        <Flex
+          flexDirection="column"
+          justifyContent="space-between"
+          flex="1"
+          overflow="hidden"
+        >
+          {isLoading ? (
+            <Loading styles={{ wrapper: { flex: 1 } }} />
+          ) : (
+            <Grid
+              templateColumns="repeat(4, 1fr)"
+              gap="8px"
+              overflowY="auto"
+              padding="12px 20px"
+            >
+              {plugins.map((plugin) => {
+                const {
+                  id,
+                  installer_brief: installerBrief,
+                  tenant_enable: tenantEnable,
+                } = plugin;
+                const { name } = installerBrief;
+                return (
+                  <PluginCard
+                    key={id}
+                    briefPluginInfo={installerBrief}
+                    operatorButton={
+                      tenantEnable ? (
+                        <MoreAction
+                          buttons={[
+                            <DisableButton
+                              key="disable"
+                              pluginName={name}
+                              refetchData={() => {
+                                refetch();
+                              }}
+                            />,
+                          ]}
+                        />
+                      ) : (
+                        <EnableButton
+                          pluginName={name}
+                          buttonCanHover
+                          refetchData={() => {
+                            refetch();
+                          }}
+                        />
+                      )
+                    }
+                    bottomInfo={
+                      <Flex>
+                        {bottomData.map((item) => (
+                          <Flex
+                            key={item.key}
+                            marginRight="20px"
+                            color="gray.600"
+                            fontSize="12px"
+                          >
+                            <Text>{item.label}：</Text>
+                            <Text>{installerBrief[item.key]}</Text>
+                          </Flex>
+                        ))}
+                      </Flex>
+                    }
+                    onClick={() => {
+                      setPluginName(name);
+                      onOpen();
+                    }}
+                  />
+                );
+              })}
+            </Grid>
+          )}
+          <Pagination {...pagination} />
+        </Flex>
       </Flex>
       <Drawer title="插件详情" isOpen={isOpen} onClose={onClose}>
         <Detail pluginName={pluginName} />

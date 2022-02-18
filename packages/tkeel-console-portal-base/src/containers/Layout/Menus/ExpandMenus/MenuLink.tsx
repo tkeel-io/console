@@ -21,7 +21,7 @@ type MenuLinkReturnType = {
   active: boolean;
 };
 
-function useActive(to: string): boolean {
+export function useActive(to: string): boolean {
   const resolved = useResolvedPath(to);
   const active = useMatch({ path: resolved.pathname, end: false });
   return !!active;
@@ -62,7 +62,7 @@ function MenuLink({ path, name, icon }: Props) {
       as={as}
       to={to}
     >
-      <MenuItem active={active} name={name} leftIcon={icon} />
+      <MenuItem active={active} name={name} leftIcon={icon} isMenuLink />
     </Link>
   );
 }

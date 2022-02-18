@@ -3487,6 +3487,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tkeel/console-hooks@workspace:packages/tkeel-console-hooks"
   dependencies:
+    "@chakra-ui/react": ^1.8.3
+    "@chakra-ui/theme-tools": ^1.3.4
     "@tkeel/console-constants": "workspace:^"
     "@tkeel/console-types": "workspace:^"
     "@types/lodash": ^4.14.178

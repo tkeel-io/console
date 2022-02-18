@@ -1,25 +1,39 @@
 import { Box, Center } from '@chakra-ui/react';
-import * as icons from '@tkeel/console-icons';
+import { useColor } from '@tkeel/console-hooks';
+
+import MenuIcon from '@/tkeel-console-portal-base/containers/Layout/Menus/ExpandMenus/MenuIcon';
 
 type Props = {
   icon: string;
-  iconSize?: number | string;
   active: boolean;
+  isMenuLink?: boolean;
 };
 
-function MenuItem({ icon, iconSize = 16, active }: Props) {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const Icon = icons[icon || 'AppsAddFilledIcon'];
+function MenuItem({ icon, active, isMenuLink = false }: Props) {
+  const primaryColor = useColor('primary');
+
+  let backgroundColor = 'transparent';
+  if (isMenuLink) {
+    backgroundColor = active ? 'primary' : 'inherit';
+  }
 
   return (
     <Box
       borderRadius="4px"
-      backgroundColor={active ? 'primary' : 'inherit'}
-      _hover={{ backgroundColor: active ? 'primary' : 'gray.100' }}
+      backgroundColor={backgroundColor}
+      _hover={
+        active
+          ? {}
+          : {
+              svg: {
+                fill: `${primaryColor} !important`,
+              },
+            }
+      }
       cursor="pointer"
     >
       <Center width="44px" height="44px">
-        <Icon mode={active ? 'dark' : 'light'} size={iconSize} />
+        <MenuIcon icon={icon} active={active} isMenuLink />
       </Center>
     </Box>
   );

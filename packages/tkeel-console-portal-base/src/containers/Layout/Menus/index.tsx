@@ -3,8 +3,8 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import {
   CollapseFilledIcon,
   ExpandFilledIcon,
-  // MoonCircleFilledIcon,
-  // SunFilledIcon,
+  MoonCircleFilledIcon,
+  SunFilledIcon,
 } from '@tkeel/console-icons';
 import { ThemeNames } from '@tkeel/console-themes';
 
@@ -16,8 +16,6 @@ import {
 import CollapsedMenus from './CollapsedMenus';
 import ExpandMenus from './ExpandMenus';
 
-const handleSearch = () => {};
-
 function Menus() {
   const { themeName } = GLOBAL_CONFIG.client;
   const [collapsed, setCollapsed] = useState(false);
@@ -27,46 +25,92 @@ function Menus() {
   const [menuTheme] = useState(localMenuTheme || defaultMenuTheme);
   const isDarkTheme = isDarkMenuTheme(menuTheme);
 
-  const iconColor = isDarkTheme ? 'white' : 'grayAlternatives.300';
+  const iconColor = 'grayAlternatives.300';
+  const whiteColor = 'white !important';
 
   useEffect(() => {
     setMenuTheme(menuTheme);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const getChangeThemeIconProps = (theme: 'dark' | 'light') => {
+    return {
+      color: iconColor,
+      style: { marginBottom: '20px' },
+      _hover: {
+        color: whiteColor,
+      },
+      onClick() {
+        setMenuTheme(theme);
+        window.location.reload();
+      },
+    };
+  };
+
+  const iconHoverStyle = {
+    '& > svg': {
+      fill: whiteColor,
+    },
+  };
+
+  const collapseHoverStyle = isDarkTheme
+    ? {
+        ...iconHoverStyle,
+        '& > p': {
+          color: whiteColor,
+        },
+      }
+    : {};
+
   return (
     <Box
-      paddingBottom="60px"
+      paddingBottom="90px"
       height="100%"
+      background="white"
       backgroundColor={isDarkTheme ? 'grayAlternatives.800' : 'gray.50'}
     >
       {collapsed ? (
         <CollapsedMenus />
       ) : (
-        <ExpandMenus isDarkTheme={isDarkTheme} handleSearch={handleSearch} />
+        <ExpandMenus isDarkTheme={isDarkTheme} />
       )}
       <Flex
+        flexDirection="column"
+        alignItems="flex-start"
         position="absolute"
         left={collapsed ? '22px' : '32px'}
-        bottom="24px"
-        alignItems="center"
+        bottom="20px"
         cursor="pointer"
-        onClick={() => setCollapsed(!collapsed)}
       >
-        {/* {isDarkTheme ? <SunFilledIcon /> : <MoonCircleFilledIcon />} */}
-        {collapsed ? (
-          <ExpandFilledIcon color={iconColor} />
+        {isDarkTheme ? (
+          <Box _hover={iconHoverStyle}>
+            <SunFilledIcon {...getChangeThemeIconProps('light')} />
+          </Box>
         ) : (
-          <>
+          <MoonCircleFilledIcon {...getChangeThemeIconProps('dark')} />
+        )}
+        {collapsed ? (
+          <Box _hover={iconHoverStyle}>
+            <ExpandFilledIcon
+              color={iconColor}
+              onClick={() => setCollapsed(false)}
+            />
+          </Box>
+        ) : (
+          <Flex
+            alignItems="center"
+            onClick={() => setCollapsed(true)}
+            _hover={collapseHoverStyle}
+          >
             <CollapseFilledIcon color={iconColor} />
             <Text
               marginLeft="8px"
-              color={isDarkTheme ? 'white' : 'grayAlternatives.500'}
+              color={isDarkTheme ? 'gray.400' : 'gray.600'}
               fontSize="12px"
             >
               收起
             </Text>
-          </>
+          </Flex>
         )}
       </Flex>
     </Box>
