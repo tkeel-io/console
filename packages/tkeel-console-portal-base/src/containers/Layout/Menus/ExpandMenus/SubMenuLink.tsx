@@ -11,9 +11,9 @@ type Props = {
 
 function SubMenuLink({ path, name }: Props) {
   const { as, to, active } = useMenuLinkProps(path);
-  const isDarkTheme = isDarkMenuTheme();
-  const defaultColor = isDarkTheme ? 'gray.400' : 'gray.600';
-  const hoverStyle = active ? {} : { color: isDarkTheme ? 'white' : 'primary' };
+  const isDarkMenu = isDarkMenuTheme();
+  const defaultColor = isDarkMenu ? 'gray.400' : 'gray.600';
+  const hoverStyle = active ? {} : { color: isDarkMenu ? 'white' : 'primary' };
 
   return (
     <Link

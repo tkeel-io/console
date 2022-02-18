@@ -6,7 +6,6 @@ import {
   ColumnInstance,
   Hooks,
   PluginHook,
-  TableInstance,
   TableOptions,
   useFlexLayout,
   useRowSelect,

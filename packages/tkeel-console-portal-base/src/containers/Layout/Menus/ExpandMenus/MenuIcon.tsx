@@ -1,4 +1,3 @@
-import { Box } from '@chakra-ui/react';
 import * as icons from '@tkeel/console-icons';
 
 import { isDarkMenuTheme } from '@/tkeel-console-portal-base/utils';
@@ -7,25 +6,34 @@ type Props = {
   icon: string;
   active: boolean;
   style?: React.CSSProperties;
+  isMenuLink?: boolean;
 };
 
-function MenuIcon({ icon, active, style = {} }: Props) {
+function MenuIcon({ icon, active, style = {}, isMenuLink = false }: Props) {
   const iconName = icon || 'AppsAddFilledIcon';
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const Icon = icons[iconName];
   const isTwoTone = iconName.includes('TwoTone');
   let defaultColor = 'gray.700';
 
-  const isDarkTheme = isDarkMenuTheme();
-  if (isDarkTheme) {
+  const isDarkMenu = isDarkMenuTheme();
+  if (isDarkMenu) {
     defaultColor = isTwoTone ? 'whiteAlpha.500' : 'whiteAlpha.800';
   }
 
   let defaultTwoToneColor = 'gray.300';
-  if (isDarkTheme) {
+  if (isDarkMenu) {
     defaultTwoToneColor = isTwoTone ? 'whiteAlpha.800' : 'whiteAlpha.500';
   }
-  const activeColor = isTwoTone ? 'gray.300' : 'white';
+
+  let activeColor = isDarkMenu ? 'white' : 'primary';
+  if (isTwoTone) {
+    activeColor = 'gray.300';
+  }
+  if (isMenuLink) {
+    activeColor = 'primary';
+  }
+
   const iconProps = isTwoTone
     ? {
         twoToneColor: active ? 'white' : defaultTwoToneColor,
@@ -35,19 +43,11 @@ function MenuIcon({ icon, active, style = {} }: Props) {
   if (!Icon) return null;
 
   return (
-    <Box
-      _hover={{
-        '& > svg': {
-          fill: 'white !important',
-        },
-      }}
-    >
-      <Icon
-        color={active ? activeColor : defaultColor}
-        style={style}
-        {...iconProps}
-      />
-    </Box>
+    <Icon
+      color={active ? activeColor : defaultColor}
+      style={style}
+      {...iconProps}
+    />
   );
 }
 

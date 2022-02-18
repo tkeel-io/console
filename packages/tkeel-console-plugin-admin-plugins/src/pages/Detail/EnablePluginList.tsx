@@ -52,7 +52,7 @@ function EnablePluginList({ pluginName }: Props) {
     {
       Header: '管理员账号',
       accessor: 'operator_id',
-      width: 320,
+      width: 280,
     },
     {
       Header: '备注',

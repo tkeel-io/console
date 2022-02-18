@@ -66,6 +66,7 @@ function Menus() {
     <Box
       paddingBottom="90px"
       height="100%"
+      background="white"
       backgroundColor={isDarkTheme ? 'grayAlternatives.800' : 'gray.50'}
     >
       {collapsed ? (
