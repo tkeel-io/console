@@ -1,55 +1,95 @@
 import { useMemo, useState } from 'react';
-import { useQueryClient } from 'react-query';
-import { Cell, Column } from 'react-table';
+// import { useQueryClient } from 'react-query';
+import { Column } from 'react-table';
+// import { Cell, Column } from 'react-table';
 import { Flex, Text } from '@chakra-ui/react';
 import {
-  ButtonsHStack,
-  MoreAction,
+  // ButtonsHStack,
+  Empty,
+  // MoreAction,
   PageHeaderToolbar,
   Table,
   toast,
 } from '@tkeel/console-components';
+import { usePagination } from '@tkeel/console-hooks';
 
-import useRolesQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useRolesQuery';
+import useListSubscribeEntitiesQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useListSubscribeEntitiesQuery';
 import CreateRoleButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/CreateRoleButton';
-import DeleteRoleButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/DeleteRoleButton';
-import DisableButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/DisableButton';
-import ModifyRoleButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/ModifyRoleButton';
+// import DeleteRoleButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/DeleteRoleButton';
+// import DisableButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/DisableButton';
+// import ModifyRoleButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/ModifyRoleButton';
 
-type Role = {
-  roleName: string;
+// type Role = {
+//   roleName: string;
+// };
+type Data = {
+  ID: string;
+  group: string;
+  name: string;
+  status: string;
+  template: string;
+  updated_at: string;
 };
 
-function Index() {
-  const [keywords, setKeyWords] = useState('');
-  const queryClient = useQueryClient();
+const handleCreateRoleSuccess = () => {
+  toast({ status: 'success', title: '创建成功' });
+  // queryClient.invalidateQueries(queryKey);
+};
 
-  let params = {};
+// const handleModifyRoleSuccess = () => {
+//   toast({ status: 'success', title: '修改成功' });
+//   // queryClient.invalidateQueries(queryKey);
+// };
+
+// const handleDeleteRoleSuccess = () => {
+//   toast({ status: 'success', title: '删除成功' });
+//   // queryClient.invalidateQueries(queryKey);
+// };
+
+function Index({ id }: { id: string }) {
+  // console.log('id', id);
+  const [keywords, setKeyWords] = useState('');
+
+  const pagination = usePagination();
+  const { pageNum, pageSize, setTotalSize } = pagination;
+
+  // const pagination = usePagination();
+  // const { setTotalSize } = pagination;
+
+  // const queryClient = useQueryClient();
+
+  let params = {
+    page_num: pageNum,
+    page_size: pageSize,
+    order_by: 'created_at',
+    is_descending: true,
+    key_words: '',
+    id: '',
+  };
+  params = { ...params, id };
+
   if (keywords) {
     params = { ...params, key_words: keywords };
+    // console.log('params', params);
   }
-  const { roles: roleNames, queryKey } = useRolesQuery({ params });
-  const roles = roleNames.map((roleName) => ({ roleName }));
+  // const { data } = useListSubscribeEntitiesQuery(id);
 
-  const handleCreateRoleSuccess = () => {
-    toast({ status: 'success', title: '创建成功' });
-    queryClient.invalidateQueries(queryKey);
-  };
+  const { data } = useListSubscribeEntitiesQuery({
+    params,
+    onSuccess(res) {
+      const total = res?.data?.total ?? 0;
+      setTotalSize(total);
+    },
+  });
 
-  const handleModifyRoleSuccess = () => {
-    toast({ status: 'success', title: '修改成功' });
-    queryClient.invalidateQueries(queryKey);
-  };
+  setTotalSize(data?.total || 0);
 
-  const handleDeleteRoleSuccess = () => {
-    toast({ status: 'success', title: '删除成功' });
-    queryClient.invalidateQueries(queryKey);
-  };
+  // console.log('data', data);
 
-  const columns: ReadonlyArray<Column<Role>> = [
+  const columns: ReadonlyArray<Column<Data>> = [
     {
       Header: '角色名称',
-      accessor: 'roleName',
+      accessor: 'name',
       Cell: ({ value }: { value: string }) =>
         useMemo(
           () => (
@@ -62,57 +102,45 @@ function Index() {
     },
     {
       Header: '设备状态',
-      // accessor: '',
+      accessor: 'status',
     },
     {
       Header: '设备模板',
-      // accessor: '',
+      accessor: 'template',
     },
     {
       Header: '设备分组',
-      // accessor: '',
+      accessor: 'group',
     },
     {
       Header: '最后更新时间',
+      accessor: 'updated_at',
     },
-    {
-      Header: '操作',
-      Cell({ row }: Cell<Role>) {
-        const { original } = row;
-        const { roleName } = original;
+    // {
+    //   Header: '操作',
+    //   Cell({ row }: Cell<Role>) {
+    //     const { original } = row;
+    //     const { roleName } = original;
 
-        // return (
-        //   <ButtonsHStack>
-        // <ModifyRoleButton
-        //   data={{ role: roleName, plugins: [] }}
-        //   onSuccess={handleModifyRoleSuccess}
-        // />
-        // <DeleteRoleButton
-        //   data={{ role: roleName }}
-        //   onSuccess={handleDeleteRoleSuccess}
-        // />
-        //   </ButtonsHStack>
-        // );
+    //     useMemo(
+    //       () => (
+    //         <ButtonsHStack>
+    //           <MoreAction buttons={[<DisableButton key="disable" />]} />
 
-        useMemo(
-          () => (
-            <ButtonsHStack>
-              <MoreAction buttons={[<DisableButton key="disable" />]} />
-
-              <ModifyRoleButton
-                data={{ role: roleName, plugins: [] }}
-                onSuccess={handleModifyRoleSuccess}
-              />
-              <DeleteRoleButton
-                data={{ role: roleName }}
-                onSuccess={handleDeleteRoleSuccess}
-              />
-            </ButtonsHStack>
-          ),
-          [roleName]
-        );
-      },
-    },
+    //           <ModifyRoleButton
+    //             data={{ role: roleName, plugins: [] }}
+    //             onSuccess={handleModifyRoleSuccess}
+    //           />
+    //           <DeleteRoleButton
+    //             data={{ role: roleName }}
+    //             onSuccess={handleDeleteRoleSuccess}
+    //           />
+    //         </ButtonsHStack>
+    //       ),
+    //       [roleName]
+    //     );
+    //   },
+    // },
   ];
 
   return (
@@ -133,9 +161,27 @@ function Index() {
       <Table
         style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
         columns={columns}
-        data={roles}
-        hasPagination={false}
+        data={data?.data || []}
+        // hasPagination
         scroll={{ y: '100%' }}
+        isShowStripe
+        paginationProps={pagination}
+        empty={
+          <Empty
+            description="[IDC设备分组订阅] 暂无设备,可手动添加"
+            styles={{
+              wrapper: { height: '100%' },
+              content: { marginTop: '10px' },
+            }}
+            title=""
+            content={
+              <CreateRoleButton
+                key="create"
+                onSuccess={handleCreateRoleSuccess}
+              />
+            }
+          />
+        }
       />
     </Flex>
   );

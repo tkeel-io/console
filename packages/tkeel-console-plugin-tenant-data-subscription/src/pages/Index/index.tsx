@@ -1,21 +1,23 @@
 import { useNavigate } from 'react-router-dom';
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { MoreAction } from '@tkeel/console-components';
+import { Loading, MoreAction } from '@tkeel/console-components';
 import {
   BookOpenedFilledIcon,
   MessageWarningTwoToneIcon,
 } from '@tkeel/console-icons';
 
-import SubscriptionButton from './components/Button/SubscriptionButton';
-import CreateUserButton from './components/CreateUserButton';
+// import SubscriptionButton from './components/Button/SubscriptionButton';
+import CreateSubscriptionButton from './components/CreateSubscriptionButton';
 
-import DisableButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/DisableButton';
-
-// import useListSubscribeQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useListSubscribeQuery';
+import useListSubscribeQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useListSubscribeQuery';
+// import useSubscribeInfoQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useSubscribeInfoQuery';
+import DeleteSubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/DeleteSubscriptionButton';
+import ModifySubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/ModifySubscriptionButton';
 
 function SubscriptionCard() {
   const navigate = useNavigate();
 
+  const { isLoading, data, refetch } = useListSubscribeQuery();
   return (
     <Box
       bg="gray.50"
@@ -35,107 +37,128 @@ function SubscriptionCard() {
       >
         更多订阅
       </Text>
-      <Flex flexWrap="wrap" paddingLeft="20px">
-        {[0, 0, 0, 0].map((index) => {
-          return (
-            <Box
-              borderRadius="4px"
-              background="gray.50"
-              border="1px"
-              borderStyle="solid"
-              borderColor="blue.50"
-              flex="1"
-              key={index}
-              margin="0 20px 12px 0"
-            >
-              <Flex height="76px" flexDir="column" padding="0 20">
-                <Flex alignItems="center" justifyContent="space-between">
-                  <Flex
-                    alignItems="center"
-                    onClick={() => {
-                      navigate('/detail');
-                    }}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    <MessageWarningTwoToneIcon
-                      style={{ width: '24px', height: '22px' }}
-                    />
-                    <Box lineHeight="50px" ml="12px">
-                      IDC设备分组订阅
-                    </Box>
-                    <Text
-                      display="inline"
-                      ml="12px"
-                      color="orange.300"
-                      background="orange.50"
-                      width="44px"
-                      fontSize="12px"
-                      textAlign="center"
-                    >
-                      已订阅
-                    </Text>
-                  </Flex>
-
-                  <Flex>
-                    <SubscriptionButton
-                      style={{
-                        width: '60px',
-                        height: '28px',
-                        borderRadius: '4px',
-                        marginLeft: '12px',
-                      }}
-                    >
-                      订阅
-                    </SubscriptionButton>
-                    <Box ml="6px">
-                      <MoreAction buttons={[<DisableButton key="disable" />]} />
-                    </Box>
-                  </Flex>
-                </Flex>
-
-                <Text color="grayAlternatives.300" fontSize="12px">
-                  IDC b1会议室所有设备IDC b1会议室所有设备IDC
-                  b1会议室所有设备IDC b1会议室所有设备...
-                </Text>
-              </Flex>
-              <Flex
-                background="white"
-                height="40px"
-                alignItems="center"
-                fontSize="12px"
-                borderRadius="0 0 4px 4px"
-                padding="0 20"
+      {isLoading ? (
+        <Loading styles={{ wrapper: { height: '100%' } }} />
+      ) : (
+        <Flex flexWrap="wrap" paddingLeft="20px">
+          {data.map((item) => {
+            return (
+              <Box
+                borderRadius="4px"
+                background="gray.50"
+                border="1px"
+                borderStyle="solid"
+                borderColor="blue.50"
+                // flex="1"
+                width="48%"
+                key={item.title}
+                margin="0 20px 12px 0"
               >
-                <Box color="gray.700">
-                  订阅设备：
-                  <Text display="inline" color="primary">
-                    1098
+                <Flex height="76px" flexDir="column" padding="0 20">
+                  <Flex alignItems="center" justifyContent="space-between">
+                    <Flex
+                      alignItems="center"
+                      onClick={() => {
+                        navigate(`/detail/${item.id}`);
+                      }}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      <MessageWarningTwoToneIcon
+                        style={{ width: '24px', height: '22px' }}
+                      />
+                      <Box lineHeight="50px" ml="12px">
+                        {item.title}
+                      </Box>
+                      {/* <Text
+                        display="inline"
+                        ml="12px"
+                        color="orange.300"
+                        background="orange.50"
+                        width="44px"
+                        fontSize="12px"
+                        textAlign="center"
+                      >
+                        已订阅
+                      </Text> */}
+                    </Flex>
+
+                    <Flex>
+                      {/* <SubscriptionButton
+                        style={{
+                          width: '60px',
+                          height: '28px',
+                          borderRadius: '4px',
+                          marginLeft: '12px',
+                        }}
+                      >
+                        订阅
+                      </SubscriptionButton> */}
+                      <Box ml="6px">
+                        <MoreAction
+                          buttons={[
+                            <ModifySubscriptionButton
+                              key="modify"
+                              onSuccess={() => {
+                                refetch();
+                              }}
+                            />,
+                            <DeleteSubscriptionButton
+                              key="delete"
+                              id={item.id}
+                              refetchData={() => {
+                                refetch();
+                              }}
+                            />,
+                          ]}
+                        />
+                      </Box>
+                    </Flex>
+                  </Flex>
+
+                  <Text color="grayAlternatives.300" fontSize="12px">
+                    {item.description}
                   </Text>
-                </Box>
-                <Box ml="40px">
-                  订阅ID：
-                  <Text display="inline">OIE9009</Text>
-                </Box>
-                <Box ml="40px">
-                  订阅地址：
-                  <Text display="inline">amqp://host:port/virtual_host</Text>
-                </Box>
-              </Flex>
-            </Box>
-          );
-        })}
-      </Flex>
+                </Flex>
+                <Flex
+                  background="white"
+                  height="40px"
+                  alignItems="center"
+                  fontSize="12px"
+                  borderRadius="0 0 4px 4px"
+                  padding="0 20"
+                >
+                  {/* <Box color="gray.700">
+                    订阅设备：
+                    <Text display="inline" color="primary">
+                      1098
+                    </Text>
+                  </Box> */}
+                  <Box>
+                    订阅ID：
+                    <Text display="inline">{item.id}</Text>
+                  </Box>
+                  <Box ml="40px">
+                    订阅地址：
+                    <Text display="inline">{item.endpoint}</Text>
+                  </Box>
+                </Flex>
+              </Box>
+            );
+          })}
+        </Flex>
+      )}
     </Box>
   );
 }
 
-const handleCreateUserSuccess = () => {
-  // queryClient.invalidateQueries(queryKey);
-};
-
 function Index(): JSX.Element {
-  // const data1 = useListSubscribeQuery();
-  // console.log('data1', data1);
+  //  const {data} =  useSubscribeInfoQuery(id)
+
+  const { data, refetch } = useListSubscribeQuery();
+  const defaultInfo = data.find((item) => {
+    return item.is_default;
+  });
+  // console.log('defaultInfo', defaultInfo);
 
   return (
     <Box>
@@ -149,10 +172,18 @@ function Index(): JSX.Element {
         >
           数据订阅 <BookOpenedFilledIcon style={{ marginLeft: '4px' }} />
         </Flex>
-        <CreateUserButton key="create" onSuccess={handleCreateUserSuccess} />
+        <CreateSubscriptionButton
+          key="create"
+          onSuccess={() => {
+            // console.log('success');
+
+            refetch();
+          }}
+        />
       </Flex>
       <Box
-        border="1px solid grayAlternatives.50"
+        border="1px solid"
+        borderColor="grayAlternatives.50"
         borderRadius="4px"
         background="white"
         mt="16px"
@@ -160,7 +191,8 @@ function Index(): JSX.Element {
         <Flex
           padding="0 20"
           lineHeight="53px"
-          borderBottom="1px solid grayAlternatives.50"
+          borderBottom="1px solid"
+          borderBottomColor="grayAlternatives.50"
           fontWeight="600"
           fontSize="14px"
           color="gray.800"
@@ -172,8 +204,7 @@ function Index(): JSX.Element {
             ml="12px"
             fontSize="12px"
           >
-            IDC b1会议室所有设备IDC b1会议室所有设备IDC b1会议室所有设备IDC
-            b1会议室所有设备...
+            {defaultInfo?.description}
           </Text>
         </Flex>
         <Flex
@@ -184,23 +215,23 @@ function Index(): JSX.Element {
           fontSize="12px"
           background="gray.50"
         >
-          <Box color="gray.700">
+          {/* <Box color="gray.700">
             订阅设备：
             <Text display="inline" color="primary">
               1098
             </Text>
-          </Box>
-          <Box ml="40px">
+          </Box> */}
+          <Box>
             订阅ID：
-            <Text display="inline">OIE9009</Text>
+            <Text display="inline">{defaultInfo?.id}</Text>
           </Box>
           <Box ml="40px">
             订阅地址：
-            <Text display="inline">amqp://host:port/virtual_host</Text>
+            <Text display="inline">{defaultInfo?.endpoint}</Text>
           </Box>
         </Flex>
       </Box>
-      {SubscriptionCard()}
+      <SubscriptionCard />
     </Box>
   );
 }
