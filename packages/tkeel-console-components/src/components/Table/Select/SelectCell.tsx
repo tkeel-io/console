@@ -1,11 +1,10 @@
+import { Row } from 'react-table';
 import { Center } from '@chakra-ui/react';
-
-import { RowExtended } from '@/tkeel-console-components/components/Table/types';
 
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 
 type Props<D extends object> = {
-  row: RowExtended<D>;
+  row: Row<D>;
 };
 
 function SelectCell<D extends object>({ row }: Props<D>) {

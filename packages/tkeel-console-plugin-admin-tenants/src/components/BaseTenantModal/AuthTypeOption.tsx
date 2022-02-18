@@ -6,7 +6,7 @@ export interface Props {
   isSelected: boolean;
 }
 
-export default function AuthConfigOption(props: Props) {
+export default function AuthTypeOption(props: Props) {
   const { title, description, isSelected } = props;
   return (
     <Box

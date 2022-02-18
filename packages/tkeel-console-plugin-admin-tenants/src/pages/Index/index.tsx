@@ -13,12 +13,11 @@ import { usePagination } from '@tkeel/console-hooks';
 import { HumanVipFilledIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
-import ModifyTenantButton from '@/tkeel-console-plugin-admin-tenants/components/ModifyTenantButton';
 import useTenantsQuery, {
   Tenant,
 } from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useTenantsQuery';
-// import useWebSocketDemo from '@/tkeel-console-plugin-admin-tenants/hooks/webSockets/useWebSocketDemo';
 import CreateTenantButton from '@/tkeel-console-plugin-admin-tenants/pages/Index/components/CreateTenantButton';
+import ModifyTenantButton from '@/tkeel-console-plugin-admin-tenants/pages/Index/components/ModifyTenantButton';
 
 export default function Index() {
   const { navigate } = useGlobalProps();
@@ -77,11 +76,7 @@ export default function Index() {
 
           return (
             <ButtonsHStack>
-              <ModifyTenantButton
-                variant="link"
-                data={original}
-                onSuccess={() => {}}
-              />
+              <ModifyTenantButton data={original} onSuccess={() => {}} />
               {/* <ResetPasswordButton data={original} /> */}
               {/* <DeleteUserButton
                 data={original}

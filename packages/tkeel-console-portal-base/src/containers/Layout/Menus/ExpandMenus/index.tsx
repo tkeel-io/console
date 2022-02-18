@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Box, Flex, Image } from '@chakra-ui/react';
-import { SearchInput } from '@tkeel/console-components';
-import { MagnifierTwoToneIcon } from '@tkeel/console-icons';
 
+// import { SearchInput } from '@tkeel/console-components';
+// import { MagnifierTwoToneIcon } from '@tkeel/console-icons';
 import Logo from '@/tkeel-console-portal-base/assets/images/logo.svg';
 import tKeelBlack from '@/tkeel-console-portal-base/assets/images/tkeel-black.svg';
 import tKeelWhite from '@/tkeel-console-portal-base/assets/images/tkeel-white.svg';
@@ -13,11 +13,11 @@ import SubMenuLink from './SubMenuLink';
 import SubMenuTitle from './SubMenuTitle';
 
 type Props = {
-  handleSearch: () => void;
+  // handleSearch: () => void;
   isDarkTheme: boolean;
 };
 
-function Menus({ handleSearch, isDarkTheme }: Props) {
+function Menus({ isDarkTheme }: Props) {
   const { menus } = useMenusQuery();
   const [spreadMenuIds, setSpreadMenus] = useState<string[]>([]);
 
@@ -45,7 +45,7 @@ function Menus({ handleSearch, isDarkTheme }: Props) {
           alt=""
         />
       </Flex>
-      <SearchInput
+      {/* <SearchInput
         width="200px"
         height="44px"
         inputGroupStyle={{ marginLeft: '20px' }}
@@ -58,7 +58,7 @@ function Menus({ handleSearch, isDarkTheme }: Props) {
         iconSize={20}
         placeholder="搜索"
         onSearch={handleSearch}
-      />
+      /> */}
       <Box flex="1" overflow="auto" padding="20px">
         {menus.map((menu) => {
           const { id, name, icon, path, children } = menu;

@@ -1,24 +1,39 @@
-import { Link as ReactRouterLink } from 'react-router-dom';
-import { Box, Link } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { Menu } from '@tkeel/console-types';
+
+import { isDarkMenuTheme } from '@/tkeel-console-portal-base/utils';
+
+import SubMenuLink from './SubMenuLink';
 
 type Props = {
   data: Menu[];
 };
 
 function SubMenuLinks({ data }: Props) {
+  const isDarkMenu = isDarkMenuTheme();
   return (
     <Box
       position="absolute"
       left="56px"
       top="0"
       zIndex="1"
-      padding="4px 0"
+      padding="8px"
       width="144px"
       borderRadius="4px"
-      backgroundColor="gray.800"
+      border="1px solid"
+      borderColor={isDarkMenu ? 'none' : 'gray.300'}
+      backgroundColor={isDarkMenu ? 'gray.800' : 'white'}
+      boxShadow="0px 10px 15px rgba(113, 128, 150, 0.1), 0px 4px 6px rgba(113, 128, 150, 0.2)"
     >
       {data.map((menu) => (
+        <SubMenuLink
+          key={menu.id}
+          path={menu.path as string}
+          name={menu.name}
+          isDarkMenu={isDarkMenu}
+        />
+      ))}
+      {/* {data.map((menu) => (
         <Link
           as={ReactRouterLink}
           key={menu.id}
@@ -26,14 +41,18 @@ function SubMenuLinks({ data }: Props) {
           paddingLeft="16px"
           height="32px"
           lineHeight="32px"
-          color="white"
+          color={isDarkMenu ? 'white' : 'gray.600'}
           fontSize="12px"
+          borderRadius="4px"
           to={menu.path as string}
-          _hover={{ backgroundColor: 'gray.700' }}
+          _hover={{
+            color: isDarkMenu ? 'white' : 'primary',
+            backgroundColor: isDarkMenu ? 'gray.700' : 'gray.100',
+          }}
         >
           {menu.name}
         </Link>
-      ))}
+      ))} */}
     </Box>
   );
 }

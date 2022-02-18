@@ -28,12 +28,14 @@ function ParentMenu({
     return item.path && location.pathname.includes(item.path);
   });
 
-  const defaultColor = isDarkMenuTheme() ? 'gray.400' : 'gray.600';
+  const isDarkMenu = isDarkMenuTheme();
+  const defaultColor = isDarkMenu ? 'gray.400' : 'gray.600';
+  const activeColor = isDarkMenu ? 'white' : 'primary';
 
   return (
     <Box
       paddingRight="18px"
-      color={active ? 'white' : defaultColor}
+      color={active ? activeColor : defaultColor}
       borderRadius="4px"
       onClick={() => handleMenuClick(id)}
     >
