@@ -13,6 +13,7 @@ import { stringify } from 'qs';
 type Props = {
   isOpen: boolean;
   title: string;
+  url: string;
   data: {
     reset_key: string;
   };
@@ -22,15 +23,13 @@ type Props = {
 export default function SetPasswordModal({
   isOpen,
   title,
+  url,
   data,
   onClose,
 }: Props) {
-  const { origin } = window.location;
-  const path = '/auth/set-password';
-
   const query = stringify(data, { addQueryPrefix: true });
-  const url = `${origin}${path}${query}`;
-  const { hasCopied, onCopy } = useClipboard(url);
+  const fullURL = `${url}${query}`;
+  const { hasCopied, onCopy } = useClipboard(fullURL);
 
   if (hasCopied) {
     toast({ status: 'success', title: '复制成功' });
@@ -53,7 +52,7 @@ export default function SetPasswordModal({
       >
         <Input
           type="text"
-          defaultValue={url}
+          defaultValue={fullURL}
           variant="filled"
           isReadOnly
           height="100%"

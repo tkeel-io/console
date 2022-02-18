@@ -1,9 +1,9 @@
 import { Text, useDisclosure } from '@chakra-ui/react';
+import { SetPasswordModal } from '@tkeel/console-business-components';
 import { Alert, LinkButton } from '@tkeel/console-components';
 
 import useGetResetPasswordKeyMutation from '@/tkeel-console-plugin-tenant-users/hooks/mutations/useGetResetPasswordKeyMutation';
 import { User } from '@/tkeel-console-plugin-tenant-users/hooks/queries/useUsersQuery';
-import SetPasswordModal from '@/tkeel-console-plugin-tenant-users/pages/Index/components/SetPasswordModal';
 
 type Props = {
   data: User;
@@ -38,6 +38,8 @@ export default function ResetPasswordButton({ data }: Props) {
     mutate({});
   };
 
+  const url = `${window.location.origin}/auth/set-password`;
+
   return (
     <>
       <LinkButton onClick={onAlertOpen}>重置密码</LinkButton>
@@ -64,6 +66,7 @@ export default function ResetPasswordButton({ data }: Props) {
       {isSetPasswordModalOpen && (
         <SetPasswordModal
           isOpen={isSetPasswordModalOpen}
+          url={url}
           data={{ reset_key: resetData?.reset_key ?? '' }}
           title="重置成功"
           onClose={onSetPasswordModalClose}
