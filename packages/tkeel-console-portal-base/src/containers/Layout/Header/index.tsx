@@ -37,7 +37,11 @@ function Header({ menus }: { menus: Menu[] }) {
       >
         {breadcrumbs.map((crumb) => (
           <BreadcrumbItem key={crumb}>
-            <BreadcrumbLink color="gray.400" fontSize="12px" href="#">
+            <BreadcrumbLink
+              color="grayAlternatives.300"
+              fontSize="12px"
+              cursor="default"
+            >
               {crumb}
             </BreadcrumbLink>
           </BreadcrumbItem>

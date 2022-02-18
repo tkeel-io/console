@@ -36,5 +36,6 @@ export { default as PuzzleTwoToneIcon } from './components/PuzzleTwoToneIcon';
 export { default as SuccessTwoToneIcon } from './components/SuccessTwoToneIcon';
 export { default as SunFilledIcon } from './components/SunFilledIcon';
 export { default as TagsTwoToneIcon } from './components/TagsTwoToneIcon';
+export { default as TopologyCircleTwoToneIcon } from './components/TopologyCircleTwoToneIcon';
 export { default as TrashFilledIcon } from './components/TrashFilledIcon';
 export { default as WarningTwoToneIcon } from './components/WarningTwoToneIcon';
