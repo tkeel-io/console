@@ -1,18 +1,37 @@
 import { useDisclosure } from '@chakra-ui/react';
-import { CreateButton, toast } from '@tkeel/console-components';
+import { SetPasswordModal } from '@tkeel/console-business-components';
+import { CreateButton } from '@tkeel/console-components';
 
 import { FormValues } from '@/tkeel-console-plugin-admin-tenants/components/BaseTenantModal';
 import useCreateTenantMutation from '@/tkeel-console-plugin-admin-tenants/hooks/mutations/useCreateTenantMutation';
 import CreateTenantModal from '@/tkeel-console-plugin-admin-tenants/pages/Index/components/CreateTenantModal';
 
-export default function CreateTenantButton() {
+type Props = {
+  onSuccess: () => void;
+};
+
+export default function CreateTenantButton({ onSuccess }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { isLoading, mutate } = useCreateTenantMutation({
+  const {
+    isOpen: isSuccessModalOpen,
+    onOpen: onSuccessModalOpen,
+    onClose: onSuccessModalClose,
+  } = useDisclosure();
+  const { isLoading, mutate, data } = useCreateTenantMutation({
     onSuccess: () => {
-      toast({ status: 'success', title: '创建成功' });
+      onSuccess();
       onClose();
+      onSuccessModalOpen();
     },
   });
+
+  const url = `${window.location.origin.replace(
+    /^admin\./,
+    ''
+  )}/auth/set-password`;
+  const setPasswordModalData = {
+    reset_key: data?.reset_key ?? '',
+  };
 
   const handleConfirm = (formValues: FormValues) => {
     mutate({ data: formValues });
@@ -28,6 +47,15 @@ export default function CreateTenantButton() {
           formFields={{}}
           onClose={onClose}
           onConfirm={handleConfirm}
+        />
+      )}
+      {isSuccessModalOpen && (
+        <SetPasswordModal
+          isOpen={isSuccessModalOpen}
+          title="创建成功"
+          url={url}
+          data={setPasswordModalData}
+          onClose={onSuccessModalClose}
         />
       )}
     </>

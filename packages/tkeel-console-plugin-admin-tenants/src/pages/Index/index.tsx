@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { useQueryClient } from 'react-query';
 import { Cell, Column } from 'react-table';
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import { useGlobalProps } from '@tkeel/console-business-components';
@@ -8,6 +9,7 @@ import {
   PageHeader,
   SearchInput,
   Table,
+  toast,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
 import { HumanVipFilledIcon } from '@tkeel/console-icons';
@@ -21,6 +23,7 @@ import CreateTenantButton from '@/tkeel-console-plugin-admin-tenants/pages/Index
 import ModifyTenantButton from '@/tkeel-console-plugin-admin-tenants/pages/Index/components/ModifyTenantButton';
 
 export default function Index() {
+  const queryClient = useQueryClient();
   const { navigate } = useGlobalProps();
   const [keyWords, setKeyWords] = useState('');
   const pagination = usePagination();
@@ -37,11 +40,21 @@ export default function Index() {
     params = { ...params, key_words: keyWords };
   }
 
-  const { isLoading, total, tenants } = useTenantsQuery({ params });
+  const { queryKey, isLoading, total, tenants } = useTenantsQuery({ params });
   setTotalSize(total);
 
   const LinkToSpaceDetail = () => {
     navigate('/admin-tenants/detail/12029389');
+  };
+
+  const handleCreateTenantSuccess = () => {
+    toast({ status: 'success', title: '创建成功' });
+    queryClient.invalidateQueries(queryKey);
+  };
+
+  const handleModifyTenantSuccess = () => {
+    toast({ status: 'success', title: '修改成功' });
+    queryClient.invalidateQueries(queryKey);
   };
 
   const columns: ReadonlyArray<Column<Tenant>> = [
@@ -87,7 +100,10 @@ export default function Index() {
 
           return (
             <ButtonsHStack>
-              <ModifyTenantButton data={original} onSuccess={() => {}} />
+              <ModifyTenantButton
+                data={original}
+                onSuccess={handleModifyTenantSuccess}
+              />
               {/* <ResetPasswordButton data={original} /> */}
               {/* <DeleteUserButton
                 data={original}
@@ -125,7 +141,7 @@ export default function Index() {
               }}
             />
           </Box>
-          <CreateTenantButton />
+          <CreateTenantButton onSuccess={handleCreateTenantSuccess} />
         </Flex>
         <Table
           columns={columns}

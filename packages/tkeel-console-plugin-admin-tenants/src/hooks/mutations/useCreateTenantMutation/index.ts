@@ -14,6 +14,7 @@ export interface ApiData {
   remark: string;
   tenant_id: number;
   title: string;
+  reset_key: string;
 }
 
 export default function useCreateTenantMutation({
