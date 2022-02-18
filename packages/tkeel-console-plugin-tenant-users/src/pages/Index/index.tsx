@@ -45,6 +45,7 @@ export default function Index() {
   });
 
   const handleCreateUserSuccess = () => {
+    toast({ status: 'success', title: '创建成功' });
     queryClient.invalidateQueries(queryKey);
   };
 

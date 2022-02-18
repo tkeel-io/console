@@ -1,10 +1,10 @@
 import { useDisclosure } from '@chakra-ui/react';
+import { SetPasswordModal } from '@tkeel/console-business-components';
 import { CreateButton, toast } from '@tkeel/console-components';
 
 import useCreateUserMutation from '@/tkeel-console-plugin-tenant-users/hooks/mutations/useCreateUserMutation';
 import { FormValues } from '@/tkeel-console-plugin-tenant-users/pages/Index/components/BaseUserModal';
 import CreateUserModal from '@/tkeel-console-plugin-tenant-users/pages/Index/components/CreateUserModal';
-import SetPasswordModal from '@/tkeel-console-plugin-tenant-users/pages/Index/components/SetPasswordModal';
 
 type Props = {
   onSuccess: () => void;
@@ -24,10 +24,8 @@ export default function CreateUserButton({ onSuccess }: Props) {
       onSuccessModalOpen();
     },
   });
+  const url = `${window.location.origin}/auth/set-password`;
   const setPasswordModalData = {
-    // tenant_id: data?.tenant_id ?? '',
-    // user_id: data?.user_id ?? '',
-    // username: data?.username ?? '',
     reset_key: data?.reset_key ?? '',
   };
 
@@ -57,6 +55,7 @@ export default function CreateUserButton({ onSuccess }: Props) {
         <SetPasswordModal
           isOpen={isSuccessModalOpen}
           title="创建成功"
+          url={url}
           data={setPasswordModalData}
           onClose={onSuccessModalClose}
         />
