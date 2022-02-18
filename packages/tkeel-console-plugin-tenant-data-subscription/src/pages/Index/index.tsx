@@ -6,13 +6,12 @@ import {
   MessageWarningTwoToneIcon,
 } from '@tkeel/console-icons';
 
-import SubscriptionButton from './components/Button/SubscriptionButton';
+// import SubscriptionButton from './components/Button/SubscriptionButton';
 import CreateSubscriptionButton from './components/CreateSubscriptionButton';
 
 import useListSubscribeQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useListSubscribeQuery';
 // import useSubscribeInfoQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useSubscribeInfoQuery';
 import DeleteSubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/DeleteSubscriptionButton';
-import DisableButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/DisableButton';
 import ModifySubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/ModifySubscriptionButton';
 
 function SubscriptionCard() {
@@ -60,7 +59,7 @@ function SubscriptionCard() {
                     <Flex
                       alignItems="center"
                       onClick={() => {
-                        navigate('/detail');
+                        navigate(`/detail/${item.id}`);
                       }}
                       style={{ cursor: 'pointer' }}
                     >
@@ -70,7 +69,7 @@ function SubscriptionCard() {
                       <Box lineHeight="50px" ml="12px">
                         {item.title}
                       </Box>
-                      <Text
+                      {/* <Text
                         display="inline"
                         ml="12px"
                         color="orange.300"
@@ -80,11 +79,11 @@ function SubscriptionCard() {
                         textAlign="center"
                       >
                         已订阅
-                      </Text>
+                      </Text> */}
                     </Flex>
 
                     <Flex>
-                      <SubscriptionButton
+                      {/* <SubscriptionButton
                         style={{
                           width: '60px',
                           height: '28px',
@@ -93,11 +92,10 @@ function SubscriptionCard() {
                         }}
                       >
                         订阅
-                      </SubscriptionButton>
+                      </SubscriptionButton> */}
                       <Box ml="6px">
                         <MoreAction
                           buttons={[
-                            <DisableButton key="disable" />,
                             <ModifySubscriptionButton
                               key="modify"
                               onSuccess={() => {
@@ -129,13 +127,13 @@ function SubscriptionCard() {
                   borderRadius="0 0 4px 4px"
                   padding="0 20"
                 >
-                  <Box color="gray.700">
+                  {/* <Box color="gray.700">
                     订阅设备：
                     <Text display="inline" color="primary">
                       1098
                     </Text>
-                  </Box>
-                  <Box ml="40px">
+                  </Box> */}
+                  <Box>
                     订阅ID：
                     <Text display="inline">{item.id}</Text>
                   </Box>
@@ -156,7 +154,12 @@ function SubscriptionCard() {
 function Index(): JSX.Element {
   //  const {data} =  useSubscribeInfoQuery(id)
 
-  const { refetch } = useListSubscribeQuery();
+  const { data, refetch } = useListSubscribeQuery();
+  const defaultInfo = data.find((item) => {
+    return item.is_default;
+  });
+  // console.log('defaultInfo', defaultInfo);
+
   return (
     <Box>
       <Flex height="30px" alignItems="center" justifyContent="space-between">
@@ -179,7 +182,8 @@ function Index(): JSX.Element {
         />
       </Flex>
       <Box
-        border="1px solid grayAlternatives.50"
+        border="1px solid"
+        borderColor="grayAlternatives.50"
         borderRadius="4px"
         background="white"
         mt="16px"
@@ -187,7 +191,8 @@ function Index(): JSX.Element {
         <Flex
           padding="0 20"
           lineHeight="53px"
-          borderBottom="1px solid grayAlternatives.50"
+          borderBottom="1px solid"
+          borderBottomColor="grayAlternatives.50"
           fontWeight="600"
           fontSize="14px"
           color="gray.800"
@@ -199,8 +204,7 @@ function Index(): JSX.Element {
             ml="12px"
             fontSize="12px"
           >
-            IDC b1会议室所有设备IDC b1会议室所有设备IDC b1会议室所有设备IDC
-            b1会议室所有设备...
+            {defaultInfo?.description}
           </Text>
         </Flex>
         <Flex
@@ -211,19 +215,19 @@ function Index(): JSX.Element {
           fontSize="12px"
           background="gray.50"
         >
-          <Box color="gray.700">
+          {/* <Box color="gray.700">
             订阅设备：
             <Text display="inline" color="primary">
               1098
             </Text>
-          </Box>
-          <Box ml="40px">
+          </Box> */}
+          <Box>
             订阅ID：
-            <Text display="inline">OIE9009</Text>
+            <Text display="inline">{defaultInfo?.id}</Text>
           </Box>
           <Box ml="40px">
             订阅地址：
-            <Text display="inline">amqp://host:port/virtual_host</Text>
+            <Text display="inline">{defaultInfo?.endpoint}</Text>
           </Box>
         </Flex>
       </Box>

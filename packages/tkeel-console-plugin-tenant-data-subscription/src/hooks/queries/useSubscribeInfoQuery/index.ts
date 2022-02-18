@@ -1,17 +1,18 @@
 import useQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/useQuery';
 
 const method = 'GET';
-type Data = {
+export interface ApiData {
+  '@type': string;
+  count: string;
+  created_at: string;
   description: string;
   endpoint: string;
   id: string;
+  is_default: boolean;
   title: string;
-};
-
-export interface ApiData {
-  '@type': string;
-  data: Data[];
+  updated_at: string;
 }
+
 type RequestData = {
   id: string;
 };
@@ -26,5 +27,5 @@ export default function useSubscribeInfoQuery(id: string) {
     url,
     method,
   });
-  return { data: data?.data || [], ...rest };
+  return { data, ...rest };
 }

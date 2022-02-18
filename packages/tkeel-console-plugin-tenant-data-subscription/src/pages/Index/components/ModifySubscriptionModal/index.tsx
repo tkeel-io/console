@@ -19,7 +19,7 @@ export default function ModifySubscriptionModal({
 
   return (
     <BaseSubscriptionModal
-      title="创建订阅"
+      title="修改订阅"
       isOpen={isOpen}
       isConfirmButtonLoading={isConfirmButtonLoading}
       onClose={onClose}

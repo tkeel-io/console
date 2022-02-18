@@ -6,6 +6,7 @@ type Data = {
   endpoint: string;
   id: string;
   title: string;
+  is_default: boolean;
 };
 
 export interface ApiData {

@@ -1,7 +1,7 @@
 import { useDisclosure } from '@chakra-ui/react';
 // import { CreateButton } from '@tkeel/console-components';
 import { MoreActionButton } from '@tkeel/console-components';
-import { TrashFilledIcon } from '@tkeel/console-icons';
+import { PencilFilledIcon } from '@tkeel/console-icons';
 
 import useCreateSubscribeMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useCreateSubscribeMutation';
 import useModifySubscriptionMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useModifySubscriptionMutation';
@@ -59,7 +59,7 @@ export default function ModifySubscriptionButton({ onSuccess }: Props) {
     <>
       {/* <CreateButton onClick={onOpen}>创建订阅</CreateButton> */}
       <MoreActionButton
-        icon={<TrashFilledIcon />}
+        icon={<PencilFilledIcon />}
         title="编辑信息"
         onClick={() => {
           // console.log('test');
