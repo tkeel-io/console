@@ -23,7 +23,7 @@ export default function ModifyTenantButton({ data, onSuccess }: Props) {
           isOpen={isOpen}
           isConfirmButtonLoading={false}
           formFields={{}}
-          defaultValues={{ title: '', admin: '' }}
+          defaultValues={{ title: '', admin: { username: '' } }}
           onClose={onClose}
           onConfirm={() => {}}
         />

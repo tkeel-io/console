@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Cell, Column } from 'react-table';
-import { Box, Button, Flex } from '@chakra-ui/react';
+import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import { useGlobalProps } from '@tkeel/console-business-components';
 import {
   ButtonsHStack,
@@ -14,6 +14,7 @@ import { HumanVipFilledIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import useTenantsQuery, {
+  Admin,
   Tenant,
 } from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useTenantsQuery';
 import CreateTenantButton from '@/tkeel-console-plugin-admin-tenants/pages/Index/components/CreateTenantButton';
@@ -58,7 +59,17 @@ export default function Index() {
         ),
     },
     { Header: '租户 ID', accessor: 'tenant_id' },
-    { Header: '管理员账号' },
+    {
+      Header: '管理员账号',
+      accessor: 'admins',
+      Cell: ({ value = [] }: { value: Admin[] }) => {
+        const usernames = value.map(({ username }) => username);
+        return useMemo(
+          () => <Text isTruncated>{usernames.join('，')}</Text>,
+          [usernames]
+        );
+      },
+    },
     {
       Header: '创建时间',
       accessor: 'created_at',

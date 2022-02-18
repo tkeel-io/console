@@ -1,16 +1,21 @@
 import { useDisclosure } from '@chakra-ui/react';
-import { CreateButton } from '@tkeel/console-components';
+import { CreateButton, toast } from '@tkeel/console-components';
 
 import { FormValues } from '@/tkeel-console-plugin-admin-tenants/components/BaseTenantModal';
+import useCreateTenantMutation from '@/tkeel-console-plugin-admin-tenants/hooks/mutations/useCreateTenantMutation';
 import CreateTenantModal from '@/tkeel-console-plugin-admin-tenants/pages/Index/components/CreateTenantModal';
 
 export default function CreateTenantButton() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isLoading, mutate } = useCreateTenantMutation({
+    onSuccess: () => {
+      toast({ status: 'success', title: '创建成功' });
+      onClose();
+    },
+  });
 
   const handleConfirm = (formValues: FormValues) => {
-    // eslint-disable-next-line no-console
-    console.log(formValues);
-    onClose();
+    mutate({ data: formValues });
   };
 
   return (
@@ -19,7 +24,7 @@ export default function CreateTenantButton() {
       {isOpen && (
         <CreateTenantModal
           isOpen={isOpen}
-          isConfirmButtonLoading={false}
+          isConfirmButtonLoading={isLoading}
           formFields={{}}
           onClose={onClose}
           onConfirm={handleConfirm}
