@@ -31,6 +31,7 @@ export { default as MagnifierTwoToneIcon } from './components/MagnifierTwoToneIc
 export { default as MessageWarningTwoToneIcon } from './components/MessageWarningTwoToneIcon';
 export { default as MoonCircleFilledIcon } from './components/MoonCircleFilledIcon';
 export { default as MoreVerticalFilledIcon } from './components/MoreVerticalFilledIcon';
+export { default as OfficialFilledIcon } from './components/OfficialFilledIcon';
 export { default as PauseFilledIcon } from './components/PauseFilledIcon';
 export { default as PencilFilledIcon } from './components/PencilFilledIcon';
 export { default as PersonGroupTwoToneIcon } from './components/PersonGroupTwoToneIcon';

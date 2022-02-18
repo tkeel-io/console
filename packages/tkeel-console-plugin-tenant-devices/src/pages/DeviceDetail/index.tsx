@@ -40,7 +40,7 @@ function Index(): JSX.Element {
 
   const renderRightPanel = () => {
     return (
-      <Box minWidth="700px" flex="2.67" bg="white" borderRadius="4px">
+      <Box minWidth="700px" flex="2.5" bg="white" borderRadius="4px">
         <Tabs variant="unstyled" index={tabIndex} onChange={handleTabChange}>
           <TabList
             bg="gray.700"
@@ -57,7 +57,7 @@ function Index(): JSX.Element {
                   boxShadow: 'none',
                 }}
                 fontSize="12px"
-                fontWeight={600}
+                fontWeight="600"
                 borderRight="1px"
                 borderColor="gray.600"
               >

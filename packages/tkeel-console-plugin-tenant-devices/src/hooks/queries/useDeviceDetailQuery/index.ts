@@ -2,33 +2,48 @@ import useQuery from '@/tkeel-console-plugin-tenant-devices/hooks/useQuery';
 
 const method = 'GET';
 
+interface Ext {
+  name: string;
+  value: string;
+}
 export interface BasicInfo {
+  configs?: object;
+  mappers?: object;
+  owner: string;
+  source: string;
   directConnection: boolean;
+  templateId: string;
+  name: string;
+  type: string;
   ext: {
-    [propName: string]: {
-      name: string;
-      value: string;
-    };
+    company: Ext;
+    location: Ext;
   };
   parentId: string;
   selfLearn: boolean;
   description?: string;
-  [propName: string]: unknown;
 }
 
 export interface SysField {
   _createdAt: number;
   _updatedAt: number;
+  _enable: boolean;
   _id: string;
   _status: string;
   _token: string;
-  [propName: string]: unknown;
+  _owner: string;
+  _source: string;
+  _spacePath: string;
+  _subscribeAddr: string;
+  _subscribe_addr: string;
 }
 interface DeviceObject {
   properties: {
     basicInfo: BasicInfo;
     sysField: SysField;
-    [propName: string]: unknown;
+    attributes: {
+      subscribe_addr: string;
+    };
   };
 }
 
@@ -40,14 +55,17 @@ export interface ApiData {
   deviceObject?: DeviceObject;
 }
 
-export default function useDeviceDetailQuery({ id }: RequestParams) {
+export default function useDeviceDetailQuery({
+  id = '6aa71837-986b-4dcb-b3c0-cf458235f384',
+}: RequestParams) {
   const url = `/tkeel-device/v1/devices/${id}`;
   const { data, ...rest } = useQuery<ApiData, RequestParams>({
     url,
     method,
   });
-  const basicInfo = data?.deviceObject?.properties?.basicInfo;
-  const sysField = data?.deviceObject?.properties?.sysField;
+  const properties = data?.deviceObject?.properties;
+  const basicInfo = properties?.basicInfo;
+  const sysField = properties?.sysField;
 
   return { basicInfo, sysField, data, ...rest };
 }

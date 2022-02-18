@@ -2,22 +2,24 @@
 /* eslint-disable sonarjs/cognitive-complexity */
 import { Box, VStack } from '@chakra-ui/react';
 import { InfoCard } from '@tkeel/console-components';
+import { useColor } from '@tkeel/console-hooks';
 import { BranchTowToneIcon, DotLineFilledIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
+import IconWrapper from '@/tkeel-console-plugin-tenant-devices/components/IconWrapper';
 import useDeviceDetailQuery from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
 import DeviceBasicInfoCard, {
   Basic,
 } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/DeviceBasicInfoCard';
 import DeviceInfoCard from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/DeviceInfoCard';
-import { selfLearnColor } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
-import { IconWrapper } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/index.style';
+import { SELF_LEARN_COLORS } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
 
 function DeviceDetailLeftPanel({ id }: { id: string }): JSX.Element {
   const { sysField, basicInfo } = useDeviceDetailQuery({
     id,
   });
   const tokenStr = sysField?._token || '';
+  const isDirectConnection = basicInfo?.directConnection;
   const basic: Basic[] = [
     {
       value: sysField?._id || '',
@@ -32,24 +34,18 @@ function DeviceDetailLeftPanel({ id }: { id: string }): JSX.Element {
       label: '设备组',
     },
     {
-      value: basicInfo?.directConnection ? (
+      value: (
         <IconWrapper
-          bg={basicInfo?.directConnection ? '#EAECF9' : '#FAEBEC'}
-          color={basicInfo?.directConnection ? '#4257ED' : '#FA7474'}
+          iconBg={useColor(isDirectConnection ? 'purple.100' : 'red.50')}
         >
-          <DotLineFilledIcon />
-          <Box as="span" ml="4px" fontSize="12px">
-            {basicInfo?.directConnection ? '直连' : '非直连'}
-          </Box>
-        </IconWrapper>
-      ) : (
-        <IconWrapper
-          bg={basicInfo?.directConnection ? '#EAECF9' : '#FAEBEC'}
-          color={basicInfo?.directConnection ? '#4257ED' : '#FA7474'}
-        >
-          <BranchTowToneIcon />
-          <Box as="span" ml="4px" fontSize="12px">
-            {basicInfo?.directConnection ? '直连' : '非直连'}
+          {isDirectConnection ? <DotLineFilledIcon /> : <BranchTowToneIcon />}
+          <Box
+            as="span"
+            ml="4px"
+            fontSize="12px"
+            color={isDirectConnection ? 'violet.500' : 'red.100'}
+          >
+            {isDirectConnection ? '直连' : '非直连'}
           </Box>
         </IconWrapper>
       ),
@@ -72,20 +68,27 @@ function DeviceDetailLeftPanel({ id }: { id: string }): JSX.Element {
       label: '描述',
     },
   ];
-  const keys = Object.keys(basicInfo?.ext || {});
-  const extInfo = keys.map((r) => {
-    return {
-      value: basicInfo?.ext[r].value || '',
-      label: basicInfo?.ext[r].name || '',
-    };
-  });
+  const company = basicInfo?.ext.company;
+  const location = basicInfo?.ext.location;
+  const extInfo = [
+    {
+      value: company?.value || '',
+      label: company?.name || '',
+    },
+    {
+      value: location?.value || '',
+      label: location?.name || '',
+    },
+  ];
   const status = sysField?._status ?? 'offline';
   const selfLearn = basicInfo?.selfLearn
-    ? selfLearnColor[1]
-    : selfLearnColor[0];
+    ? SELF_LEARN_COLORS[1]
+    : SELF_LEARN_COLORS[0];
   return (
-    <VStack spacing="12px" minWidth="360px" flex={1} mr="20px">
+    <VStack spacing="12px" minWidth="360px" flex="1" mr="20px">
       <DeviceInfoCard
+        subscribeAddr={sysField?._subscribe_addr || ''}
+        deviceName={basicInfo?.name || ''}
         selfLearn={selfLearn}
         isSelfLearn={basicInfo?.selfLearn}
         status={status}

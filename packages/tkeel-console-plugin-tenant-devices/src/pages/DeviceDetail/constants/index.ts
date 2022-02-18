@@ -1,45 +1,45 @@
-export const subscribe = [
+export const SUBSCRIBES = [
   {
-    color: '#fff',
-    twoToneColor: '#79879C',
+    color: 'white',
+    twoToneColor: 'gray.500',
   },
   {
-    color: '#fff',
-    twoToneColor: '#31B8B8',
-  },
-];
-
-export const selfLearnColor = [
-  {
-    color: '#79879C',
-    twoToneColor: '#79879C',
-  },
-  {
-    color: '#2580FF',
-    twoToneColor: '#55BC8A',
+    color: 'white',
+    twoToneColor: 'teal.400',
   },
 ];
 
-export const statusInfo = {
+export const SELF_LEARN_COLORS = [
+  {
+    color: 'gray.500',
+    twoToneColor: 'gray.500',
+  },
+  {
+    color: 'green.300',
+    twoToneColor: 'blue.300',
+  },
+];
+
+export const STATUS_INFOS = {
   isConnect: 1,
   isSub: 1,
-  isSelfLearn: 0,
+  isSelfLearn: 1,
 };
 
 export const OPTIONS = [
   {
     desc: '上行',
-    bg: '#FBF0E9',
-    color: '#EB7C5A',
+    bg: 'purple.50',
+    color: 'purple.600',
   },
   {
     desc: '下行',
-    bg: '#F6F4FE',
-    color: '#604CAF',
+    bg: 'orange.50',
+    color: 'orange.400',
   },
   {
     desc: '连接',
-    bg: '#E9F2FF',
-    color: '#2580FF',
+    bg: 'blue.50',
+    color: 'blue.300',
   },
 ];

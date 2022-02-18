@@ -7,12 +7,12 @@ import {
   AccordionPanel,
   Box,
   Flex,
+  Select,
   Text,
 } from '@chakra-ui/react';
 import { Editor, SearchInput } from '@tkeel/console-components';
 
-import SelectWrapper from './index.style';
-
+// import styled from '@emotion/react';
 import { OPTIONS } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
 
 function Index() {
@@ -43,7 +43,7 @@ function Index() {
     <Box>
       <Flex align="center" w="100%" h="56px">
         <Text>原始数据</Text>
-        <Flex flex={1} justifyContent="flex-end">
+        <Flex flex="1" justifyContent="flex-end">
           <SearchInput onSearch={handleSearch} placeholder="搜索" />
         </Flex>
         <Flex
@@ -54,17 +54,26 @@ function Index() {
           ml="12px"
           fontSize="12px"
           h="32px"
-          fontWeight={600}
+          fontWeight="600"
           alignItems="center"
         >
           代码：
-          <SelectWrapper id="json" defaultValue="json" w="unset">
+          <Select
+            id="json"
+            defaultValue="json"
+            h="32px"
+            fontWeight="600"
+            fontSize="12px"
+            textAlign="center"
+            border="unset"
+            _focus={{ boxShadow: 'none' }}
+          >
             {selectOptions.map(({ value, label }) => (
               <option key={value} value={value}>
                 {label}
               </option>
             ))}
-          </SelectWrapper>
+          </Select>
         </Flex>
       </Flex>
       <Accordion allowMultiple p="12px 12px" bg="gray.50">
@@ -72,6 +81,7 @@ function Index() {
           borderWidth="1px"
           borderColor="gray.200"
           borderRadius="4px"
+          bg="white"
           p="10px 12px 10px 20px"
         >
           <AccordionButton _focus={{ boxShadow: 'none' }} p="unset">
@@ -84,7 +94,7 @@ function Index() {
                 textAlign="center"
                 borderRadius="2px"
                 fontWeight="600"
-                lineHeight={2}
+                lineHeight="2"
               >
                 {OPTIONS[0].desc}
               </Box>
