@@ -14,12 +14,18 @@ export interface FormFields {
     disabled?: boolean;
   };
   admin?: {
-    isHide?: boolean;
-    disabled?: boolean;
-  };
-  nick_name?: {
-    isHide?: boolean;
-    disabled?: boolean;
+    username?: {
+      isHide?: boolean;
+      disabled?: boolean;
+    };
+    password?: {
+      isHide?: boolean;
+      disabled?: boolean;
+    };
+    nick_name?: {
+      isHide?: boolean;
+      disabled?: boolean;
+    };
   };
   remark?: {
     isHide?: boolean;
@@ -29,8 +35,11 @@ export interface FormFields {
 
 export interface FormValues {
   title: string;
-  admin: string;
-  nick_name?: string;
+  admin: {
+    username: string;
+    password?: string;
+    nick_name?: string;
+  };
   remark?: string;
 }
 
@@ -135,17 +144,20 @@ export default function BaseTenantModal({
         <TextField
           id="admin"
           label="管理员账号"
-          isDisabled={formFields?.admin?.disabled}
+          isDisabled={formFields?.admin?.username?.disabled}
           help={schemas.username.help}
-          error={errors.admin}
-          registerReturn={register('admin', schemas.username.registerOptions)}
+          error={errors.admin?.username}
+          registerReturn={register(
+            'admin.username',
+            schemas.username.registerOptions
+          )}
         />
         <TextField
           id="nickName"
           label="管理员名称"
-          isDisabled={formFields?.nick_name?.disabled}
-          error={errors.nick_name}
-          registerReturn={register('nick_name')}
+          isDisabled={formFields?.admin?.nick_name?.disabled}
+          error={errors.admin?.nick_name}
+          registerReturn={register('admin.nick_name')}
         />
         <TextField
           id="remark"

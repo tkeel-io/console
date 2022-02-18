@@ -12,7 +12,9 @@
   "license": "Apache-2.0",
   "main": "./src/index.ts",
   "dependencies": {
+    "@tkeel/console-components": "workspace:^",
     "@tkeel/console-icons": "workspace:^",
+    "qs": "^6.10.3",
     "react-router-dom": "^6.2.1"
   },
   "peerDependencies": {
