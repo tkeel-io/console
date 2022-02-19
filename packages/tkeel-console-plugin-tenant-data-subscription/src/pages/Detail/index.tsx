@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { BackButton, InfoCard, MoreAction } from '@tkeel/console-components';
 import { MessageWarningTwoToneIcon } from '@tkeel/console-icons';
+import { formatDateTime } from '@tkeel/console-utils';
 
 import useSubscribeInfoQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useSubscribeInfoQuery';
 import Table from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/Table';
@@ -92,11 +93,24 @@ function Detail(): JSX.Element {
               },
               {
                 label: '订阅数量',
-                value: data?.count,
+                value: (
+                  <Box fontSize="12px" color="grayAlternatives.300">
+                    <Text
+                      fontSize="12px"
+                      color="primary"
+                      display="inline"
+                      mr="2px"
+                    >
+                      {data?.count}
+                    </Text>
+                    台设备
+                  </Box>
+                ),
               },
               {
                 label: '创建时间',
-                value: data?.created_at,
+                value: formatDateTime({ date: data?.created_at }),
+                // value: data?.created_at,
               },
               {
                 label: '描述',

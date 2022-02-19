@@ -73,7 +73,7 @@ export default function BaseSubscriptionModal({
       />
       <Box>
         <Text color="var(--chakra-colors-gray-600)" fontSize="14px" mb="4px">
-          用户名称
+          描述
         </Text>
         <TextareaField
           id="description"

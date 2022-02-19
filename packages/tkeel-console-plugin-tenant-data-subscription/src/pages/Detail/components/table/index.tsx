@@ -1,12 +1,12 @@
 import { useMemo, useState } from 'react';
 // import { useQueryClient } from 'react-query';
-import { Column } from 'react-table';
-// import { Cell, Column } from 'react-table';
+// import { Column } from 'react-table';
+import { Cell, Column } from 'react-table';
 import { Flex, Text } from '@chakra-ui/react';
 import {
   // ButtonsHStack,
   Empty,
-  // MoreAction,
+  MoreAction,
   PageHeaderToolbar,
   Table,
   toast,
@@ -15,9 +15,11 @@ import { usePagination } from '@tkeel/console-hooks';
 
 import useListSubscribeEntitiesQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useListSubscribeEntitiesQuery';
 import CreateRoleButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/CreateRoleButton';
+// import ModifySubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/ModifySubscriptionButton';
 // import DeleteRoleButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/DeleteRoleButton';
 // import DisableButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/DisableButton';
 // import ModifyRoleButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/ModifyRoleButton';
+import DeleteDeviceButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/DeleteDeviceButton';
 
 // type Role = {
 //   roleName: string;
@@ -102,6 +104,7 @@ function Index({ id }: { id: string }) {
     },
     {
       Header: '设备状态',
+      width: 100,
       accessor: 'status',
     },
     {
@@ -116,6 +119,52 @@ function Index({ id }: { id: string }) {
       Header: '最后更新时间',
       accessor: 'updated_at',
     },
+    // {
+    //   Header: '操作',
+    //   Cell() {
+    //     return (
+    //       <MoreAction
+    //         buttons={[
+    //           <ModifySubscriptionButton
+    //             key="modify"
+    //             onSuccess={() => {
+    //               console.log('123');
+    //             }}
+    //           />,
+    //         ]}
+    //       />
+    //     );
+    //   },
+    // },
+    {
+      Header: '操作',
+      width: 80,
+      Cell: ({ row }: Cell<Data>) =>
+        useMemo(() => {
+          const { original } = row;
+          // console.log('original', original);
+
+          return (
+            <MoreAction
+              buttons={[
+                <DeleteDeviceButton
+                  onSuccess={() => {
+                    // console.log('123');
+                  }}
+                  name={original.name}
+                  key="delete"
+                  id={original.ID}
+                  refetchData={() => {
+                    // console.log('123');
+                    // refetch();
+                  }}
+                />,
+              ]}
+            />
+          );
+        }, [row]),
+    },
+
     // {
     //   Header: '操作',
     //   Cell({ row }: Cell<Role>) {
