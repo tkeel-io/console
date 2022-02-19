@@ -19,7 +19,7 @@ function Index(): JSX.Element {
       <PageHeader
         icon={<AppsAddFilledIcon size={26} />}
         name="插件管理"
-        desc="一段描述文字"
+        desc="展示平台安装完成后静默注册的核心插件。"
       />
       <Tabs
         position="relative"

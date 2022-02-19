@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { RegisterOptions } from 'react-hook-form';
 
 interface Schema {
-  help: ReactNode;
+  help?: ReactNode;
   registerOptions: Pick<
     RegisterOptions,
     | 'required'
@@ -22,6 +22,7 @@ interface Schema {
 interface Schemas {
   username: Schema;
   password: Schema;
+  tenantTitle: Schema;
 }
 
 const usernameHelp = '只能包含英文字母、数字、下划线和 @';
@@ -46,6 +47,11 @@ const schemas: Schemas = {
         value: /^[\w@]{6,18}$/,
         message: passwordHelp,
       },
+    },
+  },
+  tenantTitle: {
+    registerOptions: {
+      required: { value: true, message: '请输入租户空间' },
     },
   },
 };

@@ -11,22 +11,19 @@ import {
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
 import { HumanVipFilledIcon } from '@tkeel/console-icons';
+import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
-import ModifyTenantButton from '@/tkeel-console-plugin-admin-tenants/components/ModifyTenantButton';
 import useTenantsQuery, {
   Tenant,
 } from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useTenantsQuery';
-// import useWebSocketDemo from '@/tkeel-console-plugin-admin-tenants/hooks/webSockets/useWebSocketDemo';
 import CreateTenantButton from '@/tkeel-console-plugin-admin-tenants/pages/Index/components/CreateTenantButton';
+import ModifyTenantButton from '@/tkeel-console-plugin-admin-tenants/pages/Index/components/ModifyTenantButton';
 
 export default function Index() {
   const { navigate } = useGlobalProps();
   const [keyWords, setKeyWords] = useState('');
   const pagination = usePagination();
   const { pageNum, pageSize, setPageNum, setTotalSize } = pagination;
-
-  // TODO: tmp
-  setTotalSize(10);
 
   let params = {
     page_num: pageNum,
@@ -39,7 +36,8 @@ export default function Index() {
     params = { ...params, key_words: keyWords };
   }
 
-  const { isLoading, tenants } = useTenantsQuery({ params });
+  const { isLoading, total, tenants } = useTenantsQuery({ params });
+  setTotalSize(total);
 
   const LinkToSpaceDetail = () => {
     navigate('/admin-tenants/detail/12029389');
@@ -61,7 +59,13 @@ export default function Index() {
     },
     { Header: '租户 ID', accessor: 'tenant_id' },
     { Header: '管理员账号' },
-    { Header: '创建时间', accessor: 'created_at' },
+    {
+      Header: '创建时间',
+      accessor: 'created_at',
+      Cell({ value }) {
+        return value ? formatDateTimeByTimestamp({ timestamp: value }) : '';
+      },
+    },
     { Header: '备注', accessor: 'remark' },
     { Header: '用户数', accessor: 'num_user' },
     {
@@ -72,11 +76,7 @@ export default function Index() {
 
           return (
             <ButtonsHStack>
-              <ModifyTenantButton
-                variant="link"
-                data={original}
-                onSuccess={() => {}}
-              />
+              <ModifyTenantButton data={original} onSuccess={() => {}} />
               {/* <ResetPasswordButton data={original} /> */}
               {/* <DeleteUserButton
                 data={original}
@@ -103,11 +103,11 @@ export default function Index() {
         boxShadow="xl"
         overflow="hidden"
       >
-        <Flex align="center" h="40px" m="16px 24px">
-          <Box flex="1" mr="16px">
+        <Flex alignItems="center" height="40px" margin="16px 24px">
+          <Box flex="1" marginRight="16px">
             <SearchInput
               width="100%"
-              placeholder="搜索租户空间、ID、管理员账号、备注"
+              placeholder="搜索"
               onSearch={(value) => {
                 setPageNum(1);
                 setKeyWords(value.trim());
