@@ -15,13 +15,15 @@ import { usePagination } from '@tkeel/console-hooks';
 import { HumanVipFilledIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
+import CreateTenantButton from './components/CreateTenantButton';
+import ModifyTenantButton from './components/ModifyTenantButton';
+import TreeDemo from './components/TreeDemo';
+
 import DeleteTenantButton from '@/tkeel-console-plugin-admin-tenants/components/DeleteTenantButton';
 import useTenantsQuery, {
   Admin,
   Tenant,
 } from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useTenantsQuery';
-import CreateTenantButton from '@/tkeel-console-plugin-admin-tenants/pages/Index/components/CreateTenantButton';
-import ModifyTenantButton from '@/tkeel-console-plugin-admin-tenants/pages/Index/components/ModifyTenantButton';
 
 export default function Index() {
   const queryClient = useQueryClient();
@@ -127,7 +129,9 @@ export default function Index() {
         name="租户管理"
         desc="管理租户空间，管理租户空间用户。"
       />
+      <TreeDemo />
       <Flex
+        display="none"
         flexDirection="column"
         flex="1"
         marginTop="16px"
