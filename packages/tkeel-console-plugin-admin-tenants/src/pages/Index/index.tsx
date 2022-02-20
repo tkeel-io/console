@@ -43,17 +43,13 @@ export default function Index() {
   const { queryKey, isLoading, total, tenants } = useTenantsQuery({ params });
   setTotalSize(total);
 
-  const LinkToSpaceDetail = () => {
-    navigate('/admin-tenants/detail/12029389');
-  };
-
   const handleCreateTenantSuccess = () => {
     toast({ status: 'success', title: '创建成功' });
     queryClient.invalidateQueries(queryKey);
   };
 
   const handleModifyTenantSuccess = () => {
-    toast({ status: 'success', title: '修改成功' });
+    toast({ status: 'success', title: '编辑成功' });
     queryClient.invalidateQueries(queryKey);
   };
 
@@ -61,14 +57,18 @@ export default function Index() {
     {
       Header: '租户空间',
       accessor: 'title',
-      Cell: ({ value }: { value: string }) =>
+      Cell: ({ value, row }: Cell<Tenant>) =>
         useMemo(
           () => (
-            <Button size="small" variant="link" onClick={LinkToSpaceDetail}>
+            <Button
+              size="small"
+              variant="link"
+              onClick={() => navigate(`detail/${row?.original?.tenant_id}`)}
+            >
               {value}
             </Button>
           ),
-          [value]
+          [row?.original?.tenant_id, value]
         ),
     },
     { Header: '租户 ID', accessor: 'tenant_id' },
