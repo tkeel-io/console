@@ -8,11 +8,10 @@ import {
 } from '@chakra-ui/react';
 import { HumanFilledIcon } from '@tkeel/console-icons';
 
-import SpaceInfoCard from './SpaceInfoCard';
-
-import BackButton from '@/tkeel-console-plugin-admin-tenants/components/BackButton';
-import CustomTab from '@/tkeel-console-plugin-admin-tenants/components/CustomTab';
-import Dropdown from '@/tkeel-console-plugin-admin-tenants/components/Dropdown';
+import BackButton from './components/BackButton';
+import CustomTab from './components/CustomTab';
+import Dropdown from './components/Dropdown';
+import SpaceInfoCard from './components/SpaceInfoCard';
 
 const infos = {
   title: '设备名称',
@@ -25,7 +24,7 @@ const infos = {
   ],
 };
 
-function Detail() {
+export default function Tenant() {
   const menu = [
     {
       key: 'edit',
@@ -35,6 +34,7 @@ function Detail() {
     { key: 'rest', label: '重置管理员密码', icon: HumanFilledIcon },
     { key: 'delete', label: '删除租户空间', icon: HumanFilledIcon },
   ];
+
   return (
     <Flex h="100%">
       <Box w="360px" mr="20px">
@@ -52,8 +52,7 @@ function Detail() {
           backgroundColor="gray.800"
         >
           <CustomTab>客户列表</CustomTab>
-          <CustomTab>资源管理</CustomTab>
-          <CustomTab>用量统计</CustomTab>
+          <CustomTab>第三方认证</CustomTab>
         </TabList>
 
         <TabPanels flex="1" mt="16px" bg="white" borderRadius="4px">
@@ -63,13 +62,8 @@ function Detail() {
           <TabPanel>
             <p>two!</p>
           </TabPanel>
-          <TabPanel>
-            <p>three!</p>
-          </TabPanel>
         </TabPanels>
       </Tabs>
     </Flex>
   );
 }
-
-export default Detail;

@@ -1,7 +1,7 @@
 import BaseTenantModal, {
   FormFields,
   FormValues,
-} from '@/tkeel-console-plugin-admin-tenants/components/BaseTenantModal';
+} from '@/tkeel-console-plugin-admin-tenants/pages/Index/components/BaseTenantModal';
 
 type Props = {
   isOpen: boolean;

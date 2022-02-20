@@ -6,7 +6,7 @@ import { schemas } from '@tkeel/console-utils';
 
 import AuthTypeOption from './AuthTypeOption';
 
-const { TextField } = FormField;
+const { TextField, TextareaField } = FormField;
 
 export interface FormFields {
   title?: {
@@ -159,12 +159,13 @@ export default function BaseTenantModal({
           error={errors.admin?.nick_name}
           registerReturn={register('admin.nick_name')}
         />
-        <TextField
+        <TextareaField
           id="remark"
           label="备注"
           isDisabled={formFields?.remark?.disabled}
           error={errors.remark}
           registerReturn={register('remark')}
+          inputStyle={{ height: '80px' }}
         />
       </Box>
     </Modal>

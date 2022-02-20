@@ -14,6 +14,7 @@ type Props = FormControlProps & {
   type?: HTMLInputTypeAttribute;
   defaultValue?: string;
   placeholder?: string;
+  isDisabled?: boolean;
   registerReturn?: UseFormRegisterReturn;
   inputStyle?: StyleProps;
 };
@@ -27,6 +28,7 @@ function TextareaField({
   id,
   defaultValue,
   placeholder,
+  isDisabled,
   registerReturn,
   inputStyle,
   ...rest
@@ -37,6 +39,7 @@ function TextareaField({
         id={id}
         defaultValue={defaultValue}
         placeholder={placeholder}
+        isDisabled={isDisabled}
         borderColor="gray.200"
         boxShadow="none!important"
         _placeholder={{ color: 'blackAlpha.500' }}

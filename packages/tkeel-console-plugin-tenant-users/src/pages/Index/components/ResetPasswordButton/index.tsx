@@ -56,7 +56,6 @@ export default function ResetPasswordButton({ data }: Props) {
               &nbsp;？
             </>
           }
-          description="删除后不可恢复，请谨慎操作。"
           isOpen={isAlertOpen}
           isConfirmButtonLoading={isLoading}
           onClose={onAlertClose}
