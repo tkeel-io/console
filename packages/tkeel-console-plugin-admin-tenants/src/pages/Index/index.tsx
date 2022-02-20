@@ -15,6 +15,7 @@ import { usePagination } from '@tkeel/console-hooks';
 import { HumanVipFilledIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
+import DeleteTenantButton from '@/tkeel-console-plugin-admin-tenants/components/DeleteTenantButton';
 import useTenantsQuery, {
   Admin,
   Tenant,
@@ -50,6 +51,11 @@ export default function Index() {
 
   const handleModifyTenantSuccess = () => {
     toast({ status: 'success', title: '编辑成功' });
+    queryClient.invalidateQueries(queryKey);
+  };
+
+  const handleDeleteTenantSuccess = () => {
+    toast({ status: 'success', title: '删除成功' });
     queryClient.invalidateQueries(queryKey);
   };
 
@@ -104,11 +110,10 @@ export default function Index() {
                 data={original}
                 onSuccess={handleModifyTenantSuccess}
               />
-              {/* <ResetPasswordButton data={original} /> */}
-              {/* <DeleteUserButton
+              <DeleteTenantButton
                 data={original}
-                onSuccess={handleDeleteUserSuccess}
-              /> */}
+                onSuccess={handleDeleteTenantSuccess}
+              />
             </ButtonsHStack>
           );
         }, [row]),
