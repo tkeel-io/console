@@ -1,13 +1,13 @@
 import { Route, Routes as ReactRouterRoutes } from 'react-router-dom';
 
-import Detail from '../pages/Detail';
 import Index from '../pages/Index';
+import Tenant from '../pages/Tenant';
 
 function Routes() {
   return (
     <ReactRouterRoutes>
       <Route path="/" element={<Index />} />
-      <Route path="/detail/:id" element={<Detail />} />
+      <Route path="/:id" element={<Tenant />} />
     </ReactRouterRoutes>
   );
 }

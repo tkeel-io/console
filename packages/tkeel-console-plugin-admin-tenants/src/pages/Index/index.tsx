@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react';
 import { useQueryClient } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import { Cell, Column } from 'react-table';
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
-import { useGlobalProps } from '@tkeel/console-business-components';
 import {
   ButtonsHStack,
   Empty,
@@ -25,7 +25,7 @@ import ModifyTenantButton from '@/tkeel-console-plugin-admin-tenants/pages/Index
 
 export default function Index() {
   const queryClient = useQueryClient();
-  const { navigate } = useGlobalProps();
+  const navigate = useNavigate();
   const [keyWords, setKeyWords] = useState('');
   const pagination = usePagination();
   const { pageNum, pageSize, setPageNum, setTotalSize } = pagination;
@@ -69,7 +69,7 @@ export default function Index() {
             <Button
               size="small"
               variant="link"
-              onClick={() => navigate(`detail/${row?.original?.tenant_id}`)}
+              onClick={() => navigate(`${row?.original?.tenant_id}`)}
             >
               {value}
             </Button>
