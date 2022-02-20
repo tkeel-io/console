@@ -45,6 +45,7 @@ module.exports = {
     'sonarjs',
     'WORKDIR',
     'tkeelio',
+    'treenode',
   ],
   ignorePaths: [
     '**/.idea/**',
