@@ -2,9 +2,12 @@ import { Tree, TreeNode } from '@tkeel/console-components';
 
 export default function TreeDemo() {
   return (
-    <Tree prefixCls="rc-tree">
-      <TreeNode title="a" />
-      <TreeNode title="b" />
-    </Tree>
+    <div>
+      <h1>Tree Demo</h1>
+      <Tree prefixCls="rc-tree">
+        <TreeNode key={1} title="a" />
+        <TreeNode key={2} title="b" />
+      </Tree>
+    </div>
   );
 }
