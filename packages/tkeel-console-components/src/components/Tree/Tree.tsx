@@ -18,10 +18,10 @@ const defaultProps: Partial<TreeProps> = {
     }
 
     if (expanded) {
-      return <ChevronDownFilledIcon />;
+      return <ChevronDownFilledIcon size="16px" />;
     }
 
-    return <ChevronRightFilledIcon />;
+    return <ChevronRightFilledIcon size="16px" />;
   },
 };
 
