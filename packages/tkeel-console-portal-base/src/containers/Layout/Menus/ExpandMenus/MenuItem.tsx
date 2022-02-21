@@ -24,7 +24,7 @@ function MenuItem({
       justifyContent="space-between"
       height="44px"
       paddingLeft="22px"
-      fontWeight={500}
+      fontWeight="500"
       cursor="pointer"
       userSelect="none"
     >

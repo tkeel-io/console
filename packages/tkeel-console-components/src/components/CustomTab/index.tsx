@@ -1,9 +1,10 @@
 import { ReactNode } from 'react';
-import { Box, BoxProps, useStyles, useTab } from '@chakra-ui/react';
+import { Box, BoxProps, TabProps, useStyles, useTab } from '@chakra-ui/react';
 
-type Props = BoxProps & {
-  children: ReactNode;
-};
+type Props = BoxProps &
+  TabProps & {
+    children: ReactNode;
+  };
 
 function CustomTab(props: Props) {
   const styles = useStyles();

@@ -9,7 +9,7 @@ import {
 import { Base64 } from 'js-base64';
 import { markdown } from 'markdown';
 
-import BasicInfo from './BasicInfo';
+import BasicInfoCard from './BasicInfoCard';
 import DeveloperInfo from './DeveloperInfo';
 import EnablePluginList from './EnablePluginList';
 import { MarkdownWrapper } from './index.style';
@@ -31,7 +31,7 @@ function Detail() {
   return (
     <Flex height="100%" paddingBottom="20px" justifyContent="space-between">
       <Box width="360px" flexShrink="0">
-        <BasicInfo data={pluginDetail} refetchDetails={refetch} />
+        <BasicInfoCard data={pluginDetail} refetchDetails={refetch} />
         <DeveloperInfo data={maintainers} />
       </Box>
       <Tabs display="flex" flexDirection="column" marginLeft="20px" flex="1">

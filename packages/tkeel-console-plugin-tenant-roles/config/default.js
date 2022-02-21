@@ -4,7 +4,7 @@ module.exports = {
   publicPath: '/static/console-plugin-tenant-roles/',
   basePath: '/tenant-roles',
   client: {
-    documentTitle: '',
+    documentTitle: '角色管理',
   },
   api: {
     basePath: '/apis',
