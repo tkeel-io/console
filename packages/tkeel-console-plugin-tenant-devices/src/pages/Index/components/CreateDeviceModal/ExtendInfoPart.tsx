@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { useState } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { UseFieldArrayReturn, UseFormReturn } from 'react-hook-form';
@@ -20,7 +22,7 @@ import { DeviceValueType } from './types';
 interface Props {
   formHandler: UseFormReturn<DeviceValueType, object>;
   watchFields: DeviceValueType;
-  fieldArrayHandler: UseFieldArrayReturn<DeviceValueType>;
+  fieldArrayHandler: UseFieldArrayReturn<DeviceValueType, 'extendInfo'>;
 }
 
 const { TextField } = FormField;
@@ -40,12 +42,10 @@ export default function ExtendInfoPart({
   watchFields,
   fieldArrayHandler,
 }: Props) {
-  const { register, formState, setFocus } = formHandler;
-  const { errors } = formState;
+  const { register, setFocus } = formHandler;
+  // const { errors } = formState;
   const { fields, append, remove } = fieldArrayHandler;
   const [labelId, setLabelId] = useState<string>('');
-  // eslint-disable-next-line no-console
-  console.log(errors);
 
   const renderLabel = (params: {
     field: Record<'id', string>;
@@ -55,7 +55,7 @@ export default function ExtendInfoPart({
     const { field, index } = params;
 
     // eslint-disable-next-line no-console
-    // console.log(field);
+    console.log(watchFields.extendInfo);
     return (
       <Flex justify="space-between">
         <Input
@@ -132,7 +132,6 @@ export default function ExtendInfoPart({
       </Text>
       <Wrap spacing="8px" mb="20px">
         {BASIC_EXTEND_ITEMS.map((key) => {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           const isSelected = find(watchFields.extendInfo, ['label', key]);
           return (
             <Button
@@ -161,7 +160,6 @@ export default function ExtendInfoPart({
           return (
             <TextField
               key={field.id}
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
               label={renderLabel({ field, index })}
               id={field.id}
               registerReturn={register(`extendInfo.${index}.value` as const, {
