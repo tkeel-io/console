@@ -7,7 +7,7 @@ import {
   FormControl,
   FormField,
 } from '@tkeel/console-components';
-import { map } from 'lodash';
+import { map, values } from 'lodash';
 
 import {
   ConnectInfoType,
@@ -15,6 +15,8 @@ import {
   CreateType,
   DeviceValueType,
 } from './types';
+
+import useGroupTreeQuery from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
 
 const { TextField, SelectField, TextareaField } = FormField;
 
@@ -28,8 +30,14 @@ export default function BasicInfoPart({
   formHandler,
   watchFields,
 }: Props) {
+  const { groupTree } = useGroupTreeQuery();
   const { register, formState, setValue } = formHandler;
   const { errors } = formState;
+  const deviceGroupOptions = values(groupTree).map((item) => {
+    const id = item.nodeInfo?.id;
+    const label = item.nodeInfo?.properties?.group?.name;
+    return { label, value: id };
+  });
   return (
     <>
       <TextField
@@ -43,7 +51,7 @@ export default function BasicInfoPart({
       <SelectField
         id="parentId"
         label={type === CreateType.DEVICE ? '设备分组' : '父设备组'}
-        options={[{ value: 1, label: '默认设备组' }]}
+        options={deviceGroupOptions}
         registerReturn={register('parentId', {
           required: { value: true, message: 'required' },
         })}

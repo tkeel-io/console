@@ -124,7 +124,7 @@ function DeviceListTable({ groupItem }: Props): JSX.Element {
             <Text minWidth="180px" fontSize="12px" color="gray.600">
               {value
                 ? // eslint-disable-next-line unicorn/numeric-separators-style
-                  formatDateTimeByTimestamp({ timestamp: value * 0.000001 })
+                  formatDateTimeByTimestamp({ timestamp: value })
                 : ''}
             </Text>
           ),
