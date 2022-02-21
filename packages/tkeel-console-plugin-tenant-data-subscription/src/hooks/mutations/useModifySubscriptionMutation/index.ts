@@ -1,26 +1,20 @@
-import { getLocalUserInfo } from '@tkeel/console-utils';
-
 import useMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/useMutation';
-
-interface RequestData {
-  role: string;
-}
 
 export interface ApiData {
   '@type': string;
 }
 
-const method = 'POST';
-
-export default function useCreateRoleMutation({
-  onSuccess,
-}: {
+type Props = {
+  id: string;
   onSuccess?: () => void;
-} = {}) {
-  const { tenant_id: tenantId } = getLocalUserInfo();
-  const url = `/security/v1/rbac/tenant/${tenantId}/roles`;
+};
 
-  return useMutation<ApiData, undefined, RequestData>({
+const method = 'PATCH';
+
+export default function useCreateSubscribeMutation({ onSuccess, id }: Props) {
+  const url = `/core-broker/v1/subscribe/${id}`;
+
+  return useMutation<ApiData, undefined, undefined>({
     url,
     method,
     reactQueryOptions: { onSuccess },

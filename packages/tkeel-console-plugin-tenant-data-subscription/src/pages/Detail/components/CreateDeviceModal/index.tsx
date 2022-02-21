@@ -17,7 +17,7 @@ export default function CreateDeviceModal({
 }: Props) {
   return (
     <BaseDeviceModal
-      title="创建角色"
+      title="添加设备"
       isOpen={isOpen}
       isConfirmButtonLoading={isConfirmButtonLoading}
       onClose={onClose}

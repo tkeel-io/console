@@ -1,7 +1,14 @@
 import { ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
-// import { Box, Divider, Text, VStack } from '@chakra-ui/react';
-import { Box } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+} from '@chakra-ui/react';
 import {
   // Checkbox,
   // CheckboxGroup,
@@ -9,12 +16,49 @@ import {
   // FormField,
   // Loading,
   Modal,
-  // SearchInput,
+  SearchInput,
+  Tree,
 } from '@tkeel/console-components';
+// import { Box, Divider, Text, VStack } from '@chakra-ui/react';
+import { FileBoxTwoToneIcon } from '@tkeel/console-icons';
 
 // import useTenantPluginsQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useTenantPluginsQuery';
 
 // const { TextField } = FormField;
+
+const treeData = [
+  {
+    title: 'parent 1',
+    key: '0-0',
+    children: [
+      {
+        title: 'parent 1-0',
+        key: '0-0-0',
+        children: [
+          {
+            title: 'leaf',
+            key: '0-0-0-0',
+            disableCheckbox: true,
+          },
+          {
+            title: 'leaf',
+            key: '0-0-0-1',
+          },
+        ],
+      },
+      {
+        title: 'parent 1-1',
+        key: '0-0-1',
+        children: [
+          {
+            title: <span style={{ color: '#1890ff' }}>sss</span>,
+            key: '0-0-1-0',
+          },
+        ],
+      },
+    ],
+  },
+];
 
 export interface FormFields {
   role?: {
@@ -85,8 +129,33 @@ export default function BaseDeviceModal({
       isConfirmButtonLoading={isConfirmButtonLoading}
       onClose={onClose}
       onConfirm={handleConfirm}
+      width="900px"
     >
-      <Box>123</Box>
+      <Flex>
+        <Box flex="1">
+          <Tabs isFitted>
+            <TabList>
+              <Tab _selected={{ color: 'green.300' }}>设备组</Tab>
+              <Tab _selected={{ color: 'green.300' }}>设备模板</Tab>
+            </TabList>
+
+            <TabPanels>
+              <TabPanel>
+                <SearchInput
+                  width="100%"
+                  placeholder="搜索"
+                  onSearch={(value) => setKeywords(value)}
+                />
+                <Tree icon={FileBoxTwoToneIcon} checkable treeData={treeData} />
+              </TabPanel>
+              <TabPanel>
+                <p>two!</p>
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
+        </Box>
+        <Box flex="1">123</Box>
+      </Flex>
     </Modal>
   );
 }
