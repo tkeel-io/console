@@ -49,7 +49,7 @@ export default function Tenant() {
           borderRadius="4px"
           backgroundColor="white"
         >
-          <TabPanel display="flex" flexDirection="column">
+          <TabPanel height="100%">
             <Users />
           </TabPanel>
           {/* <TabPanel>

@@ -70,7 +70,7 @@ export default function Users() {
   ];
 
   return (
-    <Flex flexDirection="column" flex="1">
+    <Flex flexDirection="column" height="100%">
       <PageHeaderToolbar
         name="用户管理"
         hasSearchInput
