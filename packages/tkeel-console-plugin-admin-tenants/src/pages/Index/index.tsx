@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react';
 import { useQueryClient } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import { Cell, Column } from 'react-table';
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
-import { useGlobalProps } from '@tkeel/console-business-components';
 import {
   ButtonsHStack,
   Empty,
@@ -15,16 +15,19 @@ import { usePagination } from '@tkeel/console-hooks';
 import { HumanVipFilledIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
+import CreateTenantButton from './components/CreateTenantButton';
+import ModifyTenantButton from './components/ModifyTenantButton';
+
+// import TreeDemo from './components/TreeDemo';
+import DeleteTenantButton from '@/tkeel-console-plugin-admin-tenants/components/DeleteTenantButton';
 import useTenantsQuery, {
   Admin,
   Tenant,
 } from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useTenantsQuery';
-import CreateTenantButton from '@/tkeel-console-plugin-admin-tenants/pages/Index/components/CreateTenantButton';
-import ModifyTenantButton from '@/tkeel-console-plugin-admin-tenants/pages/Index/components/ModifyTenantButton';
 
 export default function Index() {
   const queryClient = useQueryClient();
-  const { navigate } = useGlobalProps();
+  const navigate = useNavigate();
   const [keyWords, setKeyWords] = useState('');
   const pagination = usePagination();
   const { pageNum, pageSize, setPageNum, setTotalSize } = pagination;
@@ -43,17 +46,18 @@ export default function Index() {
   const { queryKey, isLoading, total, tenants } = useTenantsQuery({ params });
   setTotalSize(total);
 
-  const LinkToSpaceDetail = () => {
-    navigate('/admin-tenants/detail/12029389');
-  };
-
   const handleCreateTenantSuccess = () => {
     toast({ status: 'success', title: '创建成功' });
     queryClient.invalidateQueries(queryKey);
   };
 
   const handleModifyTenantSuccess = () => {
-    toast({ status: 'success', title: '修改成功' });
+    toast({ status: 'success', title: '编辑成功' });
+    queryClient.invalidateQueries(queryKey);
+  };
+
+  const handleDeleteTenantSuccess = () => {
+    toast({ status: 'success', title: '删除成功' });
     queryClient.invalidateQueries(queryKey);
   };
 
@@ -61,14 +65,18 @@ export default function Index() {
     {
       Header: '租户空间',
       accessor: 'title',
-      Cell: ({ value }: { value: string }) =>
+      Cell: ({ value, row }: Cell<Tenant>) =>
         useMemo(
           () => (
-            <Button size="small" variant="link" onClick={LinkToSpaceDetail}>
+            <Button
+              size="small"
+              variant="link"
+              onClick={() => navigate(`${row?.original?.tenant_id}`)}
+            >
               {value}
             </Button>
           ),
-          [value]
+          [row?.original?.tenant_id, value]
         ),
     },
     { Header: '租户 ID', accessor: 'tenant_id' },
@@ -104,11 +112,10 @@ export default function Index() {
                 data={original}
                 onSuccess={handleModifyTenantSuccess}
               />
-              {/* <ResetPasswordButton data={original} /> */}
-              {/* <DeleteUserButton
+              <DeleteTenantButton
                 data={original}
-                onSuccess={handleDeleteUserSuccess}
-              /> */}
+                onSuccess={handleDeleteTenantSuccess}
+              />
             </ButtonsHStack>
           );
         }, [row]),
@@ -122,7 +129,9 @@ export default function Index() {
         name="租户管理"
         desc="管理租户空间，管理租户空间用户。"
       />
+      {/* <TreeDemo /> */}
       <Flex
+        // display="none"
         flexDirection="column"
         flex="1"
         marginTop="16px"
