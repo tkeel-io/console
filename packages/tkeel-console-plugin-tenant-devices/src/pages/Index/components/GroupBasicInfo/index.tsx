@@ -1,36 +1,48 @@
 /* eslint-disable no-console */
-import { Button, Flex, HStack, Text } from '@chakra-ui/react';
+import { useState } from 'react';
+import { Button, Flex, HStack, SimpleGrid, Text } from '@chakra-ui/react';
+
+import {
+  NodeInfo,
+  TreeNodeType,
+} from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
 
 interface Props {
-  groupInfo: {
-    name: string;
-    description: string;
-    ext: { [propsName: string]: string };
+  groupItem: {
+    nodeInfo: NodeInfo;
+    subNode: TreeNodeType;
   };
 }
 
+const defaultCount = 4;
+
 function renderInfoItem(item: { key: string; value: string }) {
   const { key, value } = item;
+
   return (
-    <HStack fontSize="12px" lineHeight="24px" fontWeight="500" minWidth="100px">
+    <HStack key={key} fontSize="12px" lineHeight="24px" fontWeight="500">
       <Text color="grayAlternatives.300">{key}:</Text>
       <Text color="gray.600">{value}</Text>
     </HStack>
   );
 }
-function GroupBasicInfo({ groupInfo }: Props): JSX.Element {
-  const { name, description, ext } = groupInfo;
+function GroupBasicInfo({ groupItem }: Props): JSX.Element {
+  const [isExpend, setIsExpend] = useState(false);
+  console.log('groupItem', groupItem);
+  const { nodeInfo } = groupItem;
+  const { description, name, ext } = nodeInfo.properties.group;
+  // const ext = nodeInfo.properties.group.ext ?? {};
   const groupInfoArray = [
     { key: '设备组名称', value: name },
-    { key: '描述信息', value: description },
+    { key: '描述信息', value: description || '暂无描述' },
     ...Object.entries(ext).map(([key, value]) => {
       console.log(value, key);
       return { key, value };
     }),
   ];
-  console.log(groupInfoArray);
   return (
     <Flex
+      width="100%"
       bg="gray.100"
       p="12px"
       borderRadius="4px"
@@ -38,17 +50,29 @@ function GroupBasicInfo({ groupInfo }: Props): JSX.Element {
       borderWidth="1px"
       mb="12px"
     >
-      <Flex
+      <SimpleGrid
+        columns={4}
+        spacing="16px"
+        minChildWidth="160px"
+        minWidth="640px"
         flex="1"
-        justify="space-around"
-        flexWrap="wrap"
-        h="24px"
-        overflow="hidden"
       >
-        {[...groupInfoArray].map((item) => renderInfoItem(item))}
-      </Flex>
-      <Button variant="link" colorScheme="primary" fontSize="12px">
-        展开
+        {groupInfoArray
+          .slice(0, isExpend ? groupInfoArray.length * 2 : defaultCount)
+          .map((item) => renderInfoItem(item))}
+      </SimpleGrid>
+      <Button
+        ml="16px"
+        visibility={groupInfoArray.length > defaultCount ? 'visible' : 'hidden'}
+        variant="link"
+        colorScheme="primary"
+        fontSize="12px"
+        onClick={() => {
+          setIsExpend(!isExpend);
+        }}
+        _hover={{ textDecoration: 'none' }}
+      >
+        {!isExpend ? '展开' : '收起'}
       </Button>
     </Flex>
   );

@@ -47,6 +47,7 @@ export default function TextField({
         placeholder={placeholder}
         isDisabled={isDisabled}
         borderColor="gray.200"
+        fontSize="14px"
         boxShadow="none!important"
         _placeholder={{ color: 'blackAlpha.500' }}
         _focus={getFocusStyle(!!rest.error)}

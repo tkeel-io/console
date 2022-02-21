@@ -27,13 +27,14 @@
     "@tkeel/console-utils": "workspace:^",
     "@types/lodash": "^4.14.178",
     "@types/react-sortable-tree": "^0.3.15",
+    "@types/react-sortable-tree-theme-file-explorer": "^0.0.0",
     "@types/react-table": "^7.7.9",
+    "@types/sortablejs": "^1.10.7",
     "framer-motion": "^6.2.3",
-    "rc-tree": "^5.4.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-query": "^3.34.12",
     "react-router-dom": "^6.2.1",
-    "react-sortable-tree": "^2.8.0"
+    "sortablejs": "^1.14.0"
   }
 }

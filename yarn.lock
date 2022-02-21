@@ -1340,7 +1340,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.10.1, @babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.10.5, @babel/runtime@npm:^7.12.13, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.6.2, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.4":
+"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.10.1, @babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.10.5, @babel/runtime@npm:^7.12.13, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.6.2, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.2":
   version: 7.17.2
   resolution: "@babel/runtime@npm:7.17.2"
   dependencies:
@@ -3271,6 +3271,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-dnd/asap@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@react-dnd/asap@npm:4.0.0"
+  checksum: 4c37ef5c4efd5bb37ba938276074e6896f102b459ed462e2e7560bdb5e75500f2beeafd7e089e1ffea4a9fb337f15be7992952a78a9b56d80f372aadadc31eca
+  languageName: node
+  linkType: hard
+
+"@react-dnd/invariant@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@react-dnd/invariant@npm:2.0.0"
+  checksum: ef1e989920d70b15c80dccb01af9b598081d76993311aa22d2e9a3ec41d10a88540eeec4b4de7a8b2a2ea52dfc3495ab45e39192c2d27795a9258bd6b79d000e
+  languageName: node
+  linkType: hard
+
+"@react-dnd/shallowequal@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@react-dnd/shallowequal@npm:2.0.0"
+  checksum: b5bbdc795d65945bb7ba2322bed5cf8d4c6fe91dced98c3b10e3d16822c438f558751135ff296f8d1aa1eaa9d0037dacab2b522ca5eb812175123b9996966dcb
+  languageName: node
+  linkType: hard
+
 "@stylelint/postcss-css-in-js@npm:^0.37.2":
   version: 0.37.2
   resolution: "@stylelint/postcss-css-in-js@npm:0.37.2"
@@ -3630,11 +3651,16 @@ __metadata:
     "@tkeel/console-types": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
     "@types/lodash": ^4.14.178
-    framer-motion: ^6.2.6
+    "@types/react-sortable-tree": ^0.3.15
+    "@types/react-sortable-tree-theme-file-explorer": ^0.0.0
+    "@types/react-table": ^7.7.9
+    "@types/sortablejs": ^1.10.7
+    framer-motion: ^6.2.3
     react: ^17.0.2
     react-dom: ^17.0.2
-    react-query: ^3.34.15
+    react-query: ^3.34.12
     react-router-dom: ^6.2.1
+    sortablejs: ^1.14.0
   languageName: unknown
   linkType: soft
 
@@ -4056,6 +4082,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/hoist-non-react-statics@npm:^3.3.1":
+  version: 3.3.1
+  resolution: "@types/hoist-non-react-statics@npm:3.3.1"
+  dependencies:
+    "@types/react": "*"
+    hoist-non-react-statics: ^3.3.0
+  checksum: 2c0778570d9a01d05afabc781b32163f28409bb98f7245c38d5eaf082416fdb73034003f5825eb5e21313044e8d2d9e1f3fe2831e345d3d1b1d20bcd12270719
+  languageName: node
+  linkType: hard
+
 "@types/html-minifier-terser@npm:^6.0.0":
   version: 6.1.0
   resolution: "@types/html-minifier-terser@npm:6.1.0"
@@ -4181,12 +4217,42 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-sortable-tree-theme-file-explorer@npm:^0.0.0":
+  version: 0.0.0
+  resolution: "@types/react-sortable-tree-theme-file-explorer@npm:0.0.0"
+  dependencies:
+    "@types/react-sortable-tree": "*"
+  checksum: 2669890fc545888118978fcdd9f3aa50d5a68574cf088708a2845e124db1ea86fce8aea8357ba1457d2d2ee34279af6a44e3a31ec245fbf90a8a1e9ebf853a42
+  languageName: node
+  linkType: hard
+
+"@types/react-sortable-tree@npm:*, @types/react-sortable-tree@npm:^0.3.15":
+  version: 0.3.15
+  resolution: "@types/react-sortable-tree@npm:0.3.15"
+  dependencies:
+    "@types/react": "*"
+    "@types/react-virtualized": "*"
+    react-dnd: ^11.1.3
+  checksum: 63a933387b749acf8da80cc97a85aefa9489208798f157bc618c05d3a5abcf7bde65f26274ffce6b00f257d97ab621f196330d1a85e7a9c56a93cec2616ddd0e
+  languageName: node
+  linkType: hard
+
 "@types/react-table@npm:^7.7.9":
   version: 7.7.9
   resolution: "@types/react-table@npm:7.7.9"
   dependencies:
     "@types/react": "*"
   checksum: 3f6c847c8e904479875bb249af02b70e271c5480d0f8b94f7da96eb3980a83cf011d7e558e885259851e3af8defb6493deb147227242766ebca37c9cb630c306
+  languageName: node
+  linkType: hard
+
+"@types/react-virtualized@npm:*":
+  version: 9.21.18
+  resolution: "@types/react-virtualized@npm:9.21.18"
+  dependencies:
+    "@types/prop-types": "*"
+    "@types/react": "*"
+  checksum: 60156540e1a3a614301ceb282084b818068ee89c33a8008d87522460d21ed0d64b508b1f69603f9cb5b405cb3dd174c264cb0de1df81624c5e4e0fbcb0b9ed91
   languageName: node
   linkType: hard
 
@@ -4240,6 +4306,13 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: b9bbb2b5c5ead2fb884bb019f61a014e37410bddd295de28184e1b2e71ee6b04120c5ba7b9954617f0bdf962c13d06249ce65004490889c747c80d3f628ea842
+  languageName: node
+  linkType: hard
+
+"@types/sortablejs@npm:^1.10.7":
+  version: 1.10.7
+  resolution: "@types/sortablejs@npm:1.10.7"
+  checksum: c0854b842f0d4b938cb8d0496159bae77b275ed5b5fae8a0faf8d016a51d16906e1b2343f3f09a859a9c6b7ab3409cd7c9577643b249367fbf1756ffe15e4cbb
   languageName: node
   linkType: hard
 
@@ -7154,6 +7227,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dnd-core@npm:^11.1.3":
+  version: 11.1.3
+  resolution: "dnd-core@npm:11.1.3"
+  dependencies:
+    "@react-dnd/asap": ^4.0.0
+    "@react-dnd/invariant": ^2.0.0
+    redux: ^4.0.4
+  checksum: 3a7042e2023aa888777dd7c2d362d7af1054016ff00cf0c9dfc1e6b4ad17442a07c2835db348b7ef90f0a31c2b485da95ad066338d7824bae807ea918aef8c2f
+  languageName: node
+  linkType: hard
+
 "dns-equal@npm:^1.0.0":
   version: 1.0.0
   resolution: "dns-equal@npm:1.0.0"
@@ -8569,7 +8653,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"framer-motion@npm:^6.2.6":
+"framer-motion@npm:^6.2.3, framer-motion@npm:^6.2.6":
   version: 6.2.6
   resolution: "framer-motion@npm:6.2.6"
   dependencies:
@@ -9226,7 +9310,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hoist-non-react-statics@npm:^3.3.1":
+"hoist-non-react-statics@npm:^3.3.0, hoist-non-react-statics@npm:^3.3.1":
   version: 3.3.2
   resolution: "hoist-non-react-statics@npm:3.3.2"
   dependencies:
@@ -13564,6 +13648,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-dnd@npm:^11.1.3":
+  version: 11.1.3
+  resolution: "react-dnd@npm:11.1.3"
+  dependencies:
+    "@react-dnd/shallowequal": ^2.0.0
+    "@types/hoist-non-react-statics": ^3.3.1
+    dnd-core: ^11.1.3
+    hoist-non-react-statics: ^3.3.0
+  peerDependencies:
+    react: ">= 16.9.0"
+    react-dom: ">= 16.9.0"
+  checksum: f1fab4c1b4cee234326da4f1c44cb6df9cfac658c45e193a307f0f82ee4c849024d179b31ea91b17970f3703a2dcc63b877e8c4370f4c1125b4e88f94c83e686
+  languageName: node
+  linkType: hard
+
 "react-dom@npm:^17.0.2":
   version: 17.0.2
   resolution: "react-dom@npm:17.0.2"
@@ -13616,7 +13715,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-query@npm:^3.34.15":
+"react-query@npm:^3.34.12, react-query@npm:^3.34.15":
   version: 3.34.15
   resolution: "react-query@npm:3.34.15"
   dependencies:
@@ -13895,6 +13994,15 @@ __metadata:
     indent-string: ^4.0.0
     strip-indent: ^3.0.0
   checksum: fa1ef20404a2d399235e83cc80bd55a956642e37dd197b4b612ba7327bf87fa32745aeb4a1634b2bab25467164ab4ed9c15be2c307923dd08b0fe7c52431ae6b
+  languageName: node
+  linkType: hard
+
+"redux@npm:^4.0.4":
+  version: 4.1.2
+  resolution: "redux@npm:4.1.2"
+  dependencies:
+    "@babel/runtime": ^7.9.2
+  checksum: 6a839cee5bd580c5298d968e9e2302150e961318253819bcd97f9d945a5a409559eacddf6026f4118bb68b681c593d90e8a2c5bbf278f014aff9bf0d2d8fa084
   languageName: node
   linkType: hard
 
@@ -14905,6 +15013,13 @@ __metadata:
   bin:
     sort-package-json: cli.js
   checksum: 042a6ce7a41f3ecb1f7861d97cb3ce550ea007bdd482414370da2104c53897f1e618923409fe416fbb48d3d9502be3d23072d8a7ac88c2e4d5c321247adb418f
+  languageName: node
+  linkType: hard
+
+"sortablejs@npm:^1.14.0":
+  version: 1.14.0
+  resolution: "sortablejs@npm:1.14.0"
+  checksum: 7b9d2cbb0331f3f259b8703a17174ff46a941b6d59c77c75ca05a5bd484bf2b409a9c1d21344f9c933939880450803b254825c7c7d7f88034e8c7e675420b389
   languageName: node
   linkType: hard
 

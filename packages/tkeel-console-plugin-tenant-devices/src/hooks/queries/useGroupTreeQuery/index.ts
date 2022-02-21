@@ -5,17 +5,18 @@ const method = 'POST';
 
 export interface NodeInfo {
   id: string;
-  type: string;
   properties: {
     group: {
       name: string;
-      [propName: string]: unknown;
+      description: string;
+      ext: { [propName: string]: string };
+      [propName: string]: any;
     };
     sysField: {
-      [propName: string]: unknown;
+      [propName: string]: any;
     };
   };
-  [propName: string]: unknown;
+  [propName: string]: any;
 }
 export interface TreeNodeType {
   [propName: string]: {
@@ -23,6 +24,7 @@ export interface TreeNodeType {
     subNode: TreeNodeType;
   };
 }
+
 type RequestParams = {
   page_name?: number;
   page_size?: number;
@@ -37,7 +39,7 @@ interface ApiData {
 }
 const defaultRequestParams = {
   page_num: 1,
-  page_size: 9_999_999_999_999,
+  page_size: 1000,
   order_by: 'name',
   is_descending: false,
   query: '',

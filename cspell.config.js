@@ -45,6 +45,7 @@ module.exports = {
     'sonarjs',
     'WORKDIR',
     'tkeelio',
+    'sortablejs',
   ],
   ignorePaths: [
     '**/.idea/**',

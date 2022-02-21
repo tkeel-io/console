@@ -1,25 +1,46 @@
+import { useState } from 'react';
 import { Box, Flex, Heading, Spacer } from '@chakra-ui/react';
 import { SearchInput } from '@tkeel/console-components/';
 
 import CreateDeviceButton from './components/CreateDeviceButton';
-import DeviceGroupNav from './components/DeviceGroupNav';
+import DeviceGroupTree from './components/DeviceGroupTree';
 import DeviceListTable from './components/DeviceListTable';
 import GroupBasicInfo from './components/GroupBasicInfo';
+
+import {
+  NodeInfo,
+  TreeNodeType,
+} from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
 
 const handleSearchDevice = (keyword: string) => {
   // eslint-disable-next-line no-console
   console.log(keyword);
 };
-const groupInfo = {
-  description: '测试设备子组_a',
-  ext: {
-    厂商: 'qingcloud2',
-    版本: '1.0.1',
+const defaultGroupItem = {
+  nodeInfo: {
+    id: '',
+    properties: {
+      group: {
+        name: '暂无数据',
+        description: '暂无描述',
+        ext: {},
+      },
+      sysField: {},
+    },
   },
-  name: '测试设备子组_a',
+  subNode: {},
 };
 
 function Index(): JSX.Element {
+  const [groupItem, setGroupItem] = useState(defaultGroupItem);
+  const handleSelectGroup = (item: {
+    nodeInfo: NodeInfo;
+    subNode: TreeNodeType;
+  }) => {
+    // eslint-disable-next-line no-console
+    console.log('handleSelectGroup', item);
+    setGroupItem(item);
+  };
   return (
     <Flex flexDirection="column" h="100%">
       <Flex h="48px" w="100%" align="center">
@@ -34,8 +55,14 @@ function Index(): JSX.Element {
         />
         <CreateDeviceButton />
       </Flex>
-      <Flex flex="1">
-        <DeviceGroupNav />
+      <Box
+        position="relative"
+        display="flex"
+        flex="1"
+        overflow="hidden"
+        marginTop="16px"
+      >
+        <DeviceGroupTree handleSelectGroup={handleSelectGroup} />
         <Flex flex="1" bg="white" p="12px 20px" flexDirection="column">
           <Box
             color="grayAlternatives.300"
@@ -46,10 +73,10 @@ function Index(): JSX.Element {
           >
             当前分组：默认分组/自定义分组3
           </Box>
-          <GroupBasicInfo groupInfo={groupInfo} />
-          <DeviceListTable />
+          <GroupBasicInfo groupItem={groupItem} />
+          <DeviceListTable groupItem={groupItem} />
         </Flex>
-      </Flex>
+      </Box>
     </Flex>
   );
 }

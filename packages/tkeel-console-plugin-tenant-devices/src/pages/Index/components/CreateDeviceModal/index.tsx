@@ -9,7 +9,12 @@ import { has, isEmpty, keyBy, mapValues } from 'lodash';
 import BasicInfoPart from './BasicInfoPart';
 import CompleteInfoPart from './CompleteInfoPart';
 import ExtendInfoPart from './ExtendInfoPart';
-import { ConnectInfoType, ConnectOption, DeviceValueType } from './types';
+import {
+  ConnectInfoType,
+  ConnectOption,
+  CreateType,
+  DeviceValueType,
+} from './types';
 
 import ProgressSchedule from '@/tkeel-console-plugin-tenant-devices/components/ProgressSchedule';
 import useCreateDeviceGroupMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceGroupMutation';
@@ -24,6 +29,7 @@ const defaultFormInfo = {
 interface Props {
   isOpen: boolean;
   onClose: () => void;
+  type: CreateType;
 }
 const progressLabels = ['基本信息', '扩展信息', '创建完成'];
 const BUTTON_TEXT = {
@@ -32,7 +38,11 @@ const BUTTON_TEXT = {
   COMPLETE: '完成',
 };
 
-export default function CreateDeviceGroupModal({ isOpen, onClose }: Props) {
+export default function CreateDeviceGroupModal({
+  type,
+  isOpen,
+  onClose,
+}: Props) {
   const [currentStep, setCurrentStep] = useState(0);
 
   const formHandler = useForm<DeviceValueType>({
@@ -48,7 +58,7 @@ export default function CreateDeviceGroupModal({ isOpen, onClose }: Props) {
 
   useEffect(() => {
     if (!isOpen) {
-      setCurrentStep(0);
+      setCurrentStep(2);
       reset(defaultFormInfo);
     }
   }, [isOpen, reset]);
@@ -120,7 +130,11 @@ export default function CreateDeviceGroupModal({ isOpen, onClose }: Props) {
 
   return (
     <Modal
-      title={<Text fontSize="14px">创建设备组</Text>}
+      title={
+        <Text fontSize="14px">
+          {type === CreateType.DEVICE ? '创建设备' : '创建设备组'}
+        </Text>
+      }
       isOpen={isOpen}
       onClose={onClose}
       width="800px"
@@ -163,6 +177,7 @@ export default function CreateDeviceGroupModal({ isOpen, onClose }: Props) {
               <BasicInfoPart
                 formHandler={formHandler}
                 watchFields={watchFields}
+                type={type}
               />
             )}
             {currentStep === 1 && (
@@ -172,7 +187,7 @@ export default function CreateDeviceGroupModal({ isOpen, onClose }: Props) {
                 fieldArrayHandler={fieldArrayHandler}
               />
             )}
-            {currentStep === 2 && <CompleteInfoPart />}
+            {currentStep === 2 && <CompleteInfoPart type={type} />}
             <Button
               pos="absolute"
               right="0px"

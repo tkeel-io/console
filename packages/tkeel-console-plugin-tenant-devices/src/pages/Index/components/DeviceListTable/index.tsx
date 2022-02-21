@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { useMemo } from 'react';
 import { Cell, Column } from 'react-table';
-import { Flex, Link, Text } from '@chakra-ui/react';
+import { Link, Text } from '@chakra-ui/react';
 import {
   // PageHeaderToolbar,
   Table,
@@ -14,10 +14,23 @@ import useDeviceListQuery, {
   DeviceApiItem,
   DeviceItem,
 } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceListQuery';
+import {
+  NodeInfo,
+  TreeNodeType,
+} from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
 
-function DeviceListTable(): JSX.Element {
+interface Props {
+  groupItem: {
+    nodeInfo: NodeInfo;
+    subNode: TreeNodeType;
+  };
+}
+
+function DeviceListTable({ groupItem }: Props): JSX.Element {
   const pagination = usePagination();
   const { pageNum, pageSize, setTotalSize } = pagination;
+  const { nodeInfo } = groupItem;
+  console.log(nodeInfo.id);
   const params = {
     page_num: pageNum,
     page_size: pageSize,
@@ -28,7 +41,8 @@ function DeviceListTable(): JSX.Element {
       {
         field: 'sysField._spacePath',
         operator: '$wildcard',
-        value: '6ce4280c-3e00-44c0-a544-8845de77eb28',
+        value: nodeInfo.id,
+        // '6ce4280c-3e00-44c0-a544-8845de77eb28',
       },
       {
         field: 'type',
@@ -119,16 +133,14 @@ function DeviceListTable(): JSX.Element {
     },
   ];
   return (
-    <Flex flexDirection="column" flex="1">
-      <Table
-        columns={columns}
-        data={deviceTableData}
-        scroll={{ y: '100%' }}
-        paginationProps={pagination}
-        isLoading={isLoading as boolean}
-        style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
-      />
-    </Flex>
+    <Table
+      columns={columns}
+      data={deviceTableData}
+      scroll={{ y: '100%' }}
+      paginationProps={pagination}
+      isLoading={isLoading as boolean}
+      style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
+    />
   );
 }
 export default DeviceListTable;

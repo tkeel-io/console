@@ -38,6 +38,7 @@ function TextareaField({
         defaultValue={defaultValue}
         placeholder={placeholder}
         borderColor="gray.200"
+        fontSize="14px"
         boxShadow="none!important"
         _placeholder={{ color: 'blackAlpha.500' }}
         _focus={getFocusStyle(!!rest.error)}
