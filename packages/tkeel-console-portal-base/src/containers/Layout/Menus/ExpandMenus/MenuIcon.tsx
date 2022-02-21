@@ -26,12 +26,9 @@ function MenuIcon({ icon, active, style = {}, isMenuLink = false }: Props) {
     defaultTwoToneColor = isTwoTone ? 'whiteAlpha.800' : 'whiteAlpha.500';
   }
 
-  let activeColor = isDarkMenu ? 'white' : 'primary';
-  if (isTwoTone) {
-    activeColor = 'gray.300';
-  }
+  let activeColor = 'primary';
   if (isMenuLink) {
-    activeColor = 'primary';
+    activeColor = isTwoTone ? 'gray.300' : 'white';
   }
 
   const iconProps = isTwoTone
