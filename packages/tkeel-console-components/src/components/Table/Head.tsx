@@ -1,10 +1,9 @@
 /* eslint-disable react/jsx-key */
+import { HeaderGroup } from 'react-table';
 import { Box, Th, Thead, Tr } from '@chakra-ui/react';
 
-import { HeaderGroupExtended, TableHeaderPropsExtended } from './types';
-
 type Props<D extends object> = {
-  headerGroups: HeaderGroupExtended<D>[];
+  headerGroups: HeaderGroup<D>[];
   fixHead: boolean;
   canSort: boolean;
   isShowStripe: boolean;
@@ -24,14 +23,17 @@ function Head<D extends object>({
             {...headerGroup.getHeaderGroupProps()}
             backgroundColor={isShowStripe ? 'gray.100' : 'transparent'}
           >
-            {headerGroup.headers.map((column: HeaderGroupExtended<D>) => {
+            {headerGroup.headers.map((column: HeaderGroup<D>) => {
               const headerProps = column.getHeaderProps(
                 canSort ? column.getSortByToggleProps() : {}
-              ) as TableHeaderPropsExtended;
+              );
 
               return (
                 <Th
                   display="flex"
+                  alignItems="center"
+                  height="34px"
+                  padding="0 10px"
                   position={fixHead ? 'sticky' : 'static'}
                   color="gray.400"
                   borderColor={

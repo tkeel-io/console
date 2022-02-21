@@ -4,3 +4,4 @@ export {
   default as PluginProvider,
   useGlobalProps,
 } from './components/PluginProvider';
+export { default as SetPasswordModal } from './components/SetPasswordModal';

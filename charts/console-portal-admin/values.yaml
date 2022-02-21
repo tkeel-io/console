@@ -1,0 +1,8 @@
+replicaCount: 1
+
+imagePullSecrets: ""
+httpPort: 80
+image:
+  repository: tkeelio/console-portal-admin
+  tag: 0.0.2
+  pullPolicy: Always

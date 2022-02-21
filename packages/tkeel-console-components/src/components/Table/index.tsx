@@ -6,6 +6,7 @@ import {
   ColumnInstance,
   Hooks,
   PluginHook,
+  TableOptions,
   useFlexLayout,
   useRowSelect,
   useSortBy,
@@ -21,7 +22,7 @@ import Pagination from '@/tkeel-console-components/components/Pagination';
 import Body from './Body';
 import Head from './Head';
 import { SelectCell, SelectHeader } from './Select';
-import { Props, TableInstanceExtended, TableOptionsExtended } from './types';
+import { Props } from './types';
 
 function Table<D extends object>({
   columns,
@@ -73,10 +74,10 @@ function Table<D extends object>({
       data,
       initialState: { pageSize: defaultPageSize },
       manualSortBy: true,
-    } as TableOptionsExtended<D>,
+    } as TableOptions<D>,
     useFlexLayout,
     ...plugins
-  ) as TableInstanceExtended<D>;
+  );
 
   useDeepCompareEffect(() => {
     if (onSelect) {
@@ -123,7 +124,7 @@ function Table<D extends object>({
             getTableBodyProps={getTableBodyProps}
             prepareRow={prepareRow}
             scroll={scroll}
-            isShowStripe
+            isShowStripe={isShowStripe}
           />
         </ChakraTable>
         {hasPagination && <Pagination {...paginationProps} />}
