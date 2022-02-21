@@ -1,11 +1,11 @@
 import { Route, Routes as ReactRouterRoutes } from 'react-router-dom';
 
-import Index from '../pages/Index';
+import Roles from '../pages/Roles';
 
 function Routes() {
   return (
     <ReactRouterRoutes>
-      <Route path="/" element={<Index />} />
+      <Route path="/" element={<Roles />} />
     </ReactRouterRoutes>
   );
 }

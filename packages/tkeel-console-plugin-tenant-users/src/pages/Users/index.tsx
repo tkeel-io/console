@@ -1,17 +1,27 @@
 import { useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Column } from 'react-table';
+import { useQueryClient } from 'react-query';
+import { Cell, Column } from 'react-table';
 import { Flex, Text } from '@chakra-ui/react';
-import { PageHeaderToolbar, Table } from '@tkeel/console-components';
+import {
+  ButtonsHStack,
+  PageHeaderToolbar,
+  Table,
+  toast,
+} from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
+import CreateUserButton from './components/CreateUserButton';
+import DeleteUserButton from './components/DeleteUserButton';
+import ModifyUserButton from './components/ModifyUserButton';
+import ResetPasswordButton from './components/ResetPasswordButton';
+
 import useUsersQuery, {
   User,
-} from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useUsersQuery';
+} from '@/tkeel-console-plugin-tenant-users/hooks/queries/useUsersQuery';
 
 export default function Users() {
-  const { tenantId = '' } = useParams();
+  const queryClient = useQueryClient();
   const [keyWords, setKeyWords] = useState('');
   const pagination = usePagination();
   const { pageNum, pageSize, setPageNum, setTotalSize } = pagination;
@@ -26,14 +36,28 @@ export default function Users() {
   if (keyWords) {
     params = { ...params, key_words: keyWords };
   }
-  const { isLoading, users } = useUsersQuery({
-    tenantId,
+  const { isLoading, users, queryKey } = useUsersQuery({
     params,
     onSuccess(data) {
       const total = data?.data?.total ?? 0;
       setTotalSize(total);
     },
   });
+
+  const handleCreateUserSuccess = () => {
+    toast({ status: 'success', title: '创建成功' });
+    queryClient.invalidateQueries(queryKey);
+  };
+
+  const handleModifyUserSuccess = () => {
+    toast({ status: 'success', title: '修改成功' });
+    queryClient.invalidateQueries(queryKey);
+  };
+
+  const handleDeleteUserSuccess = () => {
+    toast({ status: 'success', title: '删除成功' });
+    queryClient.invalidateQueries(queryKey);
+  };
 
   const columns: ReadonlyArray<Column<User>> = [
     {
@@ -67,6 +91,27 @@ export default function Users() {
         return value.join('，');
       },
     },
+    {
+      Header: '操作',
+      Cell: ({ row }: Cell<User>) =>
+        useMemo(() => {
+          const { original } = row;
+
+          return (
+            <ButtonsHStack>
+              <ModifyUserButton
+                data={original}
+                onSuccess={handleModifyUserSuccess}
+              />
+              <ResetPasswordButton data={original} />
+              <DeleteUserButton
+                data={original}
+                onSuccess={handleDeleteUserSuccess}
+              />
+            </ButtonsHStack>
+          );
+        }, [row]),
+    },
   ];
 
   return (
@@ -80,6 +125,9 @@ export default function Users() {
             setKeyWords(value.trim());
           },
         }}
+        buttons={[
+          <CreateUserButton key="create" onSuccess={handleCreateUserSuccess} />,
+        ]}
       />
       <Table
         columns={columns}
@@ -87,7 +135,6 @@ export default function Users() {
         paginationProps={pagination}
         scroll={{ y: '100%' }}
         isLoading={isLoading}
-        isShowStripe
         style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
       />
     </Flex>
