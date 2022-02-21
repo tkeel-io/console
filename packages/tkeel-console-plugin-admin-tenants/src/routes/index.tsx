@@ -7,7 +7,7 @@ export default function Routes() {
   return (
     <ReactRouterRoutes>
       <Route path="/" element={<Index />} />
-      <Route path="/:id" element={<Tenant />} />
+      <Route path="/:tenantId" element={<Tenant />} />
     </ReactRouterRoutes>
   );
 }
