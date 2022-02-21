@@ -1,26 +1,33 @@
 import { useMemo, useState } from 'react';
+import { useQueryClient } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import { Cell, Column } from 'react-table';
-import { Box, Button, Flex } from '@chakra-ui/react';
-import { useGlobalProps } from '@tkeel/console-business-components';
+import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import {
   ButtonsHStack,
   Empty,
   PageHeader,
   SearchInput,
   Table,
+  toast,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
 import { HumanVipFilledIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
+import CreateTenantButton from './components/CreateTenantButton';
+import ModifyTenantButton from './components/ModifyTenantButton';
+import TreeDemo from './components/TreeDemo';
+
+import DeleteTenantButton from '@/tkeel-console-plugin-admin-tenants/components/DeleteTenantButton';
 import useTenantsQuery, {
+  Admin,
   Tenant,
 } from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useTenantsQuery';
-import CreateTenantButton from '@/tkeel-console-plugin-admin-tenants/pages/Index/components/CreateTenantButton';
-import ModifyTenantButton from '@/tkeel-console-plugin-admin-tenants/pages/Index/components/ModifyTenantButton';
 
 export default function Index() {
-  const { navigate } = useGlobalProps();
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const [keyWords, setKeyWords] = useState('');
   const pagination = usePagination();
   const { pageNum, pageSize, setPageNum, setTotalSize } = pagination;
@@ -36,29 +43,54 @@ export default function Index() {
     params = { ...params, key_words: keyWords };
   }
 
-  const { isLoading, total, tenants } = useTenantsQuery({ params });
+  const { queryKey, isLoading, total, tenants } = useTenantsQuery({ params });
   setTotalSize(total);
 
-  const LinkToSpaceDetail = () => {
-    navigate('/admin-tenants/detail/12029389');
+  const handleCreateTenantSuccess = () => {
+    toast({ status: 'success', title: '创建成功' });
+    queryClient.invalidateQueries(queryKey);
+  };
+
+  const handleModifyTenantSuccess = () => {
+    toast({ status: 'success', title: '编辑成功' });
+    queryClient.invalidateQueries(queryKey);
+  };
+
+  const handleDeleteTenantSuccess = () => {
+    toast({ status: 'success', title: '删除成功' });
+    queryClient.invalidateQueries(queryKey);
   };
 
   const columns: ReadonlyArray<Column<Tenant>> = [
     {
       Header: '租户空间',
       accessor: 'title',
-      Cell: ({ value }: { value: string }) =>
+      Cell: ({ value, row }: Cell<Tenant>) =>
         useMemo(
           () => (
-            <Button size="small" variant="link" onClick={LinkToSpaceDetail}>
+            <Button
+              size="small"
+              variant="link"
+              onClick={() => navigate(`${row?.original?.tenant_id}`)}
+            >
               {value}
             </Button>
           ),
-          [value]
+          [row?.original?.tenant_id, value]
         ),
     },
     { Header: '租户 ID', accessor: 'tenant_id' },
-    { Header: '管理员账号' },
+    {
+      Header: '管理员账号',
+      accessor: 'admins',
+      Cell: ({ value = [] }: { value: Admin[] }) => {
+        const usernames = value.map(({ username }) => username);
+        return useMemo(
+          () => <Text isTruncated>{usernames.join('，')}</Text>,
+          [usernames]
+        );
+      },
+    },
     {
       Header: '创建时间',
       accessor: 'created_at',
@@ -76,12 +108,14 @@ export default function Index() {
 
           return (
             <ButtonsHStack>
-              <ModifyTenantButton data={original} onSuccess={() => {}} />
-              {/* <ResetPasswordButton data={original} /> */}
-              {/* <DeleteUserButton
+              <ModifyTenantButton
                 data={original}
-                onSuccess={handleDeleteUserSuccess}
-              /> */}
+                onSuccess={handleModifyTenantSuccess}
+              />
+              <DeleteTenantButton
+                data={original}
+                onSuccess={handleDeleteTenantSuccess}
+              />
             </ButtonsHStack>
           );
         }, [row]),
@@ -95,7 +129,9 @@ export default function Index() {
         name="租户管理"
         desc="管理租户空间，管理租户空间用户。"
       />
+      <TreeDemo />
       <Flex
+        display="none"
         flexDirection="column"
         flex="1"
         marginTop="16px"
@@ -114,7 +150,7 @@ export default function Index() {
               }}
             />
           </Box>
-          <CreateTenantButton />
+          <CreateTenantButton onSuccess={handleCreateTenantSuccess} />
         </Flex>
         <Table
           columns={columns}

@@ -1,16 +1,40 @@
 import { useDisclosure } from '@chakra-ui/react';
+import { SetPasswordModal } from '@tkeel/console-business-components';
 import { CreateButton } from '@tkeel/console-components';
 
-import { FormValues } from '@/tkeel-console-plugin-admin-tenants/components/BaseTenantModal';
+import useCreateTenantMutation from '@/tkeel-console-plugin-admin-tenants/hooks/mutations/useCreateTenantMutation';
+import { FormValues } from '@/tkeel-console-plugin-admin-tenants/pages/Index/components/BaseTenantModal';
 import CreateTenantModal from '@/tkeel-console-plugin-admin-tenants/pages/Index/components/CreateTenantModal';
 
-export default function CreateTenantButton() {
+type Props = {
+  onSuccess: () => void;
+};
+
+export default function CreateTenantButton({ onSuccess }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isSuccessModalOpen,
+    onOpen: onSuccessModalOpen,
+    onClose: onSuccessModalClose,
+  } = useDisclosure();
+  const { isLoading, mutate, data } = useCreateTenantMutation({
+    onSuccess: () => {
+      onSuccess();
+      onClose();
+      onSuccessModalOpen();
+    },
+  });
+
+  const url = `${window.location.origin.replace(
+    /^admin\./,
+    ''
+  )}/auth/set-password`;
+  const setPasswordModalData = {
+    reset_key: data?.reset_key ?? '',
+  };
 
   const handleConfirm = (formValues: FormValues) => {
-    // eslint-disable-next-line no-console
-    console.log(formValues);
-    onClose();
+    mutate({ data: formValues });
   };
 
   return (
@@ -19,10 +43,19 @@ export default function CreateTenantButton() {
       {isOpen && (
         <CreateTenantModal
           isOpen={isOpen}
-          isConfirmButtonLoading={false}
+          isConfirmButtonLoading={isLoading}
           formFields={{}}
           onClose={onClose}
           onConfirm={handleConfirm}
+        />
+      )}
+      {isSuccessModalOpen && (
+        <SetPasswordModal
+          isOpen={isSuccessModalOpen}
+          title="创建成功"
+          url={url}
+          data={setPasswordModalData}
+          onClose={onSuccessModalClose}
         />
       )}
     </>
