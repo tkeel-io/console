@@ -1,19 +1,28 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 
-const textTitleStyle = {
-  color: 'grayAlternatives.300',
-};
-
-const textContentStyle = {
-  color: 'gray.700',
-};
-
-const textBoxStyle = {
-  minWidth: '70px',
-  fontSize: '12px',
-};
-
 function Index() {
+  const data = [
+    {
+      label: '接入协议',
+      value: 'MQTT v3.1.1',
+    },
+    {
+      label: '客户端ID',
+      value: 'clientID',
+    },
+    {
+      label: '客户端端口',
+      value: '80',
+    },
+    {
+      label: '客户端地址',
+      value: '10.10.137.64',
+    },
+    {
+      label: '连接时间',
+      value: '2021-11-26 18:03:21',
+    },
+  ];
   return (
     <Box p="12px 20px">
       <Text
@@ -34,26 +43,14 @@ function Index() {
           borderRadius="4px"
           p="8px 20px 12px"
         >
-          <Box {...textBoxStyle}>
-            <Text {...textTitleStyle}>接入协议</Text>
-            <Text {...textContentStyle}>MQTT v3.1.1</Text>
-          </Box>
-          <Box {...textBoxStyle}>
-            <Text {...textTitleStyle}>客户端ID</Text>
-            <Text {...textContentStyle}>clientID</Text>
-          </Box>
-          <Box {...textBoxStyle}>
-            <Text {...textTitleStyle}>客户端端口</Text>
-            <Text {...textContentStyle}>80</Text>
-          </Box>
-          <Box {...textBoxStyle}>
-            <Text {...textTitleStyle}>客户端地址</Text>
-            <Text {...textContentStyle}>10.10.137.64</Text>
-          </Box>
-          <Box {...textBoxStyle}>
-            <Text {...textTitleStyle}>连接时间</Text>
-            <Text {...textContentStyle}>2021-11-26 18:03:21</Text>
-          </Box>
+          {data.map((r) => {
+            return (
+              <Box minWidth="70px" fontSize="12px" key={r.label}>
+                <Text color="grayAlternatives.300">{r.label}</Text>
+                <Text color="gray.700">{r.value}</Text>
+              </Box>
+            );
+          })}
         </Flex>
       </Box>
     </Box>
