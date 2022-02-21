@@ -1,16 +1,24 @@
 import { useDisclosure } from '@chakra-ui/react';
-import { LinkButton } from '@tkeel/console-components';
+import { LinkButton, MoreActionButton } from '@tkeel/console-components';
+import { TrashFilledIcon } from '@tkeel/console-icons';
 
 import DeleteUserModal from '@/tkeel-console-plugin-admin-tenants/components/DeleteTenantModal';
 import useDeleteUserMutation from '@/tkeel-console-plugin-admin-tenants/hooks/mutations/useDeleteTenantMutation';
-import { Tenant } from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useTenantsQuery';
 
 type Props = {
-  data: Tenant;
+  variant: 'link' | 'menu';
+  data: {
+    tenant_id: string;
+    title: string;
+  };
   onSuccess: () => void;
 };
 
-export default function DeleteTenantButton({ data, onSuccess }: Props) {
+export default function DeleteTenantButton({
+  variant,
+  data,
+  onSuccess,
+}: Props) {
   const { tenant_id: tenantId } = data;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate, isLoading } = useDeleteUserMutation({
@@ -27,7 +35,14 @@ export default function DeleteTenantButton({ data, onSuccess }: Props) {
 
   return (
     <>
-      <LinkButton onClick={onOpen}>删除</LinkButton>
+      {variant === 'link' && <LinkButton onClick={onOpen}>删除</LinkButton>}
+      {variant === 'menu' && (
+        <MoreActionButton
+          icon={<TrashFilledIcon />}
+          title="删除租户空间"
+          onClick={onOpen}
+        />
+      )}
       {isOpen && (
         <DeleteUserModal
           data={data}
