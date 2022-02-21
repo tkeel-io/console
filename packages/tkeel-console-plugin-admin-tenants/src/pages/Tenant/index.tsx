@@ -1,17 +1,11 @@
-import {
-  Box,
-  Flex,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-} from '@chakra-ui/react';
+import { Box, Flex, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { CustomTab, CustomTabList } from '@tkeel/console-components';
 import { HumanFilledIcon } from '@tkeel/console-icons';
 
 import BackButton from './components/BackButton';
-import CustomTab from './components/CustomTab';
 import Dropdown from './components/Dropdown';
 import SpaceInfoCard from './components/SpaceInfoCard';
+import Users from './components/Users';
 
 const infos = {
   title: '设备名称',
@@ -36,32 +30,31 @@ export default function Tenant() {
   ];
 
   return (
-    <Flex h="100%">
-      <Box w="360px" mr="20px">
+    <Flex height="100%">
+      <Box width="360px">
         <Flex bg="gray.50" pt="16px" px="16px" justify="space-between">
           <BackButton />
           <Dropdown menu={menu}>更多操作</Dropdown>
         </Flex>
         <SpaceInfoCard infos={infos} />
       </Box>
-      <Tabs display="flex" flex="1" flexDirection="column">
-        <TabList
-          h="40px"
-          border="none"
-          borderRadius="4px"
-          backgroundColor="gray.800"
-        >
+      <Tabs display="flex" flexDirection="column" marginLeft="20px" flex="1">
+        <CustomTabList>
           <CustomTab>客户列表</CustomTab>
-          <CustomTab>第三方认证</CustomTab>
-        </TabList>
-
-        <TabPanels flex="1" mt="16px" bg="white" borderRadius="4px">
-          <TabPanel>
-            <p>one!</p>
+          {/* <CustomTab>第三方认证</CustomTab> */}
+        </CustomTabList>
+        <TabPanels
+          flex="1"
+          overflow="hidden"
+          borderRadius="4px"
+          backgroundColor="white"
+        >
+          <TabPanel display="flex" flexDirection="column">
+            <Users />
           </TabPanel>
-          <TabPanel>
+          {/* <TabPanel>
             <p>two!</p>
-          </TabPanel>
+          </TabPanel> */}
         </TabPanels>
       </Tabs>
     </Flex>
