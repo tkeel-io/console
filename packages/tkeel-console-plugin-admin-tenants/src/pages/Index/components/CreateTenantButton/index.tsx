@@ -2,8 +2,8 @@ import { useDisclosure } from '@chakra-ui/react';
 import { SetPasswordModal } from '@tkeel/console-business-components';
 import { CreateButton } from '@tkeel/console-components';
 
-import { FormValues } from '@/tkeel-console-plugin-admin-tenants/components/BaseTenantModal';
 import useCreateTenantMutation from '@/tkeel-console-plugin-admin-tenants/hooks/mutations/useCreateTenantMutation';
+import { FormValues } from '@/tkeel-console-plugin-admin-tenants/pages/Index/components/BaseTenantModal';
 import CreateTenantModal from '@/tkeel-console-plugin-admin-tenants/pages/Index/components/CreateTenantModal';
 
 type Props = {

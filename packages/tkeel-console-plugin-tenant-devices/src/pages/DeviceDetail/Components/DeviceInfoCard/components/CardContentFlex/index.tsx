@@ -1,0 +1,23 @@
+import { ReactNode } from 'react';
+import { Flex, FlexProps } from '@chakra-ui/react';
+
+type Props = FlexProps & {
+  children: ReactNode;
+};
+
+function CardContentFlex({ children, ...rest }: Props) {
+  return (
+    <Flex
+      alignItems="center"
+      justifyContent="space-between"
+      w="100%"
+      h="24px"
+      lineHeight="24px"
+      {...rest}
+    >
+      {children}
+    </Flex>
+  );
+}
+
+export default CardContentFlex;
