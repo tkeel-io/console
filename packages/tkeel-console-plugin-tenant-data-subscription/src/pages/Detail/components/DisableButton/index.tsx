@@ -8,7 +8,7 @@ function DisableButton() {
       title="停用"
       onClick={() => {
         // eslint-disable-next-line no-console
-        console.log('停用插件');
+        // console.log('停用插件');
       }}
     />
   );

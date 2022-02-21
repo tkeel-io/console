@@ -11,9 +11,15 @@ type RequestParams = {
   key_words?: string;
 };
 
+export interface Admin {
+  username: '';
+  password: '';
+}
+
 export interface Tenant {
   tenant_id: string;
   title: string;
+  admins: Admin[];
   remark: string;
 
   num_user: number;
@@ -23,6 +29,9 @@ export interface Tenant {
 
 interface AipData {
   '@type': string;
+  page_num: number;
+  page_size: number;
+  total: number;
   tenants: Tenant[];
 }
 
@@ -37,5 +46,6 @@ export default function useTenantsQuery({
     params,
   });
   const tenants = data?.tenants ?? [];
-  return { tenants, data, ...rest };
+  const total = data?.total ?? 0;
+  return { total, tenants, data, ...rest };
 }
