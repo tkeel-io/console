@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { BackButton, InfoCard, MoreAction } from '@tkeel/console-components';
 import { MessageWarningTwoToneIcon } from '@tkeel/console-icons';
-import { formatDateTime } from '@tkeel/console-utils';
+import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import useSubscribeInfoQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useSubscribeInfoQuery';
 import Table from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/Table';
@@ -15,6 +15,7 @@ function Detail(): JSX.Element {
   const { pathname }: { pathname: string } = location;
   const ID = pathname.split('/')[pathname.split('/').length - 1];
   const { data } = useSubscribeInfoQuery(ID);
+  // const created_at = data.created_at
   // console.log('data', data);
 
   return (
@@ -109,8 +110,9 @@ function Detail(): JSX.Element {
               },
               {
                 label: '创建时间',
-                value: formatDateTime({ date: data?.created_at }),
-                // value: data?.created_at,
+                value: formatDateTimeByTimestamp({
+                  timestamp: `${data?.created_at}000`,
+                }),
               },
               {
                 label: '描述',

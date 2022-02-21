@@ -1,7 +1,7 @@
-import BaseRoleModal, {
+import BaseDeviceModal, {
   FormFields,
   FormValues,
-} from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/BaseRoleModal';
+} from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/BaseDeviceModal';
 
 type Props = {
   isOpen: boolean;
@@ -12,7 +12,7 @@ type Props = {
   onConfirm: (formValues: FormValues) => unknown;
 };
 
-export default function CreateRoleModal({
+export default function CreateDeviceModal({
   isOpen,
   isConfirmButtonLoading,
   formFields,
@@ -21,7 +21,7 @@ export default function CreateRoleModal({
   onConfirm,
 }: Props) {
   return (
-    <BaseRoleModal
+    <BaseDeviceModal
       title="编辑用户"
       isOpen={isOpen}
       isConfirmButtonLoading={isConfirmButtonLoading}

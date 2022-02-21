@@ -14,7 +14,7 @@ import {
 import { usePagination } from '@tkeel/console-hooks';
 
 import useListSubscribeEntitiesQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useListSubscribeEntitiesQuery';
-import CreateRoleButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/CreateRoleButton';
+import CreateDeviceButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/CreateDeviceButton';
 // import ModifySubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/ModifySubscriptionButton';
 // import DeleteRoleButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/DeleteRoleButton';
 // import DisableButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/DisableButton';
@@ -204,7 +204,10 @@ function Index({ id }: { id: string }) {
           },
         }}
         buttons={[
-          <CreateRoleButton key="create" onSuccess={handleCreateRoleSuccess} />,
+          <CreateDeviceButton
+            key="create"
+            onSuccess={handleCreateRoleSuccess}
+          />,
         ]}
       />
       <Table
@@ -224,7 +227,7 @@ function Index({ id }: { id: string }) {
             }}
             title=""
             content={
-              <CreateRoleButton
+              <CreateDeviceButton
                 key="create"
                 onSuccess={handleCreateRoleSuccess}
               />

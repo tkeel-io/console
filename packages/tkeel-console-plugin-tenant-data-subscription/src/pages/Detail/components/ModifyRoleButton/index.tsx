@@ -3,7 +3,7 @@ import { LinkButton, toast } from '@tkeel/console-components';
 import { getLocalUserInfo } from '@tkeel/console-utils';
 
 import useSetRolePermissionsMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useSetRolePermissionsMutation';
-import { FormValues } from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/BaseRoleModal';
+import { FormValues } from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/BaseDeviceModal';
 import ModifyRoleModal from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/ModifyRoleModal';
 
 type Props = {
