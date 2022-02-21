@@ -133,10 +133,14 @@ export default function BaseDeviceModal({
     >
       <Flex>
         <Box flex="1">
-          <Tabs isFitted>
+          <Tabs isFitted variant="unstyled">
             <TabList>
-              <Tab _selected={{ color: 'green.300' }}>设备组</Tab>
-              <Tab _selected={{ color: 'green.300' }}>设备模板</Tab>
+              <Tab _selected={{ color: 'green.300', boxShadow: 'none' }}>
+                设备组
+              </Tab>
+              <Tab _selected={{ color: 'green.300', boxShadow: 'none' }}>
+                设备模板
+              </Tab>
             </TabList>
 
             <TabPanels>

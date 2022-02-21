@@ -1,3 +1,4 @@
+import useDeviceGroupQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useDeviceGroupQuery';
 import BaseDeviceModal, {
   FormValues,
 } from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/BaseDeviceModal';
@@ -15,6 +16,12 @@ export default function CreateDeviceModal({
   onClose,
   onConfirm,
 }: Props) {
+  const { data } = useDeviceGroupQuery();
+  // console.log('data', data);
+  if (data) {
+    onClose();
+  }
+
   return (
     <BaseDeviceModal
       title="添加设备"
