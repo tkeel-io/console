@@ -54,7 +54,7 @@ function Body<D extends object>({
                   display="flex"
                   alignItems="center"
                   height="40px"
-                  padding="0 10px"
+                  padding="0 20px"
                   color="grayAlternatives.300"
                   fontSize="14px"
                   borderColor={
