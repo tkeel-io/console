@@ -2,8 +2,14 @@ import { getLocalUserInfo } from '@tkeel/console-utils';
 
 import useMutation from '@/tkeel-console-plugin-tenant-roles/hooks/useMutation';
 
+/* interface Permission {
+  path: string;
+} */
+
 interface RequestData {
-  role: string;
+  name: string;
+  desc?: string;
+  permission_list?: string[];
 }
 
 export interface ApiData {

@@ -1,5 +1,5 @@
 import { useDisclosure } from '@chakra-ui/react';
-import { LinkButton, toast } from '@tkeel/console-components';
+import { LinkButton } from '@tkeel/console-components';
 import { getLocalUserInfo } from '@tkeel/console-utils';
 
 import useSetRolePermissionsMutation from '@/tkeel-console-plugin-tenant-roles/hooks/mutations/useSetRolePermissionsMutation';
@@ -8,19 +8,16 @@ import ModifyRoleModal from '@/tkeel-console-plugin-tenant-roles/pages/Roles/com
 
 type Props = {
   data: {
-    role: string;
-    plugins: string[];
+    roleId: string;
+    roleName: string;
+    permissionList: string[];
   };
   onSuccess: () => void;
 };
 
-const formFields = {
-  role: {
-    disabled: true,
-  },
-};
-
 export default function ModifyRoleButton({ data, onSuccess }: Props) {
+  const { roleId, roleName, permissionList } = data;
+  const defaultValues = { roleName, permissionList };
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate, isLoading } = useSetRolePermissionsMutation({
     onSuccess() {
@@ -31,20 +28,12 @@ export default function ModifyRoleButton({ data, onSuccess }: Props) {
 
   const handleConfirm = (formValues: FormValues) => {
     const { tenant_id: tenantId } = getLocalUserInfo();
-    const { role, plugins = [] } = formValues;
-
-    if (plugins.length === 0) {
-      toast({ status: 'warning', title: '请选择角色权限' });
-      return;
-    }
 
     mutate({
-      url: `/security/v1/rbac/tenant/${tenantId}/roles/${role}/permissions`,
+      url: `/security/v1/rbac/tenant/${tenantId}/roles/${roleId}/permissions`,
       data: {
-        permissions: plugins.map((plugin) => ({
-          permission_action: '',
-          permission_object: plugin,
-        })),
+        name: formValues.roleName,
+        permission_list: formValues.permissionList,
       },
     });
   };
@@ -56,8 +45,7 @@ export default function ModifyRoleButton({ data, onSuccess }: Props) {
         <ModifyRoleModal
           isOpen={isOpen}
           isConfirmButtonLoading={isLoading}
-          formFields={formFields}
-          defaultValues={data}
+          defaultValues={defaultValues}
           onClose={onClose}
           onConfirm={handleConfirm}
         />

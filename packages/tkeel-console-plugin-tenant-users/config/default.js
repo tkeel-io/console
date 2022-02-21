@@ -26,6 +26,7 @@ module.exports = {
               name: '用户列表',
               path: '/tenant-users',
               entry: '/static/console-plugin-tenant-users/',
+              portal: 1,
             },
           ],
         },

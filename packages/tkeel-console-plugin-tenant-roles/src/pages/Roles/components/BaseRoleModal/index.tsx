@@ -11,30 +11,21 @@ import {
   SearchInput,
 } from '@tkeel/console-components';
 
+import usePermissionsQuery from '@/tkeel-console-plugin-tenant-roles/hooks/queries/usePermissionsQuery';
 import useTenantPluginsQuery from '@/tkeel-console-plugin-tenant-roles/hooks/queries/useTenantPluginsQuery';
 
-const { TextField } = FormField;
-
-export interface FormFields {
-  role?: {
-    disabled?: boolean;
-  };
-
-  plugins?: {
-    disabled?: boolean;
-  };
-}
+const { TextField, TextareaField } = FormField;
 
 export interface FormValues {
-  role: string;
-  plugins: string[];
+  roleName: string;
+  permissionList: string[];
+  desc?: string;
 }
 
 type Props = {
   title: ReactNode;
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
-  formFields?: FormFields;
   defaultValues?: FormValues;
   onClose: () => unknown;
   onConfirm: (formValues: FormValues) => unknown;
@@ -44,7 +35,6 @@ export default function BaseRoleModal({
   title,
   isOpen,
   isConfirmButtonLoading,
-  formFields,
   defaultValues,
   onClose,
   onConfirm,
@@ -57,6 +47,7 @@ export default function BaseRoleModal({
   }
 
   const { plugins, isLoading } = useTenantPluginsQuery({ params });
+  usePermissionsQuery();
 
   const {
     register,
@@ -83,11 +74,10 @@ export default function BaseRoleModal({
       onConfirm={handleConfirm}
     >
       <TextField
-        id="role"
+        id="roleName"
         label="角色名称"
-        error={errors.role}
-        isDisabled={formFields?.role?.disabled}
-        registerReturn={register('role', {
+        error={errors.roleName}
+        registerReturn={register('roleName', {
           required: { value: true, message: '请输入正确的角色名称' },
         })}
       />
@@ -109,9 +99,9 @@ export default function BaseRoleModal({
                 <Loading styles={{ wrapper: { paddingTop: '12px' } }} />
               ) : (
                 <CheckboxGroup
-                  defaultValue={defaultValues?.plugins}
+                  defaultValue={defaultValues?.permissionList}
                   onChange={(value: string[]) => {
-                    setValue('plugins', value);
+                    setValue('permissionList', value);
                   }}
                 >
                   <VStack spacing="18px" align="left" paddingTop="12px">
@@ -134,6 +124,12 @@ export default function BaseRoleModal({
           </Box>
         </Box>
       </FormControl>
+      <TextareaField
+        id="desc"
+        label="描述"
+        error={errors.roleName}
+        registerReturn={register('desc')}
+      />
     </Modal>
   );
 }
