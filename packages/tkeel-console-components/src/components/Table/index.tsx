@@ -108,6 +108,7 @@ function Table<D extends object>({
       <>
         <ChakraTable
           {...getTableProps()}
+          padding="0 20px"
           flex="1"
           overflow="hidden"
           display="flex"

@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { Flex, Select, Text } from '@chakra-ui/react';
+import { Flex, Select, StyleProps, Text } from '@chakra-ui/react';
 import {
   ChevronLeftFilledIcon,
   ChevronRightFilledIcon,
@@ -16,6 +16,8 @@ type Props = {
   canNextPage?: boolean;
   setPageNum?: (pageNum: number) => unknown;
   setPageSize?: (pageSize: number) => unknown;
+  showBoxShadow?: boolean;
+  style?: StyleProps;
 };
 
 function Pagination({
@@ -26,6 +28,8 @@ function Pagination({
   canNextPage = false,
   setPageNum,
   setPageSize,
+  showBoxShadow = false,
+  style = {},
 }: Props) {
   const pageSizeRef = useRef(pageSize);
 
@@ -37,13 +41,15 @@ function Pagination({
 
   return (
     <Flex
-      paddingLeft="20px"
-      paddingRight="10px"
+      padding="0 20px"
       justifyContent="space-between"
       alignItems="center"
       flexShrink="0"
       height="56px"
-      backgroundColor="gray.50"
+      boxShadow={
+        showBoxShadow ? '0px -4px 8px rgba(239, 244, 249, 0.8)' : 'none'
+      }
+      {...style}
     >
       <Flex alignItems="center" height="32px" fontSize="12px">
         共

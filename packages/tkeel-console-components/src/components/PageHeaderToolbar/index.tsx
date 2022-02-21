@@ -63,7 +63,7 @@ function PageHeaderToolbar({
           )}
         </Flex>
       )}
-      <Flex flex={1} justifyContent="flex-end">
+      <Flex flex="1" justifyContent="flex-end">
         {hasSearchInput && <SearchInput {...siProps} />}
       </Flex>
       {buttons.length > 0 && (

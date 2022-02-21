@@ -12,7 +12,7 @@ type Props = {
   desc: string;
   basicInfoList: {
     label: string;
-    value: string;
+    value: ReactNode;
   }[];
 };
 
