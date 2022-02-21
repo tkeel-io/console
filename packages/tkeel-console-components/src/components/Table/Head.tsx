@@ -33,7 +33,7 @@ function Head<D extends object>({
                   display="flex"
                   alignItems="center"
                   height="34px"
-                  padding="0 10px"
+                  padding="0 20px"
                   position={fixHead ? 'sticky' : 'static'}
                   color="gray.400"
                   borderColor={

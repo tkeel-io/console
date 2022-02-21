@@ -33,7 +33,7 @@ function MenuItem({ icon, active, isMenuLink = false }: Props) {
       cursor="pointer"
     >
       <Center width="44px" height="44px">
-        <MenuIcon icon={icon} active={active} isMenuLink />
+        <MenuIcon icon={icon} active={active} isMenuLink={isMenuLink} />
       </Center>
     </Box>
   );
