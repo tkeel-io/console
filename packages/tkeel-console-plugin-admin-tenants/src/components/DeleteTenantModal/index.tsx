@@ -1,10 +1,11 @@
 import { Text } from '@chakra-ui/react';
 import { Alert } from '@tkeel/console-components';
 
-import { Tenant } from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useTenantsQuery';
-
 type Props = {
-  data: Tenant;
+  data: {
+    tenant_id: string;
+    title: string;
+  };
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
   onClose: () => unknown;

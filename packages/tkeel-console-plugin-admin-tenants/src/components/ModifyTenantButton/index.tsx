@@ -1,18 +1,27 @@
 import { useDisclosure } from '@chakra-ui/react';
-import { LinkButton } from '@tkeel/console-components';
+import { LinkButton, MoreActionButton } from '@tkeel/console-components';
+import { NotePencilFilledIcon } from '@tkeel/console-icons';
 
 import ModifyTenantModal, {
   FormValues,
 } from '@/tkeel-console-plugin-admin-tenants/components/ModifyTenantModal';
 import useModifyTenantMutation from '@/tkeel-console-plugin-admin-tenants/hooks/mutations/useModifyTenantMutation';
-import { Tenant } from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useTenantsQuery';
 
 interface Props {
-  data: Tenant;
+  variant: 'link' | 'menu';
+  data: {
+    tenant_id: string;
+    title: string;
+    remark?: string;
+  };
   onSuccess: () => void;
 }
 
-export default function ModifyTenantButton({ data, onSuccess }: Props) {
+export default function ModifyTenantButton({
+  variant,
+  data,
+  onSuccess,
+}: Props) {
   const defaultValues = {
     title: data?.title,
     remark: data?.remark,
@@ -32,7 +41,14 @@ export default function ModifyTenantButton({ data, onSuccess }: Props) {
 
   return (
     <>
-      <LinkButton onClick={onOpen}>编辑</LinkButton>
+      {variant === 'link' && <LinkButton onClick={onOpen}>编辑</LinkButton>}
+      {variant === 'menu' && (
+        <MoreActionButton
+          icon={<NotePencilFilledIcon />}
+          title="编辑租户空间"
+          onClick={onOpen}
+        />
+      )}
       {isOpen && (
         <ModifyTenantModal
           isOpen={isOpen}

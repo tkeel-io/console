@@ -16,10 +16,10 @@ import { HumanVipFilledIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import CreateTenantButton from './components/CreateTenantButton';
-import ModifyTenantButton from './components/ModifyTenantButton';
 
 // import TreeDemo from './components/TreeDemo';
 import DeleteTenantButton from '@/tkeel-console-plugin-admin-tenants/components/DeleteTenantButton';
+import ModifyTenantButton from '@/tkeel-console-plugin-admin-tenants/components/ModifyTenantButton';
 import useTenantsQuery, {
   Admin,
   Tenant,
@@ -109,10 +109,12 @@ export default function Index() {
           return (
             <ButtonsHStack>
               <ModifyTenantButton
+                variant="link"
                 data={original}
                 onSuccess={handleModifyTenantSuccess}
               />
               <DeleteTenantButton
+                variant="link"
                 data={original}
                 onSuccess={handleDeleteTenantSuccess}
               />
