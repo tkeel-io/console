@@ -15,3 +15,8 @@ export type DeviceValueType = {
   connectInfo: ConnectInfoType[];
   description: string;
 };
+
+export enum CreateType {
+  GROUP,
+  DEVICE,
+}
