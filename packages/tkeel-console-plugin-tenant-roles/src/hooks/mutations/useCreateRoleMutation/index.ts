@@ -9,7 +9,7 @@ import useMutation from '@/tkeel-console-plugin-tenant-roles/hooks/useMutation';
 interface RequestData {
   name: string;
   desc?: string;
-  permission_list?: string[];
+  permission_list?: { path: string }[];
 }
 
 export interface ApiData {

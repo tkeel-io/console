@@ -47,6 +47,7 @@ module.exports = {
     'wechat',
     'WORKDIR',
     'upsert',
+    'dependences',
   ],
   ignorePaths: [
     '**/.idea/**',

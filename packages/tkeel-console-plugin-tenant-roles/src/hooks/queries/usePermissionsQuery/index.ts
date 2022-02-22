@@ -10,11 +10,22 @@ type Args = {
   params?: RequestParams;
 };
 
-// interface permissions
+interface Permission {
+  id: string;
+  name: string;
+  desc: string;
+  dependences: { path: string; desc: string }[];
+  children?: Permission[];
+}
+
+interface PermissionData {
+  path: string;
+  permission: Permission;
+}
 
 export interface ApiData {
   '@type': string;
-  permissions: string[];
+  permissions: PermissionData[];
 }
 
 export default function usePermissionsQuery({ params }: Args = {}) {

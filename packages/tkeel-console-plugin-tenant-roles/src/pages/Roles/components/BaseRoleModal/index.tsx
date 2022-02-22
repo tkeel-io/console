@@ -12,13 +12,12 @@ import {
 } from '@tkeel/console-components';
 
 import usePermissionsQuery from '@/tkeel-console-plugin-tenant-roles/hooks/queries/usePermissionsQuery';
-import useTenantPluginsQuery from '@/tkeel-console-plugin-tenant-roles/hooks/queries/useTenantPluginsQuery';
 
 const { TextField, TextareaField } = FormField;
 
 export interface FormValues {
   roleName: string;
-  permissionList: string[];
+  permissionList: { path: string }[];
   desc?: string;
 }
 
@@ -46,8 +45,7 @@ export default function BaseRoleModal({
     params = { ...params, key_words: keywords };
   }
 
-  const { plugins, isLoading } = useTenantPluginsQuery({ params });
-  usePermissionsQuery();
+  const { permissions, isLoading } = usePermissionsQuery({ params });
 
   const {
     register,
@@ -61,6 +59,11 @@ export default function BaseRoleModal({
     const result = await trigger();
     if (result) {
       const formValues = getValues();
+      // TODO: tmp
+      formValues.permissionList = [
+        { path: 'console-plugin-tenant-users' },
+        { path: 'core-broker' },
+      ];
       onConfirm(formValues);
     }
   };
@@ -99,21 +102,26 @@ export default function BaseRoleModal({
                 <Loading styles={{ wrapper: { paddingTop: '12px' } }} />
               ) : (
                 <CheckboxGroup
-                  defaultValue={defaultValues?.permissionList}
+                  // TODO: tmp
+                  // defaultValue={defaultValues?.permissionList}
+                  defaultValue={[]}
                   onChange={(value: string[]) => {
-                    setValue('permissionList', value);
+                    setValue(
+                      'permissionList',
+                      value.map((id) => ({ path: id }))
+                    );
                   }}
                 >
                   <VStack spacing="18px" align="left" paddingTop="12px">
-                    {plugins.map((plugin) => (
-                      <Box key={plugin}>
+                    {permissions.map(({ permission }) => (
+                      <Box key={permission.id}>
                         <Checkbox
                           color="grayAlternatives.300"
                           fontSize="12px"
                           lineHeight="150%"
-                          value={plugin}
+                          value={permission.id}
                         >
-                          {plugin}
+                          {permission.name}
                         </Checkbox>
                       </Box>
                     ))}
