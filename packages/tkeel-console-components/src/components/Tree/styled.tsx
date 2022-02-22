@@ -23,15 +23,6 @@ export const StyledWrapper = styled(Box)<Props>`
       align-items: center;
       height: 24px;
 
-      &:not(:last-of-type) {
-        margin-bottom: 8px;
-      }
-
-      &:hover {
-        background-color: ${(props) => props.colors.primarySub2};
-        border-radius: 4px;
-      }
-
       .${treePrefixCls}-node-content-wrapper {
         display: flex;
         align-items: center;
@@ -62,16 +53,41 @@ export const StyledWrapper = styled(Box)<Props>`
           margin: 0 4px;
           background-image: url(${iconCheckbox});
           background-position: center;
-          background-size: 100% 100%;
+          background-size: 12px 12px;
 
           &-checked {
             background-image: url(${iconCheckboxChecked});
             background-position: center;
+            background-size: 100% 100%;
           }
 
           &-indeterminate {
             background-image: url(${iconCheckboxIndeterminate});
             background-position: center;
+            background-size: 100% 100%;
+          }
+        }
+
+        &.${treePrefixCls}-title {
+          color: ${(props) => props.colors.gray[800] as string};
+          font-size: 12px;
+          line-height: 24px;
+        }
+      }
+
+      &:not(:last-of-type) {
+        margin-bottom: 8px;
+      }
+
+      &:hover {
+        background-color: ${(props) => props.colors.primarySub2};
+        border-radius: 4px;
+
+        span {
+          &.${treePrefixCls}-title {
+            color: ${(props) => props.colors.primary};
+            font-size: 12px;
+            line-height: 24px;
           }
         }
       }
