@@ -4,15 +4,16 @@ export interface ApiData {
   '@type': string;
 }
 
-type Props = {
+const method = 'POST';
+
+export default function useDeleteSubscriptionDeviceMutation({
+  id,
+  onSuccess,
+}: {
   id: string;
-  onSuccess?: () => void;
-};
-
-const method = 'PATCH';
-
-export default function useCreateSubscribeMutation({ onSuccess, id }: Props) {
-  const url = `/core-broker/v1/subscribe/${id}`;
+  onSuccess: () => void;
+}) {
+  const url = `/core-broker/v1/subscribe/${id}/entities/delete`;
 
   return useMutation<ApiData, undefined, undefined>({
     url,

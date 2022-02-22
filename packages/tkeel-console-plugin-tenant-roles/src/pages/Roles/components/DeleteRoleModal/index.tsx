@@ -3,7 +3,7 @@ import { Alert } from '@tkeel/console-components';
 
 type Props = {
   data: {
-    role: string;
+    roleName: string;
   };
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
@@ -18,7 +18,7 @@ export default function DeleteRoleModal({
   onClose,
   onConfirm,
 }: Props) {
-  const { role } = data;
+  const { roleName } = data;
 
   return (
     <Alert
@@ -30,7 +30,7 @@ export default function DeleteRoleModal({
           <Text as="span" color="red.300">
             删除
           </Text>
-          &nbsp;角色「{role}」？
+          &nbsp;角色「{roleName}」？
         </>
       }
       description="删除后不可恢复，请谨慎操作。"

@@ -22,6 +22,7 @@ module.exports = {
           icon: 'PuzzleTwoToneIcon',
           path: '/admin-plugins',
           entry: '/static/console-plugin-admin-plugins/',
+          portal: 0,
         },
       ],
       dependence: [{ id: 'rudder', version: tkeel.version }],

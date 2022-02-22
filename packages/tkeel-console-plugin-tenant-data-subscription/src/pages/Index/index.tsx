@@ -97,6 +97,7 @@ function SubscriptionCard() {
                         <MoreAction
                           buttons={[
                             <ModifySubscriptionButton
+                              data={item}
                               key="modify"
                               onSuccess={() => {
                                 refetch();

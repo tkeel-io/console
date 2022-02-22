@@ -39,11 +39,16 @@ export default function BaseSubscriptionModal({
   onClose,
   onConfirm,
 }: Props) {
+  // if (defaultValues) {
+  //   console.log('defaultValues', defaultValues);
+  // }
+
   const {
     register,
     formState: { errors },
     trigger,
     getValues,
+    reset,
   } = useForm<FormValues>({ defaultValues });
 
   const handleConfirm = async () => {
@@ -51,6 +56,7 @@ export default function BaseSubscriptionModal({
     if (result) {
       const formValues = getValues();
       onConfirm(formValues);
+      reset();
     }
   };
 
@@ -59,7 +65,10 @@ export default function BaseSubscriptionModal({
       title={title}
       isOpen={isOpen}
       isConfirmButtonLoading={isConfirmButtonLoading}
-      onClose={onClose}
+      onClose={() => {
+        reset();
+        onClose();
+      }}
       onConfirm={handleConfirm}
     >
       <TextField
@@ -73,7 +82,7 @@ export default function BaseSubscriptionModal({
       />
       <Box>
         <Text color="var(--chakra-colors-gray-600)" fontSize="14px" mb="4px">
-          用户名称
+          描述
         </Text>
         <TextareaField
           id="description"
