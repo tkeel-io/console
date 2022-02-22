@@ -1,4 +1,4 @@
-const primaryColors = ['#55BC8A', '#F0FFF4', '#C4E6D4', '#479E88'];
+const primaryColors = ['#55BC8A', '#E9F5F2', '#C4E6D4', '#479E88'];
 
 const colors = {
   primary: primaryColors[0],

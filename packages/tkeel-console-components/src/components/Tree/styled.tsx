@@ -10,6 +10,10 @@ import 'rc-tree/assets/index.css';
 
 type Props = {
   colors: Colors;
+  styles?: {
+    treeNodeContentWrapper?: string;
+    treeTitle?: string;
+  };
 };
 
 const treePrefixCls = PREFIX_CLS;
@@ -27,6 +31,7 @@ export const StyledWrapper = styled(Box)<Props>`
         display: flex;
         align-items: center;
         height: 100%;
+        ${(props) => props?.styles?.treeNodeContentWrapper}
       }
 
       span {
@@ -72,6 +77,18 @@ export const StyledWrapper = styled(Box)<Props>`
           color: ${(props) => props.colors.gray[800] as string};
           font-size: 12px;
           line-height: 24px;
+          ${(props) => props?.styles?.treeTitle}
+        }
+      }
+
+      .${treePrefixCls}-node-selected {
+        background-color: transparent;
+        box-shadow: none;
+        opacity: 1;
+
+        span.${treePrefixCls}-title {
+          color: ${(props) => props.colors.primary};
+          font-weight: 500;
         }
       }
 
@@ -80,7 +97,7 @@ export const StyledWrapper = styled(Box)<Props>`
       }
 
       &:hover {
-        background-color: ${(props) => props.colors.primarySub2};
+        background-color: ${(props) => props.colors.primarySub};
         border-radius: 4px;
 
         span {

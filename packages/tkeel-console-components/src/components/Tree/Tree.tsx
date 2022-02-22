@@ -9,7 +9,14 @@ import RCTree, { TreeProps } from 'rc-tree';
 import { PREFIX_CLS } from './constants';
 import { StyledWrapper } from './styled';
 
-const defaultProps: Partial<TreeProps> = {
+interface Props extends Omit<TreeProps, 'prefixCls'> {
+  styles?: {
+    treeNodeContentWrapper?: string;
+    treeTitle?: string;
+  };
+}
+
+const defaultProps: Partial<Props> = {
   switcherIcon: (props) => {
     const { isLeaf, expanded } = props;
 
@@ -25,12 +32,13 @@ const defaultProps: Partial<TreeProps> = {
   },
 };
 
-export default function Tree(props: Omit<TreeProps, 'prefixCls'>) {
+export default function Tree(props: Props) {
   const properties = merge({}, defaultProps, props);
+  const { styles } = properties;
   const { colors }: Theme = useTheme();
 
   return (
-    <StyledWrapper colors={colors}>
+    <StyledWrapper colors={colors} styles={styles}>
       <RCTree prefixCls={PREFIX_CLS} {...properties} />
     </StyledWrapper>
   );

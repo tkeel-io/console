@@ -2,6 +2,7 @@ import { Permission } from '@/tkeel-console-plugin-tenant-roles/hooks/queries/us
 
 interface TreeNodeData extends Permission {
   key: string;
+  title: string;
   children?: TreeNodeData[];
 }
 
@@ -11,10 +12,12 @@ export function getTreeData(
   data: Permission[] = [],
   parentKey?: string
 ): TreeData {
-  return data.map(({ id, children = [], ...rest }) => {
+  return data.map(({ id, name, children = [], ...rest }) => {
     const key = parentKey ? `${parentKey}/${id}` : id;
     const treeData = {
       key,
+      title: name,
+      name,
       id,
       ...rest,
     };
