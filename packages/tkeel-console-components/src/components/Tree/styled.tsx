@@ -29,6 +29,8 @@ export const StyledWrapper = styled(Box)<Props>`
       display: flex;
       align-items: center;
       height: 24px;
+      padding: 0 4px;
+      border-radius: 4px;
 
       .${treePrefixCls}-node-content-wrapper {
         display: flex;
@@ -87,14 +89,22 @@ export const StyledWrapper = styled(Box)<Props>`
         }
       }
 
-      .${treePrefixCls}-node-selected {
-        background-color: transparent;
-        box-shadow: none;
-        opacity: 1;
+      &-selected {
+        & > .${treePrefixCls}-switcher {
+          & > svg {
+            fill: ${(props) => props.colors.primary} !important;
+          }
+        }
 
-        span.${treePrefixCls}-title {
-          color: ${(props) => props.colors.primary};
-          font-weight: 500;
+        & > .${treePrefixCls}-node-selected {
+          background-color: transparent;
+          box-shadow: none;
+          opacity: 1;
+
+          span.${treePrefixCls}-title {
+            color: ${(props) => props.colors.primary};
+            font-weight: 500;
+          }
         }
       }
 
@@ -104,7 +114,12 @@ export const StyledWrapper = styled(Box)<Props>`
 
       &:hover {
         background-color: ${(props) => props.colors.primarySub};
-        border-radius: 4px;
+
+        & > .${treePrefixCls}-switcher {
+          & > svg {
+            fill: ${(props) => props.colors.primary} !important;
+          }
+        }
 
         span {
           &.${treePrefixCls}-title {

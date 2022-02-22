@@ -9,17 +9,19 @@ import {
   SearchInput,
   Tree,
 } from '@tkeel/console-components';
+import { union, without } from 'lodash';
 
-import { getTreeData } from './tree';
+import { getChildKeys, getParentKeys, getTreeData, TreeData } from './tree';
 
+import { RequestData } from '@/tkeel-console-plugin-tenant-roles/hooks/mutations/useCreateRoleMutation';
 import usePermissionsQuery from '@/tkeel-console-plugin-tenant-roles/hooks/queries/usePermissionsQuery';
 
 const { TextField, TextareaField } = FormField;
 
 export interface FormValues {
   roleName: string;
-  permissionList?: { path: string }[];
   desc?: string;
+  permissionPaths?: string[];
 }
 
 type Props = {
@@ -28,7 +30,7 @@ type Props = {
   isConfirmButtonLoading: boolean;
   defaultValues?: FormValues;
   onClose: () => unknown;
-  onConfirm: (formValues: FormValues) => unknown;
+  onConfirm: (requestData: RequestData) => void;
 };
 
 export default function BaseRoleModal({
@@ -41,7 +43,6 @@ export default function BaseRoleModal({
 }: Props) {
   const [keywords, setKeywords] = useState('');
   let params = {};
-
   if (keywords) {
     params = { ...params, key_words: keywords };
   }
@@ -52,23 +53,31 @@ export default function BaseRoleModal({
   const {
     register,
     formState: { errors },
+    watch,
     trigger,
     getValues,
-    // setValue,
+    setValue,
   } = useForm<FormValues>({ defaultValues });
 
   const handleConfirm = async () => {
     const result = await trigger();
     if (result) {
-      const formValues = getValues();
-      // TODO: tmp
-      formValues.permissionList = [
-        { path: 'console-plugin-tenant-users' },
-        { path: 'core-broker' },
-      ];
-      onConfirm(formValues);
+      const { roleName, permissionPaths = [], desc } = getValues();
+      const requestData: RequestData = {
+        name: roleName,
+      };
+      if (permissionPaths.length > 0) {
+        const permissionList = permissionPaths.map((path) => ({ path }));
+        requestData.permission_list = permissionList;
+      }
+      if (desc) {
+        requestData.desc = desc;
+      }
+      onConfirm(requestData);
     }
   };
+
+  const permissionPaths = watch('permissionPaths') ?? [];
 
   return (
     <Modal
@@ -86,10 +95,19 @@ export default function BaseRoleModal({
           required: { value: true, message: '请输入正确的角色名称' },
         })}
       />
-      <FormControl id="plugins" label="用户权限设置">
+      <FormControl
+        id="plugins"
+        label="用户权限设置"
+        help="选择父权限不会自动选择子权限，选择子权限会自动选择父权限；取消选择父权限会自动取消选择子权限，取消选择子权限不会自动取消选择父权限。"
+      >
         <Box padding="12px" borderRadius="4px" backgroundColor="gray.50">
-          <SearchInput width="100%" placeholder="搜索" onSearch={setKeywords} />
-          <Box paddingTop="12px">
+          <SearchInput
+            width="100%"
+            placeholder="搜索"
+            inputGroupStyle={{ display: 'none', marginBottom: '12px' }}
+            onSearch={setKeywords}
+          />
+          <Box>
             <Text
               paddingBottom="8px"
               color="grayAlternatives.400"
@@ -99,24 +117,39 @@ export default function BaseRoleModal({
               资源名称
             </Text>
             <Divider backgroundColor="gray.200" />
-            <Box overflowY="auto" maxHeight="300px">
+            <Box overflow="auto" height="300px" paddingY="12px">
               {isLoading ? (
                 <Loading styles={{ wrapper: { paddingTop: '12px' } }} />
               ) : (
                 <Tree
                   treeData={treeData}
-                  fieldNames={{ title: 'name' }}
-                  // eslint-disable-next-line react/no-unstable-nested-components
-                  /* titleRender={(node) => (
-                    <div style={{ width: '100%' }}>{node.title}</div>
-                  )} */
                   showIcon={false}
                   selectable
                   multiple
+                  selectedKeys={permissionPaths}
                   extras={{ isTreeTitleFullWidth: true }}
-                  /* onSelect={(selectedKeys) => {
-                    console.log(selectedKeys);
-                  }} */
+                  onSelect={(_selectedKeys, info) => {
+                    const { selected, node } = info;
+                    const key = node.key as string;
+                    const children = (node.children as TreeData) ?? [];
+                    let newPermissionPaths = [];
+
+                    if (selected) {
+                      const parentKeys = getParentKeys({ keyValue: key });
+                      newPermissionPaths = union(permissionPaths, parentKeys, [
+                        key,
+                      ]);
+                    } else {
+                      const childKeys = getChildKeys(children);
+                      newPermissionPaths = without(
+                        permissionPaths,
+                        ...childKeys,
+                        key
+                      );
+                    }
+
+                    setValue('permissionPaths', newPermissionPaths);
+                  }}
                 />
               )}
             </Box>
@@ -126,7 +159,7 @@ export default function BaseRoleModal({
       <TextareaField
         id="desc"
         label="描述"
-        error={errors.roleName}
+        error={errors.desc}
         registerReturn={register('desc')}
       />
     </Modal>
