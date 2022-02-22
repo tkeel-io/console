@@ -3,7 +3,7 @@ import { Box, Flex, Image } from '@chakra-ui/react';
 
 // import { SearchInput } from '@tkeel/console-components';
 // import { MagnifierTwoToneIcon } from '@tkeel/console-icons';
-import Logo from '@/tkeel-console-portal-base/assets/images/logo.svg';
+import Logo from '@/tkeel-console-portal-base/assets/images/logo-tkeel.svg';
 import tKeelBlack from '@/tkeel-console-portal-base/assets/images/tkeel-black.svg';
 import tKeelWhite from '@/tkeel-console-portal-base/assets/images/tkeel-white.svg';
 import useMenusQuery from '@/tkeel-console-portal-base/hooks/queries/useMenusQuery';

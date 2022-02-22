@@ -26,6 +26,7 @@ module.exports = {
               name: '角色管理',
               path: '/tenant-roles',
               entry: '/static/console-plugin-tenant-roles/',
+              portal: 1,
             },
           ],
         },
