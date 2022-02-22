@@ -10,6 +10,7 @@ import 'rc-tree/assets/index.css';
 
 type Props = {
   colors: Colors;
+  isTreeTitleFullWidth?: boolean;
   styles?: {
     treeNodeContentWrapper?: string;
     treeTitle?: string;
@@ -31,6 +32,7 @@ export const StyledWrapper = styled(Box)<Props>`
         display: flex;
         align-items: center;
         height: 100%;
+        ${(props) => (props?.isTreeTitleFullWidth ? 'flex: 1;' : '')}
         ${(props) => props?.styles?.treeNodeContentWrapper}
       }
 
@@ -78,6 +80,7 @@ export const StyledWrapper = styled(Box)<Props>`
           color: ${(props) => props.colors.gray[800] as string};
           font-size: 12px;
           line-height: 24px;
+          ${(props) => (props?.isTreeTitleFullWidth ? 'flex: 1;' : '')}
           ${(props) => props?.styles?.treeTitle}
         }
       }

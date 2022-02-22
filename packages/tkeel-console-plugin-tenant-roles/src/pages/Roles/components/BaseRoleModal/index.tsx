@@ -1,7 +1,6 @@
 import { ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Box, Divider, Text } from '@chakra-ui/react';
-import { css } from '@emotion/react';
 import {
   FormControl,
   FormField,
@@ -108,23 +107,16 @@ export default function BaseRoleModal({
                   treeData={treeData}
                   fieldNames={{ title: 'name' }}
                   // eslint-disable-next-line react/no-unstable-nested-components
-                  titleRender={(node) => (
+                  /* titleRender={(node) => (
                     <div style={{ width: '100%' }}>{node.title}</div>
-                  )}
-                  // showIcon={false}
-                  draggable
-                  checkable
+                  )} */
+                  showIcon={false}
                   selectable
                   multiple
+                  isTreeTitleFullWidth
                   /* onSelect={(selectedKeys) => {
                     console.log(selectedKeys);
                   }} */
-                  styles={{
-                    treeNodeContentWrapper: css({ flex: 1 }).styles,
-                    treeTitle: css`
-                      flex: 1;
-                    `.styles,
-                  }}
                 />
               )}
             </Box>
