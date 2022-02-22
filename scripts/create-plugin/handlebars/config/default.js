@@ -20,6 +20,7 @@ module.exports = {
           icon: '',
           path: '{{basePath}}',
           entry: '/static/console-plugin-{{name}}',
+          portal: {{portalValue}},
         },
       ],
       dependence: [],

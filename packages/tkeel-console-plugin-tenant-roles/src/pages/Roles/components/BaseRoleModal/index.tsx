@@ -11,30 +11,20 @@ import {
   SearchInput,
 } from '@tkeel/console-components';
 
-import useTenantPluginsQuery from '@/tkeel-console-plugin-tenant-roles/hooks/queries/useTenantPluginsQuery';
+import usePermissionsQuery from '@/tkeel-console-plugin-tenant-roles/hooks/queries/usePermissionsQuery';
 
-const { TextField } = FormField;
-
-export interface FormFields {
-  role?: {
-    disabled?: boolean;
-  };
-
-  plugins?: {
-    disabled?: boolean;
-  };
-}
+const { TextField, TextareaField } = FormField;
 
 export interface FormValues {
-  role: string;
-  plugins: string[];
+  roleName: string;
+  permissionList: { path: string }[];
+  desc?: string;
 }
 
 type Props = {
   title: ReactNode;
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
-  formFields?: FormFields;
   defaultValues?: FormValues;
   onClose: () => unknown;
   onConfirm: (formValues: FormValues) => unknown;
@@ -44,7 +34,6 @@ export default function BaseRoleModal({
   title,
   isOpen,
   isConfirmButtonLoading,
-  formFields,
   defaultValues,
   onClose,
   onConfirm,
@@ -56,7 +45,7 @@ export default function BaseRoleModal({
     params = { ...params, key_words: keywords };
   }
 
-  const { plugins, isLoading } = useTenantPluginsQuery({ params });
+  const { permissions, isLoading } = usePermissionsQuery({ params });
 
   const {
     register,
@@ -70,6 +59,11 @@ export default function BaseRoleModal({
     const result = await trigger();
     if (result) {
       const formValues = getValues();
+      // TODO: tmp
+      formValues.permissionList = [
+        { path: 'console-plugin-tenant-users' },
+        { path: 'core-broker' },
+      ];
       onConfirm(formValues);
     }
   };
@@ -83,11 +77,10 @@ export default function BaseRoleModal({
       onConfirm={handleConfirm}
     >
       <TextField
-        id="role"
+        id="roleName"
         label="角色名称"
-        error={errors.role}
-        isDisabled={formFields?.role?.disabled}
-        registerReturn={register('role', {
+        error={errors.roleName}
+        registerReturn={register('roleName', {
           required: { value: true, message: '请输入正确的角色名称' },
         })}
       />
@@ -109,21 +102,26 @@ export default function BaseRoleModal({
                 <Loading styles={{ wrapper: { paddingTop: '12px' } }} />
               ) : (
                 <CheckboxGroup
-                  defaultValue={defaultValues?.plugins}
+                  // TODO: tmp
+                  // defaultValue={defaultValues?.permissionList}
+                  defaultValue={[]}
                   onChange={(value: string[]) => {
-                    setValue('plugins', value);
+                    setValue(
+                      'permissionList',
+                      value.map((id) => ({ path: id }))
+                    );
                   }}
                 >
                   <VStack spacing="18px" align="left" paddingTop="12px">
-                    {plugins.map((plugin) => (
-                      <Box key={plugin}>
+                    {permissions.map(({ permission }) => (
+                      <Box key={permission.id}>
                         <Checkbox
                           color="grayAlternatives.300"
                           fontSize="12px"
                           lineHeight="150%"
-                          value={plugin}
+                          value={permission.id}
                         >
-                          {plugin}
+                          {permission.name}
                         </Checkbox>
                       </Box>
                     ))}
@@ -134,6 +132,12 @@ export default function BaseRoleModal({
           </Box>
         </Box>
       </FormControl>
+      <TextareaField
+        id="desc"
+        label="描述"
+        error={errors.roleName}
+        registerReturn={register('desc')}
+      />
     </Modal>
   );
 }

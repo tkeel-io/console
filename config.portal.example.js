@@ -4,6 +4,7 @@ const API = {
 };
 
 module.exports = {
+  edition: '', // free, paid
   platformName: '', // admin, tenant
   publicPath: '/',
   client: {

@@ -6,16 +6,17 @@ import DeleteRoleModal from '@/tkeel-console-plugin-tenant-roles/pages/Roles/com
 
 type Props = {
   data: {
-    role: string;
+    roleId: string;
+    roleName: string;
   };
   onSuccess: () => void;
 };
 
 export default function DeleteRoleButton({ data, onSuccess }: Props) {
-  const { role } = data;
+  const { roleId, roleName } = data;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate, isLoading } = useDeleteRoleMutation({
-    role,
+    roleId,
     onSuccess() {
       onSuccess();
       onClose();
@@ -31,7 +32,7 @@ export default function DeleteRoleButton({ data, onSuccess }: Props) {
       <LinkButton onClick={onOpen}>删除</LinkButton>
       {isOpen && (
         <DeleteRoleModal
-          data={data}
+          data={{ roleName }}
           isOpen={isOpen}
           isConfirmButtonLoading={isLoading}
           onClose={onClose}

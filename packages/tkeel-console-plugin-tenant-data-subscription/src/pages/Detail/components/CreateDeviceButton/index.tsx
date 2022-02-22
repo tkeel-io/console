@@ -5,14 +5,14 @@ import { getLocalUserInfo } from '@tkeel/console-utils';
 
 import useCreateRoleMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useCreateRoleMutation';
 import useSetRolePermissionsMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useSetRolePermissionsMutation';
-import { FormValues } from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/BaseRoleModal';
-import CreateRoleModal from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/CreateRoleModal';
+import { FormValues } from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/BaseDeviceModal';
+import CreateDeviceModal from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/CreateDeviceModal';
 
 type Props = {
   onSuccess: () => void;
 };
 
-export default function CreateRoleButton({ onSuccess }: Props) {
+export default function CreateDeviceButton({ onSuccess }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const isMutating = useIsMutating();
   const isLoading = isMutating > 0;
@@ -54,7 +54,7 @@ export default function CreateRoleButton({ onSuccess }: Props) {
     <>
       <CreateButton onClick={onOpen}>添加设备</CreateButton>
       {isOpen && (
-        <CreateRoleModal
+        <CreateDeviceModal
           isOpen={isOpen}
           isConfirmButtonLoading={isLoading}
           onClose={onClose}

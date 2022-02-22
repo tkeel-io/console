@@ -1,3 +1,4 @@
+import { Data } from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useListSubscribeQuery';
 import BaseSubscriptionModal, {
   FormValues,
 } from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/BaseSubscriptionModal';
@@ -7,6 +8,7 @@ type Props = {
   isConfirmButtonLoading: boolean;
   onClose: () => unknown;
   onConfirm: (formValues: FormValues) => unknown;
+  data?: Data;
 };
 
 export default function ModifySubscriptionModal({
@@ -14,12 +16,14 @@ export default function ModifySubscriptionModal({
   isConfirmButtonLoading,
   onClose,
   onConfirm,
+  data,
 }: Props) {
   // console.log('123', isOpen);
 
   return (
     <BaseSubscriptionModal
       title="修改订阅"
+      defaultValues={data}
       isOpen={isOpen}
       isConfirmButtonLoading={isConfirmButtonLoading}
       onClose={onClose}

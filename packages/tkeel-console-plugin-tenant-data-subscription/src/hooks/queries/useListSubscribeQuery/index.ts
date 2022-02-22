@@ -1,7 +1,7 @@
 import useQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/useQuery';
 
 const method = 'POST';
-type Data = {
+export type Data = {
   description: string;
   endpoint: string;
   id: string;

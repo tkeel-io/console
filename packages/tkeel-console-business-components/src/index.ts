@@ -6,3 +6,4 @@ export {
   useGlobalProps,
 } from './components/PluginProvider';
 export { default as SetPasswordModal } from './components/SetPasswordModal';
+export { default as TreeDemo } from './components/TreeDemo';
