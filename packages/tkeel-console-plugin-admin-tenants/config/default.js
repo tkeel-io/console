@@ -22,6 +22,7 @@ module.exports = {
           icon: 'PersonGroupTwoToneIcon',
           path: '/admin-tenants',
           entry: '/static/console-plugin-admin-tenants/',
+          portal: 0,
         },
       ],
       dependence: [{ id: 'rudder', version: tkeel.version }],

@@ -17,7 +17,6 @@ import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import CreateTenantButton from './components/CreateTenantButton';
 
-// import TreeDemo from './components/TreeDemo';
 import DeleteTenantButton from '@/tkeel-console-plugin-admin-tenants/components/DeleteTenantButton';
 import ModifyTenantButton from '@/tkeel-console-plugin-admin-tenants/components/ModifyTenantButton';
 import useTenantsQuery, {
@@ -131,9 +130,7 @@ export default function Tenants() {
         name="租户管理"
         desc="管理租户空间，管理租户空间用户。"
       />
-      {/* <TreeDemo /> */}
       <Flex
-        // display="none"
         flexDirection="column"
         flex="1"
         marginTop="16px"

@@ -9,14 +9,14 @@ export interface ApiData {
 const method = 'DELETE';
 
 export default function useDeleteRoleMutation({
-  role,
+  roleId,
   onSuccess,
 }: {
-  role: string;
+  roleId: string;
   onSuccess?: () => void;
 }) {
   const { tenant_id: tenantId } = getLocalUserInfo();
-  const url = `/security/v1/rbac/tenant/${tenantId}/roles/${role}`;
+  const url = `/security/v1/rbac/tenant/${tenantId}/roles/${roleId}`;
 
   return useMutation<ApiData, undefined, undefined>({
     url,
