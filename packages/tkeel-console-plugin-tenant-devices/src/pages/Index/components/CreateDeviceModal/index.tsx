@@ -1,29 +1,18 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable no-console */
 import { useEffect, useState } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
-import { Form, Modal, toast } from '@tkeel/console-components';
-import { has, isEmpty, keyBy, mapValues } from 'lodash';
+import { Form, Modal } from '@tkeel/console-components';
+import { isEmpty } from 'lodash';
 
 import BasicInfoPart from './BasicInfoPart';
 import CompleteInfoPart from './CompleteInfoPart';
 import ExtendInfoPart from './ExtendInfoPart';
-import {
-  ConnectInfoType,
-  ConnectOption,
-  CreateType,
-  DeviceValueType,
-} from './types';
+import { CreateType, DeviceValueType } from './types';
 
 import ProgressSchedule from '@/tkeel-console-plugin-tenant-devices/components/ProgressSchedule';
-import useCreateDeviceGroupMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceGroupMutation';
-import useCreateDeviceMutation, {
-  ApiData as DeviceResponse,
-} from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceMutation';
+import { ApiData as GroupResData } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceGroupMutation';
+import { ApiData as DeviceResData } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceMutation';
 
 const defaultFormInfo = {
   name: '',
@@ -36,6 +25,9 @@ interface Props {
   isOpen: boolean;
   onClose: () => void;
   type: CreateType;
+  handleOk: ({ formValues }: { formValues: DeviceValueType }) => void;
+  isLoading?: boolean;
+  responseData?: DeviceResData | GroupResData | null;
 }
 const progressLabels = ['基本信息', '扩展信息', '创建完成'];
 const BUTTON_TEXT = {
@@ -43,49 +35,14 @@ const BUTTON_TEXT = {
   SKIP: '跳过',
   COMPLETE: '完成',
 };
-function handleCreate({
-  formValues,
-  mutate,
-  type,
-}: {
-  formValues: DeviceValueType;
-  mutate: any;
-  type: CreateType;
-}) {
-  const {
-    description,
-    name,
-    parentId,
-    directConnection,
-    connectInfo,
-    extendInfo,
-  } = formValues;
-  const params =
-    type === CreateType.DEVICE
-      ? {
-          description,
-          name,
-          directConnection: directConnection === ConnectOption.DIRECT,
-          selfLearn: has(connectInfo, ConnectInfoType.selfLearn),
-          templateId: has(connectInfo, ConnectInfoType.useTemplate)
-            ? '123'
-            : '',
-          ext: mapValues(keyBy(extendInfo, 'label'), 'value'),
-          parentId,
-        }
-      : {
-          description,
-          name,
-          ext: mapValues(keyBy(extendInfo, 'label'), 'value'),
-          parentId,
-        };
-  mutate({ data: params });
-}
 
 export default function CreateDeviceGroupModal({
   type,
   isOpen,
   onClose,
+  handleOk,
+  isLoading = false,
+  responseData = null,
 }: Props) {
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -106,18 +63,12 @@ export default function CreateDeviceGroupModal({
       reset(defaultFormInfo);
     }
   }, [isOpen, reset]);
-  function onSuccess() {
-    toast({
-      status: 'success',
-      title: `创建设备${type === CreateType.GROUP ? '组' : ''}成功`,
-    });
-  }
-  const { data, isLoading, mutate } =
-    type === CreateType.DEVICE
-      ? useCreateDeviceMutation({ onSuccess })
-      : useCreateDeviceGroupMutation({ onSuccess });
-  console.log(data);
-  const deviceObject = (data as DeviceResponse)?.deviceObject ?? {};
+
+  useEffect(() => {
+    if (currentStep === 1 && responseData) {
+      setCurrentStep(2);
+    }
+  }, [currentStep, responseData]);
   const onSubmit: SubmitHandler<DeviceValueType> = async (formValues) => {
     if (currentStep >= 2) {
       onClose();
@@ -134,10 +85,10 @@ export default function CreateDeviceGroupModal({
         verifyKeys = ['extendInfo'] as const;
       }
       const result = await trigger(verifyKeys);
-      if (result) {
+      if (result && currentStep <= 1) {
         setCurrentStep(currentStep + 1);
         if (currentStep === 1) {
-          handleCreate({ formValues, mutate, type });
+          handleOk({ formValues });
         }
       }
     }
@@ -216,7 +167,7 @@ export default function CreateDeviceGroupModal({
               />
             )}
             {currentStep === 2 && (
-              <CompleteInfoPart type={type} deviceObject={deviceObject} />
+              <CompleteInfoPart type={type} responseData={responseData} />
             )}
             <Button
               pos="absolute"

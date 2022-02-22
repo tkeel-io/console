@@ -5,7 +5,8 @@ import { ReactNode, useMemo } from 'react';
 import { Cell, Column } from 'react-table';
 import { Box, Flex, HStack, Link, Text, Tooltip } from '@chakra-ui/react';
 import {
-  // PageHeaderToolbar,
+  // MoreAction,
+  //   MoreActionButton,
   Table,
   // toast,
 } from '@tkeel/console-components';
@@ -14,6 +15,7 @@ import {
   BranchTowToneIcon,
   DotLineFilledIcon,
   MessageWarningTwoToneIcon,
+  MoreVerticalFilledIcon,
   VpcTwoToneIcon,
   WebcamTwoToneIcon,
   WifiFilledIcon,
@@ -221,14 +223,20 @@ function DeviceListTable({ groupItem }: Props): JSX.Element {
         useMemo(
           () => (
             <Text minWidth="180px" fontSize="12px" color="gray.600">
-              {value
-                ? // eslint-disable-next-line unicorn/numeric-separators-style
-                  formatDateTimeByTimestamp({ timestamp: value })
-                : ''}
+              {value ? formatDateTimeByTimestamp({ timestamp: value }) : ''}
             </Text>
           ),
           [value]
         ),
+    },
+    {
+      Header: '操作',
+      Cell: ({ row }: Cell<DeviceItem>) =>
+        useMemo(() => {
+          const { original } = row;
+          console.log(original);
+          return <MoreVerticalFilledIcon />;
+        }, [row]),
     },
   ];
   return (

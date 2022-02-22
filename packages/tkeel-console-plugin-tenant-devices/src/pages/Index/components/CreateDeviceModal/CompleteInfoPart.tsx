@@ -10,18 +10,21 @@ import {
 import { CopyFilledIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
+// import { isEmpty } from 'lodash';
 import { CreateType } from './types';
 
 import CompleteCheck from '@/tkeel-console-plugin-tenant-devices/assets/images/complete_check.svg?svgr';
-import { DeviceInfoType } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceMutation';
+import { ApiData as GroupResData } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceGroupMutation';
+import { ApiData as DeviceResData } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceMutation';
 import useTokenInfoQuery from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useTokenInfoQuery';
 
 interface Props {
   type: CreateType;
-  deviceObject: DeviceInfoType;
+  responseData?: DeviceResData | GroupResData | null;
 }
 
-export default function CompletedInfoPart({ type, deviceObject }: Props) {
+export default function CompletedInfoPart({ type, responseData }: Props) {
+  const deviceObject = (responseData as DeviceResData)?.deviceObject ?? {};
   const token =
     deviceObject?.properties?.sysField?._token ??
     'MmFmYmNmYWEtNmFjOC0zYWRkLTk4YTEtNDYxYWY0MWY2M2Y3';

@@ -5,7 +5,7 @@ export enum ConnectInfoType {
 
 export enum ConnectOption {
   DIRECT = '直连',
-  INDIRECT = '非直连',
+  // INDIRECT = '非直连',
 }
 export type DeviceValueType = {
   name: string;
@@ -17,6 +17,6 @@ export type DeviceValueType = {
 };
 
 export enum CreateType {
-  GROUP,
-  DEVICE,
+  GROUP = 'group',
+  DEVICE = 'device',
 }
