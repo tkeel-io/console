@@ -1,10 +1,7 @@
-import { useIsMutating } from 'react-query';
 import { useDisclosure } from '@chakra-ui/react';
-import { CreateButton, toast } from '@tkeel/console-components';
-import { getLocalUserInfo } from '@tkeel/console-utils';
+import { CreateButton } from '@tkeel/console-components';
 
 import useCreateRoleMutation from '@/tkeel-console-plugin-tenant-roles/hooks/mutations/useCreateRoleMutation';
-import useSetRolePermissionsMutation from '@/tkeel-console-plugin-tenant-roles/hooks/mutations/useSetRolePermissionsMutation';
 import { FormValues } from '@/tkeel-console-plugin-tenant-roles/pages/Roles/components/BaseRoleModal';
 import CreateRoleModal from '@/tkeel-console-plugin-tenant-roles/pages/Roles/components/CreateRoleModal';
 
@@ -14,11 +11,7 @@ type Props = {
 
 export default function CreateRoleButton({ onSuccess }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const isMutating = useIsMutating();
-  const isLoading = isMutating > 0;
-
-  const { mutateAsync: mutateRoleAsync } = useCreateRoleMutation();
-  const { mutate: mutatePermissions } = useSetRolePermissionsMutation({
+  const { isLoading, mutate } = useCreateRoleMutation({
     onSuccess() {
       onSuccess();
       onClose();
@@ -26,28 +19,8 @@ export default function CreateRoleButton({ onSuccess }: Props) {
   });
 
   const handleConfirm = async (formValues: FormValues) => {
-    const { role, plugins = [] } = formValues;
-
-    if (plugins.length === 0) {
-      toast({ status: 'warning', title: '请选择角色权限' });
-      return;
-    }
-
-    try {
-      await mutateRoleAsync({ data: { role } });
-      const { tenant_id: tenantId } = getLocalUserInfo();
-      mutatePermissions({
-        url: `/security/v1/rbac/tenant/${tenantId}/roles/${role}/permissions`,
-        data: {
-          permissions: plugins.map((plugin) => ({
-            permission_action: '',
-            permission_object: plugin,
-          })),
-        },
-      });
-    } catch {
-      //
-    }
+    const { roleName, permissionList = [] } = formValues;
+    mutate({ data: { name: roleName, permission_list: permissionList } });
   };
 
   return (
