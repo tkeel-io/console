@@ -38,7 +38,8 @@ function CustomFormControl({
         id={id}
         placeholder={placeholder}
         boxShadow="none!important"
-        color="blackAlpha.500"
+        color="gray.700"
+        fontSize="14px"
         _focus={getFocusStyle(!!rest.error)}
         {...registerReturn}
       >
