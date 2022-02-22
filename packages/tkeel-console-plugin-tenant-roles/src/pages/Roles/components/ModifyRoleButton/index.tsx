@@ -33,7 +33,7 @@ export default function ModifyRoleButton({ data, onSuccess }: Props) {
       url: `/security/v1/rbac/tenant/${tenantId}/roles/${roleId}/permissions`,
       data: {
         name: formValues.roleName,
-        permission_list: formValues.permissionList,
+        // permission_list: formValues.permissionList,
       },
     });
   };
@@ -45,6 +45,7 @@ export default function ModifyRoleButton({ data, onSuccess }: Props) {
         <ModifyRoleModal
           isOpen={isOpen}
           isConfirmButtonLoading={isLoading}
+          // @ts-ignore
           defaultValues={defaultValues}
           onClose={onClose}
           onConfirm={handleConfirm}

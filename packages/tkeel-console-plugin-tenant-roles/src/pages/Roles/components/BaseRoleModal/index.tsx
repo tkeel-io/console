@@ -1,15 +1,16 @@
 import { ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Box, Divider, Text, VStack } from '@chakra-ui/react';
+import { Box, Divider, Text } from '@chakra-ui/react';
 import {
-  Checkbox,
-  CheckboxGroup,
   FormControl,
   FormField,
   Loading,
   Modal,
   SearchInput,
+  Tree,
 } from '@tkeel/console-components';
+
+import { getTreeData } from './tree';
 
 import usePermissionsQuery from '@/tkeel-console-plugin-tenant-roles/hooks/queries/usePermissionsQuery';
 
@@ -17,7 +18,7 @@ const { TextField, TextareaField } = FormField;
 
 export interface FormValues {
   roleName: string;
-  permissionList: { path: string }[];
+  permissionList?: { path: string }[];
   desc?: string;
 }
 
@@ -45,14 +46,15 @@ export default function BaseRoleModal({
     params = { ...params, key_words: keywords };
   }
 
-  const { permissions, isLoading } = usePermissionsQuery({ params });
+  const { tree, isLoading } = usePermissionsQuery({ params });
+  const treeData = getTreeData(tree);
 
   const {
     register,
     formState: { errors },
     trigger,
     getValues,
-    setValue,
+    // setValue,
   } = useForm<FormValues>({ defaultValues });
 
   const handleConfirm = async () => {
@@ -101,32 +103,21 @@ export default function BaseRoleModal({
               {isLoading ? (
                 <Loading styles={{ wrapper: { paddingTop: '12px' } }} />
               ) : (
-                <CheckboxGroup
-                  // TODO: tmp
-                  // defaultValue={defaultValues?.permissionList}
-                  defaultValue={[]}
-                  onChange={(value: string[]) => {
-                    setValue(
-                      'permissionList',
-                      value.map((id) => ({ path: id }))
-                    );
-                  }}
-                >
-                  <VStack spacing="18px" align="left" paddingTop="12px">
-                    {permissions.map(({ permission }) => (
-                      <Box key={permission.id}>
-                        <Checkbox
-                          color="grayAlternatives.300"
-                          fontSize="12px"
-                          lineHeight="150%"
-                          value={permission.id}
-                        >
-                          {permission.name}
-                        </Checkbox>
-                      </Box>
-                    ))}
-                  </VStack>
-                </CheckboxGroup>
+                <Tree
+                  treeData={treeData}
+                  fieldNames={{ title: 'name' }}
+                  // eslint-disable-next-line react/no-unstable-nested-components
+                  /* titleRender={(node) => (
+                    <div style={{ width: '100%' }}>{node.title}</div>
+                  )} */
+                  showIcon={false}
+                  selectable
+                  multiple
+                  extras={{ isTreeTitleFullWidth: true }}
+                  /* onSelect={(selectedKeys) => {
+                    console.log(selectedKeys);
+                  }} */
+                />
               )}
             </Box>
           </Box>
