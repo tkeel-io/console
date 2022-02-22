@@ -8,7 +8,7 @@ import {
 
 type Message = {
   rawData: RawData;
-  connectInfo?: ConnectInfo;
+  connectInfo: ConnectInfo;
   [propName: string]: any;
 };
 
@@ -24,8 +24,9 @@ function useDeviceDetailSocket({ id }: Props) {
   useEffect(() => {
     sendJsonMessage({ id });
   }, [sendJsonMessage, id]);
-
-  return lastJsonMessage || {};
+  const rawData = lastJsonMessage?.rawData || {};
+  const connectInfo = lastJsonMessage?.connectInfo || {};
+  return { rawData, connectInfo };
 }
 
 export default useDeviceDetailSocket;

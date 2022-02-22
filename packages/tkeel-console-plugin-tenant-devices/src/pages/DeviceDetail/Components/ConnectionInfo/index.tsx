@@ -1,29 +1,45 @@
 /* eslint-disable no-underscore-dangle */
+import { useEffect, useState } from 'react';
 import { Box, Flex, Text } from '@chakra-ui/react';
 
 import { ConnectInfo } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
 
 type Props = {
-  connectInfo?: ConnectInfo;
+  data: ConnectInfo;
 };
 
-function Index({ connectInfo }: Props) {
-  const data = [
+function Index({ data }: Props) {
+  const connectInfo = {
+    _clientId: '',
+    _online: false,
+    _owner: '',
+    _peerHost: '',
+    _protocol: '',
+    _sockPort: '',
+    _userName: '',
+  } as const;
+  const [infoData, setInfoData] = useState<ConnectInfo>(connectInfo);
+  useEffect(() => {
+    setInfoData((preState) => {
+      return { ...preState, ...data };
+    });
+  }, [data]);
+  const list = [
     {
       label: '接入协议',
-      value: connectInfo?._protocol || '',
+      value: infoData?._protocol || '',
     },
     {
       label: '客户端ID',
-      value: connectInfo?._clientId || '',
+      value: infoData?._clientId || '',
     },
     {
       label: '客户端端口',
-      value: connectInfo?._sockPort || '',
+      value: infoData?._sockPort || '',
     },
     {
       label: '客户端地址',
-      value: connectInfo?._peerHost || '',
+      value: infoData?._peerHost || '',
     },
     {
       label: '连接时间',
@@ -50,7 +66,7 @@ function Index({ connectInfo }: Props) {
           borderRadius="4px"
           p="8px 20px 12px"
         >
-          {data.map((r) => {
+          {list.map((r) => {
             return (
               <Box minWidth="70px" fontSize="12px" key={r.label}>
                 <Text color="grayAlternatives.300">{r.label}</Text>

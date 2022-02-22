@@ -19,24 +19,27 @@ import DeviceDetailLeftPanel from './components/DeviceDetailLeftPanel';
 import RawData from './components/RawData';
 
 import useDeviceDetailQuery from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
+import useDeviceDetailSocket from '@/tkeel-console-plugin-tenant-devices/hooks/webSockets/useDeviceDetailSocket';
 
 function Index(): JSX.Element {
   const location = useLocation();
   const { search } = location;
   const id = search.split('=')[1];
-  const { sysField, basicInfo, connectInfo, rawData } = useDeviceDetailQuery({
+  const { sysField, basicInfo } = useDeviceDetailQuery({
     id,
   });
+  const { rawData, connectInfo } = useDeviceDetailSocket({ id });
+
   const tabs = [
     {
       label: '连接信息',
       key: 'connectionInfo',
-      component: <ConnectionInfo connectInfo={connectInfo} />,
+      component: <ConnectionInfo data={connectInfo} />,
     },
     {
       label: '原始数据',
       key: 'RawData',
-      component: <RawData id={id} initialData={rawData} />,
+      component: <RawData data={rawData} />,
     },
   ];
   const [tabIndex, setTabIndex] = useState(0);
