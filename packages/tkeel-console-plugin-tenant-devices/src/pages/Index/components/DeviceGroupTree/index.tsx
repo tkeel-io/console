@@ -41,7 +41,7 @@ function getTreeNodeData(data: TreeNodeType): TreeNodeData[] {
   });
 }
 
-export default function DeviceGroupNav({ handleSelectGroup }: Props) {
+export default function DeviceGroupTree({ handleSelectGroup }: Props) {
   const [groupId, setGroupId] = useState('');
   const { groupTree } = useGroupTreeQuery();
   console.log(`%c groupTree: \n`, 'color:deeppink', groupTree);

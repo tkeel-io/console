@@ -1,22 +1,29 @@
+/* eslint-disable no-underscore-dangle */
 import { Box, Flex, Text } from '@chakra-ui/react';
 
-function Index() {
+import { ConnectInfo } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
+
+type Props = {
+  connectInfo?: ConnectInfo;
+};
+
+function Index({ connectInfo }: Props) {
   const data = [
     {
       label: '接入协议',
-      value: 'MQTT v3.1.1',
+      value: connectInfo?._protocol || '',
     },
     {
       label: '客户端ID',
-      value: 'clientID',
+      value: connectInfo?._clientId || '',
     },
     {
       label: '客户端端口',
-      value: '80',
+      value: connectInfo?._sockPort || '',
     },
     {
       label: '客户端地址',
-      value: '10.10.137.64',
+      value: connectInfo?._peerHost || '',
     },
     {
       label: '连接时间',

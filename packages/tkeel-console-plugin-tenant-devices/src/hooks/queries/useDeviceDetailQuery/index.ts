@@ -1,29 +1,45 @@
 import useQuery from '@/tkeel-console-plugin-tenant-devices/hooks/useQuery';
 
 const method = 'GET';
-
-interface Ext {
-  name: string;
-  value: string;
-}
 export interface BasicInfo {
   configs?: object;
   mappers?: object;
-  owner: string;
-  source: string;
+  owner?: string;
+  source?: string;
   directConnection: boolean;
   templateId: string;
+  templateName: string;
+  parentName: string;
   name: string;
   type: string;
   ext: {
-    company: Ext;
-    location: Ext;
+    [propName: string]: {
+      value: string;
+      name: string;
+    };
   };
   parentId: string;
   selfLearn: boolean;
   description?: string;
 }
 
+export interface RawData {
+  id: string;
+  mark: 'upstream' | 'downstream' | 'connecting';
+  path: string;
+  ts: number;
+  type: string;
+  values: string;
+}
+export interface ConnectInfo {
+  _clientId: string;
+  _online: boolean;
+  _owner: string;
+  _peerHost: string;
+  _protocol: string;
+  _sockPort: string;
+  _userName: string;
+}
 export interface SysField {
   _createdAt: number;
   _updatedAt: number;
@@ -35,15 +51,13 @@ export interface SysField {
   _source: string;
   _spacePath: string;
   _subscribeAddr: string;
-  _subscribe_addr: string;
 }
 interface DeviceObject {
   properties: {
     basicInfo: BasicInfo;
     sysField: SysField;
-    attributes: {
-      subscribe_addr: string;
-    };
+    rawData?: RawData;
+    connectInfo?: ConnectInfo;
   };
 }
 
@@ -52,7 +66,7 @@ type RequestParams = {
 };
 export interface ApiData {
   '@type': string;
-  deviceObject?: DeviceObject;
+  deviceObject: DeviceObject;
 }
 
 export default function useDeviceDetailQuery({
@@ -66,6 +80,8 @@ export default function useDeviceDetailQuery({
   const properties = data?.deviceObject?.properties;
   const basicInfo = properties?.basicInfo;
   const sysField = properties?.sysField;
+  const rawData = properties?.rawData;
+  const connectInfo = properties?.connectInfo;
 
-  return { basicInfo, sysField, data, ...rest };
+  return { basicInfo, sysField, rawData, connectInfo, ...rest };
 }

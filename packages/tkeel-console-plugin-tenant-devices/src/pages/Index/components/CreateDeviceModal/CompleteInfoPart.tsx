@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import {
   Button,
   Center,
@@ -7,18 +8,25 @@ import {
   useClipboard,
 } from '@chakra-ui/react';
 import { CopyFilledIcon } from '@tkeel/console-icons';
+import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import { CreateType } from './types';
 
 import CompleteCheck from '@/tkeel-console-plugin-tenant-devices/assets/images/complete_check.svg?svgr';
+import { DeviceInfoType } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceMutation';
+import useTokenInfoQuery from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useTokenInfoQuery';
 
 interface Props {
   type: CreateType;
+  deviceObject: DeviceInfoType;
 }
 
-export default function CompletedInfoPart({ type }: Props) {
-  const timestamp = '2021-11-26 18:03:21';
-  const token = 'ZGQyMmU5Y2UtZTc0NS0zYmQ5LThjNjktYTNiNjg2MzU4M2Vk';
+export default function CompletedInfoPart({ type, deviceObject }: Props) {
+  const token =
+    deviceObject?.properties?.sysField?._token ??
+    'MmFmYmNmYWEtNmFjOC0zYWRkLTk4YTEtNDYxYWY0MWY2M2Y3';
+  const { data } = useTokenInfoQuery({ token });
+  const expiredAt = data?.expired_at;
   const { hasCopied, onCopy } = useClipboard(token);
   return (
     <Flex flexDirection="column" h="100%">
@@ -103,8 +111,8 @@ export default function CompletedInfoPart({ type }: Props) {
               fontSize="12px"
             >
               <Text>{`${token.slice(0, 4)}**** ****${token.slice(
-                -5,
-                -1
+                -4,
+                token.length
               )}`}</Text>
               <Spacer />
               {hasCopied && (
@@ -118,7 +126,13 @@ export default function CompletedInfoPart({ type }: Props) {
             </Flex>
           </Flex>
           <Text fontSize="12px" color="gray.500">
-            凭证截止到期时间： {`${timestamp}`}
+            凭证截止到期时间：
+            {expiredAt
+              ? formatDateTimeByTimestamp({
+                  timestamp:
+                    expiredAt.length === 10 ? `${expiredAt}000` : expiredAt,
+                })
+              : '暂无'}
           </Text>
         </Flex>
       )}
