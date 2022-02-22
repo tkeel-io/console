@@ -9,8 +9,9 @@ import {
   SearchInput,
   Tree,
 } from '@tkeel/console-components';
+import { union, without } from 'lodash';
 
-import { getTreeData } from './tree';
+import { getChildKeys, getParentKeys, getTreeData, TreeData } from './tree';
 
 import usePermissionsQuery from '@/tkeel-console-plugin-tenant-roles/hooks/queries/usePermissionsQuery';
 
@@ -18,7 +19,7 @@ const { TextField, TextareaField } = FormField;
 
 export interface FormValues {
   roleName: string;
-  permissionList?: { path: string }[];
+  permissions?: string[];
   desc?: string;
 }
 
@@ -28,7 +29,7 @@ type Props = {
   isConfirmButtonLoading: boolean;
   defaultValues?: FormValues;
   onClose: () => unknown;
-  onConfirm: (formValues: FormValues) => unknown;
+  onConfirm: (formValues: FormValues) => void;
 };
 
 export default function BaseRoleModal({
@@ -41,7 +42,6 @@ export default function BaseRoleModal({
 }: Props) {
   const [keywords, setKeywords] = useState('');
   let params = {};
-
   if (keywords) {
     params = { ...params, key_words: keywords };
   }
@@ -52,23 +52,21 @@ export default function BaseRoleModal({
   const {
     register,
     formState: { errors },
+    watch,
     trigger,
     getValues,
-    // setValue,
+    setValue,
   } = useForm<FormValues>({ defaultValues });
 
   const handleConfirm = async () => {
     const result = await trigger();
     if (result) {
       const formValues = getValues();
-      // TODO: tmp
-      formValues.permissionList = [
-        { path: 'console-plugin-tenant-users' },
-        { path: 'core-broker' },
-      ];
       onConfirm(formValues);
     }
   };
+
+  const permissions = watch('permissions') ?? [];
 
   return (
     <Modal
@@ -88,8 +86,13 @@ export default function BaseRoleModal({
       />
       <FormControl id="plugins" label="用户权限设置">
         <Box padding="12px" borderRadius="4px" backgroundColor="gray.50">
-          <SearchInput width="100%" placeholder="搜索" onSearch={setKeywords} />
-          <Box paddingTop="12px">
+          <SearchInput
+            width="100%"
+            placeholder="搜索"
+            inputGroupStyle={{ display: 'none', marginBottom: '12px' }}
+            onSearch={setKeywords}
+          />
+          <Box>
             <Text
               paddingBottom="8px"
               color="grayAlternatives.400"
@@ -99,24 +102,33 @@ export default function BaseRoleModal({
               资源名称
             </Text>
             <Divider backgroundColor="gray.200" />
-            <Box overflowY="auto" maxHeight="300px">
+            <Box overflow="auto" height="300px" paddingY="12px">
               {isLoading ? (
                 <Loading styles={{ wrapper: { paddingTop: '12px' } }} />
               ) : (
                 <Tree
                   treeData={treeData}
-                  fieldNames={{ title: 'name' }}
-                  // eslint-disable-next-line react/no-unstable-nested-components
-                  /* titleRender={(node) => (
-                    <div style={{ width: '100%' }}>{node.title}</div>
-                  )} */
                   showIcon={false}
                   selectable
                   multiple
+                  selectedKeys={permissions}
                   extras={{ isTreeTitleFullWidth: true }}
-                  /* onSelect={(selectedKeys) => {
-                    console.log(selectedKeys);
-                  }} */
+                  onSelect={(_selectedKeys, info) => {
+                    const { selected, node } = info;
+                    const key = node.key as string;
+                    const children = (node.children as TreeData) ?? [];
+                    let newPermissions = [];
+
+                    if (selected) {
+                      const parentKeys = getParentKeys({ keyValue: key });
+                      newPermissions = union(permissions, parentKeys, [key]);
+                    } else {
+                      const childKeys = getChildKeys(children);
+                      newPermissions = without(permissions, ...childKeys, key);
+                    }
+
+                    setValue('permissions', newPermissions);
+                  }}
                 />
               )}
             </Box>
