@@ -7,17 +7,37 @@ import { BranchTowToneIcon, DotLineFilledIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import IconWrapper from '@/tkeel-console-plugin-tenant-devices/components/IconWrapper';
-import useDeviceDetailQuery from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
+import {
+  BasicInfo,
+  ConnectInfo,
+  SysField,
+} from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
 import DeviceBasicInfoCard, {
   Basic,
 } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/DeviceBasicInfoCard';
 import DeviceInfoCard from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/DeviceInfoCard';
 import { SELF_LEARN_COLORS } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
 
-function DeviceDetailLeftPanel({ id }: { id: string }): JSX.Element {
-  const { sysField, basicInfo } = useDeviceDetailQuery({
-    id,
-  });
+type Props = {
+  id: string;
+  sysField?: SysField;
+  basicInfo?: BasicInfo;
+  connectInfo?: ConnectInfo;
+};
+
+const getTime = (value: number | undefined) => {
+  if (!value) {
+    return '0000';
+  }
+  return value.toString().length < 13 ? `${value}000` : `${value}`;
+};
+
+function DeviceDetailLeftPanel({
+  id,
+  sysField,
+  basicInfo,
+  connectInfo,
+}: Props): JSX.Element {
   const tokenStr = sysField?._token || '';
   const isDirectConnection = basicInfo?.directConnection;
   const basic: Basic[] = [
@@ -36,7 +56,7 @@ function DeviceDetailLeftPanel({ id }: { id: string }): JSX.Element {
     {
       value: (
         <IconWrapper
-          iconBg={useColor(isDirectConnection ? 'violet.50' : 'red.100')}
+          iconBg={useColor(isDirectConnection ? 'violet.100' : 'red.100')}
         >
           {isDirectConnection ? <DotLineFilledIcon /> : <BranchTowToneIcon />}
           <Box
@@ -57,14 +77,14 @@ function DeviceDetailLeftPanel({ id }: { id: string }): JSX.Element {
     },
     {
       value: formatDateTimeByTimestamp({
-        timestamp: `${sysField?._createdAt || 0}000`,
+        timestamp: getTime(sysField?._createdAt),
       }),
       label: '创建时间',
     },
     {
       label: '更新时间',
       value: formatDateTimeByTimestamp({
-        timestamp: `${sysField?._updatedAt || 0}000`,
+        timestamp: getTime(sysField?._createdAt),
       }),
     },
     {
@@ -72,26 +92,32 @@ function DeviceDetailLeftPanel({ id }: { id: string }): JSX.Element {
       label: '描述',
     },
   ];
-
-  const keys = Object.keys(basicInfo?.ext || {});
+  const ext = basicInfo?.ext || {};
+  const keys = Object.keys(ext);
   const extInfo = keys.map((r) => {
+    if (ext[r].name) {
+      return {
+        label: ext[r].name || '',
+        value: ext[r].value || '',
+      };
+    }
     return {
       label: r,
       value: basicInfo?.ext[r] || '',
     };
   });
-  const status = sysField?._status ?? 'offline';
   const selfLearn = basicInfo?.selfLearn
     ? SELF_LEARN_COLORS[1]
     : SELF_LEARN_COLORS[0];
   return (
     <VStack spacing="12px" minWidth="360px" flex="1" mr="20px">
       <DeviceInfoCard
+        id={id}
         subscribeAddr={sysField?._subscribeAddr || ''}
         deviceName={basicInfo?.name || ''}
         selfLearn={selfLearn}
         isSelfLearn={basicInfo?.selfLearn}
-        status={status}
+        status={connectInfo?._online}
       />
       <DeviceBasicInfoCard basic={basic} />
       <InfoCard

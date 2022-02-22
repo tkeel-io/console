@@ -12,16 +12,21 @@ import {
 } from '@chakra-ui/react';
 import { Editor, SearchInput } from '@tkeel/console-components';
 
-import useDeviceDetailSocket, {
-  RawData,
-} from '@/tkeel-console-plugin-tenant-devices/hooks/webSockets/useDeviceDetailSocket';
+import { RawData } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
+import useDeviceDetailSocket from '@/tkeel-console-plugin-tenant-devices/hooks/webSockets/useDeviceDetailSocket';
 import { OPTIONS } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
 
 type Props = {
   id: string;
+  initialData?: RawData;
 };
 
-function Index({ id = '' }: Props) {
+const handleValues = (value: string) => {
+  const str = window.atob(value);
+  return JSON.stringify(str.startsWith('{') ? JSON.parse(str) : str, null, 2);
+};
+
+function Index({ id = '', initialData }: Props) {
   const initial = {
     id: '',
     mark: 'upstream',
@@ -30,21 +35,21 @@ function Index({ id = '' }: Props) {
     type: '',
     values: '',
   } as const;
-  const [rawData, setRawData] = useState<RawData>(initial);
+  const [rawData, setRawData] = useState<RawData>(initialData || initial);
   const [keyWord, setKeyWord] = useState('');
   const result = useDeviceDetailSocket({ id });
   useEffect(() => {
     setRawData((preState) => {
-      return { ...preState, ...result };
+      return { ...preState, ...result.rawData };
     });
-  }, [result]);
+  }, [result.rawData]);
   const selectOptions = [
     {
-      value: 'json',
-      label: 'json',
+      value: 0,
+      label: '文本',
     },
     {
-      value: '十六进制',
+      value: 1,
       label: '十六进制',
     },
   ];
@@ -74,7 +79,6 @@ function Index({ id = '' }: Props) {
           fontWeight="600"
           alignItems="center"
         >
-          代码：
           <Select
             id="json"
             defaultValue="json"
@@ -126,11 +130,7 @@ function Index({ id = '' }: Props) {
           <AccordionPanel>
             <Editor
               theme="light"
-              value={JSON.stringify(
-                JSON.parse(window.atob(rawData.values || '') || '{}'),
-                null,
-                2
-              )}
+              value={handleValues(rawData?.values || '')}
               language="json"
               readOnly
               width="100%"

@@ -10,30 +10,46 @@ import {
   TabPanels,
   Tabs,
 } from '@chakra-ui/react';
+import { Empty } from '@tkeel/console-components';
+import { useColor } from '@tkeel/console-hooks';
+import { WarningTwoToneIcon } from '@tkeel/console-icons';
 
 import ConnectionInfo from './components/ConnectionInfo';
 import DeviceDetailLeftPanel from './components/DeviceDetailLeftPanel';
 import RawData from './components/RawData';
 
+import useDeviceDetailQuery from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
+
 function Index(): JSX.Element {
   const location = useLocation();
   const { search } = location;
   const id = search.split('=')[1];
+  const { sysField, basicInfo, connectInfo, rawData } = useDeviceDetailQuery({
+    id,
+  });
   const tabs = [
     {
       label: '连接信息',
       key: 'connectionInfo',
-      component: <ConnectionInfo />,
+      component: <ConnectionInfo connectInfo={connectInfo} />,
     },
     {
       label: '原始数据',
       key: 'RawData',
-      component: <RawData id={id} />,
+      component: <RawData id={id} initialData={rawData} />,
     },
   ];
   const [tabIndex, setTabIndex] = useState(0);
   const handleTabChange = (index: number) => {
     setTabIndex(index);
+  };
+  const warningColor = useColor('white');
+  const warnTwoToneColor = useColor('grayAlternatives.200');
+  const textStyle = {
+    fontSize: '14px',
+    fontWeight: '500',
+    lineHeight: '24px',
+    color: 'gray.800',
   };
 
   const renderRightPanel = () => {
@@ -65,7 +81,33 @@ function Index(): JSX.Element {
           </TabList>
           <TabPanels>
             {tabs.map((r) => (
-              <TabPanel key={r.key}>{r.component}</TabPanel>
+              <TabPanel key={r.key}>
+                {connectInfo?._online ? (
+                  r.component
+                ) : (
+                  <Empty
+                    image={
+                      <WarningTwoToneIcon
+                        size="32px"
+                        color={warningColor}
+                        twoToneColor={warnTwoToneColor}
+                      />
+                    }
+                    title="设备处于离线状态"
+                    description="详情为空,请重试链接"
+                    styles={{
+                      title: {
+                        mt: '12px',
+                        ...textStyle,
+                      },
+                      description: textStyle,
+                      wrapper: {
+                        h: '30%',
+                      },
+                    }}
+                  />
+                )}
+              </TabPanel>
             ))}
           </TabPanels>
         </Tabs>
@@ -75,7 +117,12 @@ function Index(): JSX.Element {
 
   return (
     <Flex justifyContent="space-between">
-      <DeviceDetailLeftPanel id={id} />
+      <DeviceDetailLeftPanel
+        id={id}
+        sysField={sysField}
+        basicInfo={basicInfo}
+        connectInfo={connectInfo}
+      />
       {renderRightPanel()}
     </Flex>
   );

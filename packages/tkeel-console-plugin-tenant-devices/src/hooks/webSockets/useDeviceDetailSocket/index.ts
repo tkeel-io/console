@@ -1,17 +1,15 @@
 import { useEffect } from 'react';
 import { useWebSocket } from '@tkeel/console-hooks';
 
-export interface RawData {
-  id: string;
-  mark: 'upstream' | 'downstream' | 'connecting';
-  path: string;
-  ts: number;
-  type: string;
-  values: string;
-}
+import {
+  ConnectInfo,
+  RawData,
+} from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
 
 type Message = {
   rawData: RawData;
+  connectInfo?: ConnectInfo;
+  [propName: string]: any;
 };
 
 type Props = {
@@ -27,7 +25,7 @@ function useDeviceDetailSocket({ id }: Props) {
     sendJsonMessage({ id });
   }, [sendJsonMessage, id]);
 
-  return lastJsonMessage?.rawData;
+  return lastJsonMessage || {};
 }
 
 export default useDeviceDetailSocket;

@@ -1,4 +1,5 @@
 export { default as AddFilledIcon } from './components/AddFilledIcon';
+export { default as AlarmLampFilledIcon } from './components/AlarmLampFilledIcon';
 export { default as AppsAddFilledIcon } from './components/AppsAddFilledIcon';
 export { default as AppsTwoToneIcon } from './components/AppsTwoToneIcon';
 export { default as BellFilledIcon } from './components/BellFilledIcon';
