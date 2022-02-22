@@ -46,6 +46,8 @@ module.exports = {
     'webpackbar',
     'wechat',
     'WORKDIR',
+    'upsert',
+    'dependences',
   ],
   ignorePaths: [
     '**/.idea/**',

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable no-console */
 import { useEffect, useState } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -9,10 +11,16 @@ import { has, isEmpty, keyBy, mapValues } from 'lodash';
 import BasicInfoPart from './BasicInfoPart';
 import CompleteInfoPart from './CompleteInfoPart';
 import ExtendInfoPart from './ExtendInfoPart';
-import { ConnectInfoType, ConnectOption, DeviceValueType } from './types';
+import {
+  ConnectInfoType,
+  ConnectOption,
+  CreateType,
+  DeviceValueType,
+} from './types';
 
 import ProgressSchedule from '@/tkeel-console-plugin-tenant-devices/components/ProgressSchedule';
 import useCreateDeviceGroupMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceGroupMutation';
+import useCreateDeviceMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceMutation';
 
 const defaultFormInfo = {
   name: '',
@@ -24,6 +32,7 @@ const defaultFormInfo = {
 interface Props {
   isOpen: boolean;
   onClose: () => void;
+  type: CreateType;
 }
 const progressLabels = ['基本信息', '扩展信息', '创建完成'];
 const BUTTON_TEXT = {
@@ -31,8 +40,50 @@ const BUTTON_TEXT = {
   SKIP: '跳过',
   COMPLETE: '完成',
 };
+function handleCreate({
+  formValues,
+  mutate,
+  type,
+}: {
+  formValues: DeviceValueType;
+  mutate: any;
+  type: CreateType;
+}) {
+  const {
+    description,
+    name,
+    parentId,
+    directConnection,
+    connectInfo,
+    extendInfo,
+  } = formValues;
+  const params =
+    type === CreateType.DEVICE
+      ? {
+          description,
+          name,
+          directConnection: directConnection === ConnectOption.DIRECT,
+          selfLearn: has(connectInfo, ConnectInfoType.selfLearn),
+          templateId: has(connectInfo, ConnectInfoType.useTemplate)
+            ? '123'
+            : '',
+          ext: mapValues(keyBy(extendInfo, 'label'), 'value'),
+          parentId,
+        }
+      : {
+          description,
+          name,
+          ext: mapValues(keyBy(extendInfo, 'label'), 'value'),
+          parentId,
+        };
+  mutate({ data: params });
+}
 
-export default function CreateDeviceGroupModal({ isOpen, onClose }: Props) {
+export default function CreateDeviceGroupModal({
+  type,
+  isOpen,
+  onClose,
+}: Props) {
   const [currentStep, setCurrentStep] = useState(0);
 
   const formHandler = useForm<DeviceValueType>({
@@ -52,14 +103,17 @@ export default function CreateDeviceGroupModal({ isOpen, onClose }: Props) {
       reset(defaultFormInfo);
     }
   }, [isOpen, reset]);
-
-  const { data, isLoading, mutate } = useCreateDeviceGroupMutation({
-    onSuccess() {
-      toast({ status: 'success', title: '创建设备组成功' });
-    },
-  });
-  console.log(data, mutate, isLoading);
-
+  function onSuccess() {
+    toast({
+      status: 'success',
+      title: `创建设备${type === CreateType.GROUP ? '组' : ''}成功`,
+    });
+  }
+  const { data, isLoading, mutate } =
+    type === CreateType.DEVICE
+      ? useCreateDeviceMutation({ onSuccess })
+      : useCreateDeviceGroupMutation({ onSuccess });
+  console.log(data);
   const onSubmit: SubmitHandler<DeviceValueType> = async (formValues) => {
     if (currentStep >= 2) {
       onClose();
@@ -79,27 +133,7 @@ export default function CreateDeviceGroupModal({ isOpen, onClose }: Props) {
       if (result) {
         setCurrentStep(currentStep + 1);
         if (currentStep === 1) {
-          const {
-            description,
-            name,
-            directConnection,
-            connectInfo,
-            extendInfo,
-          } = formValues;
-          const params = {
-            description,
-            name,
-            directConnection: directConnection === ConnectOption.DIRECT,
-            selfLearn: has(connectInfo, ConnectInfoType.selfLearn),
-            templateId: has(connectInfo, ConnectInfoType.useTemplate)
-              ? '123'
-              : '',
-            ext: mapValues(keyBy(extendInfo, 'label'), 'value'),
-            parentId: '',
-          };
-
-          console.log(params);
-          mutate({ data: params });
+          handleCreate({ formValues, mutate, type });
         }
       }
     }
@@ -120,7 +154,11 @@ export default function CreateDeviceGroupModal({ isOpen, onClose }: Props) {
 
   return (
     <Modal
-      title={<Text fontSize="14px">创建设备组</Text>}
+      title={
+        <Text fontSize="14px">
+          {type === CreateType.DEVICE ? '创建设备' : '创建设备组'}
+        </Text>
+      }
       isOpen={isOpen}
       onClose={onClose}
       width="800px"
@@ -163,6 +201,7 @@ export default function CreateDeviceGroupModal({ isOpen, onClose }: Props) {
               <BasicInfoPart
                 formHandler={formHandler}
                 watchFields={watchFields}
+                type={type}
               />
             )}
             {currentStep === 1 && (
@@ -172,7 +211,7 @@ export default function CreateDeviceGroupModal({ isOpen, onClose }: Props) {
                 fieldArrayHandler={fieldArrayHandler}
               />
             )}
-            {currentStep === 2 && <CompleteInfoPart />}
+            {currentStep === 2 && <CompleteInfoPart type={type} />}
             <Button
               pos="absolute"
               right="0px"

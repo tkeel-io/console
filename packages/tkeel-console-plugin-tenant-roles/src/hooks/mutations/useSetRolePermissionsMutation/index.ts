@@ -1,12 +1,8 @@
 import useMutation from '@/tkeel-console-plugin-tenant-roles/hooks/useMutation';
 
-interface Permission {
-  permission_action: string;
-  permission_object: string;
-}
-
 interface RequestData {
-  permissions: Permission[];
+  name: string;
+  permission_list: string[];
 }
 
 export interface ApiData {
