@@ -4,7 +4,7 @@ module.exports = {
   publicPath: '/static/console-plugin-admin-tenants/',
   basePath: '/admin-tenants',
   client: {
-    documentTitle: '',
+    documentTitle: '租户管理',
   },
   api: {
     basePath: '/apis',

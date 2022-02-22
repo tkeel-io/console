@@ -1,15 +1,13 @@
 import { Route, Routes as ReactRouterRoutes } from 'react-router-dom';
 
-import Detail from '../pages/Detail';
-import Index from '../pages/Index';
+import Tenant from '../pages/Tenant';
+import Tenants from '../pages/Tenants';
 
-function Routes() {
+export default function Routes() {
   return (
     <ReactRouterRoutes>
-      <Route path="/" element={<Index />} />
-      <Route path="/detail/:id" element={<Detail />} />
+      <Route path="/" element={<Tenants />} />
+      <Route path="/:tenantId" element={<Tenant />} />
     </ReactRouterRoutes>
   );
 }
-
-export default Routes;

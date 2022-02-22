@@ -1,6 +1,6 @@
 import useMutation from '@/tkeel-console-plugin-tenant-devices/hooks/useMutation';
 
-const url = '/tkeel-device/v1/groups';
+const url = '/tkeel-device/v1/devices';
 const method = 'POST';
 
 export interface ApiData {
@@ -9,16 +9,13 @@ export interface ApiData {
 export interface RequestData {
   description?: string;
   name: string;
-  directConnection: boolean;
-  selfLearn: boolean;
-  templateId?: string;
   parentId: string;
   ext: {
     [propName: string]: unknown;
   };
 }
 
-export default function useCreateTemplateMutation({
+export default function useCreateDeviceGroupMutation({
   onSuccess,
 }: {
   onSuccess?: () => void;

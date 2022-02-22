@@ -1,4 +1,3 @@
-export { default as ActionButtons } from './components/ActionButtons';
 export { default as Alert } from './components/Alert';
 export * from './components/Button';
 export { default as ButtonsHStack } from './components/ButtonsHStack';
@@ -21,3 +20,4 @@ export { default as Pagination } from './components/Pagination';
 export { default as SearchInput } from './components/SearchInput';
 export { default as Table } from './components/Table';
 export * from './components/Toast';
+export * from './components/Tree';

@@ -26,6 +26,7 @@ export interface Installer {
   installed: boolean;
   desc: string;
   timestamp: string;
+  icon: string;
 }
 
 export interface PluginDetail {
