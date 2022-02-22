@@ -3644,9 +3644,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tkeel/console-plugin-tenant-device-template@workspace:packages/tkeel-console-plugin-tenant-device-template":
+"@tkeel/console-plugin-tenant-device-templates@workspace:packages/tkeel-console-plugin-tenant-device-templates":
   version: 0.0.0-use.local
-  resolution: "@tkeel/console-plugin-tenant-device-template@workspace:packages/tkeel-console-plugin-tenant-device-template"
+  resolution: "@tkeel/console-plugin-tenant-device-templates@workspace:packages/tkeel-console-plugin-tenant-device-templates"
   dependencies:
     "@chakra-ui/react": ^1.8.3
     "@emotion/react": ^11.7.1
