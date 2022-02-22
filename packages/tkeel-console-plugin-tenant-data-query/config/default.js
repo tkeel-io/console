@@ -20,6 +20,7 @@ module.exports = {
           icon: '',
           path: '/tenant-data-query',
           entry: '/static/console-plugin-tenant-data-query',
+          portal: 1,
         },
       ],
       dependence: [],

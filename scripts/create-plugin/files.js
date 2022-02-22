@@ -18,6 +18,8 @@ function copyTemplates(options) {
 
 function writeTemplates(options) {
   const { name } = options;
+  const platformName = name.split('-')[0];
+  const portalValue = platformName === 'admin' ? 0 : 1;
   const directoryName = getPluginPackageDirectoryName({ pluginName: name });
   const pluginAbsolutePath = paths.resolvePackages(directoryName);
 
@@ -29,7 +31,7 @@ function writeTemplates(options) {
     const destAbsolutePath = path.resolve(pluginAbsolutePath, file);
     const content = fs.readFileSync(absolutePath, { encoding: 'utf8' });
     const template = Handlebars.compile(content);
-    const data = template(options);
+    const data = template({ ...options, portalValue });
 
     fs.outputFileSync(destAbsolutePath, data);
   });

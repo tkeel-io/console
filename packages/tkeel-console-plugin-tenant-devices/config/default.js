@@ -26,6 +26,7 @@ module.exports = {
               name: '设备管理',
               path: '/tenant-devices',
               entry: '/static/console-plugin-tenant-devices/',
+              portal: 1,
             },
           ],
         },
