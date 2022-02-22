@@ -13,14 +13,15 @@ import { union, without } from 'lodash';
 
 import { getChildKeys, getParentKeys, getTreeData, TreeData } from './tree';
 
+import { RequestData } from '@/tkeel-console-plugin-tenant-roles/hooks/mutations/useCreateRoleMutation';
 import usePermissionsQuery from '@/tkeel-console-plugin-tenant-roles/hooks/queries/usePermissionsQuery';
 
 const { TextField, TextareaField } = FormField;
 
 export interface FormValues {
   roleName: string;
-  permissionPaths?: string[];
   desc?: string;
+  permissionPaths?: string[];
 }
 
 type Props = {
@@ -29,7 +30,7 @@ type Props = {
   isConfirmButtonLoading: boolean;
   defaultValues?: FormValues;
   onClose: () => unknown;
-  onConfirm: (formValues: FormValues) => void;
+  onConfirm: (requestData: RequestData) => void;
 };
 
 export default function BaseRoleModal({
@@ -61,8 +62,18 @@ export default function BaseRoleModal({
   const handleConfirm = async () => {
     const result = await trigger();
     if (result) {
-      const formValues = getValues();
-      onConfirm(formValues);
+      const { roleName, permissionPaths = [], desc } = getValues();
+      const requestData: RequestData = {
+        name: roleName,
+      };
+      if (permissionPaths.length > 0) {
+        const permissionList = permissionPaths.map((path) => ({ path }));
+        requestData.permission_list = permissionList;
+      }
+      if (desc) {
+        requestData.desc = desc;
+      }
+      onConfirm(requestData);
     }
   };
 
@@ -84,7 +95,11 @@ export default function BaseRoleModal({
           required: { value: true, message: '请输入正确的角色名称' },
         })}
       />
-      <FormControl id="plugins" label="用户权限设置">
+      <FormControl
+        id="plugins"
+        label="用户权限设置"
+        help="选择父权限不会自动选择子权限，选择子权限会自动选择父权限；取消选择父权限会自动取消选择子权限，取消选择子权限不会自动取消选择父权限。"
+      >
         <Box padding="12px" borderRadius="4px" backgroundColor="gray.50">
           <SearchInput
             width="100%"
@@ -144,7 +159,7 @@ export default function BaseRoleModal({
       <TextareaField
         id="desc"
         label="描述"
-        error={errors.roleName}
+        error={errors.desc}
         registerReturn={register('desc')}
       />
     </Modal>
