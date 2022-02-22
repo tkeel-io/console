@@ -1,15 +1,28 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-console */
-import { useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
 import { Cell, Column } from 'react-table';
-import { Link, Text } from '@chakra-ui/react';
+import { Box, Flex, HStack, Link, Text, Tooltip } from '@chakra-ui/react';
 import {
   // PageHeaderToolbar,
   Table,
   // toast,
 } from '@tkeel/console-components';
-import { usePagination } from '@tkeel/console-hooks';
+import { useColor, usePagination } from '@tkeel/console-hooks';
+import {
+  BranchTowToneIcon,
+  DotLineFilledIcon,
+  MessageWarningTwoToneIcon,
+  VpcTwoToneIcon,
+  WebcamTwoToneIcon,
+  WifiFilledIcon,
+  WifiOffFilledIcon,
+} from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
+import IconWrapper from '@/tkeel-console-plugin-tenant-devices/components/IconWrapper';
+import { DEVICE_STATUS } from '@/tkeel-console-plugin-tenant-devices/constants';
 import useDeviceListQuery, {
   DeviceApiItem,
   DeviceItem,
@@ -18,12 +31,87 @@ import {
   NodeInfo,
   TreeNodeType,
 } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
+import {
+  SELF_LEARN_COLORS,
+  SUBSCRIBES,
+} from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
 
 interface Props {
   groupItem: {
     nodeInfo: NodeInfo;
     subNode: TreeNodeType;
   };
+}
+
+function TooltipIcon({
+  label,
+  children,
+}: {
+  label: ReactNode;
+  children: ReactNode;
+}): JSX.Element {
+  return (
+    <Tooltip
+      label={label}
+      hasArrow
+      bgColor="white"
+      color="gray.700"
+      lineHeight="24px"
+      fontSize="12px"
+      p="4px 8px"
+    >
+      <Box> {children}</Box>
+    </Tooltip>
+  );
+}
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function DeviceStatus({ original }: { original: DeviceApiItem }): JSX.Element {
+  const { basicInfo, sysField } = original?.properties ?? {};
+  const selfLearn = basicInfo?.selfLearn ?? false;
+  const subscribeAddr = sysField?._subscribeAddr ?? '';
+  const isOnline = sysField?._status === DEVICE_STATUS.ONLINE;
+  return (
+    <HStack>
+      <TooltipIcon
+        label={
+          <Flex>
+            设备
+            {isOnline ? (
+              <Text color="green.50">在线</Text>
+            ) : (
+              <Text color="gray.500">离线</Text>
+            )}
+          </Flex>
+        }
+      >
+        <IconWrapper iconBg={useColor(isOnline ? 'green.50' : 'gray.100')}>
+          {isOnline ? <WifiFilledIcon /> : <WifiOffFilledIcon />}
+        </IconWrapper>
+      </TooltipIcon>
+
+      <TooltipIcon label={subscribeAddr ? '已订阅' : '未订阅'}>
+        <IconWrapper iconBg={useColor(subscribeAddr ? 'teal.50' : 'gray.100')}>
+          <MessageWarningTwoToneIcon
+            color={useColor(SUBSCRIBES[subscribeAddr ? 1 : 0].color)}
+            twoToneColor={useColor(
+              SUBSCRIBES[subscribeAddr ? 1 : 0].twoToneColor
+            )}
+          />
+        </IconWrapper>
+      </TooltipIcon>
+
+      <TooltipIcon label={selfLearn ? '自学习' : '未开启自学习'}>
+        <IconWrapper iconBg={useColor(selfLearn ? 'blue.50' : 'gray.100')}>
+          <VpcTwoToneIcon
+            color={useColor(SELF_LEARN_COLORS[selfLearn ? 1 : 0].color)}
+            twoToneColor={useColor(
+              SELF_LEARN_COLORS[selfLearn ? 1 : 0].twoToneColor
+            )}
+          />
+        </IconWrapper>
+      </TooltipIcon>
+    </HStack>
+  );
 }
 
 function DeviceListTable({ groupItem }: Props): JSX.Element {
@@ -89,7 +177,10 @@ function DeviceListTable({ groupItem }: Props): JSX.Element {
               fontWeight="600"
               _hover={{ color: 'primary' }}
             >
-              {original.name}
+              <HStack>
+                <WebcamTwoToneIcon size="24px" />
+                <Text fontSize="12px">{original.name}</Text>
+              </HStack>
             </Link>
           );
         }, [row]),
@@ -97,9 +188,14 @@ function DeviceListTable({ groupItem }: Props): JSX.Element {
     {
       Header: '连接方式',
       accessor: 'directConnection',
-      Cell({ value }: { value: boolean }) {
-        return value ? '直连' : '非直连';
-      },
+      Cell: ({ value }: { value: boolean }) =>
+        useMemo(() => {
+          return (
+            <TooltipIcon label={value ? '直连' : '非直连'}>
+              <Box>{value ? <DotLineFilledIcon /> : <BranchTowToneIcon />}</Box>
+            </TooltipIcon>
+          );
+        }, [value]),
     },
     {
       Header: '设备模版',
@@ -111,9 +207,12 @@ function DeviceListTable({ groupItem }: Props): JSX.Element {
     {
       Header: '设备状态',
       accessor: 'status',
-      Cell({ value }: { value: boolean }) {
-        return value ? '在线' : '离线';
-      },
+      Cell: ({ row }: Cell<DeviceItem>) =>
+        useMemo(() => {
+          const original = row.original as unknown as DeviceApiItem;
+          // return <Box pos="relative">{renderDeviceStatus({ original })}</Box>;
+          return <DeviceStatus original={original} />;
+        }, [row]),
     },
     {
       Header: '创建时间',
