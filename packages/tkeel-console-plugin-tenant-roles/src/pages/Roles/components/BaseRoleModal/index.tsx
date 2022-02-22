@@ -107,23 +107,23 @@ export default function BaseRoleModal({
                 <Tree
                   treeData={treeData}
                   fieldNames={{ title: 'name' }}
-                  showIcon={false}
+                  // eslint-disable-next-line react/no-unstable-nested-components
+                  titleRender={(node) => (
+                    <div style={{ width: '100%' }}>{node.title}</div>
+                  )}
+                  // showIcon={false}
                   draggable
                   checkable
                   selectable
                   multiple
+                  /* onSelect={(selectedKeys) => {
+                    console.log(selectedKeys);
+                  }} */
                   styles={{
                     treeNodeContentWrapper: css({ flex: 1 }).styles,
                     treeTitle: css`
                       flex: 1;
                     `.styles,
-                  }}
-                  /* onSelect={(selectedKeys) => {
-                    console.log(selectedKeys);
-                  }} */
-                  // eslint-disable-next-line react/no-unstable-nested-components
-                  titleRender={(node) => {
-                    return <div style={{ width: '100%' }}>{node.title}</div>;
                   }}
                 />
               )}

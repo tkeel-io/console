@@ -55,7 +55,8 @@ export const StyledWrapper = styled(Box)<Props>`
         &.${treePrefixCls}-checkbox {
           width: 16px;
           height: 16px;
-          margin: 0 4px;
+          margin-right: 4px;
+          margin-left: 0;
           background-image: url(${iconCheckbox});
           background-position: center;
           background-size: 12px 12px;
