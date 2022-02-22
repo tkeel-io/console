@@ -1,4 +1,5 @@
 import { useState } from 'react';
+// import { useLocation } from 'react-router-dom';
 import { Box, Flex, Image } from '@chakra-ui/react';
 
 // import { SearchInput } from '@tkeel/console-components';
@@ -8,6 +9,7 @@ import tKeelBlack from '@/tkeel-console-portal-base/assets/images/tkeel-black.sv
 import tKeelWhite from '@/tkeel-console-portal-base/assets/images/tkeel-white.svg';
 import useMenusQuery from '@/tkeel-console-portal-base/hooks/queries/useMenusQuery';
 
+// import { Menu } from '@tkeel/console-types';
 import MenuLink from './MenuLink';
 import SubMenuLink from './SubMenuLink';
 import SubMenuTitle from './SubMenuTitle';
@@ -18,8 +20,11 @@ type Props = {
 };
 
 function Menus({ isDarkTheme }: Props) {
-  const { menus } = useMenusQuery();
+  // const location = useLocation();
+
   const [spreadMenuIds, setSpreadMenus] = useState<string[]>([]);
+
+  const { menus } = useMenusQuery();
 
   const handleMenuClick = (id: string) => {
     if (spreadMenuIds.includes(id)) {

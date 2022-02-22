@@ -57,7 +57,7 @@ function PageHeaderToolbar({
                   },
                 }}
               >
-                <BookOpenedFilledIcon />
+                <BookOpenedFilledIcon color="grayAlternatives.300" />
               </Circle>
             </Center>
           )}
