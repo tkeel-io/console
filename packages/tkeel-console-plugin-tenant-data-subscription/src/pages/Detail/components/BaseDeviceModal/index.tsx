@@ -1,5 +1,6 @@
 import { ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
+// import {DataNode} from "rc-tree"
 import {
   Box,
   Flex,
@@ -8,6 +9,7 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  Text,
 } from '@chakra-ui/react';
 import {
   // Checkbox,
@@ -20,45 +22,14 @@ import {
   Tree,
 } from '@tkeel/console-components';
 // import { Box, Divider, Text, VStack } from '@chakra-ui/react';
-import { FileBoxTwoToneIcon } from '@tkeel/console-icons';
+import { BroomFilledIcon, FileBoxTwoToneIcon } from '@tkeel/console-icons';
+import { DataNode, Key } from 'node_modules/rc-tree/es/interface';
+
+import { TreeNodeData } from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useDeviceGroupQuery';
 
 // import useTenantPluginsQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useTenantPluginsQuery';
 
 // const { TextField } = FormField;
-
-const treeData = [
-  {
-    title: 'parent 1',
-    key: '0-0',
-    children: [
-      {
-        title: 'parent 1-0',
-        key: '0-0-0',
-        children: [
-          {
-            title: 'leaf',
-            key: '0-0-0-0',
-            disableCheckbox: true,
-          },
-          {
-            title: 'leaf',
-            key: '0-0-0-1',
-          },
-        ],
-      },
-      {
-        title: 'parent 1-1',
-        key: '0-0-1',
-        children: [
-          {
-            title: <span style={{ color: '#1890ff' }}>sss</span>,
-            key: '0-0-1-0',
-          },
-        ],
-      },
-    ],
-  },
-];
 
 export interface FormFields {
   role?: {
@@ -75,16 +46,23 @@ export interface FormValues {
   plugins: string[];
 }
 
+type SelectedKeyCheck =
+  | Key[]
+  | {
+      checked: Key[];
+      halfChecked: Key[];
+    };
+
 type Props = {
   title: ReactNode;
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
   formFields?: FormFields;
   defaultValues?: FormValues;
+  treeNodeData: TreeNodeData[];
   onClose: () => unknown;
   onConfirm: (formValues: FormValues) => unknown;
 };
-
 export default function BaseDeviceModal({
   title,
   isOpen,
@@ -93,8 +71,14 @@ export default function BaseDeviceModal({
   defaultValues,
   onClose,
   onConfirm,
+  treeNodeData,
 }: Props) {
+  // console.log('treeNodeData', treeNodeData);
+
   const [keywords, setKeywords] = useState('');
+  const [selectNode, setSelectNode] = useState<DataNode[]>();
+  const [selectedKeys, setSelectedKeys] = useState<SelectedKeyCheck>([]);
+
   let params = {};
 
   if (keywords) {
@@ -122,6 +106,19 @@ export default function BaseDeviceModal({
     }
   };
 
+  const getSelectNode = (data: DataNode[]) => {
+    const arr: DataNode[] = [];
+    data.forEach((el) => {
+      const { children } = el;
+      if (Array.isArray(children) && children.length > 0) {
+        getSelectNode(children);
+        return;
+      }
+      arr.push(el);
+    });
+    return arr;
+  };
+
   return (
     <Modal
       title={title}
@@ -147,10 +144,21 @@ export default function BaseDeviceModal({
               <TabPanel>
                 <SearchInput
                   width="100%"
-                  placeholder="搜索"
+                  placeholder="搜索123"
                   onSearch={(value) => setKeywords(value)}
                 />
-                <Tree icon={FileBoxTwoToneIcon} checkable treeData={treeData} />
+                <Tree
+                  style={{ marginTop: '16px' }}
+                  icon={FileBoxTwoToneIcon}
+                  checkable
+                  treeData={treeNodeData}
+                  checkedKeys={selectedKeys}
+                  onCheck={(keys, el) => {
+                    const { checkedNodes } = el;
+                    setSelectNode(getSelectNode(checkedNodes));
+                    setSelectedKeys(keys);
+                  }}
+                />
               </TabPanel>
               <TabPanel>
                 <p>two!</p>
@@ -158,7 +166,37 @@ export default function BaseDeviceModal({
             </TabPanels>
           </Tabs>
         </Box>
-        <Box flex="1">123</Box>
+        <Flex flex="1" flexDirection="column">
+          <Flex
+            justifyContent="space-between"
+            alignItems="center"
+            mt="12px"
+            mb="19px"
+          >
+            <Text>已选中</Text>
+            <Flex alignItems="center">
+              <BroomFilledIcon />
+              清空
+            </Flex>
+          </Flex>
+
+          <SearchInput
+            width="100%"
+            placeholder="搜索"
+            onSearch={(value) => setKeywords(value)}
+          />
+
+          <Tree
+            style={{ marginTop: '16px' }}
+            icon={FileBoxTwoToneIcon}
+            checkable
+            treeData={selectNode}
+            checkedKeys={selectedKeys}
+            onCheck={(keys) => {
+              setSelectedKeys(keys);
+            }}
+          />
+        </Flex>
       </Flex>
     </Modal>
   );
