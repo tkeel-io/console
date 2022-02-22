@@ -4,8 +4,7 @@ import {
   ChevronRightFilledIcon,
   DocumentPencilTowToneIcon,
 } from '@tkeel/console-icons';
-
-import { CustomTemplateModal } from '@/tkeel-console-plugin-tenant-device-template/components/modals';
+import { CustomTemplateModal } from 'packages/tkeel-console-plugin-tenant-device-templates/src/components/modals';
 
 type Props = {
   onSuccess: () => void;

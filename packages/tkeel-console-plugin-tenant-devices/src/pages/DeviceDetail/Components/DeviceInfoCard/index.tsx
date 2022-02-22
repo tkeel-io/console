@@ -14,10 +14,7 @@ import {
 import CardContentFlex from './components/CardContentFlex';
 
 import IconWrapper from '@/tkeel-console-plugin-tenant-devices/components/IconWrapper';
-import {
-  STATUS_INFOS,
-  SUBSCRIBES,
-} from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
+import { SUBSCRIBES } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
 import CreateDeviceButton from '@/tkeel-console-plugin-tenant-devices/pages/Index/components/CreateDeviceButton';
 import CreateDeviceGroupButton from '@/tkeel-console-plugin-tenant-devices/pages/Index/components/CreateDeviceGroupButton';
 
@@ -45,6 +42,7 @@ function DeviceInfoCard({
   deviceName,
 }: Props): JSX.Element {
   const navigate = useNavigate();
+  const sub = subscribeAddr ? '1' : '0';
 
   return (
     <Box position="relative" w="100%" bg="white" borderRadius="4px">
@@ -96,13 +94,11 @@ function DeviceInfoCard({
               {connectionIcon[status]}
             </IconWrapper>
             <IconWrapper
-              iconBg={useColor(STATUS_INFOS.isSub ? 'teal.50' : 'gray.100')}
+              iconBg={useColor(subscribeAddr ? 'teal.50' : 'gray.100')}
             >
               <MessageWarningTwoToneIcon
-                color={useColor(SUBSCRIBES[STATUS_INFOS.isSub].color)}
-                twoToneColor={useColor(
-                  SUBSCRIBES[STATUS_INFOS.isSub].twoToneColor
-                )}
+                color={useColor(SUBSCRIBES[sub].color)}
+                twoToneColor={useColor(SUBSCRIBES[sub].twoToneColor)}
               />
             </IconWrapper>
             <IconWrapper

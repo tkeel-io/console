@@ -1,4 +1,4 @@
-import useQuery from '@/tkeel-console-plugin-tenant-device-template/hooks/useQuery';
+import useQuery from 'packages/tkeel-console-plugin-tenant-device-templates/src/hooks/useQuery';
 
 const method = 'POST';
 

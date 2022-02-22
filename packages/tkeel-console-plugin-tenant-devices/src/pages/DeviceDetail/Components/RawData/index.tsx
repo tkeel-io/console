@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Accordion,
   AccordionButton,
@@ -12,11 +12,32 @@ import {
 } from '@chakra-ui/react';
 import { Editor, SearchInput } from '@tkeel/console-components';
 
-// import styled from '@emotion/react';
+import useDeviceDetailSocket, {
+  RawData,
+} from '@/tkeel-console-plugin-tenant-devices/hooks/webSockets/useDeviceDetailSocket';
 import { OPTIONS } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
 
-function Index() {
+type Props = {
+  id: string;
+};
+
+function Index({ id = '' }: Props) {
+  const initial = {
+    id: '',
+    mark: 'upstream',
+    path: '',
+    ts: 1000,
+    type: '',
+    values: '',
+  } as const;
+  const [rawData, setRawData] = useState<RawData>(initial);
   const [keyWord, setKeyWord] = useState('');
+  const result = useDeviceDetailSocket({ id });
+  useEffect(() => {
+    setRawData((preState) => {
+      return { ...preState, ...result };
+    });
+  }, [result]);
   const selectOptions = [
     {
       value: 'json',
@@ -33,11 +54,7 @@ function Index() {
     setKeyWord(value);
   };
 
-  const data = {
-    nih: '1231',
-    wos: '我是',
-    da: '低卡不能靠近北大街吧',
-  };
+  const status = OPTIONS[rawData?.mark ?? 'upstream'];
 
   return (
     <Box>
@@ -82,13 +99,14 @@ function Index() {
           borderColor="gray.200"
           borderRadius="4px"
           bg="white"
+          mb="12px"
           p="10px 12px 10px 20px"
         >
           <AccordionButton _focus={{ boxShadow: 'none' }} p="unset">
             <Flex flex="1" fontSize="12px" alignItems="center">
               <Box
-                bg={OPTIONS[0].bg}
-                color={OPTIONS[0].color}
+                bg={status.bg}
+                color={status.color}
                 w="42px"
                 h="24px"
                 textAlign="center"
@@ -96,10 +114,10 @@ function Index() {
                 fontWeight="600"
                 lineHeight="2"
               >
-                {OPTIONS[0].desc}
+                {status.desc}
               </Box>
               <Text fontWeight="700" m="0 38px 0 22px">
-                topic/test
+                {rawData.path}
               </Text>
               <Text color="grayAlternatives.300">2022-11-02 12:32:12</Text>
             </Flex>
@@ -108,7 +126,11 @@ function Index() {
           <AccordionPanel>
             <Editor
               theme="light"
-              value={JSON.stringify(data, null, 2)}
+              value={JSON.stringify(
+                JSON.parse(window.atob(rawData.values || '') || '{}'),
+                null,
+                2
+              )}
               language="json"
               readOnly
               width="100%"

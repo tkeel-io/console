@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { Flex } from '@chakra-ui/react';
 import { PageHeaderToolbar, toast } from '@tkeel/console-components';
-
-import { CreateTemplateButton } from '@/tkeel-console-plugin-tenant-device-template/components/buttons';
+import { CreateTemplateButton } from 'packages/tkeel-console-plugin-tenant-device-templates/src/components/buttons';
 // import useTemplatesQuery from '@/tkeel-console-plugin-tenant-device-template/hooks/queries/useTemplatesQuery';
 
 function Index(): JSX.Element {

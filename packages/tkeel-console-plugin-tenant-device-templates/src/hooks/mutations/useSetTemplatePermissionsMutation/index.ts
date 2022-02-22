@@ -1,4 +1,4 @@
-import useMutation from '@/tkeel-console-plugin-tenant-device-template/hooks/useMutation';
+import useMutation from 'packages/tkeel-console-plugin-tenant-device-templates/src/hooks/useMutation';
 
 interface Permission {
   permission_action: string;

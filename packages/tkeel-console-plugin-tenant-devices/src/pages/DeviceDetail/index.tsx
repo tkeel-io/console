@@ -13,26 +13,24 @@ import {
 
 import ConnectionInfo from './components/ConnectionInfo';
 import DeviceDetailLeftPanel from './components/DeviceDetailLeftPanel';
-import InitialData from './components/InitialData';
-
-const tabs = [
-  {
-    label: '连接信息',
-    key: 'connectionInfo',
-    component: <ConnectionInfo />,
-  },
-  {
-    label: '原始数据',
-    key: 'initialData',
-    component: <InitialData />,
-  },
-];
+import RawData from './components/RawData';
 
 function Index(): JSX.Element {
   const location = useLocation();
   const { search } = location;
   const id = search.split('=')[1];
-
+  const tabs = [
+    {
+      label: '连接信息',
+      key: 'connectionInfo',
+      component: <ConnectionInfo />,
+    },
+    {
+      label: '原始数据',
+      key: 'RawData',
+      component: <RawData id={id} />,
+    },
+  ];
   const [tabIndex, setTabIndex] = useState(0);
   const handleTabChange = (index: number) => {
     setTabIndex(index);

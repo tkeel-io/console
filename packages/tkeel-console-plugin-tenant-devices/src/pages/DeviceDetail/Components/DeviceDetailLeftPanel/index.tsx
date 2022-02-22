@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable sonarjs/cognitive-complexity */
-import { Box, VStack } from '@chakra-ui/react';
+import { Box, Text, VStack } from '@chakra-ui/react';
 import { InfoCard } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 import { BranchTowToneIcon, DotLineFilledIcon } from '@tkeel/console-icons';
@@ -36,20 +36,24 @@ function DeviceDetailLeftPanel({ id }: { id: string }): JSX.Element {
     {
       value: (
         <IconWrapper
-          iconBg={useColor(isDirectConnection ? 'purple.100' : 'red.50')}
+          iconBg={useColor(isDirectConnection ? 'violet.50' : 'red.100')}
         >
           {isDirectConnection ? <DotLineFilledIcon /> : <BranchTowToneIcon />}
           <Box
             as="span"
             ml="4px"
             fontSize="12px"
-            color={isDirectConnection ? 'violet.500' : 'red.100'}
+            color={isDirectConnection ? 'violet.500' : 'red.200'}
           >
             {isDirectConnection ? '直连' : '非直连'}
           </Box>
         </IconWrapper>
       ),
       label: '连接方式',
+    },
+    {
+      value: <Text as="u">{basicInfo?.templateName || ''}</Text>,
+      label: '设备模板',
     },
     {
       value: formatDateTimeByTimestamp({
@@ -68,18 +72,14 @@ function DeviceDetailLeftPanel({ id }: { id: string }): JSX.Element {
       label: '描述',
     },
   ];
-  const company = basicInfo?.ext.company;
-  const location = basicInfo?.ext.location;
-  const extInfo = [
-    {
-      value: company?.value || '',
-      label: company?.name || '',
-    },
-    {
-      value: location?.value || '',
-      label: location?.name || '',
-    },
-  ];
+
+  const keys = Object.keys(basicInfo?.ext || {});
+  const extInfo = keys.map((r) => {
+    return {
+      label: r,
+      value: basicInfo?.ext[r] || '',
+    };
+  });
   const status = sysField?._status ?? 'offline';
   const selfLearn = basicInfo?.selfLearn
     ? SELF_LEARN_COLORS[1]
@@ -87,7 +87,7 @@ function DeviceDetailLeftPanel({ id }: { id: string }): JSX.Element {
   return (
     <VStack spacing="12px" minWidth="360px" flex="1" mr="20px">
       <DeviceInfoCard
-        subscribeAddr={sysField?._subscribe_addr || ''}
+        subscribeAddr={sysField?._subscribeAddr || ''}
         deviceName={basicInfo?.name || ''}
         selfLearn={selfLearn}
         isSelfLearn={basicInfo?.selfLearn}

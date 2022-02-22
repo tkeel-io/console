@@ -1,29 +1,25 @@
 import useQuery from '@/tkeel-console-plugin-tenant-devices/hooks/useQuery';
+import { RawData } from '@/tkeel-console-plugin-tenant-devices/hooks/webSockets/useDeviceDetailSocket';
 
 const method = 'GET';
-
-interface Ext {
-  name: string;
-  value: string;
-}
 export interface BasicInfo {
   configs?: object;
   mappers?: object;
-  owner: string;
-  source: string;
+  owner?: string;
+  source?: string;
   directConnection: boolean;
   templateId: string;
+  templateName: string;
+  parentName: string;
   name: string;
   type: string;
   ext: {
-    company: Ext;
-    location: Ext;
+    [propName: string]: string;
   };
   parentId: string;
   selfLearn: boolean;
   description?: string;
 }
-
 export interface SysField {
   _createdAt: number;
   _updatedAt: number;
@@ -35,15 +31,12 @@ export interface SysField {
   _source: string;
   _spacePath: string;
   _subscribeAddr: string;
-  _subscribe_addr: string;
 }
 interface DeviceObject {
   properties: {
     basicInfo: BasicInfo;
     sysField: SysField;
-    attributes: {
-      subscribe_addr: string;
-    };
+    rawData: RawData;
   };
 }
 

@@ -1,7 +1,6 @@
 import { useDisclosure } from '@chakra-ui/react';
 import { CreateButton } from '@tkeel/console-components';
-
-import { CreateTemplateModal } from '@/tkeel-console-plugin-tenant-device-template/components/modals';
+import { CreateTemplateModal } from 'packages/tkeel-console-plugin-tenant-device-templates/src/components/modals';
 
 type Props = {
   onSuccess: () => void;
