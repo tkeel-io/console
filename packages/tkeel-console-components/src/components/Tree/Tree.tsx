@@ -10,7 +10,10 @@ import { PREFIX_CLS } from './constants';
 import { StyledWrapper } from './styled';
 
 interface Props extends Omit<TreeProps, 'prefixCls'> {
-  isTreeTitleFullWidth?: boolean;
+  extras?: {
+    isTreeTitleFullWidth?: boolean;
+  };
+
   styles?: {
     treeNodeContentWrapper?: string;
     treeTitle?: string;
@@ -35,15 +38,11 @@ const defaultProps: Partial<Props> = {
 
 export default function Tree(props: Props) {
   const properties = merge({}, defaultProps, props);
-  const { isTreeTitleFullWidth, styles } = properties;
+  const { extras, styles } = properties;
   const { colors }: Theme = useTheme();
 
   return (
-    <StyledWrapper
-      colors={colors}
-      isTreeTitleFullWidth={isTreeTitleFullWidth}
-      styles={styles}
-    >
+    <StyledWrapper colors={colors} extras={extras} styles={styles}>
       <RCTree prefixCls={PREFIX_CLS} {...properties} />
     </StyledWrapper>
   );

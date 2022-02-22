@@ -113,7 +113,7 @@ export default function BaseRoleModal({
                   showIcon={false}
                   selectable
                   multiple
-                  isTreeTitleFullWidth
+                  extras={{ isTreeTitleFullWidth: true }}
                   /* onSelect={(selectedKeys) => {
                     console.log(selectedKeys);
                   }} */
