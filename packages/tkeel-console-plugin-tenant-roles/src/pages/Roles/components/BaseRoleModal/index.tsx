@@ -19,7 +19,7 @@ const { TextField, TextareaField } = FormField;
 
 export interface FormValues {
   roleName: string;
-  permissions?: string[];
+  permissionPaths?: string[];
   desc?: string;
 }
 
@@ -66,7 +66,7 @@ export default function BaseRoleModal({
     }
   };
 
-  const permissions = watch('permissions') ?? [];
+  const permissionPaths = watch('permissionPaths') ?? [];
 
   return (
     <Modal
@@ -111,23 +111,29 @@ export default function BaseRoleModal({
                   showIcon={false}
                   selectable
                   multiple
-                  selectedKeys={permissions}
+                  selectedKeys={permissionPaths}
                   extras={{ isTreeTitleFullWidth: true }}
                   onSelect={(_selectedKeys, info) => {
                     const { selected, node } = info;
                     const key = node.key as string;
                     const children = (node.children as TreeData) ?? [];
-                    let newPermissions = [];
+                    let newPermissionPaths = [];
 
                     if (selected) {
                       const parentKeys = getParentKeys({ keyValue: key });
-                      newPermissions = union(permissions, parentKeys, [key]);
+                      newPermissionPaths = union(permissionPaths, parentKeys, [
+                        key,
+                      ]);
                     } else {
                       const childKeys = getChildKeys(children);
-                      newPermissions = without(permissions, ...childKeys, key);
+                      newPermissionPaths = without(
+                        permissionPaths,
+                        ...childKeys,
+                        key
+                      );
                     }
 
-                    setValue('permissions', newPermissions);
+                    setValue('permissionPaths', newPermissionPaths);
                   }}
                 />
               )}
