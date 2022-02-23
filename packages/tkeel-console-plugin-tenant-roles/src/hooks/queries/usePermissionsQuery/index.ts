@@ -10,7 +10,7 @@ type Args = {
   params?: RequestParams;
 };
 
-interface Permission {
+export interface Permission {
   id: string;
   name: string;
   desc: string;
@@ -37,6 +37,7 @@ export default function usePermissionsQuery({ params }: Args = {}) {
     params,
   });
   const permissions = data?.permissions ?? [];
+  const tree = permissions.map(({ permission }) => permission);
 
-  return { permissions, data, ...rest };
+  return { tree, permissions, data, ...rest };
 }

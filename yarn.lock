@@ -3638,6 +3638,7 @@ __metadata:
     "@types/qs": ^6.9.7
     "@types/react-table": ^7.7.9
     framer-motion: ^6.2.6
+    rc-tree: ^5.4.3
     react: ^17.0.2
     react-dom: ^17.0.2
     react-hook-form: ^7.27.0
@@ -3646,9 +3647,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tkeel/console-plugin-tenant-device-template@workspace:packages/tkeel-console-plugin-tenant-device-template":
+"@tkeel/console-plugin-tenant-device-templates@workspace:packages/tkeel-console-plugin-tenant-device-templates":
   version: 0.0.0-use.local
-  resolution: "@tkeel/console-plugin-tenant-device-template@workspace:packages/tkeel-console-plugin-tenant-device-template"
+  resolution: "@tkeel/console-plugin-tenant-device-templates@workspace:packages/tkeel-console-plugin-tenant-device-templates"
   dependencies:
     "@chakra-ui/react": ^1.8.3
     "@emotion/react": ^11.7.1

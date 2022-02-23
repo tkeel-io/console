@@ -32,7 +32,7 @@ export default function Roles() {
   if (keywords) {
     params = { ...params, key_words: keywords };
   }
-  const { total, roles, refetch } = useRolesQuery({ params });
+  const { isLoading, total, roles, refetch } = useRolesQuery({ params });
   setTotalSize(total);
 
   const handleCreateRoleSuccess = () => {
@@ -80,7 +80,7 @@ export default function Roles() {
       Header: '操作',
       Cell({ row }: Cell<Role>) {
         const { original } = row;
-        const { id, name, permission_list: permissionList } = original;
+        const { id, name, desc, permission_list: permissionList } = original;
 
         return useMemo(
           () => (
@@ -89,6 +89,7 @@ export default function Roles() {
                 data={{
                   roleId: id,
                   roleName: name,
+                  desc,
                   permissionList,
                 }}
                 onSuccess={handleModifyRoleSuccess}
@@ -99,7 +100,7 @@ export default function Roles() {
               />
             </ButtonsHStack>
           ),
-          [id, name, permissionList]
+          [id, name, permissionList, desc]
         );
       },
     },
@@ -109,7 +110,7 @@ export default function Roles() {
     <Flex flexDirection="column" height="100%">
       <PageHeaderToolbar
         name="角色管理"
-        hasSearchInput={false}
+        hasSearchInput
         searchInputProps={{
           onSearch(value) {
             setPageNum(1);
@@ -121,12 +122,12 @@ export default function Roles() {
         ]}
       />
       <Table
-        style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
         columns={columns}
         data={roles}
         paginationProps={pagination}
-        hasPagination={false}
         scroll={{ y: '100%' }}
+        isLoading={isLoading}
+        style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
       />
     </Flex>
   );

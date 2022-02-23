@@ -20,7 +20,7 @@ export interface DeviceItem {
   directConnection: boolean;
   templateId?: string;
   createTime: number;
-  status: boolean;
+  status: boolean | string;
   selfLearn?: boolean;
   [propName: string]: unknown;
 }
@@ -36,8 +36,9 @@ export interface DeviceApiItem {
       [propName: string]: any;
     };
     sysField: {
-      _status: boolean;
+      _status: boolean | string;
       _createdAt: number;
+      _subscribeAddr: string;
       [propName: string]: any;
     };
   };
