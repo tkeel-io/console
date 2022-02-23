@@ -13,6 +13,7 @@ type Props = {
   element?: ReactNode;
   buttons: ReactElement[];
   buttonProps?: object;
+  isActionListOpen?: boolean;
   onActionListOpen?: () => unknown;
   onActionListClose?: () => unknown;
 };
@@ -24,11 +25,12 @@ interface CustomColors extends Colors {
 function MoreAction({
   element,
   buttons,
+  isActionListOpen = false,
   onActionListOpen,
   onActionListClose,
   buttonProps = {},
 }: Props) {
-  const [showActionList, setShowActionList] = useState(false);
+  const [showActionList, setShowActionList] = useState(isActionListOpen);
   const { colors }: { colors: CustomColors } = useTheme();
   let timer: number | null = null;
 
@@ -77,6 +79,10 @@ function MoreAction({
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    setShowActionList(isActionListOpen);
+  }, [isActionListOpen]);
 
   const menus = buttons.map((button) => {
     return cloneElement(button, {
