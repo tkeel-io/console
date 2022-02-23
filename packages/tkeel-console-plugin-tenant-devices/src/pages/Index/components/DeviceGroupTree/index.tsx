@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable no-console */
-import { useState } from 'react';
+// import { useState } from 'react';
 import { Box, Flex, Text } from '@chakra-ui/react';
+import { Tree } from '@tkeel/console-components';
 import { values } from 'lodash';
 
 import CreateDeviceGroupButton from '../CreateDeviceGroupButton';
@@ -20,7 +22,7 @@ interface Props {
 }
 type TreeNodeData = {
   title: string;
-  id: string;
+  key: string;
   children: TreeNodeData[];
   originData: {
     nodeInfo: NodeInfo;
@@ -34,7 +36,7 @@ function getTreeNodeData(data: TreeNodeType): TreeNodeData[] {
     const { id, properties } = nodeInfo;
     return {
       title: properties?.group?.name ?? '暂无数据',
-      id,
+      key: id,
       children: getTreeNodeData(subNode),
       originData: item,
     };
@@ -42,12 +44,21 @@ function getTreeNodeData(data: TreeNodeType): TreeNodeData[] {
 }
 
 export default function DeviceGroupTree({ handleSelectGroup }: Props) {
-  const [groupId, setGroupId] = useState('');
   const { groupTree } = useGroupTreeQuery();
-  console.log(`%c groupTree: \n`, 'color:deeppink', groupTree);
   const treeNodeData = getTreeNodeData(groupTree);
-  console.log('treeNodeData', treeNodeData);
-
+  // const [groupId, setGroupId] = useState(treeNodeData[0]?.key);
+  const onSelect = (selectedKeys: React.Key[], info: any) => {
+    console.log('selectedKeys', selectedKeys);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const originData = info?.node?.originData;
+    // setGroupId(selectedKeys[0] as string);
+    handleSelectGroup(
+      originData as {
+        nodeInfo: NodeInfo;
+        subNode: TreeNodeType;
+      }
+    );
+  };
   return (
     <Flex w="258px" bg="gray.50" h="100%" p="12px" flexDir="column">
       <Text
@@ -61,24 +72,12 @@ export default function DeviceGroupTree({ handleSelectGroup }: Props) {
       </Text>
       <CreateDeviceGroupButton />
       <Box mt="16px" overflowY="scroll" flex="1">
-        {treeNodeData.map((v) => (
-          <Box
-            lineHeight="24px"
-            fontSize="12px"
-            cursor="pointer"
-            key={v.id}
-            p="4px 6px"
-            borderWidth="1px"
-            boxSizing="border-box"
-            borderColor={v.id === groupId ? 'primary' : 'transparent'}
-            onClick={() => {
-              setGroupId(v.id);
-              handleSelectGroup(v.originData);
-            }}
-          >
-            {v.title}
-          </Box>
-        ))}
+        <Tree
+          treeData={treeNodeData}
+          showIcon={false}
+          selectable
+          onSelect={onSelect}
+        />
       </Box>
     </Flex>
   );

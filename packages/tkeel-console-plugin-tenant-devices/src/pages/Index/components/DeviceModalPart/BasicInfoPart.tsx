@@ -82,7 +82,7 @@ export default function BasicInfoPart({
                 <Checkbox
                   colorScheme="primary"
                   id="useTemplate"
-                  value={ConnectInfoType.useTemplate}
+                  // value={ConnectInfoType.useTemplate}
                   isDisabled
                   // isDisabled={
                   //   watchFields.directConnection !== ConnectOption.DIRECT
