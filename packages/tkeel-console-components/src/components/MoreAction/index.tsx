@@ -13,7 +13,8 @@ type Props = {
   element?: ReactNode;
   buttons: ReactElement[];
   buttonProps?: object;
-  onActionListOpen?: (showActionList: boolean) => unknown;
+  onActionListOpen?: () => unknown;
+  onActionListClose?: () => unknown;
 };
 
 interface CustomColors extends Colors {
@@ -24,6 +25,7 @@ function MoreAction({
   element,
   buttons,
   onActionListOpen,
+  onActionListClose,
   buttonProps = {},
 }: Props) {
   const [showActionList, setShowActionList] = useState(false);
@@ -32,8 +34,13 @@ function MoreAction({
 
   const handleSetShowActionList = (show: boolean) => {
     setShowActionList(show);
-    if (onActionListOpen) {
-      onActionListOpen(show);
+
+    if (show && onActionListOpen) {
+      onActionListOpen();
+    }
+
+    if (!show && onActionListClose) {
+      onActionListClose();
     }
   };
 
