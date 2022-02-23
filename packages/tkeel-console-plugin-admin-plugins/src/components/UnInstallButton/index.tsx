@@ -8,7 +8,7 @@ interface Props {
   onSuccess: () => unknown;
 }
 
-function UnInstallButton({ pluginName, onSuccess }: Props) {
+function UninstallButton({ pluginName, onSuccess }: Props) {
   const { mutate } = useDeletePluginMutation({
     name: pluginName,
     onSuccess() {
@@ -28,4 +28,4 @@ function UnInstallButton({ pluginName, onSuccess }: Props) {
   );
 }
 
-export default UnInstallButton;
+export default UninstallButton;

@@ -57,13 +57,13 @@ function PageHeaderToolbar({
                   },
                 }}
               >
-                <BookOpenedFilledIcon />
+                <BookOpenedFilledIcon color="grayAlternatives.300" />
               </Circle>
             </Center>
           )}
         </Flex>
       )}
-      <Flex flex={1} justifyContent="flex-end">
+      <Flex flex="1" justifyContent="flex-end">
         {hasSearchInput && <SearchInput {...siProps} />}
       </Flex>
       {buttons.length > 0 && (

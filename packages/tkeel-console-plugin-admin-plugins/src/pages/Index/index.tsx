@@ -3,15 +3,15 @@ import { Flex, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { PageHeader } from '@tkeel/console-components';
 import { AppsAddFilledIcon } from '@tkeel/console-icons';
 
-import AddRepoButton from './AddRepoButton';
-import Content from './Content';
-import CustomTab from './CustomTab';
+import AddRepoButton from './components/AddRepoButton';
+import Content from './components/Content';
+import CustomTab from './components/CustomTab';
 
 import useInstalledPluginsQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/useInstalledPluginsQuery';
 import useReposQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/useReposQuery';
 
 function Index(): JSX.Element {
-  const { repos, isLoading } = useReposQuery();
+  const { repos, refetch, isLoading } = useReposQuery();
   const { plugins: installedPlugins } = useInstalledPluginsQuery();
 
   return (
@@ -29,7 +29,11 @@ function Index(): JSX.Element {
         overflow="hidden"
         marginTop="16px"
       >
-        <AddRepoButton />
+        <AddRepoButton
+          refetchRepos={() => {
+            refetch();
+          }}
+        />
         <TabList
           padding="2px"
           width="max-content"

@@ -63,7 +63,7 @@ function Layout() {
   return (
     <Flex height="100%">
       <Menus />
-      <Flex flex="1" overflow="hidden" flexDirection="column" padding="24px">
+      <Flex flex="1" overflow="hidden" flexDirection="column" padding="20px">
         <Header menus={menus} />
         <Flex flex="1" overflow="hidden">
           <Routes>
