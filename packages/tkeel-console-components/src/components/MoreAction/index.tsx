@@ -13,20 +13,33 @@ type Props = {
   element?: ReactNode;
   buttons: ReactElement[];
   buttonProps?: object;
+  onActionListOpen?: (showActionList: boolean) => unknown;
 };
 
 interface CustomColors extends Colors {
   primary: string;
 }
 
-function MoreAction({ element, buttons, buttonProps = {} }: Props) {
+function MoreAction({
+  element,
+  buttons,
+  onActionListOpen,
+  buttonProps = {},
+}: Props) {
   const [showActionList, setShowActionList] = useState(false);
   const { colors }: { colors: CustomColors } = useTheme();
   let timer: number | null = null;
 
+  const handleSetShowActionList = (show: boolean) => {
+    setShowActionList(show);
+    if (onActionListOpen) {
+      onActionListOpen(show);
+    }
+  };
+
   const handleClick: MouseEventHandler<HTMLDivElement> = (event) => {
     event.stopPropagation();
-    setShowActionList(!showActionList);
+    handleSetShowActionList(!showActionList);
   };
 
   const handleMouseLeave: MouseEventHandler<HTMLDivElement> = () => {
@@ -35,7 +48,7 @@ function MoreAction({ element, buttons, buttonProps = {} }: Props) {
       timer = null;
     }
     timer = window.setTimeout(() => {
-      setShowActionList(false);
+      handleSetShowActionList(false);
     }, 200);
   };
 
@@ -46,7 +59,7 @@ function MoreAction({ element, buttons, buttonProps = {} }: Props) {
   };
 
   const handleDocumentClick = () => {
-    setShowActionList(false);
+    handleSetShowActionList(false);
   };
 
   useEffect(() => {
