@@ -193,7 +193,6 @@ function Index({ id }: { id: string }) {
     <Flex flexDirection="column" height="100%" padding="0 20px">
       <PageHeaderToolbar
         name="订阅设备"
-        // TODO: useless search
         hasSearchInput
         searchInputProps={{
           onSearch(value) {

@@ -1,4 +1,5 @@
 module.exports = {
+  platformName: 'tenant',
   publicPath: '/static/console-plugin-tenant-data-subscription/',
   basePath: '/tenant-data-subscription',
   client: {
