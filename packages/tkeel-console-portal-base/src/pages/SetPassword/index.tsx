@@ -82,7 +82,7 @@ export default function SetPassword() {
     });
   };
 
-  const jumpToLoginPage = () => {
+  const navigateToLoginPage = () => {
     const tenantId = resetPasswordData?.tenant_id ?? '';
     navigate(`/auth/login/${tenantId}`, { replace: true });
   };
@@ -118,6 +118,7 @@ export default function SetPassword() {
               type="password"
               id="password"
               label="密码"
+              help={schemas.password.help}
               placeholder="请输入"
               error={errors.password}
               formLabelStyle={formLabelStyle}
@@ -131,6 +132,7 @@ export default function SetPassword() {
               type="password"
               id="confirmPassword"
               label="再次输入密码"
+              help={schemas.password.help}
               placeholder="请输入"
               error={errors.confirmPassword}
               formControlStyle={{ marginBottom: '24px' }}
@@ -162,8 +164,8 @@ export default function SetPassword() {
         iconPosition="left"
         title="密码设置成功"
         hasCancelButton={false}
-        onClose={jumpToLoginPage}
-        onConfirm={jumpToLoginPage}
+        onClose={navigateToLoginPage}
+        onConfirm={navigateToLoginPage}
       />
     </>
   );
