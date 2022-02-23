@@ -53,7 +53,7 @@ declare let __webpack_public_path__: string;
 
 interface GlobalConfig {
   edition: 'free' | 'paid'; // portal
-  platformName: 'admin' | 'tenant'; // portal
+  platformName: 'admin' | 'tenant';
   publicPath: string;
   basePath?: string; // plugin
   client: {
