@@ -106,6 +106,7 @@ function SubscriptionCard() {
                             <DeleteSubscriptionButton
                               key="delete"
                               id={item.id}
+                              name={item.title}
                               refetchData={() => {
                                 refetch();
                               }}

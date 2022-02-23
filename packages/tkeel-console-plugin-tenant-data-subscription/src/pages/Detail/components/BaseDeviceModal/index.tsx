@@ -16,7 +16,7 @@ import {
   // CheckboxGroup,
   // FormControl,
   // FormField,
-  // Loading,
+  Loading,
   Modal,
   SearchInput,
   Tree,
@@ -26,6 +26,7 @@ import { BroomFilledIcon, FileBoxTwoToneIcon } from '@tkeel/console-icons';
 import { DataNode, Key } from 'node_modules/rc-tree/es/interface';
 
 import { TreeNodeData } from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useDeviceGroupQuery';
+import { TemplateTreeNodeDataType } from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useDeviceTemplateQuery';
 
 // import useTenantPluginsQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useTenantPluginsQuery';
 
@@ -60,6 +61,8 @@ type Props = {
   formFields?: FormFields;
   defaultValues?: FormValues;
   treeNodeData: TreeNodeData[];
+  templateTreeNodeData: TemplateTreeNodeDataType[];
+
   onClose: () => unknown;
   onConfirm: (formValues: FormValues) => unknown;
 };
@@ -72,6 +75,7 @@ export default function BaseDeviceModal({
   onClose,
   onConfirm,
   treeNodeData,
+  templateTreeNodeData,
 }: Props) {
   // console.log('treeNodeData', treeNodeData);
 
@@ -130,7 +134,17 @@ export default function BaseDeviceModal({
     >
       <Flex>
         <Box flex="1">
-          <Tabs isFitted variant="unstyled">
+          <Tabs
+            isFitted
+            variant="unstyled"
+            onChange={(index) => {
+              if (index) {
+                setSelectNode([]);
+                setSelectedKeys([]);
+              }
+              // console.log('index', index);
+            }}
+          >
             <TabList>
               <Tab _selected={{ color: 'green.300', boxShadow: 'none' }}>
                 设备组
@@ -144,24 +158,40 @@ export default function BaseDeviceModal({
               <TabPanel>
                 <SearchInput
                   width="100%"
-                  placeholder="搜索123"
+                  placeholder="搜索"
                   onSearch={(value) => setKeywords(value)}
                 />
+
+                {treeNodeData.length > 0 ? (
+                  <Tree
+                    style={{ marginTop: '16px' }}
+                    icon={FileBoxTwoToneIcon}
+                    checkable
+                    treeData={treeNodeData}
+                    checkedKeys={selectedKeys}
+                    onCheck={(keys, el) => {
+                      const { checkedNodes } = el;
+                      setSelectNode(getSelectNode(checkedNodes));
+                      setSelectedKeys(keys);
+                    }}
+                  />
+                ) : (
+                  <Loading styles={{ wrapper: { height: '100%' } }} />
+                )}
+              </TabPanel>
+              <TabPanel>
                 <Tree
                   style={{ marginTop: '16px' }}
                   icon={FileBoxTwoToneIcon}
                   checkable
-                  treeData={treeNodeData}
+                  treeData={templateTreeNodeData}
                   checkedKeys={selectedKeys}
                   onCheck={(keys, el) => {
                     const { checkedNodes } = el;
-                    setSelectNode(getSelectNode(checkedNodes));
+                    setSelectNode(checkedNodes);
                     setSelectedKeys(keys);
                   }}
                 />
-              </TabPanel>
-              <TabPanel>
-                <p>two!</p>
               </TabPanel>
             </TabPanels>
           </Tabs>

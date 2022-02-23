@@ -42,6 +42,7 @@ export default function BaseSubscriptionModal({
   // if (defaultValues) {
   //   console.log('defaultValues', defaultValues);
   // }
+  // console.log('defaultValues', defaultValues);
 
   const {
     register,

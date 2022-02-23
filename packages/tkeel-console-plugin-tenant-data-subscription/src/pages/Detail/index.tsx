@@ -41,6 +41,13 @@ function Detail(): JSX.Element {
               buttons={[
                 <ModifySubscriptionButton
                   key="modify"
+                  data={{
+                    description: data.description,
+                    endpoint: data.endpoint,
+                    id: data.id,
+                    title: data.title,
+                    is_default: data.is_default,
+                  }}
                   onSuccess={() => {
                     // console.log('123');
                     // refetch();
@@ -48,8 +55,10 @@ function Detail(): JSX.Element {
                 />,
                 <DeleteSubscriptionButton
                   key="delete"
-                  id="123"
+                  id={data?.id}
+                  name={data?.title}
                   refetchData={() => {
+                    navigate('/');
                     // console.log('123');
                     // refetch();
                   }}

@@ -5,7 +5,10 @@ import useDeviceGroupQuery, {
   // NodeInfo,
   TreeNodeType,
 } from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useDeviceGroupQuery';
-import useDeviceTemplateQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useDeviceTemplateQuery';
+import useDeviceTemplateQuery, {
+  TemplateTreeNodeDataType,
+  TemplateTreeNodeType,
+} from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useDeviceTemplateQuery'; // TemplateTreeNodeType,
 import BaseDeviceModal, {
   FormValues,
 } from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/BaseDeviceModal';
@@ -41,6 +44,18 @@ function getTreeNodeData(data: TreeNodeType): TreeNodeData[] {
   });
 }
 
+function getTemplateTreeNodeData(
+  data: TemplateTreeNodeType
+): TemplateTreeNodeDataType[] {
+  return values(data).map((item) => {
+    return {
+      title: item?.properties?.basicInfo?.name,
+      id: item?.id,
+      key: item?.id,
+    };
+  });
+}
+
 export default function CreateDeviceModal({
   isOpen,
   isConfirmButtonLoading,
@@ -48,15 +63,17 @@ export default function CreateDeviceModal({
   onConfirm,
 }: Props) {
   const { groupTree } = useDeviceGroupQuery();
-  useDeviceTemplateQuery();
+  const { items } = useDeviceTemplateQuery();
   const treeNodeData = getTreeNodeData(groupTree);
-  // console.log('treeNodeData', treeNodeData);
+  const templateTreeNodeData = getTemplateTreeNodeData(items);
+  // console.log('templateTreeNodeData', templateTreeNodeData);
 
   return (
     <BaseDeviceModal
       title="添加设备"
       isOpen={isOpen}
       treeNodeData={treeNodeData}
+      templateTreeNodeData={templateTreeNodeData}
       isConfirmButtonLoading={isConfirmButtonLoading}
       onClose={onClose}
       onConfirm={onConfirm}

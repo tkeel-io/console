@@ -1,10 +1,11 @@
-import { Text } from '@chakra-ui/react';
+// import { Text } from '@chakra-ui/react';
 import { Alert } from '@tkeel/console-components';
 
 // import { User } from '@/tkeel-console-plugin-tenant-users/hooks/queries/useUsersQuery';
 
 type Props = {
   // data: User;
+  name: string;
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
   onClose: () => unknown;
@@ -13,13 +14,14 @@ type Props = {
 
 export default function DeleteSubscriptionModal({
   // data,
+  name,
   isOpen,
   isConfirmButtonLoading,
   onClose,
   onConfirm,
 }: Props) {
   // const { username } = data;
-  const username = '123';
+  // const username = '123';
   // console.log('isOpen', isOpen);
 
   return (
@@ -28,14 +30,14 @@ export default function DeleteSubscriptionModal({
       icon="warning"
       title={
         <>
-          确认&nbsp;
-          <Text as="span" color="red.300">
+          确认删除订阅
+          {/* <Text as="span" color="red.300">
             删除
-          </Text>
-          &nbsp;用户「{username}」？
+          </Text> */}
+          &nbsp;「{name}」？
         </>
       }
-      description="删除后不可恢复，请谨慎操作。"
+      description="删除订阅后不可恢复，请谨慎操作。"
       isOpen={isOpen}
       isConfirmButtonLoading={isConfirmButtonLoading}
       onClose={onClose}

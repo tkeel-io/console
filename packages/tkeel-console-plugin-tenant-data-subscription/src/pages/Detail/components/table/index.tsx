@@ -12,6 +12,7 @@ import {
   toast,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
+import { WebcamTwoToneIcon } from '@tkeel/console-icons';
 
 import useListSubscribeEntitiesQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useListSubscribeEntitiesQuery';
 import CreateDeviceButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/CreateDeviceButton';
@@ -76,7 +77,7 @@ function Index({ id }: { id: string }) {
   }
   // const { data } = useListSubscribeEntitiesQuery(id);
 
-  const { data } = useListSubscribeEntitiesQuery({
+  const { data, isLoading } = useListSubscribeEntitiesQuery({
     params,
     onSuccess(res) {
       const total = res?.data?.total ?? 0;
@@ -95,9 +96,12 @@ function Index({ id }: { id: string }) {
       Cell: ({ value }: { value: string }) =>
         useMemo(
           () => (
-            <Text color="gray.800" fontWeight="600">
-              {value}
-            </Text>
+            <Flex alignItems="center" justifyContent="space-between">
+              <WebcamTwoToneIcon />
+              <Text color="gray.800" fontWeight="600" marginLeft="20px">
+                {value}
+              </Text>
+            </Flex>
           ),
           [value]
         ),
@@ -119,23 +123,7 @@ function Index({ id }: { id: string }) {
       Header: '最后更新时间',
       accessor: 'updated_at',
     },
-    // {
-    //   Header: '操作',
-    //   Cell() {
-    //     return (
-    //       <MoreAction
-    //         buttons={[
-    //           <ModifySubscriptionButton
-    //             key="modify"
-    //             onSuccess={() => {
-    //               console.log('123');
-    //             }}
-    //           />,
-    //         ]}
-    //       />
-    //     );
-    //   },
-    // },
+
     {
       Header: '操作',
       width: 80,
@@ -164,32 +152,6 @@ function Index({ id }: { id: string }) {
           );
         }, [row]),
     },
-
-    // {
-    //   Header: '操作',
-    //   Cell({ row }: Cell<Role>) {
-    //     const { original } = row;
-    //     const { roleName } = original;
-
-    //     useMemo(
-    //       () => (
-    //         <ButtonsHStack>
-    //           <MoreAction buttons={[<DisableButton key="disable" />]} />
-
-    //           <ModifyRoleButton
-    //             data={{ role: roleName, plugins: [] }}
-    //             onSuccess={handleModifyRoleSuccess}
-    //           />
-    //           <DeleteRoleButton
-    //             data={{ role: roleName }}
-    //             onSuccess={handleDeleteRoleSuccess}
-    //           />
-    //         </ButtonsHStack>
-    //       ),
-    //       [roleName]
-    //     );
-    //   },
-    // },
   ];
 
   return (
@@ -217,6 +179,7 @@ function Index({ id }: { id: string }) {
         // hasPagination
         scroll={{ y: '100%' }}
         isShowStripe
+        isLoading={isLoading}
         paginationProps={pagination}
         empty={
           <Empty
