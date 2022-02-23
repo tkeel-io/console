@@ -1,4 +1,4 @@
-import { KeyboardEvent, KeyboardEventHandler, ReactNode, useRef } from 'react';
+import { ReactNode, useRef } from 'react';
 import {
   Input,
   InputGroup,
@@ -32,11 +32,8 @@ function SearchInput({
 }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const onKeyDown: KeyboardEventHandler<HTMLInputElement> = (
-    event: KeyboardEvent<HTMLInputElement>
-  ) => {
-    const { keyCode } = event;
-    if (keyCode === 13 && inputRef.current) {
+  const handleKeyPress = () => {
+    if (inputRef.current) {
       onSearch(inputRef.current.value.trim());
     }
   };
@@ -61,7 +58,7 @@ function SearchInput({
         _placeholder={{ fontWeight: 500 }}
         placeholder={placeholder}
         defaultValue={defaultValue}
-        onKeyDown={onKeyDown}
+        onKeyPress={handleKeyPress}
       />
     </InputGroup>
   );
