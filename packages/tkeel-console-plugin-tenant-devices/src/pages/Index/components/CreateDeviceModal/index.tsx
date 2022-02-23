@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable no-console */
@@ -20,7 +21,9 @@ import {
 
 import ProgressSchedule from '@/tkeel-console-plugin-tenant-devices/components/ProgressSchedule';
 import useCreateDeviceGroupMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceGroupMutation';
-import useCreateDeviceMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceMutation';
+import useCreateDeviceMutation, {
+  ApiData as DeviceResponse,
+} from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceMutation';
 
 const defaultFormInfo = {
   name: '',
@@ -114,6 +117,7 @@ export default function CreateDeviceGroupModal({
       ? useCreateDeviceMutation({ onSuccess })
       : useCreateDeviceGroupMutation({ onSuccess });
   console.log(data);
+  const deviceObject = (data as DeviceResponse)?.deviceObject ?? {};
   const onSubmit: SubmitHandler<DeviceValueType> = async (formValues) => {
     if (currentStep >= 2) {
       onClose();
@@ -211,7 +215,9 @@ export default function CreateDeviceGroupModal({
                 fieldArrayHandler={fieldArrayHandler}
               />
             )}
-            {currentStep === 2 && <CompleteInfoPart type={type} />}
+            {currentStep === 2 && (
+              <CompleteInfoPart type={type} deviceObject={deviceObject} />
+            )}
             <Button
               pos="absolute"
               right="0px"
