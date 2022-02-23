@@ -1,18 +1,23 @@
 import { Flex, Text, useDisclosure } from '@chakra-ui/react';
-import { MoreAction, MoreActionButton } from '@tkeel/console-components';
+import { MoreAction } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 import {
   ChevronDownFilledIcon,
   ChevronUpFilledIcon,
   HumanFilledIcon,
-  KeyFilledIcon,
-  LeftRightFilledIcon,
-  ShutdownFilledIcon,
 } from '@tkeel/console-icons';
+
+import useOAuthAuthenticateQuery from '@/tkeel-console-portal-base/hooks/queries/useOAuthAuthenticateQuery';
+
+import LogoutTenantButton from './LogoutTenantButton';
+import LogoutUserButton from './LogoutUserButton';
+import ModifyPasswordButton from './ModifyPasswordButton';
 
 export default function TenantUserActionMenus() {
   const primaryColor = useColor('primary');
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { userInfo } = useOAuthAuthenticateQuery();
+  const username = userInfo?.username;
 
   return (
     <MoreAction
@@ -36,7 +41,7 @@ export default function TenantUserActionMenus() {
             lineHeight="24px"
             color={isOpen ? primaryColor : 'gray.600'}
           >
-            admin
+            {username}
           </Text>
           {isOpen ? (
             <ChevronUpFilledIcon
@@ -50,24 +55,9 @@ export default function TenantUserActionMenus() {
         </Flex>
       }
       buttons={[
-        <MoreActionButton
-          key="modify-password"
-          title="修改密码"
-          icon={<KeyFilledIcon />}
-          onClick={() => {}}
-        />,
-        <MoreActionButton
-          key="logout-user"
-          title="退出登录"
-          icon={<ShutdownFilledIcon />}
-          onClick={() => {}}
-        />,
-        <MoreActionButton
-          key="logout-tenant"
-          title="切换空间"
-          icon={<LeftRightFilledIcon />}
-          onClick={() => {}}
-        />,
+        <ModifyPasswordButton key="modify-password" />,
+        <LogoutUserButton key="logout-tenant" />,
+        <LogoutTenantButton key="logout-user" />,
       ]}
       onActionListOpen={onOpen}
       onActionListClose={onClose}

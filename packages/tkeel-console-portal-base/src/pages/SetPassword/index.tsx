@@ -12,7 +12,7 @@ import { Alert, Form, FormField, toast } from '@tkeel/console-components';
 import { schemas } from '@tkeel/console-utils';
 
 import useOAuthResetPasswordMutation from '@/tkeel-console-portal-base/hooks/mutations/useOAuthResetPasswordMutation';
-import useResetPasswordKeyInfo from '@/tkeel-console-portal-base/hooks/queries/useResetPasswordKeyInfo';
+import useResetPasswordKeyInfoQuery from '@/tkeel-console-portal-base/hooks/queries/useResetPasswordKeyInfoQuery';
 
 const { TextField } = FormField;
 
@@ -48,9 +48,10 @@ export default function SetPassword() {
 
   const [searchParams] = useSearchParams();
   const resetKey = searchParams.get('reset_key') ?? '';
-  const { data: resetPasswordKeyInfo, isSuccess } = useResetPasswordKeyInfo({
-    data: { reset_key: resetKey },
-  });
+  const { data: resetPasswordKeyInfo, isSuccess } =
+    useResetPasswordKeyInfoQuery({
+      data: { reset_key: resetKey },
+    });
   const username = resetPasswordKeyInfo?.username ?? '';
 
   const { isOpen, onOpen } = useDisclosure();
