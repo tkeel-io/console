@@ -3,35 +3,40 @@ import { useDisclosure } from '@chakra-ui/react';
 import { MoreActionButton } from '@tkeel/console-components';
 import { PencilFilledIcon } from '@tkeel/console-icons';
 
-import useCreateSubscribeMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useCreateSubscribeMutation';
+// import useCreateSubscribeMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useCreateSubscribeMutation';
 import useModifySubscriptionMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useModifySubscriptionMutation';
+// import SetPasswordModal from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/SetPasswordModal';
+import { Data } from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useListSubscribeQuery';
 import { FormValues } from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/BaseSubscriptionModal';
 import ModifySubscriptionModal from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/ModifySubscriptionModal';
-// import SetPasswordModal from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/SetPasswordModal';
 
 type Props = {
   onSuccess: () => void;
+  data?: Data;
 };
 
-export default function ModifySubscriptionButton({ onSuccess }: Props) {
+export default function ModifySubscriptionButton({ onSuccess, data }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { mutate } = useCreateSubscribeMutation({
+  // const { mutate } = useCreateSubscribeMutation({
+  //   onSuccess() {
+  //     onSuccess();
+  //     onClose();
+  //   },
+  // });
+
+  const { mutate, isLoading } = useModifySubscriptionMutation({
+    id: data?.id || '0',
     onSuccess() {
       onSuccess();
       onClose();
+      // onSuccessModalOpen();
     },
   });
 
   const handleConfirm = (formValues: FormValues) => {
-    const { title, description } = formValues;
     if (formValues) {
-      mutate({
-        data: {
-          title,
-          description,
-        },
-      });
+      mutate({});
     }
     return null;
   };
@@ -42,13 +47,6 @@ export default function ModifySubscriptionButton({ onSuccess }: Props) {
   //   onClose: onSuccessModalClose,
   // } = useDisclosure();
 
-  const { isLoading } = useModifySubscriptionMutation({
-    onSuccess() {
-      onSuccess();
-      onClose();
-      // onSuccessModalOpen();
-    },
-  });
   // const setPasswordModalData = {
   //   tenant_id: data?.tenant_id ?? '',
   //   user_id: data?.user_id ?? '',
@@ -67,6 +65,7 @@ export default function ModifySubscriptionButton({ onSuccess }: Props) {
         }}
       />
       <ModifySubscriptionModal
+        data={data}
         isOpen={isOpen}
         isConfirmButtonLoading={isLoading}
         onClose={onClose}

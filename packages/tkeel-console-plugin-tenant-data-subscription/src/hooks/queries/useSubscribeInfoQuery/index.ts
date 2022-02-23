@@ -17,9 +17,17 @@ type RequestData = {
   id: string;
 };
 
-// type Props = {
-//   id: string;
-// };
+const defaultValue = {
+  '@type': '',
+  count: '',
+  created_at: '',
+  description: '',
+  endpoint: '',
+  id: '',
+  is_default: false,
+  title: '',
+  updated_at: '',
+};
 
 export default function useSubscribeInfoQuery(id: string) {
   const url = `/core-broker/v1/subscribe/${id}`;
@@ -27,5 +35,5 @@ export default function useSubscribeInfoQuery(id: string) {
     url,
     method,
   });
-  return { data, ...rest };
+  return { data: data || defaultValue, ...rest };
 }
