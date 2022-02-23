@@ -6,6 +6,8 @@ interface AipData {
   '@type': string;
   tenant_id: string;
   title: string;
+  num_user: number;
+  admins: { username: string; password: string }[];
   remark: string;
   created_at: string;
 }

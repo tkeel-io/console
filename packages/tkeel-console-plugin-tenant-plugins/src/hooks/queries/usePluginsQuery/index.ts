@@ -15,6 +15,7 @@ interface Plugin {
 interface ApiData {
   '@type': string;
   total: number;
+  enable_num: number;
   plugin_list: Plugin[];
 }
 
