@@ -21,7 +21,7 @@ export interface User {
   nick_name?: string;
   avatar?: string;
   created_at: string;
-  roles: string[];
+  roles: { id: string; name: string }[];
 }
 
 export interface ApiData {

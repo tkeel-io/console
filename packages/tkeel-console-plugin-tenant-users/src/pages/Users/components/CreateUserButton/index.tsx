@@ -1,6 +1,6 @@
 import { useDisclosure } from '@chakra-ui/react';
 import { SetPasswordModal } from '@tkeel/console-business-components';
-import { CreateButton, toast } from '@tkeel/console-components';
+import { CreateButton } from '@tkeel/console-components';
 
 import useCreateUserMutation from '@/tkeel-console-plugin-tenant-users/hooks/mutations/useCreateUserMutation';
 import { FormValues } from '@/tkeel-console-plugin-tenant-users/pages/Users/components/BaseUserModal';
@@ -30,14 +30,13 @@ export default function CreateUserButton({ onSuccess }: Props) {
   };
 
   const handleConfirm = (formValues: FormValues) => {
-    const { roles = [] } = formValues;
-
-    if (roles.length === 0) {
-      toast({ status: 'warning', title: '请选择角色' });
-      return;
-    }
-
-    mutate({ data: formValues });
+    mutate({
+      data: {
+        username: formValues.username,
+        nick_name: formValues?.nick_name ?? '',
+        roles: formValues?.roleIds,
+      },
+    });
   };
 
   return (
