@@ -39,11 +39,6 @@ export default function BaseSubscriptionModal({
   onClose,
   onConfirm,
 }: Props) {
-  // if (defaultValues) {
-  //   console.log('defaultValues', defaultValues);
-  // }
-  // console.log('defaultValues', defaultValues);
-
   const {
     register,
     formState: { errors },

@@ -49,7 +49,6 @@ function Detail(): JSX.Element {
                     is_default: data.is_default,
                   }}
                   onSuccess={() => {
-                    // console.log('123');
                     // refetch();
                   }}
                 />,
@@ -59,7 +58,6 @@ function Detail(): JSX.Element {
                   name={data?.title}
                   refetchData={() => {
                     navigate('/');
-                    // console.log('123');
                     // refetch();
                   }}
                 />,

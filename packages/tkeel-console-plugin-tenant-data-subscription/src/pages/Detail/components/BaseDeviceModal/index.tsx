@@ -180,6 +180,11 @@ export default function BaseDeviceModal({
                 )}
               </TabPanel>
               <TabPanel>
+                <SearchInput
+                  width="100%"
+                  placeholder="搜索"
+                  onSearch={(value) => setKeywords(value)}
+                />
                 <Tree
                   style={{ marginTop: '16px' }}
                   icon={FileBoxTwoToneIcon}

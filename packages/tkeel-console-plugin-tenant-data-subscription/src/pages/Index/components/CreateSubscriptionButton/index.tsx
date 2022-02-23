@@ -22,7 +22,6 @@ export default function CreateUserButton({ onSuccess }: Props) {
   });
 
   const handleConfirm = (formValues: FormValues) => {
-    // console.log('formValues', formValues);
     const { title, description } = formValues;
     if (formValues) {
       mutate({

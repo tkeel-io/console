@@ -16,11 +16,12 @@ import { WebcamTwoToneIcon } from '@tkeel/console-icons';
 
 import useListSubscribeEntitiesQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useListSubscribeEntitiesQuery';
 import CreateDeviceButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/CreateDeviceButton';
+import DeleteDeviceButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/DeleteDeviceButton';
 // import ModifySubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/ModifySubscriptionButton';
 // import DeleteRoleButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/DeleteRoleButton';
 // import DisableButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/DisableButton';
 // import ModifyRoleButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/ModifyRoleButton';
-import DeleteDeviceButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/DeleteDeviceButton';
+import MoveSubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/MoveSubscriptionButton';
 
 // type Role = {
 //   roleName: string;
@@ -135,6 +136,12 @@ function Index({ id }: { id: string }) {
           return (
             <MoreAction
               buttons={[
+                <MoveSubscriptionButton
+                  key="modify"
+                  onSuccess={() => {
+                    // console.log('123');
+                  }}
+                />,
                 <DeleteDeviceButton
                   onSuccess={() => {
                     // console.log('123');

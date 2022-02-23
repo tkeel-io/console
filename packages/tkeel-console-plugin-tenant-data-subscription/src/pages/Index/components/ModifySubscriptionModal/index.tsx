@@ -18,8 +18,6 @@ export default function ModifySubscriptionModal({
   onConfirm,
   data,
 }: Props) {
-  // console.log('123', isOpen);
-
   return (
     <BaseSubscriptionModal
       title="修改订阅"
