@@ -16,6 +16,7 @@ export interface Role {
   desc?: string;
   bind_num: number;
   upsert_timestamp: string;
+  // TODO: tmp
   permission_list: string[];
 }
 

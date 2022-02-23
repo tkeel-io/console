@@ -1,3 +1,4 @@
+import { RequestData } from '@/tkeel-console-plugin-tenant-roles/hooks/mutations/useModifyRoleMutation';
 import BaseRoleModal, {
   FormValues,
 } from '@/tkeel-console-plugin-tenant-roles/pages/Roles/components/BaseRoleModal';
@@ -7,7 +8,7 @@ type Props = {
   isConfirmButtonLoading: boolean;
   defaultValues: FormValues;
   onClose: () => unknown;
-  onConfirm: (formValues: FormValues) => unknown;
+  onConfirm: (requestData: RequestData) => void;
 };
 
 export default function CreateRoleModal({
