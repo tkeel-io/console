@@ -21,7 +21,7 @@ function Index({ deviceName, id }: Props) {
   });
 
   const handleConfirm = () => {
-    mutate({});
+    mutate({ data: {} });
   };
 
   return (

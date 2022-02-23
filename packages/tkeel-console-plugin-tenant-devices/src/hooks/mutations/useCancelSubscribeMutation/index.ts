@@ -13,7 +13,7 @@ function useCancelSubscribeMutation({
   id: string;
   onSuccess?: () => void;
 }) {
-  return useMutation<ApiData>({
+  return useMutation<ApiData, undefined, object>({
     url: `/core-broker/v1/subscribe/${id}/entities/delete`,
     method,
     reactQueryOptions: { onSuccess },

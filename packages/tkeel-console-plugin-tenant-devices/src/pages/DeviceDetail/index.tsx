@@ -25,16 +25,20 @@ function Index(): JSX.Element {
   const location = useLocation();
   const { search } = location;
   const id = search.split('=')[1];
-  const { sysField, basicInfo } = useDeviceDetailQuery({
+  const {
+    sysField,
+    basicInfo,
+    connectInfo: initialConnectInfo,
+  } = useDeviceDetailQuery({
     id,
   });
   const { rawData, connectInfo } = useDeviceDetailSocket({ id });
-
+  const connectData = connectInfo || initialConnectInfo;
   const tabs = [
     {
       label: '连接信息',
       key: 'connectionInfo',
-      component: <ConnectionInfo data={connectInfo} />,
+      component: <ConnectionInfo data={connectData} />,
     },
     {
       label: '原始数据',
@@ -85,7 +89,7 @@ function Index(): JSX.Element {
           <TabPanels>
             {tabs.map((r) => (
               <TabPanel key={r.key}>
-                {connectInfo?._online ? (
+                {connectData?._online ? (
                   r.component
                 ) : (
                   <Empty
@@ -124,7 +128,7 @@ function Index(): JSX.Element {
         id={id}
         sysField={sysField}
         basicInfo={basicInfo}
-        connectInfo={connectInfo}
+        connectInfo={connectData}
       />
       {renderRightPanel()}
     </Flex>
