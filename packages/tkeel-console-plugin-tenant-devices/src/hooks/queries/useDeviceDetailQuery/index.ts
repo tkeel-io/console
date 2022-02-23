@@ -80,7 +80,7 @@ export default function useDeviceDetailQuery({
   const properties = data?.deviceObject?.properties;
   const basicInfo = properties?.basicInfo;
   const sysField = properties?.sysField;
-  const rawData = properties?.rawData;
+  const rawData = properties?.rawData || {};
   const connectInfo = properties?.connectInfo;
 
   return { basicInfo, sysField, rawData, connectInfo, ...rest };

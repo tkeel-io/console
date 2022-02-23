@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import {
   Accordion,
   AccordionButton,
@@ -13,20 +13,38 @@ import {
 import { Editor, SearchInput } from '@tkeel/console-components';
 
 import { RawData } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
-import useDeviceDetailSocket from '@/tkeel-console-plugin-tenant-devices/hooks/webSockets/useDeviceDetailSocket';
 import { OPTIONS } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
 
 type Props = {
-  id: string;
-  initialData?: RawData;
+  data: RawData;
 };
 
-const handleValues = (value: string) => {
+const handleValues = (value: string, selected: string) => {
   const str = window.atob(value);
-  return JSON.stringify(str.startsWith('{') ? JSON.parse(str) : str, null, 2);
+  if (selected === 'text') {
+    return JSON.stringify(str.startsWith('{') ? JSON.parse(str) : str, null, 2);
+  }
+  let val = '';
+  const { length } = str;
+  if (length === 0) return '';
+  for (let i = 0; i < length; i += 1) {
+    val += str.codePointAt(i)?.toString(16) || '';
+  }
+  return val;
 };
 
-function Index({ id = '', initialData }: Props) {
+const selectOptions = [
+  {
+    value: 'text',
+    label: '文本',
+  },
+  {
+    value: '十六进制',
+    label: '十六进制',
+  },
+];
+
+function Index({ data }: Props) {
   const initial = {
     id: '',
     mark: 'upstream',
@@ -35,24 +53,19 @@ function Index({ id = '', initialData }: Props) {
     type: '',
     values: '',
   } as const;
-  const [rawData, setRawData] = useState<RawData>(initialData || initial);
+  const [rawData, setRawData] = useState<RawData>(initial);
   const [keyWord, setKeyWord] = useState('');
-  const result = useDeviceDetailSocket({ id });
+  const [selected, setSelected] = useState('text');
   useEffect(() => {
     setRawData((preState) => {
-      return { ...preState, ...result.rawData };
+      return { ...preState, ...data };
     });
-  }, [result.rawData]);
-  const selectOptions = [
-    {
-      value: 0,
-      label: '文本',
-    },
-    {
-      value: 1,
-      label: '十六进制',
-    },
-  ];
+  }, [data]);
+
+  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setSelected(e.target.value);
+  };
+
   const handleSearch = (value: string) => {
     // eslint-disable-next-line no-console
     console.log(value, keyWord);
@@ -64,7 +77,7 @@ function Index({ id = '', initialData }: Props) {
   return (
     <Box>
       <Flex align="center" w="100%" h="56px">
-        <Text>原始数据</Text>
+        <Text fontWeight="600">原始数据</Text>
         <Flex flex="1" justifyContent="flex-end">
           <SearchInput onSearch={handleSearch} placeholder="搜索" />
         </Flex>
@@ -80,14 +93,12 @@ function Index({ id = '', initialData }: Props) {
           alignItems="center"
         >
           <Select
-            id="json"
-            defaultValue="json"
-            h="32px"
-            fontWeight="600"
-            fontSize="12px"
-            textAlign="center"
+            id="format-selected"
+            onChange={handleChange}
+            defaultValue={selected}
+            isFullWidth
             border="unset"
-            _focus={{ boxShadow: 'none' }}
+            _focus={{ boxShow: 'none' }}
           >
             {selectOptions.map(({ value, label }) => (
               <option key={value} value={value}>
@@ -104,9 +115,9 @@ function Index({ id = '', initialData }: Props) {
           borderRadius="4px"
           bg="white"
           mb="12px"
-          p="10px 12px 10px 20px"
+          p="10px 12px 10px 12px"
         >
-          <AccordionButton _focus={{ boxShadow: 'none' }} p="unset">
+          <AccordionButton _focus={{ boxShadow: 'none' }} p="unset" ml="8px">
             <Flex flex="1" fontSize="12px" alignItems="center">
               <Box
                 bg={status.bg}
@@ -127,10 +138,10 @@ function Index({ id = '', initialData }: Props) {
             </Flex>
             <AccordionIcon />
           </AccordionButton>
-          <AccordionPanel>
+          <AccordionPanel p="12px 0 0 0">
             <Editor
               theme="light"
-              value={handleValues(rawData?.values || '')}
+              value={handleValues(rawData?.values || '', selected)}
               language="json"
               readOnly
               width="100%"

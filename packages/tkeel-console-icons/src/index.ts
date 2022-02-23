@@ -28,6 +28,7 @@ export { default as FileBoxTwoToneIcon } from './components/FileBoxTwoToneIcon';
 export { default as HumanFilledIcon } from './components/HumanFilledIcon';
 export { default as HumanGearTwoToneIcon } from './components/HumanGearTwoToneIcon';
 export { default as HumanVipFilledIcon } from './components/HumanVipFilledIcon';
+export { default as LightningFilledIcon } from './components/LightningFilledIcon';
 export { default as LoadingFilledIcon } from './components/LoadingFilledIcon';
 export { default as MagnifierFilledIcon } from './components/MagnifierFilledIcon';
 export { default as MagnifierTwoToneIcon } from './components/MagnifierTwoToneIcon';
