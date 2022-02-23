@@ -1,4 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import {
+  KeyboardEvent,
+  KeyboardEventHandler,
+  useEffect,
+  useState,
+} from 'react';
 import { Box, Flex, Input, InputGroup } from '@chakra-ui/react';
 import { BroomFilledIcon } from '@tkeel/console-icons';
 
@@ -9,23 +14,29 @@ import FilterDropdown from '@/tkeel-console-plugin-tenant-data-query/pages/Index
 
 export default function SearchDeviceInput() {
   const [focus, setFocus] = useState(false);
+  const [inputValue, setInputValue] = useState('');
   const [showFilterDropdown, setShowFilterDropdown] = useState(true);
   const [filterConditions, setFilterConditions] = useState<
     FilterConditionInfo[]
   >([]);
-
-  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleInputFocus = () => {
     setFocus(true);
     setShowFilterDropdown(true);
   };
 
-  const handleInputKeyPress = () => {
-    if (inputRef.current) {
-      const value = inputRef.current.value.trim();
-      // eslint-disable-next-line no-console
-      console.log('value', value);
+  const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (
+    event: KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (event.keyCode === 13) {
+      const newFilterConditions = [...filterConditions];
+      const { length } = newFilterConditions;
+      const lastCondition = newFilterConditions[length - 1];
+      if (length > 0 && lastCondition.value === '') {
+        lastCondition.value = inputValue;
+      }
+      setInputValue('');
+      setFilterConditions(newFilterConditions);
     }
   };
 
@@ -65,7 +76,6 @@ export default function SearchDeviceInput() {
           ))}
         </Flex>
         <Input
-          ref={inputRef}
           marginRight="124px"
           flex="1"
           padding="0 10px 0 1px"
@@ -80,9 +90,11 @@ export default function SearchDeviceInput() {
               : '支持关键字搜索，支持设备分组、设备模版搜索'
           }
           _focus={{ borderColor: 'transparent' }}
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value.trim())}
           onFocus={handleInputFocus}
           onBlur={() => setFocus(false)}
-          onKeyPress={handleInputKeyPress}
+          onKeyDown={handleKeyDown}
         />
         {focus && (
           <BroomFilledIcon
