@@ -1,5 +1,5 @@
-import { useDisclosure } from '@chakra-ui/react';
-import { MoreActionButton, toast } from '@tkeel/console-components';
+import { Text, useDisclosure } from '@chakra-ui/react';
+import { IconButton, toast } from '@tkeel/console-components';
 import { AlarmLampFilledIcon, LightningFilledIcon } from '@tkeel/console-icons';
 
 import CustomModal from '@/tkeel-console-plugin-tenant-devices/components/CustomModal';
@@ -8,9 +8,10 @@ import useCancelSubscribeMutation from '@/tkeel-console-plugin-tenant-devices/ho
 type Props = {
   id: string;
   deviceName: string;
+  disabled: boolean;
 };
 
-function Index({ deviceName, id }: Props) {
+function Index({ deviceName, id, disabled }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate, isLoading } = useCancelSubscribeMutation({
     id,
@@ -26,11 +27,37 @@ function Index({ deviceName, id }: Props) {
 
   return (
     <>
-      <MoreActionButton
+      <IconButton
         onClick={onOpen}
         icon={<LightningFilledIcon size="12px" />}
-        title="取消订阅"
-      />
+        colorScheme="white"
+        isFullWidth
+        height="32px"
+        cursor="pointer"
+        borderRadius="4px"
+        color="gray.600"
+        p="0 0 0 14px"
+        display="flex"
+        justifyContent="flex-start"
+        boxShadow="none"
+        _hover={{
+          backgroundColor: 'primary',
+          '& > span > svg': {
+            fill: 'white !important',
+          },
+          '&': {
+            color: 'white',
+          },
+          '& > span > svg > path': {
+            color: 'white',
+          },
+        }}
+        isDisabled={disabled}
+      >
+        <Text fontWeight="400" ml="-2px">
+          取消订阅
+        </Text>
+      </IconButton>
       <CustomModal
         bg="red.50"
         icon={<AlarmLampFilledIcon size="24px" />}

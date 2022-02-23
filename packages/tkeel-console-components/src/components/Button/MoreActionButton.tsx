@@ -25,9 +25,6 @@ function MoreActionButton({ icon, title, onClick }: Props) {
         '& > p': {
           color: 'white',
         },
-        '& > svg > path': {
-          color: 'white',
-        },
       }}
       onClick={onClick}
     >

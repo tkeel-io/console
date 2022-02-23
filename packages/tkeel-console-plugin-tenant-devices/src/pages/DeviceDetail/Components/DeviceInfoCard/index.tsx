@@ -13,9 +13,9 @@ import {
 
 import CardContentFlex from './components/CardContentFlex';
 
-import CancelSubscribeButton from '@/tkeel-console-plugin-tenant-devices/components/CancelSubscribeButton';
 import DeleteDevicesButton from '@/tkeel-console-plugin-tenant-devices/components/DeleteDevicesButton';
 import IconWrapper from '@/tkeel-console-plugin-tenant-devices/components/IconWrapper';
+import UnsubscribeButton from '@/tkeel-console-plugin-tenant-devices/components/UnsubscribeButton';
 import { SUBSCRIBES } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
 
 type Props = {
@@ -77,9 +77,10 @@ function DeviceInfoCard({
                 key="delete"
                 deviceName={deviceName}
               />,
-              <CancelSubscribeButton
+              <UnsubscribeButton
                 id={id}
                 key="cancel-subscribe"
+                disabled={!subscribeAddr}
                 deviceName={deviceName}
               />,
             ]}

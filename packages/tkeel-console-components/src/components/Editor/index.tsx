@@ -5,7 +5,6 @@ import MonacoEditor from '@monaco-editor/react';
 import registerCompletion from './registerCompletion';
 
 const Wrapper = styled(Box)`
-  max-height: 550px;
   .vs {
     .margin,
     .lines-content {
