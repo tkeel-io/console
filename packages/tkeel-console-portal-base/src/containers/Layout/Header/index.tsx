@@ -9,6 +9,7 @@ import {
 import { PLATFORM_INFOS, PlatformNames } from '@tkeel/console-constants';
 import { Menu } from '@tkeel/console-types';
 
+import AdminUserActionMenus from '@/tkeel-console-portal-base/components/AdminUserActionMenus';
 import TenantUserActionMenus from '@/tkeel-console-portal-base/components/TenantUserActionMenus';
 import useGlobalProps from '@/tkeel-console-portal-base/hooks/useGlobalProps';
 
@@ -53,7 +54,7 @@ export default function Header({ menus }: { menus: Menu[] }) {
       </Breadcrumb>
       <Flex alignItems="center">
         {platformName === PLATFORM_INFOS[PlatformNames.ADMIN].name && (
-          <TenantUserActionMenus />
+          <AdminUserActionMenus />
         )}
         {platformName === PLATFORM_INFOS[PlatformNames.TENANT].name && (
           <TenantUserActionMenus />
