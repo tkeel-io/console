@@ -1,5 +1,6 @@
 import { Flex, Text } from '@chakra-ui/react';
 import { MoreAction, MoreActionButton } from '@tkeel/console-components';
+import { useColor } from '@tkeel/console-hooks';
 import {
   ChevronDownFilledIcon,
   // ChevronUpFilledIcon,
@@ -10,10 +11,23 @@ import {
 } from '@tkeel/console-icons';
 
 export default function TenantUserActionMenus() {
+  const primaryColor = useColor('primary');
+
   return (
     <MoreAction
       element={
-        <Flex alignItems="center" cursor="pointer">
+        <Flex
+          alignItems="center"
+          cursor="pointer"
+          _hover={{
+            '& > svg': {
+              fill: `${primaryColor} !important`,
+            },
+            '& > p': {
+              color: primaryColor,
+            },
+          }}
+        >
           <HumanFilledIcon size="24px" />
           <Text
             marginLeft="8px"
