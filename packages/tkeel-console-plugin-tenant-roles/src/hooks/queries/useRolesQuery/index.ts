@@ -16,8 +16,15 @@ export interface Role {
   desc?: string;
   bind_num: number;
   upsert_timestamp: string;
-  // TODO: tmp
-  permission_list: string[];
+  permission_list: {
+    path: string;
+    permission: {
+      id: string;
+      name: string;
+      desc?: string;
+      dependences: { path: string; desc: string }[];
+    };
+  }[];
 }
 
 export interface ApiData {
