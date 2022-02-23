@@ -30,6 +30,7 @@ export { default as HumanGearTwoToneIcon } from './components/HumanGearTwoToneIc
 export { default as HumanVipFilledIcon } from './components/HumanVipFilledIcon';
 export { default as KeyFilledIcon } from './components/KeyFilledIcon';
 export { default as LeftRightFilledIcon } from './components/LeftRightFilledIcon';
+export { default as LightningFilledIcon } from './components/LightningFilledIcon';
 export { default as LoadingFilledIcon } from './components/LoadingFilledIcon';
 export { default as MagnifierFilledIcon } from './components/MagnifierFilledIcon';
 export { default as MagnifierTwoToneIcon } from './components/MagnifierTwoToneIcon';
