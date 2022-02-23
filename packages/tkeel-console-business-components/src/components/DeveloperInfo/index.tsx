@@ -7,7 +7,7 @@ type Props = {
     email: string;
     url: string;
   }[];
-  styles: {
+  styles?: {
     wrapper?: StyleProps;
     infoCard: {
       wrapper?: StyleProps;
@@ -44,12 +44,12 @@ function DeveloperInfo({ data, styles }: Props) {
       marginTop="8px"
       width="100%"
       backgroundColor="white"
-      {...styles.wrapper}
+      {...styles?.wrapper}
     >
       <InfoCard
         title="开发者信息"
         data={developerInfo}
-        styles={styles.infoCard}
+        styles={styles?.infoCard}
       />
     </Box>
   );
