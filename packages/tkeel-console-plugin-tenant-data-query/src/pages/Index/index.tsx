@@ -9,14 +9,14 @@ import SearchBg from '@/tkeel-console-plugin-tenant-data-query/assets/images/sea
 function Index(): JSX.Element {
   return (
     <Flex height="100%" paddingBottom="18px" flexDirection="column">
-      <PageHeaderToolbar name="插件管理" hasIcon />
+      <PageHeaderToolbar name="数据查询" hasIcon />
       <Flex
-        marginTop="88px"
+        marginTop="80px"
         flex="1"
         flexDirection="column"
         alignItems="center"
       >
-        <Image marginBottom="32px" width="25.5%" src={SearchBg} />
+        <Image marginBottom="32px" width="25%" src={SearchBg} />
         <SearchDeviceInput />
       </Flex>
       <Box width="100%">
