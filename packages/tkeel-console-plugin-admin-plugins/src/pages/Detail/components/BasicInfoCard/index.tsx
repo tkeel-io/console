@@ -4,7 +4,7 @@ import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import {
   InstallButton,
-  UnInstallButton,
+  UninstallButton,
 } from '@/tkeel-console-plugin-admin-plugins/components';
 import { Installer } from '@/tkeel-console-plugin-admin-plugins/hooks/queries/usePluginDetailQuery';
 
@@ -50,7 +50,7 @@ function BasicInfoCard({ data, refetchDetails }: Props) {
     rightTopButton = data.installed ? (
       <MoreAction
         buttons={[
-          <UnInstallButton
+          <UninstallButton
             key="delete"
             pluginName={data.name}
             onSuccess={refetchDetails}

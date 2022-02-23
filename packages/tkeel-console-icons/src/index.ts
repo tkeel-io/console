@@ -16,6 +16,7 @@ export { default as ChevronDownFilledIcon } from './components/ChevronDownFilled
 export { default as ChevronLeftFilledIcon } from './components/ChevronLeftFilledIcon';
 export { default as ChevronRightFilledIcon } from './components/ChevronRightFilledIcon';
 export { default as ChevronUpFilledIcon } from './components/ChevronUpFilledIcon';
+export { default as CloseFilledIcon } from './components/CloseFilledIcon';
 export { default as CollapseFilledIcon } from './components/CollapseFilledIcon';
 export { default as CopyFilledIcon } from './components/CopyFilledIcon';
 export { default as DocumentPencilTowToneIcon } from './components/DocumentPencilTowToneIcon';

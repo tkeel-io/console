@@ -137,12 +137,12 @@ module.exports = {
             ],
           },
           {
-            type: 'asset',
-            generator: {
-              filename: `${staticDirectory}images/[name].${
-                isEnvProduction ? contenthash : ''
-              }[ext][query]`,
-            },
+            type: 'asset/inline',
+            // generator: {
+            //   dataUrl: `${staticDirectory}images/[name].${
+            //     isEnvProduction ? contenthash : ''
+            //   }[ext][query]`,
+            // },
           },
         ],
       },

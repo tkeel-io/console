@@ -10,7 +10,7 @@ import {
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
 
-import DisableButton from './DisableButton';
+import DisableButton from './components/DisableButton';
 
 import EnableButton from '@/tkeel-console-plugin-tenant-plugins/components/EnableButton';
 import usePluginsQuery from '@/tkeel-console-plugin-tenant-plugins/hooks/queries/usePluginsQuery';
@@ -22,28 +22,32 @@ function Index(): JSX.Element {
   const [pluginName, setPluginName] = useState('');
 
   const pagination = usePagination();
-  const { pageNum, pageSize, totalSize, setTotalSize } = pagination;
+  const { pageNum, pageSize, setTotalSize } = pagination;
   const { plugins, data, isSuccess, isLoading, refetch } = usePluginsQuery({
     pageNum,
     pageSize,
     keyWords,
   });
+
+  const totalNum = data?.total ?? 0;
   if (isSuccess) {
-    setTotalSize(data?.total ?? 0);
+    setTotalSize(totalNum);
   }
 
+  const enableNum = data?.enable_num ?? 0;
+  const notEnabledNum = totalNum >= enableNum ? totalNum - enableNum : 0;
   const pluginNumData = [
     {
       name: '插件数量',
-      num: totalSize,
+      num: totalNum,
     },
     {
       name: '已启用',
-      num: 1,
+      num: enableNum,
     },
     {
       name: '未启用',
-      num: 0,
+      num: notEnabledNum,
     },
   ];
 

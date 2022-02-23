@@ -16,13 +16,11 @@ export interface Installer {
     'tkeel.io/tag': string;
     'tkeel.io/version': string;
   };
-  maintainers: [
-    {
-      name: string;
-      email: string;
-      url: string;
-    }
-  ];
+  maintainers: {
+    name: string;
+    email: string;
+    url: string;
+  }[];
   installed: boolean;
   desc: string;
   timestamp: string;

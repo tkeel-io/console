@@ -1,5 +1,6 @@
 import { useSearchParams } from 'react-router-dom';
 import { Box, Flex, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { DeveloperInfo } from '@tkeel/console-business-components';
 import {
   CustomTab,
   CustomTabList,
@@ -9,9 +10,8 @@ import {
 import { Base64 } from 'js-base64';
 import { markdown } from 'markdown';
 
-import BasicInfoCard from './BasicInfoCard';
-import DeveloperInfo from './DeveloperInfo';
-import EnablePluginList from './EnablePluginList';
+import BasicInfoCard from './components/BasicInfoCard';
+import EnablePluginList from './components/EnablePluginList';
 import { MarkdownWrapper } from './index.style';
 
 import usePluginDetailQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/usePluginDetailQuery';
