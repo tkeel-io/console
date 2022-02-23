@@ -1,4 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom';
+import { Box, Text } from '@chakra-ui/react';
 import { BasicInfo } from '@tkeel/console-business-components';
 import { MoreAction, toast } from '@tkeel/console-components';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
@@ -14,6 +15,8 @@ export default function BasicInfoCard() {
   const title = data?.title ?? '';
   const remark = data?.remark ?? '';
   const createdTime = data?.created_at ?? '';
+  const admins = data?.admins ?? [];
+  const userCount = data?.num_user ?? 0;
 
   const basicInfoList = [
     {
@@ -26,11 +29,19 @@ export default function BasicInfoCard() {
     },
     {
       label: '管理员',
-      value: '',
+      value: (
+        <Box flex="1" overflowX="hidden">
+          {admins.map(({ username }) => (
+            <Text key={username} isTruncated width="100%">
+              {username}
+            </Text>
+          ))}
+        </Box>
+      ),
     },
     {
       label: '客户数',
-      value: '',
+      value: userCount,
     },
   ];
 
