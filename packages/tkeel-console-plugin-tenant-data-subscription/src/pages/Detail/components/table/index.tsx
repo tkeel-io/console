@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react';
-// import { useQueryClient } from 'react-query';
 // import { Column } from 'react-table';
 import { Cell, Column } from 'react-table';
 import { Flex, Text } from '@chakra-ui/react';
@@ -57,8 +56,6 @@ function Index({ id }: { id: string }) {
 
   // const pagination = usePagination();
   // const { setTotalSize } = pagination;
-
-  // const queryClient = useQueryClient();
 
   let params = {
     page_num: pageNum,

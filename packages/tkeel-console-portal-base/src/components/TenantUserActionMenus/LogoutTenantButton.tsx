@@ -1,3 +1,4 @@
+// import { useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { useDisclosure } from '@chakra-ui/react';
 import { Alert, MoreActionButton } from '@tkeel/console-components';
@@ -12,11 +13,15 @@ import useOAuthTokenRevokeMutation from '@/tkeel-console-portal-base/hooks/mutat
 
 export default function LogoutUserButton() {
   const navigate = useNavigate();
+  // const queryClient = useQueryClient();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isLoading, mutate } = useOAuthTokenRevokeMutation({
     onSuccess() {
       removeLocalTokenInfo();
       removeLocalUserInfo();
+      console.log(1);
+
+      // queryClient.invalidateQueries();
       navigate('/auth/tenant', { replace: true });
     },
   });
