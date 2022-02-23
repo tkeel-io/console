@@ -52,10 +52,7 @@ export default function BasicInfoPart({
         id="parentId"
         label={type === CreateType.DEVICE ? '设备分组' : '父设备组'}
         options={deviceGroupOptions}
-        registerReturn={register('parentId', {
-          required: { value: true, message: 'required' },
-        })}
-        error={errors.parentId}
+        registerReturn={register('parentId', {})}
       />
       {type === CreateType.DEVICE && (
         <>
@@ -76,7 +73,7 @@ export default function BasicInfoPart({
                 setValue('connectInfo', value);
               }}
               value={
-                watchFields.directConnection === ConnectOption.INDIRECT
+                watchFields.directConnection !== ConnectOption.DIRECT
                   ? [ConnectInfoType.useTemplate]
                   : watchFields.connectInfo
               }
@@ -85,10 +82,11 @@ export default function BasicInfoPart({
                 <Checkbox
                   colorScheme="primary"
                   id="useTemplate"
-                  value={ConnectInfoType.useTemplate}
-                  isDisabled={
-                    watchFields.directConnection === ConnectOption.INDIRECT
-                  }
+                  // value={ConnectInfoType.useTemplate}
+                  isDisabled
+                  // isDisabled={
+                  //   watchFields.directConnection !== ConnectOption.DIRECT
+                  // }
                 >
                   <Text color="gray.600" fontSize="14px">
                     使用设备模版
@@ -99,7 +97,7 @@ export default function BasicInfoPart({
                   id="selfLearn"
                   value={ConnectInfoType.selfLearn}
                   isDisabled={
-                    watchFields.directConnection === ConnectOption.INDIRECT
+                    watchFields.directConnection !== ConnectOption.DIRECT
                   }
                 >
                   <Text color="gray.600" fontSize="14px">

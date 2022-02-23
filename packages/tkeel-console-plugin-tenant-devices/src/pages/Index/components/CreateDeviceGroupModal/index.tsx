@@ -1,8 +1,5 @@
-/* eslint-disable import/no-cycle */
 /* eslint-disable no-unsafe-optional-chaining */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable no-console */
 import { useEffect, useState } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
@@ -34,9 +31,7 @@ const defaultFormInfo = {
 };
 
 interface Props {
-  title: string;
-  mode?: ModalMode;
-  completed?: boolean;
+  mode?: string;
   // eslint-disable-next-line react/no-unused-prop-types
   defaultFormValues?: DeviceApiItem;
   isOpen: boolean;
@@ -46,14 +41,14 @@ interface Props {
   isLoading?: boolean;
   responseData?: DeviceResData | GroupResData | null;
 }
+const progressLabels = ['基本信息', '扩展信息', '创建完成'];
 const BUTTON_TEXT = {
   NEXT: '下一步',
   SKIP: '跳过',
   COMPLETE: '完成',
 };
 
-export default function CreateDeviceModal({
-  title,
+export default function CreateDeviceGroupModal({
   type,
   isOpen,
   onClose,
@@ -62,7 +57,6 @@ export default function CreateDeviceModal({
   isLoading = false,
   responseData = null,
   mode,
-  completed,
 }: Props) {
   const [currentStep, setCurrentStep] = useState(0);
   const formHandler = useForm<DeviceValueType>({
@@ -75,10 +69,6 @@ export default function CreateDeviceModal({
     control,
     name: 'extendInfo',
   });
-  const progressLabels =
-    mode !== ModalMode.EDIT
-      ? ['基本信息', '扩展信息', '创建完成']
-      : ['基本信息', '扩展信息'];
 
   useEffect(() => {
     if (!isOpen) {
@@ -104,28 +94,23 @@ export default function CreateDeviceModal({
       const defaultFormInfoCopy = {
         description,
         name,
-        extendInfo: Object.entries(ext).map(([label, value]) => {
+        extendInfo: Object.entries(ext).map(([value, label]) => {
           return { label, value };
         }),
         connectInfo,
         parentId,
         directConnection: directConnection ? ConnectOption.DIRECT : '',
       };
-      console.log('defaultFormInfoCopy \n', defaultFormInfoCopy);
       reset(defaultFormInfoCopy);
     } else {
       reset(defaultFormInfo);
     }
   }, [defaultFormValues, isOpen, mode, reset]);
   useEffect(() => {
-    if (currentStep === 1 && completed) {
-      if (mode !== ModalMode.EDIT) {
-        setCurrentStep(2);
-      } else {
-        onClose();
-      }
+    if (currentStep === 1 && responseData) {
+      setCurrentStep(currentStep + 1);
     }
-  }, [currentStep, completed, mode, onClose]);
+  }, [currentStep, responseData]);
   const onSubmit: SubmitHandler<DeviceValueType> = async (formValues) => {
     if (currentStep >= 2) {
       onClose();
@@ -143,9 +128,7 @@ export default function CreateDeviceModal({
       }
       const result = await trigger(verifyKeys);
       if (result && currentStep <= 1) {
-        if (currentStep === 0) {
-          setCurrentStep(currentStep + 1);
-        }
+        setCurrentStep(currentStep + 1);
         if (currentStep === 1) {
           handleConfirm({ formValues });
         }
@@ -168,7 +151,7 @@ export default function CreateDeviceModal({
 
   return (
     <Modal
-      title={<Text fontSize="14px">{title}</Text>}
+      title={<Text fontSize="14px">创建设备组</Text>}
       isOpen={isOpen}
       onClose={onClose}
       width="800px"
@@ -183,11 +166,7 @@ export default function CreateDeviceModal({
         minH="600px"
       >
         <Box w="127px">
-          <ProgressSchedule
-            infos={progressLabels}
-            currentStep={currentStep}
-            mode={mode}
-          />
+          <ProgressSchedule infos={progressLabels} currentStep={currentStep} />
         </Box>
         <Flex
           flexDirection="column"

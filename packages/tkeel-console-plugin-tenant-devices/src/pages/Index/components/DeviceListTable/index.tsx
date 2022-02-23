@@ -4,11 +4,7 @@
 import { ReactNode, useMemo } from 'react';
 import { Cell, Column } from 'react-table';
 import { Box, Flex, HStack, Link, Text, Tooltip } from '@chakra-ui/react';
-import {
-  // PageHeaderToolbar,
-  Table,
-  // toast,
-} from '@tkeel/console-components';
+import { MoreAction, Table } from '@tkeel/console-components';
 import { useColor, usePagination } from '@tkeel/console-hooks';
 import {
   BranchTowToneIcon,
@@ -21,6 +17,7 @@ import {
 } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
+import EditDeviceButton from '@/tkeel-console-plugin-tenant-devices/components/EditDeviceButton';
 import IconWrapper from '@/tkeel-console-plugin-tenant-devices/components/IconWrapper';
 import { DEVICE_STATUS } from '@/tkeel-console-plugin-tenant-devices/constants';
 import useDeviceListQuery, {
@@ -65,8 +62,12 @@ function TooltipIcon({
   );
 }
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function DeviceStatus({ original }: { original: DeviceApiItem }): JSX.Element {
-  const { basicInfo, sysField } = original?.properties ?? {};
+function DeviceStatus({
+  originData,
+}: {
+  originData: DeviceApiItem;
+}): JSX.Element {
+  const { basicInfo, sysField } = originData?.properties ?? {};
   const selfLearn = basicInfo?.selfLearn ?? false;
   const subscribeAddr = sysField?._subscribeAddr ?? '';
   const isOnline = sysField?._status === DEVICE_STATUS.ONLINE;
@@ -209,9 +210,9 @@ function DeviceListTable({ groupItem }: Props): JSX.Element {
       accessor: 'status',
       Cell: ({ row }: Cell<DeviceItem>) =>
         useMemo(() => {
-          const original = row.original as unknown as DeviceApiItem;
+          const originData = row.original?.originData as DeviceApiItem;
           // return <Box pos="relative">{renderDeviceStatus({ original })}</Box>;
-          return <DeviceStatus original={original} />;
+          return <DeviceStatus originData={originData} />;
         }, [row]),
     },
     {
@@ -221,14 +222,25 @@ function DeviceListTable({ groupItem }: Props): JSX.Element {
         useMemo(
           () => (
             <Text minWidth="180px" fontSize="12px" color="gray.600">
-              {value
-                ? // eslint-disable-next-line unicorn/numeric-separators-style
-                  formatDateTimeByTimestamp({ timestamp: value })
-                : ''}
+              {value ? formatDateTimeByTimestamp({ timestamp: value }) : ''}
             </Text>
           ),
           [value]
         ),
+    },
+    {
+      Header: '操作',
+      Cell: ({ row }: Cell<DeviceItem>) =>
+        useMemo(() => {
+          const originData = row.original?.originData as DeviceApiItem;
+          return (
+            <MoreAction
+              buttons={[
+                <EditDeviceButton key="edit" deviceInfo={originData} />,
+              ]}
+            />
+          );
+        }, [row]),
     },
   ];
   return (
