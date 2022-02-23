@@ -23,7 +23,7 @@ export interface FormFields {
     disabled?: boolean;
   };
 
-  roles?: {
+  roleIds?: {
     disabled?: boolean;
   };
 }
@@ -31,7 +31,7 @@ export interface FormFields {
 export interface FormValues {
   username: string;
   nick_name?: string;
-  roles: string[];
+  roleIds: string[];
 }
 
 type Props = {
@@ -105,14 +105,14 @@ export default function BaseUserModal({
             backgroundColor="gray.50"
           >
             <CheckboxGroup
-              defaultValue={defaultValues?.roles ?? []}
+              defaultValue={defaultValues?.roleIds ?? []}
               onChange={(value: string[]) => {
-                setValue('roles', value);
+                setValue('roleIds', value);
               }}
             >
-              {roles.map((role) => (
-                <Box key={role}>
-                  <Checkbox value={role}>{role}</Checkbox>
+              {roles.map(({ id, name }) => (
+                <Box key={id}>
+                  <Checkbox value={id}>{name}</Checkbox>
                 </Box>
               ))}
             </CheckboxGroup>

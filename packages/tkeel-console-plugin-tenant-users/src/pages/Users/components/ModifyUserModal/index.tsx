@@ -8,8 +8,8 @@ type Props = {
   isConfirmButtonLoading: boolean;
   formFields: FormFields;
   defaultValues: FormValues;
-  onClose: () => unknown;
-  onConfirm: (formValues: FormValues) => unknown;
+  onClose: () => void;
+  onConfirm: (formValues: FormValues) => void;
 };
 
 export default function ModifyUserModal({
