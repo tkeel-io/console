@@ -1,9 +1,9 @@
-import { Flex, Text } from '@chakra-ui/react';
+import { Flex, Text, useDisclosure } from '@chakra-ui/react';
 import { MoreAction, MoreActionButton } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 import {
   ChevronDownFilledIcon,
-  // ChevronUpFilledIcon,
+  ChevronUpFilledIcon,
   HumanFilledIcon,
   KeyFilledIcon,
   LeftRightFilledIcon,
@@ -12,6 +12,7 @@ import {
 
 export default function TenantUserActionMenus() {
   const primaryColor = useColor('primary');
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <MoreAction
@@ -28,16 +29,24 @@ export default function TenantUserActionMenus() {
             },
           }}
         >
-          <HumanFilledIcon size="24px" />
+          <HumanFilledIcon size="24px" color={isOpen ? primaryColor : ''} />
           <Text
             marginLeft="8px"
             fontSize="12px"
             lineHeight="24px"
-            color="gray.600"
+            color={isOpen ? primaryColor : 'gray.600'}
           >
             admin
           </Text>
-          <ChevronDownFilledIcon size="16px" style={{ marginLeft: '8px' }} />
+          {isOpen ? (
+            <ChevronUpFilledIcon
+              size="16px"
+              color={primaryColor}
+              style={{ marginLeft: '8px' }}
+            />
+          ) : (
+            <ChevronDownFilledIcon size="16px" style={{ marginLeft: '8px' }} />
+          )}
         </Flex>
       }
       buttons={[
@@ -60,6 +69,8 @@ export default function TenantUserActionMenus() {
           onClick={() => {}}
         />,
       ]}
+      onActionListOpen={onOpen}
+      onActionListClose={onClose}
     />
   );
 }
