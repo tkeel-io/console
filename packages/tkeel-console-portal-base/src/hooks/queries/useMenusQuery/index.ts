@@ -1,3 +1,5 @@
+import { RequestResult } from '@tkeel/console-utils';
+
 import useQuery from '@/tkeel-console-portal-base/hooks/useQuery';
 
 const url = '/rudder/v1/entries';
@@ -17,10 +19,24 @@ export interface ApiData {
   entries: Menu[];
 }
 
-export default function useMenusQuery() {
+type Props = {
+  onSuccess: (
+    data: RequestResult<ApiData, undefined, undefined>
+  ) => void | undefined;
+};
+
+const defaultProps = {
+  onSuccess: undefined,
+};
+
+export default function useMenusQuery(props?: Props) {
+  const { onSuccess } = { ...defaultProps, ...props };
   const { data, ...rest } = useQuery<ApiData>({
     url,
     method,
+    reactQueryOptions: {
+      onSuccess,
+    },
   });
   const menus = data?.entries || [];
 

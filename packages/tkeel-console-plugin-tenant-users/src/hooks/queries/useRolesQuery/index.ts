@@ -1,20 +1,46 @@
-import { getLocalUserInfo } from '@tkeel/console-utils';
-
 import useQuery from '@/tkeel-console-plugin-tenant-users/hooks/useQuery';
 
 const method = 'GET';
 
+type RequestParams = {
+  page_num?: number;
+  page_size?: number;
+  order_by?: string;
+  is_descending?: boolean;
+  key_words?: string;
+};
+
+export interface Role {
+  id: string;
+  name: string;
+  desc?: string;
+  bind_num: number;
+  upsert_timestamp: string;
+  // TODO: tmp
+  permission_list: string[];
+}
+
 export interface ApiData {
   '@type': string;
-  roles: string[];
+  total: number;
+  page_num: number;
+  page_size: number;
+
+  tenant_id: string;
+  roles: Role[];
 }
 
 export default function useRolesQuery() {
-  const { tenant_id: tenantId } = getLocalUserInfo();
-  const url = `/security/v1/rbac/tenant/${tenantId}/roles`;
-
-  const { data, ...rest } = useQuery<ApiData>({ url, method });
+  const url = `/security/v1/rbac/roles`;
+  const { data, ...rest } = useQuery<ApiData, RequestParams>({
+    url,
+    method,
+    params: {
+      page_size: 0,
+    },
+  });
+  const total = data?.total ?? 0;
   const roles = data?.roles ?? [];
 
-  return { roles, data, ...rest };
+  return { total, roles, data, ...rest };
 }

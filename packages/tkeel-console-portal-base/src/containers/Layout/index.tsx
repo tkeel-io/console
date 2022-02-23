@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { Box, Flex } from '@chakra-ui/react';
 
 import Header from '@/tkeel-console-portal-base/containers/Layout/Header';
@@ -32,15 +32,7 @@ function Layout() {
 
     return (
       <>
-        <Route
-          index
-          element={
-            <Box
-              width="100%"
-              id={getElementIdByContainer(firstApp?.container)}
-            />
-          }
-        />
+        <Route index element={<Navigate replace to={firstApp.activeRule} />} />
         {apps.map(({ name, container, activeRule }) => {
           return (
             <Route
@@ -63,7 +55,7 @@ function Layout() {
   return (
     <Flex height="100%">
       <Menus />
-      <Flex flex="1" overflow="hidden" flexDirection="column" padding="24px">
+      <Flex flex="1" overflow="hidden" flexDirection="column" padding="20px">
         <Header menus={menus} />
         <Flex flex="1" overflow="hidden">
           <Routes>

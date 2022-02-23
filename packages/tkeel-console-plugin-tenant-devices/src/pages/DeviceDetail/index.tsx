@@ -19,24 +19,31 @@ import DeviceDetailLeftPanel from './components/DeviceDetailLeftPanel';
 import RawData from './components/RawData';
 
 import useDeviceDetailQuery from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
+import useDeviceDetailSocket from '@/tkeel-console-plugin-tenant-devices/hooks/webSockets/useDeviceDetailSocket';
 
 function Index(): JSX.Element {
   const location = useLocation();
   const { search } = location;
   const id = search.split('=')[1];
-  const { sysField, basicInfo, connectInfo, rawData } = useDeviceDetailQuery({
+  const {
+    sysField,
+    basicInfo,
+    connectInfo: initialConnectInfo,
+  } = useDeviceDetailQuery({
     id,
   });
+  const { rawData, connectInfo } = useDeviceDetailSocket({ id });
+  const connectData = connectInfo || initialConnectInfo;
   const tabs = [
     {
       label: '连接信息',
       key: 'connectionInfo',
-      component: <ConnectionInfo connectInfo={connectInfo} />,
+      component: <ConnectionInfo data={connectData} />,
     },
     {
       label: '原始数据',
       key: 'RawData',
-      component: <RawData id={id} initialData={rawData} />,
+      component: <RawData data={rawData} />,
     },
   ];
   const [tabIndex, setTabIndex] = useState(0);
@@ -82,7 +89,7 @@ function Index(): JSX.Element {
           <TabPanels>
             {tabs.map((r) => (
               <TabPanel key={r.key}>
-                {connectInfo?._online ? (
+                {connectData?._online ? (
                   r.component
                 ) : (
                   <Empty
@@ -121,7 +128,7 @@ function Index(): JSX.Element {
         id={id}
         sysField={sysField}
         basicInfo={basicInfo}
-        connectInfo={connectInfo}
+        connectInfo={connectData}
       />
       {renderRightPanel()}
     </Flex>

@@ -1,7 +1,7 @@
 import { TokenInfo } from '@tkeel/console-types';
 import store from 'store2';
 
-const namespace = 'auth';
+const namespace = `${GLOBAL_CONFIG.platformName}.auth`;
 const key = 'tokenInfo';
 const authStore = store.namespace(namespace);
 
