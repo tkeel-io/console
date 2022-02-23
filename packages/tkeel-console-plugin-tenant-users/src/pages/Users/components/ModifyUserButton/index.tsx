@@ -1,5 +1,5 @@
 import { useDisclosure } from '@chakra-ui/react';
-import { LinkButton, toast } from '@tkeel/console-components';
+import { LinkButton } from '@tkeel/console-components';
 
 import useModifyUserMutation from '@/tkeel-console-plugin-tenant-users/hooks/mutations/useModifyUserMutation';
 import { User } from '@/tkeel-console-plugin-tenant-users/hooks/queries/useUsersQuery';
@@ -28,7 +28,7 @@ export default function ModifyUserButton({ data, onSuccess }: Props) {
   const defaultValues = {
     username,
     nick_name: nickName,
-    roles,
+    roleIds: roles.map(({ id }) => id),
   };
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -42,15 +42,11 @@ export default function ModifyUserButton({ data, onSuccess }: Props) {
   });
 
   const handleConfirm = (formValues: FormValues) => {
-    const { nick_name: newNickName, roles: newRoles = [] } = formValues;
-
-    if (newRoles.length === 0) {
-      toast({ status: 'warning', title: '请选择角色' });
-      return;
-    }
-
     mutate({
-      data: { nick_name: newNickName, roles: newRoles },
+      data: {
+        nick_name: formValues?.nick_name ?? '',
+        roles: formValues?.roleIds ?? [],
+      },
     });
   };
 

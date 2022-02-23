@@ -64,7 +64,7 @@ export default function Users() {
       Header: '用户角色',
       accessor: 'roles',
       Cell({ value = [] }) {
-        return value.join('，');
+        return value.map(({ name }) => name).join('，');
       },
     },
   ];
