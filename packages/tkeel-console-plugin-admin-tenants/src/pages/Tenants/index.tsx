@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react';
-import { useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { Cell, Column } from 'react-table';
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
@@ -25,7 +24,6 @@ import useTenantsQuery, {
 } from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useTenantsQuery';
 
 export default function Tenants() {
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [keyWords, setKeyWords] = useState('');
   const pagination = usePagination();
@@ -42,22 +40,22 @@ export default function Tenants() {
     params = { ...params, key_words: keyWords };
   }
 
-  const { queryKey, isLoading, total, tenants } = useTenantsQuery({ params });
+  const { isLoading, total, tenants, refetch } = useTenantsQuery({ params });
   setTotalSize(total);
 
   const handleCreateTenantSuccess = () => {
     toast({ status: 'success', title: '创建成功' });
-    queryClient.invalidateQueries(queryKey);
+    refetch();
   };
 
   const handleModifyTenantSuccess = () => {
     toast({ status: 'success', title: '编辑成功' });
-    queryClient.invalidateQueries(queryKey);
+    refetch();
   };
 
   const handleDeleteTenantSuccess = () => {
     toast({ status: 'success', title: '删除成功' });
-    queryClient.invalidateQueries(queryKey);
+    refetch();
   };
 
   const columns: ReadonlyArray<Column<Tenant>> = [

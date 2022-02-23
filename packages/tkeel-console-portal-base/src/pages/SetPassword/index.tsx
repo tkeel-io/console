@@ -12,7 +12,7 @@ import { Alert, Form, FormField, toast } from '@tkeel/console-components';
 import { schemas } from '@tkeel/console-utils';
 
 import useOAuthResetPasswordMutation from '@/tkeel-console-portal-base/hooks/mutations/useOAuthResetPasswordMutation';
-import useResetPasswordKeyInfo from '@/tkeel-console-portal-base/hooks/queries/useResetPasswordKeyInfo';
+import useResetPasswordKeyInfoQuery from '@/tkeel-console-portal-base/hooks/queries/useResetPasswordKeyInfoQuery';
 
 const { TextField } = FormField;
 
@@ -48,9 +48,10 @@ export default function SetPassword() {
 
   const [searchParams] = useSearchParams();
   const resetKey = searchParams.get('reset_key') ?? '';
-  const { data: resetPasswordKeyInfo, isSuccess } = useResetPasswordKeyInfo({
-    data: { reset_key: resetKey },
-  });
+  const { data: resetPasswordKeyInfo, isSuccess } =
+    useResetPasswordKeyInfoQuery({
+      data: { reset_key: resetKey },
+    });
   const username = resetPasswordKeyInfo?.username ?? '';
 
   const { isOpen, onOpen } = useDisclosure();
@@ -81,7 +82,7 @@ export default function SetPassword() {
     });
   };
 
-  const jumpToLoginPage = () => {
+  const navigateToLoginPage = () => {
     const tenantId = resetPasswordData?.tenant_id ?? '';
     navigate(`/auth/login/${tenantId}`, { replace: true });
   };
@@ -117,6 +118,7 @@ export default function SetPassword() {
               type="password"
               id="password"
               label="密码"
+              help={schemas.password.help}
               placeholder="请输入"
               error={errors.password}
               formLabelStyle={formLabelStyle}
@@ -130,6 +132,7 @@ export default function SetPassword() {
               type="password"
               id="confirmPassword"
               label="再次输入密码"
+              help={schemas.password.help}
               placeholder="请输入"
               error={errors.confirmPassword}
               formControlStyle={{ marginBottom: '24px' }}
@@ -161,8 +164,8 @@ export default function SetPassword() {
         iconPosition="left"
         title="密码设置成功"
         hasCancelButton={false}
-        onClose={jumpToLoginPage}
-        onConfirm={jumpToLoginPage}
+        onClose={navigateToLoginPage}
+        onConfirm={navigateToLoginPage}
       />
     </>
   );

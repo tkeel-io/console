@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react';
-import { useQueryClient } from 'react-query';
 import { Cell, Column } from 'react-table';
 import { Flex, Text } from '@chakra-ui/react';
 import {
@@ -21,7 +20,6 @@ import useUsersQuery, {
 } from '@/tkeel-console-plugin-tenant-users/hooks/queries/useUsersQuery';
 
 export default function Users() {
-  const queryClient = useQueryClient();
   const [keyWords, setKeyWords] = useState('');
   const pagination = usePagination();
   const { pageNum, pageSize, setPageNum, setTotalSize } = pagination;
@@ -36,7 +34,7 @@ export default function Users() {
   if (keyWords) {
     params = { ...params, key_words: keyWords };
   }
-  const { isLoading, users, queryKey } = useUsersQuery({
+  const { isLoading, users, refetch } = useUsersQuery({
     params,
     onSuccess(data) {
       const total = data?.data?.total ?? 0;
@@ -46,17 +44,17 @@ export default function Users() {
 
   const handleCreateUserSuccess = () => {
     toast({ status: 'success', title: '创建成功' });
-    queryClient.invalidateQueries(queryKey);
+    refetch();
   };
 
   const handleModifyUserSuccess = () => {
     toast({ status: 'success', title: '修改成功' });
-    queryClient.invalidateQueries(queryKey);
+    refetch();
   };
 
   const handleDeleteUserSuccess = () => {
     toast({ status: 'success', title: '删除成功' });
-    queryClient.invalidateQueries(queryKey);
+    refetch();
   };
 
   const columns: ReadonlyArray<Column<User>> = [

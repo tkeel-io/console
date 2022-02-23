@@ -6,7 +6,6 @@ import { inRange, merge } from 'lodash';
 import {
   getLocalTokenInfo,
   removeLocalTokenInfo,
-  removeLocalUserInfo,
 } from '@/tkeel-console-utils/utils/auth';
 
 import { AxiosRequestConfigExtended, RequestExtras } from './types';
@@ -80,7 +79,6 @@ export function createHandleNoAuth({
 }) {
   return function handleNoAuth() {
     removeLocalTokenInfo();
-    removeLocalUserInfo();
     navigate(redirectPath, { replace: true });
   };
 }
