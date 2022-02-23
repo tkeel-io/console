@@ -15,13 +15,13 @@ type Props = {
   buttonProps?: object;
 };
 
-interface CustomColor extends Colors {
+interface CustomColors extends Colors {
   primary: string;
 }
 
 function MoreAction({ element, buttons, buttonProps = {} }: Props) {
   const [showActionList, setShowActionList] = useState(false);
-  const { colors }: { colors: CustomColor } = useTheme();
+  const { colors }: { colors: CustomColors } = useTheme();
   let timer: number | null = null;
 
   const handleClick: MouseEventHandler<HTMLDivElement> = (event) => {
