@@ -1,19 +1,23 @@
 import { useNavigate } from 'react-router-dom';
 import { useDisclosure } from '@chakra-ui/react';
 import { Alert, MoreActionButton } from '@tkeel/console-components';
-import { ShutdownFilledIcon } from '@tkeel/console-icons';
-import { getLocalTokenInfo, removeLocalTokenInfo } from '@tkeel/console-utils';
+import { LeftRightFilledIcon } from '@tkeel/console-icons';
+import {
+  getLocalTokenInfo,
+  removeLocalTokenInfo,
+  removeLocalUserInfo,
+} from '@tkeel/console-utils';
 
 import useOAuthTokenRevokeMutation from '@/tkeel-console-portal-base/hooks/mutations/useOAuthTokenRevokeMutation';
 
-export default function LogoutTenantButton() {
+export default function LogoutUserButton() {
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { isLoading, mutate, data } = useOAuthTokenRevokeMutation({
+  const { isLoading, mutate } = useOAuthTokenRevokeMutation({
     onSuccess() {
-      const tenantId = data?.tenant_id ?? '';
       removeLocalTokenInfo();
-      navigate(`/auth/login/${tenantId}`, { replace: true });
+      removeLocalUserInfo();
+      navigate('/auth/tenant', { replace: true });
     },
   });
   const handleConfirm = () => {
@@ -24,15 +28,16 @@ export default function LogoutTenantButton() {
   return (
     <>
       <MoreActionButton
-        title="退出登录"
-        icon={<ShutdownFilledIcon />}
+        title="切换空间"
+        icon={<LeftRightFilledIcon />}
         onClick={onOpen}
       />
       <Alert
         isOpen={isOpen}
         icon="warning"
         iconPosition="left"
-        title="您确定要退出登录吗"
+        title="您确定要切换空间吗"
+        description="切换空间将会退出登录"
         isConfirmButtonLoading={isLoading}
         onClose={onClose}
         onConfirm={handleConfirm}
