@@ -28,19 +28,19 @@ export default function TenantUserActionMenus() {
       }
       buttons={[
         <MoreActionButton
-          key={0}
+          key="modify-password"
           title="修改密码"
           icon={<KeyFilledIcon />}
           onClick={() => {}}
         />,
         <MoreActionButton
-          key={1}
+          key="logout-user"
           title="退出登录"
           icon={<ShutdownFilledIcon />}
           onClick={() => {}}
         />,
         <MoreActionButton
-          key={2}
+          key="logout-tenant"
           title="切换空间"
           icon={<LeftRightFilledIcon />}
           onClick={() => {}}
