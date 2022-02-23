@@ -11,14 +11,14 @@ type Props = {
     roleId: string;
     roleName: string;
     desc?: string;
-    permissionList?: string[];
+    permissionPaths?: string[];
   };
   onSuccess: () => void;
 };
 
 export default function ModifyRoleButton({ data, onSuccess }: Props) {
-  const { roleId, roleName, desc, permissionList = [] } = data;
-  const defaultValues = { roleName, desc, permissionList };
+  const { roleId, roleName, desc, permissionPaths = [] } = data;
+  const defaultValues = { roleName, desc, permissionPaths };
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate, isLoading } = useModifyRoleMutation({
     roleId,

@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Cell, Column } from 'react-table';
-import { Flex, Text } from '@chakra-ui/react';
+import { Flex, Text, Tooltip } from '@chakra-ui/react';
 import {
   ButtonsHStack,
   PageHeaderToolbar,
@@ -70,7 +70,18 @@ export default function Roles() {
     },
     {
       Header: '权限资源',
-      // accessor: '',
+      accessor: 'permission_list',
+      Cell: ({ value = [] }) => {
+        const names = value.map(({ permission }) => permission.name).join('，');
+        return useMemo(
+          () => (
+            <Tooltip label={names}>
+              <Text isTruncated>{names}</Text>
+            </Tooltip>
+          ),
+          [names]
+        );
+      },
     },
     {
       Header: '绑定用户数',
@@ -81,6 +92,7 @@ export default function Roles() {
       Cell({ row }: Cell<Role>) {
         const { original } = row;
         const { id, name, desc, permission_list: permissionList } = original;
+        const permissionPaths = permissionList.map(({ path }) => path);
 
         return useMemo(
           () => (
@@ -90,7 +102,7 @@ export default function Roles() {
                   roleId: id,
                   roleName: name,
                   desc,
-                  permissionList,
+                  permissionPaths,
                 }}
                 onSuccess={handleModifyRoleSuccess}
               />
@@ -100,7 +112,7 @@ export default function Roles() {
               />
             </ButtonsHStack>
           ),
-          [id, name, permissionList, desc]
+          [id, name, desc, permissionPaths]
         );
       },
     },

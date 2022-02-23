@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, StyleProps } from '@chakra-ui/react';
 import { InfoCard } from '@tkeel/console-components';
 
 type Props = {
@@ -7,9 +7,19 @@ type Props = {
     email: string;
     url: string;
   }[];
+  styles?: {
+    wrapper?: StyleProps;
+    infoCard: {
+      wrapper?: StyleProps;
+      content?: StyleProps;
+      title?: StyleProps;
+      label?: StyleProps;
+      value?: StyleProps;
+    };
+  };
 };
 
-function DeveloperInfo({ data }: Props) {
+function DeveloperInfo({ data, styles }: Props) {
   const developers: string[] = [];
   const emails: string[] = [];
   data.forEach((item) => {
@@ -30,8 +40,17 @@ function DeveloperInfo({ data }: Props) {
   ];
 
   return (
-    <Box marginTop="8px" width="100%" backgroundColor="white">
-      <InfoCard title="开发者信息" data={developerInfo} />
+    <Box
+      marginTop="8px"
+      width="100%"
+      backgroundColor="white"
+      {...styles?.wrapper}
+    >
+      <InfoCard
+        title="开发者信息"
+        data={developerInfo}
+        styles={styles?.infoCard}
+      />
     </Box>
   );
 }

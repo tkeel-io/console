@@ -16,7 +16,11 @@ type Controls = {
   address: string;
 };
 
-function AddRepoButton() {
+type Props = {
+  refetchRepos: () => unknown;
+};
+
+function AddRepoButton({ refetchRepos }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     register,
@@ -27,6 +31,7 @@ function AddRepoButton() {
 
   const { mutate } = useAddRepoMutation({
     onSuccess() {
+      refetchRepos();
       onClose();
       toast({ status: 'success', title: '添加仓库成功' });
     },
@@ -90,7 +95,11 @@ function AddRepoButton() {
             label="插件源地址"
             error={errors.address}
             registerReturn={register('address', {
-              required: { value: true, message: 'required' },
+              required: { value: true, message: '请输入仓库源地址' },
+              pattern: {
+                value: /^(http|https)?:\/\//,
+                message: '请提供合法的仓库源地址',
+              },
             })}
             formControlStyle={{ marginTop: '16px' }}
           />

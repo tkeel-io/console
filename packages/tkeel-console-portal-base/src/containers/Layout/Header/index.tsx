@@ -6,8 +6,9 @@ import {
   Flex,
   Text,
 } from '@chakra-ui/react';
-import { HumanFilledIcon } from '@tkeel/console-icons';
 import { Menu } from '@tkeel/console-types';
+
+import TenantUserActionMenus from './TenantUserActionMenus';
 
 function Header({ menus }: { menus: Menu[] }) {
   const { pathname } = useLocation();
@@ -48,12 +49,7 @@ function Header({ menus }: { menus: Menu[] }) {
         ))}
       </Breadcrumb>
       <Flex alignItems="center">
-        <Flex alignItems="center" cursor="pointer">
-          <HumanFilledIcon />
-          <Text marginLeft="5px" color="gray.500" fontSize="12px">
-            Admin
-          </Text>
-        </Flex>
+        <TenantUserActionMenus />
       </Flex>
     </Flex>
   );

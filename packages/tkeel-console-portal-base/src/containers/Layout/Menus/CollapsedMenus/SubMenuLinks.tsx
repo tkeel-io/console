@@ -33,26 +33,6 @@ function SubMenuLinks({ data }: Props) {
           isDarkMenu={isDarkMenu}
         />
       ))}
-      {/* {data.map((menu) => (
-        <Link
-          as={ReactRouterLink}
-          key={menu.id}
-          display="block"
-          paddingLeft="16px"
-          height="32px"
-          lineHeight="32px"
-          color={isDarkMenu ? 'white' : 'gray.600'}
-          fontSize="12px"
-          borderRadius="4px"
-          to={menu.path as string}
-          _hover={{
-            color: isDarkMenu ? 'white' : 'primary',
-            backgroundColor: isDarkMenu ? 'gray.700' : 'gray.100',
-          }}
-        >
-          {menu.name}
-        </Link>
-      ))} */}
     </Box>
   );
 }

@@ -4,10 +4,9 @@ import { PluginNum } from '@tkeel/console-business-components';
 import { SearchInput } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
 
-import PluginList from './PluginList';
-
 import useInstalledPluginsQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/useInstalledPluginsQuery';
 import useRepoInstallersQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/useRepoInstallersQuery';
+import PluginList from '@/tkeel-console-plugin-admin-plugins/pages/Index/components/PluginList';
 
 type Props = {
   isInstalledPlugins?: boolean;
