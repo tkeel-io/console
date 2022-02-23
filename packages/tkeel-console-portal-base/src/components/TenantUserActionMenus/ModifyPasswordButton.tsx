@@ -9,9 +9,9 @@ import useOAuthModifyPasswordMutation from '@/tkeel-console-portal-base/hooks/mu
 import ModifyPasswordModal from './ModifyPasswordModal';
 
 export default function ModifyPasswordButton() {
+  const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: isAlertOpen, onOpen: onAlertOpen } = useDisclosure();
-  const navigate = useNavigate();
   const { isLoading, mutate, data } = useOAuthModifyPasswordMutation({
     onSuccess() {
       onAlertOpen();

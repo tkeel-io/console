@@ -56,8 +56,8 @@ export default function TenantUserActionMenus() {
       }
       buttons={[
         <ModifyPasswordButton key="modify-password" />,
-        <LogoutUserButton key="logout-tenant" />,
         <LogoutTenantButton key="logout-user" />,
+        <LogoutUserButton key="logout-tenant" />,
       ]}
       onActionListOpen={onOpen}
       onActionListClose={onClose}
