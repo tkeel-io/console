@@ -33,6 +33,9 @@ export interface DeviceApiItem {
       directConnection: boolean;
       templateId?: string;
       selfLearn: boolean;
+      ext: {
+        [propName: string]: any;
+      };
       [propName: string]: any;
     };
     sysField: {

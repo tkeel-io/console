@@ -53,7 +53,7 @@ function Index(): JSX.Element {
           inputStyle={{ bg: 'gray.50' }}
           inputGroupStyle={{ mr: '16px' }}
         />
-        <CreateDeviceButton />
+        <CreateDeviceButton variant="solid" />
       </Flex>
       <Box
         position="relative"

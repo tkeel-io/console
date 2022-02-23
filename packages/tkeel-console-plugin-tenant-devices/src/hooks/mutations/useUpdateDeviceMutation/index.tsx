@@ -1,27 +1,29 @@
 import useMutation from '@/tkeel-console-plugin-tenant-devices/hooks/useMutation';
 
-const url = '/tkeel-device/v1/groups';
-const method = 'POST';
-
+const basicUrl = '/tkeel-device/v1/devices';
+const method = 'PUT';
 export interface ApiData {
-  details?: unknown;
+  '@type': string;
 }
 export interface RequestData {
-  description?: string;
+  description: string;
+  directConnection: boolean;
+  ext: { [propName: string]: any };
   name: string;
   parentId: string;
-  ext: {
-    [propName: string]: unknown;
-  };
+  selfLearn: boolean;
+  templateId: string;
 }
 
-export default function useCreateDeviceGroupMutation({
+export default function useUpdateDeviceMutation({
+  id,
   onSuccess,
 }: {
+  id: string;
   onSuccess?: () => void;
 }) {
   return useMutation<ApiData, undefined, RequestData>({
-    url,
+    url: `${basicUrl}/${id}`,
     method,
     reactQueryOptions: { onSuccess },
   });
