@@ -7,7 +7,6 @@ export interface RequestData {
 
 type ApiData = {
   '@type': string;
-  has_reset: boolean;
   tenant_id: string;
 };
 
@@ -20,8 +19,5 @@ export default function useOAuthModifyPasswordMutation({
     url: '/security/v1/oauth/pwd',
     method: 'PUT',
     reactQueryOptions: { onSuccess },
-    extras: {
-      isWithToken: false,
-    },
   });
 }
