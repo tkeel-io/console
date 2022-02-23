@@ -10,6 +10,11 @@ type Plugin = {
     version: string;
     repo: string;
     desc: string;
+    maintainers: {
+      name: string;
+      email: string;
+      url: string;
+    }[];
   };
 };
 

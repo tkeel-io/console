@@ -48,20 +48,20 @@ function InfoCard({ title, data, styles }: Props) {
             >
               {info.label}
             </Text>
-            {typeof info.value === 'string' ? (
-              <Text
-                color="gray.800"
-                fontSize="12px"
-                maxWidth="240px"
-                isTruncated={!!info.isTruncated}
-                title={info.value}
-                {...styles?.value}
-              >
-                {info.value}
-              </Text>
-            ) : (
-              info.value
-            )}
+            <Box color="gray.800" fontSize="12px">
+              {['string', 'number'].includes(typeof info.value) ? (
+                <Text
+                  maxWidth="240px"
+                  isTruncated={!!info.isTruncated}
+                  title={String(info.value)}
+                  {...styles?.value}
+                >
+                  {info.value}
+                </Text>
+              ) : (
+                info.value
+              )}
+            </Box>
           </Flex>
         ))}
       </Box>

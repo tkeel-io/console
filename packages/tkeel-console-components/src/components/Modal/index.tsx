@@ -117,6 +117,7 @@ function Modal({
             height="32px"
             borderRadius="4px"
             color="white"
+            size="sm"
             backgroundColor="gray.700"
             _hover={{ backgroundColor: 'gray.800' }}
             _focus={{ outline: 'none' }}

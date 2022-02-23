@@ -16,7 +16,11 @@ type Controls = {
   address: string;
 };
 
-function AddRepoButton() {
+type Props = {
+  refetchRepos: () => unknown;
+};
+
+function AddRepoButton({ refetchRepos }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     register,
@@ -27,6 +31,7 @@ function AddRepoButton() {
 
   const { mutate } = useAddRepoMutation({
     onSuccess() {
+      refetchRepos();
       onClose();
       toast({ status: 'success', title: '添加仓库成功' });
     },

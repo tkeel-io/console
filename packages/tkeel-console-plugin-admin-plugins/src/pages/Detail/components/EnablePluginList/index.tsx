@@ -69,11 +69,12 @@ function EnablePluginList({ pluginName }: Props) {
     <Flex
       flexDirection="column"
       height="100%"
-      padding="12px 20px"
+      padding="12px 0"
       backgroundColor="white"
     >
       <Flex
         marginBottom="12px"
+        padding="0 20px"
         height="32px"
         alignItems="center"
         justifyContent="space-between"

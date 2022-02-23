@@ -6,7 +6,7 @@ import { UsePaginationReturnType } from '@tkeel/console-types';
 
 import {
   InstallButton,
-  UnInstallButton,
+  UninstallButton,
 } from '@/tkeel-console-plugin-admin-plugins/components';
 import { PluginInfo } from '@/tkeel-console-plugin-admin-plugins/types/plugin-info';
 
@@ -88,7 +88,7 @@ function PluginList({
                     installed ? (
                       <MoreAction
                         buttons={[
-                          <UnInstallButton
+                          <UninstallButton
                             key="delete"
                             pluginName={installPluginInfo.name}
                             onSuccess={refetchPlugins}
