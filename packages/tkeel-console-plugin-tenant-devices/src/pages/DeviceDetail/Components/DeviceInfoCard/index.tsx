@@ -13,9 +13,10 @@ import {
 
 import CardContentFlex from './components/CardContentFlex';
 
+import DeleteDevicesButton from '@/tkeel-console-plugin-tenant-devices/components/DeleteDevicesButton';
 import IconWrapper from '@/tkeel-console-plugin-tenant-devices/components/IconWrapper';
+import UnsubscribeButton from '@/tkeel-console-plugin-tenant-devices/components/UnsubscribeButton';
 import { SUBSCRIBES } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
-import DeleteDeviceButton from '@/tkeel-console-plugin-tenant-devices/pages/Index/components/DeleteDeviceButton';
 
 type Props = {
   selfLearn: {
@@ -71,9 +72,15 @@ function DeviceInfoCard({
           />
           <MoreAction
             buttons={[
-              <DeleteDeviceButton
+              <DeleteDevicesButton
                 ids={[id]}
                 key="delete"
+                deviceName={deviceName}
+              />,
+              <UnsubscribeButton
+                id={id}
+                key="cancel-subscribe"
+                disabled={!subscribeAddr}
                 deviceName={deviceName}
               />,
             ]}
