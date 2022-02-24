@@ -1,5 +1,5 @@
 {
-  "name": "@tkeel/console-plugin-{{name}}",
+  "name": "@tkeel/console-plugin-tenant-example",
   "version": "0.0.1",
   "homepage": "https://github.com/tkeel-io/console#readme",
   "bugs": {
