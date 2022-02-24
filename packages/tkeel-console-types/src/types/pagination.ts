@@ -1,6 +1,7 @@
 export interface UsePaginationReturnType {
   pageNum: number;
   pageSize: number;
+  pageSizeArr: number[];
   totalSize: number;
   canPreviousPage: boolean;
   canNextPage: boolean;

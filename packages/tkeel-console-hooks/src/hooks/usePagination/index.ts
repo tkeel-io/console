@@ -13,6 +13,10 @@ const defaultProps = {
   totalSize: 0,
 };
 
+const getPageSizeArr = (pageSizeValue: number) => {
+  return Array.from({ length: 5 }).map((_, i) => pageSizeValue * (i + 1));
+};
+
 export default function usePagination(props?: Props): UsePaginationReturnType {
   const { pageNum, pageSize, totalSize } = { ...defaultProps, ...props };
 
@@ -57,6 +61,7 @@ export default function usePagination(props?: Props): UsePaginationReturnType {
   return {
     pageNum: page,
     pageSize: size,
+    pageSizeArr: getPageSizeArr(size),
     totalSize: total,
     canPreviousPage: page > 1,
     canNextPage,

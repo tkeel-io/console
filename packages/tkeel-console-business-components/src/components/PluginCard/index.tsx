@@ -41,13 +41,13 @@ function PluginCard({
     >
       <Flex alignItems="center" justifyContent="space-between">
         <Flex alignItems="center">
-          {briefPluginInfo.icon ? (
+          {briefPluginInfo?.icon ? (
             <Image width="28px" height="28px" src={briefPluginInfo.icon} />
           ) : (
             <BoxTwoToneIcon size={28} />
           )}
           <Text marginLeft="8px" color="gray.800" fontSize="14px">
-            {briefPluginInfo.name}
+            {briefPluginInfo?.name ?? ''}
           </Text>
         </Flex>
         {operatorButton}
