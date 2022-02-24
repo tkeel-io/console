@@ -1,6 +1,6 @@
 module.exports = {
   platformName: 'tenant',
-  publicPath: '/static/console-plugin-tenant-example',
+  publicPath: '/static/console-plugin-tenant-example/',
   basePath: '/tenant-example',
   client: {
     documentTitle: '',
@@ -20,7 +20,7 @@ module.exports = {
           name: '示例插件',
           icon: 'HumanGearTwoToneIcon',
           path: '/tenant-example',
-          entry: '/static/console-plugin-tenant-example',
+          entry: '/static/console-plugin-tenant-example/',
           portal: 1,
         },
       ],
