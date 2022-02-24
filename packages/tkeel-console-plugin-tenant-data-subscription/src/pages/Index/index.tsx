@@ -106,6 +106,7 @@ function SubscriptionCard() {
                             <DeleteSubscriptionButton
                               key="delete"
                               id={item.id}
+                              name={item.title}
                               refetchData={() => {
                                 refetch();
                               }}
@@ -159,7 +160,6 @@ function Index(): JSX.Element {
   const defaultInfo = data.find((item) => {
     return item.is_default;
   });
-  // console.log('defaultInfo', defaultInfo);
 
   return (
     <Box>
@@ -176,8 +176,6 @@ function Index(): JSX.Element {
         <CreateSubscriptionButton
           key="create"
           onSuccess={() => {
-            // console.log('success');
-
             refetch();
           }}
         />
