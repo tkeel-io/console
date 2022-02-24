@@ -1,5 +1,7 @@
-import { Center, Circle, Flex, StyleProps, Text } from '@chakra-ui/react';
-import { WebcamTwoToneIcon, WifiFilledIcon } from '@tkeel/console-icons';
+import { Flex, StyleProps, Text } from '@chakra-ui/react';
+import { WebcamTwoToneIcon } from '@tkeel/console-icons';
+
+import Rectangle from '../Rectangle';
 
 type Props = {
   style: StyleProps;
@@ -48,18 +50,7 @@ export default function DeviceInfoCard({ style }: Props) {
             OPC协议设备
           </Text>
         </Flex>
-        <Center width="24px" height="24px" position="relative">
-          <Circle
-            position="absolute"
-            left="0"
-            top="0"
-            size="24px"
-            borderRadius="4px"
-            backgroundColor="primary"
-            opacity="0.1"
-          />
-          <WifiFilledIcon />
-        </Center>
+        <Rectangle backgroundColor="green.300" opacity="0.1" />
       </Flex>
       <Flex
         paddingLeft="20px"
