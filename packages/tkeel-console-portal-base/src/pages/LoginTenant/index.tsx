@@ -120,7 +120,7 @@ function LoginTenant() {
           {loginPageTheme.description}
         </Heading>
       </Box>
-      <Center flexDirection="column" width="43vw">
+      <Center flexDirection="column" width="42vw">
         <Form margin="0" onSubmit={handleSubmit(onSubmit)}>
           <Heading
             paddingBottom="12px"
@@ -167,6 +167,7 @@ function LoginTenant() {
               isFullWidth
               height="45px"
               borderRadius="4px"
+              shadow="none"
               isLoading={isLoading}
             >
               登录

@@ -1,6 +1,5 @@
-import qingcloudBackground01 from '@/tkeel-console-portal-base/assets/images/qingcloud-background-01.png';
-
 import { Theme } from '../types';
+import qingcloudBackground01 from './assets/images/qingcloud-background-01.png';
 
 const theme: Theme = {
   pages: {
