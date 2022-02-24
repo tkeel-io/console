@@ -1,9 +1,9 @@
-import SvgComponent from '@/tkeel-console-icons/assets/icons/filled/add.svg?svgr';
+import SvgComponent from '@/tkeel-console-icons/assets/icons/filled/right.svg?svgr';
 import FilledIcon from '@/tkeel-console-icons/components/Icon/FilledIcon';
 import { FilledIconProps } from '@/tkeel-console-icons/components/Icon/types';
 
-function AddFilledIcon(props: FilledIconProps) {
+function RightFilledIcon(props: FilledIconProps) {
   return <FilledIcon {...props} svgComponent={SvgComponent} />;
 }
 
-export default AddFilledIcon;
+export default RightFilledIcon;
