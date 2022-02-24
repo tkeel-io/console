@@ -121,7 +121,6 @@ function DeviceListTable({ groupItem }: Props): JSX.Element {
   const pagination = usePagination();
   const { pageNum, pageSize, setTotalSize } = pagination;
   const { nodeInfo } = groupItem;
-  console.log(nodeInfo.id);
   const params = {
     page_num: pageNum,
     page_size: pageSize,

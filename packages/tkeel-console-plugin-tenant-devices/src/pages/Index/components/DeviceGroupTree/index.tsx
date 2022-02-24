@@ -43,13 +43,6 @@ export default function DeviceGroupTree({ handleSelectGroup }: Props) {
   const selectedTwoTone = useColor('primarySub2');
   const unselectedColor = useColor('gray.700');
   const unselectedTwoTone = useColor('gray.300');
-  console.log(
-    selectedColor,
-    unselectedColor,
-    selectedTwoTone,
-    unselectedTwoTone
-  );
-
   function getTreeIcon(props: { selected: boolean; expanded: boolean }) {
     const { selected, expanded } = props;
     const color = selected ? selectedColor : unselectedColor;
@@ -87,7 +80,6 @@ export default function DeviceGroupTree({ handleSelectGroup }: Props) {
   const onSelect = (selectedKeys: React.Key[], info: any) => {
     console.log('selectedKeys', selectedKeys);
     const originData = info?.node?.originData;
-    // setGroupId(selectedKeys[0] as string);
     handleSelectGroup(
       originData as {
         nodeInfo: NodeInfo;

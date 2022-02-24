@@ -111,7 +111,6 @@ export default function CreateDeviceModal({
         parentId,
         directConnection: directConnection ? ConnectOption.DIRECT : '',
       };
-      console.log('defaultFormInfoCopy \n', defaultFormInfoCopy);
       reset(defaultFormInfoCopy);
     } else {
       reset(defaultFormInfo);

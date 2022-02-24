@@ -37,8 +37,6 @@ function Index(): JSX.Element {
     nodeInfo: NodeInfo;
     subNode: TreeNodeType;
   }) => {
-    // eslint-disable-next-line no-console
-    console.log('handleSelectGroup', item);
     setGroupItem(item);
   };
   return (
