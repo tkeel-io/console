@@ -5,15 +5,22 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { Box, Flex, Input, InputGroup } from '@chakra-ui/react';
-import { BroomFilledIcon } from '@tkeel/console-icons';
+import { useNavigate } from 'react-router-dom';
+import { Box, Flex, Input, InputGroup, StyleProps } from '@chakra-ui/react';
+import { BroomFilledIcon, RefreshFilledIcon } from '@tkeel/console-icons';
 
 import FilterCondition, { FilterConditionInfo } from './FilterCondition';
 import SearchButton from './SearchButton';
 
 import FilterDropdown from '@/tkeel-console-plugin-tenant-data-query/pages/Index/components/FilterDropdown';
 
-export default function SearchDeviceInput() {
+type Props = {
+  type?: 'index' | 'searchResult';
+  style?: StyleProps;
+};
+
+export default function SearchDeviceInput({ type = 'index', style }: Props) {
+  const navigate = useNavigate();
   const [inputValue, setInputValue] = useState('');
   const [showFilterDropdown, setShowFilterDropdown] = useState(true);
   const [filterConditions, setFilterConditions] = useState<
@@ -69,8 +76,13 @@ export default function SearchDeviceInput() {
   }, []);
 
   const hasFilterConditions = filterConditions.length > 0;
+  const hasKeywordsOrConditions = inputValue || filterConditions.length > 0;
+  let inputPaddingRight = '10px';
+  if (hasKeywordsOrConditions) {
+    inputPaddingRight = type === 'index' ? '124px' : '160px';
+  }
   return (
-    <Box position="relative" onClick={(e) => e.stopPropagation()}>
+    <Box position="relative" onClick={(e) => e.stopPropagation()} {...style}>
       <InputGroup
         display="flex"
         alignItems="center"
@@ -93,9 +105,8 @@ export default function SearchDeviceInput() {
           </Flex>
         )}
         <Input
-          marginRight="124px"
           flex="1"
-          paddingRight="10px"
+          paddingRight={inputPaddingRight}
           paddingLeft={hasFilterConditions ? '1px' : '20px'}
           width="auto"
           height="44px"
@@ -111,10 +122,20 @@ export default function SearchDeviceInput() {
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value.trim())}
           onFocus={() => setShowFilterDropdown(true)}
-          // onBlur={() => setShowFilterDropdown(false)}
           onKeyDown={handleKeyDown}
         />
-        {(inputValue || filterConditions.length > 0) && (
+        {type === 'searchResult' && hasKeywordsOrConditions && (
+          <RefreshFilledIcon
+            color="grayAlternatives.300"
+            style={{
+              position: 'absolute',
+              right: '140px',
+              top: '14px',
+              cursor: 'pointer',
+            }}
+          />
+        )}
+        {hasKeywordsOrConditions && (
           <BroomFilledIcon
             color="grayAlternatives.300"
             style={{
@@ -126,7 +147,13 @@ export default function SearchDeviceInput() {
             onClick={handleClearCondition}
           />
         )}
-        <SearchButton />
+        <SearchButton
+          onClick={() => {
+            if (type === 'index') {
+              navigate('/search-result');
+            }
+          }}
+        />
       </InputGroup>
       <FilterDropdown
         filterCondition={filterConditions.find(

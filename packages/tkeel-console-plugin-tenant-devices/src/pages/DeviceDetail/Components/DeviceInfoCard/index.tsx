@@ -31,8 +31,8 @@ type Props = {
 };
 
 const connectionIcon = {
-  offline: <WifiOffFilledIcon key="wifi-off" />,
-  online: <WifiFilledIcon key="wifi" />,
+  offline: <WifiOffFilledIcon key="wifi-off" color="gray.500" />,
+  online: <WifiFilledIcon key="wifi" color="green.300" />,
 };
 
 function DeviceInfoCard({

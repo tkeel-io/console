@@ -11,7 +11,7 @@ type Props = {
 
 export default function Rectangle({
   backgroundColor,
-  icon = <WifiFilledIcon />,
+  icon = <WifiFilledIcon color="green.300" />,
   opacity = '1',
   style = {},
 }: Props) {
