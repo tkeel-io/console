@@ -169,7 +169,7 @@ function Index({ id }: { id: string }) {
                   key="delete"
                   id={original.ID}
                   refetchData={() => {
-                    // refetch();
+                    refetch();
                   }}
                 />,
               ]}
@@ -193,7 +193,9 @@ function Index({ id }: { id: string }) {
         buttons={[
           <CreateDeviceButton
             key="create"
-            onSuccess={handleCreateRoleSuccess}
+            onSuccess={() => {
+              refetch();
+            }}
           />,
         ]}
       />

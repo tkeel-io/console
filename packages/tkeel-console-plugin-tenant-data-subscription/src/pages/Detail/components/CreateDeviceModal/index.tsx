@@ -135,13 +135,13 @@ export default function CreateDeviceModal({
   const { items } = useDeviceTemplateQuery(defaultTemplateRequestParams);
   const templateTreeNodeData = getTemplateTreeNodeData(items);
 
-  const {
-    mutate: createSubscribeEntitiesDeviceMutate,
-    isSuccess: deviceIsSuccess,
-  } = useCreateSubscribeEntitiesDeviceMutation({
-    onSuccess() {},
-    id: ID,
-  });
+  const { mutate: createSubscribeEntitiesDeviceMutate } =
+    useCreateSubscribeEntitiesDeviceMutation({
+      onSuccess() {
+        onConfirm();
+      },
+      id: ID,
+    });
 
   const {
     mutate: createSubscribeEntitiesTemplateMutation,
@@ -156,9 +156,6 @@ export default function CreateDeviceModal({
       createSubscribeEntitiesDeviceMutate({
         data: { groups: selectedKeys as string[] },
       });
-      if (deviceIsSuccess) {
-        onConfirm();
-      }
     } else {
       createSubscribeEntitiesTemplateMutation({
         data: { models: selectedKeys as string[] },
