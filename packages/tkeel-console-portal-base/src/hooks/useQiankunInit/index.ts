@@ -9,6 +9,7 @@ export default function useQiankunInit({
   menus,
   navigate,
   themeName,
+  refetchMenus,
 }: Args) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -38,8 +39,9 @@ export default function useQiankunInit({
           return Promise.resolve();
         },
       },
+      refetchMenus,
     });
-  }, [menus, navigate, platformName, themeName]);
+  }, [menus, navigate, platformName, themeName, refetchMenus]);
 
   return { isLoading };
 }

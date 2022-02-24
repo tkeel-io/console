@@ -19,10 +19,20 @@ function getElementIdByContainer(container: string): string {
 
 export default function Layout() {
   const { platformName, themeName } = useGlobalProps();
-  const { menus } = useMenusQuery();
+  const { menus, refetch } = useMenusQuery();
 
   const navigate = useNavigate();
-  const apps = menusToApps({ platformName, menus, navigate, themeName });
+
+  const initArgs = {
+    platformName,
+    menus,
+    navigate,
+    themeName,
+    refetchMenus: () => {
+      refetch();
+    },
+  };
+  const apps = menusToApps(initArgs);
 
   const renderApps = () => {
     if (!(Array.isArray(apps) && apps.length > 0)) {
@@ -54,16 +64,7 @@ export default function Layout() {
     );
   };
 
-  /* useEffect(() => {
-    initQiankun({ platformName, menus, navigate, themeName });
-  }, [platformName, menus, navigate, themeName]); */
-
-  const { isLoading } = useQiankunInit({
-    platformName,
-    menus,
-    navigate,
-    themeName,
-  });
+  const { isLoading } = useQiankunInit(initArgs);
 
   return (
     <Flex height="100%">
