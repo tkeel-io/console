@@ -11,7 +11,8 @@ type ApiData = {
   tenant_id: string;
 };
 
-const url = '/security/v1/oauth/pwd';
+/* cspell: disable-next-line */
+const url = '/security/v1/oauth/rspwd';
 const method = 'POST';
 
 export default function useOAuthResetPasswordMutation({

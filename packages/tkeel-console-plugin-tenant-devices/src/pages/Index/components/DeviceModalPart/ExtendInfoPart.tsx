@@ -53,9 +53,6 @@ export default function ExtendInfoPart({
   }) => {
     const fontColor = 'grayAlternatives.300';
     const { field, index } = params;
-
-    // eslint-disable-next-line no-console
-    console.log(watchFields.extendInfo);
     return (
       <Flex justify="space-between">
         <Input

@@ -1,13 +1,15 @@
+import { useNavigate } from 'react-router-dom';
 import { Flex, StyleProps, Text } from '@chakra-ui/react';
-import { WebcamTwoToneIcon } from '@tkeel/console-icons';
 
-import Rectangle from '../Rectangle';
+import DeviceIconName from '@/tkeel-console-plugin-tenant-data-query/components/DeviceIconName';
+import Rectangle from '@/tkeel-console-plugin-tenant-data-query/components/Rectangle';
 
 type Props = {
-  style: StyleProps;
+  style?: StyleProps;
 };
 
 export default function DeviceInfoCard({ style }: Props) {
+  const navigate = useNavigate();
   const infos = [
     {
       label: 'ID',
@@ -30,7 +32,9 @@ export default function DeviceInfoCard({ style }: Props) {
       borderColor="grayAlternatives.50"
       borderRadius="4px"
       backgroundColor="white"
+      cursor="pointer"
       {...style}
+      onClick={() => navigate('/detail')}
     >
       <Flex
         height="48px"
@@ -38,18 +42,7 @@ export default function DeviceInfoCard({ style }: Props) {
         justifyContent="space-between"
         // alignItems="center"
       >
-        <Flex height="24px" alignItems="center">
-          <WebcamTwoToneIcon />
-          <Text
-            marginLeft="10px"
-            color="gray.700"
-            fontSize="14px"
-            fontWeight="600"
-            lineHeight="24px"
-          >
-            OPC协议设备
-          </Text>
-        </Flex>
+        <DeviceIconName />
         <Rectangle backgroundColor="green.300" opacity="0.1" />
       </Flex>
       <Flex

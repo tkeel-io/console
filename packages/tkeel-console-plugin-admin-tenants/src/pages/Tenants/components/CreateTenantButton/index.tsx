@@ -25,10 +25,8 @@ export default function CreateTenantButton({ onSuccess }: Props) {
     },
   });
 
-  const url = `${window.location.origin.replace(
-    /^admin\./,
-    ''
-  )}/auth/set-password`;
+  const { protocol, host } = window.location;
+  const url = `${protocol}//${host.replace(/^admin\./, '')}/auth/set-password`;
   const setPasswordModalData = {
     reset_key: data?.reset_key ?? '',
   };
