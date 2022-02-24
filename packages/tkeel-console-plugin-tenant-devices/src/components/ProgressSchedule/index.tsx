@@ -2,9 +2,12 @@ import { Fragment } from 'react';
 import { Box, Center, Flex, Text } from '@chakra-ui/react';
 import { CheckFilledIcon } from '@tkeel/console-icons';
 
+import { ModalMode } from '@/tkeel-console-plugin-tenant-devices/pages/Index/components/DeviceModalPart/types';
+
 export interface Props {
   infos?: string[];
   currentStep?: number;
+  mode?: ModalMode;
 }
 const STATUS = {
   DEFAULT: 0,
@@ -16,7 +19,7 @@ const BorderColor = ['gray.200', 'primary', 'primary'];
 const DotFontColor = ['gray.400', 'white', 'white'];
 const DotBgColor = ['gray.50', 'primary', 'primary'];
 
-function renderProgressLine(status: number) {
+function renderProgressLine({ status }: { status: number }) {
   return (
     <Box
       flex="1"
@@ -29,7 +32,17 @@ function renderProgressLine(status: number) {
   );
 }
 
-function renderProgressDot(status: number, index: number, label: string) {
+function renderProgressDot({
+  status,
+  index,
+  label,
+  mode,
+}: {
+  status: number;
+  index: number;
+  label: string;
+  mode: ModalMode;
+}) {
   return (
     <Flex h="48px" w="100%" align="center">
       <Center
@@ -49,7 +62,7 @@ function renderProgressDot(status: number, index: number, label: string) {
       </Center>
       <Box fontSize="12px" color={FontColor[status]} pos="relative">
         {label}
-        {STATUS.COMPLETED === status && (
+        {STATUS.COMPLETED === status && mode !== ModalMode.EDIT && (
           <Text
             color="grayAlternatives.300"
             fontSize="12px"
@@ -64,7 +77,7 @@ function renderProgressDot(status: number, index: number, label: string) {
   );
 }
 
-function getStatus(idx: number, current: number) {
+function getStatus({ idx, current }: { idx: number; current: number }) {
   return idx < current
     ? STATUS.COMPLETED
     : idx === current
@@ -75,15 +88,24 @@ function getStatus(idx: number, current: number) {
 export default function ProgressSchedule({
   infos = [],
   currentStep = 0,
+  mode = ModalMode.CREATE,
 }: Props) {
   return (
     <Flex h="100%" flexDirection="column">
       {infos.map((item, idx) => {
         return (
           <Fragment key={item}>
-            {renderProgressDot(getStatus(idx, currentStep), idx + 1, item)}
+            {renderProgressDot({
+              status: getStatus({ idx, current: currentStep }),
+              index: idx + 1,
+              label: item,
+              mode,
+            })}
             {idx !== infos.length - 1 &&
-              renderProgressLine(getStatus(idx, currentStep))}
+              mode !== ModalMode.EDIT &&
+              renderProgressLine({
+                status: getStatus({ idx, current: currentStep }),
+              })}
           </Fragment>
         );
       })}

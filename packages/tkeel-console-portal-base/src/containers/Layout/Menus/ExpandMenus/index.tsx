@@ -3,13 +3,13 @@ import { useLocation } from 'react-router-dom';
 import { Box, Flex, Image } from '@chakra-ui/react';
 import { Menu } from '@tkeel/console-types';
 
-import qingcloudLogoBlack from '@/tkeel-console-portal-base/assets/images/qingcloud-logo-black.svg';
-import qingcloudLogoWhite from '@/tkeel-console-portal-base/assets/images/qingcloud-logo-white.svg';
-import tKeelBlack from '@/tkeel-console-portal-base/assets/images/tkeel-black.svg';
+import qingcloudLogoDark from '@/tkeel-console-portal-base/assets/images/qingcloud-logo-dark.svg';
+import qingcloudLogoLight from '@/tkeel-console-portal-base/assets/images/qingcloud-logo-light.svg';
 // import { SearchInput } from '@tkeel/console-components';
 // import { MagnifierTwoToneIcon } from '@tkeel/console-icons';
 import tkeelLogo from '@/tkeel-console-portal-base/assets/images/tkeel-logo.svg';
-import tKeelWhite from '@/tkeel-console-portal-base/assets/images/tkeel-white.svg';
+import tKeelLogoDark from '@/tkeel-console-portal-base/assets/images/tkeel-logo-dark.svg';
+import tKeelLogoLight from '@/tkeel-console-portal-base/assets/images/tkeel-logo-light.svg';
 import useMenusQuery from '@/tkeel-console-portal-base/hooks/queries/useMenusQuery';
 
 import MenuLink from './MenuLink';
@@ -61,7 +61,7 @@ function Menus({ isQingCloudTheme, isDarkMenu }: Props) {
         {isQingCloudTheme ? (
           <Image
             width="150px"
-            src={isDarkMenu ? qingcloudLogoWhite : qingcloudLogoBlack}
+            src={isDarkMenu ? qingcloudLogoLight : qingcloudLogoDark}
           />
         ) : (
           <>
@@ -69,7 +69,7 @@ function Menus({ isQingCloudTheme, isDarkMenu }: Props) {
             <Image
               marginLeft="8px"
               htmlWidth="93px"
-              src={isDarkMenu ? tKeelWhite : tKeelBlack}
+              src={isDarkMenu ? tKeelLogoLight : tKeelLogoDark}
               alt=""
             />
           </>

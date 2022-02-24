@@ -15,15 +15,22 @@ type ApiData = {
   tenant_id: string;
 };
 
-export default function useResetPasswordKeyInfo({
-  data,
-}: {
+type Args = {
   data: { reset_key: string };
-}) {
+  enabled?: boolean;
+};
+
+export default function useResetPasswordKeyInfoQuery({
+  data,
+  enabled = true,
+}: Args) {
   return useQuery<ApiData, undefined, RequestData>({
     url,
     data,
     method,
+    reactQueryOptions: {
+      enabled,
+    },
     extras: {
       isWithToken: false,
     },

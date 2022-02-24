@@ -5,7 +5,7 @@ import {
   useNavigate,
   useParams,
 } from 'react-router-dom';
-import { Box, Button, Center, Heading, Text } from '@chakra-ui/react';
+import { Box, Button, Center, Flex, Heading } from '@chakra-ui/react';
 import { Form, FormField } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
 import { schemas, setLocalTokenInfo } from '@tkeel/console-utils';
@@ -14,7 +14,12 @@ import useOAuthTokenMutation, {
   ApiData,
 } from '@/tkeel-console-portal-base/hooks/mutations/useOAuthTokenMutation';
 
+import configs from '@/tkeel-console-portal-base/configs';
+
 const { TextField } = FormField;
+
+const config = configs[GLOBAL_CONFIG.client.themeName];
+const pageConfig = config?.pages?.LoginTenant;
 
 type FormValues = {
   username: string;
@@ -50,7 +55,9 @@ function LoginTenant() {
     width: '350px',
     height: '50px',
     padding: '16px 20px',
-    border: '1pxs solid gray.200',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: 'grayAlternatives.50',
     borderRadius: '4px',
     backgroundColor: 'white',
     fontSize: '14px',
@@ -89,31 +96,43 @@ function LoginTenant() {
   };
 
   return (
-    <Center flexDirection="column" height="100vh">
-      <Box>
+    <Flex height="100vh" backgroundColor="white">
+      <Box
+        flex="1"
+        paddingLeft="80px"
+        backgroundImage={pageConfig.backgroundImage}
+        backgroundRepeat="no-repeat"
+        backgroundSize="100% 100%"
+      >
         <Heading
-          as="h1"
-          fontSize="48px"
-          fontWeight="700"
-          lineHeight="48px"
-          color="gray.800"
+          marginTop="80px"
+          font-weight="600"
+          fontSize="30px"
+          lineHeight="42px"
+          color="primary"
         >
-          tKeel 平台
+          {pageConfig.title}
         </Heading>
-        <Text
-          paddingTop="12px"
-          fontSize="14px"
-          fontWeight="700"
-          lineHeight="20px"
-          color="gray.400"
+        <Heading
+          marginTop="12px"
+          fontSize="18px"
+          lineHeight="24px"
+          color="gray.100"
         >
-          tKeel，颠覆传统物联网应用开发的新一代核心架构
-        </Text>
-        <Form
-          paddingTop="24px"
-          paddingBottom="100px"
-          onSubmit={handleSubmit(onSubmit)}
-        >
+          {pageConfig.description}
+        </Heading>
+      </Box>
+      <Center flexDirection="column" width="42vw">
+        <Form margin="0" onSubmit={handleSubmit(onSubmit)}>
+          <Heading
+            paddingBottom="12px"
+            fontSize="24px"
+            fontWeight="600"
+            lineHeight="40px"
+            color="gray.800"
+          >
+            您好，欢迎使用！
+          </Heading>
           <TextField
             id="username"
             type="text"
@@ -121,7 +140,7 @@ function LoginTenant() {
             defaultValue={String(GLOBAL_CONFIG?.mock?.username ?? '')}
             placeholder="请输入您的账号"
             error={errors.username}
-            formControlStyle={{ marginBottom: '24px' }}
+            formControlStyle={{ marginBottom: '20px' }}
             formLabelStyle={formLabelStyle}
             inputStyle={inputStyle}
             registerReturn={register(
@@ -143,19 +162,22 @@ function LoginTenant() {
               schemas.password.registerOptions
             )}
           />
-          <Box paddingTop="46px">
+          <Box paddingTop="40px">
             <Button
               type="submit"
+              colorScheme="primary"
               isFullWidth
               height="45px"
+              borderRadius="4px"
+              shadow="none"
               isLoading={isLoading}
             >
               登录
             </Button>
           </Box>
         </Form>
-      </Box>
-    </Center>
+      </Center>
+    </Flex>
   );
 }
 

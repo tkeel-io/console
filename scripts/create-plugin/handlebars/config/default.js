@@ -3,7 +3,7 @@ module.exports = {
   publicPath: '/static/console-plugin-{{name}}',
   basePath: '{{basePath}}',
   client: {
-    documentTitle: 'tKeel',
+    documentTitle: '',
   },
   server: {
     port: '{{serverPort}}',
