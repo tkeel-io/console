@@ -6,18 +6,18 @@ export interface ApiData {
   '@type': string;
 }
 
-function useCancelSubscribeMutation({
+function useUnsubscribeMutation({
   id,
   onSuccess,
 }: {
   id: string;
   onSuccess?: () => void;
 }) {
-  return useMutation<ApiData, undefined, object>({
+  return useMutation<ApiData, undefined>({
     url: `/core-broker/v1/subscribe/${id}/entities/delete`,
     method,
     reactQueryOptions: { onSuccess },
   });
 }
 
-export default useCancelSubscribeMutation;
+export default useUnsubscribeMutation;

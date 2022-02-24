@@ -42,7 +42,7 @@ function Index(): JSX.Element {
     },
     {
       label: '原始数据',
-      key: 'RawData',
+      key: 'rawData',
       component: <RawData data={rawData} />,
     },
   ];
@@ -89,7 +89,7 @@ function Index(): JSX.Element {
           <TabPanels>
             {tabs.map((r) => (
               <TabPanel key={r.key}>
-                {connectData?._online ? (
+                {true ? (
                   r.component
                 ) : (
                   <Empty
