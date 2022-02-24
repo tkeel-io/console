@@ -3,7 +3,7 @@ module.exports = {
   publicPath: '/static/console-plugin-tenant-plugins/',
   basePath: '/tenant-plugins',
   client: {
-    documentTitle: 'tKeel',
+    documentTitle: '',
   },
   api: {
     basePath: '/apis',

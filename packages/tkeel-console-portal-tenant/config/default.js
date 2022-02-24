@@ -5,7 +5,7 @@ module.exports = {
   publicPath: '/',
   client: {
     themeName: 'qingcloud-light',
-    documentTitle: 'tKeel',
+    documentTitle: '',
   },
   api: {
     basePath: '/apis',
