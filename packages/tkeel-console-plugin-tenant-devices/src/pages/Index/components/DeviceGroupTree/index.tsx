@@ -1,10 +1,15 @@
+/* eslint-disable no-shadow-restricted-names */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable no-console */
-// import { useState } from 'react';
+// import { ReactNode } from 'react';
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { Tree } from '@tkeel/console-components';
+import { useColor } from '@tkeel/console-hooks';
+import {
+  FolderCloseTwoToneIcon,
+  FolderOpenTwoToneIcon,
+} from '@tkeel/console-icons';
 import { values } from 'lodash';
 
 import CreateDeviceGroupButton from '../CreateDeviceGroupButton';
@@ -24,32 +29,63 @@ type TreeNodeData = {
   title: string;
   key: string;
   children: TreeNodeData[];
+  icon?: any;
   originData: {
     nodeInfo: NodeInfo;
     subNode: TreeNodeType;
   };
 };
 
-function getTreeNodeData(data: TreeNodeType): TreeNodeData[] {
-  return values(data).map((item) => {
-    const { nodeInfo, subNode } = item;
-    const { id, properties } = nodeInfo;
-    return {
-      title: properties?.group?.name ?? '暂无数据',
-      key: id,
-      children: getTreeNodeData(subNode),
-      originData: item,
-    };
-  });
-}
-
 export default function DeviceGroupTree({ handleSelectGroup }: Props) {
   const { groupTree } = useGroupTreeQuery();
-  const treeNodeData = getTreeNodeData(groupTree);
+
+  const selectedColor = useColor('primary');
+  const selectedTwoTone = useColor('primarySub2');
+  const unselectedColor = useColor('gray.700');
+  const unselectedTwoTone = useColor('gray.300');
+  console.log(
+    selectedColor,
+    unselectedColor,
+    selectedTwoTone,
+    unselectedTwoTone
+  );
+
+  function getTreeIcon(props: { selected: boolean; expanded: boolean }) {
+    const { selected, expanded } = props;
+    const color = selected ? selectedColor : unselectedColor;
+    const twoToneColor = selected ? selectedTwoTone : unselectedTwoTone;
+    return expanded ? (
+      <FolderOpenTwoToneIcon color={color} twoToneColor={twoToneColor} />
+    ) : (
+      <FolderCloseTwoToneIcon color={color} twoToneColor={twoToneColor} />
+    );
+  }
+
+  function getTreeNodeData({ data }: { data: TreeNodeType }): TreeNodeData[] {
+    return values(data).map((item) => {
+      const { nodeInfo, subNode } = item;
+      const { id, properties } = nodeInfo;
+      return {
+        title: properties?.group?.name ?? '暂无数据',
+        key: id,
+        children: getTreeNodeData({ data: subNode }),
+        icon: ({
+          expanded,
+          selected,
+        }: {
+          expanded: boolean;
+          selected: boolean;
+        }) => getTreeIcon({ expanded, selected }),
+
+        originData: item,
+      };
+    });
+  }
+  const treeNodeData = getTreeNodeData({ data: groupTree });
+
   // const [groupId, setGroupId] = useState(treeNodeData[0]?.key);
   const onSelect = (selectedKeys: React.Key[], info: any) => {
     console.log('selectedKeys', selectedKeys);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const originData = info?.node?.originData;
     // setGroupId(selectedKeys[0] as string);
     handleSelectGroup(
@@ -73,8 +109,9 @@ export default function DeviceGroupTree({ handleSelectGroup }: Props) {
       <CreateDeviceGroupButton />
       <Box mt="16px" overflowY="scroll" flex="1">
         <Tree
+          showLine
           treeData={treeNodeData}
-          showIcon={false}
+          showIcon
           selectable
           onSelect={onSelect}
         />
