@@ -17,23 +17,11 @@ type RequestData = {
   id: string;
 };
 
-const defaultValue = {
-  '@type': '',
-  count: '',
-  created_at: '',
-  description: '',
-  endpoint: '',
-  id: '',
-  is_default: false,
-  title: '',
-  updated_at: '',
-};
-
 export default function useSubscribeInfoQuery(id: string) {
   const url = `/core-broker/v1/subscribe/${id}`;
   const { data, ...rest } = useQuery<ApiData, undefined, RequestData>({
     url,
     method,
   });
-  return { data: data || defaultValue, ...rest };
+  return { data: data as ApiData, ...rest };
 }

@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react';
+// import { useQueryClient } from 'react-query';
 // import { Column } from 'react-table';
 import { Cell, Column } from 'react-table';
-import { Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, Text } from '@chakra-ui/react';
 import {
   // ButtonsHStack,
   Empty,
@@ -11,14 +12,21 @@ import {
   toast,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
+import {
+  WebcamTwoToneIcon,
+  WifiFilledIcon,
+  WifiOffFilledIcon,
+} from '@tkeel/console-icons';
+import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import useListSubscribeEntitiesQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useListSubscribeEntitiesQuery';
 import CreateDeviceButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/CreateDeviceButton';
+import DeleteDeviceButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/DeleteDeviceButton';
 // import ModifySubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/ModifySubscriptionButton';
 // import DeleteRoleButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/DeleteRoleButton';
 // import DisableButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/DisableButton';
 // import ModifyRoleButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/ModifyRoleButton';
-import DeleteDeviceButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/DeleteDeviceButton';
+import MoveSubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/MoveSubscriptionButton';
 
 // type Role = {
 //   roleName: string;
@@ -47,8 +55,12 @@ const handleCreateRoleSuccess = () => {
 //   // queryClient.invalidateQueries(queryKey);
 // };
 
+const connectionIcon = {
+  offline: <WifiOffFilledIcon key="wifi-off" />,
+  online: <WifiFilledIcon key="wifi" />,
+};
+
 function Index({ id }: { id: string }) {
-  // console.log('id', id);
   const [keywords, setKeyWords] = useState('');
 
   const pagination = usePagination();
@@ -69,11 +81,10 @@ function Index({ id }: { id: string }) {
 
   if (keywords) {
     params = { ...params, key_words: keywords };
-    // console.log('params', params);
   }
   // const { data } = useListSubscribeEntitiesQuery(id);
 
-  const { data } = useListSubscribeEntitiesQuery({
+  const { data, isLoading, refetch } = useListSubscribeEntitiesQuery({
     params,
     onSuccess(res) {
       const total = res?.data?.total ?? 0;
@@ -83,8 +94,6 @@ function Index({ id }: { id: string }) {
 
   setTotalSize(data?.total || 0);
 
-  // console.log('data', data);
-
   const columns: ReadonlyArray<Column<Data>> = [
     {
       Header: '角色名称',
@@ -92,9 +101,12 @@ function Index({ id }: { id: string }) {
       Cell: ({ value }: { value: string }) =>
         useMemo(
           () => (
-            <Text color="gray.800" fontWeight="600">
-              {value}
-            </Text>
+            <Flex alignItems="center" justifyContent="space-between">
+              <WebcamTwoToneIcon />
+              <Text color="gray.800" fontWeight="600" marginLeft="14px">
+                {value}
+              </Text>
+            </Flex>
           ),
           [value]
         ),
@@ -103,57 +115,60 @@ function Index({ id }: { id: string }) {
       Header: '设备状态',
       width: 100,
       accessor: 'status',
+      Cell: ({ value }: { value: string }) =>
+        useMemo(() => <Box>{connectionIcon[value]}</Box>, [value]),
     },
     {
       Header: '设备模板',
+      width: 110,
       accessor: 'template',
     },
     {
       Header: '设备分组',
+      width: 110,
       accessor: 'group',
     },
     {
       Header: '最后更新时间',
       accessor: 'updated_at',
+      width: 200,
+      Cell: ({ value }: { value: string }) =>
+        useMemo(
+          () => (
+            <Box>
+              {formatDateTimeByTimestamp({
+                timestamp: value,
+              })}
+            </Box>
+          ),
+          [value]
+        ),
     },
-    // {
-    //   Header: '操作',
-    //   Cell() {
-    //     return (
-    //       <MoreAction
-    //         buttons={[
-    //           <ModifySubscriptionButton
-    //             key="modify"
-    //             onSuccess={() => {
-    //               console.log('123');
-    //             }}
-    //           />,
-    //         ]}
-    //       />
-    //     );
-    //   },
-    // },
+
     {
       Header: '操作',
       width: 80,
       Cell: ({ row }: Cell<Data>) =>
         useMemo(() => {
           const { original } = row;
-          // console.log('original', original);
 
           return (
             <MoreAction
               buttons={[
-                <DeleteDeviceButton
+                <MoveSubscriptionButton
+                  selected_ids={original.ID}
+                  key="modify"
                   onSuccess={() => {
-                    // console.log('123');
+                    refetch();
                   }}
+                />,
+                <DeleteDeviceButton
+                  onSuccess={() => {}}
                   name={original.name}
                   key="delete"
                   id={original.ID}
                   refetchData={() => {
-                    // console.log('123');
-                    // refetch();
+                    refetch();
                   }}
                 />,
               ]}
@@ -161,32 +176,6 @@ function Index({ id }: { id: string }) {
           );
         }, [row]),
     },
-
-    // {
-    //   Header: '操作',
-    //   Cell({ row }: Cell<Role>) {
-    //     const { original } = row;
-    //     const { roleName } = original;
-
-    //     useMemo(
-    //       () => (
-    //         <ButtonsHStack>
-    //           <MoreAction buttons={[<DisableButton key="disable" />]} />
-
-    //           <ModifyRoleButton
-    //             data={{ role: roleName, plugins: [] }}
-    //             onSuccess={handleModifyRoleSuccess}
-    //           />
-    //           <DeleteRoleButton
-    //             data={{ role: roleName }}
-    //             onSuccess={handleDeleteRoleSuccess}
-    //           />
-    //         </ButtonsHStack>
-    //       ),
-    //       [roleName]
-    //     );
-    //   },
-    // },
   ];
 
   return (
@@ -202,7 +191,9 @@ function Index({ id }: { id: string }) {
         buttons={[
           <CreateDeviceButton
             key="create"
-            onSuccess={handleCreateRoleSuccess}
+            onSuccess={() => {
+              refetch();
+            }}
           />,
         ]}
       />
@@ -213,6 +204,7 @@ function Index({ id }: { id: string }) {
         // hasPagination
         scroll={{ y: '100%' }}
         isShowStripe
+        isLoading={isLoading}
         paginationProps={pagination}
         empty={
           <Empty
