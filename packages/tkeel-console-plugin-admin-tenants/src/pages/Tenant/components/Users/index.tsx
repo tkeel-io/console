@@ -1,10 +1,16 @@
 import { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Column } from 'react-table';
+import { Cell, Column } from 'react-table';
 import { Flex, Text } from '@chakra-ui/react';
-import { PageHeaderToolbar, Table } from '@tkeel/console-components';
+import {
+  ButtonsHStack,
+  PageHeaderToolbar,
+  Table,
+} from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
+
+import ResetPasswordButton from '../ResetPasswordButton';
 
 import useUsersQuery, {
   User,
@@ -66,6 +72,19 @@ export default function Users() {
       Cell({ value = [] }) {
         return value.map(({ name }) => name).join('，');
       },
+    },
+    {
+      Header: '操作',
+      Cell: ({ row }: Cell<User>) =>
+        useMemo(() => {
+          const { original } = row;
+
+          return (
+            <ButtonsHStack>
+              <ResetPasswordButton data={original} />
+            </ButtonsHStack>
+          );
+        }, [row]),
     },
   ];
 
