@@ -49,26 +49,12 @@ interface ApiData {
   '@type': string;
   listDeviceObject: TemplateTreeNodeType;
 }
-const defaultRequestParams = {
-  page_num: 1,
-  page_size: 1000,
-  order_by: 'name',
-  is_descending: false,
-  query: '',
-  condition: [
-    {
-      field: 'type',
-      operator: '$eq',
-      value: 'template',
-    },
-  ],
-};
 
-export default function useDeviceTemplateQuery() {
+export default function useDeviceTemplateQuery(requestParams: RequestParams) {
   const { data, ...rest } = useQuery<ApiData, undefined, RequestParams>({
     url,
     method,
-    data: defaultRequestParams,
+    data: requestParams,
   });
   const items = data?.listDeviceObject?.items ?? {};
   return { items, data, ...rest };

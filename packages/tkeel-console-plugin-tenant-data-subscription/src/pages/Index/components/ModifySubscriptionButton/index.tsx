@@ -36,7 +36,9 @@ export default function ModifySubscriptionButton({ onSuccess, data }: Props) {
 
   const handleConfirm = (formValues: FormValues) => {
     if (formValues) {
-      mutate({});
+      mutate({
+        data: { ...formValues, id: Number(data?.id) || 0 },
+      });
     }
     return null;
   };
