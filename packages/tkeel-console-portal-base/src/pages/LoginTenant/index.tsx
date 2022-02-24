@@ -55,7 +55,9 @@ function LoginTenant() {
     width: '350px',
     height: '50px',
     padding: '16px 20px',
-    border: '1pxs solid gray.200',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: 'grayAlternatives.50',
     borderRadius: '4px',
     backgroundColor: 'white',
     fontSize: '14px',
@@ -94,7 +96,7 @@ function LoginTenant() {
   };
 
   return (
-    <Flex height="100vh">
+    <Flex height="100vh" backgroundColor="white">
       <Box
         flex="1"
         paddingLeft="80px"
@@ -138,7 +140,7 @@ function LoginTenant() {
             defaultValue={String(GLOBAL_CONFIG?.mock?.username ?? '')}
             placeholder="请输入您的账号"
             error={errors.username}
-            formControlStyle={{ marginBottom: '24px' }}
+            formControlStyle={{ marginBottom: '20px' }}
             formLabelStyle={formLabelStyle}
             inputStyle={inputStyle}
             registerReturn={register(
