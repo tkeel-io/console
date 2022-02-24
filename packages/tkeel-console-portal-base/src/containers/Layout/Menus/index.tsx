@@ -3,8 +3,8 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import {
   CollapseFilledIcon,
   ExpandFilledIcon,
-  MoonCircleFilledIcon,
-  SunFilledIcon,
+  // MoonCircleFilledIcon,
+  // SunFilledIcon,
 } from '@tkeel/console-icons';
 import { ThemeNames } from '@tkeel/console-themes';
 
@@ -34,19 +34,19 @@ function Menus() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const getChangeThemeIconProps = (theme: 'dark' | 'light') => {
-    return {
-      color: iconColor,
-      style: { marginBottom: '20px' },
-      _hover: {
-        color: whiteColor,
-      },
-      onClick() {
-        setLocalMenuTheme(theme);
-        window.location.reload();
-      },
-    };
-  };
+  // const getChangeThemeIconProps = (theme: 'dark' | 'light') => {
+  //   return {
+  //     color: iconColor,
+  //     style: { marginBottom: '20px' },
+  //     _hover: {
+  //       color: whiteColor,
+  //     },
+  //     onClick() {
+  //       setLocalMenuTheme(theme);
+  //       window.location.reload();
+  //     },
+  //   };
+  // };
 
   const iconHoverStyle = {
     '& > svg': {
@@ -86,13 +86,13 @@ function Menus() {
         bottom="20px"
         cursor="pointer"
       >
-        {isDarkMenu ? (
+        {/* {isDarkMenu ? (
           <Box _hover={iconHoverStyle}>
             <SunFilledIcon {...getChangeThemeIconProps('light')} />
           </Box>
         ) : (
           <MoonCircleFilledIcon {...getChangeThemeIconProps('dark')} />
-        )}
+        )} */}
         {collapsed ? (
           <Box _hover={iconHoverStyle}>
             <ExpandFilledIcon
