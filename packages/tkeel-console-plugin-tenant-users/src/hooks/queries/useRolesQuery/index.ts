@@ -1,7 +1,5 @@
 import useQuery from '@/tkeel-console-plugin-tenant-users/hooks/useQuery';
 
-const method = 'GET';
-
 type RequestParams = {
   page_num?: number;
   page_size?: number;
@@ -16,8 +14,15 @@ export interface Role {
   desc?: string;
   bind_num: number;
   upsert_timestamp: string;
-  // TODO: tmp
-  permission_list: string[];
+  permission_list: {
+    path: string;
+    permission: {
+      id: string;
+      name: string;
+      desc?: string;
+      dependences: { path: string; desc: string }[];
+    };
+  }[];
 }
 
 export interface ApiData {
@@ -34,7 +39,7 @@ export default function useRolesQuery() {
   const url = `/security/v1/rbac/roles`;
   const { data, ...rest } = useQuery<ApiData, RequestParams>({
     url,
-    method,
+    method: 'GET',
     params: {
       page_size: 0,
     },

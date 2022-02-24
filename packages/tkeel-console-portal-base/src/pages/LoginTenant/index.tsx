@@ -5,7 +5,7 @@ import {
   useNavigate,
   useParams,
 } from 'react-router-dom';
-import { Box, Button, Center, Heading, Text } from '@chakra-ui/react';
+import { Box, Button, Center, Flex, Heading } from '@chakra-ui/react';
 import { Form, FormField } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
 import { schemas, setLocalTokenInfo } from '@tkeel/console-utils';
@@ -14,7 +14,12 @@ import useOAuthTokenMutation, {
   ApiData,
 } from '@/tkeel-console-portal-base/hooks/mutations/useOAuthTokenMutation';
 
+import themes from '@/tkeel-console-portal-base/themes';
+
 const { TextField } = FormField;
+
+const theme = themes[GLOBAL_CONFIG.client.themeName];
+const loginPageTheme = theme?.pages?.LoginTenant;
 
 type FormValues = {
   username: string;
@@ -89,31 +94,43 @@ function LoginTenant() {
   };
 
   return (
-    <Center flexDirection="column" height="100vh">
-      <Box>
+    <Flex height="100vh">
+      <Box
+        flex="1"
+        paddingLeft="80px"
+        backgroundImage={loginPageTheme.backgroundImage}
+        backgroundRepeat="no-repeat"
+        backgroundSize="100% 100%"
+      >
         <Heading
-          as="h1"
-          fontSize="48px"
-          fontWeight="700"
-          lineHeight="48px"
-          color="gray.800"
+          marginTop="80px"
+          font-weight="600"
+          fontSize="30px"
+          lineHeight="42px"
+          color="primary"
         >
-          tKeel 平台
+          {loginPageTheme.title}
         </Heading>
-        <Text
-          paddingTop="12px"
-          fontSize="14px"
-          fontWeight="700"
-          lineHeight="20px"
-          color="gray.400"
+        <Heading
+          marginTop="12px"
+          fontSize="18px"
+          lineHeight="24px"
+          color="gray.100"
         >
-          tKeel，颠覆传统物联网应用开发的新一代核心架构
-        </Text>
-        <Form
-          paddingTop="24px"
-          paddingBottom="100px"
-          onSubmit={handleSubmit(onSubmit)}
-        >
+          {loginPageTheme.description}
+        </Heading>
+      </Box>
+      <Center flexDirection="column" width="42vw">
+        <Form margin="0" onSubmit={handleSubmit(onSubmit)}>
+          <Heading
+            paddingBottom="12px"
+            fontSize="24px"
+            fontWeight="600"
+            lineHeight="40px"
+            color="gray.800"
+          >
+            您好，欢迎使用！
+          </Heading>
           <TextField
             id="username"
             type="text"
@@ -143,19 +160,22 @@ function LoginTenant() {
               schemas.password.registerOptions
             )}
           />
-          <Box paddingTop="46px">
+          <Box paddingTop="40px">
             <Button
               type="submit"
+              colorScheme="primary"
               isFullWidth
               height="45px"
+              borderRadius="4px"
+              shadow="none"
               isLoading={isLoading}
             >
               登录
             </Button>
           </Box>
         </Form>
-      </Box>
-    </Center>
+      </Center>
+    </Flex>
   );
 }
 

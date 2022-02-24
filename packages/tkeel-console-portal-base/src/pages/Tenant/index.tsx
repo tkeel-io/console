@@ -76,15 +76,15 @@ export default function Tenant() {
           <TextField
             type="text"
             id="tenantId"
-            label="租户空间"
+            label="租户 ID"
             defaultValue={String(GLOBAL_CONFIG?.mock?.tenantId ?? '')}
-            placeholder="请输入您的租户空间"
+            placeholder="请输入您的租户 ID"
             error={errors.tenantId}
             formControlStyle={{ marginBottom: '24px' }}
             formLabelStyle={formLabelStyle}
             inputStyle={inputStyle}
             registerReturn={register('tenantId', {
-              required: { value: true, message: '请输入您的租户空间' },
+              required: { value: true, message: '请输入您的租户 ID' },
             })}
           />
           <Box paddingTop="46px">

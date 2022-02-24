@@ -1,6 +1,7 @@
 const { tkeel } = require('../../../config/default');
 
 module.exports = {
+  platformName: 'tenant',
   publicPath: '/static/console-plugin-tenant-roles/',
   basePath: '/tenant-roles',
   client: {

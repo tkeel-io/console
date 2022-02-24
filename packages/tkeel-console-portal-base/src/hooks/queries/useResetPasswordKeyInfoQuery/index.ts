@@ -15,7 +15,7 @@ type ApiData = {
   tenant_id: string;
 };
 
-export default function useResetPasswordKeyInfo({
+export default function useResetPasswordKeyInfoQuery({
   data,
 }: {
   data: { reset_key: string };

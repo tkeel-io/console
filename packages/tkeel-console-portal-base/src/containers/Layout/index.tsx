@@ -32,7 +32,12 @@ function Layout() {
 
     return (
       <>
-        <Route index element={<Navigate replace to={firstApp.activeRule} />} />
+        {process.env.NODE_ENV !== 'development' && (
+          <Route
+            index
+            element={<Navigate to={firstApp.activeRule} replace />}
+          />
+        )}
         {apps.map(({ name, container, activeRule }) => {
           return (
             <Route
