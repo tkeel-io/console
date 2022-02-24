@@ -1,6 +1,6 @@
 // import { useEffect } from 'react';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
-import { Box, Flex, Spinner } from '@chakra-ui/react';
+import { Box, Flex, Skeleton } from '@chakra-ui/react';
 
 import Header from '@/tkeel-console-portal-base/containers/Layout/Header';
 import Menus from '@/tkeel-console-portal-base/containers/Layout/Menus';
@@ -72,14 +72,24 @@ export default function Layout() {
       <Flex flex="1" overflow="hidden" flexDirection="column" padding="20px">
         <Header menus={menus} />
         <Flex position="relative" flex="1" overflow="hidden">
-          {isLoading && (
+          {/* {isLoading && (
             <Spinner
               position="absolute"
               top="50%"
               right="50%"
               transform="translate(-50%, -50%)"
             />
-          )}
+          )} */}
+          <Skeleton
+            position="absolute"
+            top="0"
+            right="0"
+            bottom="0"
+            left="0"
+            width="100%"
+            height="100%"
+            isLoaded={!isLoading}
+          />
           <Routes>
             {renderApps()}
             {Array.isArray(apps) && apps.length > 0 && (
