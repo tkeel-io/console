@@ -20,7 +20,7 @@ module.exports = {
           name: '示例插件',
           icon: 'HumanGearTwoToneIcon',
           path: '/tenant-example',
-          entry: '/static/console-plugin-tenant-example',
+          entry: '/static/console-plugin-tenant-example/',
           portal: 1,
         },
       ],
