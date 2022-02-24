@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, memo, useEffect, useState } from 'react';
 import {
   Accordion,
   AccordionButton,
@@ -54,11 +54,11 @@ function Index({ data }: Props) {
   const [selected, setSelected] = useState('text');
   useEffect(() => {
     setRawDataList((preState) => {
-      const realArr = preState.filter((r) => !isEmpty(r));
-      if (preState.length > 10) {
+      const filterArr = preState.filter((r) => !isEmpty(r));
+      if (preState.length > 20) {
         return [data];
       }
-      return [...realArr, data];
+      return [...filterArr, data];
     });
   }, [data]);
 
@@ -119,7 +119,7 @@ function Index({ data }: Props) {
           return (
             !isEmpty(r) && (
               <AccordionItem
-                key={`${Math.random().toFixed(5)}`}
+                key={`${Math.random().toString().slice(2, 8)}`}
                 borderWidth="1px"
                 borderColor="gray.200"
                 borderRadius="4px"
@@ -175,4 +175,4 @@ function Index({ data }: Props) {
   );
 }
 
-export default Index;
+export default memo(Index);
