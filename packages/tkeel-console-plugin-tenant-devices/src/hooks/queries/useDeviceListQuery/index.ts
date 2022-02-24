@@ -64,7 +64,7 @@ export default function useDeviceListQuery({
   onSuccess?: (
     data: RequestResult<ApiData, undefined, RequestParams>
   ) => unknown;
-}): { deviceList: DeviceApiItem[]; [propName: string]: unknown } {
+}) {
   const { data, ...rest } = useQuery<ApiData, undefined, RequestParams>({
     url,
     method,

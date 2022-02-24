@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/consistent-destructuring */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-console */
@@ -17,6 +18,7 @@ import {
 } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
+import DeleteDevicesButton from '@/tkeel-console-plugin-tenant-devices/components/DeleteDevicesButton';
 import EditDeviceButton from '@/tkeel-console-plugin-tenant-devices/components/EditDeviceButton';
 import IconWrapper from '@/tkeel-console-plugin-tenant-devices/components/IconWrapper';
 import { DEVICE_STATUS } from '@/tkeel-console-plugin-tenant-devices/constants';
@@ -140,7 +142,7 @@ function DeviceListTable({ groupItem }: Props): JSX.Element {
       },
     ],
   };
-  const { deviceList, isLoading } = useDeviceListQuery({
+  const { refetch, deviceList, isLoading } = useDeviceListQuery({
     params,
     onSuccess: (data) => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -233,10 +235,22 @@ function DeviceListTable({ groupItem }: Props): JSX.Element {
       Cell: ({ row }: Cell<DeviceItem>) =>
         useMemo(() => {
           const originData = row.original?.originData as DeviceApiItem;
+          const { id } = originData;
+          const deviceName = originData?.properties?.basicInfo?.name;
           return (
             <MoreAction
               buttons={[
-                <EditDeviceButton key="edit" deviceInfo={originData} />,
+                <EditDeviceButton
+                  key="edit"
+                  deviceInfo={originData}
+                  refetch={refetch}
+                />,
+                <DeleteDevicesButton
+                  ids={[id]}
+                  key="delete"
+                  deviceName={deviceName}
+                  refetch={refetch}
+                />,
               ]}
             />
           );
@@ -249,7 +263,7 @@ function DeviceListTable({ groupItem }: Props): JSX.Element {
       data={deviceTableData}
       scroll={{ y: '100%' }}
       paginationProps={pagination}
-      isLoading={isLoading as boolean}
+      isLoading={isLoading}
       style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
     />
   );
