@@ -1,4 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import {
+  KeyboardEvent,
+  KeyboardEventHandler,
+  MouseEventHandler,
+  useEffect,
+  useState,
+} from 'react';
 import { Box, Flex, Input, InputGroup } from '@chakra-ui/react';
 import { BroomFilledIcon } from '@tkeel/console-icons';
 
@@ -8,25 +14,45 @@ import SearchButton from './SearchButton';
 import FilterDropdown from '@/tkeel-console-plugin-tenant-data-query/pages/Index/components/FilterDropdown';
 
 export default function SearchDeviceInput() {
-  const [focus, setFocus] = useState(false);
+  const [inputValue, setInputValue] = useState('');
   const [showFilterDropdown, setShowFilterDropdown] = useState(true);
   const [filterConditions, setFilterConditions] = useState<
     FilterConditionInfo[]
   >([]);
 
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const handleInputFocus = () => {
-    setFocus(true);
-    setShowFilterDropdown(true);
+  const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (
+    event: KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (event.keyCode === 13) {
+      let newFilterConditions = [...filterConditions];
+      const { length } = newFilterConditions;
+      const lastCondition = newFilterConditions[length - 1];
+      const keywordConditionInfo = {
+        id: 'keywords',
+        label: '关键字',
+        value: inputValue,
+      };
+      if (length > 0) {
+        const keywordCondition = newFilterConditions.find(
+          (condition) => condition.id === 'keywords'
+        );
+        if (lastCondition.value === '') {
+          lastCondition.value = inputValue;
+        } else if (!keywordCondition) {
+          newFilterConditions = [...newFilterConditions, keywordConditionInfo];
+        }
+      } else {
+        newFilterConditions = [keywordConditionInfo];
+      }
+      setInputValue('');
+      setFilterConditions(newFilterConditions);
+    }
   };
 
-  const handleInputKeyPress = () => {
-    if (inputRef.current) {
-      const value = inputRef.current.value.trim();
-      // eslint-disable-next-line no-console
-      console.log('value', value);
-    }
+  const handleClearCondition: MouseEventHandler<HTMLOrSVGElement> = (e) => {
+    e.stopPropagation();
+    setInputValue('');
+    setFilterConditions([]);
   };
 
   const handleDocumentClick = () => {
@@ -42,6 +68,7 @@ export default function SearchDeviceInput() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const hasFilterConditions = filterConditions.length > 0;
   return (
     <Box position="relative" onClick={(e) => e.stopPropagation()}>
       <InputGroup
@@ -49,26 +76,27 @@ export default function SearchDeviceInput() {
         alignItems="center"
         position="relative"
         width="600px"
-        paddingLeft="20px"
         border="1px solid"
         borderColor={showFilterDropdown ? 'primary' : 'grayAlternatives.50'}
         borderRadius="24px"
         backgroundColor={showFilterDropdown ? 'primarySub' : 'white'}
       >
-        <Flex>
-          {filterConditions.map((condition) => (
-            <FilterCondition
-              key={condition.id}
-              condition={condition}
-              style={{ marginRight: '12px' }}
-            />
-          ))}
-        </Flex>
+        {hasFilterConditions && (
+          <Flex paddingLeft="20px">
+            {filterConditions.map((condition) => (
+              <FilterCondition
+                key={condition.id}
+                condition={condition}
+                style={{ marginRight: '10px' }}
+              />
+            ))}
+          </Flex>
+        )}
         <Input
-          ref={inputRef}
           marginRight="124px"
           flex="1"
-          padding="0 10px 0 1px"
+          paddingRight="10px"
+          paddingLeft={hasFilterConditions ? '1px' : '20px'}
           width="auto"
           height="44px"
           borderRadius="24px"
@@ -79,12 +107,14 @@ export default function SearchDeviceInput() {
               ? ''
               : '支持关键字搜索，支持设备分组、设备模版搜索'
           }
-          _focus={{ borderColor: 'transparent' }}
-          onFocus={handleInputFocus}
-          onBlur={() => setFocus(false)}
-          onKeyPress={handleInputKeyPress}
+          _focus={{ borderColor: 'none', backgroundColor: 'primarySub' }}
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value.trim())}
+          onFocus={() => setShowFilterDropdown(true)}
+          // onBlur={() => setShowFilterDropdown(false)}
+          onKeyDown={handleKeyDown}
         />
-        {focus && (
+        {(inputValue || filterConditions.length > 0) && (
           <BroomFilledIcon
             color="grayAlternatives.300"
             style={{
@@ -93,6 +123,7 @@ export default function SearchDeviceInput() {
               top: '14px',
               cursor: 'pointer',
             }}
+            onClick={handleClearCondition}
           />
         )}
         <SearchButton />
