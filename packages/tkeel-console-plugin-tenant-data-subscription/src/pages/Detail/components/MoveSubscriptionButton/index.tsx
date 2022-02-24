@@ -4,20 +4,21 @@ import { MoreActionButton } from '@tkeel/console-components';
 import { PencilFilledIcon } from '@tkeel/console-icons';
 
 // import useCreateSubscribeMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useCreateSubscribeMutation';
-import useModifySubscriptionMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useModifySubscriptionMutation';
+import useMoveSubscriptionMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useMoveSubscriptionMutation';
 // import SetPasswordModal from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/SetPasswordModal';
-import useListSubscribeQuery, {
-  Data,
-} from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useListSubscribeQuery';
+import useListSubscribeQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useListSubscribeQuery';
 import MoveSubscriptionModal from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/MoveSubscriptionModal';
 // import { FormValues } from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/BaseSubscriptionModal';
 
 type Props = {
   onSuccess: () => void;
-  data?: Data;
+  selected_ids: string;
 };
 
-export default function MoveSubscriptionButton({ onSuccess, data }: Props) {
+export default function MoveSubscriptionButton({
+  onSuccess,
+  selected_ids,
+}: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   // const { mutate } = useCreateSubscribeMutation({
@@ -29,23 +30,24 @@ export default function MoveSubscriptionButton({ onSuccess, data }: Props) {
 
   const { data: listSubscribeData } = useListSubscribeQuery();
 
-  const { mutate, isLoading } = useModifySubscriptionMutation({
-    id: data?.id || '0',
+  const { mutate, isLoading } = useMoveSubscriptionMutation({
     onSuccess() {
       onSuccess();
-      // onClose();
+      onClose();
       // onSuccessModalOpen();
     },
   });
 
-  const handleConfirm = () => {
-    mutate({});
+  // const handleConfirm = (selectKey:string) => {
+  // console.log("handleConfirm ~ selectKey", selectKey)
 
-    // if (formValues) {
-    //   mutate({});
-    // }
-    // return null;
-  };
+  //   mutate({});
+
+  //   // if (formValues) {
+  //   //   mutate({});
+  //   // }
+  //   // return null;
+  // };
 
   // const {
   //   isOpen: isSuccessModalOpen,
@@ -76,7 +78,14 @@ export default function MoveSubscriptionButton({ onSuccess, data }: Props) {
           isOpen={isOpen}
           isConfirmButtonLoading={isLoading}
           onClose={onClose}
-          onConfirm={handleConfirm}
+          onConfirm={(target_id: number) => {
+            mutate({
+              data: {
+                targetId: target_id,
+                selectedIds: [selected_ids],
+              },
+            });
+          }}
         />
       )}
     </>

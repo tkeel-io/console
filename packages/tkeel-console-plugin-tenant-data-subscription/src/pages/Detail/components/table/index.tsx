@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 // import { useQueryClient } from 'react-query';
 // import { Column } from 'react-table';
 import { Cell, Column } from 'react-table';
-import { Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, Text } from '@chakra-ui/react';
 import {
   // ButtonsHStack,
   Empty,
@@ -12,7 +12,12 @@ import {
   toast,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
-import { WebcamTwoToneIcon } from '@tkeel/console-icons';
+import {
+  WebcamTwoToneIcon,
+  WifiFilledIcon,
+  WifiOffFilledIcon,
+} from '@tkeel/console-icons';
+import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import useListSubscribeEntitiesQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useListSubscribeEntitiesQuery';
 import CreateDeviceButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/CreateDeviceButton';
@@ -50,8 +55,12 @@ const handleCreateRoleSuccess = () => {
 //   // queryClient.invalidateQueries(queryKey);
 // };
 
+const connectionIcon = {
+  offline: <WifiOffFilledIcon key="wifi-off" />,
+  online: <WifiFilledIcon key="wifi" />,
+};
+
 function Index({ id }: { id: string }) {
-  // console.log('id', id);
   const [keywords, setKeyWords] = useState('');
 
   const pagination = usePagination();
@@ -74,11 +83,10 @@ function Index({ id }: { id: string }) {
 
   if (keywords) {
     params = { ...params, key_words: keywords };
-    // console.log('params', params);
   }
   // const { data } = useListSubscribeEntitiesQuery(id);
 
-  const { data, isLoading } = useListSubscribeEntitiesQuery({
+  const { data, isLoading, refetch } = useListSubscribeEntitiesQuery({
     params,
     onSuccess(res) {
       const total = res?.data?.total ?? 0;
@@ -87,8 +95,6 @@ function Index({ id }: { id: string }) {
   });
 
   setTotalSize(data?.total || 0);
-
-  // console.log('data', data);
 
   const columns: ReadonlyArray<Column<Data>> = [
     {
@@ -99,7 +105,7 @@ function Index({ id }: { id: string }) {
           () => (
             <Flex alignItems="center" justifyContent="space-between">
               <WebcamTwoToneIcon />
-              <Text color="gray.800" fontWeight="600" marginLeft="20px">
+              <Text color="gray.800" fontWeight="600" marginLeft="14px">
                 {value}
               </Text>
             </Flex>
@@ -109,20 +115,35 @@ function Index({ id }: { id: string }) {
     },
     {
       Header: '设备状态',
-      width: 100,
       accessor: 'status',
+      Cell: ({ value }: { value: string }) =>
+        useMemo(() => <Box>{connectionIcon[value]}</Box>, [value]),
     },
     {
       Header: '设备模板',
+      width: 110,
       accessor: 'template',
     },
     {
       Header: '设备分组',
+      width: 110,
       accessor: 'group',
     },
     {
       Header: '最后更新时间',
       accessor: 'updated_at',
+      width: 200,
+      Cell: ({ value }: { value: string }) =>
+        useMemo(
+          () => (
+            <Box>
+              {formatDateTimeByTimestamp({
+                timestamp: value,
+              })}
+            </Box>
+          ),
+          [value]
+        ),
     },
 
     {
@@ -131,26 +152,23 @@ function Index({ id }: { id: string }) {
       Cell: ({ row }: Cell<Data>) =>
         useMemo(() => {
           const { original } = row;
-          // console.log('original', original);
 
           return (
             <MoreAction
               buttons={[
                 <MoveSubscriptionButton
+                  selected_ids={original.ID}
                   key="modify"
                   onSuccess={() => {
-                    // console.log('123');
+                    refetch();
                   }}
                 />,
                 <DeleteDeviceButton
-                  onSuccess={() => {
-                    // console.log('123');
-                  }}
+                  onSuccess={() => {}}
                   name={original.name}
                   key="delete"
                   id={original.ID}
                   refetchData={() => {
-                    // console.log('123');
                     // refetch();
                   }}
                 />,

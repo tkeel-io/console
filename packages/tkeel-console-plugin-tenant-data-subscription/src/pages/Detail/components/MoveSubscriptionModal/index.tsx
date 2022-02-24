@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Select } from '@chakra-ui/react';
 import { Modal } from '@tkeel/console-components';
@@ -9,7 +10,7 @@ type Props = {
   isConfirmButtonLoading: boolean;
   onClose: () => unknown;
   data?: Data[];
-  onConfirm: () => unknown;
+  onConfirm: (targetId: number) => unknown;
 };
 
 export default function ModifySubscriptionModal({
@@ -19,7 +20,7 @@ export default function ModifySubscriptionModal({
   data,
   onConfirm,
 }: Props) {
-  // console.log('123', isOpen);
+  const [targetId, setTargetId] = useState<number>();
 
   const location = useLocation();
   const { pathname }: { pathname: string } = location;
@@ -29,7 +30,7 @@ export default function ModifySubscriptionModal({
     // const result = await trigger();
     // if (result) {
     //   onConfirm(formValues);
-    onConfirm();
+    onConfirm(targetId as number);
     //   reset();
     // }
   };
@@ -46,7 +47,12 @@ export default function ModifySubscriptionModal({
       }}
       onConfirm={handleConfirm}
     >
-      <Select defaultValue={ID}>
+      <Select
+        defaultValue={ID}
+        onChange={(el) => {
+          setTargetId(Number(el.target.value));
+        }}
+      >
         {data?.map((item) => {
           return (
             <option value={item.id} key={item.id}>

@@ -16,6 +16,7 @@ import { values } from 'lodash';
 import { DataNode, Key } from 'node_modules/rc-tree/es/interface';
 
 import useCreateSubscribeEntitiesDeviceMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useCreateSubscribeEntitiesDeviceMutation';
+import useCreateSubscribeEntitiesTemplateMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useCreateSubscribeEntitiesTemplateMutation';
 import useDeviceGroupQuery, {
   RequestParams,
   TreeNodeData,
@@ -134,16 +135,38 @@ export default function CreateDeviceModal({
   const { items } = useDeviceTemplateQuery(defaultTemplateRequestParams);
   const templateTreeNodeData = getTemplateTreeNodeData(items);
 
-  const { mutate: createSubscribeEntitiesDeviceMutate } =
-    useCreateSubscribeEntitiesDeviceMutation({
-      onSuccess() {},
-      id: ID,
-    });
+  const {
+    mutate: createSubscribeEntitiesDeviceMutate,
+    isSuccess: deviceIsSuccess,
+  } = useCreateSubscribeEntitiesDeviceMutation({
+    onSuccess() {},
+    id: ID,
+  });
+
+  const {
+    mutate: createSubscribeEntitiesTemplateMutation,
+    isSuccess: templateIsSuccess,
+  } = useCreateSubscribeEntitiesTemplateMutation({
+    onSuccess() {},
+    id: ID,
+  });
 
   const handleConfirm = async () => {
-    createSubscribeEntitiesDeviceMutate({
-      data: { groups: selectedKeys as string[] },
-    });
+    if (selectIndex === 0) {
+      createSubscribeEntitiesDeviceMutate({
+        data: { groups: selectedKeys as string[] },
+      });
+      if (deviceIsSuccess) {
+        onConfirm();
+      }
+    } else {
+      createSubscribeEntitiesTemplateMutation({
+        data: { models: selectedKeys as string[] },
+      });
+      if (templateIsSuccess) {
+        onConfirm();
+      }
+    }
 
     if (selectIndex && keywords) {
       onConfirm();
