@@ -38,6 +38,7 @@ export { default as LoadingFilledIcon } from './components/LoadingFilledIcon';
 export { default as MagnifierFilledIcon } from './components/MagnifierFilledIcon';
 export { default as MagnifierTwoToneIcon } from './components/MagnifierTwoToneIcon';
 export { default as MessageWarningTwoToneIcon } from './components/MessageWarningTwoToneIcon';
+export { default as MgmtNodeTwoToneIcon } from './components/MgmtNodeTwoToneIcon';
 export { default as MoonCircleFilledIcon } from './components/MoonCircleFilledIcon';
 export { default as MoreVerticalFilledIcon } from './components/MoreVerticalFilledIcon';
 export { default as NotePencilFilledIcon } from './components/NotePencilFilledIcon';
