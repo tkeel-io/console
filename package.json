@@ -39,12 +39,12 @@
     "lint:spell": "cspell --no-must-find-files \"**\"",
     "lint:style": "stylelint --fix \"**/*.{css,scss,js,jsx,ts,tsx}\"",
     "lint:typescript": "tsc --noEmit",
+    "packages:set-all-versions": "node ./scripts/packages/set-all-versions",
     "pre-commit": "lint-staged",
     "show:all": "yarn show:base-paths && yarn show:dev-server-ports",
     "show:base-paths": "node ./scripts/show/base-paths",
     "show:dev-server-ports": "node ./scripts/show/dev-server-ports",
-    "sort-package-json": "sort-package-json 'package.json' 'packages/*/package.json'",
-    "packages:set-all-versions": "node ./scripts/packages/set-all-versions"
+    "sort-package-json": "sort-package-json 'package.json' 'packages/*/package.json'"
   },
   "config": {
     "commitizen": {
