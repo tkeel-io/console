@@ -1,18 +1,24 @@
+import { useState } from 'react';
 import { Box, Button, Flex, StyleProps, Text } from '@chakra-ui/react';
+import { useColor } from '@tkeel/console-hooks';
+import { GoBackFilledIcon } from '@tkeel/console-icons';
 
-import DeviceGroup from './DeviceGroup';
+// import DeviceGroup from './DeviceGroup';
+import DeviceList from './DeviceList';
 import DeviceTemplates from './DeviceTemplates';
 import Empty from './Empty';
 
-import useDeviceGroupQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceGroupQuery';
+// import useDeviceGroupQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceGroupQuery';
 
 type Props = {
   style?: StyleProps;
-  filterCondition: {
-    label: string;
-    value: string;
-  };
-  handleConditionClick: (condition: string) => unknown;
+  filterCondition:
+    | {
+        id: string;
+        label: string;
+      }
+    | undefined;
+  handleConditionClick: (condition: { id: string; label: string }) => unknown;
 };
 
 export default function FilterDropdown({
@@ -20,7 +26,10 @@ export default function FilterDropdown({
   filterCondition,
   handleConditionClick,
 }: Props) {
-  const { deviceGroupTree } = useDeviceGroupQuery();
+  // const [showDeviceList, setShowDeviceList] = useState(true);
+  const [showDeviceList] = useState(true);
+  // const { deviceGroupTree } = useDeviceGroupQuery();
+  const primaryColor = useColor('primary');
 
   const textStyle = {
     marginBottom: '8px',
@@ -42,17 +51,17 @@ export default function FilterDropdown({
     },
   ];
 
-  const isDeviceGroup = filterCondition.label === DEVICE_GROUP_ID;
-  const isDeviceTemplates = filterCondition.label === DEVICE_TEMPLATES_ID;
+  const isDeviceGroup = filterCondition?.id === DEVICE_GROUP_ID;
+  const isDeviceTemplates = filterCondition?.id === DEVICE_TEMPLATES_ID;
 
   return (
     <Flex
       flexDirection="column"
       position="absolute"
-      zIndex="1"
+      zIndex="2"
       padding="8px 20px 20px"
       width="100%"
-      height="450px"
+      maxHeight="450px"
       backgroundColor="white"
       boxShadow="0px 8px 8px rgba(182, 194, 205, 0.2)"
       borderRadius="4px"
@@ -60,8 +69,9 @@ export default function FilterDropdown({
     >
       <Text {...textStyle}>过滤条件</Text>
       <Flex marginBottom="8px">
-        {conditions.map(({ id, label }) => {
-          const isSelected = filterCondition.label === id;
+        {conditions.map((condition) => {
+          const { id, label } = condition;
+          const isSelected = filterCondition?.id === id;
           return (
             <Button
               marginRight="8px"
@@ -74,18 +84,61 @@ export default function FilterDropdown({
               height="24px"
               p="0 12px"
               fontSize="12px"
-              onClick={() => handleConditionClick(id)}
+              onClick={() => {
+                if (!isSelected) {
+                  handleConditionClick(condition);
+                }
+              }}
             >
               {label}
             </Button>
           );
         })}
       </Flex>
-      <Text {...textStyle}>搜索结果</Text>
+      {showDeviceList ? (
+        <Flex
+          marginBottom="8px"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Flex
+            alignItems="center"
+            color="gray.800"
+            fontSize="12px"
+            lineHeight="24px"
+          >
+            <Box
+              _hover={{
+                svg: {
+                  color: primaryColor,
+                },
+              }}
+            >
+              <GoBackFilledIcon />
+            </Box>
+            <Flex marginLeft="10px">
+              共
+              <Text margin="0 3px" color="primary">
+                23
+              </Text>
+              条结果
+            </Flex>
+          </Flex>
+          <Flex>全部状态</Flex>
+        </Flex>
+      ) : (
+        <Text {...textStyle}>搜索结果</Text>
+      )}
       <Box flex="1" overflow="auto">
-        {!isDeviceGroup && !isDeviceTemplates && <Empty />}
-        {isDeviceGroup && <DeviceGroup deviceGroupTree={deviceGroupTree} />}
+        {!isDeviceGroup && !isDeviceTemplates && !showDeviceList && <Empty />}
+        {/* {isDeviceGroup && (
+          <DeviceGroup
+            deviceGroupTree={deviceGroupTree}
+            onClick={() =(true)}
+          />
+        )} */}
         {isDeviceTemplates && <DeviceTemplates />}
+        {showDeviceList && <DeviceList />}
       </Box>
     </Flex>
   );

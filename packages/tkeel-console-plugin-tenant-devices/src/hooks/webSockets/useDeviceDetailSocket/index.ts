@@ -26,7 +26,6 @@ function useDeviceDetailSocket({ id }: Props) {
   }, [sendJsonMessage, id]);
   const rawData = lastJsonMessage?.rawData || {};
   const connectInfo = lastJsonMessage?.connectInfo;
-  // eslint-disable-next-line no-console
   return { rawData, connectInfo };
 }
 

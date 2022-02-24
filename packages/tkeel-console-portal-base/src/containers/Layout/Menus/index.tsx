@@ -9,8 +9,9 @@ import {
 import { ThemeNames } from '@tkeel/console-themes';
 
 import {
+  getLocalMenuTheme,
   isDarkMenuTheme,
-  setMenuTheme,
+  setLocalMenuTheme,
 } from '@/tkeel-console-portal-base/utils';
 
 import CollapsedMenus from './CollapsedMenus';
@@ -19,7 +20,7 @@ import ExpandMenus from './ExpandMenus';
 function Menus() {
   const { themeName } = GLOBAL_CONFIG.client;
   const [collapsed, setCollapsed] = useState(false);
-  const localMenuTheme = localStorage.getItem('menuTheme');
+  const localMenuTheme = getLocalMenuTheme();
   const isQingCloudTheme = themeName === ThemeNames.QingcloudLight;
   const defaultMenuTheme = isQingCloudTheme ? 'dark' : 'light';
   const [menuTheme] = useState(localMenuTheme || defaultMenuTheme);
@@ -29,7 +30,7 @@ function Menus() {
   const whiteColor = 'white !important';
 
   useEffect(() => {
-    setMenuTheme(menuTheme);
+    setLocalMenuTheme(menuTheme);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -41,7 +42,7 @@ function Menus() {
         color: whiteColor,
       },
       onClick() {
-        setMenuTheme(theme);
+        setLocalMenuTheme(theme);
         window.location.reload();
       },
     };

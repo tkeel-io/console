@@ -8,7 +8,7 @@ type Options = {
   extras?: RequestExtras;
 };
 
-export default function useAuth({ extras }: Options) {
+export default function useAuth({ extras }: Options = {}) {
   const { platformName } = useGlobalProps();
   const url = PLATFORM_INFOS[platformName].validateAuthApi;
   return useQuery({ url, method: 'GET', extras });

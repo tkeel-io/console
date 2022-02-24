@@ -32,7 +32,7 @@ function SearchInput({
 }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const onKeyDown: KeyboardEventHandler<HTMLInputElement> = (
+  const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (
     event: KeyboardEvent<HTMLInputElement>
   ) => {
     const { keyCode } = event;
@@ -61,7 +61,7 @@ function SearchInput({
         _placeholder={{ fontWeight: 500 }}
         placeholder={placeholder}
         defaultValue={defaultValue}
-        onKeyDown={onKeyDown}
+        onKeyDown={handleKeyDown}
       />
     </InputGroup>
   );

@@ -1,24 +1,58 @@
-import { useEffect, useState } from 'react';
-import { Box, Button, Flex, Input, InputGroup, Text } from '@chakra-ui/react';
 import {
-  BroomFilledIcon,
-  CloseFilledIcon,
-  MagnifierFilledIcon,
-} from '@tkeel/console-icons';
+  KeyboardEvent,
+  KeyboardEventHandler,
+  MouseEventHandler,
+  useEffect,
+  useState,
+} from 'react';
+import { Box, Flex, Input, InputGroup } from '@chakra-ui/react';
+import { BroomFilledIcon } from '@tkeel/console-icons';
+
+import FilterCondition, { FilterConditionInfo } from './FilterCondition';
+import SearchButton from './SearchButton';
 
 import FilterDropdown from '@/tkeel-console-plugin-tenant-data-query/pages/Index/components/FilterDropdown';
 
 export default function SearchDeviceInput() {
-  const [focus, setFocus] = useState(false);
+  const [inputValue, setInputValue] = useState('');
   const [showFilterDropdown, setShowFilterDropdown] = useState(true);
-  const [filterCondition, setFilterCondition] = useState({
-    label: '',
-    value: '',
-  });
+  const [filterConditions, setFilterConditions] = useState<
+    FilterConditionInfo[]
+  >([]);
 
-  const handleInputFocus = () => {
-    setFocus(true);
-    setShowFilterDropdown(true);
+  const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (
+    event: KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (event.keyCode === 13) {
+      let newFilterConditions = [...filterConditions];
+      const { length } = newFilterConditions;
+      const lastCondition = newFilterConditions[length - 1];
+      const keywordConditionInfo = {
+        id: 'keywords',
+        label: '关键字',
+        value: inputValue,
+      };
+      if (length > 0) {
+        const keywordCondition = newFilterConditions.find(
+          (condition) => condition.id === 'keywords'
+        );
+        if (lastCondition.value === '') {
+          lastCondition.value = inputValue;
+        } else if (!keywordCondition) {
+          newFilterConditions = [...newFilterConditions, keywordConditionInfo];
+        }
+      } else {
+        newFilterConditions = [keywordConditionInfo];
+      }
+      setInputValue('');
+      setFilterConditions(newFilterConditions);
+    }
+  };
+
+  const handleClearCondition: MouseEventHandler<HTMLOrSVGElement> = (e) => {
+    e.stopPropagation();
+    setInputValue('');
+    setFilterConditions([]);
   };
 
   const handleDocumentClick = () => {
@@ -34,6 +68,7 @@ export default function SearchDeviceInput() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const hasFilterConditions = filterConditions.length > 0;
   return (
     <Box position="relative" onClick={(e) => e.stopPropagation()}>
       <InputGroup
@@ -41,64 +76,45 @@ export default function SearchDeviceInput() {
         alignItems="center"
         position="relative"
         width="600px"
-        paddingLeft="20px"
         border="1px solid"
-        borderColor={focus ? 'primary' : 'grayAlternatives.50'}
+        borderColor={showFilterDropdown ? 'primary' : 'grayAlternatives.50'}
         borderRadius="24px"
-        backgroundColor={focus ? 'white' : 'primarySub'}
+        backgroundColor={showFilterDropdown ? 'primarySub' : 'white'}
       >
-        {filterCondition.label && (
-          <Flex
-            marginRight="10px"
-            flexShrink="0"
-            position="relative"
-            padding="0 6px 0 4px"
-            height="24px"
-            borderRadius="4px"
-            alignItems="center"
-            fontSize="12px"
-            lineHeight="24px"
-          >
-            <Box
-              position="absolute"
-              left="0"
-              top="0"
-              width="100%"
-              height="100%"
-              borderRadius="4px"
-              backgroundColor="primary"
-              opacity="0.15"
-            />
-            <Text color="primary" fontWeight="500">
-              {filterCondition.label}：
-            </Text>
-            {filterCondition.value && (
-              <>
-                <Text margin="0 8px 0 3px" color="gray.600">
-                  {filterCondition.value}
-                </Text>
-                <CloseFilledIcon />
-              </>
-            )}
+        {hasFilterConditions && (
+          <Flex paddingLeft="20px">
+            {filterConditions.map((condition) => (
+              <FilterCondition
+                key={condition.id}
+                condition={condition}
+                style={{ marginRight: '10px' }}
+              />
+            ))}
           </Flex>
         )}
         <Input
           marginRight="124px"
           flex="1"
-          padding="0 10px 0 1px"
+          paddingRight="10px"
+          paddingLeft={hasFilterConditions ? '1px' : '20px'}
           width="auto"
           height="44px"
           borderRadius="24px"
           fontSize="12px"
           border="none"
           placeholder={
-            focus ? '' : '支持关键字搜索，支持设备分组、设备模版搜索'
+            showFilterDropdown
+              ? ''
+              : '支持关键字搜索，支持设备分组、设备模版搜索'
           }
-          _focus={{ borderColor: 'transparent' }}
-          onFocus={handleInputFocus}
-          onBlur={() => setFocus(false)}
+          _focus={{ borderColor: 'none', backgroundColor: 'primarySub' }}
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value.trim())}
+          onFocus={() => setShowFilterDropdown(true)}
+          // onBlur={() => setShowFilterDropdown(false)}
+          onKeyDown={handleKeyDown}
         />
-        {focus && (
+        {(inputValue || filterConditions.length > 0) && (
           <BroomFilledIcon
             color="grayAlternatives.300"
             style={{
@@ -107,28 +123,26 @@ export default function SearchDeviceInput() {
               top: '14px',
               cursor: 'pointer',
             }}
+            onClick={handleClearCondition}
           />
         )}
-        <Button
-          leftIcon={<MagnifierFilledIcon color="white" size={20} />}
-          colorScheme="primary"
-          position="absolute"
-          right="0"
-          top="0"
-          height="100%"
-          fontSize="14px"
-          boxShadow="none"
-        >
-          搜索
-        </Button>
+        <SearchButton />
       </InputGroup>
       <FilterDropdown
-        filterCondition={filterCondition}
-        handleConditionClick={(condition) => {
-          setFilterCondition({
-            label: condition,
-            value: '',
-          });
+        filterCondition={filterConditions.find(
+          (condition) => condition.id !== 'search'
+        )}
+        handleConditionClick={({ id, label }) => {
+          setFilterConditions([
+            ...filterConditions.filter(
+              (condition) => condition.id === 'search'
+            ),
+            {
+              id,
+              label,
+              value: '',
+            },
+          ]);
         }}
         style={{
           display: showFilterDropdown ? 'flex' : 'none',

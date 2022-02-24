@@ -89,7 +89,7 @@ function Index(): JSX.Element {
           <TabPanels>
             {tabs.map((r) => (
               <TabPanel key={r.key}>
-                {true ? (
+                {connectData?._online ? (
                   r.component
                 ) : (
                   <Empty
