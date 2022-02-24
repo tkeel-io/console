@@ -1,10 +1,14 @@
+import { useState } from 'react';
 import { Box, Button, Flex, StyleProps, Text } from '@chakra-ui/react';
+import { useColor } from '@tkeel/console-hooks';
+import { GoBackFilledIcon } from '@tkeel/console-icons';
 
-import DeviceGroup from './DeviceGroup';
+// import DeviceGroup from './DeviceGroup';
+import DeviceList from './DeviceList';
 import DeviceTemplates from './DeviceTemplates';
 import Empty from './Empty';
 
-import useDeviceGroupQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceGroupQuery';
+// import useDeviceGroupQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceGroupQuery';
 
 type Props = {
   style?: StyleProps;
@@ -22,7 +26,10 @@ export default function FilterDropdown({
   filterCondition,
   handleConditionClick,
 }: Props) {
-  const { deviceGroupTree } = useDeviceGroupQuery();
+  // const [showDeviceList, setShowDeviceList] = useState(true);
+  const [showDeviceList] = useState(true);
+  // const { deviceGroupTree } = useDeviceGroupQuery();
+  const primaryColor = useColor('primary');
 
   const textStyle = {
     marginBottom: '8px',
@@ -51,7 +58,7 @@ export default function FilterDropdown({
     <Flex
       flexDirection="column"
       position="absolute"
-      zIndex="1"
+      zIndex="2"
       padding="8px 20px 20px"
       width="100%"
       maxHeight="450px"
@@ -88,11 +95,50 @@ export default function FilterDropdown({
           );
         })}
       </Flex>
-      <Text {...textStyle}>搜索结果</Text>
+      {showDeviceList ? (
+        <Flex
+          marginBottom="8px"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Flex
+            alignItems="center"
+            color="gray.800"
+            fontSize="12px"
+            lineHeight="24px"
+          >
+            <Box
+              _hover={{
+                svg: {
+                  color: primaryColor,
+                },
+              }}
+            >
+              <GoBackFilledIcon />
+            </Box>
+            <Flex marginLeft="10px">
+              共
+              <Text margin="0 3px" color="primary">
+                23
+              </Text>
+              条结果
+            </Flex>
+          </Flex>
+          <Flex>全部状态</Flex>
+        </Flex>
+      ) : (
+        <Text {...textStyle}>搜索结果</Text>
+      )}
       <Box flex="1" overflow="auto">
-        {!isDeviceGroup && !isDeviceTemplates && <Empty />}
-        {isDeviceGroup && <DeviceGroup deviceGroupTree={deviceGroupTree} />}
+        {!isDeviceGroup && !isDeviceTemplates && !showDeviceList && <Empty />}
+        {/* {isDeviceGroup && (
+          <DeviceGroup
+            deviceGroupTree={deviceGroupTree}
+            onClick={() =(true)}
+          />
+        )} */}
         {isDeviceTemplates && <DeviceTemplates />}
+        {showDeviceList && <DeviceList />}
       </Box>
     </Flex>
   );
