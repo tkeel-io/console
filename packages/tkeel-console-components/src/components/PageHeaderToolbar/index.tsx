@@ -1,5 +1,13 @@
 import { ReactNode } from 'react';
-import { Center, Circle, Colors, Flex, Text, useTheme } from '@chakra-ui/react';
+import {
+  Center,
+  Circle,
+  Colors,
+  Flex,
+  StyleProps,
+  Text,
+  useTheme,
+} from '@chakra-ui/react';
 import { BookOpenedFilledIcon } from '@tkeel/console-icons';
 import { noop } from 'lodash';
 
@@ -15,6 +23,9 @@ type Props = {
   searchInputProps?: SearchInputProps;
   buttons?: ReactNode[];
   hasIcon?: boolean;
+  styles?: {
+    wrapper?: StyleProps;
+  };
 };
 
 interface CustomColor extends Colors {
@@ -33,12 +44,13 @@ function PageHeaderToolbar({
   searchInputProps = defaultSearchInputProps,
   buttons = [],
   hasIcon = false,
+  styles = {},
 }: Props) {
   const siProps = { ...defaultSearchInputProps, ...searchInputProps };
   const { colors }: { colors: CustomColor } = useTheme();
 
   return (
-    <Flex alignItems="center" width="100%" height="48px">
+    <Flex alignItems="center" width="100%" height="48px" {...styles?.wrapper}>
       {name && (
         <Flex paddingRight="30px">
           <Text fontSize="14px" lineHeight="24px" color="gray.800">
