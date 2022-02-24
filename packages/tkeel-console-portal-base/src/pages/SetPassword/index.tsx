@@ -103,7 +103,7 @@ export default function SetPassword() {
         height="100vh"
         backgroundImage={pageConfig.backgroundImage}
         backgroundRepeat="no-repeat"
-        backgroundSize="100% auto"
+        backgroundSize="100% 40%"
       >
         <Box position="absolute" top="24px" left="20px">
           <Heading
