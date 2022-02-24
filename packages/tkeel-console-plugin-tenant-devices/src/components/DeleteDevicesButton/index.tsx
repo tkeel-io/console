@@ -9,9 +9,10 @@ import useDeleteDeviceMutation from '@/tkeel-console-plugin-tenant-devices/hooks
 type Props = {
   ids: string[];
   deviceName: string;
+  refetch?: () => void;
 };
 
-function Index({ deviceName, ids }: Props) {
+function Index({ deviceName, ids, refetch }: Props) {
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate, isLoading } = useDeleteDeviceMutation({
@@ -19,6 +20,9 @@ function Index({ deviceName, ids }: Props) {
     onSuccess() {
       toast({ status: 'success', title: '删除成功' });
       onClose();
+      if (refetch) {
+        refetch();
+      }
     },
   });
 

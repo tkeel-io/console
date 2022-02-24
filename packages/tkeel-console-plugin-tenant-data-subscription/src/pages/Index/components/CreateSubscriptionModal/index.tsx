@@ -17,6 +17,10 @@ export default function CreateUserModal({
 }: Props) {
   return (
     <BaseSubscriptionModal
+      defaultValues={{
+        title: '',
+        description: '',
+      }}
       title="创建订阅"
       isOpen={isOpen}
       isConfirmButtonLoading={isConfirmButtonLoading}

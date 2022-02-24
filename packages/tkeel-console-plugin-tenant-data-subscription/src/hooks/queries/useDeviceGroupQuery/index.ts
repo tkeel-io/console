@@ -35,8 +35,8 @@ export interface TreeNodeType {
     subNode: TreeNodeType;
   };
 }
-
-type RequestParams = {
+export type RequestParams = {
+  page_num: number;
   page_name?: number;
   page_size?: number;
   order_by?: string;
@@ -48,26 +48,12 @@ interface ApiData {
   '@type': string;
   GroupTree: TreeNodeType;
 }
-const defaultRequestParams = {
-  page_num: 1,
-  page_size: 1000,
-  order_by: 'name',
-  is_descending: false,
-  query: '',
-  condition: [
-    {
-      field: 'type',
-      operator: '$eq',
-      value: 'group',
-    },
-  ],
-};
 
-export default function useGroupTreeQuery() {
+export default function useGroupTreeQuery(requestParams: RequestParams) {
   const { data, ...rest } = useQuery<ApiData, undefined, RequestParams>({
     url,
     method,
-    data: defaultRequestParams,
+    data: requestParams,
   });
   const groupTree = data?.GroupTree ?? {};
   return { groupTree, data, ...rest };
