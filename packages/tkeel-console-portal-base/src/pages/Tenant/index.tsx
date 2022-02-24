@@ -28,6 +28,7 @@ export default function Tenant() {
     padding: '16px 20px',
     borderWidth: '1px',
     borderStyle: 'solid',
+    borderColor: 'grayAlternatives.50',
     borderRadius: '4px',
     backgroundColor: 'white',
     fontSize: '14px',
