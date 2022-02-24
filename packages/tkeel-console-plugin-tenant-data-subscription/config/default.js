@@ -20,7 +20,7 @@ module.exports = {
         {
           id: 'tenant-data-use',
           name: '数据使用',
-          icon: 'PuzzleTwoToneIcon',
+          icon: 'TopologyCircleTwoToneIcon',
           children: [
             {
               id: 'console-plugin-tenant-data-subscription',

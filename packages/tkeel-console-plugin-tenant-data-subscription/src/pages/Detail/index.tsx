@@ -5,7 +5,7 @@ import { MessageWarningTwoToneIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import useSubscribeInfoQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useSubscribeInfoQuery';
-import Table from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/Table';
+import Table from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/Tables';
 import DeleteSubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/DeleteSubscriptionButton';
 import ModifySubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/ModifySubscriptionButton';
 
