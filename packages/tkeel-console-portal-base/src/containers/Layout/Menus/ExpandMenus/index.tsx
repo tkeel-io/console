@@ -3,14 +3,17 @@ import { useLocation } from 'react-router-dom';
 import { Box, Flex, Image } from '@chakra-ui/react';
 import { Menu } from '@tkeel/console-types';
 
-import qingcloudLogoDark from '@/tkeel-console-portal-base/assets/images/qingcloud-logo-dark.svg';
-import qingcloudLogoLight from '@/tkeel-console-portal-base/assets/images/qingcloud-logo-light.svg';
+import qingcloudLogoAdminDark from '@/tkeel-console-portal-base/assets/images/qingcloud-logo-admin-dark.svg';
+import qingcloudLogoAdminLight from '@/tkeel-console-portal-base/assets/images/qingcloud-logo-admin-light.svg';
+import qingcloudLogoTenantDark from '@/tkeel-console-portal-base/assets/images/qingcloud-logo-tenant-dark.svg';
+import qingcloudLogoTenantLight from '@/tkeel-console-portal-base/assets/images/qingcloud-logo-tenant-light.svg';
 // import { SearchInput } from '@tkeel/console-components';
 // import { MagnifierTwoToneIcon } from '@tkeel/console-icons';
 import tkeelLogo from '@/tkeel-console-portal-base/assets/images/tkeel-logo.svg';
 import tKeelLogoDark from '@/tkeel-console-portal-base/assets/images/tkeel-logo-dark.svg';
 import tKeelLogoLight from '@/tkeel-console-portal-base/assets/images/tkeel-logo-light.svg';
 import useMenusQuery from '@/tkeel-console-portal-base/hooks/queries/useMenusQuery';
+import useGlobalProps from '@/tkeel-console-portal-base/hooks/useGlobalProps';
 
 import MenuLink from './MenuLink';
 import SubMenuLink from './SubMenuLink';
@@ -22,8 +25,9 @@ type Props = {
   isDarkMenu: boolean;
 };
 
-function Menus({ isQingCloudTheme, isDarkMenu }: Props) {
+export default function ExpandMenus({ isQingCloudTheme, isDarkMenu }: Props) {
   const location = useLocation();
+  const { platformName } = useGlobalProps();
 
   const [spreadMenuIds, setSpreadMenus] = useState<string[]>([]);
 
@@ -49,6 +53,13 @@ function Menus({ isQingCloudTheme, isDarkMenu }: Props) {
       setSpreadMenus([...spreadMenuIds, id]);
     }
   };
+  const isAdminPlatform = platformName === 'admin';
+  const qingcloudLogoDark = isAdminPlatform
+    ? qingcloudLogoAdminDark
+    : qingcloudLogoTenantDark;
+  const qingcloudLogoLight = isAdminPlatform
+    ? qingcloudLogoAdminLight
+    : qingcloudLogoTenantLight;
 
   return (
     <Flex
@@ -60,7 +71,7 @@ function Menus({ isQingCloudTheme, isDarkMenu }: Props) {
       <Flex alignItems="center" height="96px" paddingLeft="40px">
         {isQingCloudTheme ? (
           <Image
-            width="150px"
+            width={isQingCloudTheme ? '184px' : '150px'}
             src={isDarkMenu ? qingcloudLogoLight : qingcloudLogoDark}
           />
         ) : (
@@ -134,5 +145,3 @@ function Menus({ isQingCloudTheme, isDarkMenu }: Props) {
     </Flex>
   );
 }
-
-export default Menus;

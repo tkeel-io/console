@@ -1,6 +1,6 @@
 import { Box, Center, Flex, Image } from '@chakra-ui/react';
 
-import qingcloudLogo from '@/tkeel-console-portal-base/assets/images/qingcloud-logo.svg';
+import qingcloudLogo from '@/tkeel-console-portal-base/assets/images/qingcloud-iot-logo.svg';
 import tkeelLogo from '@/tkeel-console-portal-base/assets/images/tkeel-logo.svg';
 import useMenusQuery from '@/tkeel-console-portal-base/hooks/queries/useMenusQuery';
 

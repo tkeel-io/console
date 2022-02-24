@@ -88,7 +88,11 @@ function DeviceStatus({
         }
       >
         <IconWrapper iconBg={useColor(isOnline ? 'green.50' : 'gray.100')}>
-          {isOnline ? <WifiFilledIcon /> : <WifiOffFilledIcon />}
+          {isOnline ? (
+            <WifiFilledIcon color="green.300" />
+          ) : (
+            <WifiOffFilledIcon color="gray.500" />
+          )}
         </IconWrapper>
       </TooltipIcon>
 
