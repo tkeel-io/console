@@ -26,7 +26,6 @@ export default function CreateDeviceButton() {
     onSuccess,
   });
   const handleConfirm = ({ formValues }: { formValues: DeviceValueType }) => {
-    console.log(formValues);
     const { description, name, parentId, extendInfo } = formValues;
     const params = {
       description,

@@ -14,18 +14,18 @@ type Props = {
 
 function DeleteDeviceButton({ id, refetchData, onSuccess, name }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   const { mutate } = useDeleteSubscriptionDeviceMutation({
-    id,
     onSuccess() {
       onSuccess();
       toast({ status: 'success', title: '删除订阅成功' });
       refetchData();
-      // onClose();
+      onClose();
     },
   });
 
   const handleConfirm = () => {
-    mutate({});
+    mutate({ data: { entities: [id] } });
   };
   return (
     <>

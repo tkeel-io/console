@@ -28,7 +28,6 @@ function renderInfoItem(item: { key: string; value: string }) {
 }
 function GroupBasicInfo({ groupItem }: Props): JSX.Element {
   const [isExpend, setIsExpend] = useState(false);
-  console.log('groupItem', groupItem);
   const { nodeInfo } = groupItem;
   const { description, name, ext } = nodeInfo.properties.group;
   // const ext = nodeInfo.properties.group.ext ?? {};
@@ -36,7 +35,6 @@ function GroupBasicInfo({ groupItem }: Props): JSX.Element {
     { key: '设备组名称', value: name },
     { key: '描述信息', value: description || '暂无描述' },
     ...Object.entries(ext).map(([key, value]) => {
-      console.log(value, key);
       return { key, value };
     }),
   ];
