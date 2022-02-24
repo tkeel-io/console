@@ -57,7 +57,7 @@ interface GlobalConfig {
   publicPath: string;
   basePath?: string; // plugin
   client: {
-    themeName: string;
+    themeName: 'qingcloud-light' | 'tkeel-light';
     documentTitle: string | number;
   };
   api: {
