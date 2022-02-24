@@ -48,6 +48,7 @@ module.exports = {
     'WORKDIR',
     'upsert',
     'dependences',
+    'mgmt',
   ],
   ignorePaths: [
     '**/.idea/**',
