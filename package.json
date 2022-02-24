@@ -27,6 +27,8 @@
     "dev:portal-tenant": "node ./scripts/run/dev-portal-tenant",
     "docker:build": "node ./scripts/run/docker-build",
     "docker:build-all": "node ./scripts/run/docker-build-all",
+    "docker:push": "node ./scripts/docker/push",
+    "docker:rm": "node ./scripts/docker/remove",
     "init:all": "yarn init:package-names && yarn init:root-tsconfig && yarn init:vscode-settings",
     "init:package-names": "node ./scripts/init/package-names",
     "init:root-tsconfig": "node ./scripts/init/root-tsconfig",
