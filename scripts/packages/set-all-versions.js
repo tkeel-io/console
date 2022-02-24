@@ -1,6 +1,7 @@
 const path = require('path');
 
 const config = require('config');
+const fs = require('fs-extra');
 const _ = require('lodash');
 const writePackage = require('write-pkg');
 
@@ -11,13 +12,13 @@ const { readPackageInfos } = require('../utils/packages');
 async function setAllPackagesVersion(version) {
   const packageInfos = readPackageInfos({ excludeDirectoryNames: [] });
 
-  packageInfos.forEach(({ absolutePath, packageJson }) => {
-    writePackage.sync(
-      path.resolve(absolutePath, 'package.json'),
-      _.merge({}, packageJson, {
-        version,
-      })
-    );
+  packageInfos.forEach(({ absolutePath }) => {
+    const destPath = path.resolve(absolutePath, 'package.json');
+    const original = fs.readJSONSync(destPath);
+    const data = _.merge({}, original, {
+      version,
+    });
+    writePackage.sync(destPath, data);
   });
 }
 
