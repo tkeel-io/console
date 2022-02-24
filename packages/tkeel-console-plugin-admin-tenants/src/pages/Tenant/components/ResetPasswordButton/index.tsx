@@ -38,9 +38,7 @@ export default function ResetPasswordButton({ data }: Props) {
     mutate({});
   };
 
-  // const { protocol, host } = window.location;
-  const protocol = 'http:';
-  const host = 'admin.tkeel.io:30080';
+  const { protocol, host } = window.location;
   const url = `${protocol}//${host.replace(/^admin\./, '')}/auth/set-password`;
 
   return (
