@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { Box, Button, Center, Flex, Heading } from '@chakra-ui/react';
 import { Form, FormField } from '@tkeel/console-components';
 
-import themes from '@/tkeel-console-portal-base/themes';
+import configs from '@/tkeel-console-portal-base/configs';
 
 const { TextField } = FormField;
 
-const theme = themes[GLOBAL_CONFIG.client.themeName];
-const loginPageTheme = theme?.pages?.LoginTenant;
+const config = configs[GLOBAL_CONFIG.client.themeName];
+const pageConfig = config?.pages?.LoginTenant;
 
 type FormValues = {
   tenantId: string;
@@ -58,7 +58,7 @@ export default function Tenant() {
       <Box
         flex="1"
         paddingLeft="80px"
-        backgroundImage={loginPageTheme.backgroundImage}
+        backgroundImage={pageConfig.backgroundImage}
         backgroundRepeat="no-repeat"
         backgroundSize="100% 100%"
       >
@@ -69,7 +69,7 @@ export default function Tenant() {
           lineHeight="42px"
           color="primary"
         >
-          {loginPageTheme.title}
+          {pageConfig.title}
         </Heading>
         <Heading
           marginTop="12px"
@@ -77,7 +77,7 @@ export default function Tenant() {
           lineHeight="24px"
           color="gray.100"
         >
-          {loginPageTheme.description}
+          {pageConfig.description}
         </Heading>
       </Box>
       <Center flexDirection="column" width="42vw">

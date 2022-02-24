@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   Center,
+  Flex,
   Heading,
   Text,
   useDisclosure,
@@ -14,7 +15,12 @@ import { schemas } from '@tkeel/console-utils';
 import useOAuthResetPasswordMutation from '@/tkeel-console-portal-base/hooks/mutations/useOAuthResetPasswordMutation';
 import useResetPasswordKeyInfoQuery from '@/tkeel-console-portal-base/hooks/queries/useResetPasswordKeyInfoQuery';
 
+import configs from '@/tkeel-console-portal-base/configs';
+
 const { TextField } = FormField;
+
+const config = configs[GLOBAL_CONFIG.client.themeName];
+const pageConfig = config?.pages?.SetPassword;
 
 type FormValues = {
   password: string;
@@ -48,9 +54,10 @@ export default function SetPassword() {
 
   const [searchParams] = useSearchParams();
   const resetKey = searchParams.get('reset_key') ?? '';
-  const { data: resetPasswordKeyInfo, isSuccess } =
+  const { /* isSuccess, */ data: resetPasswordKeyInfo } =
     useResetPasswordKeyInfoQuery({
       data: { reset_key: resetKey },
+      enabled: !!resetKey,
     });
   const username = resetPasswordKeyInfo?.username ?? '';
 
@@ -89,8 +96,42 @@ export default function SetPassword() {
 
   return (
     <>
-      <Center flexDirection="column" height="100vh">
-        <Box>
+      <Center
+        position="relative"
+        height="100vh"
+        backgroundImage={pageConfig.backgroundImage}
+        backgroundRepeat="no-repeat"
+        backgroundSize="100% auto"
+      >
+        <Box position="absolute" top="24px" left="20px">
+          <Heading
+            display="inline"
+            padding="2px"
+            fontWeight="500"
+            fontSize="14px"
+            lineHeight="20px"
+            backgroundColor="primary"
+          >
+            {pageConfig.brandName}
+          </Heading>
+          <Flex alignItems="center" paddingTop="4px" color="white">
+            <Heading fontWeight="500" fontSize="18px" lineHeight="26px">
+              {pageConfig.title}
+            </Heading>
+            <Text paddingX="8px" fontSize="18px">
+              |
+            </Text>
+            <Heading fontSize="18px" lineHeight="28px">
+              {pageConfig.subTitle}
+            </Heading>
+          </Flex>
+        </Box>
+        <Box
+          padding="40px 46px 70px"
+          marginBottom="100px"
+          borderRadius="4px"
+          backgroundColor="white"
+        >
           <Heading
             as="h1"
             fontSize="48px"
@@ -149,7 +190,7 @@ export default function SetPassword() {
                 isFullWidth
                 width="350px"
                 height="45px"
-                isDisabled={!isSuccess}
+                // isDisabled={!isSuccess}
                 isLoading={isLoading}
               >
                 确定
