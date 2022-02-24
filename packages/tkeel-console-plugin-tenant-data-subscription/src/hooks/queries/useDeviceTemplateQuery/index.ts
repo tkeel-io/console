@@ -19,20 +19,21 @@ export interface NodeInfo {
   [propName: string]: any;
 }
 
-export type TreeNodeData = {
+export type TemplateTreeNodeDataType = {
   title: string;
   key: string;
   id: string;
-  children: TreeNodeData[];
-  originData: {
-    nodeInfo: NodeInfo;
-    subNode: TreeNodeType;
-  };
 };
-export interface TreeNodeType {
+export interface TemplateTreeNodeType {
   [propName: string]: {
+    id: string;
+    properties: {
+      basicInfo: {
+        name: string;
+      };
+    };
     nodeInfo: NodeInfo;
-    subNode: TreeNodeType;
+    subNode: TemplateTreeNodeType;
   };
 }
 
@@ -46,29 +47,15 @@ type RequestParams = {
 };
 interface ApiData {
   '@type': string;
-  GroupTree: TreeNodeType;
+  listDeviceObject: TemplateTreeNodeType;
 }
-const defaultRequestParams = {
-  page_num: 1,
-  page_size: 1000,
-  order_by: 'name',
-  is_descending: false,
-  query: '',
-  condition: [
-    {
-      field: 'type',
-      operator: '$eq',
-      value: 'group',
-    },
-  ],
-};
 
-export default function useDeviceTemplateQuery() {
+export default function useDeviceTemplateQuery(requestParams: RequestParams) {
   const { data, ...rest } = useQuery<ApiData, undefined, RequestParams>({
     url,
     method,
-    data: defaultRequestParams,
+    data: requestParams,
   });
-  const groupTree = data?.GroupTree ?? {};
-  return { groupTree, data, ...rest };
+  const items = data?.listDeviceObject?.items ?? {};
+  return { items, data, ...rest };
 }

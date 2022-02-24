@@ -4,25 +4,24 @@ import useMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/u
 
 export interface ApiData {
   '@type': string;
-  id: string;
 }
 
-type RequestData = {
-  entities: string[];
+type Props = {
+  onSuccess?: () => void;
 };
 
-const method = 'POST';
+const method = 'PUT';
 
-export default function useDeleteSubscriptionDeviceMutation({
-  onSuccess,
-}: {
-  onSuccess: () => void;
-}) {
+interface RequestData {
+  targetId: number;
+  selectedIds: string[];
+}
+
+export default function useMoveSubscriptionMutation({ onSuccess }: Props) {
   const location = useLocation();
   const { pathname }: { pathname: string } = location;
   const ID = pathname.split('/')[pathname.split('/').length - 1];
-
-  const url = `/core-broker/v1/subscribe/${ID}/entities/delete`;
+  const url = `/core-broker/v1/subscribe/${ID}`;
 
   return useMutation<ApiData, undefined, RequestData>({
     url,

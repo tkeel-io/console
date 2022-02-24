@@ -1,24 +1,25 @@
 import useMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/useMutation';
 
+interface RequestData {
+  models: string[];
+}
+
 export interface ApiData {
   '@type': string;
 }
 
 type Props = {
-  id: string;
   onSuccess?: () => void;
+  id: string;
 };
 
-const method = 'PATCH';
+const method = 'POST';
 
-interface RequestData {
-  title: string;
-  id: number;
-  description: string;
-}
-
-export default function useCreateSubscribeMutation({ onSuccess, id }: Props) {
-  const url = `/core-broker/v1/subscribe/${id}`;
+export default function useCreateSubscribeEntitiesTemplateMutation({
+  onSuccess,
+  id,
+}: Props) {
+  const url = `/core-broker/v1/subscribe/${id}/models`;
 
   return useMutation<ApiData, undefined, RequestData>({
     url,
