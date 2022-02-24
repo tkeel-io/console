@@ -1,6 +1,6 @@
 module.exports = {
   platformName: '{{platformName}}',
-  publicPath: '/static/console-plugin-{{name}}',
+  publicPath: '/static/console-plugin-{{name}}/',
   basePath: '{{basePath}}',
   client: {
     documentTitle: '',

@@ -1,6 +1,6 @@
 module.exports = {
   platformName: 'tenant',
-  publicPath: '/static/console-plugin-tenant-example',
+  publicPath: '/static/console-plugin-tenant-example/',
   basePath: '/tenant-example',
   client: {
     documentTitle: '',
