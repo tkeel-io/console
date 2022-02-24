@@ -1,4 +1,5 @@
 module.exports = {
+  platformName: 'tenant',
   publicPath: '/static/console-plugin-tenant-device-template/',
   basePath: '/tenant-device-template',
   client: {
