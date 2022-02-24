@@ -3,9 +3,11 @@ import { PlatformNames } from '@tkeel/console-constants';
 import themes, { DEFAULT_THEME_NAME, ThemeNames } from '@tkeel/console-themes';
 import { Menu, PluginGlobalProps } from '@tkeel/console-types';
 import { getLocalTokenInfo } from '@tkeel/console-utils';
-import { registerMicroApps, start } from 'qiankun';
+import { FrameworkLifeCycles, registerMicroApps, start } from 'qiankun';
 
 import { App, MenuInfo } from './types';
+
+export type LifeCycles = FrameworkLifeCycles<Record<string, any>>;
 
 function getTotalMenus(menus: Menu[]): MenuInfo[] {
   let menuInfoArr: MenuInfo[] = [];
@@ -28,7 +30,7 @@ function getTotalMenus(menus: Menu[]): MenuInfo[] {
   return menuInfoArr;
 }
 
-function menusToApps({
+export function menusToApps({
   platformName,
   menus,
   navigate,
@@ -58,24 +60,32 @@ function menusToApps({
   }));
 }
 
-function register({ apps }: { apps: App[] }): void {
-  registerMicroApps(apps);
+function register({
+  apps,
+  lifeCycles,
+}: {
+  apps: App[];
+  lifeCycles?: LifeCycles;
+}): void {
+  registerMicroApps(apps, lifeCycles);
 }
 
-function init({
-  platformName,
-  menus,
-  navigate,
-  themeName,
-}: {
+export interface InitArgs {
   platformName: PlatformNames;
   menus: Menu[];
   navigate: NavigateFunction;
   themeName: ThemeNames;
-}) {
-  const apps = menusToApps({ platformName, menus, navigate, themeName });
-  register({ apps });
-  start();
+  lifeCycles?: LifeCycles;
 }
 
-export { init, menusToApps };
+export function init({
+  platformName,
+  menus,
+  navigate,
+  themeName,
+  lifeCycles,
+}: InitArgs) {
+  const apps = menusToApps({ platformName, menus, navigate, themeName });
+  register({ apps, lifeCycles });
+  start();
+}
