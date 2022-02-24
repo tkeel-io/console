@@ -30,14 +30,16 @@ export default function ModifyPasswordButton() {
         icon={<KeyFilledIcon />}
         onClick={onOpen}
       />
-      <ModifyPasswordModal
-        isOpen={isOpen}
-        isConfirmButtonLoading={isLoading}
-        onClose={onClose}
-        onConfirm={(requestData) => {
-          mutate({ data: requestData });
-        }}
-      />
+      {isOpen && (
+        <ModifyPasswordModal
+          isOpen={isOpen}
+          isConfirmButtonLoading={isLoading}
+          onClose={onClose}
+          onConfirm={(requestData) => {
+            mutate({ data: requestData });
+          }}
+        />
+      )}
       <Alert
         isOpen={isAlertOpen}
         icon="success"
