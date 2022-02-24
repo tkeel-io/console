@@ -32,7 +32,7 @@ module.exports = {
           ],
         },
       ],
-      dependence: [{ id: 'device', version: tkeel.version }],
+      dependence: [{ id: 'tkeel-device', version: tkeel.version }],
     },
   },
 };
