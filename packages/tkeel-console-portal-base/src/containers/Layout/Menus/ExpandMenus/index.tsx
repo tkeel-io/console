@@ -25,7 +25,7 @@ type Props = {
   isDarkMenu: boolean;
 };
 
-function Menus({ isQingCloudTheme, isDarkMenu }: Props) {
+export default function ExpandMenus({ isQingCloudTheme, isDarkMenu }: Props) {
   const location = useLocation();
   const { platformName } = useGlobalProps();
 
@@ -53,7 +53,7 @@ function Menus({ isQingCloudTheme, isDarkMenu }: Props) {
       setSpreadMenus([...spreadMenuIds, id]);
     }
   };
-  const isAdminPlatform = platformName === 'tenant';
+  const isAdminPlatform = platformName === 'admin';
   const qingcloudLogoDark = isAdminPlatform
     ? qingcloudLogoAdminDark
     : qingcloudLogoTenantDark;
@@ -145,5 +145,3 @@ function Menus({ isQingCloudTheme, isDarkMenu }: Props) {
     </Flex>
   );
 }
-
-export default Menus;
