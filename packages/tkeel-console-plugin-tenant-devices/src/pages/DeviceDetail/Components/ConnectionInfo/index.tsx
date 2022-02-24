@@ -1,22 +1,45 @@
+/* eslint-disable no-underscore-dangle */
+import { useEffect, useState } from 'react';
 import { Box, Flex, Text } from '@chakra-ui/react';
 
-function Index() {
-  const data = [
+import { ConnectInfo } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
+
+type Props = {
+  data: ConnectInfo;
+};
+
+function Index({ data }: Props) {
+  const connectInfo = {
+    _clientId: '',
+    _online: false,
+    _owner: '',
+    _peerHost: '',
+    _protocol: '',
+    _sockPort: '',
+    _userName: '',
+  } as const;
+  const [infoData, setInfoData] = useState<ConnectInfo>(connectInfo);
+  useEffect(() => {
+    setInfoData((preState) => {
+      return { ...preState, ...data };
+    });
+  }, [data]);
+  const list = [
     {
       label: '接入协议',
-      value: 'MQTT v3.1.1',
+      value: infoData?._protocol || '',
     },
     {
       label: '客户端ID',
-      value: 'clientID',
+      value: infoData?._clientId || '',
     },
     {
       label: '客户端端口',
-      value: '80',
+      value: infoData?._sockPort || '',
     },
     {
       label: '客户端地址',
-      value: '10.10.137.64',
+      value: infoData?._peerHost || '',
     },
     {
       label: '连接时间',
@@ -43,7 +66,7 @@ function Index() {
           borderRadius="4px"
           p="8px 20px 12px"
         >
-          {data.map((r) => {
+          {list.map((r) => {
             return (
               <Box minWidth="70px" fontSize="12px" key={r.label}>
                 <Text color="grayAlternatives.300">{r.label}</Text>

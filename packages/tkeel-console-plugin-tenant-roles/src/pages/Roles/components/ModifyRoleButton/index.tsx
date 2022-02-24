@@ -1,41 +1,35 @@
 import { useDisclosure } from '@chakra-ui/react';
 import { LinkButton } from '@tkeel/console-components';
-import { getLocalUserInfo } from '@tkeel/console-utils';
 
-import useSetRolePermissionsMutation from '@/tkeel-console-plugin-tenant-roles/hooks/mutations/useSetRolePermissionsMutation';
-import { FormValues } from '@/tkeel-console-plugin-tenant-roles/pages/Roles/components/BaseRoleModal';
+import useModifyRoleMutation, {
+  RequestData,
+} from '@/tkeel-console-plugin-tenant-roles/hooks/mutations/useModifyRoleMutation';
 import ModifyRoleModal from '@/tkeel-console-plugin-tenant-roles/pages/Roles/components/ModifyRoleModal';
 
 type Props = {
   data: {
     roleId: string;
     roleName: string;
-    permissionList: string[];
+    desc?: string;
+    permissionPaths?: string[];
   };
   onSuccess: () => void;
 };
 
 export default function ModifyRoleButton({ data, onSuccess }: Props) {
-  const { roleId, roleName, permissionList } = data;
-  const defaultValues = { roleName, permissionList };
+  const { roleId, roleName, desc, permissionPaths = [] } = data;
+  const defaultValues = { roleName, desc, permissionPaths };
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { mutate, isLoading } = useSetRolePermissionsMutation({
+  const { mutate, isLoading } = useModifyRoleMutation({
+    roleId,
     onSuccess() {
       onSuccess();
       onClose();
     },
   });
 
-  const handleConfirm = (formValues: FormValues) => {
-    const { tenant_id: tenantId } = getLocalUserInfo();
-
-    mutate({
-      url: `/security/v1/rbac/tenant/${tenantId}/roles/${roleId}/permissions`,
-      data: {
-        name: formValues.roleName,
-        permission_list: formValues.permissionList,
-      },
-    });
+  const handleConfirm = (requestData: RequestData) => {
+    mutate({ data: requestData });
   };
 
   return (

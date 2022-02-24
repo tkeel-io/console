@@ -13,21 +13,19 @@ import {
 
 import CardContentFlex from './components/CardContentFlex';
 
+import DeleteDevicesButton from '@/tkeel-console-plugin-tenant-devices/components/DeleteDevicesButton';
 import IconWrapper from '@/tkeel-console-plugin-tenant-devices/components/IconWrapper';
-import {
-  STATUS_INFOS,
-  SUBSCRIBES,
-} from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
-import CreateDeviceButton from '@/tkeel-console-plugin-tenant-devices/pages/Index/components/CreateDeviceButton';
-import CreateDeviceGroupButton from '@/tkeel-console-plugin-tenant-devices/pages/Index/components/CreateDeviceGroupButton';
+import UnsubscribeButton from '@/tkeel-console-plugin-tenant-devices/components/UnsubscribeButton';
+import { SUBSCRIBES } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
 
 type Props = {
   selfLearn: {
     color: string;
     twoToneColor: string;
   };
+  id: string;
   isSelfLearn: boolean | undefined;
-  status: string;
+  status: boolean | undefined;
   deviceName: string;
   subscribeAddr: string;
 };
@@ -38,6 +36,7 @@ const connectionIcon = {
 };
 
 function DeviceInfoCard({
+  id,
   selfLearn,
   subscribeAddr,
   isSelfLearn,
@@ -45,6 +44,7 @@ function DeviceInfoCard({
   deviceName,
 }: Props): JSX.Element {
   const navigate = useNavigate();
+  const sub = subscribeAddr ? '1' : '0';
 
   return (
     <Box position="relative" w="100%" bg="white" borderRadius="4px">
@@ -72,8 +72,17 @@ function DeviceInfoCard({
           />
           <MoreAction
             buttons={[
-              <CreateDeviceButton key="device" />,
-              <CreateDeviceGroupButton key="device-group" />,
+              <DeleteDevicesButton
+                ids={[id]}
+                key="delete"
+                deviceName={deviceName}
+              />,
+              <UnsubscribeButton
+                id={id}
+                key="cancel-subscribe"
+                disabled={!subscribeAddr}
+                deviceName={deviceName}
+              />,
             ]}
           />
         </CardContentFlex>
@@ -90,19 +99,15 @@ function DeviceInfoCard({
             </Box>
           </Box>
           <HStack flex="1" justifyContent="flex-end" spacing="8px" zIndex="3">
-            <IconWrapper
-              iconBg={useColor(status !== 'offline' ? 'green.50' : 'gray.100')}
-            >
-              {connectionIcon[status]}
+            <IconWrapper iconBg={useColor(status ? 'green.50' : 'gray.100')}>
+              {connectionIcon[status ? 'online' : 'offline']}
             </IconWrapper>
             <IconWrapper
-              iconBg={useColor(STATUS_INFOS.isSub ? 'teal.50' : 'gray.100')}
+              iconBg={useColor(subscribeAddr ? 'teal.50' : 'gray.100')}
             >
               <MessageWarningTwoToneIcon
-                color={useColor(SUBSCRIBES[STATUS_INFOS.isSub].color)}
-                twoToneColor={useColor(
-                  SUBSCRIBES[STATUS_INFOS.isSub].twoToneColor
-                )}
+                color={useColor(SUBSCRIBES[sub].color)}
+                twoToneColor={useColor(SUBSCRIBES[sub].twoToneColor)}
               />
             </IconWrapper>
             <IconWrapper

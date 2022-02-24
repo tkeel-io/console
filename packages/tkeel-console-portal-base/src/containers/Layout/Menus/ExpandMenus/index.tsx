@@ -1,11 +1,15 @@
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Box, Flex, Image } from '@chakra-ui/react';
+import { Menu } from '@tkeel/console-types';
 
+import qingcloudLogoDark from '@/tkeel-console-portal-base/assets/images/qingcloud-logo-dark.svg';
+import qingcloudLogoLight from '@/tkeel-console-portal-base/assets/images/qingcloud-logo-light.svg';
 // import { SearchInput } from '@tkeel/console-components';
 // import { MagnifierTwoToneIcon } from '@tkeel/console-icons';
-import Logo from '@/tkeel-console-portal-base/assets/images/logo-tkeel.svg';
-import tKeelBlack from '@/tkeel-console-portal-base/assets/images/tkeel-black.svg';
-import tKeelWhite from '@/tkeel-console-portal-base/assets/images/tkeel-white.svg';
+import tkeelLogo from '@/tkeel-console-portal-base/assets/images/tkeel-logo.svg';
+import tKeelLogoDark from '@/tkeel-console-portal-base/assets/images/tkeel-logo-dark.svg';
+import tKeelLogoLight from '@/tkeel-console-portal-base/assets/images/tkeel-logo-light.svg';
 import useMenusQuery from '@/tkeel-console-portal-base/hooks/queries/useMenusQuery';
 
 import MenuLink from './MenuLink';
@@ -14,12 +18,29 @@ import SubMenuTitle from './SubMenuTitle';
 
 type Props = {
   // handleSearch: () => void;
-  isDarkTheme: boolean;
+  isQingCloudTheme: boolean;
+  isDarkMenu: boolean;
 };
 
-function Menus({ isDarkTheme }: Props) {
-  const { menus } = useMenusQuery();
+function Menus({ isQingCloudTheme, isDarkMenu }: Props) {
+  const location = useLocation();
+
   const [spreadMenuIds, setSpreadMenus] = useState<string[]>([]);
+
+  const { menus } = useMenusQuery({
+    onSuccess(data) {
+      const entries = data?.data?.entries ?? [];
+      entries.forEach((menu) => {
+        const { id, children } = menu;
+        const active: boolean = (children as Menu[]).some((item) => {
+          return item.path && location.pathname.includes(item.path);
+        });
+        if (active) {
+          setSpreadMenus([...spreadMenuIds, id]);
+        }
+      });
+    },
+  });
 
   const handleMenuClick = (id: string) => {
     if (spreadMenuIds.includes(id)) {
@@ -37,13 +58,22 @@ function Menus({ isDarkTheme }: Props) {
       height="100%"
     >
       <Flex alignItems="center" height="96px" paddingLeft="40px">
-        <Image htmlWidth="47px" src={Logo} alt="" />
-        <Image
-          marginLeft="8px"
-          htmlWidth="93px"
-          src={isDarkTheme ? tKeelWhite : tKeelBlack}
-          alt=""
-        />
+        {isQingCloudTheme ? (
+          <Image
+            width="150px"
+            src={isDarkMenu ? qingcloudLogoLight : qingcloudLogoDark}
+          />
+        ) : (
+          <>
+            <Image htmlWidth="47px" src={tkeelLogo} alt="" />
+            <Image
+              marginLeft="8px"
+              htmlWidth="93px"
+              src={isDarkMenu ? tKeelLogoLight : tKeelLogoDark}
+              alt=""
+            />
+          </>
+        )}
       </Flex>
       {/* <SearchInput
         width="200px"
@@ -52,9 +82,9 @@ function Menus({ isDarkTheme }: Props) {
         inputStyle={{
           border: 'none',
           borderRadius: '4px',
-          backgroundColor: isDarkTheme ? 'whiteAlpha.50' : 'gray.100',
+          backgroundColor: isDarkMenu ? 'whiteAlpha.50' : 'gray.100',
         }}
-        icon={<MagnifierTwoToneIcon color={isDarkTheme ? 'white' : ''} />}
+        icon={<MagnifierTwoToneIcon color={isDarkMenu ? 'white' : ''} />}
         iconSize={20}
         placeholder="搜索"
         onSearch={handleSearch}
@@ -85,9 +115,7 @@ function Menus({ isDarkTheme }: Props) {
                     marginTop="10px"
                     padding="8px"
                     borderRadius="4px"
-                    backgroundColor={
-                      isDarkTheme ? 'whiteAlpha.100' : 'gray.100'
-                    }
+                    backgroundColor={isDarkMenu ? 'whiteAlpha.100' : 'gray.100'}
                   >
                     {children.map((subMenu) => (
                       <SubMenuLink

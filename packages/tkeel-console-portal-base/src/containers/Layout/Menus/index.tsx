@@ -9,8 +9,9 @@ import {
 import { ThemeNames } from '@tkeel/console-themes';
 
 import {
+  getLocalMenuTheme,
   isDarkMenuTheme,
-  setMenuTheme,
+  setLocalMenuTheme,
 } from '@/tkeel-console-portal-base/utils';
 
 import CollapsedMenus from './CollapsedMenus';
@@ -19,17 +20,17 @@ import ExpandMenus from './ExpandMenus';
 function Menus() {
   const { themeName } = GLOBAL_CONFIG.client;
   const [collapsed, setCollapsed] = useState(false);
-  const localMenuTheme = localStorage.getItem('menuTheme');
-  const defaultMenuTheme =
-    themeName === ThemeNames.QingcloudLight ? 'dark' : 'light';
+  const localMenuTheme = getLocalMenuTheme();
+  const isQingCloudTheme = themeName === ThemeNames.QingcloudLight;
+  const defaultMenuTheme = isQingCloudTheme ? 'dark' : 'light';
   const [menuTheme] = useState(localMenuTheme || defaultMenuTheme);
-  const isDarkTheme = isDarkMenuTheme(menuTheme);
+  const isDarkMenu = isDarkMenuTheme(menuTheme);
 
   const iconColor = 'grayAlternatives.300';
   const whiteColor = 'white !important';
 
   useEffect(() => {
-    setMenuTheme(menuTheme);
+    setLocalMenuTheme(menuTheme);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -41,7 +42,7 @@ function Menus() {
         color: whiteColor,
       },
       onClick() {
-        setMenuTheme(theme);
+        setLocalMenuTheme(theme);
         window.location.reload();
       },
     };
@@ -53,7 +54,7 @@ function Menus() {
     },
   };
 
-  const collapseHoverStyle = isDarkTheme
+  const collapseHoverStyle = isDarkMenu
     ? {
         ...iconHoverStyle,
         '& > p': {
@@ -67,12 +68,15 @@ function Menus() {
       paddingBottom="90px"
       height="100%"
       background="white"
-      backgroundColor={isDarkTheme ? 'grayAlternatives.800' : 'gray.50'}
+      backgroundColor={isDarkMenu ? 'grayAlternatives.800' : 'gray.50'}
     >
       {collapsed ? (
-        <CollapsedMenus />
+        <CollapsedMenus isQingCloudTheme={isQingCloudTheme} />
       ) : (
-        <ExpandMenus isDarkTheme={isDarkTheme} />
+        <ExpandMenus
+          isQingCloudTheme={isQingCloudTheme}
+          isDarkMenu={isDarkMenu}
+        />
       )}
       <Flex
         flexDirection="column"
@@ -82,7 +86,7 @@ function Menus() {
         bottom="20px"
         cursor="pointer"
       >
-        {isDarkTheme ? (
+        {isDarkMenu ? (
           <Box _hover={iconHoverStyle}>
             <SunFilledIcon {...getChangeThemeIconProps('light')} />
           </Box>
@@ -105,7 +109,7 @@ function Menus() {
             <CollapseFilledIcon color={iconColor} />
             <Text
               marginLeft="8px"
-              color={isDarkTheme ? 'gray.400' : 'gray.600'}
+              color={isDarkMenu ? 'gray.400' : 'gray.600'}
               fontSize="12px"
             >
               收起

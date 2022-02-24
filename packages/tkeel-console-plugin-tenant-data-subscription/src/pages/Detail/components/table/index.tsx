@@ -69,8 +69,6 @@ function Index({ id }: { id: string }) {
   // const pagination = usePagination();
   // const { setTotalSize } = pagination;
 
-  // const queryClient = useQueryClient();
-
   let params = {
     page_num: pageNum,
     page_size: pageSize,
@@ -115,6 +113,7 @@ function Index({ id }: { id: string }) {
     },
     {
       Header: '设备状态',
+      width: 100,
       accessor: 'status',
       Cell: ({ value }: { value: string }) =>
         useMemo(() => <Box>{connectionIcon[value]}</Box>, [value]),
@@ -183,7 +182,6 @@ function Index({ id }: { id: string }) {
     <Flex flexDirection="column" height="100%" padding="0 20px">
       <PageHeaderToolbar
         name="订阅设备"
-        // TODO: useless search
         hasSearchInput
         searchInputProps={{
           onSearch(value) {

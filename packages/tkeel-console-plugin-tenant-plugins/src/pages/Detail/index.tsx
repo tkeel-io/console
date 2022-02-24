@@ -1,9 +1,10 @@
 import { Box, Circle, Flex, Image, Text } from '@chakra-ui/react';
+import { DeveloperInfo } from '@tkeel/console-business-components';
 import { InfoCard } from '@tkeel/console-components';
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
-import DisableButton from './DisableButton';
+import DisableButton from './components/DisableButton';
 
 import EnableButton from '@/tkeel-console-plugin-tenant-plugins/components/EnableButton';
 import usePluginDetailQuery from '@/tkeel-console-plugin-tenant-plugins/hooks/queries/usePluginDetailQuery';
@@ -34,17 +35,6 @@ function Detail({ pluginName }: Props) {
     },
   ];
 
-  const developerInfo = [
-    {
-      label: '提供者',
-      value: 'developer',
-    },
-    {
-      label: '联系方式',
-      value: 'developer@yunify.com',
-    },
-  ];
-
   const name = installerBrief?.name ?? '';
   const icon = installerBrief?.icon ?? '';
   const desc = installerBrief?.desc ?? '';
@@ -60,6 +50,9 @@ function Detail({ pluginName }: Props) {
       color: 'grayAlternatives.300',
     },
   };
+
+  const maintainers = installerBrief?.maintainers ?? [];
+
   return (
     <Box>
       <Flex
@@ -114,10 +107,9 @@ function Detail({ pluginName }: Props) {
       </Flex>
       <Box padding="24px 24px">
         <InfoCard data={basicInfo} styles={infoCardStyles} />
-        <InfoCard
-          title="开发者信息"
-          data={developerInfo}
-          styles={infoCardStyles}
+        <DeveloperInfo
+          data={maintainers}
+          styles={{ infoCard: infoCardStyles }}
         />
       </Box>
     </Box>

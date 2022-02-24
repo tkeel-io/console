@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Cell, Column } from 'react-table';
-import { Flex, Text } from '@chakra-ui/react';
+import { Flex, Text, Tooltip } from '@chakra-ui/react';
 import {
   ButtonsHStack,
   PageHeaderToolbar,
@@ -32,7 +32,7 @@ export default function Roles() {
   if (keywords) {
     params = { ...params, key_words: keywords };
   }
-  const { total, roles, refetch } = useRolesQuery({ params });
+  const { isLoading, total, roles, refetch } = useRolesQuery({ params });
   setTotalSize(total);
 
   const handleCreateRoleSuccess = () => {
@@ -70,7 +70,18 @@ export default function Roles() {
     },
     {
       Header: '权限资源',
-      // accessor: '',
+      accessor: 'permission_list',
+      Cell: ({ value = [] }) => {
+        const names = value.map(({ permission }) => permission.name).join('，');
+        return useMemo(
+          () => (
+            <Tooltip label={names}>
+              <Text isTruncated>{names}</Text>
+            </Tooltip>
+          ),
+          [names]
+        );
+      },
     },
     {
       Header: '绑定用户数',
@@ -80,7 +91,8 @@ export default function Roles() {
       Header: '操作',
       Cell({ row }: Cell<Role>) {
         const { original } = row;
-        const { id, name, permission_list: permissionList } = original;
+        const { id, name, desc, permission_list: permissionList } = original;
+        const permissionPaths = permissionList.map(({ path }) => path);
 
         return useMemo(
           () => (
@@ -89,7 +101,8 @@ export default function Roles() {
                 data={{
                   roleId: id,
                   roleName: name,
-                  permissionList,
+                  desc,
+                  permissionPaths,
                 }}
                 onSuccess={handleModifyRoleSuccess}
               />
@@ -99,7 +112,7 @@ export default function Roles() {
               />
             </ButtonsHStack>
           ),
-          [id, name, permissionList]
+          [id, name, desc, permissionPaths]
         );
       },
     },
@@ -109,7 +122,7 @@ export default function Roles() {
     <Flex flexDirection="column" height="100%">
       <PageHeaderToolbar
         name="角色管理"
-        hasSearchInput={false}
+        hasSearchInput
         searchInputProps={{
           onSearch(value) {
             setPageNum(1);
@@ -121,12 +134,12 @@ export default function Roles() {
         ]}
       />
       <Table
-        style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
         columns={columns}
         data={roles}
         paginationProps={pagination}
-        hasPagination={false}
         scroll={{ y: '100%' }}
+        isLoading={isLoading}
+        style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
       />
     </Flex>
   );

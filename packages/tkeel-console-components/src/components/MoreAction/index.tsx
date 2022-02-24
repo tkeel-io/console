@@ -13,20 +13,42 @@ type Props = {
   element?: ReactNode;
   buttons: ReactElement[];
   buttonProps?: object;
+  isActionListOpen?: boolean;
+  onActionListOpen?: () => unknown;
+  onActionListClose?: () => unknown;
 };
 
-interface CustomColor extends Colors {
+interface CustomColors extends Colors {
   primary: string;
 }
 
-function MoreAction({ element, buttons, buttonProps = {} }: Props) {
-  const [showActionList, setShowActionList] = useState(false);
-  const { colors }: { colors: CustomColor } = useTheme();
+function MoreAction({
+  element,
+  buttons,
+  isActionListOpen = false,
+  onActionListOpen,
+  onActionListClose,
+  buttonProps = {},
+}: Props) {
+  const [showActionList, setShowActionList] = useState(isActionListOpen);
+  const { colors }: { colors: CustomColors } = useTheme();
   let timer: number | null = null;
+
+  const handleSetShowActionList = (show: boolean) => {
+    setShowActionList(show);
+
+    if (show && onActionListOpen) {
+      onActionListOpen();
+    }
+
+    if (!show && onActionListClose) {
+      onActionListClose();
+    }
+  };
 
   const handleClick: MouseEventHandler<HTMLDivElement> = (event) => {
     event.stopPropagation();
-    setShowActionList(!showActionList);
+    handleSetShowActionList(!showActionList);
   };
 
   const handleMouseLeave: MouseEventHandler<HTMLDivElement> = () => {
@@ -35,7 +57,7 @@ function MoreAction({ element, buttons, buttonProps = {} }: Props) {
       timer = null;
     }
     timer = window.setTimeout(() => {
-      setShowActionList(false);
+      handleSetShowActionList(false);
     }, 200);
   };
 
@@ -46,7 +68,7 @@ function MoreAction({ element, buttons, buttonProps = {} }: Props) {
   };
 
   const handleDocumentClick = () => {
-    setShowActionList(false);
+    handleSetShowActionList(false);
   };
 
   useEffect(() => {
@@ -57,6 +79,10 @@ function MoreAction({ element, buttons, buttonProps = {} }: Props) {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    setShowActionList(isActionListOpen);
+  }, [isActionListOpen]);
 
   const menus = buttons.map((button) => {
     return cloneElement(button, {

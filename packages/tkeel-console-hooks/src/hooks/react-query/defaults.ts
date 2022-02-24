@@ -2,7 +2,7 @@ import { QueryClientConfig } from './types';
 
 export const DEFAULT_USE_QUERY_OPTIONS = {
   retry: false,
-  staleTime: 5 * 1000,
+  staleTime: 0,
   cacheTime: 5 * 1000,
   refetchOnWindowFocus: false,
 };
