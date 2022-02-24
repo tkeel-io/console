@@ -14,12 +14,12 @@ import useOAuthTokenMutation, {
   ApiData,
 } from '@/tkeel-console-portal-base/hooks/mutations/useOAuthTokenMutation';
 
-import themes from '@/tkeel-console-portal-base/themes';
+import configs from '@/tkeel-console-portal-base/configs';
 
 const { TextField } = FormField;
 
-const theme = themes[GLOBAL_CONFIG.client.themeName];
-const loginPageTheme = theme?.pages?.LoginTenant;
+const config = configs[GLOBAL_CONFIG.client.themeName];
+const pageConfig = config?.pages?.LoginTenant;
 
 type FormValues = {
   username: string;
@@ -55,7 +55,9 @@ function LoginTenant() {
     width: '350px',
     height: '50px',
     padding: '16px 20px',
-    border: '1pxs solid gray.200',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: 'grayAlternatives.50',
     borderRadius: '4px',
     backgroundColor: 'white',
     fontSize: '14px',
@@ -94,11 +96,11 @@ function LoginTenant() {
   };
 
   return (
-    <Flex height="100vh">
+    <Flex height="100vh" backgroundColor="white">
       <Box
         flex="1"
         paddingLeft="80px"
-        backgroundImage={loginPageTheme.backgroundImage}
+        backgroundImage={pageConfig.backgroundImage}
         backgroundRepeat="no-repeat"
         backgroundSize="100% 100%"
       >
@@ -109,7 +111,7 @@ function LoginTenant() {
           lineHeight="42px"
           color="primary"
         >
-          {loginPageTheme.title}
+          {pageConfig.title}
         </Heading>
         <Heading
           marginTop="12px"
@@ -117,7 +119,7 @@ function LoginTenant() {
           lineHeight="24px"
           color="gray.100"
         >
-          {loginPageTheme.description}
+          {pageConfig.description}
         </Heading>
       </Box>
       <Center flexDirection="column" width="42vw">
@@ -138,7 +140,7 @@ function LoginTenant() {
             defaultValue={String(GLOBAL_CONFIG?.mock?.username ?? '')}
             placeholder="请输入您的账号"
             error={errors.username}
-            formControlStyle={{ marginBottom: '24px' }}
+            formControlStyle={{ marginBottom: '20px' }}
             formLabelStyle={formLabelStyle}
             inputStyle={inputStyle}
             registerReturn={register(

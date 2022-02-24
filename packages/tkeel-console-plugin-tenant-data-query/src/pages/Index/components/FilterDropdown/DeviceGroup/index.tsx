@@ -34,9 +34,10 @@ function getTreeNodeData(data: TreeNodeType): TreeNodeData[] {
 
 type Props = {
   deviceGroupTree: TreeNodeType;
+  onClick: () => unknown;
 };
 
-export default function DeviceGroup({ deviceGroupTree }: Props) {
+export default function DeviceGroup({ deviceGroupTree, onClick }: Props) {
   const treeNodeData = getTreeNodeData(deviceGroupTree);
   // eslint-disable-next-line no-console
   console.log('DeviceGroup ~ treeNodeData', treeNodeData);
@@ -46,6 +47,7 @@ export default function DeviceGroup({ deviceGroupTree }: Props) {
       style={{ marginTop: '16px' }}
       icon={FileBoxTwoToneIcon}
       treeData={treeNodeData}
+      onClick={onClick}
     />
   );
 }

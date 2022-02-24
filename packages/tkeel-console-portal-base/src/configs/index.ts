@@ -1,9 +1,9 @@
 import qingcloudLight from './qingcloud-light';
-import { Themes } from './types';
+import { Configs } from './types';
 
-const themes: Themes = {
+const configs: Configs = {
   'qingcloud-light': qingcloudLight,
   'tkeel-light': qingcloudLight,
 };
 
-export default themes;
+export default configs;

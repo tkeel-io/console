@@ -53,6 +53,9 @@
       "@/tkeel-console-plugin-tenant-devices/*": [
         "./packages/tkeel-console-plugin-tenant-devices/src/*"
       ],
+      "@/tkeel-console-plugin-tenant-example/*": [
+        "./packages/tkeel-console-plugin-tenant-example/src/*"
+      ],
       "@/tkeel-console-plugin-tenant-plugins/*": [
         "./packages/tkeel-console-plugin-tenant-plugins/src/*"
       ],
@@ -91,6 +94,7 @@
     { "path": "./packages/tkeel-console-plugin-tenant-data-subscription/" },
     { "path": "./packages/tkeel-console-plugin-tenant-device-templates/" },
     { "path": "./packages/tkeel-console-plugin-tenant-devices/" },
+    { "path": "./packages/tkeel-console-plugin-tenant-example/" },
     { "path": "./packages/tkeel-console-plugin-tenant-plugins/" },
     { "path": "./packages/tkeel-console-plugin-tenant-roles/" },
     { "path": "./packages/tkeel-console-plugin-tenant-users/" },

@@ -3,7 +3,7 @@ module.exports = {
   publicPath: '/static/console-plugin-tenant-data-query',
   basePath: '/tenant-data-query',
   client: {
-    documentTitle: 'tKeel',
+    documentTitle: '',
   },
   server: {
     port: '3010',
