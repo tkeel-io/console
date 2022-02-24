@@ -1,3 +1,4 @@
+import { useGlobalProps } from '@tkeel/console-business-components';
 import { RectangleButton, toast } from '@tkeel/console-components';
 import { CaretRightFilledIcon, LoadingFilledIcon } from '@tkeel/console-icons';
 
@@ -14,11 +15,14 @@ function EnableButton({
   buttonCanHover = false,
   refetchData,
 }: Props) {
+  const { refetchMenus } = useGlobalProps();
+
   const { mutate, isLoading } = useEnablePluginMutation({
     pluginName,
     onSuccess() {
       toast({ status: 'success', title: '启用插件成功' });
       refetchData();
+      refetchMenus();
     },
   });
 
