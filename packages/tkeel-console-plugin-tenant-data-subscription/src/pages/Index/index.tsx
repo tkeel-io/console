@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { Loading, MoreAction } from '@tkeel/console-components';
+import { Loading, MoreAction, toast } from '@tkeel/console-components';
 import {
   BookOpenedFilledIcon,
   MessageWarningTwoToneIcon,
@@ -176,6 +176,8 @@ function Index(): JSX.Element {
         <CreateSubscriptionButton
           key="create"
           onSuccess={() => {
+            toast({ status: 'success', title: '创建订阅成功' });
+
             refetch();
           }}
         />
