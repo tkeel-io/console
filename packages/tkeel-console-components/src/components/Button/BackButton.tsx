@@ -8,6 +8,7 @@ type Props = {
 function BackButton({ onClick }: Props) {
   return (
     <Flex
+      width="57px"
       paddingLeft="7px"
       paddingRight="10px"
       alignItems="center"

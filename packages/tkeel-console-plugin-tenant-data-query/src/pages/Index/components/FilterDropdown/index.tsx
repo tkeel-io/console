@@ -7,7 +7,7 @@ import { GoBackFilledIcon } from '@tkeel/console-icons';
 import DeviceList from './DeviceList';
 import DeviceTemplates from './DeviceTemplates';
 import Empty from './Empty';
-
+import StatusSelect from './StatusSelect';
 // import useDeviceGroupQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceGroupQuery';
 
 type Props = {
@@ -28,6 +28,8 @@ export default function FilterDropdown({
 }: Props) {
   // const [showDeviceList, setShowDeviceList] = useState(true);
   const [showDeviceList] = useState(true);
+  const [status, setStatus] = useState('全部状态');
+
   // const { deviceGroupTree } = useDeviceGroupQuery();
   const primaryColor = useColor('primary');
 
@@ -124,7 +126,7 @@ export default function FilterDropdown({
               条结果
             </Flex>
           </Flex>
-          <Flex>全部状态</Flex>
+          <StatusSelect status={status} setStatus={setStatus} />
         </Flex>
       ) : (
         <Text {...textStyle}>搜索结果</Text>
