@@ -5,7 +5,6 @@ import useCreateSubscribeMutation from '@/tkeel-console-plugin-tenant-data-subsc
 import useCreateUserMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useCreateUserMutation';
 import { FormValues } from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/BaseSubscriptionModal';
 import CreateSubscriptionModal from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/CreateSubscriptionModal';
-import SetPasswordModal from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/SetPasswordModal';
 
 type Props = {
   onSuccess: () => void;
@@ -34,23 +33,12 @@ export default function CreateUserButton({ onSuccess }: Props) {
     return null;
   };
 
-  const {
-    isOpen: isSuccessModalOpen,
-    onOpen: onSuccessModalOpen,
-    onClose: onSuccessModalClose,
-  } = useDisclosure();
-  const { isLoading, data } = useCreateUserMutation({
+  const { isLoading } = useCreateUserMutation({
     onSuccess() {
       onSuccess();
       onClose();
-      onSuccessModalOpen();
     },
   });
-  const setPasswordModalData = {
-    tenant_id: data?.tenant_id ?? '',
-    user_id: data?.user_id ?? '',
-    username: data?.username ?? '',
-  };
 
   return (
     <>
@@ -61,14 +49,6 @@ export default function CreateUserButton({ onSuccess }: Props) {
         onClose={onClose}
         onConfirm={handleConfirm}
       />
-      {isSuccessModalOpen && (
-        <SetPasswordModal
-          isOpen={isSuccessModalOpen}
-          title="创建成功"
-          data={setPasswordModalData}
-          onClose={onSuccessModalClose}
-        />
-      )}
     </>
   );
 }
