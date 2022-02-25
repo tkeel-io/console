@@ -2,12 +2,20 @@ import { ReactNode } from 'react';
 import {
   Drawer as ChakraDrawer,
   DrawerBody,
-  DrawerCloseButton,
+  DrawerCloseButton as ChakraDrawerCloseButton,
   DrawerContent,
   DrawerHeader,
   DrawerOverlay,
   DrawerProps,
 } from '@chakra-ui/react';
+import styled from '@emotion/styled';
+
+const DrawerCloseButton = styled(ChakraDrawerCloseButton)`
+  svg {
+    width: 9px;
+    height: 9px;
+  }
+`;
 
 type Props = {
   title: string;

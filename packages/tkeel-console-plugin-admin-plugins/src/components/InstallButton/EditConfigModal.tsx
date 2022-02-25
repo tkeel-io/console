@@ -1,5 +1,5 @@
 import { MouseEventHandler } from 'react';
-import { Button, Text } from '@chakra-ui/react';
+import { Text } from '@chakra-ui/react';
 import { Editor, Modal } from '@tkeel/console-components';
 import { Base64 } from 'js-base64';
 
@@ -59,21 +59,11 @@ function EditConfigModal({
           设置配置
         </Text>
       }
-      footer={
-        <>
-          <Button onClick={onClose}>取消</Button>
-          <Button
-            marginLeft="12px"
-            colorScheme="primary"
-            disabled={isQueryDetailLoading || isInstallLoading}
-            onClick={handleInstall}
-          >
-            确定
-          </Button>
-        </>
-      }
       isOpen={isOpen}
+      isConfirmButtonDisabled={isQueryDetailLoading}
+      isConfirmButtonLoading={isInstallLoading}
       onClose={onClose}
+      onConfirm={handleInstall}
     >
       <Editor
         width="100%"

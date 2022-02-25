@@ -1,4 +1,3 @@
-import { useRef } from 'react';
 import { Flex, Select, StyleProps, Text } from '@chakra-ui/react';
 import {
   ChevronLeftFilledIcon,
@@ -11,6 +10,7 @@ import './index.scss';
 type Props = {
   pageNum?: number;
   pageSize?: number;
+  pageSizeArr?: number[];
   totalSize?: number;
   canPreviousPage?: boolean;
   canNextPage?: boolean;
@@ -22,7 +22,8 @@ type Props = {
 
 function Pagination({
   pageNum = 1,
-  pageSize = 1,
+  pageSize = 20,
+  pageSizeArr = [20, 40, 80, 100, 120],
   totalSize = 0,
   canPreviousPage = false,
   canNextPage = false,
@@ -31,14 +32,6 @@ function Pagination({
   showBoxShadow = false,
   style = {},
 }: Props) {
-  const pageSizeRef = useRef(pageSize);
-
-  const pageSizeArr: number[] = [];
-
-  Array.from({ length: 5 }).forEach((_, i) => {
-    pageSizeArr.push(pageSizeRef.current * (i + 1));
-  });
-
   return (
     <Flex
       padding="0 20px"
