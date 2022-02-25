@@ -80,16 +80,17 @@ export default function Layout() {
               transform="translate(-50%, -50%)"
             />
           )} */}
-          <Skeleton
-            position="absolute"
-            top="0"
-            right="0"
-            bottom="0"
-            left="0"
-            width="100%"
-            height="100%"
-            isLoaded={!isLoading}
-          />
+          {isLoading && (
+            <Skeleton
+              position="absolute"
+              top="0"
+              right="0"
+              bottom="0"
+              left="0"
+              width="100%"
+              height="100%"
+            />
+          )}
           <Routes>
             {renderApps()}
             {Array.isArray(apps) && apps.length > 0 && (
