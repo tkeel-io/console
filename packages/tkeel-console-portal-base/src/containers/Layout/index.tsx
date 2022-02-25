@@ -1,14 +1,15 @@
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
-import { Box, Flex } from '@chakra-ui/react';
+import { Box, Flex, Skeleton } from '@chakra-ui/react';
 
 import Header from '@/tkeel-console-portal-base/containers/Layout/Header';
 import Menus from '@/tkeel-console-portal-base/containers/Layout/Menus';
 import useMenusQuery from '@/tkeel-console-portal-base/hooks/queries/useMenusQuery';
 import useGlobalProps from '@/tkeel-console-portal-base/hooks/useGlobalProps';
+import useQiankunInit from '@/tkeel-console-portal-base/hooks/useQiankunInit';
 import NotFound from '@/tkeel-console-portal-base/pages/NotFound';
 import {
-  init as initQiankun,
+  // init as initQiankun,
   menusToApps,
 } from '@/tkeel-console-portal-base/utils';
 
@@ -16,12 +17,22 @@ function getElementIdByContainer(container: string): string {
   return container.replace(/^#/, '');
 }
 
-function Layout() {
+export default function Layout() {
   const { platformName, themeName } = useGlobalProps();
-  const { menus } = useMenusQuery();
+  const { menus, refetch } = useMenusQuery();
 
   const navigate = useNavigate();
-  const apps = menusToApps({ platformName, menus, navigate, themeName });
+
+  const initArgs = {
+    platformName,
+    menus,
+    navigate,
+    themeName,
+    refetchMenus: () => {
+      refetch();
+    },
+  };
+  const apps = menusToApps(initArgs);
 
   const renderApps = () => {
     if (!(Array.isArray(apps) && apps.length > 0)) {
@@ -53,16 +64,32 @@ function Layout() {
     );
   };
 
-  useEffect(() => {
-    initQiankun({ platformName, menus, navigate, themeName });
-  }, [platformName, menus, navigate, themeName]);
+  const { isLoading } = useQiankunInit(initArgs);
 
   return (
     <Flex height="100%">
       <Menus />
       <Flex flex="1" overflow="hidden" flexDirection="column" padding="20px">
         <Header menus={menus} />
-        <Flex flex="1" overflow="hidden">
+        <Flex position="relative" flex="1" overflow="hidden">
+          {/* {isLoading && (
+            <Spinner
+              position="absolute"
+              top="50%"
+              right="50%"
+              transform="translate(-50%, -50%)"
+            />
+          )} */}
+          <Skeleton
+            position="absolute"
+            top="0"
+            right="0"
+            bottom="0"
+            left="0"
+            width="100%"
+            height="100%"
+            isLoaded={!isLoading}
+          />
           <Routes>
             {renderApps()}
             {Array.isArray(apps) && apps.length > 0 && (
@@ -74,5 +101,3 @@ function Layout() {
     </Flex>
   );
 }
-
-export default Layout;

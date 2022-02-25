@@ -24,7 +24,7 @@ type MenuLinkReturnType = {
 export function useActive(to: string): boolean {
   const resolved = useResolvedPath(to);
   const active = useMatch({ path: resolved.pathname, end: false });
-  return !!active;
+  return to ? !!active : false;
 }
 
 export function useMenuLinkProps(to: string): MenuLinkReturnType {

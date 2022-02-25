@@ -97,7 +97,7 @@ function Index(): JSX.Element {
                   installer_brief: installerBrief,
                   tenant_enable: tenantEnable,
                 } = plugin;
-                const { name } = installerBrief;
+                const name = installerBrief?.name ?? '';
                 return (
                   <PluginCard
                     key={id}
@@ -135,7 +135,9 @@ function Index(): JSX.Element {
                             fontSize="12px"
                           >
                             <Text>{item.label}：</Text>
-                            <Text>{installerBrief[item.key]}</Text>
+                            <Text>
+                              {installerBrief ? installerBrief[item.key] : ''}
+                            </Text>
                           </Flex>
                         ))}
                       </Flex>
