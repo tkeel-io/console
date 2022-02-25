@@ -15,11 +15,10 @@ export interface PluginInfo extends BriefPluginInfo {
     'tkeel.io/tag': string;
     'tkeel.io/version': string;
   };
-  maintainers: [
-    {
-      name: string;
-      email: string;
-    }
-  ];
+  maintainers: {
+    name: string;
+    email: string;
+    url: string;
+  }[];
   timestamp: string;
 }

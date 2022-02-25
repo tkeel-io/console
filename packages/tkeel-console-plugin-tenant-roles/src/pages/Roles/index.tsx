@@ -32,8 +32,13 @@ export default function Roles() {
   if (keywords) {
     params = { ...params, key_words: keywords };
   }
-  const { isLoading, total, roles, refetch } = useRolesQuery({ params });
-  setTotalSize(total);
+  const { isLoading, isSuccess, total, roles, refetch } = useRolesQuery({
+    params,
+  });
+
+  if (isSuccess) {
+    setTotalSize(total);
+  }
 
   const handleCreateRoleSuccess = () => {
     toast({ status: 'success', title: '创建成功' });
