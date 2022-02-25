@@ -10,7 +10,8 @@ import {
   Select,
   Text,
 } from '@chakra-ui/react';
-import { Editor, SearchInput } from '@tkeel/console-components';
+// import { Editor, SearchInput } from '@tkeel/console-components';
+import { Editor } from '@tkeel/console-components';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 import { isEmpty } from 'lodash';
 
@@ -50,15 +51,12 @@ type TRawData = RawData[];
 
 function Index({ data }: Props) {
   const [rawDataList, setRawDataList] = useState<TRawData>([data]);
-  const [keyWord, setKeyWord] = useState('');
+  // const [keyWord, setKeyWord] = useState('');
   const [selected, setSelected] = useState('text');
   useEffect(() => {
     setRawDataList((preState) => {
       const filterArr = preState.filter((r) => !isEmpty(r));
-      if (preState.length > 20) {
-        return [data];
-      }
-      return [...filterArr, data];
+      return [data, ...filterArr].slice(-20);
     });
   }, [data]);
 
@@ -66,18 +64,18 @@ function Index({ data }: Props) {
     setSelected(e.target.value);
   };
 
-  const handleSearch = (value: string) => {
-    // eslint-disable-next-line no-console
-    console.log(value, keyWord);
-    setKeyWord(value);
-  };
+  // const handleSearch = (value: string) => {
+  //   // eslint-disable-next-line no-console
+  //   console.log(value, keyWord);
+  //   setKeyWord(value);
+  // };
 
   return (
     <Box>
       <Flex align="center" w="100%" h="56px">
         <Text fontWeight="600">原始数据</Text>
         <Flex flex="1" justifyContent="flex-end">
-          <SearchInput onSearch={handleSearch} placeholder="搜索" />
+          {/* <SearchInput onSearch={handleSearch} placeholder="搜索" /> */}
         </Flex>
         <Flex
           bg="gray.100"
