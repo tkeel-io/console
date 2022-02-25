@@ -148,7 +148,7 @@ function Index({ data }: Props) {
                     </Text>
                     <Text color="grayAlternatives.300">
                       {formatDateTimeByTimestamp({
-                        timestamp: `${Math.floor(r?.ts || 0)}`,
+                        timestamp: r?.ts ?? `${Math.floor((r?.ts || 0) / 1e6)}`,
                       })}
                     </Text>
                   </Flex>
