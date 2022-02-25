@@ -138,7 +138,7 @@ function Detail(): JSX.Element {
         background="linear-gradient(180deg, #FFFFFF 0%, #F9FBFD 100%)"
         borderRadius="4px"
       >
-        <Table id={ID} />
+        <Table id={ID} title={data?.title} />
       </Box>
     </Flex>
   );

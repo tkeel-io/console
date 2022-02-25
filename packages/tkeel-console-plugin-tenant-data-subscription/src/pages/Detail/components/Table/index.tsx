@@ -60,7 +60,7 @@ const connectionIcon = {
   online: <WifiFilledIcon key="wifi" />,
 };
 
-function Index({ id }: { id: string }) {
+function Index({ id, title }: { id: string; title: string }) {
   const [keywords, setKeyWords] = useState('');
 
   const pagination = usePagination();
@@ -208,7 +208,7 @@ function Index({ id }: { id: string }) {
         paginationProps={pagination}
         empty={
           <Empty
-            description="[IDC设备分组订阅] 暂无设备,可手动添加"
+            description={`[${title}] 暂无设备,可手动添加`}
             styles={{
               wrapper: { height: '100%' },
               content: { marginTop: '10px' },

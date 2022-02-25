@@ -2,7 +2,6 @@ import { useDisclosure } from '@chakra-ui/react';
 import { CreateButton } from '@tkeel/console-components';
 
 import useCreateSubscribeMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useCreateSubscribeMutation';
-import useCreateUserMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useCreateUserMutation';
 import { FormValues } from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/BaseSubscriptionModal';
 import CreateSubscriptionModal from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/CreateSubscriptionModal';
 
@@ -13,7 +12,7 @@ type Props = {
 export default function CreateUserButton({ onSuccess }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { mutate } = useCreateSubscribeMutation({
+  const { mutate, isLoading } = useCreateSubscribeMutation({
     onSuccess() {
       onSuccess();
       onClose();
@@ -32,13 +31,6 @@ export default function CreateUserButton({ onSuccess }: Props) {
     }
     return null;
   };
-
-  const { isLoading } = useCreateUserMutation({
-    onSuccess() {
-      onSuccess();
-      onClose();
-    },
-  });
 
   return (
     <>
