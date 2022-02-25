@@ -47,7 +47,6 @@ function LoginAdmin() {
   };
 
   const inputStyle = {
-    width: '350px',
     height: '50px',
     padding: '16px 20px',
     borderWidth: '1px',
@@ -127,6 +126,7 @@ function LoginAdmin() {
             defaultValue={String(GLOBAL_CONFIG?.mock?.password ?? '')}
             placeholder="请输入您的密码"
             error={errors.password}
+            formControlStyle={{ width: '350px' }}
             formLabelStyle={formLabelStyle}
             inputStyle={inputStyle}
             registerReturn={register(

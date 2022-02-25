@@ -52,7 +52,6 @@ function LoginTenant() {
   };
 
   const inputStyle = {
-    width: '350px',
     height: '50px',
     padding: '16px 20px',
     borderWidth: '1px',
@@ -140,7 +139,7 @@ function LoginTenant() {
             defaultValue={String(GLOBAL_CONFIG?.mock?.username ?? '')}
             placeholder="请输入您的账号"
             error={errors.username}
-            formControlStyle={{ marginBottom: '20px' }}
+            formControlStyle={{ marginBottom: '20px', width: '350px' }}
             formLabelStyle={formLabelStyle}
             inputStyle={inputStyle}
             registerReturn={register(
@@ -155,6 +154,7 @@ function LoginTenant() {
             defaultValue={String(GLOBAL_CONFIG?.mock?.password ?? '')}
             placeholder="请输入您的密码"
             error={errors.password}
+            formControlStyle={{ width: '350px' }}
             formLabelStyle={formLabelStyle}
             inputStyle={inputStyle}
             registerReturn={register(

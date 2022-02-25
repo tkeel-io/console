@@ -23,7 +23,6 @@ export default function Tenant() {
   };
 
   const inputStyle = {
-    width: '350px',
     height: '50px',
     padding: '16px 20px',
     borderWidth: '1px',
@@ -99,6 +98,7 @@ export default function Tenant() {
             defaultValue={String(GLOBAL_CONFIG?.mock?.tenantId ?? '')}
             placeholder="请输入您的租户 ID"
             error={errors.tenantId}
+            formControlStyle={{ width: '350px' }}
             formLabelStyle={formLabelStyle}
             inputStyle={inputStyle}
             registerReturn={register('tenantId', {
