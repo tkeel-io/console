@@ -51,6 +51,7 @@ export { default as PuzzleTwoToneIcon } from './components/PuzzleTwoToneIcon';
 export { default as RefreshFilledIcon } from './components/RefreshFilledIcon';
 export { default as RightFilledIcon } from './components/RightFilledIcon';
 export { default as ShutdownFilledIcon } from './components/ShutdownFilledIcon';
+export { default as SmartObjectTwoToneIcon } from './components/SmartObjectTwoToneIcon';
 export { default as SuccessTwoToneIcon } from './components/SuccessTwoToneIcon';
 export { default as SunFilledIcon } from './components/SunFilledIcon';
 export { default as TagsTwoToneIcon } from './components/TagsTwoToneIcon';

@@ -12,8 +12,8 @@ import {
   BranchTowToneIcon,
   DotLineFilledIcon,
   MessageWarningTwoToneIcon,
+  SmartObjectTwoToneIcon,
   VpcTwoToneIcon,
-  WebcamTwoToneIcon,
   WifiFilledIcon,
   WifiOffFilledIcon,
 } from '@tkeel/console-icons';
@@ -22,7 +22,7 @@ import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 import DeleteDevicesButton from '@/tkeel-console-plugin-tenant-devices/components/DeleteDevicesButton';
 import EditDeviceButton from '@/tkeel-console-plugin-tenant-devices/components/EditDeviceButton';
 import IconWrapper from '@/tkeel-console-plugin-tenant-devices/components/IconWrapper';
-import { DEVICE_STATUS } from '@/tkeel-console-plugin-tenant-devices/constants';
+// import { DEVICE_STATUS } from '@/tkeel-console-plugin-tenant-devices/constants';
 import useDeviceListQuery, {
   DeviceApiItem,
   DeviceItem,
@@ -71,10 +71,10 @@ function DeviceStatus({
 }: {
   originData: DeviceApiItem;
 }): JSX.Element {
-  const { basicInfo, sysField } = originData?.properties ?? {};
+  const { basicInfo, sysField, connectInfo } = originData?.properties ?? {};
   const selfLearn = basicInfo?.selfLearn ?? false;
   const subscribeAddr = sysField?._subscribeAddr ?? '';
-  const isOnline = sysField?._status === DEVICE_STATUS.ONLINE;
+  const isOnline = connectInfo?._online ?? false;
   return (
     <HStack>
       <TooltipIcon
@@ -136,11 +136,11 @@ function DeviceListTable({ groupItem, keyWords }: Props): JSX.Element {
     order_by: 'name',
     is_descending: false,
     condition: [
-      // {
-      //   field: 'sysField._spacePath',
-      //   operator: '$wildcard',
-      //   value: nodeInfo.id,
-      // },
+      {
+        field: 'sysField._spacePath',
+        operator: '$wildcard',
+        value: nodeInfo.id,
+      },
       {
         field: 'type',
         operator: '$eq',
@@ -189,7 +189,7 @@ function DeviceListTable({ groupItem, keyWords }: Props): JSX.Element {
               _hover={{ color: 'primary' }}
             >
               <HStack>
-                <WebcamTwoToneIcon size="24px" />
+                <SmartObjectTwoToneIcon size="24px" />
                 <Text fontSize="12px">{original.name}</Text>
               </HStack>
             </LinkButton>
