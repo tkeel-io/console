@@ -44,6 +44,15 @@ export interface DeviceApiItem {
       _subscribeAddr: string;
       [propName: string]: any;
     };
+    connectInfo?: {
+      _online: boolean;
+      _clientId?: string;
+      _peerHost?: string;
+      _protocol?: string;
+      _sockPort?: string;
+      _userName?: string;
+      [propName: string]: any;
+    };
   };
   [propName: string]: any;
 }

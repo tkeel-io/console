@@ -14,16 +14,20 @@ import {
 
 import useCreateDeviceGroupMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceGroupMutation';
 
-function onSuccess() {
-  toast({
-    status: 'success',
-    title: '创建设备组成功',
-  });
+interface Props {
+  callback: () => void;
 }
-export default function CreateDeviceButton() {
+
+export default function CreateDeviceButton({ callback }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { data, isLoading, mutate } = useCreateDeviceGroupMutation({
-    onSuccess,
+    onSuccess() {
+      toast({
+        status: 'success',
+        title: '创建设备组成功',
+      });
+      if (callback) callback();
+    },
   });
   const handleConfirm = ({ formValues }: { formValues: DeviceValueType }) => {
     const { description, name, parentId, extendInfo } = formValues;
