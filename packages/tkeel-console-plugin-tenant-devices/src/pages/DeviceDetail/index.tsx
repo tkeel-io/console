@@ -42,7 +42,7 @@ function Index(): JSX.Element {
     },
     {
       label: '原始数据',
-      key: 'RawData',
+      key: 'rawData',
       component: <RawData data={rawData} />,
     },
   ];
