@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable unicorn/consistent-function-scoping */
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDisclosure } from '@chakra-ui/react';
 import { CreateButton, LinkButton, toast } from '@tkeel/console-components';
 import { has, keyBy, mapValues } from 'lodash';
@@ -20,21 +21,25 @@ interface Props {
 }
 
 export default function CreateDeviceButton({ variant }: Props) {
+  const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [completed, setCompleted] = useState(false);
-  const onSuccess = () => {
-    toast({
-      status: 'success',
-      title: '创建设备成功',
-    });
-    setCompleted(true);
-  };
   useEffect(() => {
     if (isOpen) {
       setCompleted(false);
     }
   }, [isOpen]);
-  const { data, isLoading, mutate } = useCreateDeviceMutation({ onSuccess });
+  const { data, isLoading, mutate } = useCreateDeviceMutation({
+    onSuccess(resData) {
+      const id = resData?.data?.deviceObject?.id ?? '';
+      toast({
+        status: 'success',
+        title: '创建设备成功',
+      });
+      setCompleted(true);
+      navigate(`/detail?id=${id}`);
+    },
+  });
   const handleConfirm = ({ formValues }: { formValues: DeviceValueType }) => {
     const {
       description,
