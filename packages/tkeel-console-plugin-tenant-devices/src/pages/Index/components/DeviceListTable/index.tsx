@@ -3,9 +3,10 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-console */
 import { ReactNode, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Cell, Column } from 'react-table';
-import { Box, Flex, HStack, Link, Text, Tooltip } from '@chakra-ui/react';
-import { MoreAction, Table } from '@tkeel/console-components';
+import { Box, Flex, HStack, Text, Tooltip } from '@chakra-ui/react';
+import { LinkButton, MoreAction, Table } from '@tkeel/console-components';
 import { useColor, usePagination } from '@tkeel/console-hooks';
 import {
   BranchTowToneIcon,
@@ -40,6 +41,7 @@ interface Props {
     nodeInfo: NodeInfo;
     subNode: TreeNodeType;
   };
+  keyWords?: string;
 }
 
 function TooltipIcon({
@@ -121,23 +123,24 @@ function DeviceStatus({
   );
 }
 
-function DeviceListTable({ groupItem }: Props): JSX.Element {
+function DeviceListTable({ groupItem, keyWords }: Props): JSX.Element {
+  const navigate = useNavigate();
   const pagination = usePagination();
   const { pageNum, pageSize, setTotalSize } = pagination;
   const { nodeInfo } = groupItem;
+  console.log(nodeInfo);
   const params = {
+    query: keyWords || '',
     page_num: pageNum,
     page_size: pageSize,
     order_by: 'name',
     is_descending: false,
-    query: '',
     condition: [
-      {
-        field: 'sysField._spacePath',
-        operator: '$wildcard',
-        value: nodeInfo.id,
-        // '6ce4280c-3e00-44c0-a544-8845de77eb28',
-      },
+      // {
+      //   field: 'sysField._spacePath',
+      //   operator: '$wildcard',
+      //   value: nodeInfo.id,
+      // },
       {
         field: 'type',
         operator: '$eq',
@@ -177,8 +180,10 @@ function DeviceListTable({ groupItem }: Props): JSX.Element {
           const { original } = row;
           const { id } = original;
           return (
-            <Link
-              href={`/tenant-devices/detail?id=${id}`}
+            <LinkButton
+              onClick={() => {
+                navigate(`/detail?id=${id}`);
+              }}
               color="gray.600"
               fontWeight="600"
               _hover={{ color: 'primary' }}
@@ -187,7 +192,7 @@ function DeviceListTable({ groupItem }: Props): JSX.Element {
                 <WebcamTwoToneIcon size="24px" />
                 <Text fontSize="12px">{original.name}</Text>
               </HStack>
-            </Link>
+            </LinkButton>
           );
         }, [row]),
     },
