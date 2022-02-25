@@ -88,12 +88,7 @@ function DeviceInfoCard({
         </CardContentFlex>
         <CardContentFlex>
           <Box display="flex">
-            <WebcamTwoToneIcon
-              size="24px"
-              style={{ marginLeft: '7px' }}
-              color="primary"
-              twoToneColor="primarySub2"
-            />
+            <WebcamTwoToneIcon size="24px" style={{ marginLeft: '7px' }} />
             <Box as="span" fontSize="14px" fontWeight="600" ml="8px">
               {deviceName}
             </Box>
