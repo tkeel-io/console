@@ -37,7 +37,7 @@ type TreeNodeData = {
 };
 
 export default function DeviceGroupTree({ handleSelectGroup }: Props) {
-  const { groupTree } = useGroupTreeQuery();
+  const { groupTree, refetch } = useGroupTreeQuery();
 
   const selectedColor = useColor('primary');
   const selectedTwoTone = useColor('primarySub2');
@@ -76,7 +76,6 @@ export default function DeviceGroupTree({ handleSelectGroup }: Props) {
   }
   const treeNodeData = getTreeNodeData({ data: groupTree });
 
-  // const [groupId, setGroupId] = useState(treeNodeData[0]?.key);
   const onSelect = (selectedKeys: React.Key[], info: any) => {
     console.log('selectedKeys', selectedKeys);
     const originData = info?.node?.originData;
@@ -98,7 +97,11 @@ export default function DeviceGroupTree({ handleSelectGroup }: Props) {
       >
         设备组
       </Text>
-      <CreateDeviceGroupButton />
+      <CreateDeviceGroupButton
+        callback={() => {
+          refetch();
+        }}
+      />
       <Box mt="16px" overflowY="scroll" flex="1">
         <Tree
           showLine
