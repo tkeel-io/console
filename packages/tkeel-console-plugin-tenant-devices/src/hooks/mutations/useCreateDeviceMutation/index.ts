@@ -1,3 +1,5 @@
+import { RequestResult } from '@tkeel/console-utils';
+
 import useMutation from '@/tkeel-console-plugin-tenant-devices/hooks/useMutation';
 
 const url = '/tkeel-device/v1/devices';
@@ -43,7 +45,7 @@ export interface RequestData {
 export default function useCreateDeviceMutation({
   onSuccess,
 }: {
-  onSuccess?: () => void;
+  onSuccess?: (data: RequestResult<ApiData, undefined, RequestData>) => void;
 }) {
   return useMutation<ApiData, undefined, RequestData>({
     url,
