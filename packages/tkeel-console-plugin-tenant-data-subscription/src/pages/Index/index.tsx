@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { Loading, MoreAction } from '@tkeel/console-components';
+import { Loading, MoreAction, toast } from '@tkeel/console-components';
 import {
   BookOpenedFilledIcon,
   MessageWarningTwoToneIcon,
@@ -106,6 +106,7 @@ function SubscriptionCard() {
                             <DeleteSubscriptionButton
                               key="delete"
                               id={item.id}
+                              name={item.title}
                               refetchData={() => {
                                 refetch();
                               }}
@@ -159,7 +160,6 @@ function Index(): JSX.Element {
   const defaultInfo = data.find((item) => {
     return item.is_default;
   });
-  // console.log('defaultInfo', defaultInfo);
 
   return (
     <Box>
@@ -176,7 +176,7 @@ function Index(): JSX.Element {
         <CreateSubscriptionButton
           key="create"
           onSuccess={() => {
-            // console.log('success');
+            toast({ status: 'success', title: '创建订阅成功' });
 
             refetch();
           }}

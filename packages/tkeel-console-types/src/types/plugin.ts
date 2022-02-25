@@ -10,4 +10,5 @@ export interface PluginGlobalProps {
   navigate: NavigateFunction;
   themeName: string;
   theme: Record<string, unknown>;
+  refetchMenus: () => void;
 }

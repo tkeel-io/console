@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { Flex, Text } from '@chakra-ui/react';
 
 type Props = {
-  icon: ReactNode;
+  icon?: ReactNode;
   title: string;
   onClick: () => unknown;
 };
@@ -29,7 +29,7 @@ function MoreActionButton({ icon, title, onClick }: Props) {
       onClick={onClick}
     >
       {icon}
-      <Text marginLeft="6px" fontSize="12px">
+      <Text marginLeft={icon ? '6px' : '0'} fontSize="12px">
         {title}
       </Text>
     </Flex>

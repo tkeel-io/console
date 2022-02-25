@@ -14,7 +14,14 @@ function Detail(): JSX.Element {
   const location = useLocation();
   const { pathname }: { pathname: string } = location;
   const ID = pathname.split('/')[pathname.split('/').length - 1];
-  const { data } = useSubscribeInfoQuery(ID);
+  const { data, isSuccess, refetch } = useSubscribeInfoQuery(ID);
+  const defaultValues = {
+    description: data?.description,
+    endpoint: data?.endpoint,
+    id: data?.id,
+    title: data?.title,
+    is_default: data?.is_default,
+  };
   // const created_at = data.created_at
   // console.log('data', data);
 
@@ -37,25 +44,28 @@ function Detail(): JSX.Element {
                 navigate('/');
               }}
             />
-            <MoreAction
-              buttons={[
-                <ModifySubscriptionButton
-                  key="modify"
-                  onSuccess={() => {
-                    // console.log('123');
-                    // refetch();
-                  }}
-                />,
-                <DeleteSubscriptionButton
-                  key="delete"
-                  id="123"
-                  refetchData={() => {
-                    // console.log('123');
-                    // refetch();
-                  }}
-                />,
-              ]}
-            />
+            {isSuccess && (
+              <MoreAction
+                buttons={[
+                  <ModifySubscriptionButton
+                    key="modify"
+                    data={defaultValues}
+                    onSuccess={() => {
+                      refetch();
+                    }}
+                  />,
+                  <DeleteSubscriptionButton
+                    key="delete"
+                    id={data?.id}
+                    name={data?.title}
+                    refetchData={() => {
+                      navigate('/');
+                      // refetch();
+                    }}
+                  />,
+                ]}
+              />
+            )}
           </Flex>
 
           <Flex height="70px" align="center" padding="0 20px">

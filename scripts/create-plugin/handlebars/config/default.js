@@ -1,6 +1,6 @@
 module.exports = {
   platformName: '{{platformName}}',
-  publicPath: '/static/console-plugin-{{name}}',
+  publicPath: '/static/console-plugin-{{name}}/',
   basePath: '{{basePath}}',
   client: {
     documentTitle: '',
@@ -20,7 +20,7 @@ module.exports = {
           name: '',
           icon: '',
           path: '{{basePath}}',
-          entry: '/static/console-plugin-{{name}}',
+          entry: '/static/console-plugin-{{name}}/',
           portal: {{portalValue}},
         },
       ],

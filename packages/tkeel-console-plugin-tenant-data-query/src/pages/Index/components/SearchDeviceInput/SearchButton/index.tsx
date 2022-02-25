@@ -1,7 +1,11 @@
 import { Button } from '@chakra-ui/react';
 import { MagnifierFilledIcon } from '@tkeel/console-icons';
 
-export default function SearchButton() {
+type Props = {
+  onClick: () => unknown;
+};
+
+export default function SearchButton({ onClick }: Props) {
   return (
     <Button
       leftIcon={<MagnifierFilledIcon color="white" size={20} />}
@@ -12,6 +16,7 @@ export default function SearchButton() {
       height="100%"
       fontSize="14px"
       boxShadow="none"
+      onClick={onClick}
     >
       搜索
     </Button>
