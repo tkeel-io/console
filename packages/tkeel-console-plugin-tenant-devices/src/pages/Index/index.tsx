@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Box, Flex, Heading, Spacer } from '@chakra-ui/react';
-import { SearchInput } from '@tkeel/console-components/';
+import { Box, Flex } from '@chakra-ui/react';
+import { PageHeaderToolbar } from '@tkeel/console-components/';
+import { usePagination } from '@tkeel/console-hooks';
 
 import CreateDeviceButton from './components/CreateDeviceButton';
 import DeviceGroupTree from './components/DeviceGroupTree';
@@ -12,10 +13,6 @@ import {
   TreeNodeType,
 } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
 
-const handleSearchDevice = (keyword: string) => {
-  // eslint-disable-next-line no-console
-  console.log(keyword);
-};
 const defaultGroupItem = {
   nodeInfo: {
     id: '',
@@ -33,6 +30,9 @@ const defaultGroupItem = {
 
 function Index(): JSX.Element {
   const [groupItem, setGroupItem] = useState(defaultGroupItem);
+  const [keyWords, setKeyWords] = useState('');
+  const pagination = usePagination();
+  const { setPageNum } = pagination;
   const handleSelectGroup = (item: {
     nodeInfo: NodeInfo;
     subNode: TreeNodeType;
@@ -41,7 +41,7 @@ function Index(): JSX.Element {
   };
   return (
     <Flex flexDirection="column" h="100%">
-      <Flex h="48px" w="100%" align="center">
+      {/* <Flex h="48px" w="100%" align="center">
         <Heading as="h3" fontSize="14px" lineHeight="32px">
           设备列表
         </Heading>
@@ -52,7 +52,18 @@ function Index(): JSX.Element {
           inputGroupStyle={{ mr: '16px' }}
         />
         <CreateDeviceButton variant="solid" />
-      </Flex>
+      </Flex> */}
+      <PageHeaderToolbar
+        name="设备列表"
+        hasSearchInput
+        searchInputProps={{
+          onSearch(value) {
+            setPageNum(1);
+            setKeyWords(value.trim());
+          },
+        }}
+        buttons={[<CreateDeviceButton key="create" variant="solid" />]}
+      />
       <Box
         position="relative"
         display="flex"
@@ -72,7 +83,7 @@ function Index(): JSX.Element {
             当前分组：默认分组/自定义分组3
           </Box>
           <GroupBasicInfo groupItem={groupItem} />
-          <DeviceListTable groupItem={groupItem} />
+          <DeviceListTable groupItem={groupItem} keyWords={keyWords} />
         </Flex>
       </Box>
     </Flex>
