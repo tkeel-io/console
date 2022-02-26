@@ -69,7 +69,7 @@ function Index(): JSX.Element {
         display="flex"
         flex="1"
         overflow="hidden"
-        marginTop="16px"
+        marginTop="8px"
       >
         <DeviceGroupTree handleSelectGroup={handleSelectGroup} />
         <Flex flex="1" bg="white" p="12px 20px" flexDirection="column">

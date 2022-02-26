@@ -25,11 +25,13 @@ interface Props {
 
 export default function CompletedInfoPart({ type, responseData }: Props) {
   const deviceObject = (responseData as DeviceResData)?.deviceObject ?? {};
-  const token =
-    deviceObject?.properties?.sysField?._token ??
-    'MmFmYmNmYWEtNmFjOC0zYWRkLTk4YTEtNDYxYWY0MWY2M2Y3';
-  const { data } = useTokenInfoQuery({ token });
-  const expiredAt = data?.expired_at;
+  const token = deviceObject?.properties?.sysField?._token ?? '';
+  let expiredAt = '';
+  if (token) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const { data } = useTokenInfoQuery({ token });
+    expiredAt = data?.expired_at ?? '';
+  }
   const { hasCopied, onCopy } = useClipboard(token);
   return (
     <Flex flexDirection="column" h="100%">
