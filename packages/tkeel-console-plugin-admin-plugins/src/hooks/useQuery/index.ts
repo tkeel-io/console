@@ -1,3 +1,5 @@
+import { merge } from 'lodash';
+
 import { useGlobalProps } from '@tkeel/console-business-components';
 import {
   UseCustomQueryOptions,
@@ -5,7 +7,6 @@ import {
   useQuery as useCustomQuery,
 } from '@tkeel/console-hooks';
 import { createHandleNoAuth } from '@tkeel/console-utils';
-import { merge } from 'lodash';
 
 export default function useQuery<
   TApiData,

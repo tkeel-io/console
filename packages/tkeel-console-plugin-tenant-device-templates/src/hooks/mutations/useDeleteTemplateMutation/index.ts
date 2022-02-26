@@ -1,5 +1,6 @@
-import { getLocalUserInfo } from '@tkeel/console-utils';
 import useMutation from 'packages/tkeel-console-plugin-tenant-device-templates/src/hooks/useMutation';
+
+import { getLocalUserInfo } from '@tkeel/console-utils';
 
 export interface ApiData {
   '@type': string;

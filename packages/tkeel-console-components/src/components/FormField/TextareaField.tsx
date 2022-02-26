@@ -1,6 +1,6 @@
+import { StyleProps, Textarea } from '@chakra-ui/react';
 import { HTMLInputTypeAttribute } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
-import { StyleProps, Textarea } from '@chakra-ui/react';
 
 import FormControl, {
   FormControlProps,

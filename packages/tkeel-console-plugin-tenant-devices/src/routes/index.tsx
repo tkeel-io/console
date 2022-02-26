@@ -1,8 +1,8 @@
 import { Route, Routes as ReactRouterRoutes } from 'react-router-dom';
 
-import Index from '../pages/Index';
-
 import DeviceDetail from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail';
+
+import Index from '../pages/Index';
 
 function Routes() {
   return (

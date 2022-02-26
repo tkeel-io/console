@@ -1,6 +1,6 @@
+import { Input, StyleProps } from '@chakra-ui/react';
 import { HTMLInputTypeAttribute } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
-import { Input, StyleProps } from '@chakra-ui/react';
 
 import FormControl, {
   FormControlProps,

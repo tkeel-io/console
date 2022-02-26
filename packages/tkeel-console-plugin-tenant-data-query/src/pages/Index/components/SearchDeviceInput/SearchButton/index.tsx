@@ -1,4 +1,5 @@
 import { Button } from '@chakra-ui/react';
+
 import { MagnifierFilledIcon } from '@tkeel/console-icons';
 
 type Props = {

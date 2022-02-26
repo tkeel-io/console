@@ -1,8 +1,10 @@
 /* eslint-disable no-console */
 import { useDisclosure } from '@chakra-ui/react';
+import { keyBy, mapValues } from 'lodash';
+import { useEffect, useState } from 'react';
+
 import { MoreActionButton, toast } from '@tkeel/console-components';
 import { PencilFilledIcon } from '@tkeel/console-icons';
-import { keyBy, mapValues } from 'lodash';
 
 import useUpdateDeviceMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useUpdateDeviceMutation';
 import OperateDeviceModal from '@/tkeel-console-plugin-tenant-devices/pages/Index/components/OperateDeviceModal';

@@ -1,6 +1,7 @@
+import { Box, Text } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 import { useForm } from 'react-hook-form';
-import { Box, Text } from '@chakra-ui/react';
+
 import { FormField, Modal } from '@tkeel/console-components';
 
 const { TextField, TextareaField } = FormField;

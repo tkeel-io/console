@@ -1,6 +1,7 @@
+import { values } from 'lodash';
+
 import { Tree } from '@tkeel/console-components';
 import { FileBoxTwoToneIcon } from '@tkeel/console-icons';
-import { values } from 'lodash';
 
 import {
   NodeInfo,

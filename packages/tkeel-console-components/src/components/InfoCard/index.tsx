@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
 import { Box, BoxProps, Flex, StyleProps, Text } from '@chakra-ui/react';
+import { ReactNode } from 'react';
 
 type Props = BoxProps & {
   title?: string;

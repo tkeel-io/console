@@ -1,14 +1,15 @@
 /* eslint-disable react/no-array-index-key */
 import { Flex, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+
 import { PageHeader } from '@tkeel/console-components';
 import { AppsAddFilledIcon } from '@tkeel/console-icons';
+
+import useInstalledPluginsQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/useInstalledPluginsQuery';
+import useReposQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/useReposQuery';
 
 import AddRepoButton from './components/AddRepoButton';
 import Content from './components/Content';
 import CustomTab from './components/CustomTab';
-
-import useInstalledPluginsQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/useInstalledPluginsQuery';
-import useReposQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/useReposQuery';
 
 function Index(): JSX.Element {
   const { repos, refetch, isLoading } = useReposQuery();

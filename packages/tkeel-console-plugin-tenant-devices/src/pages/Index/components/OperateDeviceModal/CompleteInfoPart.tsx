@@ -8,6 +8,7 @@ import {
   Text,
   useClipboard,
 } from '@chakra-ui/react';
+
 import { CopyFilledIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
@@ -16,6 +17,8 @@ import { ApiData as GroupResData } from '@/tkeel-console-plugin-tenant-devices/h
 import { ApiData as DeviceResData } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceMutation';
 import useTokenInfoQuery from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useTokenInfoQuery';
 import { CreateType } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
+
+import { CreateType } from './types';
 
 interface Props {
   type: CreateType;

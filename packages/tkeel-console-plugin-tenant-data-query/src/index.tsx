@@ -1,10 +1,10 @@
-/* eslint-disable-next-line simple-import-sort/imports */
 import './public-path';
 
 import * as ReactDOM from 'react-dom';
 
-import App from './App';
 import { PluginGlobalProps } from '@tkeel/console-types';
+
+import App from './App';
 
 function render(props: PluginGlobalProps) {
   const container = props?.container;

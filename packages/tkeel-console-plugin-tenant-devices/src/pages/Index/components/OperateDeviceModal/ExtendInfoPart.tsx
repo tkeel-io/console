@@ -1,8 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { useState } from 'react';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { UseFieldArrayReturn, UseFormReturn } from 'react-hook-form';
 import {
   Box,
   Button,
@@ -13,9 +10,13 @@ import {
   Text,
   Wrap,
 } from '@chakra-ui/react';
+import { find, findIndex } from 'lodash';
+import { useState } from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { UseFieldArrayReturn, UseFormReturn } from 'react-hook-form';
+
 import { FormField } from '@tkeel/console-components/';
 import { PencilFilledIcon, TrashFilledIcon } from '@tkeel/console-icons';
-import { find, findIndex } from 'lodash';
 
 import { DeviceValueType } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
 

@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
 import { Center, Flex, Text } from '@chakra-ui/react';
+import { ReactNode } from 'react';
 
 type Props = {
   icon: ReactNode;
