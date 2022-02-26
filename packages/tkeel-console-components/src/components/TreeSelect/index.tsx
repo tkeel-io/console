@@ -1,5 +1,7 @@
-import RCTreeSelect from 'rc-tree-select';
+import RCTreeSelect, { TreeSelectProps } from 'rc-tree-select';
 
-export default function TreeSelect() {
-  return <RCTreeSelect />;
+// import 'rc-tree-select/assets/';
+
+export default function TreeSelect(props: TreeSelectProps) {
+  return <RCTreeSelect {...props} />;
 }
