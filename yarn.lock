@@ -3706,6 +3706,7 @@ __metadata:
     "@emotion/react": ^11.7.1
     "@emotion/styled": ^11.6.0
     "@tkeel/console-business-components": "workspace:^"
+    "@tkeel/console-components": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
     "@tkeel/console-types": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
@@ -3939,6 +3940,8 @@ __metadata:
     husky: ^7.0.4
     inquirer: ^8.2.0
     js-yaml: ^4.1.0
+    less: ^4.1.2
+    less-loader: ^10.2.0
     lint-staged: ^12.3.4
     lodash: ^4.17.21
     mini-css-extract-plugin: ^2.5.3
@@ -10741,7 +10744,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"less@npm:^4.1.1":
+"less-loader@npm:^10.2.0":
+  version: 10.2.0
+  resolution: "less-loader@npm:10.2.0"
+  dependencies:
+    klona: ^2.0.4
+  peerDependencies:
+    less: ^3.5.0 || ^4.0.0
+    webpack: ^5.0.0
+  checksum: 42a2b56a9d474c066b22423e8ed82821ed6dbc5effad8d84b2a3d8651fb4c5027f32ac770a0fe4810e3e6d0595be576a2f7f2341f2603bdf795cff4e94d7340b
+  languageName: node
+  linkType: hard
+
+"less@npm:^4.1.1, less@npm:^4.1.2":
   version: 4.1.2
   resolution: "less@npm:4.1.2"
   dependencies:

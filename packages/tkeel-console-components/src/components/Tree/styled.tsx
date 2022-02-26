@@ -6,7 +6,7 @@ import iconCheckboxChecked from './assets/icons/checkbox-checked.svg';
 import iconCheckboxIndeterminate from './assets/icons/checkbox-indeterminate.svg';
 import { PREFIX_CLS } from './constants';
 
-import 'rc-tree/assets/index.css';
+import 'rc-tree/assets/index.less';
 
 type Props = {
   colors: Colors;

@@ -148,7 +148,7 @@ module.exports = {
                 '^(@/tkeel-console-(types|themes|components|business-components|icons|hooks|utils))(/.*|$)',
               ],
               ['^\\.', '^\\u0000'],
-              ['^.+\\.module.s?css$', '^.+\\.s?css$'],
+              ['^.+\\.module.s?css$', '^.+\\.s?css$', '^.+\\.less$'],
             ],
           },
         ],
