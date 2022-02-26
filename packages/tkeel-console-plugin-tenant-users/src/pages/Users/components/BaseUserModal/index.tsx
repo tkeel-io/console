@@ -1,6 +1,7 @@
+import { Box, VStack } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 import { useForm } from 'react-hook-form';
-import { Box, VStack } from '@chakra-ui/react';
+
 import {
   Checkbox,
   CheckboxGroup,

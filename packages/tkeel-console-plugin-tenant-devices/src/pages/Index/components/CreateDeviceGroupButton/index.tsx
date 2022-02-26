@@ -1,9 +1,12 @@
 /* eslint-disable no-console */
 /* eslint-disable unicorn/consistent-function-scoping */
 import { Button, useDisclosure } from '@chakra-ui/react';
+import { keyBy, mapValues } from 'lodash';
+
 import { toast } from '@tkeel/console-components';
 import { AddFilledIcon } from '@tkeel/console-icons';
-import { keyBy, mapValues } from 'lodash';
+
+import useCreateDeviceGroupMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceGroupMutation';
 
 import CreateDeviceGroupModal from '../CreateDeviceGroupModal';
 import {
@@ -11,8 +14,6 @@ import {
   DeviceValueType,
   ModalMode,
 } from '../DeviceModalPart/types';
-
-import useCreateDeviceGroupMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceGroupMutation';
 
 interface Props {
   callback: () => void;

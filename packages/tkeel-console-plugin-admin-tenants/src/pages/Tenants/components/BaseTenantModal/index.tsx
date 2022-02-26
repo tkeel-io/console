@@ -1,6 +1,7 @@
+import { Box, FormControl, FormLabel, Grid, GridItem } from '@chakra-ui/react';
 import { ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Box, FormControl, FormLabel, Grid, GridItem } from '@chakra-ui/react';
+
 import { FormField, Modal } from '@tkeel/console-components';
 import { schemas } from '@tkeel/console-utils';
 

@@ -1,10 +1,11 @@
 import { Theme, useTheme } from '@chakra-ui/react';
+import { merge } from 'lodash';
+import RCTree, { TreeProps } from 'rc-tree';
+
 import {
   ChevronDownFilledIcon,
   ChevronRightFilledIcon,
 } from '@tkeel/console-icons';
-import { merge } from 'lodash';
-import RCTree, { TreeProps } from 'rc-tree';
 
 import { PREFIX_CLS } from './constants';
 import { StyledWrapper } from './styled';

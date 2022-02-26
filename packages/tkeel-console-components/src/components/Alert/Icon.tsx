@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
 import { Circle } from '@chakra-ui/react';
+import { ReactNode } from 'react';
 
 type Props = {
   wrapperBackgroundColor?: string;

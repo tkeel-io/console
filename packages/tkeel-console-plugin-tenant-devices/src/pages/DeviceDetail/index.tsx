@@ -1,6 +1,4 @@
 /* eslint-disable no-underscore-dangle */
-import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import {
   Box,
   Flex,
@@ -10,16 +8,19 @@ import {
   TabPanels,
   Tabs,
 } from '@chakra-ui/react';
+import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+
 import { Empty } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 import { WarningTwoToneIcon } from '@tkeel/console-icons';
 
+import useDeviceDetailQuery from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
+import useDeviceDetailSocket from '@/tkeel-console-plugin-tenant-devices/hooks/webSockets/useDeviceDetailSocket';
+
 import ConnectionInfo from './components/ConnectionInfo';
 import DeviceDetailLeftPanel from './components/DeviceDetailLeftPanel';
 import RawData from './components/RawData';
-
-import useDeviceDetailQuery from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
-import useDeviceDetailSocket from '@/tkeel-console-plugin-tenant-devices/hooks/webSockets/useDeviceDetailSocket';
 
 function Index(): JSX.Element {
   const location = useLocation();

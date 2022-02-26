@@ -1,3 +1,4 @@
+import { Box, Flex, Input, InputGroup, StyleProps } from '@chakra-ui/react';
 import {
   KeyboardEvent,
   KeyboardEventHandler,
@@ -6,13 +7,13 @@ import {
   useState,
 } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Flex, Input, InputGroup, StyleProps } from '@chakra-ui/react';
+
 import { BroomFilledIcon, RefreshFilledIcon } from '@tkeel/console-icons';
+
+import FilterDropdown from '@/tkeel-console-plugin-tenant-data-query/pages/Index/components/FilterDropdown';
 
 import FilterCondition, { FilterConditionInfo } from './FilterCondition';
 import SearchButton from './SearchButton';
-
-import FilterDropdown from '@/tkeel-console-plugin-tenant-data-query/pages/Index/components/FilterDropdown';
 
 type Props = {
   type?: 'index' | 'searchResult';

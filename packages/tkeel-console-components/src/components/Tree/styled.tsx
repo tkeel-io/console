@@ -1,3 +1,5 @@
+import 'rc-tree/assets/index.less';
+
 import { Box, Colors } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
@@ -5,8 +7,6 @@ import iconCheckbox from './assets/icons/checkbox.svg';
 import iconCheckboxChecked from './assets/icons/checkbox-checked.svg';
 import iconCheckboxIndeterminate from './assets/icons/checkbox-indeterminate.svg';
 import { PREFIX_CLS } from './constants';
-
-import 'rc-tree/assets/index.less';
 
 type Props = {
   colors: Colors;

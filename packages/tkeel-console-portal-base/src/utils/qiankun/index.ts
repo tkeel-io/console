@@ -1,9 +1,10 @@
+import { FrameworkLifeCycles, registerMicroApps, start } from 'qiankun';
 import { NavigateFunction } from 'react-router-dom';
+
 import { PlatformNames } from '@tkeel/console-constants';
 import themes, { DEFAULT_THEME_NAME, ThemeNames } from '@tkeel/console-themes';
 import { Menu, PluginGlobalProps } from '@tkeel/console-types';
 import { getLocalTokenInfo } from '@tkeel/console-utils';
-import { FrameworkLifeCycles, registerMicroApps, start } from 'qiankun';
 
 import { App, MenuInfo } from './types';
 
