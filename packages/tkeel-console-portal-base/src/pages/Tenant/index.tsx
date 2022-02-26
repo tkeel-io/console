@@ -1,6 +1,7 @@
+import { Box, Button, Center, Flex, Heading } from '@chakra-ui/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, Center, Flex, Heading } from '@chakra-ui/react';
+
 import { Form, FormField } from '@tkeel/console-components';
 
 import configs from '@/tkeel-console-portal-base/configs';

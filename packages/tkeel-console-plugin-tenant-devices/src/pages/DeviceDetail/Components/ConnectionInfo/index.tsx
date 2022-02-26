@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
-import { useEffect, useState } from 'react';
 import { Box, Flex, Text } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 
 import { ConnectInfo } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
 

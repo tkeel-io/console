@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable react/jsx-key */
-import { Row, TableBodyPropGetter, TableBodyProps } from 'react-table';
 import { Tbody, Td, Text, Tr } from '@chakra-ui/react';
+import { Row, TableBodyPropGetter, TableBodyProps } from 'react-table';
 
 type Props<D extends object> = {
   page: Row<D>[];

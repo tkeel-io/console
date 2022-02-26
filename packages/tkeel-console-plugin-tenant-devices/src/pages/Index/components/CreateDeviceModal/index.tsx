@@ -3,12 +3,18 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable no-console */
+import { Box, Button, Flex, Text } from '@chakra-ui/react';
+import { isEmpty } from 'lodash';
 import { useEffect, useState } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
-import { Box, Button, Flex, Text } from '@chakra-ui/react';
+
 import { Form, Modal } from '@tkeel/console-components';
-import { isEmpty } from 'lodash';
+
+import ProgressSchedule from '@/tkeel-console-plugin-tenant-devices/components/ProgressSchedule';
+import { ApiData as GroupResData } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceGroupMutation';
+import { ApiData as DeviceResData } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceMutation';
+import { DeviceApiItem } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceListQuery';
 
 import BasicInfoPart from '../DeviceModalPart/BasicInfoPart';
 import CompleteInfoPart from '../DeviceModalPart/CompleteInfoPart';
@@ -20,11 +26,6 @@ import {
   DeviceValueType,
   ModalMode,
 } from '../DeviceModalPart/types';
-
-import ProgressSchedule from '@/tkeel-console-plugin-tenant-devices/components/ProgressSchedule';
-import { ApiData as GroupResData } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceGroupMutation';
-import { ApiData as DeviceResData } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceMutation';
-import { DeviceApiItem } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceListQuery';
 
 const defaultFormInfo = {
   name: '',

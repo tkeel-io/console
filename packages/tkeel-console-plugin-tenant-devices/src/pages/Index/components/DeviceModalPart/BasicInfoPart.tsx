@@ -1,13 +1,16 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { UseFormReturn } from 'react-hook-form';
 import { Stack, Text } from '@chakra-ui/react';
+import { map, values } from 'lodash';
+import { UseFormReturn } from 'react-hook-form';
+
 import {
   Checkbox,
   CheckboxGroup,
   FormControl,
   FormField,
 } from '@tkeel/console-components';
-import { map, values } from 'lodash';
+
+import useGroupTreeQuery from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
 
 import {
   ConnectInfoType,
@@ -15,8 +18,6 @@ import {
   CreateType,
   DeviceValueType,
 } from './types';
-
-import useGroupTreeQuery from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
 
 const { TextField, SelectField, TextareaField } = FormField;
 

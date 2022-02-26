@@ -1,5 +1,6 @@
-import { useNavigate } from 'react-router-dom';
 import { useDisclosure } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
+
 import { MoreActionButton, toast } from '@tkeel/console-components';
 import { AlarmLampFilledIcon, TrashFilledIcon } from '@tkeel/console-icons';
 

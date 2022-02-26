@@ -6,9 +6,10 @@ import {
   InputRightElement,
   useClipboard,
 } from '@chakra-ui/react';
+import { stringify } from 'qs';
+
 import { Alert, toast } from '@tkeel/console-components';
 import { CopyFilledIcon } from '@tkeel/console-icons';
-import { stringify } from 'qs';
 
 type Props = {
   isOpen: boolean;

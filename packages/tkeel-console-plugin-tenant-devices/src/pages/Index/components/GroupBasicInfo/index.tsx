@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-import { useState } from 'react';
 import { Button, Flex, HStack, SimpleGrid, Text } from '@chakra-ui/react';
+import { useState } from 'react';
 
 import {
   NodeInfo,

@@ -4,20 +4,21 @@
 /* eslint-disable no-console */
 // import { ReactNode } from 'react';
 import { Box, Flex, Text } from '@chakra-ui/react';
+import { values } from 'lodash';
+
 import { Tree } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 import {
   FolderCloseTwoToneIcon,
   FolderOpenTwoToneIcon,
 } from '@tkeel/console-icons';
-import { values } from 'lodash';
-
-import CreateDeviceGroupButton from '../CreateDeviceGroupButton';
 
 import useGroupTreeQuery, {
   NodeInfo,
   TreeNodeType,
 } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
+
+import CreateDeviceGroupButton from '../CreateDeviceGroupButton';
 
 interface Props {
   handleSelectGroup: (item: {

@@ -1,17 +1,18 @@
-import { useState } from 'react';
 import { Box, Flex } from '@chakra-ui/react';
+import { useState } from 'react';
+
 import { PageHeaderToolbar } from '@tkeel/console-components/';
 import { usePagination } from '@tkeel/console-hooks';
-
-import CreateDeviceButton from './components/CreateDeviceButton';
-import DeviceGroupTree from './components/DeviceGroupTree';
-import DeviceListTable from './components/DeviceListTable';
-import GroupBasicInfo from './components/GroupBasicInfo';
 
 import {
   NodeInfo,
   TreeNodeType,
 } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
+
+import CreateDeviceButton from './components/CreateDeviceButton';
+import DeviceGroupTree from './components/DeviceGroupTree';
+import DeviceListTable from './components/DeviceListTable';
+import GroupBasicInfo from './components/GroupBasicInfo';
 
 const defaultGroupItem = {
   nodeInfo: {

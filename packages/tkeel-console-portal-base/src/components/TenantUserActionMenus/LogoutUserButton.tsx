@@ -1,5 +1,6 @@
-import { useNavigate } from 'react-router-dom';
 import { useDisclosure } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
+
 import { Alert, MoreActionButton } from '@tkeel/console-components';
 import { ShutdownFilledIcon } from '@tkeel/console-icons';
 import { getLocalTokenInfo, removeLocalTokenInfo } from '@tkeel/console-utils';
