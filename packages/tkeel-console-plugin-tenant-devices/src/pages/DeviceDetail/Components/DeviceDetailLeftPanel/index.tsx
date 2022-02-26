@@ -1,9 +1,13 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable sonarjs/cognitive-complexity */
-import { Box, Text, VStack } from '@chakra-ui/react';
+import { Box, Flex, Text, useClipboard, VStack } from '@chakra-ui/react';
 import { InfoCard } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
-import { BranchTowToneIcon, DotLineFilledIcon } from '@tkeel/console-icons';
+import {
+  BranchTowToneIcon,
+  CopyFilledIcon,
+  DotLineFilledIcon,
+} from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import IconWrapper from '@/tkeel-console-plugin-tenant-devices/components/IconWrapper';
@@ -40,13 +44,28 @@ function DeviceDetailLeftPanel({
 }: Props): JSX.Element {
   const tokenStr = sysField?._token || '';
   const isDirectConnection = basicInfo?.directConnection;
+  const { hasCopied, onCopy } = useClipboard(sysField?._token || '暂无token');
   const basic: Basic[] = [
     {
       value: sysField?._id || '',
       label: '设备ID',
     },
     {
-      value: `${tokenStr.slice(0, 4)}*******${tokenStr.slice(-5, -1)}`,
+      value: (
+        <Flex>
+          <Text mr="4px">{`${tokenStr.slice(0, 4)}*******${tokenStr.slice(
+            -4
+          )}`}</Text>
+          {hasCopied && (
+            <Text color="primary" mr="8px">
+              已复制
+            </Text>
+          )}
+          <Text cursor="pointer" onClick={onCopy} mt="2px">
+            <CopyFilledIcon color="grayAlternatives.300" />
+          </Text>
+        </Flex>
+      ),
       label: '设备凭证',
     },
     {

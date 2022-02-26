@@ -104,12 +104,14 @@ function PluginList({
                   }
                   bottomInfo={
                     <Flex justifyContent="space-between">
-                      <Tag
-                        colorScheme={tag === 'User' ? 'orange' : 'green'}
-                        size="sm"
-                      >
-                        {tagMap[tag] || ''}
-                      </Tag>
+                      {tagMap[tag] && (
+                        <Tag
+                          colorScheme={tag === 'User' ? 'orange' : 'green'}
+                          size="sm"
+                        >
+                          {tagMap[tag]}
+                        </Tag>
+                      )}
                       <Flex
                         alignItems="center"
                         color="gray.500"

@@ -40,8 +40,13 @@ export default function Tenants() {
     params = { ...params, key_words: keyWords };
   }
 
-  const { isLoading, total, tenants, refetch } = useTenantsQuery({ params });
-  setTotalSize(total);
+  const { isLoading, isSuccess, total, tenants, refetch } = useTenantsQuery({
+    params,
+  });
+
+  if (isSuccess) {
+    setTotalSize(total);
+  }
 
   const handleCreateTenantSuccess = () => {
     toast({ status: 'success', title: '创建成功' });

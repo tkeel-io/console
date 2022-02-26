@@ -19,16 +19,22 @@ const getPageSizeArr = (pageSizeValue: number) => {
 
 export default function usePagination(props?: Props): UsePaginationReturnType {
   const { pageNum, pageSize, totalSize } = { ...defaultProps, ...props };
+  // console.log('usePagination ~ pageNum', pageNum);
 
   const [total, setTotal] = useState(totalSize);
   const [size, setSize] = useState(pageSize);
   const [page, setPage] = useState(pageNum);
+  // console.log('usePagination ~ page', page);
   const initTotalPages = Math.ceil(total / size);
+  // console.log('usePagination ~ total', total);
+  // console.log('usePagination ~ size', size);
 
   const [totalPages, setTotalPages] = useState(initTotalPages);
   const canNextPage = size * page < total;
 
   const setPageIndexSAFE = (pageIndexValue: number) => {
+    // console.log('setPageIndexSAFE ~ pageIndexValue', pageIndexValue);
+    // console.log('setPageIndexSAFE ~ totalPages', totalPages);
     if (pageIndexValue > totalPages) {
       setPage(totalPages);
     } else if (pageIndexValue < 1) {
@@ -54,6 +60,9 @@ export default function usePagination(props?: Props): UsePaginationReturnType {
 
   useEffect(() => {
     if (page > totalPages) {
+      // console.log('useEffect ~ page', page);
+      // console.log('useEffect ~ totalPages', totalPages);
+      // console.log('useEffect setPage', totalPages || 1);
       setPage(totalPages || 1);
     }
   }, [page, totalPages]);
