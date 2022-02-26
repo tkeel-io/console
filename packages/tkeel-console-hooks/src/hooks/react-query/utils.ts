@@ -1,15 +1,16 @@
+import { merge } from 'lodash';
 import {
   MutationKey,
   QueryKey,
   UseMutationResult,
   UseQueryResult,
 } from 'react-query';
+
 import {
   AxiosRequestConfigExtended,
   request,
   RequestResult,
 } from '@tkeel/console-utils';
-import { merge } from 'lodash';
 
 import { UseCustomMutationOptions, UseCustomQueryOptions } from './types';
 

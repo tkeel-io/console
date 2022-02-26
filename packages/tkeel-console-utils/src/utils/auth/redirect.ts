@@ -1,4 +1,5 @@
 import { Location } from 'react-router-dom';
+
 import { PlatformNames } from '@tkeel/console-constants';
 
 import { getLocalUserInfo } from '@/tkeel-console-utils/utils/auth/tenant-user';

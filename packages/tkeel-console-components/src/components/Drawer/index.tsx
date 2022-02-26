@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import {
   Drawer as ChakraDrawer,
   DrawerBody,
@@ -9,6 +8,7 @@ import {
   DrawerProps,
 } from '@chakra-ui/react';
 import styled from '@emotion/styled';
+import { ReactNode } from 'react';
 
 const DrawerCloseButton = styled(ChakraDrawerCloseButton)`
   svg {

@@ -1,5 +1,6 @@
-import { ReactNode } from 'react';
 import { Flex, Text } from '@chakra-ui/react';
+import { ReactNode } from 'react';
+
 import { WebcamTwoToneIcon } from '@tkeel/console-icons';
 
 type Props = {

@@ -1,7 +1,8 @@
+import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Cell, Column } from 'react-table';
-import { Box, Button, Flex, Text } from '@chakra-ui/react';
+
 import {
   ButtonsHStack,
   Empty,
@@ -14,14 +15,14 @@ import { usePagination } from '@tkeel/console-hooks';
 import { HumanVipFilledIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
-import CreateTenantButton from './components/CreateTenantButton';
-
 import DeleteTenantButton from '@/tkeel-console-plugin-admin-tenants/components/DeleteTenantButton';
 import ModifyTenantButton from '@/tkeel-console-plugin-admin-tenants/components/ModifyTenantButton';
 import useTenantsQuery, {
   Admin,
   Tenant,
 } from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useTenantsQuery';
+
+import CreateTenantButton from './components/CreateTenantButton';
 
 export default function Tenants() {
   const navigate = useNavigate();

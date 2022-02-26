@@ -1,4 +1,3 @@
-import { useLocation } from 'react-router-dom';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -6,6 +5,8 @@ import {
   Flex,
   Text,
 } from '@chakra-ui/react';
+import { useLocation } from 'react-router-dom';
+
 import { PLATFORM_INFOS, PlatformNames } from '@tkeel/console-constants';
 import { Menu } from '@tkeel/console-types';
 

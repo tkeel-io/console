@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-key */
-import { HeaderGroup } from 'react-table';
 import { Box, Th, Thead, Tr } from '@chakra-ui/react';
+import { HeaderGroup } from 'react-table';
 
 type Props<D extends object> = {
   headerGroups: HeaderGroup<D>[];

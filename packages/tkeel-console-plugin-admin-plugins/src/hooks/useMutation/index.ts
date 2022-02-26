@@ -1,3 +1,5 @@
+import { merge } from 'lodash';
+
 import { useGlobalProps } from '@tkeel/console-business-components';
 import {
   UseCustomMutationOptions,
@@ -5,7 +7,6 @@ import {
   useNoAuthRedirectPath,
 } from '@tkeel/console-hooks';
 import { createHandleNoAuth } from '@tkeel/console-utils';
-import { merge } from 'lodash';
 
 export default function useMutation<
   TApiData,

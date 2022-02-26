@@ -1,6 +1,7 @@
+import { Box, Flex, Image } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Box, Flex, Image } from '@chakra-ui/react';
+
 import { Menu } from '@tkeel/console-types';
 
 import qingcloudLogoAdminDark from '@/tkeel-console-portal-base/assets/images/qingcloud-logo-admin-dark.svg';

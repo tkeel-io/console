@@ -1,7 +1,8 @@
-import { MouseEventHandler } from 'react';
 import { Text } from '@chakra-ui/react';
-import { Editor, Modal } from '@tkeel/console-components';
 import { Base64 } from 'js-base64';
+import { MouseEventHandler } from 'react';
+
+import { Editor, Modal } from '@tkeel/console-components';
 
 import useInstallPluginMutation from '@/tkeel-console-plugin-admin-plugins/hooks/mutations/useInstallPluginMutation';
 import usePluginDetailQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/usePluginDetailQuery';

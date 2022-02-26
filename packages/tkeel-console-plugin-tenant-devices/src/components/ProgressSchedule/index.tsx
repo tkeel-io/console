@@ -1,5 +1,6 @@
-import { Fragment } from 'react';
 import { Box, Center, Flex, Text } from '@chakra-ui/react';
+import { Fragment } from 'react';
+
 import { CheckFilledIcon } from '@tkeel/console-icons';
 
 import { ModalMode } from '@/tkeel-console-plugin-tenant-devices/pages/Index/components/DeviceModalPart/types';

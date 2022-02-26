@@ -1,10 +1,13 @@
 /* eslint-disable no-console */
 /* eslint-disable unicorn/consistent-function-scoping */
+import { useDisclosure } from '@chakra-ui/react';
+import { has, keyBy, mapValues } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDisclosure } from '@chakra-ui/react';
+
 import { CreateButton, LinkButton, toast } from '@tkeel/console-components';
-import { has, keyBy, mapValues } from 'lodash';
+
+import useCreateDeviceMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceMutation';
 
 import CreateDeviceModal from '../CreateDeviceModal';
 import {
@@ -13,8 +16,6 @@ import {
   CreateType,
   DeviceValueType,
 } from '../DeviceModalPart/types';
-
-import useCreateDeviceMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceMutation';
 
 interface Props {
   variant: 'link' | 'solid';
