@@ -17,7 +17,7 @@ import { FormField } from '@tkeel/console-components/';
 import { PencilFilledIcon, TrashFilledIcon } from '@tkeel/console-icons';
 import { find, findIndex } from 'lodash';
 
-import { DeviceValueType } from './types';
+import { DeviceValueType } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
 
 interface Props {
   formHandler: UseFormReturn<DeviceValueType, object>;

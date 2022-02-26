@@ -9,14 +9,13 @@ import {
 } from '@tkeel/console-components';
 import { map, values } from 'lodash';
 
+import useGroupTreeQuery from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
 import {
   ConnectInfoType,
   ConnectOption,
   CreateType,
   DeviceValueType,
-} from './types';
-
-import useGroupTreeQuery from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
+} from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
 
 const { TextField, SelectField, TextareaField } = FormField;
 

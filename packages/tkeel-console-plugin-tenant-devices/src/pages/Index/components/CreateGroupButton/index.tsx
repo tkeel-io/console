@@ -5,14 +5,14 @@ import { toast } from '@tkeel/console-components';
 import { AddFilledIcon } from '@tkeel/console-icons';
 import { keyBy, mapValues } from 'lodash';
 
-import CreateDeviceGroupModal from '../CreateDeviceGroupModal';
+import OperateDeviceModal from '../OperateDeviceModal';
+
+import useCreateDeviceGroupMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceGroupMutation';
 import {
   CreateType,
   DeviceValueType,
   ModalMode,
-} from '../DeviceModalPart/types';
-
-import useCreateDeviceGroupMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceGroupMutation';
+} from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
 
 interface Props {
   callback: () => void;
@@ -20,7 +20,7 @@ interface Props {
 
 export default function CreateDeviceButton({ callback }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { data, isLoading, mutate } = useCreateDeviceGroupMutation({
+  const { isLoading, mutate, isSuccess } = useCreateDeviceGroupMutation({
     onSuccess() {
       toast({
         status: 'success',
@@ -54,14 +54,15 @@ export default function CreateDeviceButton({ callback }: Props) {
       >
         添加组
       </Button>
-      <CreateDeviceGroupModal
+      <OperateDeviceModal
+        title="创建设备组"
         isOpen={isOpen}
         onClose={onClose}
         type={CreateType.GROUP}
         mode={ModalMode.CREATE}
         handleConfirm={handleConfirm}
         isLoading={isLoading}
-        responseData={data}
+        isSuccess={isSuccess}
       />
     </>
   );

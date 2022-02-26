@@ -1,27 +1,27 @@
-/* eslint-disable no-unsafe-optional-chaining */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable no-console */
 import { useEffect, useState } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import { Form, Modal } from '@tkeel/console-components';
 import { isEmpty } from 'lodash';
 
-import BasicInfoPart from '../DeviceModalPart/BasicInfoPart';
-import CompleteInfoPart from '../DeviceModalPart/CompleteInfoPart';
-import ExtendInfoPart from '../DeviceModalPart/ExtendInfoPart';
-import {
-  ConnectInfoType,
-  ConnectOption,
-  CreateType,
-  DeviceValueType,
-  ModalMode,
-} from '../DeviceModalPart/types';
+import BasicInfoPart from './BasicInfoPart';
+import CompleteInfoPart from './CompleteInfoPart';
+import ExtendInfoPart from './ExtendInfoPart';
 
 import ProgressSchedule from '@/tkeel-console-plugin-tenant-devices/components/ProgressSchedule';
 import { ApiData as GroupResData } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceGroupMutation';
 import { ApiData as DeviceResData } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceMutation';
-import { DeviceApiItem } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceListQuery';
+import {
+  ConnectInfoType,
+  ConnectOption,
+  CreateType,
+  DeviceDefaultInfoType,
+  DeviceValueType,
+  ModalMode,
+} from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
 
 const defaultFormInfo = {
   name: '',
@@ -31,33 +31,36 @@ const defaultFormInfo = {
 };
 
 interface Props {
-  mode?: string;
-  // eslint-disable-next-line react/no-unused-prop-types
-  defaultFormValues?: DeviceApiItem;
+  title: string; // 弹窗的title
+  mode: ModalMode; // modalMode 编辑/新建
+  type: CreateType; // modalType 设备/设备组
+  isSuccess?: boolean;
+  defaultFormValues?: DeviceDefaultInfoType; // 编辑模式下的原本数据或者初始默认数据
   isOpen: boolean;
   onClose: () => void;
-  type: CreateType;
-  handleConfirm: ({ formValues }: { formValues: DeviceValueType }) => void;
+  handleConfirm: ({ formValues }: { formValues: DeviceValueType }) => void; // 提交submit去请求接口
   isLoading?: boolean;
   responseData?: DeviceResData | GroupResData | null;
 }
-const progressLabels = ['基本信息', '扩展信息', '创建完成'];
 const BUTTON_TEXT = {
   NEXT: '下一步',
   SKIP: '跳过',
   COMPLETE: '完成',
 };
 
-export default function CreateDeviceGroupModal({
+export default function OperateDeviceModal({
+  title,
   type,
   isOpen,
   onClose,
   handleConfirm,
   defaultFormValues,
-  isLoading = false,
-  responseData = null,
+  isLoading,
+  responseData,
   mode,
+  isSuccess,
 }: Props) {
+  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
   const formHandler = useForm<DeviceValueType>({
     defaultValues: defaultFormInfo,
@@ -69,6 +72,10 @@ export default function CreateDeviceGroupModal({
     control,
     name: 'extendInfo',
   });
+  const progressLabels =
+    mode === ModalMode.EDIT
+      ? ['基本信息', '扩展信息']
+      : ['基本信息', '扩展信息', '创建完成'];
 
   useEffect(() => {
     if (!isOpen) {
@@ -79,11 +86,11 @@ export default function CreateDeviceGroupModal({
         description,
         name,
         ext,
-        selfLearn,
-        parentId,
-        templateId,
-        directConnection,
-      } = defaultFormValues?.properties?.basicInfo;
+        selfLearn = false,
+        parentId = '',
+        templateId = '',
+        directConnection = false,
+      } = defaultFormValues;
       const connectInfo = [];
       if (selfLearn) {
         connectInfo.push(ConnectInfoType.selfLearn);
@@ -94,44 +101,54 @@ export default function CreateDeviceGroupModal({
       const defaultFormInfoCopy = {
         description,
         name,
-        extendInfo: Object.entries(ext).map(([value, label]) => {
+        extendInfo: Object.entries(ext).map(([label, value]) => {
           return { label, value };
         }),
         connectInfo,
         parentId,
         directConnection: directConnection ? ConnectOption.DIRECT : '',
       };
+      console.log(defaultFormInfoCopy);
       reset(defaultFormInfoCopy);
     } else {
       reset(defaultFormInfo);
     }
   }, [defaultFormValues, isOpen, mode, reset]);
   useEffect(() => {
-    if (currentStep === 1 && responseData) {
-      setCurrentStep(currentStep + 1);
+    if (currentStep === 1 && isSuccess) {
+      if (mode === ModalMode.EDIT) {
+        onClose();
+      } else {
+        setCurrentStep(2);
+      }
     }
-  }, [currentStep, responseData]);
+  }, [currentStep, isSuccess, mode, onClose]);
+  useEffect(() => {
+    console.log(isOpen);
+  }, [isOpen]);
   const onSubmit: SubmitHandler<DeviceValueType> = async (formValues) => {
+    const id = (responseData as DeviceResData)?.deviceObject?.id;
     if (currentStep >= 2) {
       onClose();
-    } else {
-      let verifyKeys;
-      if (currentStep === 0) {
-        verifyKeys = [
-          'name',
-          'parentId',
-          'directConnection',
-          'description',
-        ] as const;
-      } else if (currentStep === 1) {
-        verifyKeys = ['extendInfo'] as const;
+      if (type === CreateType.DEVICE && id) {
+        navigate(`/detail/?id=${id}`);
       }
-      const result = await trigger(verifyKeys);
-      if (result && currentStep <= 1) {
+    } else if (currentStep === 0) {
+      // 第一步校验信息
+      const result = await trigger([
+        'name',
+        'parentId',
+        'directConnection',
+        'description',
+      ]);
+      if (result) {
         setCurrentStep(currentStep + 1);
-        if (currentStep === 1) {
-          handleConfirm({ formValues });
-        }
+      }
+    } else if (currentStep === 1) {
+      // 校验第二步的信息并提交
+      const result = await trigger(['extendInfo']);
+      if (result) {
+        handleConfirm({ formValues });
       }
     }
   };
@@ -151,7 +168,7 @@ export default function CreateDeviceGroupModal({
 
   return (
     <Modal
-      title={<Text fontSize="14px">创建设备组</Text>}
+      title={<Text fontSize="14px">{title}</Text>}
       isOpen={isOpen}
       onClose={onClose}
       width="800px"
@@ -166,7 +183,11 @@ export default function CreateDeviceGroupModal({
         minH="600px"
       >
         <Box w="127px">
-          <ProgressSchedule infos={progressLabels} currentStep={currentStep} />
+          <ProgressSchedule
+            infos={progressLabels}
+            currentStep={currentStep}
+            mode={mode}
+          />
         </Box>
         <Flex
           flexDirection="column"

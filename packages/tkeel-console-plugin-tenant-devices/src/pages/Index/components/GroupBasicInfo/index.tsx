@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { useState } from 'react';
 import { Button, Flex, HStack, SimpleGrid, Text } from '@chakra-ui/react';
 

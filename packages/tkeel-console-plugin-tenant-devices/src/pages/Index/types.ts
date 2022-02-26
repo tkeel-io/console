@@ -26,3 +26,16 @@ export enum ModalMode {
   CREATE = 'create',
   EDIT = 'edit',
 }
+
+export interface DeviceDefaultInfoType {
+  id: string;
+  description?: string;
+  name: string;
+  ext: {
+    [propName: string]: unknown;
+  };
+  selfLearn?: boolean;
+  parentId?: string;
+  directConnection?: boolean;
+  templateId?: string;
+}
