@@ -1,48 +1,39 @@
 /* eslint-disable no-console */
 import { useDisclosure } from '@chakra-ui/react';
 import { keyBy, mapValues } from 'lodash';
-import { useEffect, useState } from 'react';
 
 import { MoreActionButton, toast } from '@tkeel/console-components';
 import { PencilFilledIcon } from '@tkeel/console-icons';
 
 import useUpdateDeviceMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useUpdateDeviceMutation';
-import { DeviceApiItem } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceListQuery';
-import CreateDeviceModal from '@/tkeel-console-plugin-tenant-devices/pages/Index/components/CreateDeviceModal';
+import OperateDeviceModal from '@/tkeel-console-plugin-tenant-devices/pages/Index/components/OperateDeviceModal';
 import {
   ConnectInfoType,
   ConnectOption,
-  CreateType,
+  DeviceDefaultInfoType,
   DeviceValueType,
   ModalMode,
-} from '@/tkeel-console-plugin-tenant-devices/pages/Index/components/DeviceModalPart/types';
+  ModalType,
+} from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
 
 interface Props {
-  deviceInfo: DeviceApiItem;
+  defaultFormValues: DeviceDefaultInfoType;
   refetch?: () => void;
 }
 
-function EditDeviceButton({ deviceInfo, refetch }: Props) {
+function UpdateDeviceButton({ defaultFormValues, refetch }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [completed, setCompleted] = useState(false);
   const onSuccess = () => {
     toast({
       status: 'success',
       title: '修改设备成功',
     });
-    setCompleted(true);
     if (refetch) {
       refetch();
     }
   };
-  useEffect(() => {
-    if (isOpen) {
-      setCompleted(false);
-    }
-  }, [isOpen]);
-
-  const { isLoading, mutate } = useUpdateDeviceMutation({
-    id: deviceInfo.id,
+  const { isLoading, mutate, isSuccess } = useUpdateDeviceMutation({
+    id: defaultFormValues.id,
     onSuccess,
   });
   const handleConfirm = ({ formValues }: { formValues: DeviceValueType }) => {
@@ -58,10 +49,11 @@ function EditDeviceButton({ deviceInfo, refetch }: Props) {
       description,
       name,
       directConnection: directConnection === ConnectOption.DIRECT,
-      selfLearn: connectInfo.includes(ConnectInfoType.selfLearn),
-      templateId: connectInfo.includes(ConnectInfoType.useTemplate)
-        ? '123'
-        : '',
+      selfLearn: connectInfo?.includes(ConnectInfoType.selfLearn) ?? false,
+      templateId:
+        connectInfo?.includes(ConnectInfoType.useTemplate) ?? false
+          ? '123'
+          : '',
       ext: mapValues(keyBy(extendInfo, 'label'), 'value'),
       parentId,
     };
@@ -75,20 +67,20 @@ function EditDeviceButton({ deviceInfo, refetch }: Props) {
         onClick={onOpen}
       />
       {isOpen && (
-        <CreateDeviceModal
+        <OperateDeviceModal
           title="修改设备信息"
           isOpen={isOpen}
           isLoading={isLoading}
           onClose={onClose}
           mode={ModalMode.EDIT}
-          type={CreateType.DEVICE}
-          defaultFormValues={deviceInfo}
+          type={ModalType.DEVICE}
+          defaultFormValues={defaultFormValues}
           handleConfirm={handleConfirm}
-          completed={completed}
+          isSuccess={isSuccess}
         />
       )}
     </>
   );
 }
 
-export default EditDeviceButton;
+export default UpdateDeviceButton;
