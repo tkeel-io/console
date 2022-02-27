@@ -25,12 +25,15 @@ export default function TreeSelectExample() {
   return (
     <div>
       <TreeSelect
-        style={{ width: '100%' }}
+        style={{ width: '400px' }}
         // value={this.state.value}
+        className="cba bbb"
+        dropdownClassName="abc aaa"
         dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
         treeData={treeData}
         placeholder="Please select"
         treeDefaultExpandAll
+        treeCheckable
       />
     </div>
   );
