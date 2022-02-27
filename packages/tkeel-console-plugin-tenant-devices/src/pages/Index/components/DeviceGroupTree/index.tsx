@@ -1,10 +1,9 @@
-/* eslint-disable react/jsx-no-useless-fragment */
-/* eslint-disable no-shadow-restricted-names */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable no-console */
-import { Fragment, ReactNode } from 'react';
 import { Box, Center, Flex, Text } from '@chakra-ui/react';
+import { isEmpty, values } from 'lodash';
+import { Fragment, ReactNode } from 'react';
+
 import { MoreAction, Tree } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 import {
@@ -12,9 +11,6 @@ import {
   FolderOpenTwoToneIcon,
   MoreVerticalFilledIcon,
 } from '@tkeel/console-icons';
-import { isEmpty, values } from 'lodash';
-
-import CreateGroupButton from '../CreateGroupButton';
 
 import useGroupTreeQuery, {
   NodeInfo,
@@ -22,6 +18,8 @@ import useGroupTreeQuery, {
 } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
 import DeleteGroupButton from '@/tkeel-console-plugin-tenant-devices/pages/Index/components/DeleteGroupButton';
 import UpdateGroupButton from '@/tkeel-console-plugin-tenant-devices/pages/Index/components/UpdateGroupButton';
+
+import CreateGroupButton from '../CreateGroupButton';
 
 interface Props {
   handleSelectGroup: (item: {
@@ -117,6 +115,7 @@ export default function DeviceGroupTree({ handleSelectGroup }: Props) {
 
   const onSelect = (selectedKeys: React.Key[], info: any) => {
     console.log('selectedKeys', selectedKeys);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const originData = info?.node?.originData;
     handleSelectGroup(
       originData as {
@@ -141,9 +140,8 @@ export default function DeviceGroupTree({ handleSelectGroup }: Props) {
           refetch();
         }}
       />
-      <Box mt="16px" overflowY="scroll" flex="1" minWidth="230px">
+      <Box mt="16px" flex="1" minWidth="200px">
         <Tree
-          showLine
           extras={{ isTreeTitleFullWidth: true }}
           treeData={treeNodeData}
           showIcon

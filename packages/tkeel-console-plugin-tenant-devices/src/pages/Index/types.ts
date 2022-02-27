@@ -13,11 +13,11 @@ export type DeviceValueType = {
   parentName?: string;
   extendInfo: any[];
   directConnection?: string;
-  connectInfo: ConnectInfoType[];
+  connectInfo?: ConnectInfoType[];
   description: string;
 };
 
-export enum CreateType {
+export enum ModalType {
   GROUP = 'group',
   DEVICE = 'device',
 }
@@ -35,7 +35,7 @@ export interface DeviceDefaultInfoType {
     [propName: string]: unknown;
   };
   selfLearn?: boolean;
-  parentId?: string;
+  parentId: string;
   directConnection?: boolean;
   templateId?: string;
 }

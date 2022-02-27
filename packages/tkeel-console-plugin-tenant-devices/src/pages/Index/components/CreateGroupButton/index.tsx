@@ -1,18 +1,19 @@
 /* eslint-disable no-console */
 /* eslint-disable unicorn/consistent-function-scoping */
 import { Button, useDisclosure } from '@chakra-ui/react';
-import { toast } from '@tkeel/console-components';
-import { AddFilledIcon } from '@tkeel/console-icons';
 import { keyBy, mapValues } from 'lodash';
 
-import OperateDeviceModal from '../OperateDeviceModal';
+import { toast } from '@tkeel/console-components';
+import { AddFilledIcon } from '@tkeel/console-icons';
 
 import useCreateDeviceGroupMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceGroupMutation';
 import {
-  CreateType,
   DeviceValueType,
   ModalMode,
+  ModalType,
 } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
+
+import OperateDeviceModal from '../OperateDeviceModal';
 
 interface Props {
   callback: () => void;
@@ -58,7 +59,7 @@ export default function CreateDeviceButton({ callback }: Props) {
         title="创建设备组"
         isOpen={isOpen}
         onClose={onClose}
-        type={CreateType.GROUP}
+        type={ModalType.GROUP}
         mode={ModalMode.CREATE}
         handleConfirm={handleConfirm}
         isLoading={isLoading}

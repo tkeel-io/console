@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 import { useDisclosure } from '@chakra-ui/react';
 import { keyBy, mapValues } from 'lodash';
-import { useEffect, useState } from 'react';
 
 import { MoreActionButton, toast } from '@tkeel/console-components';
 import { PencilFilledIcon } from '@tkeel/console-icons';
@@ -11,10 +10,10 @@ import OperateDeviceModal from '@/tkeel-console-plugin-tenant-devices/pages/Inde
 import {
   ConnectInfoType,
   ConnectOption,
-  CreateType,
   DeviceDefaultInfoType,
   DeviceValueType,
   ModalMode,
+  ModalType,
 } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
 
 interface Props {
@@ -50,10 +49,11 @@ function UpdateDeviceButton({ defaultFormValues, refetch }: Props) {
       description,
       name,
       directConnection: directConnection === ConnectOption.DIRECT,
-      selfLearn: connectInfo.includes(ConnectInfoType.selfLearn),
-      templateId: connectInfo.includes(ConnectInfoType.useTemplate)
-        ? '123'
-        : '',
+      selfLearn: connectInfo?.includes(ConnectInfoType.selfLearn) ?? false,
+      templateId:
+        connectInfo?.includes(ConnectInfoType.useTemplate) ?? false
+          ? '123'
+          : '',
       ext: mapValues(keyBy(extendInfo, 'label'), 'value'),
       parentId,
     };
@@ -73,7 +73,7 @@ function UpdateDeviceButton({ defaultFormValues, refetch }: Props) {
           isLoading={isLoading}
           onClose={onClose}
           mode={ModalMode.EDIT}
-          type={CreateType.DEVICE}
+          type={ModalType.DEVICE}
           defaultFormValues={defaultFormValues}
           handleConfirm={handleConfirm}
           isSuccess={isSuccess}

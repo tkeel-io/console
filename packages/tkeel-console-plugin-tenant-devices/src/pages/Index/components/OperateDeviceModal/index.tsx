@@ -1,15 +1,11 @@
 /* eslint-disable no-console */
+import { Box, Button, Flex, Text } from '@chakra-ui/react';
+import { isEmpty } from 'lodash';
 import { useEffect, useState } from 'react';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, Flex, Text } from '@chakra-ui/react';
-import { Form, Modal } from '@tkeel/console-components';
-import { isEmpty } from 'lodash';
 
-import BasicInfoPart from './BasicInfoPart';
-import CompleteInfoPart from './CompleteInfoPart';
-import ExtendInfoPart from './ExtendInfoPart';
+import { Form, Modal } from '@tkeel/console-components';
 
 import ProgressSchedule from '@/tkeel-console-plugin-tenant-devices/components/ProgressSchedule';
 import { ApiData as GroupResData } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceGroupMutation';
@@ -17,11 +13,15 @@ import { ApiData as DeviceResData } from '@/tkeel-console-plugin-tenant-devices/
 import {
   ConnectInfoType,
   ConnectOption,
-  CreateType,
   DeviceDefaultInfoType,
   DeviceValueType,
   ModalMode,
+  ModalType,
 } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
+
+import BasicInfoPart from './BasicInfoPart';
+import CompleteInfoPart from './CompleteInfoPart';
+import ExtendInfoPart from './ExtendInfoPart';
 
 const defaultFormInfo = {
   name: '',
@@ -33,7 +33,7 @@ const defaultFormInfo = {
 interface Props {
   title: string; // 弹窗的title
   mode: ModalMode; // modalMode 编辑/新建
-  type: CreateType; // modalType 设备/设备组
+  type: ModalType; // modalType 设备/设备组
   isSuccess?: boolean;
   defaultFormValues?: DeviceDefaultInfoType; // 编辑模式下的原本数据或者初始默认数据
   isOpen: boolean;
@@ -67,7 +67,6 @@ export default function OperateDeviceModal({
   });
   const { handleSubmit, trigger, watch, reset, control } = formHandler;
   const watchFields = watch();
-
   const fieldArrayHandler = useFieldArray({
     control,
     name: 'extendInfo',
@@ -86,10 +85,10 @@ export default function OperateDeviceModal({
         description,
         name,
         ext,
-        selfLearn = false,
-        parentId = '',
-        templateId = '',
-        directConnection = false,
+        selfLearn,
+        parentId,
+        templateId,
+        directConnection,
       } = defaultFormValues;
       const connectInfo = [];
       if (selfLearn) {
@@ -98,22 +97,28 @@ export default function OperateDeviceModal({
       if (templateId) {
         connectInfo.push(ConnectInfoType.useTemplate);
       }
-      const defaultFormInfoCopy = {
+      const basicFormInfo = {
         description,
         name,
         extendInfo: Object.entries(ext).map(([label, value]) => {
           return { label, value };
         }),
-        connectInfo,
         parentId,
+      };
+      const deviceDefaultInfo = {
+        connectInfo,
         directConnection: directConnection ? ConnectOption.DIRECT : '',
       };
+      const defaultFormInfoCopy =
+        type === ModalType.DEVICE
+          ? Object.assign(basicFormInfo, deviceDefaultInfo)
+          : basicFormInfo;
       console.log(defaultFormInfoCopy);
       reset(defaultFormInfoCopy);
     } else {
       reset(defaultFormInfo);
     }
-  }, [defaultFormValues, isOpen, mode, reset]);
+  }, [defaultFormValues, isOpen, mode, reset, type]);
   useEffect(() => {
     if (currentStep === 1 && isSuccess) {
       if (mode === ModalMode.EDIT) {
@@ -123,14 +128,11 @@ export default function OperateDeviceModal({
       }
     }
   }, [currentStep, isSuccess, mode, onClose]);
-  useEffect(() => {
-    console.log(isOpen);
-  }, [isOpen]);
   const onSubmit: SubmitHandler<DeviceValueType> = async (formValues) => {
     const id = (responseData as DeviceResData)?.deviceObject?.id;
     if (currentStep >= 2) {
       onClose();
-      if (type === CreateType.DEVICE && id) {
+      if (type === ModalType.DEVICE && id) {
         navigate(`/detail/?id=${id}`);
       }
     } else if (currentStep === 0) {
@@ -218,6 +220,7 @@ export default function OperateDeviceModal({
                 type={type}
               />
             )}
+
             {currentStep === 1 && (
               <ExtendInfoPart
                 formHandler={formHandler}
@@ -225,6 +228,7 @@ export default function OperateDeviceModal({
                 fieldArrayHandler={fieldArrayHandler}
               />
             )}
+
             {currentStep === 2 && (
               <CompleteInfoPart type={type} responseData={responseData} />
             )}

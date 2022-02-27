@@ -10,9 +10,9 @@ import OperateDeviceModal from '@/tkeel-console-plugin-tenant-devices/pages/Inde
 import {
   ConnectInfoType,
   ConnectOption,
-  CreateType,
   DeviceValueType,
   ModalMode,
+  ModalType,
 } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
 
 interface Props {
@@ -63,7 +63,7 @@ export default function CreateDeviceButton({ variant }: Props) {
         title="创建设备"
         isOpen={isOpen}
         onClose={onClose}
-        type={CreateType.DEVICE}
+        type={ModalType.DEVICE}
         mode={ModalMode.CREATE}
         handleConfirm={handleConfirm}
         isLoading={isLoading}

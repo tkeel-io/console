@@ -16,12 +16,10 @@ import CompleteCheck from '@/tkeel-console-plugin-tenant-devices/assets/images/c
 import { ApiData as GroupResData } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceGroupMutation';
 import { ApiData as DeviceResData } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceMutation';
 import useTokenInfoQuery from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useTokenInfoQuery';
-import { CreateType } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
-
-import { CreateType } from './types';
+import { ModalType } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
 
 interface Props {
-  type: CreateType;
+  type: ModalType;
   responseData?: DeviceResData | GroupResData | null;
 }
 
@@ -37,7 +35,7 @@ export default function CompletedInfoPart({ type, responseData }: Props) {
   const { hasCopied, onCopy } = useClipboard(token);
   return (
     <Flex flexDirection="column" h="100%">
-      {type === CreateType.DEVICE ? (
+      {type === ModalType.DEVICE ? (
         <Flex
           h="280px"
           align="center"
@@ -81,7 +79,7 @@ export default function CompletedInfoPart({ type, responseData }: Props) {
       )}
 
       <Spacer />
-      {type === CreateType.DEVICE && (
+      {type === ModalType.DEVICE && (
         <Flex mb="48px" align="flex-start" flexDirection="column">
           <Text color="gray.700" mb="13px" fontSize="14px" lineHeight="24px">
             设备凭证：

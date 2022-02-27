@@ -1,18 +1,17 @@
-/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useDisclosure } from '@chakra-ui/react';
-import { MoreActionButton, toast } from '@tkeel/console-components';
-import { PencilFilledIcon } from '@tkeel/console-icons';
 import { keyBy, mapValues } from 'lodash';
 
-// import CustomModal from '@/tkeel-console-plugin-tenant-devices/components/CustomModal';
+import { MoreActionButton, toast } from '@tkeel/console-components';
+import { PencilFilledIcon } from '@tkeel/console-icons';
+
 import useUpdateGroupMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useUpdateGroupMutation';
 import OperateDeviceModal from '@/tkeel-console-plugin-tenant-devices/pages/Index/components/OperateDeviceModal';
-// import OperateDeviceModal from '@/tkeel-console-plugin-tenant-devices/pages/Index/components/OperateDeviceModal';
 import {
-  CreateType,
   DeviceDefaultInfoType,
   DeviceValueType,
   ModalMode,
+  ModalType,
 } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
 
 interface Props {
@@ -60,22 +59,11 @@ function UpdateGroupButton({ defaultFormValues, refetch }: Props) {
           isLoading={isLoading}
           onClose={onClose}
           mode={ModalMode.EDIT}
-          type={CreateType.GROUP}
+          type={ModalType.GROUP}
           defaultFormValues={defaultFormValues}
           handleConfirm={handleConfirm}
           isSuccess={isSuccess}
         />
-        // <CustomModal
-        //   bg="red.50"
-        //   icon={<TrashFilledIcon size="24px" color="red.300" />}
-        //   title="确认删除设备「}」？"
-        //   isConfirmButtonLoading={isLoading}
-        //   isOpen={isOpen}
-        //   onClose={onClose}
-        //   onConfirm={() => {
-        //     // mutate({});
-        //   }}
-        // />
       )}
     </>
   );
