@@ -16,25 +16,26 @@ import CompleteCheck from '@/tkeel-console-plugin-tenant-devices/assets/images/c
 import { ApiData as GroupResData } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceGroupMutation';
 import { ApiData as DeviceResData } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceMutation';
 import useTokenInfoQuery from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useTokenInfoQuery';
-
-import { CreateType } from './types';
+import { ModalType } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
 
 interface Props {
-  type: CreateType;
+  type: ModalType;
   responseData?: DeviceResData | GroupResData | null;
 }
 
 export default function CompletedInfoPart({ type, responseData }: Props) {
   const deviceObject = (responseData as DeviceResData)?.deviceObject ?? {};
-  const token =
-    deviceObject?.properties?.sysField?._token ??
-    'MmFmYmNmYWEtNmFjOC0zYWRkLTk4YTEtNDYxYWY0MWY2M2Y3';
-  const { data } = useTokenInfoQuery({ token });
-  const expiredAt = data?.expired_at;
+  const token = deviceObject?.properties?.sysField?._token ?? '';
+  let expiredAt = '';
+  if (token) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const { data } = useTokenInfoQuery({ token });
+    expiredAt = data?.expired_at ?? '';
+  }
   const { hasCopied, onCopy } = useClipboard(token);
   return (
     <Flex flexDirection="column" h="100%">
-      {type === CreateType.DEVICE ? (
+      {type === ModalType.DEVICE ? (
         <Flex
           h="280px"
           align="center"
@@ -78,7 +79,7 @@ export default function CompletedInfoPart({ type, responseData }: Props) {
       )}
 
       <Spacer />
-      {type === CreateType.DEVICE && (
+      {type === ModalType.DEVICE && (
         <Flex mb="48px" align="flex-start" flexDirection="column">
           <Text color="gray.700" mb="13px" fontSize="14px" lineHeight="24px">
             设备凭证：
