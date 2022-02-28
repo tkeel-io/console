@@ -15,12 +15,12 @@ interface Props {
 }; */
 
 export default function TreeStyles({ prefixCls }: Props) {
-  const treePrefixCls = prefixCls;
+  const selectPrefix = prefixCls;
   // const treeNodePrefixCls = `${treePrefixCls}-treenode`;
   // const { colors }: CustomTheme = useTheme();
 
   const globalStyles = css`
-    .${treePrefixCls} {
+    .${selectPrefix} {
     }
   `;
 
