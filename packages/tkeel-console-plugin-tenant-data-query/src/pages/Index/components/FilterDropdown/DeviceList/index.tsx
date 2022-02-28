@@ -9,8 +9,13 @@ export default function DeviceList() {
       {Array.from({ length: 10 })
         .fill('')
         .map((_, i) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <Flex key={i} marginBottom="16px" alignItems="center">
+          <Flex
+            // eslint-disable-next-line react/no-array-index-key
+            key={i}
+            marginBottom="16px"
+            alignItems="center"
+            cursor="pointer"
+          >
             <Flex alignItems="center" flex="1">
               <BoxTwoToneIcon size={18} />
               <Text

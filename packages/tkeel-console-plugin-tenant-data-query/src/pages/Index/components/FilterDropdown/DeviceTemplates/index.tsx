@@ -8,7 +8,7 @@ export default function DeviceTemplates() {
         .fill('')
         .map((_, i) => (
           // eslint-disable-next-line react/no-array-index-key
-          <Flex key={i} marginBottom="18px">
+          <Flex key={i} marginBottom="18px" cursor="pointer">
             <BoxTwoToneIcon size={18} />
             <Text
               marginLeft="10px"

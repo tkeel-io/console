@@ -28,7 +28,7 @@ export default function FilterDropdown({
 }: Props) {
   // const [showDeviceList, setShowDeviceList] = useState(true);
   const [showDeviceList] = useState(true);
-  const [status, setStatus] = useState('全部状态');
+  const [status, setStatus] = useState({ key: 'all', value: '全部状态' });
 
   // const { deviceGroupTree } = useDeviceGroupQuery();
   const primaryColor = useColor('primary');
@@ -115,6 +115,7 @@ export default function FilterDropdown({
                   color: primaryColor,
                 },
               }}
+              cursor="pointer"
             >
               <GoBackFilledIcon />
             </Box>

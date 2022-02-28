@@ -8,9 +8,14 @@ import {
   WifiOffFilledIcon,
 } from '@tkeel/console-icons';
 
+type Status = {
+  key: string;
+  value: string;
+};
+
 type Props = {
-  status: string;
-  setStatus: (value: SetStateAction<string>) => void;
+  status: Status;
+  setStatus: (value: SetStateAction<Status>) => void;
 };
 
 export default function StatusSelect({ status, setStatus }: Props) {
@@ -38,7 +43,7 @@ export default function StatusSelect({ status, setStatus }: Props) {
       key={info.key}
       title={info.title}
       icon={info.icon}
-      onClick={() => setStatus(info.title)}
+      onClick={() => setStatus({ key: info.key, value: info.title })}
     />
   ));
 
@@ -55,7 +60,7 @@ export default function StatusSelect({ status, setStatus }: Props) {
           _hover={{ backgroundColor: 'gray.100' }}
         >
           <Text marginRight="6px" color="gray.700" fontSize="12px">
-            {status}
+            {status.value}
           </Text>
           {isOpen ? (
             <ChevronUpFilledIcon color="grayAlternatives.300" />
