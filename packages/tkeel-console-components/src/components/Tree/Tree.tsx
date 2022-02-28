@@ -11,7 +11,11 @@ export default function Tree(props: TreeProps) {
 
   return (
     <>
-      <TreeStyles extras={extras} styles={styles} />
+      <TreeStyles
+        prefixCls={DEFAULT_PREFIX_CLS}
+        extras={extras}
+        styles={styles}
+      />
       <RCTree prefixCls={DEFAULT_PREFIX_CLS} {...properties} />
     </>
   );

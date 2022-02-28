@@ -6,11 +6,11 @@ import { css, Global } from '@emotion/react';
 import iconCheckbox from './assets/icons/checkbox.svg';
 import iconCheckboxChecked from './assets/icons/checkbox-checked.svg';
 import iconCheckboxIndeterminate from './assets/icons/checkbox-indeterminate.svg';
-import { DEFAULT_PREFIX_CLS } from './defaults';
 import { TreeExtrasProps } from './types';
 
-const treePrefixCls = DEFAULT_PREFIX_CLS;
-const treeNodePrefixCls = `${treePrefixCls}-treenode`;
+interface Props extends TreeExtrasProps {
+  prefixCls: string;
+}
 
 type CustomTheme = Theme & {
   colors: {
@@ -19,7 +19,9 @@ type CustomTheme = Theme & {
   };
 };
 
-export default function TreeStyles({ extras, styles }: TreeExtrasProps) {
+export default function TreeStyles({ prefixCls, extras, styles }: Props) {
+  const treePrefixCls = prefixCls;
+  const treeNodePrefixCls = `${treePrefixCls}-treenode`;
   const { colors }: CustomTheme = useTheme();
 
   const globalStyles = css`

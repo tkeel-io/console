@@ -39,12 +39,7 @@ export default function TreeSelectExample() {
         treeDefaultExpandAll
         treeCheckable
       />
-      <Tree
-        treeData={treeData}
-        checkable
-        multiple
-        extras={{ isTreeTitleFullWidth: true }}
-      />
+      <Tree treeData={treeData} checkable multiple />
     </div>
   );
 }

@@ -1,16 +1,15 @@
+import 'rc-tree-select/assets/index.less';
+
 import RCTreeSelect, { TreeSelectProps } from 'rc-tree-select';
 
-// import { PREFIX_CLS } from './constants';
-import StyledWrapper from './StyledWrapper';
+import TreeStyles from '../Tree/TreeStyles';
+import { DEFAULT_PREFIX_CLS } from './defaults';
 
 export default function TreeSelect(props: TreeSelectProps) {
   return (
     <>
-      <StyledWrapper />
-      <RCTreeSelect
-        // prefixCls={PREFIX_CLS}
-        {...props}
-      />
+      <TreeStyles prefixCls={DEFAULT_PREFIX_CLS} />
+      <RCTreeSelect {...props} />
     </>
   );
 }
