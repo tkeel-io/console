@@ -3488,8 +3488,6 @@ __metadata:
     "@tkeel/console-types": "workspace:^"
     "@types/lodash": ^4.14.179
     "@types/react-table": ^7.7.9
-    "@types/uuid": ^8.3.4
-    classnames: ^2.3.1
     lodash: ^4.17.21
     rc-pagination: ^3.1.15
     rc-tree: ^5.4.3
@@ -3497,7 +3495,6 @@ __metadata:
     react-hook-form: ^7.27.1
     react-table: ^7.7.0
     react-use: ^17.3.2
-    uuid: ^8.3.2
   peerDependencies:
     "@chakra-ui/react": ^1.8.3
     "@emotion/react": ^11.7.0
@@ -4397,13 +4394,6 @@ __metadata:
   version: 2.0.6
   resolution: "@types/unist@npm:2.0.6"
   checksum: 25cb860ff10dde48b54622d58b23e66214211a61c84c0f15f88d38b61aa1b53d4d46e42b557924a93178c501c166aa37e28d7f6d994aba13d24685326272d5db
-  languageName: node
-  linkType: hard
-
-"@types/uuid@npm:^8.3.4":
-  version: 8.3.4
-  resolution: "@types/uuid@npm:8.3.4"
-  checksum: 6f11f3ff70f30210edaa8071422d405e9c1d4e53abbe50fdce365150d3c698fe7bbff65c1e71ae080cbfb8fded860dbb5e174da96fdbbdfcaa3fb3daa474d20f
   languageName: node
   linkType: hard
 
@@ -5921,7 +5911,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"classnames@npm:2.x, classnames@npm:^2.2.1, classnames@npm:^2.2.6, classnames@npm:^2.3.1":
+"classnames@npm:2.x, classnames@npm:^2.2.1, classnames@npm:^2.2.6":
   version: 2.3.1
   resolution: "classnames@npm:2.3.1"
   checksum: 14db8889d56c267a591f08b0834989fe542d47fac659af5a539e110cc4266694e8de86e4e3bbd271157dbd831361310a8293e0167141e80b0f03a0f175c80960
