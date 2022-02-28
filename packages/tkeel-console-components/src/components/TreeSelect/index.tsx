@@ -1,15 +1,15 @@
-import { Theme, useTheme } from '@chakra-ui/react';
+import 'rc-tree-select/assets/index.less';
+
 import RCTreeSelect, { TreeSelectProps } from 'rc-tree-select';
 
-import { PREFIX_CLS } from './constants';
-import { StyledWrapper } from './styled';
+import TreeStyles from '../Tree/TreeStyles';
+import { DEFAULT_PREFIX_CLS } from './defaults';
 
 export default function TreeSelect(props: TreeSelectProps) {
-  const { colors }: Theme = useTheme();
-
   return (
-    <StyledWrapper colors={colors}>
-      <RCTreeSelect prefixCls={PREFIX_CLS} {...props} />
-    </StyledWrapper>
+    <>
+      <TreeStyles prefixCls={DEFAULT_PREFIX_CLS} />
+      <RCTreeSelect {...props} />
+    </>
   );
 }

@@ -1,50 +1,22 @@
-import { Theme, useTheme } from '@chakra-ui/react';
 import { merge } from 'lodash';
-import RCTree, { TreeProps } from 'rc-tree';
+import RCTree from 'rc-tree';
 
-import {
-  ChevronDownFilledIcon,
-  ChevronRightFilledIcon,
-} from '@tkeel/console-icons';
+import { DEFAULT_PREFIX_CLS, DEFAULT_PROPS } from './defaults';
+import TreeStyles from './TreeStyles';
+import { TreeProps } from './types';
 
-import { PREFIX_CLS } from './constants';
-import { StyledWrapper } from './styled';
-
-interface Props extends Omit<TreeProps, 'prefixCls'> {
-  extras?: {
-    isTreeTitleFullWidth?: boolean;
-  };
-
-  styles?: {
-    treeNodeContentWrapper?: string;
-    treeTitle?: string;
-  };
-}
-
-const defaultProps: Partial<Props> = {
-  switcherIcon: (props) => {
-    const { isLeaf, expanded } = props;
-
-    if (isLeaf) {
-      return null;
-    }
-
-    if (expanded) {
-      return <ChevronDownFilledIcon size="16px" />;
-    }
-
-    return <ChevronRightFilledIcon size="16px" />;
-  },
-};
-
-export default function Tree(props: Props) {
-  const properties = merge({}, defaultProps, props);
+export default function Tree(props: TreeProps) {
+  const properties = merge({}, DEFAULT_PROPS, props);
   const { extras, styles } = properties;
-  const { colors }: Theme = useTheme();
 
   return (
-    <StyledWrapper colors={colors} extras={extras} styles={styles}>
-      <RCTree prefixCls={PREFIX_CLS} {...properties} />
-    </StyledWrapper>
+    <>
+      <TreeStyles
+        prefixCls={DEFAULT_PREFIX_CLS}
+        extras={extras}
+        styles={styles}
+      />
+      <RCTree prefixCls={DEFAULT_PREFIX_CLS} {...properties} />
+    </>
   );
 }
