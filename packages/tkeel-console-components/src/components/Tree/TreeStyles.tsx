@@ -1,0 +1,136 @@
+import 'rc-tree/assets/index.less';
+
+import { Theme, useTheme } from '@chakra-ui/react';
+import { css, Global } from '@emotion/react';
+
+import iconCheckbox from './assets/icons/checkbox.svg';
+import iconCheckboxChecked from './assets/icons/checkbox-checked.svg';
+import iconCheckboxIndeterminate from './assets/icons/checkbox-indeterminate.svg';
+import { DEFAULT_PREFIX_CLS } from './defaults';
+import { TreeExtrasProps } from './types';
+
+const treePrefixCls = DEFAULT_PREFIX_CLS;
+const treeNodePrefixCls = `${treePrefixCls}-treenode`;
+
+type CustomTheme = Theme & {
+  colors: {
+    primary: string;
+    primarySub: string;
+  };
+};
+
+export default function TreeStyles({ extras, styles }: TreeExtrasProps) {
+  const { colors }: CustomTheme = useTheme();
+
+  const globalStyles = css`
+    .${treePrefixCls} {
+      .${treeNodePrefixCls} {
+        display: flex;
+        align-items: center;
+        height: 24px;
+        padding: 0 4px;
+        border-radius: 4px;
+
+        .${treePrefixCls}-node-content-wrapper {
+          display: flex;
+          align-items: center;
+          height: 100%;
+          flex: ${extras?.isTreeTitleFullWidth ? 1 : ''};
+          ${styles?.treeNodeContentWrapper}
+        }
+
+        span {
+          &.${treePrefixCls}-switcher,
+            &.${treePrefixCls}-checkbox,
+            &.${treePrefixCls}-iconEle {
+            width: 16px;
+            height: 16px;
+            margin-right: 4px;
+            line-height: 16px;
+          }
+
+          &.${treePrefixCls}-icon_loading {
+            margin-right: 4px;
+          }
+
+          &.${treePrefixCls}-switcher {
+            background-image: none;
+          }
+
+          &.${treePrefixCls}-checkbox {
+            width: 16px;
+            height: 16px;
+            margin-right: 4px;
+            margin-left: 0;
+            background-image: url(${iconCheckbox});
+            background-position: center;
+            background-size: 12px 12px;
+
+            &-checked {
+              background-image: url(${iconCheckboxChecked});
+              background-position: center;
+              background-size: 100% 100%;
+            }
+
+            &-indeterminate {
+              background-image: url(${iconCheckboxIndeterminate});
+              background-position: center;
+              background-size: 100% 100%;
+            }
+          }
+
+          &.${treePrefixCls}-title {
+            color: ${colors.gray[800]};
+            font-size: 12px;
+            line-height: 24px;
+            flex: ${extras?.isTreeTitleFullWidth ? 1 : ''};
+            ${styles?.treeTitle}
+          }
+        }
+
+        &-selected {
+          & > .${treePrefixCls}-switcher {
+            & > svg {
+              fill: ${colors.primary} !important;
+            }
+          }
+
+          & > .${treePrefixCls}-node-selected {
+            background-color: transparent;
+            box-shadow: none;
+            opacity: 1;
+
+            span.${treePrefixCls}-title {
+              color: ${colors.primary};
+              font-weight: 500;
+            }
+          }
+        }
+
+        &:not(:last-of-type) {
+          margin-bottom: 8px;
+        }
+
+        &:hover {
+          background-color: ${colors.primarySub};
+
+          & > .${treePrefixCls}-switcher {
+            & > svg {
+              fill: ${colors.primary} !important;
+            }
+          }
+
+          span {
+            &.${treePrefixCls}-title {
+              color: ${colors.primary};
+              font-size: 12px;
+              line-height: 24px;
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  return <Global styles={globalStyles} />;
+}
