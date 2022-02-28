@@ -1,10 +1,11 @@
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
-import { PageHeaderToolbar } from '@tkeel/console-components';
 
-import SearchDeviceInput from './components/SearchDeviceInput';
+import { PageHeaderToolbar } from '@tkeel/console-components';
 
 import SearchBg from '@/tkeel-console-plugin-tenant-data-query/assets/images/search-bg.svg';
 import DeviceInfoCard from '@/tkeel-console-plugin-tenant-data-query/components/DeviceInfoCard';
+
+import SearchDeviceInput from './components/SearchDeviceInput';
 
 function Index(): JSX.Element {
   return (

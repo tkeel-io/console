@@ -1,4 +1,5 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
+
 import { BoxTwoToneIcon, VpcTwoToneIcon } from '@tkeel/console-icons';
 
 import Rectangle from '@/tkeel-console-plugin-tenant-data-query/components/Rectangle';

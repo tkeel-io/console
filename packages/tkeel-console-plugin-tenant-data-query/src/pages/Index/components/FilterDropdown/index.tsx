@@ -1,5 +1,6 @@
-import { useState } from 'react';
 import { Box, Button, Flex, StyleProps, Text } from '@chakra-ui/react';
+import { useState } from 'react';
+
 import { useColor } from '@tkeel/console-hooks';
 import { GoBackFilledIcon } from '@tkeel/console-icons';
 

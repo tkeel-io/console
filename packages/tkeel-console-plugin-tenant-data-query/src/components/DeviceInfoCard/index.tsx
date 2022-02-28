@@ -1,5 +1,5 @@
-import { useNavigate } from 'react-router-dom';
 import { Flex, StyleProps, Text } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 
 import DeviceIconName from '@/tkeel-console-plugin-tenant-data-query/components/DeviceIconName';
 import Rectangle from '@/tkeel-console-plugin-tenant-data-query/components/Rectangle';

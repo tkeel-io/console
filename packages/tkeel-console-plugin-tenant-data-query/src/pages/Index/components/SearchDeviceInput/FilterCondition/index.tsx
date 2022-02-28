@@ -1,4 +1,5 @@
 import { Box, Flex, StyleProps, Text } from '@chakra-ui/react';
+
 import { CloseFilledIcon } from '@tkeel/console-icons';
 
 export interface FilterConditionInfo {
