@@ -1,17 +1,18 @@
-import { useState } from 'react';
 import { Box, Flex } from '@chakra-ui/react';
+import { useState } from 'react';
+
 import { PageHeaderToolbar } from '@tkeel/console-components/';
 import { usePagination } from '@tkeel/console-hooks';
-
-import CreateDeviceButton from './components/CreateDeviceButton';
-import DeviceGroupTree from './components/DeviceGroupTree';
-import DeviceListTable from './components/DeviceListTable';
-import GroupBasicInfo from './components/GroupBasicInfo';
 
 import {
   NodeInfo,
   TreeNodeType,
 } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
+
+import CreateDeviceButton from './components/CreateDeviceButton';
+import DeviceGroupTree from './components/DeviceGroupTree';
+import DeviceListTable from './components/DeviceListTable';
+import GroupBasicInfo from './components/GroupBasicInfo';
 
 const defaultGroupItem = {
   nodeInfo: {
@@ -21,6 +22,7 @@ const defaultGroupItem = {
         name: '暂无数据',
         description: '暂无描述',
         ext: {},
+        parentId: '',
       },
       sysField: {},
     },
@@ -41,18 +43,6 @@ function Index(): JSX.Element {
   };
   return (
     <Flex flexDirection="column" h="100%">
-      {/* <Flex h="48px" w="100%" align="center">
-        <Heading as="h3" fontSize="14px" lineHeight="32px">
-          设备列表
-        </Heading>
-        <Spacer />
-        <SearchInput
-          onSearch={handleSearchDevice}
-          inputStyle={{ bg: 'gray.50' }}
-          inputGroupStyle={{ mr: '16px' }}
-        />
-        <CreateDeviceButton variant="solid" />
-      </Flex> */}
       <PageHeaderToolbar
         name="设备列表"
         hasSearchInput
@@ -69,7 +59,7 @@ function Index(): JSX.Element {
         display="flex"
         flex="1"
         overflow="hidden"
-        marginTop="16px"
+        marginTop="8px"
       >
         <DeviceGroupTree handleSelectGroup={handleSelectGroup} />
         <Flex flex="1" bg="white" p="12px 20px" flexDirection="column">

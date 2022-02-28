@@ -23,6 +23,7 @@ module.exports = {
           icon: 'HumanGearTwoToneIcon',
           children: [
             {
+              key: 'devices',
               id: 'console-plugin-tenant-devices',
               name: '设备管理',
               path: '/tenant-devices',

@@ -1,5 +1,6 @@
-import { useState } from 'react';
 import { Flex, Grid, Text, useDisclosure } from '@chakra-ui/react';
+import { useState } from 'react';
+
 import { PluginCard, PluginNum } from '@tkeel/console-business-components';
 import {
   Drawer,
@@ -10,11 +11,11 @@ import {
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
 
-import DisableButton from './components/DisableButton';
-
 import EnableButton from '@/tkeel-console-plugin-tenant-plugins/components/EnableButton';
 import usePluginsQuery from '@/tkeel-console-plugin-tenant-plugins/hooks/queries/usePluginsQuery';
 import Detail from '@/tkeel-console-plugin-tenant-plugins/pages/Detail';
+
+import DisableButton from './components/DisableButton';
 
 function Index(): JSX.Element {
   const { isOpen, onOpen, onClose } = useDisclosure();

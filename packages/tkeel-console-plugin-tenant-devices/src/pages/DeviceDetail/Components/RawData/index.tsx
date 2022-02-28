@@ -1,4 +1,3 @@
-import { ChangeEvent, memo, useEffect, useState } from 'react';
 import {
   Accordion,
   AccordionButton,
@@ -10,10 +9,12 @@ import {
   Select,
   Text,
 } from '@chakra-ui/react';
+import { isEmpty } from 'lodash';
+import { ChangeEvent, memo, useEffect, useState } from 'react';
+
 // import { Editor, SearchInput } from '@tkeel/console-components';
 import { Editor } from '@tkeel/console-components';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
-import { isEmpty } from 'lodash';
 
 import { RawData } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
 import { OPTIONS } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';

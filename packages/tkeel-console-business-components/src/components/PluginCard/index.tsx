@@ -1,5 +1,6 @@
-import { ReactNode } from 'react';
 import { Flex, Image, Text } from '@chakra-ui/react';
+import { ReactNode } from 'react';
+
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
 
 type Props = {

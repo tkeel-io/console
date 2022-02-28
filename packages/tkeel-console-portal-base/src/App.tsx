@@ -1,6 +1,7 @@
+import { ChakraProvider } from '@chakra-ui/react';
 import { QueryClientProvider } from 'react-query';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { ChakraProvider } from '@chakra-ui/react';
+
 import { PlatformNames } from '@tkeel/console-constants';
 import { QueryClient } from '@tkeel/console-hooks';
 import themes, {

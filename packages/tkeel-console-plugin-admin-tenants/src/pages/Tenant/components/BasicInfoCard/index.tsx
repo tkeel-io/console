@@ -1,5 +1,6 @@
-import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Text } from '@chakra-ui/react';
+import { useNavigate, useParams } from 'react-router-dom';
+
 import { BasicInfo } from '@tkeel/console-business-components';
 import { MoreAction, toast } from '@tkeel/console-components';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';

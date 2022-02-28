@@ -1,3 +1,4 @@
+import { Method } from 'axios';
 import {
   DefaultOptions,
   MutationCache,
@@ -5,12 +6,12 @@ import {
   UseMutationOptions,
   UseQueryOptions,
 } from 'react-query';
+
 import {
   AxiosRequestConfigExtended,
   RequestExtras,
   RequestResult,
 } from '@tkeel/console-utils';
-import { Method } from 'axios';
 
 export interface QueryClientConfig {
   queryCache?: QueryCache;

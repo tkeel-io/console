@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
 import { Button, ButtonProps, Colors, useTheme } from '@chakra-ui/react';
+import { ReactNode } from 'react';
 
 interface Props extends ButtonProps {
   children: ReactNode;
