@@ -21,4 +21,4 @@ export { default as SearchInput } from './components/SearchInput';
 export { default as Table } from './components/Table';
 export * from './components/Toast';
 export * from './components/Tree';
-export { default as TreeSelect } from './components/TreeSelect';
+export * from './components/TreeSelect';

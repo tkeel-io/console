@@ -1,4 +1,4 @@
-import { Tree, TreeSelect } from '@tkeel/console-components';
+import { TreeSelect } from '@tkeel/console-components';
 
 const treeData = [
   {
@@ -38,8 +38,9 @@ export default function TreeSelectExample() {
         placeholder="Please select"
         treeDefaultExpandAll
         treeCheckable
+        multiple
       />
-      <Tree treeData={treeData} checkable multiple />
+      {/* <Tree treeData={treeData} checkable multiple /> */}
     </div>
   );
 }
