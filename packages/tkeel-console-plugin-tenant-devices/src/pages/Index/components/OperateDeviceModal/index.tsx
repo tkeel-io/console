@@ -67,6 +67,7 @@ export default function OperateDeviceModal({
   });
   const { handleSubmit, trigger, watch, reset, control } = formHandler;
   const watchFields = watch();
+  console.log('watchFields', watchFields);
   const fieldArrayHandler = useFieldArray({
     control,
     name: 'extendInfo',
@@ -75,12 +76,10 @@ export default function OperateDeviceModal({
     mode === ModalMode.EDIT
       ? ['基本信息', '扩展信息']
       : ['基本信息', '扩展信息', '创建完成'];
-
   useEffect(() => {
     if (!isOpen) {
       setCurrentStep(0);
-    }
-    if (mode === ModalMode.EDIT && defaultFormValues) {
+    } else if (mode === ModalMode.EDIT && defaultFormValues) {
       const {
         description,
         name,
@@ -123,6 +122,7 @@ export default function OperateDeviceModal({
     if (currentStep === 1 && isSuccess) {
       if (mode === ModalMode.EDIT) {
         onClose();
+        setCurrentStep(0);
       } else {
         setCurrentStep(2);
       }
@@ -131,6 +131,7 @@ export default function OperateDeviceModal({
   const onSubmit: SubmitHandler<DeviceValueType> = async (formValues) => {
     const id = (responseData as DeviceResData)?.deviceObject?.id;
     if (currentStep >= 2) {
+      setCurrentStep(0);
       onClose();
       if (type === ModalType.DEVICE && id) {
         navigate(`/detail/?id=${id}`);

@@ -35,7 +35,7 @@ export default function BasicInfoPart({
   const deviceGroupOptions = values(groupTree).map((item) => {
     const id = item?.nodeInfo?.id ?? '';
     const label = item?.nodeInfo?.properties?.group?.name ?? '';
-    return { label, value: id };
+    return { label, value: `${id}&${label}` };
   });
   return (
     <>

@@ -113,10 +113,11 @@ export default function DeviceGroupTree({ handleSelectGroup }: Props) {
   }
   const treeNodeData = getTreeNodeData({ data: groupTree });
 
-  const onSelect = (selectedKeys: React.Key[], info: any) => {
+  const onSelect = (selectedKeys: React.Key[], e: any) => {
     console.log('selectedKeys', selectedKeys);
+    console.log('event', e);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    const originData = info?.node?.originData;
+    const originData = e?.node?.originData;
     handleSelectGroup(
       originData as {
         nodeInfo: NodeInfo;
