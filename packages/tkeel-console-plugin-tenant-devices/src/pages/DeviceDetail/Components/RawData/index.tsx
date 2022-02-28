@@ -1,4 +1,5 @@
-import { ChangeEvent, memo, useEffect, useState } from 'react';
+import { ChangeEvent, memo, useState } from 'react';
+import { useDeepCompareEffect } from 'react-use';
 import {
   Accordion,
   AccordionButton,
@@ -53,7 +54,7 @@ function Index({ data }: Props) {
   const [rawDataList, setRawDataList] = useState<TRawData>([data]);
   // const [keyWord, setKeyWord] = useState('');
   const [selected, setSelected] = useState('text');
-  useEffect(() => {
+  useDeepCompareEffect(() => {
     setRawDataList((preState) => {
       const filterArr = preState.filter((r) => !isEmpty(r));
       return [data, ...filterArr].slice(-20);
