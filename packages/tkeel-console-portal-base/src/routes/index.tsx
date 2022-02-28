@@ -1,4 +1,5 @@
 import { Route, Routes as ReactRouterRoutes } from 'react-router-dom';
+
 import { PLATFORM_INFOS, PlatformNames } from '@tkeel/console-constants';
 
 import Layout from '@/tkeel-console-portal-base/containers/Layout';

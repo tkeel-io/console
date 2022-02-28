@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
 import { Badge, Box, Text, useStyles, useTab } from '@chakra-ui/react';
+import { ReactNode } from 'react';
 
 type Props = {
   children: ReactNode;

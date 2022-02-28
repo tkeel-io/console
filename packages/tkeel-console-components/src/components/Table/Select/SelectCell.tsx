@@ -1,5 +1,5 @@
-import { Row } from 'react-table';
 import { Center } from '@chakra-ui/react';
+import { Row } from 'react-table';
 
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 

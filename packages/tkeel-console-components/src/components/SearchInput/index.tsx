@@ -1,10 +1,11 @@
-import { KeyboardEvent, KeyboardEventHandler, ReactNode, useRef } from 'react';
 import {
   Input,
   InputGroup,
   InputLeftElement,
   StyleProps,
 } from '@chakra-ui/react';
+import { KeyboardEvent, KeyboardEventHandler, ReactNode, useRef } from 'react';
+
 import { MagnifierFilledIcon } from '@tkeel/console-icons';
 
 export interface Props {

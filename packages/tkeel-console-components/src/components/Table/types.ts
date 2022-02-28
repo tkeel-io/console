@@ -1,6 +1,7 @@
+import { StyleProps } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 import { IdType, Row, SortingRule, UseTableOptions } from 'react-table';
-import { StyleProps } from '@chakra-ui/react';
+
 import { UsePaginationReturnType } from '@tkeel/console-types';
 
 type OnSelectProps<D extends object> = {

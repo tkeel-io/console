@@ -1,5 +1,5 @@
-import useWebSocket, { Options } from 'react-use-websocket';
 import { merge } from 'lodash';
+import useWebSocket, { Options } from 'react-use-websocket';
 
 interface CustomOptions extends Options {
   url: string;

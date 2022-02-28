@@ -1,5 +1,6 @@
-import { TokenInfo } from '@tkeel/console-types';
 import store from 'store2';
+
+import { TokenInfo } from '@tkeel/console-types';
 
 const namespace = GLOBAL_CONFIG.platformName;
 const key = 'tokenInfo';

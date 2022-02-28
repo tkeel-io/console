@@ -1,11 +1,12 @@
+import { merge } from 'lodash';
 import { useNavigate } from 'react-router-dom';
+
 import {
   UseCustomMutationOptions,
   useMutation as useCustomMutation,
   useNoAuthRedirectPath,
 } from '@tkeel/console-hooks';
 import { createHandleNoAuth } from '@tkeel/console-utils';
-import { merge } from 'lodash';
 
 import useGlobalProps from '@/tkeel-console-portal-base/hooks/useGlobalProps';
 

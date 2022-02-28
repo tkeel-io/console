@@ -1,5 +1,5 @@
-import { UseRowSelectInstanceProps } from 'react-table';
 import { Center } from '@chakra-ui/react';
+import { UseRowSelectInstanceProps } from 'react-table';
 
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 
