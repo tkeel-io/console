@@ -1,5 +1,4 @@
 import { Flex, Text, useDisclosure } from '@chakra-ui/react';
-import { SetStateAction } from 'react';
 
 import { MoreAction, MoreActionButton } from '@tkeel/console-components';
 import {
@@ -9,17 +8,20 @@ import {
   WifiOffFilledIcon,
 } from '@tkeel/console-icons';
 
-type Status = {
+export interface Status {
   key: string;
   value: string;
-};
+}
 
-type Props = {
+export interface StatusSelectProps {
   status: Status;
-  setStatus: (value: SetStateAction<Status>) => void;
-};
+  onStatusChange: (value: Status) => unknown;
+}
 
-export default function StatusSelect({ status, setStatus }: Props) {
+export default function StatusSelect({
+  status,
+  onStatusChange,
+}: StatusSelectProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const buttonInfoList = [
     {
@@ -44,7 +46,7 @@ export default function StatusSelect({ status, setStatus }: Props) {
       key={info.key}
       title={info.title}
       icon={info.icon}
-      onClick={() => setStatus({ key: info.key, value: info.title })}
+      onClick={() => onStatusChange({ key: info.key, value: info.title })}
     />
   ));
 

@@ -1,19 +1,36 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 
-import { BoxTwoToneIcon, VpcTwoToneIcon } from '@tkeel/console-icons';
+import {
+  BoxTwoToneIcon,
+  VpcTwoToneIcon,
+  WifiFilledIcon,
+  WifiOffFilledIcon,
+} from '@tkeel/console-icons';
 
-import Rectangle from '@/tkeel-console-plugin-tenant-data-query/components/Rectangle';
+import { Rectangle } from '@/tkeel-console-plugin-tenant-data-query/components';
+import { DeviceItem } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceListQuery';
 
-export default function DeviceList() {
+type Props = {
+  data: DeviceItem[];
+};
+
+export default function DeviceList({ data }: Props) {
+  // eslint-disable-next-line no-console
+  console.log('DeviceList ~ data', data);
   return (
     <Box padding="8px 10px" backgroundColor="gray.50" lineHeight="24px">
-      {Array.from({ length: 10 })
-        .fill('')
-        .map((_, i) => (
+      {data.map((device, i) => {
+        const { basicInfo, connectInfo } = device?.properties ?? {};
+        const selfLearn = basicInfo?.selfLearn ?? false;
+        const vpcIconColor = selfLearn ? 'primary' : 'gray.500';
+        // eslint-disable-next-line no-underscore-dangle
+        const isOnline = connectInfo?._online ?? false;
+
+        return (
           <Flex
             // eslint-disable-next-line react/no-array-index-key
             key={i}
-            marginBottom="16px"
+            marginBottom={i === data.length - 1 ? '0' : '16px'}
             alignItems="center"
             cursor="pointer"
           >
@@ -25,28 +42,41 @@ export default function DeviceList() {
                 fontSize="14px"
                 fontWeight="600"
               >
-                IDC设备模版B
+                {basicInfo?.name ?? ''}
               </Text>
             </Flex>
             <Text color="gray.600" fontSize="12px">
-              默认分组
+              {basicInfo?.parentName ?? ''}
             </Text>
             <Text marginLeft="18px" color="gray.800" fontSize="12px">
-              SIC电表
+              {basicInfo?.templateName ?? ''}
             </Text>
             <Flex marginLeft="50px" alignItems="center">
               <Rectangle
-                icon={<VpcTwoToneIcon color="primary" twoToneColor="primary" />}
-                backgroundColor="primarySub"
+                icon={
+                  <VpcTwoToneIcon
+                    color={vpcIconColor}
+                    twoToneColor={vpcIconColor}
+                  />
+                }
+                backgroundColor={selfLearn ? 'primarySub' : 'gray.100'}
               />
               <Rectangle
-                backgroundColor="green.300"
+                icon={
+                  isOnline ? (
+                    <WifiFilledIcon color="green.300" />
+                  ) : (
+                    <WifiOffFilledIcon color="gray.500" />
+                  )
+                }
+                backgroundColor={isOnline ? 'green.300' : 'gray.500'}
                 opacity="0.1"
                 style={{ marginLeft: '8px' }}
               />
             </Flex>
           </Flex>
-        ))}
+        );
+      })}
     </Box>
   );
 }

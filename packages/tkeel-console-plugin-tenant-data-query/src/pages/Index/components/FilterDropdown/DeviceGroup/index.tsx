@@ -1,7 +1,8 @@
+import { Flex, Text } from '@chakra-ui/react';
 import { values } from 'lodash';
 
 import { Tree } from '@tkeel/console-components';
-import { FileBoxTwoToneIcon } from '@tkeel/console-icons';
+import { FolderCloseTwoToneIcon, RightFilledIcon } from '@tkeel/console-icons';
 
 import {
   NodeInfo,
@@ -36,17 +37,40 @@ function getTreeNodeData(data: TreeNodeType): TreeNodeData[] {
 type Props = {
   deviceGroupTree: TreeNodeType;
   onClick: () => unknown;
+  onSpreadClick: (id: string) => unknown;
 };
 
-export default function DeviceGroup({ deviceGroupTree, onClick }: Props) {
+export default function DeviceGroup({
+  deviceGroupTree,
+  onClick,
+  onSpreadClick,
+}: Props) {
   const treeNodeData = getTreeNodeData(deviceGroupTree);
   // eslint-disable-next-line no-console
   console.log('DeviceGroup ~ treeNodeData', treeNodeData);
 
   return (
     <Tree
-      style={{ marginTop: '16px' }}
-      icon={FileBoxTwoToneIcon}
+      // eslint-disable-next-line react/no-unstable-nested-components
+      titleRender={(node) => {
+        return (
+          <Flex justifyContent="space-between">
+            <Text>{node.title}</Text>
+            <Flex
+              alignItems="center"
+              color="primary"
+              fontSize="12px"
+              onClick={() => onSpreadClick((node as TreeNodeData).id)}
+            >
+              <Text marginRight="4px">展开</Text>
+              <RightFilledIcon color="primary" />
+            </Flex>
+          </Flex>
+        );
+      }}
+      checkable={false}
+      extras={{ isTreeTitleFullWidth: true }}
+      icon={<FolderCloseTwoToneIcon />}
       treeData={treeNodeData}
       onClick={onClick}
     />

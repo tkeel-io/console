@@ -1,15 +1,17 @@
-import { Box, Button, Flex, StyleProps, Text } from '@chakra-ui/react';
+import { Flex, StyleProps } from '@chakra-ui/react';
 import { useState } from 'react';
 
-import { useColor } from '@tkeel/console-hooks';
-import { GoBackFilledIcon } from '@tkeel/console-icons';
+import useDeviceGroupQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceGroupQuery';
+import useDeviceListQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceListQuery';
+import useDeviceTemplatesQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceTemplatesQuery';
+import {
+  DEVICE_GROUP_ID,
+  DEVICE_TEMPLATES_ID,
+} from '@/tkeel-console-plugin-tenant-data-query/pages/Index/constants';
 
-// import DeviceGroup from './DeviceGroup';
-import DeviceList from './DeviceList';
-import DeviceTemplates from './DeviceTemplates';
-import Empty from './Empty';
-import StatusSelect from './StatusSelect';
-// import useDeviceGroupQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceGroupQuery';
+import FilterConditionSelect from './FilterConditionSelect';
+import ResultContent from './ResultContent';
+import { Status } from './StatusSelect';
 
 type Props = {
   style?: StyleProps;
@@ -27,35 +29,118 @@ export default function FilterDropdown({
   filterCondition,
   handleConditionClick,
 }: Props) {
-  // const [showDeviceList, setShowDeviceList] = useState(true);
-  const [showDeviceList] = useState(true);
+  const [deviceId, setDeviceId] = useState('');
+  const deviceGroupIdQueryField = 'sysField._spacePath';
+  const [deviceListQueryConditions, setDeviceListQueryConditions] = useState([
+    {
+      field: deviceGroupIdQueryField,
+      operator: '$wildcard',
+      value: deviceId,
+    },
+    {
+      field: 'type',
+      operator: '$eq',
+      value: 'device',
+    },
+  ]);
   const [status, setStatus] = useState({ key: 'all', value: '全部状态' });
 
-  // const { deviceGroupTree } = useDeviceGroupQuery();
-  const primaryColor = useColor('primary');
-
-  const textStyle = {
-    marginBottom: '8px',
-    color: 'grayAlternatives.300',
-    fontSize: '12px',
-    lineHeight: '24px',
+  const baseRequestData = {
+    query: '',
+    page_num: 1,
+    page_size: 1000,
+    order_by: 'name',
+    is_descending: false,
   };
 
-  const DEVICE_GROUP_ID = 'deviceGroup';
-  const DEVICE_TEMPLATES_ID = 'deviceTemplates';
-  const conditions = [
-    {
-      id: DEVICE_GROUP_ID,
-      label: '设备分组',
-    },
-    {
-      id: DEVICE_TEMPLATES_ID,
-      label: '设备模板',
-    },
-  ];
+  const { deviceGroupTree, isLoading: isDeviceGroupLoading } =
+    useDeviceGroupQuery({
+      requestData: {
+        ...baseRequestData,
+        condition: [
+          {
+            field: 'type',
+            operator: '$eq',
+            value: 'group',
+          },
+        ],
+      },
+    });
 
-  const isDeviceGroup = filterCondition?.id === DEVICE_GROUP_ID;
+  const showDeviceList = !!deviceId;
+
+  const { deviceList, isLoading: isDeviceListLoading } = useDeviceListQuery({
+    requestData: {
+      ...baseRequestData,
+      condition: deviceListQueryConditions,
+    },
+    enabled: showDeviceList,
+  });
+
+  const { templates, isLoading: isDeviceTemplatesLoading } =
+    useDeviceTemplatesQuery({
+      requestData: {
+        ...baseRequestData,
+        condition: [
+          {
+            field: 'type',
+            operator: '$eq',
+            value: 'template',
+          },
+        ],
+      },
+    });
+  // eslint-disable-next-line no-console
+  console.log('templates', templates);
+  // eslint-disable-next-line no-console
+  console.log('isDeviceTemplatesLoading', isDeviceTemplatesLoading);
+
+  const handleStatusChange = (deviceStatus: Status) => {
+    let newDeviceListQueryConditions = [...deviceListQueryConditions];
+    const statusQueryCondition = newDeviceListQueryConditions.find(
+      (queryCondition) => queryCondition.field === '_status'
+    );
+    if (statusQueryCondition) {
+      if (deviceStatus.key === 'all') {
+        newDeviceListQueryConditions = newDeviceListQueryConditions.filter(
+          (queryCondition) => queryCondition.field !== '_status'
+        );
+        setDeviceListQueryConditions(newDeviceListQueryConditions);
+      } else {
+        statusQueryCondition.value = deviceStatus.key;
+        setDeviceListQueryConditions(newDeviceListQueryConditions);
+      }
+    } else {
+      setDeviceListQueryConditions([
+        ...newDeviceListQueryConditions,
+        {
+          field: '_status',
+          operator: '$eq',
+          value: deviceStatus.key,
+        },
+      ]);
+    }
+    setStatus(deviceStatus);
+  };
+
+  const handleSetDeviceId = (id: string) => {
+    setDeviceId(id);
+    const newDeviceListQueryConditions = [...deviceListQueryConditions];
+    const typeQueryCondition = newDeviceListQueryConditions.find(
+      (queryCondition) => queryCondition.field === deviceGroupIdQueryField
+    );
+    if (typeQueryCondition) {
+      typeQueryCondition.value = id;
+      setDeviceListQueryConditions(newDeviceListQueryConditions);
+    }
+  };
+
+  const showDeviceGroup = filterCondition?.id === DEVICE_GROUP_ID;
   const isDeviceTemplates = filterCondition?.id === DEVICE_TEMPLATES_ID;
+
+  // const showLoading =
+  //   (showDeviceGroup && isDeviceGroupLoading) ||
+  //   (showDeviceList && isDeviceListLoading);
 
   return (
     <Flex
@@ -70,80 +155,22 @@ export default function FilterDropdown({
       borderRadius="4px"
       {...style}
     >
-      <Text {...textStyle}>过滤条件</Text>
-      <Flex marginBottom="8px">
-        {conditions.map((condition) => {
-          const { id, label } = condition;
-          const isSelected = filterCondition?.id === id;
-          return (
-            <Button
-              marginRight="8px"
-              variant="outline"
-              key={id}
-              borderRadius="4px"
-              color={isSelected ? 'primary' : 'gray.400'}
-              borderColor={isSelected ? 'primary' : 'gray.200'}
-              bg={isSelected ? 'blue.50' : 'white'}
-              height="24px"
-              p="0 12px"
-              fontSize="12px"
-              onClick={() => {
-                if (!isSelected) {
-                  handleConditionClick(condition);
-                }
-              }}
-            >
-              {label}
-            </Button>
-          );
-        })}
-      </Flex>
-      {showDeviceList ? (
-        <Flex
-          marginBottom="8px"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Flex
-            alignItems="center"
-            color="gray.800"
-            fontSize="12px"
-            lineHeight="24px"
-          >
-            <Box
-              _hover={{
-                svg: {
-                  color: primaryColor,
-                },
-              }}
-              cursor="pointer"
-            >
-              <GoBackFilledIcon />
-            </Box>
-            <Flex marginLeft="10px">
-              共
-              <Text margin="0 3px" color="primary">
-                23
-              </Text>
-              条结果
-            </Flex>
-          </Flex>
-          <StatusSelect status={status} setStatus={setStatus} />
-        </Flex>
-      ) : (
-        <Text {...textStyle}>搜索结果</Text>
-      )}
-      <Box flex="1" overflow="auto">
-        {!isDeviceGroup && !isDeviceTemplates && !showDeviceList && <Empty />}
-        {/* {isDeviceGroup && (
-          <DeviceGroup
-            deviceGroupTree={deviceGroupTree}
-            onClick={() =(true)}
-          />
-        )} */}
-        {isDeviceTemplates && <DeviceTemplates />}
-        {showDeviceList && <DeviceList />}
-      </Box>
+      <FilterConditionSelect
+        filterConditionId={filterCondition?.id ?? ''}
+        handleConditionClick={handleConditionClick}
+      />
+      <ResultContent
+        status={status}
+        onStatusChange={handleStatusChange}
+        isDeviceListLoading={isDeviceListLoading}
+        isDeviceGroupLoading={isDeviceGroupLoading}
+        showDeviceGroup={showDeviceGroup}
+        deviceGroupTree={deviceGroupTree}
+        setDeviceId={handleSetDeviceId}
+        showDeviceList={showDeviceList}
+        deviceList={deviceList}
+        isDeviceTemplates={isDeviceTemplates}
+      />
     </Flex>
   );
 }

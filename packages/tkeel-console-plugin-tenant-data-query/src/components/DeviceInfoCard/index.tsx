@@ -1,8 +1,8 @@
 import { Flex, StyleProps, Text } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
-import DeviceIconName from '@/tkeel-console-plugin-tenant-data-query/components/DeviceIconName';
-import Rectangle from '@/tkeel-console-plugin-tenant-data-query/components/Rectangle';
+import DeviceIconName from '../DeviceIconName';
+import DeviceStatusIcon from '../DeviceStatusIcon';
 
 type Props = {
   style?: StyleProps;
@@ -43,7 +43,7 @@ export default function DeviceInfoCard({ style }: Props) {
         // alignItems="center"
       >
         <DeviceIconName />
-        <Rectangle backgroundColor="green.300" opacity="0.1" />
+        <DeviceStatusIcon isOnline />
       </Flex>
       <Flex
         paddingLeft="20px"
