@@ -1,4 +1,4 @@
-import { TreeSelect } from '@tkeel/console-components';
+import { Select, TreeSelect } from '@tkeel/console-components';
 
 const treeData = [
   {
@@ -41,6 +41,11 @@ export default function TreeSelectExample() {
         multiple
       />
       {/* <Tree treeData={treeData} checkable multiple /> */}
+      <Select>
+        <Select.Option>1</Select.Option>
+        <Select.Option>2</Select.Option>
+        <Select.Option>3</Select.Option>
+      </Select>
     </div>
   );
 }
