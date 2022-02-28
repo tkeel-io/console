@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
-import { isEmpty } from 'lodash';
+import { isEmpty, values } from 'lodash';
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +10,9 @@ import { Form, Modal } from '@tkeel/console-components';
 import ProgressSchedule from '@/tkeel-console-plugin-tenant-devices/components/ProgressSchedule';
 import { ApiData as GroupResData } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceGroupMutation';
 import { ApiData as DeviceResData } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceMutation';
+import useGroupTreeQuery, {
+  TreeNodeType,
+} from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
 import {
   ConnectInfoType,
   ConnectOption,
@@ -41,6 +44,7 @@ interface Props {
   handleConfirm: ({ formValues }: { formValues: DeviceValueType }) => void; // 提交submit去请求接口
   isLoading?: boolean;
   responseData?: DeviceResData | GroupResData | null;
+  groupTree?: TreeNodeType;
 }
 const BUTTON_TEXT = {
   NEXT: '下一步',
@@ -59,6 +63,7 @@ export default function OperateDeviceModal({
   responseData,
   mode,
   isSuccess,
+  groupTree,
 }: Props) {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
@@ -67,7 +72,6 @@ export default function OperateDeviceModal({
   });
   const { handleSubmit, trigger, watch, reset, control } = formHandler;
   const watchFields = watch();
-  console.log('watchFields', watchFields);
   const fieldArrayHandler = useFieldArray({
     control,
     name: 'extendInfo',
@@ -76,6 +80,20 @@ export default function OperateDeviceModal({
     mode === ModalMode.EDIT
       ? ['基本信息', '扩展信息']
       : ['基本信息', '扩展信息', '创建完成'];
+  const groupTreeCopy =
+    mode === ModalMode.EDIT && type === ModalType.GROUP
+      ? groupTree
+      : // eslint-disable-next-line react-hooks/rules-of-hooks
+        useGroupTreeQuery().groupTree;
+  // const { groupTree } = useGroupTreeQuery({ params: defaultRequestParams });
+  const deviceGroupOptions = values(groupTreeCopy).map((item) => {
+    const id = item?.nodeInfo?.id ?? '';
+    const label = item?.nodeInfo?.properties?.group?.name ?? '';
+    return { label, value: `${id}&${label}` };
+  });
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  // setGroupOptions(deviceGroupOptions);
+  console.log(deviceGroupOptions);
   useEffect(() => {
     if (!isOpen) {
       setCurrentStep(0);
@@ -112,7 +130,6 @@ export default function OperateDeviceModal({
         type === ModalType.DEVICE
           ? Object.assign(basicFormInfo, deviceDefaultInfo)
           : basicFormInfo;
-      console.log(defaultFormInfoCopy);
       reset(defaultFormInfoCopy);
     } else {
       reset(defaultFormInfo);
@@ -219,6 +236,7 @@ export default function OperateDeviceModal({
                 formHandler={formHandler}
                 watchFields={watchFields}
                 type={type}
+                groupOptions={deviceGroupOptions}
               />
             )}
 

@@ -36,10 +36,8 @@ type TreeNodeData = {
     subNode: TreeNodeType;
   };
 };
-
 export default function DeviceGroupTree({ handleSelectGroup }: Props) {
   const { groupTree, refetch } = useGroupTreeQuery();
-
   const selectedColor = useColor('primary');
   const selectedTwoTone = useColor('primarySub2');
   const unselectedColor = useColor('gray.700');
@@ -59,7 +57,7 @@ export default function DeviceGroupTree({ handleSelectGroup }: Props) {
     return values(data).map((item) => {
       const { nodeInfo, subNode } = item;
       const { id, properties } = nodeInfo;
-      const { group } = properties;
+      const group = properties?.group ?? {};
       const { name, description, ext, parentId } = group;
       const defaultFormValues = {
         id,
@@ -91,7 +89,9 @@ export default function DeviceGroupTree({ handleSelectGroup }: Props) {
                 ),
                 <UpdateGroupButton
                   key="update"
+                  groupTree={groupTree}
                   defaultFormValues={defaultFormValues}
+                  refetch={refetch}
                 />,
               ]}
             />
