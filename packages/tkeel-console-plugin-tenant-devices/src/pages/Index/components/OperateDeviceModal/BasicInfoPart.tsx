@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { Stack, Text } from '@chakra-ui/react';
 import { map, values } from 'lodash';
 import { UseFormReturn } from 'react-hook-form';
@@ -11,39 +10,38 @@ import {
 } from '@tkeel/console-components';
 
 import useGroupTreeQuery from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
-
 import {
   ConnectInfoType,
   ConnectOption,
-  CreateType,
   DeviceValueType,
-} from './types';
+  ModalType,
+} from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
 
 const { TextField, SelectField, TextareaField } = FormField;
 
 interface Props {
   formHandler: UseFormReturn<DeviceValueType, object>;
   watchFields: DeviceValueType;
-  type: CreateType;
+  type: ModalType;
 }
 export default function BasicInfoPart({
   type,
   formHandler,
   watchFields,
 }: Props) {
-  const { groupTree } = useGroupTreeQuery();
   const { register, formState, setValue } = formHandler;
   const { errors } = formState;
+  const { groupTree } = useGroupTreeQuery();
   const deviceGroupOptions = values(groupTree).map((item) => {
-    const id = item.nodeInfo?.id;
-    const label = item.nodeInfo?.properties?.group?.name;
+    const id = item?.nodeInfo?.id ?? '';
+    const label = item?.nodeInfo?.properties?.group?.name ?? '';
     return { label, value: id };
   });
   return (
     <>
       <TextField
         id="name"
-        label={type === CreateType.DEVICE ? '设备名称' : '设备组名称'}
+        label={type === ModalType.DEVICE ? '设备名称' : '设备组名称'}
         registerReturn={register('name', {
           required: { value: true, message: 'required' },
         })}
@@ -51,11 +49,11 @@ export default function BasicInfoPart({
       />
       <SelectField
         id="parentId"
-        label={type === CreateType.DEVICE ? '设备分组' : '父设备组'}
-        options={deviceGroupOptions}
-        registerReturn={register('parentId', {})}
+        label={type === ModalType.DEVICE ? '设备分组' : '父设备组'}
+        options={deviceGroupOptions || []}
+        registerReturn={register('parentId')}
       />
-      {type === CreateType.DEVICE && (
+      {type === ModalType.DEVICE && (
         <>
           <SelectField
             label="设备连接方式"

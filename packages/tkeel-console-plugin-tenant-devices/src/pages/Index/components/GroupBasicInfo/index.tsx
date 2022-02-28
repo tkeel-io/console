@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Button, Flex, HStack, SimpleGrid, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 
@@ -47,10 +47,12 @@ function GroupBasicInfo({ groupItem }: Props): JSX.Element {
       borderColor="gray.200"
       borderWidth="1px"
       mb="12px"
+      align="flex-start"
     >
       <SimpleGrid
         columns={4}
-        spacing="16px"
+        spacingX="16px"
+        spacingY="4px"
         minChildWidth="160px"
         minWidth="640px"
         flex="1"
@@ -65,6 +67,8 @@ function GroupBasicInfo({ groupItem }: Props): JSX.Element {
         variant="link"
         colorScheme="primary"
         fontSize="12px"
+        px="6px"
+        lineHeight="24px"
         onClick={() => {
           setIsExpend(!isExpend);
         }}

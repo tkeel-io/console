@@ -9,7 +9,9 @@ export interface NodeInfo {
     group: {
       name: string;
       description: string;
-      ext: { [propName: string]: string };
+      ext: { [propName: string]: any };
+      parentId: string;
+      parentName?: string;
       [propName: string]: any;
     };
     sysField: {

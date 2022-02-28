@@ -21,9 +21,8 @@ import {
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import DeleteDevicesButton from '@/tkeel-console-plugin-tenant-devices/components/DeleteDevicesButton';
-import EditDeviceButton from '@/tkeel-console-plugin-tenant-devices/components/EditDeviceButton';
 import IconWrapper from '@/tkeel-console-plugin-tenant-devices/components/IconWrapper';
-// import { DEVICE_STATUS } from '@/tkeel-console-plugin-tenant-devices/constants';
+import UpdateDeviceButton from '@/tkeel-console-plugin-tenant-devices/components/UpdateDeviceButton';
 import useDeviceListQuery, {
   DeviceApiItem,
   DeviceItem,
@@ -129,7 +128,6 @@ function DeviceListTable({ groupItem, keyWords }: Props): JSX.Element {
   const pagination = usePagination();
   const { pageNum, pageSize, setTotalSize } = pagination;
   const { nodeInfo } = groupItem;
-  console.log(nodeInfo);
   const params = {
     query: keyWords || '',
     page_num: pageNum,
@@ -244,20 +242,39 @@ function DeviceListTable({ groupItem, keyWords }: Props): JSX.Element {
       Cell: ({ row }: Cell<DeviceItem>) =>
         useMemo(() => {
           const originData = row.original?.originData as DeviceApiItem;
-          const { id } = originData;
-          const deviceName = originData?.properties?.basicInfo?.name;
+          const { id, properties } = originData;
+          const { basicInfo } = properties;
+          const {
+            name,
+            description,
+            directConnection,
+            templateId,
+            parentId,
+            selfLearn,
+            ext,
+          } = basicInfo;
+          const defaultFormValues = {
+            id,
+            selfLearn,
+            description,
+            templateId,
+            directConnection,
+            name,
+            ext,
+            parentId,
+          };
           return (
             <MoreAction
               buttons={[
-                <EditDeviceButton
+                <UpdateDeviceButton
                   key="edit"
-                  deviceInfo={originData}
+                  defaultFormValues={defaultFormValues}
                   refetch={refetch}
                 />,
                 <DeleteDevicesButton
                   ids={[id]}
                   key="delete"
-                  deviceName={deviceName}
+                  deviceName={name}
                   refetch={refetch}
                 />,
               ]}
