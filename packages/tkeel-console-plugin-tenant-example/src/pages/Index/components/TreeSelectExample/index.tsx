@@ -1,4 +1,6 @@
-import { Select, TreeSelect } from '@tkeel/console-components';
+import { HStack } from '@chakra-ui/react';
+
+import { Select, Tree, TreeSelect } from '@tkeel/console-components';
 
 const treeData = [
   {
@@ -27,25 +29,19 @@ const treeData = [
 
 export default function TreeSelectExample() {
   return (
-    <div>
+    <HStack spacing="32px">
       <TreeSelect
         style={{ width: '400px' }}
-        // value={this.state.value}
-        className="cba bbb"
-        dropdownClassName="abc aaa"
         dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
         treeData={treeData}
         placeholder="Please select"
-        treeDefaultExpandAll
-        treeCheckable
-        multiple
+        // treeCheckable
       />
-      {/* <Tree treeData={treeData} checkable multiple /> */}
       <Select>
         <Select.Option>1</Select.Option>
         <Select.Option>2</Select.Option>
         <Select.Option>3</Select.Option>
       </Select>
-    </div>
+    </HStack>
   );
 }
