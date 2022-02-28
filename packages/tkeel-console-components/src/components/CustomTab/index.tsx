@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
 import { Box, BoxProps, TabProps, useStyles, useTab } from '@chakra-ui/react';
+import { ReactNode } from 'react';
 
 type Props = BoxProps &
   TabProps & {

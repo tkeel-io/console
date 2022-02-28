@@ -1,5 +1,6 @@
-import { ReactNode } from 'react';
 import { Box, Flex, Text } from '@chakra-ui/react';
+import { ReactNode } from 'react';
+
 import { Modal } from '@tkeel/console-components';
 
 type Props = {

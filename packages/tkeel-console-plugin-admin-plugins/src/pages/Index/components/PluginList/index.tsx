@@ -1,5 +1,6 @@
-import { useNavigate } from 'react-router-dom';
 import { Flex, Grid, Tag, Text } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
+
 import { PluginCard } from '@tkeel/console-business-components';
 import { Loading, MoreAction, Pagination } from '@tkeel/console-components';
 import { UsePaginationReturnType } from '@tkeel/console-types';

@@ -1,6 +1,8 @@
+import { Box, Divider, Text } from '@chakra-ui/react';
+import { union, without } from 'lodash';
 import { ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Box, Divider, Text } from '@chakra-ui/react';
+
 import {
   FormControl,
   FormField,
@@ -9,12 +11,11 @@ import {
   SearchInput,
   Tree,
 } from '@tkeel/console-components';
-import { union, without } from 'lodash';
-
-import { getChildKeys, getParentKeys, getTreeData, TreeData } from './tree';
 
 import { RequestData } from '@/tkeel-console-plugin-tenant-roles/hooks/mutations/useCreateRoleMutation';
 import usePermissionsQuery from '@/tkeel-console-plugin-tenant-roles/hooks/queries/usePermissionsQuery';
+
+import { getChildKeys, getParentKeys, getTreeData, TreeData } from './tree';
 
 const { TextField, TextareaField } = FormField;
 

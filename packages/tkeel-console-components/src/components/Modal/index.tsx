@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import {
   Button,
   Modal as ChakraModal,
@@ -12,6 +11,7 @@ import {
 } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import { noop } from 'lodash';
+import { ReactNode } from 'react';
 
 import ButtonsHStack from '@/tkeel-console-components/components/ButtonsHStack';
 

@@ -1,6 +1,7 @@
+import { Flex, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 import { Column } from 'react-table';
-import { Flex, Text } from '@chakra-ui/react';
+
 import { SearchInput, Table } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';

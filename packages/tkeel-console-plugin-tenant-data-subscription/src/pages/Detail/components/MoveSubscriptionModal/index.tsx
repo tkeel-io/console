@@ -1,6 +1,7 @@
+import { Select } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Select } from '@chakra-ui/react';
+
 import { Modal } from '@tkeel/console-components';
 
 import { Data } from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useListSubscribeQuery';

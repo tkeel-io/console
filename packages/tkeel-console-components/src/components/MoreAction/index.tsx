@@ -1,3 +1,4 @@
+import { Box, Circle, Colors, useTheme } from '@chakra-ui/react';
 import {
   cloneElement,
   MouseEventHandler,
@@ -6,7 +7,7 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { Box, Circle, Colors, useTheme } from '@chakra-ui/react';
+
 import { MoreVerticalFilledIcon } from '@tkeel/console-icons';
 
 type Props = {

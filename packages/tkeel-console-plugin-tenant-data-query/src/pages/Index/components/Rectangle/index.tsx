@@ -1,5 +1,6 @@
-import { ReactNode } from 'react';
 import { Center, Circle, StyleProps } from '@chakra-ui/react';
+import { ReactNode } from 'react';
+
 import { WifiFilledIcon } from '@tkeel/console-icons';
 
 type Props = {

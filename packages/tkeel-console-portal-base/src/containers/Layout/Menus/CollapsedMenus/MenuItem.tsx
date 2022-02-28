@@ -1,4 +1,5 @@
 import { Box, Center } from '@chakra-ui/react';
+
 import { useColor } from '@tkeel/console-hooks';
 
 import MenuIcon from '@/tkeel-console-portal-base/containers/Layout/Menus/ExpandMenus/MenuIcon';

@@ -1,5 +1,3 @@
-import { ReactNode } from 'react';
-import { FieldError } from 'react-hook-form';
 import {
   FormControl,
   FormErrorMessage,
@@ -7,6 +5,8 @@ import {
   FormLabel,
   StyleProps,
 } from '@chakra-ui/react';
+import { ReactNode } from 'react';
+import { FieldError } from 'react-hook-form';
 
 export interface FormControlProps {
   label?: ReactNode;
