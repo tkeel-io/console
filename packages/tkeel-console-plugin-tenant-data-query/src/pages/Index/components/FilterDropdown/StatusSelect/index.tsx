@@ -1,5 +1,6 @@
-import { SetStateAction } from 'react';
 import { Flex, Text, useDisclosure } from '@chakra-ui/react';
+import { SetStateAction } from 'react';
+
 import { MoreAction, MoreActionButton } from '@tkeel/console-components';
 import {
   ChevronDownFilledIcon,

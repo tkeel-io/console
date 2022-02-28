@@ -1,4 +1,5 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
+
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
 
 export default function DeviceTemplates() {

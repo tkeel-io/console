@@ -1,5 +1,6 @@
-import { useNavigate } from 'react-router-dom';
 import { Box, Button, Circle, Flex, Text } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
+
 import {
   BackButton,
   Checkbox,
@@ -15,10 +16,10 @@ import {
   VpcTwoToneIcon,
 } from '@tkeel/console-icons';
 
-import CustomCircle from './CustomCircle';
-
 import DeviceIconName from '@/tkeel-console-plugin-tenant-data-query/components/DeviceIconName';
 import Rectangle from '@/tkeel-console-plugin-tenant-data-query/components/Rectangle';
+
+import CustomCircle from './CustomCircle';
 
 export default function Detail() {
   const navigate = useNavigate();
