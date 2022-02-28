@@ -92,7 +92,7 @@ function Index({ id, title }: { id: string; title: string }) {
     },
   });
 
-  setTotalSize(data?.total || 0);
+  // setTotalSize(data?.total || 0);
 
   const columns: ReadonlyArray<Column<Data>> = [
     {

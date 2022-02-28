@@ -10,7 +10,13 @@ import {
   Tabs,
   Text,
 } from '@chakra-ui/react';
-import { Loading, Modal, SearchInput, Tree } from '@tkeel/console-components';
+import {
+  Empty,
+  Loading,
+  Modal,
+  SearchInput,
+  Tree,
+} from '@tkeel/console-components';
 import { BroomFilledIcon, FileBoxTwoToneIcon } from '@tkeel/console-icons';
 import { values } from 'lodash';
 import { DataNode, Key } from 'node_modules/rc-tree/es/interface';
@@ -132,7 +138,9 @@ export default function CreateDeviceModal({
   const { groupTree, isLoading } = useDeviceGroupQuery(defaultRequestParams);
   const treeNodeData = getTreeNodeData(groupTree);
 
-  const { items } = useDeviceTemplateQuery(defaultTemplateRequestParams);
+  const { items, isLoading: templateIsLoading } = useDeviceTemplateQuery(
+    defaultTemplateRequestParams
+  );
   const templateTreeNodeData = getTemplateTreeNodeData(items);
 
   const { mutate: createSubscribeEntitiesDeviceMutate } =
@@ -228,18 +236,25 @@ export default function CreateDeviceModal({
                 />
 
                 {!isLoading ? (
-                  <Tree
-                    style={{ marginTop: '16px' }}
-                    icon={FileBoxTwoToneIcon}
-                    checkable
-                    treeData={treeNodeData}
-                    checkedKeys={selectedKeys}
-                    onCheck={(keys, el) => {
-                      const { checkedNodes } = el;
-                      setSelectNode(getSelectNode(checkedNodes));
-                      setSelectedKeys(keys);
-                    }}
-                  />
+                  treeNodeData.length > 0 ? (
+                    <Tree
+                      style={{ marginTop: '16px' }}
+                      icon={FileBoxTwoToneIcon}
+                      checkable
+                      treeData={treeNodeData}
+                      checkedKeys={selectedKeys}
+                      onCheck={(keys, el) => {
+                        const { checkedNodes } = el;
+                        setSelectNode(getSelectNode(checkedNodes));
+                        setSelectedKeys(keys);
+                      }}
+                    />
+                  ) : (
+                    <Empty
+                      title="暂无数据"
+                      styles={{ wrapper: { height: '100%' } }}
+                    />
+                  )
                 ) : (
                   <Loading styles={{ wrapper: { height: '100%' } }} />
                 )}
@@ -255,18 +270,29 @@ export default function CreateDeviceModal({
                     });
                   }}
                 />
-                <Tree
-                  style={{ marginTop: '16px' }}
-                  icon={FileBoxTwoToneIcon}
-                  checkable
-                  treeData={templateTreeNodeData}
-                  checkedKeys={selectedKeys}
-                  onCheck={(keys, el) => {
-                    const { checkedNodes } = el;
-                    setSelectNode(checkedNodes);
-                    setSelectedKeys(keys);
-                  }}
-                />
+                {templateIsLoading ? (
+                  templateTreeNodeData.length > 0 ? (
+                    <Tree
+                      style={{ marginTop: '16px' }}
+                      icon={FileBoxTwoToneIcon}
+                      checkable
+                      treeData={templateTreeNodeData}
+                      checkedKeys={selectedKeys}
+                      onCheck={(keys, el) => {
+                        const { checkedNodes } = el;
+                        setSelectNode(checkedNodes);
+                        setSelectedKeys(keys);
+                      }}
+                    />
+                  ) : (
+                    <Empty
+                      title="暂无数据"
+                      styles={{ wrapper: { height: '100%' } }}
+                    />
+                  )
+                ) : (
+                  <Loading styles={{ wrapper: { height: '100%' } }} />
+                )}
               </TabPanel>
             </TabPanels>
           </Tabs>

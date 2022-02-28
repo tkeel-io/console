@@ -46,7 +46,8 @@ function SubscriptionCard() {
                 background="gray.50"
                 border="1px"
                 borderStyle="solid"
-                borderColor="blue.50"
+                borderColor="grayAlternatives.50"
+                // borderColor="#E2E8F0"
                 width="48%"
                 key={item.title}
                 margin="0 20px 12px 0"
