@@ -1,5 +1,5 @@
-import { UseFormRegisterReturn } from 'react-hook-form';
 import { Select } from '@chakra-ui/react';
+import { UseFormRegisterReturn } from 'react-hook-form';
 
 import FormControl, {
   FormControlProps,

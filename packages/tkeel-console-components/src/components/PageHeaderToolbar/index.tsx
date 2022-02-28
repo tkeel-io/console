@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import {
   Center,
   Circle,
@@ -8,8 +7,10 @@ import {
   Text,
   useTheme,
 } from '@chakra-ui/react';
-import { BookOpenedFilledIcon } from '@tkeel/console-icons';
 import { noop } from 'lodash';
+import { ReactNode } from 'react';
+
+import { BookOpenedFilledIcon } from '@tkeel/console-icons';
 
 import SearchInput, {
   Props as SearchInputProps,
@@ -81,7 +82,7 @@ function PageHeaderToolbar({
       {buttons.length > 0 && (
         <Flex paddingLeft="8px">
           {buttons.map((button, index) => (
-            <ButtonWrapper key={String(index)}>{button}</ButtonWrapper>
+            <ButtonWrapper key={String(index + 1)}>{button}</ButtonWrapper>
           ))}
         </Flex>
       )}

@@ -1,6 +1,6 @@
 // import { useEffect } from 'react';
-import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { Box, Flex, Skeleton } from '@chakra-ui/react';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 
 import Header from '@/tkeel-console-portal-base/containers/Layout/Header';
 import Menus from '@/tkeel-console-portal-base/containers/Layout/Menus';

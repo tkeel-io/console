@@ -30,9 +30,12 @@ export interface DeviceApiItem {
   properties: {
     basicInfo: {
       name: string;
+      description: string;
       directConnection: boolean;
       templateId?: string;
       selfLearn: boolean;
+      parentId: string;
+      parentName?: string;
       ext: {
         [propName: string]: any;
       };

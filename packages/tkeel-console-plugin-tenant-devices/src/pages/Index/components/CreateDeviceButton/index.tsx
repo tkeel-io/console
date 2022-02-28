@@ -1,43 +1,32 @@
 /* eslint-disable no-console */
 /* eslint-disable unicorn/consistent-function-scoping */
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useDisclosure } from '@chakra-ui/react';
-import { CreateButton, LinkButton, toast } from '@tkeel/console-components';
 import { has, keyBy, mapValues } from 'lodash';
 
-import CreateDeviceModal from '../CreateDeviceModal';
+import { CreateButton, LinkButton, toast } from '@tkeel/console-components';
+
+import useCreateDeviceMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceMutation';
+import OperateDeviceModal from '@/tkeel-console-plugin-tenant-devices/pages/Index/components/OperateDeviceModal';
 import {
   ConnectInfoType,
   ConnectOption,
-  CreateType,
   DeviceValueType,
-} from '../DeviceModalPart/types';
-
-import useCreateDeviceMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceMutation';
+  ModalMode,
+  ModalType,
+} from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
 
 interface Props {
   variant: 'link' | 'solid';
 }
 
 export default function CreateDeviceButton({ variant }: Props) {
-  const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [completed, setCompleted] = useState(false);
-  useEffect(() => {
-    if (isOpen) {
-      setCompleted(false);
-    }
-  }, [isOpen]);
-  const { data, isLoading, mutate } = useCreateDeviceMutation({
-    onSuccess(resData) {
-      const id = resData?.data?.deviceObject?.id ?? '';
+  const { data, isLoading, mutate, isSuccess } = useCreateDeviceMutation({
+    onSuccess() {
       toast({
         status: 'success',
         title: '创建设备成功',
       });
-      setCompleted(true);
-      navigate(`/detail?id=${id}`);
     },
   });
   const handleConfirm = ({ formValues }: { formValues: DeviceValueType }) => {
@@ -70,15 +59,16 @@ export default function CreateDeviceButton({ variant }: Props) {
       {variant === 'solid' && (
         <CreateButton onClick={onOpen}>添加设备</CreateButton>
       )}
-      <CreateDeviceModal
+      <OperateDeviceModal
         title="创建设备"
         isOpen={isOpen}
         onClose={onClose}
-        type={CreateType.DEVICE}
+        type={ModalType.DEVICE}
+        mode={ModalMode.CREATE}
         handleConfirm={handleConfirm}
         isLoading={isLoading}
         responseData={data}
-        completed={completed}
+        isSuccess={isSuccess}
       />
     </>
   );

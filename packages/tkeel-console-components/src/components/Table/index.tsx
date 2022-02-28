@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
+import { Flex, Table as ChakraTable } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import {
   ColumnInstance,
@@ -13,7 +14,6 @@ import {
   useTable,
 } from 'react-table';
 import { useDeepCompareEffect } from 'react-use';
-import { Flex, Table as ChakraTable } from '@chakra-ui/react';
 
 import Empty from '@/tkeel-console-components/components/Empty';
 import Loading from '@/tkeel-console-components/components/Loading';

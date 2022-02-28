@@ -1,4 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom';
+
 import { Loading } from '@tkeel/console-components';
 import { PlatformNames } from '@tkeel/console-constants';
 import { useNoAuthRedirectPath } from '@tkeel/console-hooks';

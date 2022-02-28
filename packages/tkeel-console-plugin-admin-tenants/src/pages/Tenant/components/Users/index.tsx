@@ -1,7 +1,8 @@
+import { Flex, Text } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Cell, Column } from 'react-table';
-import { Flex, Text } from '@chakra-ui/react';
+
 import {
   ButtonsHStack,
   PageHeaderToolbar,
@@ -10,11 +11,11 @@ import {
 import { usePagination } from '@tkeel/console-hooks';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
-import ResetPasswordButton from '../ResetPasswordButton';
-
 import useUsersQuery, {
   User,
 } from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useUsersQuery';
+
+import ResetPasswordButton from '../ResetPasswordButton';
 
 export default function Users() {
   const { tenantId = '' } = useParams();

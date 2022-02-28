@@ -1,15 +1,15 @@
+import { Box, Button, Center, Flex, Heading, Text } from '@chakra-ui/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
-import { Box, Button, Center, Flex, Heading, Text } from '@chakra-ui/react';
+
 import { Form, FormField } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
 import { schemas, setLocalTokenInfo } from '@tkeel/console-utils';
 
+import configs from '@/tkeel-console-portal-base/configs';
 import useOAuthAdminTokenMutation, {
   ApiData,
 } from '@/tkeel-console-portal-base/hooks/mutations/useOAuthAdminTokenMutation';
-
-import configs from '@/tkeel-console-portal-base/configs';
 
 const { TextField } = FormField;
 

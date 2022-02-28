@@ -1,9 +1,9 @@
+import { Link } from '@chakra-ui/react';
 import {
   Link as ReactRouterLink,
   useMatch,
   useResolvedPath,
 } from 'react-router-dom';
-import { Link } from '@chakra-ui/react';
 
 import { isDarkMenuTheme } from '@/tkeel-console-portal-base/utils';
 

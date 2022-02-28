@@ -1,5 +1,8 @@
-import { useSearchParams } from 'react-router-dom';
 import { Box, Flex, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { Base64 } from 'js-base64';
+import { markdown } from 'markdown';
+import { useSearchParams } from 'react-router-dom';
+
 import { DeveloperInfo } from '@tkeel/console-business-components';
 import {
   CustomTab,
@@ -7,14 +10,12 @@ import {
   Editor,
   Empty,
 } from '@tkeel/console-components';
-import { Base64 } from 'js-base64';
-import { markdown } from 'markdown';
+
+import usePluginDetailQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/usePluginDetailQuery';
 
 import BasicInfoCard from './components/BasicInfoCard';
 import EnablePluginList from './components/EnablePluginList';
 import { MarkdownWrapper } from './index.style';
-
-import usePluginDetailQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/usePluginDetailQuery';
 
 function Detail() {
   const [searchParams] = useSearchParams();

@@ -1,5 +1,3 @@
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   Box,
   Button,
@@ -9,13 +7,15 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+
 import { Alert, Form, FormField, toast } from '@tkeel/console-components';
 import { schemas } from '@tkeel/console-utils';
 
+import configs from '@/tkeel-console-portal-base/configs';
 import useOAuthResetPasswordMutation from '@/tkeel-console-portal-base/hooks/mutations/useOAuthResetPasswordMutation';
 import useResetPasswordKeyInfoQuery from '@/tkeel-console-portal-base/hooks/queries/useResetPasswordKeyInfoQuery';
-
-import configs from '@/tkeel-console-portal-base/configs';
 
 const { TextField } = FormField;
 

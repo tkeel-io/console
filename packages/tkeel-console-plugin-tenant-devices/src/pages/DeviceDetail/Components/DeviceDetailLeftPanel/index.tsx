@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable sonarjs/cognitive-complexity */
 import { Box, Flex, Text, useClipboard, VStack } from '@chakra-ui/react';
+
 import { InfoCard } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 import {

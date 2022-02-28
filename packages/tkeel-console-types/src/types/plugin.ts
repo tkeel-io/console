@@ -1,4 +1,5 @@
 import { NavigateFunction } from 'react-router-dom';
+
 import { PlatformNames } from '@tkeel/console-constants';
 
 import { TokenInfo } from './auth';
