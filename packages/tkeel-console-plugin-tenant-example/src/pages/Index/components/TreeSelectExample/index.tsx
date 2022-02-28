@@ -30,18 +30,20 @@ const treeData = [
 export default function TreeSelectExample() {
   return (
     <HStack spacing="32px">
-      <TreeSelect
-        style={{ width: '400px' }}
-        dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-        treeData={treeData}
-        placeholder="Please select"
-        // treeCheckable
-      />
       <Select>
         <Select.Option>1</Select.Option>
         <Select.Option>2</Select.Option>
         <Select.Option>3</Select.Option>
       </Select>
+      <Tree treeData={treeData} />
+      <TreeSelect
+        style={{ width: '400px' }}
+        dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+        treeData={treeData}
+        placeholder="Please select"
+        // multiple
+        // treeCheckable
+      />
     </HStack>
   );
 }
