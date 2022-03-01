@@ -16,8 +16,17 @@
     "dev": "cross-env NODE_ENV=development PORTAL_NAME=admin webpack serve --config ../../webpack/webpack.config.portals"
   },
   "dependencies": {
+    "@chakra-ui/react": "^1.8.6",
+    "@tkeel/console-business-components": "workspace:^",
+    "@tkeel/console-components": "workspace:^",
+    "@tkeel/console-hooks": "workspace:^",
+    "@tkeel/console-icons": "workspace:^",
     "@tkeel/console-portal-base": "workspace:^",
+    "@tkeel/console-utils": "workspace:^",
+    "lodash": "^4.17.21",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "react-hook-form": "^7.27.1",
+    "react-router-dom": "^6.2.2"
   }
 }
