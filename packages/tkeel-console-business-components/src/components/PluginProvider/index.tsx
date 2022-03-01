@@ -16,4 +16,4 @@ export default function PluginProvider({
   return <Context.Provider value={globalProps}>{children}</Context.Provider>;
 }
 
-export { default as useGlobalProps } from './useGlobalProps';
+export { default as useGlobalPluginProps } from './useGlobalPluginProps';

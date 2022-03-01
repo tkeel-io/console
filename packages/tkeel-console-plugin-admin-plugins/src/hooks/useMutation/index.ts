@@ -1,6 +1,6 @@
 import { merge } from 'lodash';
 
-import { useGlobalProps } from '@tkeel/console-business-components';
+import { useGlobalPluginProps } from '@tkeel/console-business-components';
 import {
   UseCustomMutationOptions,
   useMutation as useCustomMutation,
@@ -13,7 +13,7 @@ export default function useMutation<
   TRequestParams = undefined,
   TRequestData = undefined
 >(options: UseCustomMutationOptions<TApiData, TRequestParams, TRequestData>) {
-  const { portalName, navigate } = useGlobalProps();
+  const { portalName, navigate } = useGlobalPluginProps();
   const basePath = process.env.BASE_PATH;
   const redirectPath = useNoAuthRedirectPath({ portalName, basePath });
   const handleNoAuth = createHandleNoAuth({ navigate, redirectPath });
