@@ -1,4 +1,4 @@
-interface GlobalPortalConfig {
+interface PortalGlobals {
   edition: 'free' | 'paid';
   portalName: 'admin' | 'tenant';
   publicPath: string;
@@ -40,4 +40,4 @@ interface GlobalPortalConfig {
   };
 }
 
-declare const GLOBAL_PORTAL_CONFIG: GlobalPortalConfig;
+declare const PORTAL_GLOBALS: PortalGlobals;

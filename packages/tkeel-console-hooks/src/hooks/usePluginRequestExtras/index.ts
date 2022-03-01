@@ -5,7 +5,7 @@ import useNoAuthRedirectPath from '../useNoAuthRedirectPath';
 
 export default function usePluginRequestExtras() {
   const { portalName, tokenInfo, navigate } = useGlobalPluginProps();
-  const { basePath } = GLOBAL_PLUGIN_CONFIG;
+  const { basePath } = PLUGIN_GLOBALS;
   const redirectPath = useNoAuthRedirectPath({ portalName, basePath });
   const handleNoAuth = createHandleNoAuth({ navigate, redirectPath });
 

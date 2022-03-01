@@ -20,8 +20,8 @@ function App(props: GlobalPluginProps) {
           <Router
             basename={
               window.__POWERED_BY_QIANKUN__
-                ? GLOBAL_PLUGIN_CONFIG.basePath
-                : GLOBAL_PLUGIN_CONFIG.publicPath
+                ? PLUGIN_GLOBALS.basePath
+                : PLUGIN_GLOBALS.publicPath
             }
           >
             <Routes />
