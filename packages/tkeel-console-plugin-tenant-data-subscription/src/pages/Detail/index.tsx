@@ -1,7 +1,13 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, Tabs, Text } from '@chakra-ui/react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { BackButton, InfoCard, MoreAction } from '@tkeel/console-components';
+import {
+  BackButton,
+  CustomTab,
+  CustomTabList,
+  InfoCard,
+  MoreAction,
+} from '@tkeel/console-components';
 import { MessageWarningTwoToneIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
@@ -85,8 +91,8 @@ function Detail(): JSX.Element {
           </Flex>
           <Flex background="white" height="40px" alignItems="center">
             <Box fontSize="12px" color="grayAlternatives.300" padding="0 20px">
-              订阅地址：
-              <Text display="inline" color="gray.800">
+              订阅地址
+              <Text display="inline" color="gray.800" ml="26px">
                 {data?.endpoint}
               </Text>
             </Box>
@@ -135,10 +141,16 @@ function Detail(): JSX.Element {
       </Box>
       <Box
         flex="1"
-        height="80vh"
-        background="linear-gradient(180deg, #FFFFFF 0%, #F9FBFD 100%)"
         borderRadius="4px"
+        minH="80vh"
+        background="linear-gradient(180deg, #FFFFFF 0%, #F9FBFD 100%)"
       >
+        <Tabs display="flex" flexDirection="column" flex="1">
+          <CustomTabList>
+            <CustomTab>订阅设备</CustomTab>
+          </CustomTabList>
+        </Tabs>
+
         <Table id={ID} title={data?.title} />
       </Box>
     </Flex>

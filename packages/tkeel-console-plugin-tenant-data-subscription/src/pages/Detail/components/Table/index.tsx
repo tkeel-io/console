@@ -199,7 +199,7 @@ function Index({ id, title }: { id: string; title: string }) {
         ]}
       />
       <Table
-        style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
+        style={{ flex: 1, overflow: 'hidden' }}
         columns={columns}
         data={data?.data || []}
         // hasPagination
@@ -209,17 +209,26 @@ function Index({ id, title }: { id: string; title: string }) {
         paginationProps={pagination}
         empty={
           <Empty
-            description={`[${title}] 暂无设备,可手动添加`}
+            description={
+              <Box>
+                <Box display="inline" color="gray.600" fontWeight="500">
+                  [{title}]
+                </Box>
+                暂无设备,可手动添加
+              </Box>
+            }
             styles={{
               wrapper: { height: '100%' },
               content: { marginTop: '10px' },
             }}
             title=""
             content={
-              <CreateDeviceButton
-                key="create"
-                onSuccess={handleCreateRoleSuccess}
-              />
+              <Box mt="20px">
+                <CreateDeviceButton
+                  key="create"
+                  onSuccess={handleCreateRoleSuccess}
+                />
+              </Box>
             }
           />
         }
