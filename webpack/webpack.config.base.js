@@ -1,7 +1,6 @@
 const path = require('path');
 
 const config = require('config');
-const ConfigWebpackPlugin = require('config-webpack');
 const dotenvExpand = require('dotenv-expand');
 const dotenvFlow = require('dotenv-flow');
 const DotenvWebpack = require('dotenv-webpack');
@@ -191,7 +190,6 @@ module.exports = {
       hash: true,
     }),
     new ForkTsCheckerWebpackPlugin(),
-    new ConfigWebpackPlugin('GLOBAL_CONFIG'),
     new ESLintPlugin({
       context: 'src',
       extensions: ['js', 'jsx', 'ts', 'tsx'],

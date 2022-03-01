@@ -1,6 +1,5 @@
+import { usePluginMutation } from '@tkeel/console-hooks';
 import { RequestResult } from '@tkeel/console-utils';
-
-import useMutation from '@/tkeel-console-plugin-tenant-plugins/hooks/useMutation';
 
 const url = '/rudder/v1/plugins';
 const method = 'DELETE';
@@ -18,7 +17,7 @@ export default function useDisablePluginMutation({
   pluginName,
   onSuccess,
 }: Props) {
-  return useMutation({
+  return usePluginMutation({
     url: `${url}/${pluginName}/tenants`,
     method,
     reactQueryOptions: {

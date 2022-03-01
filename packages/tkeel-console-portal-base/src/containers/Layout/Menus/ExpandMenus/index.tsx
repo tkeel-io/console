@@ -14,7 +14,6 @@ import tkeelLogo from '@/tkeel-console-portal-base/assets/images/tkeel-logo.svg'
 import tKeelLogoDark from '@/tkeel-console-portal-base/assets/images/tkeel-logo-dark.svg';
 import tKeelLogoLight from '@/tkeel-console-portal-base/assets/images/tkeel-logo-light.svg';
 import useMenusQuery from '@/tkeel-console-portal-base/hooks/queries/useMenusQuery';
-import useGlobalProps from '@/tkeel-console-portal-base/hooks/useGlobalProps';
 
 import MenuLink from './MenuLink';
 import SubMenuLink from './SubMenuLink';
@@ -28,7 +27,6 @@ type Props = {
 
 export default function ExpandMenus({ isQingCloudTheme, isDarkMenu }: Props) {
   const location = useLocation();
-  const { platformName } = useGlobalProps();
 
   const [spreadMenuIds, setSpreadMenus] = useState<string[]>([]);
 
@@ -54,11 +52,11 @@ export default function ExpandMenus({ isQingCloudTheme, isDarkMenu }: Props) {
       setSpreadMenus([...spreadMenuIds, id]);
     }
   };
-  const isAdminPlatform = platformName === 'admin';
-  const qingcloudLogoDark = isAdminPlatform
+  const isPortalAdmin = PORTAL_GLOBALS.portalName === 'admin';
+  const qingcloudLogoDark = isPortalAdmin
     ? qingcloudLogoAdminDark
     : qingcloudLogoTenantDark;
-  const qingcloudLogoLight = isAdminPlatform
+  const qingcloudLogoLight = isPortalAdmin
     ? qingcloudLogoAdminLight
     : qingcloudLogoTenantLight;
 

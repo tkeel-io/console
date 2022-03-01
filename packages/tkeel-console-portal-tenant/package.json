@@ -1,6 +1,6 @@
 {
   "name": "@tkeel/console-portal-tenant",
-  "version": "0.4.0-alpha.2",
+  "version": "0.4.0-alpha.3",
   "homepage": "https://github.com/tkeel-io/console#readme",
   "bugs": {
     "url": "https://github.com/tkeel-io/console/issues"
@@ -12,12 +12,22 @@
   "license": "Apache-2.0",
   "scripts": {
     "analyze": "cross-env NODE_ENV=development ANALYZE=true yarn build",
-    "build": "cross-env NODE_ENV=production PORTAL_NAME=tenant webpack --config ../../webpack/webpack.config",
-    "dev": "cross-env NODE_ENV=development PORTAL_NAME=tenant webpack serve --config ../../webpack/webpack.config"
+    "build": "cross-env NODE_ENV=production PORTAL_NAME=tenant webpack --config ../../webpack/webpack.config.portals",
+    "dev": "cross-env NODE_ENV=development PORTAL_NAME=tenant webpack serve --config ../../webpack/webpack.config.portals"
   },
   "dependencies": {
+    "@chakra-ui/react": "^1.8.6",
+    "@tkeel/console-business-components": "workspace:^",
+    "@tkeel/console-components": "workspace:^",
+    "@tkeel/console-hooks": "workspace:^",
+    "@tkeel/console-icons": "workspace:^",
     "@tkeel/console-portal-base": "workspace:^",
+    "@tkeel/console-utils": "workspace:^",
+    "lodash": "^4.17.21",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "react-hook-form": "^7.27.1",
+    "react-query": "^3.34.16",
+    "react-router-dom": "^6.2.2"
   }
 }

@@ -15,7 +15,7 @@ const jsonFileNames = [
   'tenant.disable.json',
 ];
 const jsonSrcDirectoryPath = paths.resolveRoot('scripts/docker/templates/');
-const jsonDestDirectoryPath = paths.resolveRoot('.tmp/api-json/');
+const jsonDestDirectoryPath = paths.resolveRoot('.tmp/server/api/');
 
 function createJsonFiles(packageInfo) {
   const { packageJson, config: packageConfig } = packageInfo;

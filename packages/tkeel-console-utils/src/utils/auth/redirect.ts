@@ -1,25 +1,29 @@
 import { Location } from 'react-router-dom';
 
-import { PlatformNames } from '@tkeel/console-constants';
+import { PortalNames } from '@tkeel/console-constants';
 
 import { getLocalUserInfo } from '@/tkeel-console-utils/utils/auth/tenant-user';
 
-// eslint-disable-next-line import/prefer-default-export
-export function getNoAuthRedirectPath({
-  platformName,
-  basePath = '',
-  location,
-}: {
-  platformName: PlatformNames;
+type Options = {
+  portalName: 'admin' | 'tenant';
   location: Location;
   basePath?: string;
-}) {
+};
+
+// eslint-disable-next-line import/prefer-default-export
+export function getNoAuthRedirectPath({
+  portalName,
+  basePath = '',
+  location,
+}: Options) {
   let loginPath = '/auth/login';
-  if (platformName === PlatformNames.TENANT) {
+
+  if (portalName === PortalNames.TENANT) {
     const userInfo = getLocalUserInfo();
     const tenantId = userInfo?.tenant_id ?? '';
     loginPath += `/${tenantId}`;
   }
+
   const { pathname, search, hash } = location;
   const url = `${basePath}${pathname}${search}${hash}`.trim();
 
