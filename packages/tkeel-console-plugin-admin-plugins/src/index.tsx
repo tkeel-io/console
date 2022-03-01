@@ -2,11 +2,11 @@ import './public-path';
 
 import * as ReactDOM from 'react-dom';
 
-import { PluginGlobalProps } from '@tkeel/console-types';
+import { GlobalPluginProps } from '@tkeel/console-types';
 
 import App from './App';
 
-function render(props: PluginGlobalProps) {
+function render(props: GlobalPluginProps) {
   const { container } = props;
 
   ReactDOM.render(
@@ -25,11 +25,11 @@ export async function bootstrap() {
   //
 }
 
-export async function mount(props: PluginGlobalProps) {
+export async function mount(props: GlobalPluginProps) {
   render(props);
 }
 
-export async function unmount(props: PluginGlobalProps) {
+export async function unmount(props: GlobalPluginProps) {
   const { container } = props;
   const rootContainer = (
     container

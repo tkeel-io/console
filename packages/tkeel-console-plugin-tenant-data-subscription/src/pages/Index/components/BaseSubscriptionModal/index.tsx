@@ -72,6 +72,20 @@ export default function BaseSubscriptionModal({
       }}
       onConfirm={handleConfirm}
     >
+      <Text
+        background="blue.50"
+        border="1px solid"
+        borderColor="blue.300"
+        borderRadius="4px"
+        color="blue.300"
+        pl="20px"
+        fontSize="12px"
+        mb="20px"
+        mt="10px"
+        lineHeight="32px"
+      >
+        请注意，订阅数据本地存储24小时
+      </Text>
       <TextField
         id="title"
         label="订阅名称"

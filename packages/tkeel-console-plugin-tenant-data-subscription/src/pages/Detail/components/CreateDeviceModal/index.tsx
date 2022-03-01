@@ -13,8 +13,19 @@ import { DataNode, Key } from 'node_modules/rc-tree/es/interface';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { Loading, Modal, SearchInput, Tree } from '@tkeel/console-components';
-import { BroomFilledIcon, FileBoxTwoToneIcon } from '@tkeel/console-icons';
+import {
+  Empty,
+  Loading,
+  Modal,
+  SearchInput,
+  Tree,
+} from '@tkeel/console-components';
+import { useColor } from '@tkeel/console-hooks';
+import {
+  BroomFilledIcon,
+  FolderCloseTwoToneIcon,
+  FolderOpenTwoToneIcon,
+} from '@tkeel/console-icons';
 
 import useCreateSubscribeEntitiesDeviceMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useCreateSubscribeEntitiesDeviceMutation';
 import useCreateSubscribeEntitiesTemplateMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useCreateSubscribeEntitiesTemplateMutation';
@@ -57,38 +68,80 @@ type SelectedKeyCheck =
       halfChecked: Key[];
     };
 
-function getTreeNodeData(data: TreeNodeType): TreeNodeData[] {
-  return values(data).map((item) => {
-    const { nodeInfo, subNode } = item;
-    const { id, properties } = nodeInfo;
-    return {
-      title: properties?.group?.name ?? '暂无数据',
-      id,
-      children: getTreeNodeData(subNode),
-      originData: item,
-      key: id,
-    };
+function assembleTree(nodes: TreeNodeData[], defaultPath: string) {
+  return nodes.map((n) => {
+    const node = n;
+    const path = defaultPath ? `${defaultPath}/${n.title}` : n.title;
+    node.path = path;
+    if (n.children && Array.isArray(n.children)) {
+      assembleTree(n.children, path);
+    }
+    return node;
   });
 }
-
-function getTemplateTreeNodeData(
-  data: TemplateTreeNodeType
-): TemplateTreeNodeDataType[] {
-  return values(data).map((item) => {
-    return {
-      title: item?.properties?.basicInfo?.name,
-      id: item?.id,
-      key: item?.id,
-    };
-  });
-}
-
 export default function CreateDeviceModal({
   isOpen,
   isConfirmButtonLoading,
   onClose,
   onConfirm,
 }: Props) {
+  const selectedColor = useColor('primary');
+  const selectedTwoTone = useColor('primarySub2');
+  const unselectedColor = useColor('gray.700');
+  const unselectedTwoTone = useColor('gray.300');
+
+  function getTreeIcon(props: { selected: boolean; expanded: boolean }) {
+    const { selected, expanded } = props;
+
+    const color = selected ? selectedColor : unselectedColor;
+    const twoToneColor = selected ? selectedTwoTone : unselectedTwoTone;
+    return expanded ? (
+      <FolderOpenTwoToneIcon color={color} twoToneColor={twoToneColor} />
+    ) : (
+      <FolderCloseTwoToneIcon color={color} twoToneColor={twoToneColor} />
+    );
+  }
+
+  function getTreeNodeData(data: TreeNodeType): TreeNodeData[] {
+    return values(data).map((item) => {
+      const { nodeInfo, subNode } = item;
+      const { id, properties } = nodeInfo;
+      return {
+        title: properties?.group?.name ?? '暂无数据',
+        id,
+        children: getTreeNodeData(subNode),
+        originData: item,
+        key: id,
+        icon: ({
+          expanded,
+          selected,
+        }: {
+          expanded: boolean;
+          selected: boolean;
+        }) => getTreeIcon({ expanded, selected }),
+      };
+    });
+  }
+
+  function getTemplateTreeNodeData(
+    data: TemplateTreeNodeType
+  ): TemplateTreeNodeDataType[] {
+    return values(data).map((item) => {
+      return {
+        title: item?.properties?.basicInfo?.name,
+        id: item?.id,
+        key: item?.id,
+        icon: ({
+          expanded,
+          selected,
+        }: {
+          expanded: boolean;
+          selected: boolean;
+        }) => getTreeIcon({ expanded, selected }),
+      };
+    });
+  }
+
   const [defaultRequestParams, setDefaultRequestParams] =
     useState<RequestParams>({
       page_num: 1,
@@ -131,9 +184,10 @@ export default function CreateDeviceModal({
   const ID = pathname.split('/')[pathname.split('/').length - 1];
 
   const { groupTree, isLoading } = useDeviceGroupQuery(defaultRequestParams);
-  const treeNodeData = getTreeNodeData(groupTree);
-
-  const { items } = useDeviceTemplateQuery(defaultTemplateRequestParams);
+  const treeNodeData = assembleTree(getTreeNodeData(groupTree), '');
+  const { items, isLoading: templateIsLoading } = useDeviceTemplateQuery(
+    defaultTemplateRequestParams
+  );
   const templateTreeNodeData = getTemplateTreeNodeData(items);
 
   const { mutate: createSubscribeEntitiesDeviceMutate } =
@@ -195,7 +249,7 @@ export default function CreateDeviceModal({
       onConfirm={handleConfirm}
       width="900px"
     >
-      <Flex>
+      <Flex minH="300px">
         <Box flex="1">
           <Tabs
             isFitted
@@ -207,10 +261,27 @@ export default function CreateDeviceModal({
             }}
           >
             <TabList>
-              <Tab _selected={{ color: 'green.300', boxShadow: 'none' }}>
+              <Tab
+                style={{ margin: '0 30px' }}
+                _selected={{
+                  color: 'green.300',
+                  boxShadow: 'none',
+                  borderBottom: '1px solid',
+                  borderBottomColor: 'green.300',
+                  margin: '0 30px',
+                }}
+              >
                 设备组
               </Tab>
-              <Tab _selected={{ color: 'green.300', boxShadow: 'none' }}>
+              <Tab
+                style={{ margin: '0 30px' }}
+                _selected={{
+                  color: 'green.300',
+                  boxShadow: 'none',
+                  borderBottom: '1px solid',
+                  borderBottomColor: 'green.300',
+                }}
+              >
                 设备模板
               </Tab>
             </TabList>
@@ -229,18 +300,25 @@ export default function CreateDeviceModal({
                 />
 
                 {!isLoading ? (
-                  <Tree
-                    style={{ marginTop: '16px' }}
-                    icon={FileBoxTwoToneIcon}
-                    checkable
-                    treeData={treeNodeData}
-                    checkedKeys={selectedKeys}
-                    onCheck={(keys, el) => {
-                      const { checkedNodes } = el;
-                      setSelectNode(getSelectNode(checkedNodes));
-                      setSelectedKeys(keys);
-                    }}
-                  />
+                  treeNodeData.length > 0 ? (
+                    <Tree
+                      style={{ marginTop: '16px' }}
+                      icon={FolderOpenTwoToneIcon}
+                      checkable
+                      treeData={treeNodeData}
+                      checkedKeys={selectedKeys}
+                      onCheck={(keys, el) => {
+                        const { checkedNodes } = el;
+                        setSelectNode(getSelectNode(checkedNodes));
+                        setSelectedKeys(keys);
+                      }}
+                    />
+                  ) : (
+                    <Empty
+                      title="暂无数据"
+                      styles={{ wrapper: { height: '100%' } }}
+                    />
+                  )
                 ) : (
                   <Loading styles={{ wrapper: { height: '100%' } }} />
                 )}
@@ -256,18 +334,29 @@ export default function CreateDeviceModal({
                     });
                   }}
                 />
-                <Tree
-                  style={{ marginTop: '16px' }}
-                  icon={FileBoxTwoToneIcon}
-                  checkable
-                  treeData={templateTreeNodeData}
-                  checkedKeys={selectedKeys}
-                  onCheck={(keys, el) => {
-                    const { checkedNodes } = el;
-                    setSelectNode(checkedNodes);
-                    setSelectedKeys(keys);
-                  }}
-                />
+                {!templateIsLoading ? (
+                  templateTreeNodeData.length > 0 ? (
+                    <Tree
+                      style={{ marginTop: '16px' }}
+                      icon={FolderOpenTwoToneIcon}
+                      checkable
+                      treeData={templateTreeNodeData}
+                      checkedKeys={selectedKeys}
+                      onCheck={(keys, el) => {
+                        const { checkedNodes } = el;
+                        setSelectNode(checkedNodes);
+                        setSelectedKeys(keys);
+                      }}
+                    />
+                  ) : (
+                    <Empty
+                      title="暂无数据"
+                      styles={{ wrapper: { height: '100%' } }}
+                    />
+                  )
+                ) : (
+                  <Loading styles={{ wrapper: { height: '100%' } }} />
+                )}
               </TabPanel>
             </TabPanels>
           </Tabs>
@@ -276,12 +365,23 @@ export default function CreateDeviceModal({
           <Flex
             justifyContent="space-between"
             alignItems="center"
-            mt="12px"
+            mt="19px"
             mb="19px"
           >
-            <Text>已选中</Text>
-            <Flex alignItems="center">
-              <BroomFilledIcon />
+            <Text color="gray.800" fontSize="12px" fontWeight="600">
+              已选择
+            </Text>
+            <Flex
+              alignItems="center"
+              color="gray.700"
+              fontSize="12px"
+              cursor="pointer"
+              onClick={() => {
+                setSelectNode([]);
+                setSelectedKeys([]);
+              }}
+            >
+              <BroomFilledIcon style={{ marginRight: '4px' }} size="14px" />
               清空
             </Flex>
           </Flex>
@@ -294,8 +394,11 @@ export default function CreateDeviceModal({
 
           <Tree
             style={{ marginTop: '16px' }}
-            icon={FileBoxTwoToneIcon}
+            icon={FolderOpenTwoToneIcon}
             checkable
+            fieldNames={
+              selectIndex === 0 ? { title: 'path' } : { title: 'title' }
+            }
             treeData={selectNode}
             checkedKeys={selectedKeys}
             onCheck={(keys) => {

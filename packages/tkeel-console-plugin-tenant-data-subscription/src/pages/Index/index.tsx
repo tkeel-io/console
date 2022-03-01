@@ -8,7 +8,6 @@ import {
 } from '@tkeel/console-icons';
 
 import useListSubscribeQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useListSubscribeQuery';
-// import useSubscribeInfoQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useSubscribeInfoQuery';
 import DeleteSubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/DeleteSubscriptionButton';
 import ModifySubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/ModifySubscriptionButton';
 
@@ -49,8 +48,8 @@ function SubscriptionCard() {
                 background="gray.50"
                 border="1px"
                 borderStyle="solid"
-                borderColor="blue.50"
-                // flex="1"
+                borderColor="grayAlternatives.50"
+                // borderColor="#E2E8F0"
                 width="48%"
                 key={item.title}
                 margin="0 20px 12px 0"

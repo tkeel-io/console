@@ -1,6 +1,5 @@
+import { usePluginQuery } from '@tkeel/console-hooks';
 import { RequestResult } from '@tkeel/console-utils';
-
-import useQuery from '@/tkeel-console-plugin-tenant-devices/hooks/useQuery';
 
 const url = '/tkeel-device/v1/search';
 const method = 'POST';
@@ -77,7 +76,7 @@ export default function useDeviceListQuery({
     data: RequestResult<ApiData, undefined, RequestParams>
   ) => unknown;
 }) {
-  const { data, ...rest } = useQuery<ApiData, undefined, RequestParams>({
+  const { data, ...rest } = usePluginQuery<ApiData, undefined, RequestParams>({
     url,
     method,
     data: params,
