@@ -17,11 +17,13 @@ export function getNoAuthRedirectPath({
   location,
 }: Options) {
   let loginPath = '/auth/login';
+
   if (portalName === PortalNames.TENANT) {
     const userInfo = getLocalUserInfo();
     const tenantId = userInfo?.tenant_id ?? '';
     loginPath += `/${tenantId}`;
   }
+
   const { pathname, search, hash } = location;
   const url = `${basePath}${pathname}${search}${hash}`.trim();
 
