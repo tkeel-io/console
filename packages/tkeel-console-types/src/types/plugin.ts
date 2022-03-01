@@ -4,7 +4,7 @@ import { TokenInfo } from './auth';
 
 export interface PluginGlobalProps {
   container?: HTMLElement;
-  platformName: 'admin' | 'tenant';
+  portalName: 'admin' | 'tenant';
   tokenInfo: TokenInfo;
   navigate: NavigateFunction;
   themeName: string;

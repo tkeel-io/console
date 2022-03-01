@@ -1,5 +1,5 @@
 module.exports = {
-  platformName: '', // admin, tenant
+  portalName: '', // admin, tenant
   publicPath: '/',
   basePath: '/plugin-example',
   client: {

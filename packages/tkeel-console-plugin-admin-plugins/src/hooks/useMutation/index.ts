@@ -13,9 +13,9 @@ export default function useMutation<
   TRequestParams = undefined,
   TRequestData = undefined
 >(options: UseCustomMutationOptions<TApiData, TRequestParams, TRequestData>) {
-  const { platformName, navigate } = useGlobalProps();
+  const { portalName, navigate } = useGlobalProps();
   const basePath = process.env.BASE_PATH;
-  const redirectPath = useNoAuthRedirectPath({ platformName, basePath });
+  const redirectPath = useNoAuthRedirectPath({ portalName, basePath });
   const handleNoAuth = createHandleNoAuth({ navigate, redirectPath });
   const opts = merge({}, { extras: { handleNoAuth } }, options);
 

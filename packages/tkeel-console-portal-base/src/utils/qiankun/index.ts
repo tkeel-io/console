@@ -47,7 +47,7 @@ export function menusToApps({
   const totalMenus: MenuInfo[] = getTotalMenus(menus);
   const tokenInfo = getLocalTokenInfo();
   const props: PluginGlobalProps = {
-    platformName: GLOBAL_CONFIG.platformName,
+    portalName: GLOBAL_CONFIG.portalName,
     tokenInfo,
     navigate,
     themeName,

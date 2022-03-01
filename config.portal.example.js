@@ -5,7 +5,7 @@ const API = {
 
 module.exports = {
   edition: '', // free, paid
-  platformName: '', // admin, tenant
+  portalName: '', // admin, tenant
   publicPath: '/',
   client: {
     themeName: '',

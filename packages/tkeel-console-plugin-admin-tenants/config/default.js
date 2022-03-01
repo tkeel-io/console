@@ -1,7 +1,7 @@
 const { tkeel } = require('../../../config/default');
 
 module.exports = {
-  platformName: 'admin',
+  portalName: 'admin',
   publicPath: '/static/console-plugin-admin-tenants/',
   basePath: '/admin-tenants',
   client: {

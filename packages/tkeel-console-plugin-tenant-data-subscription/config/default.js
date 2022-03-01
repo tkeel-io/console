@@ -1,7 +1,7 @@
 const { tkeel } = require('../../../config/default');
 
 module.exports = {
-  platformName: 'tenant',
+  portalName: 'tenant',
   publicPath: '/static/console-plugin-tenant-data-subscription/',
   basePath: '/tenant-data-subscription',
   client: {

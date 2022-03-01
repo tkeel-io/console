@@ -81,7 +81,7 @@ function readPackageInfos({
     );
     const simpleName = getSimpleName({ directoryName });
     const pluginName = isPlugin ? getPluginName({ directoryName }) : '';
-    const platformName = directoryName.split('-')[3];
+    const portalName = directoryName.split('-')[3];
     const isShared = SHARED_PACKAGE_SIMPLE_NAMES.includes(simpleName);
     const canRun = !SHARED_PACKAGE_SIMPLE_NAMES.includes(simpleName);
 
@@ -107,7 +107,7 @@ function readPackageInfos({
       canRun,
       simpleName,
       pluginName,
-      platformName,
+      portalName,
       packageJson,
       config,
       dotenvConfig,

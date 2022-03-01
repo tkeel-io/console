@@ -1,6 +1,6 @@
 import store from 'store2';
 
-const namespace = `${GLOBAL_CONFIG.platformName}.theme`;
+const namespace = `${GLOBAL_CONFIG.portalName}.theme`;
 const key = 'menuTheme';
 const menuThemeStore = store.namespace(namespace);
 

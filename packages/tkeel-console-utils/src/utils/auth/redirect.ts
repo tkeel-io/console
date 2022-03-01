@@ -6,16 +6,16 @@ import { getLocalUserInfo } from '@/tkeel-console-utils/utils/auth/tenant-user';
 
 // eslint-disable-next-line import/prefer-default-export
 export function getNoAuthRedirectPath({
-  platformName,
+  portalName,
   basePath = '',
   location,
 }: {
-  platformName: 'admin' | 'tenant';
+  portalName: 'admin' | 'tenant';
   location: Location;
   basePath?: string;
 }) {
   let loginPath = '/auth/login';
-  if (platformName === PlatformNames.TENANT) {
+  if (portalName === PlatformNames.TENANT) {
     const userInfo = getLocalUserInfo();
     const tenantId = userInfo?.tenant_id ?? '';
     loginPath += `/${tenantId}`;
