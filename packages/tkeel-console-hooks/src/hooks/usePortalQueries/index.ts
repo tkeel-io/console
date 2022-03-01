@@ -1,12 +1,12 @@
 import { merge } from 'lodash';
 
 import { UseCustomQueryOptions, useQueries } from '../react-query';
-import usePortalHandleNoAuth from '../usePortalHandleNoAuth';
+import usePluginRequestExtras from '../usePluginRequestExtras';
 
 export default function usePortalQueries(optionsList: UseCustomQueryOptions[]) {
-  const handleNoAuth = usePortalHandleNoAuth();
+  const extras = usePluginRequestExtras();
   const optsList = optionsList.map((option) => {
-    return merge({}, { extras: { handleNoAuth } }, option);
+    return merge({}, { extras }, option);
   });
 
   return useQueries(optsList);
