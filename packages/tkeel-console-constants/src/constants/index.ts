@@ -3,7 +3,7 @@ export const enum PortalNames {
   TENANT = 'tenant',
 }
 
-export const PLATFORM_INFOS = {
+export const PORTAL_INFOS = {
   [PortalNames.ADMIN]: {
     name: PortalNames.ADMIN,
   },
