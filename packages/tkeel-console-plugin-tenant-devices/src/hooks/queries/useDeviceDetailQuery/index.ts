@@ -26,6 +26,7 @@ export interface BasicInfo {
 export interface RawData {
   id: string;
   mark: 'upstream' | 'downstream' | 'connecting';
+  key?: string;
   path: string;
   ts: number;
   type: string;
@@ -52,10 +53,11 @@ export interface SysField {
   _spacePath: string;
   _subscribeAddr: string;
 }
-interface DeviceObject {
+export interface DeviceObject {
+  id: string;
   properties: {
-    basicInfo: BasicInfo;
-    sysField: SysField;
+    basicInfo?: BasicInfo;
+    sysField?: SysField;
     rawData?: RawData;
     connectInfo?: ConnectInfo;
   };
@@ -66,22 +68,16 @@ type RequestParams = {
 };
 export interface ApiData {
   '@type': string;
-  deviceObject: DeviceObject;
+  deviceObject?: DeviceObject;
 }
 
-export default function useDeviceDetailQuery({
-  id = '6aa71837-986b-4dcb-b3c0-cf458235f384',
-}: RequestParams) {
+export default function useDeviceDetailQuery({ id }: RequestParams) {
   const url = `/tkeel-device/v1/devices/${id}`;
-  const { data, ...rest } = useQuery<ApiData, RequestParams>({
+  const { data, ...rest } = useQuery<ApiData, undefined, undefined>({
     url,
     method,
   });
-  const properties = data?.deviceObject?.properties;
-  const basicInfo = properties?.basicInfo;
-  const sysField = properties?.sysField;
-  const rawData = properties?.rawData || {};
-  const connectInfo = properties?.connectInfo;
+  const deviceObject = data?.deviceObject;
 
-  return { basicInfo, sysField, rawData, connectInfo, ...rest };
+  return { deviceObject, ...rest };
 }

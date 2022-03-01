@@ -1,17 +1,9 @@
 /* eslint-disable no-underscore-dangle */
-import {
-  Box,
-  Flex,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-} from '@chakra-ui/react';
+import { Box, Flex, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { Empty } from '@tkeel/console-components';
+import { CustomTab, CustomTabList, Empty } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 import { WarningTwoToneIcon } from '@tkeel/console-icons';
 
@@ -22,19 +14,27 @@ import ConnectionInfo from './components/ConnectionInfo';
 import DeviceDetailLeftPanel from './components/DeviceDetailLeftPanel';
 import RawData from './components/RawData';
 
-function Index(): JSX.Element {
+const textStyle = {
+  fontSize: '14px',
+  fontWeight: '500',
+  lineHeight: '24px',
+  color: 'gray.800',
+};
+
+function DeviceDetail(): JSX.Element {
   const location = useLocation();
   const { search } = location;
   const id = search.split('=')[1];
-  const {
-    sysField,
-    basicInfo,
-    connectInfo: initialConnectInfo,
-  } = useDeviceDetailQuery({
+  const { deviceObject, refetch } = useDeviceDetailQuery({
     id,
   });
+  const properties = deviceObject?.properties;
+  const sysField = properties?.sysField;
+  const basicInfo = properties?.basicInfo;
+  const originRawData = properties?.rawData;
+  const originConnectInfo = properties?.connectInfo;
   const { rawData, connectInfo } = useDeviceDetailSocket({ id });
-  const connectData = connectInfo || initialConnectInfo;
+  const connectData = connectInfo || originConnectInfo;
   const tabs = [
     {
       label: '连接信息',
@@ -53,44 +53,20 @@ function Index(): JSX.Element {
   };
   const warningColor = useColor('white');
   const warnTwoToneColor = useColor('grayAlternatives.200');
-  const textStyle = {
-    fontSize: '14px',
-    fontWeight: '500',
-    lineHeight: '24px',
-    color: 'gray.800',
-  };
 
   const renderRightPanel = () => {
     return (
       <Box minWidth="700px" flex="2.5" bg="white" borderRadius="4px">
         <Tabs variant="unstyled" index={tabIndex} onChange={handleTabChange}>
-          <TabList
-            bg="gray.700"
-            color="white"
-            borderRadius={tabIndex === 0 ? '4px 4px 0 0' : '0 4px 0 0'}
-          >
+          <CustomTabList>
             {tabs.map((r) => (
-              <Tab
-                key={r.key}
-                _selected={{
-                  color: 'white',
-                  bg: 'primary',
-                  borderRadius: `${tabIndex === 0 ? '4px' : 0} 0 0 0`,
-                  boxShadow: 'none',
-                }}
-                fontSize="12px"
-                fontWeight="600"
-                borderRight="1px"
-                borderColor="gray.600"
-              >
-                {r.label}
-              </Tab>
+              <CustomTab key={r.key}>{r.label}</CustomTab>
             ))}
-          </TabList>
+          </CustomTabList>
           <TabPanels>
             {tabs.map((r) => (
-              <TabPanel key={r.key}>
-                {connectData?._online ? (
+              <TabPanel key={r.key} p="12px 20px">
+                {true ? (
                   r.component
                 ) : (
                   <Empty
@@ -126,14 +102,20 @@ function Index(): JSX.Element {
   return (
     <Flex justifyContent="space-between">
       <DeviceDetailLeftPanel
-        id={id}
-        sysField={sysField}
-        basicInfo={basicInfo}
-        connectInfo={connectData}
+        refetch={refetch}
+        deviceObject={{
+          id,
+          properties: {
+            sysField,
+            basicInfo,
+            rawData: originRawData,
+            connectInfo: connectData,
+          },
+        }}
       />
       {renderRightPanel()}
     </Flex>
   );
 }
 
-export default Index;
+export default DeviceDetail;

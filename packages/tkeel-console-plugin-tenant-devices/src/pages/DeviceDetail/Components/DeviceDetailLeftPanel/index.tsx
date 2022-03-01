@@ -12,22 +12,15 @@ import {
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import IconWrapper from '@/tkeel-console-plugin-tenant-devices/components/IconWrapper';
-import {
-  BasicInfo,
-  ConnectInfo,
-  SysField,
-} from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
+import { DeviceObject } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
 import DeviceBasicInfoCard, {
   Basic,
 } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/DeviceBasicInfoCard';
 import DeviceInfoCard from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/DeviceInfoCard';
-import { SELF_LEARN_COLORS } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
 
 type Props = {
-  id: string;
-  sysField?: SysField;
-  basicInfo?: BasicInfo;
-  connectInfo?: ConnectInfo;
+  deviceObject: DeviceObject;
+  refetch: () => void;
 };
 
 const getTime = (value: number | undefined) => {
@@ -37,18 +30,15 @@ const getTime = (value: number | undefined) => {
   return value.toString().length < 13 ? `${value}000` : `${value}`;
 };
 
-function DeviceDetailLeftPanel({
-  id,
-  sysField,
-  basicInfo,
-  connectInfo,
-}: Props): JSX.Element {
-  const tokenStr = sysField?._token || '';
+function DeviceDetailLeftPanel({ deviceObject, refetch }: Props): JSX.Element {
+  const properties = deviceObject?.properties;
+  const { sysField, basicInfo } = properties;
+  const tokenStr = sysField?._token ?? '';
   const isDirectConnection = basicInfo?.directConnection;
-  const { hasCopied, onCopy } = useClipboard(sysField?._token || '暂无token');
+  const { hasCopied, onCopy } = useClipboard(sysField?._token ?? '暂无token');
   const basic: Basic[] = [
     {
-      value: sysField?._id || '',
+      value: sysField?._id ?? '',
       label: '设备ID',
     },
     {
@@ -70,7 +60,7 @@ function DeviceDetailLeftPanel({
       label: '设备凭证',
     },
     {
-      value: basicInfo?.parentId || '',
+      value: basicInfo?.parentId ?? '',
       label: '设备组',
     },
     {
@@ -92,7 +82,7 @@ function DeviceDetailLeftPanel({
       label: '连接方式',
     },
     {
-      value: <Text as="u">{basicInfo?.templateName || ''}</Text>,
+      value: <Text as="u">{basicInfo?.templateName ?? ''}</Text>,
       label: '设备模板',
     },
     {
@@ -108,37 +98,27 @@ function DeviceDetailLeftPanel({
       }),
     },
     {
-      value: basicInfo?.description || '',
+      value: basicInfo?.description ?? '',
       label: '描述',
     },
   ];
-  const ext = basicInfo?.ext || {};
+  const ext = basicInfo?.ext ?? {};
   const keys = Object.keys(ext);
   const extInfo = keys.map((r) => {
     if (ext[r].name) {
       return {
-        label: ext[r].name || '',
-        value: ext[r].value || '',
+        label: ext[r].name ?? '',
+        value: ext[r].value ?? '',
       };
     }
     return {
       label: r,
-      value: basicInfo?.ext[r] || '',
+      value: basicInfo?.ext[r] ?? '',
     };
   });
-  const selfLearn = basicInfo?.selfLearn
-    ? SELF_LEARN_COLORS[1]
-    : SELF_LEARN_COLORS[0];
   return (
     <VStack spacing="12px" minWidth="360px" flex="1" mr="20px">
-      <DeviceInfoCard
-        id={id}
-        subscribeAddr={sysField?._subscribeAddr || ''}
-        deviceName={basicInfo?.name || ''}
-        selfLearn={selfLearn}
-        isSelfLearn={basicInfo?.selfLearn}
-        status={connectInfo?._online}
-      />
+      <DeviceInfoCard deviceObject={deviceObject} refetch={refetch} />
       <DeviceBasicInfoCard basic={basic} />
       <InfoCard
         data={extInfo}

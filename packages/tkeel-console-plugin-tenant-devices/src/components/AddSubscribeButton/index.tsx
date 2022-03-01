@@ -2,24 +2,22 @@ import { useDisclosure } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
 import { MoreActionButton, toast } from '@tkeel/console-components';
-import { AlarmLampFilledIcon, TrashFilledIcon } from '@tkeel/console-icons';
+import { AddFilledIcon } from '@tkeel/console-icons';
 
-import CustomModal from '@/tkeel-console-plugin-tenant-devices/components/CustomModal';
+import AddSubscribeModal from '@/tkeel-console-plugin-tenant-devices/components/AddSubscribeModal';
 import useDeleteDeviceMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useDeleteDeviceMutation';
 
 type Props = {
-  ids: string[];
-  deviceName: string;
   refetch?: () => void;
 };
 
-function DeleteDevicesButton({ deviceName, ids, refetch }: Props) {
+function AddSubscribeButton({ refetch }: Props) {
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate, isLoading } = useDeleteDeviceMutation({
-    ids,
+    ids: ['2', '23'],
     onSuccess() {
-      toast({ status: 'success', title: '删除成功' });
+      toast({ status: 'success', title: '添加成功' });
       onClose();
       if (refetch) {
         refetch();
@@ -36,14 +34,11 @@ function DeleteDevicesButton({ deviceName, ids, refetch }: Props) {
     <>
       <MoreActionButton
         onClick={onOpen}
-        icon={<TrashFilledIcon size="12px" />}
-        title="删除设备"
+        icon={<AddFilledIcon size="12px" />}
+        title="添加订阅"
       />
       {isOpen && (
-        <CustomModal
-          bg="red.50"
-          icon={<AlarmLampFilledIcon size="24px" />}
-          title={`确认删除设备「${deviceName}」？`}
+        <AddSubscribeModal
           isConfirmButtonLoading={isLoading}
           isOpen={isOpen}
           onClose={onClose}
@@ -54,4 +49,4 @@ function DeleteDevicesButton({ deviceName, ids, refetch }: Props) {
   );
 }
 
-export default DeleteDevicesButton;
+export default AddSubscribeButton;
