@@ -2,6 +2,6 @@ import { useContext } from 'react';
 
 import Context from './context';
 
-export default function useGlobalProps() {
+export default function useGlobalPluginProps() {
   return useContext(Context);
 }
