@@ -1,4 +1,4 @@
-import useQuery from '@/tkeel-console-plugin-admin-plugins/hooks/useQuery';
+import { usePluginQuery } from '@tkeel/console-hooks';
 
 export interface Tenant {
   title: string;
@@ -39,7 +39,7 @@ export default function usePluginsTenantsQuery({
   pageSize,
   keyWords,
 }: Props) {
-  const { data, ...rest } = useQuery<ApiData, TRequestParams>({
+  const { data, ...rest } = usePluginQuery<ApiData, TRequestParams>({
     url: `${url}/${pluginName}/tenants`,
     method,
     params: {

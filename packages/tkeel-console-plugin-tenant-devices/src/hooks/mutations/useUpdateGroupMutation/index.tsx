@@ -1,4 +1,4 @@
-import useMutation from '@/tkeel-console-plugin-tenant-devices/hooks/useMutation';
+import { usePluginMutation } from '@tkeel/console-hooks';
 
 const basicUrl = '/tkeel-device/v1/groups';
 const method = 'PUT';
@@ -19,7 +19,7 @@ export default function useUpdateDeviceMutation({
   id: string;
   onSuccess?: () => void;
 }) {
-  return useMutation<ApiData, undefined, RequestData>({
+  return usePluginMutation<ApiData, undefined, RequestData>({
     url: `${basicUrl}/${id}`,
     method,
     reactQueryOptions: { onSuccess },

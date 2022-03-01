@@ -1,4 +1,4 @@
-import useQuery from '@/tkeel-console-plugin-admin-tenants/hooks/useQuery';
+import { usePluginQuery } from '@tkeel/console-hooks';
 
 const url = '/security/v1/tenants';
 const method = 'GET';
@@ -40,7 +40,7 @@ export default function useTenantsQuery({
 }: {
   params?: RequestParams;
 }) {
-  const { data, ...rest } = useQuery<AipData, RequestParams>({
+  const { data, ...rest } = usePluginQuery<AipData, RequestParams>({
     url,
     method,
     params,

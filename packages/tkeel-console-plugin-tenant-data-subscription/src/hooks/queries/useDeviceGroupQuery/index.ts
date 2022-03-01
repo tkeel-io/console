@@ -1,4 +1,4 @@
-import useQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/useQuery';
+import { usePluginQuery } from '@tkeel/console-hooks';
 
 const url = '/tkeel-device/v1/groups/tree';
 const method = 'POST';
@@ -52,7 +52,7 @@ interface ApiData {
 }
 
 export default function useGroupTreeQuery(requestParams: RequestParams) {
-  const { data, ...rest } = useQuery<ApiData, undefined, RequestParams>({
+  const { data, ...rest } = usePluginQuery<ApiData, undefined, RequestParams>({
     url,
     method,
     data: requestParams,
