@@ -1,6 +1,5 @@
+import { usePluginQuery } from '@tkeel/console-hooks';
 import { RequestResult } from '@tkeel/console-utils';
-
-import useQuery from '@/tkeel-console-plugin-admin-tenants/hooks/useQuery';
 
 const method = 'GET';
 
@@ -43,7 +42,7 @@ type Args = {
 export default function useUsersQuery({ tenantId, params, onSuccess }: Args) {
   const url = `/security/v1/tenants/${tenantId}/users`;
 
-  const { data, ...rest } = useQuery<ApiData, RequestParams>({
+  const { data, ...rest } = usePluginQuery<ApiData, RequestParams>({
     url,
     method,
     params,
