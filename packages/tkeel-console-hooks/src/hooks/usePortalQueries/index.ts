@@ -1,10 +1,10 @@
 import { merge } from 'lodash';
 
 import { UseCustomQueryOptions, useQueries } from '../react-query';
-import usePluginRequestExtras from '../usePluginRequestExtras';
+import usePortalRequestExtras from '../usePortalRequestExtras';
 
 export default function usePortalQueries(optionsList: UseCustomQueryOptions[]) {
-  const extras = usePluginRequestExtras();
+  const extras = usePortalRequestExtras();
   const optsList = optionsList.map((option) => {
     return merge({}, { extras }, option);
   });
