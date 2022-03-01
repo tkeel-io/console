@@ -44,11 +44,11 @@ export default function CreateDeviceButton({ variant, onSuccess }: Props) {
       description,
       name,
       parentId,
+      parentName,
       directConnection,
       connectInfo,
       extendInfo,
     } = formValues;
-    const [id, ...rest] = parentId.split('&');
     const params = {
       description,
       name,
@@ -56,8 +56,8 @@ export default function CreateDeviceButton({ variant, onSuccess }: Props) {
       selfLearn: has(connectInfo, ConnectInfoType.selfLearn),
       templateId: has(connectInfo, ConnectInfoType.useTemplate) ? '123' : '',
       ext: mapValues(keyBy(extendInfo, 'label'), 'value'),
-      parentId: id,
-      parentName: rest.join('&'),
+      parentId,
+      parentName,
     };
     mutate({ data: params });
   };

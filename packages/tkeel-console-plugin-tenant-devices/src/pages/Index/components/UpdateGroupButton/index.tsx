@@ -38,14 +38,14 @@ function UpdateGroupButton({ defaultFormValues, refetch, groupTree }: Props) {
     onSuccess,
   });
   const handleConfirm = ({ formValues }: { formValues: DeviceValueType }) => {
-    const { description, name, parentId, extendInfo } = formValues;
-    const [id, ...rest] = parentId.split('&');
+    const { description, name, parentId, extendInfo, parentName } = formValues;
+
     const params = {
       description,
       name,
       ext: mapValues(keyBy(extendInfo, 'label'), 'value'),
-      parentId: id,
-      parentName: rest.join('&'),
+      parentId,
+      parentName,
     };
     mutate({ data: params });
   };

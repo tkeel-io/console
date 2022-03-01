@@ -18,6 +18,7 @@ import {
   ConnectOption,
   DeviceDefaultInfoType,
   DeviceValueType,
+  GroupOptions,
   ModalMode,
   ModalType,
 } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
@@ -52,6 +53,20 @@ const BUTTON_TEXT = {
   COMPLETE: '完成',
 };
 
+function getTreeNodeData({ data }: { data: TreeNodeType }): GroupOptions[] {
+  return values(data).map((item) => {
+    const { nodeInfo, subNode } = item;
+    const { id, properties } = nodeInfo;
+    const name = properties?.group?.name ?? '';
+    return {
+      title: name,
+      key: id,
+      value: id,
+      children: getTreeNodeData({ data: subNode }),
+    };
+  });
+}
+
 export default function OperateDeviceModal({
   title,
   type,
@@ -85,15 +100,10 @@ export default function OperateDeviceModal({
       ? groupTree
       : // eslint-disable-next-line react-hooks/rules-of-hooks
         useGroupTreeQuery().groupTree;
-  // const { groupTree } = useGroupTreeQuery({ params: defaultRequestParams });
-  const deviceGroupOptions = values(groupTreeCopy).map((item) => {
-    const id = item?.nodeInfo?.id ?? '';
-    const label = item?.nodeInfo?.properties?.group?.name ?? '';
-    return { label, value: `${id}&${label}` };
+  const deviceGroupOptions = getTreeNodeData({
+    data: groupTreeCopy as TreeNodeType,
   });
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  // setGroupOptions(deviceGroupOptions);
-  console.log(deviceGroupOptions);
+  console.log(watchFields);
   useEffect(() => {
     if (!isOpen) {
       setCurrentStep(0);
@@ -130,6 +140,7 @@ export default function OperateDeviceModal({
         type === ModalType.DEVICE
           ? Object.assign(basicFormInfo, deviceDefaultInfo)
           : basicFormInfo;
+      console.log(defaultFormInfoCopy);
       reset(defaultFormInfoCopy);
     } else {
       reset(defaultFormInfo);

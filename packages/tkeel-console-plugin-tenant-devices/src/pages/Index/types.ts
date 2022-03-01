@@ -1,3 +1,10 @@
+import { ReactNode } from 'react';
+
+import {
+  NodeInfo,
+  TreeNodeType,
+} from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
+
 export enum ConnectInfoType {
   useTemplate = 'useTemplate',
   selfLearn = 'selfLearn',
@@ -39,3 +46,20 @@ export interface DeviceDefaultInfoType {
   directConnection?: boolean;
   templateId?: string;
 }
+
+export type TreeNodeData = {
+  title: ReactNode;
+  key: string;
+  children: TreeNodeData[];
+  icon?: any;
+  originData: {
+    nodeInfo: NodeInfo;
+    subNode: TreeNodeType;
+  };
+};
+
+export type GroupOptions = {
+  title: string;
+  key: string;
+  children: GroupOptions[];
+};
