@@ -1,47 +1,57 @@
+import { ReactNode } from 'react';
 import { Route, Routes as ReactRouterRoutes } from 'react-router-dom';
 
-import { PLATFORM_INFOS, PlatformNames } from '@tkeel/console-constants';
-
+// import { PLATFORM_INFOS, PlatformNames } from '@tkeel/console-constants';
 import Layout from '@/tkeel-console-portal-base/containers/Layout';
-import NotRequireAuth from '@/tkeel-console-portal-base/containers/NotRequireAuth';
-import RequireAuth from '@/tkeel-console-portal-base/containers/RequireAuth';
-import useGlobalProps from '@/tkeel-console-portal-base/hooks/useGlobalProps';
-import LoginAdmin from '@/tkeel-console-portal-base/pages/LoginAdmin';
-import LoginTenant from '@/tkeel-console-portal-base/pages/LoginTenant';
-import NotFound from '@/tkeel-console-portal-base/pages/NotFound';
-import SetPassword from '@/tkeel-console-portal-base/pages/SetPassword';
-import Tenant from '@/tkeel-console-portal-base/pages/Tenant';
+// import NotRequireAuth from '@/tkeel-console-portal-base/containers/NotRequireAuth';
+// import RequireAuth from '@/tkeel-console-portal-base/containers/RequireAuth';
+// import LoginAdmin from '@/tkeel-console-portal-base/pages/LoginAdmin';
+// import LoginTenant from '@/tkeel-console-portal-base/pages/LoginTenant';
+// import NotFound from '@/tkeel-console-portal-base/pages/NotFound';
+// import SetPassword from '@/tkeel-console-portal-base/pages/SetPassword';
+// import Tenant from '@/tkeel-console-portal-base/pages/Tenant';
 
-function Routes() {
-  const { platformName } = useGlobalProps();
+type Props = {
+  requireAuthContainer: ReactNode;
+  notRequireAuthContainer: ReactNode;
+  notRequireAuthRoutes: ReactNode;
+  userActionMenusComponent: ReactNode;
+};
 
+export default function Routes({
+  requireAuthContainer,
+  notRequireAuthContainer,
+  notRequireAuthRoutes,
+  userActionMenusComponent,
+}: Props) {
+  /* return (
+    <ReactRouterRoutes>
+      <Route element={notRequireAuthContainer}>
+        <Route path="/auth">{notRequireAuthRoutes}</Route>
+      </Route>
+      <Route element={requireAuthContainer}>
+        <Route
+          path="/*"
+          element={
+            <Layout userActionMenusComponent={userActionMenusComponent} />
+          }
+        />
+      </Route>
+    </ReactRouterRoutes>
+  ); */
   return (
     <ReactRouterRoutes>
-      <Route element={<NotRequireAuth />}>
-        <Route path="/auth">
-          {platformName === PLATFORM_INFOS[PlatformNames.ADMIN].name && (
-            <>
-              <Route path="login" element={<LoginAdmin />} />
-              <Route path="*" element={<NotFound />} />
-            </>
-          )}
-          {platformName === PLATFORM_INFOS[PlatformNames.TENANT].name && (
-            <>
-              <Route path="tenant" element={<Tenant />} />
-              <Route path="login" element={<LoginTenant />}>
-                <Route path=":tenantId" />
-              </Route>
-              <Route path="set-password" element={<SetPassword />} />
-              <Route path="*" element={<NotFound />} />
-            </>
-          )}
-        </Route>
+      <Route element={notRequireAuthContainer}>
+        <Route path="/auth">{notRequireAuthRoutes}</Route>
       </Route>
-      <Route element={<RequireAuth />}>
-        <Route path="/*" element={<Layout />} />
+      <Route element={requireAuthContainer}>
+        <Route
+          path="/*"
+          element={
+            <Layout userActionMenusComponent={userActionMenusComponent} />
+          }
+        />
       </Route>
     </ReactRouterRoutes>
   );
 }
-
-export default Routes;
