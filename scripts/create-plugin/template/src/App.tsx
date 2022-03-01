@@ -3,13 +3,13 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 import { PluginProvider } from '@tkeel/console-business-components';
 import { QueryClient } from '@tkeel/console-hooks';
-import { PluginGlobalProps } from '@tkeel/console-types';
+import { GlobalPluginProps } from '@tkeel/console-types';
 
 import Routes from './routes';
 
 const queryClient = new QueryClient();
 
-function App(props: PluginGlobalProps) {
+function App(props: GlobalPluginProps) {
   const { theme } = props;
 
   return (

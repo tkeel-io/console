@@ -1,11 +1,11 @@
 import { ReactNode } from 'react';
 
-import { PluginGlobalProps } from '@tkeel/console-types';
+import { GlobalPluginProps } from '@tkeel/console-types';
 
 import Context from './context';
 
 type Props = {
-  globalProps: PluginGlobalProps;
+  globalProps: GlobalPluginProps;
   children?: ReactNode;
 };
 
