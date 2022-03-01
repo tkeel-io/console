@@ -1,9 +1,10 @@
 import { Text, useDisclosure } from '@chakra-ui/react';
+
 import { IconButton, toast } from '@tkeel/console-components';
 import { AlarmLampFilledIcon, LightningFilledIcon } from '@tkeel/console-icons';
 
 import CustomModal from '@/tkeel-console-plugin-tenant-devices/components/CustomModal';
-import useCancelSubscribeMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCancelSubscribeMutation';
+import useUnsubscribeMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useUnsubscribeMutation';
 
 type Props = {
   id: string;
@@ -13,7 +14,7 @@ type Props = {
 
 function Index({ deviceName, id, disabled }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { mutate, isLoading } = useCancelSubscribeMutation({
+  const { mutate, isLoading } = useUnsubscribeMutation({
     id,
     onSuccess() {
       toast({ status: 'success', title: '取消成功' });
@@ -22,7 +23,7 @@ function Index({ deviceName, id, disabled }: Props) {
   });
 
   const handleConfirm = () => {
-    mutate({ data: {} });
+    mutate({});
   };
 
   return (

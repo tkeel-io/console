@@ -1,23 +1,25 @@
-/* eslint-disable no-shadow-restricted-names */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable no-console */
-// import { ReactNode } from 'react';
-import { Box, Flex, Text } from '@chakra-ui/react';
-import { Tree } from '@tkeel/console-components';
+import { Box, Center, Flex, Text } from '@chakra-ui/react';
+import { isEmpty, values } from 'lodash';
+import { Fragment, ReactNode } from 'react';
+
+import { MoreAction, Tree } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 import {
   FolderCloseTwoToneIcon,
   FolderOpenTwoToneIcon,
+  MoreVerticalFilledIcon,
 } from '@tkeel/console-icons';
-import { values } from 'lodash';
-
-import CreateDeviceGroupButton from '../CreateDeviceGroupButton';
 
 import useGroupTreeQuery, {
   NodeInfo,
   TreeNodeType,
 } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
+import DeleteGroupButton from '@/tkeel-console-plugin-tenant-devices/pages/Index/components/DeleteGroupButton';
+import UpdateGroupButton from '@/tkeel-console-plugin-tenant-devices/pages/Index/components/UpdateGroupButton';
+
+import CreateGroupButton from '../CreateGroupButton';
 
 interface Props {
   handleSelectGroup: (item: {
@@ -26,7 +28,7 @@ interface Props {
   }) => void;
 }
 type TreeNodeData = {
-  title: string;
+  title: ReactNode;
   key: string;
   children: TreeNodeData[];
   icon?: any;
@@ -37,7 +39,7 @@ type TreeNodeData = {
 };
 
 export default function DeviceGroupTree({ handleSelectGroup }: Props) {
-  const { groupTree } = useGroupTreeQuery();
+  const { groupTree, refetch } = useGroupTreeQuery();
 
   const selectedColor = useColor('primary');
   const selectedTwoTone = useColor('primarySub2');
@@ -58,8 +60,44 @@ export default function DeviceGroupTree({ handleSelectGroup }: Props) {
     return values(data).map((item) => {
       const { nodeInfo, subNode } = item;
       const { id, properties } = nodeInfo;
+      const { group } = properties;
+      const { name, description, ext, parentId } = group;
+      const defaultFormValues = {
+        id,
+        description,
+        name,
+        ext,
+        parentId,
+      };
       return {
-        title: properties?.group?.name ?? '暂无数据',
+        title: (
+          <Flex justify="space-between" key={id}>
+            <Text>{name}</Text>
+            <MoreAction
+              element={
+                <Center h="100%">
+                  <MoreVerticalFilledIcon color="primary" size="12px" />
+                </Center>
+              }
+              buttons={[
+                isEmpty(subNode) ? (
+                  <DeleteGroupButton
+                    key="delete"
+                    id={id}
+                    groupName={name}
+                    callback={refetch}
+                  />
+                ) : (
+                  <Fragment key="empty" />
+                ),
+                <UpdateGroupButton
+                  key="update"
+                  defaultFormValues={defaultFormValues}
+                />,
+              ]}
+            />
+          </Flex>
+        ),
         key: id,
         children: getTreeNodeData({ data: subNode }),
         icon: ({
@@ -69,16 +107,15 @@ export default function DeviceGroupTree({ handleSelectGroup }: Props) {
           expanded: boolean;
           selected: boolean;
         }) => getTreeIcon({ expanded, selected }),
-
         originData: item,
       };
     });
   }
   const treeNodeData = getTreeNodeData({ data: groupTree });
 
-  // const [groupId, setGroupId] = useState(treeNodeData[0]?.key);
   const onSelect = (selectedKeys: React.Key[], info: any) => {
     console.log('selectedKeys', selectedKeys);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const originData = info?.node?.originData;
     handleSelectGroup(
       originData as {
@@ -88,7 +125,7 @@ export default function DeviceGroupTree({ handleSelectGroup }: Props) {
     );
   };
   return (
-    <Flex w="258px" bg="gray.50" h="100%" p="12px" flexDir="column">
+    <Flex bg="gray.50" h="100%" p="12px" flexDir="column">
       <Text
         color="grayAlternatives.300"
         fontSize="12px"
@@ -98,10 +135,14 @@ export default function DeviceGroupTree({ handleSelectGroup }: Props) {
       >
         设备组
       </Text>
-      <CreateDeviceGroupButton />
-      <Box mt="16px" overflowY="scroll" flex="1">
+      <CreateGroupButton
+        callback={() => {
+          refetch();
+        }}
+      />
+      <Box mt="16px" flex="1" minWidth="200px">
         <Tree
-          showLine
+          extras={{ isTreeTitleFullWidth: true }}
           treeData={treeNodeData}
           showIcon
           selectable

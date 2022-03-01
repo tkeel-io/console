@@ -30,9 +30,12 @@ export interface DeviceApiItem {
   properties: {
     basicInfo: {
       name: string;
+      description: string;
       directConnection: boolean;
       templateId?: string;
       selfLearn: boolean;
+      parentId: string;
+      parentName?: string;
       ext: {
         [propName: string]: any;
       };
@@ -42,6 +45,15 @@ export interface DeviceApiItem {
       _status: boolean | string;
       _createdAt: number;
       _subscribeAddr: string;
+      [propName: string]: any;
+    };
+    connectInfo?: {
+      _online: boolean;
+      _clientId?: string;
+      _peerHost?: string;
+      _protocol?: string;
+      _sockPort?: string;
+      _userName?: string;
       [propName: string]: any;
     };
   };

@@ -1,5 +1,6 @@
-import { useLocation, useNavigate } from 'react-router-dom';
 import { Box, Flex, Text } from '@chakra-ui/react';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 import { BackButton, InfoCard, MoreAction } from '@tkeel/console-components';
 import { MessageWarningTwoToneIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';

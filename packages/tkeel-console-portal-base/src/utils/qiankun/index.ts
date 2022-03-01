@@ -1,11 +1,23 @@
+import { FrameworkLifeCycles, registerMicroApps, start } from 'qiankun';
 import { NavigateFunction } from 'react-router-dom';
+
 import { PlatformNames } from '@tkeel/console-constants';
 import themes, { DEFAULT_THEME_NAME, ThemeNames } from '@tkeel/console-themes';
 import { Menu, PluginGlobalProps } from '@tkeel/console-types';
 import { getLocalTokenInfo } from '@tkeel/console-utils';
-import { registerMicroApps, start } from 'qiankun';
 
 import { App, MenuInfo } from './types';
+
+export type LifeCycles = FrameworkLifeCycles<Record<string, any>>;
+
+export interface InitArgs {
+  platformName: PlatformNames;
+  menus: Menu[];
+  navigate: NavigateFunction;
+  themeName: ThemeNames;
+  lifeCycles?: LifeCycles;
+  refetchMenus: () => void;
+}
 
 function getTotalMenus(menus: Menu[]): MenuInfo[] {
   let menuInfoArr: MenuInfo[] = [];
@@ -28,17 +40,13 @@ function getTotalMenus(menus: Menu[]): MenuInfo[] {
   return menuInfoArr;
 }
 
-function menusToApps({
+export function menusToApps({
   platformName,
   menus,
   navigate,
   themeName = DEFAULT_THEME_NAME,
-}: {
-  platformName: PlatformNames;
-  menus: Menu[];
-  navigate: NavigateFunction;
-  themeName: ThemeNames;
-}): App[] {
+  refetchMenus,
+}: InitArgs): App[] {
   const totalMenus: MenuInfo[] = getTotalMenus(menus);
   const tokenInfo = getLocalTokenInfo();
   const props: PluginGlobalProps = {
@@ -47,6 +55,7 @@ function menusToApps({
     navigate,
     themeName,
     theme: themes[themeName],
+    refetchMenus,
   };
 
   return totalMenus.map(({ id, name, path, entry }) => ({
@@ -58,24 +67,31 @@ function menusToApps({
   }));
 }
 
-function register({ apps }: { apps: App[] }): void {
-  registerMicroApps(apps);
+function register({
+  apps,
+  lifeCycles,
+}: {
+  apps: App[];
+  lifeCycles?: LifeCycles;
+}): void {
+  registerMicroApps(apps, lifeCycles);
 }
 
-function init({
+export function init({
   platformName,
   menus,
   navigate,
   themeName,
-}: {
-  platformName: PlatformNames;
-  menus: Menu[];
-  navigate: NavigateFunction;
-  themeName: ThemeNames;
-}) {
-  const apps = menusToApps({ platformName, menus, navigate, themeName });
-  register({ apps });
+  lifeCycles,
+  refetchMenus,
+}: InitArgs) {
+  const apps = menusToApps({
+    platformName,
+    menus,
+    navigate,
+    themeName,
+    refetchMenus,
+  });
+  register({ apps, lifeCycles });
   start();
 }
-
-export { init, menusToApps };

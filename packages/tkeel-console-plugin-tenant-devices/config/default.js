@@ -23,6 +23,7 @@ module.exports = {
           icon: 'HumanGearTwoToneIcon',
           children: [
             {
+              key: 'devices',
               id: 'console-plugin-tenant-devices',
               name: '设备管理',
               path: '/tenant-devices',
@@ -32,7 +33,7 @@ module.exports = {
           ],
         },
       ],
-      dependence: [{ id: 'device', version: tkeel.version }],
+      dependence: [{ id: 'tkeel-device', version: tkeel.version }],
     },
   },
 };

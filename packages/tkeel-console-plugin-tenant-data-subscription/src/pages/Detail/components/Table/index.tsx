@@ -1,8 +1,9 @@
+import { Box, Flex, Text } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
 // import { useQueryClient } from 'react-query';
 // import { Column } from 'react-table';
 import { Cell, Column } from 'react-table';
-import { Box, Flex, Text } from '@chakra-ui/react';
+
 import {
   // ButtonsHStack,
   Empty,

@@ -2,26 +2,27 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-console */
+import { Box, Flex, HStack, Text, Tooltip } from '@chakra-ui/react';
 import { ReactNode, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Cell, Column } from 'react-table';
-import { Box, Flex, HStack, Link, Text, Tooltip } from '@chakra-ui/react';
-import { MoreAction, Table } from '@tkeel/console-components';
+
+import { LinkButton, MoreAction, Table } from '@tkeel/console-components';
 import { useColor, usePagination } from '@tkeel/console-hooks';
 import {
   BranchTowToneIcon,
   DotLineFilledIcon,
   MessageWarningTwoToneIcon,
+  SmartObjectTwoToneIcon,
   VpcTwoToneIcon,
-  WebcamTwoToneIcon,
   WifiFilledIcon,
   WifiOffFilledIcon,
 } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import DeleteDevicesButton from '@/tkeel-console-plugin-tenant-devices/components/DeleteDevicesButton';
-import EditDeviceButton from '@/tkeel-console-plugin-tenant-devices/components/EditDeviceButton';
 import IconWrapper from '@/tkeel-console-plugin-tenant-devices/components/IconWrapper';
-import { DEVICE_STATUS } from '@/tkeel-console-plugin-tenant-devices/constants';
+import UpdateDeviceButton from '@/tkeel-console-plugin-tenant-devices/components/UpdateDeviceButton';
 import useDeviceListQuery, {
   DeviceApiItem,
   DeviceItem,
@@ -40,6 +41,7 @@ interface Props {
     nodeInfo: NodeInfo;
     subNode: TreeNodeType;
   };
+  keyWords?: string;
 }
 
 function TooltipIcon({
@@ -69,10 +71,10 @@ function DeviceStatus({
 }: {
   originData: DeviceApiItem;
 }): JSX.Element {
-  const { basicInfo, sysField } = originData?.properties ?? {};
+  const { basicInfo, sysField, connectInfo } = originData?.properties ?? {};
   const selfLearn = basicInfo?.selfLearn ?? false;
   const subscribeAddr = sysField?._subscribeAddr ?? '';
-  const isOnline = sysField?._status === DEVICE_STATUS.ONLINE;
+  const isOnline = connectInfo?._online ?? false;
   return (
     <HStack>
       <TooltipIcon
@@ -121,22 +123,22 @@ function DeviceStatus({
   );
 }
 
-function DeviceListTable({ groupItem }: Props): JSX.Element {
+function DeviceListTable({ groupItem, keyWords }: Props): JSX.Element {
+  const navigate = useNavigate();
   const pagination = usePagination();
   const { pageNum, pageSize, setTotalSize } = pagination;
   const { nodeInfo } = groupItem;
   const params = {
+    query: keyWords || '',
     page_num: pageNum,
     page_size: pageSize,
     order_by: 'name',
     is_descending: false,
-    query: '',
     condition: [
       {
         field: 'sysField._spacePath',
         operator: '$wildcard',
         value: nodeInfo.id,
-        // '6ce4280c-3e00-44c0-a544-8845de77eb28',
       },
       {
         field: 'type',
@@ -177,17 +179,19 @@ function DeviceListTable({ groupItem }: Props): JSX.Element {
           const { original } = row;
           const { id } = original;
           return (
-            <Link
-              href={`/tenant-devices/detail?id=${id}`}
+            <LinkButton
+              onClick={() => {
+                navigate(`/detail?id=${id}`);
+              }}
               color="gray.600"
               fontWeight="600"
               _hover={{ color: 'primary' }}
             >
               <HStack>
-                <WebcamTwoToneIcon size="24px" />
+                <SmartObjectTwoToneIcon size="24px" />
                 <Text fontSize="12px">{original.name}</Text>
               </HStack>
-            </Link>
+            </LinkButton>
           );
         }, [row]),
     },
@@ -238,20 +242,39 @@ function DeviceListTable({ groupItem }: Props): JSX.Element {
       Cell: ({ row }: Cell<DeviceItem>) =>
         useMemo(() => {
           const originData = row.original?.originData as DeviceApiItem;
-          const { id } = originData;
-          const deviceName = originData?.properties?.basicInfo?.name;
+          const { id, properties } = originData;
+          const { basicInfo } = properties;
+          const {
+            name,
+            description,
+            directConnection,
+            templateId,
+            parentId,
+            selfLearn,
+            ext,
+          } = basicInfo;
+          const defaultFormValues = {
+            id,
+            selfLearn,
+            description,
+            templateId,
+            directConnection,
+            name,
+            ext,
+            parentId,
+          };
           return (
             <MoreAction
               buttons={[
-                <EditDeviceButton
+                <UpdateDeviceButton
                   key="edit"
-                  deviceInfo={originData}
+                  defaultFormValues={defaultFormValues}
                   refetch={refetch}
                 />,
                 <DeleteDevicesButton
                   ids={[id]}
                   key="delete"
-                  deviceName={deviceName}
+                  deviceName={name}
                   refetch={refetch}
                 />,
               ]}

@@ -1,29 +1,34 @@
 /* eslint-disable no-console */
 /* eslint-disable unicorn/consistent-function-scoping */
 import { Button, useDisclosure } from '@chakra-ui/react';
-import { toast } from '@tkeel/console-components';
-import { AddFilledIcon } from '@tkeel/console-icons';
 import { keyBy, mapValues } from 'lodash';
 
-import CreateDeviceGroupModal from '../CreateDeviceGroupModal';
-import {
-  CreateType,
-  DeviceValueType,
-  ModalMode,
-} from '../DeviceModalPart/types';
+import { toast } from '@tkeel/console-components';
+import { AddFilledIcon } from '@tkeel/console-icons';
 
 import useCreateDeviceGroupMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceGroupMutation';
+import {
+  DeviceValueType,
+  ModalMode,
+  ModalType,
+} from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
 
-function onSuccess() {
-  toast({
-    status: 'success',
-    title: '创建设备组成功',
-  });
+import OperateDeviceModal from '../OperateDeviceModal';
+
+interface Props {
+  callback: () => void;
 }
-export default function CreateDeviceButton() {
+
+export default function CreateDeviceButton({ callback }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { data, isLoading, mutate } = useCreateDeviceGroupMutation({
-    onSuccess,
+  const { isLoading, mutate, isSuccess } = useCreateDeviceGroupMutation({
+    onSuccess() {
+      toast({
+        status: 'success',
+        title: '创建设备组成功',
+      });
+      if (callback) callback();
+    },
   });
   const handleConfirm = ({ formValues }: { formValues: DeviceValueType }) => {
     const { description, name, parentId, extendInfo } = formValues;
@@ -50,14 +55,15 @@ export default function CreateDeviceButton() {
       >
         添加组
       </Button>
-      <CreateDeviceGroupModal
+      <OperateDeviceModal
+        title="创建设备组"
         isOpen={isOpen}
         onClose={onClose}
-        type={CreateType.GROUP}
+        type={ModalType.GROUP}
         mode={ModalMode.CREATE}
         handleConfirm={handleConfirm}
         isLoading={isLoading}
-        responseData={data}
+        isSuccess={isSuccess}
       />
     </>
   );

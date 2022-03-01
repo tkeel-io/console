@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
 import { Box, StyleProps } from '@chakra-ui/react';
+import { ReactNode } from 'react';
 
 import EmptyImage from './assets/images/empty.svg?svgr';
 

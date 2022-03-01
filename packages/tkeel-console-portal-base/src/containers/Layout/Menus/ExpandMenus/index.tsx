@@ -1,6 +1,7 @@
+import { Box, Flex, Image } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Box, Flex, Image } from '@chakra-ui/react';
+
 import { Menu } from '@tkeel/console-types';
 
 import qingcloudLogoAdminDark from '@/tkeel-console-portal-base/assets/images/qingcloud-logo-admin-dark.svg';
@@ -25,7 +26,7 @@ type Props = {
   isDarkMenu: boolean;
 };
 
-function Menus({ isQingCloudTheme, isDarkMenu }: Props) {
+export default function ExpandMenus({ isQingCloudTheme, isDarkMenu }: Props) {
   const location = useLocation();
   const { platformName } = useGlobalProps();
 
@@ -53,7 +54,7 @@ function Menus({ isQingCloudTheme, isDarkMenu }: Props) {
       setSpreadMenus([...spreadMenuIds, id]);
     }
   };
-  const isAdminPlatform = platformName === 'tenant';
+  const isAdminPlatform = platformName === 'admin';
   const qingcloudLogoDark = isAdminPlatform
     ? qingcloudLogoAdminDark
     : qingcloudLogoTenantDark;
@@ -145,5 +146,3 @@ function Menus({ isQingCloudTheme, isDarkMenu }: Props) {
     </Flex>
   );
 }
-
-export default Menus;

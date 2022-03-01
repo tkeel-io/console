@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+
 import { useWebSocket } from '@tkeel/console-hooks';
 
 import {
@@ -27,7 +28,7 @@ function useDeviceDetailSocket({ id }: Props) {
   const rawData = lastJsonMessage?.rawData || {};
   const connectInfo = lastJsonMessage?.connectInfo;
   // eslint-disable-next-line no-console
-  console.log(lastJsonMessage, id);
+  console.log(lastJsonMessage);
   return { rawData, connectInfo };
 }
 

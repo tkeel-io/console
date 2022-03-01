@@ -1,6 +1,7 @@
+import { Flex, Text } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
 import { Cell, Column } from 'react-table';
-import { Flex, Text } from '@chakra-ui/react';
+
 import {
   ButtonsHStack,
   PageHeaderToolbar,
@@ -10,14 +11,14 @@ import {
 import { usePagination } from '@tkeel/console-hooks';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
+import useUsersQuery, {
+  User,
+} from '@/tkeel-console-plugin-tenant-users/hooks/queries/useUsersQuery';
+
 import CreateUserButton from './components/CreateUserButton';
 import DeleteUserButton from './components/DeleteUserButton';
 import ModifyUserButton from './components/ModifyUserButton';
 import ResetPasswordButton from './components/ResetPasswordButton';
-
-import useUsersQuery, {
-  User,
-} from '@/tkeel-console-plugin-tenant-users/hooks/queries/useUsersQuery';
 
 export default function Users() {
   const [keyWords, setKeyWords] = useState('');

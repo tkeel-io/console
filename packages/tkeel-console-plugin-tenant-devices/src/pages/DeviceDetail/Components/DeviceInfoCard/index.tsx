@@ -1,5 +1,6 @@
-import { useNavigate } from 'react-router-dom';
 import { Box, HStack, Text } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
+
 import { BackButton, MoreAction } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 import {
@@ -11,12 +12,12 @@ import {
   WifiOffFilledIcon,
 } from '@tkeel/console-icons';
 
-import CardContentFlex from './components/CardContentFlex';
-
 import DeleteDevicesButton from '@/tkeel-console-plugin-tenant-devices/components/DeleteDevicesButton';
 import IconWrapper from '@/tkeel-console-plugin-tenant-devices/components/IconWrapper';
 import UnsubscribeButton from '@/tkeel-console-plugin-tenant-devices/components/UnsubscribeButton';
 import { SUBSCRIBES } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
+
+import CardContentFlex from './components/CardContentFlex';
 
 type Props = {
   selfLearn: {
@@ -88,12 +89,7 @@ function DeviceInfoCard({
         </CardContentFlex>
         <CardContentFlex>
           <Box display="flex">
-            <WebcamTwoToneIcon
-              size="24px"
-              style={{ marginLeft: '7px' }}
-              color="primary"
-              twoToneColor="primarySub2"
-            />
+            <WebcamTwoToneIcon size="24px" style={{ marginLeft: '7px' }} />
             <Box as="span" fontSize="14px" fontWeight="600" ml="8px">
               {deviceName}
             </Box>

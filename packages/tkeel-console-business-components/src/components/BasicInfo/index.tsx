@@ -1,6 +1,7 @@
+import { Box, Center, Flex, Text } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Center, Flex, Text } from '@chakra-ui/react';
+
 import { BackButton, InfoCard } from '@tkeel/console-components';
 import * as icons from '@tkeel/console-icons';
 

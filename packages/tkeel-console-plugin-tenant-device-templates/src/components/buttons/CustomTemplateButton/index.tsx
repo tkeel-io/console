@@ -1,10 +1,11 @@
-import { useIsMutating } from 'react-query';
 import { Flex, Text, useDisclosure } from '@chakra-ui/react';
+import { CustomTemplateModal } from 'packages/tkeel-console-plugin-tenant-device-templates/src/components/modals';
+import { useIsMutating } from 'react-query';
+
 import {
   ChevronRightFilledIcon,
   DocumentPencilTowToneIcon,
 } from '@tkeel/console-icons';
-import { CustomTemplateModal } from 'packages/tkeel-console-plugin-tenant-device-templates/src/components/modals';
 
 type Props = {
   onSuccess: () => void;

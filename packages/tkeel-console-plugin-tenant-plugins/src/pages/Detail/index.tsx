@@ -1,13 +1,14 @@
 import { Box, Circle, Flex, Image, Text } from '@chakra-ui/react';
+
 import { DeveloperInfo } from '@tkeel/console-business-components';
 import { InfoCard } from '@tkeel/console-components';
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
-import DisableButton from './components/DisableButton';
-
 import EnableButton from '@/tkeel-console-plugin-tenant-plugins/components/EnableButton';
 import usePluginDetailQuery from '@/tkeel-console-plugin-tenant-plugins/hooks/queries/usePluginDetailQuery';
+
+import DisableButton from './components/DisableButton';
 
 type Props = {
   pluginName: string;

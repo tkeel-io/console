@@ -1,6 +1,7 @@
+import { Flex, Text, Tooltip } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
 import { Cell, Column } from 'react-table';
-import { Flex, Text, Tooltip } from '@chakra-ui/react';
+
 import {
   ButtonsHStack,
   PageHeaderToolbar,
@@ -9,13 +10,13 @@ import {
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
 
-import CreateRoleButton from './components/CreateRoleButton';
-import DeleteRoleButton from './components/DeleteRoleButton';
-import ModifyRoleButton from './components/ModifyRoleButton';
-
 import useRolesQuery, {
   Role,
 } from '@/tkeel-console-plugin-tenant-roles/hooks/queries/useRolesQuery';
+
+import CreateRoleButton from './components/CreateRoleButton';
+import DeleteRoleButton from './components/DeleteRoleButton';
+import ModifyRoleButton from './components/ModifyRoleButton';
 
 export default function Roles() {
   const [keywords, setKeyWords] = useState('');
@@ -32,8 +33,13 @@ export default function Roles() {
   if (keywords) {
     params = { ...params, key_words: keywords };
   }
-  const { isLoading, total, roles, refetch } = useRolesQuery({ params });
-  setTotalSize(total);
+  const { isLoading, isSuccess, total, roles, refetch } = useRolesQuery({
+    params,
+  });
+
+  if (isSuccess) {
+    setTotalSize(total);
+  }
 
   const handleCreateRoleSuccess = () => {
     toast({ status: 'success', title: '创建成功' });

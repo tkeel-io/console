@@ -27,7 +27,7 @@ const generateSourcemap = config?.builder?.generateSourcemap;
 
 dotenvExpand.expand(dotenvFlow.config());
 
-const getStyleLoaders = () => {
+const getStyleLoaders = ({ type } = {}) => {
   let [sourceMap, modules] = [true, { auto: true }];
 
   if (isEnvDevelopment) {
@@ -58,8 +58,14 @@ const getStyleLoaders = () => {
         sourceMap,
       },
     },
-    {
+    ['sass', 'scss'].includes(type) && {
       loader: 'sass-loader',
+      options: {
+        sourceMap,
+      },
+    },
+    type === 'less' && {
+      loader: 'less-loader',
       options: {
         sourceMap,
       },
@@ -98,10 +104,17 @@ module.exports = {
         loader: 'handlebars-loader',
       },
       {
-        test: /\.(sass|scss|css)$/,
+        test: /\.css$/,
         use: getStyleLoaders(),
       },
-
+      {
+        test: /\.(sass|scss)$/,
+        use: getStyleLoaders({ type: 'sass' }),
+      },
+      {
+        test: /\.less$/,
+        use: getStyleLoaders({ type: 'less' }),
+      },
       {
         test: /\.(png|jpg|jpeg|gif)$/i,
         type: 'asset',

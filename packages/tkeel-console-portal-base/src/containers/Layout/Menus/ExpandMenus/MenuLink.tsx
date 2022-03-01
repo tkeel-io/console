@@ -1,9 +1,9 @@
+import { Link } from '@chakra-ui/react';
 import {
   Link as ReactRouterLink,
   useMatch,
   useResolvedPath,
 } from 'react-router-dom';
-import { Link } from '@chakra-ui/react';
 
 import { isDarkMenuTheme } from '@/tkeel-console-portal-base/utils';
 
@@ -24,7 +24,7 @@ type MenuLinkReturnType = {
 export function useActive(to: string): boolean {
   const resolved = useResolvedPath(to);
   const active = useMatch({ path: resolved.pathname, end: false });
-  return !!active;
+  return to ? !!active : false;
 }
 
 export function useMenuLinkProps(to: string): MenuLinkReturnType {

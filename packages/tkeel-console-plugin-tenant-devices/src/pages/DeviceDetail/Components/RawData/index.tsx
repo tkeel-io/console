@@ -1,4 +1,3 @@
-import { ChangeEvent, useEffect, useState } from 'react';
 import {
   Accordion,
   AccordionButton,
@@ -10,7 +9,12 @@ import {
   Select,
   Text,
 } from '@chakra-ui/react';
-import { Editor, SearchInput } from '@tkeel/console-components';
+import { isEmpty } from 'lodash';
+import { ChangeEvent, memo, useEffect, useState } from 'react';
+
+// import { Editor, SearchInput } from '@tkeel/console-components';
+import { Editor } from '@tkeel/console-components';
+import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import { RawData } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
 import { OPTIONS } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
@@ -44,21 +48,16 @@ const selectOptions = [
   },
 ];
 
+type TRawData = RawData[];
+
 function Index({ data }: Props) {
-  const initial = {
-    id: '',
-    mark: 'upstream',
-    path: '',
-    ts: 1000,
-    type: '',
-    values: '',
-  } as const;
-  const [rawData, setRawData] = useState<RawData>(initial);
-  const [keyWord, setKeyWord] = useState('');
+  const [rawDataList, setRawDataList] = useState<TRawData>([data]);
+  // const [keyWord, setKeyWord] = useState('');
   const [selected, setSelected] = useState('text');
   useEffect(() => {
-    setRawData((preState) => {
-      return { ...preState, ...data };
+    setRawDataList((preState) => {
+      const filterArr = preState.filter((r) => !isEmpty(r));
+      return [data, ...filterArr].slice(-20);
     });
   }, [data]);
 
@@ -66,20 +65,18 @@ function Index({ data }: Props) {
     setSelected(e.target.value);
   };
 
-  const handleSearch = (value: string) => {
-    // eslint-disable-next-line no-console
-    console.log(value, keyWord);
-    setKeyWord(value);
-  };
-
-  const status = OPTIONS[rawData?.mark ?? 'upstream'];
+  // const handleSearch = (value: string) => {
+  //   // eslint-disable-next-line no-console
+  //   console.log(value, keyWord);
+  //   setKeyWord(value);
+  // };
 
   return (
     <Box>
       <Flex align="center" w="100%" h="56px">
         <Text fontWeight="600">原始数据</Text>
         <Flex flex="1" justifyContent="flex-end">
-          <SearchInput onSearch={handleSearch} placeholder="搜索" />
+          {/* <SearchInput onSearch={handleSearch} placeholder="搜索" /> */}
         </Flex>
         <Flex
           bg="gray.100"
@@ -108,50 +105,73 @@ function Index({ data }: Props) {
           </Select>
         </Flex>
       </Flex>
-      <Accordion allowMultiple p="12px 12px" bg="gray.50">
-        <AccordionItem
-          borderWidth="1px"
-          borderColor="gray.200"
-          borderRadius="4px"
-          bg="white"
-          mb="12px"
-          p="10px 12px 10px 12px"
-        >
-          <AccordionButton _focus={{ boxShadow: 'none' }} p="unset" ml="8px">
-            <Flex flex="1" fontSize="12px" alignItems="center">
-              <Box
-                bg={status.bg}
-                color={status.color}
-                w="42px"
-                h="24px"
-                textAlign="center"
-                borderRadius="2px"
-                fontWeight="600"
-                lineHeight="2"
+      <Accordion
+        allowMultiple
+        p="12px 12px"
+        bg="gray.50"
+        maxH="600px"
+        overflow="auto"
+      >
+        {rawDataList.map((r) => {
+          const status = OPTIONS[r?.mark ?? 'upstream'];
+
+          return (
+            !isEmpty(r) && (
+              <AccordionItem
+                key={`${Math.random().toString().slice(2, 8)}`}
+                borderWidth="1px"
+                borderColor="gray.200"
+                borderRadius="4px"
+                bg="white"
+                mb="12px"
+                p="10px 12px 10px 12px"
               >
-                {status.desc}
-              </Box>
-              <Text fontWeight="700" m="0 38px 0 22px">
-                {rawData.path}
-              </Text>
-              <Text color="grayAlternatives.300">2022-11-02 12:32:12</Text>
-            </Flex>
-            <AccordionIcon />
-          </AccordionButton>
-          <AccordionPanel p="12px 0 0 0">
-            <Editor
-              theme="light"
-              value={handleValues(rawData?.values || '', selected)}
-              language="json"
-              readOnly
-              width="100%"
-              height="144px"
-            />
-          </AccordionPanel>
-        </AccordionItem>
+                <AccordionButton
+                  _focus={{ boxShadow: 'none' }}
+                  p="unset"
+                  ml="8px"
+                >
+                  <Flex flex="1" fontSize="12px" alignItems="center">
+                    <Box
+                      bg={status.bg}
+                      color={status.color}
+                      w="42px"
+                      h="24px"
+                      textAlign="center"
+                      borderRadius="2px"
+                      fontWeight="600"
+                      lineHeight="2"
+                    >
+                      {status.desc}
+                    </Box>
+                    <Text fontWeight="700" m="0 38px 0 22px">
+                      {r.path}
+                    </Text>
+                    <Text color="grayAlternatives.300">
+                      {formatDateTimeByTimestamp({
+                        timestamp: r?.ts ?? `${Math.floor((r?.ts || 0) / 1e6)}`,
+                      })}
+                    </Text>
+                  </Flex>
+                  <AccordionIcon />
+                </AccordionButton>
+                <AccordionPanel p="12px 0 0 0">
+                  <Editor
+                    theme="light"
+                    value={handleValues(r?.values || '', selected)}
+                    language="json"
+                    readOnly
+                    width="100%"
+                    height="144px"
+                  />
+                </AccordionPanel>
+              </AccordionItem>
+            )
+          );
+        })}
       </Accordion>
     </Box>
   );
 }
 
-export default Index;
+export default memo(Index);

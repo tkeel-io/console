@@ -1,5 +1,6 @@
-import { useState } from 'react';
 import { Flex } from '@chakra-ui/react';
+import { useState } from 'react';
+
 import { PluginNum } from '@tkeel/console-business-components';
 import { SearchInput } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
@@ -21,6 +22,7 @@ function Content({ isInstalledPlugins = false, repo }: Props) {
     plugins: repoPlugins,
     data: repoPluginsData,
     refetch: repoPluginsRefetch,
+    isSuccess: repoPluginsIsSuccess,
     isLoading: repoPluginsLoading,
   } = useRepoInstallersQuery({
     repo: repo as string,
@@ -34,6 +36,7 @@ function Content({ isInstalledPlugins = false, repo }: Props) {
     plugins: repoInstalledPlugins,
     data: repoInstalledPluginsData,
     refetch: repoInstalledPluginsRefetch,
+    isSuccess: repoInstalledPluginsIsSuccess,
     isLoading: repoInstalledPluginsLoading,
   } = useInstalledPluginsQuery({
     pageNum,
@@ -43,10 +46,11 @@ function Content({ isInstalledPlugins = false, repo }: Props) {
   });
 
   let isLoading = false;
-  if (isInstalledPlugins) {
+
+  if (isInstalledPlugins && repoInstalledPluginsIsSuccess) {
     isLoading = repoInstalledPluginsLoading;
     setTotalSize(repoInstalledPluginsData?.total ?? 0);
-  } else {
+  } else if (repoPluginsIsSuccess) {
     isLoading = repoPluginsLoading;
     setTotalSize(repoPluginsData?.total ?? 0);
   }

@@ -1,4 +1,5 @@
 import { Flex, Grid, Text } from '@chakra-ui/react';
+
 import { PageHeaderToolbar } from '@tkeel/console-components';
 
 import DeviceInfoCard from '@/tkeel-console-plugin-tenant-data-query/components/DeviceInfoCard';
