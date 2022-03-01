@@ -1,5 +1,5 @@
 import { ThemeNames } from '@tkeel/console-themes';
 
-export interface GlobalProps {
+export interface GlobalPortalProps {
   themeName: ThemeNames;
 }

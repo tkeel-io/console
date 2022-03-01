@@ -3,9 +3,11 @@ import { createHandleNoAuth } from '@tkeel/console-utils';
 
 import useNoAuthRedirectPath from '../useNoAuthRedirectPath';
 
-export default function usePluginHandleNoAuth() {
-  const { portalName, navigate } = useGlobalPluginProps();
+export default function usePluginRequestExtras() {
+  const { portalName, tokenInfo, navigate } = useGlobalPluginProps();
   const { basePath } = GLOBAL_PLUGIN_CONFIG;
   const redirectPath = useNoAuthRedirectPath({ portalName, basePath });
-  return createHandleNoAuth({ navigate, redirectPath });
+  const handleNoAuth = createHandleNoAuth({ navigate, redirectPath });
+
+  return { tokenInfo, handleNoAuth };
 }

@@ -1,14 +1,14 @@
 import { merge } from 'lodash';
 
 import { UseCustomMutationOptions, useMutation } from '../react-query';
-import usePluginRequestExtras from '../usePluginRequestExtras';
+import usePortalRequestExtras from '../usePortalRequestExtras';
 
-export default function usePluginMutation<
+export default function usePortalMutation<
   TApiData,
   TRequestParams = undefined,
   TRequestData = undefined
 >(options: UseCustomMutationOptions<TApiData, TRequestParams, TRequestData>) {
-  const extras = usePluginRequestExtras();
+  const extras = usePortalRequestExtras();
   const opts = merge({}, { extras }, options);
 
   return useMutation<TApiData, TRequestParams, TRequestData>(opts);

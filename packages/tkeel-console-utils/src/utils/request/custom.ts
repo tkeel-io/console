@@ -5,10 +5,7 @@ import { NavigateFunction } from 'react-router-dom';
 import { toast } from '@tkeel/console-components';
 import { DEFAULT_API_BASE_PATH } from '@tkeel/console-constants';
 
-import {
-  getLocalTokenInfo,
-  removeLocalTokenInfo,
-} from '@/tkeel-console-utils/utils/auth';
+import { removeLocalTokenInfo } from '@/tkeel-console-utils/utils/auth';
 
 import { getGlobalConfig } from '../global-config';
 import { AxiosRequestConfigExtended, RequestExtras } from './types';
@@ -56,9 +53,9 @@ export const DEFAULT_CUSTOM_EXTRAS: RequestExtras = {
 export function requestInterceptors(config: AxiosRequestConfigExtended) {
   const extras = config?.extras ?? DEFAULT_CUSTOM_EXTRAS;
   const isWithToken = extras?.isWithToken;
-  const tokenInfo = getLocalTokenInfo();
-  const tokenType = tokenInfo?.token_type;
-  const accessToken = tokenInfo?.access_token;
+  const tokenInfo = extras?.tokenInfo;
+  const tokenType = tokenInfo?.token_type ?? '';
+  const accessToken = tokenInfo?.access_token ?? '';
 
   return typeof accessToken === 'string' && accessToken.trim() && isWithToken
     ? merge(
