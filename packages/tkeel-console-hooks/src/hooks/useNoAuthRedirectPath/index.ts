@@ -1,10 +1,9 @@
 import { useLocation } from 'react-router-dom';
 
-import { PlatformNames } from '@tkeel/console-constants';
 import { getNoAuthRedirectPath } from '@tkeel/console-utils';
 
 type Options = {
-  platformName: PlatformNames;
+  platformName: 'admin' | 'tenant';
   basePath?: string;
 };
 
