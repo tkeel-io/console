@@ -11,3 +11,11 @@ export const PORTAL_INFOS = {
     name: PortalNames.TENANT,
   },
 };
+
+export const DEFAULT_PORTAL_NAME = PortalNames.TENANT;
+
+export const DEFAULT_API_BASE_PATH = '/api';
+
+export const DEFAULT_WEBSOCKET_BASE_PATH = '/v1/ws';
+
+export const DEFAULT_THEME_NAME = '/v1/ws';

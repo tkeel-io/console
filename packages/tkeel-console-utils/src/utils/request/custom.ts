@@ -3,19 +3,18 @@ import { inRange, merge } from 'lodash';
 import { NavigateFunction } from 'react-router-dom';
 
 import { toast } from '@tkeel/console-components';
+import { DEFAULT_API_BASE_PATH } from '@tkeel/console-constants';
 
 import {
   getLocalTokenInfo,
   removeLocalTokenInfo,
 } from '@/tkeel-console-utils/utils/auth';
 
+import { getGlobalConfig } from '../global-config';
 import { AxiosRequestConfigExtended, RequestExtras } from './types';
 
 export const DEFAULT_AXIOS_REQUEST_CONFIG: AxiosRequestConfig = {
-  baseURL:
-    GLOBAL_PLUGIN_CONFIG?.api?.basePath ??
-    GLOBAL_PORTAL_CONFIG?.api?.basePath ??
-    '/apis',
+  baseURL: getGlobalConfig()?.api?.basePath ?? DEFAULT_API_BASE_PATH,
   validateStatus: (status: number) => !inRange(status, 300, 400),
 };
 
