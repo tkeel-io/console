@@ -1,14 +1,13 @@
-export const enum PlatformNames {
+export const enum PortalNames {
   ADMIN = 'admin',
   TENANT = 'tenant',
 }
 
 export const PLATFORM_INFOS = {
-  [PlatformNames.ADMIN]: {
-    name: PlatformNames.ADMIN,
-    validateAuthApi: '/rudder/v1/oauth2/authorize',
+  [PortalNames.ADMIN]: {
+    name: PortalNames.ADMIN,
   },
-  [PlatformNames.TENANT]: {
-    name: PlatformNames.TENANT,
+  [PortalNames.TENANT]: {
+    name: PortalNames.TENANT,
   },
 };

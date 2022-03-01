@@ -1,6 +1,6 @@
 import { Location } from 'react-router-dom';
 
-import { PlatformNames } from '@tkeel/console-constants';
+import { PortalNames } from '@tkeel/console-constants';
 
 import { getLocalUserInfo } from '@/tkeel-console-utils/utils/auth/tenant-user';
 
@@ -15,7 +15,7 @@ export function getNoAuthRedirectPath({
   basePath?: string;
 }) {
   let loginPath = '/auth/login';
-  if (portalName === PlatformNames.TENANT) {
+  if (portalName === PortalNames.TENANT) {
     const userInfo = getLocalUserInfo();
     const tenantId = userInfo?.tenant_id ?? '';
     loginPath += `/${tenantId}`;
