@@ -5,17 +5,17 @@ import {
   Flex,
   Text,
 } from '@chakra-ui/react';
+import { ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { PLATFORM_INFOS, PlatformNames } from '@tkeel/console-constants';
 import { Menu } from '@tkeel/console-types';
 
-import AdminUserActionMenus from '@/tkeel-console-portal-base/components/AdminUserActionMenus';
-import TenantUserActionMenus from '@/tkeel-console-portal-base/components/TenantUserActionMenus';
-import useGlobalProps from '@/tkeel-console-portal-base/hooks/useGlobalProps';
+type Props = {
+  menus: Menu[];
+  userActionMenusComponent: ReactNode;
+};
 
-export default function Header({ menus }: { menus: Menu[] }) {
-  const { platformName } = useGlobalProps();
+export default function Header({ menus, userActionMenusComponent }: Props) {
   const { pathname } = useLocation();
   let breadcrumbs: string[] = [];
   menus.forEach((menu) => {
@@ -53,14 +53,7 @@ export default function Header({ menus }: { menus: Menu[] }) {
           </BreadcrumbItem>
         ))}
       </Breadcrumb>
-      <Flex alignItems="center">
-        {platformName === PLATFORM_INFOS[PlatformNames.ADMIN].name && (
-          <AdminUserActionMenus />
-        )}
-        {platformName === PLATFORM_INFOS[PlatformNames.TENANT].name && (
-          <TenantUserActionMenus />
-        )}
-      </Flex>
+      <Flex alignItems="center">{userActionMenusComponent}</Flex>
     </Flex>
   );
 }

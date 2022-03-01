@@ -1,5 +1,5 @@
 import * as ReactDOM from 'react-dom';
 
-import App from '@tkeel/console-portal-base';
+import App from './App';
 
 ReactDOM.render(<App />, document.querySelector('#root'));
