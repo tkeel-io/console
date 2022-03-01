@@ -7,5 +7,9 @@ export {
   default as PluginProvider,
   useGlobalPluginProps,
 } from './components/PluginProvider';
+export {
+  GlobalPortalProps,
+  default as PortalProvider,
+  useGlobalPortalProps,
+} from './components/PortalProvider';
 export { default as SetPasswordModal } from './components/SetPasswordModal';
-export { default as TreeDemo } from './components/TreeDemo';

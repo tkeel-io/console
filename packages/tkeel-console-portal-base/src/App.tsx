@@ -3,6 +3,7 @@ import { ReactNode } from 'react';
 import { QueryClientProvider } from 'react-query';
 import { BrowserRouter as Router } from 'react-router-dom';
 
+import { PortalProvider } from '@tkeel/console-business-components';
 import { QueryClient } from '@tkeel/console-hooks';
 import themes, {
   DEFAULT_THEME,
@@ -10,7 +11,6 @@ import themes, {
   ThemeNames,
 } from '@tkeel/console-themes';
 
-import Provider from '@/tkeel-console-portal-base/containers/Provider';
 import Routes from '@/tkeel-console-portal-base/routes';
 
 const queryClient = new QueryClient();
@@ -33,7 +33,7 @@ export default function App({
   userActionMenusComponent,
 }: Props) {
   return (
-    <Provider globalProps={{ themeName }}>
+    <PortalProvider globalProps={{ themeName }}>
       <QueryClientProvider client={queryClient}>
         <ChakraProvider theme={theme}>
           <Router>
@@ -46,6 +46,6 @@ export default function App({
           </Router>
         </ChakraProvider>
       </QueryClientProvider>
-    </Provider>
+    </PortalProvider>
   );
 }

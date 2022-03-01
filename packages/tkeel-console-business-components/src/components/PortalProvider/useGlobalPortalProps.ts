@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import Context from '@/tkeel-console-portal-base/contexts/GlobalPropsContext';
+import Context from './context';
 
 export default function useGlobalPortalProps() {
   return useContext(Context);
