@@ -16,7 +16,7 @@ import Routes from '@/tkeel-console-portal-base/routes';
 const queryClient = new QueryClient();
 
 const themeName =
-  (GLOBAL_CONFIG.client.themeName as ThemeNames) || DEFAULT_THEME_NAME;
+  (GLOBAL_PORTAL_CONFIG.client.themeName as ThemeNames) || DEFAULT_THEME_NAME;
 const theme = themes[themeName] || DEFAULT_THEME;
 
 type Props = {

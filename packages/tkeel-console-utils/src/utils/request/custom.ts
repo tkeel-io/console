@@ -12,7 +12,10 @@ import {
 import { AxiosRequestConfigExtended, RequestExtras } from './types';
 
 export const DEFAULT_AXIOS_REQUEST_CONFIG: AxiosRequestConfig = {
-  baseURL: GLOBAL_CONFIG.api.basePath || '/apis',
+  baseURL:
+    GLOBAL_PLUGIN_CONFIG?.api?.basePath ??
+    GLOBAL_PORTAL_CONFIG?.api?.basePath ??
+    '/apis',
   validateStatus: (status: number) => !inRange(status, 300, 400),
 };
 

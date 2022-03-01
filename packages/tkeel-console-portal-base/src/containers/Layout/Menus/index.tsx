@@ -19,7 +19,7 @@ import CollapsedMenus from './CollapsedMenus';
 import ExpandMenus from './ExpandMenus';
 
 function Menus() {
-  const { themeName } = GLOBAL_CONFIG.client;
+  const { themeName } = GLOBAL_PORTAL_CONFIG.client;
   const [collapsed, setCollapsed] = useState(false);
   const localMenuTheme = getLocalMenuTheme();
   const isQingCloudTheme = themeName === ThemeNames.QingcloudLight;

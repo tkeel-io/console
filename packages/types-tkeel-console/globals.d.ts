@@ -51,7 +51,12 @@ declare module '*.webp' {
 // eslint-disable-next-line no-underscore-dangle, @typescript-eslint/naming-convention
 declare let __webpack_public_path__: string;
 
-interface GlobalConfig {
+interface Window {
+  __POWERED_BY_QIANKUN__: boolean;
+  __INJECTED_PUBLIC_PATH_BY_QIANKUN__: string;
+}
+
+interface GlobalPortalConfig {
   edition: 'free' | 'paid'; // portal
   portalName: 'admin' | 'tenant';
   publicPath: string;
@@ -78,9 +83,6 @@ interface GlobalConfig {
   };
 }
 
-declare const GLOBAL_CONFIG: GlobalConfig;
+declare const GLOBAL_PORTAL_CONFIG: GlobalPortalConfig;
 
-interface Window {
-  __POWERED_BY_QIANKUN__: boolean;
-  __INJECTED_PUBLIC_PATH_BY_QIANKUN__: string;
-}
+declare const GLOBAL_PLUGIN_CONFIG: GlobalPortalConfig;

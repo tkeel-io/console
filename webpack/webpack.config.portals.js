@@ -1,5 +1,6 @@
 const path = require('path');
 
+const ConfigWebpackPlugin = require('config-webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const { merge } = require('webpack-merge');
 
@@ -21,6 +22,7 @@ const webpackConfigPortals = {
         },
       ],
     }),
+    new ConfigWebpackPlugin('GLOBAL_PORTAL_CONFIG'),
   ],
 };
 

@@ -2,7 +2,8 @@ import store from 'store2';
 
 import { TokenInfo } from '@tkeel/console-types';
 
-const namespace = GLOBAL_CONFIG.portalName;
+const namespace =
+  GLOBAL_PLUGIN_CONFIG?.portalName ?? GLOBAL_PORTAL_CONFIG?.portalName;
 const key = 'tokenInfo';
 const authStore = store.namespace(namespace);
 
