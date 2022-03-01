@@ -6,5 +6,9 @@ export { default as usePluginHandleNoAuth } from './hooks/usePluginHandleNoAuth'
 export { default as usePluginMutation } from './hooks/usePluginMutation';
 export { default as usePluginQueries } from './hooks/usePluginQueries';
 export { default as usePluginQuery } from './hooks/usePluginQuery';
+export { default as usePortalHandleNoAuth } from './hooks/usePortalHandleNoAuth';
+export { default as usePortalMutation } from './hooks/usePortalMutation';
+export { default as usePortalQueries } from './hooks/usePortalQueries';
+export { default as usePortalQuery } from './hooks/usePortalQuery';
 export { default as useRedirectParams } from './hooks/useRedirectParams';
 export { default as useWebSocket } from './hooks/useWebSocket';
