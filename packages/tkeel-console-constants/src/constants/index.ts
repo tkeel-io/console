@@ -1,14 +1,19 @@
-export const enum PlatformNames {
+export const enum PortalNames {
   ADMIN = 'admin',
   TENANT = 'tenant',
 }
 
-export const PLATFORM_INFOS = {
-  [PlatformNames.ADMIN]: {
-    name: PlatformNames.ADMIN,
-    validateAuthApi: '/rudder/v1/oauth2/authorize',
+export const PORTAL_INFOS = {
+  [PortalNames.ADMIN]: {
+    name: PortalNames.ADMIN,
   },
-  [PlatformNames.TENANT]: {
-    name: PlatformNames.TENANT,
+  [PortalNames.TENANT]: {
+    name: PortalNames.TENANT,
   },
 };
+
+export const DEFAULT_PORTAL_NAME = PortalNames.TENANT;
+
+export const DEFAULT_API_BASE_PATH = '/api';
+
+export const DEFAULT_WEBSOCKET_BASE_PATH = '/v1/ws';

@@ -1,5 +1,4 @@
-import useMutation from 'packages/tkeel-console-plugin-tenant-device-templates/src/hooks/useMutation';
-
+import { usePluginMutation } from '@tkeel/console-hooks';
 import { getLocalUserInfo } from '@tkeel/console-utils';
 
 export interface ApiData {
@@ -18,7 +17,7 @@ export default function useDeleteRoleMutation({
   const { tenant_id: tenantId } = getLocalUserInfo();
   const url = `/security/v1/rbac/tenant/${tenantId}/roles/${role}`;
 
-  return useMutation<ApiData, undefined, undefined>({
+  return usePluginMutation<ApiData, undefined, undefined>({
     url,
     method,
     reactQueryOptions: { onSuccess },

@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
-/* eslint-disable unicorn/consistent-function-scoping */
 import { Button, useDisclosure } from '@chakra-ui/react';
 import { keyBy, mapValues } from 'lodash';
+import { useEffect } from 'react';
 
 import { toast } from '@tkeel/console-components';
 import { AddFilledIcon } from '@tkeel/console-icons';
@@ -21,7 +21,7 @@ interface Props {
 
 export default function CreateDeviceButton({ callback }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { isLoading, mutate, isSuccess } = useCreateDeviceGroupMutation({
+  const { isLoading, mutate, isSuccess, reset } = useCreateDeviceGroupMutation({
     onSuccess() {
       toast({
         status: 'success',
@@ -30,13 +30,20 @@ export default function CreateDeviceButton({ callback }: Props) {
       if (callback) callback();
     },
   });
+  useEffect(() => {
+    if (isOpen) {
+      reset();
+    }
+  }, [isOpen, reset]);
   const handleConfirm = ({ formValues }: { formValues: DeviceValueType }) => {
     const { description, name, parentId, extendInfo } = formValues;
+    const [id, ...rest] = parentId.split('&');
     const params = {
       description,
       name,
       ext: mapValues(keyBy(extendInfo, 'label'), 'value'),
-      parentId,
+      parentId: id,
+      parentName: rest.join('&'),
     };
     mutate({ data: params });
   };

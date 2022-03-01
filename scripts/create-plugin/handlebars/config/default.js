@@ -1,5 +1,5 @@
 module.exports = {
-  platformName: '{{platformName}}',
+  portalName: '{{portalName}}',
   publicPath: '/static/console-plugin-{{name}}/',
   basePath: '{{basePath}}',
   client: {

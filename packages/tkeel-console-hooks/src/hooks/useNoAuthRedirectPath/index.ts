@@ -3,15 +3,15 @@ import { useLocation } from 'react-router-dom';
 import { getNoAuthRedirectPath } from '@tkeel/console-utils';
 
 type Options = {
-  platformName: 'admin' | 'tenant';
+  portalName: 'admin' | 'tenant';
   basePath?: string;
 };
 
 export default function useNoAuthRedirectPath({
-  platformName,
+  portalName,
   basePath,
 }: Options) {
   const location = useLocation();
 
-  return getNoAuthRedirectPath({ platformName, basePath, location });
+  return getNoAuthRedirectPath({ portalName, basePath, location });
 }
