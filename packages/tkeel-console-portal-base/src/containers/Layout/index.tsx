@@ -1,5 +1,5 @@
-// import { useEffect } from 'react';
 import { Box, Flex, Skeleton } from '@chakra-ui/react';
+import { ReactNode } from 'react';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 
 import Header from '@/tkeel-console-portal-base/containers/Layout/Header';
@@ -8,23 +8,23 @@ import useMenusQuery from '@/tkeel-console-portal-base/hooks/queries/useMenusQue
 import useGlobalProps from '@/tkeel-console-portal-base/hooks/useGlobalProps';
 import useQiankunInit from '@/tkeel-console-portal-base/hooks/useQiankunInit';
 import NotFound from '@/tkeel-console-portal-base/pages/NotFound';
-import {
-  // init as initQiankun,
-  menusToApps,
-} from '@/tkeel-console-portal-base/utils';
+import { menusToApps } from '@/tkeel-console-portal-base/utils';
 
 function getElementIdByContainer(container: string): string {
   return container.replace(/^#/, '');
 }
 
-export default function Layout() {
-  const { platformName, themeName } = useGlobalProps();
+type Props = {
+  userActionMenusComponent: ReactNode;
+};
+
+export default function Layout({ userActionMenusComponent }: Props) {
+  const { themeName } = useGlobalProps();
   const { menus, refetch } = useMenusQuery();
 
   const navigate = useNavigate();
 
   const initArgs = {
-    platformName,
     menus,
     navigate,
     themeName,
@@ -70,16 +70,11 @@ export default function Layout() {
     <Flex height="100%">
       <Menus />
       <Flex flex="1" overflow="hidden" flexDirection="column" padding="20px">
-        <Header menus={menus} />
+        <Header
+          menus={menus}
+          userActionMenusComponent={userActionMenusComponent}
+        />
         <Flex position="relative" flex="1" overflow="hidden">
-          {/* {isLoading && (
-            <Spinner
-              position="absolute"
-              top="50%"
-              right="50%"
-              transform="translate(-50%, -50%)"
-            />
-          )} */}
           {isLoading && (
             <Skeleton
               position="absolute"

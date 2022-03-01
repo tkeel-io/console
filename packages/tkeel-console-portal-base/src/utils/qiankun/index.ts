@@ -1,7 +1,6 @@
 import { FrameworkLifeCycles, registerMicroApps, start } from 'qiankun';
 import { NavigateFunction } from 'react-router-dom';
 
-import { PlatformNames } from '@tkeel/console-constants';
 import themes, { DEFAULT_THEME_NAME, ThemeNames } from '@tkeel/console-themes';
 import { Menu, PluginGlobalProps } from '@tkeel/console-types';
 import { getLocalTokenInfo } from '@tkeel/console-utils';
@@ -11,7 +10,6 @@ import { App, MenuInfo } from './types';
 export type LifeCycles = FrameworkLifeCycles<Record<string, any>>;
 
 export interface InitArgs {
-  platformName: PlatformNames;
   menus: Menu[];
   navigate: NavigateFunction;
   themeName: ThemeNames;
@@ -41,7 +39,6 @@ function getTotalMenus(menus: Menu[]): MenuInfo[] {
 }
 
 export function menusToApps({
-  platformName,
   menus,
   navigate,
   themeName = DEFAULT_THEME_NAME,
@@ -50,7 +47,7 @@ export function menusToApps({
   const totalMenus: MenuInfo[] = getTotalMenus(menus);
   const tokenInfo = getLocalTokenInfo();
   const props: PluginGlobalProps = {
-    platformName,
+    platformName: GLOBAL_CONFIG.platformName,
     tokenInfo,
     navigate,
     themeName,
@@ -78,7 +75,6 @@ function register({
 }
 
 export function init({
-  platformName,
   menus,
   navigate,
   themeName,
@@ -86,7 +82,6 @@ export function init({
   refetchMenus,
 }: InitArgs) {
   const apps = menusToApps({
-    platformName,
     menus,
     navigate,
     themeName,
