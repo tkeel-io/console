@@ -1,5 +1,5 @@
 module.exports = {
-  platformName: 'tenant',
+  portalName: 'tenant',
   publicPath: '/static/console-plugin-tenant-example/',
   basePath: '/tenant-example',
   client: {

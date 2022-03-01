@@ -52,11 +52,11 @@ export default function ExpandMenus({ isQingCloudTheme, isDarkMenu }: Props) {
       setSpreadMenus([...spreadMenuIds, id]);
     }
   };
-  const isAdminPlatform = GLOBAL_CONFIG.platformName === 'admin';
-  const qingcloudLogoDark = isAdminPlatform
+  const isPortalAdmin = GLOBAL_PORTAL_CONFIG.portalName === 'admin';
+  const qingcloudLogoDark = isPortalAdmin
     ? qingcloudLogoAdminDark
     : qingcloudLogoTenantDark;
-  const qingcloudLogoLight = isAdminPlatform
+  const qingcloudLogoLight = isPortalAdmin
     ? qingcloudLogoAdminLight
     : qingcloudLogoTenantLight;
 

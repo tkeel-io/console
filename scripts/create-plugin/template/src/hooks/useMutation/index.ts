@@ -1,4 +1,4 @@
-import { useGlobalProps } from '@tkeel/console-business-components';
+import { useGlobalPluginProps } from '@tkeel/console-business-components';
 import {
   UseCustomMutationOptions,
   useMutation as useCustomMutation,
@@ -12,9 +12,9 @@ export default function useMutation<
   TRequestParams = undefined,
   TRequestData = undefined
 >(options: UseCustomMutationOptions<TApiData, TRequestParams, TRequestData>) {
-  const { platformName, navigate } = useGlobalProps();
-  const { basePath } = GLOBAL_CONFIG;
-  const redirectPath = useNoAuthRedirectPath({ platformName, basePath });
+  const { portalName, navigate } = useGlobalPluginProps();
+  const { basePath } = GLOBAL_PLUGIN_CONFIG;
+  const redirectPath = useNoAuthRedirectPath({ portalName, basePath });
   const handleNoAuth = createHandleNoAuth({ navigate, redirectPath });
   const opts = merge({}, { extras: { handleNoAuth } }, options);
 

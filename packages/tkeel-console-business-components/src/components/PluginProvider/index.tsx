@@ -1,11 +1,11 @@
 import { ReactNode } from 'react';
 
-import { PluginGlobalProps } from '@tkeel/console-types';
+import { GlobalPluginProps } from '@tkeel/console-types';
 
 import Context from './context';
 
 type Props = {
-  globalProps: PluginGlobalProps;
+  globalProps: GlobalPluginProps;
   children?: ReactNode;
 };
 
@@ -16,4 +16,4 @@ export default function PluginProvider({
   return <Context.Provider value={globalProps}>{children}</Context.Provider>;
 }
 
-export { default as useGlobalProps } from './useGlobalProps';
+export { default as useGlobalPluginProps } from './useGlobalPluginProps';

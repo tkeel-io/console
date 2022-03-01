@@ -4,13 +4,13 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 import { PluginProvider } from '@tkeel/console-business-components';
 import { QueryClient } from '@tkeel/console-hooks';
-import { PluginGlobalProps } from '@tkeel/console-types';
+import { GlobalPluginProps } from '@tkeel/console-types';
 
 import Routes from '@/tkeel-console-plugin-admin-tenants/routes';
 
 const queryClient = new QueryClient();
 
-function App(props: PluginGlobalProps) {
+function App(props: GlobalPluginProps) {
   const { theme } = props;
 
   return (
@@ -20,8 +20,8 @@ function App(props: PluginGlobalProps) {
           <Router
             basename={
               window.__POWERED_BY_QIANKUN__
-                ? GLOBAL_CONFIG.basePath
-                : GLOBAL_CONFIG.publicPath
+                ? GLOBAL_PLUGIN_CONFIG.basePath
+                : GLOBAL_PLUGIN_CONFIG.publicPath
             }
           >
             <Routes />

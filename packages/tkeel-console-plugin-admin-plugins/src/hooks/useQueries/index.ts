@@ -1,6 +1,6 @@
 import { merge } from 'lodash';
 
-import { useGlobalProps } from '@tkeel/console-business-components';
+import { useGlobalPluginProps } from '@tkeel/console-business-components';
 import {
   UseCustomQueryOptions,
   useNoAuthRedirectPath,
@@ -9,9 +9,9 @@ import {
 import { createHandleNoAuth } from '@tkeel/console-utils';
 
 export default function useQueries(optionsList: UseCustomQueryOptions[]) {
-  const { platformName, navigate } = useGlobalProps();
+  const { portalName, navigate } = useGlobalPluginProps();
   const basePath = process.env.BASE_PATH;
-  const redirectPath = useNoAuthRedirectPath({ platformName, basePath });
+  const redirectPath = useNoAuthRedirectPath({ portalName, basePath });
   const handleNoAuth = createHandleNoAuth({ navigate, redirectPath });
   const optsList = optionsList.map((option) => {
     return merge({}, { extras: { handleNoAuth } }, option);

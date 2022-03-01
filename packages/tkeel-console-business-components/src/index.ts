@@ -5,7 +5,7 @@ export { default as PluginCard } from './components/PluginCard';
 export { default as PluginNum } from './components/PluginNum';
 export {
   default as PluginProvider,
-  useGlobalProps,
+  useGlobalPluginProps,
 } from './components/PluginProvider';
 export { default as SetPasswordModal } from './components/SetPasswordModal';
 export { default as TreeDemo } from './components/TreeDemo';

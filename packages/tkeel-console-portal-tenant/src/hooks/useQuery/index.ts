@@ -15,7 +15,7 @@ export default function useQuery<
 >(options: UseCustomQueryOptions<TApiData, TRequestParams, TRequestData>) {
   const navigate = useNavigate();
   const redirectPath = useNoAuthRedirectPath({
-    platformName: GLOBAL_CONFIG.platformName,
+    portalName: GLOBAL_PORTAL_CONFIG.portalName,
   });
   const handleNoAuth = createHandleNoAuth({ navigate, redirectPath });
 
