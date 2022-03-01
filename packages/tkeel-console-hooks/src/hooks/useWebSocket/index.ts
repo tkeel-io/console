@@ -19,7 +19,7 @@ export default function useCustomWebSocket<T>(options: CustomOptions) {
   const { url, connect, ...rest } = opts;
   const protocol = window.location.protocol === 'https' ? 'wss' : 'ws';
   const basePath =
-    getGlobalConfig()?.webSocket?.basePath ?? DEFAULT_WEBSOCKET_BASE_PATH;
+    getGlobalConfig()?.websocket?.basePath ?? DEFAULT_WEBSOCKET_BASE_PATH;
   const baseURL = `${protocol}://${window.location.host}${basePath}`;
   const fullURL = `${baseURL}${url}`;
   const ret = useWebSocket(fullURL, rest, connect);

@@ -8,7 +8,7 @@ module.exports = {
   api: {
     basePath: '/apis',
   },
-  webSocket: {
+  websocket: {
     basePath: '/v1/ws',
   },
   plugin: {

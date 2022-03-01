@@ -7,29 +7,32 @@ interface Window {
 }
 
 interface GlobalPluginConfig {
-  edition: 'free' | 'paid'; // portal
   portalName: 'admin' | 'tenant';
   publicPath: string;
-  basePath?: string; // plugin
+  basePath: string;
   client: {
-    themeName: 'qingcloud-light' | 'tkeel-light';
     documentTitle: string | number;
   };
   api: {
-    origin?: string;
     basePath: string;
   };
-  webSocket: {
-    origin?: string;
+  websocket: {
     basePath: string;
   };
-  // local development
-  mock?: {
-    tenantId?: string | number; // portal tenant
-    username?: string | number; // portal tenant
-    password?: string | number; // portal
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    menus?: Array<Record<string, any>>; // portal
+  plugin: {
+    identify: {
+      plugin_id: string;
+      entries: Record<string, any>[];
+      dependence: { id: string; version: string }[];
+    };
+  };
+  // development
+  server?: {
+    port?: string;
+  };
+  // production
+  builder?: {
+    generateSourcemap?: boolean;
   };
 }
 
