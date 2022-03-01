@@ -4,16 +4,18 @@ import { PortalNames } from '@tkeel/console-constants';
 
 import { getLocalUserInfo } from '@/tkeel-console-utils/utils/auth/tenant-user';
 
+type Options = {
+  portalName: 'admin' | 'tenant';
+  location: Location;
+  basePath?: string;
+};
+
 // eslint-disable-next-line import/prefer-default-export
 export function getNoAuthRedirectPath({
   portalName,
   basePath = '',
   location,
-}: {
-  portalName: 'admin' | 'tenant';
-  location: Location;
-  basePath?: string;
-}) {
+}: Options) {
   let loginPath = '/auth/login';
   if (portalName === PortalNames.TENANT) {
     const userInfo = getLocalUserInfo();
