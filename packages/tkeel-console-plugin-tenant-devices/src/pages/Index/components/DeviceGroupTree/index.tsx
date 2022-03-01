@@ -16,10 +16,9 @@ import useGroupTreeQuery, {
   NodeInfo,
   TreeNodeType,
 } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
+import CreateGroupButton from '@/tkeel-console-plugin-tenant-devices/pages/Index/components/CreateGroupButton';
 import DeleteGroupButton from '@/tkeel-console-plugin-tenant-devices/pages/Index/components/DeleteGroupButton';
 import UpdateGroupButton from '@/tkeel-console-plugin-tenant-devices/pages/Index/components/UpdateGroupButton';
-
-import CreateGroupButton from '../CreateGroupButton';
 
 interface Props {
   handleSelectGroup: (item: {
@@ -37,10 +36,8 @@ type TreeNodeData = {
     subNode: TreeNodeType;
   };
 };
-
 export default function DeviceGroupTree({ handleSelectGroup }: Props) {
   const { groupTree, refetch } = useGroupTreeQuery();
-
   const selectedColor = useColor('primary');
   const selectedTwoTone = useColor('primarySub2');
   const unselectedColor = useColor('gray.700');
@@ -60,7 +57,7 @@ export default function DeviceGroupTree({ handleSelectGroup }: Props) {
     return values(data).map((item) => {
       const { nodeInfo, subNode } = item;
       const { id, properties } = nodeInfo;
-      const { group } = properties;
+      const group = properties?.group ?? {};
       const { name, description, ext, parentId } = group;
       const defaultFormValues = {
         id,
@@ -92,7 +89,9 @@ export default function DeviceGroupTree({ handleSelectGroup }: Props) {
                 ),
                 <UpdateGroupButton
                   key="update"
+                  groupTree={groupTree}
                   defaultFormValues={defaultFormValues}
+                  refetch={refetch}
                 />,
               ]}
             />
@@ -113,10 +112,11 @@ export default function DeviceGroupTree({ handleSelectGroup }: Props) {
   }
   const treeNodeData = getTreeNodeData({ data: groupTree });
 
-  const onSelect = (selectedKeys: React.Key[], info: any) => {
+  const onSelect = (selectedKeys: React.Key[], e: any) => {
     console.log('selectedKeys', selectedKeys);
+    console.log('event', e);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    const originData = info?.node?.originData;
+    const originData = e?.node?.originData;
     handleSelectGroup(
       originData as {
         nodeInfo: NodeInfo;

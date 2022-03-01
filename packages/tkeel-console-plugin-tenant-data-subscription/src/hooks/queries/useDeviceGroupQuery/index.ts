@@ -24,6 +24,8 @@ export type TreeNodeData = {
   key: string;
   id: string;
   children: TreeNodeData[];
+  icon?: any;
+  path?: string;
   originData: {
     nodeInfo: NodeInfo;
     subNode: TreeNodeType;

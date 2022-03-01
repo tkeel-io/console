@@ -1,6 +1,6 @@
 import { usePluginMutation } from '@tkeel/console-hooks';
 
-const basicUrl = '/tkeel-device/v1/group';
+const basicUrl = '/tkeel-device/v1/groups';
 const method = 'PUT';
 export interface ApiData {
   '@type': string;
