@@ -4,7 +4,7 @@ import TreeSelectExample from './components/TreeSelectExample';
 
 export default function Index() {
   return (
-    <Box>
+    <Box bg="white" w="100%" h="100%">
       <Heading>Example</Heading>
       <TreeSelectExample />
     </Box>

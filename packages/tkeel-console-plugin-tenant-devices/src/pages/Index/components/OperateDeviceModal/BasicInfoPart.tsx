@@ -1,5 +1,5 @@
 import { Stack, Text } from '@chakra-ui/react';
-import { map, values } from 'lodash';
+import { map } from 'lodash';
 import { UseFormReturn } from 'react-hook-form';
 
 import {
@@ -9,7 +9,6 @@ import {
   FormField,
 } from '@tkeel/console-components';
 
-import useGroupTreeQuery from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
 import {
   ConnectInfoType,
   ConnectOption,
@@ -23,20 +22,17 @@ interface Props {
   formHandler: UseFormReturn<DeviceValueType, object>;
   watchFields: DeviceValueType;
   type: ModalType;
+  groupOptions: { label: string; value: string }[];
 }
 export default function BasicInfoPart({
   type,
   formHandler,
   watchFields,
+  groupOptions,
 }: Props) {
   const { register, formState, setValue } = formHandler;
   const { errors } = formState;
-  const { groupTree } = useGroupTreeQuery();
-  const deviceGroupOptions = values(groupTree).map((item) => {
-    const id = item?.nodeInfo?.id ?? '';
-    const label = item?.nodeInfo?.properties?.group?.name ?? '';
-    return { label, value: id };
-  });
+
   return (
     <>
       <TextField
@@ -50,7 +46,7 @@ export default function BasicInfoPart({
       <SelectField
         id="parentId"
         label={type === ModalType.DEVICE ? '设备分组' : '父设备组'}
-        options={deviceGroupOptions || []}
+        options={groupOptions || []}
         registerReturn={register('parentId')}
       />
       {type === ModalType.DEVICE && (

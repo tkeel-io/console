@@ -1,6 +1,6 @@
 import useMutation from '@/tkeel-console-plugin-tenant-devices/hooks/useMutation';
 
-const basicUrl = '/tkeel-device/v1/group';
+const basicUrl = '/tkeel-device/v1/groups';
 const method = 'PUT';
 export interface ApiData {
   '@type': string;

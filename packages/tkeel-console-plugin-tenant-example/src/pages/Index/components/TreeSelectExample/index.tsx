@@ -30,19 +30,25 @@ const treeData = [
 export default function TreeSelectExample() {
   return (
     <HStack spacing="32px">
-      <Select>
-        <Select.Option>1</Select.Option>
-        <Select.Option>2</Select.Option>
-        <Select.Option>3</Select.Option>
+      <Select
+        placeholder="父设备组"
+        allowClear
+        style={{ width: '300px' }}
+        // open
+      >
+        <Select.Option value="1">1只小鸭子</Select.Option>
+        <Select.Option value="2">2只小白兔</Select.Option>
+        <Select.Option value="3">3朵玫瑰花</Select.Option>
       </Select>
       <Tree treeData={treeData} />
       <TreeSelect
+        // open
         style={{ width: '400px' }}
         dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
         treeData={treeData}
         placeholder="Please select"
-        // multiple
-        // treeCheckable
+        multiple
+        treeCheckable
       />
     </HStack>
   );
