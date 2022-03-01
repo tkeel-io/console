@@ -6,6 +6,7 @@ import { MoreActionButton, toast } from '@tkeel/console-components';
 import { PencilFilledIcon } from '@tkeel/console-icons';
 
 import useUpdateGroupMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useUpdateGroupMutation';
+import { TreeNodeType } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
 import OperateDeviceModal from '@/tkeel-console-plugin-tenant-devices/pages/Index/components/OperateDeviceModal';
 import {
   DeviceDefaultInfoType,
@@ -17,9 +18,10 @@ import {
 interface Props {
   defaultFormValues: DeviceDefaultInfoType;
   refetch?: () => void;
+  groupTree: TreeNodeType;
 }
 
-function UpdateGroupButton({ defaultFormValues, refetch }: Props) {
+function UpdateGroupButton({ defaultFormValues, refetch, groupTree }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const onSuccess = () => {
     toast({
@@ -37,11 +39,13 @@ function UpdateGroupButton({ defaultFormValues, refetch }: Props) {
   });
   const handleConfirm = ({ formValues }: { formValues: DeviceValueType }) => {
     const { description, name, parentId, extendInfo } = formValues;
+    const [id, ...rest] = parentId.split('&');
     const params = {
       description,
       name,
       ext: mapValues(keyBy(extendInfo, 'label'), 'value'),
-      parentId,
+      parentId: id,
+      parentName: rest.join('&'),
     };
     mutate({ data: params });
   };
@@ -63,6 +67,7 @@ function UpdateGroupButton({ defaultFormValues, refetch }: Props) {
           defaultFormValues={defaultFormValues}
           handleConfirm={handleConfirm}
           isSuccess={isSuccess}
+          groupTree={groupTree}
         />
       )}
     </>

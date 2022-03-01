@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { PageHeaderToolbar } from '@tkeel/console-components/';
 import { usePagination } from '@tkeel/console-hooks';
 
+import { ApiData as DeviceResData } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceMutation';
 import {
   NodeInfo,
   TreeNodeType,
@@ -31,6 +32,7 @@ const defaultGroupItem = {
 };
 
 function Index(): JSX.Element {
+  const [tableKey, setTableKey] = useState('');
   const [groupItem, setGroupItem] = useState(defaultGroupItem);
   const [keyWords, setKeyWords] = useState('');
   const pagination = usePagination();
@@ -52,7 +54,15 @@ function Index(): JSX.Element {
             setKeyWords(value.trim());
           },
         }}
-        buttons={[<CreateDeviceButton key="create" variant="solid" />]}
+        buttons={[
+          <CreateDeviceButton
+            key="create"
+            variant="solid"
+            onSuccess={({ data }: { data: DeviceResData }) => {
+              setTableKey(data?.deviceObject?.id ?? '');
+            }}
+          />,
+        ]}
       />
       <Box
         position="relative"
@@ -73,7 +83,11 @@ function Index(): JSX.Element {
             当前分组：默认分组/自定义分组3
           </Box>
           <GroupBasicInfo groupItem={groupItem} />
-          <DeviceListTable groupItem={groupItem} keyWords={keyWords} />
+          <DeviceListTable
+            key={tableKey}
+            groupItem={groupItem}
+            keyWords={keyWords}
+          />
         </Flex>
       </Box>
     </Flex>

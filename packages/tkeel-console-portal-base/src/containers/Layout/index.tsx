@@ -2,10 +2,11 @@ import { Box, Flex, Skeleton } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 
+import { useGlobalPortalProps } from '@tkeel/console-business-components';
+
 import Header from '@/tkeel-console-portal-base/containers/Layout/Header';
 import Menus from '@/tkeel-console-portal-base/containers/Layout/Menus';
 import useMenusQuery from '@/tkeel-console-portal-base/hooks/queries/useMenusQuery';
-import useGlobalProps from '@/tkeel-console-portal-base/hooks/useGlobalProps';
 import useQiankunInit from '@/tkeel-console-portal-base/hooks/useQiankunInit';
 import NotFound from '@/tkeel-console-portal-base/pages/NotFound';
 import { menusToApps } from '@/tkeel-console-portal-base/utils';
@@ -19,7 +20,7 @@ type Props = {
 };
 
 export default function Layout({ userActionMenusComponent }: Props) {
-  const { themeName } = useGlobalProps();
+  const { themeName } = useGlobalPortalProps();
   const { menus, refetch } = useMenusQuery();
 
   const navigate = useNavigate();

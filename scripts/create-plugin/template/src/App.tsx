@@ -1,15 +1,16 @@
+import { ChakraProvider } from '@chakra-ui/react';
 import { QueryClientProvider } from 'react-query';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { ChakraProvider } from '@chakra-ui/react';
+
 import { PluginProvider } from '@tkeel/console-business-components';
 import { QueryClient } from '@tkeel/console-hooks';
-import { PluginGlobalProps } from '@tkeel/console-types';
+import { GlobalPluginProps } from '@tkeel/console-types';
 
 import Routes from './routes';
 
 const queryClient = new QueryClient();
 
-function App(props: PluginGlobalProps) {
+export default function App(props: GlobalPluginProps) {
   const { theme } = props;
 
   return (
@@ -19,8 +20,8 @@ function App(props: PluginGlobalProps) {
           <Router
             basename={
               window.__POWERED_BY_QIANKUN__
-                ? GLOBAL_CONFIG.basePath
-                : GLOBAL_CONFIG.publicPath
+                ? PLUGIN_GLOBALS.basePath
+                : PLUGIN_GLOBALS.publicPath
             }
           >
             <Routes />
@@ -30,5 +31,3 @@ function App(props: PluginGlobalProps) {
     </PluginProvider>
   );
 }
-
-export default App;

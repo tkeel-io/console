@@ -1,4 +1,4 @@
-import { useGlobalProps } from '@tkeel/console-business-components';
+import { useGlobalPluginProps } from '@tkeel/console-business-components';
 import { MoreActionButton, toast } from '@tkeel/console-components';
 import { PauseFilledIcon } from '@tkeel/console-icons';
 
@@ -10,7 +10,7 @@ type Props = {
 };
 
 function DisableButton({ pluginName, refetchList }: Props) {
-  const { refetchMenus } = useGlobalProps();
+  const { refetchMenus } = useGlobalPluginProps();
 
   const { mutate } = useDisablePluginMutation({
     pluginName,

@@ -10,7 +10,7 @@ export default function RequireAuth() {
     extras: { handleNoAuth: false, handleApiError: false },
   });
   const redirectPath = useNoAuthRedirectPath({
-    platformName: GLOBAL_CONFIG.platformName,
+    portalName: PORTAL_GLOBALS.portalName,
   });
 
   if (isLoading) {
