@@ -8,7 +8,7 @@ import configs from '@/tkeel-console-portal-tenant/configs';
 
 const { TextField } = FormField;
 
-const config = configs[GLOBAL_PORTAL_CONFIG.client.themeName];
+const config = configs[PORTAL_GLOBALS.client.themeName];
 const pageConfig = config?.pages?.LoginTenant;
 
 type FormValues = {
@@ -97,7 +97,7 @@ export default function Tenant() {
             type="text"
             id="tenantId"
             label="租户 ID"
-            defaultValue={String(GLOBAL_PORTAL_CONFIG?.mock?.tenantId ?? '')}
+            defaultValue={String(PORTAL_GLOBALS?.mock?.tenantId ?? '')}
             placeholder="请输入您的租户 ID"
             error={errors.tenantId}
             formLabelStyle={formLabelStyle}

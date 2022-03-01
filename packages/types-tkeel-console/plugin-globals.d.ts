@@ -6,7 +6,7 @@ interface Window {
   __INJECTED_PUBLIC_PATH_BY_QIANKUN__: string;
 }
 
-interface GlobalPluginConfig {
+interface PluginGlobals {
   portalName: 'admin' | 'tenant';
   publicPath: string;
   basePath: string;
@@ -36,4 +36,4 @@ interface GlobalPluginConfig {
   };
 }
 
-declare const GLOBAL_PLUGIN_CONFIG: GlobalPluginConfig;
+declare const PLUGIN_GLOBALS: PluginGlobals;

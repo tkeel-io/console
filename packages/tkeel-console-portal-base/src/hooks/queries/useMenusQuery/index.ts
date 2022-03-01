@@ -43,7 +43,7 @@ export default function useMenusQuery(props?: Props) {
     let mockMenus: Menu[] = [];
 
     try {
-      mockMenus = (GLOBAL_PORTAL_CONFIG?.mock?.menus ?? []) as Menu[];
+      mockMenus = (PORTAL_GLOBALS?.mock?.menus ?? []) as Menu[];
     } catch {
       //
     }

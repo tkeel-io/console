@@ -18,7 +18,7 @@ import useOAuthTokenMutation, {
 
 const { TextField } = FormField;
 
-const config = configs[GLOBAL_PORTAL_CONFIG.client.themeName];
+const config = configs[PORTAL_GLOBALS.client.themeName];
 const pageConfig = config?.pages?.LoginTenant;
 
 type FormValues = {
@@ -137,7 +137,7 @@ export default function Login() {
             id="username"
             type="text"
             label="账号"
-            defaultValue={String(GLOBAL_PORTAL_CONFIG?.mock?.username ?? '')}
+            defaultValue={String(PORTAL_GLOBALS?.mock?.username ?? '')}
             placeholder="请输入您的账号"
             error={errors.username}
             formControlStyle={{ marginBottom: '20px' }}
@@ -152,7 +152,7 @@ export default function Login() {
             id="password"
             type="password"
             label="密码"
-            defaultValue={String(GLOBAL_PORTAL_CONFIG?.mock?.password ?? '')}
+            defaultValue={String(PORTAL_GLOBALS?.mock?.password ?? '')}
             placeholder="请输入您的密码"
             error={errors.password}
             formLabelStyle={formLabelStyle}

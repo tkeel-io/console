@@ -18,7 +18,7 @@ const webpackConfigPlugins = {
     libraryTarget: 'umd',
     chunkLoadingGlobal: `webpackJsonp_${packageName}`,
   },
-  plugins: [new ConfigWebpackPlugin('GLOBAL_PLUGIN_CONFIG')],
+  plugins: [new ConfigWebpackPlugin('PLUGIN_GLOBALS')],
 };
 
 module.exports = merge(webpackConfig, webpackConfigPlugins);

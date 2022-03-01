@@ -1,11 +1,11 @@
 /* eslint-disable import/prefer-default-export */
 export function getGlobalConfig() {
-  if (typeof GLOBAL_PLUGIN_CONFIG === 'object') {
-    return GLOBAL_PLUGIN_CONFIG;
+  if (typeof PLUGIN_GLOBALS === 'object') {
+    return PLUGIN_GLOBALS;
   }
 
-  if (typeof GLOBAL_PORTAL_CONFIG === 'object') {
-    return GLOBAL_PORTAL_CONFIG;
+  if (typeof PORTAL_GLOBALS === 'object') {
+    return PORTAL_GLOBALS;
   }
 
   return null;

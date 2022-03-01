@@ -8,7 +8,7 @@ export default function usePortalRequestExtras() {
   const tokenInfo = getLocalTokenInfo();
   const navigate = useNavigate();
   const redirectPath = useNoAuthRedirectPath({
-    portalName: GLOBAL_PORTAL_CONFIG.portalName,
+    portalName: PORTAL_GLOBALS.portalName,
   });
   const handleNoAuth = createHandleNoAuth({ navigate, redirectPath });
 

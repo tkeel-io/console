@@ -22,7 +22,7 @@ const webpackConfigPortals = {
         },
       ],
     }),
-    new ConfigWebpackPlugin('GLOBAL_PORTAL_CONFIG'),
+    new ConfigWebpackPlugin('PORTAL_GLOBALS'),
   ],
 };
 
