@@ -43,7 +43,7 @@ export interface ApiData {
   ];
 }
 
-export default function useUsersQuery({
+export default function useListSubscribeEntitiesQuery({
   params,
 }: // onSuccess,
 {
