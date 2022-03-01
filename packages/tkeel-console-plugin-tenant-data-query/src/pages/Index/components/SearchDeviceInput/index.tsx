@@ -28,6 +28,13 @@ export default function SearchDeviceInput({ type = 'index', style }: Props) {
     FilterConditionInfo[]
   >([]);
 
+  const handleRemoveCondition = (conditionId: string) => {
+    const newFilterConditions = filterConditions.filter(
+      (condition) => condition.id !== conditionId
+    );
+    setFilterConditions(newFilterConditions);
+  };
+
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (
     event: KeyboardEvent<HTMLInputElement>
   ) => {
@@ -101,6 +108,7 @@ export default function SearchDeviceInput({ type = 'index', style }: Props) {
                 key={condition.id}
                 condition={condition}
                 style={{ marginRight: '10px' }}
+                removeCondition={handleRemoveCondition}
               />
             ))}
           </Flex>
@@ -114,12 +122,20 @@ export default function SearchDeviceInput({ type = 'index', style }: Props) {
           borderRadius="24px"
           fontSize="12px"
           border="none"
+          boxShadow="none"
+          focusBorderColor="none"
           placeholder={
             showFilterDropdown
               ? ''
               : '支持关键字搜索，支持设备分组、设备模版搜索'
           }
-          _focus={{ borderColor: 'none', backgroundColor: 'primarySub' }}
+          _focus={{
+            border: 'none!important',
+            boxShadow: 'none!important',
+            backgroundColor: 'primarySub',
+            // backgroundColor: showFilterDropdown ? 'primarySub' : 'transparent',
+          }}
+          // _hover={{ backgroundColor: 'transparent' }}
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value.trim())}
           onFocus={() => setShowFilterDropdown(true)}

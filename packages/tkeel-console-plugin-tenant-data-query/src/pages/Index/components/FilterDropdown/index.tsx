@@ -8,6 +8,7 @@ import {
   DEVICE_GROUP_ID,
   DEVICE_TEMPLATES_ID,
 } from '@/tkeel-console-plugin-tenant-data-query/pages/Index/constants';
+import { RequestDataCondition } from '@/tkeel-console-plugin-tenant-data-query/types/request-data';
 
 import FilterConditionSelect from './FilterConditionSelect';
 import ResultContent from './ResultContent';
@@ -19,6 +20,7 @@ type Props = {
     | {
         id: string;
         label: string;
+        value: string;
       }
     | undefined;
   handleConditionClick: (condition: { id: string; label: string }) => unknown;
@@ -31,7 +33,10 @@ export default function FilterDropdown({
 }: Props) {
   const [deviceId, setDeviceId] = useState('');
   const deviceGroupIdQueryField = 'sysField._spacePath';
-  const [deviceListQueryConditions, setDeviceListQueryConditions] = useState([
+  const statusQueryField = 'connectInfo._online';
+  const [deviceListQueryConditions, setDeviceListQueryConditions] = useState<
+    RequestDataCondition[]
+  >([
     {
       field: deviceGroupIdQueryField,
       operator: '$wildcard',
@@ -53,10 +58,14 @@ export default function FilterDropdown({
     is_descending: false,
   };
 
+  const showDeviceGroup = filterCondition?.id === DEVICE_GROUP_ID;
+  const showDeviceTemplates = filterCondition?.id === DEVICE_TEMPLATES_ID;
+
   const { deviceGroupTree, isLoading: isDeviceGroupLoading } =
     useDeviceGroupQuery({
       requestData: {
         ...baseRequestData,
+        query: showDeviceGroup ? filterCondition.value : '',
         condition: [
           {
             field: 'type',
@@ -81,6 +90,7 @@ export default function FilterDropdown({
     useDeviceTemplatesQuery({
       requestData: {
         ...baseRequestData,
+        query: showDeviceTemplates ? filterCondition.value : '',
         condition: [
           {
             field: 'type',
@@ -98,25 +108,28 @@ export default function FilterDropdown({
   const handleStatusChange = (deviceStatus: Status) => {
     let newDeviceListQueryConditions = [...deviceListQueryConditions];
     const statusQueryCondition = newDeviceListQueryConditions.find(
-      (queryCondition) => queryCondition.field === '_status'
+      (queryCondition) => queryCondition.field === statusQueryField
     );
+
+    const { key } = deviceStatus;
+    const online = key === 'online';
     if (statusQueryCondition) {
-      if (deviceStatus.key === 'all') {
+      if (key === 'all') {
         newDeviceListQueryConditions = newDeviceListQueryConditions.filter(
-          (queryCondition) => queryCondition.field !== '_status'
+          (queryCondition) => queryCondition.field !== statusQueryField
         );
         setDeviceListQueryConditions(newDeviceListQueryConditions);
       } else {
-        statusQueryCondition.value = deviceStatus.key;
+        statusQueryCondition.value = online;
         setDeviceListQueryConditions(newDeviceListQueryConditions);
       }
     } else {
       setDeviceListQueryConditions([
         ...newDeviceListQueryConditions,
         {
-          field: '_status',
+          field: statusQueryField,
           operator: '$eq',
-          value: deviceStatus.key,
+          value: String(online),
         },
       ]);
     }
@@ -134,9 +147,6 @@ export default function FilterDropdown({
       setDeviceListQueryConditions(newDeviceListQueryConditions);
     }
   };
-
-  const showDeviceGroup = filterCondition?.id === DEVICE_GROUP_ID;
-  const isDeviceTemplates = filterCondition?.id === DEVICE_TEMPLATES_ID;
 
   // const showLoading =
   //   (showDeviceGroup && isDeviceGroupLoading) ||
@@ -162,14 +172,15 @@ export default function FilterDropdown({
       <ResultContent
         status={status}
         onStatusChange={handleStatusChange}
-        isDeviceListLoading={isDeviceListLoading}
         isDeviceGroupLoading={isDeviceGroupLoading}
         showDeviceGroup={showDeviceGroup}
         deviceGroupTree={deviceGroupTree}
         setDeviceId={handleSetDeviceId}
         showDeviceList={showDeviceList}
+        isDeviceListLoading={isDeviceListLoading}
         deviceList={deviceList}
-        isDeviceTemplates={isDeviceTemplates}
+        showDeviceTemplates={showDeviceTemplates}
+        isDeviceTemplatesLoading={isDeviceTemplatesLoading}
       />
     </Flex>
   );

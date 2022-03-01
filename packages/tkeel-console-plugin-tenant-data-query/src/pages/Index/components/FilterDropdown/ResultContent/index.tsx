@@ -1,5 +1,3 @@
-import { Box } from '@chakra-ui/react';
-
 import { TreeNodeType } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceGroupQuery';
 import { DeviceItem } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceListQuery';
 
@@ -20,7 +18,8 @@ type Props = StatusSelectProps & {
   showDeviceList: boolean;
   isDeviceListLoading: boolean;
   deviceList: DeviceItem[];
-  isDeviceTemplates: boolean;
+  showDeviceTemplates: boolean;
+  isDeviceTemplatesLoading: boolean;
 };
 
 function ResultContent({
@@ -33,7 +32,8 @@ function ResultContent({
   showDeviceList,
   isDeviceListLoading,
   deviceList,
-  isDeviceTemplates,
+  showDeviceTemplates,
+  isDeviceTemplatesLoading,
 }: Props) {
   if (showDeviceList) {
     return (
@@ -70,23 +70,19 @@ function ResultContent({
     );
   }
 
-  return <Empty />;
+  if (showDeviceTemplates) {
+    return (
+      <>
+        <Label>搜索结果</Label>
+        <ListWrapper
+          loading={isDeviceTemplatesLoading}
+          content={<DeviceTemplates />}
+        />
+      </>
+    );
+  }
 
-  return (
-    <Box>
-      <Box flex="1" overflow="auto">
-        {!showDeviceGroup && !isDeviceTemplates && !showDeviceList && <Empty />}
-        {showDeviceGroup && (
-          <DeviceGroup
-            deviceGroupTree={deviceGroupTree}
-            onClick={() => {}}
-            onSpreadClick={setDeviceId}
-          />
-        )}
-        {isDeviceTemplates && <DeviceTemplates />}
-      </Box>
-    </Box>
-  );
+  return <Empty />;
 }
 
 export default ResultContent;
