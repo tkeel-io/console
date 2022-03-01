@@ -5,7 +5,6 @@ import { init, InitArgs } from '@/tkeel-console-portal-base/utils/qiankun';
 type Args = Omit<InitArgs, 'lifeCycles'>;
 
 export default function useQiankunInit({
-  platformName,
   menus,
   navigate,
   themeName,
@@ -15,7 +14,6 @@ export default function useQiankunInit({
 
   useEffect(() => {
     init({
-      platformName,
       menus,
       navigate,
       themeName,
@@ -41,7 +39,7 @@ export default function useQiankunInit({
       },
       refetchMenus,
     });
-  }, [menus, navigate, platformName, themeName, refetchMenus]);
+  }, [menus, navigate, themeName, refetchMenus]);
 
   return { isLoading };
 }
