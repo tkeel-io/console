@@ -1,4 +1,4 @@
-import useMutation from 'packages/tkeel-console-plugin-tenant-device-templates/src/hooks/useMutation';
+import { usePluginMutation } from '@tkeel/console-hooks';
 
 interface Permission {
   permission_action: string;
@@ -20,7 +20,7 @@ export default function useSetRolePermissionsMutation({
 }: {
   onSuccess?: () => void;
 }) {
-  return useMutation<ApiData, undefined, RequestData>({
+  return usePluginMutation<ApiData, undefined, RequestData>({
     // url,
     method,
     reactQueryOptions: { onSuccess },

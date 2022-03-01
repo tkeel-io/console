@@ -1,4 +1,4 @@
-import useMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/useMutation';
+import { usePluginMutation } from '@tkeel/console-hooks';
 
 export interface ApiData {
   '@type': string;
@@ -15,7 +15,7 @@ export default function useDeleteSubscriptionMutation({
 }) {
   const url = `/core-broker/v1/subscribe/${id}`;
 
-  return useMutation<ApiData, undefined, undefined>({
+  return usePluginMutation<ApiData, undefined, undefined>({
     url,
     method,
     reactQueryOptions: { onSuccess },

@@ -1,4 +1,4 @@
-import useMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/useMutation';
+import { usePluginMutation } from '@tkeel/console-hooks';
 
 export interface ApiData {
   '@type': string;
@@ -17,7 +17,7 @@ export default function useDeleteUserMutation({
 }) {
   const url = `/security/v1/tenants/${tenantId}/users/${userId}`;
 
-  return useMutation<ApiData, undefined, undefined>({
+  return usePluginMutation<ApiData, undefined, undefined>({
     url,
     method,
     reactQueryOptions: { onSuccess },

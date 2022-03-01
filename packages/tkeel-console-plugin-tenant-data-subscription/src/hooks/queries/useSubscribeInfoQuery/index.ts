@@ -1,4 +1,4 @@
-import useQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/useQuery';
+import { usePluginQuery } from '@tkeel/console-hooks';
 
 const method = 'GET';
 export interface ApiData {
@@ -19,7 +19,7 @@ type RequestData = {
 
 export default function useSubscribeInfoQuery(id: string) {
   const url = `/core-broker/v1/subscribe/${id}`;
-  const { data, ...rest } = useQuery<ApiData, undefined, RequestData>({
+  const { data, ...rest } = usePluginQuery<ApiData, undefined, RequestData>({
     url,
     method,
   });
