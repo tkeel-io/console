@@ -24,22 +24,20 @@ export type TemplateTreeNodeDataType = {
   id: string;
 };
 
-export interface TemplateTreeNodeType {
-  [propName: string]: {
-    id: string;
-    properties: {
-      basicInfo: {
-        name: string;
-      };
+export interface Template {
+  id: string;
+  properties: {
+    basicInfo: {
+      name: string;
     };
-    nodeInfo: NodeInfo;
-    subNode: TemplateTreeNodeType;
   };
 }
 
 interface ApiData {
   '@type': string;
-  listDeviceObject: TemplateTreeNodeType;
+  listDeviceObject: {
+    items: Template[];
+  };
 }
 
 type Props = {
@@ -52,6 +50,6 @@ export default function useDeviceTemplatesQuery({ requestData }: Props) {
     method,
     data: requestData,
   });
-  const templates = data?.listDeviceObject?.items ?? {};
+  const templates = data?.listDeviceObject?.items || [];
   return { templates, data, ...rest };
 }

@@ -10,6 +10,5 @@ export const PLATFORM_INFOS = {
   },
   [PlatformNames.TENANT]: {
     name: PlatformNames.TENANT,
-    validateAuthApi: '/security/v1/oauth/authenticate',
   },
 };

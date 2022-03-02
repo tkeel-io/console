@@ -1,5 +1,6 @@
 import { Box, Flex, Input, InputGroup, StyleProps } from '@chakra-ui/react';
 import {
+  CSSProperties,
   KeyboardEvent,
   KeyboardEventHandler,
   MouseEventHandler,
@@ -11,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { BroomFilledIcon, RefreshFilledIcon } from '@tkeel/console-icons';
 
 import FilterDropdown from '@/tkeel-console-plugin-tenant-data-query/pages/Index/components/FilterDropdown';
+import { DEVICE_GROUP_ID } from '@/tkeel-console-plugin-tenant-data-query/pages/Index/constants';
 
 import FilterCondition, { FilterConditionInfo } from './FilterCondition';
 import SearchButton from './SearchButton';
@@ -27,12 +29,20 @@ export default function SearchDeviceInput({ type = 'index', style }: Props) {
   const [filterConditions, setFilterConditions] = useState<
     FilterConditionInfo[]
   >([]);
+  const [deviceGroupId, setDeviceGroupId] = useState('');
+  const [templateId, setTemplateId] = useState('');
+  const initStatus = { label: '全部状态', value: 'all' };
+  const [status, setStatus] = useState(initStatus);
 
   const handleRemoveCondition = (conditionId: string) => {
     const newFilterConditions = filterConditions.filter(
       (condition) => condition.id !== conditionId
     );
     setFilterConditions(newFilterConditions);
+    if (conditionId === DEVICE_GROUP_ID) {
+      setDeviceGroupId('');
+    }
+    setStatus(initStatus);
   };
 
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (
@@ -68,10 +78,42 @@ export default function SearchDeviceInput({ type = 'index', style }: Props) {
     e.stopPropagation();
     setInputValue('');
     setFilterConditions([]);
+    setDeviceGroupId('');
+    setStatus(initStatus);
   };
 
   const handleDocumentClick = () => {
     setShowFilterDropdown(false);
+  };
+
+  const handleConditionClick = ({
+    id,
+    label,
+  }: {
+    id: string;
+    label: string;
+  }) => {
+    setFilterConditions([
+      ...filterConditions.filter((condition) => condition.id === 'search'),
+      {
+        id,
+        label,
+        value: '',
+      },
+    ]);
+  };
+
+  const handleUpdateCondition = (condition: { id: string; value: string }) => {
+    const newFilterConditions = filterConditions.map((filterCondition) => {
+      if (filterCondition.id === condition.id) {
+        return {
+          ...filterCondition,
+          value: condition.value,
+        };
+      }
+      return filterCondition;
+    });
+    setFilterConditions(newFilterConditions);
   };
 
   useEffect(() => {
@@ -89,6 +131,14 @@ export default function SearchDeviceInput({ type = 'index', style }: Props) {
   if (hasKeywordsOrConditions) {
     inputPaddingRight = type === 'index' ? '124px' : '160px';
   }
+
+  const iconStyle: CSSProperties = {
+    position: 'absolute',
+    right: '140px',
+    top: '14px',
+    cursor: 'pointer',
+  };
+
   return (
     <Box position="relative" onClick={(e) => e.stopPropagation()} {...style}>
       <InputGroup
@@ -142,24 +192,14 @@ export default function SearchDeviceInput({ type = 'index', style }: Props) {
           onKeyDown={handleKeyDown}
         />
         {type === 'searchResult' && hasKeywordsOrConditions && (
-          <RefreshFilledIcon
-            color="grayAlternatives.300"
-            style={{
-              position: 'absolute',
-              right: '140px',
-              top: '14px',
-              cursor: 'pointer',
-            }}
-          />
+          <RefreshFilledIcon color="grayAlternatives.300" style={iconStyle} />
         )}
         {hasKeywordsOrConditions && (
           <BroomFilledIcon
             color="grayAlternatives.300"
             style={{
-              position: 'absolute',
+              ...iconStyle,
               right: '110px',
-              top: '14px',
-              cursor: 'pointer',
             }}
             onClick={handleClearCondition}
           />
@@ -167,27 +207,25 @@ export default function SearchDeviceInput({ type = 'index', style }: Props) {
         <SearchButton
           onClick={() => {
             if (type === 'index') {
-              navigate('/search-result');
+              navigate(
+                `/search-result?device-group-id=${deviceGroupId}&status=${status.value}`
+              );
             }
           }}
         />
       </InputGroup>
       <FilterDropdown
+        status={status}
+        deviceGroupId={deviceGroupId}
+        templateId={templateId}
+        setStatus={setStatus}
+        setDeviceGroupId={setDeviceGroupId}
+        setTemplateId={setTemplateId}
         filterCondition={filterConditions.find(
           (condition) => condition.id !== 'search'
         )}
-        handleConditionClick={({ id, label }) => {
-          setFilterConditions([
-            ...filterConditions.filter(
-              (condition) => condition.id === 'search'
-            ),
-            {
-              id,
-              label,
-              value: '',
-            },
-          ]);
-        }}
+        handleConditionClick={handleConditionClick}
+        updateCondition={handleUpdateCondition}
         style={{
           display: showFilterDropdown ? 'flex' : 'none',
           left: '0',

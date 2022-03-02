@@ -22,7 +22,7 @@ function SubMenuLink({ path, name }: Props) {
       display="flex"
       alignItems="center"
       height="28px"
-      paddingLeft="40px"
+      paddingLeft="44px"
       color={active ? 'primary' : defaultColor}
       fontWeight={active ? '500' : 'normal'}
       borderRadius="4px"
