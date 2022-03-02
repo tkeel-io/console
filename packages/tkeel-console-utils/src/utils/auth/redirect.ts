@@ -19,7 +19,8 @@ export function getNoAuthRedirectPath({
   let loginPath = '/auth/login';
 
   if (portalName === PortalNames.TENANT) {
-    const { tenant_id: tenantId } = getLocalTenantInfo();
+    const tenantInfo = getLocalTenantInfo();
+    const tenantId = tenantInfo?.tenant_id ?? '';
     loginPath += `/${tenantId}`;
   }
 

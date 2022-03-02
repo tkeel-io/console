@@ -1,3 +1,5 @@
+import { CSSProperties } from 'react';
+
 import * as icons from '@tkeel/console-icons';
 
 import { isDarkMenuTheme } from '@/tkeel-console-portal-base/utils';
@@ -5,7 +7,7 @@ import { isDarkMenuTheme } from '@/tkeel-console-portal-base/utils';
 type Props = {
   icon: string;
   active: boolean;
-  style?: React.CSSProperties;
+  style?: CSSProperties;
   isMenuLink?: boolean;
 };
 
