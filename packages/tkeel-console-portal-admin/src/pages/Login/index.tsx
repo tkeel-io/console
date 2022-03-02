@@ -56,7 +56,7 @@ export default function Login() {
   };
 
   const { config } = usePortalAdminConfigQuery();
-  const pageConfig = config?.client?.pages?.Login;
+  const pageConfig = config?.client?.pages.Login;
 
   const {
     register,
