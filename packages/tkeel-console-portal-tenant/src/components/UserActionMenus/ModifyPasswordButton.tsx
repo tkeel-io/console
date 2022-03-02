@@ -5,7 +5,7 @@ import { Alert, MoreActionButton } from '@tkeel/console-components';
 import { KeyFilledIcon } from '@tkeel/console-icons';
 import { removeLocalTokenInfo } from '@tkeel/console-utils';
 
-import useOAuthModifyPasswordMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useOAuthModifyPasswordMutation';
+import useModifyPasswordMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useModifyPasswordMutation';
 
 import ModifyPasswordModal from './ModifyPasswordModal';
 
@@ -13,7 +13,7 @@ export default function ModifyPasswordButton() {
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: isAlertOpen, onOpen: onAlertOpen } = useDisclosure();
-  const { isLoading, mutate, data } = useOAuthModifyPasswordMutation({
+  const { isLoading, mutate, data } = useModifyPasswordMutation({
     onSuccess() {
       onAlertOpen();
     },

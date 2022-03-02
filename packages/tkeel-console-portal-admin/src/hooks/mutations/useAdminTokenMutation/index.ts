@@ -19,7 +19,7 @@ type Options = {
   onSuccess: ({ data }: { data: ApiData }) => void;
 };
 
-export default function useOAuthAdminTokenMutation({ onSuccess }: Options) {
+export default function useAdminTokenMutation({ onSuccess }: Options) {
   return usePortalMutation<ApiData, RequestParams>({
     url,
     method,

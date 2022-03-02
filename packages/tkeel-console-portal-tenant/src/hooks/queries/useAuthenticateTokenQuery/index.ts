@@ -16,7 +16,7 @@ type Options = {
   extras?: RequestExtras;
 };
 
-export default function useOAuthAuthenticateQuery({ extras }: Options = {}) {
+export default function useAuthenticateTokenQuery({ extras }: Options = {}) {
   const { data, ...rest } = usePortalQuery<ApiData>({
     url: '/security/v1/oauth/authenticate',
     method: 'GET',

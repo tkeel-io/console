@@ -11,9 +11,9 @@ import {
   setLocalTokenInfo,
 } from '@tkeel/console-utils';
 
-import useOAuthAdminTokenMutation, {
+import useAdminTokenMutation, {
   ApiData,
-} from '@/tkeel-console-portal-admin/hooks/mutations/useOAuthAdminTokenMutation';
+} from '@/tkeel-console-portal-admin/hooks/mutations/useAdminTokenMutation';
 
 const mockData = isEnvDevelopment()
   ? { password: String(PORTAL_GLOBALS?.mock?.password ?? '') }
@@ -75,7 +75,7 @@ export default function Login() {
   const navigate = useNavigate();
   const redirect = useRedirectParams();
 
-  const { mutate, isLoading } = useOAuthAdminTokenMutation({
+  const { mutate, isLoading } = useAdminTokenMutation({
     onSuccess({ data }) {
       handleLogin({ data, redirect, navigate });
     },

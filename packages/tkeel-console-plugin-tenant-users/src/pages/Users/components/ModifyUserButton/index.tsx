@@ -1,9 +1,9 @@
 import { useDisclosure } from '@chakra-ui/react';
 
 import { LinkButton } from '@tkeel/console-components';
+import { User } from '@tkeel/console-request-hooks';
 
 import useModifyUserMutation from '@/tkeel-console-plugin-tenant-users/hooks/mutations/useModifyUserMutation';
-import { User } from '@/tkeel-console-plugin-tenant-users/hooks/queries/useUsersQuery';
 import { FormValues } from '@/tkeel-console-plugin-tenant-users/pages/Users/components/BaseUserModal';
 import ModifyUserModal from '@/tkeel-console-plugin-tenant-users/pages/Users/components/ModifyUserModal';
 

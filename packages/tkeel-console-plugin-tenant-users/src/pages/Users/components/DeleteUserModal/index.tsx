@@ -1,8 +1,7 @@
 import { Text } from '@chakra-ui/react';
 
 import { Alert } from '@tkeel/console-components';
-
-import { User } from '@/tkeel-console-plugin-tenant-users/hooks/queries/useUsersQuery';
+import { User } from '@tkeel/console-request-hooks';
 
 type Props = {
   data: User;

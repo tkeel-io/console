@@ -1,10 +1,6 @@
-// import { Text } from '@chakra-ui/react';
 import { Alert } from '@tkeel/console-components';
 
-// import { User } from '@/tkeel-console-plugin-tenant-users/hooks/queries/useUsersQuery';
-
 type Props = {
-  // data: User;
   name: string;
   isOpen: boolean;
   isConfirmButtonLoading: boolean;

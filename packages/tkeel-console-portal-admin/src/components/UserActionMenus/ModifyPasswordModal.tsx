@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { FormField, Modal, toast } from '@tkeel/console-components';
 import { schemas } from '@tkeel/console-utils';
 
-import { RequestData } from '@/tkeel-console-portal-admin/hooks/mutations/useOAuthAdminModifyPasswordMutation';
+import { RequestData } from '@/tkeel-console-portal-admin/hooks/mutations/useAdminModifyPasswordMutation';
 
 const { TextField } = FormField;
 

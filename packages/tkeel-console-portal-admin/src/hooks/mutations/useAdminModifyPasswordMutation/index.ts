@@ -9,7 +9,7 @@ type ApiData = {
   tenant_id: string;
 };
 
-export default function useOAuthAdminModifyPasswordMutation({
+export default function useAdminModifyPasswordMutation({
   onSuccess,
 }: {
   onSuccess: () => void;

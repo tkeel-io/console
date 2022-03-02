@@ -1,5 +1,5 @@
 import { usePluginQuery } from '@tkeel/console-hooks';
-import { getLocalTenantInfo, RequestResult } from '@tkeel/console-utils';
+import { RequestResult } from '@tkeel/console-utils';
 
 const method = 'GET';
 
@@ -23,7 +23,7 @@ export interface User {
   roles: { id: string; name: string }[];
 }
 
-export interface ApiData {
+interface ApiData {
   '@type': string;
   page_num: number;
   page_size: number;
@@ -31,16 +31,17 @@ export interface ApiData {
   users: User[];
 }
 
+type Options = {
+  tenantId: string;
+  params?: RequestParams;
+  onSuccess?: (data: RequestResult<ApiData, RequestParams, undefined>) => void;
+};
+
 export default function useUsersQuery({
+  tenantId,
   params,
   onSuccess,
-}: {
-  params?: RequestParams;
-  onSuccess?: (
-    data: RequestResult<ApiData, RequestParams, undefined>
-  ) => unknown;
-} = {}) {
-  const { tenant_id: tenantId } = getLocalTenantInfo();
+}: Options) {
   const url = `/security/v1/tenants/${tenantId}/users`;
 
   const { data, ...rest } = usePluginQuery<ApiData, RequestParams>({

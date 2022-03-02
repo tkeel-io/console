@@ -5,12 +5,12 @@ import { Alert, MoreActionButton } from '@tkeel/console-components';
 import { ShutdownFilledIcon } from '@tkeel/console-icons';
 import { removeLocalTokenInfo } from '@tkeel/console-utils';
 
-import useLogoutMutation from '@/tkeel-console-portal-admin/hooks/mutations/useLogoutMutation';
+import useAdminLogoutMutation from '@/tkeel-console-portal-admin/hooks/mutations/useAdminLogoutMutation';
 
 export default function LogoutUserButton() {
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { isLoading, mutate } = useLogoutMutation({
+  const { isLoading, mutate } = useAdminLogoutMutation({
     onSuccess() {
       removeLocalTokenInfo();
       navigate('/auth/login', { replace: true });

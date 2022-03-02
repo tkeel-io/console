@@ -4,7 +4,7 @@ type Options = {
   onSuccess: () => void;
 };
 
-export default function useLogoutMutation({ onSuccess }: Options) {
+export default function useAdminLogoutMutation({ onSuccess }: Options) {
   const [isLoading, setIsLoading] = useState(false);
   const mutate = () => {
     setIsLoading(true);

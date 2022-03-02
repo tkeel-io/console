@@ -18,9 +18,9 @@ import {
   setLocalTokenInfo,
 } from '@tkeel/console-utils';
 
-import useOAuthTokenMutation, {
+import useTokenMutation, {
   ApiData,
-} from '@/tkeel-console-portal-tenant/hooks/mutations/useOAuthTokenMutation';
+} from '@/tkeel-console-portal-tenant/hooks/mutations/useTokenMutation';
 
 const mockData = isEnvDevelopment()
   ? {
@@ -88,7 +88,7 @@ export default function Login() {
   const navigate = useNavigate();
   const redirect = useRedirectParams();
 
-  const { data, mutate, isLoading } = useOAuthTokenMutation({ tenantId });
+  const { data, mutate, isLoading } = useTokenMutation({ tenantId });
 
   if (!tenantId) {
     return <Navigate to="/auth/tenant" replace />;
