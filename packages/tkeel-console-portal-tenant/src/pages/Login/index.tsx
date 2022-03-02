@@ -10,7 +10,12 @@ import {
 import { Form, FormField } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
 import { usePortalTenantConfigQuery } from '@tkeel/console-request-hooks';
-import { schemas, setLocalTokenInfo } from '@tkeel/console-utils';
+import {
+  removeLocalTokenInfo,
+  removeLocalUserInfo,
+  schemas,
+  setLocalTokenInfo,
+} from '@tkeel/console-utils';
 
 import useOAuthTokenMutation, {
   ApiData,
@@ -94,6 +99,12 @@ export default function Login() {
     mutate({ params });
   };
 
+  const logoutTenant = () => {
+    removeLocalTokenInfo();
+    removeLocalUserInfo();
+    navigate('/auth/tenant', { replace: true });
+  };
+
   return (
     <Flex height="100vh" backgroundColor="white">
       <Box
@@ -105,7 +116,7 @@ export default function Login() {
       >
         <Heading
           marginTop="80px"
-          font-weight="600"
+          fontWeight="600"
           fontSize="30px"
           lineHeight="42px"
           color="primary"
@@ -173,6 +184,21 @@ export default function Login() {
               isLoading={isLoading}
             >
               登录
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              isFullWidth
+              marginTop="12px"
+              height="45px"
+              borderRadius="4px"
+              border="0"
+              shadow="none"
+              color="gray.600"
+              backgroundColor="gray.100"
+              onClick={() => logoutTenant()}
+            >
+              切换空间
             </Button>
           </Box>
         </Form>
