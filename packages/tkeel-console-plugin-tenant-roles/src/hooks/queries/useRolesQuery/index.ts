@@ -1,7 +1,5 @@
 import { usePluginQuery } from '@tkeel/console-hooks';
 
-const method = 'GET';
-
 type RequestParams = {
   page_num?: number;
   page_size?: number;
@@ -27,7 +25,7 @@ export interface Role {
   }[];
 }
 
-export interface ApiData {
+interface ApiData {
   '@type': string;
   total: number;
   page_num: number;
@@ -40,10 +38,9 @@ export interface ApiData {
 type Options = { params?: RequestParams };
 
 export default function useRolesQuery({ params }: Options = {}) {
-  const url = `/security/v1/rbac/roles`;
   const { data, ...rest } = usePluginQuery<ApiData, RequestParams>({
-    url,
-    method,
+    url: '/security/v1/rbac/roles',
+    method: 'GET',
     params,
   });
   const total = data?.total ?? 0;

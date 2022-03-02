@@ -25,7 +25,7 @@ export interface Role {
   }[];
 }
 
-export interface ApiData {
+interface ApiData {
   '@type': string;
   total: number;
   page_num: number;
@@ -35,14 +35,13 @@ export interface ApiData {
   roles: Role[];
 }
 
-export default function useRolesQuery() {
-  const url = `/security/v1/rbac/roles`;
+type Options = { params?: RequestParams };
+
+export default function useRolesQuery({ params }: Options = {}) {
   const { data, ...rest } = usePluginQuery<ApiData, RequestParams>({
-    url,
+    url: '/security/v1/rbac/roles',
     method: 'GET',
-    params: {
-      page_size: 0,
-    },
+    params,
   });
   const total = data?.total ?? 0;
   const roles = data?.roles ?? [];
