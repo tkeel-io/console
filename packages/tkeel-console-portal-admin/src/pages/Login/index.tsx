@@ -75,8 +75,11 @@ export default function Login() {
   const navigate = useNavigate();
   const redirect = useRedirectParams();
 
-  const { data, mutate, isLoading } = useOAuthAdminTokenMutation();
-  handleLogin({ data, redirect, navigate });
+  const { mutate, isLoading } = useOAuthAdminTokenMutation({
+    onSuccess({ data }) {
+      handleLogin({ data, redirect, navigate });
+    },
+  });
 
   const onSubmit: SubmitHandler<FormValues> = (formValues) => {
     const { password } = formValues;

@@ -1,3 +1,2 @@
-export default function NotFound() {
-  return <div>Not Found</div>;
-}
+export { default as NotFound } from './NotFound';
+export { default as NotFoundContainer } from './NotFound';
