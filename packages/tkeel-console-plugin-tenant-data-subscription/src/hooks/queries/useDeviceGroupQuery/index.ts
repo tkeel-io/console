@@ -20,6 +20,7 @@ export interface NodeInfo {
 }
 
 export type TreeNodeData = {
+  name?: string;
   title: string;
   key: string;
   id: string;
