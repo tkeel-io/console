@@ -3,13 +3,9 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { Form, FormField } from '@tkeel/console-components';
-
-import configs from '@/tkeel-console-portal-tenant/configs';
+import { usePortalTenantConfigQuery } from '@tkeel/console-request-hooks';
 
 const { TextField } = FormField;
-
-const config = configs[PORTAL_GLOBALS.client.themeName];
-const pageConfig = config?.pages?.LoginTenant;
 
 type FormValues = {
   tenantId: string;
@@ -36,6 +32,9 @@ export default function Tenant() {
     lineHeight: '20px',
   };
 
+  const { config } = usePortalTenantConfigQuery();
+  const pageConfig = config?.client?.pages?.Login;
+
   const {
     register,
     handleSubmit,
@@ -60,7 +59,7 @@ export default function Tenant() {
       <Box
         flex="1"
         paddingLeft="80px"
-        backgroundImage={pageConfig.backgroundImage}
+        backgroundImage={pageConfig?.backgroundImage}
         backgroundRepeat="no-repeat"
         backgroundSize="100% 100%"
       >
@@ -71,7 +70,7 @@ export default function Tenant() {
           lineHeight="42px"
           color="primary"
         >
-          {pageConfig.title}
+          {pageConfig?.title}
         </Heading>
         <Heading
           marginTop="12px"
@@ -79,7 +78,7 @@ export default function Tenant() {
           lineHeight="24px"
           color="gray.100"
         >
-          {pageConfig.description}
+          {pageConfig?.subTitle}
         </Heading>
       </Box>
       <Center flexDirection="column" width="42vw">

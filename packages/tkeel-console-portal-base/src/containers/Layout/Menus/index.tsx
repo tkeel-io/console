@@ -1,6 +1,7 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 
+import { useGlobalPortalProps } from '@tkeel/console-business-components';
 import {
   CollapseFilledIcon,
   ExpandFilledIcon,
@@ -19,7 +20,7 @@ import CollapsedMenus from './CollapsedMenus';
 import ExpandMenus from './ExpandMenus';
 
 function Menus() {
-  const { themeName } = PORTAL_GLOBALS.client;
+  const { themeName } = useGlobalPortalProps();
   const [collapsed, setCollapsed] = useState(false);
   const localMenuTheme = getLocalMenuTheme();
   const isQingCloudTheme = themeName === ThemeNames.QingcloudLight;

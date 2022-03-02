@@ -11,16 +11,13 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { Alert, Form, FormField, toast } from '@tkeel/console-components';
+import { usePortalTenantConfigQuery } from '@tkeel/console-request-hooks';
 import { schemas } from '@tkeel/console-utils';
 
-import configs from '@/tkeel-console-portal-tenant/configs';
 import useOAuthResetPasswordMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useOAuthResetPasswordMutation';
 import useResetPasswordKeyInfoQuery from '@/tkeel-console-portal-tenant/hooks/queries/useResetPasswordKeyInfoQuery';
 
 const { TextField } = FormField;
-
-const config = configs[PORTAL_GLOBALS.client.themeName];
-const pageConfig = config?.pages?.SetPassword;
 
 type FormValues = {
   password: string;
@@ -47,6 +44,9 @@ export default function SetPassword() {
     fontSize: '14px',
     lineHeight: '24px',
   };
+
+  const { config } = usePortalTenantConfigQuery();
+  const pageConfig = config?.client?.pages?.SetPassword;
 
   const {
     register,
@@ -101,7 +101,7 @@ export default function SetPassword() {
       <Center
         position="relative"
         height="100vh"
-        backgroundImage={pageConfig.backgroundImage}
+        backgroundImage={pageConfig?.backgroundImage}
         backgroundRepeat="no-repeat"
         backgroundSize="100% 40%"
       >
@@ -114,17 +114,17 @@ export default function SetPassword() {
             lineHeight="20px"
             backgroundColor="primary"
           >
-            {pageConfig.brandName}
+            {pageConfig?.brandName}
           </Heading>
           <Flex alignItems="center" paddingTop="4px" color="white">
             <Heading fontWeight="500" fontSize="18px" lineHeight="26px">
-              {pageConfig.title}
+              {pageConfig?.title}
             </Heading>
             <Text paddingX="8px" fontSize="18px">
               |
             </Text>
             <Heading fontSize="18px" lineHeight="28px">
-              {pageConfig.subTitle}
+              {pageConfig?.subTitle}
             </Heading>
           </Flex>
         </Box>
