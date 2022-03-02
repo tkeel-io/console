@@ -17,9 +17,7 @@
         },
         "SetPassword": {
           "backgroundImage": "/portal-tenant/config/images/background-02.png",
-          "brandName": "QingCloud IoT",
-          "title": "物联网平台",
-          "subTitle": "设置密码"
+          "logo": "/portal-tenant/config/images/logo-type-light.svg"
         }
       }
     }

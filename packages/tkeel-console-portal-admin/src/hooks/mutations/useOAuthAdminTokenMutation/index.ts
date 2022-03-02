@@ -15,10 +15,17 @@ export interface ApiData {
 const url = '/rudder/v1/oauth2/admin';
 const method = 'GET';
 
-export default function useOAuthAdminTokenMutation() {
+type Options = {
+  onSuccess: ({ data }: { data: ApiData }) => void;
+};
+
+export default function useOAuthAdminTokenMutation({ onSuccess }: Options) {
   return usePortalMutation<ApiData, RequestParams>({
     url,
     method,
+    reactQueryOptions: {
+      onSuccess,
+    },
     extras: {
       isWithToken: false,
       handleNoAuth: false,

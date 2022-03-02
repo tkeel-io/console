@@ -10,11 +10,24 @@ import {
 import { Form, FormField } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
 import { usePortalTenantConfigQuery } from '@tkeel/console-request-hooks';
-import { schemas, setLocalTokenInfo } from '@tkeel/console-utils';
+import {
+  isEnvDevelopment,
+  removeLocalTenantInfo,
+  removeLocalTokenInfo,
+  schemas,
+  setLocalTokenInfo,
+} from '@tkeel/console-utils';
 
 import useOAuthTokenMutation, {
   ApiData,
 } from '@/tkeel-console-portal-tenant/hooks/mutations/useOAuthTokenMutation';
+
+const mockData = isEnvDevelopment()
+  ? {
+      username: String(PORTAL_GLOBALS?.mock?.username ?? ''),
+      password: String(PORTAL_GLOBALS?.mock?.password ?? ''),
+    }
+  : { username: '', password: '' };
 
 const { TextField } = FormField;
 
@@ -94,6 +107,12 @@ export default function Login() {
     mutate({ params });
   };
 
+  const logoutTenant = () => {
+    removeLocalTokenInfo();
+    removeLocalTenantInfo();
+    navigate('/auth/tenant', { replace: true });
+  };
+
   return (
     <Flex height="100vh" backgroundColor="white">
       <Box
@@ -105,7 +124,7 @@ export default function Login() {
       >
         <Heading
           marginTop="80px"
-          font-weight="600"
+          fontWeight="600"
           fontSize="30px"
           lineHeight="42px"
           color="primary"
@@ -136,7 +155,7 @@ export default function Login() {
             id="username"
             type="text"
             label="账号"
-            defaultValue={String(PORTAL_GLOBALS?.mock?.username ?? '')}
+            defaultValue={mockData.username}
             placeholder="请输入您的账号"
             error={errors.username}
             formControlStyle={{ marginBottom: '20px', width: '350px' }}
@@ -151,7 +170,7 @@ export default function Login() {
             id="password"
             type="password"
             label="密码"
-            defaultValue={String(PORTAL_GLOBALS?.mock?.password ?? '')}
+            defaultValue={mockData.password}
             placeholder="请输入您的密码"
             error={errors.password}
             formControlStyle={{ width: '350px' }}
@@ -173,6 +192,21 @@ export default function Login() {
               isLoading={isLoading}
             >
               登录
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              isFullWidth
+              marginTop="12px"
+              height="45px"
+              borderRadius="4px"
+              border="0"
+              shadow="none"
+              color="gray.600"
+              backgroundColor="gray.100"
+              onClick={() => logoutTenant()}
+            >
+              切换空间
             </Button>
           </Box>
         </Form>

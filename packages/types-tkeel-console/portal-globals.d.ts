@@ -31,9 +31,9 @@ interface PortalGlobals {
   };
   // local development
   mock?: {
-    tenantId?: string | number; // tenant
-    username?: string | number; // tenant
-    password?: string | number;
+    tenantTitle?: string; // tenant
+    username?: string; // tenant
+    password?: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     menus?: Array<Record<string, any>>;
   };

@@ -2,7 +2,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 
 import { Loading } from '@tkeel/console-components';
 import { useNoAuthRedirectPath } from '@tkeel/console-hooks';
-import { setLocalUserInfo, UserInfo } from '@tkeel/console-utils';
+import { setLocalTenantInfo } from '@tkeel/console-utils';
 
 import useOAuthAuthenticateQuery from '@/tkeel-console-portal-tenant/hooks/queries/useOAuthAuthenticateQuery';
 
@@ -22,8 +22,8 @@ export default function RequireAuth() {
     return <Navigate to={redirectPath} replace />;
   }
 
-  if (isSuccess) {
-    setLocalUserInfo(data as UserInfo);
+  if (isSuccess && data?.tenant_id) {
+    setLocalTenantInfo({ tenant_id: data.tenant_id });
   }
 
   return <Outlet />;

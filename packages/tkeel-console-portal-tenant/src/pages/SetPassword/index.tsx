@@ -4,6 +4,7 @@ import {
   Center,
   Flex,
   Heading,
+  Image,
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
@@ -104,29 +105,19 @@ export default function SetPassword() {
         backgroundRepeat="no-repeat"
         backgroundSize="100% 40%"
       >
-        <Box position="absolute" top="24px" left="20px">
-          <Heading
-            display="inline"
-            padding="2px"
-            fontWeight="500"
-            fontSize="14px"
-            lineHeight="20px"
-            backgroundColor="primary"
-          >
-            {pageConfig?.brandName}
-          </Heading>
-          <Flex alignItems="center" paddingTop="4px" color="white">
-            <Heading fontWeight="500" fontSize="18px" lineHeight="26px">
-              {pageConfig?.title}
-            </Heading>
+        <Flex position="absolute" top="24px" left="20px">
+          <Box>
+            <Image src={pageConfig?.logo} htmlWidth="auto" htmlHeight="50px" />
+          </Box>
+          {/*  <Flex alignItems="center" paddingTop="4px" color="white">
             <Text paddingX="8px" fontSize="18px">
               |
             </Text>
             <Heading fontSize="18px" lineHeight="28px">
-              {pageConfig?.subTitle}
+              设置密码
             </Heading>
-          </Flex>
-        </Box>
+          </Flex> */}
+        </Flex>
         <Box
           padding="40px 46px 70px"
           marginBottom="100px"
