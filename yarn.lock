@@ -3868,6 +3868,7 @@ __metadata:
   resolution: "@tkeel/console-types@workspace:packages/tkeel-console-types"
   dependencies:
     "@tkeel/console-constants": "workspace:^"
+    react: ^17.0.2
   peerDependencies:
     react-router-dom: ^6.2.1
   languageName: unknown

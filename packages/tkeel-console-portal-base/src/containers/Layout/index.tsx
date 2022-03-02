@@ -3,6 +3,7 @@ import { ReactNode } from 'react';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 
 import { useGlobalPortalProps } from '@tkeel/console-business-components';
+import { Logo } from '@tkeel/console-types';
 
 import Header from '@/tkeel-console-portal-base/containers/Layout/Header';
 import Menus from '@/tkeel-console-portal-base/containers/Layout/Menus';
@@ -17,9 +18,10 @@ function getElementIdByContainer(container: string): string {
 
 type Props = {
   userActionMenusComponent: ReactNode;
+  logo: Logo;
 };
 
-export default function Layout({ userActionMenusComponent }: Props) {
+export default function Layout({ userActionMenusComponent, logo }: Props) {
   const { themeName } = useGlobalPortalProps();
   const { menus, refetch } = useMenusQuery();
 
@@ -69,7 +71,7 @@ export default function Layout({ userActionMenusComponent }: Props) {
 
   return (
     <Flex height="100%">
-      <Menus />
+      <Menus logo={logo} />
       <Flex flex="1" overflow="hidden" flexDirection="column" padding="20px">
         <Header
           menus={menus}
