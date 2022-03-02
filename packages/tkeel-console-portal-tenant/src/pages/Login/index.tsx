@@ -9,17 +9,14 @@ import {
 
 import { Form, FormField } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
+import { usePortalTenantConfigQuery } from '@tkeel/console-request-hooks';
 import { schemas, setLocalTokenInfo } from '@tkeel/console-utils';
 
-import configs from '@/tkeel-console-portal-tenant/configs';
 import useOAuthTokenMutation, {
   ApiData,
 } from '@/tkeel-console-portal-tenant/hooks/mutations/useOAuthTokenMutation';
 
 const { TextField } = FormField;
-
-const config = configs[PORTAL_GLOBALS.client.themeName];
-const pageConfig = config?.pages?.LoginTenant;
 
 type FormValues = {
   username: string;
@@ -63,6 +60,9 @@ export default function Login() {
     lineHeight: '20px',
   };
 
+  const { config } = usePortalTenantConfigQuery();
+  const pageConfig = config?.client?.pages?.Login;
+
   const {
     register,
     handleSubmit,
@@ -99,7 +99,7 @@ export default function Login() {
       <Box
         flex="1"
         paddingLeft="80px"
-        backgroundImage={pageConfig.backgroundImage}
+        backgroundImage={pageConfig?.backgroundImage}
         backgroundRepeat="no-repeat"
         backgroundSize="100% 100%"
       >
@@ -110,7 +110,7 @@ export default function Login() {
           lineHeight="42px"
           color="primary"
         >
-          {pageConfig.title}
+          {pageConfig?.title}
         </Heading>
         <Heading
           marginTop="12px"
@@ -118,7 +118,7 @@ export default function Login() {
           lineHeight="24px"
           color="gray.100"
         >
-          {pageConfig.description}
+          {pageConfig?.subTitle}
         </Heading>
       </Box>
       <Center flexDirection="column" width="42vw">
