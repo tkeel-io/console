@@ -11,10 +11,15 @@ export interface FilterConditionInfo {
 type Props = {
   condition: FilterConditionInfo;
   style: StyleProps;
+  removeCondition: (conditionId: string) => unknown;
 };
 
-export default function FilterCondition({ condition, style }: Props) {
-  const { label, value } = condition;
+export default function FilterCondition({
+  condition,
+  style,
+  removeCondition,
+}: Props) {
+  const { id, label, value } = condition;
   return (
     <Flex
       marginRight="10px"
@@ -46,7 +51,10 @@ export default function FilterCondition({ condition, style }: Props) {
           <Text margin="0 8px 0 3px" color="gray.600">
             {value}
           </Text>
-          <CloseFilledIcon />
+          <CloseFilledIcon
+            style={{ position: 'relative', zIndex: '1', cursor: 'pointer' }}
+            onClick={() => removeCondition(id)}
+          />
         </>
       )}
     </Flex>

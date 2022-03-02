@@ -82,7 +82,7 @@ function PageHeaderToolbar({
       {buttons.length > 0 && (
         <Flex paddingLeft="8px">
           {buttons.map((button, index) => (
-            <ButtonWrapper key={String(index)}>{button}</ButtonWrapper>
+            <ButtonWrapper key={String(index + 1)}>{button}</ButtonWrapper>
           ))}
         </Flex>
       )}
