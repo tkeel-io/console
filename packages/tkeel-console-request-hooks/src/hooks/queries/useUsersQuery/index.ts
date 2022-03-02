@@ -23,7 +23,7 @@ export interface User {
   roles: { id: string; name: string }[];
 }
 
-export interface ApiData {
+interface ApiData {
   '@type': string;
   page_num: number;
   page_size: number;

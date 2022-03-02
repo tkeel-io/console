@@ -9,14 +9,11 @@ import {
   toast,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
+import { User, useUsersQuery } from '@tkeel/console-request-hooks';
 import {
   formatDateTimeByTimestamp,
   getLocalTenantInfo,
 } from '@tkeel/console-utils';
-
-import useUsersQuery, {
-  User,
-} from '@/tkeel-console-plugin-tenant-users/hooks/queries/useUsersQuery';
 
 import CreateUserButton from './components/CreateUserButton';
 import DeleteUserButton from './components/DeleteUserButton';
