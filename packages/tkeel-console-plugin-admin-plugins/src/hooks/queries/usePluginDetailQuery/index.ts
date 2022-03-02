@@ -1,5 +1,7 @@
 import { usePluginQuery } from '@tkeel/console-hooks';
 
+import { PluginState } from '@/tkeel-console-plugin-admin-plugins/types/plugin-info';
+
 export interface Installer {
   name: string;
   version: string;
@@ -21,7 +23,7 @@ export interface Installer {
     email: string;
     url: string;
   }[];
-  installed: boolean;
+  state: PluginState;
   desc: string;
   timestamp: string;
   icon: string;

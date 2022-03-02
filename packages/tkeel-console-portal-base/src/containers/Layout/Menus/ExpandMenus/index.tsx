@@ -1,18 +1,14 @@
-import { Box, Flex, Image } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { Menu } from '@tkeel/console-types';
+import { Logo, Menu } from '@tkeel/console-types';
 
-import qingcloudLogoAdminDark from '@/tkeel-console-portal-base/assets/images/qingcloud-logo-admin-dark.svg';
-import qingcloudLogoAdminLight from '@/tkeel-console-portal-base/assets/images/qingcloud-logo-admin-light.svg';
-import qingcloudLogoTenantDark from '@/tkeel-console-portal-base/assets/images/qingcloud-logo-tenant-dark.svg';
-import qingcloudLogoTenantLight from '@/tkeel-console-portal-base/assets/images/qingcloud-logo-tenant-light.svg';
 // import { SearchInput } from '@tkeel/console-components';
 // import { MagnifierTwoToneIcon } from '@tkeel/console-icons';
-import tkeelLogo from '@/tkeel-console-portal-base/assets/images/tkeel-logo.svg';
-import tKeelLogoDark from '@/tkeel-console-portal-base/assets/images/tkeel-logo-dark.svg';
-import tKeelLogoLight from '@/tkeel-console-portal-base/assets/images/tkeel-logo-light.svg';
+// import tkeelLogo from '@/tkeel-console-portal-base/assets/images/tkeel-logo.svg';
+// import tKeelLogoDark from '@/tkeel-console-portal-base/assets/images/tkeel-logo-dark.svg';
+// import tKeelLogoLight from '@/tkeel-console-portal-base/assets/images/tkeel-logo-light.svg';
 import useMenusQuery from '@/tkeel-console-portal-base/hooks/queries/useMenusQuery';
 
 import MenuLink from './MenuLink';
@@ -21,11 +17,11 @@ import SubMenuTitle from './SubMenuTitle';
 
 type Props = {
   // handleSearch: () => void;
-  isQingCloudTheme: boolean;
   isDarkMenu: boolean;
+  logo: Logo;
 };
 
-export default function ExpandMenus({ isQingCloudTheme, isDarkMenu }: Props) {
+export default function ExpandMenus({ isDarkMenu, logo }: Props) {
   const location = useLocation();
 
   const [spreadMenuIds, setSpreadMenus] = useState<string[]>([]);
@@ -52,13 +48,13 @@ export default function ExpandMenus({ isQingCloudTheme, isDarkMenu }: Props) {
       setSpreadMenus([...spreadMenuIds, id]);
     }
   };
-  const isPortalAdmin = PORTAL_GLOBALS.portalName === 'admin';
-  const qingcloudLogoDark = isPortalAdmin
-    ? qingcloudLogoAdminDark
-    : qingcloudLogoTenantDark;
-  const qingcloudLogoLight = isPortalAdmin
-    ? qingcloudLogoAdminLight
-    : qingcloudLogoTenantLight;
+  // const isPortalAdmin = PORTAL_GLOBALS.portalName === 'admin';
+  // const qingcloudLogoDark = isPortalAdmin
+  //   ? qingcloudLogoAdminDark
+  //   : qingcloudLogoTenantDark;
+  // const qingcloudLogoLight = isPortalAdmin
+  //   ? qingcloudLogoAdminLight
+  //   : qingcloudLogoTenantLight;
 
   return (
     <Flex
@@ -67,8 +63,9 @@ export default function ExpandMenus({ isQingCloudTheme, isDarkMenu }: Props) {
       width="240px"
       height="100%"
     >
-      <Flex alignItems="center" height="96px" paddingLeft="40px">
-        {isQingCloudTheme ? (
+      <Flex alignItems="center" height="96px" paddingLeft="20px">
+        {isDarkMenu ? logo.typeLight : logo.typeDark}
+        {/* {isQingCloudTheme ? (
           <Image
             width={isQingCloudTheme ? '184px' : '150px'}
             src={isDarkMenu ? qingcloudLogoLight : qingcloudLogoDark}
@@ -83,7 +80,7 @@ export default function ExpandMenus({ isQingCloudTheme, isDarkMenu }: Props) {
               alt=""
             />
           </>
-        )}
+        )} */}
       </Flex>
       {/* <SearchInput
         width="200px"

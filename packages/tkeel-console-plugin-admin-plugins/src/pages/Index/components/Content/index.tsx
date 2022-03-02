@@ -71,10 +71,10 @@ function Content({ isInstalledPlugins = false, repo }: Props) {
       name: '已安装',
       num: installedNum,
     },
-    {
-      name: '未安装',
-      num: totalNum - installedNum,
-    },
+    // {
+    //   name: '未安装',
+    //   num: totalNum - installedNum,
+    // },
   ];
   if (isInstalledPlugins) {
     pluginNumData = [pluginNumData[1]];

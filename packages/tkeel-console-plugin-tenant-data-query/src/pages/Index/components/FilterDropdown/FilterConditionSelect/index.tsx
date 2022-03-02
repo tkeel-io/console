@@ -5,11 +5,13 @@ import { conditions } from '@/tkeel-console-plugin-tenant-data-query/pages/Index
 import Label from '../Label';
 
 type Props = {
+  disabled: boolean;
   filterConditionId: string;
   handleConditionClick: (condition: { id: string; label: string }) => unknown;
 };
 
 export default function FilterConditionSelect({
+  disabled,
   filterConditionId,
   handleConditionClick,
 }: Props) {
@@ -37,6 +39,7 @@ export default function FilterConditionSelect({
                   handleConditionClick(condition);
                 }
               }}
+              disabled={disabled}
             >
               {label}
             </Button>
