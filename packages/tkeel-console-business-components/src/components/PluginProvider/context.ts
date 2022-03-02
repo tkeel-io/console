@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 
-import { PluginGlobalProps } from '@tkeel/console-types';
+import { GlobalPluginProps } from '@tkeel/console-types';
 
-const Context = createContext<PluginGlobalProps>({} as PluginGlobalProps);
+const Context = createContext<GlobalPluginProps>({} as GlobalPluginProps);
 
 export default Context;

@@ -1,4 +1,4 @@
-import useQuery from '@/tkeel-console-portal-tenant/hooks/useQuery';
+import { usePortalQuery } from '@tkeel/console-hooks';
 
 const url = '/security/v1/tenants/users/rpk/info';
 const method = 'POST';
@@ -24,7 +24,7 @@ export default function useResetPasswordKeyInfoQuery({
   data,
   enabled = true,
 }: Args) {
-  return useQuery<ApiData, undefined, RequestData>({
+  return usePortalQuery<ApiData, undefined, RequestData>({
     url,
     data,
     method,

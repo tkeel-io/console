@@ -2,11 +2,11 @@ import './public-path';
 
 import * as ReactDOM from 'react-dom';
 
-import { PluginGlobalProps } from '@tkeel/console-types';
+import { GlobalPluginProps } from '@tkeel/console-types';
 
 import App from './App';
 
-interface Props extends PluginGlobalProps {
+interface Props extends GlobalPluginProps {
   container: HTMLElement;
 }
 

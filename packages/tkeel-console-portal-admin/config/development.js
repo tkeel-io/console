@@ -20,5 +20,5 @@ module.exports = {
     },
   },
   api: API,
-  webSocket: WebSocket,
+  websocket: WebSocket,
 };

@@ -2,6 +2,7 @@
 /* eslint-disable unicorn/consistent-function-scoping */
 import { useDisclosure } from '@chakra-ui/react';
 import { has, keyBy, mapValues } from 'lodash';
+import { useEffect } from 'react';
 
 import { CreateButton, LinkButton, toast } from '@tkeel/console-components';
 
@@ -17,18 +18,27 @@ import {
 
 interface Props {
   variant: 'link' | 'solid';
+  onSuccess?: ({ data }: { data: any }) => void;
 }
 
-export default function CreateDeviceButton({ variant }: Props) {
+export default function CreateDeviceButton({ variant, onSuccess }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { data, isLoading, mutate, isSuccess } = useCreateDeviceMutation({
-    onSuccess() {
-      toast({
-        status: 'success',
-        title: '创建设备成功',
-      });
-    },
-  });
+  const { data, isLoading, mutate, isSuccess, reset } = useCreateDeviceMutation(
+    {
+      onSuccess(resData) {
+        toast({
+          status: 'success',
+          title: '创建设备成功',
+        });
+        if (onSuccess) onSuccess({ data: resData.data });
+      },
+    }
+  );
+  useEffect(() => {
+    if (isOpen) {
+      reset();
+    }
+  }, [isOpen, reset]);
   const handleConfirm = ({ formValues }: { formValues: DeviceValueType }) => {
     const {
       description,
@@ -38,6 +48,7 @@ export default function CreateDeviceButton({ variant }: Props) {
       connectInfo,
       extendInfo,
     } = formValues;
+    const [id, ...rest] = parentId.split('&');
     const params = {
       description,
       name,
@@ -45,7 +56,8 @@ export default function CreateDeviceButton({ variant }: Props) {
       selfLearn: has(connectInfo, ConnectInfoType.selfLearn),
       templateId: has(connectInfo, ConnectInfoType.useTemplate) ? '123' : '',
       ext: mapValues(keyBy(extendInfo, 'label'), 'value'),
-      parentId,
+      parentId: id,
+      parentName: rest.join('&'),
     };
     mutate({ data: params });
   };

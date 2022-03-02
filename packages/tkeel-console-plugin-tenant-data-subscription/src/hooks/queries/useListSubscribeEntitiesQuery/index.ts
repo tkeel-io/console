@@ -1,6 +1,5 @@
+import { usePluginQuery } from '@tkeel/console-hooks';
 import { RequestResult } from '@tkeel/console-utils';
-
-import useQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/useQuery';
 
 const method = 'POST';
 
@@ -56,7 +55,7 @@ export default function useListSubscribeEntitiesQuery({
   // console.log('params', params);
   const url = `/core-broker/v1/subscribe/${params?.id || 0}/entities/list`;
 
-  const { data, ...rest } = useQuery<ApiData, undefined, RequestParams>({
+  const { data, ...rest } = usePluginQuery<ApiData, undefined, RequestParams>({
     url,
     method,
     data: {

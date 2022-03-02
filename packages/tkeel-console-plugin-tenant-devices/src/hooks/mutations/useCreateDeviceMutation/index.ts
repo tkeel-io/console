@@ -1,6 +1,5 @@
+import { usePluginMutation } from '@tkeel/console-hooks';
 import { RequestResult } from '@tkeel/console-utils';
-
-import useMutation from '@/tkeel-console-plugin-tenant-devices/hooks/useMutation';
 
 const url = '/tkeel-device/v1/devices';
 const method = 'POST';
@@ -47,7 +46,7 @@ export default function useCreateDeviceMutation({
 }: {
   onSuccess?: (data: RequestResult<ApiData, undefined, RequestData>) => void;
 }) {
-  return useMutation<ApiData, undefined, RequestData>({
+  return usePluginMutation<ApiData, undefined, RequestData>({
     url,
     method,
     reactQueryOptions: { onSuccess },
