@@ -37,7 +37,10 @@ export default function CreateDeviceButton({
         status: 'success',
         title: '创建设备组成功',
       });
-      if (callback) callback();
+      if (callback)
+        window.setTimeout(() => {
+          callback();
+        }, 300);
     },
   });
   useEffect(() => {

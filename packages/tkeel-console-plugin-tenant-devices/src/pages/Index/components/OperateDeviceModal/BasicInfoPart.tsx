@@ -75,6 +75,9 @@ export default function BasicInfoPart({
               placeholder="请选择设备连接方式"
               id="directConnection"
               style={{ width: '100%' }}
+              {...register('directConnection', {
+                required: true,
+              })}
               onChange={(value: string) => {
                 if (value) {
                   setValue('directConnection', value);

@@ -29,7 +29,9 @@ function UpdateGroupButton({ defaultFormValues, callback, groupTree }: Props) {
       title: '修改设备组成功',
     });
     if (callback) {
-      callback();
+      window.setTimeout(() => {
+        callback();
+      }, 300);
     }
   };
 
