@@ -4,7 +4,6 @@ interface PortalGlobals {
   publicPath: string;
   client: {
     themeName: 'tkeel-light' | 'qingcloud-light';
-    documentTitle: string | number;
   };
   api: {
     origin?: string; // development

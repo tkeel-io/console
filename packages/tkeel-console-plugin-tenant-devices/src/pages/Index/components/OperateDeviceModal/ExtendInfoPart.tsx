@@ -18,12 +18,12 @@ import { UseFieldArrayReturn, UseFormReturn } from 'react-hook-form';
 import { FormField } from '@tkeel/console-components/';
 import { PencilFilledIcon, TrashFilledIcon } from '@tkeel/console-icons';
 
-import { DeviceValueType } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
+import { DeviceFormFields } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
 
 interface Props {
-  formHandler: UseFormReturn<DeviceValueType, object>;
-  watchFields: DeviceValueType;
-  fieldArrayHandler: UseFieldArrayReturn<DeviceValueType, 'extendInfo'>;
+  formHandler: UseFormReturn<DeviceFormFields, object>;
+  watchFields: DeviceFormFields;
+  fieldArrayHandler: UseFieldArrayReturn<DeviceFormFields, 'extendInfo'>;
 }
 
 const { TextField } = FormField;

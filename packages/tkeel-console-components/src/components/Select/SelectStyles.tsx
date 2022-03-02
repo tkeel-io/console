@@ -26,6 +26,7 @@ export default function SelectStyles({ prefixCls }: Props) {
       box-sizing: border-box;
     }
     .${selectPrefix} {
+      width: inherit;
       // --------------- Single ----------------
       &-single {
         .${selectPrefix}-selector {
@@ -154,11 +155,13 @@ export default function SelectStyles({ prefixCls }: Props) {
       // ============== Dropdown ===============
       &-dropdown {
         border: 1px solid ${colors.gray[200]};
+        min-height: 60px;
         border-radius: 4px;
         padding: 16px 12px;
         color: ${colors.gray[700]};
         box-shadow: 0px 10px 15px ${colors.gray[100]},
           0px 4px 6px ${colors.gray[100]};
+        z-index: 1400;
       }
       // =============== Option ================
       &-item {
