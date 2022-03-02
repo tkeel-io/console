@@ -1,7 +1,8 @@
 import { Route } from 'react-router-dom';
 
+import { NotFound } from '@tkeel/console-business-components';
+
 import Login from '@/tkeel-console-portal-admin/pages/Login';
-import NotFound from '@/tkeel-console-portal-admin/pages/NotFound';
 
 export default (
   <>

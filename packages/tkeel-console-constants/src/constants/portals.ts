@@ -57,9 +57,7 @@ export const DEFAULT_PORTAL_TENANT_CONFIG = {
       },
       SetPassword: {
         backgroundImage: background02,
-        brandName: 'QingCloud IoT',
-        title: '物联网平台',
-        subTitle: '设置密码',
+        logo: logoTypeTenantLight,
       },
     },
   },
