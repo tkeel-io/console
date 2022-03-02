@@ -10,13 +10,17 @@ import {
 import { Rectangle } from '@/tkeel-console-plugin-tenant-data-query/components';
 import { DeviceItem } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceListQuery';
 
+import NoData from '../NoData';
+
 type Props = {
   data: DeviceItem[];
 };
 
 export default function DeviceList({ data }: Props) {
-  // eslint-disable-next-line no-console
-  console.log('DeviceList ~ data', data);
+  if (data.length === 0) {
+    return <NoData />;
+  }
+
   return (
     <Box padding="8px 10px" backgroundColor="gray.50" lineHeight="24px">
       {data.map((device, i) => {

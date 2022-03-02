@@ -9,13 +9,13 @@ import {
 } from '@tkeel/console-icons';
 
 export interface Status {
-  key: string;
+  label: string;
   value: string;
 }
 
 export interface StatusSelectProps {
   status: Status;
-  onStatusChange: (value: Status) => unknown;
+  onStatusChange: (status: Status) => unknown;
 }
 
 export default function StatusSelect({
@@ -46,7 +46,7 @@ export default function StatusSelect({
       key={info.key}
       title={info.title}
       icon={info.icon}
-      onClick={() => onStatusChange({ key: info.key, value: info.title })}
+      onClick={() => onStatusChange({ label: info.title, value: info.key })}
     />
   ));
 
@@ -63,7 +63,7 @@ export default function StatusSelect({
           _hover={{ backgroundColor: 'gray.100' }}
         >
           <Text marginRight="6px" color="gray.700" fontSize="12px">
-            {status.value}
+            {status.label}
           </Text>
           {isOpen ? (
             <ChevronUpFilledIcon color="grayAlternatives.300" />

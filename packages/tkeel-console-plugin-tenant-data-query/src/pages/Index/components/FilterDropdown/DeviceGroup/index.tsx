@@ -9,6 +9,8 @@ import {
   TreeNodeType,
 } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceGroupQuery';
 
+import NoData from '../NoData';
+
 export interface TreeNodeData {
   title: string;
   id: string;
@@ -36,31 +38,46 @@ function getTreeNodeData(data: TreeNodeType): TreeNodeData[] {
 
 type Props = {
   deviceGroupTree: TreeNodeType;
-  onClick: () => unknown;
-  onSpreadClick: (id: string) => unknown;
+  onNodeTitleClick: ({
+    groupId,
+    title,
+  }: {
+    groupId: string;
+    title: string;
+  }) => unknown;
+  onSpreadClick: (groupId: string) => unknown;
 };
 
 export default function DeviceGroup({
   deviceGroupTree,
-  onClick,
+  onNodeTitleClick,
   onSpreadClick,
 }: Props) {
   const treeNodeData = getTreeNodeData(deviceGroupTree);
-  // eslint-disable-next-line no-console
-  console.log('DeviceGroup ~ treeNodeData', treeNodeData);
+  if (treeNodeData.length === 0) {
+    return <NoData title="暂无设备分组,请重新选择" />;
+  }
 
   return (
     <Tree
       // eslint-disable-next-line react/no-unstable-nested-components
       titleRender={(node) => {
+        const { id: groupId } = node as TreeNodeData;
         return (
           <Flex justifyContent="space-between">
-            <Text>{node.title}</Text>
+            <Text
+              onClick={() => {
+                onNodeTitleClick({ groupId, title: node.title as string });
+                onSpreadClick(groupId);
+              }}
+            >
+              {node.title}
+            </Text>
             <Flex
               alignItems="center"
               color="primary"
               fontSize="12px"
-              onClick={() => onSpreadClick((node as TreeNodeData).id)}
+              onClick={() => onSpreadClick(groupId)}
             >
               <Text marginRight="4px">展开</Text>
               <RightFilledIcon color="primary" />
@@ -72,7 +89,6 @@ export default function DeviceGroup({
       extras={{ isTreeTitleFullWidth: true }}
       icon={<FolderCloseTwoToneIcon />}
       treeData={treeNodeData}
-      onClick={onClick}
     />
   );
 }

@@ -1,10 +1,11 @@
 import { TreeNodeType } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceGroupQuery';
 import { DeviceItem } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceListQuery';
+import { Template } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceTemplatesQuery';
 
 import DeviceGroup from '../DeviceGroup';
 import DeviceList from '../DeviceList';
 import DeviceListTitle from '../DeviceListTitle';
-import DeviceTemplates from '../DeviceTemplates';
+import DeviceTemplates, { OnTemplateClick } from '../DeviceTemplates';
 import Empty from '../Empty';
 import Label from '../Label';
 import ListWrapper from '../ListWrapper';
@@ -14,12 +15,21 @@ type Props = StatusSelectProps & {
   showDeviceGroup: boolean;
   isDeviceGroupLoading: boolean;
   deviceGroupTree: TreeNodeType;
-  setDeviceId: (deviceId: string) => unknown;
+  updateDeviceGroupId: (deviceId: string) => unknown;
   showDeviceList: boolean;
   isDeviceListLoading: boolean;
   deviceList: DeviceItem[];
+  onTemplateClick: OnTemplateClick;
   showDeviceTemplates: boolean;
+  templates: Template[];
   isDeviceTemplatesLoading: boolean;
+  onDeviceGroupTitleClick: ({
+    groupId,
+    title,
+  }: {
+    groupId: string;
+    title: string;
+  }) => unknown;
 };
 
 function ResultContent({
@@ -28,12 +38,15 @@ function ResultContent({
   showDeviceGroup,
   isDeviceGroupLoading,
   deviceGroupTree,
-  setDeviceId,
+  updateDeviceGroupId,
   showDeviceList,
   isDeviceListLoading,
   deviceList,
+  onTemplateClick,
   showDeviceTemplates,
+  templates,
   isDeviceTemplatesLoading,
+  onDeviceGroupTitleClick,
 }: Props) {
   if (showDeviceList) {
     return (
@@ -42,7 +55,7 @@ function ResultContent({
           resultNum={deviceList.length}
           status={status}
           onStatusChange={onStatusChange}
-          onBackBtnClick={() => setDeviceId('')}
+          onBackBtnClick={() => updateDeviceGroupId('')}
         />
         <ListWrapper
           loading={isDeviceListLoading}
@@ -61,8 +74,8 @@ function ResultContent({
           content={
             <DeviceGroup
               deviceGroupTree={deviceGroupTree}
-              onClick={() => {}}
-              onSpreadClick={setDeviceId}
+              onNodeTitleClick={onDeviceGroupTitleClick}
+              onSpreadClick={updateDeviceGroupId}
             />
           }
         />
@@ -76,7 +89,12 @@ function ResultContent({
         <Label>搜索结果</Label>
         <ListWrapper
           loading={isDeviceTemplatesLoading}
-          content={<DeviceTemplates />}
+          content={
+            <DeviceTemplates
+              templates={templates}
+              onTemplateClick={onTemplateClick}
+            />
+          }
         />
       </>
     );
