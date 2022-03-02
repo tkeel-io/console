@@ -1,4 +1,5 @@
-/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import { isEmpty, values } from 'lodash';
 import { useEffect, useState } from 'react';
@@ -17,7 +18,8 @@ import {
   ConnectInfoType,
   ConnectOption,
   DeviceDefaultInfoType,
-  DeviceValueType,
+  DeviceFormFields,
+  GroupOptions,
   ModalMode,
   ModalType,
 } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
@@ -29,6 +31,7 @@ import ExtendInfoPart from './ExtendInfoPart';
 const defaultFormInfo = {
   name: '',
   parentId: '',
+  parentName: '',
   extendInfo: [],
   description: '',
 };
@@ -41,7 +44,7 @@ interface Props {
   defaultFormValues?: DeviceDefaultInfoType; // 编辑模式下的原本数据或者初始默认数据
   isOpen: boolean;
   onClose: () => void;
-  handleConfirm: ({ formValues }: { formValues: DeviceValueType }) => void; // 提交submit去请求接口
+  handleConfirm: ({ formValues }: { formValues: DeviceFormFields }) => void; // 提交submit去请求接口
   isLoading?: boolean;
   responseData?: DeviceResData | GroupResData | null;
   groupTree?: TreeNodeType;
@@ -52,22 +55,36 @@ const BUTTON_TEXT = {
   COMPLETE: '完成',
 };
 
+function getTreeNodeData({ data }: { data: TreeNodeType }): GroupOptions[] {
+  return values(data).map((item) => {
+    const { nodeInfo, subNode } = item;
+    const { id, properties } = nodeInfo;
+    const name = properties?.group?.name ?? '';
+    return {
+      title: name,
+      key: id,
+      value: id,
+      children: getTreeNodeData({ data: subNode }),
+    };
+  });
+}
+
 export default function OperateDeviceModal({
   title,
   type,
   isOpen,
   onClose,
   handleConfirm,
-  defaultFormValues,
+  defaultFormValues = defaultFormInfo,
   isLoading,
   responseData,
   mode,
-  isSuccess,
+  isSuccess = false,
   groupTree,
 }: Props) {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
-  const formHandler = useForm<DeviceValueType>({
+  const formHandler = useForm<DeviceFormFields>({
     defaultValues: defaultFormInfo,
   });
   const { handleSubmit, trigger, watch, reset, control } = formHandler;
@@ -80,24 +97,15 @@ export default function OperateDeviceModal({
     mode === ModalMode.EDIT
       ? ['基本信息', '扩展信息']
       : ['基本信息', '扩展信息', '创建完成'];
-  const groupTreeCopy =
-    mode === ModalMode.EDIT && type === ModalType.GROUP
-      ? groupTree
-      : // eslint-disable-next-line react-hooks/rules-of-hooks
-        useGroupTreeQuery().groupTree;
-  // const { groupTree } = useGroupTreeQuery({ params: defaultRequestParams });
-  const deviceGroupOptions = values(groupTreeCopy).map((item) => {
-    const id = item?.nodeInfo?.id ?? '';
-    const label = item?.nodeInfo?.properties?.group?.name ?? '';
-    return { label, value: `${id}&${label}` };
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const groupTreeCopy = groupTree || useGroupTreeQuery().groupTree;
+  const deviceGroupOptions = getTreeNodeData({
+    data: groupTreeCopy,
   });
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  // setGroupOptions(deviceGroupOptions);
-  console.log(deviceGroupOptions);
   useEffect(() => {
     if (!isOpen) {
       setCurrentStep(0);
-    } else if (mode === ModalMode.EDIT && defaultFormValues) {
+    } else if (defaultFormValues) {
       const {
         description,
         name,
@@ -117,14 +125,14 @@ export default function OperateDeviceModal({
       const basicFormInfo = {
         description,
         name,
-        extendInfo: Object.entries(ext).map(([label, value]) => {
+        extendInfo: Object.entries(ext || {}).map(([label, value]) => {
           return { label, value };
         }),
         parentId,
       };
       const deviceDefaultInfo = {
         connectInfo,
-        directConnection: directConnection ? ConnectOption.DIRECT : '',
+        connectType: directConnection ? ConnectOption.DIRECT : '',
       };
       const defaultFormInfoCopy =
         type === ModalType.DEVICE
@@ -136,16 +144,15 @@ export default function OperateDeviceModal({
     }
   }, [defaultFormValues, isOpen, mode, reset, type]);
   useEffect(() => {
-    if (currentStep === 1 && isSuccess) {
+    if (currentStep === 1 && isSuccess && !isLoading) {
       if (mode === ModalMode.EDIT) {
         onClose();
-        setCurrentStep(0);
       } else {
         setCurrentStep(2);
       }
     }
-  }, [currentStep, isSuccess, mode, onClose]);
-  const onSubmit: SubmitHandler<DeviceValueType> = async (formValues) => {
+  }, [currentStep, isLoading, isSuccess, mode, onClose]);
+  const onSubmit: SubmitHandler<DeviceFormFields> = async (formValues) => {
     const id = (responseData as DeviceResData)?.deviceObject?.id;
     if (currentStep >= 2) {
       setCurrentStep(0);
@@ -158,7 +165,7 @@ export default function OperateDeviceModal({
       const result = await trigger([
         'name',
         'parentId',
-        'directConnection',
+        'connectType',
         'description',
       ]);
       if (result) {

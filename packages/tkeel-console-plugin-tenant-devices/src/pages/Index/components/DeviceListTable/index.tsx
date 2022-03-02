@@ -27,21 +27,16 @@ import useDeviceListQuery, {
   DeviceApiItem,
   DeviceItem,
 } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceListQuery';
-import {
-  NodeInfo,
-  TreeNodeType,
-} from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
+import { TreeNodeType } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
 import {
   SELF_LEARN_COLORS,
   SUBSCRIBES,
 } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
 
 interface Props {
-  groupItem: {
-    nodeInfo: NodeInfo;
-    subNode: TreeNodeType;
-  };
+  groupId?: string;
   keyWords?: string;
+  groupTree: TreeNodeType;
 }
 
 function TooltipIcon({
@@ -123,11 +118,15 @@ function DeviceStatus({
   );
 }
 
-function DeviceListTable({ groupItem, keyWords }: Props): JSX.Element {
+function DeviceListTable({
+  groupId = '',
+  keyWords,
+  groupTree,
+}: Props): JSX.Element {
   const navigate = useNavigate();
   const pagination = usePagination();
   const { pageNum, pageSize, setTotalSize } = pagination;
-  const { nodeInfo } = groupItem;
+  // const { nodeInfo } = groupItem;
   const params = {
     query: keyWords || '',
     page_num: pageNum,
@@ -138,7 +137,7 @@ function DeviceListTable({ groupItem, keyWords }: Props): JSX.Element {
       {
         field: 'sysField._spacePath',
         operator: '$wildcard',
-        value: nodeInfo.id,
+        value: groupId,
       },
       {
         field: 'type',
@@ -270,6 +269,7 @@ function DeviceListTable({ groupItem, keyWords }: Props): JSX.Element {
                   key="edit"
                   defaultFormValues={defaultFormValues}
                   refetch={refetch}
+                  groupTree={groupTree}
                 />,
                 <DeleteDevicesButton
                   ids={[id]}
