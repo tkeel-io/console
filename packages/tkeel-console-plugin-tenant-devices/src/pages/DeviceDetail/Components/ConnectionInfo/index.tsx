@@ -8,7 +8,7 @@ type Props = {
   data: ConnectInfo;
 };
 
-function Index({ data }: Props) {
+function ConnectionInfo({ data }: Props) {
   const connectInfo = {
     _clientId: '',
     _online: false,
@@ -47,7 +47,7 @@ function Index({ data }: Props) {
     },
   ];
   return (
-    <Box p="12px 20px">
+    <Box>
       <Text
         fontSize="14px"
         fontWeight="600"
@@ -60,6 +60,7 @@ function Index({ data }: Props) {
       <Box bg="gray.50" borderRadius="4px" p="12px 12px" w="100%">
         <Flex
           justifyContent="space-between"
+          flexWrap="wrap"
           bg="white"
           border="1px"
           borderColor="gray.100"
@@ -68,9 +69,11 @@ function Index({ data }: Props) {
         >
           {list.map((r) => {
             return (
-              <Box minWidth="70px" fontSize="12px" key={r.label}>
+              <Box fontSize="12px" key={r.label} m="0 12px 12px 0">
                 <Text color="grayAlternatives.300">{r.label}</Text>
-                <Text color="gray.700">{r.value}</Text>
+                <Text minWidth="70px" color="gray.700">
+                  {r.value}
+                </Text>
               </Box>
             );
           })}
@@ -80,4 +83,4 @@ function Index({ data }: Props) {
   );
 }
 
-export default Index;
+export default ConnectionInfo;

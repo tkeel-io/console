@@ -5,7 +5,7 @@ import MonacoEditor from '@monaco-editor/react';
 import registerCompletion from './registerCompletion';
 
 const Wrapper = styled(Box)`
-  .vs {
+  /* .vs {
     .margin,
     .lines-content {
       background-color: ${({ theme }) => (theme as Theme).colors.gray['50']};
@@ -13,16 +13,16 @@ const Wrapper = styled(Box)`
 
     .margin {
       width: 35px;
-    }
+    } */
 
-    .margin-view-overlays {
+  /* .margin-view-overlays {
       .line-numbers {
         width: 100%;
         color: ${({ theme }) => (theme as Theme).colors.gray['500']};
         text-align: center;
       }
     }
-  }
+  } */
 
   .vs-dark {
     .margin-view-overlays,

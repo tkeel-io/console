@@ -13,7 +13,7 @@ type Props = {
   refetch?: () => void;
 };
 
-function Index({ deviceName, ids, refetch }: Props) {
+function DeleteDevicesButton({ deviceName, ids, refetch }: Props) {
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate, isLoading } = useDeleteDeviceMutation({
@@ -39,17 +39,19 @@ function Index({ deviceName, ids, refetch }: Props) {
         icon={<TrashFilledIcon size="12px" />}
         title="删除设备"
       />
-      <CustomModal
-        bg="red.50"
-        icon={<AlarmLampFilledIcon size="24px" />}
-        title={`确认删除设备「${deviceName}」？`}
-        isConfirmButtonLoading={isLoading}
-        isOpen={isOpen}
-        onClose={onClose}
-        onConfirm={handleConfirm}
-      />
+      {isOpen && (
+        <CustomModal
+          bg="red.50"
+          icon={<AlarmLampFilledIcon size="24px" />}
+          title={`确认删除设备「${deviceName}」？`}
+          isConfirmButtonLoading={isLoading}
+          isOpen={isOpen}
+          onClose={onClose}
+          onConfirm={handleConfirm}
+        />
+      )}
     </>
   );
 }
 
-export default Index;
+export default DeleteDevicesButton;
