@@ -1,8 +1,10 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import { ReactNode } from 'react';
+import { QueryClientProvider } from 'react-query';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import { PortalProvider } from '@tkeel/console-business-components';
+import { QueryClient } from '@tkeel/console-hooks';
 import themes, {
   DEFAULT_THEME,
   DEFAULT_THEME_NAME,
@@ -17,6 +19,7 @@ const themeName =
 const theme = themes[themeName] || DEFAULT_THEME;
 
 type Props = {
+  documentHeadComponent: ReactNode;
   requireAuthContainer: ReactNode;
   notRequireAuthContainer: ReactNode;
   notRequireAuthRoutes: ReactNode;
@@ -24,7 +27,10 @@ type Props = {
   logo: Logo;
 };
 
+const queryClient = new QueryClient();
+
 export default function App({
+  documentHeadComponent,
   requireAuthContainer,
   notRequireAuthContainer,
   notRequireAuthRoutes,
@@ -33,17 +39,20 @@ export default function App({
 }: Props) {
   return (
     <PortalProvider globalProps={{ themeName }}>
-      <ChakraProvider theme={theme}>
+      <QueryClientProvider client={queryClient}>
         <Router>
-          <Routes
-            requireAuthContainer={requireAuthContainer}
-            notRequireAuthContainer={notRequireAuthContainer}
-            notRequireAuthRoutes={notRequireAuthRoutes}
-            userActionMenusComponent={userActionMenusComponent}
-            logo={logo}
-          />
+          <ChakraProvider theme={theme}>
+            {documentHeadComponent}
+            <Routes
+              requireAuthContainer={requireAuthContainer}
+              notRequireAuthContainer={notRequireAuthContainer}
+              notRequireAuthRoutes={notRequireAuthRoutes}
+              userActionMenusComponent={userActionMenusComponent}
+              logo={logo}
+            />
+          </ChakraProvider>
         </Router>
-      </ChakraProvider>
+      </QueryClientProvider>
     </PortalProvider>
   );
 }
