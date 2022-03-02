@@ -1,21 +1,22 @@
 import { useDisclosure } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
 
 import { MoreActionButton, toast } from '@tkeel/console-components';
 import { AddFilledIcon } from '@tkeel/console-icons';
 
-import AddSubscribeModal from '@/tkeel-console-plugin-tenant-devices/components/AddSubscribeModal';
-import useDeleteDeviceMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useDeleteDeviceMutation';
+import AddSubscribeModal, {
+  FormValues,
+} from '@/tkeel-console-plugin-tenant-devices/components/AddSubscribeModal';
+import useSubscribeByDeviceMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useSubscribeByDeviceMutation';
 
 type Props = {
+  id: string;
   refetch?: () => void;
 };
 
-function AddSubscribeButton({ refetch }: Props) {
-  const navigate = useNavigate();
+function AddSubscribeButton({ id, refetch }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { mutate, isLoading } = useDeleteDeviceMutation({
-    ids: ['2', '23'],
+  const { mutate, isLoading } = useSubscribeByDeviceMutation({
+    deviceId: id,
     onSuccess() {
       toast({ status: 'success', title: '添加成功' });
       onClose();
@@ -25,9 +26,10 @@ function AddSubscribeButton({ refetch }: Props) {
     },
   });
 
-  const handleConfirm = () => {
-    mutate({});
-    navigate('/');
+  const handleConfirm = (formValues: FormValues) => {
+    mutate({
+      data: formValues,
+    });
   };
 
   return (

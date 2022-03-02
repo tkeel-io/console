@@ -35,7 +35,7 @@ const connectionIcon = {
 
 type Props = {
   deviceObject: DeviceObject;
-  refetch: () => void;
+  refetch?: () => void;
 };
 
 function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
@@ -100,7 +100,11 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
           {basicInfo && (
             <MoreAction
               buttons={[
-                <AddSubscribeButton key="add-subscribe" />,
+                <AddSubscribeButton
+                  key="add-subscribe"
+                  id={id}
+                  refetch={refetch}
+                />,
                 <UpdateDeviceButton
                   key="edit"
                   defaultFormValues={defaultFormValues}

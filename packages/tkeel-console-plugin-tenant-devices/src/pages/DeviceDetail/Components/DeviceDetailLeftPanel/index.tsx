@@ -20,7 +20,7 @@ import DeviceInfoCard from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDe
 
 type Props = {
   deviceObject: DeviceObject;
-  refetch: () => void;
+  refetch?: () => void;
 };
 
 const getTime = (value: number | undefined) => {

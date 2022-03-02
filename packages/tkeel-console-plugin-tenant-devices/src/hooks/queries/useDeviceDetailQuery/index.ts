@@ -62,18 +62,14 @@ export interface DeviceObject {
     connectInfo?: ConnectInfo;
   };
 }
-
-type RequestParams = {
-  id: string;
-};
 export interface ApiData {
   '@type': string;
   deviceObject?: DeviceObject;
 }
 
-export default function useDeviceDetailQuery({ id }: RequestParams) {
+export default function useDeviceDetailQuery({ id }: { id: string }) {
   const url = `/tkeel-device/v1/devices/${id}`;
-  const { data, ...rest } = usePluginQuery<ApiData, RequestParams>({
+  const { data, ...rest } = usePluginQuery<ApiData>({
     url,
     method,
   });
