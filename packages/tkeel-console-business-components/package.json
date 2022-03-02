@@ -17,7 +17,7 @@
     "@tkeel/console-themes": "workspace:^",
     "@tkeel/console-types": "workspace:^",
     "qs": "^6.10.3",
-    "react-router-dom": "^6.2.1"
+    "react-router-dom": "^6.2.2"
   },
   "peerDependencies": {
     "@chakra-ui/react": "^1.8.3",

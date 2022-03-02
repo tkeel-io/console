@@ -47,7 +47,6 @@ export default function Login() {
   };
 
   const inputStyle = {
-    width: '350px',
     height: '50px',
     padding: '16px 20px',
     borderWidth: '1px',
@@ -127,6 +126,7 @@ export default function Login() {
             defaultValue={String(PORTAL_GLOBALS?.mock?.password ?? '')}
             placeholder="请输入您的密码"
             error={errors.password}
+            formControlStyle={{ width: '350px' }}
             formLabelStyle={formLabelStyle}
             inputStyle={inputStyle}
             registerReturn={register(
