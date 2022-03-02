@@ -17,9 +17,7 @@ type ApiData = {
       };
       SetPassword: {
         backgroundImage: string;
-        brandName: string;
-        title: string;
-        subTitle: string;
+        logo: string;
       };
     };
   };
