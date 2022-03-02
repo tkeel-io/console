@@ -10,6 +10,7 @@ import themes, {
   DEFAULT_THEME_NAME,
   ThemeNames,
 } from '@tkeel/console-themes';
+import { Logo } from '@tkeel/console-types';
 
 import Routes from '@/tkeel-console-portal-base/routes';
 
@@ -24,6 +25,7 @@ type Props = {
   notRequireAuthContainer: ReactNode;
   notRequireAuthRoutes: ReactNode;
   userActionMenusComponent: ReactNode;
+  logo: Logo;
 };
 
 export default function App({
@@ -31,6 +33,7 @@ export default function App({
   notRequireAuthContainer,
   notRequireAuthRoutes,
   userActionMenusComponent,
+  logo,
 }: Props) {
   return (
     <PortalProvider globalProps={{ themeName }}>
@@ -42,6 +45,7 @@ export default function App({
               notRequireAuthContainer={notRequireAuthContainer}
               notRequireAuthRoutes={notRequireAuthRoutes}
               userActionMenusComponent={userActionMenusComponent}
+              logo={logo}
             />
           </Router>
         </ChakraProvider>

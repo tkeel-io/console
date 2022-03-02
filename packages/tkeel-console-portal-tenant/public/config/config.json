@@ -5,18 +5,18 @@
     "client": {
       "themeName": "qingcloud-light",
       "documentTitle": "QingCloud IoT 物联网平台",
-      "favicon": "/portal-admin/config/images/logo-mark.svg",
-      "logoMark": "/portal-admin/config/images/logo-mark.svg",
-      "logoTypeLight": "/portal-admin/config/images/logo-type-light.svg",
-      "logoTypeDark": "/portal-admin/config/images/logo-type-dark.svg",
+      "favicon": "/portal-tenant/config/images/logo-mark.svg",
+      "logoMark": "/portal-tenant/config/images/logo-mark.svg",
+      "logoTypeLight": "/portal-tenant/config/images/logo-type-light.svg",
+      "logoTypeDark": "/portal-tenant/config/images/logo-type-dark.svg",
       "pages": {
         "Login": {
-          "backgroundImage": "/portal-admin/config/images/background-01",
+          "backgroundImage": "/portal-tenant/config/images/background-01.png",
           "title": "QingCloud IoT 物联网平台",
           "subTitle": "颠覆传统物联网应用开发的新一代核心架构"
         },
         "SetPassword": {
-          "backgroundImage": "/portal-admin/config/images/background-02",
+          "backgroundImage": "/portal-tenant/config/images/background-02.png",
           "brandName": "QingCloud IoT",
           "title": "物联网平台",
           "subTitle": "设置密码"

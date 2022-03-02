@@ -34,11 +34,9 @@ function ParentMenu({
 
   const iconColor = active ? 'white' : 'grayAlternatives.300';
 
-  const hoverStyle = isDarkMenu
-    ? {
-        color: 'white',
-      }
-    : {};
+  const hoverStyle = {
+    color: isDarkMenu ? 'white' : 'primary',
+  };
 
   return (
     <Box

@@ -16,12 +16,12 @@ module.exports = {
     logoTypeDark: getConfigImagePath('logo-type-dark.svg'),
     pages: {
       Login: {
-        backgroundImage: getConfigImagePath('background-01'),
+        backgroundImage: getConfigImagePath('background-01.png'),
         title: 'QingCloud IoT 物联网平台',
         subTitle: '颠覆传统物联网应用开发的新一代核心架构',
       },
       SetPassword: {
-        backgroundImage: getConfigImagePath('background-02'),
+        backgroundImage: getConfigImagePath('background-02.png'),
         brandName: 'QingCloud IoT',
         title: '物联网平台',
         subTitle: '设置密码',
