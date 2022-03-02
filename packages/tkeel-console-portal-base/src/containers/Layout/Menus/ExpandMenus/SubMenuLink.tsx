@@ -13,17 +13,19 @@ function SubMenuLink({ path, name }: Props) {
   const { as, to, active } = useMenuLinkProps(path);
   const isDarkMenu = isDarkMenuTheme();
   const defaultColor = isDarkMenu ? 'gray.400' : 'gray.600';
-  const hoverStyle = active ? {} : { color: isDarkMenu ? 'white' : 'primary' };
+  const hoverStyle = active
+    ? {}
+    : { color: isDarkMenu ? 'white' : 'primary', fontWeight: '600' };
 
   return (
     <Link
       display="flex"
       alignItems="center"
       height="28px"
-      paddingLeft="40px"
-      color={active ? 'white' : defaultColor}
+      paddingLeft="44px"
+      color={active ? 'primary' : defaultColor}
+      fontWeight={active ? '500' : 'normal'}
       borderRadius="4px"
-      backgroundColor={active ? 'primary' : 'transparent'}
       _hover={hoverStyle}
       as={as}
       to={to}

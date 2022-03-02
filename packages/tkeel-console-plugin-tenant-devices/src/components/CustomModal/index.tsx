@@ -14,7 +14,7 @@ type Props = {
   description?: ReactNode;
 };
 
-function Index({
+function CustomModal({
   isOpen,
   onClose,
   isConfirmButtonLoading,
@@ -70,4 +70,4 @@ function Index({
   );
 }
 
-export default Index;
+export default CustomModal;

@@ -16,8 +16,11 @@ import {
   VpcTwoToneIcon,
 } from '@tkeel/console-icons';
 
-import DeviceIconName from '@/tkeel-console-plugin-tenant-data-query/components/DeviceIconName';
-import Rectangle from '@/tkeel-console-plugin-tenant-data-query/components/Rectangle';
+import {
+  DeviceIconName,
+  DeviceStatusIcon,
+  Rectangle,
+} from '@/tkeel-console-plugin-tenant-data-query/components';
 
 import CustomCircle from './CustomCircle';
 
@@ -28,6 +31,7 @@ export default function Detail() {
     fontSize: '12px',
     lineHeight: '24px',
   };
+
   return (
     <Flex height="100%" justifyContent="space-between">
       <Flex flexDirection="column" width="360px">
@@ -46,7 +50,7 @@ export default function Detail() {
             >
               <DeviceIconName />
               <Flex>
-                <Rectangle backgroundColor="green.300" opacity="0.1" />
+                <DeviceStatusIcon isOnline />
                 <Rectangle
                   icon={
                     <VpcTwoToneIcon color="primary" twoToneColor="primary" />
