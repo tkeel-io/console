@@ -2,7 +2,7 @@ import { Location } from 'react-router-dom';
 
 import { PortalNames } from '@tkeel/console-constants';
 
-import { getLocalUserInfo } from '@/tkeel-console-utils/utils/auth/tenant-user';
+import { getLocalTenantInfo } from '@/tkeel-console-utils/utils/auth/tenant';
 
 type Options = {
   portalName: 'admin' | 'tenant';
@@ -19,8 +19,7 @@ export function getNoAuthRedirectPath({
   let loginPath = '/auth/login';
 
   if (portalName === PortalNames.TENANT) {
-    const userInfo = getLocalUserInfo();
-    const tenantId = userInfo?.tenant_id ?? '';
+    const { tenant_id: tenantId } = getLocalTenantInfo();
     loginPath += `/${tenantId}`;
   }
 

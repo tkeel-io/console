@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { Form, FormField } from '@tkeel/console-components';
 import { usePortalTenantConfigQuery } from '@tkeel/console-request-hooks';
-import { isEnvDevelopment, setLocalUserInfo } from '@tkeel/console-utils';
+import { isEnvDevelopment, setLocalTenantInfo } from '@tkeel/console-utils';
 
 import useTenantIdQueryMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useTenantIdQueryMutation';
 
@@ -51,8 +51,7 @@ export default function Tenant() {
   const { isLoading, mutate } = useTenantIdQueryMutation({
     onSuccess: ({ data }) => {
       const { tenant_id: tenantId } = data;
-      // @ts-ignore
-      setLocalUserInfo({ tenant_id: tenantId });
+      setLocalTenantInfo({ tenant_id: tenantId });
       navigate(`/auth/login/${tenantId}`, { replace: true });
     },
   });

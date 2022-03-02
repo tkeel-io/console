@@ -12,8 +12,8 @@ import { useRedirectParams } from '@tkeel/console-hooks';
 import { usePortalTenantConfigQuery } from '@tkeel/console-request-hooks';
 import {
   isEnvDevelopment,
+  removeLocalTenantInfo,
   removeLocalTokenInfo,
-  removeLocalUserInfo,
   schemas,
   setLocalTokenInfo,
 } from '@tkeel/console-utils';
@@ -109,7 +109,7 @@ export default function Login() {
 
   const logoutTenant = () => {
     removeLocalTokenInfo();
-    removeLocalUserInfo();
+    removeLocalTenantInfo();
     navigate('/auth/tenant', { replace: true });
   };
 

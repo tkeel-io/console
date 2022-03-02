@@ -6,8 +6,8 @@ import { Alert, MoreActionButton } from '@tkeel/console-components';
 import { LeftRightFilledIcon } from '@tkeel/console-icons';
 import {
   getLocalTokenInfo,
+  removeLocalTenantInfo,
   removeLocalTokenInfo,
-  removeLocalUserInfo,
 } from '@tkeel/console-utils';
 
 import useOAuthTokenRevokeMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useOAuthTokenRevokeMutation';
@@ -19,7 +19,7 @@ export default function LogoutUserButton() {
   const { isLoading, mutate } = useOAuthTokenRevokeMutation({
     onSuccess() {
       removeLocalTokenInfo();
-      removeLocalUserInfo();
+      removeLocalTenantInfo();
       queryClient.removeQueries();
       navigate('/auth/tenant', { replace: true });
     },

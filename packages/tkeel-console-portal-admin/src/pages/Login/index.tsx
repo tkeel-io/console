@@ -100,7 +100,7 @@ export default function Login() {
         <Heading
           display="flex"
           marginTop="80px"
-          font-weight="600"
+          fontWeight="600"
           fontSize="30px"
           lineHeight="42px"
         >
