@@ -34,9 +34,7 @@ export interface ApiData {
 type Options = {
   tenantId: string;
   params?: RequestParams;
-  onSuccess?: (
-    data: RequestResult<ApiData, RequestParams, undefined>
-  ) => unknown;
+  onSuccess?: (data: RequestResult<ApiData, RequestParams, undefined>) => void;
 };
 
 export default function useUsersQuery({
