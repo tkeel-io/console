@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useDisclosure } from '@chakra-ui/react';
 import { keyBy, mapValues } from 'lodash';
@@ -19,9 +21,15 @@ interface Props {
   defaultFormValues: DeviceDefaultInfoType;
   callback?: () => void;
   groupTree: TreeNodeType;
+  type?: 'icon';
 }
 
-function UpdateGroupButton({ defaultFormValues, callback, groupTree }: Props) {
+function UpdateGroupButton({
+  defaultFormValues,
+  callback,
+  groupTree,
+  type,
+}: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const onSuccess = () => {
     toast({
@@ -41,7 +49,6 @@ function UpdateGroupButton({ defaultFormValues, callback, groupTree }: Props) {
   });
   const handleConfirm = ({ formValues }: { formValues: DeviceFormFields }) => {
     const { description, name, parentId, extendInfo, parentName } = formValues;
-
     const params = {
       description,
       name,
@@ -53,11 +60,20 @@ function UpdateGroupButton({ defaultFormValues, callback, groupTree }: Props) {
   };
   return (
     <>
-      <MoreActionButton
-        icon={<PencilFilledIcon size="12px" />}
-        title="编辑设备组"
-        onClick={onOpen}
-      />
+      {type === 'icon' ? (
+        <PencilFilledIcon
+          onClick={onOpen}
+          color="grayAlternatives.300"
+          style={{ cursor: 'pointer' }}
+        />
+      ) : (
+        <MoreActionButton
+          icon={<PencilFilledIcon size="12px" color="grayAlternatives.300" />}
+          title="编辑设备组"
+          onClick={onOpen}
+        />
+      )}
+
       {isOpen && (
         <OperateDeviceModal
           title="编辑设备组信息"

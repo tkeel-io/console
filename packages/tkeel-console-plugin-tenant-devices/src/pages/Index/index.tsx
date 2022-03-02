@@ -1,5 +1,8 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { Box, Center, Flex, Text } from '@chakra-ui/react';
+import { Box, Center, Flex, HStack, Text } from '@chakra-ui/react';
 import { isEmpty, values } from 'lodash';
 import { Fragment, useState } from 'react';
 
@@ -11,9 +14,9 @@ import {
   MoreVerticalFilledIcon,
 } from '@tkeel/console-icons';
 
-import { ApiData as DeviceResData } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceMutation';
 import useGroupTreeQuery, {
   NodeInfo,
+  // NodeInfo,
   TreeNodeType,
 } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
 import CreateGroupButton from '@/tkeel-console-plugin-tenant-devices/pages/Index/components/CreateGroupButton';
@@ -26,42 +29,70 @@ import DeviceGroupTree from './components/DeviceGroupTree';
 import DeviceListTable from './components/DeviceListTable';
 import GroupBasicInfo from './components/GroupBasicInfo';
 
-type NodeType = {
-  nodeInfo: NodeInfo;
-  subNode: TreeNodeType;
-};
 const defaultGroupItem = {
-  nodeInfo: {
-    id: '',
-    properties: {
-      group: {
-        name: '暂无数据',
-        description: '暂无描述',
-        ext: {},
-        parentId: '',
-      },
-      sysField: {},
-    },
-  },
-  subNode: {},
+  title: '',
+  children: [],
+  key: '',
 };
 
+function getParentTreeNode({
+  list,
+  key,
+}: {
+  list: TreeNodeData[];
+  key: string;
+}): TreeNodeData[] {
+  for (const item of list) {
+    if (item.key === key) {
+      return [item];
+    }
+    if (!isEmpty(item.children)) {
+      const node = getParentTreeNode({ list: item.children, key });
+      if (!isEmpty(node)) {
+        return [item, ...node];
+      }
+    }
+  }
+  return [];
+}
+function getTreeNode({
+  list,
+  key,
+}: {
+  list: TreeNodeData[];
+  key: string;
+}): TreeNodeData {
+  for (const item of list) {
+    if (item.key === key) {
+      return item;
+    }
+    if (!isEmpty(item.children)) {
+      return getTreeNode({ list: item.children, key });
+    }
+  }
+  return defaultGroupItem;
+}
+function getDefaultFormValues({ groupItem }: { groupItem: TreeNodeData }) {
+  const nodeInfo = groupItem?.originData?.nodeInfo as NodeInfo;
+  const id = nodeInfo?.id;
+  const group = nodeInfo?.properties?.group ?? {};
+  const { name, description, ext, parentId, parentName } = group;
+  return {
+    id,
+    description,
+    name,
+    ext,
+    parentId,
+    parentName,
+  };
+}
+
 function Index(): JSX.Element {
-  const [tableKey, setTableKey] = useState('');
   const [groupId, setGroupId] = useState('');
-  const [groupItem, setGroupItem] = useState(defaultGroupItem);
   const [keyWords, setKeyWords] = useState('');
   const pagination = usePagination();
   const { setPageNum } = pagination;
-  const handleSelectGroup = (
-    selectedKeys: React.Key[],
-    e: { node: { originData: NodeType } }
-  ) => {
-    const originData = e?.node?.originData;
-    setGroupItem(originData);
-    setGroupId(selectedKeys[0] as string);
-    setKeyWords('');
-  };
+
   const { groupTree, refetch: refetchGroupTree } = useGroupTreeQuery();
   const selectedColor = useColor('primary');
   const selectedTwoTone = useColor('primarySub2');
@@ -93,6 +124,7 @@ function Index(): JSX.Element {
         parentName,
       };
       return {
+        name,
         title: (
           <Flex justify="space-between" key={id}>
             <Text>{name}</Text>
@@ -140,12 +172,25 @@ function Index(): JSX.Element {
           selected: boolean;
         }) => getTreeIcon({ expanded, selected }),
         originData: item,
-        parentId,
-        parentName,
       };
     });
   }
   const treeNodeData = getTreeNodeData({ data: groupTree });
+  const handleSelectGroup = (selectedKeys: React.Key[]) => {
+    const id = selectedKeys[0] as string;
+    setGroupId(id);
+    setKeyWords('');
+  };
+  const groupCrumb = getParentTreeNode({
+    list: treeNodeData,
+    key: groupId,
+  });
+  const groupItem = getTreeNode({
+    list: treeNodeData,
+    key: groupId,
+  });
+  const defaultFormValues = getDefaultFormValues({ groupItem });
+
   return (
     <Flex flexDirection="column" h="100%">
       <PageHeaderToolbar
@@ -158,15 +203,7 @@ function Index(): JSX.Element {
           },
           defaultValue: keyWords,
         }}
-        buttons={[
-          <CreateDeviceButton
-            key="create"
-            variant="solid"
-            onSuccess={({ data }: { data: DeviceResData }) => {
-              setTableKey(data?.deviceObject?.id ?? '');
-            }}
-          />,
-        ]}
+        buttons={[<CreateDeviceButton key="create" variant="solid" />]}
       />
       <Box
         position="relative"
@@ -179,22 +216,50 @@ function Index(): JSX.Element {
           handleSelectGroup={handleSelectGroup}
           treeNodeData={treeNodeData}
           refetch={refetchGroupTree}
+          selectedKeys={[groupId]}
         />
         <Flex flex="1" bg="white" p="12px 20px" flexDirection="column">
-          <Box
+          <HStack
             color="grayAlternatives.300"
             h="24px"
-            fontSize="14px"
+            fontSize="12px"
             lineHeight="24px"
             mb="8px"
+            spacing="4px"
           >
-            当前分组：默认分组/自定义分组3
-          </Box>
+            <Text mr="4px">当前位置: </Text>
+            {groupCrumb.map((item: TreeNodeData, index) => {
+              const isTarget = index === groupCrumb.length - 1;
+              return (
+                <Fragment key={item.key}>
+                  <Box
+                    cursor={isTarget ? 'default' : 'pointer'}
+                    _hover={{
+                      color: isTarget ? 'grayAlternatives.700' : 'primary',
+                    }}
+                    onClick={() => {
+                      setGroupId(item.key);
+                    }}
+                    color={`grayAlternatives.${isTarget ? 700 : 300}`}
+                    fontWeight={isTarget ? 500 : 400}
+                  >
+                    {item.name || '暂无'}
+                  </Box>
+                  <Text>{isTarget ? '' : '/'}</Text>
+                </Fragment>
+              );
+            })}
+            {groupCrumb.length > 0 && (
+              <UpdateGroupButton
+                type="icon"
+                groupTree={groupTree}
+                defaultFormValues={defaultFormValues}
+              />
+            )}
+          </HStack>
           <GroupBasicInfo groupItem={groupItem} />
           <DeviceListTable
             groupId={groupId}
-            key={tableKey}
-            // groupItem={groupItem}
             keyWords={keyWords}
             groupTree={groupTree}
           />
