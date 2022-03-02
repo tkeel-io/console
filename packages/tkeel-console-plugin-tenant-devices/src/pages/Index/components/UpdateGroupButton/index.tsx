@@ -10,7 +10,7 @@ import { TreeNodeType } from '@/tkeel-console-plugin-tenant-devices/hooks/querie
 import OperateDeviceModal from '@/tkeel-console-plugin-tenant-devices/pages/Index/components/OperateDeviceModal';
 import {
   DeviceDefaultInfoType,
-  DeviceValueType,
+  DeviceFormFields,
   ModalMode,
   ModalType,
 } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
@@ -39,7 +39,7 @@ function UpdateGroupButton({ defaultFormValues, callback, groupTree }: Props) {
     id: defaultFormValues.id as string,
     onSuccess,
   });
-  const handleConfirm = ({ formValues }: { formValues: DeviceValueType }) => {
+  const handleConfirm = ({ formValues }: { formValues: DeviceFormFields }) => {
     const { description, name, parentId, extendInfo, parentName } = formValues;
 
     const params = {

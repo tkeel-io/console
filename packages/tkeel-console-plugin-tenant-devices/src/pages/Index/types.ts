@@ -14,12 +14,12 @@ export enum ConnectOption {
   DIRECT = '直连',
   // INDIRECT = '非直连',
 }
-export type DeviceValueType = {
+export type DeviceFormFields = {
   name: string;
   parentId: string;
   parentName?: string;
   extendInfo: any[];
-  directConnection?: string;
+  connectType?: string;
   connectInfo?: ConnectInfoType[];
   description: string;
 };
@@ -43,6 +43,7 @@ export interface DeviceDefaultInfoType {
   };
   selfLearn?: boolean;
   parentId?: string;
+  parentName?: string;
   directConnection?: boolean;
   templateId?: string;
 }

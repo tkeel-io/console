@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable no-console */
 import { Stack, Text } from '@chakra-ui/react';
 import { map } from 'lodash';
 import { ReactNode } from 'react';
@@ -17,15 +16,15 @@ import {
 import {
   ConnectInfoType,
   ConnectOption,
-  DeviceValueType,
+  DeviceFormFields,
   ModalType,
 } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
 
 const { TextField, TextareaField } = FormField;
 
 interface Props {
-  formHandler: UseFormReturn<DeviceValueType, object>;
-  watchFields: DeviceValueType;
+  formHandler: UseFormReturn<DeviceFormFields, object>;
+  watchFields: DeviceFormFields;
   type: ModalType;
   groupOptions: any;
 }
@@ -35,9 +34,8 @@ export default function BasicInfoPart({
   watchFields,
   groupOptions,
 }: Props) {
-  const { register, formState, setValue } = formHandler;
+  const { register, formState, setValue, clearErrors } = formHandler;
   const { errors } = formState;
-  console.log('groupOptions', groupOptions);
   return (
     <>
       <TextField
@@ -74,13 +72,15 @@ export default function BasicInfoPart({
             <Select
               placeholder="请选择设备连接方式"
               id="directConnection"
+              defaultValue={watchFields.connectType}
               style={{ width: '100%' }}
-              {...register('directConnection', {
+              {...register('connectType', {
                 required: true,
               })}
               onChange={(value: string) => {
                 if (value) {
-                  setValue('directConnection', value);
+                  setValue('connectType', value);
+                  clearErrors('connectType');
                 }
               }}
             >
@@ -92,6 +92,11 @@ export default function BasicInfoPart({
                 </Select.Option>
               ))}
             </Select>
+            {errors.connectType && (
+              <Text color="red.500" fontSize="12px" mt="8px">
+                请选择连接方式
+              </Text>
+            )}
           </FormControl>
           <FormControl id="connectInfo">
             <CheckboxGroup
@@ -99,7 +104,7 @@ export default function BasicInfoPart({
                 setValue('connectInfo', value);
               }}
               value={
-                watchFields.directConnection !== ConnectOption.DIRECT
+                watchFields.connectType !== ConnectOption.DIRECT
                   ? [ConnectInfoType.useTemplate]
                   : watchFields.connectInfo
               }
@@ -122,9 +127,7 @@ export default function BasicInfoPart({
                   colorScheme="primary"
                   id="selfLearn"
                   value={ConnectInfoType.selfLearn}
-                  isDisabled={
-                    watchFields.directConnection !== ConnectOption.DIRECT
-                  }
+                  isDisabled={watchFields.connectType !== ConnectOption.DIRECT}
                 >
                   <Text color="gray.600" fontSize="14px">
                     自学习模式

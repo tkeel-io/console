@@ -11,7 +11,7 @@ import OperateDeviceModal from '@/tkeel-console-plugin-tenant-devices/pages/Inde
 import {
   ConnectInfoType,
   ConnectOption,
-  DeviceValueType,
+  DeviceFormFields,
   ModalMode,
   ModalType,
 } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
@@ -39,20 +39,20 @@ export default function CreateDeviceButton({ variant, onSuccess }: Props) {
       reset();
     }
   }, [isOpen, reset]);
-  const handleConfirm = ({ formValues }: { formValues: DeviceValueType }) => {
+  const handleConfirm = ({ formValues }: { formValues: DeviceFormFields }) => {
     const {
       description,
       name,
       parentId,
       parentName,
-      directConnection,
+      connectType,
       connectInfo,
       extendInfo,
     } = formValues;
     const params = {
       description,
       name,
-      directConnection: directConnection === ConnectOption.DIRECT,
+      directConnection: connectType === ConnectOption.DIRECT,
       selfLearn: has(connectInfo, ConnectInfoType.selfLearn),
       templateId: has(connectInfo, ConnectInfoType.useTemplate) ? '123' : '',
       ext: mapValues(keyBy(extendInfo, 'label'), 'value'),

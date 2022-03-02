@@ -10,7 +10,7 @@ import useCreateDeviceGroupMutation from '@/tkeel-console-plugin-tenant-devices/
 import { TreeNodeType } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
 import {
   DeviceDefaultInfoType,
-  DeviceValueType,
+  DeviceFormFields,
   ModalMode,
   ModalType,
 } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
@@ -48,7 +48,7 @@ export default function CreateDeviceButton({
       reset();
     }
   }, [isOpen, reset, isSuccess]);
-  const handleConfirm = ({ formValues }: { formValues: DeviceValueType }) => {
+  const handleConfirm = ({ formValues }: { formValues: DeviceFormFields }) => {
     const { description, name, parentId, extendInfo, parentName } = formValues;
     const params = {
       description,
