@@ -2,6 +2,7 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
+import { useGlobalPortalProps } from '@tkeel/console-business-components';
 import {
   CollapseFilledIcon,
   ExpandFilledIcon,
@@ -9,6 +10,7 @@ import {
   // SunFilledIcon,
 } from '@tkeel/console-icons';
 import { ThemeNames } from '@tkeel/console-themes';
+import { Logo } from '@tkeel/console-types';
 
 import {
   getLocalMenuTheme,
@@ -19,8 +21,12 @@ import {
 import CollapsedMenus from './CollapsedMenus';
 import ExpandMenus from './ExpandMenus';
 
-function Menus() {
-  const { themeName } = PORTAL_GLOBALS.client;
+type Props = {
+  logo: Logo;
+};
+
+function Menus({ logo }: Props) {
+  const { themeName } = useGlobalPortalProps();
   const [searchParams] = useSearchParams();
   const menuCollapsed = searchParams.get('menu-collapsed') === 'true' || false;
   const [collapsed, setCollapsed] = useState(menuCollapsed);
@@ -75,12 +81,9 @@ function Menus() {
       backgroundColor={isDarkMenu ? 'grayAlternatives.800' : 'gray.50'}
     >
       {collapsed ? (
-        <CollapsedMenus isQingCloudTheme={isQingCloudTheme} />
+        <CollapsedMenus logo={logo} />
       ) : (
-        <ExpandMenus
-          isQingCloudTheme={isQingCloudTheme}
-          isDarkMenu={isDarkMenu}
-        />
+        <ExpandMenus isDarkMenu={isDarkMenu} logo={logo} />
       )}
       <Flex
         flexDirection="column"

@@ -49,20 +49,13 @@ function PluginList({
             overflowY="auto"
           >
             {plugins.map((pluginInfo) => {
-              const {
-                name,
-                version,
-                icon,
-                desc,
-                repo,
-                installed,
-                annotations,
-              } = pluginInfo;
+              const { name, version, icon, desc, repo, state, annotations } =
+                pluginInfo;
               const installPluginInfo = {
                 name,
                 version,
                 repo,
-                installed,
+                state,
               };
 
               const briefPluginInfo = {
@@ -86,7 +79,7 @@ function PluginList({
                     );
                   }}
                   operatorButton={
-                    installed ? (
+                    state === 'INSTALLED' ? (
                       <MoreAction
                         buttons={[
                           <UninstallButton
@@ -98,6 +91,7 @@ function PluginList({
                       />
                     ) : (
                       <InstallButton
+                        disabled={state === 'SAME_NAME'}
                         installPluginInfo={installPluginInfo}
                         onSuccess={refetchPlugins}
                       />

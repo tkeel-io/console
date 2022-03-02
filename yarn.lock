@@ -3780,6 +3780,7 @@ __metadata:
     "@tkeel/console-hooks": "workspace:^"
     "@tkeel/console-icons": "workspace:^"
     "@tkeel/console-portal-base": "workspace:^"
+    "@tkeel/console-request-hooks": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
     lodash: ^4.17.21
     react: ^17.0.2
@@ -3800,6 +3801,7 @@ __metadata:
     "@tkeel/console-components": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
     "@tkeel/console-icons": "workspace:^"
+    "@tkeel/console-request-hooks": "workspace:^"
     "@tkeel/console-themes": "workspace:^"
     "@tkeel/console-types": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
@@ -3823,6 +3825,7 @@ __metadata:
     "@tkeel/console-hooks": "workspace:^"
     "@tkeel/console-icons": "workspace:^"
     "@tkeel/console-portal-base": "workspace:^"
+    "@tkeel/console-request-hooks": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
     lodash: ^4.17.21
     react: ^17.0.2
@@ -3830,6 +3833,19 @@ __metadata:
     react-hook-form: ^7.27.1
     react-query: ^3.34.16
     react-router-dom: ^6.2.2
+  languageName: unknown
+  linkType: soft
+
+"@tkeel/console-request-hooks@workspace:^, @tkeel/console-request-hooks@workspace:packages/tkeel-console-request-hooks":
+  version: 0.0.0-use.local
+  resolution: "@tkeel/console-request-hooks@workspace:packages/tkeel-console-request-hooks"
+  dependencies:
+    "@tkeel/console-constants": "workspace:^"
+    "@tkeel/console-hooks": "workspace:^"
+    "@tkeel/console-utils": "workspace:^"
+  peerDependencies:
+    react: ^17.0.2
+    react-router-dom: ^6.2.1
   languageName: unknown
   linkType: soft
 
@@ -3852,6 +3868,7 @@ __metadata:
   resolution: "@tkeel/console-types@workspace:packages/tkeel-console-types"
   dependencies:
     "@tkeel/console-constants": "workspace:^"
+    react: ^17.0.2
   peerDependencies:
     react-router-dom: ^6.2.1
   languageName: unknown
