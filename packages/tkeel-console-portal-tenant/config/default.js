@@ -1,11 +1,32 @@
 const { tkeel } = require('../../../config/default');
 
+function getConfigImagePath(path) {
+  return `/portal-tenant/config/images/${path}`;
+}
+
 module.exports = {
   portalName: 'tenant',
   publicPath: '/',
   client: {
     themeName: 'qingcloud-light',
-    documentTitle: '',
+    documentTitle: 'QingCloud IoT 物联网平台',
+    favicon: getConfigImagePath('logo-mark.svg'),
+    logoMark: getConfigImagePath('logo-mark.svg'),
+    logoTypeLight: getConfigImagePath('logo-type-light.svg'),
+    logoTypeDark: getConfigImagePath('logo-type-dark.svg'),
+    pages: {
+      Login: {
+        backgroundImage: getConfigImagePath('background-01'),
+        title: 'QingCloud IoT 物联网平台',
+        subTitle: '颠覆传统物联网应用开发的新一代核心架构',
+      },
+      SetPassword: {
+        backgroundImage: getConfigImagePath('background-02'),
+        brandName: 'QingCloud IoT',
+        title: '物联网平台',
+        subTitle: '设置密码',
+      },
+    },
   },
   api: {
     basePath: '/apis',

@@ -1,3 +1,10 @@
+import { ReactNode } from 'react';
+
+import {
+  NodeInfo,
+  TreeNodeType,
+} from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
+
 export enum ConnectInfoType {
   useTemplate = 'useTemplate',
   selfLearn = 'selfLearn',
@@ -7,12 +14,12 @@ export enum ConnectOption {
   DIRECT = '直连',
   // INDIRECT = '非直连',
 }
-export type DeviceValueType = {
+export type DeviceFormFields = {
   name: string;
   parentId: string;
   parentName?: string;
   extendInfo: any[];
-  directConnection?: string;
+  connectType?: string;
   connectInfo?: ConnectInfoType[];
   description: string;
 };
@@ -28,14 +35,32 @@ export enum ModalMode {
 }
 
 export interface DeviceDefaultInfoType {
-  id: string;
+  id?: string;
   description?: string;
-  name: string;
-  ext: {
+  name?: string;
+  ext?: {
     [propName: string]: unknown;
   };
   selfLearn?: boolean;
-  parentId: string;
+  parentId?: string;
+  parentName?: string;
   directConnection?: boolean;
   templateId?: string;
 }
+
+export type TreeNodeData = {
+  title: ReactNode;
+  key: string;
+  children: TreeNodeData[];
+  icon?: any;
+  originData: {
+    nodeInfo: NodeInfo;
+    subNode: TreeNodeType;
+  };
+};
+
+export type GroupOptions = {
+  title: string;
+  key: string;
+  children: GroupOptions[];
+};

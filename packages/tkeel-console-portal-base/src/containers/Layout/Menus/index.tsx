@@ -2,6 +2,7 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
+import { useGlobalPortalProps } from '@tkeel/console-business-components';
 import {
   CollapseFilledIcon,
   ExpandFilledIcon,
@@ -20,7 +21,7 @@ import CollapsedMenus from './CollapsedMenus';
 import ExpandMenus from './ExpandMenus';
 
 function Menus() {
-  const { themeName } = PORTAL_GLOBALS.client;
+  const { themeName } = useGlobalPortalProps();
   const [searchParams] = useSearchParams();
   const menuCollapsed = searchParams.get('menu-collapsed') === 'true' || false;
   const [collapsed, setCollapsed] = useState(menuCollapsed);

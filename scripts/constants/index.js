@@ -47,6 +47,7 @@ const SHARED_PACKAGE_SIMPLE_NAMES = [
   'types',
   'utils',
   'portal-base',
+  'request-hooks',
 ];
 
 const COMMON_PACKAGE_SIMPLE_NAMES = [

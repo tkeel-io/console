@@ -71,6 +71,9 @@
       "@/tkeel-console-portal-tenant/*": [
         "./packages/tkeel-console-portal-tenant/src/*"
       ],
+      "@/tkeel-console-request-hooks/*": [
+        "./packages/tkeel-console-request-hooks/src/*"
+      ],
       "@/tkeel-console-themes/*": ["./packages/tkeel-console-themes/src/*"],
       "@/tkeel-console-types/*": ["./packages/tkeel-console-types/src/*"],
       "@/tkeel-console-utils/*": ["./packages/tkeel-console-utils/src/*"]
@@ -97,6 +100,7 @@
     { "path": "./packages/tkeel-console-portal-admin/" },
     { "path": "./packages/tkeel-console-portal-base/" },
     { "path": "./packages/tkeel-console-portal-tenant/" },
+    { "path": "./packages/tkeel-console-request-hooks/" },
     { "path": "./packages/tkeel-console-themes/" },
     { "path": "./packages/tkeel-console-types/" },
     { "path": "./packages/tkeel-console-utils/" }
