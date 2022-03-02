@@ -4,6 +4,7 @@ import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 
 import { useGlobalPortalProps } from '@tkeel/console-business-components';
 import { Logo } from '@tkeel/console-types';
+import { isEnvDevelopment } from '@tkeel/console-utils';
 
 import Header from '@/tkeel-console-portal-base/containers/Layout/Header';
 import Menus from '@/tkeel-console-portal-base/containers/Layout/Menus';
@@ -46,7 +47,7 @@ export default function Layout({ userActionMenusComponent, logo }: Props) {
 
     return (
       <>
-        {process.env.NODE_ENV !== 'development' && (
+        {!isEnvDevelopment() && (
           <Route
             index
             element={<Navigate to={firstApp.activeRule} replace />}

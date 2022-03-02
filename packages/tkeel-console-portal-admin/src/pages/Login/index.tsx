@@ -5,11 +5,19 @@ import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { Form, FormField } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
 import { usePortalAdminConfigQuery } from '@tkeel/console-request-hooks';
-import { schemas, setLocalTokenInfo } from '@tkeel/console-utils';
+import {
+  isEnvDevelopment,
+  schemas,
+  setLocalTokenInfo,
+} from '@tkeel/console-utils';
 
 import useOAuthAdminTokenMutation, {
   ApiData,
 } from '@/tkeel-console-portal-admin/hooks/mutations/useOAuthAdminTokenMutation';
+
+const mockData = isEnvDevelopment()
+  ? { password: String(PORTAL_GLOBALS?.mock?.password ?? '') }
+  : { password: '' };
 
 const { TextField } = FormField;
 
@@ -123,7 +131,7 @@ export default function Login() {
             type="password"
             id="password"
             label="密码"
-            defaultValue={String(PORTAL_GLOBALS?.mock?.password ?? '')}
+            defaultValue={mockData.password}
             placeholder="请输入您的密码"
             error={errors.password}
             formControlStyle={{ width: '350px' }}

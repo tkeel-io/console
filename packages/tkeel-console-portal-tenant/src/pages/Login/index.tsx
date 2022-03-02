@@ -11,6 +11,7 @@ import { Form, FormField } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
 import { usePortalTenantConfigQuery } from '@tkeel/console-request-hooks';
 import {
+  isEnvDevelopment,
   removeLocalTokenInfo,
   removeLocalUserInfo,
   schemas,
@@ -20,6 +21,13 @@ import {
 import useOAuthTokenMutation, {
   ApiData,
 } from '@/tkeel-console-portal-tenant/hooks/mutations/useOAuthTokenMutation';
+
+const mockData = isEnvDevelopment()
+  ? {
+      username: String(PORTAL_GLOBALS?.mock?.username ?? ''),
+      password: String(PORTAL_GLOBALS?.mock?.password ?? ''),
+    }
+  : { username: '', password: '' };
 
 const { TextField } = FormField;
 
@@ -147,7 +155,7 @@ export default function Login() {
             id="username"
             type="text"
             label="账号"
-            defaultValue={String(PORTAL_GLOBALS?.mock?.username ?? '')}
+            defaultValue={mockData.username}
             placeholder="请输入您的账号"
             error={errors.username}
             formControlStyle={{ marginBottom: '20px', width: '350px' }}
@@ -162,7 +170,7 @@ export default function Login() {
             id="password"
             type="password"
             label="密码"
-            defaultValue={String(PORTAL_GLOBALS?.mock?.password ?? '')}
+            defaultValue={mockData.password}
             placeholder="请输入您的密码"
             error={errors.password}
             formControlStyle={{ width: '350px' }}

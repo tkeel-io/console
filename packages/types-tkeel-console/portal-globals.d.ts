@@ -32,7 +32,6 @@ interface PortalGlobals {
   // local development
   mock?: {
     tenantTitle?: string; // tenant
-    tenantId?: string; // tenant
     username?: string; // tenant
     password?: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -9,7 +9,7 @@ import { isEnvDevelopment, setLocalUserInfo } from '@tkeel/console-utils';
 import useTenantIdQueryMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useTenantIdQueryMutation';
 
 const mockData = isEnvDevelopment()
-  ? { tenantTitle: String(PORTAL_GLOBALS?.mock?.tenantTitle) ?? '' }
+  ? { tenantTitle: String(PORTAL_GLOBALS?.mock?.tenantTitle ?? '') }
   : { tenantTitle: '' };
 
 const { TextField } = FormField;
