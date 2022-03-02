@@ -45,13 +45,11 @@ type Props = {
     groupId: string;
     title: string;
   }) => unknown;
-  onSpreadClick: (groupId: string) => unknown;
 };
 
 export default function DeviceGroup({
   deviceGroupTree,
   onNodeTitleClick,
-  onSpreadClick,
 }: Props) {
   const treeNodeData = getTreeNodeData(deviceGroupTree);
   if (treeNodeData.length === 0) {
@@ -64,20 +62,19 @@ export default function DeviceGroup({
       titleRender={(node) => {
         const { id: groupId } = node as TreeNodeData;
         return (
-          <Flex justifyContent="space-between">
-            <Text
-              onClick={() => {
-                onNodeTitleClick({ groupId, title: node.title as string });
-                onSpreadClick(groupId);
-              }}
-            >
-              {node.title}
-            </Text>
+          <Flex
+            justifyContent="space-between"
+            onClick={() => {
+              onNodeTitleClick({ groupId, title: node.title as string });
+              // onSpreadClick(groupId);
+            }}
+          >
+            <Text>{node.title}</Text>
             <Flex
               alignItems="center"
               color="primary"
               fontSize="12px"
-              onClick={() => onSpreadClick(groupId)}
+              // onClick={() => onSpreadClick(groupId)}
             >
               <Text marginRight="4px">展开</Text>
               <RightFilledIcon color="primary" />
