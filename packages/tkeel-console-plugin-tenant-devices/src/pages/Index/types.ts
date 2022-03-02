@@ -35,14 +35,14 @@ export enum ModalMode {
 }
 
 export interface DeviceDefaultInfoType {
-  id: string;
+  id?: string;
   description?: string;
-  name: string;
-  ext: {
+  name?: string;
+  ext?: {
     [propName: string]: unknown;
   };
   selfLearn?: boolean;
-  parentId: string;
+  parentId?: string;
   directConnection?: boolean;
   templateId?: string;
 }

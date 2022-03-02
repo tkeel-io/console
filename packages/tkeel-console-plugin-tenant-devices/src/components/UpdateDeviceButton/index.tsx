@@ -33,7 +33,7 @@ function UpdateDeviceButton({ defaultFormValues, refetch }: Props) {
     }
   };
   const { isLoading, mutate, isSuccess } = useUpdateDeviceMutation({
-    id: defaultFormValues.id,
+    id: defaultFormValues.id as string,
     onSuccess,
   });
   const handleConfirm = ({ formValues }: { formValues: DeviceValueType }) => {

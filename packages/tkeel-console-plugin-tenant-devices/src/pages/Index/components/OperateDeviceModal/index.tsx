@@ -73,11 +73,11 @@ export default function OperateDeviceModal({
   isOpen,
   onClose,
   handleConfirm,
-  defaultFormValues,
+  defaultFormValues = defaultFormInfo,
   isLoading,
   responseData,
   mode,
-  isSuccess,
+  isSuccess = false,
   groupTree,
 }: Props) {
   const navigate = useNavigate();
@@ -95,19 +95,16 @@ export default function OperateDeviceModal({
     mode === ModalMode.EDIT
       ? ['基本信息', '扩展信息']
       : ['基本信息', '扩展信息', '创建完成'];
-  const groupTreeCopy =
-    mode === ModalMode.EDIT && type === ModalType.GROUP
-      ? groupTree
-      : // eslint-disable-next-line react-hooks/rules-of-hooks
-        useGroupTreeQuery().groupTree;
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const groupTreeCopy = groupTree || useGroupTreeQuery().groupTree;
   const deviceGroupOptions = getTreeNodeData({
-    data: groupTreeCopy as TreeNodeType,
+    data: groupTreeCopy,
   });
   console.log(watchFields);
   useEffect(() => {
     if (!isOpen) {
       setCurrentStep(0);
-    } else if (mode === ModalMode.EDIT && defaultFormValues) {
+    } else if (defaultFormValues) {
       const {
         description,
         name,
@@ -127,7 +124,7 @@ export default function OperateDeviceModal({
       const basicFormInfo = {
         description,
         name,
-        extendInfo: Object.entries(ext).map(([label, value]) => {
+        extendInfo: Object.entries(ext || {}).map(([label, value]) => {
           return { label, value };
         }),
         parentId,
@@ -140,22 +137,20 @@ export default function OperateDeviceModal({
         type === ModalType.DEVICE
           ? Object.assign(basicFormInfo, deviceDefaultInfo)
           : basicFormInfo;
-      console.log(defaultFormInfoCopy);
       reset(defaultFormInfoCopy);
     } else {
       reset(defaultFormInfo);
     }
   }, [defaultFormValues, isOpen, mode, reset, type]);
   useEffect(() => {
-    if (currentStep === 1 && isSuccess) {
+    if (currentStep === 1 && isSuccess && !isLoading) {
       if (mode === ModalMode.EDIT) {
         onClose();
-        setCurrentStep(0);
       } else {
         setCurrentStep(2);
       }
     }
-  }, [currentStep, isSuccess, mode, onClose]);
+  }, [currentStep, isLoading, isSuccess, mode, onClose]);
   const onSubmit: SubmitHandler<DeviceValueType> = async (formValues) => {
     const id = (responseData as DeviceResData)?.deviceObject?.id;
     if (currentStep >= 2) {

@@ -37,7 +37,7 @@ type TreeNodeData = {
   };
 };
 export default function DeviceGroupTree({ handleSelectGroup }: Props) {
-  const { groupTree, refetch } = useGroupTreeQuery();
+  const { groupTree, refetch: refetchGroupTree } = useGroupTreeQuery();
   const selectedColor = useColor('primary');
   const selectedTwoTone = useColor('primarySub2');
   const unselectedColor = useColor('gray.700');
@@ -77,22 +77,35 @@ export default function DeviceGroupTree({ handleSelectGroup }: Props) {
                 </Center>
               }
               buttons={[
+                <CreateGroupButton
+                  key="add"
+                  type="MORE_ACTION"
+                  groupTree={groupTree}
+                  callback={() => {
+                    refetchGroupTree();
+                  }}
+                  defaultFormValues={{ parentId: id }}
+                />,
+                <UpdateGroupButton
+                  key="update"
+                  groupTree={groupTree}
+                  defaultFormValues={defaultFormValues}
+                  callback={() => {
+                    refetchGroupTree();
+                  }}
+                />,
                 isEmpty(subNode) ? (
                   <DeleteGroupButton
                     key="delete"
                     id={id}
                     groupName={name}
-                    callback={refetch}
+                    callback={() => {
+                      refetchGroupTree();
+                    }}
                   />
                 ) : (
                   <Fragment key="empty" />
                 ),
-                <UpdateGroupButton
-                  key="update"
-                  groupTree={groupTree}
-                  defaultFormValues={defaultFormValues}
-                  refetch={refetch}
-                />,
               ]}
             />
           </Flex>
@@ -137,7 +150,7 @@ export default function DeviceGroupTree({ handleSelectGroup }: Props) {
       </Text>
       <CreateGroupButton
         callback={() => {
-          refetch();
+          refetchGroupTree();
         }}
       />
       <Box mt="16px" flex="1" minWidth="200px">

@@ -3,11 +3,13 @@ import { Button, useDisclosure } from '@chakra-ui/react';
 import { keyBy, mapValues } from 'lodash';
 import { useEffect } from 'react';
 
-import { toast } from '@tkeel/console-components';
+import { MoreActionButton, toast } from '@tkeel/console-components';
 import { AddFilledIcon } from '@tkeel/console-icons';
 
 import useCreateDeviceGroupMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceGroupMutation';
+import { TreeNodeType } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
 import {
+  DeviceDefaultInfoType,
   DeviceValueType,
   ModalMode,
   ModalType,
@@ -16,10 +18,18 @@ import {
 import OperateDeviceModal from '../OperateDeviceModal';
 
 interface Props {
+  type?: 'MORE_ACTION';
   callback: () => void;
+  defaultFormValues?: DeviceDefaultInfoType;
+  groupTree?: TreeNodeType;
 }
 
-export default function CreateDeviceButton({ callback }: Props) {
+export default function CreateDeviceButton({
+  type,
+  callback,
+  defaultFormValues,
+  groupTree,
+}: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isLoading, mutate, isSuccess, reset } = useCreateDeviceGroupMutation({
     onSuccess() {
@@ -34,7 +44,7 @@ export default function CreateDeviceButton({ callback }: Props) {
     if (isOpen) {
       reset();
     }
-  }, [isOpen, reset]);
+  }, [isOpen, reset, isSuccess]);
   const handleConfirm = ({ formValues }: { formValues: DeviceValueType }) => {
     const { description, name, parentId, extendInfo, parentName } = formValues;
     const params = {
@@ -48,19 +58,27 @@ export default function CreateDeviceButton({ callback }: Props) {
   };
   return (
     <>
-      <Button
-        h="32px"
-        fontSize="12px"
-        leftIcon={<AddFilledIcon color="grayAlternatives.300" />}
-        onClick={onOpen}
-        variant="outline"
-        colorScheme="gray"
-        borderRadius="4px"
-        w="100%"
-        color="grayAlternatives.300"
-      >
-        添加组
-      </Button>
+      {type === 'MORE_ACTION' ? (
+        <MoreActionButton
+          icon={<AddFilledIcon size="12px" />}
+          title="添加设备组"
+          onClick={onOpen}
+        />
+      ) : (
+        <Button
+          h="32px"
+          fontSize="12px"
+          leftIcon={<AddFilledIcon color="grayAlternatives.300" />}
+          onClick={onOpen}
+          variant="outline"
+          colorScheme="gray"
+          borderRadius="4px"
+          w="100%"
+          color="grayAlternatives.300"
+        >
+          添加组
+        </Button>
+      )}
       <OperateDeviceModal
         title="创建设备组"
         isOpen={isOpen}
@@ -70,6 +88,8 @@ export default function CreateDeviceButton({ callback }: Props) {
         handleConfirm={handleConfirm}
         isLoading={isLoading}
         isSuccess={isSuccess}
+        defaultFormValues={defaultFormValues}
+        groupTree={groupTree}
       />
     </>
   );

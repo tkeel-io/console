@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable no-underscore-dangle */
 import {
   Box,
@@ -16,7 +17,7 @@ import { useColor } from '@tkeel/console-hooks';
 import { WarningTwoToneIcon } from '@tkeel/console-icons';
 
 import useDeviceDetailQuery from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
-import useDeviceDetailSocket from '@/tkeel-console-plugin-tenant-devices/hooks/websockets/useDeviceDetailSocket';
+import useDeviceDetailSocket from '@/tkeel-console-plugin-tenant-devices/hooks/webSockets/useDeviceDetailSocket';
 
 import ConnectionInfo from './components/ConnectionInfo';
 import DeviceDetailLeftPanel from './components/DeviceDetailLeftPanel';

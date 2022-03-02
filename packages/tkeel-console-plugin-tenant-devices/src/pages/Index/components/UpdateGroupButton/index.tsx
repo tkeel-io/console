@@ -17,24 +17,24 @@ import {
 
 interface Props {
   defaultFormValues: DeviceDefaultInfoType;
-  refetch?: () => void;
+  callback?: () => void;
   groupTree: TreeNodeType;
 }
 
-function UpdateGroupButton({ defaultFormValues, refetch, groupTree }: Props) {
+function UpdateGroupButton({ defaultFormValues, callback, groupTree }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const onSuccess = () => {
     toast({
       status: 'success',
       title: '修改设备组成功',
     });
-    if (refetch) {
-      refetch();
+    if (callback) {
+      callback();
     }
   };
 
   const { isLoading, isSuccess, mutate } = useUpdateGroupMutation({
-    id: defaultFormValues.id,
+    id: defaultFormValues.id as string,
     onSuccess,
   });
   const handleConfirm = ({ formValues }: { formValues: DeviceValueType }) => {
