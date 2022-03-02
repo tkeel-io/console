@@ -4,10 +4,10 @@ import { Loading } from '@tkeel/console-components';
 import { useNoAuthRedirectPath } from '@tkeel/console-hooks';
 import { setLocalTenantInfo } from '@tkeel/console-utils';
 
-import useOAuthAuthenticateQuery from '@/tkeel-console-portal-tenant/hooks/queries/useOAuthAuthenticateQuery';
+import useAuthenticateTokenQuery from '@/tkeel-console-portal-tenant/hooks/queries/useAuthenticateTokenQuery';
 
 export default function RequireAuth() {
-  const { data, isLoading, isError, isSuccess } = useOAuthAuthenticateQuery({
+  const { data, isLoading, isError, isSuccess } = useAuthenticateTokenQuery({
     extras: { handleNoAuth: false, handleApiError: false },
   });
   const redirectPath = useNoAuthRedirectPath({

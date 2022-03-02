@@ -10,13 +10,13 @@ import {
   removeLocalTokenInfo,
 } from '@tkeel/console-utils';
 
-import useOAuthTokenRevokeMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useOAuthTokenRevokeMutation';
+import useRevokeTokenMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useRevokeTokenMutation';
 
 export default function LogoutUserButton() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { isLoading, mutate } = useOAuthTokenRevokeMutation({
+  const { isLoading, mutate } = useRevokeTokenMutation({
     onSuccess() {
       removeLocalTokenInfo();
       removeLocalTenantInfo();

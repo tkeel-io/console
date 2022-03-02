@@ -14,7 +14,7 @@ type Options = {
   onSuccess: ({ data }: { data: ApiData }) => void;
 };
 
-export default function useTenantIdQueryMutation({ onSuccess }: Options) {
+export default function useQueryTenantIdMutation({ onSuccess }: Options) {
   return usePortalMutation<ApiData, RequestParams>({
     url: '/security/v1/tenants/exact',
     method: 'GET',
