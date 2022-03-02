@@ -31,15 +31,14 @@ export interface ApiData {
   users: User[];
 }
 
-export default function useUsersQuery({
-  params,
-  onSuccess,
-}: {
+type Options = {
   params?: RequestParams;
   onSuccess?: (
     data: RequestResult<ApiData, RequestParams, undefined>
   ) => unknown;
-} = {}) {
+};
+
+export default function useUsersQuery({ params, onSuccess }: Options = {}) {
   const { tenant_id: tenantId } = getLocalTenantInfo();
   const url = `/security/v1/tenants/${tenantId}/users`;
 

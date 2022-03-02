@@ -31,7 +31,7 @@ export interface ApiData {
   users: User[];
 }
 
-type Args = {
+type Options = {
   tenantId: string;
   params?: RequestParams;
   onSuccess?: (
@@ -39,7 +39,11 @@ type Args = {
   ) => unknown;
 };
 
-export default function useUsersQuery({ tenantId, params, onSuccess }: Args) {
+export default function useUsersQuery({
+  tenantId,
+  params,
+  onSuccess,
+}: Options) {
   const url = `/security/v1/tenants/${tenantId}/users`;
 
   const { data, ...rest } = usePluginQuery<ApiData, RequestParams>({
