@@ -7,6 +7,7 @@ import {
   UninstallButton,
 } from '@/tkeel-console-plugin-admin-plugins/components';
 import { Installer } from '@/tkeel-console-plugin-admin-plugins/hooks/queries/usePluginDetailQuery';
+import { PluginState } from '@/tkeel-console-plugin-admin-plugins/types/plugin-info';
 
 type Props = {
   data: Installer | undefined;
@@ -42,27 +43,30 @@ function BasicInfoCard({ data, refetchDetails }: Props) {
     name,
     version,
     repo,
-    installed: data?.installed ?? false,
+    state: data?.state || ('UNINSTALLED' as PluginState),
   };
 
   let rightTopButton = null;
   if (data) {
-    rightTopButton = data.installed ? (
-      <MoreAction
-        buttons={[
-          <UninstallButton
-            key="delete"
-            pluginName={data.name}
-            onSuccess={refetchDetails}
-          />,
-        ]}
-      />
-    ) : (
-      <InstallButton
-        installPluginInfo={installPluginInfo}
-        onSuccess={refetchDetails}
-      />
-    );
+    const { state } = data;
+    rightTopButton =
+      state === 'INSTALLED' ? (
+        <MoreAction
+          buttons={[
+            <UninstallButton
+              key="delete"
+              pluginName={data.name}
+              onSuccess={refetchDetails}
+            />,
+          ]}
+        />
+      ) : (
+        <InstallButton
+          disabled={state === 'SAME_NAME'}
+          installPluginInfo={installPluginInfo}
+          onSuccess={refetchDetails}
+        />
+      );
   }
 
   return (
