@@ -36,6 +36,8 @@ export default function usePortalAdminConfigQuery() {
     extras: {
       isWithToken: false,
       handleNoAuth: false,
+      handleApiError: false,
+      handleAxiosError: false,
     },
   });
 
