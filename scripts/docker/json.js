@@ -8,9 +8,7 @@ const logger = require('../utils/logger');
 const paths = require('../utils/paths');
 
 const tkeelVersion = config.get('tkeel.version');
-const jsonTemplateFileNames = [
-  { fileName: 'identify.json', dataPath: 'plugin.identify' },
-];
+const jsonTemplateFileNames = ['identify.json'];
 const jsonFileNames = [
   'status.json',
   'tenant.enable.json',
@@ -23,7 +21,7 @@ function createJsonFiles(packageInfo) {
   const { packageJson, config: packageConfig } = packageInfo;
   const { version } = packageJson;
 
-  jsonTemplateFileNames.forEach(({ fileName, dataPath }) => {
+  jsonTemplateFileNames.forEach((fileName) => {
     const srcPath = path.resolve(jsonSrcDirectoryPath, fileName);
     const destPath = path.resolve(jsonDestDirectoryPath, fileName);
     const content = fs.readJsonSync(srcPath);
@@ -31,7 +29,7 @@ function createJsonFiles(packageInfo) {
       {},
       content,
       { version, tkeel_version: tkeelVersion },
-      _.get(packageConfig, dataPath)
+      packageConfig?.plugin?.identify
     );
     fs.outputJSONSync(destPath, response);
   });
@@ -46,7 +44,7 @@ function createJsonFiles(packageInfo) {
 }
 
 function deleteJsonFiles() {
-  [...jsonTemplateFileNames, ...jsonFileNames].forEach(({ fileName }) => {
+  [...jsonTemplateFileNames, ...jsonFileNames].forEach((fileName) => {
     const destPath = path.resolve(jsonDestDirectoryPath, fileName);
     fs.removeSync(destPath);
   });
