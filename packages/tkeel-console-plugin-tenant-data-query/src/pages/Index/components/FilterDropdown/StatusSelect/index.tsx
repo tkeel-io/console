@@ -1,5 +1,4 @@
 import { Flex, Text, useDisclosure } from '@chakra-ui/react';
-import { SetStateAction } from 'react';
 
 import { MoreAction, MoreActionButton } from '@tkeel/console-components';
 import {
@@ -9,12 +8,20 @@ import {
   WifiOffFilledIcon,
 } from '@tkeel/console-icons';
 
-type Props = {
-  status: string;
-  setStatus: (value: SetStateAction<string>) => void;
-};
+export interface Status {
+  label: string;
+  value: string;
+}
 
-export default function StatusSelect({ status, setStatus }: Props) {
+export interface StatusSelectProps {
+  status: Status;
+  onStatusChange: (status: Status) => unknown;
+}
+
+export default function StatusSelect({
+  status,
+  onStatusChange,
+}: StatusSelectProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const buttonInfoList = [
     {
@@ -39,7 +46,7 @@ export default function StatusSelect({ status, setStatus }: Props) {
       key={info.key}
       title={info.title}
       icon={info.icon}
-      onClick={() => setStatus(info.title)}
+      onClick={() => onStatusChange({ label: info.title, value: info.key })}
     />
   ));
 
@@ -56,7 +63,7 @@ export default function StatusSelect({ status, setStatus }: Props) {
           _hover={{ backgroundColor: 'gray.100' }}
         >
           <Text marginRight="6px" color="gray.700" fontSize="12px">
-            {status}
+            {status.label}
           </Text>
           {isOpen ? (
             <ChevronUpFilledIcon color="grayAlternatives.300" />

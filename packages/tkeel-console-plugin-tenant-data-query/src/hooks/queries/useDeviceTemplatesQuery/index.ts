@@ -2,7 +2,7 @@ import { usePluginQuery } from '@tkeel/console-hooks';
 
 import RequestData from '@/tkeel-console-plugin-tenant-data-query/types/request-data';
 
-const url = '/tkeel-device/v1/groups/tree';
+const url = '/tkeel-device/v1/search';
 const method = 'POST';
 
 export interface NodeInfo {
@@ -12,38 +12,45 @@ export interface NodeInfo {
       name: string;
       description: string;
       ext: { [propName: string]: string };
-      [propName: string]: unknown;
     };
     sysField: {
       [propName: string]: unknown;
     };
   };
-  [propName: string]: unknown;
 }
 
-export interface TreeNodeType {
-  [propName: string]: {
-    nodeInfo: NodeInfo;
-    subNode: TreeNodeType;
+export type TemplateTreeNodeDataType = {
+  title: string;
+  key: string;
+  id: string;
+};
+
+export interface Template {
+  id: string;
+  properties: {
+    basicInfo: {
+      name: string;
+    };
   };
 }
 
 interface ApiData {
   '@type': string;
-  GroupTree: TreeNodeType;
+  listDeviceObject: {
+    items: Template[];
+  };
 }
 
 type Props = {
   requestData: RequestData;
 };
 
-export default function useDeviceGroupQuery({ requestData }: Props) {
+export default function useDeviceTemplatesQuery({ requestData }: Props) {
   const { data, ...rest } = usePluginQuery<ApiData, undefined, RequestData>({
     url,
     method,
     data: requestData,
   });
-
-  const deviceGroupTree = data?.GroupTree ?? {};
-  return { deviceGroupTree, data, ...rest };
+  const templates = data?.listDeviceObject?.items || [];
+  return { templates, data, ...rest };
 }
