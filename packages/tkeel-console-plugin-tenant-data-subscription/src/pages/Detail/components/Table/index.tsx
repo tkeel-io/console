@@ -1,6 +1,5 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
-// import { useQueryClient } from 'react-query';
 // import { Column } from 'react-table';
 import { Cell, Column } from 'react-table';
 
@@ -61,7 +60,7 @@ const connectionIcon = {
   online: <WifiFilledIcon key="wifi" />,
 };
 
-function Index({ id }: { id: string }) {
+function Index({ id, title }: { id: string; title: string }) {
   const [keywords, setKeyWords] = useState('');
 
   const pagination = usePagination();
@@ -93,7 +92,7 @@ function Index({ id }: { id: string }) {
     },
   });
 
-  setTotalSize(data?.total || 0);
+  // setTotalSize(data?.total || 0);
 
   const columns: ReadonlyArray<Column<Data>> = [
     {
@@ -199,7 +198,7 @@ function Index({ id }: { id: string }) {
         ]}
       />
       <Table
-        style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
+        style={{ flex: 1, overflow: 'hidden' }}
         columns={columns}
         data={data?.data || []}
         // hasPagination
@@ -209,17 +208,26 @@ function Index({ id }: { id: string }) {
         paginationProps={pagination}
         empty={
           <Empty
-            description="[IDC设备分组订阅] 暂无设备,可手动添加"
+            description={
+              <Box>
+                <Box display="inline" color="gray.600" fontWeight="500">
+                  [{title}]
+                </Box>
+                暂无设备,可手动添加
+              </Box>
+            }
             styles={{
               wrapper: { height: '100%' },
               content: { marginTop: '10px' },
             }}
             title=""
             content={
-              <CreateDeviceButton
-                key="create"
-                onSuccess={handleCreateRoleSuccess}
-              />
+              <Box mt="20px">
+                <CreateDeviceButton
+                  key="create"
+                  onSuccess={handleCreateRoleSuccess}
+                />
+              </Box>
             }
           />
         }

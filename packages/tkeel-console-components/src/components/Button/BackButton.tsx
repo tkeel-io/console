@@ -25,7 +25,7 @@ function BackButton({ onClick }: Props) {
       onClick={onClick}
     >
       <ChevronLeftFilledIcon color="gray.700" />
-      <Text color="grayAlternatives.800" fontSize="12px">
+      <Text color="gray.700" fontSize="12px" fontWeight="600">
         返回
       </Text>
     </Flex>

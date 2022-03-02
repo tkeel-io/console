@@ -1,6 +1,6 @@
+import { usePluginMutation } from '@tkeel/console-hooks';
 import { Menu } from '@tkeel/console-types';
 
-import useMutation from '@/tkeel-console-plugin-admin-plugins/hooks/useMutation';
 import { PluginInfo } from '@/tkeel-console-plugin-admin-plugins/types/plugin-info';
 
 export interface PluginDetail {
@@ -27,7 +27,7 @@ type Props = {
 };
 
 export default function useDeletePluginMutation({ name, onSuccess }: Props) {
-  return useMutation<ApiData>({
+  return usePluginMutation<ApiData>({
     url: `${url}/${name}`,
     method,
     reactQueryOptions: {

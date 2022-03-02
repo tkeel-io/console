@@ -1,4 +1,4 @@
-import useQuery from '@/tkeel-console-plugin-tenant-roles/hooks/useQuery';
+import { usePluginQuery } from '@tkeel/console-hooks';
 
 const method = 'GET';
 
@@ -41,7 +41,7 @@ export default function useRolesQuery({
   params,
 }: { params?: RequestParams } = {}) {
   const url = `/security/v1/rbac/roles`;
-  const { data, ...rest } = useQuery<ApiData, RequestParams>({
+  const { data, ...rest } = usePluginQuery<ApiData, RequestParams>({
     url,
     method,
     params,

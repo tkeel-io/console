@@ -20,7 +20,7 @@ import CollapsedMenus from './CollapsedMenus';
 import ExpandMenus from './ExpandMenus';
 
 function Menus() {
-  const { themeName } = GLOBAL_CONFIG.client;
+  const { themeName } = PORTAL_GLOBALS.client;
   const [searchParams] = useSearchParams();
   const menuCollapsed = searchParams.get('menu-collapsed') === 'true' || false;
   const [collapsed, setCollapsed] = useState(menuCollapsed);

@@ -2,9 +2,9 @@ import { NavigateFunction } from 'react-router-dom';
 
 import { TokenInfo } from './auth';
 
-export interface PluginGlobalProps {
+export interface GlobalPluginProps {
   container?: HTMLElement;
-  platformName: 'admin' | 'tenant';
+  portalName: 'admin' | 'tenant';
   tokenInfo: TokenInfo;
   navigate: NavigateFunction;
   themeName: string;

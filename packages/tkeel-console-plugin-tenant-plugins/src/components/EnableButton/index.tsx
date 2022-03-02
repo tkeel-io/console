@@ -1,4 +1,4 @@
-import { useGlobalProps } from '@tkeel/console-business-components';
+import { useGlobalPluginProps } from '@tkeel/console-business-components';
 import { RectangleButton, toast } from '@tkeel/console-components';
 import { CaretRightFilledIcon, LoadingFilledIcon } from '@tkeel/console-icons';
 
@@ -15,7 +15,7 @@ function EnableButton({
   buttonCanHover = false,
   refetchData,
 }: Props) {
-  const { refetchMenus } = useGlobalProps();
+  const { refetchMenus } = useGlobalPluginProps();
 
   const { mutate, isLoading } = useEnablePluginMutation({
     pluginName,

@@ -1,4 +1,4 @@
-import useQuery from '@/tkeel-console-plugin-tenant-users/hooks/useQuery';
+import { usePluginQuery } from '@tkeel/console-hooks';
 
 type RequestParams = {
   page_num?: number;
@@ -37,7 +37,7 @@ export interface ApiData {
 
 export default function useRolesQuery() {
   const url = `/security/v1/rbac/roles`;
-  const { data, ...rest } = useQuery<ApiData, RequestParams>({
+  const { data, ...rest } = usePluginQuery<ApiData, RequestParams>({
     url,
     method: 'GET',
     params: {

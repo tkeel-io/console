@@ -1,4 +1,5 @@
-import useQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/useQuery';
+import { usePluginQuery } from '@tkeel/console-hooks';
+
 import RequestData from '@/tkeel-console-plugin-tenant-data-query/types/request-data';
 
 const url = '/tkeel-device/v1/search';
@@ -45,7 +46,7 @@ type Props = {
 };
 
 export default function useDeviceTemplatesQuery({ requestData }: Props) {
-  const { data, ...rest } = useQuery<ApiData, undefined, RequestData>({
+  const { data, ...rest } = usePluginQuery<ApiData, undefined, RequestData>({
     url,
     method,
     data: requestData,
