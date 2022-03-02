@@ -11,18 +11,14 @@ type Props = {
 
 function SubMenuLink({ path, name, isDarkMenu }: Props) {
   const active = useActive(path);
-  // let color = active ? '';
-  // if (isDarkMenu) {
-  //   color = active ? 'white' : 'gray.400';
-  // }
-  const defaultColor = active ? 'gray.600' : 'gray.400';
-  const color = active ? 'white' : defaultColor;
+
+  const color = active ? 'primary' : 'gray.600';
 
   const hoverStyle = active
     ? {}
     : {
         color: isDarkMenu ? 'white' : 'primary',
-        backgroundColor: isDarkMenu ? 'gray.700' : 'gray.100',
+        fontWeight: '600',
       };
   return (
     <Link
@@ -32,10 +28,10 @@ function SubMenuLink({ path, name, isDarkMenu }: Props) {
       height="32px"
       lineHeight="32px"
       color={color}
+      fontWeight={active ? '500' : 'normal'}
       fontSize="12px"
       borderRadius="4px"
       to={path}
-      backgroundColor={active ? 'primary' : 'transparent'}
       _hover={hoverStyle}
     >
       {name}

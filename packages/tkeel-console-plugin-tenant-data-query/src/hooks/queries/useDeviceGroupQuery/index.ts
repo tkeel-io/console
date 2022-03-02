@@ -1,5 +1,7 @@
 import { usePluginQuery } from '@tkeel/console-hooks';
 
+import RequestData from '@/tkeel-console-plugin-tenant-data-query/types/request-data';
+
 const url = '/tkeel-device/v1/groups/tree';
 const method = 'POST';
 
@@ -10,13 +12,13 @@ export interface NodeInfo {
       name: string;
       description: string;
       ext: { [propName: string]: string };
-      [propName: string]: any;
+      [propName: string]: unknown;
     };
     sysField: {
-      [propName: string]: any;
+      [propName: string]: unknown;
     };
   };
-  [propName: string]: any;
+  [propName: string]: unknown;
 }
 
 export interface TreeNodeType {
@@ -26,41 +28,22 @@ export interface TreeNodeType {
   };
 }
 
-type RequestParams = {
-  page_name?: number;
-  page_size?: number;
-  order_by?: string;
-  is_descending?: boolean;
-  query?: string;
-  condition: any[];
-};
-
 interface ApiData {
   '@type': string;
   GroupTree: TreeNodeType;
 }
 
-const defaultRequestParams = {
-  page_num: 1,
-  page_size: 1000,
-  order_by: 'name',
-  is_descending: false,
-  query: '',
-  condition: [
-    {
-      field: 'type',
-      operator: '$eq',
-      value: 'group',
-    },
-  ],
+type Props = {
+  requestData: RequestData;
 };
 
-export default function useDeviceGroupQuery() {
-  const { data, ...rest } = usePluginQuery<ApiData, undefined, RequestParams>({
+export default function useDeviceGroupQuery({ requestData }: Props) {
+  const { data, ...rest } = usePluginQuery<ApiData, undefined, RequestData>({
     url,
     method,
-    data: defaultRequestParams,
+    data: requestData,
   });
+
   const deviceGroupTree = data?.GroupTree ?? {};
   return { deviceGroupTree, data, ...rest };
 }

@@ -12,11 +12,9 @@ type Props = {
 
 function MenuItem({ icon, active, isMenuLink = false }: Props) {
   const primaryColor = useColor('primary');
+  const primarySub2Color = useColor('primarySub2');
 
-  let backgroundColor = 'transparent';
-  if (isMenuLink) {
-    backgroundColor = active ? 'primary' : 'inherit';
-  }
+  const backgroundColor = active ? 'primary' : 'transparent';
 
   return (
     <Box
@@ -27,6 +25,7 @@ function MenuItem({ icon, active, isMenuLink = false }: Props) {
           ? {}
           : {
               svg: {
+                color: `${primarySub2Color} !important`,
                 fill: `${primaryColor} !important`,
               },
             }

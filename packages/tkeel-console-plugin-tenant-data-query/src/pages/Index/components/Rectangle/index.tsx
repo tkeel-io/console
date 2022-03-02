@@ -1,18 +1,16 @@
 import { Center, Circle, StyleProps } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
-import { WifiFilledIcon } from '@tkeel/console-icons';
-
 type Props = {
   backgroundColor: string;
-  icon?: ReactNode;
+  icon: ReactNode;
   opacity?: string;
   style?: StyleProps;
 };
 
 export default function Rectangle({
   backgroundColor,
-  icon = <WifiFilledIcon />,
+  icon,
   opacity = '1',
   style = {},
 }: Props) {

@@ -10,7 +10,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { isEmpty } from 'lodash';
-import { ChangeEvent, memo, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 // import { Editor, SearchInput } from '@tkeel/console-components';
 import { Editor } from '@tkeel/console-components';
@@ -50,14 +50,16 @@ const selectOptions = [
 
 type TRawData = RawData[];
 
-function Index({ data }: Props) {
+function RawDataPanel({ data }: Props) {
   const [rawDataList, setRawDataList] = useState<TRawData>([data]);
   // const [keyWord, setKeyWord] = useState('');
   const [selected, setSelected] = useState('text');
   useEffect(() => {
     setRawDataList((preState) => {
-      const filterArr = preState.filter((r) => !isEmpty(r));
-      return [data, ...filterArr].slice(-20);
+      if (isEmpty(data)) return [];
+      const newData = { key: Math.random().toFixed(9), ...data };
+      if (preState.length > 10) return [newData];
+      return [newData, ...preState];
     });
   }, [data]);
 
@@ -105,20 +107,14 @@ function Index({ data }: Props) {
           </Select>
         </Flex>
       </Flex>
-      <Accordion
-        allowMultiple
-        p="12px 12px"
-        bg="gray.50"
-        maxH="600px"
-        overflow="auto"
-      >
+      <Accordion p="12px 12px" bg="gray.50" maxH="600px" overflow="auto">
         {rawDataList.map((r) => {
           const status = OPTIONS[r?.mark ?? 'upstream'];
 
           return (
             !isEmpty(r) && (
               <AccordionItem
-                key={`${Math.random().toString().slice(2, 8)}`}
+                key={r.key}
                 borderWidth="1px"
                 borderColor="gray.200"
                 borderRadius="4px"
@@ -147,9 +143,9 @@ function Index({ data }: Props) {
                     <Text fontWeight="700" m="0 38px 0 22px">
                       {r.path}
                     </Text>
-                    <Text color="grayAlternatives.300">
+                    <Text color="grayAlternatives.300" flex="1">
                       {formatDateTimeByTimestamp({
-                        timestamp: r?.ts ?? `${Math.floor((r?.ts || 0) / 1e6)}`,
+                        timestamp: `${Math.floor((r?.ts || 0) / 1e6)}`,
                       })}
                     </Text>
                   </Flex>
@@ -174,4 +170,4 @@ function Index({ data }: Props) {
   );
 }
 
-export default memo(Index);
+export default RawDataPanel;

@@ -33,7 +33,6 @@ export default function SetPassword() {
   };
 
   const inputStyle = {
-    width: '350px',
     height: '40px',
     padding: '8px 12px',
     borderWidth: '1px',
@@ -153,6 +152,7 @@ export default function SetPassword() {
               help={schemas.password.help}
               placeholder="请输入"
               error={errors.password}
+              formControlStyle={{ width: '350px' }}
               formLabelStyle={formLabelStyle}
               inputStyle={inputStyle}
               registerReturn={register(
@@ -167,7 +167,7 @@ export default function SetPassword() {
               help={schemas.password.help}
               placeholder="请输入"
               error={errors.confirmPassword}
-              formControlStyle={{ marginBottom: '24px' }}
+              formControlStyle={{ marginBottom: '24px', width: '350px' }}
               formLabelStyle={formLabelStyle}
               inputStyle={inputStyle}
               registerReturn={register(

@@ -1,5 +1,6 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import { useGlobalPortalProps } from '@tkeel/console-business-components';
 import {
@@ -21,7 +22,9 @@ import ExpandMenus from './ExpandMenus';
 
 function Menus() {
   const { themeName } = useGlobalPortalProps();
-  const [collapsed, setCollapsed] = useState(false);
+  const [searchParams] = useSearchParams();
+  const menuCollapsed = searchParams.get('menu-collapsed') === 'true' || false;
+  const [collapsed, setCollapsed] = useState(menuCollapsed);
   const localMenuTheme = getLocalMenuTheme();
   const isQingCloudTheme = themeName === ThemeNames.QingcloudLight;
   const defaultMenuTheme = isQingCloudTheme ? 'dark' : 'light';
