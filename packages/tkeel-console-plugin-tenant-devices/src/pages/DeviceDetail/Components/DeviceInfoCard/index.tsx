@@ -27,6 +27,7 @@ import {
 } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
 
 import CardContentFlex from './components/CardContentFlex';
+import UnsubscribeButton from './components/UnsubscribeButton';
 
 const connectionIcon = {
   offline: <WifiOffFilledIcon key="wifi-off" color="gray.500" />,
@@ -153,9 +154,12 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
         <Text h="39px" lineHeight="39px">
           默认订阅
         </Text>
-        <Text h="39px" lineHeight="39px" fontWeight="400">
-          {subscribeAddr}
-        </Text>
+        <Box>
+          <Text h="39px" lineHeight="39px" fontWeight="400">
+            {subscribeAddr}
+          </Text>
+          <UnsubscribeButton deviceId={id} subscribeAddr={subscribeAddr} />
+        </Box>
       </HStack>
     </Box>
   );

@@ -42,7 +42,9 @@ function DeleteDevicesButton({ deviceName, ids, refetch }: Props) {
       {isOpen && (
         <CustomModal
           bg="red.50"
-          icon={<AlarmLampFilledIcon size="24px" />}
+          icon={
+            <AlarmLampFilledIcon color="grayAlternatives.300" size="24px" />
+          }
           title={`确认删除设备「${deviceName}」？`}
           isConfirmButtonLoading={isLoading}
           isOpen={isOpen}

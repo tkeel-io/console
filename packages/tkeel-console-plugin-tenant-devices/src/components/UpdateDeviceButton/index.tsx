@@ -64,7 +64,7 @@ function UpdateDeviceButton({ defaultFormValues, refetch }: Props) {
   return (
     <>
       <MoreActionButton
-        icon={<PencilFilledIcon size="12px" />}
+        icon={<PencilFilledIcon color="grayAlternatives.300" size="12px" />}
         title="修改信息"
         onClick={onOpen}
       />
