@@ -6,6 +6,7 @@ import { GoBackFilledIcon } from '@tkeel/console-icons';
 import StatusSelect, { StatusSelectProps } from '../StatusSelect';
 
 type Props = StatusSelectProps & {
+  showBackButton: boolean;
   resultNum: number;
   onBackBtnClick: () => unknown;
 };
@@ -13,6 +14,7 @@ type Props = StatusSelectProps & {
 export default function DeviceListTitle({
   resultNum,
   status,
+  showBackButton,
   onStatusChange,
   onBackBtnClick,
 }: Props) {
@@ -25,17 +27,19 @@ export default function DeviceListTitle({
         fontSize="12px"
         lineHeight="24px"
       >
-        <Box
-          _hover={{
-            '& > svg': {
-              fill: `${primaryColor} !important`,
-            },
-          }}
-          cursor="pointer"
-          onClick={onBackBtnClick}
-        >
-          <GoBackFilledIcon />
-        </Box>
+        {showBackButton && (
+          <Box
+            _hover={{
+              '& > svg': {
+                fill: `${primaryColor} !important`,
+              },
+            }}
+            cursor="pointer"
+            onClick={onBackBtnClick}
+          >
+            <GoBackFilledIcon />
+          </Box>
+        )}
         <Flex marginLeft="10px">
           共
           <Text margin="0 3px" color="primary">
