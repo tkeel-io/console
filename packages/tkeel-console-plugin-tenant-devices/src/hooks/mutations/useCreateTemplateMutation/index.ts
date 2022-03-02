@@ -1,4 +1,4 @@
-import useMutation from '@/tkeel-console-plugin-tenant-devices/hooks/useMutation';
+import { usePluginMutation } from '@tkeel/console-hooks';
 
 const url = '/tkeel-device/v1/templates';
 const method = 'POST';
@@ -12,5 +12,5 @@ interface RequestData {
 }
 
 export default function useCreateTemplateMutation() {
-  return useMutation<ApiData, undefined, RequestData>({ url, method });
+  return usePluginMutation<ApiData, undefined, RequestData>({ url, method });
 }

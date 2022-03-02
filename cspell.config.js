@@ -49,6 +49,7 @@ module.exports = {
     'upsert',
     'dependences',
     'mgmt',
+    'websockets',
   ],
   ignorePaths: [
     '**/.idea/**',

@@ -13,7 +13,7 @@ import useOAuthAdminTokenMutation, {
 
 const { TextField } = FormField;
 
-const config = configs[GLOBAL_CONFIG.client.themeName];
+const config = configs[PORTAL_GLOBALS.client.themeName];
 const pageConfig = config?.pages?.AdminTenant;
 
 type FormValues = {
@@ -123,7 +123,7 @@ export default function Login() {
             type="password"
             id="password"
             label="密码"
-            defaultValue={String(GLOBAL_CONFIG?.mock?.password ?? '')}
+            defaultValue={String(PORTAL_GLOBALS?.mock?.password ?? '')}
             placeholder="请输入您的密码"
             error={errors.password}
             formControlStyle={{ width: '350px' }}

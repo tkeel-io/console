@@ -1,7 +1,7 @@
 const { tkeel } = require('../../../config/default');
 
 module.exports = {
-  platformName: 'admin',
+  portalName: 'admin',
   publicPath: '/',
   client: {
     themeName: 'qingcloud-light',
@@ -10,7 +10,7 @@ module.exports = {
   api: {
     basePath: '/apis',
   },
-  webSocket: {
+  websocket: {
     basePath: '/v1/ws',
   },
   plugin: {

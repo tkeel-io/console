@@ -1,4 +1,4 @@
-import useMutation from '@/tkeel-console-portal-admin/hooks/useMutation';
+import { usePortalMutation } from '@tkeel/console-hooks';
 
 interface RequestParams {
   password?: string;
@@ -16,7 +16,7 @@ const url = '/rudder/v1/oauth2/admin';
 const method = 'GET';
 
 export default function useOAuthAdminTokenMutation() {
-  return useMutation<ApiData, RequestParams>({
+  return usePortalMutation<ApiData, RequestParams>({
     url,
     method,
     extras: {

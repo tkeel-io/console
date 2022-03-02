@@ -1,4 +1,4 @@
-import useMutation from '@/tkeel-console-plugin-tenant-devices/hooks/useMutation';
+import { usePluginMutation } from '@tkeel/console-hooks';
 
 const url = '/tkeel-device/v1/groups';
 const method = 'POST';
@@ -20,7 +20,7 @@ export default function useCreateDeviceGroupMutation({
 }: {
   onSuccess?: () => void;
 }) {
-  return useMutation<ApiData, undefined, RequestData>({
+  return usePluginMutation<ApiData, undefined, RequestData>({
     url,
     method,
     reactQueryOptions: { onSuccess },

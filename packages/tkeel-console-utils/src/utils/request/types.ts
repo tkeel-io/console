@@ -1,5 +1,7 @@
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
+import { TokenInfo } from '@tkeel/console-types';
+
 export interface AxiosRequestConfigExtended<
   TRequestParams = unknown,
   TRequestData = unknown
@@ -30,6 +32,8 @@ export interface RequestExtras<
   TRequestData = unknown
 > {
   isWithToken?: boolean;
+  // custom codes
+  tokenInfo?: TokenInfo;
   isSuccessFunction?: (
     response: AxiosResponseExtended<TApiData, TRequestParams, TRequestData>
   ) => boolean;

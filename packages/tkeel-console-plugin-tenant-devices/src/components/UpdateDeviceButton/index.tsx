@@ -45,6 +45,7 @@ function UpdateDeviceButton({ defaultFormValues, refetch }: Props) {
       connectInfo,
       extendInfo,
     } = formValues;
+    const [id, ...rest] = parentId.split('&');
     const params = {
       description,
       name,
@@ -55,7 +56,8 @@ function UpdateDeviceButton({ defaultFormValues, refetch }: Props) {
           ? '123'
           : '',
       ext: mapValues(keyBy(extendInfo, 'label'), 'value'),
-      parentId,
+      parentId: id,
+      parentName: rest.join('&'),
     };
     mutate({ data: params });
   };
