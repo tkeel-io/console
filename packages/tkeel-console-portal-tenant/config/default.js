@@ -1,7 +1,7 @@
 const { tkeel } = require('../../../config/default');
 
 function getConfigImagePath(path) {
-  return `/portal-admin/config/images/${path}`;
+  return `/portal-tenant/config/images/${path}`;
 }
 
 module.exports = {

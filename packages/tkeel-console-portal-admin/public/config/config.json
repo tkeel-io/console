@@ -1,5 +1,22 @@
 {
   "code": "io.tkeel.SUCCESS",
   "msg": "",
-  "data": { "client": { "themeName": "qingcloud-light", "documentTitle": "" } }
+  "data": {
+    "client": {
+      "themeName": "qingcloud-light",
+      "documentTitle": "QingCloud IoT 物联网运维管理平台",
+      "favicon": "/portal-admin/config/images/logo-mark.svg",
+      "logoMark": "/portal-admin/config/images/logo-mark.svg",
+      "logoTypeLight": "/portal-admin/config/images/logo-type-light.svg",
+      "logoTypeDark": "/portal-admin/config/images/logo-type-dark.svg",
+      "pages": {
+        "login": {
+          "backgroundImage": "/portal-admin/config/images/background-01",
+          "title": "QingCloud IoT 物联网",
+          "titlePart2": "运维管理平台",
+          "subTitle": "颠覆传统物联网应用开发的新一代核心架构"
+        }
+      }
+    }
+  }
 }
