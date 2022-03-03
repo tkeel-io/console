@@ -48,23 +48,6 @@ function RawDataPanel({ data }: Props) {
   const func = throttle(setRawDataList, 10 * 1000);
 
   useEffect(() => {
-    setInterval(() => {
-      const d = {
-        id: '17349213-092e-40e4-b12c-d68a462c5e89',
-        key: Math.random().toFixed(9),
-        path: 'upstream/bug',
-        mark: 'upstream',
-        ts: 1_645_425_143_576_643_000,
-        type: 'rawData',
-        values: 'excuse me',
-      } as RawData;
-      setRawDataList((pre) => {
-        return [d, ...pre].slice(-10);
-      });
-    }, 1000);
-  }, []);
-
-  useEffect(() => {
     func((preState) => {
       if (isEmpty(data)) return [];
       const newData = { key: Math.random().toFixed(9), ...data };
