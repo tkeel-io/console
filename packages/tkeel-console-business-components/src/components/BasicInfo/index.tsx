@@ -1,9 +1,11 @@
-import { Box, Center, Flex, Text } from '@chakra-ui/react';
+import { Box, Center, Flex, Image, Text } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { BackButton, InfoCard } from '@tkeel/console-components';
 import * as icons from '@tkeel/console-icons';
+
+import basicInfoBg from '@/tkeel-console-business-components/assets/images/basic-info-bg.svg';
 
 type Props = {
   backUrl?: string;
@@ -34,9 +36,20 @@ function BasicInfo({
       width="100%"
       backgroundColor="white"
       boxShadow="0px 10px 15px -3px rgba(113, 128, 150, 0.1), 0px 4px 6px -2px rgba(113, 128, 150, 0.05);"
+      borderRadius="4px"
     >
-      <Box height="130px" padding="16px" backgroundColor="gray.50">
-        <Flex height="28px" justifyContent="space-between">
+      <Box
+        position="relative"
+        height="124px"
+        padding="16px 20px"
+        backgroundColor="gray.50"
+      >
+        <Flex
+          position="relative"
+          zIndex="2"
+          height="28px"
+          justifyContent="space-between"
+        >
           <BackButton
             onClick={() => {
               navigate(backUrl);
@@ -44,7 +57,12 @@ function BasicInfo({
           />
           {rightTopButton}
         </Flex>
-        <Flex marginTop="16px" alignItems="center">
+        <Flex
+          position="relative"
+          zIndex="1"
+          marginTop="16px"
+          alignItems="center"
+        >
           <Center
             width="48px"
             height="48px"
@@ -62,6 +80,13 @@ function BasicInfo({
             </Text>
           </Box>
         </Flex>
+        <Image
+          position="absolute"
+          right="0"
+          top="0"
+          height="100%"
+          src={basicInfoBg}
+        />
       </Box>
       <InfoCard
         data={basicInfoList}

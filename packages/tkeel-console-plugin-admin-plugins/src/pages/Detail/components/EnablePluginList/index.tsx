@@ -70,7 +70,7 @@ function EnablePluginList({ pluginName }: Props) {
     <Flex
       flexDirection="column"
       height="100%"
-      padding="12px 0"
+      paddingTop="12px"
       backgroundColor="white"
     >
       <Flex
@@ -87,17 +87,22 @@ function EnablePluginList({ pluginName }: Props) {
           width="284px"
           placeholder="搜索"
           onSearch={(value) => setKeywords(value)}
+          inputStyle={{ backgroundColor: 'white' }}
         />
       </Flex>
       <Table
-        style={{ flex: 1, overflow: 'hidden' }}
+        style={{ flex: 1, overflow: 'hidden', padding: '0 20px' }}
         columns={columns}
         data={tenants}
         isLoading={isLoading}
         isShowStripe
-        defaultPageSize={20}
         scroll={{ y: '100%' }}
-        paginationProps={{ pageNum, pageSize, setTotalSize, ...rest }}
+        paginationProps={{
+          pageNum,
+          pageSize,
+          setTotalSize,
+          ...rest,
+        }}
       />
     </Flex>
   );

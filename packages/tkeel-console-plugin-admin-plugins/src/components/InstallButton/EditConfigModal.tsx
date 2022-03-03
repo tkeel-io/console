@@ -69,10 +69,9 @@ function EditConfigModal({
     >
       <Editor
         width="100%"
-        height="416px"
+        height="426px"
         language="yaml"
         value={Base64.decode(pluginDetail?.metadata?.configuration ?? '')}
-        readOnly
       />
     </Modal>
   );

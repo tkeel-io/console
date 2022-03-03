@@ -20,7 +20,7 @@ module.exports = {
         {
           id: 'console-plugin-admin-tenants',
           name: '租户管理',
-          icon: 'PersonGroupTwoToneIcon',
+          icon: 'GroupTwoToneIcon',
           path: '/admin-tenants',
           entry: '/static/console-plugin-admin-tenants/',
           portal: 0,
