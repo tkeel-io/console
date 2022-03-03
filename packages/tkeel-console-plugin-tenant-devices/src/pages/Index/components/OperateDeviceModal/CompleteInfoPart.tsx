@@ -1,12 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import {
-  Button,
-  Center,
-  Flex,
-  Spacer,
-  Text,
-  useClipboard,
-} from '@chakra-ui/react';
+import { Center, Flex, Spacer, Text, useClipboard } from '@chakra-ui/react';
 
 import { CopyFilledIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
@@ -32,8 +25,6 @@ export default function CompletedInfoPart({ type, responseData }: Props) {
     expiredAt = data?.expired_at ?? '';
   }
   const { hasCopied, onCopy } = useClipboard(token);
-  // eslint-disable-next-line no-console
-  console.log(CompleteCheck.toString());
   return (
     <Flex flexDirection="column" h="100%">
       {type === ModalType.DEVICE ? (
