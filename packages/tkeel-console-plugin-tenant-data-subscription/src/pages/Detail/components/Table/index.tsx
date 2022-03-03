@@ -1,5 +1,5 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 // import { Column } from 'react-table';
 import { Cell, Column } from 'react-table';
 
@@ -13,6 +13,8 @@ import {
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
 import {
+  CaretDownFilledIcon,
+  CaretUpFilledIcon,
   WebcamTwoToneIcon,
   WifiFilledIcon,
   WifiOffFilledIcon,
@@ -62,6 +64,21 @@ const connectionIcon = {
 
 function Index({ id, title }: { id: string; title: string }) {
   const [keywords, setKeyWords] = useState('');
+  const [checkBoxIcon, setCheckBoxIcon] = useState<boolean>(false);
+
+  // const [rowNames, setRowNames] = useState<
+  //   {
+  //     ID: string;
+  //     group: string;
+  //     name: string;
+  //     status: string;
+  //     template: string;
+  //     updated_at: string;
+  //   }[]
+  // >([]);
+
+  const [rowIds, setRowIds] = useState<string[]>([]);
+  const [rowNames, setRowNames] = useState<string[]>([]);
 
   const pagination = usePagination();
   const { pageNum, pageSize, setTotalSize } = pagination;
@@ -93,6 +110,21 @@ function Index({ id, title }: { id: string; title: string }) {
   });
 
   // setTotalSize(data?.total || 0);
+  const handleSelect = useCallback(
+    ({ selectedFlatRows }: { selectedFlatRows: Data[] }) => {
+      const selectedFlatRowsIds: string[] = [];
+      const selectedFlatRowsNames: string[] = [];
+
+      selectedFlatRows.forEach((item) => {
+        selectedFlatRowsIds.push(item.ID);
+        selectedFlatRowsNames.push(item.name);
+      });
+
+      setRowIds(selectedFlatRowsIds);
+      setRowNames(selectedFlatRowsNames);
+    },
+    [setRowIds, setRowNames]
+  );
 
   const columns: ReadonlyArray<Column<Data>> = [
     {
@@ -156,7 +188,7 @@ function Index({ id, title }: { id: string; title: string }) {
             <MoreAction
               buttons={[
                 <MoveSubscriptionButton
-                  selected_ids={original.ID}
+                  selected_ids={[original.ID]}
                   key="modify"
                   onSuccess={() => {
                     refetch();
@@ -164,9 +196,9 @@ function Index({ id, title }: { id: string; title: string }) {
                 />,
                 <DeleteDeviceButton
                   onSuccess={() => {}}
-                  name={original.name}
+                  name={[original.name]}
                   key="delete"
-                  id={original.ID}
+                  selected_ids={[original.ID]}
                   refetchData={() => {
                     refetch();
                   }}
@@ -179,9 +211,56 @@ function Index({ id, title }: { id: string; title: string }) {
   ];
 
   return (
-    <Flex flexDirection="column" height="100%" padding="0 20px">
+    <Flex flexDirection="column" height="100%" margin="0 20px">
       <PageHeaderToolbar
-        name="订阅设备"
+        name={
+          rowNames.length > 0 ? (
+            <MoreAction
+              element={
+                <Box
+                  display="flex"
+                  backgroundColor="gray.800"
+                  borderRadius="35px"
+                  color="white"
+                  onClick={() => {
+                    setCheckBoxIcon(!checkBoxIcon);
+                  }}
+                  width="86px"
+                  alignItems="center"
+                  pl="12px"
+                  fontSize="12px"
+                >
+                  更多操作
+                  {checkBoxIcon ? (
+                    <CaretUpFilledIcon key="up" color="white" />
+                  ) : (
+                    <CaretDownFilledIcon key="down" color="white" />
+                  )}
+                </Box>
+              }
+              buttons={[
+                <MoveSubscriptionButton
+                  selected_ids={rowIds}
+                  key="modify"
+                  onSuccess={() => {
+                    refetch();
+                  }}
+                />,
+                <DeleteDeviceButton
+                  onSuccess={() => {}}
+                  name={rowNames}
+                  key="delete"
+                  selected_ids={rowIds}
+                  refetchData={() => {
+                    refetch();
+                  }}
+                />,
+              ]}
+            />
+          ) : (
+            '订阅设备'
+          )
+        }
         hasSearchInput
         searchInputProps={{
           onSearch(value) {
@@ -201,7 +280,7 @@ function Index({ id, title }: { id: string; title: string }) {
         style={{ flex: 1, overflow: 'hidden' }}
         columns={columns}
         data={data?.data || []}
-        // hasPagination
+        onSelect={handleSelect}
         scroll={{ y: '100%' }}
         isShowStripe
         isLoading={isLoading}
