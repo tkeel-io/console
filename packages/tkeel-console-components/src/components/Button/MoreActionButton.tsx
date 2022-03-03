@@ -12,7 +12,7 @@ function MoreActionButton({ icon, title, onClick }: Props) {
     <Flex
       alignItems="center"
       paddingLeft="14px"
-      width="100%"
+      paddingRight="4px"
       height="32px"
       cursor="pointer"
       color="gray.600"

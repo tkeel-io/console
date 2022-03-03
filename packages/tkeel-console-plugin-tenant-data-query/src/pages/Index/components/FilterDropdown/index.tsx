@@ -1,5 +1,6 @@
 import { Flex, StyleProps } from '@chakra-ui/react';
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import useDeviceGroupQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceGroupQuery';
 import useDeviceListQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceListQuery';
@@ -10,9 +11,9 @@ import {
 } from '@/tkeel-console-plugin-tenant-data-query/pages/Index/constants';
 import { RequestDataCondition } from '@/tkeel-console-plugin-tenant-data-query/types/request-data';
 
+import { Status } from '../../../../components/StatusSelect';
 import FilterConditionSelect from './FilterConditionSelect';
 import ResultContent from './ResultContent';
-import { Status } from './StatusSelect';
 
 type Condition = {
   id: string;
@@ -23,8 +24,6 @@ type Condition = {
 type Props = {
   type: 'index' | 'searchResult';
   status: Status;
-  // deviceGroupId: string;
-  // templateId: string;
   showDeviceList: boolean;
   setStatus: (status: Status) => unknown;
   setDeviceGroupId: Dispatch<SetStateAction<string>>;
@@ -40,8 +39,6 @@ type Props = {
 export default function FilterDropdown({
   type,
   status,
-  // deviceGroupId,
-  // templateId,
   showDeviceList,
   setStatus,
   setDeviceGroupId,
@@ -53,6 +50,8 @@ export default function FilterDropdown({
   setShowDeviceList,
   hideFilterDropdown,
 }: Props) {
+  const [searchParams] = useSearchParams();
+
   const isIndex = type === 'index';
   const sysFieldId = 'sysField._id';
   const groupIdFilterCondition = filterConditions.find(
@@ -67,7 +66,7 @@ export default function FilterDropdown({
   const showDeviceGroup = !!groupIdFilterCondition;
   const showDeviceTemplates = !!templateIdFilterCondition;
 
-  const statusQueryField = 'connectInfo._online';
+  const statusQueryField = 'sysField._status';
   const deviceGroupIdQueryField = 'sysField._spacePath';
   const templateIdQueryField = 'basicInfo.templateId';
 
@@ -83,20 +82,22 @@ export default function FilterDropdown({
     RequestDataCondition[]
   >(defaultDeviceListQueryConditions);
 
-  const defaultDeviceGroupConditions = useMemo(
-    () => [
-      {
-        field: 'type',
-        operator: '$eq',
-        value: 'group',
-      },
-    ],
-    []
-  );
+  const deviceGroupConditions: RequestDataCondition[] = [
+    {
+      field: 'type',
+      operator: '$eq',
+      value: 'group',
+    },
+  ];
 
-  const [deviceGroupConditions, setDeviceGroupConditions] = useState<
-    RequestDataCondition[]
-  >(defaultDeviceGroupConditions);
+  const searchGroupId = searchParams.get('group-id');
+  if (searchGroupId) {
+    deviceGroupConditions.push({
+      field: sysFieldId,
+      operator: '$wildcard',
+      value: searchGroupId,
+    });
+  }
 
   const defaultTemplateConditions = useMemo(
     () => [
@@ -125,16 +126,11 @@ export default function FilterDropdown({
     useDeviceGroupQuery({
       requestData: {
         ...baseRequestData,
-        query: showDeviceGroup ? groupIdFilterCondition.value : '',
+        query:
+          !searchGroupId && showDeviceGroup ? groupIdFilterCondition.value : '',
         condition: deviceGroupConditions,
       },
     });
-
-  // const showDeviceList = Boolean(
-  //   (showDeviceGroup && deviceGroupId) ||
-  //     (showDeviceTemplates && templateId) ||
-  //     keywordsCondition
-  // );
 
   const { deviceList, isLoading: isDeviceListLoading } = useDeviceListQuery({
     requestData: {
@@ -160,16 +156,15 @@ export default function FilterDropdown({
       (queryCondition) => queryCondition.field === statusQueryField
     );
 
-    const { value } = deviceStatus;
-    const online = value === 'online';
+    const { value: statusValue } = deviceStatus;
     if (statusQueryCondition) {
-      if (value === 'all') {
+      if (statusValue === 'all') {
         newDeviceListQueryConditions = newDeviceListQueryConditions.filter(
           (queryCondition) => queryCondition.field !== statusQueryField
         );
         setDeviceListQueryConditions(newDeviceListQueryConditions);
       } else {
-        statusQueryCondition.value = online;
+        statusQueryCondition.value = statusValue;
         setDeviceListQueryConditions(newDeviceListQueryConditions);
       }
     } else {
@@ -178,7 +173,7 @@ export default function FilterDropdown({
         {
           field: statusQueryField,
           operator: '$eq',
-          value: online,
+          value: statusValue,
         },
       ]);
     }
@@ -211,15 +206,6 @@ export default function FilterDropdown({
         ]);
       }
 
-      setDeviceGroupConditions([
-        ...deviceGroupConditions,
-        {
-          field: sysFieldId,
-          operator: '$eq',
-          value: groupId,
-        },
-      ]);
-
       setShowDeviceList(true);
     } else {
       hideFilterDropdown();
@@ -229,7 +215,16 @@ export default function FilterDropdown({
     updateCondition({ id: DEVICE_GROUP_ID, value: title });
   };
 
-  const onTemplateClick = ({
+  const handleDeviceListBackBtnClick = () => {
+    setShowDeviceList(false);
+    if (showDeviceGroup) {
+      updateCondition({ id: DEVICE_GROUP_ID, value: '' });
+    } else if (showDeviceTemplates) {
+      updateCondition({ id: DEVICE_TEMPLATES_ID, value: '' });
+    }
+  };
+
+  const handleTemplateClick = ({
     templateId: id,
     templateName,
   }: {
@@ -272,20 +267,6 @@ export default function FilterDropdown({
     setTemplateId(id);
     updateCondition({ id: DEVICE_TEMPLATES_ID, value: templateName });
   };
-  // const showLoading =
-  //   (showDeviceGroup && isDeviceGroupLoading) ||
-  //   (showDeviceList && isDeviceListLoading);
-
-  useEffect(() => {
-    const groupId = groupIdFilterCondition?.id;
-    if (!groupId || groupId !== DEVICE_GROUP_ID) {
-      setDeviceGroupConditions(defaultDeviceGroupConditions);
-    }
-  }, [
-    groupIdFilterCondition,
-    setDeviceGroupConditions,
-    defaultDeviceGroupConditions,
-  ]);
 
   useEffect(() => {
     const templateConditionId = templateIdFilterCondition?.id;
@@ -297,37 +278,6 @@ export default function FilterDropdown({
     setTemplateConditions,
     defaultTemplateConditions,
   ]);
-
-  // const handleUpdateDeviceGroupConditions = useCallback(
-  //   (groupId: string) => {
-  //     setDeviceGroupConditions([
-  //       ...deviceGroupConditions,
-  //       {
-  //         field: sysFieldId,
-  //         operator: '$eq',
-  //         value: groupId,
-  //       },
-  //     ]);
-  //   },
-  //   [setDeviceGroupConditions, deviceGroupConditions]
-  // );
-
-  // useEffect(() => {
-  //   handleUpdateDeviceGroupConditions(deviceGroupId);
-  // }, [deviceGroupId, handleUpdateDeviceGroupConditions]);
-
-  // useEffect(() => {
-  //   if (deviceGroupId) {
-  //     setDeviceListQueryConditions([
-  //       ...deviceListQueryConditions,
-  //       {
-  //         field: deviceGroupIdQueryField,
-  //         operator: '$wildcard',
-  //         value: deviceGroupId,
-  //       },
-  //     ]);
-  //   }
-  // }, [deviceListQueryConditions, setDeviceListQueryConditions, deviceGroupId]);
 
   return (
     <Flex
@@ -367,8 +317,8 @@ export default function FilterDropdown({
         showDeviceList={showDeviceList}
         isDeviceListLoading={isDeviceListLoading}
         deviceList={deviceList}
-        setShowDeviceList={setShowDeviceList}
-        onTemplateClick={onTemplateClick}
+        onDeviceListBackBtnClick={handleDeviceListBackBtnClick}
+        onTemplateClick={handleTemplateClick}
         showDeviceTemplates={showDeviceTemplates}
         isDeviceTemplatesLoading={isDeviceTemplatesLoading}
         templates={templates}
