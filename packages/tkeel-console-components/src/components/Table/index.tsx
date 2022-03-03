@@ -27,9 +27,10 @@ import { Props } from './types';
 function Table<D extends object>({
   columns,
   data = [],
-  defaultPageSize = 15,
+  // defaultPageSize = 15,
   hasPagination = true,
   paginationProps,
+  paginationStyle = {},
   scroll,
   isLoading,
   isShowStripe = false,
@@ -59,6 +60,7 @@ function Table<D extends object>({
     plugins.unshift(useSortBy);
   }
 
+  console.log('plugins', plugins);
   const {
     getTableProps,
     getTableBodyProps,
@@ -72,8 +74,8 @@ function Table<D extends object>({
     {
       columns,
       data,
-      initialState: { pageSize: defaultPageSize },
-      manualSortBy: true,
+      // initialState: { pageSize: defaultPageSize },
+      // manualSortBy: true,
     } as TableOptions<D>,
     useFlexLayout,
     ...plugins
@@ -128,7 +130,9 @@ function Table<D extends object>({
             isShowStripe={isShowStripe}
           />
         </ChakraTable>
-        {hasPagination && <Pagination {...paginationProps} />}
+        {hasPagination && (
+          <Pagination {...paginationProps} style={paginationStyle} />
+        )}
       </>
     );
   };

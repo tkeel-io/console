@@ -1,4 +1,4 @@
-import { Flex, Grid, Tag, Text } from '@chakra-ui/react';
+import { Box, Flex, Grid, Tag, Text } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
 import { PluginCard } from '@tkeel/console-business-components';
@@ -80,15 +80,23 @@ function PluginList({
                   }}
                   operatorButton={
                     state === 'INSTALLED' ? (
-                      <MoreAction
-                        buttons={[
-                          <UninstallButton
-                            key="delete"
-                            pluginName={installPluginInfo.name}
-                            onSuccess={refetchPlugins}
-                          />,
-                        ]}
-                      />
+                      <Box position="relative" width="28px" height="100%">
+                        <MoreAction
+                          buttons={[
+                            <UninstallButton
+                              key="delete"
+                              pluginName={installPluginInfo.name}
+                              onSuccess={refetchPlugins}
+                            />,
+                          ]}
+                          style={{
+                            position: 'absolute',
+                            top: '0',
+                            right: '0',
+                            marginRight: '-4px',
+                          }}
+                        />
+                      </Box>
                     ) : (
                       <InstallButton
                         disabled={state === 'SAME_NAME'}
@@ -102,7 +110,10 @@ function PluginList({
                       {tagMap[tag] && (
                         <Tag
                           colorScheme={tag === 'User' ? 'orange' : 'green'}
+                          // height="20px"
                           size="sm"
+                          padding="0 4px"
+                          borderRadius="2px"
                         >
                           {tagMap[tag]}
                         </Tag>
