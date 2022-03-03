@@ -13,6 +13,8 @@ import {
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
 import {
+  CaretDownFilledIcon,
+  CaretUpFilledIcon,
   WebcamTwoToneIcon,
   WifiFilledIcon,
   WifiOffFilledIcon,
@@ -62,6 +64,18 @@ const connectionIcon = {
 
 function Index({ id, title }: { id: string; title: string }) {
   const [keywords, setKeyWords] = useState('');
+  const [checkBoxIcon, setCheckBoxIcon] = useState<boolean>(false);
+
+  const [selectedRows, setSelectedRows] = useState<
+    {
+      ID: string;
+      group: string;
+      name: string;
+      status: string;
+      template: string;
+      updated_at: string;
+    }[]
+  >([]);
 
   const pagination = usePagination();
   const { pageNum, pageSize, setTotalSize } = pagination;
@@ -178,33 +192,59 @@ function Index({ id, title }: { id: string; title: string }) {
     },
   ];
 
+  // console.log('selectedRows', selectedRows);
+
   return (
     <Flex flexDirection="column" height="100%" margin="0 20px">
       <PageHeaderToolbar
-        // name={
-        //   <MoreAction
-        //     buttons={[
-        //       <MoveSubscriptionButton
-        //         selected_ids={['1', '2']}
-        //         key="modify"
-        //         onSuccess={() => {
-        //           refetch();
-        //         }}
-        //       />,
-        //       <DeleteDeviceButton
-        //         onSuccess={() => {}}
-        //         name={['1']}
-        //         key="delete"
-        //         selected_ids={['1']}
-        //         refetchData={() => {
-        //           refetch();
-        //         }}
-        //       />,
-        //     ]}
-        //   />
-        // }
-
-        name="订阅设备"
+        name={
+          selectedRows.length > 0 ? (
+            <MoreAction
+              element={
+                <Box
+                  display="flex"
+                  backgroundColor="gray.800"
+                  borderRadius="35px"
+                  color="white"
+                  onClick={() => {
+                    setCheckBoxIcon(!checkBoxIcon);
+                  }}
+                  width="86px"
+                  alignItems="center"
+                  pl="12px"
+                  fontSize="12px"
+                >
+                  更多操作
+                  {checkBoxIcon ? (
+                    <CaretUpFilledIcon key="up" color="white" />
+                  ) : (
+                    <CaretDownFilledIcon key="down" color="white" />
+                  )}
+                </Box>
+              }
+              buttons={[
+                <MoveSubscriptionButton
+                  selected_ids={['1', '2']}
+                  key="modify"
+                  onSuccess={() => {
+                    refetch();
+                  }}
+                />,
+                <DeleteDeviceButton
+                  onSuccess={() => {}}
+                  name={['1']}
+                  key="delete"
+                  selected_ids={['1']}
+                  refetchData={() => {
+                    refetch();
+                  }}
+                />,
+              ]}
+            />
+          ) : (
+            '订阅设备'
+          )
+        }
         hasSearchInput
         searchInputProps={{
           onSearch(value) {
@@ -225,6 +265,14 @@ function Index({ id, title }: { id: string; title: string }) {
         columns={columns}
         data={data?.data || []}
         // hasPagination
+        onSelect={({ selectedFlatRows }) => {
+          if (selectedFlatRows.length > 0) {
+            const selectedOriginal = selectedFlatRows.map((item) => {
+              return { ...item.original };
+            });
+            setSelectedRows(selectedOriginal);
+          }
+        }}
         scroll={{ y: '100%' }}
         isShowStripe
         isLoading={isLoading}
