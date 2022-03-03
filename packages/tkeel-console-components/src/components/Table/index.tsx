@@ -78,15 +78,17 @@ function Table<D extends object>({
     ...plugins
   );
 
+  const selectedRows = selectedFlatRows?.map((d) => d.original) ?? [];
+
   useDeepCompareEffect(() => {
     if (onSelect) {
       onSelect({
         isAllRowsSelected,
-        selectedRowIds: Object.keys(selectedRowIds),
-        selectedFlatRows,
+        selectedRowIds,
+        selectedFlatRows: selectedRows,
       });
     }
-  }, [onSelect, isAllRowsSelected, selectedRowIds, selectedFlatRows]);
+  }, [isAllRowsSelected, selectedRowIds, selectedRows]);
 
   useEffect(() => {
     if (onSort) {
@@ -107,7 +109,6 @@ function Table<D extends object>({
       <>
         <ChakraTable
           {...getTableProps()}
-          padding="0 20px"
           flex="1"
           overflow="hidden"
           display="flex"
