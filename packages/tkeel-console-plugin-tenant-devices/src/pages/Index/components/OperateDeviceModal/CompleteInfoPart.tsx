@@ -1,18 +1,10 @@
-/* eslint-disable import/no-cycle */
 /* eslint-disable no-underscore-dangle */
-import {
-  Button,
-  Center,
-  Flex,
-  Spacer,
-  Text,
-  useClipboard,
-} from '@chakra-ui/react';
+import { Center, Flex, Spacer, Text, useClipboard } from '@chakra-ui/react';
 
 import { CopyFilledIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
-import CompleteCheck from '@/tkeel-console-plugin-tenant-devices/assets/images/complete_check.svg?svgr';
+import CompleteCheck from '@/tkeel-console-plugin-tenant-devices/assets/images/complete_check_green.svg?svgr';
 import { ApiData as GroupResData } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceGroupMutation';
 import { ApiData as DeviceResData } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceMutation';
 import useTokenInfoQuery from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useTokenInfoQuery';
@@ -49,11 +41,11 @@ export default function CompletedInfoPart({ type, responseData }: Props) {
             <Text as="span" color="primary" px="2px">
               1
             </Text>
-            台设备,请点击下载设备凭证
+            台设备,请点击复制设备凭证
           </Text>
-          <Button colorScheme="primary" w="200px" my="32px">
+          {/* <Button colorScheme="primary" w="200px" my="32px">
             下载
-          </Button>
+          </Button> */}
         </Flex>
       ) : (
         <Flex
