@@ -12,7 +12,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { Alert, Form, FormField, toast } from '@tkeel/console-components';
 import { usePortalTenantConfigQuery } from '@tkeel/console-request-hooks';
-import { schemas } from '@tkeel/console-utils';
+import { jumpToAuthLoginPage, schemas } from '@tkeel/console-utils';
 
 import useSetPasswordMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useSetPasswordMutation';
 import useResetPasswordKeyInfoQuery from '@/tkeel-console-portal-tenant/hooks/queries/useResetPasswordKeyInfoQuery';
@@ -92,9 +92,16 @@ export default function SetPassword() {
 
   const navigateToLoginPage = () => {
     const tenantId = resetPasswordData?.tenant_id ?? '';
-    const name = resetPasswordData?.username ?? '';
-    const query = name ? `?username=${encodeURIComponent(name)}` : '';
-    navigate(`/auth/login/${tenantId}${query}`, { replace: true });
+    jumpToAuthLoginPage({
+      portalName: 'tenant',
+      tenantId,
+      searchParams: {
+        username: resetPasswordData?.username ?? '',
+      },
+      isRemoveLocalTokenInfo: false,
+      isReplace: true,
+      navigate,
+    });
   };
 
   return (

@@ -1,19 +1,20 @@
 import { useDisclosure } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
 
 import { Alert, MoreActionButton } from '@tkeel/console-components';
 import { ShutdownFilledIcon } from '@tkeel/console-icons';
-import { removeLocalTokenInfo } from '@tkeel/console-utils';
+import { jumpToAuthLoginPage } from '@tkeel/console-utils';
 
 import useAdminLogoutMutation from '@/tkeel-console-portal-admin/hooks/mutations/useAdminLogoutMutation';
 
 export default function LogoutUserButton() {
-  const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isLoading, mutate } = useAdminLogoutMutation({
     onSuccess() {
-      removeLocalTokenInfo();
-      navigate('/auth/login', { replace: true });
+      jumpToAuthLoginPage({
+        portalName: 'admin',
+        isRemoveLocalTokenInfo: true,
+        isReplace: true,
+      });
     },
   });
   const handleConfirm = () => {

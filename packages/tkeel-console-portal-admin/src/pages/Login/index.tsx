@@ -1,19 +1,17 @@
 import { Box, Button, Center, Flex, Heading, Text } from '@chakra-ui/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { NavigateFunction, useNavigate } from 'react-router-dom';
 
 import { Form, FormField } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
 import { usePortalAdminConfigQuery } from '@tkeel/console-request-hooks';
 import {
   isEnvDevelopment,
+  jumpToPage,
   schemas,
   setLocalTokenInfo,
 } from '@tkeel/console-utils';
 
-import useAdminTokenMutation, {
-  ApiData,
-} from '@/tkeel-console-portal-admin/hooks/mutations/useAdminTokenMutation';
+import useAdminTokenMutation from '@/tkeel-console-portal-admin/hooks/mutations/useAdminTokenMutation';
 
 const mockData = isEnvDevelopment()
   ? { password: String(PORTAL_GLOBALS?.mock?.password ?? '') }
@@ -25,23 +23,6 @@ type FormValues = {
   username: string;
   password: string;
 };
-
-function handleLogin({
-  data,
-  redirect,
-  navigate,
-}: {
-  data: ApiData | undefined;
-  redirect: string;
-  navigate: NavigateFunction;
-}) {
-  if (!data) {
-    return;
-  }
-
-  setLocalTokenInfo(data);
-  navigate(redirect);
-}
 
 export default function Login() {
   const formLabelStyle = {
@@ -72,12 +53,16 @@ export default function Login() {
     formState: { errors },
   } = useForm<FormValues>();
 
-  const navigate = useNavigate();
   const redirect = useRedirectParams();
 
   const { mutate, isLoading } = useAdminTokenMutation({
     onSuccess({ data }) {
-      handleLogin({ data, redirect, navigate });
+      if (!data) {
+        return;
+      }
+
+      setLocalTokenInfo(data);
+      jumpToPage({ path: redirect, isReplace: true });
     },
   });
 
