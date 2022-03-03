@@ -8,8 +8,8 @@ import useRevokeTokenMutation from '@/tkeel-console-portal-tenant/hooks/mutation
 
 export default function LogoutUserButton() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { isLoading, mutate, data } = useRevokeTokenMutation({
-    onSuccess() {
+  const { isLoading, mutate } = useRevokeTokenMutation({
+    onSuccess({ data }) {
       const tenantId = data?.tenant_id ?? '';
       jumpToAuthLoginPage({
         portalName: 'tenant',

@@ -8,7 +8,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 import { Alert, Form, FormField, toast } from '@tkeel/console-components';
 import { usePortalTenantConfigQuery } from '@tkeel/console-request-hooks';
@@ -63,7 +63,6 @@ export default function SetPassword() {
   const username = resetPasswordKeyInfo?.username ?? '';
 
   const { isOpen, onOpen } = useDisclosure();
-  const navigate = useNavigate();
   const {
     data: resetPasswordData,
     mutate,
@@ -100,7 +99,6 @@ export default function SetPassword() {
       },
       isRemoveLocalTokenInfo: false,
       isReplace: true,
-      navigate,
     });
   };
 
