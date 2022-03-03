@@ -1,5 +1,5 @@
 import { Flex, Grid, Text } from '@chakra-ui/react';
-// import { Base64 } from 'js-base64';
+import { Base64 } from 'js-base64';
 import { useSearchParams } from 'react-router-dom';
 
 import { PageHeaderToolbar } from '@tkeel/console-components';
@@ -76,9 +76,11 @@ export default function SearchResult() {
   console.log('SearchResult ~ isLoading', isLoading);
   const defaultFilterConditions = [];
 
-  const groupName = decodeURIComponent(searchParams.get('group-name') || '');
+  const groupName = decodeURIComponent(
+    Base64.decode(searchParams.get('group-name') || '')
+  );
   const templateName = decodeURIComponent(
-    searchParams.get('template-name') || ''
+    Base64.decode(searchParams.get('template-name') || '')
   );
   if (groupName) {
     defaultFilterConditions.push({

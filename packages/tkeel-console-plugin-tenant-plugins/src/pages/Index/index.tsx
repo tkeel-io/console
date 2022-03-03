@@ -1,4 +1,4 @@
-import { Flex, Grid, Text, useDisclosure } from '@chakra-ui/react';
+import { Box, Flex, Grid, Text, useDisclosure } from '@chakra-ui/react';
 import { useState } from 'react';
 
 import { PluginCard, PluginNum } from '@tkeel/console-business-components';
@@ -66,6 +66,7 @@ function Index(): JSX.Element {
     <Flex flexDirection="column" height="100%">
       <PageHeaderToolbar
         name="插件管理"
+        hasIcon
         hasSearchInput
         searchInputProps={{ onSearch: (value) => setKeyWords(value) }}
       />
@@ -105,17 +106,25 @@ function Index(): JSX.Element {
                     briefPluginInfo={installerBrief}
                     operatorButton={
                       tenantEnable ? (
-                        <MoreAction
-                          buttons={[
-                            <DisableButton
-                              key="disable"
-                              pluginName={name}
-                              refetchData={() => {
-                                refetch();
-                              }}
-                            />,
-                          ]}
-                        />
+                        <Box position="relative" width="28px" height="100%">
+                          <MoreAction
+                            buttons={[
+                              <DisableButton
+                                key="disable"
+                                pluginName={name}
+                                refetchData={() => {
+                                  refetch();
+                                }}
+                              />,
+                            ]}
+                            style={{
+                              position: 'absolute',
+                              top: '0',
+                              right: '0',
+                              marginRight: '-4px',
+                            }}
+                          />
+                        </Box>
                       ) : (
                         <EnableButton
                           pluginName={name}
@@ -132,7 +141,7 @@ function Index(): JSX.Element {
                           <Flex
                             key={item.key}
                             marginRight="20px"
-                            color="gray.600"
+                            color="gray.500"
                             fontSize="12px"
                           >
                             <Text>{item.label}：</Text>

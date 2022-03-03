@@ -103,6 +103,7 @@ function Content({ isInstalledPlugins = false, repo }: Props) {
           onSearch={(value) => {
             setKeywords(value);
           }}
+          inputStyle={{ backgroundColor: 'white' }}
         />
       </Flex>
       <PluginList
