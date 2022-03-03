@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Text, Theme, useTheme } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Cell, Column } from 'react-table';
@@ -25,6 +25,7 @@ import useTenantsQuery, {
 import CreateTenantButton from './components/CreateTenantButton';
 
 export default function Tenants() {
+  const { colors }: Theme = useTheme();
   const navigate = useNavigate();
   const [keyWords, setKeyWords] = useState('');
   const pagination = usePagination();
@@ -147,6 +148,7 @@ export default function Tenants() {
             <SearchInput
               width="100%"
               placeholder="搜索"
+              inputStyle={{ backgroundColor: colors.gray[50] }}
               onSearch={(value) => {
                 setPageNum(1);
                 setKeyWords(value.trim());
