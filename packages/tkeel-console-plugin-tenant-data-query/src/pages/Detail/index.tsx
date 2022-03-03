@@ -22,10 +22,12 @@ import {
   Rectangle,
 } from '@/tkeel-console-plugin-tenant-data-query/components';
 
-import CustomCircle from './CustomCircle';
+import CustomCircle from './components/CustomCircle';
+// import DataTable from './components/DataTable';
 
 export default function Detail() {
   const navigate = useNavigate();
+
   const textStyle = {
     color: 'gray.800',
     fontSize: '12px',
@@ -177,6 +179,7 @@ export default function Detail() {
             </CustomCircle>
           </Flex>
         </Flex>
+        {/* <DataTable style={{ flex: '1' }} /> */}
       </Flex>
     </Flex>
   );

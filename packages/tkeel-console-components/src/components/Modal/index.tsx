@@ -110,9 +110,12 @@ function Modal({
             borderBottomStyle="solid"
             borderBottomColor="gray.200"
             fontSize="14px"
-            fontWeight="400"
+            fontWeight="500"
             lineHeight="24px"
             color="gray.800"
+            borderTopLeftRadius="4px"
+            borderTopRightRadius="4px"
+            backgroundColor="gray.50"
           >
             {title}
           </ModalHeader>

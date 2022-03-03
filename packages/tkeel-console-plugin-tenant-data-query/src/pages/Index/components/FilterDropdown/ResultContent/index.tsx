@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react';
+
 import { TreeNodeType } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceGroupQuery';
 import { DeviceItem } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceListQuery';
 import { Template } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceTemplatesQuery';
@@ -15,10 +17,13 @@ type Props = StatusSelectProps & {
   showDeviceGroup: boolean;
   isDeviceGroupLoading: boolean;
   deviceGroupTree: TreeNodeType;
-  clearDeviceGroupId: () => unknown;
+  // clearDeviceGroupId: () => unknown;
+  // clearTemplateId: () => unknown;
+  showBackButton: boolean;
   showDeviceList: boolean;
   isDeviceListLoading: boolean;
   deviceList: DeviceItem[];
+  setShowDeviceList: Dispatch<SetStateAction<boolean>>;
   onTemplateClick: OnTemplateClick;
   showDeviceTemplates: boolean;
   templates: Template[];
@@ -38,10 +43,13 @@ function ResultContent({
   showDeviceGroup,
   isDeviceGroupLoading,
   deviceGroupTree,
-  clearDeviceGroupId,
+  // clearDeviceGroupId,
+  // clearTemplateId,
+  showBackButton,
   showDeviceList,
   isDeviceListLoading,
   deviceList,
+  setShowDeviceList,
   onTemplateClick,
   showDeviceTemplates,
   templates,
@@ -54,9 +62,11 @@ function ResultContent({
         <DeviceListTitle
           resultNum={deviceList.length}
           status={status}
-          showBackButton={showDeviceGroup || showDeviceTemplates}
+          showBackButton={showBackButton}
           onStatusChange={onStatusChange}
-          onBackBtnClick={clearDeviceGroupId}
+          onBackBtnClick={() => {
+            setShowDeviceList(false);
+          }}
         />
         <ListWrapper
           loading={isDeviceListLoading}
