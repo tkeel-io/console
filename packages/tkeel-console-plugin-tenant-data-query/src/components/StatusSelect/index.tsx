@@ -16,11 +16,13 @@ export interface Status {
 export interface StatusSelectProps {
   status: Status;
   onStatusChange: (status: Status) => unknown;
+  canHover?: boolean;
 }
 
 export default function StatusSelect({
   status,
   onStatusChange,
+  canHover = true,
 }: StatusSelectProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const buttonInfoList = [
@@ -50,6 +52,14 @@ export default function StatusSelect({
     />
   ));
 
+  const backgroundColorStyle = canHover
+    ? {
+        backgroundColor: isOpen ? 'gray.100' : 'transparent',
+        _hover: { backgroundColor: 'gray.100' },
+      }
+    : {
+        backgroundColor: 'white',
+      };
   return (
     <MoreAction
       element={
@@ -59,8 +69,7 @@ export default function StatusSelect({
           height="32px"
           borderRadius="16px"
           cursor="pointer"
-          backgroundColor={isOpen ? 'gray.100' : 'transparent'}
-          _hover={{ backgroundColor: 'gray.100' }}
+          {...backgroundColorStyle}
         >
           <Text marginRight="6px" color="gray.700" fontSize="12px">
             {status.label}
