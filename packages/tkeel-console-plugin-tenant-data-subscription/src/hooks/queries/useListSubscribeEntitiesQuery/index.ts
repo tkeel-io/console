@@ -44,13 +44,13 @@ export interface ApiData {
 
 export default function useListSubscribeEntitiesQuery({
   params,
-}: // onSuccess,
-{
+  onSuccess,
+}: {
   params?: RequestParams;
   onSuccess?: (
-    data: RequestResult<ApiData, RequestParams, undefined>
+    data: RequestResult<ApiData, undefined, RequestParams>
   ) => unknown;
-} = {}) {
+}) {
   // const url = `/security/v1/tenants/${tenantId}/users`;
   // console.log('params', params);
   const url = `/core-broker/v1/subscribe/${params?.id || 0}/entities/list`;
@@ -63,7 +63,7 @@ export default function useListSubscribeEntitiesQuery({
       page_num: params?.page_num,
       page_size: params?.page_size,
     },
-    // reactQueryOptions: { onSuccess },
+    reactQueryOptions: { onSuccess },
   });
   const users = data?.users ?? [];
 
