@@ -2,14 +2,17 @@ import { Box, Flex, Skeleton } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 
-import { useGlobalPortalProps } from '@tkeel/console-business-components';
+import {
+  NotFound,
+  useGlobalPortalProps,
+} from '@tkeel/console-business-components';
 import { Logo } from '@tkeel/console-types';
+import { isEnvDevelopment } from '@tkeel/console-utils';
 
 import Header from '@/tkeel-console-portal-base/containers/Layout/Header';
 import Menus from '@/tkeel-console-portal-base/containers/Layout/Menus';
 import useMenusQuery from '@/tkeel-console-portal-base/hooks/queries/useMenusQuery';
 import useQiankunInit from '@/tkeel-console-portal-base/hooks/useQiankunInit';
-import NotFound from '@/tkeel-console-portal-base/pages/NotFound';
 import { menusToApps } from '@/tkeel-console-portal-base/utils';
 
 function getElementIdByContainer(container: string): string {
@@ -46,7 +49,7 @@ export default function Layout({ userActionMenusComponent, logo }: Props) {
 
     return (
       <>
-        {process.env.NODE_ENV !== 'development' && (
+        {!isEnvDevelopment() && (
           <Route
             index
             element={<Navigate to={firstApp.activeRule} replace />}
@@ -70,9 +73,15 @@ export default function Layout({ userActionMenusComponent, logo }: Props) {
   const { isLoading } = useQiankunInit(initArgs);
 
   return (
-    <Flex height="100%">
+    <Flex height="100%" overflowX="auto">
       <Menus logo={logo} />
-      <Flex flex="1" overflow="hidden" flexDirection="column" padding="20px">
+      <Flex
+        flex="1"
+        overflow="hidden"
+        minWidth="1200px"
+        flexDirection="column"
+        padding="20px"
+      >
         <Header
           menus={menus}
           userActionMenusComponent={userActionMenusComponent}

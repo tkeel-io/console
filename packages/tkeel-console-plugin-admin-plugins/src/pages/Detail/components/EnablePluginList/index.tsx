@@ -70,7 +70,7 @@ function EnablePluginList({ pluginName }: Props) {
     <Flex
       flexDirection="column"
       height="100%"
-      padding="12px 0"
+      paddingTop="12px"
       backgroundColor="white"
     >
       <Flex
@@ -95,9 +95,13 @@ function EnablePluginList({ pluginName }: Props) {
         data={tenants}
         isLoading={isLoading}
         isShowStripe
-        defaultPageSize={20}
         scroll={{ y: '100%' }}
-        paginationProps={{ pageNum, pageSize, setTotalSize, ...rest }}
+        paginationProps={{
+          pageNum,
+          pageSize,
+          setTotalSize,
+          ...rest,
+        }}
       />
     </Flex>
   );

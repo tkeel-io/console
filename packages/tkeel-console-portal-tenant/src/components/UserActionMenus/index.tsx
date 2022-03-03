@@ -8,7 +8,7 @@ import {
   HumanFilledIcon,
 } from '@tkeel/console-icons';
 
-import useOAuthAuthenticateQuery from '@/tkeel-console-portal-tenant/hooks/queries/useOAuthAuthenticateQuery';
+import useAuthenticateTokenQuery from '@/tkeel-console-portal-tenant/hooks/queries/useAuthenticateTokenQuery';
 
 import LogoutTenantButton from './LogoutTenantButton';
 import LogoutUserButton from './LogoutUserButton';
@@ -17,7 +17,7 @@ import ModifyPasswordButton from './ModifyPasswordButton';
 export default function UserActionMenus() {
   const primaryColor = useColor('primary');
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { userInfo } = useOAuthAuthenticateQuery();
+  const { userInfo } = useAuthenticateTokenQuery();
   const username = userInfo?.username;
 
   return (

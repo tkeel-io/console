@@ -3,8 +3,8 @@ import { Box, Flex, Image, Text } from '@chakra-ui/react';
 import { PageHeaderToolbar } from '@tkeel/console-components';
 
 import SearchBg from '@/tkeel-console-plugin-tenant-data-query/assets/images/search-bg.svg';
-import DeviceInfoCard from '@/tkeel-console-plugin-tenant-data-query/components/DeviceInfoCard';
 
+// import DeviceInfoCard from '@/tkeel-console-plugin-tenant-data-query/components/DeviceInfoCard';
 import SearchDeviceInput from './components/SearchDeviceInput';
 
 function Index(): JSX.Element {
@@ -25,10 +25,10 @@ function Index(): JSX.Element {
           最新关注
         </Text>
         <Flex marginTop="12px" justifyContent="space-between">
+          {/* <DeviceInfoCard style={{ width: '24.5%' }} />
           <DeviceInfoCard style={{ width: '24.5%' }} />
           <DeviceInfoCard style={{ width: '24.5%' }} />
-          <DeviceInfoCard style={{ width: '24.5%' }} />
-          <DeviceInfoCard style={{ width: '24.5%' }} />
+          <DeviceInfoCard style={{ width: '24.5%' }} /> */}
         </Flex>
       </Box>
     </Flex>

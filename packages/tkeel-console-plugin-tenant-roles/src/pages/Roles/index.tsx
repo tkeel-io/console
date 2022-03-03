@@ -9,10 +9,7 @@ import {
   toast,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
-
-import useRolesQuery, {
-  Role,
-} from '@/tkeel-console-plugin-tenant-roles/hooks/queries/useRolesQuery';
+import { Role, useRolesQuery } from '@tkeel/console-request-hooks';
 
 import CreateRoleButton from './components/CreateRoleButton';
 import DeleteRoleButton from './components/DeleteRoleButton';

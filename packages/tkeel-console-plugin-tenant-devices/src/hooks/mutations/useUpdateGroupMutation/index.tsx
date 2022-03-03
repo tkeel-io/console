@@ -12,7 +12,7 @@ export interface RequestData {
   parentId: string;
 }
 
-export default function useUpdateDeviceMutation({
+export default function useUpdateGroupMutation({
   id,
   onSuccess,
 }: {

@@ -27,9 +27,9 @@ import { Props } from './types';
 function Table<D extends object>({
   columns,
   data = [],
-  defaultPageSize = 15,
   hasPagination = true,
   paginationProps,
+  paginationStyle = {},
   scroll,
   isLoading,
   isShowStripe = false,
@@ -72,7 +72,6 @@ function Table<D extends object>({
     {
       columns,
       data,
-      initialState: { pageSize: defaultPageSize },
       manualSortBy: true,
     } as TableOptions<D>,
     useFlexLayout,
@@ -128,7 +127,9 @@ function Table<D extends object>({
             isShowStripe={isShowStripe}
           />
         </ChakraTable>
-        {hasPagination && <Pagination {...paginationProps} />}
+        {hasPagination && (
+          <Pagination {...paginationProps} style={paginationStyle} />
+        )}
       </>
     );
   };

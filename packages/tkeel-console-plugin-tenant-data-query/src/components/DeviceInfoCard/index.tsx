@@ -1,19 +1,24 @@
 import { Flex, StyleProps, Text } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
+import { DeviceItem } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceListQuery';
+
 import DeviceIconName from '../DeviceIconName';
 import DeviceStatusIcon from '../DeviceStatusIcon';
 
 type Props = {
+  device: DeviceItem;
   style?: StyleProps;
 };
 
-export default function DeviceInfoCard({ style }: Props) {
+export default function DeviceInfoCard({ device, style }: Props) {
   const navigate = useNavigate();
+  const { id, properties } = device;
+  const { basicInfo, connectInfo } = properties || {};
   const infos = [
     {
       label: 'ID',
-      value: 'OIE9009',
+      value: id || '',
     },
     {
       label: '分组',
@@ -21,13 +26,14 @@ export default function DeviceInfoCard({ style }: Props) {
     },
     {
       label: '模板',
-      value: 'SIC电表',
+      value: basicInfo?.templateName ?? '',
     },
   ];
 
   return (
     <Flex
       flexDirection="column"
+      height="152px"
       border="1px solid"
       borderColor="grayAlternatives.50"
       borderRadius="4px"
@@ -42,8 +48,11 @@ export default function DeviceInfoCard({ style }: Props) {
         justifyContent="space-between"
         // alignItems="center"
       >
-        <DeviceIconName />
-        <DeviceStatusIcon isOnline />
+        <DeviceIconName name={basicInfo?.name ?? ''} />
+        <DeviceStatusIcon
+          // eslint-disable-next-line no-underscore-dangle
+          isOnline={connectInfo?._online ?? false}
+        />
       </Flex>
       <Flex
         paddingLeft="20px"

@@ -11,12 +11,14 @@ interface Props {
   handleSelectGroup: (selectedKeys: React.Key[], e: any) => void;
   treeNodeData: TreeNodeData[];
   refetch?: () => void;
+  selectedKeys?: string[];
 }
 
 export default function DeviceGroupTree({
   handleSelectGroup,
   treeNodeData,
   refetch = () => {},
+  selectedKeys = [],
 }: Props) {
   return (
     <Flex bg="gray.50" h="100%" p="12px" flexDir="column">
@@ -34,6 +36,7 @@ export default function DeviceGroupTree({
         <Tree
           extras={{ isTreeTitleFullWidth: true }}
           treeData={treeNodeData}
+          selectedKeys={selectedKeys}
           showIcon
           selectable
           onSelect={handleSelectGroup}

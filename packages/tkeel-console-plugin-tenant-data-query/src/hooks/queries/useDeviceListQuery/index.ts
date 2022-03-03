@@ -43,10 +43,10 @@ interface ApiData {
 
 export default function useDeviceListQuery({
   requestData,
-  enabled,
+  enabled = true,
 }: {
   requestData: RequestData;
-  enabled: boolean;
+  enabled?: boolean;
 }) {
   const { data, ...rest } = usePluginQuery<ApiData, undefined, RequestData>({
     url,

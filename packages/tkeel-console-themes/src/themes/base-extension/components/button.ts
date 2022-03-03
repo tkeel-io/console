@@ -90,7 +90,7 @@ const accessibleColorMap: { [key: string]: AccessibleColor } = {
 const variantSolid: SystemStyleFunction = (props) => {
   const { colorScheme: c } = props;
 
-  const padding = '0 24px';
+  const padding = '0 22px';
   const boxShadow = '0px 4px 12px rgba(25, 99, 202, 0.2)';
 
   if (c === 'gray') {
@@ -102,12 +102,12 @@ const variantSolid: SystemStyleFunction = (props) => {
       bg,
       boxShadow,
       _hover: {
-        bg: mode(`gray.800`, `whiteAlpha.300`)(props),
+        bg: mode(`gray.700`, `whiteAlpha.300`)(props),
         _disabled: {
           bg,
         },
       },
-      _active: { bg: mode(`gray.300`, `whiteAlpha.400`)(props) },
+      _active: { bg: mode(`gray.700`, `whiteAlpha.400`)(props) },
     };
   }
 
@@ -120,12 +120,12 @@ const variantSolid: SystemStyleFunction = (props) => {
       bg,
       boxShadow,
       _hover: {
-        bg: mode(`primary`, `whiteAlpha.300`)(props),
+        bg: mode(`primarySub3`, `whiteAlpha.300`)(props),
         _disabled: {
           bg,
         },
       },
-      _active: { bg: mode(`primary`, `whiteAlpha.400`)(props) },
+      _active: { bg: mode(`primarySub3`, `whiteAlpha.400`)(props) },
     };
   }
 
@@ -209,7 +209,7 @@ const sizes: Record<string, SystemStyleObject> = {
   md: {
     h: 8,
     minW: 8,
-    fontSize: 'md',
+    fontSize: '14px',
     px: 4,
   },
   sm: {
