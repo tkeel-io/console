@@ -12,7 +12,7 @@ import {
   toast,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
-import { HumanVipFilledIcon } from '@tkeel/console-icons';
+import { GroupTwoToneIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import DeleteTenantButton from '@/tkeel-console-plugin-admin-tenants/components/DeleteTenantButton';
@@ -130,7 +130,7 @@ export default function Tenants() {
   return (
     <Flex flexDirection="column" height="100%">
       <PageHeader
-        icon={<HumanVipFilledIcon size={26} />}
+        icon={<GroupTwoToneIcon size="26px" />}
         name="租户管理"
         desc="管理租户空间，管理租户空间用户。"
       />
