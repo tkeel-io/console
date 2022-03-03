@@ -21,6 +21,7 @@ import {
 import useTokenMutation, {
   ApiData,
 } from '@/tkeel-console-portal-tenant/hooks/mutations/useTokenMutation';
+// import useTenantExactQuery from '@/tkeel-console-portal-tenant/hooks/queries/useTenantExactQuery';
 
 const mockData = isEnvDevelopment()
   ? {
@@ -87,6 +88,12 @@ export default function Login() {
 
   const navigate = useNavigate();
   const redirect = useRedirectParams();
+
+  /* const { data: tenantInfo } = useTenantExactQuery({
+    enabled: !!tenantId,
+    params: { tenant_id: tenantId },
+  });
+  console.log(tenantInfo); */
 
   const { data, mutate, isLoading } = useTokenMutation({ tenantId });
 
