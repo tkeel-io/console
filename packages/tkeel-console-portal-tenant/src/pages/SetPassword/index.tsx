@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   Center,
-  Flex,
   Heading,
   Image,
   Text,
@@ -21,7 +20,7 @@ import useResetPasswordKeyInfoQuery from '@/tkeel-console-portal-tenant/hooks/qu
 const { TextField } = FormField;
 
 type FormValues = {
-  password: string;
+  newPassword: string;
   confirmPassword: string;
 };
 
@@ -76,9 +75,9 @@ export default function SetPassword() {
   });
 
   const onSubmit: SubmitHandler<FormValues> = (formValues) => {
-    const { password, confirmPassword } = formValues;
+    const { newPassword, confirmPassword } = formValues;
 
-    if (password !== confirmPassword) {
+    if (newPassword !== confirmPassword) {
       toast({ status: 'warning', title: '两次输入的密码不一致' });
       return;
     }
@@ -86,7 +85,7 @@ export default function SetPassword() {
     mutate({
       data: {
         reset_key: resetKey,
-        new_password: password,
+        new_password: newPassword,
       },
     });
   };
@@ -105,19 +104,9 @@ export default function SetPassword() {
         backgroundRepeat="no-repeat"
         backgroundSize="100% 40%"
       >
-        <Flex position="absolute" top="24px" left="20px">
-          <Box>
-            <Image src={pageConfig?.logo} htmlWidth="auto" htmlHeight="50px" />
-          </Box>
-          {/*  <Flex alignItems="center" paddingTop="4px" color="white">
-            <Text paddingX="8px" fontSize="18px">
-              |
-            </Text>
-            <Heading fontSize="18px" lineHeight="28px">
-              设置密码
-            </Heading>
-          </Flex> */}
-        </Flex>
+        <Box position="absolute" top="24px" left="20px">
+          <Image src={pageConfig?.logo} width="auto" height="50px" />
+        </Box>
         <Box
           padding="40px 46px 70px"
           marginBottom="100px"
@@ -139,22 +128,22 @@ export default function SetPassword() {
             <TextField
               type="password"
               id="password"
-              label="密码"
+              label="新密码"
               help={schemas.password.help}
               placeholder="请输入"
-              error={errors.password}
+              error={errors.newPassword}
               formControlStyle={{ width: '350px' }}
               formLabelStyle={formLabelStyle}
               inputStyle={inputStyle}
               registerReturn={register(
-                'password',
+                'newPassword',
                 schemas.password.registerOptions
               )}
             />
             <TextField
               type="password"
               id="confirmPassword"
-              label="再次输入密码"
+              label="再次输入新密码"
               help={schemas.password.help}
               placeholder="请输入"
               error={errors.confirmPassword}
