@@ -1,7 +1,8 @@
 import { Route } from 'react-router-dom';
 
+import { NotFound } from '@tkeel/console-business-components';
+
 import Login from '@/tkeel-console-portal-tenant/pages/Login';
-import NotFound from '@/tkeel-console-portal-tenant/pages/NotFound';
 import SetPassword from '@/tkeel-console-portal-tenant/pages/SetPassword';
 import Tenant from '@/tkeel-console-portal-tenant/pages/Tenant';
 

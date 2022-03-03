@@ -4,6 +4,7 @@ const config = require('config');
 const ConfigWebpackPlugin = require('config-webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const fs = require('fs-extra');
+const shell = require('shelljs');
 const { merge } = require('webpack-merge');
 
 const paths = require('../scripts/utils/paths');
@@ -21,10 +22,9 @@ function createConfigJsonFile() {
       client: config.client,
     },
   };
-  fs.outputJSONSync(
-    path.resolve(paths.cwd.self, 'public/config/config.json'),
-    data
-  );
+  const filePath = path.resolve(paths.cwd.self, 'public/config/config.json');
+  fs.outputJSONSync(filePath, data);
+  shell.exec(`prettier --write ${filePath}`);
 }
 
 createConfigJsonFile();
