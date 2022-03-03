@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { Box, HStack, Text } from '@chakra-ui/react';
+import { Box, Flex, HStack, Text, useClipboard } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
 import { BackButton, MoreAction } from '@tkeel/console-components';
@@ -46,6 +46,7 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
     properties: { sysField, basicInfo, connectInfo },
   } = deviceObject;
   const subscribeAddr = sysField?._subscribeAddr ?? '';
+  const { hasCopied, onCopy } = useClipboard(subscribeAddr);
   const sub = subscribeAddr ? '1' : '0';
   const deviceName = basicInfo?.name ?? '';
   const isSelfLearn = basicInfo?.selfLearn;
@@ -152,14 +153,45 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
       </Box>
       <HStack spacing="26px" fontSize="12px" pl="20px">
         <Text h="39px" lineHeight="39px">
-          默认订阅
+          我的订阅
         </Text>
-        <Box>
-          <Text h="39px" lineHeight="39px" fontWeight="400">
-            {subscribeAddr}
-          </Text>
-          <UnsubscribeButton deviceId={id} subscribeAddr={subscribeAddr} />
-        </Box>
+        {subscribeAddr && (
+          <Flex
+            position="relative"
+            flex="1"
+            alignItems="center"
+            _hover={{
+              '& > div': {
+                display: 'flex !important',
+              },
+            }}
+          >
+            <Text
+              h="39px"
+              lineHeight="39px"
+              fontWeight="400"
+              isTruncated
+              width="180px"
+            >
+              {subscribeAddr}
+            </Text>
+            <Flex position="absolute" right="0" mr="20px" display="none">
+              {hasCopied && (
+                <Text color="primary" mr="8px">
+                  已复制
+                </Text>
+              )}
+              <Text cursor="pointer" onClick={onCopy} color="primary" mr="8px">
+                复制
+              </Text>
+              <UnsubscribeButton
+                deviceId={id}
+                subscribeAddr={subscribeAddr}
+                refetch={refetch}
+              />
+            </Flex>
+          </Flex>
+        )}
       </HStack>
     </Box>
   );

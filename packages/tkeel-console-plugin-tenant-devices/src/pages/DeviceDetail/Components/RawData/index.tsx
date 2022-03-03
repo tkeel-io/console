@@ -6,14 +6,13 @@ import {
   AccordionPanel,
   Box,
   Flex,
-  Select,
   Text,
 } from '@chakra-ui/react';
-import { isEmpty } from 'lodash';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { isEmpty, throttle } from 'lodash';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 
 // import { Editor, SearchInput } from '@tkeel/console-components';
-import { Editor } from '@tkeel/console-components';
+import { Editor, Select } from '@tkeel/console-components';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import { RawData } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
@@ -50,10 +49,23 @@ const selectOptions = [
 
 type TRawData = RawData[];
 
+const kjh = {
+  id: '23423',
+  key: '213',
+  type: 'rawData',
+  mark: 'upstream',
+  path: 'rawData/upstream',
+  ts: 1_645_584_837_960_616_400,
+  values: 'ZGRkZGRkZGRkZA==',
+};
+
 function RawDataPanel({ data }: Props) {
-  const [rawDataList, setRawDataList] = useState<TRawData>([data]);
+  const [rawDataList, setRawDataList] = useState<TRawData>([]);
   // const [keyWord, setKeyWord] = useState('');
   const [selected, setSelected] = useState('text');
+  useCallback(() => {
+    throttle(setRawDataList, 200);
+  }, []);
   useEffect(() => {
     setRawDataList((preState) => {
       if (isEmpty(data)) return [];
@@ -92,80 +104,82 @@ function RawDataPanel({ data }: Props) {
           alignItems="center"
         >
           <Select
-            id="format-selected"
+            style={{ width: '100%' }}
+            showArrow
+            options={selectOptions}
             onChange={handleChange}
-            defaultValue={selected}
-            isFullWidth
-            border="unset"
-            _focus={{ boxShow: 'none' }}
-          >
-            {selectOptions.map(({ value, label }) => (
-              <option key={value} value={value}>
-                {label}
-              </option>
-            ))}
-          </Select>
+          />
         </Flex>
       </Flex>
-      <Accordion p="12px 12px" bg="gray.50" maxH="600px" overflow="auto">
-        {rawDataList.map((r) => {
-          const status = OPTIONS[r?.mark ?? 'upstream'];
+      {!isEmpty(rawDataList) && (
+        <Accordion p="12px 12px" bg="gray.50" maxH="600px" overflow="auto">
+          {rawDataList.map((r) => {
+            const status = OPTIONS[r?.mark ?? 'upstream'];
 
-          return (
-            !isEmpty(r) && (
-              <AccordionItem
-                key={r.key}
-                borderWidth="1px"
-                borderColor="gray.200"
-                borderRadius="4px"
-                bg="white"
-                mb="12px"
-                p="10px 12px 10px 12px"
-              >
-                <AccordionButton
-                  _focus={{ boxShadow: 'none' }}
-                  p="unset"
-                  ml="8px"
+            return (
+              !isEmpty(r) && (
+                <AccordionItem
+                  key={r.key}
+                  borderWidth="1px"
+                  borderColor="gray.200"
+                  borderRadius="4px"
+                  bg="white"
+                  mb="12px"
+                  p="10px 12px 10px 12px"
                 >
-                  <Flex flex="1" fontSize="12px" alignItems="center">
-                    <Box
-                      bg={status.bg}
-                      color={status.color}
-                      w="42px"
-                      h="24px"
-                      textAlign="center"
-                      borderRadius="2px"
-                      fontWeight="600"
-                      lineHeight="2"
-                    >
-                      {status.desc}
-                    </Box>
-                    <Text fontWeight="700" m="0 38px 0 22px">
-                      {r.path}
-                    </Text>
-                    <Text color="grayAlternatives.300" flex="1">
-                      {formatDateTimeByTimestamp({
-                        timestamp: `${Math.floor((r?.ts || 0) / 1e6)}`,
-                      })}
-                    </Text>
-                  </Flex>
-                  <AccordionIcon />
-                </AccordionButton>
-                <AccordionPanel p="12px 0 0 0">
-                  <Editor
-                    theme="light"
-                    value={handleValues(r?.values || '', selected)}
-                    language="json"
-                    readOnly
-                    width="100%"
-                    height="144px"
-                  />
-                </AccordionPanel>
-              </AccordionItem>
-            )
-          );
-        })}
-      </Accordion>
+                  <AccordionButton
+                    _focus={{ boxShadow: 'none' }}
+                    p="unset"
+                    ml="8px"
+                  >
+                    <Flex flex="1" fontSize="12px" alignItems="center">
+                      <Box
+                        bg={status.bg}
+                        color={status.color}
+                        w="42px"
+                        h="24px"
+                        textAlign="center"
+                        borderRadius="2px"
+                        fontWeight="600"
+                        lineHeight="2"
+                      >
+                        {status.desc}
+                      </Box>
+                      <Text fontWeight="700" m="0 38px 0 22px">
+                        {r.path}
+                      </Text>
+                      <Text color="grayAlternatives.300" flex="1">
+                        {formatDateTimeByTimestamp({
+                          timestamp: `${Math.floor((r?.ts || 0) / 1e6)}`,
+                        })}
+                      </Text>
+                    </Flex>
+                    <AccordionIcon />
+                  </AccordionButton>
+                  <AccordionPanel p="12px 0 0 0" ml="-8px">
+                    <Editor
+                      theme="light"
+                      value={handleValues(r?.values || '', selected)}
+                      language="json"
+                      readOnly
+                      width="100%"
+                      height="144px"
+                    />
+                  </AccordionPanel>
+                </AccordionItem>
+              )
+            );
+          })}
+        </Accordion>
+      )}
+      <Editor
+        theme="light"
+        value={JSON.stringify(kjh, null, 2)}
+        language="json"
+        readOnly
+        width="100%"
+        height="144px"
+      />
     </Box>
   );
 }

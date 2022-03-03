@@ -10,12 +10,14 @@ type Props = {
   subscribeId?: string;
   deviceId: string;
   subscribeAddr: string;
+  refetch?: () => void;
 };
 
 function UnsubscribeButton({
-  subscribeAddr,
   subscribeId = '1',
   deviceId,
+  subscribeAddr,
+  refetch,
 }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate, isLoading } = useUnsubscribeMutation({
@@ -32,12 +34,15 @@ function UnsubscribeButton({
         entities: deviceId ? [deviceId] : [],
       },
     });
+    if (refetch) {
+      refetch();
+    }
   };
 
   return (
     <>
       <LinkButton onClick={onOpen} fontWeight="400" ml="-2px">
-        取消订阅
+        取消
       </LinkButton>
       <CustomModal
         bg="red.50"
