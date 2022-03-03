@@ -3,7 +3,10 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import { useColor } from '@tkeel/console-hooks';
 import { GoBackFilledIcon } from '@tkeel/console-icons';
 
-import StatusSelect, { StatusSelectProps } from '../StatusSelect';
+import {
+  StatusSelect,
+  StatusSelectProps,
+} from '@/tkeel-console-plugin-tenant-data-query/components';
 
 type Props = StatusSelectProps & {
   showBackButton: boolean;

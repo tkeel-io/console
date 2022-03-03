@@ -40,7 +40,7 @@ export default function DeviceInfoCard({ device, style }: Props) {
       backgroundColor="white"
       cursor="pointer"
       {...style}
-      onClick={() => navigate('/detail')}
+      onClick={() => navigate(`/detail?id=${id}`)}
     >
       <Flex
         height="48px"
