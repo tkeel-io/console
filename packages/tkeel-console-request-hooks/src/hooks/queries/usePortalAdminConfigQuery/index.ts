@@ -28,19 +28,22 @@ export default function usePortalAdminConfigQuery() {
     axiosRequestConfig: {
       baseURL: '/api',
     },
-    reactQueryOptions: {
-      onSuccess(data) {
-        config = data.data;
-      },
-      onError() {
-        config = DEFAULT_PORTAL_ADMIN_CONFIG;
-      },
-    },
     extras: {
       isWithToken: false,
       handleNoAuth: false,
+      handleApiError: false,
+      handleAxiosError: false,
     },
   });
+  const { data, isError, isSuccess } = result;
+
+  if (isSuccess) {
+    config = data;
+  }
+
+  if (isError) {
+    config = DEFAULT_PORTAL_ADMIN_CONFIG;
+  }
 
   return { ...result, config: config as ApiData | undefined };
 }

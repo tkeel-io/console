@@ -15,8 +15,8 @@ module.exports = {
     logoTypeLight: getConfigImagePath('logo-type-light.svg'),
     logoTypeDark: getConfigImagePath('logo-type-dark.svg'),
     pages: {
-      login: {
-        backgroundImage: getConfigImagePath('background-01'),
+      Login: {
+        backgroundImage: getConfigImagePath('background-01.png'),
         title: 'QingCloud IoT 物联网',
         titlePart2: '运维管理平台',
         subTitle: '颠覆传统物联网应用开发的新一代核心架构',

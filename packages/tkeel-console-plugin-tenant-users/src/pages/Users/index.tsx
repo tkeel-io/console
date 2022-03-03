@@ -9,11 +9,11 @@ import {
   toast,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
-import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
-
-import useUsersQuery, {
-  User,
-} from '@/tkeel-console-plugin-tenant-users/hooks/queries/useUsersQuery';
+import { User, useUsersQuery } from '@tkeel/console-request-hooks';
+import {
+  formatDateTimeByTimestamp,
+  getLocalTenantInfo,
+} from '@tkeel/console-utils';
 
 import CreateUserButton from './components/CreateUserButton';
 import DeleteUserButton from './components/DeleteUserButton';
@@ -21,6 +21,7 @@ import ModifyUserButton from './components/ModifyUserButton';
 import ResetPasswordButton from './components/ResetPasswordButton';
 
 export default function Users() {
+  const { tenant_id: tenantId } = getLocalTenantInfo();
   const [keyWords, setKeyWords] = useState('');
   const pagination = usePagination();
   const { pageNum, pageSize, setPageNum, setTotalSize } = pagination;
@@ -36,6 +37,7 @@ export default function Users() {
     params = { ...params, key_words: keyWords };
   }
   const { isLoading, users, refetch } = useUsersQuery({
+    tenantId,
     params,
     onSuccess(data) {
       const total = data?.data?.total ?? 0;

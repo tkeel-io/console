@@ -5,12 +5,12 @@ import { Alert, MoreActionButton } from '@tkeel/console-components';
 import { ShutdownFilledIcon } from '@tkeel/console-icons';
 import { getLocalTokenInfo, removeLocalTokenInfo } from '@tkeel/console-utils';
 
-import useOAuthTokenRevokeMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useOAuthTokenRevokeMutation';
+import useRevokeTokenMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useRevokeTokenMutation';
 
 export default function LogoutUserButton() {
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { isLoading, mutate, data } = useOAuthTokenRevokeMutation({
+  const { isLoading, mutate, data } = useRevokeTokenMutation({
     onSuccess() {
       const tenantId = data?.tenant_id ?? '';
       removeLocalTokenInfo();

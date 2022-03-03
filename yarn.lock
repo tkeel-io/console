@@ -3786,7 +3786,9 @@ __metadata:
     react: ^17.0.2
     react-dom: ^17.0.2
     react-hook-form: ^7.27.1
+    react-query: ^3.34.16
     react-router-dom: ^6.2.2
+    react-use: ^17.3.2
   languageName: unknown
   linkType: soft
 
@@ -3833,6 +3835,7 @@ __metadata:
     react-hook-form: ^7.27.1
     react-query: ^3.34.16
     react-router-dom: ^6.2.2
+    react-use: ^17.3.2
   languageName: unknown
   linkType: soft
 
@@ -3868,6 +3871,7 @@ __metadata:
   resolution: "@tkeel/console-types@workspace:packages/tkeel-console-types"
   dependencies:
     "@tkeel/console-constants": "workspace:^"
+    react: ^17.0.2
   peerDependencies:
     react-router-dom: ^6.2.1
   languageName: unknown

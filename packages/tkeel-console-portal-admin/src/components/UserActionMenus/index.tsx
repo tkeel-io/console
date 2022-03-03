@@ -8,6 +8,7 @@ import {
   HumanFilledIcon,
 } from '@tkeel/console-icons';
 
+import LogoutButton from './LogoutButton';
 import ModifyPasswordButton from './ModifyPasswordButton';
 
 export default function UserActionMenus() {
@@ -41,7 +42,10 @@ export default function UserActionMenus() {
           )}
         </Flex>
       }
-      buttons={[<ModifyPasswordButton key="modify-password" />]}
+      buttons={[
+        <ModifyPasswordButton key="modify-password" />,
+        <LogoutButton key="logout" />,
+      ]}
       onActionListOpen={onOpen}
       onActionListClose={onClose}
     />

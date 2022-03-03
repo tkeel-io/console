@@ -49,11 +49,12 @@ export interface DeviceDefaultInfoType {
 }
 
 export type TreeNodeData = {
+  name?: string;
   title: ReactNode;
   key: string;
   children: TreeNodeData[];
   icon?: any;
-  originData: {
+  originData?: {
     nodeInfo: NodeInfo;
     subNode: TreeNodeType;
   };

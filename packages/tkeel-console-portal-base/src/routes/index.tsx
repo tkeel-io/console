@@ -1,6 +1,8 @@
 import { ReactNode } from 'react';
 import { Route, Routes as ReactRouterRoutes } from 'react-router-dom';
 
+import { Logo } from '@tkeel/console-types';
+
 import Layout from '@/tkeel-console-portal-base/containers/Layout';
 
 type Props = {
@@ -8,6 +10,7 @@ type Props = {
   notRequireAuthContainer: ReactNode;
   notRequireAuthRoutes: ReactNode;
   userActionMenusComponent: ReactNode;
+  logo: Logo;
 };
 
 export default function Routes({
@@ -15,6 +18,7 @@ export default function Routes({
   notRequireAuthContainer,
   notRequireAuthRoutes,
   userActionMenusComponent,
+  logo,
 }: Props) {
   return (
     <ReactRouterRoutes>
@@ -25,7 +29,10 @@ export default function Routes({
         <Route
           path="/*"
           element={
-            <Layout userActionMenusComponent={userActionMenusComponent} />
+            <Layout
+              userActionMenusComponent={userActionMenusComponent}
+              logo={logo}
+            />
           }
         />
       </Route>
