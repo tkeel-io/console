@@ -5,7 +5,7 @@ type Props = FlexProps & {
   children: ReactNode;
 };
 
-function Index({ children, ...rest }: Props) {
+function CardContentFlex({ children, ...rest }: Props) {
   return (
     <Flex
       alignItems="center"
@@ -20,4 +20,4 @@ function Index({ children, ...rest }: Props) {
   );
 }
 
-export default Index;
+export default CardContentFlex;

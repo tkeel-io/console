@@ -9,6 +9,7 @@ type ApiData = {
   '@type': string;
   has_reset: boolean;
   tenant_id: string;
+  username: string;
 };
 
 export default function useOAuthResetPasswordMutation({
