@@ -38,6 +38,7 @@ interface ApiData {
   '@type': string;
   listDeviceObject: {
     items?: DeviceItem[];
+    total: number;
   };
 }
 
