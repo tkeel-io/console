@@ -3,10 +3,10 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { Loading } from '@tkeel/console-components';
 import { useNoAuthRedirectPath } from '@tkeel/console-hooks';
 
-import useOAuthAuthorizeQuery from '@/tkeel-console-portal-admin/hooks/queries/useOAuthAuthorizeQuery';
+import useAdminAuthenticateTokenQuery from '@/tkeel-console-portal-admin/hooks/queries/useAdminAuthenticateTokenQuery';
 
 export default function RequireAuth() {
-  const { isLoading, isError } = useOAuthAuthorizeQuery({
+  const { isLoading, isError } = useAdminAuthenticateTokenQuery({
     extras: { handleNoAuth: false, handleApiError: false },
   });
   const redirectPath = useNoAuthRedirectPath({

@@ -3,7 +3,7 @@ import { useIsMutating } from 'react-query';
 
 import { CreateButton } from '@tkeel/console-components';
 
-// import { getLocalUserInfo } from '@tkeel/console-utils';
+// import { getLocalTenantInfo } from '@tkeel/console-utils';
 // import useCreateRoleMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useCreateRoleMutation';
 // import useSetRolePermissionsMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useSetRolePermissionsMutation';
 // import { FormValues } from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/BaseDeviceModal';
