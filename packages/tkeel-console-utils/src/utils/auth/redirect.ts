@@ -1,7 +1,7 @@
 import qs from 'qs';
 import { Location, NavigateFunction } from 'react-router-dom';
 
-import { removeLocalTenantInfo } from './local-tenant-info';
+import { getLocalTenantInfo, removeLocalTenantInfo } from './local-tenant-info';
 import { removeLocalTokenInfo } from './local-token-info';
 
 type JumpToPageOptions = {
@@ -50,7 +50,7 @@ export function jumpToTenantAuthTenantPage({
   jumpToPage({ path, isReplace, navigate });
 }
 
-type JumpToTenantAuthLoginOptions<TSearchParams = Record<string, any>> = {
+type JumpToAuthLoginPageOptions<TSearchParams = Record<string, any>> = {
   portalName: 'admin' | 'tenant';
   tenantId?: string;
   searchParams?: TSearchParams;
@@ -68,7 +68,7 @@ export function jumpToAuthLoginPage<TSearchParams = Record<string, any>>({
   isRemoveLocalTokenInfo = false,
   isReplace = false,
   navigate,
-}: JumpToTenantAuthLoginOptions<TSearchParams>) {
+}: JumpToAuthLoginPageOptions<TSearchParams>) {
   let loginPath = '';
 
   if (path) {
@@ -105,7 +105,8 @@ export function getNoAuthRedirectPath({
   let loginPath = '/auth/login';
 
   if (portalName === 'tenant') {
-    loginPath += `/${tenantId}`;
+    // TODO: tmp
+    loginPath += `/${tenantId || getLocalTenantInfo()?.tenant_id || ''}`;
   }
 
   const { pathname, search, hash } = location;

@@ -83,14 +83,14 @@ export default function Login() {
   });
   const tenantTitle = tenantInfo?.title ?? '';
 
-  const { data, mutate, isLoading } = useTokenMutation({
+  const { mutate, isLoading } = useTokenMutation({
     tenantId,
-    onSuccess({ data: tokenInfo }) {
+    onSuccess({ data }) {
       if (!data) {
         return;
       }
 
-      setLocalTokenInfo(tokenInfo);
+      setLocalTokenInfo(data);
       jumpToPage({ path: redirect, isReplace: true });
     },
   });
