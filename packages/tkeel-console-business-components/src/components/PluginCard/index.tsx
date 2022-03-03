@@ -1,4 +1,4 @@
-import { Flex, Image, Text } from '@chakra-ui/react';
+import { Box, Flex, Image, Text } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
@@ -42,12 +42,19 @@ function PluginCard({
     >
       <Flex alignItems="center" justifyContent="space-between">
         <Flex alignItems="center">
-          {briefPluginInfo?.icon ? (
-            <Image width="28px" height="28px" src={briefPluginInfo.icon} />
-          ) : (
-            <BoxTwoToneIcon size={28} />
-          )}
-          <Text marginLeft="8px" color="gray.800" fontSize="14px">
+          <Box flexShrink="0">
+            {briefPluginInfo?.icon ? (
+              <Image width="28px" height="28px" src={briefPluginInfo.icon} />
+            ) : (
+              <BoxTwoToneIcon size={28} />
+            )}
+          </Box>
+          <Text
+            marginLeft="8px"
+            lineHeight="18px"
+            color="gray.800"
+            fontSize="14px"
+          >
             {briefPluginInfo?.name ?? ''}
           </Text>
         </Flex>

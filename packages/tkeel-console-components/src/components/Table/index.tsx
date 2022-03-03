@@ -27,9 +27,9 @@ import { Props } from './types';
 function Table<D extends object>({
   columns,
   data = [],
-  defaultPageSize = 15,
   hasPagination = true,
   paginationProps,
+  paginationStyle = {},
   scroll,
   isLoading,
   isShowStripe = false,
@@ -72,22 +72,23 @@ function Table<D extends object>({
     {
       columns,
       data,
-      initialState: { pageSize: defaultPageSize },
       manualSortBy: true,
     } as TableOptions<D>,
     useFlexLayout,
     ...plugins
   );
 
+  const selectedRows = selectedFlatRows?.map((d) => d.original) ?? [];
+
   useDeepCompareEffect(() => {
     if (onSelect) {
       onSelect({
         isAllRowsSelected,
-        selectedRowIds: Object.keys(selectedRowIds),
-        selectedFlatRows,
+        selectedRowIds,
+        selectedFlatRows: selectedRows,
       });
     }
-  }, [onSelect, isAllRowsSelected, selectedRowIds, selectedFlatRows]);
+  }, [isAllRowsSelected, selectedRowIds, selectedRows]);
 
   useEffect(() => {
     if (onSort) {
@@ -108,7 +109,6 @@ function Table<D extends object>({
       <>
         <ChakraTable
           {...getTableProps()}
-          padding="0 20px"
           flex="1"
           overflow="hidden"
           display="flex"
@@ -128,7 +128,9 @@ function Table<D extends object>({
             isShowStripe={isShowStripe}
           />
         </ChakraTable>
-        {hasPagination && <Pagination {...paginationProps} />}
+        {hasPagination && (
+          <Pagination {...paginationProps} style={paginationStyle} />
+        )}
       </>
     );
   };

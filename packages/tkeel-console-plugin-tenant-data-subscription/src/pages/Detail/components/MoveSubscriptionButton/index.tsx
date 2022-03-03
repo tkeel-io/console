@@ -13,7 +13,7 @@ import MoveSubscriptionModal from '@/tkeel-console-plugin-tenant-data-subscripti
 
 type Props = {
   onSuccess: () => void;
-  selected_ids: string;
+  selected_ids: string[];
 };
 
 export default function MoveSubscriptionButton({
@@ -83,7 +83,7 @@ export default function MoveSubscriptionButton({
             mutate({
               data: {
                 targetId: target_id,
-                selectedIds: [selected_ids],
+                selectedIds: selected_ids,
               },
             });
           }}

@@ -1,4 +1,4 @@
-import { Tooltip, useDisclosure } from '@chakra-ui/react';
+import { Box, Tooltip, useDisclosure } from '@chakra-ui/react';
 
 import { IconButton, toast } from '@tkeel/console-components';
 import { DownloadFilledIcon } from '@tkeel/console-icons';
@@ -15,7 +15,7 @@ function InstallButton({ installPluginInfo, disabled, onSuccess }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <>
+    <Box flexShrink="0">
       <Tooltip
         hasArrow
         label={disabled ? '已存在同名插件，不可重复安装' : ''}
@@ -47,7 +47,7 @@ function InstallButton({ installPluginInfo, disabled, onSuccess }: Props) {
           toast({ status: 'success', title: '安装插件成功' });
         }}
       />
-    </>
+    </Box>
   );
 }
 

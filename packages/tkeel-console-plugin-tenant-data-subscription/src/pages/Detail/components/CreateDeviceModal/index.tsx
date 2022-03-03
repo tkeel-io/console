@@ -9,7 +9,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { values } from 'lodash';
-import { DataNode, Key } from 'node_modules/rc-tree/es/interface';
+import { DataNode } from 'node_modules/rc-tree/es/interface';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
@@ -46,39 +46,18 @@ type Props = {
   onConfirm: () => unknown;
 };
 
-export interface FormFields {
-  role?: {
-    disabled?: boolean;
-  };
-
-  plugins?: {
-    disabled?: boolean;
-  };
-}
-
-export interface FormValues {
-  role: string;
-  plugins: string[];
-}
-
-type SelectedKeyCheck =
-  | Key[]
-  | {
-      checked: Key[];
-      halfChecked: Key[];
-    };
-
-function assembleTree(nodes: TreeNodeData[], defaultPath: string) {
+function assemblePath(nodes: TreeNodeData[], defaultPath: string) {
   return nodes.map((n) => {
     const node = n;
     const path = defaultPath ? `${defaultPath}/${n.title}` : n.title;
     node.path = path;
     if (n.children && Array.isArray(n.children)) {
-      assembleTree(n.children, path);
+      assemblePath(n.children, path);
     }
     return node;
   });
 }
+
 export default function CreateDeviceModal({
   isOpen,
   isConfirmButtonLoading,
@@ -142,29 +121,27 @@ export default function CreateDeviceModal({
     });
   }
 
+  const defaultParams = {
+    page_num: 1,
+    page_size: 1000,
+    order_by: 'name',
+    is_descending: false,
+    query: '',
+    condition: [
+      {
+        field: 'type',
+        operator: '$eq',
+        value: 'group',
+      },
+    ],
+  };
+
   const [defaultRequestParams, setDefaultRequestParams] =
-    useState<RequestParams>({
-      page_num: 1,
-      page_size: 1000,
-      order_by: 'name',
-      is_descending: false,
-      query: '',
-      condition: [
-        {
-          field: 'type',
-          operator: '$eq',
-          value: 'group',
-        },
-      ],
-    });
+    useState<RequestParams>(defaultParams);
 
   const [defaultTemplateRequestParams, setDefaultTemplateRequestParams] =
     useState<RequestParams>({
-      page_num: 1,
-      page_size: 1000,
-      order_by: 'name',
-      is_descending: false,
-      query: '',
+      ...defaultParams,
       condition: [
         {
           field: 'type',
@@ -174,9 +151,10 @@ export default function CreateDeviceModal({
       ],
     });
 
-  const [keywords, setKeywords] = useState('');
-  const [selectNode, setSelectNode] = useState<DataNode[]>();
-  const [selectedKeys, setSelectedKeys] = useState<SelectedKeyCheck>([]);
+  const [selectNode, setSelectNode] = useState<DataNode[]>([]);
+  const [searchSelectNode, setSearchSelectNode] = useState<DataNode[]>([]);
+
+  const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
   const [selectIndex, setSelectIndex] = useState<number>(0);
 
   const location = useLocation();
@@ -184,7 +162,7 @@ export default function CreateDeviceModal({
   const ID = pathname.split('/')[pathname.split('/').length - 1];
 
   const { groupTree, isLoading } = useDeviceGroupQuery(defaultRequestParams);
-  const treeNodeData = assembleTree(getTreeNodeData(groupTree), '');
+  const treeNodeData = assemblePath(getTreeNodeData(groupTree), '');
   const { items, isLoading: templateIsLoading } = useDeviceTemplateQuery(
     defaultTemplateRequestParams
   );
@@ -209,22 +187,16 @@ export default function CreateDeviceModal({
   const handleConfirm = async () => {
     if (selectIndex === 0) {
       createSubscribeEntitiesDeviceMutate({
-        data: { groups: selectedKeys as string[] },
+        data: { groups: selectedKeys },
       });
     } else {
       createSubscribeEntitiesTemplateMutation({
-        data: { models: selectedKeys as string[] },
+        data: { models: selectedKeys },
       });
       if (templateIsSuccess) {
         onConfirm();
       }
     }
-
-    if (selectIndex && keywords) {
-      onConfirm();
-    }
-
-    // }
   };
 
   const getSelectNode = (data: DataNode[]) => {
@@ -238,6 +210,50 @@ export default function CreateDeviceModal({
       arr.push(el);
     });
     return arr;
+  };
+
+  const getSelectKey = (data: DataNode[]) => {
+    const arr: string[] = [];
+    data.forEach((el) => {
+      arr.push(el.key as string);
+    });
+    return arr;
+  };
+
+  const disableStyles = (type: number) => {
+    return {
+      margin: '0 30px',
+      cursor:
+        selectIndex === type && selectedKeys?.length > 0
+          ? 'not-allowed'
+          : 'default',
+      color:
+        selectIndex === type && selectedKeys?.length > 0
+          ? '#CCD3DB'
+          : '#242E42',
+    };
+  };
+  const selectedStyles = {
+    color: 'green.300',
+    boxShadow: 'none',
+    borderBottom: '1px solid',
+    borderBottomColor: 'green.300',
+    margin: '0 30px',
+  };
+
+  const isDisable = (type: number) => {
+    return selectIndex === type && selectedKeys?.length > 0;
+  };
+
+  const localSearch = (keyWord: string, list: DataNode[]) => {
+    const arr: DataNode[] = [];
+    list.forEach((item: DataNode) => {
+      if (item.title && String(item.title).includes(keyWord)) {
+        arr.push(item);
+      }
+    });
+
+    setSearchSelectNode(arr);
   };
 
   return (
@@ -256,31 +272,23 @@ export default function CreateDeviceModal({
             variant="unstyled"
             onChange={(index) => {
               setSelectNode([]);
+              setSearchSelectNode([]);
               setSelectedKeys([]);
               setSelectIndex(index);
             }}
           >
             <TabList>
               <Tab
-                style={{ margin: '0 30px' }}
-                _selected={{
-                  color: 'green.300',
-                  boxShadow: 'none',
-                  borderBottom: '1px solid',
-                  borderBottomColor: 'green.300',
-                  margin: '0 30px',
-                }}
+                style={disableStyles(1)}
+                _selected={selectedStyles}
+                isDisabled={isDisable(1)}
               >
                 设备组
               </Tab>
               <Tab
-                style={{ margin: '0 30px' }}
-                _selected={{
-                  color: 'green.300',
-                  boxShadow: 'none',
-                  borderBottom: '1px solid',
-                  borderBottomColor: 'green.300',
-                }}
+                style={disableStyles(0)}
+                _selected={selectedStyles}
+                isDisabled={isDisable(0)}
               >
                 设备模板
               </Tab>
@@ -308,9 +316,14 @@ export default function CreateDeviceModal({
                       treeData={treeNodeData}
                       checkedKeys={selectedKeys}
                       onCheck={(keys, el) => {
-                        const { checkedNodes } = el;
-                        setSelectNode(getSelectNode(checkedNodes));
-                        setSelectedKeys(keys);
+                        if (keys) {
+                          const { checkedNodes } = el;
+                          const selectNodeData = getSelectNode(checkedNodes);
+                          const selectKeyData = getSelectKey(selectNodeData);
+                          setSelectNode(selectNodeData);
+                          setSearchSelectNode(selectNodeData);
+                          setSelectedKeys(selectKeyData);
+                        }
                       }}
                     />
                   ) : (
@@ -342,10 +355,15 @@ export default function CreateDeviceModal({
                       checkable
                       treeData={templateTreeNodeData}
                       checkedKeys={selectedKeys}
-                      onCheck={(keys, el) => {
-                        const { checkedNodes } = el;
-                        setSelectNode(checkedNodes);
-                        setSelectedKeys(keys);
+                      onCheck={(key, el) => {
+                        if (key) {
+                          const { checkedNodes } = el;
+                          const selectNodeData = getSelectNode(checkedNodes);
+                          const selectKeyData = getSelectKey(selectNodeData);
+                          setSelectNode(selectNodeData);
+                          setSearchSelectNode(selectNodeData);
+                          setSelectedKeys(selectKeyData);
+                        }
                       }}
                     />
                   ) : (
@@ -378,6 +396,7 @@ export default function CreateDeviceModal({
               cursor="pointer"
               onClick={() => {
                 setSelectNode([]);
+                setSearchSelectNode([]);
                 setSelectedKeys([]);
               }}
             >
@@ -389,7 +408,7 @@ export default function CreateDeviceModal({
           <SearchInput
             width="100%"
             placeholder="搜索"
-            onSearch={(value) => setKeywords(value)}
+            onSearch={(value) => localSearch(value, selectNode)}
           />
 
           <Tree
@@ -399,10 +418,10 @@ export default function CreateDeviceModal({
             fieldNames={
               selectIndex === 0 ? { title: 'path' } : { title: 'title' }
             }
-            treeData={selectNode}
+            treeData={searchSelectNode}
             checkedKeys={selectedKeys}
             onCheck={(keys) => {
-              setSelectedKeys(keys);
+              setSelectedKeys(keys as string[]);
             }}
           />
         </Flex>

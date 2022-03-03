@@ -40,6 +40,7 @@ function Pagination({
       alignItems="center"
       flexShrink="0"
       height="56px"
+      backgroundColor="white"
       boxShadow={
         showBoxShadow ? '0px -4px 8px rgba(239, 244, 249, 0.8)' : 'none'
       }
@@ -55,7 +56,7 @@ function Pagination({
       <Flex alignItems="center">
         <Select
           marginRight="16px"
-          width="75px"
+          width="64px"
           borderColor="gray.200"
           _focus={{ boxShadow: 'none' }}
           value={pageSize}
@@ -65,6 +66,7 @@ function Pagination({
             }
           }}
           size="sm"
+          fontSize="12px"
         >
           {pageSizeArr.map((size) => (
             <option key={size} value={size}>

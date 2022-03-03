@@ -2,7 +2,7 @@
 import { Flex, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 
 import { PageHeader } from '@tkeel/console-components';
-import { AppsAddFilledIcon } from '@tkeel/console-icons';
+import { PuzzleTwoToneIcon } from '@tkeel/console-icons';
 
 import useInstalledPluginsQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/useInstalledPluginsQuery';
 import useReposQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/useReposQuery';
@@ -18,7 +18,7 @@ function Index(): JSX.Element {
   return (
     <Flex flexDirection="column" height="100%">
       <PageHeader
-        icon={<AppsAddFilledIcon size={26} />}
+        icon={<PuzzleTwoToneIcon size={26} />}
         name="插件管理"
         desc="展示平台安装完成后静默注册的核心插件。"
       />
@@ -29,6 +29,7 @@ function Index(): JSX.Element {
         flex="1"
         overflow="hidden"
         marginTop="16px"
+        borderTopLeftRadius="4px"
       >
         <AddRepoButton
           refetchRepos={() => {

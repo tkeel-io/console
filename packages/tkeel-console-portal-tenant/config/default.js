@@ -22,7 +22,7 @@ module.exports = {
       },
       SetPassword: {
         backgroundImage: getConfigImagePath('background-02.png'),
-        logo: getConfigImagePath('logo-type-light.svg'),
+        logo: getConfigImagePath('logo-set-password.svg'),
       },
     },
   },

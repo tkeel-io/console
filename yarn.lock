@@ -3589,6 +3589,7 @@ __metadata:
     "@tkeel/console-components": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
     "@tkeel/console-icons": "workspace:^"
+    "@tkeel/console-request-hooks": "workspace:^"
     "@tkeel/console-types": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
     "@types/lodash": ^4.14.179
@@ -3617,6 +3618,7 @@ __metadata:
     "@tkeel/console-utils": "workspace:^"
     "@types/lodash": ^4.14.179
     framer-motion: ^6.2.8
+    js-base64: ^3.7.2
     lodash: ^4.17.21
     react: ^17.0.2
     react-dom: ^17.0.2
@@ -3733,6 +3735,7 @@ __metadata:
     "@tkeel/console-business-components": "workspace:^"
     "@tkeel/console-components": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
+    "@tkeel/console-request-hooks": "workspace:^"
     "@tkeel/console-types": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
     "@types/lodash": ^4.14.179
@@ -3757,6 +3760,7 @@ __metadata:
     "@tkeel/console-components": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
     "@tkeel/console-icons": "workspace:^"
+    "@tkeel/console-request-hooks": "workspace:^"
     "@tkeel/console-types": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
     "@types/lodash": ^4.14.179

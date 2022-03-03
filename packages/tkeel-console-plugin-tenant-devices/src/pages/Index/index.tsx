@@ -16,7 +16,6 @@ import {
 
 import useGroupTreeQuery, {
   NodeInfo,
-  // NodeInfo,
   TreeNodeType,
 } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
 import CreateGroupButton from '@/tkeel-console-plugin-tenant-devices/pages/Index/components/CreateGroupButton';
@@ -61,16 +60,19 @@ function getTreeNode({
 }: {
   list: TreeNodeData[];
   key: string;
-}): TreeNodeData {
+}): TreeNodeData | any {
   for (const item of list) {
     if (item.key === key) {
       return item;
     }
     if (!isEmpty(item.children)) {
-      return getTreeNode({ list: item.children, key });
+      const node = getTreeNode({ list: item.children, key });
+      if (!isEmpty(node)) {
+        return node;
+      }
     }
   }
-  return defaultGroupItem;
+  return {};
 }
 function getDefaultFormValues({ groupItem }: { groupItem: TreeNodeData }) {
   const nodeInfo = groupItem?.originData?.nodeInfo as NodeInfo;
@@ -189,7 +191,9 @@ function Index(): JSX.Element {
     list: treeNodeData,
     key: groupId,
   });
-  const defaultFormValues = getDefaultFormValues({ groupItem });
+  const defaultFormValues = getDefaultFormValues({
+    groupItem: isEmpty(groupItem) ? defaultGroupItem : groupItem,
+  });
 
   return (
     <Flex flexDirection="column" h="100%">
@@ -201,9 +205,15 @@ function Index(): JSX.Element {
             setPageNum(1);
             setKeyWords(value.trim());
           },
-          defaultValue: keyWords,
+          value: keyWords,
         }}
-        buttons={[<CreateDeviceButton key="create" variant="solid" />]}
+        buttons={[
+          <CreateDeviceButton
+            key="create"
+            variant="solid"
+            defaultFormValues={{ parentId: groupId }}
+          />,
+        ]}
       />
       <Box
         position="relative"

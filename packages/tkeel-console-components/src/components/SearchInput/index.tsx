@@ -30,7 +30,7 @@ export interface Props {
 }
 
 function SearchInput({
-  width = '300px',
+  width = '220px',
   height = '32px',
   inputGroupStyle = {},
   inputStyle = {},
@@ -87,7 +87,6 @@ function SearchInput({
         borderRadius="20px"
         color="gray.600"
         fontSize="12px"
-        backgroundColor="gray.50"
         {...inputStyle}
         _focus={{ borderColor: 'gray.400' }}
         _placeholder={{ fontWeight: 500 }}
