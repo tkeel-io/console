@@ -46,7 +46,7 @@ function BasicInfo({
       >
         <Flex
           position="relative"
-          zIndex="1"
+          zIndex="2"
           height="28px"
           justifyContent="space-between"
         >
