@@ -3523,13 +3523,13 @@ __metadata:
     "@tkeel/console-constants": "workspace:^"
     "@tkeel/console-types": "workspace:^"
     "@types/lodash": ^4.14.179
+    react-router-dom: ^6.2.2
     react-use-websocket: ^3.0.0
   peerDependencies:
     "@tkeel/console-utils": "workspace:^"
     axios: ^0.24.0
     react: ^17.0.2
     react-query: ^3.34.5
-    react-router-dom: ^6.2.1
   languageName: unknown
   linkType: soft
 
@@ -3890,6 +3890,7 @@ __metadata:
     "@types/lodash": ^4.14.179
     axios: ^0.26.0
     dayjs: ^1.10.8
+    qs: ^6.10.3
     react: ^17.0.2
     react-hook-form: ^7.27.1
     react-router-dom: ^6.2.2

@@ -1,20 +1,22 @@
 import { useDisclosure } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
 
 import { Alert, MoreActionButton } from '@tkeel/console-components';
 import { ShutdownFilledIcon } from '@tkeel/console-icons';
-import { getLocalTokenInfo, removeLocalTokenInfo } from '@tkeel/console-utils';
+import { getLocalTokenInfo, jumpToAuthLoginPage } from '@tkeel/console-utils';
 
 import useRevokeTokenMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useRevokeTokenMutation';
 
 export default function LogoutUserButton() {
-  const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isLoading, mutate, data } = useRevokeTokenMutation({
     onSuccess() {
       const tenantId = data?.tenant_id ?? '';
-      removeLocalTokenInfo();
-      navigate(`/auth/login/${tenantId}`, { replace: true });
+      jumpToAuthLoginPage({
+        portalName: 'tenant',
+        tenantId,
+        isRemoveLocalTokenInfo: true,
+        isReplace: true,
+      });
     },
   });
   const handleConfirm = () => {
