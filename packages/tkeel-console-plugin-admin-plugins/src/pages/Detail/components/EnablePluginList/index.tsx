@@ -93,8 +93,7 @@ function EnablePluginList({ pluginName }: Props) {
       <Table
         style={{ flex: 1, overflow: 'hidden', padding: '0 20px' }}
         columns={columns}
-        data={tenants.length > 0 ? [tenants[0], tenants[0], tenants[0]] : []}
-        // data={tenants}
+        data={tenants}
         isLoading={isLoading}
         isShowStripe
         scroll={{ y: '100%' }}
