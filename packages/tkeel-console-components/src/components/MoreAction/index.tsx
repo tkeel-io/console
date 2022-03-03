@@ -126,10 +126,11 @@ function MoreAction({
         borderWidth="1px"
         borderStyle="solid"
         borderColor="gray.300"
-        width="144px"
+        width="107px"
         backgroundColor="white"
         borderRadius="4px"
         zIndex="9"
+        boxShadow="0px 10px 15px rgba(113, 128, 150, 0.1), 0px 4px 6px rgba(113, 128, 150, 0.2)"
         onMouseEnter={handleActionListMouseEnter}
       >
         {menus}

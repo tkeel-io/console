@@ -88,10 +88,10 @@ const accessibleColorMap: { [key: string]: AccessibleColor } = {
 };
 
 const variantSolid: SystemStyleFunction = (props) => {
-  const { colorScheme: c } = props;
+  const { colorScheme: c, theme } = props;
 
   const padding = '0 22px';
-  const boxShadow = '0px 4px 12px rgba(25, 99, 202, 0.2)';
+  const boxShadow = `0 4px 12px ${transparentize('primary', 0.2)(theme)}`;
 
   if (c === 'gray') {
     const bg = mode(`gray.900`, `whiteAlpha.200`)(props);
