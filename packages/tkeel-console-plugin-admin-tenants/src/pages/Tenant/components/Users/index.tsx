@@ -91,6 +91,7 @@ export default function Users() {
       <PageHeaderToolbar
         name="用户管理"
         hasSearchInput
+        styles={{ wrapper: { margin: '4px 0' } }}
         searchInputProps={{
           onSearch(value) {
             setPageNum(1);

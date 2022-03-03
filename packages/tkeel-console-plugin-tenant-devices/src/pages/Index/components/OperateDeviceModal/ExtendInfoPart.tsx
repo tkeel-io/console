@@ -10,7 +10,7 @@ import {
   Text,
   Wrap,
 } from '@chakra-ui/react';
-import { find, findIndex } from 'lodash';
+import { find } from 'lodash';
 import { useState } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { UseFieldArrayReturn, UseFormReturn } from 'react-hook-form';
@@ -44,7 +44,7 @@ export default function ExtendInfoPart({
   fieldArrayHandler,
 }: Props) {
   const { register, setFocus } = formHandler;
-  // const { errors } = formState;
+  const [fieldCount, setFieldCount] = useState<number>(0);
   const { fields, append, remove } = fieldArrayHandler;
   const [labelId, setLabelId] = useState<string>('');
 
@@ -112,15 +112,11 @@ export default function ExtendInfoPart({
           color: 'primary',
         }}
         onClick={() => {
-          const itemIndex = findIndex(watchFields.extendInfo, [
-            'label',
-            '属性名称',
-          ]);
-          if (itemIndex === -1) {
-            append({ label: '属性名称', value: '' });
-          } else {
-            setFocus(`extendInfo.${itemIndex}.value`);
-          }
+          append({
+            label: `属性名称${fieldCount || ''}`,
+            value: '',
+          });
+          setFieldCount(fieldCount + 1);
         }}
       >
         添加
