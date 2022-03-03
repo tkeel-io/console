@@ -21,7 +21,10 @@ function AddSubscribeButton({ id, refetch }: Props) {
       toast({ status: 'success', title: '添加成功' });
       onClose();
       if (refetch) {
-        refetch();
+        const timer = setTimeout(() => {
+          refetch();
+          clearTimeout(timer);
+        }, 300);
       }
     },
   });
@@ -36,7 +39,7 @@ function AddSubscribeButton({ id, refetch }: Props) {
     <>
       <MoreActionButton
         onClick={onOpen}
-        icon={<AddFilledIcon size="12px" />}
+        icon={<AddFilledIcon color="grayAlternatives.300" size="12px" />}
         title="添加订阅"
       />
       {isOpen && (
