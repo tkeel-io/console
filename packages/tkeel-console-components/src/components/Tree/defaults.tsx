@@ -8,6 +8,8 @@ import { TreeProps } from './types';
 export const DEFAULT_PREFIX_CLS = 'rc-tree';
 
 export const DEFAULT_PROPS: Partial<TreeProps> = {
+  showLine: false,
+  showIcon: false,
   switcherIcon: (props) => {
     const { isLeaf, expanded } = props;
 
