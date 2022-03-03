@@ -4,7 +4,6 @@ interface PortalGlobals {
   publicPath: string;
   client: {
     themeName: 'tkeel-light' | 'qingcloud-light';
-    documentTitle: string | number;
   };
   api: {
     origin?: string; // development
@@ -32,9 +31,9 @@ interface PortalGlobals {
   };
   // local development
   mock?: {
-    tenantId?: string | number; // tenant
-    username?: string | number; // tenant
-    password?: string | number;
+    tenantTitle?: string; // tenant
+    username?: string; // tenant
+    password?: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     menus?: Array<Record<string, any>>;
   };

@@ -31,13 +31,20 @@ function ParentMenu({
 
   const isDarkMenu = isDarkMenuTheme();
   const defaultColor = isDarkMenu ? 'gray.400' : 'gray.600';
-  const activeColor = isDarkMenu ? 'white' : 'primary';
+
+  const iconColor = active ? 'white' : 'grayAlternatives.300';
+
+  const hoverStyle = {
+    color: isDarkMenu ? 'white' : 'primary',
+  };
 
   return (
     <Box
       paddingRight="18px"
-      color={active ? activeColor : defaultColor}
+      color={active ? 'white' : defaultColor}
       borderRadius="4px"
+      backgroundColor={active ? 'primary' : 'transparent'}
+      _hover={hoverStyle}
       onClick={() => handleMenuClick(id)}
     >
       <MenuItem
@@ -46,9 +53,9 @@ function ParentMenu({
         leftIcon={icon as string}
         rightIcon={
           spread ? (
-            <ChevronUpFilledIcon color="grayAlternatives.300" />
+            <ChevronUpFilledIcon color={iconColor} />
           ) : (
-            <ChevronDownFilledIcon color="grayAlternatives.300" />
+            <ChevronDownFilledIcon color={iconColor} />
           )
         }
       />

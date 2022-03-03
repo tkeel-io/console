@@ -1,4 +1,4 @@
-import { Button, Text, useDisclosure } from '@chakra-ui/react';
+import { Button, useDisclosure } from '@chakra-ui/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import {
@@ -62,11 +62,7 @@ function AddRepoButton({ refetchRepos }: Props) {
       </CreateButton>
       <Modal
         modalBodyStyle={{ padding: '20px 40px 60px' }}
-        title={
-          <Text color="gray.800" fontSize="14px">
-            设置配置
-          </Text>
-        }
+        title="创建插件源"
         footer={
           <>
             <Button onClick={onClose}>取消</Button>
@@ -88,7 +84,7 @@ function AddRepoButton({ refetchRepos }: Props) {
             label="插件源名称"
             error={errors.name}
             registerReturn={register('name', {
-              required: { value: true, message: 'required' },
+              required: { value: true, message: '请输入仓库源名称' },
             })}
           />
           <TextField

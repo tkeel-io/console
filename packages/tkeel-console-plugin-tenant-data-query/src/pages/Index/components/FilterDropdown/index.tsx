@@ -1,61 +1,333 @@
-import { Box, Button, Flex, StyleProps, Text } from '@chakra-ui/react';
-import { useState } from 'react';
+import { Flex, StyleProps } from '@chakra-ui/react';
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
 
-import { useColor } from '@tkeel/console-hooks';
-import { GoBackFilledIcon } from '@tkeel/console-icons';
+import useDeviceGroupQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceGroupQuery';
+import useDeviceListQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceListQuery';
+import useDeviceTemplatesQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceTemplatesQuery';
+import {
+  DEVICE_GROUP_ID,
+  DEVICE_TEMPLATES_ID,
+} from '@/tkeel-console-plugin-tenant-data-query/pages/Index/constants';
+import { RequestDataCondition } from '@/tkeel-console-plugin-tenant-data-query/types/request-data';
 
-// import DeviceGroup from './DeviceGroup';
-import DeviceList from './DeviceList';
-import DeviceTemplates from './DeviceTemplates';
-import Empty from './Empty';
-import StatusSelect from './StatusSelect';
-// import useDeviceGroupQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceGroupQuery';
+import FilterConditionSelect from './FilterConditionSelect';
+import ResultContent from './ResultContent';
+import { Status } from './StatusSelect';
+
+type Condition = {
+  id: string;
+  label: string;
+  value: string;
+};
 
 type Props = {
+  type: 'index' | 'searchResult';
+  status: Status;
+  // deviceGroupId: string;
+  // templateId: string;
+  showDeviceList: boolean;
+  setStatus: (status: Status) => unknown;
+  setDeviceGroupId: Dispatch<SetStateAction<string>>;
+  setTemplateId: Dispatch<SetStateAction<string>>;
   style?: StyleProps;
-  filterCondition:
-    | {
-        id: string;
-        label: string;
-      }
-    | undefined;
+  filterConditions: Condition[];
   handleConditionClick: (condition: { id: string; label: string }) => unknown;
+  updateCondition: (condition: { id: string; value: string }) => unknown;
+  setShowDeviceList: Dispatch<SetStateAction<boolean>>;
+  hideFilterDropdown: () => unknown;
 };
 
 export default function FilterDropdown({
+  type,
+  status,
+  // deviceGroupId,
+  // templateId,
+  showDeviceList,
+  setStatus,
+  setDeviceGroupId,
+  setTemplateId,
   style,
-  filterCondition,
+  filterConditions,
   handleConditionClick,
+  updateCondition,
+  setShowDeviceList,
+  hideFilterDropdown,
 }: Props) {
-  // const [showDeviceList, setShowDeviceList] = useState(true);
-  const [showDeviceList] = useState(true);
-  const [status, setStatus] = useState('全部状态');
+  const isIndex = type === 'index';
+  const sysFieldId = 'sysField._id';
+  const groupIdFilterCondition = filterConditions.find(
+    (condition) => condition.id === DEVICE_GROUP_ID
+  );
+  const templateIdFilterCondition = filterConditions.find(
+    (condition) => condition.id === DEVICE_TEMPLATES_ID
+  );
+  const keywordsCondition = filterConditions.find(
+    (condition) => condition.id === 'keywords'
+  );
+  const showDeviceGroup = !!groupIdFilterCondition;
+  const showDeviceTemplates = !!templateIdFilterCondition;
 
-  // const { deviceGroupTree } = useDeviceGroupQuery();
-  const primaryColor = useColor('primary');
+  const statusQueryField = 'connectInfo._online';
+  const deviceGroupIdQueryField = 'sysField._spacePath';
+  const templateIdQueryField = 'basicInfo.templateId';
 
-  const textStyle = {
-    marginBottom: '8px',
-    color: 'grayAlternatives.300',
-    fontSize: '12px',
-    lineHeight: '24px',
-  };
-
-  const DEVICE_GROUP_ID = 'deviceGroup';
-  const DEVICE_TEMPLATES_ID = 'deviceTemplates';
-  const conditions = [
+  const defaultDeviceListQueryConditions = [
     {
-      id: DEVICE_GROUP_ID,
-      label: '设备分组',
-    },
-    {
-      id: DEVICE_TEMPLATES_ID,
-      label: '设备模板',
+      field: 'type',
+      operator: '$eq',
+      value: 'device',
     },
   ];
 
-  const isDeviceGroup = filterCondition?.id === DEVICE_GROUP_ID;
-  const isDeviceTemplates = filterCondition?.id === DEVICE_TEMPLATES_ID;
+  const [deviceListQueryConditions, setDeviceListQueryConditions] = useState<
+    RequestDataCondition[]
+  >(defaultDeviceListQueryConditions);
+
+  const defaultDeviceGroupConditions = useMemo(
+    () => [
+      {
+        field: 'type',
+        operator: '$eq',
+        value: 'group',
+      },
+    ],
+    []
+  );
+
+  const [deviceGroupConditions, setDeviceGroupConditions] = useState<
+    RequestDataCondition[]
+  >(defaultDeviceGroupConditions);
+
+  const defaultTemplateConditions = useMemo(
+    () => [
+      {
+        field: 'type',
+        operator: '$eq',
+        value: 'template',
+      },
+    ],
+    []
+  );
+
+  const [templateConditions, setTemplateConditions] = useState<
+    RequestDataCondition[]
+  >(defaultTemplateConditions);
+
+  const baseRequestData = {
+    query: '',
+    page_num: 1,
+    page_size: 1000,
+    order_by: 'name',
+    is_descending: false,
+  };
+
+  const { deviceGroupTree, isLoading: isDeviceGroupLoading } =
+    useDeviceGroupQuery({
+      requestData: {
+        ...baseRequestData,
+        query: showDeviceGroup ? groupIdFilterCondition.value : '',
+        condition: deviceGroupConditions,
+      },
+    });
+
+  // const showDeviceList = Boolean(
+  //   (showDeviceGroup && deviceGroupId) ||
+  //     (showDeviceTemplates && templateId) ||
+  //     keywordsCondition
+  // );
+
+  const { deviceList, isLoading: isDeviceListLoading } = useDeviceListQuery({
+    requestData: {
+      ...baseRequestData,
+      query: keywordsCondition?.value ?? '',
+      condition: deviceListQueryConditions,
+    },
+    enabled: showDeviceList,
+  });
+
+  const { templates, isLoading: isDeviceTemplatesLoading } =
+    useDeviceTemplatesQuery({
+      requestData: {
+        ...baseRequestData,
+        query: showDeviceTemplates ? templateIdFilterCondition.value : '',
+        condition: templateConditions,
+      },
+    });
+
+  const handleStatusChange = (deviceStatus: Status) => {
+    let newDeviceListQueryConditions = [...deviceListQueryConditions];
+    const statusQueryCondition = newDeviceListQueryConditions.find(
+      (queryCondition) => queryCondition.field === statusQueryField
+    );
+
+    const { value } = deviceStatus;
+    const online = value === 'online';
+    if (statusQueryCondition) {
+      if (value === 'all') {
+        newDeviceListQueryConditions = newDeviceListQueryConditions.filter(
+          (queryCondition) => queryCondition.field !== statusQueryField
+        );
+        setDeviceListQueryConditions(newDeviceListQueryConditions);
+      } else {
+        statusQueryCondition.value = online;
+        setDeviceListQueryConditions(newDeviceListQueryConditions);
+      }
+    } else {
+      setDeviceListQueryConditions([
+        ...newDeviceListQueryConditions,
+        {
+          field: statusQueryField,
+          operator: '$eq',
+          value: online,
+        },
+      ]);
+    }
+    setStatus(deviceStatus);
+  };
+
+  const handleDeviceGroupTitleClick = ({
+    groupId,
+    title,
+  }: {
+    groupId: string;
+    title: string;
+  }) => {
+    if (isIndex) {
+      const newDeviceListQueryConditions = [...deviceListQueryConditions];
+      const groupIdCondition = newDeviceListQueryConditions.find(
+        (queryCondition) => queryCondition.field === deviceGroupIdQueryField
+      );
+      if (groupIdCondition) {
+        groupIdCondition.value = groupId;
+        setDeviceListQueryConditions(newDeviceListQueryConditions);
+      } else {
+        setDeviceListQueryConditions([
+          ...deviceListQueryConditions,
+          {
+            field: deviceGroupIdQueryField,
+            operator: '$wildcard',
+            value: groupId,
+          },
+        ]);
+      }
+
+      setDeviceGroupConditions([
+        ...deviceGroupConditions,
+        {
+          field: sysFieldId,
+          operator: '$eq',
+          value: groupId,
+        },
+      ]);
+
+      setShowDeviceList(true);
+    } else {
+      hideFilterDropdown();
+    }
+
+    setDeviceGroupId(groupId);
+    updateCondition({ id: DEVICE_GROUP_ID, value: title });
+  };
+
+  const onTemplateClick = ({
+    templateId: id,
+    templateName,
+  }: {
+    templateId: string;
+    templateName: string;
+  }) => {
+    if (isIndex) {
+      const newDeviceListQueryConditions = [...deviceListQueryConditions];
+      const templateIdCondition = newDeviceListQueryConditions.find(
+        (queryCondition) => queryCondition.field === templateIdQueryField
+      );
+      if (templateIdCondition) {
+        templateIdCondition.value = id;
+        setDeviceListQueryConditions(newDeviceListQueryConditions);
+      } else {
+        setDeviceListQueryConditions([
+          ...deviceListQueryConditions,
+          {
+            field: templateIdQueryField,
+            operator: '$wildcard',
+            value: id,
+          },
+        ]);
+      }
+
+      setTemplateConditions([
+        ...templateConditions,
+        {
+          field: sysFieldId,
+          operator: '$eq',
+          value: id,
+        },
+      ]);
+
+      setShowDeviceList(true);
+    } else {
+      hideFilterDropdown();
+    }
+
+    setTemplateId(id);
+    updateCondition({ id: DEVICE_TEMPLATES_ID, value: templateName });
+  };
+  // const showLoading =
+  //   (showDeviceGroup && isDeviceGroupLoading) ||
+  //   (showDeviceList && isDeviceListLoading);
+
+  useEffect(() => {
+    const groupId = groupIdFilterCondition?.id;
+    if (!groupId || groupId !== DEVICE_GROUP_ID) {
+      setDeviceGroupConditions(defaultDeviceGroupConditions);
+    }
+  }, [
+    groupIdFilterCondition,
+    setDeviceGroupConditions,
+    defaultDeviceGroupConditions,
+  ]);
+
+  useEffect(() => {
+    const templateConditionId = templateIdFilterCondition?.id;
+    if (!templateConditionId || templateConditionId !== DEVICE_GROUP_ID) {
+      setTemplateConditions(defaultTemplateConditions);
+    }
+  }, [
+    templateIdFilterCondition,
+    setTemplateConditions,
+    defaultTemplateConditions,
+  ]);
+
+  // const handleUpdateDeviceGroupConditions = useCallback(
+  //   (groupId: string) => {
+  //     setDeviceGroupConditions([
+  //       ...deviceGroupConditions,
+  //       {
+  //         field: sysFieldId,
+  //         operator: '$eq',
+  //         value: groupId,
+  //       },
+  //     ]);
+  //   },
+  //   [setDeviceGroupConditions, deviceGroupConditions]
+  // );
+
+  // useEffect(() => {
+  //   handleUpdateDeviceGroupConditions(deviceGroupId);
+  // }, [deviceGroupId, handleUpdateDeviceGroupConditions]);
+
+  // useEffect(() => {
+  //   if (deviceGroupId) {
+  //     setDeviceListQueryConditions([
+  //       ...deviceListQueryConditions,
+  //       {
+  //         field: deviceGroupIdQueryField,
+  //         operator: '$wildcard',
+  //         value: deviceGroupId,
+  //       },
+  //     ]);
+  //   }
+  // }, [deviceListQueryConditions, setDeviceListQueryConditions, deviceGroupId]);
 
   return (
     <Flex
@@ -70,79 +342,38 @@ export default function FilterDropdown({
       borderRadius="4px"
       {...style}
     >
-      <Text {...textStyle}>过滤条件</Text>
-      <Flex marginBottom="8px">
-        {conditions.map((condition) => {
-          const { id, label } = condition;
-          const isSelected = filterCondition?.id === id;
-          return (
-            <Button
-              marginRight="8px"
-              variant="outline"
-              key={id}
-              borderRadius="4px"
-              color={isSelected ? 'primary' : 'gray.400'}
-              borderColor={isSelected ? 'primary' : 'gray.200'}
-              bg={isSelected ? 'blue.50' : 'white'}
-              height="24px"
-              p="0 12px"
-              fontSize="12px"
-              onClick={() => {
-                if (!isSelected) {
-                  handleConditionClick(condition);
-                }
-              }}
-            >
-              {label}
-            </Button>
-          );
-        })}
-      </Flex>
-      {showDeviceList ? (
-        <Flex
-          marginBottom="8px"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Flex
-            alignItems="center"
-            color="gray.800"
-            fontSize="12px"
-            lineHeight="24px"
-          >
-            <Box
-              _hover={{
-                svg: {
-                  color: primaryColor,
-                },
-              }}
-            >
-              <GoBackFilledIcon />
-            </Box>
-            <Flex marginLeft="10px">
-              共
-              <Text margin="0 3px" color="primary">
-                23
-              </Text>
-              条结果
-            </Flex>
-          </Flex>
-          <StatusSelect status={status} setStatus={setStatus} />
-        </Flex>
-      ) : (
-        <Text {...textStyle}>搜索结果</Text>
-      )}
-      <Box flex="1" overflow="auto">
-        {!isDeviceGroup && !isDeviceTemplates && !showDeviceList && <Empty />}
-        {/* {isDeviceGroup && (
-          <DeviceGroup
-            deviceGroupTree={deviceGroupTree}
-            onClick={() =(true)}
-          />
-        )} */}
-        {isDeviceTemplates && <DeviceTemplates />}
-        {showDeviceList && <DeviceList />}
-      </Box>
+      <FilterConditionSelect
+        disabled={
+          !groupIdFilterCondition &&
+          !templateIdFilterCondition &&
+          !!keywordsCondition
+        }
+        filterConditionId={
+          groupIdFilterCondition?.id || templateIdFilterCondition?.id || ''
+        }
+        handleConditionClick={handleConditionClick}
+      />
+      <ResultContent
+        status={status}
+        onStatusChange={handleStatusChange}
+        isDeviceGroupLoading={isDeviceGroupLoading}
+        showDeviceGroup={showDeviceGroup}
+        deviceGroupTree={deviceGroupTree}
+        // clearDeviceGroupId={() => setDeviceGroupId('')}
+        // clearTemplateId={() => setTemplateId('')}
+        showBackButton={Boolean(
+          groupIdFilterCondition || templateIdFilterCondition
+        )}
+        showDeviceList={showDeviceList}
+        isDeviceListLoading={isDeviceListLoading}
+        deviceList={deviceList}
+        setShowDeviceList={setShowDeviceList}
+        onTemplateClick={onTemplateClick}
+        showDeviceTemplates={showDeviceTemplates}
+        isDeviceTemplatesLoading={isDeviceTemplatesLoading}
+        templates={templates}
+        onDeviceGroupTitleClick={handleDeviceGroupTitleClick}
+      />
     </Flex>
   );
 }

@@ -16,18 +16,24 @@ import {
   VpcTwoToneIcon,
 } from '@tkeel/console-icons';
 
-import DeviceIconName from '@/tkeel-console-plugin-tenant-data-query/components/DeviceIconName';
-import Rectangle from '@/tkeel-console-plugin-tenant-data-query/components/Rectangle';
+import {
+  DeviceIconName,
+  DeviceStatusIcon,
+  Rectangle,
+} from '@/tkeel-console-plugin-tenant-data-query/components';
 
-import CustomCircle from './CustomCircle';
+import CustomCircle from './components/CustomCircle';
+// import DataTable from './components/DataTable';
 
 export default function Detail() {
   const navigate = useNavigate();
+
   const textStyle = {
     color: 'gray.800',
     fontSize: '12px',
     lineHeight: '24px',
   };
+
   return (
     <Flex height="100%" justifyContent="space-between">
       <Flex flexDirection="column" width="360px">
@@ -46,7 +52,7 @@ export default function Detail() {
             >
               <DeviceIconName />
               <Flex>
-                <Rectangle backgroundColor="green.300" opacity="0.1" />
+                <DeviceStatusIcon isOnline />
                 <Rectangle
                   icon={
                     <VpcTwoToneIcon color="primary" twoToneColor="primary" />
@@ -173,6 +179,7 @@ export default function Detail() {
             </CustomCircle>
           </Flex>
         </Flex>
+        {/* <DataTable style={{ flex: '1' }} /> */}
       </Flex>
     </Flex>
   );

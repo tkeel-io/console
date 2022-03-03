@@ -2,9 +2,10 @@ import { Text, useDisclosure } from '@chakra-ui/react';
 
 import { SetPasswordModal } from '@tkeel/console-business-components';
 import { Alert, LinkButton } from '@tkeel/console-components';
-
-import useGetResetPasswordKeyMutation from '@/tkeel-console-plugin-admin-tenants/hooks/mutations/useGetResetPasswordKeyMutation';
-import { User } from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useUsersQuery';
+import {
+  useGetResetPasswordKeyMutation,
+  User,
+} from '@tkeel/console-request-hooks';
 
 type Props = {
   data: User;

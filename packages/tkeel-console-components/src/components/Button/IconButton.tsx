@@ -1,4 +1,5 @@
-import { Button, ButtonProps, Circle } from '@chakra-ui/react';
+import { Button as ChakraButton, ButtonProps, Circle } from '@chakra-ui/react';
+import styled from '@emotion/styled';
 import { ReactElement } from 'react';
 
 interface Props extends ButtonProps {
@@ -6,12 +7,18 @@ interface Props extends ButtonProps {
   icon: ReactElement;
 }
 
+const Button = styled(ChakraButton)`
+  .chakra-button__icon {
+    margin-right: 4px;
+  }
+`;
+
 function IconButton({ isShowCircle = false, icon, children, ...rest }: Props) {
   return (
     <Button
       leftIcon={
         isShowCircle ? (
-          <Circle size="20px" backgroundColor="primarySub3">
+          <Circle marginRight="4px" size="20px" backgroundColor="primarySub3">
             {icon}
           </Circle>
         ) : (

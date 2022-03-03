@@ -4,17 +4,22 @@ import { NavigateFunction, useNavigate } from 'react-router-dom';
 
 import { Form, FormField } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
-import { schemas, setLocalTokenInfo } from '@tkeel/console-utils';
+import { usePortalAdminConfigQuery } from '@tkeel/console-request-hooks';
+import {
+  isEnvDevelopment,
+  schemas,
+  setLocalTokenInfo,
+} from '@tkeel/console-utils';
 
-import configs from '@/tkeel-console-portal-admin/configs';
-import useOAuthAdminTokenMutation, {
+import useAdminTokenMutation, {
   ApiData,
-} from '@/tkeel-console-portal-admin/hooks/mutations/useOAuthAdminTokenMutation';
+} from '@/tkeel-console-portal-admin/hooks/mutations/useAdminTokenMutation';
+
+const mockData = isEnvDevelopment()
+  ? { password: String(PORTAL_GLOBALS?.mock?.password ?? '') }
+  : { password: '' };
 
 const { TextField } = FormField;
-
-const config = configs[PORTAL_GLOBALS.client.themeName];
-const pageConfig = config?.pages?.AdminTenant;
 
 type FormValues = {
   username: string;
@@ -47,7 +52,6 @@ export default function Login() {
   };
 
   const inputStyle = {
-    width: '350px',
     height: '50px',
     padding: '16px 20px',
     borderWidth: '1px',
@@ -59,6 +63,9 @@ export default function Login() {
     lineHeight: '20px',
   };
 
+  const { config } = usePortalAdminConfigQuery();
+  const pageConfig = config?.client?.pages.Login;
+
   const {
     register,
     handleSubmit,
@@ -68,8 +75,11 @@ export default function Login() {
   const navigate = useNavigate();
   const redirect = useRedirectParams();
 
-  const { data, mutate, isLoading } = useOAuthAdminTokenMutation();
-  handleLogin({ data, redirect, navigate });
+  const { mutate, isLoading } = useAdminTokenMutation({
+    onSuccess({ data }) {
+      handleLogin({ data, redirect, navigate });
+    },
+  });
 
   const onSubmit: SubmitHandler<FormValues> = (formValues) => {
     const { password } = formValues;
@@ -86,19 +96,19 @@ export default function Login() {
       <Box
         flex="1"
         paddingLeft="80px"
-        backgroundImage={pageConfig.backgroundImage}
+        backgroundImage={pageConfig?.backgroundImage}
         backgroundRepeat="no-repeat"
         backgroundSize="100% 100%"
       >
         <Heading
           display="flex"
           marginTop="80px"
-          font-weight="600"
+          fontWeight="600"
           fontSize="30px"
           lineHeight="42px"
         >
-          <Text color="primary">{pageConfig.titlePart1}</Text>
-          <Text color="primarySub3">{pageConfig.titlePart2}</Text>
+          <Text color="primary">{pageConfig?.title}</Text>
+          <Text color="primarySub3">{pageConfig?.titlePart2}</Text>
         </Heading>
         <Heading
           marginTop="12px"
@@ -106,7 +116,7 @@ export default function Login() {
           lineHeight="24px"
           color="gray.100"
         >
-          {pageConfig.description}
+          {pageConfig?.subTitle}
         </Heading>
       </Box>
       <Center flexDirection="column" width="42vw">
@@ -124,9 +134,10 @@ export default function Login() {
             type="password"
             id="password"
             label="密码"
-            defaultValue={String(PORTAL_GLOBALS?.mock?.password ?? '')}
+            defaultValue={mockData.password}
             placeholder="请输入您的密码"
             error={errors.password}
+            formControlStyle={{ width: '350px' }}
             formLabelStyle={formLabelStyle}
             inputStyle={inputStyle}
             registerReturn={register(

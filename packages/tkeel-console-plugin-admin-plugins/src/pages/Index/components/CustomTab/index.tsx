@@ -31,9 +31,9 @@ function CustomTab(props: Props) {
     >
       <Text
         marginRight="15px"
-        color={isSelected ? 'white' : 'gray.800'}
+        color={isSelected ? 'white' : 'grayAlternatives.300'}
         fontSize="12px"
-        fontWeight="600"
+        fontWeight={isSelected ? '500' : 'normal'}
       >
         {children}
       </Text>

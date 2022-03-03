@@ -3,12 +3,12 @@ import { useForm } from 'react-hook-form';
 import { FormField, Modal, toast } from '@tkeel/console-components';
 import { getLocalTokenInfo, schemas } from '@tkeel/console-utils';
 
-import { RequestData } from '@/tkeel-console-portal-tenant/hooks/mutations/useOAuthModifyPasswordMutation';
+import { RequestData } from '@/tkeel-console-portal-tenant/hooks/mutations/useModifyPasswordMutation';
 
 const { TextField } = FormField;
 
 export interface FormValues {
-  password: string;
+  newPassword: string;
   confirmPassword: string;
 }
 
@@ -37,9 +37,9 @@ export default function ModifyPasswordModal({
     if (result) {
       const formValues = getValues();
 
-      const { password, confirmPassword } = formValues;
+      const { newPassword, confirmPassword } = formValues;
 
-      if (password !== confirmPassword) {
+      if (newPassword !== confirmPassword) {
         toast({ status: 'warning', title: '两次输入的密码不一致' });
         return;
       }
@@ -47,7 +47,7 @@ export default function ModifyPasswordModal({
       const tokenInfo = getLocalTokenInfo();
 
       onConfirm({
-        new_password: password,
+        new_password: newPassword,
         refresh_token: tokenInfo.refresh_token,
       });
     }
@@ -64,16 +64,19 @@ export default function ModifyPasswordModal({
       <TextField
         type="password"
         id="password"
-        label="密码"
+        label="新密码"
         help={schemas.password.help}
         placeholder="请输入"
-        error={errors.password}
-        registerReturn={register('password', schemas.password.registerOptions)}
+        error={errors.newPassword}
+        registerReturn={register(
+          'newPassword',
+          schemas.password.registerOptions
+        )}
       />
       <TextField
         type="password"
         id="confirmPassword"
-        label="再次输入密码"
+        label="再次输入新密码"
         help={schemas.password.help}
         placeholder="请输入"
         error={errors.confirmPassword}

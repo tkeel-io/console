@@ -1,9 +1,9 @@
 import { useDisclosure } from '@chakra-ui/react';
 
 import { LinkButton } from '@tkeel/console-components';
+import { User } from '@tkeel/console-request-hooks';
 
 import useDeleteUserMutation from '@/tkeel-console-plugin-tenant-users/hooks/mutations/useDeleteUserMutation';
-import { User } from '@/tkeel-console-plugin-tenant-users/hooks/queries/useUsersQuery';
 import DeleteUserModal from '@/tkeel-console-plugin-tenant-users/pages/Users/components/DeleteUserModal';
 
 type Props = {

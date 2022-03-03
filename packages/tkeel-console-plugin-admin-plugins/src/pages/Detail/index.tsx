@@ -35,13 +35,25 @@ function Detail() {
         <BasicInfoCard data={pluginDetail} refetchDetails={refetch} />
         <DeveloperInfo data={maintainers} />
       </Box>
-      <Tabs display="flex" flexDirection="column" marginLeft="20px" flex="1">
+      <Tabs
+        display="flex"
+        flexDirection="column"
+        marginLeft="20px"
+        flex="1"
+        boxShadow="0px 10px 15px -3px rgba(113, 128, 150, 0.1), 0px 4px 6px -2px rgba(113, 128, 150, 0.05);"
+        borderRadius="4px"
+      >
         <CustomTabList>
           <CustomTab>说明</CustomTab>
           <CustomTab>参数</CustomTab>
           <CustomTab>启用列表</CustomTab>
         </CustomTabList>
-        <TabPanels flex="1" overflow="hidden">
+        <TabPanels
+          flex="1"
+          overflow="hidden"
+          borderBottomLeftRadius="4px"
+          borderBottomRightRadius="4px"
+        >
           <TabPanel padding="0" height="100%" backgroundColor="white">
             {readme ? (
               <MarkdownWrapper

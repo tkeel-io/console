@@ -71,10 +71,10 @@ function Content({ isInstalledPlugins = false, repo }: Props) {
       name: '已安装',
       num: installedNum,
     },
-    {
-      name: '未安装',
-      num: totalNum - installedNum,
-    },
+    // {
+    //   name: '未安装',
+    //   num: totalNum - installedNum,
+    // },
   ];
   if (isInstalledPlugins) {
     pluginNumData = [pluginNumData[1]];
@@ -94,12 +94,11 @@ function Content({ isInstalledPlugins = false, repo }: Props) {
       height="100%"
       paddingTop="17px"
       borderRadius="4px"
-      backgroundColor="white"
+      backgroundColor="gray.50"
     >
       <Flex margin="0 24px" alignItems="center" justifyContent="space-between">
         <PluginNum data={pluginNumData} />
         <SearchInput
-          width="452px"
           placeholder="搜索插件"
           onSearch={(value) => {
             setKeywords(value);

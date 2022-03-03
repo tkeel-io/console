@@ -186,7 +186,7 @@ module.exports = {
       title: documentTitle,
       template: path.resolve(paths.cwd.public, 'index.handlebars'),
       inject: true,
-      favicon: path.resolve(paths.cwd.public, 'favicon.svg'),
+      // favicon: path.resolve(paths.cwd.public, 'favicon.svg'),
       hash: true,
     }),
     new ForkTsCheckerWebpackPlugin(),

@@ -42,9 +42,10 @@ function DeveloperInfo({ data, styles }: Props) {
 
   return (
     <Box
-      marginTop="8px"
+      marginTop="12px"
       width="100%"
       backgroundColor="white"
+      borderRadius="4px"
       {...styles?.wrapper}
     >
       <InfoCard

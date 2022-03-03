@@ -1,3 +1,5 @@
+import { CSSProperties } from 'react';
+
 import * as icons from '@tkeel/console-icons';
 
 import { isDarkMenuTheme } from '@/tkeel-console-portal-base/utils';
@@ -5,7 +7,7 @@ import { isDarkMenuTheme } from '@/tkeel-console-portal-base/utils';
 type Props = {
   icon: string;
   active: boolean;
-  style?: React.CSSProperties;
+  style?: CSSProperties;
   isMenuLink?: boolean;
 };
 
@@ -26,9 +28,9 @@ function MenuIcon({ icon, active, style = {}, isMenuLink = false }: Props) {
     defaultTwoToneColor = isTwoTone ? 'whiteAlpha.800' : 'whiteAlpha.500';
   }
 
-  let activeColor = 'primary';
+  let activeColor = 'white';
   if (isMenuLink) {
-    activeColor = isTwoTone ? 'gray.300' : 'white';
+    activeColor = isTwoTone ? 'whiteAlpha.700' : 'white';
   }
 
   const iconProps = isTwoTone
@@ -42,6 +44,7 @@ function MenuIcon({ icon, active, style = {}, isMenuLink = false }: Props) {
   return (
     <Icon
       color={active ? activeColor : defaultColor}
+      size={20}
       style={style}
       {...iconProps}
     />

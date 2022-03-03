@@ -42,11 +42,7 @@ function MenuLink({ path, name, icon }: Props) {
   const hoverStyle = active
     ? {}
     : {
-        backgroundColor: 'primary',
-        '& > svg': {
-          color: 'blue.800',
-        },
-        color: 'white !important',
+        color: isDarkTheme ? 'white' : 'primary',
       };
   const defaultColor = isDarkTheme ? 'gray.400' : 'gray.600';
 

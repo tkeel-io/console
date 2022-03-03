@@ -1,10 +1,12 @@
+export type PluginState = 'INSTALLED' | 'UNINSTALL' | 'SAME_NAME';
+
 export interface BriefPluginInfo {
   name: string;
   version: string;
   icon: string;
   desc: string;
   repo: string;
-  installed: boolean;
+  state: PluginState;
 }
 
 export interface PluginInfo extends BriefPluginInfo {

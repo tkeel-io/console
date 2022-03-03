@@ -1,5 +1,5 @@
 import { usePortalQuery } from '@tkeel/console-hooks';
-import { RequestResult } from '@tkeel/console-utils';
+import { isEnvDevelopment, RequestResult } from '@tkeel/console-utils';
 
 const url = '/rudder/v1/entries';
 const method = 'GET';
@@ -39,7 +39,7 @@ export default function useMenusQuery(props?: Props) {
   });
   const menus = data?.entries || [];
 
-  if (process.env.NODE_ENV === 'development') {
+  if (isEnvDevelopment()) {
     let mockMenus: Menu[] = [];
 
     try {

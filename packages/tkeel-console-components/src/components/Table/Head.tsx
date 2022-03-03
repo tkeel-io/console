@@ -35,7 +35,7 @@ function Head<D extends object>({
                   height="34px"
                   padding="0 20px"
                   position={fixHead ? 'sticky' : 'static'}
-                  color="gray.400"
+                  color="grayAlternatives.400"
                   borderColor={
                     isShowStripe ? 'transparent' : 'grayAlternatives.50'
                   }

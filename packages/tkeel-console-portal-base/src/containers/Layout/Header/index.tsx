@@ -1,10 +1,4 @@
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  Flex,
-  Text,
-} from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
 
@@ -34,25 +28,16 @@ export default function Header({ menus, userActionMenusComponent }: Props) {
 
   return (
     <Flex justifyContent="space-between" height="20px" marginBottom="22px">
-      <Breadcrumb
-        separator={
-          <Text margin="0" color="gray.400" fontSize="12px">
-            /
-          </Text>
-        }
-      >
-        {breadcrumbs.map((crumb) => (
-          <BreadcrumbItem key={crumb}>
-            <BreadcrumbLink
-              color="grayAlternatives.300"
-              fontSize="12px"
-              cursor="default"
-            >
+      <Flex color="grayAlternatives.300" fontSize="12px">
+        {breadcrumbs.map((crumb, i) => (
+          <Flex key={String(i + 1)} alignItems="center">
+            <Text key="crumb" cursor="default">
               {crumb}
-            </BreadcrumbLink>
-          </BreadcrumbItem>
+            </Text>
+            {i < breadcrumbs.length - 1 && <Text margin="0">/</Text>}
+          </Flex>
         ))}
-      </Breadcrumb>
+      </Flex>
       <Flex alignItems="center">{userActionMenusComponent}</Flex>
     </Flex>
   );

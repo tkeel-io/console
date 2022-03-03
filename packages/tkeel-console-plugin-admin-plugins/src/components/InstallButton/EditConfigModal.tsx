@@ -6,12 +6,13 @@ import { Editor, Modal } from '@tkeel/console-components';
 
 import useInstallPluginMutation from '@/tkeel-console-plugin-admin-plugins/hooks/mutations/useInstallPluginMutation';
 import usePluginDetailQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/usePluginDetailQuery';
+import { PluginState } from '@/tkeel-console-plugin-admin-plugins/types/plugin-info';
 
 export interface InstallPluginInfo {
   name: string;
   version: string;
   repo: string;
-  installed: boolean;
+  state: PluginState;
 }
 
 type Props = {
@@ -68,10 +69,9 @@ function EditConfigModal({
     >
       <Editor
         width="100%"
-        height="416px"
+        height="426px"
         language="yaml"
         value={Base64.decode(pluginDetail?.metadata?.configuration ?? '')}
-        readOnly
       />
     </Modal>
   );

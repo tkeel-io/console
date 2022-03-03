@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useDisclosure } from '@chakra-ui/react';
 import { keyBy, mapValues } from 'lodash';
@@ -10,52 +12,68 @@ import { TreeNodeType } from '@/tkeel-console-plugin-tenant-devices/hooks/querie
 import OperateDeviceModal from '@/tkeel-console-plugin-tenant-devices/pages/Index/components/OperateDeviceModal';
 import {
   DeviceDefaultInfoType,
-  DeviceValueType,
+  DeviceFormFields,
   ModalMode,
   ModalType,
 } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
 
 interface Props {
   defaultFormValues: DeviceDefaultInfoType;
-  refetch?: () => void;
+  callback?: () => void;
   groupTree: TreeNodeType;
+  type?: 'icon';
 }
 
-function UpdateGroupButton({ defaultFormValues, refetch, groupTree }: Props) {
+function UpdateGroupButton({
+  defaultFormValues,
+  callback,
+  groupTree,
+  type,
+}: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const onSuccess = () => {
     toast({
       status: 'success',
       title: '修改设备组成功',
     });
-    if (refetch) {
-      refetch();
+    if (callback) {
+      window.setTimeout(() => {
+        callback();
+      }, 300);
     }
   };
 
   const { isLoading, isSuccess, mutate } = useUpdateGroupMutation({
-    id: defaultFormValues.id,
+    id: defaultFormValues.id as string,
     onSuccess,
   });
-  const handleConfirm = ({ formValues }: { formValues: DeviceValueType }) => {
-    const { description, name, parentId, extendInfo } = formValues;
-    const [id, ...rest] = parentId.split('&');
+  const handleConfirm = ({ formValues }: { formValues: DeviceFormFields }) => {
+    const { description, name, parentId, extendInfo, parentName } = formValues;
     const params = {
       description,
       name,
       ext: mapValues(keyBy(extendInfo, 'label'), 'value'),
-      parentId: id,
-      parentName: rest.join('&'),
+      parentId,
+      parentName,
     };
     mutate({ data: params });
   };
   return (
     <>
-      <MoreActionButton
-        icon={<PencilFilledIcon size="12px" />}
-        title="编辑设备组"
-        onClick={onOpen}
-      />
+      {type === 'icon' ? (
+        <PencilFilledIcon
+          onClick={onOpen}
+          color="grayAlternatives.300"
+          style={{ cursor: 'pointer' }}
+        />
+      ) : (
+        <MoreActionButton
+          icon={<PencilFilledIcon size="12px" color="grayAlternatives.300" />}
+          title="编辑设备组"
+          onClick={onOpen}
+        />
+      )}
+
       {isOpen && (
         <OperateDeviceModal
           title="编辑设备组信息"
