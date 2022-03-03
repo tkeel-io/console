@@ -35,7 +35,12 @@ function PageHeader({ icon, name, desc }: Props) {
         <Text fontSize="14px" fontWeight="600" lineHeight="22PX">
           {name}
         </Text>
-        <Text marginTop="5px" fontSize="12px" lineHeight="17px">
+        <Text
+          marginTop="5px"
+          color="grayAlternatives.300"
+          fontSize="12px"
+          lineHeight="17px"
+        >
           {desc}
         </Text>
       </Flex>

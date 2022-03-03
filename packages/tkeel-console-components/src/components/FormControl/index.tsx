@@ -14,6 +14,8 @@ export interface FormControlProps {
   error?: FieldError;
   formControlStyle?: StyleProps;
   formLabelStyle?: StyleProps;
+  formHelperStyle?: StyleProps;
+  formErrorMessageStyle?: StyleProps;
 }
 
 type Props = FormControlProps & {
@@ -28,6 +30,8 @@ function CustomFormControl({
   error,
   formControlStyle,
   formLabelStyle,
+  formHelperStyle,
+  formErrorMessageStyle,
   children,
 }: Props) {
   return (
@@ -48,9 +52,11 @@ function CustomFormControl({
       </FormLabel>
       {children}
       {error ? (
-        <FormErrorMessage>{error?.message}</FormErrorMessage>
+        <FormErrorMessage {...formHelperStyle} {...formErrorMessageStyle}>
+          {error?.message}
+        </FormErrorMessage>
       ) : (
-        <FormHelperText>{help}</FormHelperText>
+        <FormHelperText {...formHelperStyle}>{help}</FormHelperText>
       )}
     </FormControl>
   );
