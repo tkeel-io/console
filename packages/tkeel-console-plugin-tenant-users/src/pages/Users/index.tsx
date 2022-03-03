@@ -1,4 +1,4 @@
-import { Flex, Text } from '@chakra-ui/react';
+import { Flex, Text, Theme, useTheme } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
 import { Cell, Column } from 'react-table';
 
@@ -21,6 +21,7 @@ import ModifyUserButton from './components/ModifyUserButton';
 import ResetPasswordButton from './components/ResetPasswordButton';
 
 export default function Users() {
+  const { colors }: Theme = useTheme();
   const { tenant_id: tenantId } = getLocalTenantInfo();
   const [keyWords, setKeyWords] = useState('');
   const pagination = usePagination();
@@ -121,6 +122,7 @@ export default function Users() {
         name="用户管理"
         hasSearchInput
         searchInputProps={{
+          inputStyle: { backgroundColor: colors.white },
           onSearch(value) {
             setPageNum(1);
             setKeyWords(value.trim());
@@ -136,7 +138,12 @@ export default function Users() {
         paginationProps={pagination}
         scroll={{ y: '100%' }}
         isLoading={isLoading}
-        style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
+        style={{
+          flex: 1,
+          overflow: 'hidden',
+          padding: '12px 20px 0',
+          backgroundColor: 'whiteAlias',
+        }}
       />
     </Flex>
   );

@@ -7,13 +7,18 @@ import useDeleteSubscriptionDeviceMutation from '@/tkeel-console-plugin-tenant-d
 import DeleteDeviceModal from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/DeleteDeviceModal';
 
 type Props = {
-  id: string;
-  name: string;
+  selected_ids: string[];
+  name: string[];
   refetchData: () => unknown;
   onSuccess: () => void;
 };
 
-function DeleteDeviceButton({ id, refetchData, onSuccess, name }: Props) {
+function DeleteDeviceButton({
+  selected_ids,
+  refetchData,
+  onSuccess,
+  name,
+}: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { mutate } = useDeleteSubscriptionDeviceMutation({
@@ -26,7 +31,7 @@ function DeleteDeviceButton({ id, refetchData, onSuccess, name }: Props) {
   });
 
   const handleConfirm = () => {
-    mutate({ data: { entities: [id] } });
+    mutate({ data: { entities: selected_ids } });
   };
   return (
     <>

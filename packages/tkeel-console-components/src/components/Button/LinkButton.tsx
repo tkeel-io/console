@@ -8,8 +8,8 @@ function LinkButton({ children, ...rest }: ButtonProps) {
       fontWeight={400}
       fontSize="12px"
       lineHeight="18px"
-      _hover={{ color: 'blue.400' }}
-      _active={{ color: 'blue.400' }}
+      _hover={{ color: 'primarySub3' }}
+      _active={{ color: 'primarySub3' }}
       {...rest}
     >
       {children}

@@ -7,14 +7,21 @@ import CustomModal from '@/tkeel-console-plugin-tenant-devices/components/Custom
 import useUnsubscribeMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useUnsubscribeMutation';
 
 type Props = {
-  id: string;
+  subscribeId: string;
+  deviceId: string;
   subscribeAddr: string;
+  refetch?: () => void;
 };
 
-function UnsubscribeButton({ subscribeAddr, id }: Props) {
+function UnsubscribeButton({
+  subscribeId,
+  deviceId,
+  subscribeAddr,
+  refetch,
+}: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate, isLoading } = useUnsubscribeMutation({
-    id,
+    subscribeId,
     onSuccess() {
       toast({ status: 'success', title: '取消成功' });
       onClose();
@@ -22,13 +29,23 @@ function UnsubscribeButton({ subscribeAddr, id }: Props) {
   });
 
   const handleConfirm = () => {
-    mutate({});
+    mutate({
+      data: {
+        entities: deviceId ? [deviceId] : [],
+      },
+    });
+    if (refetch) {
+      const timer = setTimeout(() => {
+        refetch();
+        clearTimeout(timer);
+      }, 300);
+    }
   };
 
   return (
     <>
-      <LinkButton onClick={onOpen} fontWeight="400" ml="-2px">
-        取消订阅
+      <LinkButton onClick={onOpen} w="24px" minWidth="unset">
+        取消
       </LinkButton>
       <CustomModal
         bg="red.50"
