@@ -96,10 +96,17 @@ export default function BaseRoleModal({
           required: { value: true, message: '请输入正确的角色名称' },
         })}
       />
+      <TextareaField
+        id="desc"
+        label="描述"
+        error={errors.desc}
+        registerReturn={register('desc')}
+      />
       <FormControl
         id="plugins"
         label="用户权限设置"
         help="选择父权限不会自动选择子权限，选择子权限会自动选择父权限；取消选择父权限会自动取消选择子权限，取消选择子权限不会自动取消选择父权限。"
+        formHelperStyle={{ fontSize: '12px' }}
       >
         <Box padding="12px" borderRadius="4px" backgroundColor="gray.50">
           <SearchInput
@@ -118,7 +125,7 @@ export default function BaseRoleModal({
               资源名称
             </Text>
             <Divider backgroundColor="gray.200" />
-            <Box overflow="auto" height="300px" paddingY="12px">
+            <Box overflow="auto" maxHeight="300px" paddingY="12px">
               {isLoading ? (
                 <Loading styles={{ wrapper: { paddingTop: '12px' } }} />
               ) : (
@@ -157,12 +164,6 @@ export default function BaseRoleModal({
           </Box>
         </Box>
       </FormControl>
-      <TextareaField
-        id="desc"
-        label="描述"
-        error={errors.desc}
-        registerReturn={register('desc')}
-      />
     </Modal>
   );
 }

@@ -24,7 +24,7 @@ interface Props {
   groupTree?: TreeNodeType;
 }
 
-export default function CreateDeviceButton({
+export default function CreateGroupButton({
   type,
   callback,
   defaultFormValues,

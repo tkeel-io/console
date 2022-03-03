@@ -9,7 +9,7 @@ import { useColor } from '@tkeel/console-hooks';
 import { WarningTwoToneIcon } from '@tkeel/console-icons';
 
 import useDeviceDetailQuery from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
-import useDeviceDetailSocket from '@/tkeel-console-plugin-tenant-devices/hooks/webSockets/useDeviceDetailSocket';
+import useDeviceDetailSocket from '@/tkeel-console-plugin-tenant-devices/hooks/websockets/useDeviceDetailSocket';
 
 import ConnectionInfo from './components/ConnectionInfo';
 import DeviceDetailLeftPanel from './components/DeviceDetailLeftPanel';
@@ -67,7 +67,7 @@ function DeviceDetail(): JSX.Element {
           <TabPanels>
             {tabs.map((r) => (
               <TabPanel key={r.key} p="12px 20px">
-                {true ? (
+                {connectInfo?._online ? (
                   r.component
                 ) : (
                   <Empty

@@ -14,7 +14,7 @@ import { Alert, Form, FormField, toast } from '@tkeel/console-components';
 import { usePortalTenantConfigQuery } from '@tkeel/console-request-hooks';
 import { schemas } from '@tkeel/console-utils';
 
-import useResetPasswordMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useResetPasswordMutation';
+import useSetPasswordMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useSetPasswordMutation';
 import useResetPasswordKeyInfoQuery from '@/tkeel-console-portal-tenant/hooks/queries/useResetPasswordKeyInfoQuery';
 
 const { TextField } = FormField;
@@ -68,7 +68,7 @@ export default function SetPassword() {
     data: resetPasswordData,
     mutate,
     isLoading,
-  } = useResetPasswordMutation({
+  } = useSetPasswordMutation({
     onSuccess() {
       onOpen();
     },
@@ -92,7 +92,9 @@ export default function SetPassword() {
 
   const navigateToLoginPage = () => {
     const tenantId = resetPasswordData?.tenant_id ?? '';
-    navigate(`/auth/login/${tenantId}`, { replace: true });
+    const name = resetPasswordData?.username ?? '';
+    const query = name ? `?username=${encodeURIComponent(name)}` : '';
+    navigate(`/auth/login/${tenantId}${query}`, { replace: true });
   };
 
   return (

@@ -139,11 +139,12 @@ export default function Tenants() {
         flexDirection="column"
         flex="1"
         marginTop="16px"
+        padding="0 20px"
         backgroundColor="white"
         boxShadow="xl"
         overflow="hidden"
       >
-        <Flex alignItems="center" height="40px" margin="16px 24px">
+        <Flex alignItems="center" height="40px" margin="16px 0">
           <Box flex="1" marginRight="16px">
             <SearchInput
               width="100%"
