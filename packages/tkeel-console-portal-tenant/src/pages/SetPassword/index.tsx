@@ -65,6 +65,7 @@ export default function SetPassword() {
   const { isOpen, onOpen } = useDisclosure();
   const navigate = useNavigate();
   const {
+    // TODO: add username
     data: resetPasswordData,
     mutate,
     isLoading,
@@ -92,7 +93,10 @@ export default function SetPassword() {
 
   const navigateToLoginPage = () => {
     const tenantId = resetPasswordData?.tenant_id ?? '';
-    navigate(`/auth/login/${tenantId}`, { replace: true });
+    navigate(`/auth/login/${tenantId}`, {
+      replace: true,
+      state: { username },
+    });
   };
 
   return (

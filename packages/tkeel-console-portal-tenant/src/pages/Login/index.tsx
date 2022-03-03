@@ -3,6 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import {
   Navigate,
   NavigateFunction,
+  useLocation,
   useNavigate,
   useParams,
 } from 'react-router-dom';
@@ -87,6 +88,9 @@ export default function Login() {
   const { tenantId = '' } = pathParams;
 
   const navigate = useNavigate();
+  const { state } = useLocation();
+  const initialUsername = (state as { username?: string })?.username ?? '';
+
   const redirect = useRedirectParams();
 
   /* const { data: tenantInfo } = useTenantExactQuery({
@@ -162,7 +166,7 @@ export default function Login() {
             id="username"
             type="text"
             label="账号"
-            defaultValue={mockData.username}
+            defaultValue={initialUsername || mockData.username}
             placeholder="请输入您的账号"
             error={errors.username}
             formControlStyle={{ marginBottom: '20px', width: '350px' }}
