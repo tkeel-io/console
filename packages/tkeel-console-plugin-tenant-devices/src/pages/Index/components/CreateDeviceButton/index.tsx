@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 /* eslint-disable no-console */
 /* eslint-disable unicorn/consistent-function-scoping */
 import { useDisclosure } from '@chakra-ui/react';
@@ -11,6 +12,7 @@ import OperateDeviceModal from '@/tkeel-console-plugin-tenant-devices/pages/Inde
 import {
   ConnectInfoType,
   ConnectOption,
+  DeviceDefaultInfoType,
   DeviceFormFields,
   ModalMode,
   ModalType,
@@ -19,9 +21,14 @@ import {
 interface Props {
   variant: 'link' | 'solid';
   onSuccess?: ({ data }: { data: any }) => void;
+  defaultFormValues?: DeviceDefaultInfoType;
 }
 
-export default function CreateDeviceButton({ variant, onSuccess }: Props) {
+export default function CreateDeviceButton({
+  variant,
+  onSuccess,
+  defaultFormValues,
+}: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { data, isLoading, mutate, isSuccess, reset } = useCreateDeviceMutation(
     {
@@ -78,6 +85,7 @@ export default function CreateDeviceButton({ variant, onSuccess }: Props) {
         type={ModalType.DEVICE}
         mode={ModalMode.CREATE}
         handleConfirm={handleConfirm}
+        defaultFormValues={defaultFormValues}
         isLoading={isLoading}
         responseData={data}
         isSuccess={isSuccess}

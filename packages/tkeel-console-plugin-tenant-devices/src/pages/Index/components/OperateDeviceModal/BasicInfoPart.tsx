@@ -42,7 +42,7 @@ export default function BasicInfoPart({
         id="name"
         label={type === ModalType.DEVICE ? '设备名称' : '设备组名称'}
         registerReturn={register('name', {
-          required: { value: true, message: 'required' },
+          required: { value: true, message: '请填写设备名称' },
         })}
         error={errors.name}
       />
@@ -55,8 +55,8 @@ export default function BasicInfoPart({
           placeholder="请选择设备分组"
           style={{ width: '100%' }}
           treeData={groupOptions}
-          treeIcon={false}
           defaultValue={watchFields.parentId}
+          notFoundContent="暂无选项"
           onChange={(value: any, label: ReactNode[]) => {
             if (value) {
               setValue('parentId', value as string);
@@ -75,7 +75,7 @@ export default function BasicInfoPart({
               defaultValue={watchFields.connectType}
               style={{ width: '100%' }}
               {...register('connectType', {
-                required: true,
+                required: { value: true, message: '请选择设备连接方式' },
               })}
               onChange={(value: string) => {
                 if (value) {
@@ -93,49 +93,53 @@ export default function BasicInfoPart({
               ))}
             </Select>
             {errors.connectType && (
-              <Text color="red.500" fontSize="12px" mt="8px">
+              <Text color="red.500" fontSize="sm" mt="8px">
                 请选择连接方式
               </Text>
             )}
           </FormControl>
-          <FormControl id="connectInfo">
-            <CheckboxGroup
-              onChange={(value: ConnectInfoType[]) => {
-                setValue('connectInfo', value);
-              }}
-              value={
-                watchFields.connectType !== ConnectOption.DIRECT
-                  ? [ConnectInfoType.useTemplate]
-                  : watchFields.connectInfo
-              }
-            >
-              <Stack spacing="16px" direction="column">
-                <Checkbox
-                  colorScheme="primary"
-                  id="useTemplate"
-                  // value={ConnectInfoType.useTemplate}
-                  isDisabled
-                  // isDisabled={
-                  //   watchFields.directConnection !== ConnectOption.DIRECT
-                  // }
-                >
-                  <Text color="gray.600" fontSize="14px">
-                    使用设备模版
-                  </Text>
-                </Checkbox>
-                <Checkbox
-                  colorScheme="primary"
-                  id="selfLearn"
-                  value={ConnectInfoType.selfLearn}
-                  isDisabled={watchFields.connectType !== ConnectOption.DIRECT}
-                >
-                  <Text color="gray.600" fontSize="14px">
-                    自学习模式
-                  </Text>
-                </Checkbox>
-              </Stack>
-            </CheckboxGroup>
-          </FormControl>
+          {watchFields.connectType && (
+            <FormControl id="connectInfo">
+              <CheckboxGroup
+                onChange={(value: ConnectInfoType[]) => {
+                  setValue('connectInfo', value);
+                }}
+                value={
+                  watchFields.connectType !== ConnectOption.DIRECT
+                    ? [ConnectInfoType.useTemplate]
+                    : watchFields.connectInfo
+                }
+              >
+                <Stack spacing="16px" direction="column">
+                  <Checkbox
+                    colorScheme="primary"
+                    id="useTemplate"
+                    // value={ConnectInfoType.useTemplate}
+                    isDisabled
+                    // isDisabled={
+                    //   watchFields.directConnection !== ConnectOption.DIRECT
+                    // }
+                  >
+                    <Text color="gray.600" fontSize="14px">
+                      使用设备模版
+                    </Text>
+                  </Checkbox>
+                  <Checkbox
+                    colorScheme="primary"
+                    id="selfLearn"
+                    value={ConnectInfoType.selfLearn}
+                    isDisabled={
+                      watchFields.connectType !== ConnectOption.DIRECT
+                    }
+                  >
+                    <Text color="gray.600" fontSize="14px">
+                      自学习模式
+                    </Text>
+                  </Checkbox>
+                </Stack>
+              </CheckboxGroup>
+            </FormControl>
+          )}
         </>
       )}
       <TextareaField
