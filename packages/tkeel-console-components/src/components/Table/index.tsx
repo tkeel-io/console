@@ -27,7 +27,6 @@ import { Props } from './types';
 function Table<D extends object>({
   columns,
   data = [],
-  // defaultPageSize = 15,
   hasPagination = true,
   paginationProps,
   paginationStyle = {},
@@ -60,7 +59,6 @@ function Table<D extends object>({
     plugins.unshift(useSortBy);
   }
 
-  console.log('plugins', plugins);
   const {
     getTableProps,
     getTableBodyProps,
@@ -74,8 +72,7 @@ function Table<D extends object>({
     {
       columns,
       data,
-      // initialState: { pageSize: defaultPageSize },
-      // manualSortBy: true,
+      manualSortBy: true,
     } as TableOptions<D>,
     useFlexLayout,
     ...plugins

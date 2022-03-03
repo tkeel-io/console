@@ -95,7 +95,6 @@ function EnablePluginList({ pluginName }: Props) {
         data={tenants}
         isLoading={isLoading}
         isShowStripe
-        defaultPageSize={20}
         scroll={{ y: '100%' }}
         paginationProps={{
           pageNum,

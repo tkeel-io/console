@@ -3589,6 +3589,7 @@ __metadata:
     "@tkeel/console-components": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
     "@tkeel/console-icons": "workspace:^"
+    "@tkeel/console-request-hooks": "workspace:^"
     "@tkeel/console-types": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
     "@types/lodash": ^4.14.179
@@ -3733,6 +3734,7 @@ __metadata:
     "@tkeel/console-business-components": "workspace:^"
     "@tkeel/console-components": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
+    "@tkeel/console-request-hooks": "workspace:^"
     "@tkeel/console-types": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
     "@types/lodash": ^4.14.179
@@ -3757,6 +3759,7 @@ __metadata:
     "@tkeel/console-components": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
     "@tkeel/console-icons": "workspace:^"
+    "@tkeel/console-request-hooks": "workspace:^"
     "@tkeel/console-types": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
     "@types/lodash": ^4.14.179
