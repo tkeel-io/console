@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   Center,
-  Flex,
   Heading,
   Image,
   Text,
@@ -105,19 +104,9 @@ export default function SetPassword() {
         backgroundRepeat="no-repeat"
         backgroundSize="100% 40%"
       >
-        <Flex position="absolute" top="24px" left="20px">
-          <Box>
-            <Image src={pageConfig?.logo} htmlWidth="auto" htmlHeight="50px" />
-          </Box>
-          {/*  <Flex alignItems="center" paddingTop="4px" color="white">
-            <Text paddingX="8px" fontSize="18px">
-              |
-            </Text>
-            <Heading fontSize="18px" lineHeight="28px">
-              设置密码
-            </Heading>
-          </Flex> */}
-        </Flex>
+        <Box position="absolute" top="24px" left="20px">
+          <Image src={pageConfig?.logo} width="auto" height="50px" />
+        </Box>
         <Box
           padding="40px 46px 70px"
           marginBottom="100px"
