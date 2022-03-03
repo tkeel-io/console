@@ -21,7 +21,7 @@ import useResetPasswordKeyInfoQuery from '@/tkeel-console-portal-tenant/hooks/qu
 const { TextField } = FormField;
 
 type FormValues = {
-  password: string;
+  newPassword: string;
   confirmPassword: string;
 };
 
@@ -76,9 +76,9 @@ export default function SetPassword() {
   });
 
   const onSubmit: SubmitHandler<FormValues> = (formValues) => {
-    const { password, confirmPassword } = formValues;
+    const { newPassword, confirmPassword } = formValues;
 
-    if (password !== confirmPassword) {
+    if (newPassword !== confirmPassword) {
       toast({ status: 'warning', title: '两次输入的密码不一致' });
       return;
     }
@@ -86,7 +86,7 @@ export default function SetPassword() {
     mutate({
       data: {
         reset_key: resetKey,
-        new_password: password,
+        new_password: newPassword,
       },
     });
   };
@@ -139,22 +139,22 @@ export default function SetPassword() {
             <TextField
               type="password"
               id="password"
-              label="密码"
+              label="新密码"
               help={schemas.password.help}
               placeholder="请输入"
-              error={errors.password}
+              error={errors.newPassword}
               formControlStyle={{ width: '350px' }}
               formLabelStyle={formLabelStyle}
               inputStyle={inputStyle}
               registerReturn={register(
-                'password',
+                'newPassword',
                 schemas.password.registerOptions
               )}
             />
             <TextField
               type="password"
               id="confirmPassword"
-              label="再次输入密码"
+              label="再次输入新密码"
               help={schemas.password.help}
               placeholder="请输入"
               error={errors.confirmPassword}
