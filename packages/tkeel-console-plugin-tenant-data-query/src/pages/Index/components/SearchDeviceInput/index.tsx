@@ -28,6 +28,10 @@ type Props = {
   style?: StyleProps;
 };
 
+const encode = (value: string) => {
+  return encodeURIComponent(Base64.encode(value));
+};
+
 export default function SearchDeviceInput({
   type = 'index',
   defaultFilterConditions = [],
@@ -86,6 +90,8 @@ export default function SearchDeviceInput({
     (!!templateCondition && !templateId);
 
   const inputDisabled = disabled || !!hasKeywordsCondition;
+  const buttonDisabled =
+    disabled || (!groupCondition && !templateCondition && !keywordsCondition);
 
   const handleRemoveCondition = (conditionId: string) => {
     const newFilterConditions = filterConditions.filter(
@@ -94,8 +100,8 @@ export default function SearchDeviceInput({
     setFilterConditions(newFilterConditions);
     if (conditionId === DEVICE_GROUP_ID) {
       setDeviceGroupId('');
-      searchParams.delete(GROUP_ID);
-      searchParams.delete(GROUP_NAME);
+      // searchParams.delete(GROUP_ID);
+      // searchParams.delete(GROUP_NAME);
       setSearchParams(searchParams);
     } else if (conditionId === DEVICE_TEMPLATES_ID) {
       setTemplateId('');
@@ -183,36 +189,42 @@ export default function SearchDeviceInput({
 
   const handleSearch = () => {
     if (type === 'index') {
-      let search = `keywords=${keywordsCondition?.value ?? ''}&status=${
-        status.value
-      }&`;
-
+      let search = '';
       if (deviceGroupId) {
-        const groupName = encodeURIComponent(
-          Base64.encode(groupCondition?.value || '')
-        );
+        const groupName = encode(groupCondition?.value || '');
         search += `group-id=${deviceGroupId}&${GROUP_NAME}=${groupName}&`;
       }
 
       if (templateId) {
-        const templateName = Base64.encodeURI(templateCondition?.value || '');
+        const templateName = encode(templateCondition?.value || '');
         search += `${TEMPLATE_ID}=${templateId}&template-name=${templateName}&`;
+      }
+
+      const keywords = keywordsCondition?.value;
+      if (keywords) {
+        search += `keywords=${keywords}&`;
+      }
+
+      const statusValue = status.value;
+      if (['online', 'offline'].includes(statusValue)) {
+        search += `status=${statusValue}`;
       }
 
       if (search.endsWith('&')) {
         search = search.slice(0, -1);
       }
+
       navigate(`/search-result?${search}`);
     } else {
       filterConditions.forEach((condition) => {
         if (condition.id === DEVICE_GROUP_ID) {
           searchParams.set(GROUP_ID, deviceGroupId);
-          searchParams.set(GROUP_NAME, encodeURIComponent(condition.value));
+          searchParams.set(GROUP_NAME, encode(condition.value));
           searchParams.delete(TEMPLATE_ID);
           searchParams.delete(TEMPLATE_NAME);
         } else if (condition.id === DEVICE_TEMPLATES_ID) {
           searchParams.set(TEMPLATE_ID, templateId);
-          searchParams.set(TEMPLATE_NAME, encodeURIComponent(condition.value));
+          searchParams.set(TEMPLATE_NAME, encode(condition.value));
           searchParams.delete(GROUP_ID);
           searchParams.delete(GROUP_NAME);
         } else {
@@ -296,13 +308,11 @@ export default function SearchDeviceInput({
             onClick={handleClearCondition}
           />
         )}
-        <SearchButton disabled={disabled} onClick={handleSearch} />
+        <SearchButton disabled={buttonDisabled} onClick={handleSearch} />
       </InputGroup>
       <FilterDropdown
         type={type}
         status={status}
-        // deviceGroupId={deviceGroupId}
-        // templateId={templateId}
         showDeviceList={showDeviceList}
         setStatus={setStatus}
         setDeviceGroupId={setDeviceGroupId}

@@ -2,7 +2,7 @@ apiVersion: v2
 name: console-plugin-tenant-users
 description: tenant and user console
 type: application
-version: 0.4.0-alpha.2
+version: 0.4.0-alpha.3
 appVersion: 0.3.0
 annotations:
   tkeel.io/enable: 'true'

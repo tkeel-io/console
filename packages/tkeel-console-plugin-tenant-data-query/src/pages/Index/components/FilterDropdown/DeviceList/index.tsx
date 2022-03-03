@@ -1,4 +1,5 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 
 import {
   BoxTwoToneIcon,
@@ -17,6 +18,8 @@ type Props = {
 };
 
 export default function DeviceList({ data }: Props) {
+  const navigate = useNavigate();
+
   if (data.length === 0) {
     return <NoData />;
   }
@@ -24,11 +27,12 @@ export default function DeviceList({ data }: Props) {
   return (
     <Box padding="8px 10px" backgroundColor="gray.50" lineHeight="24px">
       {data.map((device, i) => {
-        const { basicInfo, connectInfo } = device?.properties ?? {};
+        const { id, properties } = device;
+        const { basicInfo, sysField } = properties || {};
         const selfLearn = basicInfo?.selfLearn ?? false;
         const vpcIconColor = selfLearn ? 'primary' : 'gray.500';
         // eslint-disable-next-line no-underscore-dangle
-        const isOnline = connectInfo?._online ?? false;
+        const isOnline = sysField?._status === 'online' ?? false;
 
         return (
           <Flex
@@ -37,6 +41,9 @@ export default function DeviceList({ data }: Props) {
             marginBottom={i === data.length - 1 ? '0' : '16px'}
             alignItems="center"
             cursor="pointer"
+            onClick={() => {
+              navigate(`/detail?id=${id}`);
+            }}
           >
             <Flex alignItems="center" flex="1">
               <BoxTwoToneIcon size={18} />

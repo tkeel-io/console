@@ -1,6 +1,6 @@
 import { Box, Button, Circle, Flex, Text } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
 
+// import { useNavigate } from 'react-router-dom';
 import {
   BackButton,
   Checkbox,
@@ -26,7 +26,7 @@ import CustomCircle from './components/CustomCircle';
 // import DataTable from './components/DataTable';
 
 export default function Detail() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const textStyle = {
     color: 'gray.800',
@@ -43,7 +43,11 @@ export default function Detail() {
             height="92px"
             backgroundColor="gray.50"
           >
-            <BackButton onClick={() => navigate('/')} />
+            <BackButton
+              onClick={() => {
+                window.history.back();
+              }}
+            />
             <Flex
               marginTop="12px"
               paddingLeft="8px"
