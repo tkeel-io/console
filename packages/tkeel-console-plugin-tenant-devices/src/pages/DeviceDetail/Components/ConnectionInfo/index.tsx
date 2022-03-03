@@ -59,7 +59,6 @@ function ConnectionInfo({ data }: Props) {
       </Text>
       <Box bg="gray.50" borderRadius="4px" p="12px 12px" w="100%">
         <Flex
-          justifyContent="space-between"
           flexWrap="wrap"
           bg="white"
           border="1px"
@@ -69,11 +68,14 @@ function ConnectionInfo({ data }: Props) {
         >
           {list.map((r) => {
             return (
-              <Box fontSize="12px" key={r.label} m="0 12px 12px 0">
+              <Box
+                fontSize="12px"
+                key={r.label}
+                m="0 12px 12px 0"
+                minWidth="120px"
+              >
                 <Text color="grayAlternatives.300">{r.label}</Text>
-                <Text minWidth="70px" color="gray.700">
-                  {r.value}
-                </Text>
+                <Text color="gray.700">{r.value}</Text>
               </Box>
             );
           })}
