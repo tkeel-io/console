@@ -28,6 +28,8 @@ export { default as FileBoxTwoToneIcon } from './components/FileBoxTwoToneIcon';
 export { default as FolderCloseTwoToneIcon } from './components/FolderCloseTwoToneIcon';
 export { default as FolderOpenTwoToneIcon } from './components/FolderOpenTwoToneIcon';
 export { default as GoBackFilledIcon } from './components/GoBackFilledIcon';
+export { default as GroupTwoToneIcon } from './components/GroupTwoToneIcon';
+export { default as HumanCircleTwoToneIcon } from './components/HumanCircleTwoToneIcon';
 export { default as HumanFilledIcon } from './components/HumanFilledIcon';
 export { default as HumanGearTwoToneIcon } from './components/HumanGearTwoToneIcon';
 export { default as HumanVipFilledIcon } from './components/HumanVipFilledIcon';

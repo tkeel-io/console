@@ -111,7 +111,10 @@ export default function Alert(props: Props) {
       <ModalCloseButton _focus={{ boxShadow: 0 }} />
       <Flex style={style}>
         {renderIcon()}
-        <Box>
+        <Flex
+          flexDirection="column"
+          justifyContent={iconPosition === 'left' ? 'center' : ''}
+        >
           <Box
             fontWeight="600"
             fontSize="14px"
@@ -133,7 +136,7 @@ export default function Alert(props: Props) {
             </Box>
           )}
           {children}
-        </Box>
+        </Flex>
       </Flex>
     </Modal>
   );
