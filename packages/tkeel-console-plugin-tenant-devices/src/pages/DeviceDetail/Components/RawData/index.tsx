@@ -9,7 +9,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { isEmpty, throttle } from 'lodash';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // import { Editor, SearchInput } from '@tkeel/console-components';
 import { Editor } from '@tkeel/console-components';
@@ -41,31 +41,37 @@ const handleValues = (value: string, selected: string) => {
 
 type TRawData = RawData[];
 
-// const kjh = {
-//   id: '23423',
-//   key: '213',
-//   type: 'rawData',
-//   mark: 'upstream',
-//   path: 'rawData/upstream',
-//   ts: 1_645_584_837_960_616_400,
-//   values: 'ZGRkZGRkZGRkZA==',
-//   a: 'ZGRkZGRkZGRkZA=',
-//   b: 'ZGRkZGRkZGRkA==',
-// };
 function RawDataPanel({ data }: Props) {
   const [rawDataList, setRawDataList] = useState<TRawData>([]);
   // const [keyWord, setKeyWord] = useState('');
   const [selected, setSelected] = useState('text');
-  useCallback(() => {
-    throttle(setRawDataList, 200);
-  }, []);
+  const func = throttle(setRawDataList, 10 * 1000);
+
   useEffect(() => {
-    setRawDataList((preState) => {
+    setInterval(() => {
+      const d = {
+        id: '17349213-092e-40e4-b12c-d68a462c5e89',
+        key: Math.random().toFixed(9),
+        path: 'upstream/bug',
+        mark: 'upstream',
+        ts: 1_645_425_143_576_643_000,
+        type: 'rawData',
+        values: 'excuse me',
+      } as RawData;
+      setRawDataList((pre) => {
+        return [d, ...pre].slice(-10);
+      });
+    }, 1000);
+  }, []);
+
+  useEffect(() => {
+    func((preState) => {
       if (isEmpty(data)) return [];
       const newData = { key: Math.random().toFixed(9), ...data };
       if (preState.length > 10) return [newData];
       return [newData, ...preState];
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   const handleChange = (value: string) => {
@@ -132,7 +138,7 @@ function RawDataPanel({ data }: Props) {
                     </Flex>
                     <AccordionIcon />
                   </AccordionButton>
-                  <AccordionPanel p="12px 0 0 0" ml="-8px">
+                  <AccordionPanel p="12px 0 0 0">
                     <Editor
                       theme="light"
                       value={handleValues(r?.values || '', selected)}
@@ -148,14 +154,6 @@ function RawDataPanel({ data }: Props) {
           })}
         </Accordion>
       )}
-      {/* <Editor
-        theme="light"
-        value={JSON.stringify(kjh, null, 2)}
-        language="json"
-        readOnly
-        width="100%"
-        height="144px"
-      /> */}
     </Box>
   );
 }
