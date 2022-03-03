@@ -46,12 +46,16 @@ function Body<D extends object>({
         if (isShowStripe) {
           if (i % 2 === 1) {
             backgroundColor = 'gray.50';
-          } else {
+          } else if (i === page.length - 1) {
             borderColor = defaultBorderColor;
           }
         }
         return (
-          <Tr backgroundColor={backgroundColor} {...row.getRowProps()}>
+          <Tr
+            backgroundColor={backgroundColor}
+            _hover={isShowStripe ? {} : { backgroundColor: 'gray.50' }}
+            {...row.getRowProps()}
+          >
             {row.cells.map((cell) => {
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               const funcName = (cell.column.Cell as any).name;
