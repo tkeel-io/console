@@ -15,6 +15,8 @@ import { Logo } from '@tkeel/console-types';
 import {
   getLocalMenuTheme,
   isDarkMenuTheme,
+  MenuCollapsed,
+  setLocalMenuCollapsed,
   setLocalMenuTheme,
 } from '@/tkeel-console-portal-base/utils';
 
@@ -28,7 +30,7 @@ type Props = {
 function Menus({ logo }: Props) {
   const { themeName } = useGlobalPortalProps();
   const [searchParams] = useSearchParams();
-  const menuCollapsed = searchParams.get('menu-collapsed') === 'true' || false;
+  const menuCollapsed = searchParams?.get('menu-collapsed') === 'true' || false;
   const [collapsed, setCollapsed] = useState(menuCollapsed);
   const localMenuTheme = getLocalMenuTheme();
   const isQingCloudTheme = themeName === ThemeNames.QingcloudLight;
@@ -43,6 +45,11 @@ function Menus({ logo }: Props) {
     setLocalMenuTheme(menuTheme);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    setCollapsed(menuCollapsed);
+    setLocalMenuCollapsed(String(menuCollapsed) as MenuCollapsed);
+  }, [menuCollapsed]);
 
   // const getChangeThemeIconProps = (theme: 'dark' | 'light') => {
   //   return {
