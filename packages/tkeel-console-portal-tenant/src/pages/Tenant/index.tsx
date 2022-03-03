@@ -3,13 +3,16 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { Form, FormField } from '@tkeel/console-components';
+import { usePortalTenantConfigQuery } from '@tkeel/console-request-hooks';
+import { isEnvDevelopment, setLocalTenantInfo } from '@tkeel/console-utils';
 
-import configs from '@/tkeel-console-portal-tenant/configs';
+import useQueryTenantIdMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useQueryTenantIdMutation';
+
+const mockData = isEnvDevelopment()
+  ? { tenantTitle: String(PORTAL_GLOBALS?.mock?.tenantTitle ?? '') }
+  : { tenantTitle: '' };
 
 const { TextField } = FormField;
-
-const config = configs[PORTAL_GLOBALS.client.themeName];
-const pageConfig = config?.pages?.LoginTenant;
 
 type FormValues = {
   tenantId: string;
@@ -35,13 +38,23 @@ export default function Tenant() {
     lineHeight: '20px',
   };
 
+  const navigate = useNavigate();
+  const { config } = usePortalTenantConfigQuery();
+  const pageConfig = config?.client?.pages?.Login;
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>();
 
-  const navigate = useNavigate();
+  const { isLoading, mutate } = useQueryTenantIdMutation({
+    onSuccess: ({ data }) => {
+      const { tenant_id: tenantId } = data;
+      setLocalTenantInfo({ tenant_id: tenantId });
+      navigate(`/auth/login/${tenantId}`, { replace: true });
+    },
+  });
 
   const onSubmit: SubmitHandler<FormValues> = (formValues) => {
     let { tenantId = '' } = formValues;
@@ -51,7 +64,7 @@ export default function Tenant() {
       return;
     }
 
-    navigate(`/auth/login/${tenantId}`, { replace: true });
+    mutate({ params: { title: tenantId } });
   };
 
   return (
@@ -59,18 +72,18 @@ export default function Tenant() {
       <Box
         flex="1"
         paddingLeft="80px"
-        backgroundImage={pageConfig.backgroundImage}
+        backgroundImage={pageConfig?.backgroundImage}
         backgroundRepeat="no-repeat"
         backgroundSize="100% 100%"
       >
         <Heading
           marginTop="80px"
-          font-weight="600"
+          fontWeight="600"
           fontSize="30px"
           lineHeight="42px"
           color="primary"
         >
-          {pageConfig.title}
+          {pageConfig?.title}
         </Heading>
         <Heading
           marginTop="12px"
@@ -78,7 +91,7 @@ export default function Tenant() {
           lineHeight="24px"
           color="gray.100"
         >
-          {pageConfig.description}
+          {pageConfig?.subTitle}
         </Heading>
       </Box>
       <Center flexDirection="column" width="42vw">
@@ -95,15 +108,15 @@ export default function Tenant() {
           <TextField
             type="text"
             id="tenantId"
-            label="租户 ID"
-            defaultValue={String(PORTAL_GLOBALS?.mock?.tenantId ?? '')}
-            placeholder="请输入您的租户 ID"
+            label="租户空间"
+            defaultValue={mockData.tenantTitle}
+            placeholder="请输入您的租户空间"
             error={errors.tenantId}
             formControlStyle={{ width: '350px' }}
             formLabelStyle={formLabelStyle}
             inputStyle={inputStyle}
             registerReturn={register('tenantId', {
-              required: { value: true, message: '请输入您的租户 ID' },
+              required: { value: true, message: '请输入您的租户空间' },
             })}
           />
           <Box paddingTop="40px">
@@ -111,6 +124,7 @@ export default function Tenant() {
               type="submit"
               colorScheme="primary"
               isFullWidth
+              isLoading={isLoading}
               height="45px"
               borderRadius="4px"
               shadow="none"

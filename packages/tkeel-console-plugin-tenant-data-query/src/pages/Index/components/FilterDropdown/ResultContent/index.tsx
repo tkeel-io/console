@@ -15,7 +15,7 @@ type Props = StatusSelectProps & {
   showDeviceGroup: boolean;
   isDeviceGroupLoading: boolean;
   deviceGroupTree: TreeNodeType;
-  updateDeviceGroupId: (deviceId: string) => unknown;
+  clearDeviceGroupId: () => unknown;
   showDeviceList: boolean;
   isDeviceListLoading: boolean;
   deviceList: DeviceItem[];
@@ -38,7 +38,7 @@ function ResultContent({
   showDeviceGroup,
   isDeviceGroupLoading,
   deviceGroupTree,
-  updateDeviceGroupId,
+  clearDeviceGroupId,
   showDeviceList,
   isDeviceListLoading,
   deviceList,
@@ -54,8 +54,9 @@ function ResultContent({
         <DeviceListTitle
           resultNum={deviceList.length}
           status={status}
+          showBackButton={showDeviceGroup || showDeviceTemplates}
           onStatusChange={onStatusChange}
-          onBackBtnClick={() => updateDeviceGroupId('')}
+          onBackBtnClick={clearDeviceGroupId}
         />
         <ListWrapper
           loading={isDeviceListLoading}
@@ -75,7 +76,6 @@ function ResultContent({
             <DeviceGroup
               deviceGroupTree={deviceGroupTree}
               onNodeTitleClick={onDeviceGroupTitleClick}
-              onSpreadClick={updateDeviceGroupId}
             />
           }
         />

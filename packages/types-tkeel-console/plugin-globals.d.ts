@@ -11,7 +11,7 @@ interface PluginGlobals {
   publicPath: string;
   basePath: string;
   client: {
-    documentTitle: string | number;
+    documentTitle: string;
   };
   api: {
     basePath: string;

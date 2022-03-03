@@ -1,11 +1,11 @@
-import { MouseEventHandler } from 'react';
+import { CSSProperties, MouseEventHandler } from 'react';
 
 export interface FilledIconProps {
   mode?: 'dark' | 'light';
   size?: number | string;
   color?: string;
   className?: string;
-  style?: React.CSSProperties;
+  style?: CSSProperties;
   onClick?: MouseEventHandler<HTMLElement> | undefined;
 }
 

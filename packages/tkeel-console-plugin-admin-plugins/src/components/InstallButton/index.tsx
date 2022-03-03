@@ -1,4 +1,4 @@
-import { useDisclosure } from '@chakra-ui/react';
+import { Tooltip, useDisclosure } from '@chakra-ui/react';
 
 import { IconButton, toast } from '@tkeel/console-components';
 import { DownloadFilledIcon } from '@tkeel/console-icons';
@@ -7,27 +7,36 @@ import EditConfigModal, { InstallPluginInfo } from './EditConfigModal';
 
 interface Props {
   installPluginInfo: InstallPluginInfo;
+  disabled: boolean;
   onSuccess: () => unknown;
 }
 
-function InstallButton({ installPluginInfo, onSuccess }: Props) {
+function InstallButton({ installPluginInfo, disabled, onSuccess }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
-      <IconButton
-        size="sm"
-        padding="0 12px"
-        boxShadow="none"
-        borderRadius="4px"
-        icon={<DownloadFilledIcon size={12} />}
-        onClick={(e) => {
-          e.stopPropagation();
-          onOpen();
-        }}
+      <Tooltip
+        hasArrow
+        label={disabled ? '已存在同名插件，不可重复安装' : ''}
+        shouldWrapChildren
+        placement="top"
       >
-        安装
-      </IconButton>
+        <IconButton
+          size="sm"
+          padding="0 12px"
+          boxShadow="none"
+          borderRadius="4px"
+          icon={<DownloadFilledIcon size={12} />}
+          disabled={disabled}
+          onClick={(e) => {
+            e.stopPropagation();
+            onOpen();
+          }}
+        >
+          安装
+        </IconButton>
+      </Tooltip>
       <EditConfigModal
         installPluginInfo={installPluginInfo}
         isOpen={isOpen}

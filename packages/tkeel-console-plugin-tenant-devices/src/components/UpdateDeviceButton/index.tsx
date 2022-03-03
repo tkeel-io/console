@@ -6,12 +6,13 @@ import { MoreActionButton, toast } from '@tkeel/console-components';
 import { PencilFilledIcon } from '@tkeel/console-icons';
 
 import useUpdateDeviceMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useUpdateDeviceMutation';
+import { TreeNodeType } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
 import OperateDeviceModal from '@/tkeel-console-plugin-tenant-devices/pages/Index/components/OperateDeviceModal';
 import {
   ConnectInfoType,
   ConnectOption,
   DeviceDefaultInfoType,
-  DeviceValueType,
+  DeviceFormFields,
   ModalMode,
   ModalType,
 } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
@@ -19,9 +20,10 @@ import {
 interface Props {
   defaultFormValues: DeviceDefaultInfoType;
   refetch?: () => void;
+  groupTree?: TreeNodeType;
 }
 
-function UpdateDeviceButton({ defaultFormValues, refetch }: Props) {
+function UpdateDeviceButton({ defaultFormValues, refetch, groupTree }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const onSuccess = () => {
     toast({
@@ -33,31 +35,31 @@ function UpdateDeviceButton({ defaultFormValues, refetch }: Props) {
     }
   };
   const { isLoading, mutate, isSuccess } = useUpdateDeviceMutation({
-    id: defaultFormValues.id,
+    id: defaultFormValues.id as string,
     onSuccess,
   });
-  const handleConfirm = ({ formValues }: { formValues: DeviceValueType }) => {
+  const handleConfirm = ({ formValues }: { formValues: DeviceFormFields }) => {
     const {
       description,
       name,
       parentId,
-      directConnection,
+      parentName,
+      connectType,
       connectInfo,
       extendInfo,
     } = formValues;
-    const [id, ...rest] = parentId.split('&');
     const params = {
       description,
       name,
-      directConnection: directConnection === ConnectOption.DIRECT,
+      directConnection: connectType === ConnectOption.DIRECT,
       selfLearn: connectInfo?.includes(ConnectInfoType.selfLearn) ?? false,
       templateId:
         connectInfo?.includes(ConnectInfoType.useTemplate) ?? false
           ? '123'
           : '',
       ext: mapValues(keyBy(extendInfo, 'label'), 'value'),
-      parentId: id,
-      parentName: rest.join('&'),
+      parentId,
+      parentName,
     };
     mutate({ data: params });
   };
@@ -79,6 +81,7 @@ function UpdateDeviceButton({ defaultFormValues, refetch }: Props) {
           defaultFormValues={defaultFormValues}
           handleConfirm={handleConfirm}
           isSuccess={isSuccess}
+          groupTree={groupTree}
         />
       )}
     </>

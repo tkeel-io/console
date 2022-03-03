@@ -9,9 +9,8 @@ import {
   FormField,
   Modal,
 } from '@tkeel/console-components';
+import { useRolesQuery } from '@tkeel/console-request-hooks';
 import { schemas } from '@tkeel/console-utils';
-
-import useRolesQuery from '@/tkeel-console-plugin-tenant-users/hooks/queries/useRolesQuery';
 
 const { TextField } = FormField;
 
@@ -54,7 +53,7 @@ export default function BaseUserModal({
   onClose,
   onConfirm,
 }: Props) {
-  const { roles } = useRolesQuery();
+  const { roles } = useRolesQuery({ params: { page_size: 0 } });
 
   const {
     register,

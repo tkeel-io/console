@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable no-underscore-dangle */
 import { Box, Flex, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { useState } from 'react';

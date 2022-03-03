@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/cognitive-complexity */
 import { Box, Flex, Input, InputGroup, StyleProps } from '@chakra-ui/react';
 import {
   CSSProperties,
@@ -12,7 +13,10 @@ import { useNavigate } from 'react-router-dom';
 import { BroomFilledIcon, RefreshFilledIcon } from '@tkeel/console-icons';
 
 import FilterDropdown from '@/tkeel-console-plugin-tenant-data-query/pages/Index/components/FilterDropdown';
-import { DEVICE_GROUP_ID } from '@/tkeel-console-plugin-tenant-data-query/pages/Index/constants';
+import {
+  DEVICE_GROUP_ID,
+  DEVICE_TEMPLATES_ID,
+} from '@/tkeel-console-plugin-tenant-data-query/pages/Index/constants';
 
 import FilterCondition, { FilterConditionInfo } from './FilterCondition';
 import SearchButton from './SearchButton';
@@ -139,6 +143,28 @@ export default function SearchDeviceInput({ type = 'index', style }: Props) {
     cursor: 'pointer',
   };
 
+  const groupCondition = filterConditions.find(
+    (condition) => condition.id === DEVICE_GROUP_ID
+  );
+  const hasDeviceGroupCondition = !!groupCondition?.value;
+
+  const templateCondition = filterConditions.find(
+    (condition) => condition.id === DEVICE_TEMPLATES_ID
+  );
+  const hasTemplateCondition = !!templateCondition?.value;
+
+  const keywordsCondition = filterConditions.find(
+    (condition) => condition.id === 'keywords'
+  );
+  const hasKeywordsCondition = !!keywordsCondition;
+
+  const disabled =
+    (hasDeviceGroupCondition && !deviceGroupId) ||
+    (hasTemplateCondition && !templateId) ||
+    ((hasDeviceGroupCondition || hasTemplateCondition) && hasKeywordsCondition);
+
+  const inputDisabled = disabled || !!hasKeywordsCondition;
+
   return (
     <Box position="relative" onClick={(e) => e.stopPropagation()} {...style}>
       <InputGroup
@@ -183,9 +209,8 @@ export default function SearchDeviceInput({ type = 'index', style }: Props) {
             border: 'none!important',
             boxShadow: 'none!important',
             backgroundColor: 'primarySub',
-            // backgroundColor: showFilterDropdown ? 'primarySub' : 'transparent',
           }}
-          // _hover={{ backgroundColor: 'transparent' }}
+          disabled={inputDisabled}
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value.trim())}
           onFocus={() => setShowFilterDropdown(true)}
@@ -205,6 +230,7 @@ export default function SearchDeviceInput({ type = 'index', style }: Props) {
           />
         )}
         <SearchButton
+          disabled={disabled}
           onClick={() => {
             if (type === 'index') {
               navigate(
@@ -221,9 +247,7 @@ export default function SearchDeviceInput({ type = 'index', style }: Props) {
         setStatus={setStatus}
         setDeviceGroupId={setDeviceGroupId}
         setTemplateId={setTemplateId}
-        filterCondition={filterConditions.find(
-          (condition) => condition.id !== 'search'
-        )}
+        filterConditions={filterConditions}
         handleConditionClick={handleConditionClick}
         updateCondition={handleUpdateCondition}
         style={{

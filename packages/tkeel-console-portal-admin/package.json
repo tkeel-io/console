@@ -22,11 +22,14 @@
     "@tkeel/console-hooks": "workspace:^",
     "@tkeel/console-icons": "workspace:^",
     "@tkeel/console-portal-base": "workspace:^",
+    "@tkeel/console-request-hooks": "workspace:^",
     "@tkeel/console-utils": "workspace:^",
     "lodash": "^4.17.21",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.27.1",
-    "react-router-dom": "^6.2.2"
+    "react-query": "^3.34.16",
+    "react-router-dom": "^6.2.2",
+    "react-use": "^17.3.2"
   }
 }
