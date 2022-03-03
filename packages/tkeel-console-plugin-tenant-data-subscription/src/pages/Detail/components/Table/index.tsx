@@ -1,5 +1,5 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 // import { Column } from 'react-table';
 import { Cell, Column } from 'react-table';
 
@@ -66,16 +66,19 @@ function Index({ id, title }: { id: string; title: string }) {
   const [keywords, setKeyWords] = useState('');
   const [checkBoxIcon, setCheckBoxIcon] = useState<boolean>(false);
 
-  const [selectedRows, setSelectedRows] = useState<
-    {
-      ID: string;
-      group: string;
-      name: string;
-      status: string;
-      template: string;
-      updated_at: string;
-    }[]
-  >([]);
+  // const [rowNames, setRowNames] = useState<
+  //   {
+  //     ID: string;
+  //     group: string;
+  //     name: string;
+  //     status: string;
+  //     template: string;
+  //     updated_at: string;
+  //   }[]
+  // >([]);
+
+  const [rowIds, setRowIds] = useState<string[]>([]);
+  const [rowNames, setRowNames] = useState<string[]>([]);
 
   const pagination = usePagination();
   const { pageNum, pageSize, setTotalSize } = pagination;
@@ -107,6 +110,21 @@ function Index({ id, title }: { id: string; title: string }) {
   });
 
   // setTotalSize(data?.total || 0);
+  const handleSelect = useCallback(
+    ({ selectedFlatRows }: { selectedFlatRows: Data[] }) => {
+      const selectedFlatRowsIds: string[] = [];
+      const selectedFlatRowsNames: string[] = [];
+
+      selectedFlatRows.forEach((item) => {
+        selectedFlatRowsIds.push(item.ID);
+        selectedFlatRowsNames.push(item.name);
+      });
+
+      setRowIds(selectedFlatRowsIds);
+      setRowNames(selectedFlatRowsNames);
+    },
+    [setRowIds, setRowNames]
+  );
 
   const columns: ReadonlyArray<Column<Data>> = [
     {
@@ -192,13 +210,11 @@ function Index({ id, title }: { id: string; title: string }) {
     },
   ];
 
-  // console.log('selectedRows', selectedRows);
-
   return (
     <Flex flexDirection="column" height="100%" margin="0 20px">
       <PageHeaderToolbar
         name={
-          selectedRows.length > 0 ? (
+          rowNames.length > 0 ? (
             <MoreAction
               element={
                 <Box
@@ -224,7 +240,7 @@ function Index({ id, title }: { id: string; title: string }) {
               }
               buttons={[
                 <MoveSubscriptionButton
-                  selected_ids={['1', '2']}
+                  selected_ids={rowIds}
                   key="modify"
                   onSuccess={() => {
                     refetch();
@@ -232,9 +248,9 @@ function Index({ id, title }: { id: string; title: string }) {
                 />,
                 <DeleteDeviceButton
                   onSuccess={() => {}}
-                  name={['1']}
+                  name={rowNames}
                   key="delete"
-                  selected_ids={['1']}
+                  selected_ids={rowIds}
                   refetchData={() => {
                     refetch();
                   }}
@@ -264,15 +280,7 @@ function Index({ id, title }: { id: string; title: string }) {
         style={{ flex: 1, overflow: 'hidden' }}
         columns={columns}
         data={data?.data || []}
-        // hasPagination
-        onSelect={({ selectedFlatRows }) => {
-          if (selectedFlatRows.length > 0) {
-            const selectedOriginal = selectedFlatRows.map((item) => {
-              return { ...item.original };
-            });
-            setSelectedRows(selectedOriginal);
-          }
-        }}
+        onSelect={handleSelect}
         scroll={{ y: '100%' }}
         isShowStripe
         isLoading={isLoading}
