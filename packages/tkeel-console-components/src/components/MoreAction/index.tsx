@@ -17,7 +17,10 @@ type Props = {
   isActionListOpen?: boolean;
   onActionListOpen?: () => unknown;
   onActionListClose?: () => unknown;
-  style?: StyleProps;
+  styles?: {
+    wrapper?: StyleProps;
+    actionList?: StyleProps;
+  };
 };
 
 interface CustomColors extends Colors {
@@ -31,7 +34,7 @@ function MoreAction({
   onActionListOpen,
   onActionListClose,
   buttonProps = {},
-  style,
+  styles = {},
 }: Props) {
   const [showActionList, setShowActionList] = useState(isActionListOpen);
   const { colors }: { colors: CustomColors } = useTheme();
@@ -98,7 +101,7 @@ function MoreAction({
       position="relative"
       onClick={handleClick}
       onMouseLeave={handleMouseLeave}
-      {...style}
+      {...styles.wrapper}
     >
       {element || (
         <Circle
@@ -132,6 +135,7 @@ function MoreAction({
         zIndex="9"
         boxShadow="0px 10px 15px rgba(113, 128, 150, 0.1), 0px 4px 6px rgba(113, 128, 150, 0.2)"
         onMouseEnter={handleActionListMouseEnter}
+        {...styles.actionList}
       >
         {menus}
       </Box>

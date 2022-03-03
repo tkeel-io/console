@@ -117,11 +117,13 @@ function Index(): JSX.Element {
                                 }}
                               />,
                             ]}
-                            style={{
-                              position: 'absolute',
-                              top: '0',
-                              right: '0',
-                              marginRight: '-4px',
+                            styles={{
+                              wrapper: {
+                                position: 'absolute',
+                                top: '0',
+                                right: '0',
+                                marginRight: '-4px',
+                              },
                             }}
                           />
                         </Box>

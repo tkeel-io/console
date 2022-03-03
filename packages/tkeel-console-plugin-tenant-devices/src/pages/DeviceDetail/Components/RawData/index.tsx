@@ -41,6 +41,17 @@ const handleValues = (value: string, selected: string) => {
 
 type TRawData = RawData[];
 
+// const kjh = {
+//   id: '23423',
+//   key: '213',
+//   type: 'rawData',
+//   mark: 'upstream',
+//   path: 'rawData/upstream',
+//   ts: 1_645_584_837_960_616_400,
+//   values: 'ZGRkZGRkZGRkZA==',
+//   a: 'ZGRkZGRkZGRkZA=',
+//   b: 'ZGRkZGRkZGRkA==',
+// };
 function RawDataPanel({ data }: Props) {
   const [rawDataList, setRawDataList] = useState<TRawData>([]);
   // const [keyWord, setKeyWord] = useState('');
