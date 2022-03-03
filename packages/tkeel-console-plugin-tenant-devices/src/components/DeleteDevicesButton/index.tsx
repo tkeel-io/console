@@ -22,7 +22,10 @@ function DeleteDevicesButton({ deviceName, ids, refetch }: Props) {
       toast({ status: 'success', title: '删除成功' });
       onClose();
       if (refetch) {
-        refetch();
+        const timer = setTimeout(() => {
+          refetch();
+          clearTimeout(timer);
+        }, 300);
       }
     },
   });

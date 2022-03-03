@@ -21,7 +21,10 @@ function AddSubscribeButton({ id, refetch }: Props) {
       toast({ status: 'success', title: '添加成功' });
       onClose();
       if (refetch) {
-        refetch();
+        const timer = setTimeout(() => {
+          refetch();
+          clearTimeout(timer);
+        }, 300);
       }
     },
   });

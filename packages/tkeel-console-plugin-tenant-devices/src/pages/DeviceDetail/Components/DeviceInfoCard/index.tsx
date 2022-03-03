@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { Box, Flex, HStack, Text, useClipboard } from '@chakra-ui/react';
+import { Box, Flex, HStack, Text } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
 import { BackButton, MoreAction } from '@tkeel/console-components';
@@ -27,6 +27,7 @@ import {
 } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
 
 import CardContentFlex from './components/CardContentFlex';
+import Clipboard from './components/Clipboard';
 import UnsubscribeButton from './components/UnsubscribeButton';
 
 const connectionIcon = {
@@ -39,6 +40,18 @@ type Props = {
   refetch?: () => void;
 };
 
+const handleSubscribeAddr = (data: string) => {
+  const addrInfoArr = data.split(',');
+  if (!addrInfoArr[0]) return [];
+  return addrInfoArr.map((r) => {
+    const addrInfo = r.split('@');
+    const title = addrInfo[0];
+    const id = addrInfo[1];
+    const addr = addrInfo[2];
+    return { id, title, addr };
+  });
+};
+
 function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
   const navigate = useNavigate();
   const {
@@ -46,8 +59,9 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
     properties: { sysField, basicInfo, connectInfo },
   } = deviceObject;
   const subscribeAddr = sysField?._subscribeAddr ?? '';
-  const { hasCopied, onCopy } = useClipboard(subscribeAddr);
-  const sub = subscribeAddr ? '1' : '0';
+  const addrList = handleSubscribeAddr(subscribeAddr);
+
+  const sub = addrList.length > 0 ? '1' : '0';
   const deviceName = basicInfo?.name ?? '';
   const isSelfLearn = basicInfo?.selfLearn;
   const selfLearnColors = isSelfLearn
@@ -151,48 +165,46 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
           </HStack>
         </CardContentFlex>
       </Box>
-      <HStack spacing="26px" fontSize="12px" pl="20px">
-        <Text h="39px" lineHeight="39px">
-          我的订阅
-        </Text>
-        {subscribeAddr && (
-          <Flex
-            position="relative"
-            flex="1"
-            alignItems="center"
-            _hover={{
-              '& > div': {
-                display: 'flex !important',
-              },
-            }}
-          >
-            <Text
-              h="39px"
-              lineHeight="39px"
-              fontWeight="400"
-              isTruncated
-              width="180px"
-            >
-              {subscribeAddr}
-            </Text>
-            <Flex position="absolute" right="0" mr="20px" display="none">
-              {hasCopied && (
-                <Text color="primary" mr="8px">
-                  已复制
-                </Text>
-              )}
-              <Text cursor="pointer" onClick={onCopy} color="primary" mr="8px">
-                复制
+      <Flex p="0 20px 0" flexDirection="column" justifyContent="center">
+        {addrList.map((r) => {
+          return (
+            <HStack spacing="26px" fontSize="12px" key={r.id} mb="4px">
+              <Text h="24px" lineHeight="24px">
+                {r.title}
               </Text>
-              <UnsubscribeButton
-                deviceId={id}
-                subscribeAddr={subscribeAddr}
-                refetch={refetch}
-              />
-            </Flex>
-          </Flex>
-        )}
-      </HStack>
+              <Flex
+                position="relative"
+                flex="1"
+                alignItems="center"
+                _hover={{
+                  '& > div': {
+                    display: 'flex !important',
+                  },
+                }}
+              >
+                <Text
+                  h="39px"
+                  lineHeight="39px"
+                  fontWeight="400"
+                  isTruncated
+                  width="180px"
+                >
+                  {r.addr}
+                </Text>
+                <Flex position="absolute" right="0" display="none">
+                  <Clipboard text={r.addr} />
+                  <UnsubscribeButton
+                    deviceId={id}
+                    subscribeId={r.id}
+                    subscribeAddr={r.addr}
+                    refetch={refetch}
+                  />
+                </Flex>
+              </Flex>
+            </HStack>
+          );
+        })}
+      </Flex>
     </Box>
   );
 }

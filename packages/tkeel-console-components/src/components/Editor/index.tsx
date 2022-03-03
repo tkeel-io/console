@@ -11,19 +11,32 @@ const Wrapper = styled(Box)`
       background-color: ${({ theme }) => (theme as Theme).colors.gray['50']};
     }
 
-    .margin {
-      width: 35px;
+    .decorationsOverviewRuler {
+      display: none;
     }
 
-    .margin-view-overlays {
-      .current-line {
-        display: none;
-      }
+    .margin {
+      width: 35px !important;
 
-      .line-numbers {
-        width: 100% !important;
-        color: ${({ theme }) => (theme as Theme).colors.gray['500']};
-        text-align: center;
+      .margin-view-overlays {
+        width: 35px !important;
+        background-color: ${({ theme }) => (theme as Theme).colors.gray['100']};
+
+        .line-numbers {
+          width: 100% !important;
+          padding-right: 14px;
+          color: ${({ theme }) => (theme as Theme).colors.gray['500']};
+        }
+      }
+    }
+
+    .monaco-scrollable-element {
+      left: 35px !important;
+
+      .slider {
+        width: 8px;
+        border-radius: 10px;
+        background-color: ${({ theme }) => (theme as Theme).colors.gray['300']};
       }
     }
   }

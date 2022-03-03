@@ -9,14 +9,17 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { isEmpty, throttle } from 'lodash';
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 // import { Editor, SearchInput } from '@tkeel/console-components';
-import { Editor, Select } from '@tkeel/console-components';
+import { Editor } from '@tkeel/console-components';
+import { useColor } from '@tkeel/console-hooks';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import { RawData } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
 import { OPTIONS } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
+
+import CustomSelect from './components/CustomSelect';
 
 type Props = {
   data: RawData;
@@ -36,29 +39,19 @@ const handleValues = (value: string, selected: string) => {
   return val;
 };
 
-const selectOptions = [
-  {
-    value: 'text',
-    label: '文本',
-  },
-  {
-    value: '十六进制',
-    label: '十六进制',
-  },
-];
-
 type TRawData = RawData[];
 
-const kjh = {
-  id: '23423',
-  key: '213',
-  type: 'rawData',
-  mark: 'upstream',
-  path: 'rawData/upstream',
-  ts: 1_645_584_837_960_616_400,
-  values: 'ZGRkZGRkZGRkZA==',
-};
-
+// const kjh = {
+//   id: '23423',
+//   key: '213',
+//   type: 'rawData',
+//   mark: 'upstream',
+//   path: 'rawData/upstream',
+//   ts: 1_645_584_837_960_616_400,
+//   values: 'ZGRkZGRkZGRkZA==',
+//   a: 'ZGRkZGRkZGRkZA=',
+//   b: 'ZGRkZGRkZGRkA==',
+// };
 function RawDataPanel({ data }: Props) {
   const [rawDataList, setRawDataList] = useState<TRawData>([]);
   // const [keyWord, setKeyWord] = useState('');
@@ -75,8 +68,8 @@ function RawDataPanel({ data }: Props) {
     });
   }, [data]);
 
-  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setSelected(e.target.value);
+  const handleChange = (value: string) => {
+    setSelected(value);
   };
 
   // const handleSearch = (value: string) => {
@@ -89,27 +82,10 @@ function RawDataPanel({ data }: Props) {
     <Box>
       <Flex align="center" w="100%" h="56px">
         <Text fontWeight="600">原始数据</Text>
-        <Flex flex="1" justifyContent="flex-end">
-          {/* <SearchInput onSearch={handleSearch} placeholder="搜索" /> */}
-        </Flex>
-        <Flex
-          bg="gray.100"
-          borderRadius="70px"
-          pl="10px"
-          minWidth="104px"
-          ml="12px"
-          fontSize="12px"
-          h="32px"
-          fontWeight="600"
-          alignItems="center"
-        >
-          <Select
-            style={{ width: '100%' }}
-            showArrow
-            options={selectOptions}
-            onChange={handleChange}
-          />
-        </Flex>
+        {/* <Flex flex="1" justifyContent="flex-end">
+          <SearchInput onSearch={handleSearch} placeholder="搜索" />
+        </Flex> */}
+        <CustomSelect onChange={handleChange} color={useColor('gray.100')} />
       </Flex>
       {!isEmpty(rawDataList) && (
         <Accordion p="12px 12px" bg="gray.50" maxH="600px" overflow="auto">
@@ -172,14 +148,14 @@ function RawDataPanel({ data }: Props) {
           })}
         </Accordion>
       )}
-      <Editor
+      {/* <Editor
         theme="light"
         value={JSON.stringify(kjh, null, 2)}
         language="json"
         readOnly
         width="100%"
         height="144px"
-      />
+      /> */}
     </Box>
   );
 }
