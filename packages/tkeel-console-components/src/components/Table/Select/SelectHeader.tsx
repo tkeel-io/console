@@ -8,9 +8,9 @@ interface Props<D extends object> extends UseRowSelectInstanceProps<D> {
 }
 
 function SelectHeader<D extends object>({
-  getToggleAllPageRowsSelectedProps,
+  getToggleAllRowsSelectedProps,
 }: Props<D>) {
-  const selectedProps = getToggleAllPageRowsSelectedProps();
+  const selectedProps = getToggleAllRowsSelectedProps();
   return (
     <Center
       justifyContent="center"

@@ -8,7 +8,7 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { BroomFilledIcon, RefreshFilledIcon } from '@tkeel/console-icons';
 
@@ -23,20 +23,68 @@ import SearchButton from './SearchButton';
 
 type Props = {
   type?: 'index' | 'searchResult';
+  defaultFilterConditions?: FilterConditionInfo[];
   style?: StyleProps;
 };
 
-export default function SearchDeviceInput({ type = 'index', style }: Props) {
+export default function SearchDeviceInput({
+  type = 'index',
+  defaultFilterConditions = [],
+  style,
+}: Props) {
+  const GROUP_ID = 'group-id';
+  const GROUP_NAME = 'group-name';
+  const TEMPLATE_ID = 'template-id';
+  const TEMPLATE_NAME = 'template-name';
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState('');
-  const [showFilterDropdown, setShowFilterDropdown] = useState(true);
+  const [showFilterDropdown, setShowFilterDropdown] = useState(false);
+  const [showDeviceList, setShowDeviceList] = useState(false);
   const [filterConditions, setFilterConditions] = useState<
     FilterConditionInfo[]
-  >([]);
-  const [deviceGroupId, setDeviceGroupId] = useState('');
-  const [templateId, setTemplateId] = useState('');
+  >(defaultFilterConditions);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const groupIdParam = searchParams.get(GROUP_ID) || '';
+  const [deviceGroupId, setDeviceGroupId] = useState(groupIdParam);
+  const templateIdParam = searchParams.get(TEMPLATE_ID) || '';
+
+  const [templateId, setTemplateId] = useState(templateIdParam);
   const initStatus = { label: '全部状态', value: 'all' };
   const [status, setStatus] = useState(initStatus);
+
+  const hasFilterConditions = filterConditions.length > 0;
+  const hasKeywordsOrConditions = inputValue || filterConditions.length > 0;
+  let inputPaddingRight = '10px';
+  if (hasKeywordsOrConditions) {
+    inputPaddingRight = type === 'index' ? '124px' : '160px';
+  }
+
+  const iconStyle: CSSProperties = {
+    position: 'absolute',
+    right: '140px',
+    top: '14px',
+    cursor: 'pointer',
+  };
+
+  const groupCondition = filterConditions.find(
+    (condition) => condition.id === DEVICE_GROUP_ID
+  );
+
+  const templateCondition = filterConditions.find(
+    (condition) => condition.id === DEVICE_TEMPLATES_ID
+  );
+
+  const keywordsCondition = filterConditions.find(
+    (condition) => condition.id === 'keywords'
+  );
+  const hasKeywordsCondition = !!keywordsCondition;
+
+  const disabled =
+    (!!groupCondition && !deviceGroupId) ||
+    (!!templateCondition && !templateId);
+
+  const inputDisabled = disabled || !!hasKeywordsCondition;
 
   const handleRemoveCondition = (conditionId: string) => {
     const newFilterConditions = filterConditions.filter(
@@ -45,6 +93,13 @@ export default function SearchDeviceInput({ type = 'index', style }: Props) {
     setFilterConditions(newFilterConditions);
     if (conditionId === DEVICE_GROUP_ID) {
       setDeviceGroupId('');
+      searchParams.delete(GROUP_ID);
+      searchParams.delete(GROUP_NAME);
+      setSearchParams(searchParams);
+    } else if (conditionId === DEVICE_TEMPLATES_ID) {
+      setTemplateId('');
+    } else {
+      setShowDeviceList(false);
     }
     setStatus(initStatus);
   };
@@ -72,6 +127,7 @@ export default function SearchDeviceInput({ type = 'index', style }: Props) {
         }
       } else {
         newFilterConditions = [keywordConditionInfo];
+        setShowDeviceList(true);
       }
       setInputValue('');
       setFilterConditions(newFilterConditions);
@@ -83,6 +139,7 @@ export default function SearchDeviceInput({ type = 'index', style }: Props) {
     setInputValue('');
     setFilterConditions([]);
     setDeviceGroupId('');
+    setTemplateId('');
     setStatus(initStatus);
   };
 
@@ -97,6 +154,9 @@ export default function SearchDeviceInput({ type = 'index', style }: Props) {
     id: string;
     label: string;
   }) => {
+    if (!filterConditions.some((condition) => condition.id === id)) {
+      setShowDeviceList(false);
+    }
     setFilterConditions([
       ...filterConditions.filter((condition) => condition.id === 'search'),
       {
@@ -120,6 +180,48 @@ export default function SearchDeviceInput({ type = 'index', style }: Props) {
     setFilterConditions(newFilterConditions);
   };
 
+  const handleSearch = () => {
+    if (type === 'index') {
+      let search = `keywords=${keywordsCondition?.value ?? ''}&status=${
+        status.value
+      }&`;
+
+      if (deviceGroupId) {
+        search += `group-id=${deviceGroupId}&${GROUP_NAME}=${encodeURIComponent(
+          groupCondition?.value || ''
+        )}&`;
+      }
+
+      if (templateId) {
+        search += `${TEMPLATE_ID}=${templateId}&template-name=${encodeURIComponent(
+          templateCondition?.value || ''
+        )}&`;
+      }
+
+      if (search.endsWith('&')) {
+        search = search.slice(0, -1);
+      }
+      navigate(`/search-result?${search}`);
+    } else {
+      filterConditions.forEach((condition) => {
+        if (condition.id === DEVICE_GROUP_ID) {
+          searchParams.set(GROUP_ID, deviceGroupId);
+          searchParams.set(GROUP_NAME, encodeURIComponent(condition.value));
+          searchParams.delete(TEMPLATE_ID);
+          searchParams.delete(TEMPLATE_NAME);
+        } else if (condition.id === DEVICE_TEMPLATES_ID) {
+          searchParams.set(TEMPLATE_ID, templateId);
+          searchParams.set(TEMPLATE_NAME, encodeURIComponent(condition.value));
+          searchParams.delete(GROUP_ID);
+          searchParams.delete(GROUP_NAME);
+        } else {
+          searchParams.set('keywords', condition.value);
+        }
+        setSearchParams(searchParams);
+      });
+    }
+  };
+
   useEffect(() => {
     document.addEventListener('click', handleDocumentClick);
 
@@ -128,42 +230,6 @@ export default function SearchDeviceInput({ type = 'index', style }: Props) {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const hasFilterConditions = filterConditions.length > 0;
-  const hasKeywordsOrConditions = inputValue || filterConditions.length > 0;
-  let inputPaddingRight = '10px';
-  if (hasKeywordsOrConditions) {
-    inputPaddingRight = type === 'index' ? '124px' : '160px';
-  }
-
-  const iconStyle: CSSProperties = {
-    position: 'absolute',
-    right: '140px',
-    top: '14px',
-    cursor: 'pointer',
-  };
-
-  const groupCondition = filterConditions.find(
-    (condition) => condition.id === DEVICE_GROUP_ID
-  );
-  const hasDeviceGroupCondition = !!groupCondition?.value;
-
-  const templateCondition = filterConditions.find(
-    (condition) => condition.id === DEVICE_TEMPLATES_ID
-  );
-  const hasTemplateCondition = !!templateCondition?.value;
-
-  const keywordsCondition = filterConditions.find(
-    (condition) => condition.id === 'keywords'
-  );
-  const hasKeywordsCondition = !!keywordsCondition;
-
-  const disabled =
-    (hasDeviceGroupCondition && !deviceGroupId) ||
-    (hasTemplateCondition && !templateId) ||
-    ((hasDeviceGroupCondition || hasTemplateCondition) && hasKeywordsCondition);
-
-  const inputDisabled = disabled || !!hasKeywordsCondition;
 
   return (
     <Box position="relative" onClick={(e) => e.stopPropagation()} {...style}>
@@ -229,27 +295,22 @@ export default function SearchDeviceInput({ type = 'index', style }: Props) {
             onClick={handleClearCondition}
           />
         )}
-        <SearchButton
-          disabled={disabled}
-          onClick={() => {
-            if (type === 'index') {
-              navigate(
-                `/search-result?device-group-id=${deviceGroupId}&status=${status.value}`
-              );
-            }
-          }}
-        />
+        <SearchButton disabled={disabled} onClick={handleSearch} />
       </InputGroup>
       <FilterDropdown
+        type={type}
         status={status}
-        deviceGroupId={deviceGroupId}
-        templateId={templateId}
+        // deviceGroupId={deviceGroupId}
+        // templateId={templateId}
+        showDeviceList={showDeviceList}
         setStatus={setStatus}
         setDeviceGroupId={setDeviceGroupId}
         setTemplateId={setTemplateId}
         filterConditions={filterConditions}
         handleConditionClick={handleConditionClick}
         updateCondition={handleUpdateCondition}
+        setShowDeviceList={setShowDeviceList}
+        hideFilterDropdown={() => setShowFilterDropdown(false)}
         style={{
           display: showFilterDropdown ? 'flex' : 'none',
           left: '0',

@@ -21,9 +21,11 @@ type Condition = {
 };
 
 type Props = {
+  type: 'index' | 'searchResult';
   status: Status;
-  deviceGroupId: string;
-  templateId: string;
+  // deviceGroupId: string;
+  // templateId: string;
+  showDeviceList: boolean;
   setStatus: (status: Status) => unknown;
   setDeviceGroupId: Dispatch<SetStateAction<string>>;
   setTemplateId: Dispatch<SetStateAction<string>>;
@@ -31,12 +33,16 @@ type Props = {
   filterConditions: Condition[];
   handleConditionClick: (condition: { id: string; label: string }) => unknown;
   updateCondition: (condition: { id: string; value: string }) => unknown;
+  setShowDeviceList: Dispatch<SetStateAction<boolean>>;
+  hideFilterDropdown: () => unknown;
 };
 
 export default function FilterDropdown({
+  type,
   status,
-  deviceGroupId,
-  templateId,
+  // deviceGroupId,
+  // templateId,
+  showDeviceList,
   setStatus,
   setDeviceGroupId,
   setTemplateId,
@@ -44,9 +50,11 @@ export default function FilterDropdown({
   filterConditions,
   handleConditionClick,
   updateCondition,
+  setShowDeviceList,
+  hideFilterDropdown,
 }: Props) {
-  // eslint-disable-next-line no-console
-  console.log('templateId', templateId);
+  const isIndex = type === 'index';
+  const sysFieldId = 'sysField._id';
   const groupIdFilterCondition = filterConditions.find(
     (condition) => condition.id === DEVICE_GROUP_ID
   );
@@ -90,6 +98,21 @@ export default function FilterDropdown({
     RequestDataCondition[]
   >(defaultDeviceGroupConditions);
 
+  const defaultTemplateConditions = useMemo(
+    () => [
+      {
+        field: 'type',
+        operator: '$eq',
+        value: 'template',
+      },
+    ],
+    []
+  );
+
+  const [templateConditions, setTemplateConditions] = useState<
+    RequestDataCondition[]
+  >(defaultTemplateConditions);
+
   const baseRequestData = {
     query: '',
     page_num: 1,
@@ -107,9 +130,11 @@ export default function FilterDropdown({
       },
     });
 
-  const showDeviceList = Boolean(
-    deviceGroupId || templateId || keywordsCondition
-  );
+  // const showDeviceList = Boolean(
+  //   (showDeviceGroup && deviceGroupId) ||
+  //     (showDeviceTemplates && templateId) ||
+  //     keywordsCondition
+  // );
 
   const { deviceList, isLoading: isDeviceListLoading } = useDeviceListQuery({
     requestData: {
@@ -125,13 +150,7 @@ export default function FilterDropdown({
       requestData: {
         ...baseRequestData,
         query: showDeviceTemplates ? templateIdFilterCondition.value : '',
-        condition: [
-          {
-            field: 'type',
-            operator: '$eq',
-            value: 'template',
-          },
-        ],
+        condition: templateConditions,
       },
     });
 
@@ -173,32 +192,38 @@ export default function FilterDropdown({
     groupId: string;
     title: string;
   }) => {
-    const newDeviceListQueryConditions = [...deviceListQueryConditions];
-    const groupIdCondition = newDeviceListQueryConditions.find(
-      (queryCondition) => queryCondition.field === deviceGroupIdQueryField
-    );
-    if (groupIdCondition) {
-      groupIdCondition.value = groupId;
-      setDeviceListQueryConditions(newDeviceListQueryConditions);
-    } else {
-      setDeviceListQueryConditions([
-        ...deviceListQueryConditions,
+    if (isIndex) {
+      const newDeviceListQueryConditions = [...deviceListQueryConditions];
+      const groupIdCondition = newDeviceListQueryConditions.find(
+        (queryCondition) => queryCondition.field === deviceGroupIdQueryField
+      );
+      if (groupIdCondition) {
+        groupIdCondition.value = groupId;
+        setDeviceListQueryConditions(newDeviceListQueryConditions);
+      } else {
+        setDeviceListQueryConditions([
+          ...deviceListQueryConditions,
+          {
+            field: deviceGroupIdQueryField,
+            operator: '$wildcard',
+            value: groupId,
+          },
+        ]);
+      }
+
+      setDeviceGroupConditions([
+        ...deviceGroupConditions,
         {
-          field: deviceGroupIdQueryField,
-          operator: '$wildcard',
+          field: sysFieldId,
+          operator: '$eq',
           value: groupId,
         },
       ]);
-    }
 
-    setDeviceGroupConditions([
-      ...deviceGroupConditions,
-      {
-        field: 'sysField._id',
-        operator: '$eq',
-        value: groupId,
-      },
-    ]);
+      setShowDeviceList(true);
+    } else {
+      hideFilterDropdown();
+    }
 
     setDeviceGroupId(groupId);
     updateCondition({ id: DEVICE_GROUP_ID, value: title });
@@ -211,25 +236,41 @@ export default function FilterDropdown({
     templateId: string;
     templateName: string;
   }) => {
-    setTemplateId(id);
-    updateCondition({ id: DEVICE_TEMPLATES_ID, value: templateName });
-    const newDeviceListQueryConditions = [...deviceListQueryConditions];
-    const templateIdCondition = newDeviceListQueryConditions.find(
-      (queryCondition) => queryCondition.field === templateIdQueryField
-    );
-    if (templateIdCondition) {
-      templateIdCondition.value = id;
-      setDeviceListQueryConditions(newDeviceListQueryConditions);
-    } else {
-      setDeviceListQueryConditions([
-        ...deviceListQueryConditions,
+    if (isIndex) {
+      const newDeviceListQueryConditions = [...deviceListQueryConditions];
+      const templateIdCondition = newDeviceListQueryConditions.find(
+        (queryCondition) => queryCondition.field === templateIdQueryField
+      );
+      if (templateIdCondition) {
+        templateIdCondition.value = id;
+        setDeviceListQueryConditions(newDeviceListQueryConditions);
+      } else {
+        setDeviceListQueryConditions([
+          ...deviceListQueryConditions,
+          {
+            field: templateIdQueryField,
+            operator: '$wildcard',
+            value: id,
+          },
+        ]);
+      }
+
+      setTemplateConditions([
+        ...templateConditions,
         {
-          field: templateIdQueryField,
-          operator: '$wildcard',
+          field: sysFieldId,
+          operator: '$eq',
           value: id,
         },
       ]);
+
+      setShowDeviceList(true);
+    } else {
+      hideFilterDropdown();
     }
+
+    setTemplateId(id);
+    updateCondition({ id: DEVICE_TEMPLATES_ID, value: templateName });
   };
   // const showLoading =
   //   (showDeviceGroup && isDeviceGroupLoading) ||
@@ -246,9 +287,37 @@ export default function FilterDropdown({
     defaultDeviceGroupConditions,
   ]);
 
+  useEffect(() => {
+    const templateConditionId = templateIdFilterCondition?.id;
+    if (!templateConditionId || templateConditionId !== DEVICE_GROUP_ID) {
+      setTemplateConditions(defaultTemplateConditions);
+    }
+  }, [
+    templateIdFilterCondition,
+    setTemplateConditions,
+    defaultTemplateConditions,
+  ]);
+
+  // const handleUpdateDeviceGroupConditions = useCallback(
+  //   (groupId: string) => {
+  //     setDeviceGroupConditions([
+  //       ...deviceGroupConditions,
+  //       {
+  //         field: sysFieldId,
+  //         operator: '$eq',
+  //         value: groupId,
+  //       },
+  //     ]);
+  //   },
+  //   [setDeviceGroupConditions, deviceGroupConditions]
+  // );
+
+  // useEffect(() => {
+  //   handleUpdateDeviceGroupConditions(deviceGroupId);
+  // }, [deviceGroupId, handleUpdateDeviceGroupConditions]);
+
   // useEffect(() => {
   //   if (deviceGroupId) {
-  //     console.log('set ');
   //     setDeviceListQueryConditions([
   //       ...deviceListQueryConditions,
   //       {
@@ -290,10 +359,15 @@ export default function FilterDropdown({
         isDeviceGroupLoading={isDeviceGroupLoading}
         showDeviceGroup={showDeviceGroup}
         deviceGroupTree={deviceGroupTree}
-        clearDeviceGroupId={() => setDeviceGroupId('')}
+        // clearDeviceGroupId={() => setDeviceGroupId('')}
+        // clearTemplateId={() => setTemplateId('')}
+        showBackButton={Boolean(
+          groupIdFilterCondition || templateIdFilterCondition
+        )}
         showDeviceList={showDeviceList}
         isDeviceListLoading={isDeviceListLoading}
         deviceList={deviceList}
+        setShowDeviceList={setShowDeviceList}
         onTemplateClick={onTemplateClick}
         showDeviceTemplates={showDeviceTemplates}
         isDeviceTemplatesLoading={isDeviceTemplatesLoading}

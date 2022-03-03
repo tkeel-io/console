@@ -73,9 +73,15 @@ export default function Layout({ userActionMenusComponent, logo }: Props) {
   const { isLoading } = useQiankunInit(initArgs);
 
   return (
-    <Flex height="100%">
+    <Flex height="100%" overflowX="auto">
       <Menus logo={logo} />
-      <Flex flex="1" overflow="hidden" flexDirection="column" padding="20px">
+      <Flex
+        flex="1"
+        overflow="hidden"
+        minWidth="1200px"
+        flexDirection="column"
+        padding="20px"
+      >
         <Header
           menus={menus}
           userActionMenusComponent={userActionMenusComponent}

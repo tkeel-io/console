@@ -41,8 +41,14 @@ function Body<D extends object>({
       {page.map((row, i) => {
         prepareRow(row);
         let backgroundColor = 'transparent';
-        if (isShowStripe && i % 2 === 1) {
-          backgroundColor = 'gray.50';
+        const defaultBorderColor = 'grayAlternatives.50';
+        let borderColor = isShowStripe ? 'transparent' : defaultBorderColor;
+        if (isShowStripe) {
+          if (i % 2 === 1) {
+            backgroundColor = 'gray.50';
+          } else {
+            borderColor = defaultBorderColor;
+          }
         }
         return (
           <Tr backgroundColor={backgroundColor} {...row.getRowProps()}>
@@ -57,9 +63,7 @@ function Body<D extends object>({
                   padding="0 20px"
                   color="grayAlternatives.300"
                   fontSize="14px"
-                  borderColor={
-                    isShowStripe ? 'transparent' : 'grayAlternatives.50'
-                  }
+                  borderColor={borderColor}
                   {...cell.getCellProps()}
                 >
                   {funcName === 'defaultRenderer' ? (

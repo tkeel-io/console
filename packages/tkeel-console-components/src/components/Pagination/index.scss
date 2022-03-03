@@ -23,10 +23,12 @@
   }
 
   .rc-pagination-item {
+    font-size: 12px;
     border: 1px solid #ccd3db;
     border-radius: 3px;
 
     &.rc-pagination-item-active {
+      border: none;
       color: #fff;
       background-color: var(--chakra-colors-primary);
     }

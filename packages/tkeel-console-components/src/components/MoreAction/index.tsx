@@ -1,4 +1,4 @@
-import { Box, Circle, Colors, useTheme } from '@chakra-ui/react';
+import { Box, Circle, Colors, StyleProps, useTheme } from '@chakra-ui/react';
 import {
   cloneElement,
   MouseEventHandler,
@@ -17,6 +17,7 @@ type Props = {
   isActionListOpen?: boolean;
   onActionListOpen?: () => unknown;
   onActionListClose?: () => unknown;
+  style?: StyleProps;
 };
 
 interface CustomColors extends Colors {
@@ -30,6 +31,7 @@ function MoreAction({
   onActionListOpen,
   onActionListClose,
   buttonProps = {},
+  style,
 }: Props) {
   const [showActionList, setShowActionList] = useState(isActionListOpen);
   const { colors }: { colors: CustomColors } = useTheme();
@@ -96,6 +98,7 @@ function MoreAction({
       position="relative"
       onClick={handleClick}
       onMouseLeave={handleMouseLeave}
+      {...style}
     >
       {element || (
         <Circle
@@ -110,7 +113,7 @@ function MoreAction({
           }}
         >
           <MoreVerticalFilledIcon
-            color={showActionList ? 'primary' : 'gray.700'}
+            color={showActionList ? 'primary' : 'grayAlternatives.300'}
           />
         </Circle>
       )}
