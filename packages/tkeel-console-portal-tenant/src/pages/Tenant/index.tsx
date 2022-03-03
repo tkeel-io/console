@@ -6,7 +6,7 @@ import { Form, FormField } from '@tkeel/console-components';
 import { usePortalTenantConfigQuery } from '@tkeel/console-request-hooks';
 import { isEnvDevelopment, setLocalTenantInfo } from '@tkeel/console-utils';
 
-import useQueryTenantIdMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useQueryTenantIdMutation';
+import useQueryTenantMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useQueryTenantMutation';
 
 const mockData = isEnvDevelopment()
   ? { tenantTitle: String(PORTAL_GLOBALS?.mock?.tenantTitle ?? '') }
@@ -48,7 +48,7 @@ export default function Tenant() {
     formState: { errors },
   } = useForm<FormValues>();
 
-  const { isLoading, mutate } = useQueryTenantIdMutation({
+  const { isLoading, mutate } = useQueryTenantMutation({
     onSuccess: ({ data }) => {
       const { tenant_id: tenantId } = data;
       setLocalTenantInfo({ tenant_id: tenantId });
