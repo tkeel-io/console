@@ -3,9 +3,9 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import {
   Navigate,
   NavigateFunction,
-  useLocation,
   useNavigate,
   useParams,
+  useSearchParams,
 } from 'react-router-dom';
 
 import { Form, FormField } from '@tkeel/console-components';
@@ -22,7 +22,7 @@ import {
 import useTokenMutation, {
   ApiData,
 } from '@/tkeel-console-portal-tenant/hooks/mutations/useTokenMutation';
-// import useTenantExactQuery from '@/tkeel-console-portal-tenant/hooks/queries/useTenantExactQuery';
+import useTenantExactQuery from '@/tkeel-console-portal-tenant/hooks/queries/useTenantExactQuery';
 
 const mockData = isEnvDevelopment()
   ? {
@@ -88,16 +88,17 @@ export default function Login() {
   const { tenantId = '' } = pathParams;
 
   const navigate = useNavigate();
-  const { state } = useLocation();
-  const initialUsername = (state as { username?: string })?.username ?? '';
+
+  const [searchParams] = useSearchParams();
+  const initialUsername = searchParams.get('username') || '';
 
   const redirect = useRedirectParams();
 
-  /* const { data: tenantInfo } = useTenantExactQuery({
+  const { data: tenantInfo } = useTenantExactQuery({
     enabled: !!tenantId,
     params: { tenant_id: tenantId },
   });
-  console.log(tenantInfo); */
+  const tenantTitle = tenantInfo?.title ?? '';
 
   const { data, mutate, isLoading } = useTokenMutation({ tenantId });
 
@@ -154,13 +155,14 @@ export default function Login() {
       <Center flexDirection="column" width="42vw">
         <Form margin="0" onSubmit={handleSubmit(onSubmit)}>
           <Heading
+            height="52px"
             paddingBottom="12px"
             fontSize="24px"
             fontWeight="600"
             lineHeight="40px"
             color="gray.800"
           >
-            您好，欢迎使用！
+            {tenantTitle}
           </Heading>
           <TextField
             id="username"
