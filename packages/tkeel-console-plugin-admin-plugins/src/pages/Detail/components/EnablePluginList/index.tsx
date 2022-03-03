@@ -87,10 +87,11 @@ function EnablePluginList({ pluginName }: Props) {
           width="284px"
           placeholder="搜索"
           onSearch={(value) => setKeywords(value)}
+          inputStyle={{ backgroundColor: 'white' }}
         />
       </Flex>
       <Table
-        style={{ flex: 1, overflow: 'hidden' }}
+        style={{ flex: 1, overflow: 'hidden', padding: '0 20px' }}
         columns={columns}
         data={tenants}
         isLoading={isLoading}

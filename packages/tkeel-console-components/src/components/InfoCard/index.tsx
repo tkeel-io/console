@@ -32,7 +32,7 @@ function InfoCard({ title, data, styles }: Props) {
         color="gray.800"
         fontSize="14px"
         lineHeight="20px"
-        fontWeight="600"
+        fontWeight="500"
         {...styles?.title}
       >
         {title}
