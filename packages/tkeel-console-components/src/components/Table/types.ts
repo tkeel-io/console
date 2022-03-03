@@ -1,13 +1,14 @@
 import { StyleProps } from '@chakra-ui/react';
 import { ReactNode } from 'react';
-import { IdType, Row, SortingRule, UseTableOptions } from 'react-table';
+import { IdType, SortingRule, UseTableOptions } from 'react-table';
 
 import { UsePaginationReturnType } from '@tkeel/console-types';
 
 type OnSelectProps<D extends object> = {
   isAllRowsSelected: boolean;
-  selectedRowIds: IdType<D>[];
-  selectedFlatRows: Row<D>[];
+  selectedRowIds: Record<IdType<D>, boolean>;
+  // selectedFlatRows: Row<D>[];
+  selectedFlatRows: D[];
 };
 
 export interface Props<D extends object> extends UseTableOptions<D> {

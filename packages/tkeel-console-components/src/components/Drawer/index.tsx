@@ -62,6 +62,7 @@ function Drawer({
           borderBottomWidth="1px"
           borderBottomStyle="solid"
           borderBottomColor="grayAlternatives.50"
+          backgroundColor="gray.50"
         >
           {title}
         </DrawerHeader>

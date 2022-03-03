@@ -1,5 +1,6 @@
 /* eslint-disable sonarjs/cognitive-complexity */
 import { Box, Flex, Input, InputGroup, StyleProps } from '@chakra-ui/react';
+import { Base64 } from 'js-base64';
 import {
   CSSProperties,
   KeyboardEvent,
@@ -187,15 +188,15 @@ export default function SearchDeviceInput({
       }&`;
 
       if (deviceGroupId) {
-        search += `group-id=${deviceGroupId}&${GROUP_NAME}=${encodeURIComponent(
-          groupCondition?.value || ''
-        )}&`;
+        const groupName = encodeURIComponent(
+          Base64.encode(groupCondition?.value || '')
+        );
+        search += `group-id=${deviceGroupId}&${GROUP_NAME}=${groupName}&`;
       }
 
       if (templateId) {
-        search += `${TEMPLATE_ID}=${templateId}&template-name=${encodeURIComponent(
-          templateCondition?.value || ''
-        )}&`;
+        const templateName = Base64.encodeURI(templateCondition?.value || '');
+        search += `${TEMPLATE_ID}=${templateId}&template-name=${templateName}&`;
       }
 
       if (search.endsWith('&')) {
