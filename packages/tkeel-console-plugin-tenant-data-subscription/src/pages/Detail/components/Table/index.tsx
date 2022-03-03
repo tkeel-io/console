@@ -156,7 +156,7 @@ function Index({ id, title }: { id: string; title: string }) {
             <MoreAction
               buttons={[
                 <MoveSubscriptionButton
-                  selected_ids={original.ID}
+                  selected_ids={[original.ID]}
                   key="modify"
                   onSuccess={() => {
                     refetch();
@@ -164,9 +164,9 @@ function Index({ id, title }: { id: string; title: string }) {
                 />,
                 <DeleteDeviceButton
                   onSuccess={() => {}}
-                  name={original.name}
+                  name={[original.name]}
                   key="delete"
-                  id={original.ID}
+                  selected_ids={[original.ID]}
                   refetchData={() => {
                     refetch();
                   }}
@@ -179,8 +179,31 @@ function Index({ id, title }: { id: string; title: string }) {
   ];
 
   return (
-    <Flex flexDirection="column" height="100%" padding="0 20px">
+    <Flex flexDirection="column" height="100%" margin="0 20px">
       <PageHeaderToolbar
+        // name={
+        //   <MoreAction
+        //     buttons={[
+        //       <MoveSubscriptionButton
+        //         selected_ids={['1', '2']}
+        //         key="modify"
+        //         onSuccess={() => {
+        //           refetch();
+        //         }}
+        //       />,
+        //       <DeleteDeviceButton
+        //         onSuccess={() => {}}
+        //         name={['1']}
+        //         key="delete"
+        //         selected_ids={['1']}
+        //         refetchData={() => {
+        //           refetch();
+        //         }}
+        //       />,
+        //     ]}
+        //   />
+        // }
+
         name="订阅设备"
         hasSearchInput
         searchInputProps={{

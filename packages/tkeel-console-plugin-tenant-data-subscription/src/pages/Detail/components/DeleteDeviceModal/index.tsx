@@ -5,7 +5,7 @@ import { Alert } from '@tkeel/console-components';
 
 type Props = {
   // data: User;
-  name: string;
+  name: string[];
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
   onClose: () => unknown;
@@ -31,10 +31,10 @@ export default function DeleteSubscriptionModal({
       title={
         <>
           确认移除设备
-          {/* <Text as="span" color="red.300">
-            删除
-          </Text> */}
-          &nbsp;「{name}」？
+          {name.map((item) => {
+            return `「${item}」`;
+          })}
+          ？
         </>
       }
       description="移除后不可恢复，请谨慎操作。"

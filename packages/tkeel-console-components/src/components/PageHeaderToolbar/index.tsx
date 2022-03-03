@@ -19,7 +19,7 @@ import SearchInput, {
 import { ButtonWrapper } from './index.styled';
 
 type Props = {
-  name: string;
+  name: ReactNode;
   hasSearchInput?: boolean;
   searchInputProps?: SearchInputProps;
   buttons?: ReactNode[];
