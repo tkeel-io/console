@@ -17,9 +17,7 @@ type ApiData = {
       };
       SetPassword: {
         backgroundImage: string;
-        brandName: string;
-        title: string;
-        subTitle: string;
+        logo: string;
       };
     };
   };
@@ -36,6 +34,8 @@ export default function usePortalAdminConfigQuery() {
     extras: {
       isWithToken: false,
       handleNoAuth: false,
+      handleApiError: false,
+      handleAxiosError: false,
     },
   });
 

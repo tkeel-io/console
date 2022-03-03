@@ -2,8 +2,8 @@ import {
   Box,
   Button,
   Center,
-  Flex,
   Heading,
+  Image,
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
@@ -14,13 +14,13 @@ import { Alert, Form, FormField, toast } from '@tkeel/console-components';
 import { usePortalTenantConfigQuery } from '@tkeel/console-request-hooks';
 import { schemas } from '@tkeel/console-utils';
 
-import useOAuthResetPasswordMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useOAuthResetPasswordMutation';
+import useResetPasswordMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useResetPasswordMutation';
 import useResetPasswordKeyInfoQuery from '@/tkeel-console-portal-tenant/hooks/queries/useResetPasswordKeyInfoQuery';
 
 const { TextField } = FormField;
 
 type FormValues = {
-  password: string;
+  newPassword: string;
   confirmPassword: string;
 };
 
@@ -68,16 +68,16 @@ export default function SetPassword() {
     data: resetPasswordData,
     mutate,
     isLoading,
-  } = useOAuthResetPasswordMutation({
+  } = useResetPasswordMutation({
     onSuccess() {
       onOpen();
     },
   });
 
   const onSubmit: SubmitHandler<FormValues> = (formValues) => {
-    const { password, confirmPassword } = formValues;
+    const { newPassword, confirmPassword } = formValues;
 
-    if (password !== confirmPassword) {
+    if (newPassword !== confirmPassword) {
       toast({ status: 'warning', title: '两次输入的密码不一致' });
       return;
     }
@@ -85,7 +85,7 @@ export default function SetPassword() {
     mutate({
       data: {
         reset_key: resetKey,
-        new_password: password,
+        new_password: newPassword,
       },
     });
   };
@@ -105,27 +105,7 @@ export default function SetPassword() {
         backgroundSize="100% 40%"
       >
         <Box position="absolute" top="24px" left="20px">
-          <Heading
-            display="inline"
-            padding="2px"
-            fontWeight="500"
-            fontSize="14px"
-            lineHeight="20px"
-            backgroundColor="primary"
-          >
-            {pageConfig?.brandName}
-          </Heading>
-          <Flex alignItems="center" paddingTop="4px" color="white">
-            <Heading fontWeight="500" fontSize="18px" lineHeight="26px">
-              {pageConfig?.title}
-            </Heading>
-            <Text paddingX="8px" fontSize="18px">
-              |
-            </Text>
-            <Heading fontSize="18px" lineHeight="28px">
-              {pageConfig?.subTitle}
-            </Heading>
-          </Flex>
+          <Image src={pageConfig?.logo} width="auto" height="50px" />
         </Box>
         <Box
           padding="40px 46px 70px"
@@ -148,22 +128,22 @@ export default function SetPassword() {
             <TextField
               type="password"
               id="password"
-              label="密码"
+              label="新密码"
               help={schemas.password.help}
               placeholder="请输入"
-              error={errors.password}
+              error={errors.newPassword}
               formControlStyle={{ width: '350px' }}
               formLabelStyle={formLabelStyle}
               inputStyle={inputStyle}
               registerReturn={register(
-                'password',
+                'newPassword',
                 schemas.password.registerOptions
               )}
             />
             <TextField
               type="password"
               id="confirmPassword"
-              label="再次输入密码"
+              label="再次输入新密码"
               help={schemas.password.help}
               placeholder="请输入"
               error={errors.confirmPassword}

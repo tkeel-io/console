@@ -22,9 +22,7 @@ module.exports = {
       },
       SetPassword: {
         backgroundImage: getConfigImagePath('background-02.png'),
-        brandName: 'QingCloud IoT',
-        title: '物联网平台',
-        subTitle: '设置密码',
+        logo: getConfigImagePath('logo-set-password.svg'),
       },
     },
   },

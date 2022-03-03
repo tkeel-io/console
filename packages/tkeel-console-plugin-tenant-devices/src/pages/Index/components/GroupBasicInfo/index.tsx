@@ -2,16 +2,10 @@
 import { Button, Flex, HStack, SimpleGrid, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 
-import {
-  NodeInfo,
-  TreeNodeType,
-} from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
+import { TreeNodeData } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
 
 interface Props {
-  groupItem: {
-    nodeInfo: NodeInfo;
-    subNode: TreeNodeType;
-  };
+  groupItem: TreeNodeData;
 }
 
 const defaultCount = 4;
@@ -28,13 +22,12 @@ function renderInfoItem(item: { key: string; value: string }) {
 }
 function GroupBasicInfo({ groupItem }: Props): JSX.Element {
   const [isExpend, setIsExpend] = useState(false);
-  const { nodeInfo } = groupItem;
-  const { description, name, ext } = nodeInfo.properties.group;
-  // const ext = nodeInfo.properties.group.ext ?? {};
+  const nodeInfo = groupItem?.originData?.nodeInfo ?? null;
+  const { description, name, ext } = nodeInfo?.properties?.group ?? {};
   const groupInfoArray = [
     { key: '设备组名称', value: name },
     { key: '描述信息', value: description || '暂无描述' },
-    ...Object.entries(ext).map(([key, value]) => {
+    ...Object.entries(ext || {}).map(([key, value]) => {
       return { key, value };
     }),
   ];
