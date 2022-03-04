@@ -87,7 +87,7 @@ export default function ExpandMenus({ isDarkMenu, logo }: Props) {
         onSearch={handleSearch}
       /> */}
       <Box flex="1" overflow="auto" padding="20px">
-        {isLoading ? null : menus.length > 0 ? (
+        {menus.length > 0 ? (
           menus.map((menu) => {
             const { id, name, icon, path, children } = menu;
             const hasChildren = children && children[0];
@@ -130,7 +130,7 @@ export default function ExpandMenus({ isDarkMenu, logo }: Props) {
               </Box>
             );
           })
-        ) : (
+        ) : isLoading ? null : (
           <Center height="100%">
             <Image src={emptyMenu} width="104px" />
           </Center>
