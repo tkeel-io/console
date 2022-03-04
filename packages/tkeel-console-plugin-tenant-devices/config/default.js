@@ -20,12 +20,12 @@ module.exports = {
         {
           id: 'devices',
           name: '设备管理',
-          icon: 'HumanGearTwoToneIcon',
+          icon: 'MgmtNodeTwoToneIcon',
           children: [
             {
               key: 'devices',
               id: 'console-plugin-tenant-devices',
-              name: '设备管理',
+              name: '设备列表',
               path: '/tenant-devices',
               entry: '/static/console-plugin-tenant-devices/',
               portal: 1,

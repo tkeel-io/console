@@ -292,7 +292,7 @@ function DeviceListTable({
               buttons={[
                 <AddSubscribeButton
                   key="subscribe"
-                  id={id}
+                  deviceId={id}
                   refetch={refetch}
                 />,
                 <UpdateDeviceButton
