@@ -155,7 +155,12 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
           </HStack>
         </CardContentFlex>
       </Box>
-      <Flex p="0 20px 0" flexDirection="column" justifyContent="center">
+      <Flex
+        p="0 20px 0"
+        flexDirection="column"
+        justifyContent="center"
+        mt="9px"
+      >
         {addrList.map((r) => {
           return (
             <HStack spacing="26px" fontSize="12px" key={r.id} mb="4px">
@@ -173,8 +178,8 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
                 }}
               >
                 <Text
-                  h="39px"
-                  lineHeight="39px"
+                  h="24px"
+                  lineHeight="24px"
                   fontWeight="400"
                   isTruncated
                   width="180px"
