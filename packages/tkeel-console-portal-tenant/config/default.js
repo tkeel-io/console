@@ -35,6 +35,7 @@ module.exports = {
   plugin: {
     identify: {
       plugin_id: 'console-portal-tenant',
+      disable_manual_activation: true,
       dependence: [{ id: 'rudder', version: tkeel.version }],
     },
   },

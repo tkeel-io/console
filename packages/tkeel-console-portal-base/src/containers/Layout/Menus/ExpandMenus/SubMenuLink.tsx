@@ -21,7 +21,7 @@ function SubMenuLink({ path, name }: Props) {
     <Link
       display="flex"
       alignItems="center"
-      height="28px"
+      height="32px"
       paddingLeft="44px"
       color={active ? 'primary' : defaultColor}
       fontWeight={active ? '500' : 'normal'}
