@@ -1,10 +1,18 @@
 /* eslint-disable no-underscore-dangle */
-import { Center, Flex, Spacer, Text, useClipboard } from '@chakra-ui/react';
+import {
+  Button,
+  Center,
+  Flex,
+  Spacer,
+  Text,
+  useClipboard,
+} from '@chakra-ui/react';
 
+import { useColor } from '@tkeel/console-hooks';
 import { CopyFilledIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
-import CompleteCheck from '@/tkeel-console-plugin-tenant-devices/assets/images/complete_check_green.svg?svgr';
+import CompleteCheck from '@/tkeel-console-plugin-tenant-devices/assets/images/CompleteCheck';
 import { ApiData as GroupResData } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceGroupMutation';
 import { ApiData as DeviceResData } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceMutation';
 import useTokenInfoQuery from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useTokenInfoQuery';
@@ -13,6 +21,18 @@ import { ModalType } from '@/tkeel-console-plugin-tenant-devices/pages/Index/typ
 interface Props {
   type: ModalType;
   responseData?: DeviceResData | GroupResData | null;
+}
+
+function clickDownload({ content }: { content: string }) {
+  const BOM = '\uFEFF';
+  const fileName = `token.csv`;
+  const downloadLink = document.createElement('a');
+  downloadLink.href = `data:attachment/csv;charset=utf-8,${BOM}${encodeURIComponent(
+    content
+  )}`;
+  downloadLink.target = '_blank';
+  downloadLink.download = fileName;
+  downloadLink.click();
 }
 
 export default function CompletedInfoPart({ type, responseData }: Props) {
@@ -24,6 +44,11 @@ export default function CompletedInfoPart({ type, responseData }: Props) {
     const { data } = useTokenInfoQuery({ token });
     expiredAt = data?.expired_at ?? '';
   }
+  const colors = {
+    main: useColor('primary'),
+    sub: useColor('primarySub'),
+    sub2: useColor('primarySub2'),
+  };
   const { hasCopied, onCopy } = useClipboard(token);
   return (
     <Flex flexDirection="column" h="100%">
@@ -35,7 +60,7 @@ export default function CompletedInfoPart({ type, responseData }: Props) {
           justify="center"
           flexDirection="column"
         >
-          <CompleteCheck />
+          <CompleteCheck colors={colors} />
           <Text color="gray.800" fontSize="14px" fontWeight="600">
             已成功创建
             <Text as="span" color="primary" px="2px">
@@ -43,9 +68,16 @@ export default function CompletedInfoPart({ type, responseData }: Props) {
             </Text>
             台设备,请点击复制设备凭证
           </Text>
-          {/* <Button colorScheme="primary" w="200px" my="32px">
+          <Button
+            colorScheme="primary"
+            w="200px"
+            my="32px"
+            onClick={() => {
+              clickDownload({ content: token });
+            }}
+          >
             下载
-          </Button> */}
+          </Button>
         </Flex>
       ) : (
         <Flex
@@ -55,7 +87,7 @@ export default function CompletedInfoPart({ type, responseData }: Props) {
           justify="center"
           flexDirection="column"
         >
-          <CompleteCheck />
+          <CompleteCheck colors={colors} />
           <Flex
             color="gray.800"
             fontSize="14px"
