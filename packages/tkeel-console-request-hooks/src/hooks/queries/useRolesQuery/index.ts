@@ -14,6 +14,7 @@ export interface Role {
   desc?: string;
   bind_num: number;
   upsert_timestamp: string;
+  uneditable: boolean;
   permission_list: {
     path: string;
     permission: {
