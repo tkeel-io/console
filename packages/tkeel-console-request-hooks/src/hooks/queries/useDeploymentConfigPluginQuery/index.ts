@@ -2,6 +2,8 @@ import { usePluginQuery } from '@tkeel/console-hooks';
 
 interface ApiData {
   '@type': string;
+  admin_host: string;
+  tenant_host: string;
 }
 
 export default function useDeploymentConfigPluginQuery() {

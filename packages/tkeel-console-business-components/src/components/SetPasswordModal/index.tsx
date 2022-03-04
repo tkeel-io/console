@@ -10,6 +10,7 @@ import { stringify } from 'qs';
 
 import { Alert, toast } from '@tkeel/console-components';
 import { CopyFilledIcon } from '@tkeel/console-icons';
+// import { useDeploymentConfigPluginQuery } from '@tkeel/console-request-hooks';
 
 type Props = {
   isOpen: boolean;
@@ -31,6 +32,7 @@ export default function SetPasswordModal({
   const query = stringify(data, { addQueryPrefix: true });
   const fullURL = `${url}${query}`;
   const { hasCopied, onCopy } = useClipboard(fullURL);
+  // const { config } = useDeploymentConfigPluginQuery();
 
   if (hasCopied) {
     toast({ status: 'success', title: '复制成功' });
