@@ -9,7 +9,7 @@ type Props = BoxProps &
 function CustomTab(props: Props) {
   const styles = useStyles();
   const tabProps = useTab(props);
-  const isFirstTab = tabProps.id === 'tabs-1--tab-0';
+  const isFirstTab = tabProps['data-index'] === '0';
   const isSelected = !!tabProps['aria-selected'];
 
   return (

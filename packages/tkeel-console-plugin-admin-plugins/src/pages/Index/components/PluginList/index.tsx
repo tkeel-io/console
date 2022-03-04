@@ -142,6 +142,7 @@ function PluginList({
             canNextPage={canNextPage}
             setPageNum={setPageNum}
             setPageSize={setPageSize}
+            style={{ padding: '0 20px' }}
           />
         </>
       )}
