@@ -1,16 +1,26 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
-import { createHandleNoAuth, getLocalTokenInfo } from '@tkeel/console-utils';
-
-import useNoAuthRedirectPath from '../useNoAuthRedirectPath';
+import {
+  getLocalTokenInfo,
+  getNoAuthRedirectPath,
+  jumpToAuthLoginPage,
+} from '@tkeel/console-utils';
 
 export default function usePortalRequestExtras() {
   const tokenInfo = getLocalTokenInfo();
-  const navigate = useNavigate();
-  const redirectPath = useNoAuthRedirectPath({
+  const location = useLocation();
+  const redirectPath = getNoAuthRedirectPath({
     portalName: PORTAL_GLOBALS.portalName,
+    location,
   });
-  const handleNoAuth = createHandleNoAuth({ navigate, redirectPath });
+  const handleNoAuth = () => {
+    jumpToAuthLoginPage({
+      portalName: PORTAL_GLOBALS.portalName,
+      path: redirectPath,
+      isRemoveLocalTokenInfo: true,
+      isReplace: true,
+    });
+  };
 
   return { tokenInfo, handleNoAuth };
 }

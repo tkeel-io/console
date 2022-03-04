@@ -1,16 +1,22 @@
 import { useDisclosure } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
 
 import { Alert, MoreActionButton } from '@tkeel/console-components';
 import { KeyFilledIcon } from '@tkeel/console-icons';
-import { removeLocalTokenInfo } from '@tkeel/console-utils';
+import { jumpToAuthLoginPage } from '@tkeel/console-utils';
 
 import useAdminModifyPasswordMutation from '@/tkeel-console-portal-admin/hooks/mutations/useAdminModifyPasswordMutation';
 
 import ModifyPasswordModal from './ModifyPasswordModal';
 
+const handleSuccess = () => {
+  jumpToAuthLoginPage({
+    portalName: 'admin',
+    isRemoveLocalTokenInfo: true,
+    isReplace: true,
+  });
+};
+
 export default function ModifyPasswordButton() {
-  const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: isAlertOpen, onOpen: onAlertOpen } = useDisclosure();
   const { isLoading, mutate } = useAdminModifyPasswordMutation({
@@ -18,11 +24,6 @@ export default function ModifyPasswordButton() {
       onAlertOpen();
     },
   });
-
-  const handleSuccess = () => {
-    removeLocalTokenInfo();
-    navigate('/auth/login', { replace: true });
-  };
 
   return (
     <>

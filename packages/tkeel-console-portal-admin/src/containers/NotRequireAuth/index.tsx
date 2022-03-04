@@ -1,7 +1,8 @@
-import { Navigate, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
 import { Loading } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
+import { jumpToPage } from '@tkeel/console-utils';
 
 import useAdminAuthenticateTokenQuery from '@/tkeel-console-portal-admin/hooks/queries/useAdminAuthenticateTokenQuery';
 
@@ -17,7 +18,8 @@ export default function NotRequireAuth() {
   }
 
   if (isSuccess) {
-    return <Navigate to={redirect} replace />;
+    jumpToPage({ path: redirect, isReplace: true });
+    return null;
   }
 
   return <Outlet />;
