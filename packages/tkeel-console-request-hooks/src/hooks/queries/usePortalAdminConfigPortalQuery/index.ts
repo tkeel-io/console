@@ -20,7 +20,7 @@ type ApiData = {
   };
 };
 
-export default function usePortalAdminConfigQuery() {
+export default function usePortalAdminConfigPortalQuery() {
   let config;
   const result = usePortalQuery<ApiData>({
     url: '/config/v1/portal-admin',

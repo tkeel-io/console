@@ -14,7 +14,7 @@ type Props = {
 
 function DeleteSubscriptionButton({ id, refetchData, name }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { mutate } = useDeleteSubscriptionMutation({
+  const { mutate, isLoading } = useDeleteSubscriptionMutation({
     id,
     onSuccess() {
       // onSuccess();
@@ -40,7 +40,7 @@ function DeleteSubscriptionButton({ id, refetchData, name }: Props) {
       <DeleteSubscriptionModal
         name={name}
         isOpen={isOpen}
-        isConfirmButtonLoading={false}
+        isConfirmButtonLoading={isLoading}
         onClose={onClose}
         onConfirm={handleConfirm}
       />
