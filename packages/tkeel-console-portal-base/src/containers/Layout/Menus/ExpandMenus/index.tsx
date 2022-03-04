@@ -24,7 +24,7 @@ type Props = {
 export default function ExpandMenus({ isDarkMenu, logo }: Props) {
   const location = useLocation();
 
-  const [spreadMenuIds, setSpreadMenus] = useState<string[]>([]);
+  const [spreadMenuId, setSpreadMenuId] = useState('');
 
   const { menus } = useMenusQuery({
     onSuccess(data) {
@@ -35,26 +35,15 @@ export default function ExpandMenus({ isDarkMenu, logo }: Props) {
           return item.path && location.pathname.includes(item.path);
         });
         if (active) {
-          setSpreadMenus([...spreadMenuIds, id]);
+          setSpreadMenuId(id);
         }
       });
     },
   });
 
   const handleMenuClick = (id: string) => {
-    if (spreadMenuIds.includes(id)) {
-      setSpreadMenus(spreadMenuIds.filter((menuId) => menuId !== id));
-    } else {
-      setSpreadMenus([...spreadMenuIds, id]);
-    }
+    setSpreadMenuId(spreadMenuId === id ? '' : id);
   };
-  // const isPortalAdmin = PORTAL_GLOBALS.portalName === 'admin';
-  // const qingcloudLogoDark = isPortalAdmin
-  //   ? qingcloudLogoAdminDark
-  //   : qingcloudLogoTenantDark;
-  // const qingcloudLogoLight = isPortalAdmin
-  //   ? qingcloudLogoAdminLight
-  //   : qingcloudLogoTenantLight;
 
   return (
     <Flex
@@ -100,7 +89,7 @@ export default function ExpandMenus({ isDarkMenu, logo }: Props) {
         {menus.map((menu) => {
           const { id, name, icon, path, children } = menu;
           const hasChildren = children && children[0];
-          const spread = spreadMenuIds.includes(id);
+          const spread = spreadMenuId === id;
           return (
             <Box key={id} marginBottom="4px">
               <Box key={id}>

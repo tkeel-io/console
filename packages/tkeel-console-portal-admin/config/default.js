@@ -32,6 +32,7 @@ module.exports = {
   plugin: {
     identify: {
       plugin_id: 'console-portal-admin',
+      disable_manual_activation: true,
       dependence: [{ id: 'rudder', version: tkeel.version }],
     },
   },

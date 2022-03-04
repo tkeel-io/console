@@ -35,7 +35,6 @@ function Pagination({
 }: Props) {
   return (
     <Flex
-      padding="0 20px"
       justifyContent="space-between"
       alignItems="center"
       flexShrink="0"
@@ -56,7 +55,7 @@ function Pagination({
       <Flex alignItems="center">
         <Select
           marginRight="16px"
-          width="64px"
+          width="68px"
           borderColor="gray.200"
           _focus={{ boxShadow: 'none' }}
           value={pageSize}

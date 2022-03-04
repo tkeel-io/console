@@ -1,7 +1,10 @@
-import { Navigate, Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 
 import { Loading } from '@tkeel/console-components';
-import { useNoAuthRedirectPath } from '@tkeel/console-hooks';
+import {
+  getNoAuthRedirectPath,
+  jumpToAuthLoginPage,
+} from '@tkeel/console-utils';
 
 import useAdminAuthenticateTokenQuery from '@/tkeel-console-portal-admin/hooks/queries/useAdminAuthenticateTokenQuery';
 
@@ -9,8 +12,10 @@ export default function RequireAuth() {
   const { isLoading, isError } = useAdminAuthenticateTokenQuery({
     extras: { handleNoAuth: false, handleApiError: false },
   });
-  const redirectPath = useNoAuthRedirectPath({
-    portalName: PORTAL_GLOBALS.portalName,
+  const location = useLocation();
+  const redirectPath = getNoAuthRedirectPath({
+    portalName: 'admin',
+    location,
   });
 
   if (isLoading) {
@@ -18,7 +23,13 @@ export default function RequireAuth() {
   }
 
   if (isError) {
-    return <Navigate to={redirectPath} replace />;
+    jumpToAuthLoginPage({
+      portalName: 'admin',
+      path: redirectPath,
+      isRemoveLocalTokenInfo: true,
+      isReplace: true,
+    });
+    return null;
   }
 
   return <Outlet />;
