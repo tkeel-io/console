@@ -10,12 +10,12 @@ import { stringify } from 'qs';
 
 import { Alert, toast } from '@tkeel/console-components';
 import { CopyFilledIcon } from '@tkeel/console-icons';
-// import { useDeploymentConfigPluginQuery } from '@tkeel/console-request-hooks';
+import { useDeploymentConfigPluginQuery } from '@tkeel/console-request-hooks';
 
 type Props = {
   isOpen: boolean;
   title: string;
-  url: string;
+  url?: string;
   data: {
     reset_key: string;
   };
@@ -29,10 +29,11 @@ export default function SetPasswordModal({
   data,
   onClose,
 }: Props) {
+  const { isLoading, config } = useDeploymentConfigPluginQuery();
+  const defaultURL = `${config.portalTenantURL}/auth/set-password`;
   const query = stringify(data, { addQueryPrefix: true });
-  const fullURL = `${url}${query}`;
+  const fullURL = `${url || defaultURL}${query}`;
   const { hasCopied, onCopy } = useClipboard(fullURL);
-  // const { config } = useDeploymentConfigPluginQuery();
 
   if (hasCopied) {
     toast({ status: 'success', title: '复制成功' });
@@ -55,7 +56,7 @@ export default function SetPasswordModal({
       >
         <Input
           type="text"
-          defaultValue={fullURL}
+          value={fullURL}
           variant="filled"
           isReadOnly
           height="100%"
@@ -67,13 +68,19 @@ export default function SetPasswordModal({
           lineHeight="140%"
         />
         <InputRightElement width="32px" height="100%">
-          <Button variant="ghost" padding="0" borderRadius="0" onClick={onCopy}>
+          <Button
+            variant="ghost"
+            isLoading={isLoading}
+            padding="0"
+            borderRadius="0"
+            onClick={onCopy}
+          >
             <CopyFilledIcon size="16px" />
           </Button>
         </InputRightElement>
       </InputGroup>
       <Center paddingTop="40px">
-        <Button colorScheme="primary" onClick={onCopy}>
+        <Button colorScheme="primary" isLoading={isLoading} onClick={onCopy}>
           复制链接
         </Button>
       </Center>
