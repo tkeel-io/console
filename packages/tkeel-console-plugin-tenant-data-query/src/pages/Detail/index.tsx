@@ -1,82 +1,30 @@
-import { Box, Button, Circle, Flex, Text } from '@chakra-ui/react';
+import { Button, Circle, Flex, Text } from '@chakra-ui/react';
 
 // import { useNavigate } from 'react-router-dom';
-import {
-  BackButton,
-  Checkbox,
-  IconButton,
-  SearchInput,
-} from '@tkeel/console-components';
+import { Checkbox, IconButton, SearchInput } from '@tkeel/console-components';
 import {
   BroomFilledIcon,
+  ChevronDownFilledIcon,
   DownloadFilledIcon,
   LeftFilledIcon,
   RefreshFilledIcon,
   RightFilledIcon,
-  VpcTwoToneIcon,
+  // ChevronUpFilledIcon
 } from '@tkeel/console-icons';
 
-import {
-  DeviceIconName,
-  DeviceStatusIcon,
-  Rectangle,
-} from '@/tkeel-console-plugin-tenant-data-query/components';
-
 import CustomCircle from './components/CustomCircle';
-// import DataTable from './components/DataTable';
+import DataTable from './components/DataTable';
+import DeviceDetailCard from './components/DeviceDetailCard';
 
 export default function Detail() {
   // const navigate = useNavigate();
 
-  const textStyle = {
-    color: 'gray.800',
-    fontSize: '12px',
-    lineHeight: '24px',
-  };
+  const columnNames = ['通信故障', 'C相相角', 'B相相角', '频率', '总功率因数'];
 
   return (
     <Flex height="100%" justifyContent="space-between">
       <Flex flexDirection="column" width="360px">
-        <Box borderRadius="4px" backgroundColor="white">
-          <Box
-            padding="12px 20px 12px 12px"
-            height="92px"
-            backgroundColor="gray.50"
-          >
-            <BackButton
-              onClick={() => {
-                window.history.back();
-              }}
-            />
-            <Flex
-              marginTop="12px"
-              paddingLeft="8px"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <DeviceIconName />
-              <Flex>
-                <DeviceStatusIcon isOnline />
-                <Rectangle
-                  icon={
-                    <VpcTwoToneIcon color="primary" twoToneColor="primary" />
-                  }
-                  backgroundColor="primarySub"
-                  style={{ marginLeft: '8px' }}
-                />
-              </Flex>
-            </Flex>
-          </Box>
-          <Flex
-            padding="0 20px"
-            justifyContent="space-between"
-            alignItems="center"
-            height="48px"
-          >
-            <Text {...textStyle}>IDC分组1</Text>
-            <Text {...textStyle}>SIC电表</Text>
-          </Flex>
-        </Box>
+        <DeviceDetailCard />
         <Flex
           flexDirection="column"
           flex="1"
@@ -105,17 +53,31 @@ export default function Detail() {
             inputGroupStyle={{ margin: '8px 20px 12px' }}
             onSearch={() => {}}
           />
-          <Checkbox marginLeft="20px">原始数据</Checkbox>
+          <Checkbox marginLeft="20px" height="32px">
+            原始数据
+          </Checkbox>
           <Flex
-            marginTop="10px"
-            flex="1"
-            padding="14px 20px"
             flexDirection="column"
+            paddingTop="14px"
+            paddingLeft="20px"
             backgroundColor="gray.50"
           >
-            <Checkbox>上行消息</Checkbox>
-            <Checkbox margin="16px 0">下行消息</Checkbox>
-            <Checkbox>连接信息</Checkbox>
+            <Flex alignItems="center">
+              <ChevronDownFilledIcon color="grayAlternatives.300" />
+              <Checkbox marginLeft="10px">遥测数据</Checkbox>
+            </Flex>
+            <Flex
+              marginTop="10px"
+              flex="1"
+              paddingLeft="47px"
+              flexDirection="column"
+            >
+              {columnNames.map((item) => (
+                <Checkbox marginBottom="16px" key={item}>
+                  {item}
+                </Checkbox>
+              ))}
+            </Flex>
           </Flex>
           <Button colorScheme="primary" margin="12px 20px">
             确定
@@ -183,7 +145,7 @@ export default function Detail() {
             </CustomCircle>
           </Flex>
         </Flex>
-        {/* <DataTable style={{ flex: '1' }} /> */}
+        <DataTable style={{ flex: '1', marginTop: '10px' }} />
       </Flex>
     </Flex>
   );

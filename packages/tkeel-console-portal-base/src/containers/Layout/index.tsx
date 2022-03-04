@@ -41,10 +41,6 @@ export default function Layout({ userActionMenusComponent, logo }: Props) {
   const apps = menusToApps(initArgs);
 
   const renderApps = () => {
-    if (!(Array.isArray(apps) && apps.length > 0)) {
-      return null;
-    }
-
     const [firstApp] = apps;
 
     return (
@@ -98,12 +94,12 @@ export default function Layout({ userActionMenusComponent, logo }: Props) {
               height="100%"
             />
           )}
-          <Routes>
-            {renderApps()}
-            {Array.isArray(apps) && apps.length > 0 && (
+          {apps.length > 0 ? (
+            <Routes>
+              {renderApps()}
               <Route path="*" element={<NotFound />} />
-            )}
-          </Routes>
+            </Routes>
+          ) : null}
         </Flex>
       </Flex>
     </Flex>
