@@ -1,13 +1,13 @@
 import { usePluginQuery } from '@tkeel/console-hooks';
 
 const method = 'POST';
-export type Data = {
+export interface Data {
   description: string;
   endpoint: string;
   id: string;
   title: string;
   is_default: boolean;
-};
+}
 
 export interface ApiData {
   '@type': string;
