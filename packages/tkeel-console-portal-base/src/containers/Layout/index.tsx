@@ -1,4 +1,4 @@
-import { Box, Flex, Skeleton } from '@chakra-ui/react';
+import { Box, Center, Flex, Image, Skeleton } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 
@@ -9,6 +9,7 @@ import {
 import { Logo } from '@tkeel/console-types';
 import { isEnvDevelopment } from '@tkeel/console-utils';
 
+import noPlugins from '@/tkeel-console-portal-base/assets/images/no-plugins.svg';
 import Header from '@/tkeel-console-portal-base/containers/Layout/Header';
 import Menus from '@/tkeel-console-portal-base/containers/Layout/Menus';
 import useMenusQuery from '@/tkeel-console-portal-base/hooks/queries/useMenusQuery';
@@ -26,7 +27,7 @@ type Props = {
 
 export default function Layout({ userActionMenusComponent, logo }: Props) {
   const { themeName } = useGlobalPortalProps();
-  const { menus, refetch } = useMenusQuery();
+  const { menus, isLoading: isLoadingMenus, refetch } = useMenusQuery();
 
   const navigate = useNavigate();
 
@@ -94,12 +95,16 @@ export default function Layout({ userActionMenusComponent, logo }: Props) {
               height="100%"
             />
           )}
-          {apps.length > 0 ? (
+          {isLoadingMenus ? null : apps.length > 0 ? (
             <Routes>
               {renderApps()}
               <Route path="*" element={<NotFound />} />
             </Routes>
-          ) : null}
+          ) : (
+            <Center width="100%">
+              <Image src={noPlugins} width="325px" />
+            </Center>
+          )}
         </Flex>
       </Flex>
     </Flex>
