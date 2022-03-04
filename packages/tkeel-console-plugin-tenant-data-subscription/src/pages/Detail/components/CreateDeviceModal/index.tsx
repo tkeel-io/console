@@ -223,6 +223,7 @@ export default function CreateDeviceModal({
   const disableStyles = (type: number) => {
     return {
       margin: '0 30px',
+      fontSize: '12px',
       cursor:
         selectIndex === type && selectedKeys?.length > 0
           ? 'not-allowed'
@@ -234,7 +235,7 @@ export default function CreateDeviceModal({
     };
   };
   const selectedStyles = {
-    color: 'green.300',
+    color: `${useColor('green.300')} !important`,
     boxShadow: 'none',
     borderBottom: '1px solid',
     borderBottomColor: 'green.300',
