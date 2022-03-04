@@ -42,7 +42,7 @@ export default function SetPasswordModal({
     <Alert
       icon="success"
       title={title}
-      description="复制下方链接，邀请您的同事开始使用 tKeel"
+      description="复制下方链接，发送给用户设置密码"
       isOpen={isOpen}
       onClose={onClose}
     >
