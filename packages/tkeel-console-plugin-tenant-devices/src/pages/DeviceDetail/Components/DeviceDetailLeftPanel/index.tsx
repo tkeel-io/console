@@ -60,7 +60,7 @@ function DeviceDetailLeftPanel({ deviceObject, refetch }: Props): JSX.Element {
       label: '设备凭证',
     },
     {
-      value: basicInfo?.parentId ?? '',
+      value: basicInfo?.parentName ?? '',
       label: '设备组',
     },
     {
@@ -82,7 +82,7 @@ function DeviceDetailLeftPanel({ deviceObject, refetch }: Props): JSX.Element {
       label: '连接方式',
     },
     {
-      value: <Text as="u">{basicInfo?.templateName ?? ''}</Text>,
+      value: <Text as="u">{basicInfo?.templateName ?? '暂无模板'}</Text>,
       label: '设备模板',
     },
     {

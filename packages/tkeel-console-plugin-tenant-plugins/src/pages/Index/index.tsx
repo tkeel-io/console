@@ -66,7 +66,6 @@ function Index(): JSX.Element {
     <Flex flexDirection="column" height="100%">
       <PageHeaderToolbar
         name="插件管理"
-        hasIcon
         hasSearchInput
         searchInputProps={{ onSearch: (value) => setKeyWords(value) }}
       />

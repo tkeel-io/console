@@ -1,8 +1,11 @@
-import { Navigate, Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 
 import { Loading } from '@tkeel/console-components';
-import { useNoAuthRedirectPath } from '@tkeel/console-hooks';
-import { setLocalTenantInfo } from '@tkeel/console-utils';
+import {
+  getNoAuthRedirectPath,
+  jumpToAuthLoginPage,
+  setLocalTenantInfo,
+} from '@tkeel/console-utils';
 
 import useAuthenticateTokenQuery from '@/tkeel-console-portal-tenant/hooks/queries/useAuthenticateTokenQuery';
 
@@ -10,8 +13,10 @@ export default function RequireAuth() {
   const { data, isLoading, isError, isSuccess } = useAuthenticateTokenQuery({
     extras: { handleNoAuth: false, handleApiError: false },
   });
-  const redirectPath = useNoAuthRedirectPath({
-    portalName: PORTAL_GLOBALS.portalName,
+  const location = useLocation();
+  const redirectPath = getNoAuthRedirectPath({
+    portalName: 'tenant',
+    location,
   });
 
   if (isLoading) {
@@ -19,7 +24,13 @@ export default function RequireAuth() {
   }
 
   if (isError) {
-    return <Navigate to={redirectPath} replace />;
+    jumpToAuthLoginPage({
+      portalName: 'tenant',
+      path: redirectPath,
+      isRemoveLocalTokenInfo: true,
+      isReplace: true,
+    });
+    return null;
   }
 
   if (isSuccess && data?.tenant_id) {
