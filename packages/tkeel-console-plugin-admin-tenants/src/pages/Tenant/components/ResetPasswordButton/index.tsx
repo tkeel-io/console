@@ -70,7 +70,7 @@ export default function ResetPasswordButton({ data }: Props) {
           isOpen={isSetPasswordModalOpen}
           url={url}
           data={{ reset_key: resetData?.reset_key ?? '' }}
-          title="重置成功"
+          title="操作成功"
           onClose={onSetPasswordModalClose}
         />
       )}

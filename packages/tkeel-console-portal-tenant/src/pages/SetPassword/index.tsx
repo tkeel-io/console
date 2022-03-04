@@ -8,13 +8,13 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 import { Alert, Form, FormField, toast } from '@tkeel/console-components';
 import { usePortalTenantConfigQuery } from '@tkeel/console-request-hooks';
-import { schemas } from '@tkeel/console-utils';
+import { jumpToAuthLoginPage, schemas } from '@tkeel/console-utils';
 
-import useResetPasswordMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useResetPasswordMutation';
+import useSetPasswordMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useSetPasswordMutation';
 import useResetPasswordKeyInfoQuery from '@/tkeel-console-portal-tenant/hooks/queries/useResetPasswordKeyInfoQuery';
 
 const { TextField } = FormField;
@@ -63,12 +63,11 @@ export default function SetPassword() {
   const username = resetPasswordKeyInfo?.username ?? '';
 
   const { isOpen, onOpen } = useDisclosure();
-  const navigate = useNavigate();
   const {
     data: resetPasswordData,
     mutate,
     isLoading,
-  } = useResetPasswordMutation({
+  } = useSetPasswordMutation({
     onSuccess() {
       onOpen();
     },
@@ -92,7 +91,15 @@ export default function SetPassword() {
 
   const navigateToLoginPage = () => {
     const tenantId = resetPasswordData?.tenant_id ?? '';
-    navigate(`/auth/login/${tenantId}`, { replace: true });
+    jumpToAuthLoginPage({
+      portalName: 'tenant',
+      tenantId,
+      searchParams: {
+        username: resetPasswordData?.username ?? '',
+      },
+      isRemoveLocalTokenInfo: false,
+      isReplace: true,
+    });
   };
 
   return (

@@ -6,18 +6,20 @@ import {
   AccordionPanel,
   Box,
   Flex,
-  Select,
   Text,
 } from '@chakra-ui/react';
-import { isEmpty } from 'lodash';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { isEmpty, throttle } from 'lodash';
+import { useEffect, useState } from 'react';
 
 // import { Editor, SearchInput } from '@tkeel/console-components';
 import { Editor } from '@tkeel/console-components';
+import { useColor } from '@tkeel/console-hooks';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import { RawData } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
 import { OPTIONS } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
+
+import CustomSelect from './components/CustomSelect';
 
 type Props = {
   data: RawData;
@@ -37,34 +39,37 @@ const handleValues = (value: string, selected: string) => {
   return val;
 };
 
-const selectOptions = [
-  {
-    value: 'text',
-    label: '文本',
-  },
-  {
-    value: '十六进制',
-    label: '十六进制',
-  },
-];
-
 type TRawData = RawData[];
 
+// const kjh = {
+//   id: '23423',
+//   key: '213',
+//   type: 'rawData',
+//   mark: 'upstream',
+//   path: 'rawData/upstream',
+//   ts: 1_645_584_837_960_616_400,
+//   values: 'ZGRkZGRkZGRkZA==',
+//   a: 'ZGRkZGRkZGRkZA=',
+//   b: 'ZGRkZGRkZGRkA==',
+// };
 function RawDataPanel({ data }: Props) {
-  const [rawDataList, setRawDataList] = useState<TRawData>([data]);
+  const [rawDataList, setRawDataList] = useState<TRawData>([]);
   // const [keyWord, setKeyWord] = useState('');
   const [selected, setSelected] = useState('text');
+  const func = throttle(setRawDataList, 10 * 1000);
+
   useEffect(() => {
-    setRawDataList((preState) => {
+    func((preState) => {
       if (isEmpty(data)) return [];
       const newData = { key: Math.random().toFixed(9), ...data };
-      if (preState.length > 10) return [newData];
-      return [newData, ...preState];
+      // if (preState.length > 10) return [newData];
+      return [newData, ...preState].slice(-10);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
-  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setSelected(e.target.value);
+  const handleChange = (value: string) => {
+    setSelected(value);
   };
 
   // const handleSearch = (value: string) => {
@@ -77,95 +82,72 @@ function RawDataPanel({ data }: Props) {
     <Box>
       <Flex align="center" w="100%" h="56px">
         <Text fontWeight="600">原始数据</Text>
-        <Flex flex="1" justifyContent="flex-end">
-          {/* <SearchInput onSearch={handleSearch} placeholder="搜索" /> */}
-        </Flex>
-        <Flex
-          bg="gray.100"
-          borderRadius="70px"
-          pl="10px"
-          minWidth="104px"
-          ml="12px"
-          fontSize="12px"
-          h="32px"
-          fontWeight="600"
-          alignItems="center"
-        >
-          <Select
-            id="format-selected"
-            onChange={handleChange}
-            defaultValue={selected}
-            isFullWidth
-            border="unset"
-            _focus={{ boxShow: 'none' }}
-          >
-            {selectOptions.map(({ value, label }) => (
-              <option key={value} value={value}>
-                {label}
-              </option>
-            ))}
-          </Select>
-        </Flex>
+        {/* <Flex flex="1" justifyContent="flex-end">
+          <SearchInput onSearch={handleSearch} placeholder="搜索" />
+        </Flex> */}
+        <CustomSelect onChange={handleChange} color={useColor('gray.100')} />
       </Flex>
-      <Accordion p="12px 12px" bg="gray.50" maxH="600px" overflow="auto">
-        {rawDataList.map((r) => {
-          const status = OPTIONS[r?.mark ?? 'upstream'];
+      {!isEmpty(rawDataList) && (
+        <Accordion p="12px 12px" bg="gray.50" maxH="600px" overflow="auto">
+          {rawDataList.map((r) => {
+            const status = OPTIONS[r?.mark ?? 'upstream'];
 
-          return (
-            !isEmpty(r) && (
-              <AccordionItem
-                key={r.key}
-                borderWidth="1px"
-                borderColor="gray.200"
-                borderRadius="4px"
-                bg="white"
-                mb="12px"
-                p="10px 12px 10px 12px"
-              >
-                <AccordionButton
-                  _focus={{ boxShadow: 'none' }}
-                  p="unset"
-                  ml="8px"
+            return (
+              !isEmpty(r) && (
+                <AccordionItem
+                  key={r.key}
+                  borderWidth="1px"
+                  borderColor="gray.200"
+                  borderRadius="4px"
+                  bg="white"
+                  mb="12px"
+                  p="10px 12px 10px 12px"
                 >
-                  <Flex flex="1" fontSize="12px" alignItems="center">
-                    <Box
-                      bg={status.bg}
-                      color={status.color}
-                      w="42px"
-                      h="24px"
-                      textAlign="center"
-                      borderRadius="2px"
-                      fontWeight="600"
-                      lineHeight="2"
-                    >
-                      {status.desc}
-                    </Box>
-                    <Text fontWeight="700" m="0 38px 0 22px">
-                      {r.path}
-                    </Text>
-                    <Text color="grayAlternatives.300" flex="1">
-                      {formatDateTimeByTimestamp({
-                        timestamp: `${Math.floor((r?.ts || 0) / 1e6)}`,
-                      })}
-                    </Text>
-                  </Flex>
-                  <AccordionIcon />
-                </AccordionButton>
-                <AccordionPanel p="12px 0 0 0">
-                  <Editor
-                    theme="light"
-                    value={handleValues(r?.values || '', selected)}
-                    language="json"
-                    readOnly
-                    width="100%"
-                    height="144px"
-                  />
-                </AccordionPanel>
-              </AccordionItem>
-            )
-          );
-        })}
-      </Accordion>
+                  <AccordionButton
+                    _focus={{ boxShadow: 'none' }}
+                    p="unset"
+                    ml="8px"
+                  >
+                    <Flex flex="1" fontSize="12px" alignItems="center">
+                      <Box
+                        bg={status.bg}
+                        color={status.color}
+                        w="42px"
+                        h="24px"
+                        textAlign="center"
+                        borderRadius="2px"
+                        fontWeight="600"
+                        lineHeight="2"
+                      >
+                        {status.desc}
+                      </Box>
+                      <Text fontWeight="700" m="0 38px 0 22px">
+                        {r.path}
+                      </Text>
+                      <Text color="grayAlternatives.300" flex="1">
+                        {formatDateTimeByTimestamp({
+                          timestamp: `${Math.floor((r?.ts || 0) / 1e6)}`,
+                        })}
+                      </Text>
+                    </Flex>
+                    <AccordionIcon />
+                  </AccordionButton>
+                  <AccordionPanel p="12px 0 0 0">
+                    <Editor
+                      theme="light"
+                      value={handleValues(r?.values || '', selected)}
+                      language="json"
+                      readOnly
+                      width="100%"
+                      height="144px"
+                    />
+                  </AccordionPanel>
+                </AccordionItem>
+              )
+            );
+          })}
+        </Accordion>
+      )}
     </Box>
   );
 }

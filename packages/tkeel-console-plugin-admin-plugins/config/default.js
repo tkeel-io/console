@@ -16,6 +16,7 @@ module.exports = {
   plugin: {
     identify: {
       plugin_id: 'console-plugin-admin-plugins',
+      disable_manual_activation: true,
       entries: [
         {
           id: 'console-plugin-admin-plugins',

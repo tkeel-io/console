@@ -5,7 +5,7 @@ import { useColor } from '@tkeel/console-hooks';
 import {
   ChevronDownFilledIcon,
   ChevronUpFilledIcon,
-  HumanFilledIcon,
+  HumanCircleTwoToneIcon,
 } from '@tkeel/console-icons';
 
 import useAuthenticateTokenQuery from '@/tkeel-console-portal-tenant/hooks/queries/useAuthenticateTokenQuery';
@@ -16,6 +16,7 @@ import ModifyPasswordButton from './ModifyPasswordButton';
 
 export default function UserActionMenus() {
   const primaryColor = useColor('primary');
+  const primarySub2 = useColor('primarySub2');
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { userInfo } = useAuthenticateTokenQuery();
   const username = userInfo?.username;
@@ -29,13 +30,18 @@ export default function UserActionMenus() {
           _hover={{
             '& > svg': {
               fill: `${primaryColor} !important`,
+              color: `${primarySub2} !important`,
             },
             '& > p': {
               color: primaryColor,
             },
           }}
         >
-          <HumanFilledIcon size="24px" color={isOpen ? primaryColor : ''} />
+          <HumanCircleTwoToneIcon
+            size="24px"
+            color={isOpen ? primaryColor : ''}
+            twoToneColor={isOpen ? primarySub2 : ''}
+          />
           <Text
             marginLeft="8px"
             fontSize="12px"

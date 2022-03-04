@@ -66,7 +66,6 @@ function Index(): JSX.Element {
     <Flex flexDirection="column" height="100%">
       <PageHeaderToolbar
         name="插件管理"
-        hasIcon
         hasSearchInput
         searchInputProps={{ onSearch: (value) => setKeyWords(value) }}
       />
@@ -117,11 +116,13 @@ function Index(): JSX.Element {
                                 }}
                               />,
                             ]}
-                            style={{
-                              position: 'absolute',
-                              top: '0',
-                              right: '0',
-                              marginRight: '-4px',
+                            styles={{
+                              wrapper: {
+                                position: 'absolute',
+                                top: '0',
+                                right: '0',
+                                marginRight: '-4px',
+                              },
                             }}
                           />
                         </Box>

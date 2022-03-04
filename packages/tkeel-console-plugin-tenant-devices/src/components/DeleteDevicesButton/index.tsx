@@ -22,7 +22,10 @@ function DeleteDevicesButton({ deviceName, ids, refetch }: Props) {
       toast({ status: 'success', title: '删除成功' });
       onClose();
       if (refetch) {
-        refetch();
+        const timer = setTimeout(() => {
+          refetch();
+          clearTimeout(timer);
+        }, 300);
       }
     },
   });
@@ -36,13 +39,15 @@ function DeleteDevicesButton({ deviceName, ids, refetch }: Props) {
     <>
       <MoreActionButton
         onClick={onOpen}
-        icon={<TrashFilledIcon size="12px" />}
+        icon={<TrashFilledIcon size="12px" color="grayAlternatives.300" />}
         title="删除设备"
       />
       {isOpen && (
         <CustomModal
           bg="red.50"
-          icon={<AlarmLampFilledIcon size="24px" />}
+          icon={
+            <AlarmLampFilledIcon color="grayAlternatives.300" size="24px" />
+          }
           title={`确认删除设备「${deviceName}」？`}
           isConfirmButtonLoading={isLoading}
           isOpen={isOpen}

@@ -2,6 +2,8 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 
+import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
+
 import { ConnectInfo } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
 
 type Props = {
@@ -15,6 +17,7 @@ function ConnectionInfo({ data }: Props) {
     _owner: '',
     _peerHost: '',
     _protocol: '',
+    _timestamp: '0000',
     _sockPort: '',
     _userName: '',
   } as const;
@@ -27,23 +30,25 @@ function ConnectionInfo({ data }: Props) {
   const list = [
     {
       label: '接入协议',
-      value: infoData?._protocol || '',
+      value: infoData._protocol,
     },
     {
       label: '客户端ID',
-      value: infoData?._clientId || '',
+      value: infoData._clientId,
     },
     {
       label: '客户端端口',
-      value: infoData?._sockPort || '',
+      value: infoData._sockPort,
     },
     {
       label: '客户端地址',
-      value: infoData?._peerHost || '',
+      value: infoData._peerHost,
     },
     {
       label: '连接时间',
-      value: '2021-11-26 18:03:21',
+      value: formatDateTimeByTimestamp({
+        timestamp: infoData?._timestamp ?? '0000',
+      }),
     },
   ];
   return (
@@ -59,7 +64,6 @@ function ConnectionInfo({ data }: Props) {
       </Text>
       <Box bg="gray.50" borderRadius="4px" p="12px 12px" w="100%">
         <Flex
-          justifyContent="space-between"
           flexWrap="wrap"
           bg="white"
           border="1px"
@@ -69,11 +73,14 @@ function ConnectionInfo({ data }: Props) {
         >
           {list.map((r) => {
             return (
-              <Box fontSize="12px" key={r.label} m="0 12px 12px 0">
+              <Box
+                fontSize="12px"
+                key={r.label}
+                m="0 12px 12px 0"
+                minWidth="120px"
+              >
                 <Text color="grayAlternatives.300">{r.label}</Text>
-                <Text minWidth="70px" color="gray.700">
-                  {r.value}
-                </Text>
+                <Text color="gray.700">{r.value}</Text>
               </Box>
             );
           })}

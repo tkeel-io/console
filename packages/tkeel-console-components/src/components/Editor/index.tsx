@@ -5,24 +5,41 @@ import MonacoEditor from '@monaco-editor/react';
 import registerCompletion from './registerCompletion';
 
 const Wrapper = styled(Box)`
-  /* .vs {
+  .vs {
     .margin,
     .lines-content {
       background-color: ${({ theme }) => (theme as Theme).colors.gray['50']};
     }
 
-    .margin {
-      width: 35px;
-    } */
+    .decorationsOverviewRuler {
+      display: none;
+    }
 
-  /* .margin-view-overlays {
-      .line-numbers {
-        width: 100%;
-        color: ${({ theme }) => (theme as Theme).colors.gray['500']};
-        text-align: center;
+    .margin {
+      width: 35px !important;
+
+      .margin-view-overlays {
+        width: 35px !important;
+        background-color: ${({ theme }) => (theme as Theme).colors.gray['100']};
+
+        .line-numbers {
+          width: 100% !important;
+          padding-right: 14px;
+          color: ${({ theme }) => (theme as Theme).colors.gray['500']};
+        }
       }
     }
-  } */
+
+    .monaco-scrollable-element {
+      left: 35px !important;
+
+      .slider {
+        width: 8px;
+        border-radius: 10px;
+        background-color: ${({ theme }) => (theme as Theme).colors.gray['300']};
+      }
+    }
+  }
 
   .vs-dark {
     .margin,

@@ -1,9 +1,13 @@
-import { Flex, Grid, Text } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import { Base64 } from 'js-base64';
 import { useSearchParams } from 'react-router-dom';
 
 import { PageHeaderToolbar } from '@tkeel/console-components';
 
+import {
+  Status,
+  StatusSelect,
+} from '@/tkeel-console-plugin-tenant-data-query/components';
 import DeviceInfoCard from '@/tkeel-console-plugin-tenant-data-query/components/DeviceInfoCard';
 import useDeviceListQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceListQuery';
 import SearchDeviceInput from '@/tkeel-console-plugin-tenant-data-query/pages/Index/components/SearchDeviceInput';
@@ -14,7 +18,7 @@ import {
 import { RequestDataCondition } from '@/tkeel-console-plugin-tenant-data-query/types/request-data';
 
 export default function SearchResult() {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const baseRequestData = {
     query: '',
@@ -62,14 +66,26 @@ export default function SearchResult() {
     });
   }
 
+  let statusLabel = '全部状态';
+  if (status === 'online') {
+    statusLabel = '在线';
+  } else if (status === 'offline') {
+    statusLabel = '离线';
+  }
+  const deviceStatusInfo = {
+    label: statusLabel,
+    value: status,
+  };
+
   const keywords = searchParams.get('keywords') || '';
 
-  const { deviceList, isLoading } = useDeviceListQuery({
+  const { deviceList, data, isLoading } = useDeviceListQuery({
     requestData: {
       ...baseRequestData,
       query: keywords,
       condition: conditions,
     },
+    enabled: conditions.length > 0,
   });
 
   // eslint-disable-next-line no-console
@@ -103,6 +119,13 @@ export default function SearchResult() {
     });
   }
 
+  const handleStatusChange = (statusInfo: Status) => {
+    searchParams.set('status', statusInfo.value);
+    if (groupId || templateId || keywords) {
+      setSearchParams(searchParams);
+    }
+  };
+
   return (
     <Flex height="100%" flexDirection="column">
       <Flex justifyContent="flex-start" alignItems="center">
@@ -117,25 +140,31 @@ export default function SearchResult() {
           type="searchResult"
         />
       </Flex>
-      <Flex marginTop="16px" fontSize="12px" color="gray.800" lineHeight="24px">
-        共
-        <Text margin="0 3px" color="primary">
-          23
-        </Text>
-        条结果
+      <Flex marginTop="16px" justifyContent="space-between">
+        <Flex color="gray.800" fontSize="12px" lineHeight="24px">
+          共
+          <Text margin="0 3px" color="primary">
+            {data?.listDeviceObject?.total ?? 0}
+          </Text>
+          条结果
+        </Flex>
+        <StatusSelect
+          status={deviceStatusInfo}
+          onStatusChange={handleStatusChange}
+          canHover={false}
+        />
       </Flex>
-      <Grid
-        marginTop="12px"
-        flex="1"
-        overflow="auto"
-        templateColumns="repeat(4, 1fr)"
-        gap="8px"
-        overflowY="auto"
-      >
-        {deviceList.map((device) => (
-          <DeviceInfoCard key={device.id} device={device} />
-        ))}
-      </Grid>
+      <Flex marginTop="12px" flex="1">
+        <Flex width="100%" justifyContent="space-between" flexWrap="wrap">
+          {deviceList.map((device) => (
+            <DeviceInfoCard
+              key={device.id}
+              device={device}
+              style={{ marginBottom: '12px', width: '24.5%' }}
+            />
+          ))}
+        </Flex>
+      </Flex>
     </Flex>
   );
 }

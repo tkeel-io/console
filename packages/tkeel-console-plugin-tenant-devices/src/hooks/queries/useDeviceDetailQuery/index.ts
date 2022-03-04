@@ -35,6 +35,7 @@ export interface RawData {
 export interface ConnectInfo {
   _clientId: string;
   _online: boolean;
+  _timestamp?: number | string;
   _owner: string;
   _peerHost: string;
   _protocol: string;

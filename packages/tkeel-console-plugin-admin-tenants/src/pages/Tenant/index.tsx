@@ -23,7 +23,7 @@ export default function Tenant() {
           borderRadius="4px"
           backgroundColor="white"
         >
-          <TabPanel height="100%">
+          <TabPanel height="100%" padding="0px 16px">
             <Users />
           </TabPanel>
           {/* <TabPanel>

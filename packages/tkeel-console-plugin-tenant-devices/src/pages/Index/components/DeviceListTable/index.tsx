@@ -1,7 +1,8 @@
-/* eslint-disable unicorn/consistent-destructuring */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable no-console */
 import { Box, Flex, HStack, Text, Tooltip } from '@chakra-ui/react';
 import { ReactNode, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -20,6 +21,7 @@ import {
 } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
+import AddSubscribeButton from '@/tkeel-console-plugin-tenant-devices/components/AddSubscribeButton';
 import DeleteDevicesButton from '@/tkeel-console-plugin-tenant-devices/components/DeleteDevicesButton';
 import IconWrapper from '@/tkeel-console-plugin-tenant-devices/components/IconWrapper';
 import UpdateDeviceButton from '@/tkeel-console-plugin-tenant-devices/components/UpdateDeviceButton';
@@ -61,62 +63,6 @@ function TooltipIcon({
   );
 }
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function DeviceStatus({
-  originData,
-}: {
-  originData: DeviceApiItem;
-}): JSX.Element {
-  const { basicInfo, sysField, connectInfo } = originData?.properties ?? {};
-  const selfLearn = basicInfo?.selfLearn ?? false;
-  const subscribeAddr = sysField?._subscribeAddr ?? '';
-  const isOnline = connectInfo?._online ?? false;
-  return (
-    <HStack>
-      <TooltipIcon
-        label={
-          <Flex>
-            设备
-            {isOnline ? (
-              <Text color="green.50">在线</Text>
-            ) : (
-              <Text color="gray.500">离线</Text>
-            )}
-          </Flex>
-        }
-      >
-        <IconWrapper iconBg={useColor(isOnline ? 'green.50' : 'gray.100')}>
-          {isOnline ? (
-            <WifiFilledIcon color="green.300" />
-          ) : (
-            <WifiOffFilledIcon color="gray.500" />
-          )}
-        </IconWrapper>
-      </TooltipIcon>
-
-      <TooltipIcon label={subscribeAddr ? '已订阅' : '未订阅'}>
-        <IconWrapper iconBg={useColor(subscribeAddr ? 'teal.50' : 'gray.100')}>
-          <MessageWarningTwoToneIcon
-            color={useColor(SUBSCRIBES[subscribeAddr ? 1 : 0].color)}
-            twoToneColor={useColor(
-              SUBSCRIBES[subscribeAddr ? 1 : 0].twoToneColor
-            )}
-          />
-        </IconWrapper>
-      </TooltipIcon>
-
-      <TooltipIcon label={selfLearn ? '自学习' : '未开启自学习'}>
-        <IconWrapper iconBg={useColor(selfLearn ? 'blue.50' : 'gray.100')}>
-          <VpcTwoToneIcon
-            color={useColor(SELF_LEARN_COLORS[selfLearn ? 1 : 0].color)}
-            twoToneColor={useColor(
-              SELF_LEARN_COLORS[selfLearn ? 1 : 0].twoToneColor
-            )}
-          />
-        </IconWrapper>
-      </TooltipIcon>
-    </HStack>
-  );
-}
 
 function DeviceListTable({
   groupId = '',
@@ -127,6 +73,84 @@ function DeviceListTable({
   const pagination = usePagination();
   const { pageNum, pageSize, setTotalSize } = pagination;
   // const { nodeInfo } = groupItem;
+  const COLORS = {
+    DEVICE: {
+      BG: [useColor('gray.100'), useColor('green.50')],
+      ICON: [useColor('green.300'), useColor('gray.500')],
+    },
+    SUBSCRIBE: {
+      BG: [useColor('gray.100'), useColor('teal.50')],
+      ICON: [useColor(SUBSCRIBES[0].color), useColor(SUBSCRIBES[1].color)],
+      ICON_TWO: [
+        useColor(SUBSCRIBES[0].twoToneColor),
+        useColor(SUBSCRIBES[1].twoToneColor),
+      ],
+    },
+    SELF_LEARN: {
+      BG: [useColor('gray.100'), useColor('blue.50')],
+      ICON: [
+        useColor(SELF_LEARN_COLORS[0].color),
+        useColor(SELF_LEARN_COLORS[1].color),
+      ],
+      ICON_TWO: [
+        useColor(SELF_LEARN_COLORS[0].twoToneColor),
+        useColor(SELF_LEARN_COLORS[1].twoToneColor),
+      ],
+    },
+  };
+  // eslint-disable-next-line react/no-unstable-nested-components
+  function DeviceStatus({
+    originData,
+  }: {
+    originData: DeviceApiItem;
+  }): JSX.Element {
+    const { basicInfo, sysField, connectInfo } = originData?.properties ?? {};
+    const selfLearn = basicInfo?.selfLearn ?? false;
+    const subscribeAddr = sysField?._subscribeAddr ?? '';
+    const isOnline = connectInfo?._online ?? false;
+    return (
+      <HStack>
+        <TooltipIcon
+          label={
+            <Flex>
+              设备
+              {isOnline ? (
+                <Text color="green.50">在线</Text>
+              ) : (
+                <Text color="gray.500">离线</Text>
+              )}
+            </Flex>
+          }
+        >
+          <IconWrapper iconBg={COLORS.DEVICE.BG[isOnline ? 1 : 0]}>
+            {isOnline ? (
+              <WifiFilledIcon color="green.300" />
+            ) : (
+              <WifiOffFilledIcon color="gray.500" />
+            )}
+          </IconWrapper>
+        </TooltipIcon>
+
+        <TooltipIcon label={subscribeAddr ? '已订阅' : '未订阅'}>
+          <IconWrapper iconBg={COLORS.SUBSCRIBE.BG[subscribeAddr ? 1 : 0]}>
+            <MessageWarningTwoToneIcon
+              color={COLORS.SUBSCRIBE.ICON[subscribeAddr ? 1 : 0]}
+              twoToneColor={COLORS.SUBSCRIBE.ICON_TWO[subscribeAddr ? 1 : 0]}
+            />
+          </IconWrapper>
+        </TooltipIcon>
+
+        <TooltipIcon label={selfLearn ? '自学习' : '未开启自学习'}>
+          <IconWrapper iconBg={COLORS.SELF_LEARN.BG[selfLearn ? 1 : 0]}>
+            <VpcTwoToneIcon
+              color={COLORS.SELF_LEARN.ICON[selfLearn ? 1 : 0]}
+              twoToneColor={COLORS.SELF_LEARN.ICON_TWO[selfLearn ? 1 : 0]}
+            />
+          </IconWrapper>
+        </TooltipIcon>
+      </HStack>
+    );
+  }
   const params = {
     query: keyWords || '',
     page_num: pageNum,
@@ -149,7 +173,6 @@ function DeviceListTable({
   const { refetch, deviceList, isLoading } = useDeviceListQuery({
     params,
     onSuccess: (data) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const total = data?.data?.listDeviceObject?.total ?? 0;
       setTotalSize(total as number);
     },
@@ -201,7 +224,9 @@ function DeviceListTable({
         useMemo(() => {
           return (
             <TooltipIcon label={value ? '直连' : '非直连'}>
-              <Box>{value ? <DotLineFilledIcon /> : <BranchTowToneIcon />}</Box>
+              <IconWrapper iconBg={useColor(value ? 'violet.100' : 'red.100')}>
+                {value ? <DotLineFilledIcon /> : <BranchTowToneIcon />}
+              </IconWrapper>
             </TooltipIcon>
           );
         }, [value]),
@@ -265,6 +290,11 @@ function DeviceListTable({
           return (
             <MoreAction
               buttons={[
+                <AddSubscribeButton
+                  key="subscribe"
+                  deviceId={id}
+                  refetch={refetch}
+                />,
                 <UpdateDeviceButton
                   key="edit"
                   defaultFormValues={defaultFormValues}

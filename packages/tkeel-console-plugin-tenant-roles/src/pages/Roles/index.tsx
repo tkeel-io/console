@@ -94,11 +94,21 @@ export default function Roles() {
       Header: '操作',
       Cell({ row }: Cell<Role>) {
         const { original } = row;
-        const { id, name, desc, permission_list: permissionList } = original;
+        const {
+          id,
+          name,
+          desc,
+          uneditable,
+          permission_list: permissionList,
+        } = original;
         const permissionPaths = permissionList.map(({ path }) => path);
 
-        return useMemo(
-          () => (
+        return useMemo(() => {
+          if (uneditable) {
+            return null;
+          }
+
+          return (
             <ButtonsHStack>
               <ModifyRoleButton
                 data={{
@@ -114,9 +124,8 @@ export default function Roles() {
                 onSuccess={handleDeleteRoleSuccess}
               />
             </ButtonsHStack>
-          ),
-          [id, name, desc, permissionPaths]
-        );
+          );
+        }, [id, name, desc, uneditable, permissionPaths]);
       },
     },
   ];
@@ -142,7 +151,12 @@ export default function Roles() {
         paginationProps={pagination}
         scroll={{ y: '100%' }}
         isLoading={isLoading}
-        style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
+        style={{
+          flex: 1,
+          overflow: 'hidden',
+          padding: '12px 20px 0',
+          backgroundColor: 'whiteAlias',
+        }}
       />
     </Flex>
   );

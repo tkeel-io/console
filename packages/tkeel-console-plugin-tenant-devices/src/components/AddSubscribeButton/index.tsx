@@ -4,24 +4,29 @@ import { MoreActionButton, toast } from '@tkeel/console-components';
 import { AddFilledIcon } from '@tkeel/console-icons';
 
 import AddSubscribeModal, {
+  AddrList,
   FormValues,
 } from '@/tkeel-console-plugin-tenant-devices/components/AddSubscribeModal';
 import useSubscribeByDeviceMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useSubscribeByDeviceMutation';
 
 type Props = {
-  id: string;
+  deviceId: string;
+  addrList?: AddrList[];
   refetch?: () => void;
 };
 
-function AddSubscribeButton({ id, refetch }: Props) {
+function AddSubscribeButton({ deviceId, addrList, refetch }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate, isLoading } = useSubscribeByDeviceMutation({
-    deviceId: id,
+    deviceId,
     onSuccess() {
       toast({ status: 'success', title: '添加成功' });
       onClose();
       if (refetch) {
-        refetch();
+        const timer = setTimeout(() => {
+          refetch();
+          clearTimeout(timer);
+        }, 300);
       }
     },
   });
@@ -36,12 +41,13 @@ function AddSubscribeButton({ id, refetch }: Props) {
     <>
       <MoreActionButton
         onClick={onOpen}
-        icon={<AddFilledIcon size="12px" />}
+        icon={<AddFilledIcon color="grayAlternatives.300" size="12px" />}
         title="添加订阅"
       />
       {isOpen && (
         <AddSubscribeModal
           isConfirmButtonLoading={isLoading}
+          addrList={addrList || []}
           isOpen={isOpen}
           onClose={onClose}
           onConfirm={handleConfirm}

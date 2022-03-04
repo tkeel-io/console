@@ -4,9 +4,13 @@ import { useNavigate } from 'react-router-dom';
 
 import { Form, FormField } from '@tkeel/console-components';
 import { usePortalTenantConfigQuery } from '@tkeel/console-request-hooks';
-import { isEnvDevelopment, setLocalTenantInfo } from '@tkeel/console-utils';
+import {
+  isEnvDevelopment,
+  jumpToAuthLoginPage,
+  setLocalTenantInfo,
+} from '@tkeel/console-utils';
 
-import useQueryTenantMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useQueryTenantMutation';
+import useTenantExactMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useTenantExactMutation';
 
 const mockData = isEnvDevelopment()
   ? { tenantTitle: String(PORTAL_GLOBALS?.mock?.tenantTitle ?? '') }
@@ -48,11 +52,17 @@ export default function Tenant() {
     formState: { errors },
   } = useForm<FormValues>();
 
-  const { isLoading, mutate } = useQueryTenantMutation({
+  const { isLoading, mutate } = useTenantExactMutation({
     onSuccess: ({ data }) => {
       const { tenant_id: tenantId } = data;
       setLocalTenantInfo({ tenant_id: tenantId });
-      navigate(`/auth/login/${tenantId}`, { replace: true });
+      jumpToAuthLoginPage({
+        portalName: 'tenant',
+        tenantId,
+        isRemoveLocalTokenInfo: false,
+        isReplace: true,
+        navigate,
+      });
     },
   });
 
