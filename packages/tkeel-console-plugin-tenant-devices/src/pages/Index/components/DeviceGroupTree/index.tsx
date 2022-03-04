@@ -25,14 +25,15 @@ export default function DeviceGroupTree({
       <Text
         color="grayAlternatives.300"
         fontSize="12px"
-        lineHeight="24px"
+        lineHeight="32px"
         fontWeight="500"
         mb="8px"
+        height="32px"
       >
         设备组
       </Text>
       <CreateGroupButton callback={refetch} />
-      <Box mt="16px" flex="1" minWidth="200px">
+      <Box mt="16px" flex="1" minWidth="200px" overflowY="scroll">
         <Tree
           extras={{ isTreeTitleFullWidth: true }}
           treeData={treeNodeData}
@@ -40,6 +41,9 @@ export default function DeviceGroupTree({
           showIcon
           selectable
           onSelect={handleSelectGroup}
+          styles={{
+            treeTitle: 'font-size:14px;height:32px;line-height:32px;',
+          }}
         />
       </Box>
     </Flex>
