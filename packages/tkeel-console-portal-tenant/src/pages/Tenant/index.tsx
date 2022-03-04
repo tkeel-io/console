@@ -84,7 +84,7 @@ export default function Tenant() {
         paddingLeft="80px"
         backgroundImage={pageConfig?.backgroundImage}
         backgroundRepeat="no-repeat"
-        backgroundSize="100% 100%"
+        backgroundSize="cover"
       >
         <Heading
           marginTop="80px"
