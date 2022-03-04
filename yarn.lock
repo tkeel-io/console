@@ -3851,6 +3851,7 @@ __metadata:
     "@tkeel/console-constants": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
+    lodash: ^4.17.21
   peerDependencies:
     react: ^17.0.2
     react-router-dom: ^6.2.1

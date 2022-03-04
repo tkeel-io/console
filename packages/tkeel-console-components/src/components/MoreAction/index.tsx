@@ -27,7 +27,7 @@ interface CustomColors extends Colors {
   primary: string;
 }
 
-function MoreAction({
+export default function MoreAction({
   element,
   buttons,
   isActionListOpen = false,
@@ -142,5 +142,3 @@ function MoreAction({
     </Box>
   );
 }
-
-export default MoreAction;
