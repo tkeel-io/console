@@ -13,7 +13,7 @@ type ApiData = {
 export default function useModifyPasswordMutation({
   onSuccess,
 }: {
-  onSuccess: () => void;
+  onSuccess: ({ data }: { data: ApiData }) => void;
 }) {
   return usePortalMutation<ApiData, undefined, RequestData>({
     url: '/security/v1/oauth/token/revoke',

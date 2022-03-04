@@ -15,16 +15,23 @@ export interface ApiData {
 
 const method = 'GET';
 
+type Options = {
+  tenantId: string;
+  onSuccess: ({ data }: { data: ApiData }) => void;
+};
+
 export default function useOAuthTokenMutation({
   tenantId,
-}: {
-  tenantId: string;
-}) {
+  onSuccess,
+}: Options) {
   const url = `/security/v1/oauth/${tenantId}/token`;
 
   return usePortalMutation<ApiData, RequestParams>({
     url,
     method,
+    reactQueryOptions: {
+      onSuccess,
+    },
     extras: {
       isWithToken: false,
       handleNoAuth: false,
