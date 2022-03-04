@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { Form, FormField } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
-import { usePortalAdminConfigQuery } from '@tkeel/console-request-hooks';
+import { usePortalAdminConfigPortalQuery } from '@tkeel/console-request-hooks';
 import {
   isEnvDevelopment,
   jumpToPage,
@@ -44,7 +44,7 @@ export default function Login() {
     lineHeight: '20px',
   };
 
-  const { config } = usePortalAdminConfigQuery();
+  const { config } = usePortalAdminConfigPortalQuery();
   const pageConfig = config?.client?.pages.Login;
 
   const {

@@ -1,8 +1,8 @@
 import { Image } from '@chakra-ui/react';
 
-import { usePortalAdminConfigQuery } from '@tkeel/console-request-hooks';
+import { usePortalAdminConfigPortalQuery } from '@tkeel/console-request-hooks';
 
 export default function LogoTypeLight() {
-  const { config } = usePortalAdminConfigQuery();
+  const { config } = usePortalAdminConfigPortalQuery();
   return <Image width="189px" src={config?.client.logoTypeLight} />;
 }

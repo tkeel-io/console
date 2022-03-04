@@ -4,7 +4,7 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
 import { Form, FormField } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
-import { usePortalTenantConfigQuery } from '@tkeel/console-request-hooks';
+import { usePortalTenantConfigPortalQuery } from '@tkeel/console-request-hooks';
 import {
   isEnvDevelopment,
   jumpToPage,
@@ -58,7 +58,7 @@ export default function Login() {
     lineHeight: '20px',
   };
 
-  const { config } = usePortalTenantConfigQuery();
+  const { config } = usePortalTenantConfigPortalQuery();
   const pageConfig = config?.client?.pages?.Login;
 
   const {
