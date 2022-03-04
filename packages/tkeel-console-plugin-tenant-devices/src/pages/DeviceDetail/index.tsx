@@ -67,7 +67,7 @@ function DeviceDetail(): JSX.Element {
           <TabPanels>
             {tabs.map((r) => (
               <TabPanel key={r.key} p="12px 20px">
-                {connectInfo?._online ? (
+                {connectData?._online ? (
                   r.component
                 ) : (
                   <Empty

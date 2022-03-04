@@ -42,14 +42,14 @@ type Props = {
 
 const handleSubscribeAddr = (data: string) => {
   const addrInfoArr = data.split(',');
-  if (!addrInfoArr[0]) return [];
-  return addrInfoArr.map((r) => {
+  const temp = addrInfoArr.map((r) => {
     const addrInfo = r.split('@');
     const title = addrInfo[0];
     const id = addrInfo[1];
     const addr = addrInfo[2];
     return { id, title, addr };
   });
+  return temp.filter((r) => r.id);
 };
 
 function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
