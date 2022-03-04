@@ -95,12 +95,12 @@ export default function Layout({ userActionMenusComponent, logo }: Props) {
               height="100%"
             />
           )}
-          {isLoadingMenus ? null : apps.length > 0 ? (
+          {apps.length > 0 ? (
             <Routes>
               {renderApps()}
               <Route path="*" element={<NotFound />} />
             </Routes>
-          ) : (
+          ) : isLoadingMenus ? null : (
             <Center width="100%">
               <Image src={noPlugins} width="325px" />
             </Center>
