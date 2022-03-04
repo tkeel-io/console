@@ -73,14 +73,6 @@ export default function ModifySubscriptionButton({ onSuccess, data }: Props) {
         onClose={onClose}
         onConfirm={handleConfirm}
       />
-      {/* {isSuccessModalOpen && (
-        <SetPasswordModal
-          isOpen={isSuccessModalOpen}
-          title="创建成功"
-          data={setPasswordModalData}
-          onClose={onSuccessModalClose}
-        />
-      )} */}
     </>
   );
 }
