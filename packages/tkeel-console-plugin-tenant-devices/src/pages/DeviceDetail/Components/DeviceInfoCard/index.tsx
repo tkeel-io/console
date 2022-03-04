@@ -6,9 +6,9 @@ import { BackButton, MoreAction } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 import {
   MessageWarningTwoToneIcon,
+  MgmtNodeTwoToneIcon,
   OfficialFilledIcon,
   VpcTwoToneIcon,
-  WebcamTwoToneIcon,
   WifiFilledIcon,
   WifiOffFilledIcon,
 } from '@tkeel/console-icons';
@@ -25,6 +25,7 @@ import {
   SELF_LEARN_COLORS,
   SUBSCRIBES,
 } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
+import handleSubscribeAddr from '@/tkeel-console-plugin-tenant-devices/utils';
 
 import CardContentFlex from './components/CardContentFlex';
 import Clipboard from './components/Clipboard';
@@ -38,18 +39,6 @@ const connectionIcon = {
 type Props = {
   deviceObject: DeviceObject;
   refetch?: () => void;
-};
-
-const handleSubscribeAddr = (data: string) => {
-  const addrInfoArr = data.split(',');
-  const temp = addrInfoArr.map((r) => {
-    const addrInfo = r.split('@');
-    const title = addrInfo[0];
-    const id = addrInfo[1];
-    const addr = addrInfo[2];
-    return { id, title, addr };
-  });
-  return temp.filter((r) => r.id);
 };
 
 function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
@@ -118,7 +107,8 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
               buttons={[
                 <AddSubscribeButton
                   key="add-subscribe"
-                  id={id}
+                  deviceId={id}
+                  addrList={addrList}
                   refetch={refetch}
                 />,
                 <UpdateDeviceButton
@@ -137,7 +127,7 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
         </CardContentFlex>
         <CardContentFlex>
           <Box display="flex">
-            <WebcamTwoToneIcon size="24px" style={{ marginLeft: '7px' }} />
+            <MgmtNodeTwoToneIcon size="24px" style={{ marginLeft: '7px' }} />
             <Box as="span" fontSize="14px" fontWeight="600" ml="8px">
               {deviceName}
             </Box>
@@ -192,7 +182,7 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
                   {r.addr}
                 </Text>
                 <Flex position="absolute" right="0" display="none">
-                  <Clipboard text={r.addr} />
+                  {r.addr && <Clipboard text={r.addr} />}
                   <UnsubscribeButton
                     deviceId={id}
                     subscribeId={r.id}

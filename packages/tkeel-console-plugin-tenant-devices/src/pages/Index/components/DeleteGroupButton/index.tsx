@@ -31,7 +31,7 @@ function DeleteGroupButton({ id, groupName, callback }: Props) {
   return (
     <>
       <MoreActionButton
-        icon={<TrashFilledIcon size="12px" />}
+        icon={<TrashFilledIcon size="12px" color="grayAlternatives.300" />}
         title="删除设备组"
         onClick={onOpen}
       />

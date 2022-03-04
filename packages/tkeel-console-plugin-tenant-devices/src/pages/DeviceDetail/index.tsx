@@ -60,8 +60,13 @@ function DeviceDetail(): JSX.Element {
       <Box minWidth="700px" flex="2.5" bg="white" borderRadius="4px">
         <Tabs variant="unstyled" index={tabIndex} onChange={handleTabChange}>
           <CustomTabList>
-            {tabs.map((r) => (
-              <CustomTab key={r.key}>{r.label}</CustomTab>
+            {tabs.map((r, index) => (
+              <CustomTab
+                borderTopLeftRadius={index === 0 ? '4px' : '0'}
+                key={r.key}
+              >
+                {r.label}
+              </CustomTab>
             ))}
           </CustomTabList>
           <TabPanels>
