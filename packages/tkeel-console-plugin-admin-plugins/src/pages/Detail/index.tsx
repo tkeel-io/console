@@ -43,7 +43,7 @@ function Detail() {
         boxShadow="0px 10px 15px -3px rgba(113, 128, 150, 0.1), 0px 4px 6px -2px rgba(113, 128, 150, 0.05);"
       >
         <CustomTabList>
-          <CustomTab>说明</CustomTab>
+          <CustomTab borderTopLeftRadius="4px">说明</CustomTab>
           <CustomTab>参数</CustomTab>
           <CustomTab>启用列表</CustomTab>
         </CustomTabList>

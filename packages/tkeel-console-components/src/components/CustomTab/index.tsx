@@ -9,7 +9,6 @@ type Props = BoxProps &
 function CustomTab(props: Props) {
   const styles = useStyles();
   const tabProps = useTab(props);
-  const isFirstTab = tabProps['data-index'] === '0';
   const isSelected = !!tabProps['aria-selected'];
 
   return (
@@ -24,7 +23,6 @@ function CustomTab(props: Props) {
       fontWeight="600"
       border="none"
       cursor="pointer"
-      borderTopLeftRadius={isFirstTab ? '4px' : '0'}
       _hover={{ backgroundColor: isSelected ? 'primary' : 'gray.600' }}
       _focus={{ boxShadow: 'none', outline: 'none' }}
       _selected={{ backgroundColor: 'primary' }}
