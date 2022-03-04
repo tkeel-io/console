@@ -131,6 +131,7 @@ function Index(): JSX.Element {
           <Flex justify="space-between" key={id}>
             <Text>{name}</Text>
             <MoreAction
+              styles={{ actionList: { width: '119px' } }}
               element={
                 <Center h="100%">
                   <MoreVerticalFilledIcon color="primary" size="12px" />

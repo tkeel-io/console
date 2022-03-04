@@ -1,27 +1,19 @@
 import { Box, Button, Center, Flex, Heading } from '@chakra-ui/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import {
-  Navigate,
-  NavigateFunction,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
 import { Form, FormField } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
 import { usePortalTenantConfigQuery } from '@tkeel/console-request-hooks';
 import {
   isEnvDevelopment,
-  removeLocalTenantInfo,
-  removeLocalTokenInfo,
+  jumpToPage,
+  jumpToTenantAuthTenantPage,
   schemas,
   setLocalTokenInfo,
 } from '@tkeel/console-utils';
 
-import useTokenMutation, {
-  ApiData,
-} from '@/tkeel-console-portal-tenant/hooks/mutations/useTokenMutation';
+import useTokenMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useTokenMutation';
 import useTenantExactQuery from '@/tkeel-console-portal-tenant/hooks/queries/useTenantExactQuery';
 
 const mockData = isEnvDevelopment()
@@ -38,22 +30,13 @@ type FormValues = {
   password: string;
 };
 
-function handleLogin({
-  data,
-  redirect,
-  navigate,
-}: {
-  data: ApiData | undefined;
-  redirect: string;
-  navigate: NavigateFunction;
-}) {
-  if (!data) {
-    return;
-  }
-
-  setLocalTokenInfo(data);
-  navigate(redirect, { replace: true });
-}
+const logoutTenant = () => {
+  jumpToTenantAuthTenantPage({
+    isRemoveLocalTenantInfo: true,
+    isRemoveLocalTokenInfo: true,
+    isReplace: true,
+  });
+};
 
 export default function Login() {
   const formLabelStyle = {
@@ -100,13 +83,26 @@ export default function Login() {
   });
   const tenantTitle = tenantInfo?.title ?? '';
 
-  const { data, mutate, isLoading } = useTokenMutation({ tenantId });
+  const { mutate, isLoading } = useTokenMutation({
+    tenantId,
+    onSuccess({ data }) {
+      if (!data) {
+        return;
+      }
+
+      setLocalTokenInfo(data);
+      jumpToPage({ path: redirect, isReplace: true });
+    },
+  });
 
   if (!tenantId) {
-    return <Navigate to="/auth/tenant" replace />;
-  }
+    jumpToTenantAuthTenantPage({
+      isReplace: true,
+      navigate,
+    });
 
-  handleLogin({ data, redirect, navigate });
+    return null;
+  }
 
   const onSubmit: SubmitHandler<FormValues> = (formValues) => {
     const { username, password } = formValues;
@@ -117,12 +113,6 @@ export default function Login() {
     };
 
     mutate({ params });
-  };
-
-  const logoutTenant = () => {
-    removeLocalTokenInfo();
-    removeLocalTenantInfo();
-    navigate('/auth/tenant', { replace: true });
   };
 
   return (
