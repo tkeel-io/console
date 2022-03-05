@@ -45,7 +45,8 @@ export default function SetPassword() {
   };
 
   const { config } = usePortalTenantConfigPortalQuery();
-  const pageConfig = config?.client?.pages?.SetPassword;
+  const clientConfig = config?.client;
+  const pageConfig = clientConfig?.pages?.SetPassword;
 
   const {
     register,
@@ -129,7 +130,15 @@ export default function SetPassword() {
             lineHeight="20px"
             color="gray.500"
           >
-            颠覆传统物联网应用开发的新一代核心架构
+            {clientConfig?.subTitle1}
+          </Text>
+          <Text
+            paddingTop="8px"
+            fontSize="14px"
+            lineHeight="20px"
+            color="gray.500"
+          >
+            {clientConfig?.subTitle2}
           </Text>
           <Form paddingTop="24px" onSubmit={handleSubmit(onSubmit)}>
             <TextField
