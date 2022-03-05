@@ -17,7 +17,7 @@ function ConnectionInfo({ data }: Props) {
     _owner: '',
     _peerHost: '',
     _protocol: '',
-    _timestamp: '0000',
+    _timestamp: '',
     _sockPort: '',
     _userName: '',
   } as const;
@@ -46,9 +46,11 @@ function ConnectionInfo({ data }: Props) {
     },
     {
       label: '连接时间',
-      value: formatDateTimeByTimestamp({
-        timestamp: infoData?._timestamp ?? '0000',
-      }),
+      value: infoData._timestamp
+        ? formatDateTimeByTimestamp({
+            timestamp: infoData._timestamp,
+          })
+        : '',
     },
   ];
   return (
@@ -77,7 +79,7 @@ function ConnectionInfo({ data }: Props) {
                 fontSize="12px"
                 key={r.label}
                 m="0 12px 12px 0"
-                minWidth="120px"
+                minWidth="150px"
               >
                 <Text color="grayAlternatives.300">{r.label}</Text>
                 <Text color="gray.700">{r.value}</Text>

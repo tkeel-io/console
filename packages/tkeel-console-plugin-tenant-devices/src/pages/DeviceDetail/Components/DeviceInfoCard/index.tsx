@@ -164,13 +164,15 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
         {addrList.map((r) => {
           return (
             <HStack spacing="26px" fontSize="12px" key={r.id} mb="4px">
-              <Text h="24px" lineHeight="24px">
+              <Text lineHeight="24px" maxW="76px">
                 {r.title}
               </Text>
               <Flex
                 position="relative"
                 flex="1"
                 alignItems="center"
+                justifyContent="flex-end"
+                pr="60px"
                 _hover={{
                   '& > div': {
                     display: 'flex !important',
@@ -182,7 +184,7 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
                   lineHeight="24px"
                   fontWeight="400"
                   isTruncated
-                  width="180px"
+                  width="160px"
                 >
                   {r.addr}
                 </Text>
