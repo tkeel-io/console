@@ -112,7 +112,7 @@ function RawDataPanel({ data }: Props) {
                       flex="1"
                       fontSize="12px"
                       alignItems="center"
-                      justifyContent="space-between"
+                      justifyContent="space-start"
                     >
                       <Box
                         bg={status.bg}
@@ -126,10 +126,22 @@ function RawDataPanel({ data }: Props) {
                       >
                         {status.desc}
                       </Box>
-                      <Text fontWeight="700" m="0 38px 0 22px">
+                      <Text
+                        fontWeight="700"
+                        m="0 38px 0 22px"
+                        display="flex"
+                        flexWrap="wrap"
+                        maxWidth="600px"
+                      >
                         {r.path}
                       </Text>
-                      <Text color="grayAlternatives.300" flex="1">
+                      <Text
+                        color="grayAlternatives.300"
+                        mr="10px"
+                        flex="1"
+                        width="150px"
+                        minW="150px"
+                      >
                         {formatDateTimeByTimestamp({
                           timestamp: `${Math.floor((r?.ts || 0) / 1e6)}`,
                         })}
