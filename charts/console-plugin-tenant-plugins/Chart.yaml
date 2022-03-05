@@ -1,15 +1,15 @@
 annotations:
-  tkeel.io/deployment-name: console-portal-admin
+  tkeel.io/deployment-name: console-plugin-tenant-plugins
   tkeel.io/enable: 'true'
   tkeel.io/plugin-port: '80'
   tkeel.io/tag: manager
   tkeel.io/version: v0.4.0
 apiVersion: v2
 appVersion: 0.4.0-alpha.2
-description: console manager portal
+description: tenant and user console
 maintainers:
   - email: caoyue@yunify.com
     name: caoyue
-name: console-portal-admin
+name: console-plugin-tenant-plugins
 type: application
 version: 0.4.1
