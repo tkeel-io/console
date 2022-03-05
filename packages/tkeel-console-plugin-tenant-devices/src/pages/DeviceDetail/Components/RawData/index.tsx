@@ -8,11 +8,12 @@ import {
   Flex,
   Text,
 } from '@chakra-ui/react';
+import { Base64 } from 'js-base64';
 import { isEmpty, throttle } from 'lodash';
 import { useEffect, useState } from 'react';
 
 // import { Editor, SearchInput } from '@tkeel/console-components';
-import { Editor } from '@tkeel/console-components';
+import { Editor, Empty } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
@@ -26,7 +27,7 @@ type Props = {
 };
 
 const handleValues = (value: string, selected: string) => {
-  const str = window.atob(value);
+  const str = Base64.decode(value);
   if (selected === 'text') {
     return JSON.stringify(str.startsWith('{') ? JSON.parse(str) : str, null, 2);
   }
@@ -41,17 +42,6 @@ const handleValues = (value: string, selected: string) => {
 
 type TRawData = RawData[];
 
-// const kjh = {
-//   id: '23423',
-//   key: '213',
-//   type: 'rawData',
-//   mark: 'upstream',
-//   path: 'rawData/upstream',
-//   ts: 1_645_584_837_960_616_400,
-//   values: 'ZGRkZGRkZGRkZA==',
-//   a: 'ZGRkZGRkZGRkZA=',
-//   b: 'ZGRkZGRkZGRkA==',
-// };
 function RawDataPanel({ data }: Props) {
   const [rawDataList, setRawDataList] = useState<TRawData>([]);
   // const [keyWord, setKeyWord] = useState('');
@@ -62,8 +52,7 @@ function RawDataPanel({ data }: Props) {
     func((preState) => {
       if (isEmpty(data)) return [];
       const newData = { key: Math.random().toFixed(9), ...data };
-      // if (preState.length > 10) return [newData];
-      return [newData, ...preState].slice(-10);
+      return [newData, ...preState].slice(0, 20);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
@@ -80,15 +69,26 @@ function RawDataPanel({ data }: Props) {
 
   return (
     <Box>
-      <Flex align="center" w="100%" h="56px">
-        <Text fontWeight="600">原始数据</Text>
+      <Flex align="center" w="100%" h="32px" lineHeight="32px" mb="12px">
+        <Text fontWeight="600" fontSize="14px">
+          原始数据
+        </Text>
         {/* <Flex flex="1" justifyContent="flex-end">
           <SearchInput onSearch={handleSearch} placeholder="搜索" />
         </Flex> */}
-        <CustomSelect onChange={handleChange} color={useColor('gray.100')} />
+        <CustomSelect
+          onChange={handleChange}
+          color={useColor('gray.100')}
+          selected={selected}
+        />
       </Flex>
-      {!isEmpty(rawDataList) && (
-        <Accordion p="12px 12px" bg="gray.50" maxH="600px" overflow="auto">
+      {!isEmpty(rawDataList) ? (
+        <Accordion
+          p="12px 12px"
+          bg="gray.50"
+          overflow="auto"
+          height="calc(100vh + 10px)"
+        >
           {rawDataList.map((r) => {
             const status = OPTIONS[r?.mark ?? 'upstream'];
 
@@ -108,7 +108,12 @@ function RawDataPanel({ data }: Props) {
                     p="unset"
                     ml="8px"
                   >
-                    <Flex flex="1" fontSize="12px" alignItems="center">
+                    <Flex
+                      flex="1"
+                      fontSize="12px"
+                      alignItems="center"
+                      justifyContent="space-start"
+                    >
                       <Box
                         bg={status.bg}
                         color={status.color}
@@ -121,10 +126,22 @@ function RawDataPanel({ data }: Props) {
                       >
                         {status.desc}
                       </Box>
-                      <Text fontWeight="700" m="0 38px 0 22px">
+                      <Text
+                        fontWeight="700"
+                        m="0 38px 0 22px"
+                        display="flex"
+                        flexWrap="wrap"
+                        maxWidth="600px"
+                      >
                         {r.path}
                       </Text>
-                      <Text color="grayAlternatives.300" flex="1">
+                      <Text
+                        color="grayAlternatives.300"
+                        mr="10px"
+                        flex="1"
+                        width="150px"
+                        minW="150px"
+                      >
                         {formatDateTimeByTimestamp({
                           timestamp: `${Math.floor((r?.ts || 0) / 1e6)}`,
                         })}
@@ -147,6 +164,8 @@ function RawDataPanel({ data }: Props) {
             );
           })}
         </Accordion>
+      ) : (
+        <Empty title="暂无数据" styles={{ wrapper: { height: '60%' } }} />
       )}
     </Box>
   );
