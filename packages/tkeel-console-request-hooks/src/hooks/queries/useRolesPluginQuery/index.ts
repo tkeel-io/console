@@ -14,6 +14,7 @@ export interface Role {
   desc?: string;
   bind_num: number;
   upsert_timestamp: string;
+  uneditable: boolean;
   permission_list: {
     path: string;
     permission: {
@@ -37,7 +38,7 @@ interface ApiData {
 
 type Options = { params?: RequestParams };
 
-export default function useRolesQuery({ params }: Options = {}) {
+export default function useRolesPluginQuery({ params }: Options = {}) {
   const { data, ...rest } = usePluginQuery<ApiData, RequestParams>({
     url: '/security/v1/rbac/roles',
     method: 'GET',

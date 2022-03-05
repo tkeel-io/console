@@ -47,8 +47,6 @@ const Wrapper = styled(Box)`
     .margin,
     .monaco-scrollable-element,
     .lines-content {
-      padding-top: 8px;
-
       background-color: ${({ theme }) => (theme as Theme).colors.gray['800']};
     }
   }

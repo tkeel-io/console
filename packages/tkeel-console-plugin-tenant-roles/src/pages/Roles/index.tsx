@@ -9,7 +9,7 @@ import {
   toast,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
-import { Role, useRolesQuery } from '@tkeel/console-request-hooks';
+import { Role, useRolesPluginQuery } from '@tkeel/console-request-hooks';
 
 import CreateRoleButton from './components/CreateRoleButton';
 import DeleteRoleButton from './components/DeleteRoleButton';
@@ -30,7 +30,7 @@ export default function Roles() {
   if (keywords) {
     params = { ...params, key_words: keywords };
   }
-  const { isLoading, isSuccess, total, roles, refetch } = useRolesQuery({
+  const { isLoading, isSuccess, total, roles, refetch } = useRolesPluginQuery({
     params,
   });
 
@@ -94,11 +94,21 @@ export default function Roles() {
       Header: '操作',
       Cell({ row }: Cell<Role>) {
         const { original } = row;
-        const { id, name, desc, permission_list: permissionList } = original;
+        const {
+          id,
+          name,
+          desc,
+          uneditable,
+          permission_list: permissionList,
+        } = original;
         const permissionPaths = permissionList.map(({ path }) => path);
 
-        return useMemo(
-          () => (
+        return useMemo(() => {
+          if (uneditable) {
+            return null;
+          }
+
+          return (
             <ButtonsHStack>
               <ModifyRoleButton
                 data={{
@@ -114,9 +124,8 @@ export default function Roles() {
                 onSuccess={handleDeleteRoleSuccess}
               />
             </ButtonsHStack>
-          ),
-          [id, name, desc, permissionPaths]
-        );
+          );
+        }, [id, name, desc, uneditable, permissionPaths]);
       },
     },
   ];
