@@ -113,6 +113,7 @@ export default function OperateDeviceModal({
         ext,
         selfLearn,
         parentId,
+        parentName,
         templateId,
         directConnection,
       } = defaultFormValues;
@@ -130,6 +131,7 @@ export default function OperateDeviceModal({
           return { label, value };
         }),
         parentId,
+        parentName,
       };
       const deviceDefaultInfo = {
         connectInfo,
