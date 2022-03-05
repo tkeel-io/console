@@ -37,10 +37,12 @@ export default function CreateGroupButton({
         status: 'success',
         title: '创建设备组成功',
       });
-      if (callback)
-        window.setTimeout(() => {
+      if (callback) {
+        const timer = setTimeout(() => {
           callback();
-        }, 300);
+          clearTimeout(timer);
+        }, 800);
+      }
     },
   });
   useEffect(() => {

@@ -22,9 +22,10 @@ function DeleteGroupButton({ id, groupName, callback }: Props) {
       onClose();
       toast({ status: 'success', title: '删除设备组成功' });
       if (callback) {
-        window.setTimeout(() => {
+        const timer = setTimeout(() => {
           callback();
-        }, 300);
+          clearTimeout(timer);
+        }, 800);
       }
     },
   });
