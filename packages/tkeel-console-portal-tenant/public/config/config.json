@@ -5,6 +5,8 @@
     "client": {
       "themeName": "qingcloud-light",
       "documentTitle": "QingCloud IoT 物联网平台",
+      "subTitle1": "构建和管理物联网解决方案的数字平台",
+      "subTitle2": "100% Cloud Native, Any language, Everything is plugin, Simply",
       "favicon": "/portal-tenant/config/images/logo-mark.svg",
       "logoMark": "/portal-tenant/config/images/logo-mark.svg",
       "logoTypeLight": "/portal-tenant/config/images/logo-type-light.svg",
@@ -12,8 +14,7 @@
       "pages": {
         "Login": {
           "backgroundImage": "/portal-tenant/config/images/background-01.png",
-          "title": "QingCloud IoT 物联网平台",
-          "subTitle": "颠覆传统物联网应用开发的新一代核心架构"
+          "title": "QingCloud IoT 物联网平台"
         },
         "SetPassword": {
           "backgroundImage": "/portal-tenant/config/images/background-02.png",
