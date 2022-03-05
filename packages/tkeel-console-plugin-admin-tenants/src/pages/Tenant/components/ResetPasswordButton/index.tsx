@@ -40,8 +40,9 @@ export default function ResetPasswordButton({ data }: Props) {
     mutate({});
   };
 
-  const { protocol, host } = window.location;
-  const url = `${protocol}//${host.replace(/^admin\./, '')}/auth/set-password`;
+  // TODO: SetPasswordModal url delete later
+  // const { protocol, host } = window.location;
+  // const url = `${protocol}//${host.replace(/^admin\./, '')}/auth/set-password`;
 
   return (
     <>
@@ -68,7 +69,7 @@ export default function ResetPasswordButton({ data }: Props) {
       {isSetPasswordModalOpen && (
         <SetPasswordModal
           isOpen={isSetPasswordModalOpen}
-          url={url}
+          // url={url}
           data={{ reset_key: resetData?.reset_key ?? '' }}
           title="操作成功"
           onClose={onSetPasswordModalClose}

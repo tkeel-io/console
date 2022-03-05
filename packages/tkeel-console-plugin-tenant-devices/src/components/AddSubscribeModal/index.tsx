@@ -59,7 +59,8 @@ function AddSubscribeModal({
       'subscribe_ids',
       defaultSelectValue ? [defaultSelectValue.value] : []
     );
-  }, [selectOptions, setValue, defaultSelectValue]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [defaultSelectValue]);
 
   const onSubmit: SubmitHandler<FormValues> = (values) => {
     onConfirm(values);
@@ -92,15 +93,15 @@ function AddSubscribeModal({
         name="subscribe_ids"
         control={control}
         rules={{ required: { value: true, message: '请选择订阅通道' } }}
-        render={({ field: { value } }) => (
+        render={({ field: { onChange, value } }) => (
           <Select
             style={{ width: '100%' }}
             mode="multiple"
-            disabled={isSelectDisabled}
             showArrow
             allowClear
             dropdownStyle={{ boxShadow: 'none' }}
             options={selectOptions}
+            onChange={onChange}
             loading={!isSuccess}
             value={value}
           />

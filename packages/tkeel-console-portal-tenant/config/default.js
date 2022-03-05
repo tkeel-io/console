@@ -10,6 +10,8 @@ module.exports = {
   client: {
     themeName: 'qingcloud-light',
     documentTitle: 'QingCloud IoT 物联网平台',
+    subTitle1: '构建和管理物联网解决方案的数字平台',
+    subTitle2: '100% Cloud Native, Any language, Everything is plugin, Simply',
     favicon: getConfigImagePath('logo-mark.svg'),
     logoMark: getConfigImagePath('logo-mark.svg'),
     logoTypeLight: getConfigImagePath('logo-type-light.svg'),
@@ -18,7 +20,6 @@ module.exports = {
       Login: {
         backgroundImage: getConfigImagePath('background-01.png'),
         title: 'QingCloud IoT 物联网平台',
-        subTitle: '颠覆传统物联网应用开发的新一代核心架构',
       },
       SetPassword: {
         backgroundImage: getConfigImagePath('background-02.png'),
