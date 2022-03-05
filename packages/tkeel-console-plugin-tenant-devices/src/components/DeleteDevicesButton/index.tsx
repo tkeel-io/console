@@ -25,7 +25,7 @@ function DeleteDevicesButton({ deviceName, ids, refetch }: Props) {
         const timer = setTimeout(() => {
           refetch();
           clearTimeout(timer);
-        }, 300);
+        }, 800);
       }
     },
   });

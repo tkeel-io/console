@@ -27,6 +27,8 @@ export const DEFAULT_PORTAL_ADMIN_CONFIG = {
   client: {
     themeName: 'qingcloud-light',
     documentTitle: 'QingCloud IoT 物联网运维管理平台',
+    subTitle1: '构建和管理物联网解决方案的数字平台',
+    subTitle2: '100% Cloud Native, Any language, Everything is plugin, Simply',
     favicon: logoMark,
     logoMark,
     logoTypeLight: logoTypeAdminLight,
@@ -35,8 +37,7 @@ export const DEFAULT_PORTAL_ADMIN_CONFIG = {
       Login: {
         backgroundImage: background01,
         title: 'QingCloud IoT 物联网',
-        titlePart2: '运维管理平台',
-        subTitle: '颠覆传统物联网应用开发的新一代核心架构',
+        additionalTitle: '运维管理平台',
       },
     },
   },
@@ -46,6 +47,8 @@ export const DEFAULT_PORTAL_TENANT_CONFIG = {
   client: {
     themeName: 'qingcloud-light',
     documentTitle: 'QingCloud IoT 物联网平台',
+    subTitle1: '构建和管理物联网解决方案的数字平台',
+    subTitle2: '100% Cloud Native, Any language, Everything is plugin, Simply',
     favicon: logoMark,
     logoMark,
     logoTypeLight: logoTypeTenantLight,
@@ -54,7 +57,6 @@ export const DEFAULT_PORTAL_TENANT_CONFIG = {
       Login: {
         backgroundImage: background01,
         title: 'QingCloud IoT 物联网平台',
-        subTitle: '颠覆传统物联网应用开发的新一代核心架构',
       },
       SetPassword: {
         backgroundImage: background02,

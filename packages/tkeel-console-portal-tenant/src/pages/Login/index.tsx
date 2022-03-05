@@ -59,7 +59,8 @@ export default function Login() {
   };
 
   const { config } = usePortalTenantConfigPortalQuery();
-  const pageConfig = config?.client?.pages?.Login;
+  const clientConfig = config?.client;
+  const pageConfig = clientConfig?.pages?.Login;
 
   const {
     register,
@@ -139,7 +140,15 @@ export default function Login() {
           lineHeight="24px"
           color="gray.100"
         >
-          {pageConfig?.subTitle}
+          {clientConfig?.subTitle1}
+        </Heading>
+        <Heading
+          marginTop="12px"
+          fontSize="18px"
+          lineHeight="24px"
+          color="gray.100"
+        >
+          {clientConfig?.subTitle2}
         </Heading>
       </Box>
       <Center flexDirection="column" width="42vw">

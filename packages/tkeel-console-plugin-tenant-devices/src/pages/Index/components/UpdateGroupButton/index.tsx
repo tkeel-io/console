@@ -37,9 +37,10 @@ function UpdateGroupButton({
       title: '修改设备组成功',
     });
     if (callback) {
-      window.setTimeout(() => {
+      const timer = window.setTimeout(() => {
         callback();
-      }, 300);
+        window.clearTimeout(timer);
+      }, 800);
     }
   };
 
