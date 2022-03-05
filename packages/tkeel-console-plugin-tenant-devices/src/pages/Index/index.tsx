@@ -14,7 +14,7 @@ import {
   MoreVerticalFilledIcon,
 } from '@tkeel/console-icons';
 
-import { ApiData as DeviceResData } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceMutation';
+import useDeviceListQuery from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceListQuery';
 import useGroupTreeQuery, {
   NodeInfo,
   TreeNodeType,
@@ -92,10 +92,9 @@ function getDefaultFormValues({ groupItem }: { groupItem: TreeNodeData }) {
 
 function Index(): JSX.Element {
   const [groupId, setGroupId] = useState('');
-  const [tableKey, setTableKey] = useState('');
   const [keyWords, setKeyWords] = useState('');
   const pagination = usePagination();
-  const { setPageNum } = pagination;
+  const { setPageNum, pageNum, pageSize, setTotalSize } = pagination;
 
   const { groupTree, refetch: refetchGroupTree } = useGroupTreeQuery();
   const selectedColor = useColor('primary');
@@ -130,13 +129,25 @@ function Index(): JSX.Element {
       return {
         name,
         title: (
-          <Flex justify="space-between" key={id}>
+          <Flex
+            justify="space-between"
+            key={id}
+            _hover={{
+              'svg.verticalFilled': {
+                fill: `${selectedColor} !important`,
+              },
+            }}
+          >
             <Text>{name}</Text>
             <MoreAction
               styles={{ actionList: { width: '119px' } }}
               element={
                 <Center h="100%">
-                  <MoreVerticalFilledIcon color="primary" size="18px" />
+                  <MoreVerticalFilledIcon
+                    size="16px"
+                    color="transparent"
+                    className="verticalFilled"
+                  />
                 </Center>
               }
               buttons={[
@@ -145,7 +156,10 @@ function Index(): JSX.Element {
                   type="MORE_ACTION"
                   groupTree={groupTree}
                   callback={refetchGroupTree}
-                  defaultFormValues={{ parentId: id }}
+                  defaultFormValues={{
+                    parentId: id,
+                    parentName: name,
+                  }}
                 />,
                 <UpdateGroupButton
                   key="update"
@@ -185,6 +199,7 @@ function Index(): JSX.Element {
     const id = selectedKeys[0] as string;
     setGroupId(id);
     setKeyWords('');
+    refetchGroupTree();
   };
   const groupCrumb = getParentTreeNode({
     list: treeNodeData,
@@ -196,6 +211,37 @@ function Index(): JSX.Element {
   });
   const defaultFormValues = getDefaultFormValues({
     groupItem: isEmpty(groupItem) ? defaultGroupItem : groupItem,
+  });
+
+  const params = {
+    query: keyWords || '',
+    page_num: pageNum,
+    page_size: pageSize,
+    order_by: 'name',
+    is_descending: false,
+    condition: [
+      {
+        field: 'sysField._spacePath',
+        operator: '$wildcard',
+        value: groupId,
+      },
+      {
+        field: 'type',
+        operator: '$eq',
+        value: 'device',
+      },
+    ],
+  };
+  const {
+    refetch: refetchDeviceList,
+    deviceList,
+    isLoading,
+  } = useDeviceListQuery({
+    params,
+    onSuccess: (data) => {
+      const total = data?.data?.listDeviceObject?.total ?? 0;
+      setTotalSize(total as number);
+    },
   });
 
   return (
@@ -215,9 +261,15 @@ function Index(): JSX.Element {
           <CreateDeviceButton
             key="create"
             variant="solid"
-            defaultFormValues={{ parentId: groupId }}
-            onSuccess={({ data }: { data: DeviceResData }) => {
-              setTableKey(data?.deviceObject?.id);
+            defaultFormValues={{
+              parentId: groupId,
+              parentName: groupItem.name,
+            }}
+            onSuccess={() => {
+              const timer = setTimeout(() => {
+                refetchDeviceList();
+                clearTimeout(timer);
+              }, 800);
             }}
           />,
         ]}
@@ -229,12 +281,31 @@ function Index(): JSX.Element {
         overflow="hidden"
         marginTop="8px"
       >
-        <DeviceGroupTree
-          handleSelectGroup={handleSelectGroup}
-          treeNodeData={treeNodeData}
-          refetch={refetchGroupTree}
-          selectedKeys={[groupId]}
-        />
+        <Flex bg="gray.50" h="100%" p="12px" flexDir="column">
+          <Text
+            color="grayAlternatives.300"
+            fontSize="12px"
+            lineHeight="32px"
+            fontWeight="500"
+            mb="8px"
+            height="32px"
+          >
+            设备组
+          </Text>
+          <CreateGroupButton
+            callback={refetchGroupTree}
+            defaultFormValues={{
+              parentId: groupId,
+              parentName: groupItem.name,
+            }}
+          />
+          <DeviceGroupTree
+            handleSelectGroup={handleSelectGroup}
+            treeNodeData={treeNodeData}
+            selectedKeys={[groupId]}
+          />
+        </Flex>
+
         <Flex flex="1" bg="white" p="12px 20px" flexDirection="column">
           <HStack
             color="grayAlternatives.300"
@@ -276,10 +347,11 @@ function Index(): JSX.Element {
           </HStack>
           <GroupBasicInfo groupItem={groupItem} />
           <DeviceListTable
-            groupId={groupId}
-            keyWords={keyWords}
+            pagination={pagination}
+            deviceList={deviceList}
             groupTree={groupTree}
-            key={tableKey}
+            isLoading={isLoading}
+            refetch={refetchDeviceList}
           />
         </Flex>
       </Box>
