@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "console-plugin-tenant-example.name" . }}
+  namespace: {{ .Release.Namespace | quote }}
+  labels:
+    app: {{ include "console-plugin-tenant-example.name" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "console-plugin-tenant-example.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "console-plugin-tenant-example.name" . }}
+    spec:
+      {{- if .imagePullSecrets }}
+      imagePullSecrets:
+        - name: {{ .imagePullSecrets }}
+      {{- end }}
+      containers:
+        - name: {{ include "console-plugin-tenant-example.name" . }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 80
