@@ -14,6 +14,7 @@ import {
   MoreVerticalFilledIcon,
 } from '@tkeel/console-icons';
 
+import { ApiData as DeviceResData } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceMutation';
 import useGroupTreeQuery, {
   NodeInfo,
   TreeNodeType,
@@ -91,6 +92,7 @@ function getDefaultFormValues({ groupItem }: { groupItem: TreeNodeData }) {
 
 function Index(): JSX.Element {
   const [groupId, setGroupId] = useState('');
+  const [tableKey, setTableKey] = useState('');
   const [keyWords, setKeyWords] = useState('');
   const pagination = usePagination();
   const { setPageNum } = pagination;
@@ -134,7 +136,7 @@ function Index(): JSX.Element {
               styles={{ actionList: { width: '119px' } }}
               element={
                 <Center h="100%">
-                  <MoreVerticalFilledIcon color="primary" size="12px" />
+                  <MoreVerticalFilledIcon color="primary" size="18px" />
                 </Center>
               }
               buttons={[
@@ -206,6 +208,7 @@ function Index(): JSX.Element {
             setPageNum(1);
             setKeyWords(value.trim());
           },
+          inputStyle: { background: 'gray.50' },
           value: keyWords,
         }}
         buttons={[
@@ -213,6 +216,9 @@ function Index(): JSX.Element {
             key="create"
             variant="solid"
             defaultFormValues={{ parentId: groupId }}
+            onSuccess={({ data }: { data: DeviceResData }) => {
+              setTableKey(data?.deviceObject?.id);
+            }}
           />,
         ]}
       />
@@ -273,6 +279,7 @@ function Index(): JSX.Element {
             groupId={groupId}
             keyWords={keyWords}
             groupTree={groupTree}
+            key={tableKey}
           />
         </Flex>
       </Box>

@@ -39,7 +39,7 @@ function DeleteGroupButton({ id, groupName, callback }: Props) {
         <CustomModal
           bg="red.50"
           icon={<TrashFilledIcon size="24px" color="red.300" />}
-          title={`确认删除设备「${groupName}」？`}
+          title={`确认删除设备组「${groupName}」？`}
           isConfirmButtonLoading={isLoading}
           isOpen={isOpen}
           onClose={onClose}
