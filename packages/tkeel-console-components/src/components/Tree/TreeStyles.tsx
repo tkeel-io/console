@@ -16,6 +16,7 @@ type CustomTheme = Theme & {
   colors: {
     primary: string;
     primarySub: string;
+    primarySub2: string;
   };
 };
 
@@ -128,6 +129,10 @@ export default function TreeStyles({ prefixCls, extras, styles }: Props) {
           span {
             &.${treePrefixCls}-title {
               color: ${colors.primary};
+            }
+            &.${treePrefixCls}-icon__customize > svg {
+              fill: ${colors.primary} !important;
+              color: ${colors.primarySub2} !important;
             }
           }
         }
