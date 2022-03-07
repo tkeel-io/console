@@ -6,30 +6,28 @@ import { GlobalPluginProps } from '@tkeel/console-types';
 
 import App from './App';
 
-function render(props: GlobalPluginProps) {
-  const { container } = props;
-
-  ReactDOM.render(
-    <App {...props} />,
-    container
-      ? container.querySelector('#root')
-      : document.querySelector('#root')
-  );
+interface Props extends GlobalPluginProps {
+  container: HTMLElement;
 }
 
-// if (!window.__POWERED_BY_QIANKUN__) {
-//   render();
-// }
+function render(props: Props) {
+  const container = props?.container;
+  const rootContainer = container
+    ? container.querySelector('#root')
+    : document.querySelector('#root');
+
+  ReactDOM.render(<App {...props} />, rootContainer);
+}
 
 export async function bootstrap() {
   //
 }
 
-export async function mount(props: GlobalPluginProps) {
+export async function mount(props: Props) {
   render(props);
 }
 
-export async function unmount(props: GlobalPluginProps) {
+export async function unmount(props: Props) {
   const { container } = props;
   const rootContainer = (
     container

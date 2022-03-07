@@ -12,18 +12,12 @@ interface Props extends GlobalPluginProps {
 
 function render(props: Props) {
   const container = props?.container;
+  const rootContainer = container
+    ? container.querySelector('#root')
+    : document.querySelector('#root');
 
-  ReactDOM.render(
-    <App {...props} />,
-    container
-      ? container.querySelector('#root')
-      : document.querySelector('#root')
-  );
+  ReactDOM.render(<App {...props} />, rootContainer);
 }
-
-/* if (!window.__POWERED_BY_QIANKUN__) {
-  render();
-} */
 
 export async function bootstrap() {
   //
