@@ -128,7 +128,7 @@ function Index({ id, title }: { id: string; title: string }) {
 
   const columns: ReadonlyArray<Column<Data>> = [
     {
-      Header: '角色名称',
+      Header: '设备名称',
       accessor: 'name',
       Cell: ({ value }: { value: string }) =>
         useMemo(
