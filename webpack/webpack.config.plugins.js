@@ -21,7 +21,18 @@ const webpackConfigPlugins = {
     chunkLoadingGlobal: `webpackJsonp_${packageName}`,
   },
   plugins: [
-    new DefinePlugin({ PLUGIN_GLOBALS: JSON.stringify(_.pick(config)) }),
+    new DefinePlugin({
+      PLUGIN_GLOBALS: JSON.stringify(
+        _.pick(config, [
+          'portalName',
+          'publicPath',
+          'basePath',
+          'client',
+          'api',
+          'websocket',
+        ])
+      ),
+    }),
   ],
 };
 

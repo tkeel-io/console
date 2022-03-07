@@ -6,7 +6,7 @@ interface Window {
   __INJECTED_PUBLIC_PATH_BY_QIANKUN__: string;
 }
 
-interface PluginGlobals {
+interface PluginConfig {
   portalName: 'admin' | 'tenant';
   publicPath: string;
   basePath: string;
@@ -36,4 +36,7 @@ interface PluginGlobals {
   };
 }
 
-declare const PLUGIN_GLOBALS: PluginGlobals;
+declare const PLUGIN_GLOBALS: Pick<
+  PluginConfig,
+  'portalName' | 'publicPath' | 'basePath' | 'client' | 'api' | 'websocket'
+>;

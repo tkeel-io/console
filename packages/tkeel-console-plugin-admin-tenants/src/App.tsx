@@ -5,6 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { PluginProvider } from '@tkeel/console-business-components';
 import { QueryClient } from '@tkeel/console-hooks';
 import { GlobalPluginProps } from '@tkeel/console-types';
+import { plugin } from '@tkeel/console-utils';
 
 import Routes from '@/tkeel-console-plugin-admin-tenants/routes';
 
@@ -17,13 +18,7 @@ function App(props: GlobalPluginProps) {
     <PluginProvider globalProps={props}>
       <QueryClientProvider client={queryClient}>
         <ChakraProvider theme={theme}>
-          <Router
-            basename={
-              window.__POWERED_BY_QIANKUN__
-                ? PLUGIN_GLOBALS.basePath
-                : PLUGIN_GLOBALS.publicPath
-            }
-          >
+          <Router basename={plugin.getRouterBasename()}>
             <Routes />
           </Router>
         </ChakraProvider>
