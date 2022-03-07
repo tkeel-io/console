@@ -28,5 +28,6 @@ export interface BaseGlobalPluginProps {
 }
 
 export interface GlobalPluginProps extends BaseGlobalPluginProps {
+  name: string;
   container: HTMLElement;
 }
