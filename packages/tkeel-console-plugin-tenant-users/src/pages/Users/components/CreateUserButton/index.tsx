@@ -25,7 +25,8 @@ export default function CreateUserButton({ onSuccess }: Props) {
       onSuccessModalOpen();
     },
   });
-  const url = `${window.location.origin}/auth/set-password`;
+  // TODO: SetPasswordModal url delete later
+  // const url = `${window.location.origin}/auth/set-password`;
   const setPasswordModalData = {
     reset_key: data?.reset_key ?? '',
   };
@@ -55,7 +56,7 @@ export default function CreateUserButton({ onSuccess }: Props) {
         <SetPasswordModal
           isOpen={isSuccessModalOpen}
           title="创建成功"
-          url={url}
+          // url={url}
           data={setPasswordModalData}
           onClose={onSuccessModalClose}
         />

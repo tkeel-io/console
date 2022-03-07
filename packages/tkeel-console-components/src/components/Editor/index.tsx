@@ -6,6 +6,8 @@ import registerCompletion from './registerCompletion';
 
 const Wrapper = styled(Box)`
   .vs {
+    min-height: 18px !important;
+
     .margin,
     .lines-content {
       background-color: ${({ theme }) => (theme as Theme).colors.gray['50']};
@@ -45,8 +47,6 @@ const Wrapper = styled(Box)`
     .margin,
     .monaco-scrollable-element,
     .lines-content {
-      padding-top: 8px;
-
       background-color: ${({ theme }) => (theme as Theme).colors.gray['800']};
     }
   }

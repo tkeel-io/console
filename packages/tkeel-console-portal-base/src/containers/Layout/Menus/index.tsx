@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { useGlobalPortalProps } from '@tkeel/console-business-components';
+import { useColor } from '@tkeel/console-hooks';
 import {
   CollapseFilledIcon,
   ExpandFilledIcon,
@@ -15,8 +16,6 @@ import { Logo } from '@tkeel/console-types';
 import {
   getLocalMenuTheme,
   isDarkMenuTheme,
-  MenuCollapsed,
-  setLocalMenuCollapsed,
   setLocalMenuTheme,
 } from '@/tkeel-console-portal-base/utils';
 
@@ -39,7 +38,7 @@ function Menus({ logo }: Props) {
   const isDarkMenu = isDarkMenuTheme(menuTheme);
 
   const iconColor = 'grayAlternatives.300';
-  const whiteColor = 'white !important';
+  const whiteColor = `${useColor('white')} !important`;
 
   useEffect(() => {
     setLocalMenuTheme(menuTheme);
@@ -48,7 +47,6 @@ function Menus({ logo }: Props) {
 
   useEffect(() => {
     setCollapsed(menuCollapsed);
-    setLocalMenuCollapsed(String(menuCollapsed) as MenuCollapsed);
   }, [menuCollapsed]);
 
   // const getChangeThemeIconProps = (theme: 'dark' | 'light') => {

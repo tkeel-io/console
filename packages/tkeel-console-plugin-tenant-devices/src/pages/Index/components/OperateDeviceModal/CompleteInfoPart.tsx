@@ -46,8 +46,8 @@ export default function CompletedInfoPart({ type, responseData }: Props) {
   }
   const colors = {
     main: useColor('primary'),
-    sub: useColor('primarySub'),
-    sub2: useColor('primarySub2'),
+    sub: useColor('primarySub2'),
+    sub2: useColor('primarySub'),
   };
   const { hasCopied, onCopy } = useClipboard(token);
   return (

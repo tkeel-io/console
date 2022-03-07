@@ -1,10 +1,9 @@
 /* eslint-disable no-console */
-import { useDisclosure } from '@chakra-ui/react';
+import { Circle, useDisclosure } from '@chakra-ui/react';
 
-import { MoreActionButton, toast } from '@tkeel/console-components';
+import { Alert, MoreActionButton, toast } from '@tkeel/console-components';
 import { TrashFilledIcon } from '@tkeel/console-icons';
 
-import CustomModal from '@/tkeel-console-plugin-tenant-devices/components/CustomModal';
 import useDeleteGroupMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useDeleteGroupMutation';
 
 interface Props {
@@ -18,13 +17,22 @@ function DeleteGroupButton({ id, groupName, callback }: Props) {
   const ids = [id];
   const { mutate, isLoading } = useDeleteGroupMutation({
     ids,
-    onSuccess() {
+    onSuccess(data) {
       onClose();
-      toast({ status: 'success', title: '删除设备组成功' });
+      console.log(data);
+      if ((data?.data?.faildDelGroup ?? []).length > 0) {
+        toast({
+          status: 'error',
+          title: `删除失败：${data?.data?.faildDelGroup[0]?.reason}`,
+        });
+      } else {
+        toast({ status: 'success', title: '删除设备组成功' });
+      }
       if (callback) {
-        window.setTimeout(() => {
+        const timer = setTimeout(() => {
           callback();
-        }, 300);
+          clearTimeout(timer);
+        }, 800);
       }
     },
   });
@@ -36,12 +44,16 @@ function DeleteGroupButton({ id, groupName, callback }: Props) {
         onClick={onOpen}
       />
       {isOpen && (
-        <CustomModal
-          bg="red.50"
-          icon={<TrashFilledIcon size="24px" color="red.300" />}
-          title={`确认删除设备「${groupName}」？`}
-          isConfirmButtonLoading={isLoading}
+        <Alert
+          iconPosition="left"
+          icon={
+            <Circle size="44px" backgroundColor="red.50">
+              <TrashFilledIcon size="24px" color="red.300" />
+            </Circle>
+          }
+          title={`确认删除设备组「${groupName}」？`}
           isOpen={isOpen}
+          isConfirmButtonLoading={isLoading}
           onClose={onClose}
           onConfirm={() => {
             mutate({});

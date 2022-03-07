@@ -22,7 +22,7 @@ function MenuItem({
     <Flex
       alignItems="center"
       justifyContent="space-between"
-      height="44px"
+      height="40px"
       paddingLeft="22px"
       fontWeight="500"
       cursor="pointer"

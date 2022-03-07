@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable no-underscore-dangle */
 import { Box, Flex, HStack, Text, Tooltip } from '@chakra-ui/react';
 import { ReactNode, useMemo } from 'react';
@@ -9,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { Cell, Column } from 'react-table';
 
 import { LinkButton, MoreAction, Table } from '@tkeel/console-components';
-import { useColor, usePagination } from '@tkeel/console-hooks';
+import { useColor } from '@tkeel/console-hooks';
 import {
   BranchTowToneIcon,
   DotLineFilledIcon,
@@ -19,13 +18,14 @@ import {
   WifiFilledIcon,
   WifiOffFilledIcon,
 } from '@tkeel/console-icons';
+import { UsePaginationReturnType } from '@tkeel/console-types';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import AddSubscribeButton from '@/tkeel-console-plugin-tenant-devices/components/AddSubscribeButton';
 import DeleteDevicesButton from '@/tkeel-console-plugin-tenant-devices/components/DeleteDevicesButton';
 import IconWrapper from '@/tkeel-console-plugin-tenant-devices/components/IconWrapper';
 import UpdateDeviceButton from '@/tkeel-console-plugin-tenant-devices/components/UpdateDeviceButton';
-import useDeviceListQuery, {
+import {
   DeviceApiItem,
   DeviceItem,
 } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceListQuery';
@@ -36,9 +36,11 @@ import {
 } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
 
 interface Props {
-  groupId?: string;
-  keyWords?: string;
   groupTree: TreeNodeType;
+  pagination: UsePaginationReturnType;
+  deviceList: any;
+  isLoading: boolean;
+  refetch?: () => void;
 }
 
 function TooltipIcon({
@@ -62,18 +64,21 @@ function TooltipIcon({
     </Tooltip>
   );
 }
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 function DeviceListTable({
-  groupId = '',
-  keyWords,
   groupTree,
+  deviceList,
+  pagination,
+  isLoading,
+  refetch,
 }: Props): JSX.Element {
   const navigate = useNavigate();
-  const pagination = usePagination();
-  const { pageNum, pageSize, setTotalSize } = pagination;
+
   // const { nodeInfo } = groupItem;
   const COLORS = {
+    DIR_CONNECT: {
+      BG: [useColor('red.100'), useColor('violet.100')],
+    },
     DEVICE: {
       BG: [useColor('gray.100'), useColor('green.50')],
       ICON: [useColor('green.300'), useColor('gray.500')],
@@ -151,32 +156,7 @@ function DeviceListTable({
       </HStack>
     );
   }
-  const params = {
-    query: keyWords || '',
-    page_num: pageNum,
-    page_size: pageSize,
-    order_by: 'name',
-    is_descending: false,
-    condition: [
-      {
-        field: 'sysField._spacePath',
-        operator: '$wildcard',
-        value: groupId,
-      },
-      {
-        field: 'type',
-        operator: '$eq',
-        value: 'device',
-      },
-    ],
-  };
-  const { refetch, deviceList, isLoading } = useDeviceListQuery({
-    params,
-    onSuccess: (data) => {
-      const total = data?.data?.listDeviceObject?.total ?? 0;
-      setTotalSize(total as number);
-    },
-  });
+
   const deviceTableData = deviceList.map((item: DeviceApiItem) => {
     const { id, properties } = item;
     const { basicInfo, sysField } = properties;
@@ -203,7 +183,7 @@ function DeviceListTable({
           return (
             <LinkButton
               onClick={() => {
-                navigate(`/detail?id=${id}`);
+                navigate(`/detail?id=${id}&menu-collapsed=true`);
               }}
               color="gray.600"
               fontWeight="600"
@@ -224,7 +204,7 @@ function DeviceListTable({
         useMemo(() => {
           return (
             <TooltipIcon label={value ? '直连' : '非直连'}>
-              <IconWrapper iconBg={useColor(value ? 'violet.100' : 'red.100')}>
+              <IconWrapper iconBg={COLORS.DIR_CONNECT.BG[value ? 1 : 0]}>
                 {value ? <DotLineFilledIcon /> : <BranchTowToneIcon />}
               </IconWrapper>
             </TooltipIcon>

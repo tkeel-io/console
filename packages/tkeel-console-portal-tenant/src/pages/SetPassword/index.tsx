@@ -11,7 +11,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useSearchParams } from 'react-router-dom';
 
 import { Alert, Form, FormField, toast } from '@tkeel/console-components';
-import { usePortalTenantConfigQuery } from '@tkeel/console-request-hooks';
+import { usePortalTenantConfigPortalQuery } from '@tkeel/console-request-hooks';
 import { jumpToAuthLoginPage, schemas } from '@tkeel/console-utils';
 
 import useSetPasswordMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useSetPasswordMutation';
@@ -44,8 +44,9 @@ export default function SetPassword() {
     lineHeight: '24px',
   };
 
-  const { config } = usePortalTenantConfigQuery();
-  const pageConfig = config?.client?.pages?.SetPassword;
+  const { config } = usePortalTenantConfigPortalQuery();
+  const clientConfig = config?.client;
+  const pageConfig = clientConfig?.pages?.SetPassword;
 
   const {
     register,
@@ -129,7 +130,15 @@ export default function SetPassword() {
             lineHeight="20px"
             color="gray.500"
           >
-            颠覆传统物联网应用开发的新一代核心架构
+            {clientConfig?.subTitle1}
+          </Text>
+          <Text
+            paddingTop="8px"
+            fontSize="14px"
+            lineHeight="20px"
+            color="gray.500"
+          >
+            {clientConfig?.subTitle2}
           </Text>
           <Form paddingTop="24px" onSubmit={handleSubmit(onSubmit)}>
             <TextField
