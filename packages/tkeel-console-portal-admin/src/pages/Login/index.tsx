@@ -14,7 +14,7 @@ import {
 import useAdminTokenMutation from '@/tkeel-console-portal-admin/hooks/mutations/useAdminTokenMutation';
 
 const mockData = isEnvDevelopment()
-  ? { password: String(PORTAL_GLOBALS?.mock?.password ?? '') }
+  ? { password: String(GLOBAL_PORTAL_CONFIG?.mock?.password ?? '') }
   : { password: '' };
 
 const { TextField } = FormField;

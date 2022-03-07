@@ -22,7 +22,7 @@ const webpackConfigPlugins = {
   },
   plugins: [
     new DefinePlugin({
-      PLUGIN_GLOBALS: JSON.stringify(
+      GLOBAL_PLUGIN_CONFIG: JSON.stringify(
         _.pick(config, [
           'portalName',
           'publicPath',

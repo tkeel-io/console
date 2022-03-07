@@ -42,15 +42,15 @@ export function menusToApps({
   navigate,
   refetchMenus,
 }: InitOptions): App[] {
-  const themeName = PORTAL_GLOBALS.client.themeName || DEFAULT_THEME_NAME;
+  const themeName = GLOBAL_PORTAL_CONFIG.client.themeName || DEFAULT_THEME_NAME;
   const totalMenus: MenuInfo[] = getTotalMenus(menus);
   const tokenInfo = getLocalTokenInfo();
   const props: GlobalPluginProps = {
-    portalName: PORTAL_GLOBALS.portalName,
+    portalName: GLOBAL_PORTAL_CONFIG.portalName,
     tokenInfo,
-    navigate,
     themeName,
     theme: themes[themeName],
+    navigate,
     refetchMenus,
   };
 

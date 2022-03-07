@@ -9,7 +9,7 @@ import {
 export default function usePluginRequestExtras() {
   const { portalName, tokenInfo } = useGlobalPluginProps();
   const location = useLocation();
-  const { basePath } = PLUGIN_GLOBALS;
+  const { basePath } = GLOBAL_PLUGIN_CONFIG;
   const redirectPath = getNoAuthRedirectPath({
     portalName,
     basePath,

@@ -18,8 +18,8 @@ import useTenantExactQuery from '@/tkeel-console-portal-tenant/hooks/queries/use
 
 const mockData = isEnvDevelopment()
   ? {
-      username: String(PORTAL_GLOBALS?.mock?.username ?? ''),
-      password: String(PORTAL_GLOBALS?.mock?.password ?? ''),
+      username: String(GLOBAL_PORTAL_CONFIG?.mock?.username ?? ''),
+      password: String(GLOBAL_PORTAL_CONFIG?.mock?.password ?? ''),
     }
   : { username: '', password: '' };
 

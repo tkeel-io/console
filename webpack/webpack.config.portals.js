@@ -41,7 +41,7 @@ const webpackConfigPortals = {
       ],
     }),
     new DefinePlugin({
-      PORTAL_GLOBALS: JSON.stringify(
+      GLOBAL_PORTAL_CONFIG: JSON.stringify(
         _.pick(config, [
           'portalName',
           'client.themeName',

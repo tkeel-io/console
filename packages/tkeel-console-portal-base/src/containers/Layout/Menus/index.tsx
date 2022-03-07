@@ -31,7 +31,7 @@ function Menus({ logo }: Props) {
   const [collapsed, setCollapsed] = useState(menuCollapsed);
   const localMenuTheme = getLocalMenuTheme();
   const isQingCloudTheme =
-    PORTAL_GLOBALS.client.themeName === ThemeNames.QingcloudLight;
+    GLOBAL_PORTAL_CONFIG.client.themeName === ThemeNames.QingcloudLight;
   const defaultMenuTheme = isQingCloudTheme ? 'dark' : 'light';
   const [menuTheme] = useState(localMenuTheme || defaultMenuTheme);
   const isDarkMenu = isDarkMenuTheme(menuTheme);

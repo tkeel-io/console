@@ -36,7 +36,7 @@ interface PluginConfig {
   };
 }
 
-declare const PLUGIN_GLOBALS: Pick<
+declare const GLOBAL_PLUGIN_CONFIG: Pick<
   PluginConfig,
   'portalName' | 'publicPath' | 'basePath' | 'client' | 'api' | 'websocket'
 >;

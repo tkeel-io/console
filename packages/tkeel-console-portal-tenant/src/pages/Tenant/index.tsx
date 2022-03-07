@@ -13,7 +13,7 @@ import {
 import useTenantExactMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useTenantExactMutation';
 
 const mockData = isEnvDevelopment()
-  ? { tenantTitle: String(PORTAL_GLOBALS?.mock?.tenantTitle ?? '') }
+  ? { tenantTitle: String(GLOBAL_PORTAL_CONFIG?.mock?.tenantTitle ?? '') }
   : { tenantTitle: '' };
 
 const { TextField } = FormField;

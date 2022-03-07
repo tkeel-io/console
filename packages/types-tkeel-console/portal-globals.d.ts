@@ -39,7 +39,7 @@ interface PortalConfig {
   };
 }
 
-declare const PORTAL_GLOBALS: Pick<
+declare const GLOBAL_PORTAL_CONFIG: Pick<
   PortalConfig,
   'portalName' | 'client' | 'api' | 'websocket' | 'mock'
 >;

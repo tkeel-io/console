@@ -15,7 +15,7 @@ import { Logo } from '@tkeel/console-types';
 import Routes from '@/tkeel-console-portal-base/routes';
 
 const themeName =
-  (PORTAL_GLOBALS.client.themeName as ThemeNames) || DEFAULT_THEME_NAME;
+  (GLOBAL_PORTAL_CONFIG.client.themeName as ThemeNames) || DEFAULT_THEME_NAME;
 const theme = themes[themeName] || DEFAULT_THEME;
 
 type Props = {

@@ -3,11 +3,11 @@ import { NavigateFunction } from 'react-router-dom';
 import { TokenInfo } from './auth';
 
 export interface GlobalPluginProps {
-  container?: HTMLElement;
   portalName: 'admin' | 'tenant';
+  container?: HTMLElement;
   tokenInfo: TokenInfo;
-  navigate: NavigateFunction;
   themeName: string;
   theme: Record<string, unknown>;
+  navigate: NavigateFunction;
   refetchMenus: () => void;
 }

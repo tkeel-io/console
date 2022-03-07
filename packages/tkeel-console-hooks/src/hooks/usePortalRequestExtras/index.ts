@@ -10,12 +10,12 @@ export default function usePortalRequestExtras() {
   const tokenInfo = getLocalTokenInfo();
   const location = useLocation();
   const redirectPath = getNoAuthRedirectPath({
-    portalName: PORTAL_GLOBALS.portalName,
+    portalName: GLOBAL_PORTAL_CONFIG.portalName,
     location,
   });
   const handleNoAuth = () => {
     jumpToAuthLoginPage({
-      portalName: PORTAL_GLOBALS.portalName,
+      portalName: GLOBAL_PORTAL_CONFIG.portalName,
       path: redirectPath,
       isRemoveLocalTokenInfo: true,
       isReplace: true,
