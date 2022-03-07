@@ -6,11 +6,13 @@ module.exports = {
   client: {
     themeName: 'qingcloud-light',
   },
-  api: {
-    basePath: '/apis',
-  },
-  websocket: {
-    basePath: '/v1/ws',
+  backend: {
+    api: {
+      basePath: '/apis',
+    },
+    websocket: {
+      basePath: '/v1/ws',
+    },
   },
   plugin: {
     identify: {

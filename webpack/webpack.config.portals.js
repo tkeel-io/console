@@ -42,13 +42,7 @@ const webpackConfigPortals = {
     }),
     new DefinePlugin({
       GLOBAL_PORTAL_CONFIG: JSON.stringify(
-        _.pick(config, [
-          'portalName',
-          'client.themeName',
-          'api',
-          'websocket',
-          'mock',
-        ])
+        _.pick(config, ['portalName', 'client.themeName', 'backend', 'mock'])
       ),
     }),
   ],

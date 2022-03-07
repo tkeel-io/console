@@ -4,15 +4,6 @@ module.exports = {
   portalName: 'tenant',
   publicPath: '/static/console-plugin-tenant-data-subscription/',
   basePath: '/tenant-data-subscription',
-  client: {
-    documentTitle: '',
-  },
-  api: {
-    basePath: '/apis',
-  },
-  websocket: {
-    basePath: '/v1/ws',
-  },
   plugin: {
     identify: {
       plugin_id: 'console-plugin-tenant-data-subscription',

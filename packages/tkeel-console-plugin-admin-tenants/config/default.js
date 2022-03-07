@@ -4,15 +4,6 @@ module.exports = {
   portalName: 'admin',
   publicPath: '/static/console-plugin-admin-tenants/',
   basePath: '/admin-tenants',
-  client: {
-    documentTitle: '租户管理',
-  },
-  api: {
-    basePath: '/apis',
-  },
-  websocket: {
-    basePath: '/v1/ws',
-  },
   plugin: {
     identify: {
       plugin_id: 'console-plugin-admin-tenants',

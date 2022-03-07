@@ -4,15 +4,6 @@ module.exports = {
   portalName: 'tenant',
   publicPath: '/static/console-plugin-tenant-roles/',
   basePath: '/tenant-roles',
-  client: {
-    documentTitle: '角色管理',
-  },
-  api: {
-    basePath: '/apis',
-  },
-  websocket: {
-    basePath: '/v1/ws',
-  },
   plugin: {
     identify: {
       plugin_id: 'console-plugin-tenant-roles',

@@ -8,9 +8,6 @@ module.exports = {
   server: {
     port: '{{serverPort}}',
   },
-  api: {
-    basePath: '/apis',
-  },
   plugin: {
     identify: {
       plugin_id: 'console-plugin-{{name}}',

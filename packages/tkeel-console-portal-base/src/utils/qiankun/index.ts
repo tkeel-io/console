@@ -48,6 +48,7 @@ export function menusToApps({
   const props: GlobalPluginProps = {
     portalName: GLOBAL_PORTAL_CONFIG.portalName,
     tokenInfo,
+    backend: GLOBAL_PORTAL_CONFIG.backend,
     themeName,
     theme: themes[themeName],
     navigate,

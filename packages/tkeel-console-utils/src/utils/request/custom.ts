@@ -4,11 +4,12 @@ import { inRange, merge } from 'lodash';
 import { toast } from '@tkeel/console-components';
 import { DEFAULT_API_BASE_PATH } from '@tkeel/console-constants';
 
-import { getGlobalConfig } from '../global-config';
+import { getGlobalPortalConfig } from '../global-config';
 import { AxiosRequestConfigExtended, RequestExtras } from './types';
 
 export const DEFAULT_AXIOS_REQUEST_CONFIG: AxiosRequestConfig = {
-  baseURL: getGlobalConfig()?.api?.basePath ?? DEFAULT_API_BASE_PATH,
+  baseURL:
+    getGlobalPortalConfig()?.backend?.api?.basePath ?? DEFAULT_API_BASE_PATH,
   validateStatus: (status: number) => !inRange(status, 300, 400),
 };
 

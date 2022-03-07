@@ -10,15 +10,6 @@ interface PluginConfig {
   portalName: 'admin' | 'tenant';
   publicPath: string;
   basePath: string;
-  client: {
-    documentTitle: string;
-  };
-  api: {
-    basePath: string;
-  };
-  websocket: {
-    basePath: string;
-  };
   plugin: {
     identify: {
       plugin_id: string;

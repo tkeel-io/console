@@ -5,13 +5,15 @@ interface PortalConfig {
   client: {
     themeName: 'tkeel-light' | 'qingcloud-light';
   };
-  api: {
-    origin?: string; // development
-    basePath: string;
-  };
-  websocket: {
-    origin?: string; // development
-    basePath: string;
+  backend: {
+    api: {
+      origin?: string; // development
+      basePath: string;
+    };
+    websocket: {
+      origin?: string; // development
+      basePath: string;
+    };
   };
   plugin: {
     identify: {
@@ -41,5 +43,5 @@ interface PortalConfig {
 
 declare const GLOBAL_PORTAL_CONFIG: Pick<
   PortalConfig,
-  'portalName' | 'client' | 'api' | 'websocket' | 'mock'
+  'portalName' | 'client' | 'backend' | 'mock'
 >;

@@ -4,15 +4,6 @@ module.exports = {
   portalName: 'admin',
   publicPath: '/static/console-plugin-admin-plugins/',
   basePath: '/admin-plugins',
-  client: {
-    documentTitle: '',
-  },
-  api: {
-    basePath: '/apis',
-  },
-  websocket: {
-    basePath: '/v1/ws',
-  },
   plugin: {
     identify: {
       plugin_id: 'console-plugin-admin-plugins',
