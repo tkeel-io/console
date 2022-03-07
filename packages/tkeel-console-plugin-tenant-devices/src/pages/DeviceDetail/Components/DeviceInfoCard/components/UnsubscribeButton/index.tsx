@@ -1,22 +1,20 @@
 import { useDisclosure } from '@chakra-ui/react';
 
-import { LinkButton, toast } from '@tkeel/console-components';
-import { AlarmLampFilledIcon } from '@tkeel/console-icons';
+import { Alert, LinkButton, toast } from '@tkeel/console-components';
 
-import CustomModal from '@/tkeel-console-plugin-tenant-devices/components/CustomModal';
 import useUnsubscribeMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useUnsubscribeMutation';
 
 type Props = {
   subscribeId: string;
   deviceId: string;
-  subscribeAddr: string;
+  subscribeDesc: string;
   refetch?: () => void;
 };
 
 function UnsubscribeButton({
   subscribeId,
   deviceId,
-  subscribeAddr,
+  subscribeDesc,
   refetch,
 }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -47,12 +45,12 @@ function UnsubscribeButton({
       <LinkButton onClick={onOpen} w="24px" minWidth="unset">
         取消
       </LinkButton>
-      <CustomModal
-        bg="red.50"
-        icon={<AlarmLampFilledIcon size="24px" />}
-        title={`确认取消订阅「${subscribeAddr}}」？`}
-        isConfirmButtonLoading={isLoading}
+      <Alert
+        iconPosition="left"
+        icon="warning"
+        title={`确认取消对「${subscribeDesc}」的订阅？`}
         isOpen={isOpen}
+        isConfirmButtonLoading={isLoading}
         onClose={onClose}
         onConfirm={handleConfirm}
       />
