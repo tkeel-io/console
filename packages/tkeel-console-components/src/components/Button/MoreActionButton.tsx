@@ -7,11 +7,11 @@ type Props = {
   onClick: () => unknown;
 };
 
-function MoreActionButton({ icon, title, onClick }: Props) {
+export default function MoreActionButton({ icon, title, onClick }: Props) {
   return (
     <Flex
       alignItems="center"
-      paddingLeft="14px"
+      paddingLeft="8px"
       paddingRight="4px"
       height="32px"
       cursor="pointer"
@@ -35,5 +35,3 @@ function MoreActionButton({ icon, title, onClick }: Props) {
     </Flex>
   );
 }
-
-export default MoreActionButton;

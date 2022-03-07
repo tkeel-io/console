@@ -18,13 +18,22 @@ function DeleteGroupButton({ id, groupName, callback }: Props) {
   const ids = [id];
   const { mutate, isLoading } = useDeleteGroupMutation({
     ids,
-    onSuccess() {
+    onSuccess(data) {
       onClose();
-      toast({ status: 'success', title: '删除设备组成功' });
+      console.log(data);
+      if ((data?.data?.faildDelGroup ?? []).length > 0) {
+        toast({
+          status: 'error',
+          title: `删除失败：${data?.data?.faildDelGroup[0]?.reason}`,
+        });
+      } else {
+        toast({ status: 'success', title: '删除设备组成功' });
+      }
       if (callback) {
-        window.setTimeout(() => {
+        const timer = setTimeout(() => {
           callback();
-        }, 300);
+          clearTimeout(timer);
+        }, 800);
       }
     },
   });
@@ -39,7 +48,7 @@ function DeleteGroupButton({ id, groupName, callback }: Props) {
         <CustomModal
           bg="red.50"
           icon={<TrashFilledIcon size="24px" color="red.300" />}
-          title={`确认删除设备「${groupName}」？`}
+          title={`确认删除设备组「${groupName}」？`}
           isConfirmButtonLoading={isLoading}
           isOpen={isOpen}
           onClose={onClose}

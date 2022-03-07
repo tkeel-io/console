@@ -165,8 +165,8 @@ export default function SelectStyles({ prefixCls }: Props) {
       }
       // =============== Option ================
       &-item {
-        font-size: 12px;
-        line-height: 20px;
+        font-size: 14px;
+        line-height: 32px;
         padding: 4px;
         cursor: pointer;
 
@@ -207,6 +207,11 @@ export default function SelectStyles({ prefixCls }: Props) {
           text-align: center;
           color: #999;
         }
+      }
+    }
+    .${selectPrefix}-tree-node {
+      .${selectPrefix}-tree-iconEle {
+        display: 'none' !important;
       }
     }
   `;

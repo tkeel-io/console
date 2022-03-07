@@ -3,6 +3,7 @@ import { TreeProps as RCTreeProps } from 'rc-tree';
 export interface TreeExtrasProps {
   extras?: {
     isTreeTitleFullWidth?: boolean;
+    hideTreeIcon?: boolean;
   };
 
   styles?: {

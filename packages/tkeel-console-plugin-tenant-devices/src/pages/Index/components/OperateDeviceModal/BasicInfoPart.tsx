@@ -52,8 +52,13 @@ export default function BasicInfoPart({
       >
         <TreeSelect
           id="parentId"
+          allowClear
           placeholder="请选择设备分组"
+          extras={{ hideTreeIcon: true }}
           style={{ width: '100%' }}
+          styles={{
+            treeTitle: 'font-size:14px;height:32px;line-height:32px;',
+          }}
           treeData={groupOptions}
           defaultValue={watchFields.parentId}
           notFoundContent="暂无选项"
@@ -72,7 +77,7 @@ export default function BasicInfoPart({
             <Select
               placeholder="请选择设备连接方式"
               id="directConnection"
-              defaultValue={watchFields.connectType}
+              value={watchFields.connectType}
               style={{ width: '100%' }}
               {...register('connectType', {
                 required: { value: true, message: '请选择设备连接方式' },

@@ -5,6 +5,8 @@ type ApiData = {
   client: {
     themeName: 'tkeel-light' | 'qingcloud-light';
     documentTitle: string;
+    subTitle1: string;
+    subTitle2: string;
     favicon: string;
     logoMark: string;
     logoTypeLight: string;
@@ -13,7 +15,6 @@ type ApiData = {
       Login: {
         backgroundImage: string;
         title: string;
-        subTitle: string;
       };
       SetPassword: {
         backgroundImage: string;
@@ -23,7 +24,7 @@ type ApiData = {
   };
 };
 
-export default function usePortalAdminConfigQuery() {
+export default function usePortalAdminConfigPortalQuery() {
   let config;
   const result = usePortalQuery<ApiData>({
     url: '/config/v1/portal-tenant',
