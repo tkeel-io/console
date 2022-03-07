@@ -2,10 +2,15 @@ import { NavigateFunction } from 'react-router-dom';
 
 import { TokenInfo } from './auth';
 
-export interface GlobalPluginProps {
+export interface BaseGlobalPluginProps {
   portalName: 'admin' | 'tenant';
-  container?: HTMLElement;
-  tokenInfo: TokenInfo;
+  client: {
+    themeName: string;
+    theme: Record<string, unknown>;
+    tokenInfo: TokenInfo;
+    navigate: NavigateFunction;
+    refetchMenus: () => void;
+  };
   backend: {
     api: {
       origin?: string;
@@ -16,8 +21,8 @@ export interface GlobalPluginProps {
       basePath: string;
     };
   };
-  themeName: string;
-  theme: Record<string, unknown>;
-  navigate: NavigateFunction;
-  refetchMenus: () => void;
+}
+
+export interface GlobalPluginProps extends BaseGlobalPluginProps {
+  container: HTMLElement;
 }

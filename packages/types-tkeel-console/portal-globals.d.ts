@@ -7,13 +7,20 @@ interface PortalConfig {
   };
   backend: {
     api: {
-      origin?: string; // development
+      origin?: string; // development only
       basePath: string;
     };
     websocket: {
-      origin?: string; // development
+      origin?: string; // development only
       basePath: string;
     };
+  };
+  server?: {
+    port?: string; // development only
+    proxy?: Record<string, any>; // development only
+  };
+  builder?: {
+    generateSourcemap?: boolean; // production only
   };
   plugin: {
     identify: {
@@ -22,19 +29,10 @@ interface PortalConfig {
       dependence: { id: string; version: string }[];
     };
   };
-  // development
-  server?: {
-    port?: string;
-    proxy?: Record<string, any>;
-  };
-  // production
-  builder?: {
-    generateSourcemap?: boolean;
-  };
   // local development
   mock?: {
-    tenantTitle?: string; // tenant
-    username?: string; // tenant
+    tenantTitle?: string; // tenant only
+    username?: string; // tenant only
     password?: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     menus?: Array<Record<string, any>>;

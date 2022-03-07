@@ -1,31 +1,20 @@
 import './public-path';
 
-import { render, unmountComponentAtNode } from 'react-dom';
-
+import { PluginBase } from '@tkeel/console-business-components';
 import { GlobalPluginProps } from '@tkeel/console-types';
 
 import App from './App';
 
+const { lifeCycles } = PluginBase;
+
 export async function bootstrap() {
-  //
+  lifeCycles.bootstrap();
 }
 
 export async function mount(props: GlobalPluginProps) {
-  const container = props?.container;
-  const rootContainer = container
-    ? container.querySelector('#root')
-    : document.querySelector('#root');
-
-  render(<App {...props} />, rootContainer);
+  lifeCycles.mount(props, App);
 }
 
 export async function unmount(props: GlobalPluginProps) {
-  const { container } = props;
-  const rootContainer = (
-    container
-      ? container.querySelector('#root')
-      : document.querySelector('#root')
-  ) as Element;
-
-  unmountComponentAtNode(rootContainer);
+  lifeCycles.unmount(props);
 }

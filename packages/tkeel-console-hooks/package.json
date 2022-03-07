@@ -17,14 +17,12 @@
     "@tkeel/console-business-components": "workspace:^",
     "@tkeel/console-constants": "workspace:^",
     "@tkeel/console-types": "workspace:^",
-    "@types/lodash": "^4.14.179",
-    "react-router-dom": "^6.2.2",
-    "react-use-websocket": "^3.0.0"
-  },
-  "peerDependencies": {
     "@tkeel/console-utils": "workspace:^",
+    "@types/lodash": "^4.14.179",
     "axios": "^0.24.0",
     "react": "^17.0.2",
-    "react-query": "^3.34.5"
+    "react-query": "^3.34.5",
+    "react-router-dom": "^6.2.2",
+    "react-use-websocket": "^3.0.0"
   }
 }

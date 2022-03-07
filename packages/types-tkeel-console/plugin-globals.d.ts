@@ -9,7 +9,9 @@ interface Window {
 interface PluginConfig {
   portalName: 'admin' | 'tenant';
   publicPath: string;
-  basePath: string;
+  client: {
+    basePath: string;
+  };
   plugin: {
     identify: {
       plugin_id: string;
@@ -17,17 +19,16 @@ interface PluginConfig {
       dependence: { id: string; version: string }[];
     };
   };
-  // development
   server?: {
-    port?: string;
+    port?: string; // development only
   };
-  // production
+
   builder?: {
-    generateSourcemap?: boolean;
+    generateSourcemap?: boolean; // production only
   };
 }
 
 declare const GLOBAL_PLUGIN_CONFIG: Pick<
   PluginConfig,
-  'portalName' | 'publicPath' | 'basePath' | 'client' | 'api' | 'websocket'
+  'portalName' | 'publicPath' | 'client'
 >;

@@ -1,6 +1,6 @@
-import { useGlobalPluginProps } from '@tkeel/console-business-components';
 import { MoreActionButton, toast } from '@tkeel/console-components';
 import { PauseFilledIcon } from '@tkeel/console-icons';
+import { plugin } from '@tkeel/console-utils';
 
 import useDisablePluginMutation from '@/tkeel-console-plugin-tenant-plugins/hooks/mutations/useDisablePluginMutation';
 
@@ -10,7 +10,8 @@ type Props = {
 };
 
 function DisableButton({ pluginName, refetchList }: Props) {
-  const { refetchMenus } = useGlobalPluginProps();
+  const { client } = plugin.getGlobalPluginProps();
+  const { refetchMenus } = client;
 
   const { mutate } = useDisablePluginMutation({
     pluginName,
