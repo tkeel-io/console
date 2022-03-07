@@ -1,28 +1,22 @@
 import './public-path';
 
-import * as ReactDOM from 'react-dom';
+import { render, unmountComponentAtNode } from 'react-dom';
 
 import { GlobalPluginProps } from '@tkeel/console-types';
 
 import App from './App';
-
-function render(props: GlobalPluginProps) {
-  const container = props?.container;
-
-  ReactDOM.render(
-    <App {...props} />,
-    container
-      ? container.querySelector('#root')
-      : document.querySelector('#root')
-  );
-}
 
 export async function bootstrap() {
   //
 }
 
 export async function mount(props: GlobalPluginProps) {
-  render(props);
+  const container = props?.container;
+  const rootContainer = container
+    ? container.querySelector('#root')
+    : document.querySelector('#root');
+
+  render(<App {...props} />, rootContainer);
 }
 
 export async function unmount(props: GlobalPluginProps) {
@@ -33,5 +27,5 @@ export async function unmount(props: GlobalPluginProps) {
       : document.querySelector('#root')
   ) as Element;
 
-  ReactDOM.unmountComponentAtNode(rootContainer);
+  unmountComponentAtNode(rootContainer);
 }
