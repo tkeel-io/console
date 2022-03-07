@@ -3,7 +3,6 @@ import { usePortalQuery } from '@tkeel/console-hooks';
 
 type ApiData = {
   client: {
-    themeName: 'tkeel-light' | 'qingcloud-light';
     documentTitle: string;
     subTitle1: string;
     subTitle2: string;
@@ -50,5 +49,5 @@ export default function usePortalAdminConfigPortalQuery() {
     config = DEFAULT_PORTAL_TENANT_CONFIG;
   }
 
-  return { ...result, config: config as ApiData | undefined };
+  return { ...result, config };
 }

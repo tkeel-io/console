@@ -1,5 +1,5 @@
-interface PortalGlobals {
-  edition: 'free' | 'paid';
+interface PortalConfig {
+  // edition: 'free' | 'paid';
   portalName: 'admin' | 'tenant';
   publicPath: string;
   client: {
@@ -39,4 +39,7 @@ interface PortalGlobals {
   };
 }
 
-declare const PORTAL_GLOBALS: PortalGlobals;
+declare const PORTAL_GLOBALS: Pick<
+  PortalConfig,
+  'portalName' | 'client' | 'api' | 'websocket' | 'mock'
+>;

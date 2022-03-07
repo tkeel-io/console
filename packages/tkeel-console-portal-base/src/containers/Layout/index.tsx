@@ -2,10 +2,7 @@ import { Box, Center, Flex, Image, Skeleton } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 
-import {
-  NotFound,
-  useGlobalPortalProps,
-} from '@tkeel/console-business-components';
+import { NotFound } from '@tkeel/console-business-components';
 import { Logo } from '@tkeel/console-types';
 import { isEnvDevelopment } from '@tkeel/console-utils';
 
@@ -26,20 +23,18 @@ type Props = {
 };
 
 export default function Layout({ userActionMenusComponent, logo }: Props) {
-  const { themeName } = useGlobalPortalProps();
   const { menus, isLoading: isLoadingMenus, refetch } = useMenusQuery();
 
   const navigate = useNavigate();
 
-  const initArgs = {
+  const InitOptions = {
     menus,
     navigate,
-    themeName,
     refetchMenus: () => {
       refetch();
     },
   };
-  const apps = menusToApps(initArgs);
+  const apps = menusToApps(InitOptions);
 
   const renderApps = () => {
     const [firstApp] = apps;
@@ -67,7 +62,7 @@ export default function Layout({ userActionMenusComponent, logo }: Props) {
     );
   };
 
-  const { isLoading } = useQiankunInit(initArgs);
+  const { isLoading } = useQiankunInit(InitOptions);
 
   return (
     <Flex height="100%" overflowX="auto">

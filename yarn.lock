@@ -3934,7 +3934,6 @@ __metadata:
     commitizen: ^4.2.4
     concurrently: ^7.0.0
     config: ^3.3.7
-    config-webpack: ^1.0.5
     copy-webpack-plugin: ^10.2.4
     cross-env: ^7.0.3
     cspell: ^5.18.5
@@ -6323,16 +6322,6 @@ __metadata:
   bin:
     concurrently: dist/bin/concurrently.js
   checksum: 1be78f24bf814f097adaf2e61a37563eb73f12272bbeda90e3e616a23525f793268e22a3c6aedf34e5bad44459f7c30ee053c617905416ba11ce2bee55f089a5
-  languageName: node
-  linkType: hard
-
-"config-webpack@npm:^1.0.5":
-  version: 1.0.5
-  resolution: "config-webpack@npm:1.0.5"
-  peerDependencies:
-    config: ^1.30.0 || ^2.0.0 || ^3.0.0
-    webpack: ^1.0.0 || ^2.0.0 || ^3.0.0 || ^4.0.0
-  checksum: bda0ff8f268806d1a8c1766066b46cc0a3e06ab4821b5edcb6405c9b58449243c27d1fa6662f9b6fe042ce844999e3d0d7f7b2d5f60ee6efc6d671fe39645ca4
   languageName: node
   linkType: hard
 

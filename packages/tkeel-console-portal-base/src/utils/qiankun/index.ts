@@ -1,7 +1,7 @@
 import { FrameworkLifeCycles, registerMicroApps, start } from 'qiankun';
 import { NavigateFunction } from 'react-router-dom';
 
-import themes, { DEFAULT_THEME_NAME, ThemeNames } from '@tkeel/console-themes';
+import themes, { DEFAULT_THEME_NAME } from '@tkeel/console-themes';
 import { GlobalPluginProps, Menu } from '@tkeel/console-types';
 import { getLocalTokenInfo } from '@tkeel/console-utils';
 
@@ -9,10 +9,9 @@ import { App, MenuInfo } from './types';
 
 export type LifeCycles = FrameworkLifeCycles<Record<string, any>>;
 
-export interface InitArgs {
+export interface InitOptions {
   menus: Menu[];
   navigate: NavigateFunction;
-  themeName: ThemeNames;
   lifeCycles?: LifeCycles;
   refetchMenus: () => void;
 }
@@ -41,9 +40,9 @@ function getTotalMenus(menus: Menu[]): MenuInfo[] {
 export function menusToApps({
   menus,
   navigate,
-  themeName = DEFAULT_THEME_NAME,
   refetchMenus,
-}: InitArgs): App[] {
+}: InitOptions): App[] {
+  const themeName = PORTAL_GLOBALS.client.themeName || DEFAULT_THEME_NAME;
   const totalMenus: MenuInfo[] = getTotalMenus(menus);
   const tokenInfo = getLocalTokenInfo();
   const props: GlobalPluginProps = {
@@ -77,16 +76,10 @@ function register({
 export function init({
   menus,
   navigate,
-  themeName,
   lifeCycles,
   refetchMenus,
-}: InitArgs) {
-  const apps = menusToApps({
-    menus,
-    navigate,
-    themeName,
-    refetchMenus,
-  });
+}: InitOptions) {
+  const apps = menusToApps({ menus, navigate, refetchMenus });
   register({ apps, lifeCycles });
   start();
 }
