@@ -16,6 +16,7 @@ type CustomTheme = Theme & {
   colors: {
     primary: string;
     primarySub: string;
+    primarySub2: string;
   };
 };
 
@@ -29,7 +30,7 @@ export default function TreeStyles({ prefixCls, extras, styles }: Props) {
       .${treeNodePrefixCls} {
         display: flex;
         align-items: center;
-        height: 24px;
+        min-height: 24px;
         padding: 0 4px;
         border-radius: 4px;
 
@@ -49,6 +50,9 @@ export default function TreeStyles({ prefixCls, extras, styles }: Props) {
             height: 16px;
             margin-right: 4px;
             line-height: 16px;
+          }
+          &.${treePrefixCls}-iconEle {
+            display: ${extras?.hideTreeIcon ? 'none' : 'inline-block'};
           }
 
           &.${treePrefixCls}-icon_loading {
@@ -125,8 +129,10 @@ export default function TreeStyles({ prefixCls, extras, styles }: Props) {
           span {
             &.${treePrefixCls}-title {
               color: ${colors.primary};
-              font-size: 12px;
-              line-height: 24px;
+            }
+            &.${treePrefixCls}-icon__customize > svg {
+              fill: ${colors.primary} !important;
+              color: ${colors.primarySub2} !important;
             }
           }
         }

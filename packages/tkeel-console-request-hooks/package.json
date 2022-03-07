@@ -1,6 +1,6 @@
 {
   "name": "@tkeel/console-request-hooks",
-  "version": "0.4.0-alpha.3",
+  "version": "0.4.1",
   "homepage": "https://github.com/tkeel-io/console#readme",
   "bugs": {
     "url": "https://github.com/tkeel-io/console/issues"
@@ -14,7 +14,8 @@
   "dependencies": {
     "@tkeel/console-constants": "workspace:^",
     "@tkeel/console-hooks": "workspace:^",
-    "@tkeel/console-utils": "workspace:^"
+    "@tkeel/console-utils": "workspace:^",
+    "lodash": "^4.17.21"
   },
   "peerDependencies": {
     "react": "^17.0.2",

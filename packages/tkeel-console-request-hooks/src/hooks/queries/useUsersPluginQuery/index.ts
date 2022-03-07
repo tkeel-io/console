@@ -37,7 +37,7 @@ type Options = {
   onSuccess?: (data: RequestResult<ApiData, RequestParams, undefined>) => void;
 };
 
-export default function useUsersQuery({
+export default function useUsersPluginQuery({
   tenantId,
   params,
   onSuccess,

@@ -3,7 +3,7 @@ import { Text, useDisclosure } from '@chakra-ui/react';
 import { SetPasswordModal } from '@tkeel/console-business-components';
 import { Alert, LinkButton } from '@tkeel/console-components';
 import {
-  useGetResetPasswordKeyMutation,
+  useGetResetPasswordKeyPluginMutation,
   User,
 } from '@tkeel/console-request-hooks';
 
@@ -27,7 +27,7 @@ export default function ResetPasswordButton({ data }: Props) {
     data: resetData,
     mutate,
     isLoading,
-  } = useGetResetPasswordKeyMutation({
+  } = useGetResetPasswordKeyPluginMutation({
     tenantId,
     userId,
     onSuccess() {
@@ -40,7 +40,8 @@ export default function ResetPasswordButton({ data }: Props) {
     mutate({});
   };
 
-  const url = `${window.location.origin}/auth/set-password`;
+  // TODO: SetPasswordModal url delete later
+  // const url = `${window.location.origin}/auth/set-password`;
 
   return (
     <>
@@ -67,7 +68,7 @@ export default function ResetPasswordButton({ data }: Props) {
       {isSetPasswordModalOpen && (
         <SetPasswordModal
           isOpen={isSetPasswordModalOpen}
-          url={url}
+          // url={url}
           data={{ reset_key: resetData?.reset_key ?? '' }}
           title="操作成功"
           onClose={onSetPasswordModalClose}

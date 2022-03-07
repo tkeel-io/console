@@ -7,7 +7,9 @@ export const DEFAULT_SELECT_PREFIX_CLS = 'rc-tree-select';
 export const DEFAULT_TREE_PREFIX_CLS = 'rc-tree-select-tree';
 
 export const DEFAULT_PROPS = merge(
-  {},
+  {
+    treeIcon: false,
+  },
   DEFAULT_SELECT_PROPS,
   DEFAULT_TREE_PROPS
 );

@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { Form, FormField } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
-import { usePortalAdminConfigQuery } from '@tkeel/console-request-hooks';
+import { usePortalAdminConfigPortalQuery } from '@tkeel/console-request-hooks';
 import {
   isEnvDevelopment,
   jumpToPage,
@@ -44,8 +44,9 @@ export default function Login() {
     lineHeight: '20px',
   };
 
-  const { config } = usePortalAdminConfigQuery();
-  const pageConfig = config?.client?.pages.Login;
+  const { config } = usePortalAdminConfigPortalQuery();
+  const clientConfig = config?.client;
+  const pageConfig = clientConfig?.pages.Login;
 
   const {
     register,
@@ -83,7 +84,7 @@ export default function Login() {
         paddingLeft="80px"
         backgroundImage={pageConfig?.backgroundImage}
         backgroundRepeat="no-repeat"
-        backgroundSize="100% 100%"
+        backgroundSize="cover"
       >
         <Heading
           display="flex"
@@ -93,7 +94,7 @@ export default function Login() {
           lineHeight="42px"
         >
           <Text color="primary">{pageConfig?.title}</Text>
-          <Text color="primarySub3">{pageConfig?.titlePart2}</Text>
+          <Text color="primarySub3">{pageConfig?.additionalTitle}</Text>
         </Heading>
         <Heading
           marginTop="12px"
@@ -101,7 +102,15 @@ export default function Login() {
           lineHeight="24px"
           color="gray.100"
         >
-          {pageConfig?.subTitle}
+          {clientConfig?.subTitle1}
+        </Heading>
+        <Heading
+          marginTop="12px"
+          fontSize="18px"
+          lineHeight="24px"
+          color="gray.100"
+        >
+          {clientConfig?.subTitle2}
         </Heading>
       </Box>
       <Center flexDirection="column" width="42vw">

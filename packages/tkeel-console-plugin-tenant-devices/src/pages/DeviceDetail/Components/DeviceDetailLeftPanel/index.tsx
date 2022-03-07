@@ -1,14 +1,9 @@
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable sonarjs/cognitive-complexity */
-import { Box, Flex, Text, useClipboard, VStack } from '@chakra-ui/react';
+import { Box, Flex, Text, VStack } from '@chakra-ui/react';
 
 import { InfoCard } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
-import {
-  BranchTowToneIcon,
-  CopyFilledIcon,
-  DotLineFilledIcon,
-} from '@tkeel/console-icons';
+import { BranchTowToneIcon, DotLineFilledIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import IconWrapper from '@/tkeel-console-plugin-tenant-devices/components/IconWrapper';
@@ -17,6 +12,8 @@ import DeviceBasicInfoCard, {
   Basic,
 } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/DeviceBasicInfoCard';
 import DeviceInfoCard from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/DeviceInfoCard';
+
+import Clipboard from './Clipboard';
 
 type Props = {
   deviceObject: DeviceObject;
@@ -34,11 +31,18 @@ function DeviceDetailLeftPanel({ deviceObject, refetch }: Props): JSX.Element {
   const properties = deviceObject?.properties;
   const { sysField, basicInfo } = properties;
   const tokenStr = sysField?._token ?? '';
+  const deviceId = sysField?._id ?? '';
   const isDirectConnection = basicInfo?.directConnection;
-  const { hasCopied, onCopy } = useClipboard(sysField?._token ?? '暂无token');
   const basic: Basic[] = [
     {
-      value: sysField?._id ?? '',
+      value: (
+        <Flex>
+          <Text mr="4px" maxW="120px" isTruncated>
+            {deviceId}
+          </Text>
+          <Clipboard text={deviceId} />
+        </Flex>
+      ),
       label: '设备ID',
     },
     {
@@ -47,14 +51,7 @@ function DeviceDetailLeftPanel({ deviceObject, refetch }: Props): JSX.Element {
           <Text mr="4px">{`${tokenStr.slice(0, 4)}*******${tokenStr.slice(
             -4
           )}`}</Text>
-          {hasCopied && (
-            <Text color="primary" mr="8px">
-              已复制
-            </Text>
-          )}
-          <Text cursor="pointer" onClick={onCopy} mt="2px">
-            <CopyFilledIcon color="grayAlternatives.300" />
-          </Text>
+          <Clipboard text={sysField?._token ?? ''} />
         </Flex>
       ),
       label: '设备凭证',
@@ -82,7 +79,7 @@ function DeviceDetailLeftPanel({ deviceObject, refetch }: Props): JSX.Element {
       label: '连接方式',
     },
     {
-      value: <Text as="u">{basicInfo?.templateName ?? '暂无模板'}</Text>,
+      value: <Text as="u">{basicInfo?.templateName || '暂无模板'}</Text>,
       label: '设备模板',
     },
     {

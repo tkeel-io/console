@@ -50,6 +50,7 @@ module.exports = {
     'dependences',
     'mgmt',
     'websockets',
+    'faild',
   ],
   ignorePaths: [
     '**/.idea/**',

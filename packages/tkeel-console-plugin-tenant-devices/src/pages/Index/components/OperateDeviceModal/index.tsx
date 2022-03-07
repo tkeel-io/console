@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
@@ -7,6 +8,7 @@ import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { Form, Modal } from '@tkeel/console-components';
+import { useColor } from '@tkeel/console-hooks';
 
 import ProgressSchedule from '@/tkeel-console-plugin-tenant-devices/components/ProgressSchedule';
 import { ApiData as GroupResData } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceGroupMutation';
@@ -97,7 +99,6 @@ export default function OperateDeviceModal({
     mode === ModalMode.EDIT
       ? ['基本信息', '扩展信息']
       : ['基本信息', '扩展信息', '创建完成'];
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const groupTreeCopy = groupTree || useGroupTreeQuery().groupTree;
   const deviceGroupOptions = getTreeNodeData({
     data: groupTreeCopy,
@@ -112,6 +113,7 @@ export default function OperateDeviceModal({
         ext,
         selfLearn,
         parentId,
+        parentName,
         templateId,
         directConnection,
       } = defaultFormValues;
@@ -129,6 +131,7 @@ export default function OperateDeviceModal({
           return { label, value };
         }),
         parentId,
+        parentName,
       };
       const deviceDefaultInfo = {
         connectInfo,
@@ -158,7 +161,7 @@ export default function OperateDeviceModal({
       setCurrentStep(0);
       onClose();
       if (type === ModalType.DEVICE && id) {
-        navigate(`/detail/?id=${id}`);
+        navigate(`/detail/?id=${id}&menu-collapsed=true`);
       }
     } else if (currentStep === 0) {
       // 第一步校验信息
@@ -258,6 +261,22 @@ export default function OperateDeviceModal({
             {currentStep === 2 && (
               <CompleteInfoPart type={type} responseData={responseData} />
             )}
+            {currentStep === 1 && (
+              <Button
+                pos="absolute"
+                left="0px"
+                bottom="0px"
+                colorScheme="primary"
+                fontSize="14px"
+                px="30px"
+                boxShadow={`0px 4px 12px ${useColor('primarySub')}`}
+                onClick={() => {
+                  setCurrentStep(currentStep - 1);
+                }}
+              >
+                上一步
+              </Button>
+            )}
             <Button
               pos="absolute"
               right="0px"
@@ -269,6 +288,7 @@ export default function OperateDeviceModal({
               px="30px"
               type="submit"
               isLoading={isLoading}
+              boxShadow={`0px 4px 12px ${useColor('primarySub')}`}
             >
               {getButtonText()}
             </Button>

@@ -75,6 +75,9 @@ export default function BasicInfoCard() {
               onSuccess={handleDeleteTenantSuccess}
             />,
           ]}
+          styles={{
+            actionList: { width: '130px' },
+          }}
         />
       }
       name={title}

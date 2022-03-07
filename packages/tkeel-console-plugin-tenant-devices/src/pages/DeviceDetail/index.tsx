@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable no-underscore-dangle */
 import { Box, Flex, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import qs from 'qs';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
@@ -25,16 +25,17 @@ const textStyle = {
 function DeviceDetail(): JSX.Element {
   const location = useLocation();
   const { search } = location;
-  const id = search.split('=')[1];
+  const { id } = qs.parse(search, { ignoreQueryPrefix: true });
+
   const { deviceObject, refetch } = useDeviceDetailQuery({
-    id,
+    id: id as string,
   });
   const properties = deviceObject?.properties;
   const sysField = properties?.sysField;
   const basicInfo = properties?.basicInfo;
   const originRawData = properties?.rawData;
   const originConnectInfo = properties?.connectInfo;
-  const { rawData, connectInfo } = useDeviceDetailSocket({ id });
+  const { rawData, connectInfo } = useDeviceDetailSocket({ id: id as string });
   const connectData = connectInfo || originConnectInfo;
   const tabs = [
     {
@@ -110,7 +111,7 @@ function DeviceDetail(): JSX.Element {
       <DeviceDetailLeftPanel
         refetch={refetch}
         deviceObject={{
-          id,
+          id: id as string,
           properties: {
             sysField,
             basicInfo,
