@@ -10,8 +10,8 @@ type Props = {
 };
 
 function DisableButton({ pluginName, refetchList }: Props) {
-  const { client } = plugin.getGlobalPluginProps();
-  const { refetchMenus } = client;
+  const { portalProps } = plugin.getGlobalPluginProps();
+  const { refetchMenus } = portalProps.client;
 
   const { mutate } = useDisablePluginMutation({
     pluginName,

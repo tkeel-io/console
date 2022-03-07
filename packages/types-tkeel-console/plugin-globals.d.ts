@@ -28,7 +28,4 @@ interface PluginConfig {
   };
 }
 
-declare const GLOBAL_PLUGIN_CONFIG: Pick<
-  PluginConfig,
-  'portalName' | 'publicPath' | 'client'
->;
+declare const GLOBAL_PLUGIN_CONFIG: Pick<PluginConfig, 'publicPath' | 'client'>;

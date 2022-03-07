@@ -2,13 +2,13 @@ import { getGlobalPluginProps } from '../plugin';
 
 // eslint-disable-next-line import/prefer-default-export
 export function getGlobalPortalConfig() {
-  const globalPluginProps = getGlobalPluginProps();
+  const { portalProps } = getGlobalPluginProps();
 
-  if (globalPluginProps && typeof globalPluginProps === 'object') {
-    return globalPluginProps;
+  if (typeof portalProps === 'object' && portalProps) {
+    return portalProps;
   }
 
-  if (GLOBAL_PORTAL_CONFIG && typeof GLOBAL_PORTAL_CONFIG === 'object') {
+  if (typeof GLOBAL_PORTAL_CONFIG === 'object' && GLOBAL_PORTAL_CONFIG) {
     return GLOBAL_PORTAL_CONFIG;
   }
 

@@ -7,7 +7,8 @@ import {
 } from '@tkeel/console-utils';
 
 export default function usePluginRequestExtras() {
-  const { portalName, client } = plugin.getGlobalPluginProps();
+  const { portalProps } = plugin.getGlobalPluginProps();
+  const { portalName, client } = portalProps;
   const { tokenInfo } = client;
   const location = useLocation();
   const redirectPath = getNoAuthRedirectPath({

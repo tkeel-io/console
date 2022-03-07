@@ -15,8 +15,8 @@ function EnableButton({
   buttonCanHover = false,
   refetchData,
 }: Props) {
-  const { client } = plugin.getGlobalPluginProps();
-  const { refetchMenus } = client;
+  const { portalProps } = plugin.getGlobalPluginProps();
+  const { refetchMenus } = portalProps.client;
 
   const { mutate, isLoading } = useEnablePluginMutation({
     pluginName,

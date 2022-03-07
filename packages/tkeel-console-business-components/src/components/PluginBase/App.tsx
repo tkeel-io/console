@@ -13,8 +13,8 @@ type Props = {
 };
 
 export default function App({ children }: Props) {
-  const { client } = plugin.getGlobalPluginProps();
-  const { theme } = client;
+  const { portalProps } = plugin.getGlobalPluginProps();
+  const { theme } = portalProps.client;
 
   return (
     <QueryClientProvider client={queryClient}>

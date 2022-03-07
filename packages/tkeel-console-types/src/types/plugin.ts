@@ -2,7 +2,7 @@ import { NavigateFunction } from 'react-router-dom';
 
 import { TokenInfo } from './auth';
 
-export interface BaseGlobalPluginProps {
+export interface GlobalPluginPropsPortalProps {
   portalName: 'admin' | 'tenant';
   client: {
     themeName: string;
@@ -21,6 +21,10 @@ export interface BaseGlobalPluginProps {
       basePath: string;
     };
   };
+}
+
+export interface BaseGlobalPluginProps {
+  portalProps: GlobalPluginPropsPortalProps;
 }
 
 export interface GlobalPluginProps extends BaseGlobalPluginProps {
