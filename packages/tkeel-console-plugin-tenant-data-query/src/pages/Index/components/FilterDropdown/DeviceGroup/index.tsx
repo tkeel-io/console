@@ -84,7 +84,7 @@ export default function DeviceGroup({
       }}
       checkable={false}
       extras={{ isTreeTitleFullWidth: true }}
-      icon={<FolderCloseTwoToneIcon />}
+      icon={FolderCloseTwoToneIcon}
       treeData={treeNodeData}
     />
   );

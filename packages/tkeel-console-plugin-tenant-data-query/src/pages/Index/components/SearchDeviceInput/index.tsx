@@ -89,7 +89,8 @@ export default function SearchDeviceInput({
     (!!groupCondition && !deviceGroupId) ||
     (!!templateCondition && !templateId);
 
-  const inputDisabled = disabled || !!hasKeywordsCondition;
+  const inputDisabled =
+    !!showFilterDropdown && (disabled || !!hasKeywordsCondition);
   const buttonDisabled =
     disabled || (!groupCondition && !templateCondition && !keywordsCondition);
 

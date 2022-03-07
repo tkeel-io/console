@@ -54,8 +54,17 @@ export interface SysField {
   _spacePath: string;
   _subscribeAddr: string;
 }
+
 export interface DeviceObject {
   id: string;
+  configs: {
+    telemetry: {
+      [propName: string]: {
+        id: string;
+        name: string;
+      };
+    };
+  };
   properties: {
     basicInfo?: BasicInfo;
     sysField?: SysField;

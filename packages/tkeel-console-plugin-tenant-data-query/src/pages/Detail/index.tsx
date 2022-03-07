@@ -1,6 +1,6 @@
 import { Button, Circle, Flex, Text } from '@chakra-ui/react';
+import { useSearchParams } from 'react-router-dom';
 
-// import { useNavigate } from 'react-router-dom';
 import { Checkbox, IconButton, SearchInput } from '@tkeel/console-components';
 import {
   BroomFilledIcon,
@@ -12,19 +12,22 @@ import {
   // ChevronUpFilledIcon
 } from '@tkeel/console-icons';
 
+import useDeviceDetailQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceDetailQuery';
+
 import CustomCircle from './components/CustomCircle';
 import DataTable from './components/DataTable';
 import DeviceDetailCard from './components/DeviceDetailCard';
 
 export default function Detail() {
-  // const navigate = useNavigate();
-
-  const columnNames = ['通信故障', 'C相相角', 'B相相角', '频率', '总功率因数'];
+  const [searchParams] = useSearchParams();
+  const id = searchParams.get('id') || '';
+  const { deviceObject } = useDeviceDetailQuery({ id });
+  const telemetry = deviceObject?.configs?.telemetry ?? {};
 
   return (
     <Flex height="100%" justifyContent="space-between">
       <Flex flexDirection="column" width="360px">
-        <DeviceDetailCard />
+        <DeviceDetailCard detailData={deviceObject} />
         <Flex
           flexDirection="column"
           flex="1"
@@ -54,7 +57,7 @@ export default function Detail() {
             onSearch={() => {}}
           />
           <Checkbox marginLeft="20px" height="32px">
-            原始数据
+            模板数据
           </Checkbox>
           <Flex
             flexDirection="column"
@@ -72,9 +75,9 @@ export default function Detail() {
               paddingLeft="47px"
               flexDirection="column"
             >
-              {columnNames.map((item) => (
-                <Checkbox marginBottom="16px" key={item}>
-                  {item}
+              {Object.keys(telemetry).map((key) => (
+                <Checkbox marginBottom="16px" key={telemetry[key].id}>
+                  {telemetry[key].name}
                 </Checkbox>
               ))}
             </Flex>
