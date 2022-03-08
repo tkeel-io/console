@@ -3,11 +3,14 @@ import { Box, Flex, Image, Text } from '@chakra-ui/react';
 import { PageHeaderToolbar } from '@tkeel/console-components';
 
 import SearchBg from '@/tkeel-console-plugin-tenant-data-query/assets/images/search-bg.svg';
+import useHistoryQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useHistoryQuery';
 
 // import DeviceInfoCard from '@/tkeel-console-plugin-tenant-data-query/components/DeviceInfoCard';
 import SearchDeviceInput from './components/SearchDeviceInput';
 
 function Index(): JSX.Element {
+  // const {data} =
+  useHistoryQuery();
   return (
     <Flex height="100%" paddingBottom="18px" flexDirection="column">
       <PageHeaderToolbar name="数据查询" hasIcon />

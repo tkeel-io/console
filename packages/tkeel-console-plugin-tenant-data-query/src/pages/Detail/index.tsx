@@ -1,10 +1,16 @@
-import { Button, Circle, Flex, Text } from '@chakra-ui/react';
+import { Box, Button, Circle, Flex, Text } from '@chakra-ui/react';
+import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import { Checkbox, IconButton, SearchInput } from '@tkeel/console-components';
+import {
+  Checkbox,
+  IconButton,
+  SearchInput,
+  Tree,
+} from '@tkeel/console-components';
 import {
   BroomFilledIcon,
-  ChevronDownFilledIcon,
+  // ChevronDownFilledIcon,
   DownloadFilledIcon,
   LeftFilledIcon,
   RefreshFilledIcon,
@@ -12,17 +18,59 @@ import {
   // ChevronUpFilledIcon
 } from '@tkeel/console-icons';
 
+import useTelemetryDataMutation from '@/tkeel-console-plugin-tenant-data-query/hooks/mutations/useTelemetryDataMutation';
 import useDeviceDetailQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceDetailQuery';
 
 import CustomCircle from './components/CustomCircle';
 import DataTable from './components/DataTable';
+import DateRangeIndicator from './components/DateRangeIndicator';
 import DeviceDetailCard from './components/DeviceDetailCard';
 
 export default function Detail() {
+  const [templateChecked, setTemplateChecked] = useState(false);
+  const [checkedKeys, setCheckedKeys] = useState<string[]>([]);
+  const [startTime] = useState(1_646_661_655_601);
+  const [endTime] = useState(1_646_661_691_686);
+  const [rangeStartTime, setRangeStartTime] = useState(startTime);
   const [searchParams] = useSearchParams();
   const id = searchParams.get('id') || '';
   const { deviceObject } = useDeviceDetailQuery({ id });
   const telemetry = deviceObject?.configs?.telemetry ?? {};
+  const telemetryKeys = Object.keys(telemetry);
+
+  const children = telemetryKeys.map((key) => ({
+    title: telemetry[key].name,
+    id: telemetry[key].id,
+    key: telemetry[key].id,
+  }));
+
+  const treeData = [
+    {
+      title: '遥测数据',
+      id: 'telemetryData',
+      key: 'telemetryData',
+      children,
+    },
+  ];
+
+  const identifiers = checkedKeys.join(',');
+
+  const {
+    mutate,
+    data,
+    isSuccess: isTelemetryDataSuccess,
+    isLoading: isTelemetryDataLoading,
+  } = useTelemetryDataMutation();
+  // eslint-disable-next-line no-console
+  console.log('Detail ~ data', data);
+
+  const handleExportData = () => {
+    if (isTelemetryDataSuccess) {
+      window.open(
+        `http://192.168.123.9:30707/apis/core/v1/ts/${id}?start_time=${startTime}&end_time=${endTime}&identifiers=${identifiers}`
+      );
+    }
+  };
 
   return (
     <Flex height="100%" justifyContent="space-between">
@@ -56,16 +104,45 @@ export default function Detail() {
             inputGroupStyle={{ margin: '8px 20px 12px' }}
             onSearch={() => {}}
           />
-          <Checkbox marginLeft="20px" height="32px">
+          <Checkbox
+            marginLeft="20px"
+            height="32px"
+            onChange={(e) => {
+              const { checked } = e.target;
+              setCheckedKeys(checked ? telemetryKeys : []);
+              setTemplateChecked(checked);
+            }}
+            isChecked={templateChecked}
+          >
             模板数据
           </Checkbox>
-          <Flex
-            flexDirection="column"
+          {/* <Flex marginLeft="20px" height="32px">
+            <Box width="16px" height="16px" />
+            <Text>模板数据</Text>
+          </Flex> */}
+          <Box
+            // flexDirection="column"
+            flex="1"
             paddingTop="14px"
             paddingLeft="20px"
             backgroundColor="gray.50"
           >
-            <Flex alignItems="center">
+            <Tree
+              treeData={treeData}
+              checkable
+              checkedKeys={checkedKeys}
+              selectable={false}
+              onCheck={(keys) => {
+                const checkedNodeKeys = (keys as string[]).filter(
+                  (key) => key !== 'telemetryData'
+                );
+                setCheckedKeys(checkedNodeKeys);
+                const templateCheckBoxChecked =
+                  checkedNodeKeys.length === telemetryKeys.length;
+                setTemplateChecked(templateCheckBoxChecked);
+              }}
+            />
+            {/* <Flex alignItems="center">
               <ChevronDownFilledIcon color="grayAlternatives.300" />
               <Checkbox marginLeft="10px">遥测数据</Checkbox>
             </Flex>
@@ -80,9 +157,26 @@ export default function Detail() {
                   {telemetry[key].name}
                 </Checkbox>
               ))}
-            </Flex>
-          </Flex>
-          <Button colorScheme="primary" margin="12px 20px">
+            </Flex> */}
+          </Box>
+          <Button
+            colorScheme="primary"
+            margin="12px 20px"
+            disabled={checkedKeys.length === 0}
+            isLoading={isTelemetryDataLoading}
+            onClick={() => {
+              mutate({
+                url: `core/v1/ts/${id}`,
+                data: {
+                  start_time: startTime,
+                  end_time: endTime,
+                  identifiers,
+                  page_size: 10,
+                  page_num: 1,
+                },
+              });
+            }}
+          >
             确定
           </Button>
         </Flex>
@@ -91,6 +185,7 @@ export default function Detail() {
         marginLeft="12px"
         padding="12px 20px"
         flex="1"
+        overflow="hidden"
         flexDirection="column"
         borderRadius="4px"
         backgroundColor="white"
@@ -122,12 +217,13 @@ export default function Detail() {
               <RefreshFilledIcon color="grayAlternatives.300" />
             </Circle>
             <IconButton
-              icon={<DownloadFilledIcon />}
+              paddingLeft="4px"
+              paddingRight="16px"
+              icon={<DownloadFilledIcon size={14} />}
               isShowCircle
-              onClick={() => {
-                // eslint-disable-next-line no-console
-                console.log('数据导出');
-              }}
+              disabled={!isTelemetryDataSuccess}
+              // isLoading={isExportDataLoading}
+              onClick={handleExportData}
             >
               数据导出
             </IconButton>
@@ -135,19 +231,38 @@ export default function Detail() {
         </Flex>
         <Flex
           marginTop="12px"
+          marginBottom="8px"
           justifyContent="space-between"
           alignItems="center"
         >
-          <Text>遥测数据</Text>
+          <Text fontSize="12px">遥测数据</Text>
           <Flex>
-            <CustomCircle>
+            <CustomCircle
+              onClick={() => {
+                if (rangeStartTime - startTime >= 5000) {
+                  setRangeStartTime(rangeStartTime - 5000);
+                }
+              }}
+            >
               <LeftFilledIcon color="grayAlternatives.300" />
             </CustomCircle>
-            <CustomCircle marginLeft="8px">
+            <CustomCircle
+              marginLeft="8px"
+              onClick={() => {
+                if (rangeStartTime + 5000 <= endTime) {
+                  setRangeStartTime(rangeStartTime + 5000);
+                }
+              }}
+            >
               <RightFilledIcon color="grayAlternatives.300" />
             </CustomCircle>
           </Flex>
         </Flex>
+        <DateRangeIndicator
+          startTime={startTime}
+          endTime={endTime}
+          rangeStartTime={rangeStartTime}
+        />
         <DataTable style={{ flex: '1', marginTop: '10px' }} />
       </Flex>
     </Flex>

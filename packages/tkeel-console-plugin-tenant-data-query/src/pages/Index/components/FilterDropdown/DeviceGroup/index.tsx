@@ -2,7 +2,7 @@ import { Flex, Text } from '@chakra-ui/react';
 import { values } from 'lodash';
 
 import { Tree } from '@tkeel/console-components';
-import { FolderCloseTwoToneIcon, RightFilledIcon } from '@tkeel/console-icons';
+import { RightFilledIcon } from '@tkeel/console-icons';
 
 import {
   NodeInfo,
@@ -82,9 +82,8 @@ export default function DeviceGroup({
           </Flex>
         );
       }}
-      checkable={false}
       extras={{ isTreeTitleFullWidth: true }}
-      icon={FolderCloseTwoToneIcon}
+      // icon={FolderCloseTwoToneIcon}
       treeData={treeNodeData}
     />
   );

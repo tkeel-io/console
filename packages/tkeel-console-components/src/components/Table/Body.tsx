@@ -33,7 +33,7 @@ function Body<D extends object>({
   const bodyStyle = {};
   if (scroll && scroll.y) {
     (bodyStyle as BodyStyle).height = scroll.y;
-    (bodyStyle as BodyStyle).overflowY = 'scroll';
+    (bodyStyle as BodyStyle).overflowY = 'overlay';
   }
 
   return (

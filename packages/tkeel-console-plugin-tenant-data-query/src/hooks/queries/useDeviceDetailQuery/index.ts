@@ -55,6 +55,13 @@ export interface SysField {
   _subscribeAddr: string;
 }
 
+export interface Properties {
+  basicInfo?: BasicInfo;
+  sysField?: SysField;
+  rawData?: RawData;
+  connectInfo?: ConnectInfo;
+}
+
 export interface DeviceObject {
   id: string;
   configs: {
@@ -65,13 +72,9 @@ export interface DeviceObject {
       };
     };
   };
-  properties: {
-    basicInfo?: BasicInfo;
-    sysField?: SysField;
-    rawData?: RawData;
-    connectInfo?: ConnectInfo;
-  };
+  properties: Properties;
 }
+
 export interface ApiData {
   '@type': string;
   deviceObject?: DeviceObject;
