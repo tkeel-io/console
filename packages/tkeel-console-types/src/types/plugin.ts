@@ -1,12 +1,13 @@
 import { NavigateFunction } from 'react-router-dom';
 
-import { TokenInfo } from './auth';
+import { TenantInfo, TokenInfo } from './auth';
 
 export interface GlobalPluginPropsPortalProps {
   portalName: 'admin' | 'tenant';
   client: {
     themeName: string;
     theme: Record<string, unknown>;
+    tenantInfo: TenantInfo;
     tokenInfo: TokenInfo;
     navigate: NavigateFunction;
     refetchMenus: () => void;

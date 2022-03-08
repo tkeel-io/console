@@ -3,7 +3,7 @@ import { NavigateFunction } from 'react-router-dom';
 
 import themes, { DEFAULT_THEME_NAME } from '@tkeel/console-themes';
 import { GlobalPluginPropsPortalProps, Menu } from '@tkeel/console-types';
-import { getLocalTokenInfo } from '@tkeel/console-utils';
+import { getLocalTenantInfo, getLocalTokenInfo } from '@tkeel/console-utils';
 
 import { App, MenuInfo } from './types';
 
@@ -45,11 +45,13 @@ export function menusToApps({
   const themeName = GLOBAL_PORTAL_CONFIG.client.themeName || DEFAULT_THEME_NAME;
   const totalMenus: MenuInfo[] = getTotalMenus(menus);
   const tokenInfo = getLocalTokenInfo();
+  const tenantInfo = getLocalTenantInfo();
   const portalProps: GlobalPluginPropsPortalProps = {
     portalName: GLOBAL_PORTAL_CONFIG.portalName,
     client: {
       themeName,
       theme: themes[themeName],
+      tenantInfo,
       tokenInfo,
       navigate,
       refetchMenus,
