@@ -1,5 +1,22 @@
 {
   "code": "io.tkeel.SUCCESS",
   "msg": "",
-  "data": { "client": { "themeName": "qingcloud-light" } }
+  "data": {
+    "client": {
+      "documentTitle": "QingCloud IoT 物联网运维管理平台",
+      "subTitle1": "构建和管理物联网解决方案的数字平台",
+      "subTitle2": "100% Cloud Native, Any language, Everything is plugin, Simply",
+      "favicon": "/portal-admin/config/images/logo-mark.svg",
+      "logoMark": "/portal-admin/config/images/logo-mark.svg",
+      "logoTypeLight": "/portal-admin/config/images/logo-type-light.svg",
+      "logoTypeDark": "/portal-admin/config/images/logo-type-dark.svg",
+      "pages": {
+        "Login": {
+          "backgroundImage": "/portal-admin/config/images/background-01.png",
+          "title": "QingCloud IoT 物联网",
+          "additionalTitle": "运维管理平台"
+        }
+      }
+    }
+  }
 }
