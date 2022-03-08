@@ -193,7 +193,7 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
                   <UnsubscribeButton
                     deviceId={id}
                     subscribeId={r.id}
-                    subscribeAddr={r.addr}
+                    subscribeDesc={r.title}
                     refetch={refetch}
                   />
                 </Flex>

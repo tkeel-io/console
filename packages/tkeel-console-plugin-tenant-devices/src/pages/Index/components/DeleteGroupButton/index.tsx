@@ -1,10 +1,9 @@
 /* eslint-disable no-console */
-import { useDisclosure } from '@chakra-ui/react';
+import { Circle, useDisclosure } from '@chakra-ui/react';
 
-import { MoreActionButton, toast } from '@tkeel/console-components';
+import { Alert, MoreActionButton, toast } from '@tkeel/console-components';
 import { TrashFilledIcon } from '@tkeel/console-icons';
 
-import CustomModal from '@/tkeel-console-plugin-tenant-devices/components/CustomModal';
 import useDeleteGroupMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useDeleteGroupMutation';
 
 interface Props {
@@ -45,12 +44,16 @@ function DeleteGroupButton({ id, groupName, callback }: Props) {
         onClick={onOpen}
       />
       {isOpen && (
-        <CustomModal
-          bg="red.50"
-          icon={<TrashFilledIcon size="24px" color="red.300" />}
+        <Alert
+          iconPosition="left"
+          icon={
+            <Circle size="44px" backgroundColor="red.50">
+              <TrashFilledIcon size="24px" color="red.300" />
+            </Circle>
+          }
           title={`确认删除设备组「${groupName}」？`}
-          isConfirmButtonLoading={isLoading}
           isOpen={isOpen}
+          isConfirmButtonLoading={isLoading}
           onClose={onClose}
           onConfirm={() => {
             mutate({});
