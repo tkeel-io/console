@@ -3,6 +3,7 @@ import { getGlobalPluginProps } from '../plugin';
 // eslint-disable-next-line import/prefer-default-export
 export function getGlobalPortalConfigCrossEnv() {
   const globalPluginProps = getGlobalPluginProps();
+
   const portalProps = globalPluginProps?.portalProps;
 
   if (typeof portalProps === 'object' && portalProps) {

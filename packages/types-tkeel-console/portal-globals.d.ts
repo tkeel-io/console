@@ -17,7 +17,7 @@ interface PortalConfig {
   };
   server?: {
     port?: string; // development only
-    proxy?: Record<string, any>; // development only
+    proxy?: Record<string, string | { target: string; ws: boolean }>; // development only
   };
   builder?: {
     generateSourcemap?: boolean; // production only

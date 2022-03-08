@@ -5,5 +5,5 @@ export { default as usePagination } from './hooks/usePagination';
 export { default as useQueries } from './hooks/useQueries';
 export { default as useQuery } from './hooks/useQuery';
 export { default as useRedirectParams } from './hooks/useRedirectParams';
-export { default as useRequestExtras } from './hooks/useRequestExtras';
+export { default as useRequestDefaultOptions } from './hooks/useRequestDefaultOptions';
 export { default as useWebSocket } from './hooks/useWebSocket';

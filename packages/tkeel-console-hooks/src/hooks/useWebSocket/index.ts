@@ -2,7 +2,7 @@ import { merge } from 'lodash';
 import useWebSocket, { Options } from 'react-use-websocket';
 
 import { DEFAULT_WEBSOCKET_BASE_PATH } from '@tkeel/console-constants';
-import { getGlobalPortalConfigCrossEnv } from '@tkeel/console-utils';
+import { env, getGlobalPortalConfigCrossEnv } from '@tkeel/console-utils';
 
 interface CustomOptions extends Options {
   url: string;
@@ -14,14 +14,28 @@ const defaultOptions = {
   retryOnError: true,
 };
 
+function getBaseURL() {
+  const globalPortalConfigCrossEnv = getGlobalPortalConfigCrossEnv();
+  const websocket = globalPortalConfigCrossEnv?.backend.websocket;
+  const origin = websocket?.origin ?? '';
+  const basePath = websocket?.basePath ?? DEFAULT_WEBSOCKET_BASE_PATH;
+
+  let baseURL = basePath;
+
+  if (env.isEnvDevelopment() && origin) {
+    baseURL = `${origin}${basePath}`;
+  } else {
+    const protocol = window.location.protocol === 'https' ? 'wss' : 'ws';
+    baseURL = `${protocol}://${window.location.host}${basePath}`;
+  }
+
+  return baseURL;
+}
+
 export default function useCustomWebSocket<T>(options: CustomOptions) {
   const opts = merge({}, defaultOptions, options);
   const { url, connect, ...rest } = opts;
-  const protocol = window.location.protocol === 'https' ? 'wss' : 'ws';
-  const basePath =
-    getGlobalPortalConfigCrossEnv()?.backend?.websocket?.basePath ??
-    DEFAULT_WEBSOCKET_BASE_PATH;
-  const baseURL = `${protocol}://${window.location.host}${basePath}`;
+  const baseURL = getBaseURL();
   const fullURL = `${baseURL}${url}`;
   const ret = useWebSocket(fullURL, rest, connect);
   const lastJsonMessage = ret.lastJsonMessage as T;

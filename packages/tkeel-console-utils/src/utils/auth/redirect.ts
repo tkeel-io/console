@@ -108,7 +108,7 @@ export function getNoAuthRedirectPath({
     let tenantId = '';
     if (isPortal()) {
       const tenantInfo = getLocalTenantInfo();
-      tenantId = tenantInfo.tenant_id;
+      tenantId = tenantInfo?.tenant_id;
     } else {
       const globalPluginProps = getGlobalPluginProps();
       const portalProps = globalPluginProps?.portalProps;

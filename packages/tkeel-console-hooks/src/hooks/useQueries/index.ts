@@ -1,12 +1,12 @@
 import { merge } from 'lodash';
 
 import { useBaseQueries, UseCustomQueryOptions } from '../react-query';
-import useRequestExtras from '../useRequestExtras';
+import useRequestDefaultOptions from '../useRequestDefaultOptions';
 
 export default function useQueries(optionsList: UseCustomQueryOptions[]) {
-  const extras = useRequestExtras();
+  const defaultOptions = useRequestDefaultOptions();
   const optsList = optionsList.map((option) => {
-    return merge({}, { extras }, option);
+    return merge({}, defaultOptions, option);
   });
 
   return useBaseQueries(optsList);
