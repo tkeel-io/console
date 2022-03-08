@@ -5,14 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import { Form, FormField } from '@tkeel/console-components';
 import { usePortalTenantConfigPortalQuery } from '@tkeel/console-request-hooks';
 import {
-  isEnvDevelopment,
+  env,
   jumpToAuthLoginPage,
   setLocalTenantInfo,
 } from '@tkeel/console-utils';
 
 import useTenantExactMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useTenantExactMutation';
 
-const mockData = isEnvDevelopment()
+const mockData = env.isEnvDevelopment()
   ? { tenantTitle: String(GLOBAL_PORTAL_CONFIG?.mock?.tenantTitle ?? '') }
   : { tenantTitle: '' };
 

@@ -4,7 +4,7 @@ import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 
 import { NotFound } from '@tkeel/console-business-components';
 import { Logo } from '@tkeel/console-types';
-import { isEnvDevelopment } from '@tkeel/console-utils';
+import { env } from '@tkeel/console-utils';
 
 import noPlugins from '@/tkeel-console-portal-base/assets/images/no-plugins.svg';
 import Header from '@/tkeel-console-portal-base/containers/Layout/Header';
@@ -41,7 +41,7 @@ export default function Layout({ userActionMenusComponent, logo }: Props) {
 
     return (
       <>
-        {!isEnvDevelopment() && (
+        {!env.isEnvDevelopment() && (
           <Route
             index
             element={<Navigate to={firstApp.activeRule} replace />}
