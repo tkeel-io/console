@@ -4,4 +4,4 @@ export * as env from './utils/env';
 export * from './utils/global-config';
 export * as plugin from './utils/plugin';
 export * from './utils/request';
-export { default as schemas } from './utils/schemas';
+export * as schemas from './utils/schemas';
