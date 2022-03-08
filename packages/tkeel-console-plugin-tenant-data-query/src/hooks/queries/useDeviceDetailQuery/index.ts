@@ -1,4 +1,4 @@
-import { usePluginQuery } from '@tkeel/console-hooks';
+import { useQuery } from '@tkeel/console-hooks';
 
 const method = 'GET';
 export interface BasicInfo {
@@ -70,7 +70,7 @@ export interface ApiData {
 
 export default function useDeviceDetailQuery({ id }: { id: string }) {
   const url = `/tkeel-device/v1/devices/${id}`;
-  const { data, ...rest } = usePluginQuery<ApiData>({
+  const { data, ...rest } = useQuery<ApiData>({
     url,
     method,
     reactQueryOptions: {

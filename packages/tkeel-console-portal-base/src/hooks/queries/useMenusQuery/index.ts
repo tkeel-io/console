@@ -1,5 +1,5 @@
-import { usePortalQuery } from '@tkeel/console-hooks';
-import { isEnvDevelopment, RequestResult } from '@tkeel/console-utils';
+import { useQuery } from '@tkeel/console-hooks';
+import { env, RequestResult } from '@tkeel/console-utils';
 
 const url = '/rudder/v1/entries';
 const method = 'GET';
@@ -30,7 +30,7 @@ const defaultProps = {
 
 export default function useMenusQuery(props?: Props) {
   const { onSuccess } = { ...defaultProps, ...props };
-  const { data, ...rest } = usePortalQuery<ApiData>({
+  const { data, ...rest } = useQuery<ApiData>({
     url,
     method,
     reactQueryOptions: {
@@ -39,17 +39,17 @@ export default function useMenusQuery(props?: Props) {
   });
   const menus = data?.entries || [];
 
-  if (isEnvDevelopment()) {
+  if (env.isEnvDevelopment()) {
     let mockMenus: Menu[] = [];
 
     try {
-      mockMenus = (PORTAL_GLOBALS?.mock?.menus ?? []) as Menu[];
+      mockMenus = (GLOBAL_PORTAL_CONFIG?.mock?.menus ?? []) as Menu[];
     } catch {
       //
     }
 
     return {
-      menus: [...menus, ...mockMenus],
+      menus: [...mockMenus],
       data,
       ...rest,
     };

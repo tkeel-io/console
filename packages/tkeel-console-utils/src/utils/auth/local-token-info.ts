@@ -3,9 +3,10 @@ import store from 'store2';
 import { DEFAULT_PORTAL_NAME } from '@tkeel/console-constants';
 import { TokenInfo } from '@tkeel/console-types';
 
-import { getGlobalConfig } from '../global-config';
+import { getGlobalPortalConfigCrossEnv } from '../global-config';
 
-const namespace = getGlobalConfig()?.portalName ?? DEFAULT_PORTAL_NAME;
+const namespace =
+  getGlobalPortalConfigCrossEnv()?.portalName ?? DEFAULT_PORTAL_NAME;
 const key = 'tokenInfo';
 const authStore = store.namespace(namespace);
 

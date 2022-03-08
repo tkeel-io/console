@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
 
-import { usePluginMutation } from '@tkeel/console-hooks';
+import { useMutation } from '@tkeel/console-hooks';
 
 export interface ApiData {
   '@type': string;
@@ -24,7 +24,7 @@ export default function useDeleteSubscriptionDeviceMutation({
 
   const url = `/core-broker/v1/subscribe/${ID}/entities/delete`;
 
-  return usePluginMutation<ApiData, undefined, RequestData>({
+  return useMutation<ApiData, undefined, RequestData>({
     url,
     method,
     reactQueryOptions: { onSuccess },

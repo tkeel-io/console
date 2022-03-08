@@ -1,4 +1,4 @@
-import { usePluginQuery } from '@tkeel/console-hooks';
+import { useQuery } from '@tkeel/console-hooks';
 
 interface Plugin {
   id: string;
@@ -39,7 +39,7 @@ export default function usePluginsQuery({
   pageSize,
   keyWords,
 }: Props) {
-  const { data, ...rest } = usePluginQuery<ApiData, RequestParams>({
+  const { data, ...rest } = useQuery<ApiData, RequestParams>({
     url,
     params: {
       page_num: pageNum,

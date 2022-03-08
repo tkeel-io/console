@@ -1,4 +1,4 @@
-import { usePluginMutation } from '@tkeel/console-hooks';
+import { useMutation } from '@tkeel/console-hooks';
 
 import { PluginInfo } from '@/tkeel-console-plugin-admin-plugins/types/plugin-info';
 
@@ -28,7 +28,7 @@ type Props = {
 };
 
 export default function useInstallPluginMutation({ name, onSuccess }: Props) {
-  return usePluginMutation<ApiData, undefined, RequestData>({
+  return useMutation<ApiData, undefined, RequestData>({
     url: `${url}/${name}`,
     method,
     reactQueryOptions: {

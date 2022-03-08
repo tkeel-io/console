@@ -12,6 +12,7 @@
   "license": "Apache-2.0",
   "main": "./src/index.ts",
   "dependencies": {
+    "@tkeel/console-components": "workspace:^",
     "@tkeel/console-constants": "workspace:^",
     "@tkeel/console-types": "workspace:^",
     "@types/lodash": "^4.14.179",
@@ -22,8 +23,5 @@
     "react-hook-form": "^7.27.1",
     "react-router-dom": "^6.2.2",
     "store2": "^2.13.1"
-  },
-  "peerDependencies": {
-    "@tkeel/console-components": "workspace:^"
   }
 }

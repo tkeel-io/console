@@ -1,9 +1,8 @@
 import { DEFAULT_PORTAL_ADMIN_CONFIG } from '@tkeel/console-constants';
-import { usePortalQuery } from '@tkeel/console-hooks';
+import { useQuery } from '@tkeel/console-hooks';
 
 type ApiData = {
   client: {
-    themeName: 'tkeel-light' | 'qingcloud-light';
     documentTitle: string;
     subTitle1: string;
     subTitle2: string;
@@ -23,7 +22,7 @@ type ApiData = {
 
 export default function usePortalAdminConfigPortalQuery() {
   let config;
-  const result = usePortalQuery<ApiData>({
+  const result = useQuery<ApiData>({
     url: '/config/v1/portal-admin',
     method: 'GET',
     axiosRequestConfig: {
@@ -46,5 +45,5 @@ export default function usePortalAdminConfigPortalQuery() {
     config = DEFAULT_PORTAL_ADMIN_CONFIG;
   }
 
-  return { ...result, config: config as ApiData | undefined };
+  return { ...result, config };
 }

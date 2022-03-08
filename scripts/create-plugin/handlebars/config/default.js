@@ -1,15 +1,11 @@
 module.exports = {
   portalName: '{{portalName}}',
   publicPath: '/static/console-plugin-{{name}}/',
-  basePath: '{{basePath}}',
   client: {
-    documentTitle: '',
+    basePath: '{{basePath}}',
   },
   server: {
     port: '{{serverPort}}',
-  },
-  api: {
-    basePath: '/apis',
   },
   plugin: {
     identify: {

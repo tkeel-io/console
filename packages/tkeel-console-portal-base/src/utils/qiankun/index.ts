@@ -1,18 +1,17 @@
 import { FrameworkLifeCycles, registerMicroApps, start } from 'qiankun';
 import { NavigateFunction } from 'react-router-dom';
 
-import themes, { DEFAULT_THEME_NAME, ThemeNames } from '@tkeel/console-themes';
-import { GlobalPluginProps, Menu } from '@tkeel/console-types';
-import { getLocalTokenInfo } from '@tkeel/console-utils';
+import themes, { DEFAULT_THEME_NAME } from '@tkeel/console-themes';
+import { GlobalPluginPropsPortalProps, Menu } from '@tkeel/console-types';
+import { getLocalTenantInfo, getLocalTokenInfo } from '@tkeel/console-utils';
 
 import { App, MenuInfo } from './types';
 
 export type LifeCycles = FrameworkLifeCycles<Record<string, any>>;
 
-export interface InitArgs {
+export interface InitOptions {
   menus: Menu[];
   navigate: NavigateFunction;
-  themeName: ThemeNames;
   lifeCycles?: LifeCycles;
   refetchMenus: () => void;
 }
@@ -41,18 +40,23 @@ function getTotalMenus(menus: Menu[]): MenuInfo[] {
 export function menusToApps({
   menus,
   navigate,
-  themeName = DEFAULT_THEME_NAME,
   refetchMenus,
-}: InitArgs): App[] {
+}: InitOptions): App[] {
+  const themeName = GLOBAL_PORTAL_CONFIG.client.themeName || DEFAULT_THEME_NAME;
   const totalMenus: MenuInfo[] = getTotalMenus(menus);
   const tokenInfo = getLocalTokenInfo();
-  const props: GlobalPluginProps = {
-    portalName: PORTAL_GLOBALS.portalName,
-    tokenInfo,
-    navigate,
-    themeName,
-    theme: themes[themeName],
-    refetchMenus,
+  const tenantInfo = getLocalTenantInfo();
+  const portalProps: GlobalPluginPropsPortalProps = {
+    portalName: GLOBAL_PORTAL_CONFIG.portalName,
+    client: {
+      themeName,
+      theme: themes[themeName],
+      tenantInfo,
+      tokenInfo,
+      navigate,
+      refetchMenus,
+    },
+    backend: GLOBAL_PORTAL_CONFIG.backend,
   };
 
   return totalMenus.map(({ id, name, path, entry }) => ({
@@ -60,7 +64,7 @@ export function menusToApps({
     entry,
     container: `#${id}`,
     activeRule: path,
-    props,
+    props: { portalProps },
   }));
 }
 
@@ -77,16 +81,10 @@ function register({
 export function init({
   menus,
   navigate,
-  themeName,
   lifeCycles,
   refetchMenus,
-}: InitArgs) {
-  const apps = menusToApps({
-    menus,
-    navigate,
-    themeName,
-    refetchMenus,
-  });
+}: InitOptions) {
+  const apps = menusToApps({ menus, navigate, refetchMenus });
   register({ apps, lifeCycles });
   start();
 }

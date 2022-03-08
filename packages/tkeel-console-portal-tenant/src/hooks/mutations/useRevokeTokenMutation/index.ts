@@ -1,4 +1,4 @@
-import { usePortalMutation } from '@tkeel/console-hooks';
+import { useMutation } from '@tkeel/console-hooks';
 
 export interface RequestData {
   refresh_token: string;
@@ -15,7 +15,7 @@ export default function useModifyPasswordMutation({
 }: {
   onSuccess: ({ data }: { data: ApiData }) => void;
 }) {
-  return usePortalMutation<ApiData, undefined, RequestData>({
+  return useMutation<ApiData, undefined, RequestData>({
     url: '/security/v1/oauth/token/revoke',
     method: 'POST',
     reactQueryOptions: { onSuccess },

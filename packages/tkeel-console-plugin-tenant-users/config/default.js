@@ -3,15 +3,8 @@ const { tkeel } = require('../../../config/default');
 module.exports = {
   portalName: 'tenant',
   publicPath: '/static/console-plugin-tenant-users/',
-  basePath: '/tenant-users',
   client: {
-    documentTitle: '用户列表',
-  },
-  api: {
-    basePath: '/apis',
-  },
-  websocket: {
-    basePath: '/v1/ws',
+    basePath: '/tenant-users',
   },
   plugin: {
     identify: {
