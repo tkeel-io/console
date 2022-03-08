@@ -1,7 +1,7 @@
 module.exports = {
   portalName: 'tenant',
-  publicPath: '/static/console-plugin-tenant-device-template/',
-  basePath: '/tenant-device-template',
+  publicPath: '/static/console-plugin-tenant-device-templates/',
+  basePath: '/tenant-device-templates',
   client: {
     documentTitle: '',
   },
@@ -13,7 +13,7 @@ module.exports = {
   },
   plugin: {
     identify: {
-      plugin_id: 'console-plugin-tenant-device-template',
+      plugin_id: 'console-plugin-tenant-device-templates',
       entries: [],
       dependence: [],
     },
