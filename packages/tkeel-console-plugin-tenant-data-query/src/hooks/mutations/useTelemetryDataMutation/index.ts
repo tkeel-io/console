@@ -1,16 +1,18 @@
 import { usePluginMutation } from '@tkeel/console-hooks';
 
+export interface DataItem {
+  time: string;
+  value: {
+    [propName: string]: unknown;
+  };
+}
+
 export interface ApiData {
   '@types': string;
   total: number;
   page_num: number;
   page_size: number;
-  items: {
-    time: string;
-    value: {
-      [propName: string]: unknown;
-    };
-  }[];
+  items: DataItem[];
 }
 
 const method = 'POST';

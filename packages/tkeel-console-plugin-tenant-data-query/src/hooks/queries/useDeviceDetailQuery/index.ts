@@ -62,15 +62,17 @@ export interface Properties {
   connectInfo?: ConnectInfo;
 }
 
+export interface Telemetry {
+  [propName: string]: {
+    id: string;
+    name: string;
+  };
+}
+
 export interface DeviceObject {
   id: string;
   configs: {
-    telemetry: {
-      [propName: string]: {
-        id: string;
-        name: string;
-      };
-    };
+    telemetry: Telemetry;
   };
   properties: Properties;
 }

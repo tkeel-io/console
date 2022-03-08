@@ -22,7 +22,7 @@ export default function DeviceInfoCard({ device, style }: Props) {
     },
     {
       label: '分组',
-      value: '默认分组/自定义分组2/ISV分组02',
+      value: basicInfo?.parentName ?? '',
     },
     {
       label: '模板',

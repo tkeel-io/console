@@ -1,27 +1,52 @@
 import { Flex, StyleProps } from '@chakra-ui/react';
 
+import { Empty, Loading } from '@tkeel/console-components';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
-import mockData from './mockData';
+import { DataItem } from '@/tkeel-console-plugin-tenant-data-query/hooks/mutations/useTelemetryDataMutation';
+import { Telemetry } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceDetailQuery';
 
 type Props = {
-  style: StyleProps;
+  originalData: DataItem[];
+  data: DataItem[];
+  isLoading: boolean;
+  telemetry: Telemetry;
+  styles?: {
+    wrapper?: StyleProps;
+    loading?: StyleProps;
+    empty?: StyleProps;
+  };
 };
 
 const getRowBackgroundColor = (index: number) => {
   return index % 2 === 0 ? 'gray.50' : 'white';
 };
 
-export default function DataTable({ style }: Props) {
-  const columnNames = ['通信故障', 'C相相角', 'B相相角', '频率', '总功率因数'];
-
+export default function DataTable({
+  originalData,
+  data,
+  isLoading,
+  telemetry,
+  styles = {},
+}: Props) {
+  const keys = originalData[0]
+    ? ['遥测数据', ...Object.keys(originalData[0]?.value ?? {})]
+    : [];
   const rowHeight = '40px';
+  if (isLoading) {
+    return <Loading styles={{ wrapper: styles?.loading ?? {} }} />;
+  }
+
+  if (data.length === 0) {
+    return <Empty styles={{ wrapper: styles?.empty ?? {} }} />;
+  }
+
   return (
-    <Flex overflowY="auto" {...style}>
+    <Flex {...styles.wrapper}>
       <Flex height="max-content" flexDirection="column">
-        {columnNames.map((column, i) => (
+        {keys.map((key, i) => (
           <Flex
-            key={column}
+            key={key}
             alignItems="center"
             paddingLeft="12px"
             width="130px"
@@ -31,15 +56,15 @@ export default function DataTable({ style }: Props) {
             fontWeight="600"
             backgroundColor={getRowBackgroundColor(i)}
           >
-            {column}
+            {i === 0 ? key : telemetry[key]?.name}
           </Flex>
         ))}
       </Flex>
       <Flex flex="1" overflow="auto">
         <Flex>
-          {mockData.map((data) => (
+          {data.map((item) => (
             <Flex
-              key={data.time}
+              key={item.time}
               flexDirection="column"
               width="100px"
               color="gray.500"
@@ -52,18 +77,18 @@ export default function DataTable({ style }: Props) {
                 backgroundColor="gray.50"
               >
                 {formatDateTimeByTimestamp({
-                  timestamp: data.time,
+                  timestamp: item.time,
                   template: 'MM/DD HH:mm:ss',
                 }).replace(' ', '\r\n')}
               </Flex>
-              {Object.keys(data.value).map((key, i) => (
+              {Object.keys(item.value).map((key, i) => (
                 <Flex
                   key={key}
                   height={rowHeight}
                   alignItems="center"
                   backgroundColor={getRowBackgroundColor(i - 1)}
                 >
-                  {String(data.value[key])}
+                  {String(item.value[key])}
                 </Flex>
               ))}
             </Flex>

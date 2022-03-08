@@ -1,17 +1,12 @@
 import { usePluginQuery } from '@tkeel/console-hooks';
 
-import { Properties } from '../useDeviceDetailQuery';
+import { DeviceItem } from '../useDeviceListQuery';
 
 const method = 'GET';
 
-type Item = {
-  id: string;
-  properties: Properties;
-};
-
 export interface ApiData {
   '@type': string;
-  items: Item[];
+  items: DeviceItem[];
 }
 
 export default function useHistoryQuery() {
@@ -20,7 +15,7 @@ export default function useHistoryQuery() {
     url,
     method,
   });
-  const dataItems = data?.items;
+  const history = data?.items ?? [];
 
-  return { dataItems, ...rest };
+  return { history, ...rest };
 }

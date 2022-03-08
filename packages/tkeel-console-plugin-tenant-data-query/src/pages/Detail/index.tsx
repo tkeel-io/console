@@ -1,15 +1,10 @@
-import { Box, Button, Circle, Flex, Text } from '@chakra-ui/react';
+import { Circle, Flex, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
+import { IconButton } from '@tkeel/console-components';
 import {
-  Checkbox,
-  IconButton,
-  SearchInput,
-  Tree,
-} from '@tkeel/console-components';
-import {
-  BroomFilledIcon,
+  // BroomFilledIcon,
   // ChevronDownFilledIcon,
   DownloadFilledIcon,
   LeftFilledIcon,
@@ -25,33 +20,30 @@ import CustomCircle from './components/CustomCircle';
 import DataTable from './components/DataTable';
 import DateRangeIndicator from './components/DateRangeIndicator';
 import DeviceDetailCard from './components/DeviceDetailCard';
+import PropertiesConditions, {
+  CheckBoxStatus,
+} from './components/PropertiesConditions';
 
 export default function Detail() {
-  const [templateChecked, setTemplateChecked] = useState(false);
+  const [keywords, setKeywords] = useState('');
+  // eslint-disable-next-line no-console
+  console.log('Detail ~ keywords', keywords);
+  const [templateCheckboxStatus, setTemplateCheckboxStatus] = useState(
+    CheckBoxStatus.NOT_CHECKED
+  );
   const [checkedKeys, setCheckedKeys] = useState<string[]>([]);
-  const [startTime] = useState(1_646_661_655_601);
-  const [endTime] = useState(1_646_661_691_686);
-  const [rangeStartTime, setRangeStartTime] = useState(startTime);
+  const [startTime] = useState(1_646_569_642);
+  const [endTime] = useState(1_646_728_732);
+  const dateRangeLength = 5;
+  const intervalTime = (endTime - startTime) / dateRangeLength;
+
+  const [rangeIndex, setRangeIndex] = useState(0);
   const [searchParams] = useSearchParams();
   const id = searchParams.get('id') || '';
-  const { deviceObject } = useDeviceDetailQuery({ id });
+  const { deviceObject } = useDeviceDetailQuery({
+    id,
+  });
   const telemetry = deviceObject?.configs?.telemetry ?? {};
-  const telemetryKeys = Object.keys(telemetry);
-
-  const children = telemetryKeys.map((key) => ({
-    title: telemetry[key].name,
-    id: telemetry[key].id,
-    key: telemetry[key].id,
-  }));
-
-  const treeData = [
-    {
-      title: '遥测数据',
-      id: 'telemetryData',
-      key: 'telemetryData',
-      children,
-    },
-  ];
 
   const identifiers = checkedKeys.join(',');
 
@@ -61,8 +53,6 @@ export default function Detail() {
     isSuccess: isTelemetryDataSuccess,
     isLoading: isTelemetryDataLoading,
   } = useTelemetryDataMutation();
-  // eslint-disable-next-line no-console
-  console.log('Detail ~ data', data);
 
   const handleExportData = () => {
     if (isTelemetryDataSuccess) {
@@ -72,114 +62,42 @@ export default function Detail() {
     }
   };
 
+  const handleTelemetryDataMutate = () => {
+    mutate({
+      url: `core/v1/ts/${id}`,
+      data: {
+        start_time: startTime,
+        end_time: endTime,
+        identifiers,
+        page_size: 1_000_000,
+        page_num: 1,
+      },
+    });
+  };
+
+  const originDataItems = data?.items ?? [];
+  const rangeStartTime = startTime + rangeIndex * intervalTime;
+  const rangeEndTime = rangeStartTime + intervalTime;
+  const tableDataItems = originDataItems.filter(
+    (item) =>
+      Number(item.time) >= rangeStartTime * 1000 &&
+      Number(item.time) <= rangeEndTime * 1000
+  );
+
   return (
     <Flex height="100%" justifyContent="space-between">
       <Flex flexDirection="column" width="360px">
         <DeviceDetailCard detailData={deviceObject} />
-        <Flex
-          flexDirection="column"
-          flex="1"
-          marginTop="12px"
-          borderRadius="4px"
-          backgroundColor="white"
-        >
-          <Flex
-            padding="8px 20px 0"
-            justifyContent="space-between"
-            alignItems="center"
-            fontSize="12px"
-            lineHeight="24px"
-          >
-            <Text color="gray.800" fontWeight="500">
-              属性条件
-            </Text>
-            <Flex alignItems="center" cursor="pointer">
-              <BroomFilledIcon color="grayAlternatives.300" />
-              <Text marginLeft="6px" color="grayAlternatives.300">
-                清空
-              </Text>
-            </Flex>
-          </Flex>
-          <SearchInput
-            inputGroupStyle={{ margin: '8px 20px 12px' }}
-            onSearch={() => {}}
-          />
-          <Checkbox
-            marginLeft="20px"
-            height="32px"
-            onChange={(e) => {
-              const { checked } = e.target;
-              setCheckedKeys(checked ? telemetryKeys : []);
-              setTemplateChecked(checked);
-            }}
-            isChecked={templateChecked}
-          >
-            模板数据
-          </Checkbox>
-          {/* <Flex marginLeft="20px" height="32px">
-            <Box width="16px" height="16px" />
-            <Text>模板数据</Text>
-          </Flex> */}
-          <Box
-            // flexDirection="column"
-            flex="1"
-            paddingTop="14px"
-            paddingLeft="20px"
-            backgroundColor="gray.50"
-          >
-            <Tree
-              treeData={treeData}
-              checkable
-              checkedKeys={checkedKeys}
-              selectable={false}
-              onCheck={(keys) => {
-                const checkedNodeKeys = (keys as string[]).filter(
-                  (key) => key !== 'telemetryData'
-                );
-                setCheckedKeys(checkedNodeKeys);
-                const templateCheckBoxChecked =
-                  checkedNodeKeys.length === telemetryKeys.length;
-                setTemplateChecked(templateCheckBoxChecked);
-              }}
-            />
-            {/* <Flex alignItems="center">
-              <ChevronDownFilledIcon color="grayAlternatives.300" />
-              <Checkbox marginLeft="10px">遥测数据</Checkbox>
-            </Flex>
-            <Flex
-              marginTop="10px"
-              flex="1"
-              paddingLeft="47px"
-              flexDirection="column"
-            >
-              {Object.keys(telemetry).map((key) => (
-                <Checkbox marginBottom="16px" key={telemetry[key].id}>
-                  {telemetry[key].name}
-                </Checkbox>
-              ))}
-            </Flex> */}
-          </Box>
-          <Button
-            colorScheme="primary"
-            margin="12px 20px"
-            disabled={checkedKeys.length === 0}
-            isLoading={isTelemetryDataLoading}
-            onClick={() => {
-              mutate({
-                url: `core/v1/ts/${id}`,
-                data: {
-                  start_time: startTime,
-                  end_time: endTime,
-                  identifiers,
-                  page_size: 10,
-                  page_num: 1,
-                },
-              });
-            }}
-          >
-            确定
-          </Button>
-        </Flex>
+        <PropertiesConditions
+          telemetry={telemetry}
+          templateCheckboxStatus={templateCheckboxStatus}
+          setTemplateCheckboxStatus={setTemplateCheckboxStatus}
+          checkedKeys={checkedKeys}
+          setCheckedKeys={setCheckedKeys}
+          isTelemetryDataLoading={isTelemetryDataLoading}
+          onSearch={(value) => setKeywords(value)}
+          onConfirm={handleTelemetryDataMutate}
+        />
       </Flex>
       <Flex
         marginLeft="12px"
@@ -209,10 +127,7 @@ export default function Detail() {
               marginRight="5px"
               backgroundColor="gray.100"
               cursor="pointer"
-              onClick={() => {
-                // eslint-disable-next-line no-console
-                console.log('刷新');
-              }}
+              onClick={handleTelemetryDataMutate}
             >
               <RefreshFilledIcon color="grayAlternatives.300" />
             </Circle>
@@ -237,33 +152,32 @@ export default function Detail() {
         >
           <Text fontSize="12px">遥测数据</Text>
           <Flex>
-            <CustomCircle
-              onClick={() => {
-                if (rangeStartTime - startTime >= 5000) {
-                  setRangeStartTime(rangeStartTime - 5000);
-                }
-              }}
-            >
+            <CustomCircle onClick={() => {}}>
               <LeftFilledIcon color="grayAlternatives.300" />
             </CustomCircle>
-            <CustomCircle
-              marginLeft="8px"
-              onClick={() => {
-                if (rangeStartTime + 5000 <= endTime) {
-                  setRangeStartTime(rangeStartTime + 5000);
-                }
-              }}
-            >
+            <CustomCircle marginLeft="8px" onClick={() => {}}>
               <RightFilledIcon color="grayAlternatives.300" />
             </CustomCircle>
           </Flex>
         </Flex>
         <DateRangeIndicator
           startTime={startTime}
-          endTime={endTime}
-          rangeStartTime={rangeStartTime}
+          rangeIndex={rangeIndex}
+          dateRangeLength={dateRangeLength}
+          intervalTime={intervalTime}
+          setRangeIndex={setRangeIndex}
         />
-        <DataTable style={{ flex: '1', marginTop: '10px' }} />
+        <DataTable
+          originalData={originDataItems}
+          data={tableDataItems}
+          isLoading={isTelemetryDataLoading}
+          telemetry={telemetry}
+          styles={{
+            wrapper: { flex: '1', marginTop: '10px', overflowY: 'auto' },
+            loading: { flex: '1' },
+            empty: { flex: '1' },
+          }}
+        />
       </Flex>
     </Flex>
   );
