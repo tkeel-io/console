@@ -12,18 +12,19 @@ import { Base64 } from 'js-base64';
 import { isEmpty, throttle } from 'lodash';
 import { useEffect, useState } from 'react';
 
-// import { Editor, SearchInput } from '@tkeel/console-components';
 import { Editor, Empty } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
-import { RawData } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
+import { RawData } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
+import CustomEmpty from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/CustomEmpty';
 import { OPTIONS } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
 
 import CustomSelect from './components/CustomSelect';
 
 type Props = {
   data: RawData;
+  online: boolean;
 };
 
 const handleValues = (value: string, selected: string) => {
@@ -42,11 +43,12 @@ const handleValues = (value: string, selected: string) => {
 
 type TRawData = RawData[];
 
-function RawDataPanel({ data }: Props) {
+function RawDataPanel({ data, online }: Props) {
   const [rawDataList, setRawDataList] = useState<TRawData>([]);
-  // const [keyWord, setKeyWord] = useState('');
   const [selected, setSelected] = useState('text');
   const func = throttle(setRawDataList, 10 * 1000);
+
+  const selectColor = useColor('gray.100');
 
   useEffect(() => {
     func((preState) => {
@@ -61,24 +63,15 @@ function RawDataPanel({ data }: Props) {
     setSelected(value);
   };
 
-  // const handleSearch = (value: string) => {
-  //   // eslint-disable-next-line no-console
-  //   console.log(value, keyWord);
-  //   setKeyWord(value);
-  // };
-
-  return (
+  return online ? (
     <Box>
       <Flex align="center" w="100%" h="32px" lineHeight="32px" mb="12px">
         <Text fontWeight="600" fontSize="14px">
           原始数据
         </Text>
-        {/* <Flex flex="1" justifyContent="flex-end">
-          <SearchInput onSearch={handleSearch} placeholder="搜索" />
-        </Flex> */}
         <CustomSelect
           onChange={handleChange}
-          color={useColor('gray.100')}
+          color={selectColor}
           selected={selected}
         />
       </Flex>
@@ -138,9 +131,11 @@ function RawDataPanel({ data }: Props) {
                       <Text
                         color="grayAlternatives.300"
                         mr="10px"
-                        flex="1"
+                        pr="20px"
                         width="150px"
                         minW="150px"
+                        flex="1"
+                        textAlign="right"
                       >
                         {formatDateTimeByTimestamp({
                           timestamp: `${Math.floor((r?.ts || 0) / 1e6)}`,
@@ -168,6 +163,8 @@ function RawDataPanel({ data }: Props) {
         <Empty title="暂无数据" styles={{ wrapper: { height: '60%' } }} />
       )}
     </Box>
+  ) : (
+    <CustomEmpty />
   );
 }
 
