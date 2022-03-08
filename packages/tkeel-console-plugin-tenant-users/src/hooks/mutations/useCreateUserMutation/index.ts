@@ -1,4 +1,4 @@
-import { usePluginMutation } from '@tkeel/console-hooks';
+import { useMutation } from '@tkeel/console-hooks';
 import { getLocalTenantInfo } from '@tkeel/console-utils';
 
 interface RequestData {
@@ -25,7 +25,7 @@ export default function useCreateUserMutation({
   const { tenant_id: tenantId } = getLocalTenantInfo();
   const url = `/security/v1/tenants/${tenantId}/users`;
 
-  return usePluginMutation<ApiData, undefined, RequestData>({
+  return useMutation<ApiData, undefined, RequestData>({
     url,
     method,
     reactQueryOptions: { onSuccess },

@@ -1,4 +1,4 @@
-import { usePortalMutation } from '@tkeel/console-hooks';
+import { useMutation } from '@tkeel/console-hooks';
 
 export interface RequestParams {
   title: string;
@@ -15,7 +15,7 @@ type Options = {
 };
 
 export default function useQueryTenantIdMutation({ onSuccess }: Options) {
-  return usePortalMutation<ApiData, RequestParams>({
+  return useMutation<ApiData, RequestParams>({
     url: '/security/v1/tenants/exact',
     method: 'GET',
     reactQueryOptions: { onSuccess },

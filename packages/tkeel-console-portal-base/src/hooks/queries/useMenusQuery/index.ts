@@ -1,4 +1,4 @@
-import { usePortalQuery } from '@tkeel/console-hooks';
+import { useQuery } from '@tkeel/console-hooks';
 import { env, RequestResult } from '@tkeel/console-utils';
 
 const url = '/rudder/v1/entries';
@@ -30,7 +30,7 @@ const defaultProps = {
 
 export default function useMenusQuery(props?: Props) {
   const { onSuccess } = { ...defaultProps, ...props };
-  const { data, ...rest } = usePortalQuery<ApiData>({
+  const { data, ...rest } = useQuery<ApiData>({
     url,
     method,
     reactQueryOptions: {

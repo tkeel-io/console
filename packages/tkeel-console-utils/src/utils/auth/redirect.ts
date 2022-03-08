@@ -1,6 +1,8 @@
 import qs from 'qs';
 import { Location, NavigateFunction } from 'react-router-dom';
 
+import { isPortal } from '../env';
+import { getGlobalPluginProps } from '../plugin';
 import { getLocalTenantInfo, removeLocalTenantInfo } from './local-tenant-info';
 import { removeLocalTokenInfo } from './local-token-info';
 
@@ -91,22 +93,29 @@ export function jumpToAuthLoginPage<TSearchParams = Record<string, any>>({
 
 type GetNoAuthRedirectPathOptions = {
   portalName: 'admin' | 'tenant';
-  tenantId?: string;
   basePath?: string;
   location: Location;
 };
 
 export function getNoAuthRedirectPath({
   portalName,
-  tenantId = '',
   basePath = '',
   location,
 }: GetNoAuthRedirectPathOptions) {
   let loginPath = '/auth/login';
 
   if (portalName === 'tenant') {
-    // TODO: tmp
-    loginPath += `/${tenantId || getLocalTenantInfo()?.tenant_id || ''}`;
+    let tenantId = '';
+    if (isPortal()) {
+      const tenantInfo = getLocalTenantInfo();
+      tenantId = tenantInfo.tenant_id;
+    } else {
+      const globalPluginProps = getGlobalPluginProps();
+      const portalProps = globalPluginProps?.portalProps;
+      tenantId = portalProps.client.tenantInfo.tenant_id;
+    }
+
+    loginPath += `/${tenantId || ''}`;
   }
 
   const { pathname, search, hash } = location;

@@ -1,13 +1,9 @@
 export * from './hooks/react-query';
 export { default as useColor } from './hooks/useColor';
+export { default as useMutation } from './hooks/useMutation';
 export { default as usePagination } from './hooks/usePagination';
-export { default as usePluginMutation } from './hooks/usePluginMutation';
-export { default as usePluginQueries } from './hooks/usePluginQueries';
-export { default as usePluginQuery } from './hooks/usePluginQuery';
-export { default as usePluginRequestExtras } from './hooks/usePluginRequestExtras';
-export { default as usePortalMutation } from './hooks/usePortalMutation';
-export { default as usePortalQueries } from './hooks/usePortalQueries';
-export { default as usePortalQuery } from './hooks/usePortalQuery';
-export { default as usePortalRequestExtras } from './hooks/usePortalRequestExtras';
+export { default as useQueries } from './hooks/useQueries';
+export { default as useQuery } from './hooks/useQuery';
 export { default as useRedirectParams } from './hooks/useRedirectParams';
+export { default as useRequestExtras } from './hooks/useRequestExtras';
 export { default as useWebSocket } from './hooks/useWebSocket';

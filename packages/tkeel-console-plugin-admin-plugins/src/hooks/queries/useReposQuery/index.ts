@@ -1,4 +1,4 @@
-import { usePluginQuery } from '@tkeel/console-hooks';
+import { useQuery } from '@tkeel/console-hooks';
 
 export interface Repo {
   name: string;
@@ -17,7 +17,7 @@ const url = '/rudder/v1/repos';
 const method = 'GET';
 
 export default function useReposQuery() {
-  const { data, ...rest } = usePluginQuery<ApiData>({
+  const { data, ...rest } = useQuery<ApiData>({
     url,
     method,
   });

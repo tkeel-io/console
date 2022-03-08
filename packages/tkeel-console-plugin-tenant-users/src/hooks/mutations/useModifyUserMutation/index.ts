@@ -1,4 +1,4 @@
-import { usePluginMutation } from '@tkeel/console-hooks';
+import { useMutation } from '@tkeel/console-hooks';
 
 interface RequestData {
   nick_name?: string;
@@ -22,7 +22,7 @@ export default function useModifyUserMutation({
 }) {
   const url = `/security/v1/tenants/${tenantId}/users/${userId}`;
 
-  return usePluginMutation<ApiData, undefined, RequestData>({
+  return useMutation<ApiData, undefined, RequestData>({
     url,
     method,
     reactQueryOptions: { onSuccess },

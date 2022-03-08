@@ -1,4 +1,4 @@
-import { usePluginMutation } from '@tkeel/console-hooks';
+import { useMutation } from '@tkeel/console-hooks';
 
 import { RequestData as CreateRoleRequestData } from '@/tkeel-console-plugin-tenant-roles/hooks/mutations/useCreateRoleMutation';
 
@@ -16,7 +16,7 @@ type Args = {
 export default function useModifyRoleMutation({ roleId, onSuccess }: Args) {
   const url = `/security/v1/rbac/roles/${roleId}`;
 
-  return usePluginMutation<ApiData, undefined, RequestData>({
+  return useMutation<ApiData, undefined, RequestData>({
     url,
     method: 'PUT',
     reactQueryOptions: { onSuccess },

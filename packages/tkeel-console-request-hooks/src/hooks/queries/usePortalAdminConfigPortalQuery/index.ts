@@ -1,5 +1,5 @@
 import { DEFAULT_PORTAL_ADMIN_CONFIG } from '@tkeel/console-constants';
-import { usePortalQuery } from '@tkeel/console-hooks';
+import { useQuery } from '@tkeel/console-hooks';
 
 type ApiData = {
   client: {
@@ -22,7 +22,7 @@ type ApiData = {
 
 export default function usePortalAdminConfigPortalQuery() {
   let config;
-  const result = usePortalQuery<ApiData>({
+  const result = useQuery<ApiData>({
     url: '/config/v1/portal-admin',
     method: 'GET',
     axiosRequestConfig: {
