@@ -8,11 +8,9 @@ module.exports = {
   },
   backend: {
     api: {
-      origin: 'http://192.168.123.9:30707',
       basePath: '/apis',
     },
     websocket: {
-      origin: 'ws://192.168.123.9:32390',
       basePath: '/v1/ws',
     },
   },
