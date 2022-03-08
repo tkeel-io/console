@@ -49,7 +49,7 @@ export default function useMenusQuery(props?: Props) {
     }
 
     return {
-      menus: [...menus, ...mockMenus],
+      menus: [...mockMenus],
       data,
       ...rest,
     };
