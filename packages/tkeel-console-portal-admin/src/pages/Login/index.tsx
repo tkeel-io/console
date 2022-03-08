@@ -5,7 +5,7 @@ import { Form, FormField } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
 import { usePortalAdminConfigPortalQuery } from '@tkeel/console-request-hooks';
 import {
-  isEnvDevelopment,
+  env,
   jumpToPage,
   schemas,
   setLocalTokenInfo,
@@ -13,8 +13,8 @@ import {
 
 import useAdminTokenMutation from '@/tkeel-console-portal-admin/hooks/mutations/useAdminTokenMutation';
 
-const mockData = isEnvDevelopment()
-  ? { password: String(PORTAL_GLOBALS?.mock?.password ?? '') }
+const mockData = env.isEnvDevelopment()
+  ? { password: String(GLOBAL_PORTAL_CONFIG?.mock?.password ?? '') }
   : { password: '' };
 
 const { TextField } = FormField;

@@ -1,4 +1,4 @@
-import { usePluginMutation } from '@tkeel/console-hooks';
+import { useMutation } from '@tkeel/console-hooks';
 
 export interface ApiData {
   '@type': string;
@@ -22,7 +22,7 @@ export default function useGetResetPasswordKeyPluginMutation({
 }) {
   const url = `/security/v1/tenants/${tenantId}/users/${userId}/rpk`;
 
-  return usePluginMutation<ApiData, undefined, undefined>({
+  return useMutation<ApiData, undefined, undefined>({
     url,
     method,
     reactQueryOptions: { onSuccess },

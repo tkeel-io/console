@@ -1,4 +1,4 @@
-import { usePluginQuery } from '@tkeel/console-hooks';
+import { useQuery } from '@tkeel/console-hooks';
 
 import { PluginInfo } from '@/tkeel-console-plugin-admin-plugins/types/plugin-info';
 
@@ -35,7 +35,7 @@ export default function useRepoInstallersQuery({
   pageSize,
   enabled,
 }: Props) {
-  const { data, ...rest } = usePluginQuery<ApiData, TRequestParams>({
+  const { data, ...rest } = useQuery<ApiData, TRequestParams>({
     url: `${url}/${repo}/installers`,
     method,
     params: {

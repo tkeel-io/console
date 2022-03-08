@@ -1,4 +1,4 @@
-import { usePluginQuery } from '@tkeel/console-hooks';
+import { useQuery } from '@tkeel/console-hooks';
 
 const method = 'POST';
 export type Data = {
@@ -21,7 +21,7 @@ type RequestData = {
 
 export default function useListSubscribeQuery() {
   const url = `/core-broker/v1/subscribe/list`;
-  const { data, ...rest } = usePluginQuery<ApiData, undefined, RequestData>({
+  const { data, ...rest } = useQuery<ApiData, undefined, RequestData>({
     url,
     method,
     data: {

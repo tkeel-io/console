@@ -1,6 +1,8 @@
 const path = require('path');
 
-const ConfigWebpackPlugin = require('config-webpack');
+const config = require('config');
+const _ = require('lodash');
+const { DefinePlugin } = require('webpack');
 const { merge } = require('webpack-merge');
 
 const paths = require('../scripts/utils/paths');
@@ -18,7 +20,13 @@ const webpackConfigPlugins = {
     libraryTarget: 'umd',
     chunkLoadingGlobal: `webpackJsonp_${packageName}`,
   },
-  plugins: [new ConfigWebpackPlugin('PLUGIN_GLOBALS')],
+  plugins: [
+    new DefinePlugin({
+      GLOBAL_PLUGIN_CONFIG: JSON.stringify(
+        _.pick(config, ['publicPath', 'client'])
+      ),
+    }),
+  ],
 };
 
 module.exports = merge(webpackConfig, webpackConfigPlugins);

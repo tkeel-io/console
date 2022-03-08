@@ -1,10 +1,11 @@
 const path = require('path');
 
 const config = require('config');
-const ConfigWebpackPlugin = require('config-webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const fs = require('fs-extra');
+const _ = require('lodash');
 const shell = require('shelljs');
+const { DefinePlugin } = require('webpack');
 const { merge } = require('webpack-merge');
 
 const paths = require('../scripts/utils/paths');
@@ -39,7 +40,11 @@ const webpackConfigPortals = {
         },
       ],
     }),
-    new ConfigWebpackPlugin('PORTAL_GLOBALS'),
+    new DefinePlugin({
+      GLOBAL_PORTAL_CONFIG: JSON.stringify(
+        _.pick(config, ['portalName', 'client', 'backend', 'mock'])
+      ),
+    }),
   ],
 };
 

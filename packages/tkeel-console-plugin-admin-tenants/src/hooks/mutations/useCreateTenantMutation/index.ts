@@ -1,4 +1,4 @@
-import { usePluginMutation } from '@tkeel/console-hooks';
+import { useMutation } from '@tkeel/console-hooks';
 
 const url = '/security/v1/tenants';
 const method = 'POST';
@@ -22,7 +22,7 @@ export default function useCreateTenantMutation({
 }: {
   onSuccess: () => void;
 }) {
-  return usePluginMutation<ApiData, undefined, RequestData>({
+  return useMutation<ApiData, undefined, RequestData>({
     url,
     method,
     reactQueryOptions: { onSuccess },

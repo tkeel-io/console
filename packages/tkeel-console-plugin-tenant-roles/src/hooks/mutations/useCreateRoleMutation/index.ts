@@ -1,4 +1,4 @@
-import { usePluginMutation } from '@tkeel/console-hooks';
+import { useMutation } from '@tkeel/console-hooks';
 
 export interface RequestData {
   name: string;
@@ -19,7 +19,7 @@ export default function useCreateRoleMutation({
 } = {}) {
   const url = `/security/v1/rbac/roles`;
 
-  return usePluginMutation<ApiData, undefined, RequestData>({
+  return useMutation<ApiData, undefined, RequestData>({
     url,
     method,
     reactQueryOptions: { onSuccess },

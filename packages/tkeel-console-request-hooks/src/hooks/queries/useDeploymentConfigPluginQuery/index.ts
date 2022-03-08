@@ -1,6 +1,6 @@
 import { merge } from 'lodash';
 
-import { usePluginQuery } from '@tkeel/console-hooks';
+import { useQuery } from '@tkeel/console-hooks';
 
 const PORTS = new Set(['80', '443']);
 
@@ -30,7 +30,7 @@ interface ApiData {
 }
 
 export default function useDeploymentConfigPluginQuery() {
-  const result = usePluginQuery<ApiData>({
+  const result = useQuery<ApiData>({
     url: '/rudder/v1/config/deployment',
     method: 'GET',
   });

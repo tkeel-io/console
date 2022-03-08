@@ -1,4 +1,4 @@
-import { usePluginMutation } from '@tkeel/console-hooks';
+import { useMutation } from '@tkeel/console-hooks';
 import { RequestResult } from '@tkeel/console-utils';
 
 const url = '/rudder/v1/plugins';
@@ -17,7 +17,7 @@ export default function useDisablePluginMutation({
   pluginName,
   onSuccess,
 }: Props) {
-  return usePluginMutation({
+  return useMutation({
     url: `${url}/${pluginName}/tenants`,
     method,
     reactQueryOptions: {

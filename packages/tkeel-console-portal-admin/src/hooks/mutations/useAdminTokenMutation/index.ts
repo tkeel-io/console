@@ -1,4 +1,4 @@
-import { usePortalMutation } from '@tkeel/console-hooks';
+import { useMutation } from '@tkeel/console-hooks';
 
 interface RequestParams {
   password?: string;
@@ -20,7 +20,7 @@ type Options = {
 };
 
 export default function useAdminTokenMutation({ onSuccess }: Options) {
-  return usePortalMutation<ApiData, RequestParams>({
+  return useMutation<ApiData, RequestParams>({
     url,
     method,
     reactQueryOptions: {

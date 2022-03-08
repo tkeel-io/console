@@ -1,4 +1,4 @@
-import { usePluginQuery } from '@tkeel/console-hooks';
+import { useQuery } from '@tkeel/console-hooks';
 
 import { PluginState } from '@/tkeel-console-plugin-admin-plugins/types/plugin-info';
 
@@ -50,7 +50,7 @@ export default function usePluginDetailQuery({
   installerVersion,
   enabled = true,
 }: Props) {
-  const { data, ...rest } = usePluginQuery<PluginDetail>({
+  const { data, ...rest } = useQuery<PluginDetail>({
     url: `${url}/${repoName}/installers/${installerName}/${installerVersion}`,
     method,
     reactQueryOptions: {

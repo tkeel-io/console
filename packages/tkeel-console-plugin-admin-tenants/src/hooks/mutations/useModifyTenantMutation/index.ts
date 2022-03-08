@@ -1,4 +1,4 @@
-import { usePluginMutation } from '@tkeel/console-hooks';
+import { useMutation } from '@tkeel/console-hooks';
 
 const method = 'PUT';
 
@@ -24,7 +24,7 @@ export default function useModifyTenantMutation({
 }) {
   const url = `/security/v1/tenants/${tenantId}`;
 
-  return usePluginMutation<ApiData, undefined, RequestData>({
+  return useMutation<ApiData, undefined, RequestData>({
     url,
     method,
     reactQueryOptions: { onSuccess },

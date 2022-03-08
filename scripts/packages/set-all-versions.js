@@ -5,7 +5,7 @@ const fs = require('fs-extra');
 const _ = require('lodash');
 const writePackage = require('write-pkg');
 
-const consoleVersion = config.get('tkeel.console.version');
+const consoleVersion = config.tkeel.console.version;
 
 const { readPackageInfos } = require('../utils/packages');
 

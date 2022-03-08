@@ -1,13 +1,34 @@
 import { NavigateFunction } from 'react-router-dom';
 
-import { TokenInfo } from './auth';
+import { TenantInfo, TokenInfo } from './auth';
 
-export interface GlobalPluginProps {
-  container?: HTMLElement;
+export interface GlobalPluginPropsPortalProps {
   portalName: 'admin' | 'tenant';
-  tokenInfo: TokenInfo;
-  navigate: NavigateFunction;
-  themeName: string;
-  theme: Record<string, unknown>;
-  refetchMenus: () => void;
+  client: {
+    themeName: string;
+    theme: Record<string, unknown>;
+    tenantInfo: TenantInfo;
+    tokenInfo: TokenInfo;
+    navigate: NavigateFunction;
+    refetchMenus: () => void;
+  };
+  backend: {
+    api: {
+      origin?: string;
+      basePath: string;
+    };
+    websocket: {
+      origin?: string;
+      basePath: string;
+    };
+  };
+}
+
+export interface BaseGlobalPluginProps {
+  portalProps: GlobalPluginPropsPortalProps;
+}
+
+export interface GlobalPluginProps extends BaseGlobalPluginProps {
+  name: string;
+  container: HTMLElement;
 }
