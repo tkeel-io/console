@@ -29,7 +29,7 @@ interface ApiData {
   port: string;
 }
 
-export default function useDeploymentConfigPluginQuery() {
+export default function useDeploymentConfigQuery() {
   const result = useQuery<ApiData>({
     url: '/rudder/v1/config/deployment',
     method: 'GET',
