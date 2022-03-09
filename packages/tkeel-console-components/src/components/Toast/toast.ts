@@ -1,5 +1,10 @@
-import createStandaloneToast from './createStandaloneToast';
+import { toast as toastBase, ToastContent } from 'react-toastify';
 
-const toast = createStandaloneToast();
+type Props = {
+  status: 'success' | 'warn' | 'error';
+  title?: ToastContent;
+};
 
-export default toast;
+export default function toast({ title }: Props) {
+  return toastBase(title);
+}
