@@ -45,7 +45,8 @@ export const password = {
 };
 
 export const tenantTitle = {
+  help: '请输入租户空间名称',
   registerOptions: {
-    required: { value: true, message: '请输入租户空间' },
+    required: { value: true, message: '请输入租户空间名称' },
   },
 };
