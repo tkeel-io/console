@@ -1,28 +1,61 @@
 import { useQuery } from '@tkeel/console-hooks';
 
+const url = '/tkeel-device/v1/search';
 const method = 'POST';
 
+export interface NodeInfo {
+  id: string;
+  properties: {
+    group: {
+      name: string;
+      description: string;
+      ext: { [propName: string]: string };
+      [propName: string]: any;
+    };
+    sysField: {
+      [propName: string]: any;
+    };
+  };
+  [propName: string]: any;
+}
+
+export type TemplateTreeNodeDataType = {
+  title: string;
+  key: string;
+  id: string;
+};
+export interface TemplateTreeNodeType {
+  [propName: string]: {
+    id: string;
+    properties: {
+      basicInfo: {
+        name: string;
+      };
+    };
+    nodeInfo: NodeInfo;
+    subNode: TemplateTreeNodeType;
+  };
+}
+
 type RequestParams = {
-  page_num?: number;
+  page_name?: number;
   page_size?: number;
   order_by?: string;
   is_descending?: boolean;
-  key_words?: string;
+  query?: string;
+  condition: any[];
 };
-
-export interface ApiData {
+interface ApiData {
   '@type': string;
-  templates?: unknown;
+  listDeviceObject: TemplateTreeNodeType;
 }
 
-export default function useTemplatesQuery({
-  params,
-}: { params?: RequestParams } = {}) {
-  const url = '/device/templates/search';
-
-  return useQuery<ApiData, RequestParams>({
+export default function useDeviceTemplateQuery(requestParams: RequestParams) {
+  const { data, ...rest } = useQuery<ApiData, undefined, RequestParams>({
     url,
     method,
-    params,
+    data: requestParams,
   });
+  const items = data?.listDeviceObject?.items ?? {};
+  return { items, data, ...rest };
 }
