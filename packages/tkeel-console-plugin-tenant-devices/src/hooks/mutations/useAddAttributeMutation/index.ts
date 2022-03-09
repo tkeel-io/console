@@ -1,4 +1,4 @@
-import { usePluginMutation } from '@tkeel/console-hooks';
+import { useMutation } from '@tkeel/console-hooks';
 
 const url = '/tkeel-device/v1/groups';
 const method = 'POST';
@@ -20,7 +20,7 @@ export default function useAddAttributeMutation({
 }: {
   onSuccess?: () => void;
 }) {
-  return usePluginMutation<ApiData, undefined, RequestData>({
+  return useMutation<ApiData, undefined, RequestData>({
     url,
     method,
     reactQueryOptions: { onSuccess },
