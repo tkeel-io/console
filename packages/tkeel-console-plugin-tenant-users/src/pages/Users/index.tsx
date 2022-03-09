@@ -9,7 +9,7 @@ import {
   toast,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
-import { User, useUsersPluginQuery } from '@tkeel/console-request-hooks';
+import { User, useUsersQuery } from '@tkeel/console-request-hooks';
 import {
   formatDateTimeByTimestamp,
   getLocalTenantInfo,
@@ -37,7 +37,7 @@ export default function Users() {
   if (keyWords) {
     params = { ...params, key_words: keyWords };
   }
-  const { isLoading, users, refetch } = useUsersPluginQuery({
+  const { isLoading, users, refetch } = useUsersQuery({
     tenantId,
     params,
     onSuccess(data) {

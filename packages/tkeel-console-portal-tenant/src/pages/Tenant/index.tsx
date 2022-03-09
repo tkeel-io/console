@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { Form, FormField } from '@tkeel/console-components';
-import { usePortalTenantConfigPortalQuery } from '@tkeel/console-request-hooks';
+import { usePortalTenantConfigQuery } from '@tkeel/console-request-hooks';
 import {
   env,
   jumpToAuthLoginPage,
@@ -43,7 +43,7 @@ export default function Tenant() {
   };
 
   const navigate = useNavigate();
-  const { config } = usePortalTenantConfigPortalQuery();
+  const { config } = usePortalTenantConfigQuery();
   const clientConfig = config?.client;
   const pageConfig = clientConfig?.pages?.Login;
 

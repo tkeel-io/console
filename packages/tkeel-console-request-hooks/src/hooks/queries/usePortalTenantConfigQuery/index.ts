@@ -23,7 +23,7 @@ type ApiData = {
   };
 };
 
-export default function usePortalAdminConfigPortalQuery() {
+export default function usePortalAdminConfigQuery() {
   let config;
   const result = useQuery<ApiData>({
     url: '/config/v1/portal-tenant',

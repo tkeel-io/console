@@ -38,7 +38,7 @@ interface ApiData {
 
 type Options = { params?: RequestParams };
 
-export default function useRolesPluginQuery({ params }: Options = {}) {
+export default function useRolesQuery({ params }: Options = {}) {
   const { data, ...rest } = useQuery<ApiData, RequestParams>({
     url: '/security/v1/rbac/roles',
     method: 'GET',

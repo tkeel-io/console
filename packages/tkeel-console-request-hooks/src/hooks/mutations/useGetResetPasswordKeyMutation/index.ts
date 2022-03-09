@@ -11,7 +11,7 @@ export interface ApiData {
 
 const method = 'GET';
 
-export default function useGetResetPasswordKeyPluginMutation({
+export default function useGetResetPasswordKeyMutation({
   tenantId,
   userId,
   onSuccess,
