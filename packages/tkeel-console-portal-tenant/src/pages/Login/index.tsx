@@ -4,9 +4,9 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
 import { Form, FormField } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
-import { usePortalTenantConfigPortalQuery } from '@tkeel/console-request-hooks';
+import { usePortalTenantConfigQuery } from '@tkeel/console-request-hooks';
 import {
-  isEnvDevelopment,
+  env,
   jumpToPage,
   jumpToTenantAuthTenantPage,
   schemas,
@@ -16,10 +16,10 @@ import {
 import useTokenMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useTokenMutation';
 import useTenantExactQuery from '@/tkeel-console-portal-tenant/hooks/queries/useTenantExactQuery';
 
-const mockData = isEnvDevelopment()
+const mockData = env.isEnvDevelopment()
   ? {
-      username: String(PORTAL_GLOBALS?.mock?.username ?? ''),
-      password: String(PORTAL_GLOBALS?.mock?.password ?? ''),
+      username: String(GLOBAL_PORTAL_CONFIG?.mock?.username ?? ''),
+      password: String(GLOBAL_PORTAL_CONFIG?.mock?.password ?? ''),
     }
   : { username: '', password: '' };
 
@@ -58,7 +58,7 @@ export default function Login() {
     lineHeight: '20px',
   };
 
-  const { config } = usePortalTenantConfigPortalQuery();
+  const { config } = usePortalTenantConfigQuery();
   const clientConfig = config?.client;
   const pageConfig = clientConfig?.pages?.Login;
 

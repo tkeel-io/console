@@ -1,4 +1,4 @@
-import { usePluginMutation } from '@tkeel/console-hooks';
+import { useMutation } from '@tkeel/console-hooks';
 
 export interface ApiData {
   '@type': string;
@@ -20,7 +20,7 @@ interface RequestData {
 export default function useCreateSubscribeMutation({ onSuccess, id }: Props) {
   const url = `/core-broker/v1/subscribe/${id}`;
 
-  return usePluginMutation<ApiData, undefined, RequestData>({
+  return useMutation<ApiData, undefined, RequestData>({
     url,
     method,
     reactQueryOptions: { onSuccess },

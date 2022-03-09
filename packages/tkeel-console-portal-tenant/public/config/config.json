@@ -1,9 +1,9 @@
 {
   "code": "io.tkeel.SUCCESS",
   "msg": "",
+
   "data": {
     "client": {
-      "themeName": "qingcloud-light",
       "documentTitle": "QingCloud IoT 物联网平台",
       "subTitle1": "构建和管理物联网解决方案的数字平台",
       "subTitle2": "100% Cloud Native, Any language, Everything is plugin, Simply",

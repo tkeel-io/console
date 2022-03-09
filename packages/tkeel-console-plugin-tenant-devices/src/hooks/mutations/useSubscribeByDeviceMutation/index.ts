@@ -1,4 +1,4 @@
-import { usePluginMutation } from '@tkeel/console-hooks';
+import { useMutation } from '@tkeel/console-hooks';
 
 const method = 'POST';
 
@@ -16,7 +16,7 @@ type Props = {
 };
 
 function useSubscribeByDeviceMutation({ deviceId, onSuccess }: Props) {
-  return usePluginMutation<ApiData, undefined, RequestData>({
+  return useMutation<ApiData, undefined, RequestData>({
     url: `/core-broker/v1/subscribe/device/${deviceId}`,
     method,
     reactQueryOptions: { onSuccess },

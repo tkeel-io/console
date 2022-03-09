@@ -1,3 +1,7 @@
+export interface TenantInfo {
+  tenant_id: string;
+}
+
 export interface TokenInfo {
   access_token: string;
   expires_in: number;

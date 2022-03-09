@@ -9,7 +9,7 @@ import {
   Table,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
-import { User, useUsersPluginQuery } from '@tkeel/console-request-hooks';
+import { User, useUsersQuery } from '@tkeel/console-request-hooks';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import ResetPasswordButton from '../ResetPasswordButton';
@@ -30,7 +30,7 @@ export default function Users() {
   if (keyWords) {
     params = { ...params, key_words: keyWords };
   }
-  const { isLoading, users } = useUsersPluginQuery({
+  const { isLoading, users } = useUsersQuery({
     tenantId,
     params,
     onSuccess(data) {

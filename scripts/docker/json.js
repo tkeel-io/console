@@ -7,7 +7,7 @@ const _ = require('lodash');
 const logger = require('../utils/logger');
 const paths = require('../utils/paths');
 
-const tkeelVersion = config.get('tkeel.version');
+const tkeelVersion = config.tkeel.version;
 const jsonTemplateFileNames = ['identify.json'];
 const jsonFileNames = [
   'status.json',

@@ -1,4 +1,4 @@
-import { usePluginQuery } from '@tkeel/console-hooks';
+import { useQuery } from '@tkeel/console-hooks';
 
 const method = 'POST';
 
@@ -20,7 +20,7 @@ export default function useTemplatesQuery({
 }: { params?: RequestParams } = {}) {
   const url = '/device/templates/search';
 
-  return usePluginQuery<ApiData, RequestParams>({
+  return useQuery<ApiData, RequestParams>({
     url,
     method,
     params,

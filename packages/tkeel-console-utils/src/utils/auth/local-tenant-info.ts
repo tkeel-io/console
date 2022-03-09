@@ -1,8 +1,6 @@
 import store from 'store2';
 
-export interface TenantInfo {
-  tenant_id: string;
-}
+import { TenantInfo } from '@tkeel/console-types';
 
 const namespace = 'tenant';
 const key = 'tenantInfo';

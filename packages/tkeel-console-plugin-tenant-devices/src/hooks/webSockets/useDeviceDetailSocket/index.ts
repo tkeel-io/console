@@ -5,7 +5,7 @@ import { useWebSocket } from '@tkeel/console-hooks';
 import {
   ConnectInfo,
   RawData,
-} from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
+} from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 
 type Message = {
   rawData: RawData;

@@ -1,4 +1,4 @@
-import { usePluginQuery } from '@tkeel/console-hooks';
+import { useQuery } from '@tkeel/console-hooks';
 
 import RequestData from '@/tkeel-console-plugin-tenant-data-query/types/request-data';
 
@@ -49,7 +49,7 @@ export default function useDeviceListQuery({
   requestData: RequestData;
   enabled?: boolean;
 }) {
-  const { data, ...rest } = usePluginQuery<ApiData, undefined, RequestData>({
+  const { data, ...rest } = useQuery<ApiData, undefined, RequestData>({
     url,
     method,
     data: requestData,

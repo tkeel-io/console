@@ -1,4 +1,4 @@
-import { usePortalMutation } from '@tkeel/console-hooks';
+import { useMutation } from '@tkeel/console-hooks';
 
 type RequestData = {
   reset_key: string;
@@ -17,7 +17,7 @@ export default function useOAuthResetPasswordMutation({
 }: {
   onSuccess: () => void;
 }) {
-  return usePortalMutation<ApiData, undefined, RequestData>({
+  return useMutation<ApiData, undefined, RequestData>({
     /* cspell: disable-next-line */
     url: '/security/v1/oauth/rspwd',
     method: 'POST',

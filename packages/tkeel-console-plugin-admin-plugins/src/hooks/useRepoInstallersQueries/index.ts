@@ -1,6 +1,6 @@
 import { Method } from 'axios';
 
-import { usePluginQueries } from '@tkeel/console-hooks';
+import { useQueries } from '@tkeel/console-hooks';
 
 import { PluginInfo } from '@/tkeel-console-plugin-admin-plugins/types/plugin-info';
 
@@ -25,7 +25,7 @@ export default function useRepoInstallersQueries({ repos, enabled }: Props) {
       enabled,
     },
   }));
-  const results = usePluginQueries(optionsList);
+  const results = useQueries(optionsList);
 
   const pluginsList = results.map((result) => {
     if (result.data) {
