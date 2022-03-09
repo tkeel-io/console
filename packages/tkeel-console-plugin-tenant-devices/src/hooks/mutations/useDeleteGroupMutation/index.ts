@@ -1,10 +1,12 @@
-import { usePluginMutation } from '@tkeel/console-hooks';
+import { useMutation } from '@tkeel/console-hooks';
+import { RequestResult } from '@tkeel/console-utils';
 
 const url = '/tkeel-device/v1/groups/delete';
 const method = 'POST';
 
 export interface ApiData {
   '@type': string;
+  faildDelGroup: { id: string; reason: string }[];
 }
 export interface RequestData {
   ids: string[];
@@ -15,9 +17,9 @@ function useDeleteGroupMutation({
   onSuccess,
 }: {
   ids: string[];
-  onSuccess?: () => void;
+  onSuccess?: (data: RequestResult<ApiData, undefined, RequestData>) => void;
 }) {
-  return usePluginMutation<ApiData, undefined, RequestData>({
+  return useMutation<ApiData, undefined, RequestData>({
     url,
     method,
     data: {

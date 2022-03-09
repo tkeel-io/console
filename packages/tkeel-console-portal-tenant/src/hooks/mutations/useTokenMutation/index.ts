@@ -1,4 +1,4 @@
-import { usePortalMutation } from '@tkeel/console-hooks';
+import { useMutation } from '@tkeel/console-hooks';
 
 interface RequestParams {
   grant_type: 'password' | 'authorization_code';
@@ -26,7 +26,7 @@ export default function useOAuthTokenMutation({
 }: Options) {
   const url = `/security/v1/oauth/${tenantId}/token`;
 
-  return usePortalMutation<ApiData, RequestParams>({
+  return useMutation<ApiData, RequestParams>({
     url,
     method,
     reactQueryOptions: {

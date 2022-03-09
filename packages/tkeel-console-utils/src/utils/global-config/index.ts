@@ -1,11 +1,17 @@
-/* eslint-disable import/prefer-default-export */
-export function getGlobalConfig() {
-  if (typeof PLUGIN_GLOBALS === 'object') {
-    return PLUGIN_GLOBALS;
+import { getGlobalPluginProps } from '../plugin';
+
+// eslint-disable-next-line import/prefer-default-export
+export function getGlobalPortalConfigCrossEnv() {
+  const globalPluginProps = getGlobalPluginProps();
+
+  const portalProps = globalPluginProps?.portalProps;
+
+  if (typeof portalProps === 'object' && portalProps) {
+    return portalProps;
   }
 
-  if (typeof PORTAL_GLOBALS === 'object') {
-    return PORTAL_GLOBALS;
+  if (typeof GLOBAL_PORTAL_CONFIG === 'object' && GLOBAL_PORTAL_CONFIG) {
+    return GLOBAL_PORTAL_CONFIG;
   }
 
   return null;

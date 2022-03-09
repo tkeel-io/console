@@ -1,4 +1,4 @@
-import { usePluginQuery } from '@tkeel/console-hooks';
+import { useQuery } from '@tkeel/console-hooks';
 
 type Plugin = {
   id: string;
@@ -33,7 +33,7 @@ type Props = {
 };
 
 export default function usePluginDetailQuery({ pluginName }: Props) {
-  const { data, ...rest } = usePluginQuery<ApiData>({
+  const { data, ...rest } = useQuery<ApiData>({
     url: `${url}/${pluginName}`,
     method,
   });

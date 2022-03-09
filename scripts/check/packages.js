@@ -59,7 +59,7 @@ function checkCanRunPackageConfigs({ configKeyPath }) {
   } else {
     logger.log();
     switch (configKeyPath) {
-      case 'basePath':
+      case 'client.basePath':
         showBasePaths();
         break;
       case 'server.port':
@@ -72,7 +72,7 @@ function checkCanRunPackageConfigs({ configKeyPath }) {
 }
 
 function checkCanRunPackageBasePath() {
-  checkCanRunPackageConfigs({ configKeyPath: 'basePath' });
+  checkCanRunPackageConfigs({ configKeyPath: 'client.basePath' });
 }
 
 function checkCanRunPackageServerPort() {

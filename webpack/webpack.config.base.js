@@ -20,8 +20,7 @@ const {
 const paths = require('../scripts/utils/paths');
 const { staticDirectory } = require('./utils');
 
-const publicPath = config.get('publicPath');
-const documentTitle = config.get('client.documentTitle');
+const publicPath = config?.publicPath;
 const generateSourcemap = config?.builder?.generateSourcemap;
 
 dotenvExpand.expand(dotenvFlow.config());
@@ -183,7 +182,7 @@ module.exports = {
     /* cspell: disable-next-line */
     new DotenvWebpack({ systemvars: true }),
     new HtmlWebpackPlugin({
-      title: documentTitle,
+      title: '',
       template: path.resolve(paths.cwd.public, 'index.handlebars'),
       inject: true,
       // favicon: path.resolve(paths.cwd.public, 'favicon.svg'),

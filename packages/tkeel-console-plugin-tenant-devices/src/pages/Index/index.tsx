@@ -199,6 +199,7 @@ function Index(): JSX.Element {
     const id = selectedKeys[0] as string;
     setGroupId(id);
     setKeyWords('');
+    refetchGroupTree();
   };
   const groupCrumb = getParentTreeNode({
     list: treeNodeData,

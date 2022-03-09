@@ -1,22 +1,20 @@
 import { useEffect, useState } from 'react';
 
-import { init, InitArgs } from '@/tkeel-console-portal-base/utils/qiankun';
+import { init, InitOptions } from '@/tkeel-console-portal-base/utils/qiankun';
 
-type Args = Omit<InitArgs, 'lifeCycles'>;
+type Options = Omit<InitOptions, 'lifeCycles'>;
 
 export default function useQiankunInit({
   menus,
   navigate,
-  themeName,
   refetchMenus,
-}: Args) {
+}: Options) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     init({
       menus,
       navigate,
-      themeName,
       lifeCycles: {
         beforeLoad() {
           setIsLoading(true);
@@ -39,7 +37,7 @@ export default function useQiankunInit({
       },
       refetchMenus,
     });
-  }, [menus, navigate, themeName, refetchMenus]);
+  }, [menus, navigate, refetchMenus]);
 
   return { isLoading };
 }

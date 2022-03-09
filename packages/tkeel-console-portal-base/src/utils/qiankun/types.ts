@@ -1,4 +1,4 @@
-import { GlobalPluginProps } from '@tkeel/console-types';
+import { BaseGlobalPluginProps } from '@tkeel/console-types';
 
 export interface MenuInfo {
   id: string;
@@ -17,5 +17,5 @@ export interface App {
   container: string;
   activeRule: string;
   loader?: (loading: boolean) => void;
-  props?: GlobalPluginProps;
+  props?: BaseGlobalPluginProps;
 }

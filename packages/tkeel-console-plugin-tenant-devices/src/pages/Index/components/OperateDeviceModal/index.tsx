@@ -113,6 +113,7 @@ export default function OperateDeviceModal({
         ext,
         selfLearn,
         parentId,
+        parentName,
         templateId,
         directConnection,
       } = defaultFormValues;
@@ -130,6 +131,7 @@ export default function OperateDeviceModal({
           return { label, value };
         }),
         parentId,
+        parentName,
       };
       const deviceDefaultInfo = {
         connectInfo,
@@ -159,7 +161,7 @@ export default function OperateDeviceModal({
       setCurrentStep(0);
       onClose();
       if (type === ModalType.DEVICE && id) {
-        navigate(`/detail/?id=${id}`);
+        navigate(`/detail/?id=${id}&menu-collapsed=true`);
       }
     } else if (currentStep === 0) {
       // 第一步校验信息

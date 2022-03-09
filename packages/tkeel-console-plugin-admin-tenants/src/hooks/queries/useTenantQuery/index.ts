@@ -1,4 +1,4 @@
-import { usePluginQuery } from '@tkeel/console-hooks';
+import { useQuery } from '@tkeel/console-hooks';
 
 const method = 'GET';
 
@@ -14,5 +14,5 @@ interface AipData {
 
 export default function useTenantQuery({ tenantId }: { tenantId: string }) {
   const url = `/security/v1/tenants/${tenantId}`;
-  return usePluginQuery<AipData>({ url, method });
+  return useQuery<AipData>({ url, method });
 }

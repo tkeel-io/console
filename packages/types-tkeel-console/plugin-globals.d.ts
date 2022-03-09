@@ -6,17 +6,10 @@ interface Window {
   __INJECTED_PUBLIC_PATH_BY_QIANKUN__: string;
 }
 
-interface PluginGlobals {
+interface PluginConfig {
   portalName: 'admin' | 'tenant';
   publicPath: string;
-  basePath: string;
   client: {
-    documentTitle: string;
-  };
-  api: {
-    basePath: string;
-  };
-  websocket: {
     basePath: string;
   };
   plugin: {
@@ -26,14 +19,13 @@ interface PluginGlobals {
       dependence: { id: string; version: string }[];
     };
   };
-  // development
   server?: {
-    port?: string;
+    port?: string; // development only
   };
-  // production
+
   builder?: {
-    generateSourcemap?: boolean;
+    generateSourcemap?: boolean; // production only
   };
 }
 
-declare const PLUGIN_GLOBALS: PluginGlobals;
+declare const GLOBAL_PLUGIN_CONFIG: Pick<PluginConfig, 'publicPath' | 'client'>;

@@ -2,7 +2,6 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import { useGlobalPortalProps } from '@tkeel/console-business-components';
 import { useColor } from '@tkeel/console-hooks';
 import {
   CollapseFilledIcon,
@@ -27,12 +26,12 @@ type Props = {
 };
 
 function Menus({ logo }: Props) {
-  const { themeName } = useGlobalPortalProps();
   const [searchParams] = useSearchParams();
   const menuCollapsed = searchParams?.get('menu-collapsed') === 'true' || false;
   const [collapsed, setCollapsed] = useState(menuCollapsed);
   const localMenuTheme = getLocalMenuTheme();
-  const isQingCloudTheme = themeName === ThemeNames.QingcloudLight;
+  const isQingCloudTheme =
+    GLOBAL_PORTAL_CONFIG.client.themeName === ThemeNames.QingcloudLight;
   const defaultMenuTheme = isQingCloudTheme ? 'dark' : 'light';
   const [menuTheme] = useState(localMenuTheme || defaultMenuTheme);
   const isDarkMenu = isDarkMenuTheme(menuTheme);

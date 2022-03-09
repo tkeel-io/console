@@ -1,4 +1,4 @@
-import { usePluginQuery } from '@tkeel/console-hooks';
+import { useQuery } from '@tkeel/console-hooks';
 
 const basicUrl = '/security/v1/entity/info';
 const method = 'GET';
@@ -17,7 +17,7 @@ interface RequestParams {
 
 export default function useTokenInfoQuery({ token }: RequestParams) {
   const url = `${basicUrl}/${token}`;
-  return usePluginQuery<ApiData>({
+  return useQuery<ApiData>({
     url,
     method,
   });

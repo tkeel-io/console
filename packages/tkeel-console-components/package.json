@@ -1,6 +1,6 @@
 {
   "name": "@tkeel/console-components",
-  "version": "0.4.1",
+  "version": "0.4.2-alpha.1",
   "homepage": "https://github.com/tkeel-io/console#readme",
   "bugs": {
     "url": "https://github.com/tkeel-io/console/issues"
@@ -12,28 +12,26 @@
   "license": "Apache-2.0",
   "main": "./src/index.ts",
   "dependencies": {
+    "@chakra-ui/react": "^1.8.6",
+    "@emotion/react": "^11.8.1",
+    "@emotion/styled": "^11.8.1",
     "@monaco-editor/react": "^4.3.1",
     "@tkeel/console-icons": "workspace:^",
     "@tkeel/console-types": "workspace:^",
     "@types/lodash": "^4.14.179",
+    "framer-motion": "^6.2.8",
     "lodash": "^4.17.21",
     "rc-pagination": "^3.1.15",
     "rc-select": "^14.0.0",
     "rc-tree": "^5.4.4",
     "rc-tree-select": "^5.1.4",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "react-hook-form": "^7.27.1",
     "react-table": "^7.7.0",
     "react-use": "^17.3.2"
   },
   "devDependencies": {
     "@types/react-table": "^7.7.9"
-  },
-  "peerDependencies": {
-    "@chakra-ui/react": "^1.8.3",
-    "@emotion/react": "^11.7.0",
-    "@emotion/styled": "^11.6.0",
-    "framer-motion": "^5.3.3",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
   }
 }
