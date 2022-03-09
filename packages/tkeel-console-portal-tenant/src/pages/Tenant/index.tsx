@@ -7,6 +7,7 @@ import { usePortalTenantConfigQuery } from '@tkeel/console-request-hooks';
 import {
   env,
   jumpToAuthLoginPage,
+  schemas,
   setLocalTenantInfo,
 } from '@tkeel/console-utils';
 
@@ -129,14 +130,15 @@ export default function Tenant() {
             id="tenantId"
             label="租户空间"
             defaultValue={mockData.tenantTitle}
-            placeholder="请输入您的租户空间"
+            placeholder={schemas.tenantTitle.help}
             error={errors.tenantId}
             formControlStyle={{ width: '350px' }}
             formLabelStyle={formLabelStyle}
             inputStyle={inputStyle}
-            registerReturn={register('tenantId', {
-              required: { value: true, message: '请输入您的租户空间' },
-            })}
+            registerReturn={register(
+              'tenantId',
+              schemas.tenantTitle.registerOptions
+            )}
           />
           <Box paddingTop="40px">
             <Button
