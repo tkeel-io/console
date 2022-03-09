@@ -17,7 +17,12 @@
     "build": "node ./scripts/run/build",
     "build-and-docker:build": "node ./scripts/run/build-and-docker-build",
     "build-and-docker:build-all": "node ./scripts/run/build-and-docker-build-all",
+    "build-development-and-start:portal-admin": "yarn build-development:portal-admin && yarn start:portal-admin",
+    "build-development-and-start:portal-tenant": "yarn build-development:portal-tenant && yarn start:portal-tenant",
+    "build-development:portal-admin": "node ./scripts/run/build-development-portal-admin",
+    "build-development:portal-tenant": "node ./scripts/run/build-development-portal-tenant",
     "build:all": "node ./scripts/run/build-all",
+    "build:portal-tenant": "node ./scripts/run/build-portal-tenant",
     "check:packages": "node ./scripts/check/packages",
     "commit": "git-cz",
     "create:plugin": "node ./scripts/create-plugin && yarn && yarn init:all",
@@ -39,12 +44,14 @@
     "lint:spell": "cspell --no-must-find-files \"**\"",
     "lint:style": "stylelint --fix \"**/*.{css,scss,js,jsx,ts,tsx}\"",
     "lint:typescript": "tsc --noEmit",
-    "packages:set-all-versions": "node ./scripts/packages/set-all-versions",
     "pre-commit": "lint-staged",
+    "set-all-package-versions": "node ./scripts/packages/set-all-versions",
     "show:all": "yarn show:base-paths && yarn show:dev-server-ports",
     "show:base-paths": "node ./scripts/show/base-paths",
     "show:dev-server-ports": "node ./scripts/show/dev-server-ports",
-    "sort-package-json": "sort-package-json 'package.json' 'packages/*/package.json'"
+    "sort-package-json": "sort-package-json 'package.json' 'packages/*/package.json'",
+    "start:portal-admin": "node ./scripts/run/start-portal-admin",
+    "start:portal-tenant": "node ./scripts/run/start-portal-tenant"
   },
   "config": {
     "commitizen": {
@@ -126,6 +133,7 @@
     "read-pkg": "^5.2.0",
     "sass": "^1.49.9",
     "sass-loader": "^12.6.0",
+    "serve": "^13.0.2",
     "shelljs": "^0.8.5",
     "sort-package-json": "^1.54.0",
     "style-loader": "^3.3.1",
