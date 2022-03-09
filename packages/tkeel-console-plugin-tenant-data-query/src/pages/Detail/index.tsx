@@ -126,8 +126,12 @@ export default function Detail() {
               size="32px"
               marginRight="5px"
               backgroundColor="gray.100"
-              cursor="pointer"
-              onClick={handleTelemetryDataMutate}
+              cursor={identifiers.length > 0 ? 'pointer' : 'not-allowed'}
+              onClick={() => {
+                if (identifiers.length > 0) {
+                  handleTelemetryDataMutate();
+                }
+              }}
             >
               <RefreshFilledIcon color="grayAlternatives.300" />
             </Circle>

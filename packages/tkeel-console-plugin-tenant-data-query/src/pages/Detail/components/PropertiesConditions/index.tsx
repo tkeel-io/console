@@ -92,9 +92,10 @@ export default function PropertiesConditions({
             </Flex> */}
       </Flex>
       <SearchInput
-        inputGroupStyle={{ margin: '8px 20px 12px' }}
-        onSearch={onSearch}
         width="320px"
+        inputGroupStyle={{ margin: '8px 20px 12px' }}
+        placeholder="搜索"
+        onSearch={onSearch}
       />
       <Flex
         alignItems="center"
