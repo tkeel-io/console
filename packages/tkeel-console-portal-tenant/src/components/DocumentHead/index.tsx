@@ -1,9 +1,9 @@
 import { useFavicon, useTitle } from 'react-use';
 
-import { usePortalTenantConfigPortalQuery } from '@tkeel/console-request-hooks';
+import { usePortalTenantConfigQuery } from '@tkeel/console-request-hooks';
 
 export default function DocumentHead() {
-  const { config } = usePortalTenantConfigPortalQuery();
+  const { config } = usePortalTenantConfigQuery();
   const documentTitle = config?.client.documentTitle ?? '';
   const favicon = config?.client.favicon ?? '';
 
