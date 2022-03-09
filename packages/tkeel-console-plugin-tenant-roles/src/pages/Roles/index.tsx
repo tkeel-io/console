@@ -9,7 +9,7 @@ import {
   toast,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
-import { Role, useRolesPluginQuery } from '@tkeel/console-request-hooks';
+import { Role, useRolesQuery } from '@tkeel/console-request-hooks';
 
 import CreateRoleButton from './components/CreateRoleButton';
 import DeleteRoleButton from './components/DeleteRoleButton';
@@ -30,7 +30,7 @@ export default function Roles() {
   if (keywords) {
     params = { ...params, key_words: keywords };
   }
-  const { isLoading, isSuccess, total, roles, refetch } = useRolesPluginQuery({
+  const { isLoading, isSuccess, total, roles, refetch } = useRolesQuery({
     params,
   });
 

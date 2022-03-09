@@ -10,7 +10,7 @@ import { stringify } from 'qs';
 
 import { Alert, toast } from '@tkeel/console-components';
 import { CopyFilledIcon } from '@tkeel/console-icons';
-import { useDeploymentConfigPluginQuery } from '@tkeel/console-request-hooks';
+import { useDeploymentConfigQuery } from '@tkeel/console-request-hooks';
 
 type Props = {
   isOpen: boolean;
@@ -29,7 +29,7 @@ export default function SetPasswordModal({
   data,
   onClose,
 }: Props) {
-  const { isLoading, config } = useDeploymentConfigPluginQuery();
+  const { isLoading, config } = useDeploymentConfigQuery();
   const defaultURL = `${config.portalTenantURL}/auth/set-password`;
   const query = stringify(data, { addQueryPrefix: true });
   const fullURL = `${url || defaultURL}${query}`;
