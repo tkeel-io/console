@@ -1,4 +1,4 @@
-import { usePluginMutation } from '@tkeel/console-hooks';
+import { useMutation } from '@tkeel/console-hooks';
 import { RequestResult } from '@tkeel/console-utils';
 
 export interface ApiData {
@@ -21,7 +21,7 @@ type Props = {
 };
 
 export default function useAddRepoMutation({ onSuccess }: Props) {
-  return usePluginMutation<ApiData, undefined, RequestData>({
+  return useMutation<ApiData, undefined, RequestData>({
     method,
     reactQueryOptions: {
       onSuccess,

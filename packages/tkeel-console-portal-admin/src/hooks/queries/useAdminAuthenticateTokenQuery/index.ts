@@ -1,4 +1,4 @@
-import { usePortalQuery } from '@tkeel/console-hooks';
+import { useQuery } from '@tkeel/console-hooks';
 import { RequestExtras } from '@tkeel/console-utils';
 
 type Options = {
@@ -9,5 +9,5 @@ export default function useAdminAuthenticateTokenQuery({
   extras,
 }: Options = {}) {
   const url = '/rudder/v1/oauth2/authorize';
-  return usePortalQuery({ url, method: 'GET', extras });
+  return useQuery({ url, method: 'GET', extras });
 }

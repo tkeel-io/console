@@ -1,10 +1,11 @@
 const path = require('path');
 
 const config = require('config');
-const ConfigWebpackPlugin = require('config-webpack');
 const CopyPlugin = require('copy-webpack-plugin');
-const fs = require('fs-extra');
-const shell = require('shelljs');
+// const fs = require('fs-extra');
+const _ = require('lodash');
+// const shell = require('shelljs');
+const { DefinePlugin } = require('webpack');
 const { merge } = require('webpack-merge');
 
 const paths = require('../scripts/utils/paths');
@@ -14,7 +15,7 @@ const webpackConfigPath = path.resolve(paths.root.webpack, 'webpack.config.js');
 // eslint-disable-next-line import/no-dynamic-require
 const webpackConfig = require(webpackConfigPath)();
 
-function createConfigJsonFile() {
+/* function createConfigJsonFile() {
   const data = {
     code: 'io.tkeel.SUCCESS',
     msg: '',
@@ -27,7 +28,7 @@ function createConfigJsonFile() {
   shell.exec(`prettier --write ${filePath}`);
 }
 
-createConfigJsonFile();
+createConfigJsonFile(); */
 
 const webpackConfigPortals = {
   plugins: [
@@ -39,7 +40,11 @@ const webpackConfigPortals = {
         },
       ],
     }),
-    new ConfigWebpackPlugin('PORTAL_GLOBALS'),
+    new DefinePlugin({
+      GLOBAL_PORTAL_CONFIG: JSON.stringify(
+        _.pick(config, ['portalName', 'client', 'backend', 'mock'])
+      ),
+    }),
   ],
 };
 

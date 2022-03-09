@@ -1,4 +1,4 @@
-import { usePortalQuery } from '@tkeel/console-hooks';
+import { useQuery } from '@tkeel/console-hooks';
 
 export interface RequestParams {
   tenant_id?: string;
@@ -20,7 +20,7 @@ export default function useTenantExactQuery({
   enabled = true,
   params,
 }: Options) {
-  return usePortalQuery<ApiData, RequestParams>({
+  return useQuery<ApiData, RequestParams>({
     url: '/security/v1/tenants/exact',
     method: 'GET',
     params,
