@@ -1,45 +1,20 @@
 import './public-path';
 
-import * as ReactDOM from 'react-dom';
-
+import { PluginBase } from '@tkeel/console-business-components';
 import { GlobalPluginProps } from '@tkeel/console-types';
 
 import App from './App';
 
-interface Props extends GlobalPluginProps {
-  container: HTMLElement;
-}
-
-function render(props: Props) {
-  const container = props?.container;
-
-  ReactDOM.render(
-    <App {...props} />,
-    container
-      ? container.querySelector('#root')
-      : document.querySelector('#root')
-  );
-}
-
-/* if (!window.__POWERED_BY_QIANKUN__) {
-  render();
-} */
+const { lifeCycles } = PluginBase;
 
 export async function bootstrap() {
-  //
+  lifeCycles.bootstrap();
 }
 
-export async function mount(props: Props) {
-  render(props);
+export async function mount(props: GlobalPluginProps) {
+  lifeCycles.mount(props, App);
 }
 
-export async function unmount(props: Props) {
-  const { container } = props;
-  const rootContainer = (
-    container
-      ? container.querySelector('#root')
-      : document.querySelector('#root')
-  ) as Element;
-
-  ReactDOM.unmountComponentAtNode(rootContainer);
+export async function unmount(props: GlobalPluginProps) {
+  lifeCycles.unmount(props);
 }

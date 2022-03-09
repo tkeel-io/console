@@ -1,4 +1,4 @@
-import { usePluginQuery } from '@tkeel/console-hooks';
+import { useQuery } from '@tkeel/console-hooks';
 
 const method = 'GET';
 
@@ -31,7 +31,7 @@ export interface ApiData {
 export default function usePermissionsQuery({ params }: Args = {}) {
   const url = '/security/v1/rbac/permissions';
 
-  const { data, ...rest } = usePluginQuery<ApiData, RequestParams>({
+  const { data, ...rest } = useQuery<ApiData, RequestParams>({
     url,
     method,
     params,

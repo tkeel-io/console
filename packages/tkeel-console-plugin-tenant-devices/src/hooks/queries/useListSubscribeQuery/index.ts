@@ -1,4 +1,4 @@
-import { usePluginQuery } from '@tkeel/console-hooks';
+import { useQuery } from '@tkeel/console-hooks';
 
 const method = 'POST';
 export interface Data {
@@ -32,7 +32,7 @@ export default function useListSubscribeQuery({
   pageSize,
   keyWords,
 }: Props) {
-  const { data, ...rest } = usePluginQuery<ApiData, undefined, RequestData>({
+  const { data, ...rest } = useQuery<ApiData, undefined, RequestData>({
     url,
     method,
     data: {

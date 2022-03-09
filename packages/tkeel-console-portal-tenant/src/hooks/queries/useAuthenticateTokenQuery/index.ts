@@ -1,4 +1,4 @@
-import { usePortalQuery } from '@tkeel/console-hooks';
+import { useQuery } from '@tkeel/console-hooks';
 import { RequestExtras } from '@tkeel/console-utils';
 
 export interface ApiData {
@@ -17,7 +17,7 @@ type Options = {
 };
 
 export default function useAuthenticateTokenQuery({ extras }: Options = {}) {
-  const { data, ...rest } = usePortalQuery<ApiData>({
+  const { data, ...rest } = useQuery<ApiData>({
     url: '/security/v1/oauth/authenticate',
     method: 'GET',
     extras,

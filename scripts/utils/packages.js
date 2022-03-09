@@ -121,7 +121,7 @@ function readBasePaths() {
   const data = [];
 
   readPackageInfos().forEach(({ directoryName, config }) => {
-    const basePath = config?.basePath;
+    const basePath = config?.client?.basePath;
     if (basePath) {
       const items = _.find(data, { basePath });
       if (items) {
@@ -200,10 +200,10 @@ function checkPluginName({ pluginName }) {
 
 function checkCanRunPackageBasePath({ basePath }) {
   const configs = readPackageInfos()
-    .filter(({ canRun, config }) => canRun && config?.basePath)
+    .filter(({ canRun, config }) => canRun && config?.client?.basePath)
     .map(({ config }) => config);
   // eslint-disable-next-line unicorn/prefer-array-some
-  const flag = !_.find(configs, { basePath });
+  const flag = !_.find(configs, { config: { basePath } });
   let message = '';
 
   if (!flag) {

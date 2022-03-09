@@ -1,5 +1,4 @@
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable sonarjs/cognitive-complexity */
 import { Box, Flex, Text, VStack } from '@chakra-ui/react';
 
 import { InfoCard } from '@tkeel/console-components';
@@ -8,7 +7,7 @@ import { BranchTowToneIcon, DotLineFilledIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import IconWrapper from '@/tkeel-console-plugin-tenant-devices/components/IconWrapper';
-import { DeviceObject } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
+import { DeviceObject } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 import DeviceBasicInfoCard, {
   Basic,
 } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/DeviceBasicInfoCard';

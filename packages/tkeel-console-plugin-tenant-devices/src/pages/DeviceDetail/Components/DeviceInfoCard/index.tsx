@@ -17,10 +17,7 @@ import AddSubscribeButton from '@/tkeel-console-plugin-tenant-devices/components
 import DeleteDevicesButton from '@/tkeel-console-plugin-tenant-devices/components/DeleteDevicesButton';
 import IconWrapper from '@/tkeel-console-plugin-tenant-devices/components/IconWrapper';
 import UpdateDeviceButton from '@/tkeel-console-plugin-tenant-devices/components/UpdateDeviceButton';
-import {
-  BasicInfo,
-  DeviceObject,
-} from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
+import { DeviceObject } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 import {
   SELF_LEARN_COLORS,
   SUBSCRIBES,
@@ -66,7 +63,7 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
     parentId,
     selfLearn,
     ext,
-  } = (basicInfo || {}) as BasicInfo;
+  } = basicInfo || {};
   const defaultFormValues = {
     id,
     selfLearn,
@@ -193,7 +190,7 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
                   <UnsubscribeButton
                     deviceId={id}
                     subscribeId={r.id}
-                    subscribeAddr={r.addr}
+                    subscribeDesc={r.title}
                     refetch={refetch}
                   />
                 </Flex>

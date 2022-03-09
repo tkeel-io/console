@@ -1,4 +1,4 @@
-import { usePluginMutation } from '@tkeel/console-hooks';
+import { useMutation } from '@tkeel/console-hooks';
 
 const url = '/tkeel-device/v1/devices/delete';
 const method = 'POST';
@@ -17,7 +17,7 @@ function useDeleteDeviceMutation({
   ids: string[];
   onSuccess?: () => void;
 }) {
-  return usePluginMutation<ApiData, undefined, RequestData>({
+  return useMutation<ApiData, undefined, RequestData>({
     url,
     method,
     data: {

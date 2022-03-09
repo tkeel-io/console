@@ -1,4 +1,4 @@
-import { usePortalMutation } from '@tkeel/console-hooks';
+import { useMutation } from '@tkeel/console-hooks';
 
 export interface RequestData {
   new_password: string;
@@ -14,7 +14,7 @@ export default function useAdminModifyPasswordMutation({
 }: {
   onSuccess: () => void;
 }) {
-  return usePortalMutation<ApiData, undefined, RequestData>({
+  return useMutation<ApiData, undefined, RequestData>({
     url: '/rudder/v1/oauth2/pwd',
     method: 'PUT',
     reactQueryOptions: { onSuccess },

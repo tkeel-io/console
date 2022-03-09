@@ -1,17 +1,26 @@
-interface PortalGlobals {
-  edition: 'free' | 'paid';
+interface PortalConfig {
+  // edition: 'free' | 'paid';
   portalName: 'admin' | 'tenant';
   publicPath: string;
   client: {
     themeName: 'tkeel-light' | 'qingcloud-light';
   };
-  api: {
-    origin?: string; // development
-    basePath: string;
+  backend: {
+    api: {
+      origin?: string; // development only
+      basePath: string;
+    };
+    websocket: {
+      origin?: string; // development only
+      basePath: string;
+    };
   };
-  websocket: {
-    origin?: string; // development
-    basePath: string;
+  server?: {
+    port?: string; // development only
+    proxy?: Record<string, string | { target: string; ws: boolean }>; // development only
+  };
+  builder?: {
+    generateSourcemap?: boolean; // production only
   };
   plugin: {
     identify: {
@@ -20,23 +29,17 @@ interface PortalGlobals {
       dependence: { id: string; version: string }[];
     };
   };
-  // development
-  server?: {
-    port?: string;
-    proxy?: Record<string, any>;
-  };
-  // production
-  builder?: {
-    generateSourcemap?: boolean;
-  };
   // local development
   mock?: {
-    tenantTitle?: string; // tenant
-    username?: string; // tenant
+    tenantTitle?: string; // tenant only
+    username?: string; // tenant only
     password?: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     menus?: Array<Record<string, any>>;
   };
 }
 
-declare const PORTAL_GLOBALS: PortalGlobals;
+declare const GLOBAL_PORTAL_CONFIG: Pick<
+  PortalConfig,
+  'portalName' | 'client' | 'backend' | 'mock'
+>;

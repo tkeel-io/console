@@ -1,10 +1,9 @@
-import { useDisclosure } from '@chakra-ui/react';
+import { Circle, useDisclosure } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
-import { MoreActionButton, toast } from '@tkeel/console-components';
-import { AlarmLampFilledIcon, TrashFilledIcon } from '@tkeel/console-icons';
+import { Alert, MoreActionButton, toast } from '@tkeel/console-components';
+import { TrashFilledIcon } from '@tkeel/console-icons';
 
-import CustomModal from '@/tkeel-console-plugin-tenant-devices/components/CustomModal';
 import useDeleteDeviceMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useDeleteDeviceMutation';
 
 type Props = {
@@ -43,14 +42,16 @@ function DeleteDevicesButton({ deviceName, ids, refetch }: Props) {
         title="删除设备"
       />
       {isOpen && (
-        <CustomModal
-          bg="red.50"
+        <Alert
+          iconPosition="left"
           icon={
-            <AlarmLampFilledIcon color="grayAlternatives.300" size="24px" />
+            <Circle size="44px" backgroundColor="red.50">
+              <TrashFilledIcon size="24px" color="red.300" />
+            </Circle>
           }
           title={`确认删除设备「${deviceName}」？`}
-          isConfirmButtonLoading={isLoading}
           isOpen={isOpen}
+          isConfirmButtonLoading={isLoading}
           onClose={onClose}
           onConfirm={handleConfirm}
         />

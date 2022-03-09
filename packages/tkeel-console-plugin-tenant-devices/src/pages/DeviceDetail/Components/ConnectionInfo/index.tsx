@@ -4,23 +4,25 @@ import { useEffect, useState } from 'react';
 
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
-import { ConnectInfo } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
+import { ConnectInfo } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
+import CustomEmpty from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/CustomEmpty';
 
 type Props = {
   data: ConnectInfo;
 };
 
+const connectInfo = {
+  _clientId: '',
+  _online: false,
+  _owner: '',
+  _peerHost: '',
+  _protocol: '',
+  _timestamp: '',
+  _sockPort: '',
+  _userName: '',
+} as const;
+
 function ConnectionInfo({ data }: Props) {
-  const connectInfo = {
-    _clientId: '',
-    _online: false,
-    _owner: '',
-    _peerHost: '',
-    _protocol: '',
-    _timestamp: '',
-    _sockPort: '',
-    _userName: '',
-  } as const;
   const [infoData, setInfoData] = useState<ConnectInfo>(connectInfo);
   useEffect(() => {
     setInfoData((preState) => {
@@ -53,7 +55,7 @@ function ConnectionInfo({ data }: Props) {
         : '',
     },
   ];
-  return (
+  return infoData?._online ? (
     <Box>
       <Text
         fontSize="14px"
@@ -89,6 +91,8 @@ function ConnectionInfo({ data }: Props) {
         </Flex>
       </Box>
     </Box>
+  ) : (
+    <CustomEmpty />
   );
 }
 

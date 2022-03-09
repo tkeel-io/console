@@ -183,7 +183,7 @@ function DeviceListTable({
           return (
             <LinkButton
               onClick={() => {
-                navigate(`/detail?id=${id}`);
+                navigate(`/detail?id=${id}&menu-collapsed=true`);
               }}
               color="gray.600"
               fontWeight="600"

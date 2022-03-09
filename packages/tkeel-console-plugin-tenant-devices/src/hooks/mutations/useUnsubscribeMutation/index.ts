@@ -1,4 +1,4 @@
-import { usePluginMutation } from '@tkeel/console-hooks';
+import { useMutation } from '@tkeel/console-hooks';
 
 const method = 'POST';
 
@@ -17,7 +17,7 @@ function useUnsubscribeMutation({
   subscribeId: string;
   onSuccess?: () => void;
 }) {
-  return usePluginMutation<ApiData, undefined, RequestData>({
+  return useMutation<ApiData, undefined, RequestData>({
     url: `/core-broker/v1/subscribe/${subscribeId}/entities/delete`,
     method,
     reactQueryOptions: { onSuccess },
