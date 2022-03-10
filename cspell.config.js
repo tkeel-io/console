@@ -51,6 +51,7 @@ module.exports = {
     'mgmt',
     'websockets',
     'faild',
+    'toastify',
     'rsuite',
   ],
   ignorePaths: [
