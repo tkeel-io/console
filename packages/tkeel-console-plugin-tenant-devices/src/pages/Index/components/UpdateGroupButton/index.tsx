@@ -4,8 +4,9 @@
 import { useDisclosure } from '@chakra-ui/react';
 import { keyBy, mapValues } from 'lodash';
 
-import { MoreActionButton, toast } from '@tkeel/console-components';
+import { MoreActionButton } from '@tkeel/console-components';
 import { PencilFilledIcon } from '@tkeel/console-icons';
+import { plugin } from '@tkeel/console-utils';
 
 import useUpdateGroupMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useUpdateGroupMutation';
 import { TreeNodeType } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
@@ -30,11 +31,11 @@ function UpdateGroupButton({
   groupTree,
   type,
 }: Props) {
+  const toast = plugin.getPortalToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const onSuccess = () => {
-    toast({
-      status: 'success',
-      title: '修改设备组成功',
+    toast('修改设备组成功', {
+      type: 'success',
     });
     if (callback) {
       const timer = window.setTimeout(() => {

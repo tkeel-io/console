@@ -40,7 +40,7 @@ export default function ModifyPasswordModal({
       const { newPassword, confirmPassword } = formValues;
 
       if (newPassword !== confirmPassword) {
-        toast({ status: 'warning', title: '两次输入的密码不一致' });
+        toast('两次输入的密码不一致', { type: 'warning' });
         return;
       }
 

@@ -1,62 +1,32 @@
-import { Box, Button, useDisclosure } from '@chakra-ui/react';
-import { useState } from 'react';
+import { Box, Button } from '@chakra-ui/react';
 
-import { Modal, toast } from '@tkeel/console-components';
 import { plugin } from '@tkeel/console-utils';
 
 export default function Example() {
-  const [isLoading, setIsLoading] = useState(false);
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
   return (
     <>
       <Box padding="24px">
         <Button
           onClick={() => {
-            toast({
-              status: 'success',
-              title: '2',
-              containerId: 2,
-              autoClose: false,
+            const toast = plugin.getPortalToast();
+            toast('toast', {
+              type: 'success',
             });
           }}
         >
-          open toast 2
+          open toast
         </Button>
       </Box>
       <Box padding="24px">
         <Button
           onClick={() => {
-            plugin.getGlobalPluginProps().portalProps.client.toast({
-              status: 'success',
-              title: '3',
-              autoClose: false,
-            });
+            const toast = plugin.getPortalToast();
+            toast.success('toast.success');
           }}
         >
-          open toast 3
+          open toast
         </Button>
       </Box>
-      <Box padding="24px">
-        <Button onClick={onOpen}>open Modal</Button>
-      </Box>
-      {isOpen && (
-        <Modal
-          title="添加设备"
-          isOpen={isOpen}
-          isConfirmButtonLoading={isLoading}
-          onClose={onClose}
-          onConfirm={() => {
-            setIsLoading(true);
-            setTimeout(() => {
-              setIsLoading(false);
-              onClose();
-            }, 500);
-          }}
-        >
-          1
-        </Modal>
-      )}
     </>
   );
 }

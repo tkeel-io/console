@@ -1,6 +1,7 @@
 import { useDisclosure } from '@chakra-ui/react';
 
-import { Alert, LinkButton, toast } from '@tkeel/console-components';
+import { Alert, LinkButton } from '@tkeel/console-components';
+import { plugin } from '@tkeel/console-utils';
 
 import useUnsubscribeMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useUnsubscribeMutation';
 
@@ -17,11 +18,12 @@ function UnsubscribeButton({
   subscribeDesc,
   refetch,
 }: Props) {
+  const toast = plugin.getPortalToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate, isLoading } = useUnsubscribeMutation({
     subscribeId,
     onSuccess() {
-      toast({ status: 'success', title: '取消成功' });
+      toast('取消成功', { type: 'success' });
       onClose();
     },
   });

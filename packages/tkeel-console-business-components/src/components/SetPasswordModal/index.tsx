@@ -30,6 +30,7 @@ export default function SetPasswordModal({
   data,
   onClose,
 }: Props) {
+  const toast = plugin.getPortalToast();
   const { isLoading, config } = useDeploymentConfigQuery();
   const defaultURL = `${config.portalTenantURL}/auth/set-password`;
   const query = stringify(data, { addQueryPrefix: true });
@@ -37,9 +38,7 @@ export default function SetPasswordModal({
   const { hasCopied, onCopy } = useClipboard(fullURL);
 
   if (hasCopied) {
-    plugin
-      .getGlobalPluginProps()
-      .portalProps.client.toast({ status: 'success', title: '复制成功' });
+    toast('复制成功', { type: 'success' });
   }
 
   return (

@@ -6,16 +6,17 @@ import {
   ButtonsHStack,
   PageHeaderToolbar,
   Table,
-  toast,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
 import { Role, useRolesQuery } from '@tkeel/console-request-hooks';
+import { plugin } from '@tkeel/console-utils';
 
 import CreateRoleButton from './components/CreateRoleButton';
 import DeleteRoleButton from './components/DeleteRoleButton';
 import ModifyRoleButton from './components/ModifyRoleButton';
 
 export default function Roles() {
+  const toast = plugin.getPortalToast();
   const [keywords, setKeyWords] = useState('');
   const pagination = usePagination();
   const { pageNum, pageSize, setPageNum, setTotalSize } = pagination;
@@ -39,17 +40,17 @@ export default function Roles() {
   }
 
   const handleCreateRoleSuccess = () => {
-    toast({ status: 'success', title: '创建成功' });
+    toast('创建成功', { type: 'success' });
     refetch();
   };
 
   const handleModifyRoleSuccess = () => {
-    toast({ status: 'success', title: '修改成功' });
+    toast('修改成功', { type: 'success' });
     refetch();
   };
 
   const handleDeleteRoleSuccess = () => {
-    toast({ status: 'success', title: '删除成功' });
+    toast('删除成功', { type: 'success' });
     refetch();
   };
 

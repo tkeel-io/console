@@ -1,4 +1,4 @@
-import { RectangleButton, toast } from '@tkeel/console-components';
+import { RectangleButton } from '@tkeel/console-components';
 import { CaretRightFilledIcon, LoadingFilledIcon } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
@@ -15,13 +15,14 @@ function EnableButton({
   buttonCanHover = false,
   refetchData,
 }: Props) {
-  const { portalProps } = plugin.getGlobalPluginProps();
+  const portalProps = plugin.getPortalProps();
   const { refetchMenus } = portalProps.client;
+  const toast = plugin.getPortalToast();
 
   const { mutate, isLoading } = useEnablePluginMutation({
     pluginName,
     onSuccess() {
-      toast({ status: 'success', title: '启用插件成功' });
+      toast('启用插件成功', { type: 'success' });
       refetchData();
       refetchMenus();
     },
