@@ -36,7 +36,7 @@ export default function CreateDeviceButton({
     {
       onSuccess(resData) {
         toast('创建设备成功', {
-          type: 'success',
+          status: 'success',
         });
         if (onSuccess) onSuccess({ data: resData.data });
       },

@@ -17,7 +17,7 @@ function DisableButton({ pluginName, refetchList }: Props) {
   const { mutate } = useDisablePluginMutation({
     pluginName,
     onSuccess() {
-      toast('停用插件成功', { type: 'success' });
+      toast('停用插件成功', { status: 'success' });
       refetchList();
       refetchMenus();
     },

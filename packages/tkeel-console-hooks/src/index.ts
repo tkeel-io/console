@@ -6,4 +6,5 @@ export { default as useQueries } from './hooks/useQueries';
 export { default as useQuery } from './hooks/useQuery';
 export { default as useRedirectParams } from './hooks/useRedirectParams';
 export { default as useRequestDefaultOptions } from './hooks/useRequestDefaultOptions';
+export * from './hooks/useStatusInfos';
 export { default as useWebSocket } from './hooks/useWebSocket';

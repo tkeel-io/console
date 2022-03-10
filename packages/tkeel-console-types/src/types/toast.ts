@@ -1,6 +1,20 @@
-import { ReactText } from 'react';
-import { ToastContent, ToastOptions } from 'react-toastify';
+import { ReactNode, ReactText } from 'react';
+import {
+  ToastContent,
+  ToastOptions as ToastifyToastOptions,
+  TypeOptions,
+} from 'react-toastify';
+
+export interface ToastOptions extends Omit<ToastifyToastOptions, 'type'> {
+  title: ReactNode;
+  description?: ReactNode;
+  status?: TypeOptions;
+}
 
 export interface ToastFunction {
-  (content: ToastContent, options?: ToastOptions): ReactText;
+  (options: ToastOptions): ReactText;
+  (
+    content: ToastContent,
+    options?: Omit<ToastOptions, 'title' | 'description'>
+  ): ReactText;
 }

@@ -35,7 +35,7 @@ function UpdateGroupButton({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const onSuccess = () => {
     toast('修改设备组成功', {
-      type: 'success',
+      status: 'success',
     });
     if (callback) {
       const timer = window.setTimeout(() => {

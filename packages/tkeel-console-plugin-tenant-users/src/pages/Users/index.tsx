@@ -48,17 +48,17 @@ export default function Users() {
   });
 
   const handleCreateUserSuccess = () => {
-    toast('创建成功', { type: 'success' });
+    toast('创建成功', { status: 'success' });
     refetch();
   };
 
   const handleModifyUserSuccess = () => {
-    toast('修改成功', { type: 'success' });
+    toast('修改成功', { status: 'success' });
     refetch();
   };
 
   const handleDeleteUserSuccess = () => {
-    toast('删除成功', { type: 'success' });
+    toast('删除成功', { status: 'success' });
     refetch();
   };
 

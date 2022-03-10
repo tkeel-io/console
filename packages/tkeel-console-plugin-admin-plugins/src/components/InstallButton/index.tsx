@@ -46,7 +46,7 @@ function InstallButton({ installPluginInfo, disabled, onSuccess }: Props) {
         onSuccess={() => {
           onClose();
           onSuccess();
-          toast('安装插件成功', { type: 'success' });
+          toast('安装插件成功', { status: 'success' });
         }}
       />
     </Box>

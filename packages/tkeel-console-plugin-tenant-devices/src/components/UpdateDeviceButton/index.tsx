@@ -29,7 +29,7 @@ function UpdateDeviceButton({ defaultFormValues, refetch, groupTree }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const onSuccess = () => {
     toast('修改设备成功', {
-      type: 'success',
+      status: 'success',
     });
     if (refetch) {
       refetch();
