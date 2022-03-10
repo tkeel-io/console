@@ -1,15 +1,12 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { useCallback, useMemo, useState } from 'react';
-// import { Column } from 'react-table';
 import { Cell, Column } from 'react-table';
 
 import {
-  // ButtonsHStack,
   Empty,
   MoreAction,
   PageHeaderToolbar,
   Table,
-  toast,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
 import {
@@ -19,20 +16,13 @@ import {
   WifiFilledIcon,
   WifiOffFilledIcon,
 } from '@tkeel/console-icons';
-import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
+import { formatDateTimeByTimestamp, plugin } from '@tkeel/console-utils';
 
 import useListSubscribeEntitiesQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useListSubscribeEntitiesQuery';
 import CreateDeviceButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/CreateDeviceButton';
 import DeleteDeviceButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/DeleteDeviceButton';
-// import ModifySubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/ModifySubscriptionButton';
-// import DeleteRoleButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/DeleteRoleButton';
-// import DisableButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/DisableButton';
-// import ModifyRoleButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/ModifyRoleButton';
 import MoveSubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/MoveSubscriptionButton';
 
-// type Role = {
-//   roleName: string;
-// };
 type Data = {
   ID: string;
   group: string;
@@ -42,27 +32,13 @@ type Data = {
   updated_at: string;
 };
 
-const handleCreateRoleSuccess = () => {
-  toast({ status: 'success', title: '创建成功' });
-  // queryClient.invalidateQueries(queryKey);
-};
-
-// const handleModifyRoleSuccess = () => {
-//   toast({ status: 'success', title: '修改成功' });
-//   // queryClient.invalidateQueries(queryKey);
-// };
-
-// const handleDeleteRoleSuccess = () => {
-//   toast({ status: 'success', title: '删除成功' });
-//   // queryClient.invalidateQueries(queryKey);
-// };
-
 const connectionIcon = {
   offline: <WifiOffFilledIcon key="wifi-off" />,
   online: <WifiFilledIcon key="wifi" />,
 };
 
 function Index({ id, title }: { id: string; title: string }) {
+  const toast = plugin.getPortalToast();
   const [keywords, setKeyWords] = useState('');
   const [checkBoxIcon, setCheckBoxIcon] = useState<boolean>(false);
 
@@ -82,6 +58,10 @@ function Index({ id, title }: { id: string; title: string }) {
 
   const pagination = usePagination();
   const { pageNum, pageSize, setTotalSize } = pagination;
+
+  const handleCreateRoleSuccess = () => {
+    toast('创建成功', { type: 'success' });
+  };
 
   // const pagination = usePagination();
   // const { setTotalSize } = pagination;

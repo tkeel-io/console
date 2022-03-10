@@ -3,8 +3,9 @@ import { Button, useDisclosure } from '@chakra-ui/react';
 import { keyBy, mapValues } from 'lodash';
 import { useEffect } from 'react';
 
-import { MoreActionButton, toast } from '@tkeel/console-components';
+import { MoreActionButton } from '@tkeel/console-components';
 import { AddFilledIcon } from '@tkeel/console-icons';
+import { plugin } from '@tkeel/console-utils';
 
 import useCreateDeviceGroupMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceGroupMutation';
 import { TreeNodeType } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
@@ -30,13 +31,11 @@ export default function CreateGroupButton({
   defaultFormValues,
   groupTree,
 }: Props) {
+  const toast = plugin.getPortalToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isLoading, mutate, isSuccess, reset } = useCreateDeviceGroupMutation({
     onSuccess() {
-      toast({
-        status: 'success',
-        title: '创建设备组成功',
-      });
+      toast('创建设备组成功', { type: 'success' });
       if (callback) {
         const timer = setTimeout(() => {
           callback();

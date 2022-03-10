@@ -1,9 +1,9 @@
 import { AxiosRequestConfig } from 'axios';
 import { inRange, merge } from 'lodash';
 
-import { toast } from '@tkeel/console-components';
 import { DEFAULT_API_BASE_PATH } from '@tkeel/console-constants';
 
+import { getToastCrossEnv } from '../toast';
 import { AxiosRequestConfigExtended, RequestExtras } from './types';
 
 export const DEFAULT_AXIOS_REQUEST_CONFIG: AxiosRequestConfig = {
@@ -26,10 +26,11 @@ export const DEFAULT_CUSTOM_EXTRAS: RequestExtras = {
     // custom codes
   },
   handleApiError(response) {
+    const toast = getToastCrossEnv();
     const customApiErrorMessage =
       response?.config?.extras?.customApiErrorMessage;
     const msg = response?.data?.msg;
-    toast({ title: customApiErrorMessage || msg || '', status: 'error' });
+    toast(customApiErrorMessage || msg || '', { type: 'error' });
   },
   getApiErrorMessage(response) {
     const customApiErrorMessage =
@@ -39,9 +40,10 @@ export const DEFAULT_CUSTOM_EXTRAS: RequestExtras = {
   },
   customApiErrorMessage: '',
   handleAxiosError(error) {
+    const toast = getToastCrossEnv();
     const { message, config } = error;
     const customAxiosErrorMessage = config?.extras?.customAxiosErrorMessage;
-    toast({ title: customAxiosErrorMessage || message || '', status: 'error' });
+    toast(customAxiosErrorMessage || message || '', { type: 'error' });
   },
   customAxiosErrorMessage: '',
 };

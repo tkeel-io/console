@@ -1,11 +1,12 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 
 import { TemplateCard } from '@tkeel/console-business-components';
-import { Loading, toast } from '@tkeel/console-components';
+import { Loading } from '@tkeel/console-components';
 import {
   BookOpenedFilledIcon,
   MessageWarningTwoToneIcon,
 } from '@tkeel/console-icons';
+import { plugin } from '@tkeel/console-utils';
 
 import useListSubscribeQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useListSubscribeQuery';
 import DeleteSubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/DeleteSubscriptionButton';
@@ -82,6 +83,7 @@ function SubscriptionCard() {
 }
 
 function Index(): JSX.Element {
+  const toast = plugin.getPortalToast();
   //  const {data} =  useSubscribeInfoQuery(id)
 
   const { data, refetch } = useListSubscribeQuery();
@@ -104,8 +106,7 @@ function Index(): JSX.Element {
         <CreateSubscriptionButton
           key="create"
           onSuccess={() => {
-            toast({ status: 'success', title: '创建订阅成功' });
-
+            toast('创建订阅成功', { type: 'success' });
             refetch();
           }}
         />
