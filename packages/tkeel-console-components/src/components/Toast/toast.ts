@@ -1,5 +1,10 @@
-import createStandaloneToast from './createStandaloneToast';
+import { toast as toastBase, ToastContent, ToastOptions } from 'react-toastify';
 
-const toast = createStandaloneToast();
+interface Props extends ToastOptions {
+  status: 'success' | 'warning' | 'error';
+  title?: ToastContent;
+}
 
-export default toast;
+export default function toast({ title, ...options }: Props) {
+  return toastBase(title, options);
+}
