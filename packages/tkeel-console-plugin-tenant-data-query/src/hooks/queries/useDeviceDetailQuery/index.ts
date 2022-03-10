@@ -54,15 +54,29 @@ export interface SysField {
   _spacePath: string;
   _subscribeAddr: string;
 }
-export interface DeviceObject {
-  id: string;
-  properties: {
-    basicInfo?: BasicInfo;
-    sysField?: SysField;
-    rawData?: RawData;
-    connectInfo?: ConnectInfo;
+
+export interface Properties {
+  basicInfo?: BasicInfo;
+  sysField?: SysField;
+  rawData?: RawData;
+  connectInfo?: ConnectInfo;
+}
+
+export interface Telemetry {
+  [propName: string]: {
+    id: string;
+    name: string;
   };
 }
+
+export interface DeviceObject {
+  id: string;
+  configs: {
+    telemetry: Telemetry;
+  };
+  properties: Properties;
+}
+
 export interface ApiData {
   '@type': string;
   deviceObject?: DeviceObject;

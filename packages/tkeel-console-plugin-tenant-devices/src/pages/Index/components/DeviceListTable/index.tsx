@@ -160,13 +160,15 @@ function DeviceListTable({
   const deviceTableData = deviceList.map((item: DeviceApiItem) => {
     const { id, properties } = item;
     const { basicInfo, sysField } = properties;
-    const { name, directConnection, templateId, selfLearn } = basicInfo;
+    const { name, directConnection, templateId, templateName, selfLearn } =
+      basicInfo;
     const { _createdAt: createTime, _status: status } = sysField;
     return {
       id,
       name,
       directConnection,
       templateId,
+      templateName,
       selfLearn,
       status,
       createTime,
@@ -213,10 +215,9 @@ function DeviceListTable({
     },
     {
       Header: '设备模版',
-      accessor: 'templateId',
-      Cell({ value }: { value: string }) {
-        return value.slice(-9, -1);
-      },
+      accessor: 'templateName',
+      Cell: ({ value }: { value: string }) =>
+        useMemo(() => <Text color="gray.600">{value}</Text>, [value]),
     },
     {
       Header: '设备状态',

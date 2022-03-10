@@ -2,7 +2,7 @@
 /* eslint-disable no-console */
 /* eslint-disable unicorn/consistent-function-scoping */
 import { useDisclosure } from '@chakra-ui/react';
-import { has, keyBy, mapValues } from 'lodash';
+import { keyBy, mapValues } from 'lodash';
 import { useEffect } from 'react';
 
 import { CreateButton, LinkButton, toast } from '@tkeel/console-components';
@@ -55,13 +55,16 @@ export default function CreateDeviceButton({
       connectType,
       connectInfo,
       extendInfo,
+      templateId,
+      templateName,
     } = formValues;
     const params = {
       description,
       name,
       directConnection: connectType === ConnectOption.DIRECT,
-      selfLearn: has(connectInfo, ConnectInfoType.selfLearn),
-      templateId: has(connectInfo, ConnectInfoType.useTemplate) ? '123' : '',
+      selfLearn: connectInfo?.includes(ConnectInfoType.selfLearn) ?? false,
+      templateId,
+      templateName,
       ext: mapValues(keyBy(extendInfo, 'label'), 'value'),
       parentId,
       parentName,

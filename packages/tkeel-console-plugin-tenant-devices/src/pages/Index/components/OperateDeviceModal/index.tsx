@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { Box, Button, Flex, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Spacer, Text } from '@chakra-ui/react';
 import { isEmpty, values } from 'lodash';
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
@@ -34,6 +34,8 @@ const defaultFormInfo = {
   name: '',
   parentId: '',
   parentName: '',
+  templateId: '',
+  templateName: '',
   extendInfo: [],
   description: '',
 };
@@ -103,6 +105,8 @@ export default function OperateDeviceModal({
   const deviceGroupOptions = getTreeNodeData({
     data: groupTreeCopy,
   });
+  // eslint-disable-next-line no-console
+  console.log(watchFields);
   useEffect(() => {
     if (!isOpen) {
       setCurrentStep(0);
@@ -115,6 +119,7 @@ export default function OperateDeviceModal({
         parentId,
         parentName,
         templateId,
+        templateName,
         directConnection,
       } = defaultFormValues;
       const connectInfo = [];
@@ -135,7 +140,11 @@ export default function OperateDeviceModal({
       };
       const deviceDefaultInfo = {
         connectInfo,
-        connectType: directConnection ? ConnectOption.DIRECT : '',
+        connectType: directConnection
+          ? ConnectOption.DIRECT
+          : ConnectOption.INDIRECT,
+        templateId,
+        templateName,
       };
       const defaultFormInfoCopy =
         type === ModalType.DEVICE
@@ -169,6 +178,7 @@ export default function OperateDeviceModal({
         'name',
         'parentId',
         'connectType',
+        'templateId',
         'description',
       ]);
       if (result) {
@@ -261,37 +271,40 @@ export default function OperateDeviceModal({
             {currentStep === 2 && (
               <CompleteInfoPart type={type} responseData={responseData} />
             )}
-            {currentStep === 1 && (
+            <Flex
+              h="32px"
+              position="absolute"
+              bottom="0px"
+              direction="row"
+              w="100%"
+            >
+              <Spacer />
+              {currentStep === 1 && (
+                <Button
+                  colorScheme="primary"
+                  fontSize="14px"
+                  mr="14px"
+                  boxShadow={`0px 4px 12px ${useColor('primarySub')}`}
+                  onClick={() => {
+                    setCurrentStep(currentStep - 1);
+                  }}
+                >
+                  上一步
+                </Button>
+              )}
               <Button
-                pos="absolute"
-                left="0px"
-                bottom="0px"
-                colorScheme="primary"
+                colorScheme={
+                  getButtonText() === BUTTON_TEXT.SKIP ? 'gray' : 'primary'
+                }
                 fontSize="14px"
                 px="30px"
+                type="submit"
+                isLoading={isLoading}
                 boxShadow={`0px 4px 12px ${useColor('primarySub')}`}
-                onClick={() => {
-                  setCurrentStep(currentStep - 1);
-                }}
               >
-                上一步
+                {getButtonText()}
               </Button>
-            )}
-            <Button
-              pos="absolute"
-              right="0px"
-              bottom="0px"
-              colorScheme={
-                getButtonText() === BUTTON_TEXT.SKIP ? 'gray' : 'primary'
-              }
-              fontSize="14px"
-              px="30px"
-              type="submit"
-              isLoading={isLoading}
-              boxShadow={`0px 4px 12px ${useColor('primarySub')}`}
-            >
-              {getButtonText()}
-            </Button>
+            </Flex>
           </Form>
         </Flex>
       </Flex>
