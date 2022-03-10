@@ -47,19 +47,23 @@ function UpdateDeviceButton({ defaultFormValues, refetch, groupTree }: Props) {
       connectType,
       connectInfo,
       extendInfo,
+      templateId,
+      templateName,
     } = formValues;
     const params = {
       description,
       name,
       directConnection: connectType === ConnectOption.DIRECT,
       selfLearn: connectInfo?.includes(ConnectInfoType.selfLearn) ?? false,
-      templateId:
-        connectInfo?.includes(ConnectInfoType.useTemplate) ?? false
-          ? '123'
-          : '',
+      templateId: connectInfo?.includes(ConnectInfoType.useTemplate)
+        ? templateId
+        : '',
+      templateName: connectInfo?.includes(ConnectInfoType.useTemplate)
+        ? templateName
+        : '',
       ext: mapValues(keyBy(extendInfo, 'label'), 'value'),
-      parentId,
-      parentName,
+      parentId: parentId || '',
+      parentName: parentName || '',
     };
     mutate({ data: params });
   };
