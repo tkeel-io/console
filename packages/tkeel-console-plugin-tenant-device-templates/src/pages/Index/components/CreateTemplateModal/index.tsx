@@ -1,8 +1,9 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-import CustomTemplateButton from 'packages/tkeel-console-plugin-tenant-device-templates/src/pages/Index/components/CustomTemplateButton';
 
 import Modal from '@tkeel/console-components/src/components/Modal';
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
+
+import CustomTemplateButton from '../CustomTemplateButton';
 
 export interface FormValues {
   role: string;

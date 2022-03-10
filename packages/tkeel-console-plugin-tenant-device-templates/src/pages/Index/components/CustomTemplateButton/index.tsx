@@ -1,11 +1,12 @@
 import { Flex, Text, useDisclosure } from '@chakra-ui/react';
-import CustomTemplateModal from 'packages/tkeel-console-plugin-tenant-device-templates/src/pages/Index/components/CustomTemplateModal';
 import { useIsMutating } from 'react-query';
 
 import {
   ChevronRightFilledIcon,
   DocumentPencilTowToneIcon,
 } from '@tkeel/console-icons';
+
+import CustomTemplateModal from '../CustomTemplateModal';
 
 type Props = {
   onSuccess: () => void;
@@ -58,15 +59,13 @@ export default function CustomTemplateButton({ onSuccess }: Props) {
         </Text>
       </Flex>
       <ChevronRightFilledIcon size="24px" />
-      {isOpen && (
-        <CustomTemplateModal
-          title="创建模板"
-          isOpen={isOpen}
-          onClose={onClose}
-          isConfirmButtonLoading={isLoading}
-          onConfirm={handleConfirm}
-        />
-      )}
+      <CustomTemplateModal
+        title="创建模板"
+        isOpen={isOpen}
+        onClose={onClose}
+        isConfirmButtonLoading={isLoading}
+        onConfirm={handleConfirm}
+      />
     </Flex>
   );
 }
