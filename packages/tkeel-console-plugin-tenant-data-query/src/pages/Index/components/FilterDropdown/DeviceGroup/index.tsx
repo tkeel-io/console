@@ -2,7 +2,11 @@ import { Flex, Text } from '@chakra-ui/react';
 import { values } from 'lodash';
 
 import { Tree } from '@tkeel/console-components';
-import { FolderCloseTwoToneIcon, RightFilledIcon } from '@tkeel/console-icons';
+import {
+  FolderCloseTwoToneIcon,
+  FolderOpenTwoToneIcon,
+  RightFilledIcon,
+} from '@tkeel/console-icons';
 
 import {
   NodeInfo,
@@ -22,6 +26,17 @@ export interface TreeNodeData {
   key: string;
 }
 
+function getTreeIcon(props: { selected: boolean; expanded: boolean }) {
+  const { selected, expanded } = props;
+  const color = selected ? 'primary' : 'gray.700';
+  const twoToneColor = selected ? 'primarySub2' : 'gray.300';
+  return expanded ? (
+    <FolderOpenTwoToneIcon color={color} twoToneColor={twoToneColor} />
+  ) : (
+    <FolderCloseTwoToneIcon color={color} twoToneColor={twoToneColor} />
+  );
+}
+
 function getTreeNodeData(data: TreeNodeType): TreeNodeData[] {
   return values(data).map((item) => {
     const { nodeInfo, subNode } = item;
@@ -32,6 +47,13 @@ function getTreeNodeData(data: TreeNodeType): TreeNodeData[] {
       children: getTreeNodeData(subNode),
       originData: item,
       key: id,
+      icon: ({
+        expanded,
+        selected,
+      }: {
+        expanded: boolean;
+        selected: boolean;
+      }) => getTreeIcon({ expanded, selected }),
     };
   });
 }
@@ -82,9 +104,8 @@ export default function DeviceGroup({
           </Flex>
         );
       }}
-      checkable={false}
       extras={{ isTreeTitleFullWidth: true }}
-      icon={<FolderCloseTwoToneIcon />}
+      showIcon
       treeData={treeNodeData}
     />
   );

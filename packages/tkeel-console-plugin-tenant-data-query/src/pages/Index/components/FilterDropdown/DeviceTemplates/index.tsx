@@ -30,7 +30,7 @@ export default function DeviceTemplates({ templates, onTemplateClick }: Props) {
       {templates.map((template, i) => (
         <Flex
           key={template.id || i}
-          marginBottom="18px"
+          marginBottom={i === templates.length - 1 ? '0' : '18px'}
           cursor="pointer"
           onClick={() =>
             onTemplateClick({
