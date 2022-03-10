@@ -1,5 +1,6 @@
-import { MoreActionButton, toast } from '@tkeel/console-components';
+import { MoreActionButton } from '@tkeel/console-components';
 import { TrashFilledIcon } from '@tkeel/console-icons';
+import { plugin } from '@tkeel/console-utils';
 
 import useDeletePluginMutation from '@/tkeel-console-plugin-admin-plugins/hooks/mutations/useDeletePluginMutation';
 
@@ -9,11 +10,12 @@ interface Props {
 }
 
 function UninstallButton({ pluginName, onSuccess }: Props) {
+  const toast = plugin.getPortalToast();
   const { mutate } = useDeletePluginMutation({
     name: pluginName,
     onSuccess() {
       onSuccess();
-      toast({ status: 'success', title: '卸载插件成功' });
+      toast('卸载插件成功', { type: 'success' });
     },
   });
 

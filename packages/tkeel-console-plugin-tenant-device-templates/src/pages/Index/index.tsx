@@ -1,13 +1,15 @@
 import { Flex } from '@chakra-ui/react';
 import { useState } from 'react';
 
-import { PageHeaderToolbar, toast } from '@tkeel/console-components';
+import { PageHeaderToolbar } from '@tkeel/console-components';
 // import useTemplatesQuery from '@/tkeel-console-plugin-tenant-device-templates/hooks/queries/useTemplatesQuery';
 import { useTemplateQuery } from '@tkeel/console-request-hooks';
+import { plugin } from '@tkeel/console-utils';
 
 import { CreateTemplateButton } from './components/buttons';
 
-function Index(): JSX.Element {
+function Index() {
+  const toast = plugin.getPortalToast();
   const defaultParams = {
     page_num: 1,
     page_size: 1000,
@@ -33,7 +35,7 @@ function Index(): JSX.Element {
   // console.log(keyWord, result);
 
   const handleCreateSuccess = () => {
-    toast({ status: 'warning', title: '请选择角色权限' });
+    toast('请选择角色权限', { type: 'warning' });
     // eslint-disable-next-line no-console
     console.log(keyWord);
   };

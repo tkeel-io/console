@@ -40,8 +40,7 @@ function getExtras({ location }: { location: Location }) {
     portalName = GLOBAL_PORTAL_CONFIG.portalName;
     tokenInfo = getLocalTokenInfo();
   } else {
-    const globalPluginProps = plugin.getGlobalPluginProps();
-    const portalProps = globalPluginProps?.portalProps;
+    const portalProps = plugin.getPortalProps();
     portalName = portalProps.portalName;
     basePath = GLOBAL_PLUGIN_CONFIG.client.basePath;
     tokenInfo = portalProps.client.tokenInfo;

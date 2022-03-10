@@ -2,14 +2,15 @@ import { Box, Text } from '@chakra-ui/react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { BasicInfo } from '@tkeel/console-business-components';
-import { MoreAction, toast } from '@tkeel/console-components';
-import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
+import { MoreAction } from '@tkeel/console-components';
+import { formatDateTimeByTimestamp, plugin } from '@tkeel/console-utils';
 
 import DeleteTenantButton from '@/tkeel-console-plugin-admin-tenants/components/DeleteTenantButton';
 import ModifyTenantButton from '@/tkeel-console-plugin-admin-tenants/components/ModifyTenantButton';
 import useTenantQuery from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useTenantQuery';
 
 export default function BasicInfoCard() {
+  const toast = plugin.getPortalToast();
   const { tenantId = '' } = useParams();
   const navigate = useNavigate();
   const { data, refetch } = useTenantQuery({ tenantId });
@@ -47,12 +48,12 @@ export default function BasicInfoCard() {
   ];
 
   const handleModifyTenantSuccess = () => {
-    toast({ status: 'success', title: '修改成功' });
+    toast('修改成功', { type: 'success' });
     refetch();
   };
 
   const handleDeleteTenantSuccess = () => {
-    toast({ status: 'success', title: '删除成功' });
+    toast('删除成功', { type: 'success' });
     navigate('/', { replace: true });
   };
 

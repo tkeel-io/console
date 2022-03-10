@@ -1,5 +1,6 @@
-import { RectangleButton, toast } from '@tkeel/console-components';
+import { RectangleButton } from '@tkeel/console-components';
 import { CaretRightFilledIcon, LoadingFilledIcon } from '@tkeel/console-icons';
+import { plugin } from '@tkeel/console-utils';
 
 import useDisablePluginMutation from '@/tkeel-console-plugin-tenant-plugins/hooks/mutations/useDisablePluginMutation';
 
@@ -9,10 +10,11 @@ type Props = {
 };
 
 function DisableButton({ pluginName, refetchData }: Props) {
+  const toast = plugin.getPortalToast();
   const { mutate, isLoading } = useDisablePluginMutation({
     pluginName,
     onSuccess() {
-      toast({ status: 'success', title: '停用插件成功' });
+      toast('停用插件成功', { type: 'success' });
       refetchData();
     },
   });

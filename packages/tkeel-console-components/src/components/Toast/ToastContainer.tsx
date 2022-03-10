@@ -1,10 +1,10 @@
 import 'react-toastify/dist/ReactToastify.css';
 
 import {
-  ToastContainer as Container,
+  ToastContainer as ToastifyContainer,
   ToastContainerProps,
 } from 'react-toastify';
 
 export default function ToastContainer(props: ToastContainerProps) {
-  return <Container {...props} />;
+  return <ToastifyContainer {...props} />;
 }
