@@ -9,7 +9,7 @@ export default function Example() {
         <Button
           onClick={() => {
             const toast = plugin.getPortalToast();
-            toast({ title1: '123', status: 'success' });
+            toast('toast', { status: 'success' });
             toast('toast', { status: 'error' });
             toast('toast', { status: 'info' });
             toast('toast', { status: 'warning' });
