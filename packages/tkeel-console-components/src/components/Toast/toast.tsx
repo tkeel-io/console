@@ -47,3 +47,27 @@ function toast(
 }
 
 export default toast;
+
+function fn(options: { name: string; age?: number; country?: string }): string;
+function fn(name: string, options?: { age?: number; country?: string }): string;
+function fn(
+  arg1: { name: string; age?: number; country?: string } | string,
+  arg2?: { age?: number; country?: string }
+) {
+  let name = '';
+  let age = 0;
+  let country = '';
+  if (typeof arg1 === 'string') {
+    name = arg1;
+    age = arg2?.age ?? 0;
+    country = arg2?.country ?? '';
+  } else {
+    name = arg1.name;
+    age = arg1?.age ?? 0;
+    country = arg1?.country ?? '';
+  }
+
+  return [name, age, country].join(' - ');
+}
+
+fn({ age: 1, name: 'an' });
