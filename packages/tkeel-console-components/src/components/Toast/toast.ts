@@ -1,10 +1,10 @@
-import { toast as toastBase, ToastContent } from 'react-toastify';
+import { toast as toastBase, ToastContent, ToastOptions } from 'react-toastify';
 
-type Props = {
-  status: 'success' | 'warn' | 'error';
+interface Props extends ToastOptions {
+  status: 'success' | 'warning' | 'error';
   title?: ToastContent;
-};
+}
 
-export default function toast({ title }: Props) {
-  return toastBase(title);
+export default function toast({ title, ...options }: Props) {
+  return toastBase(title, options);
 }

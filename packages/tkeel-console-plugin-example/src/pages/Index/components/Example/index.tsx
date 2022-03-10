@@ -2,6 +2,7 @@ import { Box, Button, useDisclosure } from '@chakra-ui/react';
 import { useState } from 'react';
 
 import { Modal, toast } from '@tkeel/console-components';
+import { plugin } from '@tkeel/console-utils';
 
 export default function Example() {
   const [isLoading, setIsLoading] = useState(false);
@@ -12,10 +13,28 @@ export default function Example() {
       <Box padding="24px">
         <Button
           onClick={() => {
-            toast({ status: 'success', title: 'open toast' });
+            toast({
+              status: 'success',
+              title: '2',
+              containerId: 2,
+              autoClose: false,
+            });
           }}
         >
-          open toast
+          open toast 2
+        </Button>
+      </Box>
+      <Box padding="24px">
+        <Button
+          onClick={() => {
+            plugin.getGlobalPluginProps().portalProps.client.toast({
+              status: 'success',
+              title: '3',
+              autoClose: false,
+            });
+          }}
+        >
+          open toast 3
         </Button>
       </Box>
       <Box padding="24px">
@@ -31,7 +50,6 @@ export default function Example() {
             setIsLoading(true);
             setTimeout(() => {
               setIsLoading(false);
-              toast({ status: 'success', title: 'Modal onConfirm' });
               onClose();
             }, 500);
           }}

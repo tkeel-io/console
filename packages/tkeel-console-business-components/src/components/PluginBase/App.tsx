@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 import { QueryClientProvider } from 'react-query';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import { ToastContainer } from '@tkeel/console-components';
+// import { ToastContainer } from '@tkeel/console-components';
 import { QueryClient } from '@tkeel/console-hooks';
 import { plugin } from '@tkeel/console-utils';
 
@@ -21,7 +21,12 @@ export default function App({ children }: Props) {
     <QueryClientProvider client={queryClient}>
       <ChakraProvider theme={theme}>
         <Router basename={plugin.getRouterBasename()}>{children}</Router>
-        <ToastContainer />
+        {/* <ToastContainer
+          closeButton={false}
+          containerId={2}
+          enableMultiContainer
+        /> */}
+        {/* <ToastContainer containerId={3} enableMultiContainer /> */}
       </ChakraProvider>
     </QueryClientProvider>
   );
