@@ -1,5 +1,5 @@
 import { useDisclosure } from '@chakra-ui/react';
-import { CreateTemplateModal } from 'packages/tkeel-console-plugin-tenant-device-templates/src/pages/Index/components/modals';
+import CreateTemplateModal from 'packages/tkeel-console-plugin-tenant-device-templates/src/pages/Index/components/CreateTemplateModal';
 
 import { CreateButton } from '@tkeel/console-components';
 

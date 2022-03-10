@@ -1,4 +1,8 @@
+/* eslint-disable no-underscore-dangle */
+import { values } from 'lodash';
+
 import { useQuery } from '@tkeel/console-hooks';
+import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 const url = '/tkeel-device/v1/search';
 const method = 'POST';
@@ -21,8 +25,10 @@ export interface NodeInfo {
 
 export type TemplateTreeNodeDataType = {
   title: string;
+  description: string;
   key: string;
   id: string;
+  updatedAt: string | number;
 };
 export interface TemplateTreeNodeType {
   [propName: string]: {
@@ -30,6 +36,10 @@ export interface TemplateTreeNodeType {
     properties: {
       basicInfo: {
         name: string;
+        description: string;
+      };
+      sysField: {
+        _updatedAt: string | number;
       };
     };
     nodeInfo: NodeInfo;
@@ -50,6 +60,22 @@ interface ApiData {
   listDeviceObject: TemplateTreeNodeType;
 }
 
+function getTemplateKeyData(
+  data: TemplateTreeNodeType
+): TemplateTreeNodeDataType[] {
+  return values(data).map((item) => {
+    return {
+      title: item?.properties?.basicInfo?.name,
+      description: item?.properties?.basicInfo?.description,
+      id: item?.id,
+      key: item?.id,
+      updatedAt: formatDateTimeByTimestamp({
+        timestamp: item?.properties?.sysField?._updatedAt,
+      }),
+    };
+  });
+}
+
 export default function useTemplateQuery(requestParams: RequestParams) {
   const { data, ...rest } = useQuery<ApiData, undefined, RequestParams>({
     url,
@@ -57,5 +83,7 @@ export default function useTemplateQuery(requestParams: RequestParams) {
     data: requestParams,
   });
   const items = data?.listDeviceObject?.items ?? {};
-  return { items, data, ...rest };
+
+  const keyData = getTemplateKeyData(items);
+  return { items, keyData, data, ...rest };
 }

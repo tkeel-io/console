@@ -1,5 +1,5 @@
 import { Flex, Text, useDisclosure } from '@chakra-ui/react';
-import { CustomTemplateModal } from 'packages/tkeel-console-plugin-tenant-device-templates/src/pages/Index/components/modals';
+import CustomTemplateModal from 'packages/tkeel-console-plugin-tenant-device-templates/src/pages/Index/components/CustomTemplateModal';
 import { useIsMutating } from 'react-query';
 
 import {
