@@ -11,11 +11,10 @@ import {
 import DeviceInfoCard from '@/tkeel-console-plugin-tenant-data-query/components/DeviceInfoCard';
 import useDeviceListQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceListQuery';
 import SearchDeviceInput from '@/tkeel-console-plugin-tenant-data-query/pages/Index/components/SearchDeviceInput';
-import {
-  DEVICE_GROUP_ID,
-  DEVICE_TEMPLATES_ID,
-} from '@/tkeel-console-plugin-tenant-data-query/pages/Index/constants';
+import { FilterConditionIds } from '@/tkeel-console-plugin-tenant-data-query/pages/Index/constants';
 import { RequestDataCondition } from '@/tkeel-console-plugin-tenant-data-query/types/request-data';
+
+const { DEVICE_GROUP_ID, DEVICE_TEMPLATES_ID, KEYWORDS } = FilterConditionIds;
 
 export default function SearchResult() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -27,6 +26,7 @@ export default function SearchResult() {
     order_by: 'name',
     is_descending: false,
   };
+  // const statusQueryField = 'sysField._status';
   const statusQueryField = 'connectInfo._online';
   const deviceGroupIdQueryField = 'sysField._spacePath';
   const templateIdQueryField = 'basicInfo.templateId';
@@ -79,7 +79,7 @@ export default function SearchResult() {
 
   const keywords = searchParams.get('keywords') || '';
 
-  const { deviceList, data, isLoading } = useDeviceListQuery({
+  const { deviceList, data, isLoading, refetch } = useDeviceListQuery({
     requestData: {
       ...baseRequestData,
       query: keywords,
@@ -113,7 +113,7 @@ export default function SearchResult() {
   }
   if (keywords) {
     defaultFilterConditions.push({
-      id: 'keywords',
+      id: KEYWORDS,
       label: '关键字',
       value: keywords,
     });
@@ -138,6 +138,9 @@ export default function SearchResult() {
           defaultFilterConditions={defaultFilterConditions}
           style={{ marginLeft: '19%' }}
           type="searchResult"
+          refetchData={() => {
+            refetch();
+          }}
         />
       </Flex>
       <Flex marginTop="16px" justifyContent="space-between">
@@ -156,8 +159,8 @@ export default function SearchResult() {
       </Flex>
       <Flex marginTop="12px" flex="1">
         <Flex
+          marginRight="-8px"
           width="100%"
-          justifyContent="space-between"
           alignContent="flex-start"
           flexWrap="wrap"
         >
@@ -165,7 +168,7 @@ export default function SearchResult() {
             <DeviceInfoCard
               key={device.id}
               device={device}
-              style={{ marginBottom: '12px', width: '24.5%' }}
+              style={{ marginRight: '8px', marginBottom: '12px', width: '25%' }}
             />
           ))}
         </Flex>

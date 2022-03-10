@@ -19,6 +19,7 @@
     "@tkeel/console-icons": "workspace:^",
     "@tkeel/console-types": "workspace:^",
     "@types/lodash": "^4.14.179",
+    "dayjs": "^1.10.8",
     "framer-motion": "^6.2.8",
     "lodash": "^4.17.21",
     "rc-pagination": "^3.1.15",
@@ -29,7 +30,8 @@
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.27.1",
     "react-table": "^7.7.0",
-    "react-use": "^17.3.2"
+    "react-use": "^17.3.2",
+    "rsuite": "^5.6.3"
   },
   "devDependencies": {
     "@types/react-table": "^7.7.9"

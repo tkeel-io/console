@@ -51,6 +51,7 @@ module.exports = {
     'mgmt',
     'websockets',
     'faild',
+    'rsuite',
   ],
   ignorePaths: [
     '**/.idea/**',

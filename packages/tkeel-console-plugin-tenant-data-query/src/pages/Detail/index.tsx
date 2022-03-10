@@ -1,8 +1,9 @@
 import { Circle, Flex, Text } from '@chakra-ui/react';
+import * as dayjs from 'dayjs';
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import { IconButton } from '@tkeel/console-components';
+import { DateRangePicker, IconButton } from '@tkeel/console-components';
 import {
   // BroomFilledIcon,
   // ChevronDownFilledIcon,
@@ -24,16 +25,20 @@ import PropertiesConditions, {
   CheckBoxStatus,
 } from './components/PropertiesConditions';
 
+function getSeconds(timestamp: number) {
+  return Math.round(timestamp / 1000);
+}
+
 export default function Detail() {
   const [keywords, setKeywords] = useState('');
-  // eslint-disable-next-line no-console
-  console.log('Detail ~ keywords', keywords);
   const [templateCheckboxStatus, setTemplateCheckboxStatus] = useState(
     CheckBoxStatus.NOT_CHECKED
   );
   const [checkedKeys, setCheckedKeys] = useState<string[]>([]);
-  const [startTime] = useState(1_646_569_642);
-  const [endTime] = useState(1_646_728_732);
+  const [startTime, setStartTime] = useState(
+    getSeconds(dayjs().subtract(3, 'day').valueOf())
+  );
+  const [endTime, setEndTime] = useState(getSeconds(dayjs().valueOf()));
   const dateRangeLength = 5;
   const intervalTime = (endTime - startTime) / dateRangeLength;
 
@@ -46,6 +51,8 @@ export default function Detail() {
   const telemetry = deviceObject?.configs?.telemetry ?? {};
 
   const identifiers = checkedKeys.join(',');
+
+  const hasIdentifiers = identifiers.length > 0;
 
   const {
     mutate,
@@ -62,12 +69,24 @@ export default function Detail() {
     }
   };
 
-  const handleTelemetryDataMutate = () => {
+  const defaultDataMutateProps = {
+    requestStartTime: startTime,
+    requestEndTime: endTime,
+  };
+
+  const handleTelemetryDataMutate = (props?: {
+    requestStartTime: number;
+    requestEndTime: number;
+  }) => {
+    const { requestStartTime, requestEndTime } = {
+      ...defaultDataMutateProps,
+      ...props,
+    };
     mutate({
       url: `core/v1/ts/${id}`,
       data: {
-        start_time: startTime,
-        end_time: endTime,
+        start_time: requestStartTime,
+        end_time: requestEndTime,
         identifiers,
         page_size: 1_000_000,
         page_num: 1,
@@ -90,6 +109,7 @@ export default function Detail() {
         <DeviceDetailCard detailData={deviceObject} />
         <PropertiesConditions
           telemetry={telemetry}
+          keywords={keywords}
           templateCheckboxStatus={templateCheckboxStatus}
           setTemplateCheckboxStatus={setTemplateCheckboxStatus}
           checkedKeys={checkedKeys}
@@ -119,16 +139,43 @@ export default function Detail() {
             >
               数据结果
             </Text>
-            <Flex>时间选择器</Flex>
+            <Flex>
+              <DateRangePicker
+                startTime={dayjs(startTime * 1000).toDate()}
+                endTime={dayjs(endTime * 1000).toDate()}
+                defaultValue={[
+                  new Date(startTime * 1000),
+                  new Date(endTime * 1000),
+                ]}
+                disabledDate={(date: Date) => {
+                  return (
+                    dayjs(date).isBefore(dayjs().subtract(3, 'day')) ||
+                    dayjs(date).isAfter(dayjs())
+                  );
+                }}
+                onOk={(date: [Date, Date]) => {
+                  const requestStartTime = getSeconds(dayjs(date[0]).valueOf());
+                  const requestEndTime = getSeconds(dayjs(date[1]).valueOf());
+                  setStartTime(requestStartTime);
+                  setEndTime(requestEndTime);
+                  if (hasIdentifiers) {
+                    handleTelemetryDataMutate({
+                      requestStartTime,
+                      requestEndTime,
+                    });
+                  }
+                }}
+              />
+            </Flex>
           </Flex>
           <Flex alignItems="center">
             <Circle
               size="32px"
               marginRight="5px"
               backgroundColor="gray.100"
-              cursor={identifiers.length > 0 ? 'pointer' : 'not-allowed'}
+              cursor={hasIdentifiers ? 'pointer' : 'not-allowed'}
               onClick={() => {
-                if (identifiers.length > 0) {
+                if (hasIdentifiers) {
                   handleTelemetryDataMutate();
                 }
               }}

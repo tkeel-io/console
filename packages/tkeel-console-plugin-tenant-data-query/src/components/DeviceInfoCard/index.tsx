@@ -55,7 +55,7 @@ export default function DeviceInfoCard({ device, style }: Props) {
         />
       </Flex>
       <Flex
-        paddingLeft="20px"
+        padding="0 20px"
         flexDirection="column"
         justifyContent="center"
         height="104px"
@@ -68,10 +68,10 @@ export default function DeviceInfoCard({ device, style }: Props) {
             lineHeight="28px"
             fontSize="12px"
           >
-            <Text width="48px" color="grayAlternatives.300">
+            <Text flexBasis="48px" color="grayAlternatives.300">
               {info.label}：
             </Text>
-            <Text color="gray.700" isTruncated>
+            <Text color="gray.700" isTruncated title={info.value}>
               {info.value}
             </Text>
           </Flex>

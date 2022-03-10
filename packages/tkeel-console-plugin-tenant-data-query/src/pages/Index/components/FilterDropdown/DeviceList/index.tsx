@@ -59,7 +59,14 @@ export default function DeviceList({ data }: Props) {
             <Text color="gray.600" fontSize="12px">
               {basicInfo?.parentName ?? ''}
             </Text>
-            <Text marginLeft="18px" color="gray.800" fontSize="12px">
+            <Text
+              marginLeft="18px"
+              width="80px"
+              textAlign="right"
+              isTruncated
+              color="gray.800"
+              fontSize="12px"
+            >
               {basicInfo?.templateName ?? ''}
             </Text>
             <Flex marginLeft="50px" alignItems="center">

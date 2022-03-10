@@ -26,6 +26,7 @@
     "@tkeel/console-types": "workspace:^",
     "@tkeel/console-utils": "workspace:^",
     "@types/lodash": "^4.14.179",
+    "dayjs": "^1.10.8",
     "framer-motion": "^6.2.8",
     "js-base64": "^3.7.2",
     "lodash": "^4.17.21",

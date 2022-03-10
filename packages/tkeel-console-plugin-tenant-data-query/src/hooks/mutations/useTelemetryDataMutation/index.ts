@@ -1,4 +1,4 @@
-import { usePluginMutation } from '@tkeel/console-hooks';
+import { useMutation } from '@tkeel/console-hooks';
 
 export interface DataItem {
   time: string;
@@ -26,7 +26,7 @@ type RequestData = {
 };
 
 export default function useTelemetryDataMutation() {
-  return usePluginMutation<ApiData, undefined, RequestData>({
+  return useMutation<ApiData, undefined, RequestData>({
     method,
   });
 }

@@ -1,4 +1,4 @@
-import { usePluginQuery } from '@tkeel/console-hooks';
+import { useQuery } from '@tkeel/console-hooks';
 
 import { DeviceItem } from '../useDeviceListQuery';
 
@@ -11,7 +11,7 @@ export interface ApiData {
 
 export default function useHistoryQuery() {
   const url = '/core/v1/ts/';
-  const { data, ...rest } = usePluginQuery<ApiData>({
+  const { data, ...rest } = useQuery<ApiData>({
     url,
     method,
   });
