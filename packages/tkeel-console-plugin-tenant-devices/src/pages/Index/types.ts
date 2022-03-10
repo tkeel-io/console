@@ -12,12 +12,16 @@ export enum ConnectInfoType {
 
 export enum ConnectOption {
   DIRECT = '直连',
-  // INDIRECT = '非直连',
+  INDIRECT = '非直连',
 }
 export type DeviceFormFields = {
   name: string;
   parentId: string;
-  parentName?: string;
+  parentName: string;
+  templateId: string;
+  templateName: string;
+  // useTemplate?: boolean;
+  // selfLearn?: boolean;
   extendInfo: any[];
   connectType?: string;
   connectInfo?: ConnectInfoType[];
@@ -46,6 +50,7 @@ export interface DeviceDefaultInfoType {
   parentName?: string;
   directConnection?: boolean;
   templateId?: string;
+  templateName?: string;
 }
 
 export type TreeNodeData = {
@@ -65,3 +70,9 @@ export type GroupOptions = {
   key: string;
   children: GroupOptions[];
 };
+
+export enum RwOptions {
+  R = 'r',
+  W = 'w',
+  RW = 'rw',
+}

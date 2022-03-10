@@ -49,13 +49,13 @@ function UpdateGroupButton({
     onSuccess,
   });
   const handleConfirm = ({ formValues }: { formValues: DeviceFormFields }) => {
-    const { description, name, parentId, extendInfo, parentName } = formValues;
+    const { description, name, extendInfo, parentId, parentName } = formValues;
     const params = {
       description,
       name,
       ext: mapValues(keyBy(extendInfo, 'label'), 'value'),
-      parentId,
-      parentName,
+      parentId: parentId || '',
+      parentName: parentName || '',
     };
     mutate({ data: params });
   };
