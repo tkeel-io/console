@@ -50,7 +50,7 @@ interface ApiData {
   listDeviceObject: TemplateTreeNodeType;
 }
 
-export default function useDeviceTemplateQuery(requestParams: RequestParams) {
+export default function useTemplateQuery(requestParams: RequestParams) {
   const { data, ...rest } = useQuery<ApiData, undefined, RequestParams>({
     url,
     method,

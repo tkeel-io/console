@@ -1,5 +1,5 @@
 import { Flex, Text, useDisclosure } from '@chakra-ui/react';
-import { CustomTemplateModal } from 'packages/tkeel-console-plugin-tenant-device-templates/src/components/modals';
+import { CustomTemplateModal } from 'packages/tkeel-console-plugin-tenant-device-templates/src/pages/Index/components/modals';
 import { useIsMutating } from 'react-query';
 
 import {
@@ -60,6 +60,7 @@ export default function CustomTemplateButton({ onSuccess }: Props) {
       <ChevronRightFilledIcon size="24px" />
       {isOpen && (
         <CustomTemplateModal
+          title="创建模板"
           isOpen={isOpen}
           onClose={onClose}
           isConfirmButtonLoading={isLoading}

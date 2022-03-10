@@ -1,5 +1,5 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { CustomTemplateButton } from 'packages/tkeel-console-plugin-tenant-device-templates/src/components/buttons';
+import { CustomTemplateButton } from 'packages/tkeel-console-plugin-tenant-device-templates/src/pages/Index/components/buttons';
 
 import Modal from '@tkeel/console-components/src/components/Modal';
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
@@ -61,7 +61,7 @@ export default function CreateTemplateModal({
     >
       <Flex w="100%" justifyContent="space-between">
         <CustomTemplateButton onSuccess={handleCreateSuccess} />
-        <CustomTemplateButton onSuccess={handleCreateSuccess} />
+        {/* <CustomTemplateButton onSuccess={handleCreateSuccess} /> */}
       </Flex>
       <Text fontSize="14px" m="20px 0 12px 0" fontWeight="600">
         使用已有模板
