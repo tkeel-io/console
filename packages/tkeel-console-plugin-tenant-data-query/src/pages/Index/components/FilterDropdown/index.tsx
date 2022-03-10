@@ -5,21 +5,25 @@ import { useSearchParams } from 'react-router-dom';
 import useDeviceGroupQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceGroupQuery';
 import useDeviceListQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceListQuery';
 import useDeviceTemplatesQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceTemplatesQuery';
-import {
-  DEVICE_GROUP_ID,
-  DEVICE_TEMPLATES_ID,
-} from '@/tkeel-console-plugin-tenant-data-query/pages/Index/constants';
+import { FilterConditionIds } from '@/tkeel-console-plugin-tenant-data-query/pages/Index/constants';
 import { RequestDataCondition } from '@/tkeel-console-plugin-tenant-data-query/types/request-data';
 
 import { Status } from '../../../../components/StatusSelect';
 import FilterConditionSelect from './FilterConditionSelect';
 import ResultContent from './ResultContent';
 
+const { DEVICE_GROUP_ID, DEVICE_TEMPLATES_ID, KEYWORDS } = FilterConditionIds;
+
 type Condition = {
   id: string;
   label: string;
   value: string;
 };
+
+export interface HandleUpdateConditionProps {
+  updateCondition?: { id: string; value: string };
+  removeConditionId?: string;
+}
 
 type Props = {
   type: 'index' | 'searchResult';
@@ -31,7 +35,10 @@ type Props = {
   style?: StyleProps;
   filterConditions: Condition[];
   handleConditionClick: (condition: { id: string; label: string }) => unknown;
-  updateCondition: (condition: { id: string; value: string }) => unknown;
+  handleUpdateCondition: ({
+    updateCondition,
+    removeConditionId,
+  }: HandleUpdateConditionProps) => unknown;
   setShowDeviceList: Dispatch<SetStateAction<boolean>>;
   hideFilterDropdown: () => unknown;
 };
@@ -46,7 +53,7 @@ export default function FilterDropdown({
   style,
   filterConditions,
   handleConditionClick,
-  updateCondition,
+  handleUpdateCondition,
   setShowDeviceList,
   hideFilterDropdown,
 }: Props) {
@@ -61,7 +68,7 @@ export default function FilterDropdown({
     (condition) => condition.id === DEVICE_TEMPLATES_ID
   );
   const keywordsCondition = filterConditions.find(
-    (condition) => condition.id === 'keywords'
+    (condition) => condition.id === KEYWORDS
   );
   const showDeviceGroup = !!groupIdFilterCondition;
   const showDeviceTemplates = !!templateIdFilterCondition;
@@ -91,7 +98,7 @@ export default function FilterDropdown({
   ];
 
   const searchGroupId = searchParams.get('group-id');
-  if (searchGroupId) {
+  if (searchGroupId && groupIdFilterCondition?.value) {
     deviceGroupConditions.push({
       field: sysFieldId,
       operator: '$wildcard',
@@ -126,17 +133,31 @@ export default function FilterDropdown({
     useDeviceGroupQuery({
       requestData: {
         ...baseRequestData,
-        query:
-          !searchGroupId && showDeviceGroup ? groupIdFilterCondition.value : '',
-        condition: deviceGroupConditions,
+        condition: [
+          ...deviceGroupConditions,
+          {
+            field: 'group.name',
+            operator: '$wildcard',
+            value:
+              !searchGroupId && showDeviceGroup
+                ? groupIdFilterCondition.value
+                : '',
+          },
+        ],
       },
     });
 
   const { deviceList, isLoading: isDeviceListLoading } = useDeviceListQuery({
     requestData: {
       ...baseRequestData,
-      query: keywordsCondition?.value ?? '',
-      condition: deviceListQueryConditions,
+      condition: [
+        ...deviceListQueryConditions,
+        {
+          field: 'basicInfo.name',
+          operator: '$wildcard',
+          value: keywordsCondition?.value ?? '',
+        },
+      ],
     },
     enabled: showDeviceList,
   });
@@ -145,8 +166,14 @@ export default function FilterDropdown({
     useDeviceTemplatesQuery({
       requestData: {
         ...baseRequestData,
-        query: showDeviceTemplates ? templateIdFilterCondition.value : '',
-        condition: templateConditions,
+        condition: [
+          ...templateConditions,
+          {
+            field: 'basicInfo.name',
+            operator: '$wildcard',
+            value: showDeviceTemplates ? templateIdFilterCondition.value : '',
+          },
+        ],
       },
     });
 
@@ -188,7 +215,11 @@ export default function FilterDropdown({
     title: string;
   }) => {
     if (isIndex) {
-      const newDeviceListQueryConditions = [...deviceListQueryConditions];
+      const newDeviceListQueryConditions = [
+        ...deviceListQueryConditions.filter(
+          (condition) => condition.field !== templateIdQueryField
+        ),
+      ];
       const groupIdCondition = newDeviceListQueryConditions.find(
         (queryCondition) => queryCondition.field === deviceGroupIdQueryField
       );
@@ -212,15 +243,23 @@ export default function FilterDropdown({
     }
 
     setDeviceGroupId(groupId);
-    updateCondition({ id: DEVICE_GROUP_ID, value: title });
+    handleUpdateCondition({
+      updateCondition: { id: DEVICE_GROUP_ID, value: title },
+    });
   };
 
   const handleDeviceListBackBtnClick = () => {
     setShowDeviceList(false);
     if (showDeviceGroup) {
-      updateCondition({ id: DEVICE_GROUP_ID, value: '' });
+      handleUpdateCondition({
+        updateCondition: { id: DEVICE_GROUP_ID, value: '' },
+        removeConditionId: KEYWORDS,
+      });
     } else if (showDeviceTemplates) {
-      updateCondition({ id: DEVICE_TEMPLATES_ID, value: '' });
+      handleUpdateCondition({
+        updateCondition: { id: DEVICE_TEMPLATES_ID, value: '' },
+        removeConditionId: KEYWORDS,
+      });
     }
   };
 
@@ -232,7 +271,11 @@ export default function FilterDropdown({
     templateName: string;
   }) => {
     if (isIndex) {
-      const newDeviceListQueryConditions = [...deviceListQueryConditions];
+      const newDeviceListQueryConditions = [
+        ...deviceListQueryConditions.filter(
+          (condition) => condition.field !== deviceGroupIdQueryField
+        ),
+      ];
       const templateIdCondition = newDeviceListQueryConditions.find(
         (queryCondition) => queryCondition.field === templateIdQueryField
       );
@@ -265,7 +308,9 @@ export default function FilterDropdown({
     }
 
     setTemplateId(id);
-    updateCondition({ id: DEVICE_TEMPLATES_ID, value: templateName });
+    handleUpdateCondition({
+      updateCondition: { id: DEVICE_TEMPLATES_ID, value: templateName },
+    });
   };
 
   useEffect(() => {
