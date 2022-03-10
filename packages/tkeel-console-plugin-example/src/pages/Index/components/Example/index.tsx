@@ -4,17 +4,29 @@ import { plugin } from '@tkeel/console-utils';
 
 export default function Example() {
   return (
-    <Box padding="24px">
-      <Button
-        onClick={() => {
-          const toast = plugin.getPortalToast();
-          toast('123', {
-            type: 'success',
-          });
-        }}
-      >
-        open toast
-      </Button>
-    </Box>
+    <>
+      <Box padding="24px">
+        <Button
+          onClick={() => {
+            const toast = plugin.getPortalToast();
+            toast('toast', {
+              type: 'success',
+            });
+          }}
+        >
+          open toast
+        </Button>
+      </Box>
+      <Box padding="24px">
+        <Button
+          onClick={() => {
+            const toast = plugin.getPortalToast();
+            toast.success('toast.success');
+          }}
+        >
+          open toast
+        </Button>
+      </Box>
+    </>
   );
 }
