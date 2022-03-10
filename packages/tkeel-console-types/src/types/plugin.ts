@@ -1,8 +1,7 @@
 import { NavigateFunction } from 'react-router-dom';
-// import { ToastFunction } from './toast';
-import { toast } from 'react-toastify';
 
 import { TenantInfo, TokenInfo } from './auth';
+import { ToastFunction } from './toast';
 
 export interface GlobalPluginPropsPortalProps {
   portalName: 'admin' | 'tenant';
@@ -11,7 +10,7 @@ export interface GlobalPluginPropsPortalProps {
     theme: Record<string, unknown>;
     tenantInfo: TenantInfo;
     tokenInfo: TokenInfo;
-    toast: typeof toast;
+    toast: ToastFunction;
     navigate: NavigateFunction;
     refetchMenus: () => void;
   };

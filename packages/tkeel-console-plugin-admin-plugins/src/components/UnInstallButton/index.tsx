@@ -15,7 +15,7 @@ function UninstallButton({ pluginName, onSuccess }: Props) {
     name: pluginName,
     onSuccess() {
       onSuccess();
-      toast('卸载插件成功', { type: 'success' });
+      toast('卸载插件成功', { status: 'success' });
     },
   });
 

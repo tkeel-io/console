@@ -20,7 +20,7 @@ function DeleteDevicesButton({ deviceName, ids, refetch }: Props) {
   const { mutate, isLoading } = useDeleteDeviceMutation({
     ids,
     onSuccess() {
-      toast('删除成功', { type: 'success' });
+      toast('删除成功', { status: 'success' });
       onClose();
       if (refetch) {
         const timer = setTimeout(() => {

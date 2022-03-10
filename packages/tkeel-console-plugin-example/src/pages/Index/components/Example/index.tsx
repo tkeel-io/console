@@ -9,22 +9,26 @@ export default function Example() {
         <Button
           onClick={() => {
             const toast = plugin.getPortalToast();
-            toast('toast', {
-              type: 'success',
-            });
+            toast({ title1: '123', status: 'success' });
+            toast('toast', { status: 'error' });
+            toast('toast', { status: 'info' });
+            toast('toast', { status: 'warning' });
           }}
         >
-          open toast
+          1
         </Button>
       </Box>
       <Box padding="24px">
         <Button
           onClick={() => {
             const toast = plugin.getPortalToast();
-            toast.success('toast.success');
+            toast('toast.success', {
+              status: 'warning',
+              isLoading: true,
+            });
           }}
         >
-          open toast
+          2
         </Button>
       </Box>
     </>

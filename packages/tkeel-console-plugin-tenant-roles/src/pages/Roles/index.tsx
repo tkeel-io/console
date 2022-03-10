@@ -40,17 +40,17 @@ export default function Roles() {
   }
 
   const handleCreateRoleSuccess = () => {
-    toast('创建成功', { type: 'success' });
+    toast('创建成功', { status: 'success' });
     refetch();
   };
 
   const handleModifyRoleSuccess = () => {
-    toast('修改成功', { type: 'success' });
+    toast('修改成功', { status: 'success' });
     refetch();
   };
 
   const handleDeleteRoleSuccess = () => {
-    toast('删除成功', { type: 'success' });
+    toast('删除成功', { status: 'success' });
     refetch();
   };
 

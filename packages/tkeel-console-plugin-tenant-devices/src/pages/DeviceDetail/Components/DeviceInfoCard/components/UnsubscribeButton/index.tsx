@@ -23,7 +23,7 @@ function UnsubscribeButton({
   const { mutate, isLoading } = useUnsubscribeMutation({
     subscribeId,
     onSuccess() {
-      toast('取消成功', { type: 'success' });
+      toast('取消成功', { status: 'success' });
       onClose();
     },
   });

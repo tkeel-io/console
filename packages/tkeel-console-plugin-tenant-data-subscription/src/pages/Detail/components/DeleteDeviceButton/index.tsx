@@ -26,7 +26,7 @@ function DeleteDeviceButton({
   const { mutate } = useDeleteSubscriptionDeviceMutation({
     onSuccess() {
       onSuccess();
-      toast('删除订阅成功', { type: 'success' });
+      toast('删除订阅成功', { status: 'success' });
       refetchData();
       onClose();
     },

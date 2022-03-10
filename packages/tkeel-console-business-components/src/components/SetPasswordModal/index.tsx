@@ -38,7 +38,7 @@ export default function SetPasswordModal({
   const { hasCopied, onCopy } = useClipboard(fullURL);
 
   if (hasCopied) {
-    toast('复制成功', { type: 'success' });
+    toast('复制成功', { status: 'success' });
   }
 
   return (

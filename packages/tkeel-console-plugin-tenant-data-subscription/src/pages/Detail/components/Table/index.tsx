@@ -60,7 +60,7 @@ function Index({ id, title }: { id: string; title: string }) {
   const { pageNum, pageSize, setTotalSize } = pagination;
 
   const handleCreateRoleSuccess = () => {
-    toast('创建成功', { type: 'success' });
+    toast('创建成功', { status: 'success' });
   };
 
   // const pagination = usePagination();

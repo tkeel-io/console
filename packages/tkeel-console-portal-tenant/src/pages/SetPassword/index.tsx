@@ -78,7 +78,7 @@ export default function SetPassword() {
     const { newPassword, confirmPassword } = formValues;
 
     if (newPassword !== confirmPassword) {
-      toast('两次输入的密码不一致', { type: 'warning' });
+      toast('两次输入的密码不一致', { status: 'warning' });
       return;
     }
 
