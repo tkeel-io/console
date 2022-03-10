@@ -60,6 +60,7 @@ export default function CustomTemplateButton({ onSuccess }: Props) {
       <ChevronRightFilledIcon size="24px" />
       {isOpen && (
         <CustomTemplateModal
+          title="创建模板"
           isOpen={isOpen}
           onClose={onClose}
           isConfirmButtonLoading={isLoading}

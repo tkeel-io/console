@@ -2,14 +2,12 @@ import { Flex } from '@chakra-ui/react';
 import { useState } from 'react';
 
 import { PageHeaderToolbar, toast } from '@tkeel/console-components';
-
-// import useTemplatesQuery from '@/tkeel-console-plugin-tenant-device-template/hooks/queries/useTemplatesQuery';
-import useTemplatesQuery from '@/tkeel-console-plugin-tenant-device-templates/hooks/queries/useTemplatesQuery';
+// import useTemplatesQuery from '@/tkeel-console-plugin-tenant-device-templates/hooks/queries/useTemplatesQuery';
+import { useTemplateQuery } from '@tkeel/console-request-hooks';
 
 import { CreateTemplateButton } from './components/buttons';
 
 function Index(): JSX.Element {
-  // const result = useTemplatesQuery();
   const defaultParams = {
     page_num: 1,
     page_size: 1000,
@@ -25,7 +23,7 @@ function Index(): JSX.Element {
     ],
   };
 
-  const { items } = useTemplatesQuery(defaultParams);
+  const { items } = useTemplateQuery(defaultParams);
   // eslint-disable-next-line no-console
   console.log('Index ~ items', items);
 

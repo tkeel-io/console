@@ -61,7 +61,7 @@ export default function CreateTemplateModal({
     >
       <Flex w="100%" justifyContent="space-between">
         <CustomTemplateButton onSuccess={handleCreateSuccess} />
-        <CustomTemplateButton onSuccess={handleCreateSuccess} />
+        {/* <CustomTemplateButton onSuccess={handleCreateSuccess} /> */}
       </Flex>
       <Text fontSize="14px" m="20px 0 12px 0" fontWeight="600">
         使用已有模板

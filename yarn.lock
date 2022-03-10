@@ -3665,12 +3665,14 @@ __metadata:
     "@tkeel/console-components": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
     "@tkeel/console-icons": "workspace:^"
+    "@tkeel/console-request-hooks": "workspace:^"
     "@tkeel/console-types": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
     "@types/lodash": ^4.14.179
     framer-motion: ^6.2.8
     react: ^17.0.2
     react-dom: ^17.0.2
+    react-hook-form: ^7.27.1
     react-query: ^3.34.16
     react-router-dom: ^6.2.2
   languageName: unknown

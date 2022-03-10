@@ -10,7 +10,7 @@ type Props = {
   description: ReactNode | string;
   navigateUrl: string;
   buttons: ReactElement[];
-  footer: { name: ''; value: '' }[];
+  footer: { name: string; value: string }[];
 };
 
 function TemplateCard({
@@ -70,23 +70,11 @@ function TemplateCard({
       >
         {footer.map((item, index) => {
           return (
-            <Box key={item.name}>
-              {item.name}：
-              <Text display="inline" ml={index === 0 ? '0' : '40px'}>
-                {item.value}
-              </Text>
+            <Box key={item.name} ml={index === 0 ? '0' : '40px'}>
+              {item.name}：<Text display="inline">{item.value}</Text>
             </Box>
           );
         })}
-
-        {/* <Box>
-        订阅ID：
-        <Text display="inline">{item.id}</Text>
-      </Box>
-      <Box ml="40px">
-        订阅地址：
-        <Text display="inline">{item.endpoint}</Text>
-      </Box> */}
       </Flex>
     </Box>
   );
