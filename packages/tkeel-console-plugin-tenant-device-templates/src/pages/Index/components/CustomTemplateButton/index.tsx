@@ -13,7 +13,7 @@ import useCreateTemplateMutation, {
 import CustomTemplateModal from '../CustomTemplateModal';
 
 type Props = {
-  onSuccess: () => void;
+  onSuccess: (id: string) => void;
 };
 
 export default function CustomTemplateButton({ onSuccess }: Props) {
@@ -22,8 +22,8 @@ export default function CustomTemplateButton({ onSuccess }: Props) {
   const isLoading = isMutating > 0;
 
   const { mutate } = useCreateTemplateMutation({
-    onSuccess() {
-      onSuccess();
+    onSuccess(data) {
+      onSuccess(data.data.templateObject.id);
       onClose();
     },
   });
@@ -81,7 +81,7 @@ export default function CustomTemplateButton({ onSuccess }: Props) {
       </Flex>
       <ChevronRightFilledIcon size="24px" />
       <CustomTemplateModal
-        title="创建模板"
+        title="创建自定义模板"
         isOpen={isOpen}
         onClose={onClose}
         isConfirmButtonLoading={isLoading}
