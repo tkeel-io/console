@@ -4,10 +4,10 @@ import { Loading } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
 import { jumpToPage } from '@tkeel/console-utils';
 
-import useAuthenticateTokenQuery from '@/tkeel-console-portal-tenant/hooks/queries/useAuthenticateTokenQuery';
+import useAdminAuthenticateTokenQuery from '@/tkeel-console-portal-admin/hooks/queries/useAdminAuthenticateTokenQuery';
 
-export default function NotRequireAuth() {
-  const { isLoading, isSuccess } = useAuthenticateTokenQuery({
+export default function AntiRequireAuth() {
+  const { isLoading, isSuccess } = useAdminAuthenticateTokenQuery({
     extras: { handleNoAuth: false, handleApiError: false },
   });
 

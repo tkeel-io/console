@@ -5,17 +5,17 @@ import LogoMark from './components/LogoMark';
 import LogoTypeDark from './components/LogoTypeDark';
 import LogoTypeLight from './components/LogoTypeLight';
 import UserActionMenus from './components/UserActionMenus';
-import NotRequireAuth from './containers/NotRequireAuth';
+import AntiRequireAuth from './containers/AntiRequireAuth';
 import RequireAuth from './containers/RequireAuth';
-import notRequireAuthRoutes from './routes/notRequireAuthRoutes';
+import antiRequireAuthRoutes from './routes/antiRequireAuthRoutes';
 
 export default function App() {
   return (
     <BaseApp
       documentHeadComponent={<DocumentHead />}
       requireAuthContainer={<RequireAuth />}
-      notRequireAuthContainer={<NotRequireAuth />}
-      notRequireAuthRoutes={notRequireAuthRoutes}
+      antiRequireAuthContainer={<AntiRequireAuth />}
+      antiRequireAuthRoutes={antiRequireAuthRoutes}
       userActionMenusComponent={<UserActionMenus />}
       logo={{
         mark: <LogoMark />,

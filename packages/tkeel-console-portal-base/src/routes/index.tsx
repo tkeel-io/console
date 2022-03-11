@@ -7,23 +7,23 @@ import Layout from '@/tkeel-console-portal-base/containers/Layout';
 
 type Props = {
   requireAuthContainer: ReactNode;
-  notRequireAuthContainer: ReactNode;
-  notRequireAuthRoutes: ReactNode;
+  antiRequireAuthContainer: ReactNode;
+  antiRequireAuthRoutes: ReactNode;
   userActionMenusComponent: ReactNode;
   logo: Logo;
 };
 
 export default function Routes({
   requireAuthContainer,
-  notRequireAuthContainer,
-  notRequireAuthRoutes,
+  antiRequireAuthContainer,
+  antiRequireAuthRoutes,
   userActionMenusComponent,
   logo,
 }: Props) {
   return (
     <ReactRouterRoutes>
-      <Route element={notRequireAuthContainer}>
-        <Route path="/auth">{notRequireAuthRoutes}</Route>
+      <Route element={antiRequireAuthContainer}>
+        <Route path="/auth">{antiRequireAuthRoutes}</Route>
       </Route>
       <Route element={requireAuthContainer}>
         <Route
