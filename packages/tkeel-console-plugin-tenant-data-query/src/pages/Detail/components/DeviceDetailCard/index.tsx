@@ -1,5 +1,5 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { BackButton } from '@tkeel/console-components';
 import { VpcTwoToneIcon } from '@tkeel/console-icons';
@@ -9,13 +9,15 @@ import {
   DeviceStatusIcon,
   Rectangle,
 } from '@/tkeel-console-plugin-tenant-data-query/components';
-import useDeviceDetailQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceDetailQuery';
+import { DeviceObject } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceDetailQuery';
 
-export default function DeviceDetailCard() {
-  const [searchParams] = useSearchParams();
-  const id = searchParams.get('id') || '';
-  const { deviceObject } = useDeviceDetailQuery({ id });
-  const { properties } = deviceObject || {};
+type Props = {
+  detailData: DeviceObject | undefined;
+};
+
+export default function DeviceDetailCard({ detailData }: Props) {
+  const navigate = useNavigate();
+  const { properties } = detailData || {};
   const { basicInfo, sysField } = properties || {};
   const isSelfLearn = basicInfo?.selfLearn;
   const textStyle = {
@@ -45,7 +47,7 @@ export default function DeviceDetailCard() {
       >
         <BackButton
           onClick={() => {
-            window.history.back();
+            navigate('/');
           }}
         />
         <Flex
@@ -81,8 +83,8 @@ export default function DeviceDetailCard() {
         alignItems="center"
         height="48px"
       >
-        <Text {...textStyle}>IDC分组1</Text>
-        <Text {...textStyle}>SIC电表</Text>
+        <Text {...textStyle}>{basicInfo?.parentName ?? ''}</Text>
+        <Text {...textStyle}>{basicInfo?.templateName ?? ''}</Text>
       </Flex>
     </Box>
   );

@@ -10,9 +10,11 @@ export interface RequestData {
   directConnection: boolean;
   ext: { [propName: string]: any };
   name: string;
-  parentId: string;
   selfLearn: boolean;
+  parentId: string;
+  parentName: string;
   templateId: string;
+  templateName: string;
 }
 
 export default function useUpdateDeviceMutation({

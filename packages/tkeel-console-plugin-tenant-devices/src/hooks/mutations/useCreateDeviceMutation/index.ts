@@ -34,8 +34,9 @@ export interface RequestData {
   name: string;
   directConnection: boolean;
   selfLearn: boolean;
-  templateId?: string;
-  parentId?: string;
+  templateId: string;
+  templateName: string;
+  parentId: string;
   ext: {
     [propName: string]: unknown;
   };

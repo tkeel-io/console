@@ -6,13 +6,13 @@ import {
   ButtonsHStack,
   PageHeaderToolbar,
   Table,
-  toast,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
 import { User, useUsersQuery } from '@tkeel/console-request-hooks';
 import {
   formatDateTimeByTimestamp,
   getLocalTenantInfo,
+  plugin,
 } from '@tkeel/console-utils';
 
 import CreateUserButton from './components/CreateUserButton';
@@ -21,6 +21,7 @@ import ModifyUserButton from './components/ModifyUserButton';
 import ResetPasswordButton from './components/ResetPasswordButton';
 
 export default function Users() {
+  const toast = plugin.getPortalToast();
   const { colors }: Theme = useTheme();
   const { tenant_id: tenantId } = getLocalTenantInfo();
   const [keyWords, setKeyWords] = useState('');
@@ -47,17 +48,17 @@ export default function Users() {
   });
 
   const handleCreateUserSuccess = () => {
-    toast({ status: 'success', title: '创建成功' });
+    toast('创建成功', { status: 'success' });
     refetch();
   };
 
   const handleModifyUserSuccess = () => {
-    toast({ status: 'success', title: '修改成功' });
+    toast('修改成功', { status: 'success' });
     refetch();
   };
 
   const handleDeleteUserSuccess = () => {
-    toast({ status: 'success', title: '删除成功' });
+    toast('删除成功', { status: 'success' });
     refetch();
   };
 

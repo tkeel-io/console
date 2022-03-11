@@ -13,7 +13,7 @@ type Props = {
 };
 
 export default function App({ children }: Props) {
-  const { portalProps } = plugin.getGlobalPluginProps();
+  const portalProps = plugin.getPortalProps();
   const { theme } = portalProps.client;
 
   return (
