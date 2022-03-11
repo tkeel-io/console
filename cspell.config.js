@@ -51,6 +51,7 @@ module.exports = {
     'mgmt',
     'websockets',
     'faild',
+    'iotd',
   ],
   ignorePaths: [
     '**/.idea/**',

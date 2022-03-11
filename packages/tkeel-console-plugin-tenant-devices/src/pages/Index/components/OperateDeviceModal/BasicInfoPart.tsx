@@ -23,7 +23,7 @@ import {
 } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
 
 const { TextField, TextareaField } = FormField;
-const templateOptions = [
+const templateOption = [
   {
     label: '测试模版_1',
     id: 'iotd-3decd8f3-d0c4-4923-81f2-a559f2b707da',
@@ -39,12 +39,14 @@ interface Props {
   watchFields: DeviceFormFields;
   type: ModalType;
   groupOptions: any;
+  handleSelectTemplate?: (selected: boolean) => void;
 }
 export default function BasicInfoPart({
   type,
   formHandler,
   watchFields,
   groupOptions,
+  handleSelectTemplate,
 }: Props) {
   const { register, formState, setValue, clearErrors } = formHandler;
   const { errors } = formState;
@@ -123,6 +125,11 @@ export default function BasicInfoPart({
               <CheckboxGroup
                 onChange={(value: ConnectInfoType[]) => {
                   setValue('connectInfo', value);
+                  if (handleSelectTemplate) {
+                    handleSelectTemplate(
+                      value.includes(ConnectInfoType.useTemplate)
+                    );
+                  }
                 }}
                 value={watchFields.connectInfo}
               >
@@ -155,8 +162,6 @@ export default function BasicInfoPart({
                           ),
                         })}
                         onChange={(value: string, option: any) => {
-                          // eslint-disable-next-line no-console
-                          console.log(value, option);
                           setValue('templateId', value);
                           setValue('templateName', option?.children ?? '');
                           if (value) {
@@ -164,7 +169,7 @@ export default function BasicInfoPart({
                           }
                         }}
                       >
-                        {templateOptions.map((val) => (
+                        {templateOption.map((val) => (
                           <Select.Option value={val.id} key={val.id}>
                             {val.label}
                           </Select.Option>

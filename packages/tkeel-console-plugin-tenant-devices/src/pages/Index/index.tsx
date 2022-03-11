@@ -1,6 +1,4 @@
-/* eslint-disable no-restricted-syntax */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Box, Center, Flex, HStack, Text } from '@chakra-ui/react';
 import { isEmpty, values } from 'lodash';
@@ -42,6 +40,7 @@ function getParentTreeNode({
   list: TreeNodeData[];
   key: string;
 }): TreeNodeData[] {
+  // eslint-disable-next-line no-restricted-syntax
   for (const item of list) {
     if (item.key === key) {
       return [item];
@@ -62,6 +61,7 @@ function getTreeNode({
   list: TreeNodeData[];
   key: string;
 }): TreeNodeData | any {
+  // eslint-disable-next-line no-restricted-syntax
   for (const item of list) {
     if (item.key === key) {
       return item;
