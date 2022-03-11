@@ -52,6 +52,8 @@ module.exports = {
     'websockets',
     'faild',
     'iotd',
+    'toastify',
+    'rsuite',
   ],
   ignorePaths: [
     '**/.idea/**',

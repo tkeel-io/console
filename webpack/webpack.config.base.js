@@ -66,6 +66,10 @@ const getStyleLoaders = ({ type } = {}) => {
       loader: 'less-loader',
       options: {
         sourceMap,
+        lessOptions: {
+          javascriptEnabled: true,
+          modifyVars: { '@enable-css-reset': false },
+        },
       },
     },
   ].filter(Boolean);

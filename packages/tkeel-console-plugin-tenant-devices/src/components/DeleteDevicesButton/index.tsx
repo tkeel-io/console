@@ -1,8 +1,9 @@
 import { Circle, useDisclosure } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
-import { Alert, MoreActionButton, toast } from '@tkeel/console-components';
+import { Alert, MoreActionButton } from '@tkeel/console-components';
 import { TrashFilledIcon } from '@tkeel/console-icons';
+import { plugin } from '@tkeel/console-utils';
 
 import useDeleteDeviceMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useDeleteDeviceMutation';
 
@@ -13,12 +14,13 @@ type Props = {
 };
 
 function DeleteDevicesButton({ deviceName, ids, refetch }: Props) {
+  const toast = plugin.getPortalToast();
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate, isLoading } = useDeleteDeviceMutation({
     ids,
     onSuccess() {
-      toast({ status: 'success', title: '删除成功' });
+      toast('删除成功', { status: 'success' });
       onClose();
       if (refetch) {
         const timer = setTimeout(() => {

@@ -13,19 +13,21 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { BroomFilledIcon, RefreshFilledIcon } from '@tkeel/console-icons';
 
-import FilterDropdown from '@/tkeel-console-plugin-tenant-data-query/pages/Index/components/FilterDropdown';
-import {
-  DEVICE_GROUP_ID,
-  DEVICE_TEMPLATES_ID,
-} from '@/tkeel-console-plugin-tenant-data-query/pages/Index/constants';
+import FilterDropdown, {
+  HandleUpdateConditionProps,
+} from '@/tkeel-console-plugin-tenant-data-query/pages/Index/components/FilterDropdown';
+import { FilterConditionIds } from '@/tkeel-console-plugin-tenant-data-query/pages/Index/constants';
 
 import FilterCondition, { FilterConditionInfo } from './FilterCondition';
 import SearchButton from './SearchButton';
+
+const { DEVICE_GROUP_ID, DEVICE_TEMPLATES_ID, KEYWORDS } = FilterConditionIds;
 
 type Props = {
   type?: 'index' | 'searchResult';
   defaultFilterConditions?: FilterConditionInfo[];
   style?: StyleProps;
+  refetchData?: () => unknown;
 };
 
 const encode = (value: string) => {
@@ -36,6 +38,7 @@ export default function SearchDeviceInput({
   type = 'index',
   defaultFilterConditions = [],
   style,
+  refetchData,
 }: Props) {
   const GROUP_ID = 'group-id';
   const GROUP_NAME = 'group-name';
@@ -81,35 +84,19 @@ export default function SearchDeviceInput({
   );
 
   const keywordsCondition = filterConditions.find(
-    (condition) => condition.id === 'keywords'
+    (condition) => condition.id === KEYWORDS
   );
-  const hasKeywordsCondition = !!keywordsCondition;
 
-  const disabled =
-    (!!groupCondition && !deviceGroupId) ||
-    (!!templateCondition && !templateId);
-
-  const inputDisabled = disabled || !!hasKeywordsCondition;
-  const buttonDisabled =
-    disabled || (!groupCondition && !templateCondition && !keywordsCondition);
-
-  const handleRemoveCondition = (conditionId: string) => {
-    const newFilterConditions = filterConditions.filter(
-      (condition) => condition.id !== conditionId
-    );
-    setFilterConditions(newFilterConditions);
-    if (conditionId === DEVICE_GROUP_ID) {
-      setDeviceGroupId('');
-      // searchParams.delete(GROUP_ID);
-      // searchParams.delete(GROUP_NAME);
-      setSearchParams(searchParams);
-    } else if (conditionId === DEVICE_TEMPLATES_ID) {
-      setTemplateId('');
-    } else {
-      setShowDeviceList(false);
-    }
-    setStatus(initStatus);
-  };
+  const inputDisabled = Boolean(
+    (groupCondition?.value && !deviceGroupId) ||
+      (templateCondition?.value && !templateId) ||
+      keywordsCondition
+  );
+  const buttonDisabled = Boolean(
+    (groupCondition && !deviceGroupId) ||
+      (templateCondition && !templateId) ||
+      (!groupCondition && !templateCondition && !keywordsCondition)
+  );
 
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (
     event: KeyboardEvent<HTMLInputElement>
@@ -119,13 +106,13 @@ export default function SearchDeviceInput({
       const { length } = newFilterConditions;
       const lastCondition = newFilterConditions[length - 1];
       const keywordConditionInfo = {
-        id: 'keywords',
+        id: KEYWORDS,
         label: '关键字',
         value: inputValue,
       };
       if (length > 0) {
         const keywordCondition = newFilterConditions.find(
-          (condition) => condition.id === 'keywords'
+          (condition) => condition.id === KEYWORDS
         );
         if (lastCondition.value === '') {
           lastCondition.value = inputValue;
@@ -174,16 +161,43 @@ export default function SearchDeviceInput({
     ]);
   };
 
-  const handleUpdateCondition = (condition: { id: string; value: string }) => {
-    const newFilterConditions = filterConditions.map((filterCondition) => {
-      if (filterCondition.id === condition.id) {
-        return {
-          ...filterCondition,
-          value: condition.value,
-        };
-      }
-      return filterCondition;
-    });
+  const handleRemoveCondition = (conditionId: string) => {
+    if (conditionId === DEVICE_GROUP_ID) {
+      setDeviceGroupId('');
+      // searchParams.delete(GROUP_ID);
+      // searchParams.delete(GROUP_NAME);
+      setSearchParams(searchParams);
+    } else if (conditionId === DEVICE_TEMPLATES_ID) {
+      setTemplateId('');
+    } else if (!deviceGroupId && !templateId) {
+      setShowDeviceList(false);
+    }
+    setStatus(initStatus);
+  };
+
+  const handleUpdateCondition = ({
+    updateCondition,
+    removeConditionId,
+  }: HandleUpdateConditionProps) => {
+    let newFilterConditions = [...filterConditions];
+    if (updateCondition) {
+      newFilterConditions = newFilterConditions.map((filterCondition) => {
+        if (filterCondition.id === updateCondition.id) {
+          return {
+            ...filterCondition,
+            value: updateCondition.value,
+          };
+        }
+        return filterCondition;
+      });
+    }
+
+    if (removeConditionId) {
+      newFilterConditions = newFilterConditions.filter(
+        (condition) => condition.id !== removeConditionId
+      );
+      handleRemoveCondition(removeConditionId);
+    }
     setFilterConditions(newFilterConditions);
   };
 
@@ -228,7 +242,7 @@ export default function SearchDeviceInput({
           searchParams.delete(GROUP_ID);
           searchParams.delete(GROUP_NAME);
         } else {
-          searchParams.set('keywords', condition.value);
+          searchParams.set(KEYWORDS, condition.value);
         }
         setSearchParams(searchParams);
       });
@@ -263,7 +277,9 @@ export default function SearchDeviceInput({
                 key={condition.id}
                 condition={condition}
                 style={{ marginRight: '10px' }}
-                removeCondition={handleRemoveCondition}
+                removeCondition={(conditionId) =>
+                  handleUpdateCondition({ removeConditionId: conditionId })
+                }
               />
             ))}
           </Flex>
@@ -280,7 +296,7 @@ export default function SearchDeviceInput({
           boxShadow="none"
           focusBorderColor="none"
           placeholder={
-            showFilterDropdown
+            showFilterDropdown || hasFilterConditions
               ? ''
               : '支持关键字搜索，支持设备分组、设备模版搜索'
           }
@@ -296,7 +312,15 @@ export default function SearchDeviceInput({
           onKeyDown={handleKeyDown}
         />
         {type === 'searchResult' && hasKeywordsOrConditions && (
-          <RefreshFilledIcon color="grayAlternatives.300" style={iconStyle} />
+          <RefreshFilledIcon
+            color="grayAlternatives.300"
+            style={iconStyle}
+            onClick={() => {
+              if (refetchData) {
+                refetchData();
+              }
+            }}
+          />
         )}
         {hasKeywordsOrConditions && (
           <BroomFilledIcon
@@ -319,7 +343,7 @@ export default function SearchDeviceInput({
         setTemplateId={setTemplateId}
         filterConditions={filterConditions}
         handleConditionClick={handleConditionClick}
-        updateCondition={handleUpdateCondition}
+        handleUpdateCondition={handleUpdateCondition}
         setShowDeviceList={setShowDeviceList}
         hideFilterDropdown={() => setShowFilterDropdown(false)}
         style={{

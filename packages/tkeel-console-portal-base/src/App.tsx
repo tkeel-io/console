@@ -3,6 +3,7 @@ import { ReactNode } from 'react';
 import { QueryClientProvider } from 'react-query';
 import { BrowserRouter as Router } from 'react-router-dom';
 
+import { ToastContainer } from '@tkeel/console-components';
 import { QueryClient } from '@tkeel/console-hooks';
 import themes, {
   DEFAULT_THEME,
@@ -48,6 +49,7 @@ export default function App({
             userActionMenusComponent={userActionMenusComponent}
             logo={logo}
           />
+          <ToastContainer />
         </ChakraProvider>
       </Router>
     </QueryClientProvider>

@@ -10,3 +10,11 @@ export function initGlobalPluginProps(value: GlobalPluginProps) {
 export function getGlobalPluginProps() {
   return GLOBAL_PLUGIN_PROPS;
 }
+
+export function getPortalProps() {
+  return GLOBAL_PLUGIN_PROPS?.portalProps;
+}
+
+export function getPortalToast() {
+  return GLOBAL_PLUGIN_PROPS?.portalProps.client.toast;
+}

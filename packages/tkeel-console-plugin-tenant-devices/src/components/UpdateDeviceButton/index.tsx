@@ -2,8 +2,9 @@
 import { useDisclosure } from '@chakra-ui/react';
 import { keyBy, mapValues } from 'lodash';
 
-import { MoreActionButton, toast } from '@tkeel/console-components';
+import { MoreActionButton } from '@tkeel/console-components';
 import { PencilFilledIcon } from '@tkeel/console-icons';
+import { plugin } from '@tkeel/console-utils';
 
 import useUpdateDeviceMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useUpdateDeviceMutation';
 import { TreeNodeType } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
@@ -24,11 +25,11 @@ interface Props {
 }
 
 function UpdateDeviceButton({ defaultFormValues, refetch, groupTree }: Props) {
+  const toast = plugin.getPortalToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const onSuccess = () => {
-    toast({
+    toast('修改设备成功', {
       status: 'success',
-      title: '修改设备成功',
     });
     if (refetch) {
       refetch();

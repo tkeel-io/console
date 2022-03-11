@@ -2,7 +2,7 @@ import qs from 'qs';
 import { Location, NavigateFunction } from 'react-router-dom';
 
 import { isPortal } from '../env';
-import { getGlobalPluginProps } from '../plugin';
+import { getPortalProps } from '../plugin';
 import { getLocalTenantInfo, removeLocalTenantInfo } from './local-tenant-info';
 import { removeLocalTokenInfo } from './local-token-info';
 
@@ -110,8 +110,7 @@ export function getNoAuthRedirectPath({
       const tenantInfo = getLocalTenantInfo();
       tenantId = tenantInfo?.tenant_id;
     } else {
-      const globalPluginProps = getGlobalPluginProps();
-      const portalProps = globalPluginProps?.portalProps;
+      const portalProps = getPortalProps();
       tenantId = portalProps.client.tenantInfo.tenant_id;
     }
 

@@ -1,7 +1,8 @@
 import { useDisclosure } from '@chakra-ui/react';
 
-import { MoreActionButton, toast } from '@tkeel/console-components';
+import { MoreActionButton } from '@tkeel/console-components';
 import { TrashFilledIcon } from '@tkeel/console-icons';
+import { plugin } from '@tkeel/console-utils';
 
 import useDeleteSubscriptionMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useDeleteSubscriptionMutation';
 import DeleteSubscriptionModal from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/DeleteSubscriptionModal';
@@ -13,12 +14,13 @@ type Props = {
 };
 
 function DeleteSubscriptionButton({ id, refetchData, name }: Props) {
+  const toast = plugin.getPortalToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate, isLoading } = useDeleteSubscriptionMutation({
     id,
     onSuccess() {
       // onSuccess();
-      toast({ status: 'success', title: '删除订阅成功' });
+      toast('删除订阅成功', { status: 'success' });
       refetchData();
       onClose();
     },

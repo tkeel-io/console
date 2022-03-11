@@ -1,6 +1,7 @@
 import { FrameworkLifeCycles, registerMicroApps, start } from 'qiankun';
 import { NavigateFunction } from 'react-router-dom';
 
+import { toast } from '@tkeel/console-components';
 import themes, { DEFAULT_THEME_NAME } from '@tkeel/console-themes';
 import { GlobalPluginPropsPortalProps, Menu } from '@tkeel/console-types';
 import { getLocalTenantInfo, getLocalTokenInfo } from '@tkeel/console-utils';
@@ -53,6 +54,7 @@ export function menusToApps({
       theme: themes[themeName],
       tenantInfo,
       tokenInfo,
+      toast,
       navigate,
       refetchMenus,
     },

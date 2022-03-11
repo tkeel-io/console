@@ -5,7 +5,8 @@ import { useDisclosure } from '@chakra-ui/react';
 import { keyBy, mapValues } from 'lodash';
 import { useEffect } from 'react';
 
-import { CreateButton, LinkButton, toast } from '@tkeel/console-components';
+import { CreateButton, LinkButton } from '@tkeel/console-components';
+import { plugin } from '@tkeel/console-utils';
 
 import useCreateDeviceMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceMutation';
 import OperateDeviceModal from '@/tkeel-console-plugin-tenant-devices/pages/Index/components/OperateDeviceModal';
@@ -29,13 +30,13 @@ export default function CreateDeviceButton({
   onSuccess,
   defaultFormValues,
 }: Props) {
+  const toast = plugin.getPortalToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { data, isLoading, mutate, isSuccess, reset } = useCreateDeviceMutation(
     {
       onSuccess(resData) {
-        toast({
+        toast('创建设备成功', {
           status: 'success',
-          title: '创建设备成功',
         });
         if (onSuccess) onSuccess({ data: resData.data });
       },
