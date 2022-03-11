@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form';
 
 import { FormField, Modal } from '@tkeel/console-components';
 
+import { RequestData as FormValues } from '@/tkeel-console-plugin-tenant-device-templates/hooks/mutations/useCreateTemplateMutation';
+
 const { TextField, TextareaField } = FormField;
 
 export interface FormFields {
@@ -14,11 +16,6 @@ export interface FormFields {
   nick_name?: {
     disabled?: boolean;
   };
-}
-
-export interface FormValues {
-  title: string;
-  description: string;
 }
 
 type Props = {
@@ -40,10 +37,6 @@ export default function BaseSubscriptionModal({
   onClose,
   onConfirm,
 }: Props) {
-  // if (defaultValues) {
-  //   console.log('defaultValues', defaultValues);
-  // }
-
   const {
     register,
     formState: { errors },
@@ -76,8 +69,8 @@ export default function BaseSubscriptionModal({
         id="title"
         label="模板名称"
         isDisabled={formFields?.username?.disabled}
-        error={errors.title}
-        registerReturn={register('title', {
+        error={errors.name}
+        registerReturn={register('name', {
           required: { value: true, message: 'required' },
         })}
       />
