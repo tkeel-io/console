@@ -37,7 +37,7 @@ function DeviceDetailLeftPanel({ deviceObject, refetch }: Props): JSX.Element {
     {
       value: (
         <Flex>
-          <Text mr="4px" maxW="120px" isTruncated>
+          <Text mr="4px" maxW="200px" isTruncated>
             {deviceId}
           </Text>
           <Clipboard text={deviceId} />

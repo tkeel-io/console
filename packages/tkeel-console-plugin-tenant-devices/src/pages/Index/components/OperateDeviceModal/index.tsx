@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { Form, Modal } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 
+// import { useTemplateQuery } from '@tkeel/console-request-hooks';
 import ProgressSchedule from '@/tkeel-console-plugin-tenant-devices/components/ProgressSchedule';
 import { ApiData as GroupResData } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceGroupMutation';
 import { ApiData as DeviceResData } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceMutation';
@@ -110,6 +111,8 @@ export default function OperateDeviceModal({
     control,
     name: 'extendInfo',
   });
+  // const { items: templateList } = useTemplateQuery();
+  // console.log(templateList);
 
   useEffect(() => {
     if (useTemplate && mode === ModalMode.CREATE) {
