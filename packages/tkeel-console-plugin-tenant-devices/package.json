@@ -1,6 +1,6 @@
 {
   "name": "@tkeel/console-plugin-tenant-devices",
-  "version": "dev",
+  "version": "0.4.2",
   "homepage": "https://github.com/tkeel-io/console#readme",
   "bugs": {
     "url": "https://github.com/tkeel-io/console/issues"

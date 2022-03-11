@@ -2,7 +2,10 @@ module.exports = {
   tkeel: {
     version: 'v0.4.0',
     console: {
-      version: 'dev',
+      version: '0.4.2',
+      docker: {
+        tag: 'dev',
+      },
     },
   },
 };
