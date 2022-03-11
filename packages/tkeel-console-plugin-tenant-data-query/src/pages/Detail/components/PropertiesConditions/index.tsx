@@ -1,11 +1,12 @@
-import { Box, Button, Flex, Text } from '@chakra-ui/react';
+import { Box, Button, Center, Flex, Image, Text } from '@chakra-ui/react';
 import { Dispatch, SetStateAction } from 'react';
 
-import { SearchInput, Tree } from '@tkeel/console-components';
+import { Loading, SearchInput, Tree } from '@tkeel/console-components';
 
 import iconCheckbox from '@/tkeel-console-plugin-tenant-data-query/assets/images/checkbox.svg';
 import iconCheckboxChecked from '@/tkeel-console-plugin-tenant-data-query/assets/images/checkbox-checked.svg';
 import iconCheckboxIndeterminate from '@/tkeel-console-plugin-tenant-data-query/assets/images/checkbox-indeterminate.svg';
+import propertiesEmpty from '@/tkeel-console-plugin-tenant-data-query/assets/images/properties-empty.svg';
 import { Telemetry } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceDetailQuery';
 
 export enum CheckBoxStatus {
@@ -21,7 +22,7 @@ type Props = {
   setTemplateCheckboxStatus: Dispatch<SetStateAction<CheckBoxStatus>>;
   checkedKeys: string[];
   setCheckedKeys: Dispatch<SetStateAction<string[]>>;
-  // isDeviceDetailLoading: boolean;
+  isDeviceDetailLoading: boolean;
   isTelemetryDataLoading: boolean;
   onSearch: (value: string) => unknown;
   onConfirm: () => unknown;
@@ -34,7 +35,7 @@ export default function PropertiesConditions({
   setTemplateCheckboxStatus,
   checkedKeys,
   setCheckedKeys,
-  // isDeviceDetailLoading,
+  isDeviceDetailLoading,
   isTelemetryDataLoading,
   onSearch,
   onConfirm,
@@ -128,42 +129,42 @@ export default function PropertiesConditions({
           模板数据
         </Text>
       </Flex>
-      <Box
-        // flexDirection="column"
-        flex="1"
-        paddingTop="14px"
-        paddingLeft="20px"
-        backgroundColor="gray.50"
-      >
-        {/* {isDeviceDetailLoading ? (
-          <Loading />
-        ) : ( */}
-        <Tree
-          treeData={treeData}
-          checkable
-          defaultExpandAll
-          checkedKeys={checkedKeys}
-          selectable={false}
-          onCheck={(keys) => {
-            const checkedNodeKeys = (keys as string[]).filter(
-              (key) => key !== 'telemetryData'
-            );
-            setCheckedKeys(checkedNodeKeys);
-            let checkboxStatus = CheckBoxStatus.NOT_CHECKED;
-            const { length } = telemetryKeys;
-            const { length: keysLength } = checkedNodeKeys;
-            if (keysLength > 0) {
-              if (keysLength === length) {
-                checkboxStatus = CheckBoxStatus.CHECKED;
-              } else if (keysLength < length) {
-                checkboxStatus = CheckBoxStatus.INDETERMINATE;
-              }
-            }
-            setTemplateCheckboxStatus(checkboxStatus);
-          }}
-        />
-        {/* )} */}
-      </Box>
+      <Flex flex="1" backgroundColor="gray.50">
+        {isDeviceDetailLoading ? (
+          <Loading styles={{ wrapper: { flex: '1' } }} />
+        ) : children.length === 0 ? (
+          <Center flex="1">
+            <Image src={propertiesEmpty} />
+          </Center>
+        ) : (
+          <Box flex="1" paddingTop="14px" paddingLeft="20px">
+            <Tree
+              treeData={treeData}
+              checkable
+              defaultExpandAll
+              checkedKeys={checkedKeys}
+              selectable={false}
+              onCheck={(keys) => {
+                const checkedNodeKeys = (keys as string[]).filter(
+                  (key) => key !== 'telemetryData'
+                );
+                setCheckedKeys(checkedNodeKeys);
+                let checkboxStatus = CheckBoxStatus.NOT_CHECKED;
+                const { length } = telemetryKeys;
+                const { length: keysLength } = checkedNodeKeys;
+                if (keysLength > 0) {
+                  if (keysLength === length) {
+                    checkboxStatus = CheckBoxStatus.CHECKED;
+                  } else if (keysLength < length) {
+                    checkboxStatus = CheckBoxStatus.INDETERMINATE;
+                  }
+                }
+                setTemplateCheckboxStatus(checkboxStatus);
+              }}
+            />
+          </Box>
+        )}
+      </Flex>
       <Button
         colorScheme="primary"
         margin="12px 20px"
