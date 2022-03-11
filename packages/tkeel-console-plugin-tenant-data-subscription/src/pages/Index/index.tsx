@@ -1,11 +1,12 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
 
-import { Loading, MoreAction, toast } from '@tkeel/console-components';
+import { TemplateCard } from '@tkeel/console-business-components';
+import { Loading } from '@tkeel/console-components';
 import {
   BookOpenedFilledIcon,
   MessageWarningTwoToneIcon,
 } from '@tkeel/console-icons';
+import { plugin } from '@tkeel/console-utils';
 
 import useListSubscribeQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useListSubscribeQuery';
 import DeleteSubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/DeleteSubscriptionButton';
@@ -15,8 +16,6 @@ import ModifySubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscri
 import CreateSubscriptionButton from './components/CreateSubscriptionButton';
 
 function SubscriptionCard() {
-  const navigate = useNavigate();
-
   const { isLoading, data, refetch } = useListSubscribeQuery();
   return (
     <Box
@@ -43,108 +42,38 @@ function SubscriptionCard() {
         <Flex flexWrap="wrap" paddingLeft="20px">
           {data.map((item) => {
             return (
-              <Box
-                borderRadius="4px"
-                background="gray.50"
-                border="1px"
-                borderStyle="solid"
-                borderColor="grayAlternatives.50"
-                // borderColor="#E2E8F0"
-                width="48%"
-                key={item.title}
-                margin="0 20px 12px 0"
-              >
-                <Flex height="76px" flexDir="column" padding="0 20">
-                  <Flex alignItems="center" justifyContent="space-between">
-                    <Flex
-                      alignItems="center"
-                      onClick={() => {
-                        navigate(`/detail/${item.id}`);
-                      }}
-                      style={{ cursor: 'pointer' }}
-                    >
-                      <MessageWarningTwoToneIcon
-                        style={{ width: '24px', height: '22px' }}
-                      />
-                      <Box lineHeight="50px" ml="12px">
-                        {item.title}
-                      </Box>
-                      {/* <Text
-                        display="inline"
-                        ml="12px"
-                        color="orange.300"
-                        background="orange.50"
-                        width="44px"
-                        fontSize="12px"
-                        textAlign="center"
-                      >
-                        已订阅
-                      </Text> */}
-                    </Flex>
-
-                    <Flex>
-                      {/* <SubscriptionButton
-                        style={{
-                          width: '60px',
-                          height: '28px',
-                          borderRadius: '4px',
-                          marginLeft: '12px',
-                        }}
-                      >
-                        订阅
-                      </SubscriptionButton> */}
-                      <Box ml="6px">
-                        <MoreAction
-                          buttons={[
-                            <ModifySubscriptionButton
-                              data={item}
-                              key="modify"
-                              onSuccess={() => {
-                                refetch();
-                              }}
-                            />,
-                            <DeleteSubscriptionButton
-                              key="delete"
-                              id={item.id}
-                              name={item.title}
-                              refetchData={() => {
-                                refetch();
-                              }}
-                            />,
-                          ]}
-                        />
-                      </Box>
-                    </Flex>
-                  </Flex>
-
-                  <Text color="grayAlternatives.300" fontSize="12px">
-                    {item.description}
-                  </Text>
-                </Flex>
-                <Flex
-                  background="white"
-                  height="40px"
-                  alignItems="center"
-                  fontSize="12px"
-                  borderRadius="0 0 4px 4px"
-                  padding="0 20"
-                >
-                  {/* <Box color="gray.700">
-                    订阅设备：
-                    <Text display="inline" color="primary">
-                      1098
-                    </Text>
-                  </Box> */}
-                  <Box>
-                    订阅ID：
-                    <Text display="inline">{item.id}</Text>
-                  </Box>
-                  <Box ml="40px">
-                    订阅地址：
-                    <Text display="inline">{item.endpoint}</Text>
-                  </Box>
-                </Flex>
-              </Box>
+              <TemplateCard
+                key={item.id}
+                icon={
+                  <MessageWarningTwoToneIcon
+                    style={{ width: '24px', height: '22px' }}
+                  />
+                }
+                title={item.title}
+                description={item.description}
+                navigateUrl={`/detail/${item.id}`}
+                buttons={[
+                  <ModifySubscriptionButton
+                    data={item}
+                    key="modify"
+                    onSuccess={() => {
+                      refetch();
+                    }}
+                  />,
+                  <DeleteSubscriptionButton
+                    key="delete"
+                    id={item.id}
+                    name={item.title}
+                    refetchData={() => {
+                      refetch();
+                    }}
+                  />,
+                ]}
+                footer={[
+                  { name: '订阅ID', value: item.id },
+                  { name: '订阅地址', value: item.endpoint },
+                ]}
+              />
             );
           })}
         </Flex>
@@ -154,6 +83,7 @@ function SubscriptionCard() {
 }
 
 function Index(): JSX.Element {
+  const toast = plugin.getPortalToast();
   //  const {data} =  useSubscribeInfoQuery(id)
 
   const { data, refetch } = useListSubscribeQuery();
@@ -176,8 +106,7 @@ function Index(): JSX.Element {
         <CreateSubscriptionButton
           key="create"
           onSuccess={() => {
-            toast({ status: 'success', title: '创建订阅成功' });
-
+            toast('创建订阅成功', { status: 'success' });
             refetch();
           }}
         />

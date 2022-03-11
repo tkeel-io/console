@@ -1,7 +1,8 @@
 import { useDisclosure } from '@chakra-ui/react';
 
-import { MoreActionButton, toast } from '@tkeel/console-components';
+import { MoreActionButton } from '@tkeel/console-components';
 import { AddFilledIcon } from '@tkeel/console-icons';
+import { plugin } from '@tkeel/console-utils';
 
 import AddSubscribeModal, {
   AddrList,
@@ -16,11 +17,12 @@ type Props = {
 };
 
 function AddSubscribeButton({ deviceId, addrList, refetch }: Props) {
+  const toast = plugin.getPortalToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate, isLoading } = useSubscribeByDeviceMutation({
     deviceId,
     onSuccess() {
-      toast({ status: 'success', title: '添加成功' });
+      toast('添加成功', { status: 'success' });
       onClose();
       if (refetch) {
         const timer = setTimeout(() => {

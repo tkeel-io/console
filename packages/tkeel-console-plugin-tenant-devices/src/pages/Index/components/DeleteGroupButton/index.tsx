@@ -1,8 +1,8 @@
-/* eslint-disable no-console */
 import { Circle, useDisclosure } from '@chakra-ui/react';
 
-import { Alert, MoreActionButton, toast } from '@tkeel/console-components';
+import { Alert, MoreActionButton } from '@tkeel/console-components';
 import { TrashFilledIcon } from '@tkeel/console-icons';
+import { plugin } from '@tkeel/console-utils';
 
 import useDeleteGroupMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useDeleteGroupMutation';
 
@@ -13,20 +13,19 @@ interface Props {
 }
 
 function DeleteGroupButton({ id, groupName, callback }: Props) {
+  const toast = plugin.getPortalToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const ids = [id];
   const { mutate, isLoading } = useDeleteGroupMutation({
     ids,
     onSuccess(data) {
       onClose();
-      console.log(data);
       if ((data?.data?.faildDelGroup ?? []).length > 0) {
-        toast({
+        toast(`删除失败：${data?.data?.faildDelGroup[0]?.reason}`, {
           status: 'error',
-          title: `删除失败：${data?.data?.faildDelGroup[0]?.reason}`,
         });
       } else {
-        toast({ status: 'success', title: '删除设备组成功' });
+        toast('删除设备组成功', { status: 'success' });
       }
       if (callback) {
         const timer = setTimeout(() => {

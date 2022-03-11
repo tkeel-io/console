@@ -138,8 +138,8 @@ export default function Detail() {
       <Flex
         marginLeft="12px"
         flex="1"
-        flexDirection="column"
         overflow="hidden"
+        flexDirection="column"
         padding="12px 20px"
         borderRadius="4px"
         backgroundColor="white"

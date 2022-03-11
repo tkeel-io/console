@@ -8,9 +8,10 @@ import {
 } from '@chakra-ui/react';
 import { stringify } from 'qs';
 
-import { Alert, toast } from '@tkeel/console-components';
+import { Alert } from '@tkeel/console-components';
 import { CopyFilledIcon } from '@tkeel/console-icons';
 import { useDeploymentConfigQuery } from '@tkeel/console-request-hooks';
+import { plugin } from '@tkeel/console-utils';
 
 type Props = {
   isOpen: boolean;
@@ -29,6 +30,7 @@ export default function SetPasswordModal({
   data,
   onClose,
 }: Props) {
+  const toast = plugin.getPortalToast();
   const { isLoading, config } = useDeploymentConfigQuery();
   const defaultURL = `${config.portalTenantURL}/auth/set-password`;
   const query = stringify(data, { addQueryPrefix: true });
@@ -36,7 +38,7 @@ export default function SetPasswordModal({
   const { hasCopied, onCopy } = useClipboard(fullURL);
 
   if (hasCopied) {
-    toast({ status: 'success', title: '复制成功' });
+    toast('复制成功', { status: 'success' });
   }
 
   return (

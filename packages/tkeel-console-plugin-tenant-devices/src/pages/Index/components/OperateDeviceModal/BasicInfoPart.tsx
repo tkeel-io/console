@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Stack, Text } from '@chakra-ui/react';
 import { map } from 'lodash';
@@ -21,6 +23,16 @@ import {
 } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
 
 const { TextField, TextareaField } = FormField;
+const templateOptions = [
+  {
+    label: '测试模版_1',
+    id: 'iot-3decd8f3-d0c4-4923-81f2-a559f2b707da',
+  },
+  {
+    label: '测试模版_2',
+    id: 'iot-eb871989-e839-4451-ab62-534da8686b4e',
+  },
+];
 
 interface Props {
   formHandler: UseFormReturn<DeviceFormFields, object>;
@@ -86,6 +98,9 @@ export default function BasicInfoPart({
                 if (value) {
                   setValue('connectType', value);
                   clearErrors('connectType');
+                  if (value === ConnectOption.INDIRECT) {
+                    setValue('connectInfo', [ConnectInfoType.useTemplate]);
+                  }
                 }
               }}
             >
@@ -109,26 +124,60 @@ export default function BasicInfoPart({
                 onChange={(value: ConnectInfoType[]) => {
                   setValue('connectInfo', value);
                 }}
-                value={
-                  watchFields.connectType !== ConnectOption.DIRECT
-                    ? [ConnectInfoType.useTemplate]
-                    : watchFields.connectInfo
-                }
+                value={watchFields.connectInfo}
               >
                 <Stack spacing="16px" direction="column">
                   <Checkbox
                     colorScheme="primary"
                     id="useTemplate"
-                    // value={ConnectInfoType.useTemplate}
-                    isDisabled
-                    // isDisabled={
-                    //   watchFields.directConnection !== ConnectOption.DIRECT
-                    // }
+                    value={ConnectInfoType.useTemplate}
+                    isDisabled={
+                      watchFields.connectType !== ConnectOption.DIRECT
+                    }
                   >
                     <Text color="gray.600" fontSize="14px">
                       使用设备模版
                     </Text>
                   </Checkbox>
+                  {(watchFields.connectInfo || []).includes(
+                    ConnectInfoType.useTemplate
+                  ) && (
+                    <>
+                      <Select
+                        placeholder="请选择设备模版"
+                        id="templateId"
+                        value={watchFields.templateId}
+                        style={{ width: '100%' }}
+                        allowClear
+                        {...register('templateId', {
+                          required: (watchFields.connectInfo || []).includes(
+                            ConnectInfoType.useTemplate
+                          ),
+                        })}
+                        onChange={(value: string, option: any) => {
+                          // eslint-disable-next-line no-console
+                          console.log(value, option);
+                          setValue('templateId', value);
+                          setValue('templateName', option?.children ?? '');
+                          if (value) {
+                            clearErrors('templateId');
+                          }
+                        }}
+                      >
+                        {templateOptions.map((val) => (
+                          <Select.Option value={val.id} key={val.id}>
+                            {val.label}
+                          </Select.Option>
+                        ))}
+                      </Select>
+                      {errors.templateId && (
+                        <Text color="red.500" fontSize="sm">
+                          请选择设备模版
+                        </Text>
+                      )}
+                    </>
+                  )}
+
                   <Checkbox
                     colorScheme="primary"
                     id="selfLearn"

@@ -9,11 +9,10 @@ import {
   PageHeader,
   SearchInput,
   Table,
-  toast,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
 import { GroupTwoToneIcon } from '@tkeel/console-icons';
-import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
+import { formatDateTimeByTimestamp, plugin } from '@tkeel/console-utils';
 
 import DeleteTenantButton from '@/tkeel-console-plugin-admin-tenants/components/DeleteTenantButton';
 import ModifyTenantButton from '@/tkeel-console-plugin-admin-tenants/components/ModifyTenantButton';
@@ -25,6 +24,7 @@ import useTenantsQuery, {
 import CreateTenantButton from './components/CreateTenantButton';
 
 export default function Tenants() {
+  const toast = plugin.getPortalToast();
   const { colors }: Theme = useTheme();
   const navigate = useNavigate();
   const [keyWords, setKeyWords] = useState('');
@@ -51,17 +51,17 @@ export default function Tenants() {
   }
 
   const handleCreateTenantSuccess = () => {
-    toast({ status: 'success', title: '创建成功' });
+    toast('创建成功', { status: 'success' });
     refetch();
   };
 
   const handleModifyTenantSuccess = () => {
-    toast({ status: 'success', title: '编辑成功' });
+    toast('编辑成功', { status: 'success' });
     refetch();
   };
 
   const handleDeleteTenantSuccess = () => {
-    toast({ status: 'success', title: '删除成功' });
+    toast('删除成功', { status: 'success' });
     refetch();
   };
 
