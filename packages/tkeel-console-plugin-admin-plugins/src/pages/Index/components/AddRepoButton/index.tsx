@@ -1,12 +1,8 @@
 import { Button, useDisclosure } from '@chakra-ui/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import {
-  CreateButton,
-  FormField,
-  Modal,
-  toast,
-} from '@tkeel/console-components';
+import { CreateButton, FormField, Modal } from '@tkeel/console-components';
+import { plugin } from '@tkeel/console-utils';
 
 import useAddRepoMutation from '@/tkeel-console-plugin-admin-plugins/hooks/mutations/useAddRepoMutation';
 
@@ -22,6 +18,7 @@ type Props = {
 };
 
 function AddRepoButton({ refetchRepos }: Props) {
+  const toast = plugin.getPortalToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     register,
@@ -34,7 +31,7 @@ function AddRepoButton({ refetchRepos }: Props) {
     onSuccess() {
       refetchRepos();
       onClose();
-      toast({ status: 'success', title: '添加仓库成功' });
+      toast('添加仓库成功', { status: 'success' });
     },
   });
 

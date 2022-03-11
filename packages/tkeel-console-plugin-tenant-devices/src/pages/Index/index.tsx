@@ -117,7 +117,15 @@ function Index(): JSX.Element {
       const { nodeInfo, subNode } = item;
       const { id, properties } = nodeInfo;
       const group = properties?.group ?? {};
-      const { name, description, ext, parentId, parentName } = group;
+      const {
+        name,
+        description,
+        ext,
+        parentId,
+        parentName,
+        templateId,
+        templateName,
+      } = group;
       const defaultFormValues = {
         id,
         description,
@@ -125,6 +133,8 @@ function Index(): JSX.Element {
         ext,
         parentId,
         parentName,
+        templateId,
+        templateName,
       };
       return {
         name,

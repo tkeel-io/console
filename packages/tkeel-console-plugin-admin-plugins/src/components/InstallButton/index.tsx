@@ -1,7 +1,8 @@
 import { Box, Tooltip, useDisclosure } from '@chakra-ui/react';
 
-import { IconButton, toast } from '@tkeel/console-components';
+import { IconButton } from '@tkeel/console-components';
 import { DownloadFilledIcon } from '@tkeel/console-icons';
+import { plugin } from '@tkeel/console-utils';
 
 import EditConfigModal, { InstallPluginInfo } from './EditConfigModal';
 
@@ -12,6 +13,7 @@ interface Props {
 }
 
 function InstallButton({ installPluginInfo, disabled, onSuccess }: Props) {
+  const toast = plugin.getPortalToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -44,7 +46,7 @@ function InstallButton({ installPluginInfo, disabled, onSuccess }: Props) {
         onSuccess={() => {
           onClose();
           onSuccess();
-          toast({ status: 'success', title: '安装插件成功' });
+          toast('安装插件成功', { status: 'success' });
         }}
       />
     </Box>

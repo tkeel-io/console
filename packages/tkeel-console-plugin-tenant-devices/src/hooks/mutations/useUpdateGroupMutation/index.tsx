@@ -9,7 +9,8 @@ export interface RequestData {
   description: string;
   ext: { [propName: string]: any };
   name: string;
-  parentId: string;
+  parentId?: string;
+  parentName?: string;
 }
 
 export default function useUpdateGroupMutation({
