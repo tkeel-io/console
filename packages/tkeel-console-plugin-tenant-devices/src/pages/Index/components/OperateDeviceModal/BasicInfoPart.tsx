@@ -100,9 +100,9 @@ export default function BasicInfoPart({
                 if (value) {
                   setValue('connectType', value);
                   clearErrors('connectType');
-                  if (value === ConnectOption.INDIRECT) {
-                    setValue('connectInfo', [ConnectInfoType.useTemplate]);
-                  }
+                  // if (value === ConnectOption.INDIRECT) {
+                  //   setValue('connectInfo', [ConnectInfoType.useTemplate]);
+                  // }
                 }
               }}
             >
@@ -138,9 +138,10 @@ export default function BasicInfoPart({
                     colorScheme="primary"
                     id="useTemplate"
                     value={ConnectInfoType.useTemplate}
-                    isDisabled={
-                      watchFields.connectType !== ConnectOption.DIRECT
-                    }
+                    isDisabled
+                    // isDisabled={
+                    //   watchFields.connectType !== ConnectOption.DIRECT
+                    // }
                   >
                     <Text color="gray.600" fontSize="14px">
                       使用设备模版

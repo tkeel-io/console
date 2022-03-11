@@ -170,9 +170,9 @@ export default function OperateDeviceModal({
         connectType:
           directConnection === true
             ? ConnectOption.DIRECT
-            : directConnection === false
-            ? ConnectOption.INDIRECT
-            : '',
+            : // : directConnection === false
+              // ? ConnectOption.INDIRECT
+              '',
         templateId,
         templateName,
       };
