@@ -1,6 +1,6 @@
 import { useDisclosure } from '@chakra-ui/react';
 
-import { Alert, MoreActionButton, toast } from '@tkeel/console-components';
+import { Alert, MoreActionButton } from '@tkeel/console-components';
 import { KeyFilledIcon } from '@tkeel/console-icons';
 import { jumpToAuthLoginPage } from '@tkeel/console-utils';
 
@@ -32,11 +32,7 @@ export default function ModifyPasswordButton() {
       <MoreActionButton
         title="修改密码"
         icon={<KeyFilledIcon />}
-        onClick={() => {
-          // TODO: delete
-          toast({ title: '1' });
-          onOpen();
-        }}
+        onClick={onOpen}
       />
       {isOpen && (
         <ModifyPasswordModal

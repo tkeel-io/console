@@ -14,7 +14,7 @@ export interface ToastOptions extends Omit<ToastifyToastOptions, 'type'> {
 export interface ToastFunction {
   (options: ToastOptions): ReactText;
   (
-    content: ToastContent,
+    content: Exclude<ToastContent, Record<string, never>>,
     options?: Omit<ToastOptions, 'title' | 'description'>
   ): ReactText;
 }
