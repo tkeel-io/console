@@ -12,17 +12,19 @@ import usePluginsTenantsQuery, {
 
 type Props = {
   pluginName: string;
+  uninstall: boolean;
 };
 
-function EnablePluginList({ pluginName }: Props) {
+function EnablePluginList({ pluginName, uninstall }: Props) {
   const [keyWords, setKeywords] = useState('');
-  const { pageNum, pageSize, setTotalSize, ...rest } = usePagination({});
+  const { pageNum, pageSize, setTotalSize, ...rest } = usePagination();
 
   const { tenants, data, isLoading, isSuccess } = usePluginsTenantsQuery({
     pluginName,
     pageNum,
     pageSize,
     keyWords,
+    enabled: !uninstall,
   });
 
   if (isSuccess) {
