@@ -1,16 +1,16 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-// import { ReactElement, ReactNode } from 'react';
-import { ReactNode } from 'react';
+import { ReactElement, ReactNode } from 'react';
+// import { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// import { MoreAction } from '@tkeel/console-components';
+import { MoreAction } from '@tkeel/console-components';
 
 type Props = {
   icon: ReactNode;
   title: ReactNode | string;
   description: ReactNode | string;
   navigateUrl: string;
-  // buttons?: ReactElement[];
+  buttons?: ReactElement[];
   footer: { name: string; value: string }[];
 };
 
@@ -19,7 +19,7 @@ function TemplateCard({
   title,
   description,
   navigateUrl,
-  // buttons,
+  buttons,
   footer,
 }: Props) {
   const navigate = useNavigate();
@@ -51,7 +51,7 @@ function TemplateCard({
           </Flex>
 
           <Flex>
-            <Box ml="6px">{/* <MoreAction buttons={buttons} /> */}</Box>
+            <Box ml="6px">{buttons && <MoreAction buttons={buttons} />}</Box>
           </Flex>
         </Flex>
 
