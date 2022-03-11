@@ -29,6 +29,7 @@ function Detail() {
 
   const readme = pluginDetail?.metadata?.readme ?? '';
   const maintainers = pluginDetail?.maintainers ?? [];
+  const uninstall = pluginDetail?.state === 'UNINSTALL';
   return (
     <Flex height="100%" paddingBottom="20px" justifyContent="space-between">
       <Box width="360px" flexShrink="0">
@@ -78,7 +79,7 @@ function Detail() {
             />
           </TabPanel>
           <TabPanel padding="0" height="100%">
-            <EnablePluginList pluginName={name || ''} />
+            <EnablePluginList pluginName={name || ''} uninstall={uninstall} />
           </TabPanel>
         </TabPanels>
       </Tabs>
