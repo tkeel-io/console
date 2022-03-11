@@ -67,7 +67,10 @@ function Index(): JSX.Element {
       <PageHeaderToolbar
         name="插件管理"
         hasSearchInput
-        searchInputProps={{ onSearch: (value) => setKeyWords(value) }}
+        searchInputProps={{
+          onSearch: (value) => setKeyWords(value),
+          inputStyle: { backgroundColor: 'white' },
+        }}
       />
       <Flex
         flexDirection="column"
@@ -162,7 +165,7 @@ function Index(): JSX.Element {
               })}
             </Grid>
           )}
-          <Pagination {...pagination} />
+          <Pagination {...pagination} style={{ padding: '0 20px' }} />
         </Flex>
       </Flex>
       <Drawer title="插件详情" isOpen={isOpen} onClose={onClose}>
