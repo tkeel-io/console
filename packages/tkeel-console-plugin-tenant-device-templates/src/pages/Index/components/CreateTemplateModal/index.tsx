@@ -1,54 +1,41 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
+import { useState } from 'react';
 
 import Modal from '@tkeel/console-components/src/components/Modal';
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
+import { TemplateTreeNodeDataType } from '@tkeel/console-request-hooks';
+
+import useCreateTemplateMutation, {
+  RequestData as FormValues,
+} from '@/tkeel-console-plugin-tenant-device-templates/hooks/mutations/useCreateTemplateMutation';
 
 import CustomTemplateButton from '../CustomTemplateButton';
-
-export interface FormValues {
-  role: string;
-  plugins: string[];
-}
-
-const templates = [
-  {
-    templateName: '颠簸智能模板',
-    desc: '模型说明一句话描述模型说明一句话描述模型一句',
-    key: 1,
-  },
-  {
-    templateName: 'IDC设备模板',
-    desc: '模型说明一句话描述模型说明一话描述模型一句',
-    key: 2,
-  },
-  {
-    templateName: '大智能模板',
-    desc: '模型说明一句话描述模型明一句话描述模型一句',
-    key: 3,
-  },
-  {
-    templateName: '簸智能模板',
-    desc: '模型说明一句描述模型说明一句话描述模型一句你就是不放多少啊顶级阿卡呢',
-    key: 4,
-  },
-  {
-    templateName: '颠智能模板',
-    desc: '模型说明一句话描模型说明一句话描述模型一句',
-    key: 5,
-  },
-];
+import CustomTemplateModal from '../CustomTemplateModal';
 
 type Props = {
+  templateData: TemplateTreeNodeDataType[];
   isOpen: boolean;
   onClose: () => unknown;
-  handleCreateSuccess: () => void;
+  handleCreateSuccess: (id: string) => void;
 };
 
 export default function CreateTemplateModal({
   isOpen,
   onClose,
   handleCreateSuccess,
+  templateData,
 }: Props) {
+  const [isOpenSaveAs, setIsOpenSaveAs] = useState(false);
+  const [defaultValues, setDefaultValues] = useState<FormValues>();
+
+  const { mutate } = useCreateTemplateMutation({
+    onSuccess(data) {
+      handleCreateSuccess(data.data.templateObject.id);
+      // onSuccess(data.data.templateObject.id);
+      // onClose();
+    },
+  });
+
   return (
     <Modal
       title={<Text fontSize="14px">创建模板</Text>}
@@ -67,45 +54,76 @@ export default function CreateTemplateModal({
       <Text fontSize="14px" m="20px 0 12px 0" fontWeight="600">
         使用已有模板
       </Text>
-      <Flex
-        w="100%"
-        minHeight="100px"
-        p="20px 20px"
-        bg="gray.50"
-        flexWrap="wrap"
-        justifyContent="space-between"
-      >
-        {templates.map((r) => {
-          return (
-            <Flex
-              key={r.key}
-              flexBasis="400px"
-              alignItems="center"
-              p="12px 0 13px 16px"
-              mb="20px"
-              bg="white"
-              border="1px"
-              borderColor="grayAlternatives.50"
-              borderRadius="4px"
-            >
-              <BoxTwoToneIcon size="28px" />
-              <Box ml="16px">
-                <Text fontSize="14px" fontWeight="600" lineHeight="24px">
-                  {r.templateName}
-                </Text>
-                <Text
-                  fontSize="12px"
-                  isTruncated
-                  maxWidth="280px"
-                  lineHeight="1.4"
-                >
-                  {r.desc}
-                </Text>
-              </Box>
-            </Flex>
-          );
-        })}
-      </Flex>
+      <Box>
+        <Flex
+          w="100%"
+          minHeight="100px"
+          p="20px 20px"
+          bg="gray.50"
+          flexWrap="wrap"
+          justifyContent="space-between"
+        >
+          {templateData.map((r) => {
+            return (
+              <Flex
+                key={r.key}
+                flexBasis="400px"
+                alignItems="center"
+                p="12px 0 13px 16px"
+                mb="20px"
+                bg="white"
+                border="1px"
+                borderColor="grayAlternatives.50"
+                borderRadius="4px"
+                cursor="pointer"
+                onClick={() => {
+                  setIsOpenSaveAs(!isOpenSaveAs);
+                  setDefaultValues({ ...r, name: r.title, id: r.id });
+                }}
+              >
+                <BoxTwoToneIcon size="28px" />
+                <Box ml="16px">
+                  <Text fontSize="14px" fontWeight="600" lineHeight="24px">
+                    {r.title}
+                  </Text>
+                  <Text
+                    fontSize="12px"
+                    isTruncated
+                    maxWidth="280px"
+                    lineHeight="1.4"
+                  >
+                    {r.description}
+                  </Text>
+                </Box>
+              </Flex>
+            );
+          })}
+        </Flex>
+        {isOpenSaveAs && (
+          <CustomTemplateModal
+            title="另存为模板"
+            isOpen={isOpenSaveAs}
+            onClose={() => {
+              setIsOpenSaveAs(!isOpenSaveAs);
+            }}
+            defaultValues={defaultValues}
+            // isConfirmButtonLoading={isLoading}
+            isConfirmButtonLoading={false}
+            onConfirm={(formValues: FormValues) => {
+              const { name, description } = formValues;
+              if (formValues) {
+                mutate({
+                  data: {
+                    name,
+                    description,
+                  },
+                });
+              }
+              return null;
+            }}
+          />
+        )}
+      </Box>
     </Modal>
   );
 }
