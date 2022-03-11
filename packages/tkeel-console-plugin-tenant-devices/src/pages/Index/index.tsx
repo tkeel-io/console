@@ -105,10 +105,22 @@ function Index(): JSX.Element {
     const { selected, expanded } = props;
     const color = selected ? selectedColor : unselectedColor;
     const twoToneColor = selected ? selectedTwoTone : unselectedTwoTone;
-    return expanded ? (
-      <FolderOpenTwoToneIcon color={color} twoToneColor={twoToneColor} />
-    ) : (
-      <FolderCloseTwoToneIcon color={color} twoToneColor={twoToneColor} />
+    return (
+      <Center h="100%">
+        {expanded ? (
+          <FolderOpenTwoToneIcon
+            size="20px"
+            color={color}
+            twoToneColor={twoToneColor}
+          />
+        ) : (
+          <FolderCloseTwoToneIcon
+            size="20px"
+            color={color}
+            twoToneColor={twoToneColor}
+          />
+        )}
+      </Center>
     );
   }
 

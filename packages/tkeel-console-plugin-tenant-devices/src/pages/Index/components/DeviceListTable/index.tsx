@@ -60,7 +60,7 @@ function TooltipIcon({
       fontSize="12px"
       p="4px 8px"
     >
-      <Box> {children}</Box>
+      <Box>{children}</Box>
     </Tooltip>
   );
 }
@@ -129,9 +129,9 @@ function DeviceListTable({
         >
           <IconWrapper iconBg={COLORS.DEVICE.BG[isOnline ? 1 : 0]}>
             {isOnline ? (
-              <WifiFilledIcon color="green.300" />
+              <WifiFilledIcon color="green.300" size="20px" />
             ) : (
-              <WifiOffFilledIcon color="gray.500" />
+              <WifiOffFilledIcon color="gray.500" size="20px" />
             )}
           </IconWrapper>
         </TooltipIcon>
@@ -139,6 +139,7 @@ function DeviceListTable({
         <TooltipIcon label={subscribeAddr ? '已订阅' : '未订阅'}>
           <IconWrapper iconBg={COLORS.SUBSCRIBE.BG[subscribeAddr ? 1 : 0]}>
             <MessageWarningTwoToneIcon
+              size="20px"
               color={COLORS.SUBSCRIBE.ICON[subscribeAddr ? 1 : 0]}
               twoToneColor={COLORS.SUBSCRIBE.ICON_TWO[subscribeAddr ? 1 : 0]}
             />
@@ -148,6 +149,7 @@ function DeviceListTable({
         <TooltipIcon label={selfLearn ? '自学习' : '未开启自学习'}>
           <IconWrapper iconBg={COLORS.SELF_LEARN.BG[selfLearn ? 1 : 0]}>
             <VpcTwoToneIcon
+              size="20px"
               color={COLORS.SELF_LEARN.ICON[selfLearn ? 1 : 0]}
               twoToneColor={COLORS.SELF_LEARN.ICON_TWO[selfLearn ? 1 : 0]}
             />
@@ -207,7 +209,11 @@ function DeviceListTable({
           return (
             <TooltipIcon label={value ? '直连' : '非直连'}>
               <IconWrapper iconBg={COLORS.DIR_CONNECT.BG[value ? 1 : 0]}>
-                {value ? <DotLineFilledIcon /> : <BranchTowToneIcon />}
+                {value ? (
+                  <DotLineFilledIcon size="20px" />
+                ) : (
+                  <BranchTowToneIcon size="20px" />
+                )}
               </IconWrapper>
             </TooltipIcon>
           );
@@ -217,7 +223,7 @@ function DeviceListTable({
       Header: '设备模版',
       accessor: 'templateName',
       Cell: ({ value }: { value: string }) =>
-        useMemo(() => <Text color="gray.600">{value || '-'}</Text>, [value]),
+        useMemo(() => <Text color="gray.700">{value || '-'}</Text>, [value]),
     },
     {
       Header: '设备状态',
@@ -235,7 +241,7 @@ function DeviceListTable({
       Cell: ({ value }: { value: number }) =>
         useMemo(
           () => (
-            <Text minWidth="180px" fontSize="12px" color="gray.600">
+            <Text minWidth="180px" fontSize="12px" color="gray.700">
               {value ? formatDateTimeByTimestamp({ timestamp: value }) : ''}
             </Text>
           ),
