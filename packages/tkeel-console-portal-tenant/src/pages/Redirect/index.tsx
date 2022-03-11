@@ -1,10 +1,12 @@
-import { stringify } from 'qs';
+import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import { Loading } from '@tkeel/console-components';
+import { Loading, toast } from '@tkeel/console-components';
 import {
   jumpToPage,
   jumpToTenantAuthTenantPage,
+  removeLocalTenantInfo,
+  removeLocalTokenInfo,
   setLocalTenantInfo,
   setLocalTokenInfo,
 } from '@tkeel/console-utils';
@@ -23,15 +25,30 @@ export default function Redirect() {
     refresh_token: refreshToken,
     expires_in: expiresIn,
   };
-  const { isLoading, isSuccess, isError, userInfo } = useAuthenticateTokenQuery(
-    {
-      queryKey: stringify(tokenInfo),
-      extras: {
-        tokenInfo,
-        handleNoAuth: false,
+  const { isLoading, isSuccess, userInfo } = useAuthenticateTokenQuery({
+    extras: {
+      tokenInfo,
+      handleNoAuth: false,
+      handleApiError(response) {
+        const message = response?.data?.msg || '登录失败，请重新登录';
+        toast(message, {
+          status: 'error',
+          onClose() {
+            jumpToTenantAuthTenantPage({
+              isRemoveLocalTokenInfo: true,
+              isRemoveLocalTenantInfo: true,
+              isReplace: true,
+            });
+          },
+        });
       },
-    }
-  );
+    },
+  });
+
+  useEffect(() => {
+    removeLocalTenantInfo();
+    removeLocalTokenInfo();
+  }, []);
 
   if (isLoading) {
     return <Loading styles={{ wrapper: { height: '100%' } }} />;
@@ -46,14 +63,6 @@ export default function Redirect() {
     setLocalTenantInfo(tenantInfo);
     setLocalTokenInfo(newTokenInfo);
     jumpToPage({ path: '/', isReplace: true });
-  }
-
-  if (isError) {
-    jumpToTenantAuthTenantPage({
-      isRemoveLocalTokenInfo: true,
-      isRemoveLocalTenantInfo: true,
-      isReplace: true,
-    });
   }
 
   return null;
