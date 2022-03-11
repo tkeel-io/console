@@ -23,7 +23,10 @@ type MenuLinkReturnType = {
 
 export function useActive(to: string): boolean {
   const resolved = useResolvedPath(to);
-  const active = useMatch({ path: resolved.pathname, end: false });
+  const active = useMatch({
+    path: resolved.pathname,
+    end: false,
+  });
   return to ? !!active : false;
 }
 
@@ -37,7 +40,7 @@ export function useMenuLinkProps(to: string): MenuLinkReturnType {
 }
 
 function MenuLink({ path, name, icon }: Props) {
-  const { as, to, active } = useMenuLinkProps(path);
+  const { as, to, active } = useMenuLinkProps(path || '');
   const isDarkTheme = isDarkMenuTheme();
   const hoverStyle = active
     ? {}
