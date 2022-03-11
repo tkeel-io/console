@@ -13,14 +13,21 @@ export interface ApiData {
 }
 
 type Options = {
+  queryKey?: string;
   extras?: RequestExtras;
 };
 
-export default function useAuthenticateTokenQuery({ extras }: Options = {}) {
+export default function useAuthenticateTokenQuery({
+  queryKey,
+  extras,
+}: Options = {}) {
   const { data, ...rest } = useQuery<ApiData>({
     url: '/security/v1/oauth/authenticate',
     method: 'GET',
     extras,
+    reactQueryOptions: {
+      queryKey,
+    },
   });
   const userInfo = data;
 
