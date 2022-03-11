@@ -2,16 +2,11 @@ import { useMutation } from '@tkeel/console-hooks';
 import { RequestResult } from '@tkeel/console-utils';
 
 export interface RequestData {
-  name: string;
-  description: string;
-  id?: string;
+  ids: string[];
 }
 
 export interface ApiData {
   '@type': string;
-  templateObject: {
-    id: string;
-  };
 }
 
 type Props = {
@@ -19,10 +14,10 @@ type Props = {
   onSuccess?: (data: RequestResult<ApiData, undefined, RequestData>) => void;
 };
 
-const method = 'POST';
+const method = 'post';
 
-export default function useCreateTemplateMutation({ onSuccess }: Props) {
-  const url = `/tkeel-device/v1/templates`;
+export default function useDeleteTemplateMutation({ onSuccess }: Props) {
+  const url = `/tkeel-device/v1/templates/delete `;
 
   return useMutation<ApiData, undefined, RequestData>({
     url,
