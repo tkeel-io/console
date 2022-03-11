@@ -1,10 +1,18 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
+import styled from '@emotion/styled';
 
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
 
 import { Template } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceTemplatesQuery';
 
 import NoData from '../NoData';
+import SpreadButton from '../SpreadButton';
+
+const TitleWrapper = styled(Flex)`
+  &:hover .spread-wrapper {
+    display: flex;
+  }
+`;
 
 export interface OnTemplateClick {
   ({
@@ -28,10 +36,16 @@ export default function DeviceTemplates({ templates, onTemplateClick }: Props) {
   return (
     <Box>
       {templates.map((template, i) => (
-        <Flex
+        <TitleWrapper
           key={template.id || i}
-          marginBottom={i === templates.length - 1 ? '0' : '18px'}
+          justifyContent="space-between"
+          alignItems="center"
+          marginBottom={i === templates.length - 1 ? '0' : '4px'}
+          paddingLeft="10px"
+          height="32px"
           cursor="pointer"
+          borderRadius="4px"
+          _hover={{ backgroundColor: 'primarySub' }}
           onClick={() =>
             onTemplateClick({
               templateId: template.id,
@@ -39,17 +53,14 @@ export default function DeviceTemplates({ templates, onTemplateClick }: Props) {
             })
           }
         >
-          <BoxTwoToneIcon size={18} />
-          <Text
-            marginLeft="10px"
-            lineHeight="18px"
-            color="gray.700"
-            fontSize="14px"
-            fontWeight="600"
-          >
-            {template.properties?.basicInfo?.name ?? ''}
-          </Text>
-        </Flex>
+          <Flex alignItems="center">
+            <BoxTwoToneIcon size={18} />
+            <Text marginLeft="10px" color="gray.700" fontSize="14px">
+              {template.properties?.basicInfo?.name ?? ''}
+            </Text>
+          </Flex>
+          <SpreadButton style={{ display: 'none' }} />
+        </TitleWrapper>
       ))}
     </Box>
   );

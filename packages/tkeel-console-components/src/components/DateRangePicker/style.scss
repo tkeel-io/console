@@ -16,6 +16,23 @@
   }
 }
 
+.rs-calendar-show-time-dropdown {
+  .rs-calendar-header-title-time {
+    color: var(--chakra-colors-primary) !important;
+  }
+
+  .rs-calendar-time-dropdown-cell {
+    &.rs-calendar-time-dropdown-cell-active {
+      background-color: var(--chakra-colors-primary) !important;
+    }
+
+    &:not(.rs-calendar-time-dropdown-cell-active):hover {
+      color: var(--chakra-colors-primary) !important;
+      background-color: var(--chakra-colors-primarySub) !important;
+    }
+  }
+}
+
 .rs-calendar {
   width: 246px;
 

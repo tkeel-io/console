@@ -9,7 +9,7 @@ type Props = {
 };
 
 export default function DeviceIconName({
-  icon = <WebcamTwoToneIcon />,
+  icon = <WebcamTwoToneIcon size={24} />,
   name = 'OPC协议设备',
 }: Props) {
   return (

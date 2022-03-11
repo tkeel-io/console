@@ -26,11 +26,11 @@ const { TextField, TextareaField } = FormField;
 const templateOption = [
   {
     label: '测试模版_1',
-    id: 'iotd-3decd8f3-d0c4-4923-81f2-a559f2b707da',
+    id: 'iot-3decd8f3-d0c4-4923-81f2-a559f2b707da',
   },
   {
     label: '测试模版_2',
-    id: 'iotd-eb871989-e839-4451-ab62-534da8686b4e',
+    id: 'iot-eb871989-e839-4451-ab62-534da8686b4e',
   },
 ];
 
