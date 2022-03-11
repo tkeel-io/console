@@ -1,5 +1,6 @@
 import { Box, Flex } from '@chakra-ui/react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { TemplateCard } from '@tkeel/console-business-components';
 import { PageHeaderToolbar } from '@tkeel/console-components';
@@ -8,8 +9,11 @@ import { useTemplateQuery } from '@tkeel/console-request-hooks';
 import { plugin } from '@tkeel/console-utils';
 
 import CreateTemplateButton from '@/tkeel-console-plugin-tenant-device-templates/pages/Index/components/CreateTemplateButton';
+import DeleteTemplateButton from '@/tkeel-console-plugin-tenant-device-templates/pages/Index/components/DeleteTemplateButton';
+import ModifyTemplateButton from '@/tkeel-console-plugin-tenant-device-templates/pages/Index/components/ModifyTemplateButton';
 
 function Index() {
+  const navigate = useNavigate();
   const toast = plugin.getPortalToast();
   const defaultParams = {
     page_num: 1,
@@ -26,19 +30,16 @@ function Index() {
     ],
   };
 
-  const { keyData } = useTemplateQuery(defaultParams);
-  // eslint-disable-next-line no-console
-  console.log('Index ~ keyData', keyData);
+  const { keyData, refetch } = useTemplateQuery(defaultParams);
 
   const [keyWord, setKeyWord] = useState('');
   // eslint-disable-next-line no-console
   console.log(keyWord);
   // console.log(keyWord, result);
 
-  const handleCreateSuccess = () => {
-    toast('请选择角色权限', { status: 'warning' });
-    // eslint-disable-next-line no-console
-    console.log(keyWord);
+  const handleCreateSuccess = (id: string) => {
+    toast('创建模板成功', { status: 'success' });
+    navigate(`/detail/${id}`);
   };
 
   return (
@@ -52,10 +53,13 @@ function Index() {
           },
         }}
         buttons={[
-          <CreateTemplateButton key="create" onSuccess={handleCreateSuccess} />,
+          <CreateTemplateButton
+            key="create"
+            templateData={keyData}
+            onSuccess={handleCreateSuccess}
+          />,
         ]}
       />
-
       <Box
         bg="gray.50"
         boxShadow="0px 8px 8px rgba(152, 163, 180, 0.1)"
@@ -74,23 +78,23 @@ function Index() {
                 title={item.title}
                 description={item.description}
                 navigateUrl={`/detail/${item.id}`}
-                // buttons={[
-                //   <ModifySubscriptionButton
-                //     data={item}
-                //     key="modify"
-                //     onSuccess={() => {
-                //       // refetch();
-                //     }}
-                //   />,
-                //   <DeleteSubscriptionButton
-                //     key="delete"
-                //     id={item.id}
-                //     name={item.title}
-                //     refetchData={() => {
-                //       // refetch();
-                //     }}
-                //   />,
-                // ]}
+                buttons={[
+                  <ModifyTemplateButton
+                    data={item}
+                    key="modify"
+                    onSuccess={() => {
+                      refetch();
+                    }}
+                  />,
+                  <DeleteTemplateButton
+                    key="delete"
+                    id={item.id}
+                    name={item.title}
+                    refetchData={() => {
+                      refetch();
+                    }}
+                  />,
+                ]}
                 footer={[
                   // { name: '使用设备', value: item.id },
                   { name: '最新时间', value: item.updatedAt as string },
