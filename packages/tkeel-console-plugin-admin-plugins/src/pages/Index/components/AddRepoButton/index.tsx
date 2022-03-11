@@ -31,7 +31,7 @@ function AddRepoButton({ refetchRepos }: Props) {
     onSuccess() {
       refetchRepos();
       onClose();
-      toast('添加仓库成功', { type: 'success' });
+      toast('添加仓库成功', { status: 'success' });
     },
   });
 

@@ -106,7 +106,7 @@ function Index(): JSX.Element {
         <CreateSubscriptionButton
           key="create"
           onSuccess={() => {
-            toast('创建订阅成功', { type: 'success' });
+            toast('创建订阅成功', { status: 'success' });
             refetch();
           }}
         />

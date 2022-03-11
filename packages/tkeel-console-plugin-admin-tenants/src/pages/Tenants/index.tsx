@@ -51,17 +51,17 @@ export default function Tenants() {
   }
 
   const handleCreateTenantSuccess = () => {
-    toast('创建成功', { type: 'success' });
+    toast('创建成功', { status: 'success' });
     refetch();
   };
 
   const handleModifyTenantSuccess = () => {
-    toast('编辑成功', { type: 'success' });
+    toast('编辑成功', { status: 'success' });
     refetch();
   };
 
   const handleDeleteTenantSuccess = () => {
-    toast('删除成功', { type: 'success' });
+    toast('删除成功', { status: 'success' });
     refetch();
   };
 

@@ -22,7 +22,7 @@ function AddSubscribeButton({ deviceId, addrList, refetch }: Props) {
   const { mutate, isLoading } = useSubscribeByDeviceMutation({
     deviceId,
     onSuccess() {
-      toast('添加成功', { type: 'success' });
+      toast('添加成功', { status: 'success' });
       onClose();
       if (refetch) {
         const timer = setTimeout(() => {

@@ -30,7 +30,7 @@ export const DEFAULT_CUSTOM_EXTRAS: RequestExtras = {
     const customApiErrorMessage =
       response?.config?.extras?.customApiErrorMessage;
     const msg = response?.data?.msg;
-    toast(customApiErrorMessage || msg || '', { type: 'error' });
+    toast(customApiErrorMessage || msg || '', { status: 'error' });
   },
   getApiErrorMessage(response) {
     const customApiErrorMessage =
@@ -43,7 +43,7 @@ export const DEFAULT_CUSTOM_EXTRAS: RequestExtras = {
     const toast = getToastCrossEnv();
     const { message, config } = error;
     const customAxiosErrorMessage = config?.extras?.customAxiosErrorMessage;
-    toast(customAxiosErrorMessage || message || '', { type: 'error' });
+    toast(customAxiosErrorMessage || message || '', { status: 'error' });
   },
   customAxiosErrorMessage: '',
 };

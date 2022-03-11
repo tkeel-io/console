@@ -48,12 +48,12 @@ export default function BasicInfoCard() {
   ];
 
   const handleModifyTenantSuccess = () => {
-    toast('修改成功', { type: 'success' });
+    toast('修改成功', { status: 'success' });
     refetch();
   };
 
   const handleDeleteTenantSuccess = () => {
-    toast('删除成功', { type: 'success' });
+    toast('删除成功', { status: 'success' });
     navigate('/', { replace: true });
   };
 

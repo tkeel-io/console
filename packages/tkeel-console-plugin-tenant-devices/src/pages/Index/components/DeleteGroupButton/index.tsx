@@ -22,10 +22,10 @@ function DeleteGroupButton({ id, groupName, callback }: Props) {
       onClose();
       if ((data?.data?.faildDelGroup ?? []).length > 0) {
         toast(`删除失败：${data?.data?.faildDelGroup[0]?.reason}`, {
-          type: 'error',
+          status: 'error',
         });
       } else {
-        toast('删除设备组成功', { type: 'success' });
+        toast('删除设备组成功', { status: 'success' });
       }
       if (callback) {
         const timer = setTimeout(() => {

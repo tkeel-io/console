@@ -36,7 +36,7 @@ function Index() {
   // console.log(keyWord, result);
 
   const handleCreateSuccess = () => {
-    toast('请选择角色权限', { type: 'warning' });
+    toast('请选择角色权限', { status: 'warning' });
     // eslint-disable-next-line no-console
     console.log(keyWord);
   };

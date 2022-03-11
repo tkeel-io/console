@@ -22,7 +22,7 @@ function EnableButton({
   const { mutate, isLoading } = useEnablePluginMutation({
     pluginName,
     onSuccess() {
-      toast('启用插件成功', { type: 'success' });
+      toast('启用插件成功', { status: 'success' });
       refetchData();
       refetchMenus();
     },

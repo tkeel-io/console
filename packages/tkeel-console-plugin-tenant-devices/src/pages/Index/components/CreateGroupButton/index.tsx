@@ -35,7 +35,7 @@ export default function CreateGroupButton({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isLoading, mutate, isSuccess, reset } = useCreateDeviceGroupMutation({
     onSuccess() {
-      toast('创建设备组成功', { type: 'success' });
+      toast('创建设备组成功', { status: 'success' });
       if (callback) {
         const timer = setTimeout(() => {
           callback();
