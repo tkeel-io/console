@@ -1,6 +1,6 @@
 {
   "name": "@tkeel/console-portal-tenant",
-  "version": "0.4.2-alpha.1",
+  "version": "dev",
   "homepage": "https://github.com/tkeel-io/console#readme",
   "bugs": {
     "url": "https://github.com/tkeel-io/console/issues"

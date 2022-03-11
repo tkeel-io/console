@@ -1,6 +1,6 @@
 {
   "name": "@tkeel/console-plugin-example",
-  "version": "0.0.1",
+  "version": "dev",
   "homepage": "https://github.com/tkeel-io/console#readme",
   "bugs": {
     "url": "https://github.com/tkeel-io/console/issues"
