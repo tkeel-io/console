@@ -25,6 +25,7 @@ type Props = {
   pageNum: number;
   pageSize: number;
   keyWords: string;
+  enabled: boolean;
 };
 
 type TRequestParams = {
@@ -38,6 +39,7 @@ export default function usePluginsTenantsQuery({
   pageNum,
   pageSize,
   keyWords,
+  enabled,
 }: Props) {
   const { data, ...rest } = useQuery<ApiData, TRequestParams>({
     url: `${url}/${pluginName}/tenants`,
@@ -46,6 +48,9 @@ export default function usePluginsTenantsQuery({
       page_num: pageNum,
       page_size: pageSize,
       key_words: keyWords,
+    },
+    reactQueryOptions: {
+      enabled,
     },
   });
   const tenants = data?.tenants || [];
