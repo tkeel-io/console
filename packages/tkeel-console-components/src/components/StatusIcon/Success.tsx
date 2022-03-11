@@ -1,16 +1,18 @@
-import { useStatusColors } from '@tkeel/console-hooks';
-import { SuccessTwoToneIcon } from '@tkeel/console-icons';
+import { useStatusInfos } from '@tkeel/console-hooks';
+import { SuccessTwoToneIcon, TwoToneIconProps } from '@tkeel/console-icons';
 
-import { Props } from './types';
-
-export default function Success({ size, color, twoToneColor }: Props) {
-  const { success } = useStatusColors();
+export default function Success({
+  size,
+  color,
+  twoToneColor,
+}: TwoToneIconProps) {
+  const { success } = useStatusInfos();
 
   return (
     <SuccessTwoToneIcon
       size={size}
-      color={color ?? success.secondary}
-      twoToneColor={twoToneColor ?? success.primary}
+      color={color ?? success.colors.secondary}
+      twoToneColor={twoToneColor ?? success.colors.primary}
     />
   );
 }

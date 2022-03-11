@@ -35,6 +35,7 @@ export { default as HumanCircleTwoToneIcon } from './components/HumanCircleTwoTo
 export { default as HumanFilledIcon } from './components/HumanFilledIcon';
 export { default as HumanGearTwoToneIcon } from './components/HumanGearTwoToneIcon';
 export { default as HumanVipFilledIcon } from './components/HumanVipFilledIcon';
+export * from './components/Icon/types';
 export { default as InformationFilledIcon } from './components/InformationFilledIcon';
 export { default as InformationTwoToneIcon } from './components/InformationTwoToneIcon';
 export { default as KeyFilledIcon } from './components/KeyFilledIcon';

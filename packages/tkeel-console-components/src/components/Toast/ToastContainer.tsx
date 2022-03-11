@@ -6,17 +6,17 @@ import {
   ToastContainerProps,
 } from 'react-toastify';
 
-import { useStatusColors } from '@tkeel/console-hooks';
+import { useStatusInfos } from '@tkeel/console-hooks';
 
 import { DEFAULT_TOAST_CONTAINER_PROPS } from './constants';
 import { StyledWrapper } from './styled';
 
 export default function ToastContainer(props: ToastContainerProps) {
   const properties = merge({}, DEFAULT_TOAST_CONTAINER_PROPS, props);
-  const statusColors = useStatusColors();
+  const statusInfos = useStatusInfos();
 
   return (
-    <StyledWrapper statusColors={statusColors}>
+    <StyledWrapper statusInfos={statusInfos}>
       <ToastifyToastContainer {...properties} />
     </StyledWrapper>
   );
