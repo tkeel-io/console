@@ -1,6 +1,6 @@
 {
   "name": "@tkeel/console-hooks",
-  "version": "0.4.2-alpha.1",
+  "version": "0.4.2",
   "homepage": "https://github.com/tkeel-io/console#readme",
   "bugs": {
     "url": "https://github.com/tkeel-io/console/issues"
@@ -15,10 +15,10 @@
     "@chakra-ui/react": "^1.8.6",
     "@chakra-ui/theme-tools": "^1.3.6",
     "@tkeel/console-business-components": "workspace:^",
+    "@tkeel/console-components": "workspace:^",
     "@tkeel/console-constants": "workspace:^",
     "@tkeel/console-types": "workspace:^",
     "@tkeel/console-utils": "workspace:^",
-    "@tkeel/console-components": "workspace:^",
     "@types/lodash": "^4.14.179",
     "axios": "^0.26.0",
     "react": "^17.0.2",

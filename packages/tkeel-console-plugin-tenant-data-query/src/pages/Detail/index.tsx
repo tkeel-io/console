@@ -1,23 +1,23 @@
-import { Circle, Flex, Text } from '@chakra-ui/react';
+import { Center, Circle, Flex, Switch, Text } from '@chakra-ui/react';
 import * as dayjs from 'dayjs';
 import { useState } from 'react';
+import { CSVLink } from 'react-csv';
 import { useSearchParams } from 'react-router-dom';
 
 import { DateRangePicker, IconButton } from '@tkeel/console-components';
 import {
-  // BroomFilledIcon,
-  // ChevronDownFilledIcon,
   DownloadFilledIcon,
-  LeftFilledIcon,
+  // LeftFilledIcon,
   RefreshFilledIcon,
-  RightFilledIcon,
-  // ChevronUpFilledIcon
+  // RightFilledIcon,
 } from '@tkeel/console-icons';
+import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
+import SearchEmpty from '@/tkeel-console-plugin-tenant-data-query/components/SearchEmpty';
 import useTelemetryDataMutation from '@/tkeel-console-plugin-tenant-data-query/hooks/mutations/useTelemetryDataMutation';
 import useDeviceDetailQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceDetailQuery';
 
-import CustomCircle from './components/CustomCircle';
+import DataResultTitle from './components/DataResultTitle';
 import DataTable from './components/DataTable';
 import DateRangeIndicator from './components/DateRangeIndicator';
 import DeviceDetailCard from './components/DeviceDetailCard';
@@ -35,6 +35,8 @@ export default function Detail() {
     CheckBoxStatus.NOT_CHECKED
   );
   const [checkedKeys, setCheckedKeys] = useState<string[]>([]);
+  const [isTelemetryDataRequested, setIsTelemetryDataRequested] =
+    useState(false);
   const [startTime, setStartTime] = useState(
     getSeconds(dayjs().subtract(3, 'day').valueOf())
   );
@@ -43,11 +45,15 @@ export default function Detail() {
   const intervalTime = (endTime - startTime) / dateRangeLength;
 
   const [rangeIndex, setRangeIndex] = useState(0);
+
+  const [isRangeSearch, setIsRangeSearch] = useState(false);
+
   const [searchParams] = useSearchParams();
   const id = searchParams.get('id') || '';
-  const { deviceObject } = useDeviceDetailQuery({
-    id,
-  });
+  const { deviceObject, isLoading: isDeviceDetailLoading } =
+    useDeviceDetailQuery({
+      id,
+    });
   const telemetry = deviceObject?.configs?.telemetry ?? {};
 
   const identifiers = checkedKeys.join(',');
@@ -61,14 +67,6 @@ export default function Detail() {
     isLoading: isTelemetryDataLoading,
   } = useTelemetryDataMutation();
 
-  const handleExportData = () => {
-    if (isTelemetryDataSuccess) {
-      window.open(
-        `http://192.168.123.9:30707/apis/core/v1/ts/${id}?start_time=${startTime}&end_time=${endTime}&identifiers=${identifiers}`
-      );
-    }
-  };
-
   const defaultDataMutateProps = {
     requestStartTime: startTime,
     requestEndTime: endTime,
@@ -78,6 +76,7 @@ export default function Detail() {
     requestStartTime: number;
     requestEndTime: number;
   }) => {
+    setIsTelemetryDataRequested(true);
     const { requestStartTime, requestEndTime } = {
       ...defaultDataMutateProps,
       ...props,
@@ -97,11 +96,27 @@ export default function Detail() {
   const originDataItems = data?.items ?? [];
   const rangeStartTime = startTime + rangeIndex * intervalTime;
   const rangeEndTime = rangeStartTime + intervalTime;
-  const tableDataItems = originDataItems.filter(
-    (item) =>
-      Number(item.time) >= rangeStartTime * 1000 &&
-      Number(item.time) <= rangeEndTime * 1000
-  );
+  const tableDataItems = isRangeSearch
+    ? originDataItems.filter(
+        (item) =>
+          Number(item.time) >= rangeStartTime * 1000 &&
+          Number(item.time) <= rangeEndTime * 1000
+      )
+    : originDataItems;
+
+  const exportData = originDataItems.map((dataItem) => {
+    const valueObj = {};
+    Object.keys(dataItem.value).forEach((key) => {
+      valueObj[key] = dataItem.value[key];
+    });
+    return {
+      time: formatDateTimeByTimestamp({
+        timestamp: dataItem.time,
+        template: 'YYYY/MM/DD HH:mm:ss',
+      }),
+      ...valueObj,
+    };
+  });
 
   return (
     <Flex height="100%" justifyContent="space-between">
@@ -114,6 +129,7 @@ export default function Detail() {
           setTemplateCheckboxStatus={setTemplateCheckboxStatus}
           checkedKeys={checkedKeys}
           setCheckedKeys={setCheckedKeys}
+          isDeviceDetailLoading={isDeviceDetailLoading}
           isTelemetryDataLoading={isTelemetryDataLoading}
           onSearch={(value) => setKeywords(value)}
           onConfirm={handleTelemetryDataMutate}
@@ -121,114 +137,150 @@ export default function Detail() {
       </Flex>
       <Flex
         marginLeft="12px"
-        padding="12px 20px"
         flex="1"
         overflow="hidden"
         flexDirection="column"
+        padding="12px 20px"
         borderRadius="4px"
         backgroundColor="white"
       >
-        <Flex justifyContent="space-between" alignItems="center">
-          <Flex alignItems="center">
-            <Text
-              marginRight="12px"
-              color="gray.700"
-              fontSize="14px"
-              fontWeight="600"
-              lineHeight="32px"
-            >
-              数据结果
-            </Text>
-            <Flex>
-              <DateRangePicker
-                startTime={dayjs(startTime * 1000).toDate()}
-                endTime={dayjs(endTime * 1000).toDate()}
-                defaultValue={[
-                  new Date(startTime * 1000),
-                  new Date(endTime * 1000),
-                ]}
-                disabledDate={(date: Date) => {
-                  return (
-                    dayjs(date).isBefore(dayjs().subtract(3, 'day')) ||
-                    dayjs(date).isAfter(dayjs())
-                  );
-                }}
-                onOk={(date: [Date, Date]) => {
-                  const requestStartTime = getSeconds(dayjs(date[0]).valueOf());
-                  const requestEndTime = getSeconds(dayjs(date[1]).valueOf());
-                  setStartTime(requestStartTime);
-                  setEndTime(requestEndTime);
-                  if (hasIdentifiers) {
-                    handleTelemetryDataMutate({
-                      requestStartTime,
-                      requestEndTime,
-                    });
-                  }
-                }}
-              />
+        {isTelemetryDataRequested ? (
+          <>
+            <Flex justifyContent="space-between" alignItems="center">
+              <Flex alignItems="center">
+                <DataResultTitle />
+                <Flex>
+                  <DateRangePicker
+                    startTime={dayjs(startTime * 1000).toDate()}
+                    endTime={dayjs(endTime * 1000).toDate()}
+                    defaultValue={[
+                      new Date(startTime * 1000),
+                      new Date(endTime * 1000),
+                    ]}
+                    disabledDate={(date: Date) => {
+                      return (
+                        dayjs(date).isBefore(
+                          dayjs().subtract(3, 'day'),
+                          'day'
+                        ) || dayjs(date).isAfter(dayjs(), 'day')
+                      );
+                    }}
+                    onOk={(date: [Date, Date]) => {
+                      const requestStartTime = getSeconds(
+                        dayjs(date[0]).valueOf()
+                      );
+                      const requestEndTime = getSeconds(
+                        dayjs(date[1]).valueOf()
+                      );
+                      setStartTime(requestStartTime);
+                      setEndTime(requestEndTime);
+                      if (hasIdentifiers) {
+                        handleTelemetryDataMutate({
+                          requestStartTime,
+                          requestEndTime,
+                        });
+                      }
+                    }}
+                  />
+                </Flex>
+              </Flex>
+              <Flex alignItems="center">
+                <Circle
+                  size="32px"
+                  marginRight="5px"
+                  backgroundColor="gray.100"
+                  cursor={hasIdentifiers ? 'pointer' : 'not-allowed'}
+                  onClick={() => {
+                    if (hasIdentifiers) {
+                      handleTelemetryDataMutate();
+                    }
+                  }}
+                >
+                  <RefreshFilledIcon color="grayAlternatives.300" />
+                </Circle>
+                <CSVLink
+                  data={exportData}
+                  filename={`data-${dayjs().valueOf()}.csv`}
+                >
+                  <IconButton
+                    paddingLeft="4px"
+                    paddingRight="16px"
+                    icon={<DownloadFilledIcon size={14} />}
+                    isShowCircle
+                    disabled={!isTelemetryDataSuccess}
+                  >
+                    数据导出
+                  </IconButton>
+                </CSVLink>
+              </Flex>
             </Flex>
-          </Flex>
-          <Flex alignItems="center">
-            <Circle
-              size="32px"
-              marginRight="5px"
-              backgroundColor="gray.100"
-              cursor={hasIdentifiers ? 'pointer' : 'not-allowed'}
-              onClick={() => {
-                if (hasIdentifiers) {
-                  handleTelemetryDataMutate();
-                }
-              }}
+            <Flex
+              marginTop="12px"
+              marginBottom="8px"
+              justifyContent="space-between"
+              alignItems="center"
             >
-              <RefreshFilledIcon color="grayAlternatives.300" />
-            </Circle>
-            <IconButton
-              paddingLeft="4px"
-              paddingRight="16px"
-              icon={<DownloadFilledIcon size={14} />}
-              isShowCircle
-              disabled={!isTelemetryDataSuccess}
-              // isLoading={isExportDataLoading}
-              onClick={handleExportData}
-            >
-              数据导出
-            </IconButton>
-          </Flex>
-        </Flex>
-        <Flex
-          marginTop="12px"
-          marginBottom="8px"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Text fontSize="12px">遥测数据</Text>
-          <Flex>
-            <CustomCircle onClick={() => {}}>
+              <Text fontSize="12px">遥测数据</Text>
+              <Flex alignItems="center">
+                <Switch
+                  size="sm"
+                  isChecked={isRangeSearch}
+                  colorScheme="primary"
+                  __css={{ 'span:focus': { boxShadow: 'none !important' } }}
+                  onChange={(e) => {
+                    setIsRangeSearch(e.target.checked);
+                  }}
+                />
+                <Text
+                  marginLeft="4px"
+                  color="gray.700"
+                  fontSize="12px"
+                  lineHeight="24px"
+                >
+                  分段查询
+                </Text>
+                {/* <CustomCircle onClick={() => {}}>
               <LeftFilledIcon color="grayAlternatives.300" />
             </CustomCircle>
             <CustomCircle marginLeft="8px" onClick={() => {}}>
               <RightFilledIcon color="grayAlternatives.300" />
-            </CustomCircle>
-          </Flex>
-        </Flex>
-        <DateRangeIndicator
-          startTime={startTime}
-          rangeIndex={rangeIndex}
-          dateRangeLength={dateRangeLength}
-          intervalTime={intervalTime}
-          setRangeIndex={setRangeIndex}
-        />
-        <DataTable
-          originalData={originDataItems}
-          data={tableDataItems}
-          isLoading={isTelemetryDataLoading}
-          telemetry={telemetry}
-          styles={{
-            wrapper: { flex: '1', marginTop: '10px', overflowY: 'auto' },
-            loading: { flex: '1' },
-            empty: { flex: '1' },
-          }}
-        />
+            </CustomCircle> */}
+              </Flex>
+            </Flex>
+            {isRangeSearch && (
+              <DateRangeIndicator
+                startTime={startTime}
+                rangeIndex={rangeIndex}
+                dateRangeLength={dateRangeLength}
+                intervalTime={intervalTime}
+                setRangeIndex={setRangeIndex}
+              />
+            )}
+            <Flex flex="1" marginTop="10px" overflowY="auto">
+              <DataTable
+                originalData={originDataItems}
+                data={tableDataItems}
+                isLoading={isTelemetryDataLoading}
+                telemetry={telemetry}
+                styles={{
+                  wrapper: { width: '100%', height: 'max-content' },
+                  loading: { flex: '1' },
+                  empty: { flex: '1' },
+                }}
+              />
+            </Flex>
+          </>
+        ) : (
+          <>
+            <DataResultTitle />
+            <Center flex="1">
+              <SearchEmpty
+                title="请选择查询条件后，点击查询按钮 "
+                styles={{ image: { marginBottom: '8px', width: '104px' } }}
+              />
+            </Center>
+          </>
+        )}
       </Flex>
     </Flex>
   );

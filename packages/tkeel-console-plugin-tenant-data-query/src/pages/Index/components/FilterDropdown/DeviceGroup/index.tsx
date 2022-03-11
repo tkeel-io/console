@@ -1,11 +1,11 @@
 import { Flex, Text } from '@chakra-ui/react';
+import styled from '@emotion/styled';
 import { values } from 'lodash';
 
 import { Tree } from '@tkeel/console-components';
 import {
   FolderCloseTwoToneIcon,
   FolderOpenTwoToneIcon,
-  RightFilledIcon,
 } from '@tkeel/console-icons';
 
 import {
@@ -14,6 +14,7 @@ import {
 } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceGroupQuery';
 
 import NoData from '../NoData';
+import SpreadButton from '../SpreadButton';
 
 export interface TreeNodeData {
   title: string;
@@ -26,14 +27,30 @@ export interface TreeNodeData {
   key: string;
 }
 
+const TitleWrapper = styled(Flex)`
+  &:hover .spread-wrapper {
+    display: flex;
+  }
+`;
+
 function getTreeIcon(props: { selected: boolean; expanded: boolean }) {
   const { selected, expanded } = props;
   const color = selected ? 'primary' : 'gray.700';
   const twoToneColor = selected ? 'primarySub2' : 'gray.300';
   return expanded ? (
-    <FolderOpenTwoToneIcon color={color} twoToneColor={twoToneColor} />
+    <FolderOpenTwoToneIcon
+      size={20}
+      color={color}
+      twoToneColor={twoToneColor}
+      style={{ position: 'relative', bottom: '2px' }}
+    />
   ) : (
-    <FolderCloseTwoToneIcon color={color} twoToneColor={twoToneColor} />
+    <FolderCloseTwoToneIcon
+      size={20}
+      color={color}
+      twoToneColor={twoToneColor}
+      style={{ position: 'relative', bottom: '2px' }}
+    />
   );
 }
 
@@ -84,29 +101,25 @@ export default function DeviceGroup({
       titleRender={(node) => {
         const { id: groupId } = node as TreeNodeData;
         return (
-          <Flex
+          <TitleWrapper
             justifyContent="space-between"
             onClick={() => {
               onNodeTitleClick({ groupId, title: node.title as string });
-              // onSpreadClick(groupId);
             }}
           >
-            <Text>{node.title}</Text>
-            <Flex
-              alignItems="center"
-              color="primary"
-              fontSize="12px"
-              // onClick={() => onSpreadClick(groupId)}
-            >
-              <Text marginRight="4px">展开</Text>
-              <RightFilledIcon color="primary" />
-            </Flex>
-          </Flex>
+            <Text marginLeft="4px" color="gray.800">
+              {node.title}
+            </Text>
+            <SpreadButton style={{ display: 'none' }} />
+          </TitleWrapper>
         );
       }}
       extras={{ isTreeTitleFullWidth: true }}
       showIcon
       treeData={treeNodeData}
+      styles={{
+        treeTitle: 'font-size:14px; line-height: 32px;',
+      }}
     />
   );
 }
