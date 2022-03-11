@@ -217,7 +217,7 @@ function DeviceListTable({
       Header: '设备模版',
       accessor: 'templateName',
       Cell: ({ value }: { value: string }) =>
-        useMemo(() => <Text color="gray.600">{value}</Text>, [value]),
+        useMemo(() => <Text color="gray.600">{value || '-'}</Text>, [value]),
     },
     {
       Header: '设备状态',
