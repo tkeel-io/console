@@ -1,13 +1,13 @@
+import SearchEmpty from '@/tkeel-console-plugin-tenant-data-query/components/SearchEmpty';
+import { StatusSelectProps } from '@/tkeel-console-plugin-tenant-data-query/components/StatusSelect';
 import { TreeNodeType } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceGroupQuery';
 import { DeviceItem } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceListQuery';
 import { Template } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceTemplatesQuery';
 
-import { StatusSelectProps } from '../../../../../components/StatusSelect';
 import DeviceGroup from '../DeviceGroup';
 import DeviceList from '../DeviceList';
 import DeviceListTitle from '../DeviceListTitle';
 import DeviceTemplates, { OnTemplateClick } from '../DeviceTemplates';
-import Empty from '../Empty';
 import Label from '../Label';
 import ListWrapper from '../ListWrapper';
 
@@ -106,7 +106,7 @@ function ResultContent({
     );
   }
 
-  return <Empty />;
+  return <SearchEmpty />;
 }
 
 export default ResultContent;
