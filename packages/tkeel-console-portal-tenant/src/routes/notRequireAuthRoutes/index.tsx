@@ -15,6 +15,7 @@ export default (
     </Route>
     <Route path="redirect" element={<Redirect />} />
     <Route path="set-password" element={<SetPassword />} />
+    <Route path="" element={<NotFound />} />
     <Route path="*" element={<NotFound />} />
   </>
 );

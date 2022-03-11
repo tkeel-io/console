@@ -7,6 +7,7 @@ import Login from '@/tkeel-console-portal-admin/pages/Login';
 export default (
   <>
     <Route path="login" element={<Login />} />
+    <Route path="" element={<NotFound />} />
     <Route path="*" element={<NotFound />} />
   </>
 );
