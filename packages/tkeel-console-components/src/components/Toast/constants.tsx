@@ -3,7 +3,7 @@ import { ToastContainerProps, ToastOptions } from 'react-toastify';
 import * as StatusIcon from '../StatusIcon';
 
 export const DEFAULT_TOAST_CONTAINER_PROPS: Partial<ToastContainerProps> = {
-  autoClose: false,
+  autoClose: 3000,
   hideProgressBar: true,
   /* style: {
     backgroundColor: 'red',
