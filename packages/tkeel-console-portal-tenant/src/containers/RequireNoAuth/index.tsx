@@ -6,7 +6,7 @@ import { jumpToPage } from '@tkeel/console-utils';
 
 import useAuthenticateTokenQuery from '@/tkeel-console-portal-tenant/hooks/queries/useAuthenticateTokenQuery';
 
-export default function AntiRequireAuth() {
+export default function RequireNoAuth() {
   const { isLoading, isSuccess } = useAuthenticateTokenQuery({
     extras: { handleNoAuth: false, handleApiError: false },
   });

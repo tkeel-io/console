@@ -21,8 +21,8 @@ const theme = themes[themeName] || DEFAULT_THEME;
 type Props = {
   documentHeadComponent: ReactNode;
   requireAuthContainer: ReactNode;
-  antiRequireAuthContainer: ReactNode;
-  antiRequireAuthRoutes: ReactNode;
+  requireNoAuthContainer: ReactNode;
+  requireNoAuthRoutes: ReactNode;
   userActionMenusComponent: ReactNode;
   logo: Logo;
 };
@@ -32,8 +32,8 @@ const queryClient = new QueryClient();
 export default function App({
   documentHeadComponent,
   requireAuthContainer,
-  antiRequireAuthContainer,
-  antiRequireAuthRoutes,
+  requireNoAuthContainer,
+  requireNoAuthRoutes,
   userActionMenusComponent,
   logo,
 }: Props) {
@@ -44,8 +44,8 @@ export default function App({
           {documentHeadComponent}
           <Routes
             requireAuthContainer={requireAuthContainer}
-            antiRequireAuthContainer={antiRequireAuthContainer}
-            antiRequireAuthRoutes={antiRequireAuthRoutes}
+            requireNoAuthContainer={requireNoAuthContainer}
+            requireNoAuthRoutes={requireNoAuthRoutes}
             userActionMenusComponent={userActionMenusComponent}
             logo={logo}
           />
