@@ -23,6 +23,7 @@ type Props = {
   requireAuthContainer: ReactNode;
   requireNoAuthContainer: ReactNode;
   requireNoAuthRoutes: ReactNode;
+  notRequireAuthRoutes?: ReactNode;
   userActionMenusComponent: ReactNode;
   logo: Logo;
 };
@@ -34,6 +35,7 @@ export default function App({
   requireAuthContainer,
   requireNoAuthContainer,
   requireNoAuthRoutes,
+  notRequireAuthRoutes,
   userActionMenusComponent,
   logo,
 }: Props) {
@@ -46,6 +48,7 @@ export default function App({
             requireAuthContainer={requireAuthContainer}
             requireNoAuthContainer={requireNoAuthContainer}
             requireNoAuthRoutes={requireNoAuthRoutes}
+            notRequireAuthRoutes={notRequireAuthRoutes}
             userActionMenusComponent={userActionMenusComponent}
             logo={logo}
           />

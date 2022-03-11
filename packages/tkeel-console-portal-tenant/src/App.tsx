@@ -7,6 +7,7 @@ import LogoTypeLight from './components/LogoTypeLight';
 import UserActionMenus from './components/UserActionMenus';
 import RequireAuth from './containers/RequireAuth';
 import RequireNoAuth from './containers/RequireNoAuth';
+import notRequireAuthRoutes from './routes/notRequireAuthRoutes';
 import requireNoAuthRoutes from './routes/requireNoAuthRoutes';
 
 export default function App() {
@@ -16,6 +17,7 @@ export default function App() {
       requireAuthContainer={<RequireAuth />}
       requireNoAuthContainer={<RequireNoAuth />}
       requireNoAuthRoutes={requireNoAuthRoutes}
+      notRequireAuthRoutes={notRequireAuthRoutes}
       userActionMenusComponent={<UserActionMenus />}
       logo={{
         mark: <LogoMark />,

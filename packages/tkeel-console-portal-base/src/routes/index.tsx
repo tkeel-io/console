@@ -9,6 +9,7 @@ type Props = {
   requireAuthContainer: ReactNode;
   requireNoAuthContainer: ReactNode;
   requireNoAuthRoutes: ReactNode;
+  notRequireAuthRoutes?: ReactNode;
   userActionMenusComponent: ReactNode;
   logo: Logo;
 };
@@ -17,14 +18,14 @@ export default function Routes({
   requireAuthContainer,
   requireNoAuthContainer,
   requireNoAuthRoutes,
+  notRequireAuthRoutes,
   userActionMenusComponent,
   logo,
 }: Props) {
   return (
     <ReactRouterRoutes>
-      <Route element={requireNoAuthContainer}>
-        <Route path="/auth">{requireNoAuthRoutes}</Route>
-      </Route>
+      {notRequireAuthRoutes}
+      <Route element={requireNoAuthContainer}>{requireNoAuthRoutes}</Route>
       <Route element={requireAuthContainer}>
         <Route
           path="/*"
