@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-export type Statuses = 'info' | 'success' | 'warning' | 'error';
+export type StatusKeys = 'default' | 'info' | 'success' | 'warning' | 'error';
 
 type Colors = {
   primary: string;
@@ -12,6 +12,6 @@ export interface StatusInfo {
   colors: Colors;
 }
 
-export type StatusInfos = Record<Statuses, StatusInfo>;
+export type StatusInfos = Record<StatusKeys, StatusInfo>;
 
-export type StatusColors = Record<Statuses, { colors: Colors }>;
+export type StatusColors = Record<StatusKeys, Colors>;

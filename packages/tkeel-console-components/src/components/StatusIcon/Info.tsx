@@ -9,8 +9,8 @@ export default function Info({ size, color, twoToneColor }: Props) {
   return (
     <InformationTwoToneIcon
       size={size}
-      color={color ?? info.colors.secondary}
-      twoToneColor={twoToneColor ?? info.colors.primary}
+      color={color ?? info.secondary}
+      twoToneColor={twoToneColor ?? info.primary}
     />
   );
 }

@@ -9,8 +9,8 @@ export default function Warning({ size, color, twoToneColor }: Props) {
   return (
     <WarningTwoToneIcon
       size={size}
-      color={color ?? warning.colors.secondary}
-      twoToneColor={twoToneColor ?? warning.colors.primary}
+      color={color ?? warning.secondary}
+      twoToneColor={twoToneColor ?? warning.primary}
     />
   );
 }

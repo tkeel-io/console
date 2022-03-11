@@ -8,6 +8,7 @@ export default function Example() {
       <Button
         onClick={() => {
           const toast = plugin.getPortalToast();
+          toast('toast', { status: 'default' });
           toast('toast', { status: 'success' });
           toast('toast', { status: 'error' });
           toast('toast', { status: 'info' });

@@ -6,29 +6,25 @@ export default function useStatusColors(): StatusColors {
   const { colors }: Theme = useTheme();
 
   return {
+    default: {
+      primary: '',
+      secondary: '',
+    },
     info: {
-      colors: {
-        primary: colors.blue[300],
-        secondary: colors.blue[50],
-      },
+      primary: colors.blue[300],
+      secondary: colors.blue[50],
     },
     success: {
-      colors: {
-        primary: colors.green[300],
-        secondary: colors.green[50],
-      },
+      primary: colors.green[300],
+      secondary: colors.green[50],
     },
     warning: {
-      colors: {
-        primary: colors.orange[300],
-        secondary: colors.orange[50],
-      },
+      primary: colors.orange[300],
+      secondary: colors.orange[50],
     },
     error: {
-      colors: {
-        primary: colors.red[300],
-        secondary: colors.red[100],
-      },
+      primary: colors.red[300],
+      secondary: colors.red[100],
     },
   };
 }

@@ -9,8 +9,8 @@ export default function Error({ size, color, twoToneColor }: Props) {
   return (
     <ErrorTwoToneIcon
       size={size}
-      color={color ?? error.colors.secondary}
-      twoToneColor={twoToneColor ?? error.colors.primary}
+      color={color ?? error.secondary}
+      twoToneColor={twoToneColor ?? error.primary}
     />
   );
 }

@@ -9,8 +9,8 @@ export default function Success({ size, color, twoToneColor }: Props) {
   return (
     <SuccessTwoToneIcon
       size={size}
-      color={color ?? success.colors.secondary}
-      twoToneColor={twoToneColor ?? success.colors.primary}
+      color={color ?? success.secondary}
+      twoToneColor={twoToneColor ?? success.primary}
     />
   );
 }

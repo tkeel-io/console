@@ -2,25 +2,36 @@ import { merge } from 'lodash';
 
 import { StatusIcon } from '@tkeel/console-components';
 
-import { StatusInfos } from './types';
+import { StatusColors, StatusInfos, StatusKeys } from './types';
 import useStatusColors from './useStatusColors';
 
-export default function useStatusInfos(): StatusInfos {
+const statusInfos = {
+  default: {
+    icon: null,
+  },
+  info: {
+    icon: StatusIcon.Info,
+  },
+  success: {
+    icon: StatusIcon.Success,
+  },
+  warning: {
+    icon: StatusIcon.Warning,
+  },
+  error: {
+    icon: StatusIcon.Error,
+  },
+};
+export default function useStatusInfos() {
   const statusColors = useStatusColors();
-  const statusIcons = {
-    info: {
-      icon: StatusIcon.Info,
-    },
-    success: {
-      icon: StatusIcon.Success,
-    },
-    warning: {
-      icon: StatusIcon.Warning,
-    },
-    error: {
-      icon: StatusIcon.Error,
-    },
-  };
+  const statusColorsInfos = {} as Record<
+    StatusKeys,
+    { colors: StatusColors[StatusKeys] }
+  >;
 
-  return merge({}, statusColors, statusIcons);
+  Object.entries(statusColors).forEach(([key, value]) => {
+    statusColorsInfos[key as StatusKeys] = { colors: value };
+  });
+
+  return merge({}, statusInfos, statusColorsInfos) as StatusInfos;
 }

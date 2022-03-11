@@ -2,9 +2,29 @@ import { isPlainObject, merge, omit } from 'lodash';
 import { ReactText } from 'react';
 import { toast as toastifyToast, ToastContent } from 'react-toastify';
 
+// import { STATUS_INFOS } from '@tkeel/console-hooks';
 import { ToastOptions } from '@tkeel/console-types';
 
-import { DEFAULT_STATUS, STATUS_ICONS } from './constants';
+import * as StatusIcon from '../StatusIcon';
+import { DEFAULT_STATUS } from './constants';
+
+const statusInfos = {
+  default: {
+    icon: null,
+  },
+  info: {
+    icon: StatusIcon.Info,
+  },
+  success: {
+    icon: StatusIcon.Success,
+  },
+  warning: {
+    icon: StatusIcon.Warning,
+  },
+  error: {
+    icon: StatusIcon.Error,
+  },
+};
 
 function isToastOptions(value: unknown): value is ToastOptions {
   return isPlainObject(value);
@@ -39,9 +59,13 @@ function toast(
   }
 
   const status = options?.status;
-  const typeInfo = STATUS_ICONS[status ?? DEFAULT_STATUS];
-  const { icon } = typeInfo;
-  const toastOptions = merge({}, { icon }, omit(options, ['status']));
+  const statusInfo = statusInfos[status ?? DEFAULT_STATUS];
+  const { icon: Icon } = statusInfo;
+  const toastOptions = merge(
+    {},
+    { type: status, icon: !!Icon && <Icon size="20px" /> },
+    omit(options, ['status'])
+  );
 
   return toastifyToast(content, toastOptions);
 }
