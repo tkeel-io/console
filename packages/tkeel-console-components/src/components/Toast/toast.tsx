@@ -6,6 +6,7 @@ import { ToastOptions } from '@tkeel/console-types';
 import { getStatusInfos } from '@tkeel/console-utils';
 
 import { DEFAULT_STATUS } from './constants';
+import { StyledToastContent } from './styled';
 
 function isToastOptions(value: unknown): value is ToastOptions {
   return isPlainObject(value);
@@ -29,9 +30,9 @@ function toast(
     const { title, description, ...rest } = arg1;
 
     content = (
-      <div>
+      <StyledToastContent>
         {title}/{description}
-      </div>
+      </StyledToastContent>
     );
     options = { ...rest };
   } else {
@@ -49,7 +50,10 @@ function toast(
     omit(options, ['status'])
   );
 
-  return toastifyToast(content, toastOptions);
+  return toastifyToast(
+    <StyledToastContent>{content}</StyledToastContent>,
+    toastOptions
+  );
 }
 
 export default toast;

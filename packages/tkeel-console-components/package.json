@@ -20,6 +20,7 @@
     "@tkeel/console-icons": "workspace:^",
     "@tkeel/console-types": "workspace:^",
     "@tkeel/console-utils": "workspace:^",
+    "@tkeel/console-themes": "workspace:^",
     "@types/lodash": "^4.14.179",
     "dayjs": "^1.10.8",
     "framer-motion": "^6.2.8",

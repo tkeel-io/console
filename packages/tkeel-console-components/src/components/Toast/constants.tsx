@@ -4,18 +4,9 @@ import * as StatusIcon from '../StatusIcon';
 
 export const DEFAULT_TOAST_CONTAINER_PROPS: Partial<ToastContainerProps> = {
   position: 'top-right',
+  theme: 'colored',
   autoClose: false,
   hideProgressBar: true,
-  theme: 'colored',
-  /* style: {
-    backgroundColor: 'red',
-  }, */
-  /* bodyStyle: {
-    backgroundColor: 'green',
-  }, */
-  /* toastStyle: {
-    backgroundColor: 'yellow',
-  }, */
 };
 
 export const DEFAULT_TOAST_OPTIONS: Partial<ToastOptions> =
