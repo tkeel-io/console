@@ -3,15 +3,16 @@ import { noop } from 'lodash';
 import { ReactNode } from 'react';
 
 import Modal from '@/tkeel-console-components/components/Modal';
+import * as StatusIcon from '@/tkeel-console-components/components/StatusIcon';
 
-import SuccessIcon from './SuccessIcon';
+import { ICON_SIZE } from './constants';
 import WarningIcon from './WarningIcon';
 
 type Props = {
   isOpen: boolean;
   width?: string | number;
   iconPosition?: 'top' | 'left';
-  icon?: 'warning' | 'success' | ReactNode;
+  icon?: 'info' | 'success' | 'warning' | 'error' | ReactNode | false;
   title: ReactNode;
   description?: ReactNode;
   children?: ReactNode;
@@ -64,6 +65,22 @@ export default function Alert(props: Props) {
       paddingRight = '20px';
     }
 
+    if (icon === 'info') {
+      return (
+        <Box paddingRight={paddingRight} paddingBottom={paddingBottom}>
+          <StatusIcon.Info size={ICON_SIZE} />
+        </Box>
+      );
+    }
+
+    if (icon === 'success') {
+      return (
+        <Box paddingRight={paddingRight} paddingBottom={paddingBottom}>
+          <StatusIcon.Success size={ICON_SIZE} />
+        </Box>
+      );
+    }
+
     if (icon === 'warning') {
       return (
         <Box paddingRight={paddingRight} paddingBottom={paddingBottom}>
@@ -72,10 +89,10 @@ export default function Alert(props: Props) {
       );
     }
 
-    if (icon === 'success') {
+    if (icon === 'error') {
       return (
         <Box paddingRight={paddingRight} paddingBottom={paddingBottom}>
-          <SuccessIcon />
+          <StatusIcon.Error size={ICON_SIZE} />
         </Box>
       );
     }
