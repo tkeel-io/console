@@ -11,7 +11,7 @@ export default function Example() {
           toast('default', { status: 'default' });
           toast('success', { status: 'success' });
           toast('error', { status: 'error' });
-          toast('info', { status: 'info' });
+          toast({ status: 'info', title: '标题', description: '描述' });
           toast('warning', { status: 'warning' });
         }}
       >
