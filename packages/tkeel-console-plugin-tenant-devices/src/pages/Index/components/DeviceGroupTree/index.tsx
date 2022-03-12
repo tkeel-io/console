@@ -18,7 +18,7 @@ export default function DeviceGroupTree({
   selectedKeys = [],
 }: Props) {
   return (
-    <Box mt="16px" flex="1" minWidth="200px" overflowY="scroll">
+    <Box mt="16px" flex="1" minWidth="258px" overflowY="scroll">
       <Tree
         extras={{ isTreeTitleFullWidth: true }}
         treeData={treeNodeData}

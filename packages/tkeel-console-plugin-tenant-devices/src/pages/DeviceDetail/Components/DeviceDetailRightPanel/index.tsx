@@ -8,20 +8,20 @@ import {
   // Attributes,
   DeviceObject,
 } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
-import AttributesData from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/AttributesData';
+// import AttributesData from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/AttributesData';
 import ConnectionInfo from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/ConnectionInfo';
 import RawData from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/RawData';
 
 type Props = {
   deviceObject: DeviceObject;
-  refetch?: () => void;
+  // refetch?: () => void;
 };
 
-function DeviceDetailRightPanel({ deviceObject, refetch }: Props): JSX.Element {
+function DeviceDetailRightPanel({ deviceObject }: Props): JSX.Element {
   const { properties } = deviceObject;
   // const { properties, configs } = deviceObject;
   // const attributes = configs?.attributes;
-  const { connectInfo, rawData, basicInfo } = properties;
+  const { connectInfo, rawData } = properties;
   const tabs = [
     {
       label: '连接信息',
@@ -35,17 +35,17 @@ function DeviceDetailRightPanel({ deviceObject, refetch }: Props): JSX.Element {
         <RawData data={rawData} online={connectInfo?._online ?? false} />
       ),
     },
-    {
-      label: '属性数据',
-      key: 'attributeData',
-      component: (
-        <AttributesData
-          // data={attributes as Attributes}
-          refetch={refetch}
-          deviceName={basicInfo?.name}
-        />
-      ),
-    },
+    // {
+    //   label: '属性数据',
+    //   key: 'attributeData',
+    //   component: (
+    //     <AttributesData
+    //       // data={attributes as Attributes}
+    //       refetch={refetch}
+    //       deviceName={basicInfo?.name}
+    //     />
+    //   ),
+    // },
   ];
   const [tabIndex, setTabIndex] = useState(0);
   const handleTabChange = (index: number) => {
