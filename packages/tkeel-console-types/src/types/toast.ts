@@ -5,13 +5,13 @@ import {
   TypeOptions,
 } from 'react-toastify';
 
+export type ToastContent = Exclude<ToastifyToastContent, Record<string, never>>;
+
 export interface ToastOptions extends Omit<ToastifyToastOptions, 'type'> {
   title: ReactNode;
   description?: ReactNode;
   status?: TypeOptions;
 }
-
-export type ToastContent = Exclude<ToastifyToastContent, Record<string, never>>;
 
 export type ToastFunctionArg1 = ToastOptions | ToastContent;
 

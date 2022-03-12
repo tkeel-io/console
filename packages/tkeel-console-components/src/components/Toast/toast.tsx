@@ -2,6 +2,7 @@ import { isPlainObject, merge, omit } from 'lodash';
 import { toast as toastifyToast, TypeOptions } from 'react-toastify';
 
 import {
+  ToastContent,
   ToastFunction,
   ToastFunctionArg1,
   ToastFunctionArg2,
@@ -24,7 +25,7 @@ function parseArgs(arg1: ToastFunctionArg1, arg2?: ToastFunctionArg2) {
   const arg1IsToastOptions = isToastOptions(arg1);
 
   let content = null;
-  let toastOptions = null;
+  let options = null;
 
   if (arg1IsToastOptions) {
     const { title, description, ...rest } = arg1;
@@ -36,23 +37,33 @@ function parseArgs(arg1: ToastFunctionArg1, arg2?: ToastFunctionArg2) {
         </StyledToastContentDescription>
       </>
     );
-    toastOptions = { ...rest };
+    options = { ...rest };
   } else {
     content = <StyledToastContent>{arg1}</StyledToastContent>;
-    toastOptions = arg2;
+    options = arg2;
   }
 
+  return { content, options };
+}
+
+function getToastifyToastArgs({
+  content,
+  options,
+}: {
+  content: ToastContent;
+  options?: ToastFunctionArg2;
+}) {
   const statusInfos = getStatusInfos();
-  const status = toastOptions?.status;
+  const status = options?.status;
   const statusInfo = statusInfos[status ?? DEFAULT_STATUS];
   const { icon: Icon } = statusInfo;
-  const options = merge(
+  const opts = merge(
     {},
     { type: status, icon: !!Icon && <Icon size="20px" /> },
-    omit(toastOptions, ['status'])
+    omit(options, ['status'])
   );
 
-  return { content, options };
+  return { content, options: opts };
 }
 
 function createToastByStatus(status: Exclude<TypeOptions, 'default'>) {
@@ -60,9 +71,10 @@ function createToastByStatus(status: Exclude<TypeOptions, 'default'>) {
     arg1: ToastFunctionArg1,
     arg2?: Omit<ToastFunctionArg2, 'status'>
   ) {
-    const { content, options } = parseArgs(arg1, arg2);
-    const opts = merge({}, { type: status }, options);
-    return toastifyToast(content, opts);
+    const args = parseArgs(arg1, arg2);
+    const newArgs = merge({}, { options: { status } }, args);
+    const { content, options } = getToastifyToastArgs(newArgs);
+    return toastifyToast(content, options);
   };
 }
 
@@ -70,7 +82,8 @@ const toast: ToastFunction = function toast(
   arg1: ToastFunctionArg1,
   arg2?: ToastFunctionArg2
 ) {
-  const { content, options } = parseArgs(arg1, arg2);
+  const args = parseArgs(arg1, arg2);
+  const { content, options } = getToastifyToastArgs(args);
   return toastifyToast(content, options);
 };
 
