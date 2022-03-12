@@ -86,6 +86,11 @@ export const StyledWrapper = styled(Box)<StyledWrapperProps>`
   }
 `;
 
+export const StyledToastContent = styled(Box)`
+  font-size: 14px;
+  line-height: 24px;
+`;
+
 export const StyledToastContentTitle = styled(Box)`
   font-size: 18px;
   line-height: 28px;
