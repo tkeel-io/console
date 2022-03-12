@@ -15,12 +15,12 @@ export default function Example() {
             title: 'succuss',
             description: 'succuss description',
           });
-          /* toast.warning('warning');
+          toast.warning('warning');
           toast.error({
             status: 'error',
             title: 'error',
             description: 'error description',
-          }); */
+          });
         }}
       >
         toast

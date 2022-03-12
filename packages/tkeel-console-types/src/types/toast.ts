@@ -13,11 +13,18 @@ export interface ToastOptions extends Omit<ToastifyToastOptions, 'type'> {
 
 export type ToastContent = Exclude<ToastifyToastContent, Record<string, never>>;
 
-export type ToastArg1 = ToastOptions | ToastContent;
+export type ToastFunctionArg1 = ToastOptions | ToastContent;
 
-export type ToastArg2 = Omit<ToastOptions, 'title' | 'description'>;
+export type ToastFunctionArg2 = Omit<ToastOptions, 'title' | 'description'>;
 
-export interface ToastFunction {
+interface ToastBaseFunction {
   (options: ToastOptions): ReactText;
-  (content: ToastContent, options?: ToastArg2): ReactText;
+  (content: ToastContent, options?: ToastFunctionArg2): ReactText;
+}
+
+export interface ToastFunction extends ToastBaseFunction {
+  info: ToastBaseFunction;
+  success: ToastBaseFunction;
+  warning: ToastBaseFunction;
+  error: ToastBaseFunction;
 }

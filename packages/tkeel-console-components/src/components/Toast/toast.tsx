@@ -1,11 +1,10 @@
 import { isPlainObject, merge, omit } from 'lodash';
-import { ReactText } from 'react';
 import { toast as toastifyToast, TypeOptions } from 'react-toastify';
 
 import {
-  ToastArg1,
-  ToastArg2,
-  ToastContent,
+  ToastFunction,
+  ToastFunctionArg1,
+  ToastFunctionArg2,
   ToastOptions,
 } from '@tkeel/console-types';
 import { getStatusInfos } from '@tkeel/console-utils';
@@ -21,7 +20,7 @@ function isToastOptions(value: unknown): value is ToastOptions {
   return isPlainObject(value);
 }
 
-function parseArgs(arg1: ToastArg1, arg2?: ToastArg2) {
+function parseArgs(arg1: ToastFunctionArg1, arg2?: ToastFunctionArg2) {
   const arg1IsToastOptions = isToastOptions(arg1);
 
   let content = null;
@@ -58,8 +57,8 @@ function parseArgs(arg1: ToastArg1, arg2?: ToastArg2) {
 
 function createToastByStatus(status: Exclude<TypeOptions, 'default'>) {
   return function toastByStatus(
-    arg1: ToastArg1,
-    arg2?: Omit<ToastArg2, 'status'>
+    arg1: ToastFunctionArg1,
+    arg2?: Omit<ToastFunctionArg2, 'status'>
   ) {
     const { content, options } = parseArgs(arg1, arg2);
     const opts = merge({}, { type: status }, options);
@@ -67,12 +66,13 @@ function createToastByStatus(status: Exclude<TypeOptions, 'default'>) {
   };
 }
 
-function toast(options: ToastOptions): ReactText;
-function toast(content: ToastContent, options?: ToastArg2): ReactText;
-function toast(arg1: ToastArg1, arg2?: ToastArg2): ReactText {
+const toast: ToastFunction = function toast(
+  arg1: ToastFunctionArg1,
+  arg2?: ToastFunctionArg2
+) {
   const { content, options } = parseArgs(arg1, arg2);
   return toastifyToast(content, options);
-}
+};
 
 toast.info = createToastByStatus('info');
 
