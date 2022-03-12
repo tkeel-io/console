@@ -1,15 +1,14 @@
-import { WarningTwoToneIcon } from '@tkeel/console-icons';
+import { useStatusInfos } from '@tkeel/console-hooks';
 
-import Icon from './Icon';
+import * as StatusIcon from '../StatusIcon';
+import IconWrapper from './IconWrapper';
 
 export default function WarningIcon() {
+  const { warning } = useStatusInfos();
+
   return (
-    <Icon wrapperBackgroundColor="orange.50">
-      <WarningTwoToneIcon
-        size={24}
-        color="orange.50"
-        twoToneColor="orange.300"
-      />
-    </Icon>
+    <IconWrapper backgroundColor={warning.colors.secondary}>
+      <StatusIcon.Warning size={24} />
+    </IconWrapper>
   );
 }
