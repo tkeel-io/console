@@ -236,12 +236,16 @@ function Index(): JSX.Element {
   });
 
   const params = {
-    query: keyWords || '',
-    page_num: pageNum,
+    page_num: pageNum || 1,
     page_size: pageSize,
     order_by: 'name',
     is_descending: false,
     condition: [
+      {
+        field: 'basicInfo.name',
+        operator: '$wildcard',
+        value: keyWords || '',
+      },
       {
         field: 'sysField._spacePath',
         operator: '$wildcard',
@@ -275,6 +279,9 @@ function Index(): JSX.Element {
           onSearch(value) {
             setPageNum(1);
             setKeyWords(value.trim());
+          },
+          onChange(value) {
+            setKeyWords(value);
           },
           inputStyle: { background: 'gray.50' },
           value: keyWords,
