@@ -2,7 +2,7 @@ const { tkeel } = require('../../../config/default');
 
 module.exports = {
   portalName: 'tenant',
-  publicPath: '/static/console-plugin-tenant-data-query',
+  publicPath: '/static/console-plugin-tenant-data-query/',
   client: {
     basePath: '/tenant-data-query',
   },
@@ -19,7 +19,7 @@ module.exports = {
               id: 'console-plugin-tenant-data-query',
               name: '数据查询',
               path: '/tenant-data-query',
-              entry: '/static/console-plugin-tenant-data-query',
+              entry: '/static/console-plugin-tenant-data-query/',
               portal: 1,
             },
           ],
