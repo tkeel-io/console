@@ -11,10 +11,19 @@ type Colors = {
 };
 
 interface StatusInfo {
-  icon: FunctionComponent<TwoToneIconProps> | null;
+  icon: FunctionComponent<TwoToneIconProps>;
   colors: Colors;
 }
 
-export type StatusInfos = Record<StatusKeys, StatusInfo>;
+export interface StatusInfos
+  extends Record<Exclude<StatusKeys, 'default'>, StatusInfo> {
+  default: {
+    icon: null;
+    colors: {
+      primary: '';
+      secondary: '';
+    };
+  };
+}
 
 export type GetStatusInfosOptions = Partial<Pick<Theme, 'colors'>>;
