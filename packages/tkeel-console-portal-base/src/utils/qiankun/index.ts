@@ -88,5 +88,5 @@ export function init({
 }: InitOptions) {
   const apps = menusToApps({ menus, navigate, refetchMenus });
   register({ apps, lifeCycles });
-  start();
+  start({ sandbox: true });
 }
