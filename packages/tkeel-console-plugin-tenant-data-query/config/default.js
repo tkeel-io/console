@@ -19,7 +19,7 @@ module.exports = {
               id: 'console-plugin-tenant-data-query',
               name: '数据查询',
               path: '/tenant-data-query',
-              entry: '/static/console-plugin-tenant-data-query',
+              entry: '/static/console-plugin-tenant-data-query/',
               portal: 1,
             },
           ],
