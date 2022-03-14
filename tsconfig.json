@@ -100,7 +100,6 @@
     { "path": "./packages/tkeel-console-plugin-tenant-devices/" },
     { "path": "./packages/tkeel-console-plugin-tenant-plugins/" },
     { "path": "./packages/tkeel-console-plugin-tenant-roles/" },
-    { "path": "./packages/tkeel-console-plugin-tenant-routing-rules/" },
     { "path": "./packages/tkeel-console-plugin-tenant-users/" },
     { "path": "./packages/tkeel-console-portal-admin/" },
     { "path": "./packages/tkeel-console-portal-base/" },
