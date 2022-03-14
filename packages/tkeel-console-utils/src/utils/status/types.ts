@@ -1,7 +1,7 @@
-import { Theme } from '@chakra-ui/react';
 import { FunctionComponent } from 'react';
 
 import { TwoToneIconProps } from '@tkeel/console-icons';
+import { Theme } from '@tkeel/console-themes';
 
 type StatusKeys = 'default' | 'info' | 'success' | 'warning' | 'error';
 
