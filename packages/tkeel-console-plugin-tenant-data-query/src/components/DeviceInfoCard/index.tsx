@@ -1,5 +1,5 @@
 import { Flex, StyleProps, Text } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { DeviceItem } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceListQuery';
 
@@ -13,6 +13,8 @@ type Props = {
 
 export default function DeviceInfoCard({ device, style }: Props) {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { pathname, search } = location;
   const { id, properties } = device;
   const { basicInfo, connectInfo } = properties || {};
   const infos = [
@@ -40,7 +42,14 @@ export default function DeviceInfoCard({ device, style }: Props) {
       backgroundColor="white"
       cursor="pointer"
       {...style}
-      onClick={() => navigate(`/detail?id=${id}`)}
+      onClick={() =>
+        navigate(
+          // eslint-disable-next-line sonarjs/no-nested-template-literals
+          `/detail?id=${id}&from-url=${encodeURIComponent(
+            `${pathname}${search}`
+          )}`
+        )
+      }
     >
       <Flex
         height="48px"
