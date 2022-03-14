@@ -1,5 +1,5 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { BackButton } from '@tkeel/console-components';
 import { VpcTwoToneIcon } from '@tkeel/console-icons';
@@ -17,6 +17,7 @@ type Props = {
 
 export default function DeviceDetailCard({ detailData }: Props) {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { properties } = detailData || {};
   const { basicInfo, sysField } = properties || {};
   const isSelfLearn = basicInfo?.selfLearn;
@@ -47,7 +48,8 @@ export default function DeviceDetailCard({ detailData }: Props) {
       >
         <BackButton
           onClick={() => {
-            navigate('/');
+            const url = searchParams.get('from-url') || '/';
+            navigate(decodeURIComponent(url));
           }}
         />
         <Flex
