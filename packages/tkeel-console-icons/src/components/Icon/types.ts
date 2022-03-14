@@ -1,4 +1,4 @@
-import { CSSProperties, MouseEventHandler } from 'react';
+import { CSSProperties, FunctionComponent, MouseEventHandler } from 'react';
 
 export interface FilledIconProps {
   mode?: 'dark' | 'light';
@@ -14,9 +14,9 @@ export interface TwoToneIconProps extends FilledIconProps {
 }
 
 export interface FilledIconPropsWithSvgComponent extends FilledIconProps {
-  svgComponent: React.FunctionComponent<any>;
+  svgComponent: FunctionComponent<any>;
 }
 
 export interface TwoToneIconPropsWithSvgComponent extends TwoToneIconProps {
-  svgComponent: React.FunctionComponent<any>;
+  svgComponent: FunctionComponent<any>;
 }

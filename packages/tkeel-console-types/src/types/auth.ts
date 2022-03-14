@@ -4,7 +4,7 @@ export interface TenantInfo {
 
 export interface TokenInfo {
   access_token: string;
-  expires_in: number;
+  expires_in: string;
   refresh_token: string;
   token_type: string;
 }

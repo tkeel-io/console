@@ -130,7 +130,7 @@ export default function TreeStyles({ prefixCls, extras, styles }: Props) {
             &.${treePrefixCls}-title {
               color: ${colors.primary};
             }
-            &.${treePrefixCls}-icon__customize > svg {
+            &.${treePrefixCls}-icon__customize svg {
               fill: ${colors.primary} !important;
               color: ${colors.primarySub2} !important;
             }

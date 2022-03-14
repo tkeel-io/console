@@ -1,16 +1,22 @@
 import { useMutation } from '@tkeel/console-hooks';
+import { RequestResult } from '@tkeel/console-utils';
 
 export interface RequestData {
   name: string;
   description: string;
+  id?: string;
 }
 
 export interface ApiData {
   '@type': string;
+  templateObject: {
+    id: string;
+  };
 }
 
 type Props = {
-  onSuccess?: () => void;
+  // onSuccess?: () => void;
+  onSuccess?: (data: RequestResult<ApiData, undefined, RequestData>) => void;
 };
 
 const method = 'POST';

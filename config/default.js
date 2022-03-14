@@ -4,7 +4,7 @@ module.exports = {
     console: {
       version: '0.4.2',
       docker: {
-        tag: 'dev',
+        tag: '0.4.2',
       },
     },
   },
