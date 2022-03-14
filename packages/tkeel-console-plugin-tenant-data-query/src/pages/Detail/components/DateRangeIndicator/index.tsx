@@ -1,20 +1,9 @@
-import { Box, Flex, StyleProps, Text } from '@chakra-ui/react';
+import { Box, Flex, Text } from '@chakra-ui/react';
 import { Dispatch, SetStateAction } from 'react';
 
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
-function Indicator(props: StyleProps) {
-  return (
-    <Box
-      position="absolute"
-      bottom="-2px"
-      width="4px"
-      height="8px"
-      backgroundColor="primary"
-      {...props}
-    />
-  );
-}
+import IndicatorBar from './IndicatorBar';
 
 type Props = {
   startTime: number;
@@ -43,27 +32,11 @@ export default function DateRangeIndicator({
       borderRadius="4px"
       cursor="pointer"
     >
-      <Box
-        position="absolute"
-        left={`${rangeIndex * percent}%`}
-        zIndex="1"
-        bottom="4px"
-        width={`${percent}%`}
-        height="35px"
-        backgroundColor="primarySub"
-      >
-        <Indicator left="0" />
-        <Box
-          position="absolute"
-          left="0"
-          bottom="0"
-          width="100%"
-          height="4px"
-          backgroundColor="primary"
-          opacity="0.5"
-        />
-        <Indicator right="0" />
-      </Box>
+      <IndicatorBar
+        styles={{
+          wrapper: { left: `${rangeIndex * percent}%`, width: `${percent}%` },
+        }}
+      />
       {Array.from({ length: dateRangeLength })
         .map((_, i) => i)
         .map((item) => {
@@ -81,10 +54,27 @@ export default function DateRangeIndicator({
               zIndex="1"
               width={`${percent}%`}
               height="100%"
+              _hover={{
+                '& .indicatorBar': {
+                  display: 'block',
+                },
+              }}
               onClick={() => setRangeIndex(item)}
             >
+              <IndicatorBar
+                styles={{
+                  wrapper: {
+                    display: 'none',
+                    bottom: '3px',
+                    width: '100%',
+                    backgroundColor: 'transparent',
+                  },
+                  indicatorBar: { opacity: '0.5' },
+                }}
+              />
               <Box
                 position="absolute"
+                zIndex="1"
                 bottom="16px"
                 width="100%"
                 height="1px"
@@ -92,7 +82,7 @@ export default function DateRangeIndicator({
               >
                 {arr.map((_, i) => {
                   const showDate = i === 0 || i % 10 === 0;
-                  let dateLeft = '-70px';
+                  let dateLeft = '-35px';
                   let dateRight = 'unset';
                   if (item === 0) {
                     dateLeft = '0';
@@ -126,12 +116,13 @@ export default function DateRangeIndicator({
                           left={dateLeft}
                           right={dateRight}
                           bottom="2px"
-                          width="130px"
+                          width="90px"
                           color="gray.700"
                           fontSize="12px"
                         >
                           {formatDateTimeByTimestamp({
                             timestamp,
+                            template: 'MM/DD HH:mm:ss',
                           })}
                         </Text>
                       )}

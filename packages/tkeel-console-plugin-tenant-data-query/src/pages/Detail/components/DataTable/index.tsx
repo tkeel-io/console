@@ -1,4 +1,4 @@
-import { Flex, StyleProps } from '@chakra-ui/react';
+import { Flex, StyleProps, Text } from '@chakra-ui/react';
 
 import { Empty, Loading } from '@tkeel/console-components';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
@@ -54,7 +54,7 @@ export default function DataTable({
             key={key}
             alignItems="center"
             paddingLeft="12px"
-            width="130px"
+            width="115px"
             height={rowHeight}
             color="gray.700"
             fontSize="12px"
@@ -88,15 +88,17 @@ export default function DataTable({
                 }).replace(' ', '\r\n')}
               </Flex>
               {Object.keys(item.value).map((key, i) => (
-                <Flex
+                <Text
                   key={key}
                   paddingLeft="10px"
                   height={rowHeight}
-                  alignItems="center"
+                  lineHeight={rowHeight}
+                  isTruncated
+                  title={String(item.value[key])}
                   backgroundColor={getRowBackgroundColor(i - 1)}
                 >
                   {String(item.value[key])}
-                </Flex>
+                </Text>
               ))}
             </Flex>
           ))}
