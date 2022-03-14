@@ -1,5 +1,6 @@
-import { Theme, useTheme } from '@chakra-ui/react';
+import { useTheme } from '@chakra-ui/react';
 
+import { Theme } from '@tkeel/console-themes';
 import { getStatusInfos } from '@tkeel/console-utils';
 
 export default function useStatusInfos() {
