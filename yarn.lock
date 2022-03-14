@@ -3521,7 +3521,9 @@ __metadata:
     "@monaco-editor/react": ^4.3.1
     "@tkeel/console-hooks": "workspace:^"
     "@tkeel/console-icons": "workspace:^"
+    "@tkeel/console-themes": "workspace:^"
     "@tkeel/console-types": "workspace:^"
+    "@tkeel/console-utils": "workspace:^"
     "@types/lodash": ^4.14.179
     "@types/react-table": ^7.7.9
     dayjs: ^1.10.8
@@ -3948,10 +3950,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tkeel/console-utils@workspace:packages/tkeel-console-utils"
   dependencies:
+    "@chakra-ui/react": ^1.8.6
     "@tkeel/console-components": "workspace:^"
     "@tkeel/console-constants": "workspace:^"
+    "@tkeel/console-icons": "workspace:^"
     "@tkeel/console-types": "workspace:^"
     "@types/lodash": ^4.14.179
+    add: ^2.0.6
     axios: ^0.26.1
     dayjs: ^1.10.8
     qs: ^6.10.3
@@ -3959,6 +3964,7 @@ __metadata:
     react-hook-form: ^7.27.1
     react-router-dom: ^6.2.2
     store2: ^2.13.1
+    yarn: ^1.22.17
   languageName: unknown
   linkType: soft
 
@@ -4919,6 +4925,13 @@ __metadata:
   bin:
     acorn: bin/acorn
   checksum: e0f79409d68923fbf1aa6d4166f3eedc47955320d25c89a20cc822e6ba7c48c5963d5bc657bc242d68f7a4ac9faf96eef033e8f73656da6c640d4219935fdfd0
+  languageName: node
+  linkType: hard
+
+"add@npm:^2.0.6":
+  version: 2.0.6
+  resolution: "add@npm:2.0.6"
+  checksum: e2d23d40494565dfed4acd65e478570c444db5ac6c053551ed429c39ea0f2c99d83df63e7befec936df601827d2254d06a2fb6f7dcfd2022e810b25eab818b8c
   languageName: node
   linkType: hard
 
@@ -18151,6 +18164,16 @@ __metadata:
     y18n: ^5.0.5
     yargs-parser: ^21.0.0
   checksum: 64fc2e32c56739f1d14d2d24acd17a6944c3c8e3e3558f09fc1953ac112e868cc16013d282886b9d5be22187f8b9ed4f60741a6b1011f595ce2718805a656852
+  languageName: node
+  linkType: hard
+
+"yarn@npm:^1.22.17":
+  version: 1.22.17
+  resolution: "yarn@npm:1.22.17"
+  bin:
+    yarn: ./bin/yarn.js
+    yarnpkg: ./bin/yarn.js
+  checksum: 9d5211477d439a4d7b5632d7c290a3be36d2edc13599b64964bff520d3a3a480db85010f3262293981abb4e618ac92aaafa4c4c54bae50a7713c7b8ec431adac
   languageName: node
   linkType: hard
 

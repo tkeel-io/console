@@ -5,4 +5,5 @@ export * from './utils/global-config';
 export * as plugin from './utils/plugin';
 export * from './utils/request';
 export * as schemas from './utils/schemas';
+export * from './utils/status';
 export * from './utils/toast';

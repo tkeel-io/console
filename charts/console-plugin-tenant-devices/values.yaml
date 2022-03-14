@@ -2,5 +2,5 @@ replicaCount: 1
 imagePullSecrets: ''
 image:
   repository: tkeelio/console-plugin-tenant-devices
-  tag: dev
+  tag: 0.4.2
   pullPolicy: Always
