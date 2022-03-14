@@ -2,36 +2,29 @@
 import { Box, Flex, HStack, Text } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
+import {
+  DeviceStatusIcon,
+  IconWrapper,
+  SelfLearnIcon,
+} from '@tkeel/console-business-components';
 import { BackButton, MoreAction } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 import {
   MessageWarningTwoToneIcon,
   MgmtNodeTwoToneIcon,
   OfficialFilledIcon,
-  VpcTwoToneIcon,
-  WifiFilledIcon,
-  WifiOffFilledIcon,
 } from '@tkeel/console-icons';
 
 import AddSubscribeButton from '@/tkeel-console-plugin-tenant-devices/components/AddSubscribeButton';
 import DeleteDevicesButton from '@/tkeel-console-plugin-tenant-devices/components/DeleteDevicesButton';
-import IconWrapper from '@/tkeel-console-plugin-tenant-devices/components/IconWrapper';
 import UpdateDeviceButton from '@/tkeel-console-plugin-tenant-devices/components/UpdateDeviceButton';
 import { DeviceObject } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
-import {
-  SELF_LEARN_COLORS,
-  SUBSCRIBES,
-} from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
+import { SUBSCRIBES } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
 import handleSubscribeAddr from '@/tkeel-console-plugin-tenant-devices/utils';
 
 import CardContentFlex from './components/CardContentFlex';
 import Clipboard from './components/Clipboard';
 import UnsubscribeButton from './components/UnsubscribeButton';
-
-const connectionIcon = {
-  offline: <WifiOffFilledIcon key="wifi-off" color="gray.500" size="20px" />,
-  online: <WifiFilledIcon key="wifi" color="green.300" size="20px" />,
-};
 
 type Props = {
   deviceObject: DeviceObject;
@@ -50,10 +43,7 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
   const sub = addrList.length > 0 ? '1' : '0';
   const deviceName = basicInfo?.name ?? '';
   const isSelfLearn = basicInfo?.selfLearn;
-  const selfLearnColors = isSelfLearn
-    ? SELF_LEARN_COLORS[1]
-    : SELF_LEARN_COLORS[0];
-  const status = connectInfo?._online;
+  const isOnline = connectInfo?._online ?? false;
 
   const {
     name,
@@ -130,27 +120,15 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
             </Box>
           </Box>
           <HStack flex="1" justifyContent="flex-end" spacing="8px" zIndex="3">
-            <IconWrapper iconBg={useColor(status ? 'green.50' : 'gray.100')}>
-              {connectionIcon[status ? 'online' : 'offline']}
-            </IconWrapper>
-            <IconWrapper
-              iconBg={useColor(subscribeAddr ? 'teal.50' : 'gray.100')}
-            >
+            <DeviceStatusIcon isOnline={isOnline} />
+            <IconWrapper bg={subscribeAddr ? 'teal.50' : 'gray.100'}>
               <MessageWarningTwoToneIcon
                 size="20px"
                 color={useColor(SUBSCRIBES[sub].color)}
                 twoToneColor={useColor(SUBSCRIBES[sub].twoToneColor)}
               />
             </IconWrapper>
-            <IconWrapper
-              iconBg={useColor(isSelfLearn ? 'blue.50' : 'gray.100')}
-            >
-              <VpcTwoToneIcon
-                size="20px"
-                color={useColor(selfLearnColors.color)}
-                twoToneColor={useColor(selfLearnColors.twoToneColor)}
-              />
-            </IconWrapper>
+            <SelfLearnIcon isSelfLearn={isSelfLearn} />
           </HStack>
         </CardContentFlex>
       </Box>
