@@ -1,0 +1,15 @@
+annotations:
+  tkeel.io/deployment-name: console-plugin-tenant-data-query
+  tkeel.io/enable: 'true'
+  tkeel.io/plugin-port: '80'
+  tkeel.io/tag: manager
+  tkeel.io/version: v0.4.0
+apiVersion: v2
+appVersion: 0.4.2
+description: 数据查询
+maintainers:
+  - email: donniean@yunify.com
+    name: donniean
+name: console-plugin-tenant-data-query
+type: application
+version: 0.4.2
