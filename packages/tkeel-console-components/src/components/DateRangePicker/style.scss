@@ -33,8 +33,21 @@
   }
 }
 
+.rs-calendar-show-month-dropdown .rs-calendar-header-title-date,
+.rs-calendar-month-dropdown-year-active {
+  color: var(--chakra-colors-primary) !important;
+}
+
 .rs-calendar {
   width: 246px;
+
+  .rs-calendar-month-dropdown-cell-active
+    .rs-calendar-month-dropdown-cell-content {
+    &:hover {
+      color: var(--chakra-colors-white) !important;
+    }
+    background-color: var(--chakra-colors-primary) !important;
+  }
 
   .rs-calendar-table-cell-selected .rs-calendar-table-cell-content {
     background-color: var(--chakra-colors-primary) !important;

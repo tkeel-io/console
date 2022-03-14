@@ -15,7 +15,9 @@ import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import SearchEmpty from '@/tkeel-console-plugin-tenant-data-query/components/SearchEmpty';
 import useTelemetryDataMutation from '@/tkeel-console-plugin-tenant-data-query/hooks/mutations/useTelemetryDataMutation';
-import useDeviceDetailQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceDetailQuery';
+import useDeviceDetailQuery, {
+  Telemetry,
+} from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceDetailQuery';
 
 import DataResultTitle from './components/DataResultTitle';
 import DataTable from './components/DataTable';
@@ -31,8 +33,9 @@ function getSeconds(timestamp: number) {
 
 export default function Detail() {
   const [keywords, setKeywords] = useState('');
+  const [telemetry, setTelemetry] = useState<Telemetry>({});
   const [templateCheckboxStatus, setTemplateCheckboxStatus] = useState(
-    CheckBoxStatus.NOT_CHECKED
+    CheckBoxStatus.CHECKED
   );
   const [checkedKeys, setCheckedKeys] = useState<string[]>([]);
   const [isTelemetryDataRequested, setIsTelemetryDataRequested] =
@@ -53,8 +56,13 @@ export default function Detail() {
   const { deviceObject, isLoading: isDeviceDetailLoading } =
     useDeviceDetailQuery({
       id,
+      onSuccess(data) {
+        const telemetryData =
+          data?.data?.deviceObject?.configs?.telemetry ?? {};
+        setTelemetry(telemetryData);
+        setCheckedKeys(Object.keys(telemetryData));
+      },
     });
-  const telemetry = deviceObject?.configs?.telemetry ?? {};
 
   const identifiers = checkedKeys.join(',');
 
