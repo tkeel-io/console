@@ -43,7 +43,12 @@ export default function DataTable({
 
   return (
     <Flex {...styles.wrapper}>
-      <Flex height="max-content" flexDirection="column">
+      <Flex
+        flexDirection="column"
+        position="relative"
+        zIndex="1"
+        boxShadow="7px 0px 12px rgba(216, 222, 229, 0.4)"
+      >
         {keys.map((key, i) => (
           <Flex
             key={key}
@@ -72,6 +77,7 @@ export default function DataTable({
             >
               <Flex
                 alignItems="center"
+                paddingLeft="10px"
                 height={rowHeight}
                 whiteSpace="pre-wrap"
                 backgroundColor="gray.50"
@@ -84,6 +90,7 @@ export default function DataTable({
               {Object.keys(item.value).map((key, i) => (
                 <Flex
                   key={key}
+                  paddingLeft="10px"
                   height={rowHeight}
                   alignItems="center"
                   backgroundColor={getRowBackgroundColor(i - 1)}

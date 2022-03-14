@@ -37,7 +37,7 @@ function DeviceDetailLeftPanel({ deviceObject, refetch }: Props): JSX.Element {
     {
       value: (
         <Flex>
-          <Text mr="4px" maxW="200px" isTruncated>
+          <Text mr="4px" maxW="160px" isTruncated>
             {deviceId}
           </Text>
           <Clipboard text={deviceId} />
@@ -79,7 +79,11 @@ function DeviceDetailLeftPanel({ deviceObject, refetch }: Props): JSX.Element {
       label: '连接方式',
     },
     {
-      value: <Text as="u">{basicInfo?.templateName || '暂无模板'}</Text>,
+      value: (
+        <Text as={basicInfo?.templateName ? 'u' : 'p'}>
+          {basicInfo?.templateName || '暂无模板'}
+        </Text>
+      ),
       label: '设备模板',
     },
     {

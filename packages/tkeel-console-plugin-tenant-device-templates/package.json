@@ -1,6 +1,6 @@
 {
   "name": "@tkeel/console-plugin-tenant-device-templates",
-  "version": "0.4.2-alpha.1",
+  "version": "0.4.2",
   "homepage": "https://github.com/tkeel-io/console#readme",
   "bugs": {
     "url": "https://github.com/tkeel-io/console/issues"
@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^1.8.6",
-    "@emotion/react": "^11.8.1",
+    "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.8.1",
     "@tkeel/console-business-components": "workspace:^",
     "@tkeel/console-components": "workspace:^",

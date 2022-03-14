@@ -21,7 +21,7 @@ function Detail() {
   const [searchParams] = useSearchParams();
   const name = searchParams.get('name') || '';
 
-  const { pluginDetail, refetch } = usePluginDetailQuery({
+  const { pluginDetail, isSuccess, refetch } = usePluginDetailQuery({
     repoName: searchParams.get('repo') || '',
     installerName: name,
     installerVersion: searchParams.get('version') || '',
@@ -29,6 +29,11 @@ function Detail() {
 
   const readme = pluginDetail?.metadata?.readme ?? '';
   const maintainers = pluginDetail?.maintainers ?? [];
+  let uninstall = true;
+  if (isSuccess) {
+    uninstall = pluginDetail?.state === 'UNINSTALL';
+  }
+
   return (
     <Flex height="100%" paddingBottom="20px" justifyContent="space-between">
       <Box width="360px" flexShrink="0">
@@ -78,7 +83,7 @@ function Detail() {
             />
           </TabPanel>
           <TabPanel padding="0" height="100%">
-            <EnablePluginList pluginName={name || ''} />
+            <EnablePluginList pluginName={name || ''} uninstall={uninstall} />
           </TabPanel>
         </TabPanels>
       </Tabs>

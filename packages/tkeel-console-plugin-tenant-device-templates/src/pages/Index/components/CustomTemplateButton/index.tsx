@@ -6,18 +6,39 @@ import {
   DocumentPencilTowToneIcon,
 } from '@tkeel/console-icons';
 
+import useCreateTemplateMutation, {
+  RequestData as FormValues,
+} from '@/tkeel-console-plugin-tenant-device-templates/hooks/mutations/useCreateTemplateMutation';
+
 import CustomTemplateModal from '../CustomTemplateModal';
 
 type Props = {
-  onSuccess: () => void;
+  onSuccess: (id: string) => void;
 };
 
 export default function CustomTemplateButton({ onSuccess }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const isMutating = useIsMutating();
   const isLoading = isMutating > 0;
-  const handleConfirm = () => {
-    onSuccess();
+
+  const { mutate } = useCreateTemplateMutation({
+    onSuccess(data) {
+      onSuccess(data.data.templateObject.id);
+      onClose();
+    },
+  });
+
+  const handleConfirm = (formValues: FormValues) => {
+    const { name, description } = formValues;
+    if (formValues) {
+      mutate({
+        data: {
+          name,
+          description,
+        },
+      });
+    }
+    return null;
   };
 
   return (
@@ -55,12 +76,12 @@ export default function CustomTemplateButton({ onSuccess }: Props) {
           创建自定义模版
         </Text>
         <Text color="gray.500" isTruncated maxWidth="284px" fontSize="12px">
-          模型说明一句话描述模型说明一句话描述模型说句得到我的为打算
+          模型说明一句话描述模型说明一句话描述模型
         </Text>
       </Flex>
       <ChevronRightFilledIcon size="24px" />
       <CustomTemplateModal
-        title="创建模板"
+        title="创建自定义模板"
         isOpen={isOpen}
         onClose={onClose}
         isConfirmButtonLoading={isLoading}
