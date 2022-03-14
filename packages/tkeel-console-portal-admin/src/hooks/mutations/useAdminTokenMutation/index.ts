@@ -7,7 +7,7 @@ interface RequestParams {
 export interface ApiData {
   '@type': string;
   access_token: string;
-  expires_in: number;
+  expires_in: string;
   refresh_token: string;
   token_type: string;
 }

@@ -28,15 +28,24 @@ type Props = {
 };
 
 const handleValues = (value: string, selected: string) => {
-  const str = Base64.decode(value);
+  const item = Base64.decode(value);
   if (selected === 'text') {
-    return JSON.stringify(str.startsWith('{') ? JSON.parse(str) : str, null, 2);
+    if (item.startsWith('{')) {
+      try {
+        return JSON.stringify(JSON.parse(item), null, 2);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
+        return item;
+      }
+    }
+    return item;
   }
   let val = '';
-  const { length } = str;
+  const { length } = item;
   if (length === 0) return '';
   for (let i = 0; i < length; i += 1) {
-    val += str.codePointAt(i)?.toString(16) || '';
+    val += item.codePointAt(i)?.toString(16) || '';
   }
   return val;
 };

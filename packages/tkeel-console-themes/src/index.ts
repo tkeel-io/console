@@ -17,5 +17,6 @@ export const DEFAULT_THEME = themes[DEFAULT_THEME_NAME];
 
 export { default as qingcloudLight } from './themes/qingcloud-light';
 export { default as tKeelLight } from './themes/tkeel-light';
+export type { Theme } from './themes/types';
 
 export default themes;

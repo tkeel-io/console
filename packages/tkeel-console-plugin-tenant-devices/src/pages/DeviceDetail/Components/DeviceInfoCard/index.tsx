@@ -29,8 +29,8 @@ import Clipboard from './components/Clipboard';
 import UnsubscribeButton from './components/UnsubscribeButton';
 
 const connectionIcon = {
-  offline: <WifiOffFilledIcon key="wifi-off" color="gray.500" />,
-  online: <WifiFilledIcon key="wifi" color="green.300" />,
+  offline: <WifiOffFilledIcon key="wifi-off" color="gray.500" size="20px" />,
+  online: <WifiFilledIcon key="wifi" color="green.300" size="20px" />,
 };
 
 type Props = {
@@ -137,6 +137,7 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
               iconBg={useColor(subscribeAddr ? 'teal.50' : 'gray.100')}
             >
               <MessageWarningTwoToneIcon
+                size="20px"
                 color={useColor(SUBSCRIBES[sub].color)}
                 twoToneColor={useColor(SUBSCRIBES[sub].twoToneColor)}
               />
@@ -145,6 +146,7 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
               iconBg={useColor(isSelfLearn ? 'blue.50' : 'gray.100')}
             >
               <VpcTwoToneIcon
+                size="20px"
                 color={useColor(selfLearnColors.color)}
                 twoToneColor={useColor(selfLearnColors.twoToneColor)}
               />
@@ -168,7 +170,7 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
                 position="relative"
                 flex="1"
                 alignItems="center"
-                justifyContent="flex-end"
+                justifyContent="space-between"
                 pr="60px"
                 _hover={{
                   '& > div': {
