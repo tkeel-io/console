@@ -42,14 +42,16 @@ export default function UserActionMenus() {
             color={isOpen ? primaryColor : ''}
             twoToneColor={isOpen ? primarySub2 : ''}
           />
-          <Text
-            marginLeft="8px"
-            fontSize="12px"
-            lineHeight="24px"
-            color={isOpen ? primaryColor : 'gray.600'}
-          >
-            {username}
-          </Text>
+          {username && (
+            <Text
+              marginLeft="8px"
+              fontSize="12px"
+              lineHeight="24px"
+              color={isOpen ? primaryColor : 'gray.600'}
+            >
+              {username}
+            </Text>
+          )}
           {isOpen ? (
             <ChevronUpFilledIcon
               size="16px"
