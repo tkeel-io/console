@@ -1,10 +1,11 @@
 import { Flex, StyleProps, Text } from '@chakra-ui/react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { DeviceStatusIcon } from '@tkeel/console-business-components';
+
 import { DeviceItem } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceListQuery';
 
 import DeviceIconName from '../DeviceIconName';
-import DeviceStatusIcon from '../DeviceStatusIcon';
 
 type Props = {
   device: DeviceItem;
@@ -17,6 +18,8 @@ export default function DeviceInfoCard({ device, style }: Props) {
   const { pathname, search } = location;
   const { id, properties } = device;
   const { basicInfo, connectInfo } = properties || {};
+  // eslint-disable-next-line no-underscore-dangle
+  const isOnline = connectInfo?._online ?? false;
   const infos = [
     {
       label: 'ID',
@@ -58,10 +61,7 @@ export default function DeviceInfoCard({ device, style }: Props) {
         // alignItems="center"
       >
         <DeviceIconName name={basicInfo?.name ?? ''} />
-        <DeviceStatusIcon
-          // eslint-disable-next-line no-underscore-dangle
-          isOnline={connectInfo?._online ?? false}
-        />
+        <DeviceStatusIcon isOnline={isOnline} />
       </Flex>
       <Flex
         padding="0 20px"
