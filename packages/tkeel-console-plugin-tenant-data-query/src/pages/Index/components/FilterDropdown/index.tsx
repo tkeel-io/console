@@ -83,6 +83,11 @@ export default function FilterDropdown({
       operator: '$eq',
       value: 'device',
     },
+    {
+      field: 'basicInfo.name',
+      operator: '$wildcard',
+      value: keywordsCondition?.value ?? '',
+    },
   ];
 
   const [deviceListQueryConditions, setDeviceListQueryConditions] = useState<
@@ -150,14 +155,7 @@ export default function FilterDropdown({
   const { deviceList, isLoading: isDeviceListLoading } = useDeviceListQuery({
     requestData: {
       ...baseRequestData,
-      condition: [
-        ...deviceListQueryConditions,
-        {
-          field: 'basicInfo.name',
-          operator: '$wildcard',
-          value: keywordsCondition?.value ?? '',
-        },
-      ],
+      condition: deviceListQueryConditions,
     },
     enabled: showDeviceList,
   });

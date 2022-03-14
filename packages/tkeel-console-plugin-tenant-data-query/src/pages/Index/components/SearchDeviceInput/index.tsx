@@ -135,6 +135,7 @@ export default function SearchDeviceInput({
     setDeviceGroupId('');
     setTemplateId('');
     setStatus(initStatus);
+    setShowDeviceList(false);
   };
 
   const handleDocumentClick = () => {

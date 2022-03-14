@@ -158,12 +158,7 @@ export default function SearchResult() {
         />
       </Flex>
       <Flex marginTop="12px" flex="1">
-        <Flex
-          marginRight="-8px"
-          width="100%"
-          alignContent="flex-start"
-          flexWrap="wrap"
-        >
+        <Flex marginRight="-8px" width="100%">
           {deviceList.map((device) => (
             <DeviceInfoCard
               key={device.id}
