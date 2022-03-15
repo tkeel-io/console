@@ -4039,6 +4039,7 @@ __metadata:
     lint-staged: ^12.3.5
     lodash: ^4.17.21
     mini-css-extract-plugin: ^2.6.0
+    monaco-editor-webpack-plugin: ^7.0.1
     postcss-flexbugs-fixes: ^5.0.2
     postcss-loader: ^6.2.1
     postcss-preset-env: ^7.4.2
@@ -11262,7 +11263,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loader-utils@npm:^2.0.0":
+"loader-utils@npm:^2.0.0, loader-utils@npm:^2.0.2":
   version: 2.0.2
   resolution: "loader-utils@npm:2.0.2"
   dependencies:
@@ -11991,6 +11992,18 @@ __metadata:
   bin:
     mkdirp: bin/cmd.js
   checksum: a96865108c6c3b1b8e1d5e9f11843de1e077e57737602de1b82030815f311be11f96f09cce59bd5b903d0b29834733e5313f9301e3ed6d6f6fba2eae0df4298f
+  languageName: node
+  linkType: hard
+
+"monaco-editor-webpack-plugin@npm:^7.0.1":
+  version: 7.0.1
+  resolution: "monaco-editor-webpack-plugin@npm:7.0.1"
+  dependencies:
+    loader-utils: ^2.0.2
+  peerDependencies:
+    monaco-editor: ">= 0.31.0"
+    webpack: ^4.5.0 || 5.x
+  checksum: 436814c724d5033254519ef8203f0df600d15c6bf0a3bf48a42ea678086becb56ed5685df2bca4cd4107855ecf8cea73722e52b63573edba5c020ff51b4f2d31
   languageName: node
   linkType: hard
 

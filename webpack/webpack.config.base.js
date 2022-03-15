@@ -8,6 +8,7 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const webpack = require('webpack');
@@ -205,5 +206,8 @@ module.exports = {
       fix: true,
     }),
     new webpack.ProgressPlugin(),
+    new MonacoWebpackPlugin({
+      languages: ['json', 'yaml'],
+    }),
   ],
 };
