@@ -39,6 +39,8 @@ export default function FilterCondition({
         top="0"
         width="100%"
         height="100%"
+        paddingLeft="5px"
+        paddingRight="3px"
         borderRadius="4px"
         backgroundColor="primary"
         opacity="0.15"

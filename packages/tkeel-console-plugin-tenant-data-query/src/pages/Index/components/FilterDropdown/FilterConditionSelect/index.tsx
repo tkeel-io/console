@@ -30,7 +30,7 @@ export default function FilterConditionSelect({
               borderRadius="4px"
               color={isSelected ? 'primary' : 'gray.400'}
               borderColor={isSelected ? 'primary' : 'gray.200'}
-              bg={isSelected ? 'blue.50' : 'white'}
+              bg={isSelected ? 'primarySub' : 'white'}
               height="24px"
               p="0 12px"
               fontSize="12px"
