@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^1.8.6",
-    "@emotion/react": "^11.8.1",
+    "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.8.1",
     "@tkeel/console-business-components": "workspace:^",
     "@tkeel/console-components": "workspace:^",
@@ -27,7 +27,7 @@
     "@tkeel/console-utils": "workspace:^",
     "@types/lodash": "^4.14.179",
     "@types/react-table": "^7.7.9",
-    "axios": "^0.26.0",
+    "axios": "^0.26.1",
     "framer-motion": "^6.2.8",
     "js-base64": "^3.7.2",
     "markdown": "^0.5.0",

@@ -58,7 +58,14 @@ function renderLabel(item: AttributeItem) {
         <Text>{id}</Text>
       </HStack>
       <Spacer />
-      <Tooltip label={renderTooltip({ type, rw, default_value })}>?</Tooltip>
+      <Tooltip
+        bg="white"
+        hasArrow
+        p="8px 12px"
+        label={renderTooltip({ type, rw, default_value })}
+      >
+        ?
+      </Tooltip>
     </Flex>
   );
 }
@@ -72,10 +79,7 @@ function renderAttributeItem({ item }: { item: AttributeItem }) {
 }
 function AttributeDataPart({ attributeList }: Props) {
   return (
-    <Box>
-      <Text>属性数据</Text>
-      {attributeList.map((item) => renderAttributeItem({ item }))}
-    </Box>
+    <Box>{attributeList.map((item) => renderAttributeItem({ item }))}</Box>
   );
 }
 

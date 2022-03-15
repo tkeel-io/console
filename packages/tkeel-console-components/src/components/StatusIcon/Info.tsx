@@ -1,10 +1,8 @@
-import { useStatusColors } from '@tkeel/console-hooks';
-import { InformationTwoToneIcon } from '@tkeel/console-icons';
+import { useStatusInfos } from '@tkeel/console-hooks';
+import { InformationTwoToneIcon, TwoToneIconProps } from '@tkeel/console-icons';
 
-import { Props } from './types';
-
-export default function Info({ size, color, twoToneColor }: Props) {
-  const { info } = useStatusColors();
+export default function Info({ size, color, twoToneColor }: TwoToneIconProps) {
+  const { info } = useStatusInfos();
 
   return (
     <InformationTwoToneIcon

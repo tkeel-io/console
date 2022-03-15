@@ -1,14 +1,13 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
-
-import { BackButton } from '@tkeel/console-components';
-import { VpcTwoToneIcon } from '@tkeel/console-icons';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import {
-  DeviceIconName,
   DeviceStatusIcon,
-  Rectangle,
-} from '@/tkeel-console-plugin-tenant-data-query/components';
+  SelfLearnIcon,
+} from '@tkeel/console-business-components';
+import { BackButton } from '@tkeel/console-components';
+
+import { DeviceIconName } from '@/tkeel-console-plugin-tenant-data-query/components';
 import { DeviceObject } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceDetailQuery';
 
 type Props = {
@@ -17,26 +16,17 @@ type Props = {
 
 export default function DeviceDetailCard({ detailData }: Props) {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { properties } = detailData || {};
   const { basicInfo, sysField } = properties || {};
-  const isSelfLearn = basicInfo?.selfLearn;
+  // eslint-disable-next-line no-underscore-dangle
+  const isOnline = sysField?._status === 'online';
+  const isSelfLearn = basicInfo?.selfLearn ?? false;
   const textStyle = {
     color: 'gray.800',
     fontSize: '12px',
     lineHeight: '24px',
   };
-
-  const vpcIconBg = isSelfLearn ? 'primarySub' : 'gray.100';
-
-  const vpcIconColors = isSelfLearn
-    ? {
-        color: 'primary',
-        twoToneColor: 'primary',
-      }
-    : {
-        color: 'gray.500',
-        twoToneColor: 'gray.500',
-      };
 
   return (
     <Box borderRadius="4px" backgroundColor="white">
@@ -47,7 +37,8 @@ export default function DeviceDetailCard({ detailData }: Props) {
       >
         <BackButton
           onClick={() => {
-            navigate('/');
+            const url = searchParams.get('from-url') || '/';
+            navigate(decodeURIComponent(url));
           }}
         />
         <Flex
@@ -59,21 +50,10 @@ export default function DeviceDetailCard({ detailData }: Props) {
           <DeviceIconName name={basicInfo?.name ?? ''} />
           <Flex>
             <DeviceStatusIcon
-              isOnline={
-                // eslint-disable-next-line no-underscore-dangle
-                sysField?._status === 'online'
-              }
+              isOnline={isOnline}
+              styles={{ wrapper: { marginRight: '8px' } }}
             />
-            <Rectangle
-              icon={
-                <VpcTwoToneIcon
-                  color={vpcIconColors.color}
-                  twoToneColor={vpcIconColors.twoToneColor}
-                />
-              }
-              backgroundColor={vpcIconBg}
-              style={{ marginLeft: '8px' }}
-            />
+            <SelfLearnIcon isSelfLearn={isSelfLearn} />
           </Flex>
         </Flex>
       </Box>

@@ -135,6 +135,7 @@ export default function SearchDeviceInput({
     setDeviceGroupId('');
     setTemplateId('');
     setStatus(initStatus);
+    setShowDeviceList(false);
   };
 
   const handleDocumentClick = () => {
@@ -259,7 +260,13 @@ export default function SearchDeviceInput({
   }, []);
 
   return (
-    <Box position="relative" onClick={(e) => e.stopPropagation()} {...style}>
+    <Box
+      position="relative"
+      borderRadius="24px"
+      onClick={(e) => e.stopPropagation()}
+      backgroundColor={showFilterDropdown ? 'primarySub' : 'white'}
+      {...style}
+    >
       <InputGroup
         display="flex"
         alignItems="center"
@@ -268,7 +275,6 @@ export default function SearchDeviceInput({
         border="1px solid"
         borderColor={showFilterDropdown ? 'primary' : 'grayAlternatives.50'}
         borderRadius="24px"
-        backgroundColor={showFilterDropdown ? 'primarySub' : 'white'}
       >
         {hasFilterConditions && (
           <Flex paddingLeft="20px">
@@ -300,11 +306,6 @@ export default function SearchDeviceInput({
               ? ''
               : '支持关键字搜索，支持设备分组、设备模版搜索'
           }
-          _focus={{
-            border: 'none!important',
-            boxShadow: 'none!important',
-            backgroundColor: 'primarySub',
-          }}
           disabled={inputDisabled}
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value.trim())}

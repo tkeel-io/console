@@ -1,10 +1,12 @@
-import { useStatusColors } from '@tkeel/console-hooks';
-import { WarningTwoToneIcon } from '@tkeel/console-icons';
+import { useStatusInfos } from '@tkeel/console-hooks';
+import { TwoToneIconProps, WarningTwoToneIcon } from '@tkeel/console-icons';
 
-import { Props } from './types';
-
-export default function Warning({ size, color, twoToneColor }: Props) {
-  const { warning } = useStatusColors();
+export default function Warning({
+  size,
+  color,
+  twoToneColor,
+}: TwoToneIconProps) {
+  const { warning } = useStatusInfos();
 
   return (
     <WarningTwoToneIcon

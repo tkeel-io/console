@@ -1,12 +1,12 @@
 /* eslint-disable no-underscore-dangle */
 import { Box, Flex, Text, VStack } from '@chakra-ui/react';
 
+import { IconWrapper } from '@tkeel/console-business-components';
 import { InfoCard } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 import { BranchTowToneIcon, DotLineFilledIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
-import IconWrapper from '@/tkeel-console-plugin-tenant-devices/components/IconWrapper';
 import { DeviceObject } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 import DeviceBasicInfoCard, {
   Basic,
@@ -37,7 +37,7 @@ function DeviceDetailLeftPanel({ deviceObject, refetch }: Props): JSX.Element {
     {
       value: (
         <Flex>
-          <Text mr="4px" maxW="120px" isTruncated>
+          <Text mr="4px" maxW="160px" isTruncated>
             {deviceId}
           </Text>
           <Clipboard text={deviceId} />
@@ -63,7 +63,9 @@ function DeviceDetailLeftPanel({ deviceObject, refetch }: Props): JSX.Element {
     {
       value: (
         <IconWrapper
-          iconBg={useColor(isDirectConnection ? 'violet.100' : 'red.100')}
+          bg={useColor(isDirectConnection ? 'violet.100' : 'red.100')}
+          padding="0 4px"
+          width="max-content"
         >
           {isDirectConnection ? <DotLineFilledIcon /> : <BranchTowToneIcon />}
           <Box
@@ -79,7 +81,11 @@ function DeviceDetailLeftPanel({ deviceObject, refetch }: Props): JSX.Element {
       label: '连接方式',
     },
     {
-      value: <Text as="u">{basicInfo?.templateName || '暂无模板'}</Text>,
+      value: (
+        <Text as={basicInfo?.templateName ? 'u' : 'p'}>
+          {basicInfo?.templateName || '暂无模板'}
+        </Text>
+      ),
       label: '设备模板',
     },
     {
