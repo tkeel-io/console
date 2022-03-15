@@ -55,7 +55,7 @@ export default function DeviceTemplates({ templates, onTemplateClick }: Props) {
           }
         >
           <Flex alignItems="center">
-            <BoxTwoToneIcon size={18} />
+            <BoxTwoToneIcon size={20} />
             <Text marginLeft="10px" color="gray.700" fontSize="14px">
               {template.properties?.basicInfo?.name ?? ''}
             </Text>
