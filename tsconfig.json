@@ -62,6 +62,9 @@
       "@/tkeel-console-plugin-tenant-roles/*": [
         "./packages/tkeel-console-plugin-tenant-roles/src/*"
       ],
+      "@/tkeel-console-plugin-tenant-routing-rules/*": [
+        "./packages/tkeel-console-plugin-tenant-routing-rules/src/*"
+      ],
       "@/tkeel-console-plugin-tenant-users/*": [
         "./packages/tkeel-console-plugin-tenant-users/src/*"
       ],
