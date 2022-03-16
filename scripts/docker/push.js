@@ -1,13 +1,13 @@
 const shell = require('shelljs');
 
-const { getSelectedCanRunPackageInfos } = require('../utils/packages');
+const prompt = require('./prompt');
 const setChartVersions = require('./set-chart-versions');
 
 (async () => {
-  const packageInfos = await getSelectedCanRunPackageInfos();
-  packageInfos.forEach(({ name }) => {
+  const infos = await prompt();
+  infos.forEach(({ name }) => {
     const command = `docker image push ${name}`;
     shell.exec(command);
   });
-  setChartVersions(packageInfos);
+  setChartVersions(infos);
 })();
