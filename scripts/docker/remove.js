@@ -1,9 +1,9 @@
 const shell = require('shelljs');
 
-const prompt = require('./prompt');
+const { selectCanRunPackages } = require('../utils/packages');
 
 (async () => {
-  const infos = await prompt();
+  const infos = await selectCanRunPackages();
   infos.forEach(({ ID }) => {
     const command = `docker image rm ${ID}`;
     shell.exec(command);

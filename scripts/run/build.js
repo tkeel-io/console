@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
+const { selectCanRunPackages } = require('../utils/packages');
 const { runNpmScripts } = require('./commands');
-const prompt = require('./prompt');
 
 (async () => {
-  const packages = await prompt();
-  const data = packages.map(({ packageJson }) => ({
+  const packageInfos = await selectCanRunPackages();
+  const data = packageInfos.map(({ packageJson }) => ({
     packageName: packageJson.name,
     npmScriptName: 'build',
   }));

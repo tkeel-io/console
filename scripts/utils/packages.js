@@ -4,6 +4,7 @@ const nodeConfig = require('config');
 const dotenvExpand = require('dotenv-expand');
 const dotenvFlow = require('dotenv-flow');
 const fs = require('fs-extra');
+const inquirer = require('inquirer');
 const _ = require('lodash');
 const readPkg = require('read-pkg');
 const { isPort } = require('validator');
@@ -239,6 +240,42 @@ function checkCanRunPackageServerPort({ serverPort }) {
   return { flag, message };
 }
 
+/**
+ *
+ * @returns {Promise<Object[]>}
+ */
+async function selectCanRunPackages() {
+  const message = 'Select packages';
+  const packages = readPackageInfos();
+  const canRunPackages = packages.filter(({ canRun }) => canRun);
+  const choices = canRunPackages.map((packageInfo) => {
+    const { packageJson } = packageInfo;
+    const { name } = packageJson;
+    return { name, value: packageInfo };
+  });
+
+  const questions = [
+    {
+      type: 'checkbox',
+      name: 'data',
+      message,
+      choices,
+      validate(value) {
+        if (value.length === 0) {
+          return `Please ${message}`;
+        }
+        return true;
+      },
+      pageSize: 10,
+      loop: false,
+    },
+  ];
+
+  const { data } = await inquirer.prompt(questions);
+
+  return data;
+}
+
 module.exports = {
   getPluginPackageDirectoryName,
   readPackageInfos,
@@ -247,4 +284,5 @@ module.exports = {
   checkPluginName,
   checkCanRunPackageBasePath,
   checkCanRunPackageServerPort,
+  selectCanRunPackages,
 };
