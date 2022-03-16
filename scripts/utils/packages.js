@@ -8,6 +8,8 @@ const inquirer = require('inquirer');
 const _ = require('lodash');
 const readPkg = require('read-pkg');
 const { isPort } = require('validator');
+const { hideBin } = require('yargs/helpers');
+const yargs = require('yargs/yargs');
 
 const {
   PACKAGES_PREFIX,
@@ -251,15 +253,31 @@ function checkCanRunPackageServerPort({ serverPort }) {
   return { flag, message };
 }
 
-/**
- *
- * @returns {Promise<Object[]>}
- */
-async function selectCanRunPackages() {
+function getCliArgv() {
+  const { argv } = yargs(hideBin(process.argv))
+    .options({
+      'package-names': {
+        type: 'csv',
+        desc: 'package names',
+      },
+      'docker-image-tag': {
+        type: 'string',
+        desc: 'Docker image tag',
+      },
+    })
+    .help()
+    .alias('h', 'help')
+    .version()
+    .alias('v', 'version');
+
+  return argv;
+}
+
+async function selectCanRunPackages({
+  packageInfos = readPackageInfos(),
+} = {}) {
   const message = 'Select packages';
-  const packages = readPackageInfos();
-  const canRunPackages = packages.filter(({ canRun }) => canRun);
-  const choices = canRunPackages.map((packageInfo) => {
+  const choices = packageInfos.map((packageInfo) => {
     const { packageJson } = packageInfo;
     const { name } = packageJson;
     return { name, value: packageInfo };
@@ -287,6 +305,48 @@ async function selectCanRunPackages() {
   return data;
 }
 
+async function getSelectedCanRunPackageInfos() {
+  const packageInfos = readPackageInfos();
+  const canRunPackageInfos = packageInfos.filter(({ canRun }) => canRun);
+  const incorrectPackageNames = [];
+
+  const argv = getCliArgv();
+  const inputPackageNamesString = argv?.packageNames ?? '';
+  const inputPackageNames = inputPackageNamesString.split(',').filter(Boolean);
+
+  const inputPackageInfos =
+    inputPackageNamesString === 'all'
+      ? canRunPackageInfos
+      : inputPackageNames
+          .map((packageName) => {
+            const inputPackageInfo = _.find(
+              canRunPackageInfos,
+              (canRunPackageInfo) =>
+                canRunPackageInfo.packageJson.name === packageName
+            );
+
+            if (!inputPackageInfo) {
+              incorrectPackageNames.push(packageName);
+            }
+
+            return inputPackageInfo;
+          })
+          .filter(Boolean);
+
+  if (inputPackageNames.length > 0 && incorrectPackageNames.length > 0) {
+    throw new Error(
+      `Error: incorrect package names: ${incorrectPackageNames.join(', ')}`
+    );
+  }
+
+  if (inputPackageInfos.length === 0) {
+    // eslint-disable-next-line no-return-await
+    return await selectCanRunPackages({ packageInfos: canRunPackageInfos });
+  }
+
+  return inputPackageInfos;
+}
+
 module.exports = {
   getPluginPackageDirectoryName,
   readPackageInfos,
@@ -296,4 +356,5 @@ module.exports = {
   checkCanRunPackageBasePath,
   checkCanRunPackageServerPort,
   selectCanRunPackages,
+  getSelectedCanRunPackageInfos,
 };
