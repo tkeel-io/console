@@ -13,6 +13,7 @@ const PACKAGES_PREFIX = {
   pluginDirectoryName: `${PACKAGE_DIRECTORY_NAME_PREFIX}plugin-`,
   packageName: PACKAGE_NAME_PREFIX,
   pluginPackageName: `${PACKAGE_NAME_PREFIX}plugin-`,
+  dockerImageName: 'tkeelio/console-',
 };
 
 const PORTAL_PACKAGES = {

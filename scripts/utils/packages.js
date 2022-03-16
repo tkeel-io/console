@@ -26,6 +26,13 @@ function getPluginName({ directoryName }) {
   return directoryName.replace(PACKAGES_PREFIX.pluginDirectoryName, '');
 }
 
+function getDockerImageName({ directoryName }) {
+  return directoryName.replace(
+    PACKAGES_PREFIX.directoryName,
+    PACKAGES_PREFIX.dockerImageName
+  );
+}
+
 function getPluginPackageDirectoryName({ pluginName }) {
   return `${PACKAGES_PREFIX.pluginDirectoryName}${pluginName}`;
 }
@@ -83,6 +90,7 @@ function readPackageInfos({
     const simpleName = getSimpleName({ directoryName });
     const pluginName = isPlugin ? getPluginName({ directoryName }) : '';
     const portalName = directoryName.split('-')[3];
+    const dockerImageName = getDockerImageName({ directoryName });
     const isShared = SHARED_PACKAGE_SIMPLE_NAMES.includes(simpleName);
     const canRun = !SHARED_PACKAGE_SIMPLE_NAMES.includes(simpleName);
 
@@ -110,6 +118,9 @@ function readPackageInfos({
       pluginName,
       portalName,
       packageJson,
+      docker: {
+        imageName: dockerImageName,
+      },
       config,
       dotenvConfig,
     });
