@@ -1,6 +1,6 @@
 import { Box, Tooltip, useDisclosure } from '@chakra-ui/react';
 
-import { IconButton } from '@tkeel/console-components';
+import { Alert, IconButton } from '@tkeel/console-components';
 import { DownloadFilledIcon } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
@@ -8,32 +8,34 @@ import EditConfigModal, { InstallPluginInfo } from './EditConfigModal';
 
 interface Props {
   installPluginInfo: InstallPluginInfo;
-  disabled: boolean;
   onSuccess: () => unknown;
 }
 
-function InstallButton({ installPluginInfo, disabled, onSuccess }: Props) {
+function InstallButton({ installPluginInfo, onSuccess }: Props) {
   const toast = plugin.getPortalToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isAlertOpen,
+    onOpen: onAlertOpen,
+    onClose: onAlertClose,
+  } = useDisclosure();
 
   return (
     <Box flexShrink="0">
-      <Tooltip
-        hasArrow
-        label={disabled ? '已存在同名插件，不可重复安装' : ''}
-        shouldWrapChildren
-        placement="top"
-      >
+      <Tooltip hasArrow shouldWrapChildren placement="top">
         <IconButton
           size="sm"
           padding="0 12px"
           boxShadow="none"
           borderRadius="4px"
           icon={<DownloadFilledIcon size={12} />}
-          disabled={disabled}
           onClick={(e) => {
             e.stopPropagation();
-            onOpen();
+            if (installPluginInfo.state === 'SAME_NAME') {
+              onAlertOpen();
+            } else {
+              onOpen();
+            }
           }}
         >
           安装
@@ -48,6 +50,17 @@ function InstallButton({ installPluginInfo, disabled, onSuccess }: Props) {
           onSuccess();
           toast('安装插件成功', { status: 'success' });
         }}
+      />
+      <Alert
+        icon="warning"
+        iconPosition="left"
+        isOpen={isAlertOpen}
+        onClose={onAlertClose}
+        onConfirm={() => {
+          onAlertClose();
+          onOpen();
+        }}
+        title="已安装其他版本的同名插件，是否继续安装并覆盖"
       />
     </Box>
   );
