@@ -11,7 +11,7 @@ import SearchDeviceInput from './components/SearchDeviceInput';
 function Index(): JSX.Element {
   const { history, isLoading } = useHistoryQuery();
   return (
-    <Flex height="100%" paddingBottom="18px" flexDirection="column">
+    <Flex height="100%" flexDirection="column">
       <PageHeaderToolbar name="数据查询" hasIcon />
       <Flex
         marginTop="80px"

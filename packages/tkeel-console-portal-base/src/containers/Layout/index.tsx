@@ -67,13 +67,7 @@ export default function Layout({ userActionMenusComponent, logo }: Props) {
   return (
     <Flex height="100%" overflowX="auto">
       <Menus logo={logo} />
-      <Flex
-        flex="1"
-        overflow="hidden"
-        minWidth="1200px"
-        flexDirection="column"
-        padding="20px"
-      >
+      <Flex flex="1" overflow="hidden" minWidth="1200px" flexDirection="column">
         <Header
           menus={menus}
           userActionMenusComponent={userActionMenusComponent}
@@ -83,11 +77,11 @@ export default function Layout({ userActionMenusComponent, logo }: Props) {
             <Skeleton
               position="absolute"
               top="0"
-              right="0"
-              bottom="0"
-              left="0"
-              width="100%"
-              height="100%"
+              right="20px"
+              bottom="20px"
+              left="20px"
+              width="calc(100% - 40px)"
+              height="calc(100% - 20px)"
             />
           )}
           {apps.length > 0 ? (

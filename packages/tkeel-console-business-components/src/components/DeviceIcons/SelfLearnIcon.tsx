@@ -28,7 +28,7 @@ export default function SelfLearnIcon({
       <IconTooltip label={label}>
         <IconWrapper bg={isSelfLearn ? 'blue.50' : 'gray.100'}>
           <VpcTwoToneIcon
-            size="20px"
+            size={20}
             color={isSelfLearn ? 'green.300' : 'gray.500'}
             twoToneColor={isSelfLearn ? 'green.300' : 'gray.500'}
           />

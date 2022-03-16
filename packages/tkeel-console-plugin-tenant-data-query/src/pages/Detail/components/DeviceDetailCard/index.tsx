@@ -1,11 +1,12 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 import {
   DeviceStatusIcon,
   SelfLearnIcon,
 } from '@tkeel/console-business-components';
 import { BackButton } from '@tkeel/console-components';
+import { plugin } from '@tkeel/console-utils';
 
 import { DeviceIconName } from '@/tkeel-console-plugin-tenant-data-query/components';
 import { DeviceObject } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceDetailQuery';
@@ -15,7 +16,8 @@ type Props = {
 };
 
 export default function DeviceDetailCard({ detailData }: Props) {
-  const navigate = useNavigate();
+  const portalProps = plugin.getPortalProps();
+  const { navigate } = portalProps.client;
   const [searchParams] = useSearchParams();
   const { properties } = detailData || {};
   const { basicInfo, sysField } = properties || {};
