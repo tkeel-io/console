@@ -60,7 +60,7 @@ function InstallButton({ installPluginInfo, onSuccess }: Props) {
           onAlertClose();
           onOpen();
         }}
-        title="已安装其他版本的同名插件，是否继续安装并覆盖"
+        title="已安装其他版本的同名插件，是否继续安装并覆盖？"
       />
     </Box>
   );
