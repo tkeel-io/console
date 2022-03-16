@@ -14,9 +14,10 @@ function deleteTmpDirectory() {
 }
 
 function execCommand(packageInfo) {
-  const { simpleName, directoryName } = packageInfo;
+  const { directoryName, docker } = packageInfo;
+  const dockerImageName = docker.imageName;
   const { tag } = config.tkeel.console.docker;
-  const command = `docker build -t=tkeelio/console-${simpleName}:${tag} --build-arg DIRECTORY_NAME=${directoryName} .`;
+  const command = `docker build -t=${dockerImageName}:${tag} --build-arg DIRECTORY_NAME=${directoryName} .`;
   logger.info(`${command}\n`);
   shell.exec(command);
   logger.success('docker build success\n');

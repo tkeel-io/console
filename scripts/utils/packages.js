@@ -306,13 +306,16 @@ async function selectCanRunPackages({
 }
 
 async function getSelectedCanRunPackageInfos() {
-  const packageInfos = readPackageInfos();
-  const canRunPackageInfos = packageInfos.filter(({ canRun }) => canRun);
-  const incorrectPackageNames = [];
-
   const argv = getCliArgv();
   const inputPackageNamesString = argv?.packageNames ?? '';
+  const dockerImageTag = argv?.dockerImageTag ?? 'dev';
   const inputPackageNames = inputPackageNamesString.split(',').filter(Boolean);
+
+  const packageInfos = readPackageInfos().map((packageInfo) =>
+    _.merge({}, packageInfo, { docker: { imageTag: dockerImageTag } })
+  );
+  const canRunPackageInfos = packageInfos.filter(({ canRun }) => canRun);
+  const incorrectPackageNames = [];
 
   const inputPackageInfos =
     inputPackageNamesString === 'all'
@@ -355,6 +358,5 @@ module.exports = {
   checkPluginName,
   checkCanRunPackageBasePath,
   checkCanRunPackageServerPort,
-  selectCanRunPackages,
   getSelectedCanRunPackageInfos,
 };
