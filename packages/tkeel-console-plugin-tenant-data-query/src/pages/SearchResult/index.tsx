@@ -125,7 +125,7 @@ export default function SearchResult() {
   };
 
   return (
-    <Flex height="100%" flexDirection="column">
+    <Flex paddingTop="8px" height="100%" flexDirection="column">
       <Flex justifyContent="flex-start" alignItems="center">
         <PageHeaderToolbar
           name="数据查询"

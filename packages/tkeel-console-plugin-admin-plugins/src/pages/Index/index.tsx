@@ -16,7 +16,7 @@ function Index(): JSX.Element {
   const { plugins: installedPlugins } = useInstalledPluginsQuery();
 
   return (
-    <Flex flexDirection="column" height="100%">
+    <Flex paddingTop="16px" flexDirection="column" height="100%">
       <PageHeader
         icon={<PuzzleTwoToneIcon size={26} />}
         name="插件管理"
