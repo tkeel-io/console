@@ -1,4 +1,4 @@
-import { Box, Flex, Tabs, Text } from '@chakra-ui/react';
+import { Box, Flex, Tabs, Text, TabPanel, TabPanels } from '@chakra-ui/react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import {
@@ -139,19 +139,18 @@ function Detail(): JSX.Element {
           />
         </Box>
       </Box>
-      <Box
-        flex="1"
-        borderRadius="4px"
-        minH="80vh"
-        background="linear-gradient(180deg, #FFFFFF 0%, #F9FBFD 100%)"
-      >
+      <Box flex="1" borderRadius="4px">
         <Tabs display="flex" flexDirection="column" flex="1">
           <CustomTabList>
             <CustomTab>订阅设备</CustomTab>
           </CustomTabList>
-        </Tabs>
 
-        <Table id={ID} title={data?.title} />
+          <TabPanels borderBottomLeftRadius="4px" borderBottomRightRadius="4px">
+            <TabPanel height="100%" padding="0" backgroundColor="white">
+              <Table id={ID} title={data?.title} />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
       </Box>
     </Flex>
   );

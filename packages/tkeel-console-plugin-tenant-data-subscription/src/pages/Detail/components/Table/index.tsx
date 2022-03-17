@@ -33,8 +33,8 @@ type Data = {
 };
 
 const connectionIcon = {
-  offline: <WifiOffFilledIcon key="wifi-off" />,
-  online: <WifiFilledIcon key="wifi" />,
+  offline: <WifiOffFilledIcon key="wifi-off" size={20} />,
+  online: <WifiFilledIcon key="wifi" size={20} />,
 };
 
 function Index({ id, title }: { id: string; title: string }) {
@@ -108,13 +108,13 @@ function Index({ id, title }: { id: string; title: string }) {
 
   const columns: ReadonlyArray<Column<Data>> = [
     {
-      Header: '角色名称',
+      Header: '设备名称',
       accessor: 'name',
       Cell: ({ value }: { value: string }) =>
         useMemo(
           () => (
             <Flex alignItems="center" justifyContent="space-between">
-              <WebcamTwoToneIcon />
+              <WebcamTwoToneIcon size={20} />
               <Text color="gray.800" fontWeight="600" marginLeft="14px">
                 {value}
               </Text>
@@ -128,17 +128,31 @@ function Index({ id, title }: { id: string; title: string }) {
       width: 100,
       accessor: 'status',
       Cell: ({ value }: { value: string }) =>
-        useMemo(() => <Box>{connectionIcon[value]}</Box>, [value]),
+        useMemo(
+          () => <Box color="gray.700">{connectionIcon[value]}</Box>,
+          [value]
+        ),
     },
     {
       Header: '设备模板',
-      width: 110,
+      width: 100,
       accessor: 'template',
+      Cell: ({ value }: { value: string }) =>
+        useMemo(
+          () => (
+            <Box color="gray.700" overflow="hidden">
+              {value}
+            </Box>
+          ),
+          [value]
+        ),
     },
     {
       Header: '设备分组',
       width: 110,
       accessor: 'group',
+      Cell: ({ value }: { value: string }) =>
+        useMemo(() => <Box color="gray.700">{value}</Box>, [value]),
     },
     {
       Header: '最后更新时间',
@@ -257,7 +271,7 @@ function Index({ id, title }: { id: string; title: string }) {
         ]}
       />
       <Table
-        style={{ flex: 1, overflow: 'hidden' }}
+        style={{ flex: 1, overflow: 'hidden', height: '100%', minH: '60vh' }}
         columns={columns}
         data={data?.data || []}
         onSelect={handleSelect}
