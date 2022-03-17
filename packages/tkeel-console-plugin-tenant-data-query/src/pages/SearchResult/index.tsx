@@ -135,46 +135,44 @@ export default function SearchResult() {
           }}
         />
       </Flex>
+      <Flex marginTop="16px" justifyContent="space-between">
+        <Flex color="gray.800" fontSize="12px" lineHeight="24px">
+          共
+          <Text margin="0 3px" color="primary">
+            {data?.listDeviceObject?.total ?? 0}
+          </Text>
+          条结果
+        </Flex>
+        <StatusSelect
+          status={deviceStatusInfo}
+          onStatusChange={handleStatusChange}
+          canHover={false}
+        />
+      </Flex>
       {isLoading ? (
         <Loading styles={{ wrapper: { flex: '1' } }} />
       ) : deviceList.length === 0 ? (
         <Empty styles={{ wrapper: { flex: '1' } }} />
       ) : (
-        <>
-          <Flex marginTop="16px" justifyContent="space-between">
-            <Flex color="gray.800" fontSize="12px" lineHeight="24px">
-              共
-              <Text margin="0 3px" color="primary">
-                {data?.listDeviceObject?.total ?? 0}
-              </Text>
-              条结果
-            </Flex>
-            <StatusSelect
-              status={deviceStatusInfo}
-              onStatusChange={handleStatusChange}
-              canHover={false}
+        <Flex
+          alignContent="flex-start"
+          flexWrap="wrap"
+          marginTop="12px"
+          flex="1"
+          width="100%"
+        >
+          {deviceList.map((device, i) => (
+            <DeviceInfoCard
+              key={device.id}
+              device={device}
+              style={{
+                marginRight: (i + 1) % 4 === 0 ? '0' : '0.5%',
+                marginBottom: '10px',
+                width: '24.6%',
+              }}
             />
-          </Flex>
-          <Flex
-            alignContent="flex-start"
-            flexWrap="wrap"
-            marginTop="12px"
-            flex="1"
-            width="100%"
-          >
-            {deviceList.map((device, i) => (
-              <DeviceInfoCard
-                key={device.id}
-                device={device}
-                style={{
-                  marginRight: (i + 1) % 4 === 0 ? '0' : '0.5%',
-                  marginBottom: '10px',
-                  width: '24.6%',
-                }}
-              />
-            ))}
-          </Flex>
-        </>
+          ))}
+        </Flex>
       )}
     </Flex>
   );

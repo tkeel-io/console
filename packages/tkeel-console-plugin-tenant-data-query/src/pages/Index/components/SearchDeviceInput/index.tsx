@@ -94,7 +94,7 @@ export default function SearchDeviceInput({
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (
     event: KeyboardEvent<HTMLInputElement>
   ) => {
-    if (event.keyCode === 13) {
+    if (event.keyCode === 13 && inputValue) {
       let newFilterConditions = [...filterConditions];
       const { length } = newFilterConditions;
       const lastCondition = newFilterConditions[length - 1];
@@ -114,7 +114,11 @@ export default function SearchDeviceInput({
         }
       } else {
         newFilterConditions = [keywordConditionInfo];
-        setShowDeviceList(true);
+        if (type === 'index') {
+          setShowDeviceList(true);
+        } else {
+          setShowFilterDropdown(false);
+        }
       }
       setInputValue('');
       setFilterConditions(newFilterConditions);
