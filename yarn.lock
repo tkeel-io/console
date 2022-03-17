@@ -3495,6 +3495,7 @@ __metadata:
     "@chakra-ui/react": ^1.8.6
     "@emotion/react": ^11.8.2
     "@emotion/styled": ^11.8.1
+    "@tkeel/console-business-components": "workspace:^"
     "@tkeel/console-components": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
     "@tkeel/console-icons": "workspace:^"
@@ -3506,6 +3507,7 @@ __metadata:
     qs: ^6.10.3
     react: ^17.0.2
     react-dom: ^17.0.2
+    react-hook-form: ^7.28.0
     react-query: ^3.34.16
     react-router-dom: ^6.2.2
   languageName: unknown
@@ -3750,6 +3752,7 @@ __metadata:
     "@tkeel/console-components": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
     "@tkeel/console-icons": "workspace:^"
+    "@tkeel/console-request-hooks": "workspace:^"
     "@tkeel/console-types": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
     "@types/lodash": ^4.14.179
@@ -3765,6 +3768,7 @@ __metadata:
     react-hook-form: ^7.27.1
     react-query: ^3.34.16
     react-router-dom: ^6.2.2
+    react-use-websocket: ^3.0.0
     sortablejs: ^1.14.0
   languageName: unknown
   linkType: soft
@@ -14443,7 +14447,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:^7.27.1":
+"react-hook-form@npm:^7.27.1, react-hook-form@npm:^7.28.0":
   version: 7.28.0
   resolution: "react-hook-form@npm:7.28.0"
   peerDependencies:

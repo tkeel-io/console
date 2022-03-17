@@ -55,6 +55,7 @@ export { default as PauseFilledIcon } from './components/PauseFilledIcon';
 export { default as PencilFilledIcon } from './components/PencilFilledIcon';
 export { default as PersonGroupTwoToneIcon } from './components/PersonGroupTwoToneIcon';
 export { default as PuzzleTwoToneIcon } from './components/PuzzleTwoToneIcon';
+export { default as QuestionFilledIcon } from './components/QuestionFilledIcon';
 export { default as RefreshFilledIcon } from './components/RefreshFilledIcon';
 export { default as RightFilledIcon } from './components/RightFilledIcon';
 export { default as ShutdownFilledIcon } from './components/ShutdownFilledIcon';

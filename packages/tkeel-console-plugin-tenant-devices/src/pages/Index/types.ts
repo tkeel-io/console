@@ -12,7 +12,7 @@ export enum ConnectInfoType {
 
 export enum ConnectOption {
   DIRECT = '直连',
-  // INDIRECT = '非直连',
+  INDIRECT = '非直连',
 }
 export type DeviceFormFields = {
   name: string;
@@ -70,9 +70,3 @@ export type GroupOptions = {
   key: string;
   children: GroupOptions[];
 };
-
-export enum RwOptions {
-  R = 'r',
-  W = 'w',
-  RW = 'rw',
-}

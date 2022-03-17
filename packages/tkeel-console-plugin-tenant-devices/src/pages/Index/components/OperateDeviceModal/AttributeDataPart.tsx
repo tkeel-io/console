@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import {
   Box,
+  Center,
   Flex,
   HStack,
   SimpleGrid,
@@ -9,21 +10,17 @@ import {
   Tooltip,
 } from '@chakra-ui/react';
 
+// import { UseFormReturn } from 'react-hook-form';
 import { FormField } from '@tkeel/console-components/';
+import { QuestionFilledIcon } from '@tkeel/console-icons';
+import { AttributeItem } from '@tkeel/console-request-hooks';
 
-import { RwOptions } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
+import { DeviceFormFields } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
 
-type AttributeItem = {
-  id: string;
-  name: string;
-  type: string;
-  define: {
-    default_value: string;
-    rw: RwOptions;
-  };
-};
 type Props = {
-  attributeList: AttributeItem[];
+  attributeList?: AttributeItem[];
+  watchFields: DeviceFormFields;
+  // formHandler: UseFormReturn<DeviceFormFields, object>;
 };
 const { TextField } = FormField;
 const TOOLTIP_OPTIONS = [
@@ -35,7 +32,7 @@ const TOOLTIP_OPTIONS = [
 function renderTooltip(info: {
   type: string;
   rw: string;
-  default_value: string;
+  default_value: string | number;
 }) {
   return (
     <SimpleGrid columns={1} spacingY="4px">
@@ -49,13 +46,17 @@ function renderTooltip(info: {
   );
 }
 function renderLabel(item: AttributeItem) {
-  const { id, name, define, type } = item;
+  const { define, name, type, id } = item;
   const { rw, default_value } = define;
   return (
-    <Flex>
-      <HStack>
-        <Text>{name}</Text>
-        <Text>{id}</Text>
+    <Flex alignItems="center">
+      <HStack h="24px" lineHeight="24px">
+        <Text color="gray.700" size="14px" fontWeight={500}>
+          {name}
+        </Text>
+        <Text color="grayAlternatives.300" fontSize="12px">
+          {id}
+        </Text>
       </HStack>
       <Spacer />
       <Tooltip
@@ -63,23 +64,96 @@ function renderLabel(item: AttributeItem) {
         hasArrow
         p="8px 12px"
         label={renderTooltip({ type, rw, default_value })}
+        boxShadow="base"
       >
-        ?
+        <Center h="24px" w="24px">
+          <QuestionFilledIcon size="14px" color="grayAlternatives.300" />
+        </Center>
       </Tooltip>
     </Flex>
   );
 }
-function renderAttributeItem({ item }: { item: AttributeItem }) {
-  const { id } = item;
+function AttributeDataPart({
+  attributeList = [
+    {
+      define: {
+        default_value: 0.7,
+        rw: 'r',
+      },
+      description: '',
+      enabled: false,
+      enabled_search: false,
+      enabled_time_series: false,
+      id: 'Cos',
+      last_time: 0,
+      name: '功能因数',
+      type: 'float',
+      weight: 0,
+    },
+    {
+      define: {
+        default_value: 0.7,
+        rw: 'rw',
+      },
+      description: '',
+      enabled: false,
+      enabled_search: false,
+      enabled_time_series: false,
+      id: 'ele',
+      last_time: 0,
+      name: '电流',
+      type: 'float',
+      weight: 0,
+    },
+    {
+      define: {
+        default_value: 100,
+        rw: 'rw',
+      },
+      description: '',
+      enabled: false,
+      enabled_search: false,
+      enabled_time_series: false,
+      id: 'size',
+      last_time: 0,
+      name: '尺寸',
+      type: 'float',
+      weight: 0,
+    },
+  ],
+  watchFields,
+}: Props) {
+  // eslint-disable-next-line no-console
+  console.log(attributeList);
   return (
-    <Box w="100%" borderRadius="4px" border="1px solid gray.100">
-      <TextField key={id} id={id} label={renderLabel(item)} />
-    </Box>
-  );
-}
-function AttributeDataPart({ attributeList }: Props) {
-  return (
-    <Box>{attributeList.map((item) => renderAttributeItem({ item }))}</Box>
+    <Flex flexDirection="column" h="100%">
+      <Text color="gray.500" fontSize="12px" mb="12px">
+        使用「{watchFields.templateName}」模版的属性数据
+      </Text>
+      <Box overflowY="scroll" h="390px">
+        {attributeList.length > 0 &&
+          attributeList.map((item: AttributeItem) => {
+            return (
+              <Box
+                w="100%"
+                borderRadius="4px"
+                border="1px solid"
+                borderColor="gray.100"
+                bg="gray.50"
+                key={item.id}
+                mb="12px"
+                p="12px 20px 4px"
+              >
+                <TextField
+                  key={item.id}
+                  id={item.id}
+                  label={renderLabel(item)}
+                />
+              </Box>
+            );
+          })}
+      </Box>
+    </Flex>
   );
 }
 
