@@ -1,9 +1,12 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 
-import { Modal, SearchInput, Tree } from '@tkeel/console-components';
-import { BroomFilledIcon } from '@tkeel/console-icons';
-import { useDeviceGroupQuery } from '@tkeel/console-request-hooks';
+import { Checkbox, Modal, SearchInput, Tree } from '@tkeel/console-components';
+import { BroomFilledIcon, SmartObjectTwoToneIcon } from '@tkeel/console-icons';
+import {
+  useDeviceGroupQuery,
+  useDeviceListQuery,
+} from '@tkeel/console-request-hooks';
 import { getTreeNodeData } from '@tkeel/console-utils';
 
 type Props = {
@@ -17,6 +20,18 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
   const [groupId, setGroupId] = useState('');
   const [deviceKeywords, setDeviceKeywords] = useState('');
   const { deviceGroupTree } = useDeviceGroupQuery();
+  const { deviceList } = useDeviceListQuery({
+    requestData: {
+      condition: [
+        {
+          field: 'sysField._spacePath',
+          operator: '$wildcard',
+          value: groupId,
+        },
+      ],
+    },
+    enabled: Boolean(groupId),
+  });
 
   const handleDeviceGroupSearch = () => {
     // eslint-disable-next-line no-console
@@ -91,8 +106,21 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
                 }}
               />
             </Box>
-            <Box marginLeft="20px" {...contentStyle}>
-              deviceList
+            <Box marginLeft="20px" paddingLeft="20px" {...contentStyle}>
+              {deviceList.map((device) => (
+                <Flex key={device.id} marginBottom="8px" alignItems="center">
+                  <Checkbox />
+                  <SmartObjectTwoToneIcon style={{ marginLeft: '6px' }} />
+                  <Text
+                    marginLeft="6px"
+                    color="gray.800"
+                    fontSize="14px"
+                    lineHeight="24px"
+                  >
+                    {device?.properties?.basicInfo?.name ?? ''}
+                  </Text>
+                </Flex>
+              ))}
             </Box>
           </Flex>
         </Flex>
