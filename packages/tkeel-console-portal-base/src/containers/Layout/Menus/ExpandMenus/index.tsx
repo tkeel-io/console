@@ -93,7 +93,7 @@ export default function ExpandMenus({ isDarkMenu, logo }: Props) {
             const hasChildren = children && children[0];
             const spread = spreadMenuId === id;
             return (
-              <Box key={id} marginBottom="4px">
+              <Box key={id} marginBottom="8px">
                 <Box key={id}>
                   {hasChildren ? (
                     <SubMenuTitle
