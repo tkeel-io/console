@@ -3729,6 +3729,7 @@ __metadata:
     "@tkeel/console-types": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
     "@types/lodash": ^4.14.179
+    "@types/react-table": ^7.7.10
     framer-motion: ^6.2.8
     react: ^17.0.2
     react-dom: ^17.0.2
@@ -4403,6 +4404,15 @@ __metadata:
     "@types/react-virtualized": "*"
     react-dnd: ^11.1.3
   checksum: 63a933387b749acf8da80cc97a85aefa9489208798f157bc618c05d3a5abcf7bde65f26274ffce6b00f257d97ab621f196330d1a85e7a9c56a93cec2616ddd0e
+  languageName: node
+  linkType: hard
+
+"@types/react-table@npm:^7.7.10":
+  version: 7.7.10
+  resolution: "@types/react-table@npm:7.7.10"
+  dependencies:
+    "@types/react": "*"
+  checksum: 840f845c226c37c3f13f023974c37b4e941b7588c42dc5fcd5165463fd25005a9504a2c0d48df3325c0a63c2dc99c60fe1dfee4654b501b781ec2df3a4abfa64
   languageName: node
   linkType: hard
 

@@ -16,6 +16,7 @@ import useTemplateInfoQuery from '@/tkeel-console-plugin-tenant-device-templates
 // import Table from '@/tkeel-console-plugin-tenant-device-templates/pages/Detail/components/Table';
 // import DeleteSubscriptionButton from '@/tkeel-console-plugin-tenant-device-templates/pages/Index/components/DeleteSubscriptionButton';
 // import ModifySubscriptionButton from '@/tkeel-console-plugin-tenant-device-templates/pages/Index/components/ModifySubscriptionButton';
+import TelemetryTable from '@/tkeel-console-plugin-tenant-device-templates/pages/Detail/components/TelemetryTable';
 
 function Detail(): JSX.Element {
   const navigate = useNavigate();
@@ -137,7 +138,7 @@ function Detail(): JSX.Element {
       >
         <Tabs display="flex" flexDirection="column" flex="1">
           <CustomTabList>
-            <CustomTab>属性模板</CustomTab>
+            {/* <CustomTab>属性模板</CustomTab> */}
             <CustomTab>遥测模板</CustomTab>
             <CustomTab>服务指令</CustomTab>
           </CustomTabList>
@@ -148,11 +149,12 @@ function Detail(): JSX.Element {
             borderBottomLeftRadius="4px"
             borderBottomRightRadius="4px"
           >
-            <TabPanel padding="0" height="100%" backgroundColor="white">
+            {/* <TabPanel padding="0" height="100%" backgroundColor="white">
               1
-            </TabPanel>
+            </TabPanel> */}
             <TabPanel padding="0" height="100%" backgroundColor="white">
-              2
+              {/* <TelemetryTable id={ID} title={data?.title} ></TelemetryTable> */}
+              <TelemetryTable id={ID} title="123" />
             </TabPanel>
             <TabPanel padding="0" height="100%" backgroundColor="white">
               3
