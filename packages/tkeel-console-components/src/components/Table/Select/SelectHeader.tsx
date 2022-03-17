@@ -12,12 +12,7 @@ function SelectHeader<D extends object>({
 }: Props<D>) {
   const selectedProps = getToggleAllRowsSelectedProps();
   return (
-    <Center
-      justifyContent="center"
-      alignItems="center"
-      width="100%"
-      height="100%"
-    >
+    <Center width="100%" height="100%">
       <IndeterminateCheckbox {...selectedProps} />
     </Center>
   );

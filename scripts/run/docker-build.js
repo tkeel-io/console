@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 const build = require('../docker/build');
-const prompt = require('./prompt');
+const { getSelectedCanRunPackageInfos } = require('../utils/packages');
 
 (async () => {
-  const packages = await prompt();
-  packages.forEach((packageInfo) => build(packageInfo));
+  const packageInfos = await getSelectedCanRunPackageInfos();
+  packageInfos.forEach((packageInfo) => build(packageInfo));
 })();

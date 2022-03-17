@@ -1,6 +1,7 @@
+import { values } from 'lodash';
+
 import { useQuery } from '@tkeel/console-hooks';
 import { RequestResult } from '@tkeel/console-utils';
-import { values } from 'lodash';
 
 const method = 'GET';
 
@@ -25,36 +26,33 @@ export interface User {
   roles: string[];
 }
 
-
 export interface UsefulData {
-  name: string ;
-  id:string;
+  name: string;
+  id: string;
   type: string;
   description: string;
-  last_time:number
+  last_time: number;
 }
 interface Telemetry {
-    [propName: string]: UsefulData
+  [propName: string]: UsefulData;
 }
 export interface ApiData {
   '@type': string;
   templateTeleObject: {
     configs: {
-      telemetry: Telemetry
-    }
-  }
+      telemetry: Telemetry;
+    };
+  };
 }
-
-
 
 function getUsefulData(data: Telemetry): UsefulData[] {
   return values(data).map((item) => {
     return {
       name: item.name,
-      id:item.id,
+      id: item.id,
       type: item.type,
       description: item.description,
-      last_time:item.last_time
+      last_time: item.last_time,
     };
   });
 }
@@ -81,7 +79,9 @@ export default function useListSubscribeEntitiesQuery({
     reactQueryOptions: { onSuccess },
   });
 
-  const usefulData =  getUsefulData(data?.templateTeleObject?.configs?.telemetry as Telemetry )
+  const usefulData = getUsefulData(
+    data?.templateTeleObject?.configs?.telemetry as Telemetry
+  );
 
   return { usefulData, data, ...rest };
 }
