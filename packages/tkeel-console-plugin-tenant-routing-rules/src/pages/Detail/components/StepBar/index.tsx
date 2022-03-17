@@ -2,7 +2,7 @@ import { Box, Flex, StyleProps } from '@chakra-ui/react';
 
 import * as icons from '@tkeel/console-icons';
 
-import StepTitle from './StepTitle';
+import StepTitle from '../StepTitle';
 
 export type CurrentStep = 0 | 1 | 2 | 3;
 
@@ -14,7 +14,6 @@ type Props = {
 };
 
 export default function StepBar({ styles, currentStep }: Props) {
-  const iconColor = 'grayAlternatives.100';
   const stepInfoArr = [
     {
       icon: 'ReportFilledIcon',
@@ -34,7 +33,7 @@ export default function StepBar({ styles, currentStep }: Props) {
     <Flex
       padding="0 126px"
       alignItems="center"
-      height="88px"
+      flexBasis="88px"
       backgroundColor="gray.600"
       borderRadius="4px"
       {...styles?.wrapper}
@@ -50,16 +49,7 @@ export default function StepBar({ styles, currentStep }: Props) {
             flex={isLastIndex ? 'unset' : '1'}
             alignItems="center"
           >
-            <StepTitle
-              icon={
-                <Icon
-                  color={active ? 'primary' : iconColor}
-                  style={{ position: 'relative' }}
-                />
-              }
-              title={info.title}
-              active={active}
-            />
+            <StepTitle icon={<Icon />} title={info.title} active={active} />
             {!isLastIndex && (
               <Box
                 margin="0 40px"

@@ -1,7 +1,7 @@
 import { Flex, Text } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
-import IconCircle from '../IconCircle';
+import IconCircle from '@/tkeel-console-plugin-tenant-routing-rules/components/IconCircle';
 
 type Props = {
   icon: ReactNode;
