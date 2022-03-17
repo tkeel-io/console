@@ -31,7 +31,7 @@ export default function FilterConditionSelect({
               color={isSelected ? 'primary' : 'gray.400'}
               borderColor={isSelected ? 'primary' : 'gray.200'}
               bg={isSelected ? 'primarySub' : 'white'}
-              height="24px"
+              height="28px"
               p="0 12px"
               fontSize="12px"
               onClick={() => {
