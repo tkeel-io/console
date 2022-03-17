@@ -2,9 +2,11 @@ import { Flex, StyleProps } from '@chakra-ui/react';
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import { useDeviceGroupQuery } from '@tkeel/console-request-hooks';
+import {
+  useDeviceGroupQuery,
+  useDeviceListQuery,
+} from '@tkeel/console-request-hooks';
 
-import useDeviceListQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceListQuery';
 import useDeviceTemplatesQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceTemplatesQuery';
 import { FilterConditionIds } from '@/tkeel-console-plugin-tenant-data-query/pages/Index/constants';
 import { RequestDataCondition } from '@/tkeel-console-plugin-tenant-data-query/types/request-data';
@@ -80,11 +82,6 @@ export default function FilterDropdown({
 
   const defaultDeviceListQueryConditions = [
     {
-      field: 'type',
-      operator: '$eq',
-      value: 'device',
-    },
-    {
       field: 'basicInfo.name',
       operator: '$wildcard',
       value: keywordsCondition?.value ?? '',
@@ -148,7 +145,6 @@ export default function FilterDropdown({
 
   const { deviceList, isLoading: isDeviceListLoading } = useDeviceListQuery({
     requestData: {
-      ...baseRequestData,
       condition: deviceListQueryConditions,
     },
     enabled: showDeviceList,

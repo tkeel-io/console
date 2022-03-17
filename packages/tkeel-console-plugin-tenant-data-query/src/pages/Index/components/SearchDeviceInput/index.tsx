@@ -84,6 +84,7 @@ export default function SearchDeviceInput({
       (templateCondition?.value && !templateId) ||
       keywordsCondition
   );
+
   const buttonDisabled = Boolean(
     (groupCondition && !deviceGroupId) ||
       (templateCondition && !templateId) ||
@@ -224,22 +225,46 @@ export default function SearchDeviceInput({
   };
 
   const handleResultSearch = () => {
-    filterConditions.forEach((condition) => {
-      if (condition.id === DEVICE_GROUP_ID) {
-        searchParams.set(GROUP_ID, deviceGroupId);
-        searchParams.set(GROUP_NAME, encode(condition.value));
-        searchParams.delete(TEMPLATE_ID);
-        searchParams.delete(TEMPLATE_NAME);
-      } else if (condition.id === DEVICE_TEMPLATES_ID) {
-        searchParams.set(TEMPLATE_ID, templateId);
-        searchParams.set(TEMPLATE_NAME, encode(condition.value));
-        searchParams.delete(GROUP_ID);
-        searchParams.delete(GROUP_NAME);
-      } else {
-        searchParams.set(KEYWORDS, condition.value);
-      }
-      setSearchParams(searchParams);
-    });
+    const groupFilterCondition = filterConditions.find(
+      (condition) => condition.id === DEVICE_GROUP_ID
+    );
+    const templateFilterCondition = filterConditions.find(
+      (condition) => condition.id === DEVICE_TEMPLATES_ID
+    );
+    const keywordsFilterCondition = filterConditions.find(
+      (condition) => condition.id === KEYWORDS
+    );
+
+    if (!keywordsFilterCondition) {
+      searchParams.delete(KEYWORDS);
+    }
+
+    if (groupFilterCondition) {
+      searchParams.set(GROUP_ID, deviceGroupId);
+      searchParams.set(GROUP_NAME, encode(groupFilterCondition.value));
+    } else {
+      searchParams.delete(GROUP_ID);
+      searchParams.delete(GROUP_NAME);
+    }
+
+    if (templateFilterCondition) {
+      searchParams.set(TEMPLATE_ID, templateId);
+      searchParams.set(TEMPLATE_NAME, encode(templateFilterCondition.value));
+    } else {
+      searchParams.delete(TEMPLATE_ID);
+      searchParams.delete(TEMPLATE_NAME);
+    }
+
+    if (keywordsFilterCondition) {
+      searchParams.set(KEYWORDS, keywordsFilterCondition.value);
+    } else {
+      searchParams.delete(KEYWORDS);
+    }
+    setSearchParams(searchParams);
+
+    if (refetchData) {
+      refetchData();
+    }
   };
 
   const handleSearch = () => {
