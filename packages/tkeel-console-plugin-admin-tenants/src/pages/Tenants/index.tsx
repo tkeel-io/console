@@ -129,7 +129,7 @@ export default function Tenants() {
   ];
 
   return (
-    <Flex flexDirection="column" height="100%">
+    <Flex paddingTop="16px" flexDirection="column" height="100%">
       <PageHeader
         icon={<GroupTwoToneIcon size="26px" />}
         name="租户管理"

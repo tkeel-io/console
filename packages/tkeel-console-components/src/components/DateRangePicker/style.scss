@@ -38,8 +38,22 @@
   color: var(--chakra-colors-primary) !important;
 }
 
+.rs-calendar-header-error {
+  color: var(--chakra-colors-red-300) !important;
+
+  &:hover,
+  &:focus {
+    color: var(--chakra-colors-white) !important;
+    background-color: var(--chakra-colors-red-300) !important;
+  }
+}
+
 .rs-calendar {
   width: 246px;
+
+  .rs-calendar-table-cell:hover .rs-calendar-table-cell-content {
+    color: var(--chakra-colors-primarySub) !important;
+  }
 
   .rs-calendar-month-dropdown-cell-active
     .rs-calendar-month-dropdown-cell-content {

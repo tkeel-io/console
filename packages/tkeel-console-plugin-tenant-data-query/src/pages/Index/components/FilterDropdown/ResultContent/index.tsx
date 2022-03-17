@@ -55,6 +55,7 @@ function ResultContent({
   onDeviceGroupTitleClick,
 }: Props) {
   if (showDeviceList) {
+    // console.log('isDeviceListLoading', isDeviceListLoading);
     return (
       <>
         <DeviceListTitle

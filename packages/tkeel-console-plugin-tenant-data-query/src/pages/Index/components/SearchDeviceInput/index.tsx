@@ -1,8 +1,6 @@
-/* eslint-disable sonarjs/cognitive-complexity */
 import { Box, Flex, Input, InputGroup, StyleProps } from '@chakra-ui/react';
 import { Base64 } from 'js-base64';
 import {
-  CSSProperties,
   KeyboardEvent,
   KeyboardEventHandler,
   MouseEventHandler,
@@ -34,6 +32,7 @@ const encode = (value: string) => {
   return encodeURIComponent(Base64.encode(value));
 };
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export default function SearchDeviceInput({
   type = 'index',
   defaultFilterConditions = [],
@@ -67,13 +66,6 @@ export default function SearchDeviceInput({
   if (hasKeywordsOrConditions) {
     inputPaddingRight = type === 'index' ? '124px' : '160px';
   }
-
-  const iconStyle: CSSProperties = {
-    position: 'absolute',
-    right: '140px',
-    top: '14px',
-    cursor: 'pointer',
-  };
 
   const groupCondition = filterConditions.find(
     (condition) => condition.id === DEVICE_GROUP_ID
@@ -135,6 +127,7 @@ export default function SearchDeviceInput({
     setDeviceGroupId('');
     setTemplateId('');
     setStatus(initStatus);
+    setShowDeviceList(false);
   };
 
   const handleDocumentClick = () => {
@@ -201,51 +194,59 @@ export default function SearchDeviceInput({
     setFilterConditions(newFilterConditions);
   };
 
+  const handleIndexSearch = () => {
+    let search = '';
+    if (deviceGroupId) {
+      const groupName = encode(groupCondition?.value || '');
+      search += `group-id=${deviceGroupId}&${GROUP_NAME}=${groupName}&`;
+    }
+
+    if (templateId) {
+      const templateName = encode(templateCondition?.value || '');
+      search += `${TEMPLATE_ID}=${templateId}&template-name=${templateName}&`;
+    }
+
+    const keywords = keywordsCondition?.value;
+    if (keywords) {
+      search += `keywords=${keywords}&`;
+    }
+
+    const statusValue = status.value;
+    if (['online', 'offline'].includes(statusValue)) {
+      search += `status=${statusValue}`;
+    }
+
+    if (search.endsWith('&')) {
+      search = search.slice(0, -1);
+    }
+
+    navigate(`/search-result?${search}`);
+  };
+
+  const handleResultSearch = () => {
+    filterConditions.forEach((condition) => {
+      if (condition.id === DEVICE_GROUP_ID) {
+        searchParams.set(GROUP_ID, deviceGroupId);
+        searchParams.set(GROUP_NAME, encode(condition.value));
+        searchParams.delete(TEMPLATE_ID);
+        searchParams.delete(TEMPLATE_NAME);
+      } else if (condition.id === DEVICE_TEMPLATES_ID) {
+        searchParams.set(TEMPLATE_ID, templateId);
+        searchParams.set(TEMPLATE_NAME, encode(condition.value));
+        searchParams.delete(GROUP_ID);
+        searchParams.delete(GROUP_NAME);
+      } else {
+        searchParams.set(KEYWORDS, condition.value);
+      }
+      setSearchParams(searchParams);
+    });
+  };
+
   const handleSearch = () => {
     if (type === 'index') {
-      let search = '';
-      if (deviceGroupId) {
-        const groupName = encode(groupCondition?.value || '');
-        search += `group-id=${deviceGroupId}&${GROUP_NAME}=${groupName}&`;
-      }
-
-      if (templateId) {
-        const templateName = encode(templateCondition?.value || '');
-        search += `${TEMPLATE_ID}=${templateId}&template-name=${templateName}&`;
-      }
-
-      const keywords = keywordsCondition?.value;
-      if (keywords) {
-        search += `keywords=${keywords}&`;
-      }
-
-      const statusValue = status.value;
-      if (['online', 'offline'].includes(statusValue)) {
-        search += `status=${statusValue}`;
-      }
-
-      if (search.endsWith('&')) {
-        search = search.slice(0, -1);
-      }
-
-      navigate(`/search-result?${search}`);
+      handleIndexSearch();
     } else {
-      filterConditions.forEach((condition) => {
-        if (condition.id === DEVICE_GROUP_ID) {
-          searchParams.set(GROUP_ID, deviceGroupId);
-          searchParams.set(GROUP_NAME, encode(condition.value));
-          searchParams.delete(TEMPLATE_ID);
-          searchParams.delete(TEMPLATE_NAME);
-        } else if (condition.id === DEVICE_TEMPLATES_ID) {
-          searchParams.set(TEMPLATE_ID, templateId);
-          searchParams.set(TEMPLATE_NAME, encode(condition.value));
-          searchParams.delete(GROUP_ID);
-          searchParams.delete(GROUP_NAME);
-        } else {
-          searchParams.set(KEYWORDS, condition.value);
-        }
-        setSearchParams(searchParams);
-      });
+      handleResultSearch();
     }
   };
 
@@ -257,6 +258,15 @@ export default function SearchDeviceInput({
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const iconWrapperStyle: StyleProps = {
+    position: 'absolute',
+    right: '140px',
+    top: '14px',
+    justifyContent: 'center',
+    width: '20px',
+    cursor: 'pointer',
+  };
 
   return (
     <Box
@@ -311,27 +321,28 @@ export default function SearchDeviceInput({
           onFocus={() => setShowFilterDropdown(true)}
           onKeyDown={handleKeyDown}
         />
-        {type === 'searchResult' && hasKeywordsOrConditions && (
-          <RefreshFilledIcon
-            color="grayAlternatives.300"
-            style={iconStyle}
-            onClick={() => {
-              if (refetchData) {
-                refetchData();
-              }
-            }}
-          />
-        )}
-        {hasKeywordsOrConditions && (
-          <BroomFilledIcon
-            color="grayAlternatives.300"
-            style={{
-              ...iconStyle,
-              right: '110px',
-            }}
-            onClick={handleClearCondition}
-          />
-        )}
+        <Flex>
+          {type === 'searchResult' && hasKeywordsOrConditions && (
+            <Flex {...iconWrapperStyle}>
+              <RefreshFilledIcon
+                color="grayAlternatives.300"
+                onClick={() => {
+                  if (refetchData) {
+                    refetchData();
+                  }
+                }}
+              />
+            </Flex>
+          )}
+          {hasKeywordsOrConditions && (
+            <Flex {...iconWrapperStyle} right="110px">
+              <BroomFilledIcon
+                color="grayAlternatives.300"
+                onClick={handleClearCondition}
+              />
+            </Flex>
+          )}
+        </Flex>
         <SearchButton disabled={buttonDisabled} onClick={handleSearch} />
       </InputGroup>
       <FilterDropdown

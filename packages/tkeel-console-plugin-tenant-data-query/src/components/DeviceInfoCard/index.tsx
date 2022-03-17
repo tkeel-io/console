@@ -1,5 +1,5 @@
 import { Flex, StyleProps, Text } from '@chakra-ui/react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { DeviceStatusIcon } from '@tkeel/console-business-components';
 
@@ -14,8 +14,8 @@ type Props = {
 
 export default function DeviceInfoCard({ device, style }: Props) {
   const navigate = useNavigate();
-  const location = useLocation();
-  const { pathname, search } = location;
+  // const location = useLocation();
+  const { pathname, search } = window.location;
   const { id, properties } = device;
   const { basicInfo, connectInfo } = properties || {};
   // eslint-disable-next-line no-underscore-dangle
