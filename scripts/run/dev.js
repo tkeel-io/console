@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
+const { getSelectedCanRunPackageInfos } = require('../utils/packages');
 const { runNpmScripts } = require('./commands');
-const prompt = require('./prompt');
 
 (async () => {
-  const packages = await prompt();
-  const data = packages.map(({ packageJson }) => ({
+  const packageInfos = await getSelectedCanRunPackageInfos();
+  const data = packageInfos.map(({ packageJson }) => ({
     packageName: packageJson.name,
     npmScriptName: 'dev',
   }));

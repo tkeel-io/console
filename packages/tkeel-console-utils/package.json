@@ -16,6 +16,7 @@
     "@tkeel/console-components": "workspace:^",
     "@tkeel/console-constants": "workspace:^",
     "@tkeel/console-icons": "workspace:^",
+    "@tkeel/console-themes": "workspace:^",
     "@tkeel/console-types": "workspace:^",
     "@types/lodash": "^4.14.179",
     "add": "^2.0.6",

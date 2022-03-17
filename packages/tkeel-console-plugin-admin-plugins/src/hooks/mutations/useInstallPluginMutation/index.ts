@@ -20,14 +20,18 @@ export interface ApiData {
 }
 
 const url = '/rudder/v1/plugins';
-const method = 'POST';
 
 type Props = {
   name: string;
+  method: 'POST' | 'PUT';
   onSuccess: () => void;
 };
 
-export default function useInstallPluginMutation({ name, onSuccess }: Props) {
+export default function useInstallPluginMutation({
+  name,
+  method,
+  onSuccess,
+}: Props) {
   return useMutation<ApiData, undefined, RequestData>({
     url: `${url}/${name}`,
     method,

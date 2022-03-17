@@ -42,6 +42,7 @@ export default function DeviceTemplates({ templates, onTemplateClick }: Props) {
           alignItems="center"
           marginBottom={i === templates.length - 1 ? '0' : '4px'}
           paddingLeft="10px"
+          paddingRight="4px"
           height="32px"
           cursor="pointer"
           borderRadius="4px"
@@ -54,7 +55,7 @@ export default function DeviceTemplates({ templates, onTemplateClick }: Props) {
           }
         >
           <Flex alignItems="center">
-            <BoxTwoToneIcon size={18} />
+            <BoxTwoToneIcon size={20} />
             <Text marginLeft="10px" color="gray.700" fontSize="14px">
               {template.properties?.basicInfo?.name ?? ''}
             </Text>

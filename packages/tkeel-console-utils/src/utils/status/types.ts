@@ -1,7 +1,7 @@
-import { Theme } from '@chakra-ui/react';
 import { FunctionComponent } from 'react';
 
 import { TwoToneIconProps } from '@tkeel/console-icons';
+import { Theme } from '@tkeel/console-themes';
 
 type StatusKeys = 'default' | 'info' | 'success' | 'warning' | 'error';
 
@@ -11,10 +11,19 @@ type Colors = {
 };
 
 interface StatusInfo {
-  icon: FunctionComponent<TwoToneIconProps> | null;
+  icon: FunctionComponent<TwoToneIconProps>;
   colors: Colors;
 }
 
-export type StatusInfos = Record<StatusKeys, StatusInfo>;
+export interface StatusInfos
+  extends Record<Exclude<StatusKeys, 'default'>, StatusInfo> {
+  default: {
+    icon: null;
+    colors: {
+      primary: '';
+      secondary: '';
+    };
+  };
+}
 
 export type GetStatusInfosOptions = Partial<Pick<Theme, 'colors'>>;

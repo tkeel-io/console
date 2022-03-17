@@ -2,7 +2,7 @@ import { Flex, Text } from '@chakra-ui/react';
 import { Base64 } from 'js-base64';
 import { useSearchParams } from 'react-router-dom';
 
-import { PageHeaderToolbar } from '@tkeel/console-components';
+import { Empty, Loading, PageHeaderToolbar } from '@tkeel/console-components';
 
 import {
   Status,
@@ -16,6 +16,7 @@ import { RequestDataCondition } from '@/tkeel-console-plugin-tenant-data-query/t
 
 const { DEVICE_GROUP_ID, DEVICE_TEMPLATES_ID, KEYWORDS } = FilterConditionIds;
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export default function SearchResult() {
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -26,7 +27,6 @@ export default function SearchResult() {
     order_by: 'name',
     is_descending: false,
   };
-  // const statusQueryField = 'sysField._status';
   const statusQueryField = 'connectInfo._online';
   const deviceGroupIdQueryField = 'sysField._spacePath';
   const templateIdQueryField = 'basicInfo.templateId';
@@ -88,8 +88,6 @@ export default function SearchResult() {
     enabled: conditions.length > 0,
   });
 
-  // eslint-disable-next-line no-console
-  console.log('SearchResult ~ isLoading', isLoading);
   const defaultFilterConditions = [];
 
   const groupName = decodeURIComponent(
@@ -127,7 +125,7 @@ export default function SearchResult() {
   };
 
   return (
-    <Flex height="100%" flexDirection="column">
+    <Flex paddingTop="8px" height="100%" flexDirection="column">
       <Flex justifyContent="flex-start" alignItems="center">
         <PageHeaderToolbar
           name="数据查询"
@@ -143,36 +141,47 @@ export default function SearchResult() {
           }}
         />
       </Flex>
-      <Flex marginTop="16px" justifyContent="space-between">
-        <Flex color="gray.800" fontSize="12px" lineHeight="24px">
-          共
-          <Text margin="0 3px" color="primary">
-            {data?.listDeviceObject?.total ?? 0}
-          </Text>
-          条结果
-        </Flex>
-        <StatusSelect
-          status={deviceStatusInfo}
-          onStatusChange={handleStatusChange}
-          canHover={false}
-        />
-      </Flex>
-      <Flex marginTop="12px" flex="1">
-        <Flex
-          marginRight="-8px"
-          width="100%"
-          alignContent="flex-start"
-          flexWrap="wrap"
-        >
-          {deviceList.map((device) => (
-            <DeviceInfoCard
-              key={device.id}
-              device={device}
-              style={{ marginRight: '8px', marginBottom: '12px', width: '25%' }}
+      {isLoading ? (
+        <Loading styles={{ wrapper: { flex: '1' } }} />
+      ) : deviceList.length === 0 ? (
+        <Empty styles={{ wrapper: { flex: '1' } }} />
+      ) : (
+        <>
+          <Flex marginTop="16px" justifyContent="space-between">
+            <Flex color="gray.800" fontSize="12px" lineHeight="24px">
+              共
+              <Text margin="0 3px" color="primary">
+                {data?.listDeviceObject?.total ?? 0}
+              </Text>
+              条结果
+            </Flex>
+            <StatusSelect
+              status={deviceStatusInfo}
+              onStatusChange={handleStatusChange}
+              canHover={false}
             />
-          ))}
-        </Flex>
-      </Flex>
+          </Flex>
+          <Flex
+            justifyContent="space-between"
+            alignContent="flex-start"
+            flexWrap="wrap"
+            marginTop="12px"
+            flex="1"
+            width="100%"
+          >
+            {deviceList.map((device) => (
+              <DeviceInfoCard
+                key={device.id}
+                device={device}
+                style={{
+                  marginBottom: '12px',
+                  width: '24.6%',
+                }}
+              />
+            ))}
+          </Flex>
+        </>
+      )}
     </Flex>
   );
 }

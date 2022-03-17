@@ -1,10 +1,11 @@
 import { Flex, StyleProps, Text } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
+import { DeviceStatusIcon } from '@tkeel/console-business-components';
+
 import { DeviceItem } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceListQuery';
 
 import DeviceIconName from '../DeviceIconName';
-import DeviceStatusIcon from '../DeviceStatusIcon';
 
 type Props = {
   device: DeviceItem;
@@ -13,8 +14,12 @@ type Props = {
 
 export default function DeviceInfoCard({ device, style }: Props) {
   const navigate = useNavigate();
+  // const location = useLocation();
+  const { pathname, search } = window.location;
   const { id, properties } = device;
   const { basicInfo, connectInfo } = properties || {};
+  // eslint-disable-next-line no-underscore-dangle
+  const isOnline = connectInfo?._online ?? false;
   const infos = [
     {
       label: 'ID',
@@ -40,7 +45,14 @@ export default function DeviceInfoCard({ device, style }: Props) {
       backgroundColor="white"
       cursor="pointer"
       {...style}
-      onClick={() => navigate(`/detail?id=${id}`)}
+      onClick={() =>
+        navigate(
+          // eslint-disable-next-line sonarjs/no-nested-template-literals
+          `/detail?id=${id}&from-url=${encodeURIComponent(
+            `${pathname}${search}`
+          )}`
+        )
+      }
     >
       <Flex
         height="48px"
@@ -49,10 +61,7 @@ export default function DeviceInfoCard({ device, style }: Props) {
         // alignItems="center"
       >
         <DeviceIconName name={basicInfo?.name ?? ''} />
-        <DeviceStatusIcon
-          // eslint-disable-next-line no-underscore-dangle
-          isOnline={connectInfo?._online ?? false}
-        />
+        <DeviceStatusIcon isOnline={isOnline} />
       </Flex>
       <Flex
         padding="0 20px"
