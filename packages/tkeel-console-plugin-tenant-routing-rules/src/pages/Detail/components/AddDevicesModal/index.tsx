@@ -1,9 +1,10 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 
-import { Modal, SearchInput } from '@tkeel/console-components';
+import { Modal, SearchInput, Tree } from '@tkeel/console-components';
 import { BroomFilledIcon } from '@tkeel/console-icons';
 import { useDeviceGroupQuery } from '@tkeel/console-request-hooks';
+import { getTreeNodeData } from '@tkeel/console-utils';
 
 type Props = {
   isOpen: boolean;
@@ -13,10 +14,9 @@ type Props = {
 
 export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
   const [deviceGroupKeywords, setDeviceGroupKeywords] = useState('');
+  const [groupId, setGroupId] = useState('');
   const [deviceKeywords, setDeviceKeywords] = useState('');
   const { deviceGroupTree } = useDeviceGroupQuery();
-  // eslint-disable-next-line no-console
-  console.log('AddDevicesModal ~ deviceGroupTree', deviceGroupTree);
 
   const handleDeviceGroupSearch = () => {
     // eslint-disable-next-line no-console
@@ -43,8 +43,17 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
 
   const contentStyle = {
     flex: '1',
+    paddingTop: '12px',
+    height: '463px',
     borderRadius: '4px',
     backgroundColor: 'gray.50',
+  };
+
+  const treeNodeData = getTreeNodeData({ data: deviceGroupTree });
+
+  const handleSelectGroup = (selectedKeys: React.Key[]) => {
+    const id = selectedKeys[0] as string;
+    setGroupId(id);
   };
 
   return (
@@ -69,7 +78,19 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
             inputGroupStyle={inputGroupStyle}
           />
           <Flex justifyContent="space-between">
-            <Box {...contentStyle}>treeGroup</Box>
+            <Box {...contentStyle}>
+              <Tree
+                extras={{ isTreeTitleFullWidth: true }}
+                treeData={treeNodeData}
+                selectedKeys={[groupId]}
+                selectable
+                showIcon
+                onSelect={handleSelectGroup}
+                styles={{
+                  treeTitle: 'font-size:14px; line-height: 32px;',
+                }}
+              />
+            </Box>
             <Box marginLeft="20px" {...contentStyle}>
               deviceList
             </Box>

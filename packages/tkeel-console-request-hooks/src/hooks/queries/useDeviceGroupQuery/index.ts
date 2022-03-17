@@ -3,7 +3,7 @@ import { useQuery } from '@tkeel/console-hooks';
 const url = '/tkeel-device/v1/groups/tree';
 const method = 'POST';
 
-export interface NodeInfo {
+export interface TreeNodeInfo {
   id: string;
   properties: {
     group: {
@@ -23,7 +23,7 @@ export interface NodeInfo {
 
 export interface TreeNodeType {
   [propName: string]: {
-    nodeInfo: NodeInfo;
+    nodeInfo: TreeNodeInfo;
     subNode: TreeNodeType;
   };
 }
