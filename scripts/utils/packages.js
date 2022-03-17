@@ -262,7 +262,7 @@ function getCliArgv() {
       },
       'docker-image-tag': {
         type: 'string',
-        desc: 'Docker image tag',
+        desc: 'Docker image tag, the default is "dev"',
       },
     })
     .help()
