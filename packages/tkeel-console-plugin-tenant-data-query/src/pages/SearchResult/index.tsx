@@ -162,19 +162,19 @@ export default function SearchResult() {
             />
           </Flex>
           <Flex
-            justifyContent="space-between"
             alignContent="flex-start"
             flexWrap="wrap"
             marginTop="12px"
             flex="1"
             width="100%"
           >
-            {deviceList.map((device) => (
+            {deviceList.map((device, i) => (
               <DeviceInfoCard
                 key={device.id}
                 device={device}
                 style={{
-                  marginBottom: '12px',
+                  marginRight: (i + 1) % 4 === 0 ? '0' : '0.5%',
+                  marginBottom: '10px',
                   width: '24.6%',
                 }}
               />

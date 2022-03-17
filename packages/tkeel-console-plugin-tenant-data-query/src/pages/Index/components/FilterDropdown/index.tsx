@@ -2,7 +2,8 @@ import { Flex, StyleProps } from '@chakra-ui/react';
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import useDeviceGroupQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceGroupQuery';
+import { useDeviceGroupQuery } from '@tkeel/console-request-hooks';
+
 import useDeviceListQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceListQuery';
 import useDeviceTemplatesQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceTemplatesQuery';
 import { FilterConditionIds } from '@/tkeel-console-plugin-tenant-data-query/pages/Index/constants';
@@ -94,13 +95,7 @@ export default function FilterDropdown({
     RequestDataCondition[]
   >(defaultDeviceListQueryConditions);
 
-  const deviceGroupConditions: RequestDataCondition[] = [
-    {
-      field: 'type',
-      operator: '$eq',
-      value: 'group',
-    },
-  ];
+  const deviceGroupConditions: RequestDataCondition[] = [];
 
   const searchGroupId = searchParams.get('group-id');
   if (searchGroupId && groupIdFilterCondition?.value) {
@@ -137,7 +132,6 @@ export default function FilterDropdown({
   const { deviceGroupTree, isLoading: isDeviceGroupLoading } =
     useDeviceGroupQuery({
       requestData: {
-        ...baseRequestData,
         condition: [
           ...deviceGroupConditions,
           {
