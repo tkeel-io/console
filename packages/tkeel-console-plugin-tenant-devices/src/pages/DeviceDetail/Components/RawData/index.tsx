@@ -33,9 +33,7 @@ const handleValues = (value: string, selected: string) => {
     if (item.startsWith('{')) {
       try {
         return JSON.stringify(JSON.parse(item), null, 2);
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
+      } catch {
         return item;
       }
     }

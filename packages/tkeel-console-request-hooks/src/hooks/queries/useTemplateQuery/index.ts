@@ -1,49 +1,36 @@
-/* eslint-disable no-underscore-dangle */
-import { values } from 'lodash';
-
 import { useQuery } from '@tkeel/console-hooks';
-import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
+
+type ReadWriteType = 'r' | 'w' | 'rw';
 
 const url = '/tkeel-device/v1/search';
 const method = 'POST';
 
-export interface NodeInfo {
-  id: string;
-  properties: {
-    group: {
-      name: string;
-      description: string;
-      ext: { [propName: string]: string };
-      [propName: string]: any;
-    };
-    sysField: {
-      [propName: string]: any;
-    };
+export interface AttributeItem {
+  define: {
+    default_value: any;
+    rw: ReadWriteType;
   };
+  description: string;
+  enabled?: boolean;
+  id: string;
+  name: string;
+  type: string;
   [propName: string]: any;
 }
-
-export type TemplateTreeNodeDataType = {
-  title: string;
-  description: string;
-  key: string;
+export interface TemplateItem {
+  configs: {
+    attributes: { [propName: string]: AttributeItem };
+  };
   id: string;
-  updatedAt: string | number;
-};
-export interface TemplateTreeNodeType {
-  [propName: string]: {
-    id: string;
-    properties: {
-      basicInfo: {
-        name: string;
-        description: string;
-      };
-      sysField: {
-        _updatedAt: string | number;
-      };
+  properties: {
+    basicInfo: {
+      name: string;
+      description: string;
     };
-    nodeInfo: NodeInfo;
-    subNode: TemplateTreeNodeType;
+    sysField: {
+      _createdAt: string | number;
+      _updatedAt: string | number;
+    };
   };
 }
 
@@ -57,33 +44,26 @@ type RequestParams = {
 };
 interface ApiData {
   '@type': string;
-  listDeviceObject: TemplateTreeNodeType;
+  listDeviceObject: {
+    items: TemplateItem[];
+  };
 }
 
-function getTemplateKeyData(
-  data: TemplateTreeNodeType
-): TemplateTreeNodeDataType[] {
-  return values(data).map((item) => {
-    return {
-      title: item?.properties?.basicInfo?.name,
-      description: item?.properties?.basicInfo?.description,
-      id: item?.id,
-      key: item?.id,
-      updatedAt: formatDateTimeByTimestamp({
-        timestamp: item?.properties?.sysField?._updatedAt,
-      }),
-    };
-  });
-}
-
-export default function useTemplateQuery(requestParams: RequestParams) {
+export default function useTemplateQuery({
+  params,
+  enabled = true,
+}: {
+  params: RequestParams;
+  enabled?: boolean;
+}) {
   const { data, ...rest } = useQuery<ApiData, undefined, RequestParams>({
     url,
     method,
-    data: requestParams,
+    data: params,
+    reactQueryOptions: {
+      enabled,
+    },
   });
-  const items = data?.listDeviceObject?.items ?? {};
-
-  const keyData = getTemplateKeyData(items);
-  return { items, keyData, data, ...rest };
+  const items = data?.listDeviceObject?.items ?? [];
+  return { items, data, ...rest };
 }

@@ -38,6 +38,7 @@ function clickDownload({ content }: { content: string }) {
 export default function CompletedInfoPart({ type, responseData }: Props) {
   const deviceObject = (responseData as DeviceResData)?.deviceObject ?? {};
   const token = deviceObject?.properties?.sysField?._token ?? '';
+  const deviceName = deviceObject?.properties?.basicInfo?.name ?? '';
   let expiredAt = '';
   if (token) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -123,7 +124,7 @@ export default function CompletedInfoPart({ type, responseData }: Props) {
               borderWidth="1px"
               borderColor="grayAlternatives.50"
             >
-              设备名称
+              {deviceName}
             </Center>
             <Flex
               p="10px 12px"

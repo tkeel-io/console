@@ -1,3 +1,5 @@
+export type ReadWriteType = 'r' | 'w' | 'rw';
+
 export interface BasicInfo {
   configs?: object;
   mappers?: object;
@@ -58,7 +60,7 @@ export interface Attributes {
   [propName: string]: {
     define: {
       default_value: string;
-      rw: 'r' | 'w' | 'rw';
+      rw: ReadWriteType;
     };
     description: string;
     id: string;

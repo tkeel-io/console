@@ -54,6 +54,7 @@ module.exports = {
     'iotd',
     'toastify',
     'rsuite',
+    'struct',
   ],
   ignorePaths: [
     '**/.idea/**',

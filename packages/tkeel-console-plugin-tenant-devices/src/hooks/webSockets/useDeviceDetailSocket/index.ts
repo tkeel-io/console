@@ -1,4 +1,5 @@
-import { useEffect } from 'react';
+/* eslint-disable no-console */
+import { useEffect, useMemo } from 'react';
 
 import { useWebSocket } from '@tkeel/console-hooks';
 
@@ -18,17 +19,26 @@ type Props = {
 };
 
 function useDeviceDetailSocket({ id }: Props) {
-  const { lastJsonMessage, sendJsonMessage } = useWebSocket<Message>({
-    url: '',
-  });
-
+  const options = useMemo(
+    () => ({
+      shouldReconnect: () => true,
+      retryOnError: true,
+      reconnectAttempts: 10,
+      reconnectInterval: 3000,
+    }),
+    []
+  );
+  const { lastJsonMessage, sendJsonMessage, readyState } =
+    useWebSocket<Message>({
+      url: '',
+      ...options,
+    });
   useEffect(() => {
     sendJsonMessage({ id });
-  }, [sendJsonMessage, id]);
+  }, [sendJsonMessage, id, readyState]);
+
   const rawData = lastJsonMessage?.rawData || {};
   const connectInfo = lastJsonMessage?.connectInfo;
-  // eslint-disable-next-line no-console
-  // console.log(lastJsonMessage);
   return { rawData, connectInfo };
 }
 
