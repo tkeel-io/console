@@ -1,4 +1,4 @@
-import { Circle } from '@chakra-ui/react';
+import { Circle, StyleProps } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 import { useColor } from '@tkeel/console-hooks';
