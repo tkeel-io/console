@@ -30,6 +30,7 @@ function Index(): JSX.Element {
         overflow="hidden"
         marginTop="16px"
         borderTopLeftRadius="4px"
+        isLazy
       >
         <AddRepoButton
           refetchRepos={() => {

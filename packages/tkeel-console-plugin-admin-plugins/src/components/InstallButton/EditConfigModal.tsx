@@ -28,7 +28,7 @@ function EditConfigModal({
   onClose,
   onSuccess,
 }: Props) {
-  const { repo, name, version } = installPluginInfo;
+  const { repo, name, version, state } = installPluginInfo;
   const { pluginDetail, isLoading: isQueryDetailLoading } =
     usePluginDetailQuery({
       repoName: repo,
@@ -39,6 +39,7 @@ function EditConfigModal({
 
   const { mutate, isLoading: isInstallLoading } = useInstallPluginMutation({
     name,
+    method: state === 'SAME_NAME' ? 'PUT' : 'POST',
     onSuccess,
   });
 
