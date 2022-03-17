@@ -2,9 +2,11 @@ import { Flex, StyleProps } from '@chakra-ui/react';
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import { useDeviceGroupQuery } from '@tkeel/console-request-hooks';
+import {
+  useDeviceGroupQuery,
+  useDeviceListQuery,
+} from '@tkeel/console-request-hooks';
 
-import useDeviceListQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceListQuery';
 import useDeviceTemplatesQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceTemplatesQuery';
 import { FilterConditionIds } from '@/tkeel-console-plugin-tenant-data-query/pages/Index/constants';
 import { RequestDataCondition } from '@/tkeel-console-plugin-tenant-data-query/types/request-data';
@@ -74,26 +76,15 @@ export default function FilterDropdown({
   const showDeviceGroup = !!groupIdFilterCondition;
   const showDeviceTemplates = !!templateIdFilterCondition;
 
+  const deviceNameQueryField = 'basicInfo.name';
   const statusQueryField = 'sysField._status';
   const deviceGroupIdQueryField = 'sysField._spacePath';
   const templateIdQueryField = 'basicInfo.templateId';
-
-  const defaultDeviceListQueryConditions = [
-    {
-      field: 'type',
-      operator: '$eq',
-      value: 'device',
-    },
-    {
-      field: 'basicInfo.name',
-      operator: '$wildcard',
-      value: keywordsCondition?.value ?? '',
-    },
-  ];
+  const wildcard = '$wildcard';
 
   const [deviceListQueryConditions, setDeviceListQueryConditions] = useState<
     RequestDataCondition[]
-  >(defaultDeviceListQueryConditions);
+  >([]);
 
   const deviceGroupConditions: RequestDataCondition[] = [];
 
@@ -101,7 +92,7 @@ export default function FilterDropdown({
   if (searchGroupId && groupIdFilterCondition?.value) {
     deviceGroupConditions.push({
       field: sysFieldId,
-      operator: '$wildcard',
+      operator: wildcard,
       value: searchGroupId,
     });
   }
@@ -136,7 +127,7 @@ export default function FilterDropdown({
           ...deviceGroupConditions,
           {
             field: 'group.name',
-            operator: '$wildcard',
+            operator: wildcard,
             value:
               !searchGroupId && showDeviceGroup
                 ? groupIdFilterCondition.value
@@ -148,7 +139,6 @@ export default function FilterDropdown({
 
   const { deviceList, isLoading: isDeviceListLoading } = useDeviceListQuery({
     requestData: {
-      ...baseRequestData,
       condition: deviceListQueryConditions,
     },
     enabled: showDeviceList,
@@ -162,7 +152,7 @@ export default function FilterDropdown({
           ...templateConditions,
           {
             field: 'basicInfo.name',
-            operator: '$wildcard',
+            operator: wildcard,
             value: showDeviceTemplates ? templateIdFilterCondition.value : '',
           },
         ],
@@ -223,7 +213,7 @@ export default function FilterDropdown({
           ...deviceListQueryConditions,
           {
             field: deviceGroupIdQueryField,
-            operator: '$wildcard',
+            operator: wildcard,
             value: groupId,
           },
         ]);
@@ -279,7 +269,7 @@ export default function FilterDropdown({
           ...deviceListQueryConditions,
           {
             field: templateIdQueryField,
-            operator: '$wildcard',
+            operator: wildcard,
             value: id,
           },
         ]);
@@ -315,6 +305,25 @@ export default function FilterDropdown({
     setTemplateConditions,
     defaultTemplateConditions,
   ]);
+
+  useEffect(() => {
+    const newDeviceListQueryConditions = deviceListQueryConditions.filter(
+      (condition) => condition.field !== deviceNameQueryField
+    );
+    if (keywordsCondition) {
+      setDeviceListQueryConditions([
+        ...newDeviceListQueryConditions,
+        {
+          field: deviceNameQueryField,
+          operator: wildcard,
+          value: keywordsCondition?.value ?? '',
+        },
+      ]);
+    } else {
+      setDeviceListQueryConditions(newDeviceListQueryConditions);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [keywordsCondition]);
 
   return (
     <Flex
