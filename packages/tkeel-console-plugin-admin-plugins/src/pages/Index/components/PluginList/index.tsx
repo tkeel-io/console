@@ -101,7 +101,6 @@ function PluginList({
                       </Box>
                     ) : (
                       <InstallButton
-                        disabled={state === 'SAME_NAME'}
                         installPluginInfo={installPluginInfo}
                         onSuccess={refetchPlugins}
                       />
@@ -113,7 +112,6 @@ function PluginList({
                         <Tag
                           flexShrink="0"
                           colorScheme={tag === 'User' ? 'orange' : 'green'}
-                          // height="20px"
                           size="sm"
                           padding="0 4px"
                           borderRadius="2px"
