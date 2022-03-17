@@ -1,12 +1,20 @@
 import { Box, Flex, Square, Text } from '@chakra-ui/react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { BackButton } from '@tkeel/console-components';
+import { PingTwoToneIcon, ReportFilledIcon } from '@tkeel/console-icons';
 
-import TextWrapper from './TextWrapper';
+import AddDevicesButton from './components/AddDevicesButton';
+import DeviceTable from './components/DeviceTable';
+import StepBar, { CurrentStep } from './components/StepBar';
+import TextWrapper from './components/TextWrapper';
+import TitleWrapper from './components/TitleWrapper';
 
 export default function Detail() {
   const navigate = useNavigate();
+  const [currentStep] = useState<CurrentStep>(1);
+
   return (
     <Flex
       paddingTop="20px"
@@ -16,9 +24,9 @@ export default function Detail() {
     >
       <Box
         position="absolute"
-        left="0"
+        left="-20px"
         top="0"
-        width="calc(100% + 20px)"
+        width="calc(100% + 40px)"
         height="200px"
         backgroundColor="grayAlternatives.50"
       />
@@ -33,7 +41,9 @@ export default function Detail() {
       <Flex position="relative" flexDirection="column" width="82%">
         <Flex justifyContent="space-between">
           <Flex alignItems="center">
-            <Square size="40px" backgroundColor="gray.50" />
+            <Square size="40px" backgroundColor="gray.50" borderRadius="4px">
+              <PingTwoToneIcon size={20} />
+            </Square>
             <Text
               marginLeft="8px"
               color="gray.700"
@@ -57,6 +67,28 @@ export default function Detail() {
             value="2022-03-01 15:15"
             styles={{ wrapper: { marginLeft: '20px' } }}
           />
+        </Flex>
+        <StepBar
+          currentStep={currentStep}
+          styles={{ wrapper: { marginTop: '32px' } }}
+        />
+        <Flex
+          flexDirection="column"
+          marginTop="20px"
+          padding="20px"
+          backgroundColor="white"
+        >
+          <Flex width="100%" justifyContent="space-between" alignItems="center">
+            <TitleWrapper
+              icon={
+                <ReportFilledIcon color="grayAlternatives.300" size="20px" />
+              }
+              title="选择数据"
+              description="选择设备所触发的数据"
+            />
+            <AddDevicesButton />
+          </Flex>
+          <DeviceTable styles={{ wrapper: { marginTop: '8px' } }} />
         </Flex>
       </Flex>
     </Flex>
