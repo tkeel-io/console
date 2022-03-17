@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import { Modal, SearchInput } from '@tkeel/console-components';
 import { BroomFilledIcon } from '@tkeel/console-icons';
+import { useDeviceGroupQuery } from '@tkeel/console-request-hooks';
 
 type Props = {
   isOpen: boolean;
@@ -13,6 +14,9 @@ type Props = {
 export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
   const [deviceGroupKeywords, setDeviceGroupKeywords] = useState('');
   const [deviceKeywords, setDeviceKeywords] = useState('');
+  const { deviceGroupTree } = useDeviceGroupQuery();
+  // eslint-disable-next-line no-console
+  console.log('AddDevicesModal ~ deviceGroupTree', deviceGroupTree);
 
   const handleDeviceGroupSearch = () => {
     // eslint-disable-next-line no-console
