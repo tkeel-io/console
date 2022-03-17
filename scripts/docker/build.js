@@ -1,4 +1,3 @@
-const config = require('config');
 const fs = require('fs-extra');
 const shell = require('shelljs');
 
@@ -14,9 +13,9 @@ function deleteTmpDirectory() {
 }
 
 function execCommand(packageInfo) {
-  const { simpleName, directoryName } = packageInfo;
-  const { tag } = config.tkeel.console.docker;
-  const command = `docker build -t=tkeelio/console-${simpleName}:${tag} --build-arg DIRECTORY_NAME=${directoryName} .`;
+  const { directoryName, docker } = packageInfo;
+  const { imageName, imageTag } = docker;
+  const command = `docker build -t=${imageName}:${imageTag} --build-arg DIRECTORY_NAME=${directoryName} .`;
   logger.info(`${command}\n`);
   shell.exec(command);
   logger.success('docker build success\n');

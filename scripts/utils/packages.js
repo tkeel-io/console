@@ -4,9 +4,12 @@ const nodeConfig = require('config');
 const dotenvExpand = require('dotenv-expand');
 const dotenvFlow = require('dotenv-flow');
 const fs = require('fs-extra');
+const inquirer = require('inquirer');
 const _ = require('lodash');
 const readPkg = require('read-pkg');
 const { isPort } = require('validator');
+const { hideBin } = require('yargs/helpers');
+const yargs = require('yargs/yargs');
 
 const {
   PACKAGES_PREFIX,
@@ -23,6 +26,13 @@ function getSimpleName({ directoryName }) {
 
 function getPluginName({ directoryName }) {
   return directoryName.replace(PACKAGES_PREFIX.pluginDirectoryName, '');
+}
+
+function getDockerImageName({ directoryName }) {
+  return directoryName.replace(
+    PACKAGES_PREFIX.directoryName,
+    PACKAGES_PREFIX.dockerImageName
+  );
 }
 
 function getPluginPackageDirectoryName({ pluginName }) {
@@ -82,6 +92,7 @@ function readPackageInfos({
     const simpleName = getSimpleName({ directoryName });
     const pluginName = isPlugin ? getPluginName({ directoryName }) : '';
     const portalName = directoryName.split('-')[3];
+    const dockerImageName = getDockerImageName({ directoryName });
     const isShared = SHARED_PACKAGE_SIMPLE_NAMES.includes(simpleName);
     const canRun = !SHARED_PACKAGE_SIMPLE_NAMES.includes(simpleName);
 
@@ -109,6 +120,9 @@ function readPackageInfos({
       pluginName,
       portalName,
       packageJson,
+      docker: {
+        imageName: dockerImageName,
+      },
       config,
       dotenvConfig,
     });
@@ -239,6 +253,103 @@ function checkCanRunPackageServerPort({ serverPort }) {
   return { flag, message };
 }
 
+function getCliArgv() {
+  const { argv } = yargs(hideBin(process.argv))
+    .options({
+      'package-names': {
+        type: 'csv',
+        desc: 'package names',
+      },
+      'docker-image-tag': {
+        type: 'string',
+        desc: 'Docker image tag',
+      },
+    })
+    .help()
+    .alias('h', 'help')
+    .version()
+    .alias('v', 'version');
+
+  return argv;
+}
+
+async function selectCanRunPackages({
+  packageInfos = readPackageInfos(),
+} = {}) {
+  const message = 'Select packages';
+  const choices = packageInfos.map((packageInfo) => {
+    const { packageJson } = packageInfo;
+    const { name } = packageJson;
+    return { name, value: packageInfo };
+  });
+
+  const questions = [
+    {
+      type: 'checkbox',
+      name: 'data',
+      message,
+      choices,
+      validate(value) {
+        if (value.length === 0) {
+          return `Please ${message}`;
+        }
+        return true;
+      },
+      pageSize: 10,
+      loop: false,
+    },
+  ];
+
+  const { data } = await inquirer.prompt(questions);
+
+  return data;
+}
+
+async function getSelectedCanRunPackageInfos() {
+  const argv = getCliArgv();
+  const inputPackageNamesString = argv?.packageNames ?? '';
+  const dockerImageTag = argv?.dockerImageTag ?? 'dev';
+  const inputPackageNames = inputPackageNamesString.split(',').filter(Boolean);
+
+  const packageInfos = readPackageInfos().map((packageInfo) =>
+    _.merge({}, packageInfo, { docker: { imageTag: dockerImageTag } })
+  );
+  const canRunPackageInfos = packageInfos.filter(({ canRun }) => canRun);
+  const incorrectPackageNames = [];
+
+  const inputPackageInfos =
+    inputPackageNamesString === 'all'
+      ? canRunPackageInfos
+      : inputPackageNames
+          .map((packageName) => {
+            const inputPackageInfo = _.find(
+              canRunPackageInfos,
+              (canRunPackageInfo) =>
+                canRunPackageInfo.packageJson.name === packageName
+            );
+
+            if (!inputPackageInfo) {
+              incorrectPackageNames.push(packageName);
+            }
+
+            return inputPackageInfo;
+          })
+          .filter(Boolean);
+
+  if (inputPackageNames.length > 0 && incorrectPackageNames.length > 0) {
+    throw new Error(
+      `Error: incorrect package names: ${incorrectPackageNames.join(', ')}`
+    );
+  }
+
+  if (inputPackageInfos.length === 0) {
+    // eslint-disable-next-line no-return-await
+    return await selectCanRunPackages({ packageInfos: canRunPackageInfos });
+  }
+
+  return inputPackageInfos;
+}
+
 module.exports = {
   getPluginPackageDirectoryName,
   readPackageInfos,
@@ -247,4 +358,5 @@ module.exports = {
   checkPluginName,
   checkCanRunPackageBasePath,
   checkCanRunPackageServerPort,
+  getSelectedCanRunPackageInfos,
 };
