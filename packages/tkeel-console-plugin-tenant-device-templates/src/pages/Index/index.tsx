@@ -11,11 +11,14 @@ import { plugin } from '@tkeel/console-utils';
 import CreateTemplateButton from '@/tkeel-console-plugin-tenant-device-templates/pages/Index/components/CreateTemplateButton';
 import DeleteTemplateButton from '@/tkeel-console-plugin-tenant-device-templates/pages/Index/components/DeleteTemplateButton';
 import ModifyTemplateButton from '@/tkeel-console-plugin-tenant-device-templates/pages/Index/components/ModifyTemplateButton';
+import SaveAsTemplateButton from '@/tkeel-console-plugin-tenant-device-templates/pages/Index/components/SaveAsTemplateButton';
 
 function Index() {
   const navigate = useNavigate();
   const toast = plugin.getPortalToast();
-  const defaultParams = {
+  const [keyWord, setKeyWord] = useState('');
+
+  let defaultParams = {
     page_num: 1,
     page_size: 1000,
     order_by: 'name',
@@ -30,10 +33,13 @@ function Index() {
     ],
   };
 
+  if (keyWord) {
+    defaultParams = { ...defaultParams, query: keyWord };
+  }
   const { keyData, refetch } = useTemplateQuery(defaultParams);
 
-  const [keyWord, setKeyWord] = useState('');
   // eslint-disable-next-line no-console
+
   console.log(keyWord);
   // console.log(keyWord, result);
 
@@ -79,6 +85,13 @@ function Index() {
                 description={item.description}
                 navigateUrl={`/detail/${item.id}`}
                 buttons={[
+                  <SaveAsTemplateButton
+                    data={item}
+                    key="saveAs"
+                    onSuccess={() => {
+                      refetch();
+                    }}
+                  />,
                   <ModifyTemplateButton
                     data={item}
                     key="modify"
