@@ -10,58 +10,23 @@ import {
   Table,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
-import {
-  WebcamTwoToneIcon,
-  WifiFilledIcon,
-  WifiOffFilledIcon,
-} from '@tkeel/console-icons';
+import { WebcamTwoToneIcon } from '@tkeel/console-icons';
 // import { formatDateTimeByTimestamp, plugin } from '@tkeel/console-utils';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
-import useListTemplateTelemetryQuery from '@/tkeel-console-plugin-tenant-device-templates/hooks/queries/useListTemplateTelemetryQuery';
+import useListTemplateTelemetryQuery, {
+  UsefulData as Data,
+} from '@/tkeel-console-plugin-tenant-device-templates/hooks/queries/useListTemplateTelemetryQuery';
 // import CreateDeviceButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/CreateDeviceButton';
 // import DeleteDeviceButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/DeleteDeviceButton';
 // import MoveSubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/MoveSubscriptionButton';
 
-type Data = {
-  ID: string;
-  group: string;
-  name: string;
-  status: string;
-  template: string;
-  updated_at: string;
-};
-
-const connectionIcon = {
-  offline: <WifiOffFilledIcon key="wifi-off" />,
-  online: <WifiFilledIcon key="wifi" />,
-};
-
 function Index({ id, title }: { id: string; title: string }) {
   // const toast = plugin.getPortalToast();
   const [keywords, setKeyWords] = useState('');
-  // const [checkBoxIcon, setCheckBoxIcon] = useState<boolean>(false);
-
-  // const [rowNames, setRowNames] = useState<
-  //   {
-  //     ID: string;
-  //     group: string;
-  //     name: string;
-  //     status: string;
-  //     template: string;
-  //     updated_at: string;
-  //   }[]
-  // >([]);
 
   const pagination = usePagination();
   const { pageNum, pageSize, setTotalSize } = pagination;
-
-  // const handleCreateRoleSuccess = () => {
-  //   toast('创建成功', { status: 'success' });
-  // };
-
-  // const pagination = usePagination();
-  // const { setTotalSize } = pagination;
 
   let params = {
     page_num: pageNum,
@@ -79,34 +44,20 @@ function Index({ id, title }: { id: string; title: string }) {
   // const { data } = useListSubscribeEntitiesQuery(id);
 
   // refetch
-  const { data, isLoading } = useListTemplateTelemetryQuery({
-    id: '123',
+  const { usefulData: data, isLoading } = useListTemplateTelemetryQuery({
+    id,
     onSuccess(res) {
-      const total = res?.data?.total ?? 0;
-      setTotalSize(total);
+      console.log('onSuccess ~ res', res);
+      // const total = res?.data?.total ?? 0;
+      setTotalSize(1);
     },
   });
 
   // setTotalSize(data?.total || 0);
-  // const handleSelect = useCallback(
-  //   ({ selectedFlatRows }: { selectedFlatRows: Data[] }) => {
-  //     const selectedFlatRowsIds: string[] = [];
-  //     const selectedFlatRowsNames: string[] = [];
-
-  //     selectedFlatRows.forEach((item) => {
-  //       selectedFlatRowsIds.push(item.ID);
-  //       selectedFlatRowsNames.push(item.name);
-  //     });
-
-  //     setRowIds(selectedFlatRowsIds);
-  //     setRowNames(selectedFlatRowsNames);
-  //   },
-  //   [setRowIds, setRowNames]
-  // );
 
   const columns: ReadonlyArray<Column<Data>> = [
     {
-      Header: '角色名称',
+      Header: '遥测名称',
       accessor: 'name',
       Cell: ({ value }: { value: string }) =>
         useMemo(
@@ -122,25 +73,18 @@ function Index({ id, title }: { id: string; title: string }) {
         ),
     },
     {
-      Header: '设备状态',
+      Header: '遥测ID',
       width: 100,
-      accessor: 'status',
-      Cell: ({ value }: { value: string }) =>
-        useMemo(() => <Box>{connectionIcon[value]}</Box>, [value]),
+      accessor: 'id',
     },
     {
-      Header: '设备模板',
+      Header: '数据类型',
       width: 110,
-      accessor: 'template',
+      accessor: 'type',
     },
     {
-      Header: '设备分组',
-      width: 110,
-      accessor: 'group',
-    },
-    {
-      Header: '最后更新时间',
-      accessor: 'updated_at',
+      Header: '时间戳',
+      accessor: 'last_time',
       width: 200,
       Cell: ({ value }: { value: string }) =>
         useMemo(
@@ -153,6 +97,11 @@ function Index({ id, title }: { id: string; title: string }) {
           ),
           [value]
         ),
+    },
+    {
+      Header: '描述',
+      width: 110,
+      accessor: 'description',
     },
 
     // {
@@ -210,7 +159,7 @@ function Index({ id, title }: { id: string; title: string }) {
       <Table
         style={{ flex: 1, overflow: 'hidden' }}
         columns={columns}
-        data={data?.data || []}
+        data={data || []}
         // onSelect={handleSelect}
         scroll={{ y: '100%' }}
         isShowStripe
