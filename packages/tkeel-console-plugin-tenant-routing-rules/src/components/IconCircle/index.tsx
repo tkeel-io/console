@@ -9,6 +9,10 @@ type Props = {
   defaultBorderColor?: string;
   defaultBgColor?: string;
   defaultIconColor?: string;
+  styles?: {
+    wrapper?: StyleProps;
+    backgroundCircle?: StyleProps;
+  };
 };
 
 export default function IconCircle({
@@ -17,6 +21,7 @@ export default function IconCircle({
   defaultBorderColor = 'gray.800',
   defaultBgColor = 'gray.500',
   defaultIconColor = 'grayAlternatives.100',
+  styles,
 }: Props) {
   const fillColor = useColor(active ? 'primary' : defaultIconColor);
 
@@ -32,12 +37,14 @@ export default function IconCircle({
           fill: ${`${fillColor} !important`};
         }
       `}
+      {...styles?.wrapper}
     >
       <Circle
         position="absolute"
         size="30px"
         backgroundColor={active ? 'primary' : defaultBgColor}
         opacity={active ? '0.5' : '1'}
+        {...styles?.wrapper}
       />
       {children}
     </Circle>
