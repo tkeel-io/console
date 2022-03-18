@@ -1,4 +1,4 @@
-import { Box, Flex, Tabs, Text, TabPanel, TabPanels } from '@chakra-ui/react';
+import { Box, Flex, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import {
