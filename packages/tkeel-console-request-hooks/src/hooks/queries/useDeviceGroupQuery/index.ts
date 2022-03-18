@@ -33,11 +33,11 @@ interface ApiData {
   GroupTree: TreeNodeType;
 }
 
-type RequestDataCondition = {
+export interface RequestDataCondition {
   field: string;
   operator: string;
   value: unknown;
-};
+}
 
 type RequestData = {
   page_name?: number;
