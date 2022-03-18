@@ -1,4 +1,9 @@
+const path = require('path');
+
 module.exports = {
+  parserOptions: {
+    project: path.resolve(process.cwd(), 'tsconfig.json'),
+  },
   settings: {
     'import/resolver': {
       typescript: {
