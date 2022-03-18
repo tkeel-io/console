@@ -15,6 +15,7 @@
     "build": "cross-env NODE_ENV=production PORTAL_NAME=admin webpack --config ../../webpack/webpack.config.portals",
     "build:development": "cross-env NODE_ENV=development PORTAL_NAME=admin webpack --config ../../webpack/webpack.config.portals",
     "dev": "cross-env NODE_ENV=development PORTAL_NAME=admin webpack serve --config ../../webpack/webpack.config.portals",
+    "lint:script": "eslint --fix \"**/*.{js,jsx,ts,tsx}\"",
     "start": "serve -p 3000 --single --cors ./dist/"
   },
   "dependencies": {

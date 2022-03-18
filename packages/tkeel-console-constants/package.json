@@ -10,5 +10,8 @@
     "url": "git+https://github.com/tkeel-io/console.git"
   },
   "license": "Apache-2.0",
-  "main": "./src/index.ts"
+  "main": "./src/index.ts",
+  "scripts": {
+    "lint:script": "eslint --fix \"**/*.{js,jsx,ts,tsx}\""
+  }
 }

@@ -11,6 +11,9 @@
   },
   "license": "Apache-2.0",
   "types": "index.d.ts",
+  "scripts": {
+    "lint:script": "eslint --fix \"**/*.{js,jsx,ts,tsx}\""
+  },
   "dependencies": {
     "@types/react": "^17.0.40",
     "@types/react-table": "^7.7.9"
