@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { Box, Flex } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -5,12 +6,31 @@ import { useNavigate } from 'react-router-dom';
 import { TemplateCard } from '@tkeel/console-business-components';
 import { PageHeaderToolbar } from '@tkeel/console-components';
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
-import { useTemplateQuery } from '@tkeel/console-request-hooks';
-import { plugin } from '@tkeel/console-utils';
+import {
+  keyDataType,
+  TemplateItem,
+  useTemplateQuery,
+} from '@tkeel/console-request-hooks';
+import { formatDateTimeByTimestamp, plugin } from '@tkeel/console-utils';
 
 import CreateTemplateButton from '@/tkeel-console-plugin-tenant-device-templates/pages/Index/components/CreateTemplateButton';
 import DeleteTemplateButton from '@/tkeel-console-plugin-tenant-device-templates/pages/Index/components/DeleteTemplateButton';
 import ModifyTemplateButton from '@/tkeel-console-plugin-tenant-device-templates/pages/Index/components/ModifyTemplateButton';
+
+// function getTemplateKeyData(
+//   data: TemplateTreeNodeType
+// ): TemplateTreeNodeDataType[] {
+//   return values(data).map((item) => {
+//     return {
+//       title: item?.properties?.basicInfo?.name,
+//       description: item?.properties?.basicInfo?.description,
+//       id: item?.id,
+//       key: item?.id,
+//       updatedAt: formatDateTimeByTimestamp({
+//         timestamp: item?.properties?.sysField?._updatedAt,
+//       }),
+//     };
+//   });
 
 function Index() {
   const navigate = useNavigate();
@@ -32,7 +52,19 @@ function Index() {
     ],
   };
 
-  const { keyData, refetch } = useTemplateQuery(defaultParams);
+  const { items, refetch } = useTemplateQuery({ params: defaultParams });
+
+  const keyData: keyDataType[] = items.map((val: TemplateItem) => {
+    return {
+      title: val.properties.basicInfo.name,
+      description: val.properties.basicInfo.description,
+      id: val.id,
+      key: val.id,
+      updatedAt: formatDateTimeByTimestamp({
+        timestamp: val.properties.sysField._updatedAt as string,
+      }),
+    };
+  });
 
   // eslint-disable-next-line no-console
 
@@ -70,7 +102,7 @@ function Index() {
         padding="20px 0"
       >
         <Flex flexWrap="wrap" paddingLeft="20px">
-          {keyData.map((item) => {
+          {keyData.map((item: keyDataType) => {
             return (
               <TemplateCard
                 key={item.id}
@@ -99,7 +131,7 @@ function Index() {
                 ]}
                 footer={[
                   // { name: '使用设备', value: item.id },
-                  { name: '最新时间', value: item.updatedAt as string },
+                  { name: '最新时间', value: item.updatedAt },
                 ]}
               />
             );

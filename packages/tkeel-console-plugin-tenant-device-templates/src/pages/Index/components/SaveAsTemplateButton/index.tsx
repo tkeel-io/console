@@ -2,7 +2,7 @@ import { useDisclosure } from '@chakra-ui/react';
 
 import { MoreActionButton } from '@tkeel/console-components';
 import { FolderCloseTwoToneIcon } from '@tkeel/console-icons';
-import { TemplateTreeNodeDataType } from '@tkeel/console-request-hooks';
+import { keyDataType } from '@tkeel/console-request-hooks';
 
 import useCreateTemplateMutation, {
   RequestData as FormValues,
@@ -12,7 +12,7 @@ import CustomTemplateModal from '../CustomTemplateModal';
 
 type Props = {
   onSuccess: () => void;
-  data: TemplateTreeNodeDataType;
+  data: keyDataType;
 };
 
 export default function SaveAsTemplateButton({ onSuccess, data }: Props) {

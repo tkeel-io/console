@@ -3,6 +3,10 @@ import { useMemo, useState } from 'react';
 // import { Cell, Column } from 'react-table';
 import { Column } from 'react-table';
 
+// import CreateTelemetryButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/CreateTelemetryButton';
+// import DeleteDeviceButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/DeleteDeviceButton';
+// import MoveSubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/MoveSubscriptionButton';
+import { CreateTelemetryButton } from '@tkeel/console-business-components';
 import {
   Empty,
   // MoreAction,
@@ -17,9 +21,6 @@ import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 import useListTemplateTelemetryQuery, {
   UsefulData as Data,
 } from '@/tkeel-console-plugin-tenant-device-templates/hooks/queries/useListTemplateTelemetryQuery';
-// import CreateDeviceButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/CreateDeviceButton';
-// import DeleteDeviceButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/DeleteDeviceButton';
-// import MoveSubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/MoveSubscriptionButton';
 
 function Index({ id, title }: { id: string; title: string }) {
   // const toast = plugin.getPortalToast();
@@ -148,14 +149,15 @@ function Index({ id, title }: { id: string; title: string }) {
             setKeyWords(value.trim());
           },
         }}
-        // buttons={[
-        //   <CreateDeviceButton
-        //     key="create"
-        //     onSuccess={() => {
-        //       refetch();
-        //     }}
-        //   />,
-        // ]}
+        buttons={[
+          <CreateTelemetryButton
+            key="create"
+            handleSubmit={(formValues) => {
+              // eslint-disable-next-line no-console
+              console.log('add', formValues);
+            }}
+          />,
+        ]}
       />
       <Table
         style={{ flex: 1, overflow: 'hidden' }}
@@ -183,7 +185,7 @@ function Index({ id, title }: { id: string; title: string }) {
             title=""
             content={
               <Box mt="20px">
-                {/* <CreateDeviceButton
+                {/* <CreateTelemetryButton
                   key="create"
                   onSuccess={handleCreateRoleSuccess}
                 /> */}

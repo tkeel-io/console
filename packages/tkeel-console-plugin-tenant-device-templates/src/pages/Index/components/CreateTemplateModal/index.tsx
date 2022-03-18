@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import Modal from '@tkeel/console-components/src/components/Modal';
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
-import { TemplateTreeNodeDataType } from '@tkeel/console-request-hooks';
+import { keyDataType } from '@tkeel/console-request-hooks';
 
 import useCreateTemplateMutation, {
   RequestData as FormValues,
@@ -13,7 +13,7 @@ import CustomTemplateButton from '../CustomTemplateButton';
 import CustomTemplateModal from '../CustomTemplateModal';
 
 type Props = {
-  templateData: TemplateTreeNodeDataType[];
+  templateData: keyDataType[];
   isOpen: boolean;
   onClose: () => unknown;
   handleCreateSuccess: (id: string) => void;
@@ -63,7 +63,7 @@ export default function CreateTemplateModal({
           flexWrap="wrap"
           justifyContent="space-between"
         >
-          {templateData.map((r) => {
+          {templateData.map((r: keyDataType) => {
             return (
               <Flex
                 key={r.key}
