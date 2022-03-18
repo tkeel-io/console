@@ -8,7 +8,7 @@ import {
   Text,
   Tooltip,
 } from '@chakra-ui/react';
-import { isEmpty, values } from 'lodash';
+import { isEmpty } from 'lodash';
 
 import {
   AddAttributeButton,
@@ -33,7 +33,7 @@ import {
 } from '@tkeel/console-icons';
 import { AttributeItem } from '@tkeel/console-request-hooks';
 
-import { Attributes } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
+// import { Attributes } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 
 const { TextField } = FormField;
 const TOOLTIP_OPTIONS = [
@@ -41,7 +41,7 @@ const TOOLTIP_OPTIONS = [
   { label: '读写类型', key: 'rw' },
 ];
 type Props = {
-  data: Attributes;
+  attributeList: AttributeItem[];
   deviceName: string;
 };
 function renderTooltip(info: { type: string; rw: ReadWriteType }) {
@@ -62,9 +62,11 @@ function renderTooltip(info: { type: string; rw: ReadWriteType }) {
   );
 }
 function renderLabel(item: AttributeItem) {
-  const { define, name, type, id } = item;
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  const { rw } = define;
+  const define = item?.define ?? '';
+  const name = item?.name ?? '';
+  const type = item?.type ?? '';
+  const id = item?.id ?? '';
+  const rw = define?.rw ?? 'rw';
   const defaultValues = {
     name,
     id,
@@ -123,8 +125,7 @@ function renderLabel(item: AttributeItem) {
   );
 }
 
-function AttributesPanel({ deviceName, data }: Props) {
-  const attributeList = values(data);
+function AttributesPanel({ deviceName, attributeList }: Props) {
   // eslint-disable-next-line unicorn/consistent-function-scoping
   const setAttributeData = (value: string) => {
     // eslint-disable-next-line no-console
@@ -132,7 +133,7 @@ function AttributesPanel({ deviceName, data }: Props) {
   };
   return (
     <Flex flex="1" direction="column" height="100%">
-      {isEmpty(data) ? (
+      {isEmpty(attributeList) ? (
         <Empty
           description={
             <Box>

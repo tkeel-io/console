@@ -1,13 +1,11 @@
 /* eslint-disable no-underscore-dangle */
 import { TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { values } from 'lodash';
 import { useState } from 'react';
 
 import { CustomTab, CustomTabList } from '@tkeel/console-components';
 
-import {
-  Attributes,
-  DeviceObject,
-} from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
+import { DeviceObject } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 import AttributesData from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/AttributesData';
 import ConnectionInfo from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/ConnectionInfo';
 import RawData from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/RawData';
@@ -19,7 +17,7 @@ type Props = {
 
 function DeviceDetailRightPanel({ deviceObject }: Props): JSX.Element {
   const { properties, configs } = deviceObject;
-  const attributes = configs?.attributes;
+  const attributes = configs?.attributes ?? {};
   const { connectInfo, rawData, basicInfo } = properties;
   const tabs = [
     {
@@ -39,8 +37,8 @@ function DeviceDetailRightPanel({ deviceObject }: Props): JSX.Element {
       key: 'attributeData',
       component: (
         <AttributesData
-          data={attributes as Attributes}
-          deviceName={basicInfo?.name}
+          attributeList={values(attributes)}
+          deviceName={basicInfo?.name ?? ''}
         />
       ),
     },
