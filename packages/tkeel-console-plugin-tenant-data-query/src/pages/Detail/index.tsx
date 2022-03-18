@@ -35,7 +35,7 @@ export default function Detail() {
   const [keywords, setKeywords] = useState('');
   const [telemetry, setTelemetry] = useState<Telemetry>({});
   const [templateCheckboxStatus, setTemplateCheckboxStatus] = useState(
-    CheckBoxStatus.NOT_CHECKED
+    CheckBoxStatus.CHECKED
   );
   const [checkedKeys, setCheckedKeys] = useState<string[]>([]);
   const [isTelemetryDataRequested, setIsTelemetryDataRequested] =
