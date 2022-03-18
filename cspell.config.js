@@ -54,6 +54,7 @@ module.exports = {
     'iotd',
     'toastify',
     'rsuite',
+    'noconflict',
   ],
   ignorePaths: [
     '**/.idea/**',
