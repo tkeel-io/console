@@ -37,9 +37,9 @@ export default function StatusIcon({
       <IconTooltip label={label}>
         <IconWrapper bg={isOnline ? 'green.50' : 'gray.100'}>
           {isOnline ? (
-            <WifiFilledIcon color="green.300" size="20px" />
+            <WifiFilledIcon color="green.300" size={20} />
           ) : (
-            <WifiOffFilledIcon color="gray.500" size="20px" />
+            <WifiOffFilledIcon color="gray.500" size={20} />
           )}
         </IconWrapper>
       </IconTooltip>

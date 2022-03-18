@@ -54,13 +54,18 @@ function PageHeaderToolbar({
     <Flex alignItems="center" width="100%" height="48px" {...styles?.wrapper}>
       {name && (
         <Flex paddingRight="30px">
-          <Text fontSize="14px" lineHeight="24px" color="gray.800">
+          <Text
+            fontSize="18px"
+            fontWeight="600"
+            lineHeight="26px"
+            color="gray.700"
+          >
             {name}
           </Text>
           {hasIcon && (
             <Center paddingLeft="4px">
               <Circle
-                size="24px"
+                size="26px"
                 _hover={{
                   backgroundColor: 'grayAlternatives.50',
                   cursor: 'pointer',

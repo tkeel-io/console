@@ -40,6 +40,7 @@ function Index({ id, title }: { id: string; title: string }) {
 
   if (keywords) {
     params = { ...params, key_words: keywords };
+    console.log('Index ~ params', params);
   }
   // const { data } = useListSubscribeEntitiesQuery(id);
 

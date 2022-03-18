@@ -1,7 +1,7 @@
 import { Flex, Text } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
-import { WebcamTwoToneIcon } from '@tkeel/console-icons';
+import { SmartObjectTwoToneIcon } from '@tkeel/console-icons';
 
 type Props = {
   icon?: ReactNode;
@@ -9,7 +9,7 @@ type Props = {
 };
 
 export default function DeviceIconName({
-  icon = <WebcamTwoToneIcon size={24} />,
+  icon = <SmartObjectTwoToneIcon size={24} />,
   name = 'OPC协议设备',
 }: Props) {
   return (

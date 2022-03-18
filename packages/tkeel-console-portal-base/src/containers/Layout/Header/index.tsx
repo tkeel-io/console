@@ -27,7 +27,12 @@ export default function Header({ menus, userActionMenusComponent }: Props) {
   });
 
   return (
-    <Flex justifyContent="space-between" height="20px" marginBottom="22px">
+    <Flex
+      justifyContent="space-between"
+      alignItems="center"
+      height="48px"
+      padding="0 20px"
+    >
       <Flex color="grayAlternatives.300" fontSize="12px">
         {breadcrumbs.map((crumb, i) => (
           <Flex key={String(i + 1)} alignItems="center">

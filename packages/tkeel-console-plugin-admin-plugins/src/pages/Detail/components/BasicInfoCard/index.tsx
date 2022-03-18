@@ -62,7 +62,6 @@ function BasicInfoCard({ data, refetchDetails }: Props) {
         />
       ) : (
         <InstallButton
-          disabled={state === 'SAME_NAME'}
           installPluginInfo={installPluginInfo}
           onSuccess={refetchDetails}
         />
