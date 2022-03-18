@@ -1,9 +1,16 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
-import { Checkbox, Modal, SearchInput, Tree } from '@tkeel/console-components';
+import {
+  Checkbox,
+  Loading,
+  Modal,
+  SearchInput,
+  Tree,
+} from '@tkeel/console-components';
 import { BroomFilledIcon, SmartObjectTwoToneIcon } from '@tkeel/console-icons';
 import {
+  DeviceItem,
   useDeviceGroupQuery,
   useDeviceListQuery,
 } from '@tkeel/console-request-hooks';
@@ -19,8 +26,12 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
   const [deviceGroupKeywords, setDeviceGroupKeywords] = useState('');
   const [groupId, setGroupId] = useState('');
   const [deviceKeywords, setDeviceKeywords] = useState('');
-  const { deviceGroupTree } = useDeviceGroupQuery();
-  const { deviceList } = useDeviceListQuery({
+  const [checkedDevices, setCheckedDevices] = useState<DeviceItem[]>([]);
+  const [selectedDevices, setSelectedDevices] = useState<DeviceItem[]>([]);
+
+  const { deviceGroupTree, isLoading: isDeviceGroupLoading } =
+    useDeviceGroupQuery();
+  const { deviceList, isLoading: isDeviceListLoading } = useDeviceListQuery({
     requestData: {
       condition: [
         {
@@ -56,19 +67,78 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
     width: '100%',
   };
 
-  const contentStyle = {
-    flex: '1',
-    paddingTop: '12px',
-    height: '463px',
-    borderRadius: '4px',
-    backgroundColor: 'gray.50',
-  };
-
   const treeNodeData = getTreeNodeData({ data: deviceGroupTree });
 
   const handleSelectGroup = (selectedKeys: React.Key[]) => {
     const id = selectedKeys[0] as string;
     setGroupId(id);
+  };
+
+  const handleAllCheckBoxChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { checked } = e.target;
+    let newSelectedDevices = [];
+    if (checked) {
+      setCheckedDevices([...deviceList]);
+      const addDevices = deviceList.filter(
+        ({ id }) => !selectedDevices.some((device) => device.id === id)
+      );
+      newSelectedDevices = [...selectedDevices, ...addDevices];
+    } else {
+      setCheckedDevices([]);
+      newSelectedDevices = selectedDevices.filter(
+        ({ id }) => !selectedDevices.some((device) => device.id === id)
+      );
+    }
+    setSelectedDevices(newSelectedDevices);
+  };
+
+  const getNewDevices = ({
+    devices,
+    device,
+    checked,
+  }: {
+    devices: DeviceItem[];
+    device: DeviceItem;
+    checked: boolean;
+  }) => {
+    return checked
+      ? [...devices, device]
+      : devices.filter((item) => item.id !== device.id);
+  };
+
+  const handleItemCheckBoxChange = ({
+    checked,
+    device,
+  }: {
+    checked: boolean;
+    device: DeviceItem;
+  }) => {
+    const newCheckedDevices = getNewDevices({
+      devices: checkedDevices,
+      device,
+      checked,
+    });
+    const newSelectedDevices = getNewDevices({
+      devices: selectedDevices,
+      device,
+      checked,
+    });
+    setCheckedDevices(newCheckedDevices);
+    setSelectedDevices(newSelectedDevices);
+  };
+
+  const contentStyle = {
+    flex: '1',
+    padding: '12px 0',
+    height: '463px',
+    borderRadius: '4px',
+    backgroundColor: 'gray.50',
+  };
+
+  const textStyle = {
+    color: 'gray.800',
+    fontSize: '14px',
+    lineHeight: '24px',
   };
 
   return (
@@ -93,42 +163,70 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
             inputGroupStyle={inputGroupStyle}
           />
           <Flex justifyContent="space-between">
-            <Box {...contentStyle}>
-              <Tree
-                extras={{ isTreeTitleFullWidth: true }}
-                treeData={treeNodeData}
-                selectedKeys={[groupId]}
-                selectable
-                showIcon
-                onSelect={handleSelectGroup}
-                styles={{
-                  treeTitle: 'font-size:14px; line-height: 32px;',
-                }}
-              />
-            </Box>
-            <Box marginLeft="20px" paddingLeft="20px" {...contentStyle}>
-              {deviceList.map((device) => (
-                <Flex key={device.id} marginBottom="8px" alignItems="center">
-                  <Checkbox />
-                  <SmartObjectTwoToneIcon style={{ marginLeft: '6px' }} />
-                  <Text
-                    marginLeft="6px"
-                    color="gray.800"
-                    fontSize="14px"
-                    lineHeight="24px"
+            <Flex {...contentStyle}>
+              {isDeviceGroupLoading ? (
+                <Loading styles={{ wrapper: { flex: '1' } }} />
+              ) : (
+                <Tree
+                  extras={{ isTreeTitleFullWidth: true }}
+                  treeData={treeNodeData}
+                  selectedKeys={[groupId]}
+                  selectable
+                  showIcon
+                  onSelect={handleSelectGroup}
+                  styles={{
+                    treeTitle: 'font-size:14px; line-height: 32px;',
+                  }}
+                />
+              )}
+            </Flex>
+            <Flex marginLeft="20px" {...contentStyle}>
+              {isDeviceListLoading ? (
+                <Loading styles={{ wrapper: { flex: '1' } }} />
+              ) : (
+                <Flex flexDirection="column" paddingLeft="20px">
+                  <Checkbox
+                    isChecked={checkedDevices.length === deviceList.length}
+                    isIndeterminate={
+                      checkedDevices.length > 0 &&
+                      checkedDevices.length < deviceList.length
+                    }
+                    onChange={handleAllCheckBoxChange}
                   >
-                    {device?.properties?.basicInfo?.name ?? ''}
-                  </Text>
+                    <Text {...textStyle}>全选</Text>
+                  </Checkbox>
+                  {deviceList.map((device) => (
+                    <Flex key={device.id} margin="8px 0" alignItems="center">
+                      <Checkbox
+                        isChecked={checkedDevices.some(
+                          (item) => item.id === device.id
+                        )}
+                        onChange={(e) =>
+                          handleItemCheckBoxChange({
+                            checked: e.target.checked,
+                            device,
+                          })
+                        }
+                      >
+                        <Flex alignItems="center">
+                          <SmartObjectTwoToneIcon />
+                          <Text marginLeft="6px" {...textStyle}>
+                            {device?.properties?.basicInfo?.name ?? ''}
+                          </Text>
+                        </Flex>
+                      </Checkbox>
+                    </Flex>
+                  ))}
                 </Flex>
-              ))}
-            </Box>
+              )}
+            </Flex>
           </Flex>
         </Flex>
         <Flex flexDirection="column" width="300px">
           <Flex justifyContent="space-between" alignItems="center">
-            <Text {...titleStyle}>已选择（4）</Text>
+            <Text {...titleStyle}>已选择（{selectedDevices.length}）</Text>
             <Flex alignItems="center" cursor="pointer">
-              <BroomFilledIcon size="14px" color="grayAlternatives.300 " />
+              <BroomFilledIcon size="14px" color="grayAlternatives.300" />
               <Text
                 marginLeft="5px"
                 color="gray.700"
@@ -148,7 +246,16 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
             onSearch={handleDeviceSearch}
             inputGroupStyle={inputGroupStyle}
           />
-          <Box {...contentStyle}>selected</Box>
+          <Box {...contentStyle}>
+            {selectedDevices.map((device) => (
+              <Flex key={device.id} alignItems="center">
+                <SmartObjectTwoToneIcon />
+                <Text {...textStyle}>
+                  {device?.properties?.basicInfo?.name ?? ''}
+                </Text>
+              </Flex>
+            ))}
+          </Box>
         </Flex>
       </Flex>
     </Modal>
