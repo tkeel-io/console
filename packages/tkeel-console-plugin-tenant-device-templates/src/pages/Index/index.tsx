@@ -15,6 +15,8 @@ import ModifyTemplateButton from '@/tkeel-console-plugin-tenant-device-templates
 function Index() {
   const navigate = useNavigate();
   const toast = plugin.getPortalToast();
+  const [keyWord, setKeyWord] = useState('');
+
   const defaultParams = {
     page_num: 1,
     page_size: 1000,
@@ -32,8 +34,8 @@ function Index() {
 
   const { keyData, refetch } = useTemplateQuery(defaultParams);
 
-  const [keyWord, setKeyWord] = useState('');
   // eslint-disable-next-line no-console
+
   console.log(keyWord);
   // console.log(keyWord, result);
 
