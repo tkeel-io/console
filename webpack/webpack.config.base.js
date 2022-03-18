@@ -4,7 +4,7 @@ const config = require('config');
 const dotenvExpand = require('dotenv-expand');
 const dotenvFlow = require('dotenv-flow');
 const DotenvWebpack = require('dotenv-webpack');
-const ESLintPlugin = require('eslint-webpack-plugin');
+// const ESLintPlugin = require('eslint-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -194,12 +194,12 @@ module.exports = {
       hash: true,
     }),
     new ForkTsCheckerWebpackPlugin(),
-    new ESLintPlugin({
-      context: 'src',
-      extensions: ['js', 'jsx', 'ts', 'tsx'],
-      fix: true,
-      emitWarning: false,
-    }),
+    // new ESLintPlugin({
+    //   context: 'src',
+    //   extensions: ['js', 'jsx', 'ts', 'tsx'],
+    //   fix: true,
+    //   emitWarning: false,
+    // }),
     new StylelintPlugin({
       context: 'src',
       extensions: ['css', 'scss', 'js', 'jsx', 'ts', 'tsx'],

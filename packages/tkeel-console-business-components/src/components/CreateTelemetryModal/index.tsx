@@ -7,18 +7,59 @@ import { FormField, Modal, Select } from '@tkeel/console-components';
 
 import { RequestData as FormValues } from '@tkeel/console-request-hooks';
 
+import SelectRadioCard from './components/SelectRadioCard';
+
 const { TextField, TextareaField } = FormField;
 
-const DataType = [
+function handleConfigData(
+  configData: { value: string; config: string[] }[],
+  selectVal: string
+): string[] {
+  for (const items of configData) {
+    if (items.value === selectVal) {
+      return items.config;
+    }
+  }
+  return [];
+}
+
+// const DataType = [
+//   {
+//     value: 'int',
+//   },
+//   {
+//     value: 'array',
+//   },
+// ];
+
+const configData = [
   {
     value: 'int',
     label: 'int32(整型)',
+    config: ['最大值', '最小值', '步长', '单位'],
   },
   {
     value: 'array',
     label: 'array(数组)',
+    config: ['元素个数', '元素类型'],
+  },
+  {
+    value: 'bool',
+    label: 'bool(布尔)',
+    config: ['布尔值'],
+  },
+  {
+    value: 'string',
+    label: 'string(字符串)',
+    config: ['数据最大长度'],
+  },
+  {
+    value: 'data',
+    label: 'data(时间型)',
+    config: ['时间格式'],
   },
 ];
+
 export interface FormFields {
   username?: {
     disabled?: boolean;
@@ -49,6 +90,13 @@ export default function CreateTelemetryModal({
   onConfirm,
 }: Props) {
   const [selectType, setSelectType] = useState<string>('int');
+  const [selectOptions, setSelectOptions] = useState<string[]>([
+    '最大值',
+    '最小值',
+    '步长',
+    '单位',
+  ]);
+
   console.log('selectType', selectType);
 
   const {
@@ -103,19 +151,28 @@ export default function CreateTelemetryModal({
       </Box>
       <Select
         defaultValue="int"
-        options={DataType}
+        options={configData}
         style={{ width: '100%', marginBottom: '14px', marginTop: '8px' }}
         onChange={(el) => {
+          console.log('el', el);
+
+          const config = handleConfigData(configData, el);
           setSelectType(el);
+          setSelectOptions(config);
         }}
       />
 
-      {selectType === 'int' && (
-        <Flex justifyContent="space-between" mb="10px">
-          <Box>123</Box>
-          <Box>扩展配置</Box>
-        </Flex>
-      )}
+      <Flex justifyContent="space-between" mb="10px" alignItems="center">
+        <Box>
+          <SelectRadioCard
+            options={selectOptions}
+            onChange={(el) => {
+              console.log('123', el);
+            }}
+          ></SelectRadioCard>
+        </Box>
+        <Box>扩展配置</Box>
+      </Flex>
 
       <Box>
         <Text color="gray.600" fontSize="14px" mb="4px">

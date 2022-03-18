@@ -25,3 +25,4 @@ export { default as Table } from './components/Table';
 export * from './components/Toast';
 export * from './components/Tree';
 export * from './components/TreeSelect';
+export { default as RadioCard } from './components/RadioCard';
