@@ -16,6 +16,8 @@ import {
 } from '@tkeel/console-request-hooks';
 import { getTreeNodeData } from '@tkeel/console-utils';
 
+import SelectedDevices from './SelectedDevices';
+
 type Props = {
   isOpen: boolean;
   onClose: () => unknown;
@@ -26,7 +28,6 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
   const [deviceGroupKeywords, setDeviceGroupKeywords] = useState('');
   const [groupId, setGroupId] = useState('');
   const [deviceKeywords, setDeviceKeywords] = useState('');
-  const [checkedDevices, setCheckedDevices] = useState<DeviceItem[]>([]);
   const [selectedDevices, setSelectedDevices] = useState<DeviceItem[]>([]);
 
   const { deviceGroupTree, isLoading: isDeviceGroupLoading } =
@@ -54,39 +55,19 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
     console.log('deviceKeywords', deviceKeywords);
   };
 
-  const titleStyle = {
-    color: 'gray.800',
-    fontSize: '14px',
-    lineHeight: '24px',
-    fontWeight: '600',
-  };
-
-  const inputGroupStyle = {
-    marginTop: '8px',
-    marginBottom: '12px',
-    width: '100%',
-  };
-
   const treeNodeData = getTreeNodeData({ data: deviceGroupTree });
-
-  const handleSelectGroup = (selectedKeys: React.Key[]) => {
-    const id = selectedKeys[0] as string;
-    setGroupId(id);
-  };
 
   const handleAllCheckBoxChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { checked } = e.target;
     let newSelectedDevices = [];
     if (checked) {
-      setCheckedDevices([...deviceList]);
       const addDevices = deviceList.filter(
         ({ id }) => !selectedDevices.some((device) => device.id === id)
       );
       newSelectedDevices = [...selectedDevices, ...addDevices];
     } else {
-      setCheckedDevices([]);
       newSelectedDevices = selectedDevices.filter(
-        ({ id }) => !selectedDevices.some((device) => device.id === id)
+        ({ id }) => !deviceList.some((device) => device.id === id)
       );
     }
     setSelectedDevices(newSelectedDevices);
@@ -113,18 +94,32 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
     checked: boolean;
     device: DeviceItem;
   }) => {
-    const newCheckedDevices = getNewDevices({
-      devices: checkedDevices,
-      device,
-      checked,
-    });
     const newSelectedDevices = getNewDevices({
       devices: selectedDevices,
       device,
       checked,
     });
-    setCheckedDevices(newCheckedDevices);
     setSelectedDevices(newSelectedDevices);
+  };
+
+  const checkedDevices = selectedDevices.filter(({ id }) =>
+    deviceList.some((device) => device.id === id)
+  );
+  const isAllChecked = checkedDevices.length === deviceList.length;
+  const isIndeterminate =
+    checkedDevices.length > 0 && checkedDevices.length < deviceList.length;
+
+  const titleStyle = {
+    color: 'gray.800',
+    fontSize: '14px',
+    lineHeight: '24px',
+    fontWeight: '600',
+  };
+
+  const inputGroupStyle = {
+    marginTop: '8px',
+    marginBottom: '12px',
+    width: '100%',
   };
 
   const contentStyle = {
@@ -163,9 +158,9 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
             inputGroupStyle={inputGroupStyle}
           />
           <Flex justifyContent="space-between">
-            <Flex {...contentStyle}>
+            <Box {...contentStyle}>
               {isDeviceGroupLoading ? (
-                <Loading styles={{ wrapper: { flex: '1' } }} />
+                <Loading styles={{ wrapper: { height: '100%' } }} />
               ) : (
                 <Tree
                   extras={{ isTreeTitleFullWidth: true }}
@@ -173,24 +168,27 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
                   selectedKeys={[groupId]}
                   selectable
                   showIcon
-                  onSelect={handleSelectGroup}
+                  onSelect={(_, info) => {
+                    const key = info.node.key as string;
+                    if (key && key !== groupId) {
+                      setGroupId(key);
+                    }
+                  }}
                   styles={{
+                    treeNodeContentWrapper: 'flex: 1',
                     treeTitle: 'font-size:14px; line-height: 32px;',
                   }}
                 />
               )}
-            </Flex>
+            </Box>
             <Flex marginLeft="20px" {...contentStyle}>
               {isDeviceListLoading ? (
                 <Loading styles={{ wrapper: { flex: '1' } }} />
               ) : (
                 <Flex flexDirection="column" paddingLeft="20px">
                   <Checkbox
-                    isChecked={checkedDevices.length === deviceList.length}
-                    isIndeterminate={
-                      checkedDevices.length > 0 &&
-                      checkedDevices.length < deviceList.length
-                    }
+                    isChecked={isAllChecked}
+                    isIndeterminate={isIndeterminate}
                     onChange={handleAllCheckBoxChange}
                   >
                     <Text {...textStyle}>全选</Text>
@@ -225,7 +223,13 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
         <Flex flexDirection="column" width="300px">
           <Flex justifyContent="space-between" alignItems="center">
             <Text {...titleStyle}>已选择（{selectedDevices.length}）</Text>
-            <Flex alignItems="center" cursor="pointer">
+            <Flex
+              alignItems="center"
+              cursor="pointer"
+              onClick={() => {
+                setSelectedDevices([]);
+              }}
+            >
               <BroomFilledIcon size="14px" color="grayAlternatives.300" />
               <Text
                 marginLeft="5px"
@@ -247,14 +251,14 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
             inputGroupStyle={inputGroupStyle}
           />
           <Box {...contentStyle}>
-            {selectedDevices.map((device) => (
-              <Flex key={device.id} alignItems="center">
-                <SmartObjectTwoToneIcon />
-                <Text {...textStyle}>
-                  {device?.properties?.basicInfo?.name ?? ''}
-                </Text>
-              </Flex>
-            ))}
+            <SelectedDevices
+              devices={selectedDevices}
+              removeDevice={(deviceId) => {
+                setSelectedDevices(
+                  selectedDevices.filter((device) => device.id !== deviceId)
+                );
+              }}
+            />
           </Box>
         </Flex>
       </Flex>
