@@ -1,4 +1,5 @@
 import { useQuery } from '@tkeel/console-hooks';
+import { RequestResult } from '@tkeel/console-utils';
 
 import { PluginState } from '@/tkeel-console-plugin-admin-plugins/types/plugin-info';
 
@@ -39,6 +40,7 @@ type Props = {
   installerName: string;
   installerVersion: string;
   enabled?: boolean;
+  onSuccess?: (data: RequestResult<PluginDetail, undefined, undefined>) => void;
 };
 
 const url = '/rudder/v1/repos';
@@ -49,12 +51,14 @@ export default function usePluginDetailQuery({
   installerName,
   installerVersion,
   enabled = true,
+  onSuccess,
 }: Props) {
   const { data, ...rest } = useQuery<PluginDetail>({
     url: `${url}/${repoName}/installers/${installerName}/${installerVersion}`,
     method,
     reactQueryOptions: {
       enabled,
+      onSuccess,
     },
   });
   const pluginDetail = data?.installer;
