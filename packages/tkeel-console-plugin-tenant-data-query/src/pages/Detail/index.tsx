@@ -15,7 +15,9 @@ import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import SearchEmpty from '@/tkeel-console-plugin-tenant-data-query/components/SearchEmpty';
 import useTelemetryDataMutation from '@/tkeel-console-plugin-tenant-data-query/hooks/mutations/useTelemetryDataMutation';
-import useDeviceDetailQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceDetailQuery';
+import useDeviceDetailQuery, {
+  Telemetry,
+} from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceDetailQuery';
 
 import DataResultTitle from './components/DataResultTitle';
 import DataTable from './components/DataTable';
@@ -31,6 +33,7 @@ function getSeconds(timestamp: number) {
 
 export default function Detail() {
   const [keywords, setKeywords] = useState('');
+  const [telemetry, setTelemetry] = useState<Telemetry>({});
   const [templateCheckboxStatus, setTemplateCheckboxStatus] = useState(
     CheckBoxStatus.NOT_CHECKED
   );
@@ -38,7 +41,7 @@ export default function Detail() {
   const [isTelemetryDataRequested, setIsTelemetryDataRequested] =
     useState(false);
   const [startTime, setStartTime] = useState(
-    getSeconds(dayjs().subtract(3, 'day').valueOf())
+    getSeconds(dayjs().subtract(1, 'hour').valueOf())
   );
   const [endTime, setEndTime] = useState(getSeconds(dayjs().valueOf()));
   const dateRangeLength = 5;
@@ -53,8 +56,33 @@ export default function Detail() {
   const { deviceObject, isLoading: isDeviceDetailLoading } =
     useDeviceDetailQuery({
       id,
+      onSuccess(data) {
+        const telemetryData =
+          data?.data?.deviceObject?.configs?.telemetry ?? {};
+        setTelemetry(telemetryData);
+        const telemetryDataKeys = Object.keys(telemetryData);
+        let telemetryKeys = [...telemetryDataKeys];
+
+        const searchTelemetryKeys = searchParams.get('telemetry-keys') || '';
+        let telemetryKeyArray = searchTelemetryKeys.split(',');
+        telemetryKeyArray = telemetryKeyArray.filter((key) =>
+          telemetryDataKeys.includes(key)
+        );
+        if (telemetryKeyArray.length > 0) {
+          telemetryKeys = telemetryKeyArray;
+        }
+        setCheckedKeys(telemetryKeys);
+
+        let checkedStatus = CheckBoxStatus.NOT_CHECKED;
+        if (telemetryKeys.length > 0) {
+          checkedStatus =
+            telemetryKeys.length === telemetryDataKeys.length
+              ? CheckBoxStatus.CHECKED
+              : CheckBoxStatus.INDETERMINATE;
+        }
+        setTemplateCheckboxStatus(checkedStatus);
+      },
     });
-  const telemetry = deviceObject?.configs?.telemetry ?? {};
 
   const identifiers = checkedKeys.join(',');
 

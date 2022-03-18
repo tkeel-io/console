@@ -2,11 +2,17 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable no-underscore-dangle */
-import { Box, Flex, HStack, Text, Tooltip } from '@chakra-ui/react';
-import { ReactNode, useMemo } from 'react';
+import { HStack, Text } from '@chakra-ui/react';
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Cell, Column } from 'react-table';
 
+import {
+  DeviceStatusIcon,
+  IconTooltip,
+  IconWrapper,
+  SelfLearnIcon,
+} from '@tkeel/console-business-components';
 import { LinkButton, MoreAction, Table } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 import {
@@ -14,26 +20,19 @@ import {
   DotLineFilledIcon,
   MessageWarningTwoToneIcon,
   SmartObjectTwoToneIcon,
-  VpcTwoToneIcon,
-  WifiFilledIcon,
-  WifiOffFilledIcon,
 } from '@tkeel/console-icons';
 import { UsePaginationReturnType } from '@tkeel/console-types';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import AddSubscribeButton from '@/tkeel-console-plugin-tenant-devices/components/AddSubscribeButton';
 import DeleteDevicesButton from '@/tkeel-console-plugin-tenant-devices/components/DeleteDevicesButton';
-import IconWrapper from '@/tkeel-console-plugin-tenant-devices/components/IconWrapper';
 import UpdateDeviceButton from '@/tkeel-console-plugin-tenant-devices/components/UpdateDeviceButton';
 import {
   DeviceApiItem,
   DeviceItem,
 } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceListQuery';
 import { TreeNodeType } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
-import {
-  SELF_LEARN_COLORS,
-  SUBSCRIBES,
-} from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
+import { SUBSCRIBES } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
 
 interface Props {
   groupTree: TreeNodeType;
@@ -41,28 +40,6 @@ interface Props {
   deviceList: any;
   isLoading: boolean;
   refetch?: () => void;
-}
-
-function TooltipIcon({
-  label,
-  children,
-}: {
-  label: ReactNode;
-  children: ReactNode;
-}): JSX.Element {
-  return (
-    <Tooltip
-      label={label}
-      hasArrow
-      bgColor="white"
-      color="gray.700"
-      lineHeight="24px"
-      fontSize="12px"
-      p="4px 8px"
-    >
-      <Box>{children}</Box>
-    </Tooltip>
-  );
 }
 
 function DeviceListTable({
@@ -79,27 +56,12 @@ function DeviceListTable({
     DIR_CONNECT: {
       BG: [useColor('red.100'), useColor('violet.100')],
     },
-    DEVICE: {
-      BG: [useColor('gray.100'), useColor('green.50')],
-      ICON: [useColor('green.300'), useColor('gray.500')],
-    },
     SUBSCRIBE: {
       BG: [useColor('gray.100'), useColor('teal.50')],
       ICON: [useColor(SUBSCRIBES[0].color), useColor(SUBSCRIBES[1].color)],
       ICON_TWO: [
         useColor(SUBSCRIBES[0].twoToneColor),
         useColor(SUBSCRIBES[1].twoToneColor),
-      ],
-    },
-    SELF_LEARN: {
-      BG: [useColor('gray.100'), useColor('blue.50')],
-      ICON: [
-        useColor(SELF_LEARN_COLORS[0].color),
-        useColor(SELF_LEARN_COLORS[1].color),
-      ],
-      ICON_TWO: [
-        useColor(SELF_LEARN_COLORS[0].twoToneColor),
-        useColor(SELF_LEARN_COLORS[1].twoToneColor),
       ],
     },
   };
@@ -115,46 +77,17 @@ function DeviceListTable({
     const isOnline = connectInfo?._online ?? false;
     return (
       <HStack>
-        <TooltipIcon
-          label={
-            <Flex>
-              设备
-              {isOnline ? (
-                <Text color="green.50">在线</Text>
-              ) : (
-                <Text color="gray.500">离线</Text>
-              )}
-            </Flex>
-          }
-        >
-          <IconWrapper iconBg={COLORS.DEVICE.BG[isOnline ? 1 : 0]}>
-            {isOnline ? (
-              <WifiFilledIcon color="green.300" size="20px" />
-            ) : (
-              <WifiOffFilledIcon color="gray.500" size="20px" />
-            )}
-          </IconWrapper>
-        </TooltipIcon>
-
-        <TooltipIcon label={subscribeAddr ? '已订阅' : '未订阅'}>
-          <IconWrapper iconBg={COLORS.SUBSCRIBE.BG[subscribeAddr ? 1 : 0]}>
+        <DeviceStatusIcon isOnline={isOnline} />
+        <IconTooltip label={subscribeAddr ? '已订阅' : '未订阅'}>
+          <IconWrapper bg={COLORS.SUBSCRIBE.BG[subscribeAddr ? 1 : 0]}>
             <MessageWarningTwoToneIcon
               size="20px"
               color={COLORS.SUBSCRIBE.ICON[subscribeAddr ? 1 : 0]}
               twoToneColor={COLORS.SUBSCRIBE.ICON_TWO[subscribeAddr ? 1 : 0]}
             />
           </IconWrapper>
-        </TooltipIcon>
-
-        <TooltipIcon label={selfLearn ? '自学习' : '未开启自学习'}>
-          <IconWrapper iconBg={COLORS.SELF_LEARN.BG[selfLearn ? 1 : 0]}>
-            <VpcTwoToneIcon
-              size="20px"
-              color={COLORS.SELF_LEARN.ICON[selfLearn ? 1 : 0]}
-              twoToneColor={COLORS.SELF_LEARN.ICON_TWO[selfLearn ? 1 : 0]}
-            />
-          </IconWrapper>
-        </TooltipIcon>
+        </IconTooltip>
+        <SelfLearnIcon isSelfLearn={selfLearn} />
       </HStack>
     );
   }
@@ -212,15 +145,15 @@ function DeviceListTable({
       Cell: ({ value }: { value: boolean }) =>
         useMemo(() => {
           return (
-            <TooltipIcon label={value ? '直连' : '非直连'}>
-              <IconWrapper iconBg={COLORS.DIR_CONNECT.BG[value ? 1 : 0]}>
+            <IconTooltip label={value ? '直连' : '非直连'}>
+              <IconWrapper bg={COLORS.DIR_CONNECT.BG[value ? 1 : 0]}>
                 {value ? (
                   <DotLineFilledIcon size="20px" />
                 ) : (
                   <BranchTowToneIcon size="20px" />
                 )}
               </IconWrapper>
-            </TooltipIcon>
+            </IconTooltip>
           );
         }, [value]),
     },

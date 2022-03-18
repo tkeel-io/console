@@ -14,6 +14,10 @@ const defaultProps = {
   totalSize: 0,
 };
 
+function getSafePage(pageValue: number) {
+  return pageValue < 1 ? 1 : pageValue;
+}
+
 export default function usePagination(props?: Props): UsePaginationReturnType {
   const { pageNum, pageSize, totalSize } = { ...defaultProps, ...props };
 
@@ -27,13 +31,8 @@ export default function usePagination(props?: Props): UsePaginationReturnType {
   const canNextPage = size * page < total;
 
   const setPageIndexSAFE = (pageIndexValue: number) => {
-    if (pageIndexValue > totalPages) {
-      setPage(totalPages);
-    } else if (pageIndexValue < 1) {
-      setPage(1);
-    } else {
-      setPage(pageIndexValue);
-    }
+    const pageValue = pageIndexValue > totalPages ? totalPages : pageIndexValue;
+    setPage(getSafePage(pageValue));
   };
 
   const setPageSize = (pageSizeValue: number) => {
@@ -55,12 +54,13 @@ export default function usePagination(props?: Props): UsePaginationReturnType {
   }, []);
 
   useEffect(() => {
-    setTotalPages(Math.ceil(total / size));
+    const totalPagesValue = Math.ceil(total / size);
+    setTotalPages(getSafePage(totalPagesValue));
   }, [total, size]);
 
   useEffect(() => {
     if (page > totalPages) {
-      setPage(totalPages || 1);
+      setPage(getSafePage(totalPages));
     }
   }, [page, totalPages]);
 

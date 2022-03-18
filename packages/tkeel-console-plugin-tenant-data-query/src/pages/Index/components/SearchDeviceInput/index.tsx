@@ -1,8 +1,6 @@
-/* eslint-disable sonarjs/cognitive-complexity */
 import { Box, Flex, Input, InputGroup, StyleProps } from '@chakra-ui/react';
 import { Base64 } from 'js-base64';
 import {
-  CSSProperties,
   KeyboardEvent,
   KeyboardEventHandler,
   MouseEventHandler,
@@ -34,6 +32,7 @@ const encode = (value: string) => {
   return encodeURIComponent(Base64.encode(value));
 };
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export default function SearchDeviceInput({
   type = 'index',
   defaultFilterConditions = [],
@@ -68,13 +67,6 @@ export default function SearchDeviceInput({
     inputPaddingRight = type === 'index' ? '124px' : '160px';
   }
 
-  const iconStyle: CSSProperties = {
-    position: 'absolute',
-    right: '140px',
-    top: '14px',
-    cursor: 'pointer',
-  };
-
   const groupCondition = filterConditions.find(
     (condition) => condition.id === DEVICE_GROUP_ID
   );
@@ -92,6 +84,7 @@ export default function SearchDeviceInput({
       (templateCondition?.value && !templateId) ||
       keywordsCondition
   );
+
   const buttonDisabled = Boolean(
     (groupCondition && !deviceGroupId) ||
       (templateCondition && !templateId) ||
@@ -101,7 +94,7 @@ export default function SearchDeviceInput({
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (
     event: KeyboardEvent<HTMLInputElement>
   ) => {
-    if (event.keyCode === 13) {
+    if (event.keyCode === 13 && inputValue) {
       let newFilterConditions = [...filterConditions];
       const { length } = newFilterConditions;
       const lastCondition = newFilterConditions[length - 1];
@@ -121,7 +114,11 @@ export default function SearchDeviceInput({
         }
       } else {
         newFilterConditions = [keywordConditionInfo];
-        setShowDeviceList(true);
+        if (type === 'index') {
+          setShowDeviceList(true);
+        } else {
+          setShowFilterDropdown(false);
+        }
       }
       setInputValue('');
       setFilterConditions(newFilterConditions);
@@ -135,6 +132,7 @@ export default function SearchDeviceInput({
     setDeviceGroupId('');
     setTemplateId('');
     setStatus(initStatus);
+    setShowDeviceList(false);
   };
 
   const handleDocumentClick = () => {
@@ -201,51 +199,83 @@ export default function SearchDeviceInput({
     setFilterConditions(newFilterConditions);
   };
 
+  const handleIndexSearch = () => {
+    let search = '';
+    if (deviceGroupId) {
+      const groupName = encode(groupCondition?.value || '');
+      search += `group-id=${deviceGroupId}&${GROUP_NAME}=${groupName}&`;
+    }
+
+    if (templateId) {
+      const templateName = encode(templateCondition?.value || '');
+      search += `${TEMPLATE_ID}=${templateId}&template-name=${templateName}&`;
+    }
+
+    const keywords = keywordsCondition?.value;
+    if (keywords) {
+      search += `keywords=${keywords}&`;
+    }
+
+    const statusValue = status.value;
+    if (['online', 'offline'].includes(statusValue)) {
+      search += `status=${statusValue}`;
+    }
+
+    if (search.endsWith('&')) {
+      search = search.slice(0, -1);
+    }
+
+    navigate(`/search-result?${search}`);
+  };
+
+  const handleResultSearch = () => {
+    const groupFilterCondition = filterConditions.find(
+      (condition) => condition.id === DEVICE_GROUP_ID
+    );
+    const templateFilterCondition = filterConditions.find(
+      (condition) => condition.id === DEVICE_TEMPLATES_ID
+    );
+    const keywordsFilterCondition = filterConditions.find(
+      (condition) => condition.id === KEYWORDS
+    );
+
+    if (!keywordsFilterCondition) {
+      searchParams.delete(KEYWORDS);
+    }
+
+    if (groupFilterCondition) {
+      searchParams.set(GROUP_ID, deviceGroupId);
+      searchParams.set(GROUP_NAME, encode(groupFilterCondition.value));
+    } else {
+      searchParams.delete(GROUP_ID);
+      searchParams.delete(GROUP_NAME);
+    }
+
+    if (templateFilterCondition) {
+      searchParams.set(TEMPLATE_ID, templateId);
+      searchParams.set(TEMPLATE_NAME, encode(templateFilterCondition.value));
+    } else {
+      searchParams.delete(TEMPLATE_ID);
+      searchParams.delete(TEMPLATE_NAME);
+    }
+
+    if (keywordsFilterCondition) {
+      searchParams.set(KEYWORDS, keywordsFilterCondition.value);
+    } else {
+      searchParams.delete(KEYWORDS);
+    }
+    setSearchParams(searchParams);
+
+    if (refetchData) {
+      refetchData();
+    }
+  };
+
   const handleSearch = () => {
     if (type === 'index') {
-      let search = '';
-      if (deviceGroupId) {
-        const groupName = encode(groupCondition?.value || '');
-        search += `group-id=${deviceGroupId}&${GROUP_NAME}=${groupName}&`;
-      }
-
-      if (templateId) {
-        const templateName = encode(templateCondition?.value || '');
-        search += `${TEMPLATE_ID}=${templateId}&template-name=${templateName}&`;
-      }
-
-      const keywords = keywordsCondition?.value;
-      if (keywords) {
-        search += `keywords=${keywords}&`;
-      }
-
-      const statusValue = status.value;
-      if (['online', 'offline'].includes(statusValue)) {
-        search += `status=${statusValue}`;
-      }
-
-      if (search.endsWith('&')) {
-        search = search.slice(0, -1);
-      }
-
-      navigate(`/search-result?${search}`);
+      handleIndexSearch();
     } else {
-      filterConditions.forEach((condition) => {
-        if (condition.id === DEVICE_GROUP_ID) {
-          searchParams.set(GROUP_ID, deviceGroupId);
-          searchParams.set(GROUP_NAME, encode(condition.value));
-          searchParams.delete(TEMPLATE_ID);
-          searchParams.delete(TEMPLATE_NAME);
-        } else if (condition.id === DEVICE_TEMPLATES_ID) {
-          searchParams.set(TEMPLATE_ID, templateId);
-          searchParams.set(TEMPLATE_NAME, encode(condition.value));
-          searchParams.delete(GROUP_ID);
-          searchParams.delete(GROUP_NAME);
-        } else {
-          searchParams.set(KEYWORDS, condition.value);
-        }
-        setSearchParams(searchParams);
-      });
+      handleResultSearch();
     }
   };
 
@@ -258,8 +288,23 @@ export default function SearchDeviceInput({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const iconWrapperStyle: StyleProps = {
+    position: 'absolute',
+    right: '140px',
+    top: '14px',
+    justifyContent: 'center',
+    width: '20px',
+    cursor: 'pointer',
+  };
+
   return (
-    <Box position="relative" onClick={(e) => e.stopPropagation()} {...style}>
+    <Box
+      position="relative"
+      borderRadius="24px"
+      onClick={(e) => e.stopPropagation()}
+      backgroundColor={showFilterDropdown ? 'primarySub' : 'white'}
+      {...style}
+    >
       <InputGroup
         display="flex"
         alignItems="center"
@@ -268,7 +313,6 @@ export default function SearchDeviceInput({
         border="1px solid"
         borderColor={showFilterDropdown ? 'primary' : 'grayAlternatives.50'}
         borderRadius="24px"
-        backgroundColor={showFilterDropdown ? 'primarySub' : 'white'}
       >
         {hasFilterConditions && (
           <Flex paddingLeft="20px">
@@ -300,38 +344,34 @@ export default function SearchDeviceInput({
               ? ''
               : '支持关键字搜索，支持设备分组、设备模版搜索'
           }
-          _focus={{
-            border: 'none!important',
-            boxShadow: 'none!important',
-            backgroundColor: 'primarySub',
-          }}
           disabled={inputDisabled}
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value.trim())}
           onFocus={() => setShowFilterDropdown(true)}
           onKeyDown={handleKeyDown}
         />
-        {type === 'searchResult' && hasKeywordsOrConditions && (
-          <RefreshFilledIcon
-            color="grayAlternatives.300"
-            style={iconStyle}
-            onClick={() => {
-              if (refetchData) {
-                refetchData();
-              }
-            }}
-          />
-        )}
-        {hasKeywordsOrConditions && (
-          <BroomFilledIcon
-            color="grayAlternatives.300"
-            style={{
-              ...iconStyle,
-              right: '110px',
-            }}
-            onClick={handleClearCondition}
-          />
-        )}
+        <Flex>
+          {type === 'searchResult' && hasKeywordsOrConditions && (
+            <Flex {...iconWrapperStyle}>
+              <RefreshFilledIcon
+                color="grayAlternatives.300"
+                onClick={() => {
+                  if (refetchData) {
+                    refetchData();
+                  }
+                }}
+              />
+            </Flex>
+          )}
+          {hasKeywordsOrConditions && (
+            <Flex {...iconWrapperStyle} right="110px">
+              <BroomFilledIcon
+                color="grayAlternatives.300"
+                onClick={handleClearCondition}
+              />
+            </Flex>
+          )}
+        </Flex>
         <SearchButton disabled={buttonDisabled} onClick={handleSearch} />
       </InputGroup>
       <FilterDropdown

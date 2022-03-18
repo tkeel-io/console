@@ -1,4 +1,5 @@
 import { useQuery } from '@tkeel/console-hooks';
+import { RequestResult } from '@tkeel/console-utils';
 
 const method = 'GET';
 export interface BasicInfo {
@@ -82,13 +83,19 @@ export interface ApiData {
   deviceObject?: DeviceObject;
 }
 
-export default function useDeviceDetailQuery({ id }: { id: string }) {
+type Props = {
+  id: string;
+  onSuccess: (data: RequestResult<ApiData, undefined, undefined>) => void;
+};
+
+export default function useDeviceDetailQuery({ id, onSuccess }: Props) {
   const url = `/tkeel-device/v1/devices/${id}`;
   const { data, ...rest } = useQuery<ApiData>({
     url,
     method,
     reactQueryOptions: {
       enabled: !!id,
+      onSuccess,
     },
   });
   const deviceObject = data?.deviceObject;
