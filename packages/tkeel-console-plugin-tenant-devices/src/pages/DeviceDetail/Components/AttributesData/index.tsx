@@ -125,6 +125,11 @@ function renderLabel(item: AttributeItem) {
 
 function AttributesPanel({ deviceName, data }: Props) {
   const attributeList = values(data);
+  // eslint-disable-next-line unicorn/consistent-function-scoping
+  const setAttributeData = (value: string) => {
+    // eslint-disable-next-line no-console
+    console.log(value);
+  };
   return (
     <Flex flex="1" direction="column" height="100%">
       {isEmpty(data) ? (
@@ -191,7 +196,16 @@ function AttributesPanel({ deviceName, data }: Props) {
                   >
                     <FormControl id={item.id}>
                       <Box mr="0px">{renderLabel(item)}</Box>
-                      <TextField key={item.id} id={item.id} />
+                      <TextField
+                        key={item.id}
+                        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                        placeholder={`默认值 ${item.define.default_value}`}
+                        id={item.id}
+                        onBlur={(e) => {
+                          const { value } = e.target;
+                          setAttributeData(value);
+                        }}
+                      />
                     </FormControl>
                   </Box>
                 ))}
