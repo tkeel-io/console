@@ -92,7 +92,7 @@ function Index(): JSX.Element {
   });
 
   return (
-    <Box>
+    <Box paddingTop="8px">
       <Flex height="30px" alignItems="center" justifyContent="space-between">
         <Flex
           fontWeight="600"

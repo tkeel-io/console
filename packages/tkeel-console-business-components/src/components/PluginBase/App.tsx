@@ -1,4 +1,4 @@
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, Flex } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 import { QueryClientProvider } from 'react-query';
 import { BrowserRouter as Router } from 'react-router-dom';
@@ -19,7 +19,11 @@ export default function App({ children }: Props) {
   return (
     <QueryClientProvider client={queryClient}>
       <ChakraProvider theme={theme}>
-        <Router basename={plugin.getRouterBasename()}>{children}</Router>
+        <Router basename={plugin.getRouterBasename()}>
+          <Flex flexDirection="column" height="100%" padding="0 20px 20px">
+            {children}
+          </Flex>
+        </Router>
       </ChakraProvider>
     </QueryClientProvider>
   );

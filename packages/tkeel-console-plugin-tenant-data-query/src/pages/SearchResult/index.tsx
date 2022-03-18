@@ -2,42 +2,30 @@ import { Flex, Text } from '@chakra-ui/react';
 import { Base64 } from 'js-base64';
 import { useSearchParams } from 'react-router-dom';
 
-import { PageHeaderToolbar } from '@tkeel/console-components';
+import { Empty, Loading, PageHeaderToolbar } from '@tkeel/console-components';
+import { useDeviceListQuery } from '@tkeel/console-request-hooks';
 
 import {
   Status,
   StatusSelect,
 } from '@/tkeel-console-plugin-tenant-data-query/components';
 import DeviceInfoCard from '@/tkeel-console-plugin-tenant-data-query/components/DeviceInfoCard';
-import useDeviceListQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceListQuery';
 import SearchDeviceInput from '@/tkeel-console-plugin-tenant-data-query/pages/Index/components/SearchDeviceInput';
 import { FilterConditionIds } from '@/tkeel-console-plugin-tenant-data-query/pages/Index/constants';
 import { RequestDataCondition } from '@/tkeel-console-plugin-tenant-data-query/types/request-data';
 
 const { DEVICE_GROUP_ID, DEVICE_TEMPLATES_ID, KEYWORDS } = FilterConditionIds;
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export default function SearchResult() {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const baseRequestData = {
-    query: '',
-    page_num: 1,
-    page_size: 1000,
-    order_by: 'name',
-    is_descending: false,
-  };
-  // const statusQueryField = 'sysField._status';
+  const deviceNameQueryField = 'basicInfo.name';
   const statusQueryField = 'connectInfo._online';
   const deviceGroupIdQueryField = 'sysField._spacePath';
   const templateIdQueryField = 'basicInfo.templateId';
 
-  const conditions: RequestDataCondition[] = [
-    {
-      field: 'type',
-      operator: '$eq',
-      value: 'device',
-    },
-  ];
+  const conditions: RequestDataCondition[] = [];
 
   const groupId = searchParams.get('group-id');
   if (groupId) {
@@ -72,24 +60,28 @@ export default function SearchResult() {
   } else if (status === 'offline') {
     statusLabel = '离线';
   }
+
   const deviceStatusInfo = {
     label: statusLabel,
     value: status,
   };
 
-  const keywords = searchParams.get('keywords') || '';
+  const keywords = searchParams.get('keywords');
+  if (keywords) {
+    conditions.push({
+      field: deviceNameQueryField,
+      operator: '$wildcard',
+      value: keywords,
+    });
+  }
 
   const { deviceList, data, isLoading, refetch } = useDeviceListQuery({
     requestData: {
-      ...baseRequestData,
-      query: keywords,
       condition: conditions,
     },
     enabled: conditions.length > 0,
   });
 
-  // eslint-disable-next-line no-console
-  console.log('SearchResult ~ isLoading', isLoading);
   const defaultFilterConditions = [];
 
   const groupName = decodeURIComponent(
@@ -127,7 +119,7 @@ export default function SearchResult() {
   };
 
   return (
-    <Flex height="100%" flexDirection="column">
+    <Flex paddingTop="8px" height="100%" flexDirection="column">
       <Flex justifyContent="flex-start" alignItems="center">
         <PageHeaderToolbar
           name="数据查询"
@@ -157,17 +149,31 @@ export default function SearchResult() {
           canHover={false}
         />
       </Flex>
-      <Flex marginTop="12px" flex="1">
-        <Flex marginRight="-8px" width="100%">
-          {deviceList.map((device) => (
+      {isLoading ? (
+        <Loading styles={{ wrapper: { flex: '1' } }} />
+      ) : deviceList.length === 0 ? (
+        <Empty styles={{ wrapper: { flex: '1' } }} />
+      ) : (
+        <Flex
+          alignContent="flex-start"
+          flexWrap="wrap"
+          marginTop="12px"
+          flex="1"
+          width="100%"
+        >
+          {deviceList.map((device, i) => (
             <DeviceInfoCard
               key={device.id}
               device={device}
-              style={{ marginRight: '8px', marginBottom: '12px', width: '25%' }}
+              style={{
+                marginRight: (i + 1) % 4 === 0 ? '0' : '0.5%',
+                marginBottom: '10px',
+                width: '24.6%',
+              }}
             />
           ))}
         </Flex>
-      </Flex>
+      )}
     </Flex>
   );
 }

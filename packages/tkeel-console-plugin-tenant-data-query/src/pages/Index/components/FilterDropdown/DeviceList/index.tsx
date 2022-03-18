@@ -5,9 +5,8 @@ import {
   DeviceStatusIcon,
   SelfLearnIcon,
 } from '@tkeel/console-business-components';
-import { BoxTwoToneIcon } from '@tkeel/console-icons';
-
-import { DeviceItem } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceListQuery';
+import { SmartObjectTwoToneIcon } from '@tkeel/console-icons';
+import { DeviceItem } from '@tkeel/console-request-hooks';
 
 import NoData from '../NoData';
 
@@ -45,7 +44,7 @@ export default function DeviceList({ data }: Props) {
                 navigate(`/detail?id=${id}`);
               }}
             >
-              <BoxTwoToneIcon size={18} />
+              <SmartObjectTwoToneIcon size={24} />
               <Text
                 marginLeft="10px"
                 color="gray.700"

@@ -9,7 +9,7 @@ type Props<D extends object> = {
 
 function SelectCell<D extends object>({ row }: Props<D>) {
   return (
-    <Center id={row.id}>
+    <Center id={row.id} width="100%" height="100%">
       <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
     </Center>
   );

@@ -1,12 +1,19 @@
-import { forwardRef, MutableRefObject, useEffect, useRef } from 'react';
+import { Checkbox } from '@chakra-ui/react';
+import {
+  ForwardedRef,
+  forwardRef,
+  MutableRefObject,
+  useEffect,
+  useRef,
+} from 'react';
 import { TableToggleAllRowsSelectedProps } from 'react-table';
 
 const IndeterminateCheckbox = forwardRef(
   (
-    { indeterminate, ...rest }: TableToggleAllRowsSelectedProps,
-    ref: React.ForwardedRef<HTMLInputElement>
+    { indeterminate, checked, ...rest }: TableToggleAllRowsSelectedProps,
+    ref: ForwardedRef<HTMLInputElement>
   ) => {
-    const defaultRef = useRef<HTMLInputElement>(null);
+    const defaultRef = useRef<HTMLInputElement | null>(null);
     const resolvedRef = ref || defaultRef;
 
     useEffect(() => {
@@ -15,7 +22,21 @@ const IndeterminateCheckbox = forwardRef(
       ).current.indeterminate = Boolean(indeterminate);
     }, [resolvedRef, indeterminate]);
 
-    return <input type="checkbox" ref={resolvedRef} {...rest} />;
+    return (
+      <Checkbox
+        ref={resolvedRef}
+        isIndeterminate={indeterminate}
+        isChecked={checked}
+        size="sm"
+        colorScheme="primary"
+        css={`
+          > span:first-of-type {
+            box-shadow: unset;
+          }
+        `}
+        {...rest}
+      />
+    );
   }
 );
 
