@@ -12,4 +12,4 @@ maintainers:
     name: caoyue
 name: console-plugin-tenant-plugins
 type: application
-version: 0.4.2
+version: 0.4.3
