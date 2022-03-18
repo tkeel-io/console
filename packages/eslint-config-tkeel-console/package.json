@@ -1,0 +1,14 @@
+{
+  "name": "@tkeel/eslint-config-tkeel-console",
+  "version": "0.4.2",
+  "homepage": "https://github.com/tkeel-io/console#readme",
+  "bugs": {
+    "url": "https://github.com/tkeel-io/console/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tkeel-io/console.git"
+  },
+  "license": "Apache-2.0",
+  "dependencies": {}
+}
