@@ -190,7 +190,9 @@ export default function DataSelect({ deviceList, handleSelectDevices }: Props) {
             >
               <Flex alignItems="center">
                 <Text>转发</Text>
-                <Text color="primary">82</Text>
+                <Text margin="0 2px" color="primary" fontWeight="500">
+                  82
+                </Text>
                 <Text>台设备</Text>
               </Flex>
               {showDeviceList ? (
@@ -244,7 +246,8 @@ export default function DataSelect({ deviceList, handleSelectDevices }: Props) {
                       overflow: 'hidden',
                       backgroundColor: 'gray.50',
                     },
-                    head: { border: 'none', backgroundColor: 'gray.100' },
+                    head: { backgroundColor: 'gray.100' },
+                    headTr: { border: 'none' },
                     bodyTr: {
                       marginTop: '8px',
                       border: 'none',

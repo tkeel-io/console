@@ -119,7 +119,7 @@ function Table<D extends object>({
             fixHead={Boolean(scroll?.y)}
             canSort={Boolean(onSort)}
             isShowStripe={isShowStripe}
-            styles={{ head: styles?.head }}
+            styles={{ head: styles?.head, tr: styles?.headTr }}
           />
           <Body
             page={rows}

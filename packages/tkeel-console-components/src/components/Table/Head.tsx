@@ -9,6 +9,7 @@ type Props<D extends object> = {
   isShowStripe: boolean;
   styles?: {
     head?: StyleProps;
+    tr?: StyleProps;
   };
 };
 
@@ -26,7 +27,12 @@ function Head<D extends object>({
     >
       {headerGroups.map((headerGroup) => {
         return (
-          <Tr {...headerGroup.getHeaderGroupProps()}>
+          <Tr
+            {...headerGroup.getHeaderGroupProps()}
+            borderBottom="1px"
+            borderColor={isShowStripe ? 'transparent' : 'grayAlternatives.50'}
+            {...styles?.tr}
+          >
             {headerGroup.headers.map((column: HeaderGroup<D>) => {
               const headerProps = column.getHeaderProps(
                 canSort ? column.getSortByToggleProps() : {}
@@ -40,9 +46,7 @@ function Head<D extends object>({
                   padding="0 20px"
                   position={fixHead ? 'sticky' : 'static'}
                   color="grayAlternatives.400"
-                  borderColor={
-                    isShowStripe ? 'transparent' : 'grayAlternatives.50'
-                  }
+                  border="none"
                   {...headerProps}
                 >
                   {column.render('Header')}

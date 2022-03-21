@@ -26,6 +26,7 @@ export interface Props<D extends object> extends UseTableOptions<D> {
     wrapper?: StyleProps;
     table?: StyleProps;
     head?: StyleProps;
+    headTr?: StyleProps;
     body?: StyleProps;
     bodyTr?: StyleProps;
     pagination?: StyleProps;
