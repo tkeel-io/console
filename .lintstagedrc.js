@@ -27,7 +27,7 @@ module.exports = {
     const uniqPackageNames = _.uniq(packageNames);
     const commands = uniqPackageNames.map((packageName) => {
       if (packageName) {
-        return `yarn workspace ${packageName} run lint:script`;
+        return `yarn workspace ${packageName} run lint:script:fix`;
       } else {
         return 'eslint --fix "**/*.{js,ts}"';
       }

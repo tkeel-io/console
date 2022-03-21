@@ -12,7 +12,8 @@
   "license": "Apache-2.0",
   "main": "./src/index.ts",
   "scripts": {
-    "lint:script": "npx eslint --fix \"**/*.{js,ts,tsx}\""
+    "lint:script": "npx eslint \"**/*.{js,ts,tsx}\"",
+    "lint:script:fix": "npx eslint --fix \"**/*.{js,ts,tsx}\""
   },
   "dependencies": {
     "@tkeel/console-constants": "workspace:^",
