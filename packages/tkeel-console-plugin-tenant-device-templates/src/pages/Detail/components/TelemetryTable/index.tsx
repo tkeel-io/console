@@ -5,8 +5,12 @@ import { Cell, Column } from 'react-table';
 // import CreateTelemetryButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/CreateTelemetryButton';
 // import DeleteDeviceButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/DeleteDeviceButton';
 // import MoveSubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/MoveSubscriptionButton';
+import { plugin } from '@tkeel/console-utils';
 
-import { useCreateTelemetryMutation } from '@tkeel/console-request-hooks';
+import {
+  useCreateTelemetryMutation,
+  useDeleteTelemetryMutation,
+} from '@tkeel/console-request-hooks';
 
 import {
   CreateTelemetryButton,
@@ -31,6 +35,8 @@ import useListTemplateTelemetryQuery, {
 
 function Index({ id, title }: { id: string; title: string }) {
   // const toast = plugin.getPortalToast();
+  const toast = plugin.getPortalToast();
+
   const [keywords, setKeyWords] = useState('');
 
   const pagination = usePagination();
@@ -53,7 +59,11 @@ function Index({ id, title }: { id: string; title: string }) {
   // const { data } = useListSubscribeEntitiesQuery(id);
 
   // refetch
-  const { usefulData: data, isLoading } = useListTemplateTelemetryQuery({
+  const {
+    usefulData: data,
+    isLoading,
+    refetch,
+  } = useListTemplateTelemetryQuery({
     id,
     onSuccess(res) {
       console.log('onSuccess ~ res', res);
@@ -65,6 +75,17 @@ function Index({ id, title }: { id: string; title: string }) {
   const { mutate } = useCreateTelemetryMutation({
     id,
     onSuccess() {},
+  });
+
+  const { mutate: deleteTemplateMutate } = useDeleteTelemetryMutation({
+    id,
+    onSuccess() {
+      // onSuccess();
+      toast('删除成功', { status: 'success' });
+      // refetchData();
+      refetch();
+      // onClose();
+    },
   });
 
   // setTotalSize(data?.total || 0);
@@ -140,8 +161,7 @@ function Index({ id, title }: { id: string; title: string }) {
                   key="delete"
                   attributeInfo={{ name: original.name, id: original.id }}
                   handleSubmit={(formValues) => {
-                    // eslint-disable-next-line no-console
-                    console.log('delete:', formValues);
+                    deleteTemplateMutate({ data: { ids: [formValues.id] } });
                   }}
                 />,
                 // <DeleteDeviceButton

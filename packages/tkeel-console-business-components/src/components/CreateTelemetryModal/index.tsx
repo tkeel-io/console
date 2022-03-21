@@ -185,12 +185,12 @@ export default function CreateTelemetryModal({
       </Box>
       <Select
         // defaultValue="int"
+        placeholder="请选择"
         options={configData}
         style={{ width: '100%', marginBottom: '14px', marginTop: '8px' }}
         onChange={(el) => {
           console.log('el', el);
           setSelectValue(el);
-
           const config = handleConfigData(configData, el);
           setSelectOptions(config);
         }}
