@@ -1,4 +1,5 @@
 {
+  "eslint.workingDirectories": [{ "mode": "auto" }],
   "path-intellisense.mappings": {
     "@/tkeel-console-business-components": "${workspaceFolder}/packages/tkeel-console-business-components/src",
     "@/tkeel-console-components": "${workspaceFolder}/packages/tkeel-console-components/src",
