@@ -171,7 +171,13 @@ export default function Tenants() {
               styles={{ wrapper: { height: '100%' } }}
             />
           }
-          style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
+          styles={{
+            wrapper: {
+              flex: 1,
+              overflow: 'hidden',
+              backgroundColor: 'whiteAlias',
+            },
+          }}
         />
       </Flex>
     </Flex>

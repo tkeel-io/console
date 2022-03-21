@@ -257,7 +257,7 @@ function Index({ id, title }: { id: string; title: string }) {
         ]}
       />
       <Table
-        style={{ flex: 1, overflow: 'hidden' }}
+        styles={{ wrapper: { flex: 1, overflow: 'hidden' } }}
         columns={columns}
         data={data?.data || []}
         onSelect={handleSelect}

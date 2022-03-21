@@ -165,7 +165,10 @@ function Index(): JSX.Element {
               })}
             </Grid>
           )}
-          <Pagination {...pagination} style={{ padding: '0 20px' }} />
+          <Pagination
+            {...pagination}
+            styles={{ wrapper: { padding: '0 20px' } }}
+          />
         </Flex>
       </Flex>
       <Drawer title="插件详情" isOpen={isOpen} onClose={onClose}>

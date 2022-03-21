@@ -240,7 +240,9 @@ function DeviceListTable({
       scroll={{ y: '100%' }}
       paginationProps={pagination}
       isLoading={isLoading}
-      style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
+      styles={{
+        wrapper: { flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' },
+      }}
     />
   );
 }
