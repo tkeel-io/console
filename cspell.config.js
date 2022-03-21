@@ -60,6 +60,12 @@ module.exports = {
     'kubeconfig',
     'KUBECONFIG',
     'mkdir',
+    'behaviours',
+    'Behaviours',
+    'Invisibles',
+    'Timout',
+    'Multiselect',
+    'multiselect',
   ],
   ignorePaths: [
     '**/.idea/**',

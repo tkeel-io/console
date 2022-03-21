@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-key */
-import { Box, Th, Thead, Tr } from '@chakra-ui/react';
+import { Box, StyleProps, Th, Thead, Tr } from '@chakra-ui/react';
 import { HeaderGroup } from 'react-table';
 
 type Props<D extends object> = {
@@ -7,6 +7,10 @@ type Props<D extends object> = {
   fixHead: boolean;
   canSort: boolean;
   isShowStripe: boolean;
+  styles?: {
+    head?: StyleProps;
+    tr?: StyleProps;
+  };
 };
 
 function Head<D extends object>({
@@ -14,14 +18,21 @@ function Head<D extends object>({
   fixHead,
   canSort,
   isShowStripe,
+  styles,
 }: Props<D>) {
   return (
-    <Thead>
+    <Thead
+      backgroundColor={isShowStripe ? 'gray.100' : 'transparent'}
+      {...styles?.head}
+    >
       {headerGroups.map((headerGroup) => {
         return (
           <Tr
             {...headerGroup.getHeaderGroupProps()}
-            backgroundColor={isShowStripe ? 'gray.100' : 'transparent'}
+            height="34px"
+            borderBottom="1px"
+            borderColor={isShowStripe ? 'transparent' : 'grayAlternatives.50'}
+            {...styles?.tr}
           >
             {headerGroup.headers.map((column: HeaderGroup<D>) => {
               const headerProps = column.getHeaderProps(
@@ -32,13 +43,11 @@ function Head<D extends object>({
                 <Th
                   display="flex"
                   alignItems="center"
-                  height="34px"
+                  height="100%"
                   padding="0 20px"
                   position={fixHead ? 'sticky' : 'static'}
                   color="grayAlternatives.400"
-                  borderColor={
-                    isShowStripe ? 'transparent' : 'grayAlternatives.50'
-                  }
+                  border="none"
                   {...headerProps}
                 >
                   {column.render('Header')}

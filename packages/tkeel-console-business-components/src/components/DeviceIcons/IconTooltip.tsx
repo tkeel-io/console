@@ -11,6 +11,7 @@ export default function IconTooltip({ label, children }: Props) {
     <Tooltip
       label={label}
       hasArrow
+      placement="top"
       bgColor="white"
       color="gray.700"
       lineHeight="24px"
