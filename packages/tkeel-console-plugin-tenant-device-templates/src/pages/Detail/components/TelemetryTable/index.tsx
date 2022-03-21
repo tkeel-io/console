@@ -5,6 +5,9 @@ import { Cell, Column } from 'react-table';
 // import CreateTelemetryButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/CreateTelemetryButton';
 // import DeleteDeviceButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/DeleteDeviceButton';
 // import MoveSubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/MoveSubscriptionButton';
+
+import { useCreateTelemetryMutation } from '@tkeel/console-request-hooks';
+
 import {
   CreateTelemetryButton,
   EditTelemetryButton,
@@ -57,6 +60,11 @@ function Index({ id, title }: { id: string; title: string }) {
       // const total = res?.data?.total ?? 0;
       setTotalSize(1);
     },
+  });
+
+  const { mutate } = useCreateTelemetryMutation({
+    id,
+    onSuccess() {},
   });
 
   // setTotalSize(data?.total || 0);
@@ -168,6 +176,9 @@ function Index({ id, title }: { id: string; title: string }) {
             handleSubmit={(formValues) => {
               // eslint-disable-next-line no-console
               console.log('add', formValues);
+              mutate({
+                data: { [formValues.id]: formValues },
+              });
             }}
           />,
         ]}

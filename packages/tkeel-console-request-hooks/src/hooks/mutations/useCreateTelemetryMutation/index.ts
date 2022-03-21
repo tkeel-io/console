@@ -1,24 +1,35 @@
 import { useMutation } from '@tkeel/console-hooks';
 
-export interface RequestData {
+
+export interface baseRequestData {
   id: string;
-  name: string;
-  description: string;
-  type: string;
-  // "name":"电压",
-  // "description":"A相电压",
-  // "type":"int",
-  // "define":{        
-  //     "min":"0",
-  //     "max":"1000",
-  //     "unit":"v",
-  //     "unitName":"伏",
-  //     "step":"0.1",
-  //     "ext":{
-  //         "alias":"EM_BI",
-  //         "ratio_of_transformation":"0.001"
-  //     }
-  // }       
+name: string;
+description: string;
+type: string;
+define: {     
+  // int
+  min: string;
+  max: string;
+  step: string;
+  unit: string;
+  // array
+  length: string;
+  elem_type: string;
+  // 
+
+
+    // "":"v",
+    // "unitName":"伏",
+    // "step":"0.1",
+    // "ext":{
+    //     "alias":"EM_BI",
+    //     "ratio_of_transformation":"0.001"
+    // }
+}    
+}
+
+export interface RequestData {
+  [propName: string]:baseRequestData
 }
 
 export interface ApiData {

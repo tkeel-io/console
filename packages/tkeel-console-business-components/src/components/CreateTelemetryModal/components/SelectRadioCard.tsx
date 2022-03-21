@@ -9,7 +9,7 @@ export interface Props {
 function SelectRadioCard({ options, onChange }: Props) {
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: 'framework',
-    defaultValue: 'react',
+    // defaultValue: 'react',
     onChange: (value) => {
       onChange(value);
     },

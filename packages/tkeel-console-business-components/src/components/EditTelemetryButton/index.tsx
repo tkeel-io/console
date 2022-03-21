@@ -3,7 +3,7 @@ import { useDisclosure } from '@chakra-ui/react';
 import { MoreActionButton } from '@tkeel/console-components';
 import { PencilFilledIcon } from '@tkeel/console-icons';
 // import useCreateSubscribeMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useCreateSubscribeMutation';
-import { RequestData as FormValues } from '@tkeel/console-request-hooks';
+import { baseRequestData as FormValues } from '@tkeel/console-request-hooks';
 
 import CreateTelemetryModal from '../CreateTelemetryModal';
 
