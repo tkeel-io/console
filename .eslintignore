@@ -3,6 +3,8 @@
 **/handlebars/
 **/dist/
 scripts/**/template/
+packages/**
+charts/**
 
 # Editor
 packages/tkeel-console-components/src/components/Editor/basic-languages/sql.ts
