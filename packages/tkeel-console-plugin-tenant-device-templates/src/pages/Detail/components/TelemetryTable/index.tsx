@@ -186,13 +186,11 @@ function Index({ id, title }: { id: string; title: string }) {
       <Table
         style={{
           flex: 1,
-          overflow: 'hidden',
           height: '100%',
           minHeight: '60vh',
         }}
         columns={columns}
         data={data || []}
-        scroll={{ y: '100%' }}
         isShowStripe
         isLoading={isLoading}
         paginationProps={pagination}

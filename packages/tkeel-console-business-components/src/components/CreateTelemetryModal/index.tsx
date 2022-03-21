@@ -1,9 +1,14 @@
-import { Box, Text, Flex } from '@chakra-ui/react';
+import { Box, Text, Flex, RadioGroup, Stack, Radio } from '@chakra-ui/react';
 
 import { ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { FormField, Modal, Select } from '@tkeel/console-components';
+import {
+  FormField,
+  Modal,
+  Select,
+  FormControl,
+} from '@tkeel/console-components';
 
 import { baseRequestData as FormValues } from '@tkeel/console-request-hooks';
 
@@ -11,17 +16,13 @@ import SelectRadioCard from './components/SelectRadioCard';
 
 const { TextField, TextareaField } = FormField;
 
-function handleConfigData(
-  configData: { value: string; config: string[] }[],
-  selectVal: string
-): string[] {
-  for (const items of configData) {
-    if (items.value === selectVal) {
-      return items.config;
-    }
-  }
-  return [];
-}
+const ELEMENT_LABELS = {
+  int32: 'int32',
+  float: 'float',
+  double: 'double',
+  string: 'string',
+  struct: 'struct',
+};
 
 const configData = [
   {
@@ -51,6 +52,18 @@ const configData = [
   },
 ];
 
+const inputType = [
+  '最大值',
+  '最小值',
+  '步长',
+  '单位',
+  '元素个数',
+  '数据最大长度',
+];
+const selectType = ['元素类型'];
+
+// const boolType = ['布尔值'];
+
 export interface FormFields {
   username?: {
     disabled?: boolean;
@@ -71,6 +84,18 @@ type Props = {
   onConfirm: (formValues: FormValues) => unknown;
 };
 
+function handleConfigData(
+  configData: { value: string; config: string[] }[],
+  selectVal: string
+): string[] {
+  for (const items of configData) {
+    if (items.value === selectVal) {
+      return items.config;
+    }
+  }
+  return [];
+}
+
 export default function CreateTelemetryModal({
   title,
   isOpen,
@@ -90,6 +115,7 @@ export default function CreateTelemetryModal({
     formState: { errors },
     // trigger,
     getValues,
+    setValue,
     reset,
   } = useForm<FormValues>({ defaultValues });
 
@@ -184,7 +210,8 @@ export default function CreateTelemetryModal({
         </Flex>
       )}
 
-      {selectRadioCardItem && (
+      {/* select */}
+      {selectRadioCardItem && inputType.indexOf(selectRadioCardItem) !== -1 && (
         <TextField
           id={selectRadioCardItem}
           label={selectRadioCardItem}
@@ -194,6 +221,33 @@ export default function CreateTelemetryModal({
         />
       )}
 
+      {selectRadioCardItem && selectType.indexOf(selectRadioCardItem) !== -1 && (
+        <FormControl id="elem_type" label="元素类型">
+          <RadioGroup
+            {...register('define.elem_type', {
+              required: { value: true, message: '元素类型' },
+            })}
+            onChange={(value) => {
+              setValue('define.elem_type', value);
+            }}
+          >
+            <Stack direction="row" spacing="12px">
+              {Object.entries(ELEMENT_LABELS).map((item) => (
+                <Radio
+                  key={item[0]}
+                  size="sm"
+                  colorScheme="primary"
+                  value={item[0]}
+                >
+                  {item[1]}
+                </Radio>
+              ))}
+            </Stack>
+          </RadioGroup>
+        </FormControl>
+      )}
+
+      {/*  */}
       <Box>
         <Text color="gray.600" fontSize="14px" mb="4px">
           描述

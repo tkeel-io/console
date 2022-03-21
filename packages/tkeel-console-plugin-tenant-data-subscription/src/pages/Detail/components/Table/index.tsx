@@ -279,7 +279,6 @@ function Index({ id, title }: { id: string; title: string }) {
         columns={columns}
         data={data?.data || []}
         onSelect={handleSelect}
-        scroll={{ y: '100%' }}
         isShowStripe
         isLoading={isLoading}
         paginationProps={pagination}
