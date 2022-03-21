@@ -1,4 +1,5 @@
 const shell = require('shelljs');
+
 const logger = require('../utils/logger');
 
 function runESLint({ cwd, files, isFix }) {

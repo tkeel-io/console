@@ -5,5 +5,9 @@ module.exports = {
       files: ['**/*.js'],
       extends: './eslint/javascript',
     },
+    {
+      files: ['**/*.ts'],
+      extends: './eslint/typescript',
+    },
   ],
 };
