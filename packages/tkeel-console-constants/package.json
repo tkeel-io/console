@@ -12,6 +12,6 @@
   "license": "Apache-2.0",
   "main": "./src/index.ts",
   "scripts": {
-    "lint:script": "eslint --fix \"**/*.{js,jsx,ts,tsx}\""
+    "lint:script": "npx eslint --fix \"**/*.{js,ts,tsx}\""
   }
 }
