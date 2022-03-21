@@ -1,15 +1,19 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
-// import { Cell, Column } from 'react-table';
-import { Column } from 'react-table';
-
+import { Cell, Column } from 'react-table';
+// import { Column } from 'react-table';
 // import CreateTelemetryButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/CreateTelemetryButton';
 // import DeleteDeviceButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/DeleteDeviceButton';
 // import MoveSubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/MoveSubscriptionButton';
-import { CreateTelemetryButton } from '@tkeel/console-business-components';
+import {
+  CreateTelemetryButton,
+  EditTelemetryButton,
+  DeleteTelemetryButton,
+} from '@tkeel/console-business-components';
+
 import {
   Empty,
-  // MoreAction,
+  MoreAction,
   PageHeaderToolbar,
   Table,
 } from '@tkeel/console-components';
@@ -106,37 +110,46 @@ function Index({ id, title }: { id: string; title: string }) {
       accessor: 'description',
     },
 
-    // {
-    //   Header: '操作',
-    //   width: 80,
-    //   Cell: ({ row }: Cell<Data>) =>
-    //     useMemo(() => {
-    //       const { original } = row;
+    {
+      Header: '操作',
+      width: 80,
+      Cell: ({ row }: Cell<Data>) =>
+        useMemo(() => {
+          const { original } = row;
+          console.log('useMemo ~ original', original);
 
-    //       return (
-    //         <MoreAction
-    //           buttons={[
-    //             <MoveSubscriptionButton
-    //               selected_ids={[original.ID]}
-    //               key="modify"
-    //               onSuccess={() => {
-    //                 refetch();
-    //               }}
-    //             />,
-    //             <DeleteDeviceButton
-    //               onSuccess={() => {}}
-    //               name={[original.name]}
-    //               key="delete"
-    //               selected_ids={[original.ID]}
-    //               refetchData={() => {
-    //                 refetch();
-    //               }}
-    //             />,
-    //           ]}
-    //         />
-    //       );
-    //     }, [row]),
-    // },
+          return (
+            <MoreAction
+              buttons={[
+                <EditTelemetryButton
+                  key="modify"
+                  handleSubmit={(formValues) => {
+                    console.log('useMemo ~ formValues', formValues);
+                    // refetch();
+                  }}
+                />,
+                <DeleteTelemetryButton
+                  key="delete"
+                  attributeInfo={{ name: original.name, id: original.id }}
+                  handleSubmit={(formValues) => {
+                    // eslint-disable-next-line no-console
+                    console.log('delete:', formValues);
+                  }}
+                />,
+                // <DeleteDeviceButton
+                //   onSuccess={() => {}}
+                //   name={[original.name]}
+                //   key="delete"
+                //   selected_ids={[original.ID]}
+                //   refetchData={() => {
+                //     refetch();
+                //   }}
+                // />,
+              ]}
+            />
+          );
+        }, [row]),
+    },
   ];
 
   return (
@@ -160,10 +173,14 @@ function Index({ id, title }: { id: string; title: string }) {
         ]}
       />
       <Table
-        style={{ flex: 1, overflow: 'hidden' }}
+        style={{
+          flex: 1,
+          overflow: 'hidden',
+          height: '100%',
+          minHeight: '60vh',
+        }}
         columns={columns}
         data={data || []}
-        // onSelect={handleSelect}
         scroll={{ y: '100%' }}
         isShowStripe
         isLoading={isLoading}
@@ -183,14 +200,14 @@ function Index({ id, title }: { id: string; title: string }) {
               content: { marginTop: '10px' },
             }}
             title=""
-            content={
-              <Box mt="20px">
-                {/* <CreateTelemetryButton
-                  key="create"
-                  onSuccess={handleCreateRoleSuccess}
-                /> */}
-              </Box>
-            }
+            // content={
+            //   <Box mt="20px">
+            //     <CreateDeviceButton
+            //       key="create"
+            //       onSuccess={handleCreateRoleSuccess}
+            //     />
+            //   </Box>
+            // }
           />
         }
       />

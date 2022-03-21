@@ -12,4 +12,8 @@ export { default as PluginNum } from './components/PluginNum';
 export { default as SetPasswordModal } from './components/SetPasswordModal';
 export { default as TemplateCard } from './components/TemplateCard';
 
+export { default as EditTelemetryButton } from './components/EditTelemetryButton';
+
 export { default as CreateTelemetryButton } from './components/CreateTelemetryButton';
+export { default as DeleteTelemetryButton } from './components/DeleteTelemetryButton';
+

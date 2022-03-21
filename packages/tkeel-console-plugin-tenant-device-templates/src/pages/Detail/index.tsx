@@ -133,7 +133,6 @@ function Detail(): JSX.Element {
       <Box
         flex="1"
         borderRadius="4px"
-        minH="80vh"
         background="linear-gradient(180deg, #FFFFFF 0%, #F9FBFD 100%)"
       >
         <Tabs display="flex" flexDirection="column" flex="1">
@@ -152,7 +151,7 @@ function Detail(): JSX.Element {
             {/* <TabPanel padding="0" height="100%" backgroundColor="white">
               1
             </TabPanel> */}
-            <TabPanel padding="0" height="100%" backgroundColor="white">
+            <TabPanel padding="0" height="100%">
               {/* <TelemetryTable id={ID} title={data?.title} ></TelemetryTable> */}
               <TelemetryTable id={ID} title="123" />
             </TabPanel>

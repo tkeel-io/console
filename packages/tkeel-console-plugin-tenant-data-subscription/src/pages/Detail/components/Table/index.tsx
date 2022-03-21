@@ -274,8 +274,7 @@ function Index({ id, title }: { id: string; title: string }) {
         style={{
           flex: 1,
           overflow: 'hidden',
-          height: '100%',
-          minHeight: '60vh',
+          minHeight: '80vh',
         }}
         columns={columns}
         data={data?.data || []}
