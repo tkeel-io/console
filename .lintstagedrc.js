@@ -12,27 +12,35 @@ function getPackageNameByFilePath(filePath) {
 
   if (packageInfo) {
     return packageInfo.packageJson.name;
-  } else {
-    return '';
   }
+  return 'root';
 }
 
 module.exports = {
   '*.{js,jsx,ts,tsx,json,hbs,handlebars,css,scss,md,yaml,yml}':
     'prettier --write',
   '*.{js,ts,tsx}': (files) => {
-    const packageNames = files.map((filePath) =>
-      getPackageNameByFilePath(filePath)
-    );
-    const uniqPackageNames = _.uniq(packageNames);
-    const commands = uniqPackageNames.map((packageName) => {
-      if (packageName) {
-        return `yarn workspace ${packageName} run lint:script:fix`;
+    const data = files.map((filePath) => ({
+      packageName: getPackageNameByFilePath(filePath),
+      filePath,
+    }));
+    const map = {};
+    data.forEach(({ packageName, filePath }) => {
+      const isInMap = packageName in map;
+      if (isInMap) {
+        map[packageName].push(filePath);
       } else {
-        return 'eslint --fix "**/*.{js,ts}"';
+        map[packageName] = [filePath];
       }
     });
-    return commands;
+    const commands = Object.entries(map).map(([packageName, filePaths]) => {
+      const filePathsString = filePaths.join(' ');
+      if (packageName === 'root') {
+        return `eslint --fix ${filePathsString}`;
+      }
+      return `yarn workspace ${packageName} run lint:script --fix ${filePathsString}`;
+    });
+    return commands.join(' \n ');
   },
   // '*.{ts,tsx}': 'tsc --noEmit',
   '*.{css,scss,js,jsx,ts,tsx}': 'stylelint --fix',

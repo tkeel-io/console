@@ -5,6 +5,7 @@
 scripts/**/template/
 packages/**
 charts/**
+!.lintstagedrc.js
 
 # Editor
 packages/tkeel-console-components/src/components/Editor/basic-languages/sql.ts
