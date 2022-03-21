@@ -55,6 +55,11 @@ module.exports = {
     'toastify',
     'rsuite',
     'noconflict',
+    'lunz',
+    'dockerhub',
+    'kubeconfig',
+    'KUBECONFIG',
+    'mkdir',
   ],
   ignorePaths: [
     '**/.idea/**',
