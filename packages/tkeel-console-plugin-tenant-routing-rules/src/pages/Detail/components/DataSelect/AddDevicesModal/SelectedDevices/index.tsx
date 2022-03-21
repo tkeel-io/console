@@ -14,6 +14,10 @@ export default function SelectedDevices({ devices, removeDevice }: Props) {
       {devices.map((device) => {
         const { basicInfo } = device?.properties ?? {};
         const { parentName, name } = basicInfo || {};
+        let deviceName = name || '';
+        if (parentName) {
+          deviceName = `${parentName}/${deviceName}`;
+        }
         return (
           <Flex
             key={device.id}
@@ -30,9 +34,10 @@ export default function SelectedDevices({ devices, removeDevice }: Props) {
                 color="gray.800"
                 fontSize="14px"
                 lineHeight="24px"
+                isTruncated
+                title={deviceName}
               >
-                {parentName ? `${parentName}/` : ''}
-                {name || ''}
+                {deviceName}
               </Text>
             </Flex>
             <CloseFilledIcon

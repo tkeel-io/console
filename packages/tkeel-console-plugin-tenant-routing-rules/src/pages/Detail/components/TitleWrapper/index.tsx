@@ -1,15 +1,23 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, StyleProps, Text } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 type Props = {
   icon: ReactNode;
   title: string;
   description: string;
+  styles?: {
+    wrapper?: StyleProps;
+  };
 };
 
-export default function TitleWrapper({ icon, title, description }: Props) {
+export default function TitleWrapper({
+  icon,
+  title,
+  description,
+  styles,
+}: Props) {
   return (
-    <Box>
+    <Box {...styles?.wrapper}>
       <Flex alignItems="center">
         {icon}
         <Text

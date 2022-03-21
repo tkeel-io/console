@@ -110,7 +110,10 @@ export default function Index(): JSX.Element {
                 })}
               </Grid>
             </Flex>
-            <Pagination {...pagination} style={{ padding: '0 20px' }} />
+            <Pagination
+              {...pagination}
+              styles={{ wrapper: { padding: '0 20px' } }}
+            />
           </>
         )}
       </Flex>

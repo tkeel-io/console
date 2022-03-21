@@ -17,7 +17,7 @@ import SelectedDevices from './SelectedDevices';
 type Props = {
   isOpen: boolean;
   onClose: () => unknown;
-  onConfirm: () => unknown;
+  onConfirm: (devices: DeviceItem[]) => unknown;
 };
 
 export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
@@ -28,6 +28,9 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
     RequestDataCondition[]
   >([]);
   const [selectedDevices, setSelectedDevices] = useState<DeviceItem[]>([]);
+  const [filteredSelectedDevices, setFilteredSelectedDevices] = useState<
+    DeviceItem[]
+  >([]);
 
   const { deviceGroupTree, isLoading: isDeviceGroupLoading } =
     useDeviceGroupQuery({
@@ -61,12 +64,32 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
     ]);
   };
 
+  const searchDevicesByKeywords = ({
+    devices,
+    keywords = deviceKeywords,
+  }: {
+    devices: DeviceItem[];
+    keywords?: string;
+  }) => {
+    return devices.filter((device) =>
+      (device.properties?.basicInfo?.name || '').includes(keywords)
+    );
+  };
+
   const handleDeviceSearch = () => {
-    // eslint-disable-next-line no-console
-    console.log('deviceKeywords', deviceKeywords);
+    const newFilteredSelectedDevices = searchDevicesByKeywords({
+      devices: selectedDevices,
+    });
+
+    setFilteredSelectedDevices(newFilteredSelectedDevices);
   };
 
   const treeNodeData = getTreeNodeData({ data: deviceGroupTree });
+
+  const handleSetSelectedDevices = (devices: DeviceItem[]) => {
+    setSelectedDevices(devices);
+    setFilteredSelectedDevices(searchDevicesByKeywords({ devices }));
+  };
 
   const handleAllCheckBoxChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { checked } = e.target;
@@ -81,7 +104,7 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
         ({ id }) => !deviceList.some((device) => device.id === id)
       );
     }
-    setSelectedDevices(newSelectedDevices);
+    handleSetSelectedDevices(newSelectedDevices);
   };
 
   const getNewDevices = ({
@@ -110,7 +133,7 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
       device,
       checked,
     });
-    setSelectedDevices(newSelectedDevices);
+    handleSetSelectedDevices(newSelectedDevices);
   };
 
   const titleStyle = {
@@ -140,7 +163,7 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
       width="900px"
       isOpen={isOpen}
       onClose={onClose}
-      onConfirm={onConfirm}
+      onConfirm={() => onConfirm(selectedDevices)}
       modalBodyStyle={{ padding: '20px' }}
     >
       <Flex justifyContent="space-between">
@@ -200,7 +223,7 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
               alignItems="center"
               cursor="pointer"
               onClick={() => {
-                setSelectedDevices([]);
+                handleSetSelectedDevices([]);
               }}
             >
               <BroomFilledIcon size="14px" color="grayAlternatives.300" />
@@ -225,9 +248,9 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
           />
           <Box {...contentStyle}>
             <SelectedDevices
-              devices={selectedDevices}
+              devices={filteredSelectedDevices}
               removeDevice={(deviceId) => {
-                setSelectedDevices(
+                handleSetSelectedDevices(
                   selectedDevices.filter((device) => device.id !== deviceId)
                 );
               }}

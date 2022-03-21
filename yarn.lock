@@ -3829,6 +3829,7 @@ __metadata:
     "@tkeel/console-request-hooks": "workspace:^"
     "@tkeel/console-types": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
+    "@types/react-table": ^7.7.10
     framer-motion: ^6.2.8
     lodash: ^4.17.21
     react: ^17.0.2
@@ -3836,6 +3837,7 @@ __metadata:
     react-hook-form: ^7.28.0
     react-query: ^3.34.16
     react-router-dom: ^6.2.2
+    react-table: ^7.7.0
   languageName: unknown
   linkType: soft
 
@@ -4434,7 +4436,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-table@npm:^7.7.9":
+"@types/react-table@npm:^7.7.10, @types/react-table@npm:^7.7.9":
   version: 7.7.10
   resolution: "@types/react-table@npm:7.7.10"
   dependencies:

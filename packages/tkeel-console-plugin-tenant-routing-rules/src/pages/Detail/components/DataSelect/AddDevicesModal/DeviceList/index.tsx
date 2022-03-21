@@ -27,9 +27,11 @@ export default function DeviceList({
   const checkedDevices = selectedDevices.filter(({ id }) =>
     deviceList.some((device) => device.id === id)
   );
-  const isAllChecked = checkedDevices.length === deviceList.length;
-  const isIndeterminate =
-    checkedDevices.length > 0 && checkedDevices.length < deviceList.length;
+
+  const { length } = checkedDevices;
+  const hasDevices = length > 0;
+  const isAllChecked = hasDevices && length === deviceList.length;
+  const isIndeterminate = hasDevices && length < deviceList.length;
 
   const textStyle = {
     color: 'gray.800',
