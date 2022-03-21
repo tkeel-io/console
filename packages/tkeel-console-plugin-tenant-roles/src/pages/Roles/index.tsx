@@ -162,5 +162,3 @@ export default function Roles() {
     </Flex>
   );
 }
-
-const b = 2;
