@@ -29,6 +29,7 @@ function Head<D extends object>({
         return (
           <Tr
             {...headerGroup.getHeaderGroupProps()}
+            height="34px"
             borderBottom="1px"
             borderColor={isShowStripe ? 'transparent' : 'grayAlternatives.50'}
             {...styles?.tr}
@@ -42,7 +43,7 @@ function Head<D extends object>({
                 <Th
                   display="flex"
                   alignItems="center"
-                  height="34px"
+                  height="100%"
                   padding="0 20px"
                   position={fixHead ? 'sticky' : 'static'}
                   color="grayAlternatives.400"

@@ -247,7 +247,7 @@ export default function DataSelect({ deviceList, handleSelectDevices }: Props) {
                       backgroundColor: 'gray.50',
                     },
                     head: { backgroundColor: 'gray.100' },
-                    headTr: { border: 'none' },
+                    headTr: { height: '44px', border: 'none' },
                     bodyTr: {
                       marginTop: '8px',
                       border: 'none',
