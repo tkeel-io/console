@@ -59,7 +59,6 @@ module.exports = {
     'dockerhub',
     'kubeconfig',
     'KUBECONFIG',
-    'kubeconfig',
     'mkdir',
   ],
   ignorePaths: [
