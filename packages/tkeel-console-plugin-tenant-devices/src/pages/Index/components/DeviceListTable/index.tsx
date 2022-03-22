@@ -37,6 +37,7 @@ import { SUBSCRIBES } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDe
 interface Props {
   groupTree: TreeNodeType;
   pagination: UsePaginationReturnType;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   deviceList: any;
   isLoading: boolean;
   refetch?: () => void;
@@ -246,7 +247,9 @@ function DeviceListTable({
       scroll={{ y: '100%' }}
       paginationProps={pagination}
       isLoading={isLoading}
-      style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
+      styles={{
+        wrapper: { flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' },
+      }}
     />
   );
 }

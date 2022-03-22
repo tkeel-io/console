@@ -1,6 +1,6 @@
 {
   "name": "@tkeel/console-utils",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "homepage": "https://github.com/tkeel-io/console#readme",
   "bugs": {
     "url": "https://github.com/tkeel-io/console/issues"
@@ -19,15 +19,15 @@
     "@tkeel/console-request-hooks": "workspace:^",
     "@tkeel/console-themes": "workspace:^",
     "@tkeel/console-types": "workspace:^",
-    "@types/lodash": "^4.14.179",
+    "@types/lodash": "^4.14.180",
     "add": "^2.0.6",
     "axios": "^0.26.1",
-    "dayjs": "^1.10.8",
+    "dayjs": "^1.11.0",
     "qs": "^6.10.3",
     "react": "^17.0.2",
-    "react-hook-form": "^7.27.1",
+    "react-hook-form": "^7.28.1",
     "react-router-dom": "^6.2.2",
-    "store2": "^2.13.1",
-    "yarn": "^1.22.17"
+    "store2": "^2.13.2",
+    "yarn": "^1.22.18"
   }
 }

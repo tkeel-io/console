@@ -1,4 +1,5 @@
 {
+  "eslint.workingDirectories": [{ "mode": "auto" }],
   "path-intellisense.mappings": {
     "@/tkeel-console-business-components": "${workspaceFolder}/packages/tkeel-console-business-components/src",
     "@/tkeel-console-components": "${workspaceFolder}/packages/tkeel-console-components/src",
@@ -7,13 +8,13 @@
     "@/tkeel-console-icons": "${workspaceFolder}/packages/tkeel-console-icons/src",
     "@/tkeel-console-plugin-admin-plugins": "${workspaceFolder}/packages/tkeel-console-plugin-admin-plugins/src",
     "@/tkeel-console-plugin-admin-tenants": "${workspaceFolder}/packages/tkeel-console-plugin-admin-tenants/src",
-    "@/tkeel-console-plugin-example": "${workspaceFolder}/packages/tkeel-console-plugin-example/src",
     "@/tkeel-console-plugin-tenant-data-query": "${workspaceFolder}/packages/tkeel-console-plugin-tenant-data-query/src",
     "@/tkeel-console-plugin-tenant-data-subscription": "${workspaceFolder}/packages/tkeel-console-plugin-tenant-data-subscription/src",
     "@/tkeel-console-plugin-tenant-device-templates": "${workspaceFolder}/packages/tkeel-console-plugin-tenant-device-templates/src",
     "@/tkeel-console-plugin-tenant-devices": "${workspaceFolder}/packages/tkeel-console-plugin-tenant-devices/src",
     "@/tkeel-console-plugin-tenant-plugins": "${workspaceFolder}/packages/tkeel-console-plugin-tenant-plugins/src",
     "@/tkeel-console-plugin-tenant-roles": "${workspaceFolder}/packages/tkeel-console-plugin-tenant-roles/src",
+    "@/tkeel-console-plugin-tenant-routing-rules": "${workspaceFolder}/packages/tkeel-console-plugin-tenant-routing-rules/src",
     "@/tkeel-console-plugin-tenant-users": "${workspaceFolder}/packages/tkeel-console-plugin-tenant-users/src",
     "@/tkeel-console-portal-admin": "${workspaceFolder}/packages/tkeel-console-portal-admin/src",
     "@/tkeel-console-portal-base": "${workspaceFolder}/packages/tkeel-console-portal-base/src",
