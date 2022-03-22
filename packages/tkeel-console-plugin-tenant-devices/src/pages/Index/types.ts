@@ -22,7 +22,7 @@ export type DeviceFormFields = {
   templateName: string;
   // useTemplate?: boolean;
   // selfLearn?: boolean;
-  extendInfo: any[];
+  extendInfo: { label: string; value: string }[];
   connectType?: string;
   connectInfo?: ConnectInfoType[];
   description: string;
@@ -58,6 +58,7 @@ export type TreeNodeData = {
   title: ReactNode;
   key: string;
   children: TreeNodeData[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   icon?: any;
   originData?: {
     nodeInfo: NodeInfo;

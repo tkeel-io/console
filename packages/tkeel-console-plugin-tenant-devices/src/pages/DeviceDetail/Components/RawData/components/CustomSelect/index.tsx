@@ -17,7 +17,7 @@ const selectOptions = [
 type Props = {
   color: string;
   selected: string;
-  onChange: (...args: any) => void;
+  onChange: (value: string) => void;
 };
 
 export default function CustomSelect({ onChange, color, selected }: Props) {

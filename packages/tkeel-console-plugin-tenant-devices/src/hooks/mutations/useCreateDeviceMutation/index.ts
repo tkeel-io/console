@@ -16,12 +16,13 @@ export interface DeviceInfoType {
       description: string;
       directConnection: boolean;
       parentId: string;
-      [propName: string]: any;
+      parentName: string;
+      templateId: string;
+      templateName: string;
     };
     sysField: {
       _createdAt: number;
       _token: string;
-      [propName: string]: any;
     };
   };
 }
@@ -38,7 +39,7 @@ export interface RequestData {
   templateName: string;
   parentId: string;
   ext: {
-    [propName: string]: unknown;
+    [propName: string]: string;
   };
 }
 

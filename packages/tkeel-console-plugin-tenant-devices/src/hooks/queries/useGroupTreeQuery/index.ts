@@ -9,16 +9,11 @@ export interface NodeInfo {
     group: {
       name: string;
       description: string;
-      ext: { [propName: string]: any };
+      ext: { [propName: string]: string };
       parentId: string;
       parentName?: string;
-      [propName: string]: any;
-    };
-    sysField: {
-      [propName: string]: any;
     };
   };
-  [propName: string]: any;
 }
 export interface TreeNodeType {
   [propName: string]: {
@@ -33,7 +28,7 @@ type RequestParams = {
   order_by?: string;
   is_descending?: boolean;
   query?: string;
-  condition: any[];
+  condition: { field: string; operator: string; value: string }[];
 };
 interface ApiData {
   '@type': string;
