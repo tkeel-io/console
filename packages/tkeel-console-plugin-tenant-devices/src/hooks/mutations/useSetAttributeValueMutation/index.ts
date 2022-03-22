@@ -3,28 +3,27 @@ import { useMutation } from '@tkeel/console-hooks';
 const method = 'POST';
 
 export interface ApiData {
-  details?: unknown;
+  '@type': string;
+  value?: unknown;
 }
 export interface RequestData {
-  description?: string;
-  name: string;
-  parentId: string;
-  ext: {
-    [propName: string]: unknown;
-  };
+  id: string;
+  value: any;
 }
 
-export default function useAddAttributeMutation({
+export default function useSetAttributeMutation({
   id,
   onSuccess,
 }: {
   id: string;
+  // data: RequestData;
   onSuccess?: () => void;
 }) {
   const url = `/tkeel-device/v1/devices/${id}/attribute/set`;
   return useMutation<ApiData, undefined, RequestData>({
     url,
     method,
+    // data,
     reactQueryOptions: { onSuccess },
   });
 }

@@ -7,7 +7,7 @@ const method = 'POST';
 
 export interface AttributeItem {
   define: {
-    default_value: any;
+    default_value: unknown;
     rw: ReadWriteType;
   };
   description: string;

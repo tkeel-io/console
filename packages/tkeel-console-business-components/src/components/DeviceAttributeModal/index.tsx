@@ -111,13 +111,15 @@ function DeviceAttributeModal({
         <Select
           placeholder="请选择数据类型"
           id="type"
-          defaultValue={getValues('type')}
+          defaultValue={getValues('type') || ''}
           style={{ width: '100%' }}
           {...register('type', {
             required: { value: true, message: '请选择数据类型' },
           })}
           onChange={(value: string) => {
-            setValue('type', value);
+            if (value) {
+              setValue('type', value);
+            }
           }}
         >
           {TypeOptions.map((val) => {
@@ -144,9 +146,6 @@ function DeviceAttributeModal({
       <FormControl id="rw" label="读写类型">
         <RadioGroup
           defaultValue="rw"
-          {...register('define.rw', {
-            required: { value: true, message: '读写类型' },
-          })}
           onChange={(value: ReadWriteType) => {
             setValue('define.rw', value);
           }}

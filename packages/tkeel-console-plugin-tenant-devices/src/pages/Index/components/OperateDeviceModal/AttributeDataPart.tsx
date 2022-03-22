@@ -20,7 +20,6 @@ import { DeviceFormFields } from '@/tkeel-console-plugin-tenant-devices/pages/In
 type Props = {
   attributeList?: AttributeItem[];
   watchFields: DeviceFormFields;
-  // formHandler: UseFormReturn<DeviceFormFields, object>;
 };
 const { TextField } = FormField;
 const TOOLTIP_OPTIONS = [
@@ -32,7 +31,7 @@ const TOOLTIP_OPTIONS = [
 function renderTooltip(info: {
   type: string;
   rw: string;
-  default_value: string | number;
+  default_value: unknown;
 }) {
   return (
     <SimpleGrid columns={1} spacingY="4px">
@@ -47,7 +46,8 @@ function renderTooltip(info: {
 }
 function renderLabel(item: AttributeItem) {
   const { define, name, type, id } = item;
-  const { rw, default_value } = define;
+  const rw = define?.rw ?? 'rw';
+  const default_value = define?.default_value;
   return (
     <Flex alignItems="center">
       <HStack h="24px" lineHeight="24px">
@@ -123,8 +123,6 @@ function AttributeDataPart({
   ],
   watchFields,
 }: Props) {
-  // eslint-disable-next-line no-console
-  console.log(attributeList);
   return (
     <Flex flexDirection="column" h="100%">
       <Text color="gray.500" fontSize="12px" mb="12px">

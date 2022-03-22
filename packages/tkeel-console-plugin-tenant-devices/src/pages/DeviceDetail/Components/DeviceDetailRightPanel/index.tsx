@@ -12,13 +12,20 @@ import RawData from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/co
 
 type Props = {
   deviceObject: DeviceObject;
-  /* refetch?: () => void; */
+  refetch?: () => void;
 };
 
-function DeviceDetailRightPanel({ deviceObject }: Props): JSX.Element {
-  const { properties, configs } = deviceObject;
-  const attributes = configs?.attributes ?? {};
-  const { connectInfo, rawData, basicInfo } = properties;
+function DeviceDetailRightPanel({ deviceObject, refetch }: Props): JSX.Element {
+  const { properties, configs, id } = deviceObject;
+  const attributeDefines = configs?.attributes?.define?.fields ?? {};
+  const {
+    connectInfo,
+    rawData,
+    basicInfo,
+    attributes: attributeValues,
+  } = properties;
+  // eslint-disable-next-line no-console
+  console.log(attributeValues);
   const tabs = [
     {
       label: '连接信息',
@@ -37,8 +44,11 @@ function DeviceDetailRightPanel({ deviceObject }: Props): JSX.Element {
       key: 'attributeData',
       component: (
         <AttributesData
-          attributeList={values(attributes)}
+          attributeValues={attributeValues}
+          attributeDefines={values(attributeDefines)}
           deviceName={basicInfo?.name ?? ''}
+          deviceId={id}
+          refetch={refetch}
         />
       ),
     },

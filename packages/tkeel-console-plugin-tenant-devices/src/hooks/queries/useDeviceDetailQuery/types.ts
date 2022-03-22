@@ -32,6 +32,10 @@ export interface RawData {
   values: string;
 }
 
+export interface Attributes {
+  [propName: string]: any;
+}
+
 export interface ConnectInfo {
   _clientId: string;
   _online: boolean;
@@ -56,28 +60,29 @@ export interface SysField {
   _subscribeAddr: string;
 }
 
-export interface Attributes {
-  [propName: string]: {
-    define: {
-      default_value: string;
-      rw: ReadWriteType;
-    };
-    description: string;
-    id: string;
-    name: string;
-    type: string;
-  };
-}
+// export interface Attributes {
+//   [propName: string]: {
+//     define: {
+//       default_value: string;
+//       rw: ReadWriteType;
+//     };
+//     description: string;
+//     id: string;
+//     name: string;
+//     type: string;
+//   };
+// }
 
 export interface DeviceObject {
   id: string;
   configs: {
-    attributes?: Attributes;
+    attributes?: { define?: { fields?: Attributes } };
   };
   properties: {
     basicInfo: BasicInfo;
     sysField: SysField;
     rawData: RawData;
+    attributes: Attributes;
     connectInfo: ConnectInfo;
   };
 }

@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable no-underscore-dangle */
 import { Flex } from '@chakra-ui/react';
+import { isEmpty } from 'lodash';
 import qs from 'qs';
 import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -29,7 +30,7 @@ function DeviceDetail(): JSX.Element {
   const { sysField, basicInfo } = properties ?? {};
   const originConnectInfo = properties?.connectInfo;
   const configs = deviceObject?.configs ?? {};
-  const { rawData, connectInfo } = useDeviceDetailSocket({
+  const { rawData, connectInfo, attributes } = useDeviceDetailSocket({
     id: id as string,
   });
   const connectData = connectInfo || originConnectInfo;
@@ -41,6 +42,9 @@ function DeviceDetail(): JSX.Element {
       sysField: sysField as SysField,
       basicInfo: basicInfo as BasicInfo,
       rawData,
+      attributes: !isEmpty(attributes)
+        ? attributes
+        : properties?.attributes ?? {},
       connectInfo: connectData,
     },
   };
@@ -53,7 +57,7 @@ function DeviceDetail(): JSX.Element {
   return (
     <Flex h="100%">
       <DeviceDetailLeftPanel refetch={refetch} deviceObject={deviceInfo} />
-      <DeviceDetailRightPanel deviceObject={deviceInfo} />
+      <DeviceDetailRightPanel deviceObject={deviceInfo} refetch={refetch} />
     </Flex>
   );
 }
