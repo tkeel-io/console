@@ -42,7 +42,7 @@ function runESLintAllFiles({ isFix } = {}) {
   });
 
   if (results.length > 0) {
-    throw new Error(results.join('\n'));
+    throw new Error('ESLint found errors or warnings');
   }
 }
 
