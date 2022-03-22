@@ -3633,11 +3633,11 @@ __metadata:
     "@tkeel/console-request-hooks": "workspace:^"
     "@tkeel/console-types": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
-    "@types/lodash": ^4.14.180
+    "@types/lodash": ^4.14.179
     framer-motion: ^6.2.8
     react: ^17.0.2
     react-dom: ^17.0.2
-    react-hook-form: ^7.28.1
+    react-hook-form: ^7.27.1
     react-query: ^3.34.16
     react-router-dom: ^6.2.2
     react-table: ^7.7.0
@@ -3655,12 +3655,11 @@ __metadata:
     "@tkeel/console-components": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
     "@tkeel/console-icons": "workspace:^"
-    "@tkeel/console-request-hooks": "workspace:^"
     "@tkeel/console-types": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
-    "@types/lodash": ^4.14.180
+    "@types/lodash": ^4.14.179
     "@types/react-csv": ^1.1.2
-    dayjs: ^1.11.0
+    dayjs: ^1.10.8
     framer-motion: ^6.2.8
     js-base64: ^3.7.2
     lodash: ^4.17.21
@@ -4313,7 +4312,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:*, @types/lodash@npm:^4.14.134, @types/lodash@npm:^4.14.180":
+"@types/lodash@npm:*, @types/lodash@npm:^4.14.134, @types/lodash@npm:^4.14.179, @types/lodash@npm:^4.14.180":
   version: 4.14.180
   resolution: "@types/lodash@npm:4.14.180"
   checksum: fc42ae3473695cac6e91553f832fef8eb51a31c1c0381cafa81b00dc3efe18e279786bdda77caf0b90a8340ba2ba7aa46ae6541d69870565f775d04c89128bc1
@@ -7264,7 +7263,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dayjs@npm:^1.11.0":
+"dayjs@npm:^1.10.8, dayjs@npm:^1.11.0":
   version: 1.11.0
   resolution: "dayjs@npm:1.11.0"
   checksum: 2d36f6d71345114cdcd89147adf9e05b4f8fe81684e08c8bf1f86b140aa0b86ecc3cae661a9348d96feb7fbefd03e1bc3697303688e95209670abcb36b4ece15
@@ -14516,7 +14515,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:^7.28.0, react-hook-form@npm:^7.28.1":
+"react-hook-form@npm:^7.27.1, react-hook-form@npm:^7.28.0, react-hook-form@npm:^7.28.1":
   version: 7.28.1
   resolution: "react-hook-form@npm:7.28.1"
   peerDependencies:
