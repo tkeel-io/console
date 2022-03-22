@@ -22,7 +22,15 @@ export interface Props<D extends object> extends UseTableOptions<D> {
   isLoading?: boolean;
   isShowStripe?: boolean;
   empty?: ReactNode;
-  style?: StyleProps;
+  styles?: {
+    wrapper?: StyleProps;
+    table?: StyleProps;
+    head?: StyleProps;
+    headTr?: StyleProps;
+    body?: StyleProps;
+    bodyTr?: StyleProps;
+    pagination?: StyleProps;
+  };
   onSelect?: ({
     isAllRowsSelected,
     selectedRowIds,

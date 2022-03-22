@@ -93,7 +93,7 @@ function EnablePluginList({ pluginName, uninstall }: Props) {
         />
       </Flex>
       <Table
-        style={{ flex: 1, overflow: 'hidden', padding: '0 20px' }}
+        styles={{ wrapper: { flex: 1, overflow: 'hidden', padding: '0 20px' } }}
         columns={columns}
         data={tenants}
         isLoading={isLoading}

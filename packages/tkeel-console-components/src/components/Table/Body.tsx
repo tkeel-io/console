@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable react/jsx-key */
-import { Tbody, Td, Text, Tr } from '@chakra-ui/react';
+import { StyleProps, Tbody, Td, Text, Tr } from '@chakra-ui/react';
 import { Row, TableBodyPropGetter, TableBodyProps } from 'react-table';
 
 type Props<D extends object> = {
@@ -16,6 +16,10 @@ type Props<D extends object> = {
       }
     | undefined;
   isShowStripe: boolean;
+  styles?: {
+    body?: StyleProps;
+    tr?: StyleProps;
+  };
 };
 
 type BodyStyle = {
@@ -29,6 +33,7 @@ function Body<D extends object>({
   prepareRow,
   scroll,
   isShowStripe,
+  styles,
 }: Props<D>) {
   const bodyStyle = {};
   if (scroll && scroll.y) {
@@ -37,7 +42,7 @@ function Body<D extends object>({
   }
 
   return (
-    <Tbody {...bodyStyle} {...getTableBodyProps()}>
+    <Tbody {...bodyStyle} {...getTableBodyProps()} {...styles?.body}>
       {page.map((row, i) => {
         prepareRow(row);
         let backgroundColor = 'transparent';
@@ -54,7 +59,10 @@ function Body<D extends object>({
           <Tr
             backgroundColor={backgroundColor}
             _hover={isShowStripe ? {} : { backgroundColor: 'gray.50' }}
+            borderBottom="1px"
+            borderColor={borderColor}
             {...row.getRowProps()}
+            {...styles?.tr}
           >
             {row.cells.map((cell) => {
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -67,7 +75,7 @@ function Body<D extends object>({
                   padding="0 20px"
                   color="gray.700"
                   fontSize="14px"
-                  borderColor={borderColor}
+                  border="none"
                   {...cell.getCellProps()}
                 >
                   {funcName === 'defaultRenderer' ? (

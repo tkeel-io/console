@@ -84,16 +84,26 @@ export default function Layout({ userActionMenusComponent, logo }: Props) {
               height="calc(100% - 20px)"
             />
           )}
-          {apps.length > 0 ? (
-            <Routes>
-              {renderApps()}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          ) : isLoadingMenus ? null : (
-            <Center width="100%">
-              <Image src={noPlugins} width="325px" />
-            </Center>
-          )}
+          {(() => {
+            if (apps.length > 0) {
+              return (
+                <Routes>
+                  {renderApps()}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              );
+            }
+
+            if (isLoadingMenus) {
+              return null;
+            }
+
+            return (
+              <Center width="100%">
+                <Image src={noPlugins} width="325px" />
+              </Center>
+            );
+          })()}
         </Flex>
       </Flex>
     </Flex>
