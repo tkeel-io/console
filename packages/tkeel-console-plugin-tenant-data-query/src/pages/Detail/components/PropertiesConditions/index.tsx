@@ -7,7 +7,7 @@ import iconCheckbox from '@/tkeel-console-plugin-tenant-data-query/assets/images
 import iconCheckboxChecked from '@/tkeel-console-plugin-tenant-data-query/assets/images/checkbox-checked.svg';
 import iconCheckboxIndeterminate from '@/tkeel-console-plugin-tenant-data-query/assets/images/checkbox-indeterminate.svg';
 import propertiesEmpty from '@/tkeel-console-plugin-tenant-data-query/assets/images/properties-empty.svg';
-import { Telemetry } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceDetailQuery';
+import { TelemetryFields } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceDetailQuery';
 
 export enum CheckBoxStatus {
   NOT_CHECKED = 'not-checked',
@@ -16,7 +16,7 @@ export enum CheckBoxStatus {
 }
 
 type Props = {
-  telemetry: Telemetry;
+  telemetry: TelemetryFields;
   keywords: string;
   templateCheckboxStatus: CheckBoxStatus;
   setTemplateCheckboxStatus: Dispatch<SetStateAction<CheckBoxStatus>>;

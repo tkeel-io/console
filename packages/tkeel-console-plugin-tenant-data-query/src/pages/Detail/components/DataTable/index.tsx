@@ -4,13 +4,13 @@ import { Empty, Loading } from '@tkeel/console-components';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import { DataItem } from '@/tkeel-console-plugin-tenant-data-query/hooks/mutations/useTelemetryDataMutation';
-import { Telemetry } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceDetailQuery';
+import { TelemetryFields } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceDetailQuery';
 
 type Props = {
   originalData: DataItem[];
   data: DataItem[];
   isLoading: boolean;
-  telemetry: Telemetry;
+  telemetry: TelemetryFields;
   styles?: {
     wrapper?: StyleProps;
     loading?: StyleProps;
