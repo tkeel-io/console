@@ -25,6 +25,7 @@ const ModalCloseButton = styled(ChakraModalCloseButton)`
 type Props = {
   isOpen: boolean;
   width?: string | number;
+  height?: string | number;
   title?: ReactNode;
   children: ReactNode;
   footer?: ReactNode;
@@ -36,7 +37,7 @@ type Props = {
   modalBodyStyle?: StyleProps;
   onClose: () => unknown;
   onCancel?: () => unknown;
-  onConfirm?: (arg: any) => unknown;
+  onConfirm?: (arg: unknown) => unknown;
 };
 
 const modalFooterProps = {
@@ -50,6 +51,7 @@ const modalFooterProps = {
 function Modal({
   isOpen,
   width = '600px',
+  height = 'auto',
   title,
   children,
   footer = null,
@@ -96,6 +98,7 @@ function Modal({
       <ModalOverlay />
       <ModalContent
         width={width}
+        height={height}
         maxWidth="unset"
         borderRadius="4px"
         boxShadow="0px 4px 8px rgba(36, 46, 66, 0.06)"

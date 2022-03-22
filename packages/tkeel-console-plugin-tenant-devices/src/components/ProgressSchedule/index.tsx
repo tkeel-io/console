@@ -90,10 +90,15 @@ function renderProgressDot({
 }
 
 function getStatus({ idx, current }: { idx: number; current: number }) {
+  let status = STATUS.DEFAULT;
   if (idx < current) {
-    return STATUS.COMPLETED;
+    status = STATUS.COMPLETED;
   }
-  return idx === current ? STATUS.PENDING : STATUS.DEFAULT;
+
+  if (idx === current) {
+    status = STATUS.PENDING;
+  }
+  return status;
 }
 
 export default function ProgressSchedule({

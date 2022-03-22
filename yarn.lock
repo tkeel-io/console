@@ -2936,7 +2936,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/react@npm:^11.8.2":
+"@emotion/react@npm:^11.8.1, @emotion/react@npm:^11.8.2":
   version: 11.8.2
   resolution: "@emotion/react@npm:11.8.2"
   dependencies:
@@ -3797,6 +3797,32 @@ __metadata:
     react-hook-form: ^7.28.1
     react-query: ^3.34.16
     react-router-dom: ^6.2.2
+  languageName: unknown
+  linkType: soft
+
+"@tkeel/console-plugin-tenant-routing-rules@workspace:packages/tkeel-console-plugin-tenant-routing-rules":
+  version: 0.0.0-use.local
+  resolution: "@tkeel/console-plugin-tenant-routing-rules@workspace:packages/tkeel-console-plugin-tenant-routing-rules"
+  dependencies:
+    "@chakra-ui/react": ^1.8.6
+    "@emotion/react": ^11.8.1
+    "@emotion/styled": ^11.8.1
+    "@tkeel/console-business-components": "workspace:^"
+    "@tkeel/console-components": "workspace:^"
+    "@tkeel/console-hooks": "workspace:^"
+    "@tkeel/console-icons": "workspace:^"
+    "@tkeel/console-request-hooks": "workspace:^"
+    "@tkeel/console-types": "workspace:^"
+    "@tkeel/console-utils": "workspace:^"
+    "@types/react-table": ^7.7.10
+    framer-motion: ^6.2.8
+    lodash: ^4.17.21
+    react: ^17.0.2
+    react-dom: ^17.0.2
+    react-hook-form: ^7.28.0
+    react-query: ^3.34.16
+    react-router-dom: ^6.2.2
+    react-table: ^7.7.0
   languageName: unknown
   linkType: soft
 

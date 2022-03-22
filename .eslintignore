@@ -1,11 +1,12 @@
 .yarn/
 **/node_modules/
-**/handlebars/
 **/dist/
-scripts/**/template/
 packages/**
+**/handlebars/
+scripts/**/template/
 charts/**
 !.lintstagedrc.js
+scripts/create-plugin/template/.lintstagedrc.js
 
 # Editor
 packages/tkeel-console-components/src/components/Editor/basic-languages/sql.ts
