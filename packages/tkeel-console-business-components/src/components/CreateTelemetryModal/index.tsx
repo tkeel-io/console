@@ -148,11 +148,15 @@ export default function CreateTelemetryModal({
     }),
   };
 
+  const RESET = () => {
+    reset();
+    setSelectOptions([]);
+    setSelectRadioCardItem('');
+  };
   const handleConfirm = async () => {
     const formValues = getValues();
-
     onConfirm({ ...formValues, type: selectValue as string });
-    reset();
+    RESET();
     // }
   };
 
@@ -162,7 +166,7 @@ export default function CreateTelemetryModal({
       isOpen={isOpen}
       // isConfirmButtonLoading={isConfirmButtonLoading}
       onClose={() => {
-        reset();
+        RESET();
         onClose();
       }}
       onConfirm={handleConfirm}

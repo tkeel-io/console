@@ -2,15 +2,8 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
 import { Cell, Column } from 'react-table';
 // import { Column } from 'react-table';
-// import CreateTelemetryButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/CreateTelemetryButton';
-// import DeleteDeviceButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/DeleteDeviceButton';
 // import MoveSubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/MoveSubscriptionButton';
-import { plugin } from '@tkeel/console-utils';
-
-import {
-  useCreateTelemetryMutation,
-  useDeleteTelemetryMutation,
-} from '@tkeel/console-request-hooks';
+// import { plugin } from '@tkeel/console-utils';
 
 import {
   CreateTelemetryButton,
@@ -35,7 +28,6 @@ import useListTemplateTelemetryQuery, {
 
 function Index({ id, title }: { id: string; title: string }) {
   // const toast = plugin.getPortalToast();
-  const toast = plugin.getPortalToast();
 
   const [keywords, setKeyWords] = useState('');
 
@@ -72,21 +64,10 @@ function Index({ id, title }: { id: string; title: string }) {
     },
   });
 
-  const { mutate } = useCreateTelemetryMutation({
-    id,
-    onSuccess() {},
-  });
-
-  const { mutate: deleteTemplateMutate } = useDeleteTelemetryMutation({
-    id,
-    onSuccess() {
-      // onSuccess();
-      toast('删除成功', { status: 'success' });
-      // refetchData();
-      refetch();
-      // onClose();
-    },
-  });
+  // const { mutate } = useCreateTelemetryMutation({
+  //   id,
+  //   onSuccess() {},
+  // });
 
   // setTotalSize(data?.total || 0);
 
@@ -160,8 +141,9 @@ function Index({ id, title }: { id: string; title: string }) {
                 <DeleteTelemetryButton
                   key="delete"
                   attributeInfo={{ name: original.name, id: original.id }}
-                  handleSubmit={(formValues) => {
-                    deleteTemplateMutate({ data: { ids: [formValues.id] } });
+                  uid={id}
+                  refetchData={() => {
+                    refetch();
                   }}
                 />,
                 // <DeleteDeviceButton
@@ -193,13 +175,17 @@ function Index({ id, title }: { id: string; title: string }) {
         buttons={[
           <CreateTelemetryButton
             key="create"
-            handleSubmit={(formValues) => {
-              // eslint-disable-next-line no-console
-              console.log('add', formValues);
-              mutate({
-                data: { [formValues.id]: formValues },
-              });
+            id={id}
+            refetchData={() => {
+              refetch();
             }}
+            // handleSubmit={(formValues) => {
+            //   // eslint-disable-next-line no-console
+            //   console.log('add', formValues);
+            //   mutate({
+            //     data: { [formValues.id]: formValues },
+            //   });
+            // }}
           />,
         ]}
       />

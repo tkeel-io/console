@@ -40,7 +40,13 @@ export interface ApiData {
   '@type': string;
   templateTeleObject: {
     configs: {
-      telemetry: Telemetry;
+      telemetry: {
+        define: {
+          fields: Telemetry
+        }
+      }
+      
+      ;
     };
   };
 }
@@ -80,7 +86,7 @@ export default function useListSubscribeEntitiesQuery({
   });
 
   const usefulData = getUsefulData(
-    data?.templateTeleObject?.configs?.telemetry as Telemetry
+    data?.templateTeleObject?.configs?.telemetry?.define?.fields as Telemetry
   );
 
   return { usefulData, data, ...rest };
