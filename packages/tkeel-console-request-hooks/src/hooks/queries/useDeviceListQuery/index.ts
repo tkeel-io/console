@@ -16,7 +16,7 @@ export interface DeviceItem {
       parentId: string;
       parentName: string;
       ext: {
-        [propName: string]: unknown;
+        [propName: string]: string;
       };
     };
     sysField: {
