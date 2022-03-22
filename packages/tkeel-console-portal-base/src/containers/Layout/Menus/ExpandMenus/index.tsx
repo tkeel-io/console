@@ -87,54 +87,62 @@ export default function ExpandMenus({ isDarkMenu, logo }: Props) {
         onSearch={handleSearch}
       /> */}
       <Box flex="1" overflow="auto" padding="20px">
-        {menus.length > 0 ? (
-          menus.map((menu) => {
-            const { id, name, icon, path, children } = menu;
-            const hasChildren = children && children[0];
-            const spread = spreadMenuId === id;
-            return (
-              <Box key={id} marginBottom="4px">
-                <Box key={id}>
-                  {hasChildren ? (
-                    <SubMenuTitle
-                      {...menu}
-                      spread={spread}
-                      handleMenuClick={handleMenuClick}
-                    />
-                  ) : (
-                    <MenuLink
-                      path={path as string}
-                      name={name}
-                      icon={icon as string}
-                    />
-                  )}
-                  {hasChildren && spread && (
-                    <Box
-                      marginTop="10px"
-                      padding="8px"
-                      borderRadius="4px"
-                      backgroundColor={
-                        isDarkMenu ? 'whiteAlpha.100' : 'gray.100'
-                      }
-                    >
-                      {children.map((subMenu) => (
-                        <SubMenuLink
-                          key={subMenu.id}
-                          name={subMenu.name}
-                          path={subMenu.path as string}
-                        />
-                      ))}
-                    </Box>
-                  )}
+        {(() => {
+          if (menus.length > 0) {
+            return menus.map((menu) => {
+              const { id, name, icon, path, children } = menu;
+              const hasChildren = children && children[0];
+              const spread = spreadMenuId === id;
+              return (
+                <Box key={id} marginBottom="8px">
+                  <Box key={id}>
+                    {hasChildren ? (
+                      <SubMenuTitle
+                        {...menu}
+                        spread={spread}
+                        handleMenuClick={handleMenuClick}
+                      />
+                    ) : (
+                      <MenuLink
+                        path={path as string}
+                        name={name}
+                        icon={icon as string}
+                      />
+                    )}
+                    {hasChildren && spread && (
+                      <Box
+                        marginTop="10px"
+                        padding="8px"
+                        borderRadius="4px"
+                        backgroundColor={
+                          isDarkMenu ? 'whiteAlpha.100' : 'gray.100'
+                        }
+                      >
+                        {children.map((subMenu) => (
+                          <SubMenuLink
+                            key={subMenu.id}
+                            name={subMenu.name}
+                            path={subMenu.path as string}
+                          />
+                        ))}
+                      </Box>
+                    )}
+                  </Box>
                 </Box>
-              </Box>
-            );
-          })
-        ) : isLoading ? null : (
-          <Center height="100%">
-            <Image src={emptyMenu} width="104px" />
-          </Center>
-        )}
+              );
+            });
+          }
+
+          if (isLoading) {
+            return null;
+          }
+
+          return (
+            <Center height="100%">
+              <Image src={emptyMenu} width="104px" />
+            </Center>
+          );
+        })()}
       </Box>
     </Flex>
   );

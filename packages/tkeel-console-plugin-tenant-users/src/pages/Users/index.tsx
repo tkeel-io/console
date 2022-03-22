@@ -139,11 +139,13 @@ export default function Users() {
         paginationProps={pagination}
         scroll={{ y: '100%' }}
         isLoading={isLoading}
-        style={{
-          flex: 1,
-          overflow: 'hidden',
-          padding: '12px 20px 0',
-          backgroundColor: 'whiteAlias',
+        styles={{
+          wrapper: {
+            flex: 1,
+            overflow: 'hidden',
+            padding: '12px 20px 0',
+            backgroundColor: 'whiteAlias',
+          },
         }}
       />
     </Flex>

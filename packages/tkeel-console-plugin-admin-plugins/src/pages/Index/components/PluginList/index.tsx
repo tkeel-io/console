@@ -101,7 +101,6 @@ function PluginList({
                       </Box>
                     ) : (
                       <InstallButton
-                        disabled={state === 'SAME_NAME'}
                         installPluginInfo={installPluginInfo}
                         onSuccess={refetchPlugins}
                       />
@@ -111,8 +110,8 @@ function PluginList({
                     <Flex justifyContent="space-between">
                       {tagMap[tag] && (
                         <Tag
+                          flexShrink="0"
                           colorScheme={tag === 'User' ? 'orange' : 'green'}
-                          // height="20px"
                           size="sm"
                           padding="0 4px"
                           borderRadius="2px"
@@ -125,8 +124,10 @@ function PluginList({
                         color="gray.500"
                         fontSize="12px"
                       >
-                        <Text>版本：{version}</Text>
-                        <Text marginLeft="20px">插件源：{repo}</Text>
+                        <Text isTruncated>版本：{version}</Text>
+                        <Text marginLeft="20px" isTruncated>
+                          插件源：{repo}
+                        </Text>
                       </Flex>
                     </Flex>
                   }
@@ -142,7 +143,7 @@ function PluginList({
             canNextPage={canNextPage}
             setPageNum={setPageNum}
             setPageSize={setPageSize}
-            style={{ padding: '0 20px' }}
+            styles={{ wrapper: { padding: '0 20px' } }}
           />
         </>
       )}

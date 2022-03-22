@@ -1,8 +1,8 @@
 import { Text } from '@chakra-ui/react';
 import { Base64 } from 'js-base64';
-import { MouseEventHandler } from 'react';
+import { MouseEventHandler, useState } from 'react';
 
-import { Editor, Modal } from '@tkeel/console-components';
+import { AceEditor, Modal } from '@tkeel/console-components';
 
 import useInstallPluginMutation from '@/tkeel-console-plugin-admin-plugins/hooks/mutations/useInstallPluginMutation';
 import usePluginDetailQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/usePluginDetailQuery';
@@ -28,17 +28,21 @@ function EditConfigModal({
   onClose,
   onSuccess,
 }: Props) {
-  const { repo, name, version } = installPluginInfo;
-  const { pluginDetail, isLoading: isQueryDetailLoading } =
-    usePluginDetailQuery({
-      repoName: repo,
-      installerName: name,
-      installerVersion: version,
-      enabled: isOpen,
-    });
+  const [configuration, setConfiguration] = useState('');
+  const { repo, name, version, state } = installPluginInfo;
+  const { isLoading: isQueryDetailLoading } = usePluginDetailQuery({
+    repoName: repo,
+    installerName: name,
+    installerVersion: version,
+    enabled: isOpen,
+    onSuccess(data) {
+      setConfiguration(data?.data?.installer?.metadata?.configuration ?? '');
+    },
+  });
 
   const { mutate, isLoading: isInstallLoading } = useInstallPluginMutation({
     name,
+    method: state === 'SAME_NAME' ? 'PUT' : 'POST',
     onSuccess,
   });
 
@@ -48,7 +52,7 @@ function EditConfigModal({
         name,
         version,
         repo,
-        configuration: pluginDetail?.metadata?.configuration || '',
+        configuration,
         type: 1,
       },
     });
@@ -67,11 +71,14 @@ function EditConfigModal({
       onClose={onClose}
       onConfirm={handleInstall}
     >
-      <Editor
-        width="100%"
+      <AceEditor
         height="426px"
         language="yaml"
-        value={Base64.decode(pluginDetail?.metadata?.configuration ?? '')}
+        readOnly={false}
+        value={Base64.decode(configuration)}
+        onChange={(value) => {
+          setConfiguration(Base64.encode(value));
+        }}
       />
     </Modal>
   );

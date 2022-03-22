@@ -74,6 +74,7 @@ export default function Tenants() {
           () => (
             <Button
               size="small"
+              color="gray.800"
               variant="link"
               onClick={() => navigate(`${row?.original?.tenant_id}`)}
             >
@@ -129,7 +130,7 @@ export default function Tenants() {
   ];
 
   return (
-    <Flex flexDirection="column" height="100%">
+    <Flex paddingTop="16px" flexDirection="column" height="100%">
       <PageHeader
         icon={<GroupTwoToneIcon size="26px" />}
         name="租户管理"
@@ -171,7 +172,13 @@ export default function Tenants() {
               styles={{ wrapper: { height: '100%' } }}
             />
           }
-          style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
+          styles={{
+            wrapper: {
+              flex: 1,
+              overflow: 'hidden',
+              backgroundColor: 'whiteAlias',
+            },
+          }}
         />
       </Flex>
     </Flex>

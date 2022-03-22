@@ -1,6 +1,6 @@
 {
   "name": "@tkeel/console-plugin-tenant-plugins",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "homepage": "https://github.com/tkeel-io/console#readme",
   "bugs": {
     "url": "https://github.com/tkeel-io/console/issues"
@@ -25,7 +25,7 @@
     "@tkeel/console-icons": "workspace:^",
     "@tkeel/console-types": "workspace:^",
     "@tkeel/console-utils": "workspace:^",
-    "@types/lodash": "^4.14.179",
+    "@types/lodash": "^4.14.180",
     "framer-motion": "^6.2.8",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

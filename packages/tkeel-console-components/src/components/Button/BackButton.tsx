@@ -1,12 +1,12 @@
-import { Flex, Text } from '@chakra-ui/react';
+import { Flex, FlexProps, Text } from '@chakra-ui/react';
 
 import { ChevronLeftFilledIcon } from '@tkeel/console-icons';
 
-type Props = {
+type Props = FlexProps & {
   onClick: () => unknown;
 };
 
-function BackButton({ onClick }: Props) {
+function BackButton({ onClick, ...rest }: Props) {
   return (
     <Flex
       width="57px"
@@ -22,6 +22,7 @@ function BackButton({ onClick }: Props) {
           color: 'gray.700',
         },
       }}
+      {...rest}
       onClick={onClick}
     >
       <ChevronLeftFilledIcon color="gray.700" />

@@ -106,7 +106,13 @@ export default function Users() {
         scroll={{ y: '100%' }}
         isLoading={isLoading}
         isShowStripe
-        style={{ flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' }}
+        styles={{
+          wrapper: {
+            flex: 1,
+            overflow: 'hidden',
+            backgroundColor: 'whiteAlias',
+          },
+        }}
       />
     </Flex>
   );

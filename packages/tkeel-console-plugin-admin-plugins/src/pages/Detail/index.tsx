@@ -5,9 +5,9 @@ import { useSearchParams } from 'react-router-dom';
 
 import { DeveloperInfo } from '@tkeel/console-business-components';
 import {
+  AceEditor,
   CustomTab,
   CustomTabList,
-  Editor,
   Empty,
 } from '@tkeel/console-components';
 
@@ -35,7 +35,7 @@ function Detail() {
   }
 
   return (
-    <Flex height="100%" paddingBottom="20px" justifyContent="space-between">
+    <Flex height="100%" justifyContent="space-between">
       <Box width="360px" flexShrink="0">
         <BasicInfoCard data={pluginDetail} refetchDetails={refetch} />
         <DeveloperInfo data={maintainers} />
@@ -74,12 +74,9 @@ function Detail() {
             )}
           </TabPanel>
           <TabPanel height="100%" padding="24px" backgroundColor="white">
-            <Editor
-              width="100%"
-              height="100%"
+            <AceEditor
               language="yaml"
               value={atob(pluginDetail?.metadata?.configuration ?? '')}
-              readOnly
             />
           </TabPanel>
           <TabPanel padding="0" height="100%">

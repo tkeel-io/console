@@ -4,13 +4,13 @@ import { Empty, Loading } from '@tkeel/console-components';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import { DataItem } from '@/tkeel-console-plugin-tenant-data-query/hooks/mutations/useTelemetryDataMutation';
-import { Telemetry } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceDetailQuery';
+import { TelemetryFields } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceDetailQuery';
 
 type Props = {
   originalData: DataItem[];
   data: DataItem[];
   isLoading: boolean;
-  telemetry: Telemetry;
+  telemetry: TelemetryFields;
   styles?: {
     wrapper?: StyleProps;
     loading?: StyleProps;
@@ -47,37 +47,43 @@ export default function DataTable({
         flexDirection="column"
         position="relative"
         zIndex="1"
-        boxShadow="7px 0px 12px rgba(216, 222, 229, 0.4)"
+        boxShadow="7px -4px 12px rgba(216, 222, 229, 0.4)"
       >
-        {keys.map((key, i) => (
-          <Flex
-            key={key}
-            alignItems="center"
-            paddingLeft="12px"
-            width="115px"
-            height={rowHeight}
-            color="gray.700"
-            fontSize="12px"
-            fontWeight="600"
-            backgroundColor={getRowBackgroundColor(i)}
-          >
-            {i === 0 ? key : telemetry[key]?.name}
-          </Flex>
-        ))}
+        {keys.map((key, i) => {
+          const telemetryName = telemetry[key]?.name ?? '';
+          return (
+            <Text
+              key={key}
+              paddingLeft="12px"
+              width="115px"
+              height={rowHeight}
+              lineHeight={rowHeight}
+              color="gray.700"
+              fontSize="12px"
+              fontWeight="600"
+              isTruncated
+              title={i === 0 ? '' : telemetryName}
+              backgroundColor={getRowBackgroundColor(i)}
+            >
+              {i === 0 ? key : telemetryName}
+            </Text>
+          );
+        })}
       </Flex>
       <Flex flex="1" overflow="auto">
-        <Flex>
-          {data.map((item) => (
+        <Flex flex="1">
+          {data.map((item, index) => (
             <Flex
               key={item.time}
+              flex={index === data.length - 1 ? '1' : 'unset'}
               flexDirection="column"
-              width="100px"
+              width="90px"
               color="gray.500"
               fontSize="12px"
             >
               <Flex
                 alignItems="center"
-                paddingLeft="10px"
+                paddingLeft="12px"
                 height={rowHeight}
                 whiteSpace="pre-wrap"
                 backgroundColor="gray.50"
@@ -90,7 +96,7 @@ export default function DataTable({
               {Object.keys(item.value).map((key, i) => (
                 <Text
                   key={key}
-                  paddingLeft="10px"
+                  paddingLeft="12px"
                   height={rowHeight}
                   lineHeight={rowHeight}
                   isTruncated
