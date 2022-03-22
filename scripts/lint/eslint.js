@@ -5,6 +5,8 @@ const { runESLint } = require('./exec');
 
 const packageInfos = readPackageInfos({ excludeDirectoryNames: [] });
 
+throw new Error('err');
+
 runESLint({ cwd: path.resolve(__dirname, '../..'), files: '**/*.{js,ts}' });
 
 packageInfos.forEach(({ absolutePath }) =>
