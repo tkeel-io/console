@@ -9,7 +9,9 @@ import {
   InfoCard,
   MoreAction,
 } from '@tkeel/console-components';
-import { BoxTwoToneIcon, DownloadFilledIcon } from '@tkeel/console-icons';
+import { BoxTwoToneIcon } from '@tkeel/console-icons';
+// import { BoxTwoToneIcon, DownloadFilledIcon } from '@tkeel/console-icons';
+
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import useTemplateInfoQuery from '@/tkeel-console-plugin-tenant-device-templates/hooks/queries/useTemplateInfoQuery';
@@ -119,7 +121,7 @@ function Detail(): JSX.Element {
           />
         </Box>
 
-        <Box background="#FFFFFF" mt="12px" padding="0 20px">
+        {/* <Box background="#FFFFFF" mt="12px" padding="0 20px">
           <Box style={{ fontSize: '14px', fontWeight: 600, color: 'gray.700' }}>
             批量入口
           </Box>
@@ -128,7 +130,7 @@ function Detail(): JSX.Element {
           </Box>
 
           <Box display="inline">批量导入</Box>
-        </Box>
+        </Box> */}
       </Box>
       <Box
         flex="1"

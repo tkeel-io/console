@@ -15,7 +15,9 @@ define: {
   // array
   length: string;
   elem_type: string;
-  // 
+  // bool
+  "0": string;
+  "1":string
 
 
     // "":"v",

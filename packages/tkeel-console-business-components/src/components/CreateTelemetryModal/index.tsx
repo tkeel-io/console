@@ -45,11 +45,11 @@ const configData = [
     label: 'string(字符串)',
     config: ['数据最大长度'],
   },
-  {
-    value: 'data',
-    label: 'data(时间型)',
-    config: ['时间格式'],
-  },
+  // {
+  //   value: 'data',
+  //   label: 'data(时间型)',
+  //   config: ['时间格式'],
+  // },
 ];
 
 const inputType = [
@@ -140,6 +140,12 @@ export default function CreateTelemetryModal({
     元素类型: register('define.elem_type', {
       required: { value: true, message: 'required' },
     }),
+    '0': register('define.0', {
+      required: { value: true, message: 'required' },
+    }),
+    '1': register('define.1', {
+      required: { value: true, message: 'required' },
+    }),
   };
 
   const handleConfirm = async () => {
@@ -193,6 +199,8 @@ export default function CreateTelemetryModal({
           setSelectValue(el);
           const config = handleConfigData(configData, el);
           setSelectOptions(config);
+          setSelectRadioCardItem('');
+          // setValue("define":  )
         }}
       />
 
@@ -211,40 +219,63 @@ export default function CreateTelemetryModal({
       )}
 
       {/* select */}
-      {selectRadioCardItem && inputType.indexOf(selectRadioCardItem) !== -1 && (
-        <TextField
-          id={selectRadioCardItem}
-          label={selectRadioCardItem}
-          isDisabled={formFields?.username?.disabled}
-          error={errors.name}
-          registerReturn={selectRadioCardObj[selectRadioCardItem]}
-        />
-      )}
+      {selectRadioCardItem && (
+        <>
+          {inputType.includes(selectRadioCardItem) && (
+            <TextField
+              id={selectRadioCardItem}
+              label={selectRadioCardItem}
+              isDisabled={formFields?.username?.disabled}
+              error={errors.name}
+              registerReturn={selectRadioCardObj[selectRadioCardItem]}
+            />
+          )}
 
-      {selectRadioCardItem && selectType.indexOf(selectRadioCardItem) !== -1 && (
-        <FormControl id="elem_type" label="元素类型">
-          <RadioGroup
-            {...register('define.elem_type', {
-              required: { value: true, message: '元素类型' },
-            })}
-            onChange={(value) => {
-              setValue('define.elem_type', value);
-            }}
-          >
-            <Stack direction="row" spacing="12px">
-              {Object.entries(ELEMENT_LABELS).map((item) => (
-                <Radio
-                  key={item[0]}
-                  size="sm"
-                  colorScheme="primary"
-                  value={item[0]}
-                >
-                  {item[1]}
-                </Radio>
-              ))}
-            </Stack>
-          </RadioGroup>
-        </FormControl>
+          {selectType.includes(selectRadioCardItem) && (
+            <FormControl id="elem_type" label="元素类型">
+              <RadioGroup
+                {...register('define.elem_type', {
+                  required: { value: true, message: '元素类型' },
+                })}
+                onChange={(value) => {
+                  setValue('define.elem_type', value);
+                }}
+              >
+                <Stack direction="row" spacing="12px">
+                  {Object.entries(ELEMENT_LABELS).map((item) => (
+                    <Radio
+                      key={item[0]}
+                      size="sm"
+                      colorScheme="primary"
+                      value={item[0]}
+                    >
+                      {item[1]}
+                    </Radio>
+                  ))}
+                </Stack>
+              </RadioGroup>
+            </FormControl>
+          )}
+
+          {selectRadioCardItem === '布尔值' && (
+            <>
+              <TextField
+                id="0"
+                label="0"
+                isDisabled={formFields?.username?.disabled}
+                error={errors.name}
+                registerReturn={selectRadioCardObj['0']}
+              />
+              <TextField
+                id="1"
+                label="1"
+                isDisabled={formFields?.username?.disabled}
+                error={errors.name}
+                registerReturn={selectRadioCardObj['1']}
+              />
+            </>
+          )}
+        </>
       )}
 
       {/*  */}
