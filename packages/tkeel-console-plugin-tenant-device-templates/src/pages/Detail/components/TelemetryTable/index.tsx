@@ -5,6 +5,8 @@ import { Cell, Column } from 'react-table';
 // import MoveSubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/MoveSubscriptionButton';
 // import { plugin } from '@tkeel/console-utils';
 
+import DetailTelemetryButton from '../DetailTelemetryButton';
+
 import {
   CreateTelemetryButton,
   EditTelemetryButton,
@@ -58,9 +60,12 @@ function Index({ id, title }: { id: string; title: string }) {
   } = useListTemplateTelemetryQuery({
     id,
     onSuccess(res) {
-      console.log('onSuccess ~ res', res);
+      // console.log('onSuccess ~ res');
       // const total = res?.data?.total ?? 0;
-      setTotalSize(1);
+      const total = Object.keys(
+        res.data.templateTeleObject.configs.telemetry.define.fields
+      ).length;
+      setTotalSize(total);
     },
   });
 
@@ -131,6 +136,7 @@ function Index({ id, title }: { id: string; title: string }) {
           return (
             <MoreAction
               buttons={[
+                <DetailTelemetryButton key="detail" />,
                 <EditTelemetryButton
                   key="modify"
                   handleSubmit={(formValues) => {
