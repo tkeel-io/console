@@ -8,6 +8,8 @@ import {
 } from '@tkeel/console-icons';
 
 import TitleWrapper from '../TitleWrapper';
+import ProductTab from './ProductTab';
+import RepublishInfoCard from './RepublishInfoCard';
 import RepublishToKafkaModal from './RepublishToKafkaModal';
 
 type Props = {
@@ -16,6 +18,13 @@ type Props = {
 
 export default function DataRepublish({ styles }: Props) {
   const [selectedProductId, setSelectedProductId] = useState('');
+  const [publishInfoList] = useState<{ address: string; topic: string }[]>([
+    {
+      address: '',
+      topic: 'test',
+    },
+  ]);
+
   const iconColor = 'grayAlternatives.300';
   const products = [
     {
@@ -31,6 +40,7 @@ export default function DataRepublish({ styles }: Props) {
       disable: true,
     },
   ];
+
   return (
     <Flex flexDirection="column" {...styles?.wrapper}>
       <TitleWrapper
@@ -52,39 +62,26 @@ export default function DataRepublish({ styles }: Props) {
           {products.map((product) => {
             const { id, icon, name, disable } = product;
             return (
-              <Flex
+              <ProductTab
                 key={id}
-                marginRight="8px"
-                justifyContent="center"
-                alignItems="center"
-                width="200px"
-                height="44px"
-                border="1px"
-                borderColor="gray.200"
-                borderRadius="4px"
-                backgroundColor="white"
-                opacity={disable ? '0.5' : '1'}
-                cursor={disable ? 'not-allowed' : 'pointer'}
+                name={name}
+                icon={icon}
+                disable={disable}
                 onClick={() => {
-                  if (!disable) {
-                    setSelectedProductId(id);
-                  }
+                  setSelectedProductId(id);
                 }}
-              >
-                {icon}
-                <Text
-                  marginLeft="10px"
-                  color="grayAlternatives.500"
-                  fontSize="14px"
-                  fontWeight="500"
-                  lineHeight="24px"
-                >
-                  {name}
-                </Text>
-              </Flex>
+              />
             );
           })}
         </Flex>
+        {publishInfoList.map((info, i) => (
+          <RepublishInfoCard
+            // eslint-disable-next-line react/no-array-index-key
+            key={i}
+            info={info}
+            styles={{ wrapper: { marginTop: '20px' } }}
+          />
+        ))}
       </Flex>
       {selectedProductId === 'kafka' && (
         <RepublishToKafkaModal
