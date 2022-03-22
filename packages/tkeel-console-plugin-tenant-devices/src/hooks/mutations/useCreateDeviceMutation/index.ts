@@ -16,12 +16,12 @@ export interface DeviceInfoType {
       description: string;
       directConnection: boolean;
       parentId: string;
-      [propName: string]: any;
+      templateId: string;
+      templateName: string;
     };
     sysField: {
       _createdAt: number;
       _token: string;
-      [propName: string]: any;
     };
   };
 }

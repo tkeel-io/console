@@ -84,10 +84,8 @@ function AttributesPanel({
     formState: { errors },
     // trigger,
     reset,
-  } = useForm<{ [propName: string]: any }>({});
+  } = useForm<{ [propName: string]: unknown }>({});
   useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('attributeValues', attributeValues);
     reset(attributeValues);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [attributeValues]);

@@ -8,7 +8,7 @@ export interface ApiData {
 }
 export interface RequestData {
   id: string;
-  value: any;
+  value: unknown;
 }
 
 export default function useSetAttributeMutation({
