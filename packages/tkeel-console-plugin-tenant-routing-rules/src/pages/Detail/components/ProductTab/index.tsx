@@ -1,4 +1,4 @@
-import { Flex, Text } from '@chakra-ui/react';
+import { Flex, StyleProps, Text } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 type Props = {
@@ -6,6 +6,9 @@ type Props = {
   icon: ReactNode;
   disable?: boolean;
   onClick?: () => unknown;
+  styles?: {
+    wrapper?: StyleProps;
+  };
 };
 
 export default function ProductTab({
@@ -13,6 +16,7 @@ export default function ProductTab({
   icon,
   disable = false,
   onClick,
+  styles,
 }: Props) {
   return (
     <Flex
@@ -27,16 +31,12 @@ export default function ProductTab({
       backgroundColor="white"
       opacity={disable ? '0.5' : '1'}
       cursor={disable ? 'not-allowed' : 'pointer'}
-      // onClick={() => {
-      //   if (!disable) {
-      //     setSelectedProductId(id);
-      //   }
-      // }}
       onClick={() => {
         if (!disable && onClick) {
           onClick();
         }
       }}
+      {...styles?.wrapper}
     >
       {icon}
       <Text

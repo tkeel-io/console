@@ -1,4 +1,4 @@
-import { Flex, StyleProps, Text } from '@chakra-ui/react';
+import { Flex, HStack, StyleProps, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 
 import {
@@ -7,8 +7,8 @@ import {
   ObjectStorageFilledIcon,
 } from '@tkeel/console-icons';
 
+import ProductTab from '../ProductTab';
 import TitleWrapper from '../TitleWrapper';
-import ProductTab from './ProductTab';
 import RepublishInfoCard from './RepublishInfoCard';
 import RepublishToKafkaModal from './RepublishToKafkaModal';
 
@@ -58,7 +58,7 @@ export default function DataRepublish({ styles }: Props) {
         <Text color="grayAlternatives.500" fontSize="14px" lineHeight="24px">
           请添加相关产品转发数据
         </Text>
-        <Flex marginTop="8px" alignItems="center">
+        <HStack marginTop="8px" spacing="8px">
           {products.map((product) => {
             const { id, icon, name, disable } = product;
             return (
@@ -73,7 +73,7 @@ export default function DataRepublish({ styles }: Props) {
               />
             );
           })}
-        </Flex>
+        </HStack>
         {publishInfoList.map((info, i) => (
           <RepublishInfoCard
             // eslint-disable-next-line react/no-array-index-key

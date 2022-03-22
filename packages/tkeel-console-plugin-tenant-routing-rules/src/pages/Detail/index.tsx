@@ -8,6 +8,7 @@ import { DeviceItem } from '@tkeel/console-request-hooks';
 
 import DataRepublish from './components/DataRepublish';
 import DataSelect from './components/DataSelect';
+import ErrorAction from './components/ErrorAction';
 import StepBar, { CurrentStep } from './components/StepBar';
 import TextWrapper from './components/TextWrapper';
 
@@ -86,7 +87,8 @@ export default function Detail() {
             deviceList={deviceList}
             handleSelectDevices={(devices) => setDeviceList(devices)}
           />
-          <DataRepublish styles={{ wrapper: { marginTop: '40px' } }} />
+          <DataRepublish styles={{ wrapper: { margin: '40px 0' } }} />
+          <ErrorAction />
         </Flex>
       </Flex>
     </Flex>
