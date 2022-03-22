@@ -1,3 +1,9 @@
+#!/usr/bin/env node
+
 const { runESLintAllFiles } = require('./exec');
 
-runESLintAllFiles({ isFix: false });
+const results = runESLintAllFiles({ isFix: false });
+
+if (results.length > 0) {
+  process.exit(1);
+}
