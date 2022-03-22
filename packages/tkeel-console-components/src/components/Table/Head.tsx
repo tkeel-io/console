@@ -39,6 +39,11 @@ function Head<D extends object>({
                 canSort ? column.getSortByToggleProps() : {}
               );
 
+              let sortIcon = '';
+              if (column.isSorted) {
+                sortIcon = column.isSortedDesc ? ' 🔽' : ' 🔼';
+              }
+
               return (
                 <Th
                   display="flex"
@@ -51,15 +56,7 @@ function Head<D extends object>({
                   {...headerProps}
                 >
                   {column.render('Header')}
-                  {canSort && (
-                    <Box>
-                      {column.isSorted
-                        ? column.isSortedDesc
-                          ? ' 🔽'
-                          : ' 🔼'
-                        : ''}
-                    </Box>
-                  )}
+                  {canSort && <Box>{sortIcon}</Box>}
                 </Th>
               );
             })}
