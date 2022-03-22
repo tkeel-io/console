@@ -55,6 +55,8 @@ export default function BaseRulesModal({
   const attribute = {
     size: '24px',
     style: { marginRight: '10px' },
+    twoToneColor: 'gray.400', // 二期删掉
+    color: 'gray.400', // 二期删掉
   };
 
   const activeAttribute = {
@@ -114,6 +116,7 @@ export default function BaseRulesModal({
             });
             return (
               <RadioCard
+                isDisabled
                 {...radio}
                 key={keyOpt}
                 label={titleOpt}
@@ -140,3 +143,4 @@ export default function BaseRulesModal({
     </Modal>
   );
 }
+//

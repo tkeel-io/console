@@ -7,8 +7,10 @@ import { plugin } from '@tkeel/console-utils';
 
 import MoreActionButton from '@/tkeel-console-plugin-tenant-routing-rules/components/MoreActionButton';
 import RouteLabel from '@/tkeel-console-plugin-tenant-routing-rules/components/RouteLabel';
+// import useRouteRulesQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRouteRulesQuery';
 import CreateRulesButton from '@/tkeel-console-plugin-tenant-routing-rules/pages/Index/components/CreateRulesButton';
 import RouteRulesCard from '@/tkeel-console-plugin-tenant-routing-rules/pages/Index/components/RouteRulesCard';
+import Step from '@/tkeel-console-plugin-tenant-routing-rules/pages/Index/components/Step';
 
 export default function Index(): JSX.Element {
   const pagination = usePagination();
@@ -43,6 +45,13 @@ export default function Index(): JSX.Element {
       process: 3,
     },
   ];
+
+  // const { tenants } = useRouteRulesQuery({
+  //   pageNum: 1,
+  //   pageSize: 20,
+  // });
+  // console.log(tenants);
+
   return (
     <Flex flexDirection="column" h="100%">
       <PageHeaderToolbar
@@ -82,36 +91,41 @@ export default function Index(): JSX.Element {
             </Text>
           </Flex>
         ) : (
-          <>
-            <Flex flexDirection="column" flex="1">
-              <Grid
-                templateColumns="repeat(2, 1fr)"
-                gap="20px"
-                overflowY="auto"
-                padding="12px 20px"
-              >
-                {routeRulesData.map((rule) => {
-                  const { id, name, desc, status, routeType } = rule;
-                  return (
-                    <RouteRulesCard
-                      key={id}
-                      briefInfo={{ name, desc, status }}
-                      operatorButton={
-                        <MoreActionButton cruxData={{ id, status }} />
-                      }
-                      bottomInfo={
-                        <Flex>
-                          <RouteLabel routeType={routeType} />
-                        </Flex>
-                      }
-                      onClick={() => {}}
-                    />
-                  );
-                })}
-              </Grid>
-            </Flex>
+          <Flex
+            flexDirection="column"
+            justifyContent="space-between"
+            flex="1"
+            overflow="hidden"
+          >
+            <Grid
+              templateColumns="repeat(2, 1fr)"
+              gap="20px"
+              overflowY="auto"
+              padding="12px 20px"
+            >
+              {routeRulesData.map((rule) => {
+                const { id, name, desc, status, routeType, process } = rule;
+                const currentStep = process as 0 | 1 | 2 | 3;
+                return (
+                  <RouteRulesCard
+                    key={id}
+                    briefInfo={{ name, desc, status }}
+                    operatorButton={
+                      <MoreActionButton cruxData={{ id, status }} />
+                    }
+                    bottomInfo={
+                      <Flex>
+                        <RouteLabel routeType={routeType} />
+                        <Step currentStep={currentStep} />
+                      </Flex>
+                    }
+                    onClick={() => {}}
+                  />
+                );
+              })}
+            </Grid>
             <Pagination {...pagination} style={{ padding: '0 20px' }} />
-          </>
+          </Flex>
         )}
       </Flex>
     </Flex>
