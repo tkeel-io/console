@@ -130,40 +130,48 @@ export default function PropertiesConditions({
         </Text>
       </Flex>
       <Flex flex="1" backgroundColor="gray.50">
-        {isDeviceDetailLoading ? (
-          <Loading styles={{ wrapper: { flex: '1' } }} />
-        ) : children.length === 0 ? (
-          <Center flex="1">
-            <Image src={propertiesEmpty} />
-          </Center>
-        ) : (
-          <Box flex="1" paddingTop="14px" paddingLeft="20px">
-            <Tree
-              treeData={treeData}
-              checkable
-              defaultExpandAll
-              checkedKeys={checkedKeys}
-              selectable={false}
-              onCheck={(keys) => {
-                const checkedNodeKeys = (keys as string[]).filter(
-                  (key) => key !== 'telemetryData'
-                );
-                setCheckedKeys(checkedNodeKeys);
-                let checkboxStatus = CheckBoxStatus.NOT_CHECKED;
-                const { length } = telemetryKeys;
-                const { length: keysLength } = checkedNodeKeys;
-                if (keysLength > 0) {
-                  if (keysLength === length) {
-                    checkboxStatus = CheckBoxStatus.CHECKED;
-                  } else if (keysLength < length) {
-                    checkboxStatus = CheckBoxStatus.INDETERMINATE;
+        {(() => {
+          if (isDeviceDetailLoading) {
+            return <Loading styles={{ wrapper: { flex: '1' } }} />;
+          }
+
+          if (children.length === 0) {
+            return (
+              <Center flex="1">
+                <Image src={propertiesEmpty} />
+              </Center>
+            );
+          }
+
+          return (
+            <Box flex="1" paddingTop="14px" paddingLeft="20px">
+              <Tree
+                treeData={treeData}
+                checkable
+                defaultExpandAll
+                checkedKeys={checkedKeys}
+                selectable={false}
+                onCheck={(keys) => {
+                  const checkedNodeKeys = (keys as string[]).filter(
+                    (key) => key !== 'telemetryData'
+                  );
+                  setCheckedKeys(checkedNodeKeys);
+                  let checkboxStatus = CheckBoxStatus.NOT_CHECKED;
+                  const { length } = telemetryKeys;
+                  const { length: keysLength } = checkedNodeKeys;
+                  if (keysLength > 0) {
+                    if (keysLength === length) {
+                      checkboxStatus = CheckBoxStatus.CHECKED;
+                    } else if (keysLength < length) {
+                      checkboxStatus = CheckBoxStatus.INDETERMINATE;
+                    }
                   }
-                }
-                setTemplateCheckboxStatus(checkboxStatus);
-              }}
-            />
-          </Box>
-        )}
+                  setTemplateCheckboxStatus(checkboxStatus);
+                }}
+              />
+            </Box>
+          );
+        })()}
       </Flex>
       <Button
         colorScheme="primary"
