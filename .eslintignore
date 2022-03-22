@@ -1,13 +1,16 @@
 .yarn/
 **/node_modules/
 **/handlebars/
-packages/*/dist/
+**/dist/
 scripts/**/template/
+packages/**
+charts/**
+!.lintstagedrc.js
 
 # Editor
 packages/tkeel-console-components/src/components/Editor/basic-languages/sql.ts
 packages/tkeel-console-components/src/components/Editor/basic-languages/yaml.ts
 packages/tkeel-console-components/src/components/Editor/registerCompletion.ts
 
-# react-table
-packages/tkeel-console-plugin-admin-plugins/src/types/react-table-config.d.ts
+# React Table
+packages/types-tkeel-console/react-table-config.d.ts
