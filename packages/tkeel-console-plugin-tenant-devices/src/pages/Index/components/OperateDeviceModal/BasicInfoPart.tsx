@@ -19,30 +19,35 @@ import {
   ConnectInfoType,
   ConnectOption,
   DeviceFormFields,
-  GroupOptions,
-  ModalMode,
   ModalType,
 } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
 
 const { TextField, TextareaField } = FormField;
+const templateOption = [
+  {
+    label: '测试模版_1',
+    id: 'iot-3decd8f3-d0c4-4923-81f2-a559f2b707da',
+  },
+  {
+    label: '测试模版_2',
+    id: 'iot-eb871989-e839-4451-ab62-534da8686b4e',
+  },
+];
 
 interface Props {
   formHandler: UseFormReturn<DeviceFormFields, object>;
   watchFields: DeviceFormFields;
   type: ModalType;
-  mode: ModalMode;
-  groupOptions: GroupOptions[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  groupOptions: any;
   handleSelectTemplate?: (selected: boolean) => void;
-  templateOptions: Array<{ label: string; id: string }>;
 }
 export default function BasicInfoPart({
   type,
-  mode,
   formHandler,
   watchFields,
   groupOptions,
   handleSelectTemplate,
-  templateOptions,
 }: Props) {
   const { register, formState, setValue, clearErrors } = formHandler;
   const { errors } = formState;
@@ -92,14 +97,13 @@ export default function BasicInfoPart({
               {...register('connectType', {
                 required: { value: true, message: '请选择设备连接方式' },
               })}
-              disabled={mode === ModalMode.EDIT}
               onChange={(value: string) => {
                 if (value) {
                   setValue('connectType', value);
                   clearErrors('connectType');
-                  if (value === ConnectOption.INDIRECT) {
-                    setValue('connectInfo', [ConnectInfoType.useTemplate]);
-                  }
+                  // if (value === ConnectOption.INDIRECT) {
+                  //   setValue('connectInfo', [ConnectInfoType.useTemplate]);
+                  // }
                 }
               }}
             >
@@ -135,9 +139,10 @@ export default function BasicInfoPart({
                     colorScheme="primary"
                     id="useTemplate"
                     value={ConnectInfoType.useTemplate}
-                    isDisabled={
-                      watchFields.connectType !== ConnectOption.DIRECT
-                    }
+                    isDisabled
+                    // isDisabled={
+                    //   watchFields.connectType !== ConnectOption.DIRECT
+                    // }
                   >
                     <Text color="gray.600" fontSize="14px">
                       使用设备模版
@@ -153,7 +158,7 @@ export default function BasicInfoPart({
                         value={watchFields.templateId}
                         style={{ width: '100%' }}
                         allowClear
-                        disabled={mode === ModalMode.EDIT}
+                        disabled
                         {...register('templateId', {
                           required: (watchFields.connectInfo || []).includes(
                             ConnectInfoType.useTemplate
@@ -168,7 +173,7 @@ export default function BasicInfoPart({
                           }
                         }}
                       >
-                        {templateOptions.map((val) => (
+                        {templateOption.map((val) => (
                           <Select.Option value={val.id} key={val.id}>
                             {val.label}
                           </Select.Option>

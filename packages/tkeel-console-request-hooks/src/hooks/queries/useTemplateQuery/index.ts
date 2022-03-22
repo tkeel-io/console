@@ -1,36 +1,48 @@
-import { useQuery } from '@tkeel/console-hooks';
+/* eslint-disable no-underscore-dangle */
+import { values } from 'lodash';
 
-type ReadWriteType = 'r' | 'w' | 'rw';
+import { useQuery } from '@tkeel/console-hooks';
+import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 const url = '/tkeel-device/v1/search';
 const method = 'POST';
 
-export interface AttributeItem {
-  define: {
-    default_value: unknown;
-    rw: ReadWriteType;
-  };
-  description: string;
-  enabled?: boolean;
-  id: string;
-  name: string;
-  type: string;
-  [propName: string]: any;
-}
-export interface TemplateItem {
-  configs: {
-    attributes: { [propName: string]: AttributeItem };
-  };
+export interface NodeInfo {
   id: string;
   properties: {
     basicInfo: {
+      description: string;
+      name: string;
+    };
+    group: {
       name: string;
       description: string;
+      ext: { [propName: string]: string };
     };
-    sysField: {
-      _createdAt: string | number;
-      _updatedAt: string | number;
+  };
+}
+
+export type TemplateTreeNodeDataType = {
+  title: string;
+  description: string;
+  key: string;
+  id: string;
+  updatedAt: string | number;
+};
+export interface TemplateTreeNodeType {
+  [propName: string]: {
+    id: string;
+    properties: {
+      basicInfo: {
+        name: string;
+        description: string;
+      };
+      sysField: {
+        _updatedAt: string | number;
+      };
     };
+    nodeInfo: NodeInfo;
+    subNode: TemplateTreeNodeType;
   };
 }
 
@@ -40,30 +52,37 @@ type RequestParams = {
   order_by?: string;
   is_descending?: boolean;
   query?: string;
-  condition: any[];
+  condition: { field: string; operator: string; value: string }[];
 };
 interface ApiData {
   '@type': string;
-  listDeviceObject: {
-    items: TemplateItem[];
-  };
+  listDeviceObject: TemplateTreeNodeType;
 }
 
-export default function useTemplateQuery({
-  params,
-  enabled = true,
-}: {
-  params: RequestParams;
-  enabled?: boolean;
-}) {
+function getTemplateKeyData(
+  data: TemplateTreeNodeType
+): TemplateTreeNodeDataType[] {
+  return values(data).map((item) => {
+    return {
+      title: item?.properties?.basicInfo?.name,
+      description: item?.properties?.basicInfo?.description,
+      id: item?.id,
+      key: item?.id,
+      updatedAt: formatDateTimeByTimestamp({
+        timestamp: item?.properties?.sysField?._updatedAt,
+      }),
+    };
+  });
+}
+
+export default function useTemplateQuery(requestParams: RequestParams) {
   const { data, ...rest } = useQuery<ApiData, undefined, RequestParams>({
     url,
     method,
-    data: params,
-    reactQueryOptions: {
-      enabled,
-    },
+    data: requestParams,
   });
-  const items = data?.listDeviceObject?.items ?? [];
-  return { items, data, ...rest };
+  const items = data?.listDeviceObject?.items ?? {};
+
+  const keyData = getTemplateKeyData(items);
+  return { items, keyData, data, ...rest };
 }

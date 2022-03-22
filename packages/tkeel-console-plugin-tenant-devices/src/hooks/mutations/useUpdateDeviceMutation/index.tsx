@@ -8,13 +8,13 @@ export interface ApiData {
 export interface RequestData {
   description: string;
   directConnection: boolean;
-  ext: { [propName: string]: any };
+  ext: { [propName: string]: unknown };
   name: string;
   selfLearn: boolean;
   parentId: string;
   parentName: string;
-  templateId: string;
-  templateName: string;
+  templateId?: string;
+  templateName?: string;
 }
 
 export default function useUpdateDeviceMutation({

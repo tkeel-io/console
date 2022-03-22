@@ -108,12 +108,6 @@ function DeviceDetailLeftPanel({ deviceObject, refetch }: Props): JSX.Element {
   const ext = basicInfo?.ext ?? {};
   const keys = Object.keys(ext);
   const extInfo = keys.map((r) => {
-    if (ext[r].name) {
-      return {
-        label: ext[r].name ?? '',
-        value: ext[r].value ?? '',
-      };
-    }
     return {
       label: r,
       value: basicInfo?.ext[r] ?? '',

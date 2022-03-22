@@ -3,16 +3,13 @@ import { useEffect, useMemo } from 'react';
 import { useWebSocket } from '@tkeel/console-hooks';
 
 import {
-  Attributes,
   ConnectInfo,
   RawData,
 } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 
 type Message = {
   rawData: RawData;
-  attributes: Attributes;
   connectInfo: ConnectInfo;
-  [propName: string]: unknown;
 };
 
 type Props = {
@@ -37,11 +34,9 @@ function useDeviceDetailSocket({ id }: Props) {
   useEffect(() => {
     sendJsonMessage({ id });
   }, [sendJsonMessage, id, readyState]);
-
   const rawData = lastJsonMessage?.rawData || {};
   const connectInfo = lastJsonMessage?.connectInfo;
-  const attributes = lastJsonMessage?.attributes || {};
-  return { rawData, connectInfo, attributes };
+  return { rawData, connectInfo };
 }
 
 export default useDeviceDetailSocket;

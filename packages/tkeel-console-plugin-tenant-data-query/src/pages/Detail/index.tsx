@@ -231,7 +231,7 @@ export default function Detail() {
                   filename={`data-${dayjs().valueOf()}.csv`}
                 >
                   <IconButton
-                    paddingLeft="4px"
+                    paddingLeft="6px"
                     paddingRight="16px"
                     icon={<DownloadFilledIcon size={14} />}
                     isShowCircle
@@ -303,7 +303,7 @@ export default function Detail() {
             <DataResultTitle />
             <Center flex="1">
               <SearchEmpty
-                title="请选择查询条件后，点击查询按钮 "
+                title="请选择查询条件后，点击确定按钮 "
                 styles={{ image: { marginBottom: '8px', width: '104px' } }}
               />
             </Center>
