@@ -52,6 +52,7 @@ export function jumpToTenantAuthTenantPage({
   jumpToPage({ path, isReplace, navigate });
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type JumpToAuthLoginPageOptions<TSearchParams = Record<string, any>> = {
   portalName: 'admin' | 'tenant';
   tenantId?: string;
@@ -62,6 +63,7 @@ type JumpToAuthLoginPageOptions<TSearchParams = Record<string, any>> = {
   navigate?: NavigateFunction;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function jumpToAuthLoginPage<TSearchParams = Record<string, any>>({
   portalName,
   tenantId = '',
