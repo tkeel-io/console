@@ -14,9 +14,11 @@ export interface TwoToneIconProps extends FilledIconProps {
 }
 
 export interface FilledIconPropsWithSvgComponent extends FilledIconProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   svgComponent: FunctionComponent<any>;
 }
 
 export interface TwoToneIconPropsWithSvgComponent extends TwoToneIconProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   svgComponent: FunctionComponent<any>;
 }
