@@ -51,6 +51,7 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
     directConnection,
     templateId,
     parentId,
+    templateName,
     selfLearn,
     ext,
   } = basicInfo || {};
@@ -59,6 +60,7 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
     selfLearn,
     description,
     templateId,
+    templateName,
     directConnection,
     name,
     ext,

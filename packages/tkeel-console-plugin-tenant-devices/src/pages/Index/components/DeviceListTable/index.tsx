@@ -97,7 +97,7 @@ function DeviceListTable({
     const name = item?.properties?.basicInfo?.name ?? '';
     const templateId = item?.properties?.basicInfo?.templateId ?? '';
     const templateName = item?.properties?.basicInfo?.templateName ?? '';
-    const selfLearn = item?.properties?.basicInfo?.templateName ?? false;
+    const selfLearn = item?.properties?.basicInfo?.selfLearn ?? false;
     const directConnection =
       item?.properties?.basicInfo?.directConnection ?? false;
     const createTime = item?.properties?.sysField?._createdAt ?? '';

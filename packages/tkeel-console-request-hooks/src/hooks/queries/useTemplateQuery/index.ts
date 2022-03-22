@@ -15,7 +15,6 @@ export interface AttributeItem {
   id: string;
   name: string;
   type: string;
-  [propName: string]: any;
 }
 export interface TemplateItem {
   configs: {
@@ -40,7 +39,7 @@ type RequestParams = {
   order_by?: string;
   is_descending?: boolean;
   query?: string;
-  condition: any[];
+  condition: { field: string; operator: string; value: string }[];
 };
 interface ApiData {
   '@type': string;

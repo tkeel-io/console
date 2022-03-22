@@ -73,56 +73,7 @@ function renderLabel(item: AttributeItem) {
     </Flex>
   );
 }
-function AttributeDataPart({
-  attributeList = [
-    {
-      define: {
-        default_value: 0.7,
-        rw: 'r',
-      },
-      description: '',
-      enabled: false,
-      enabled_search: false,
-      enabled_time_series: false,
-      id: 'Cos',
-      last_time: 0,
-      name: '功能因数',
-      type: 'float',
-      weight: 0,
-    },
-    {
-      define: {
-        default_value: 0.7,
-        rw: 'rw',
-      },
-      description: '',
-      enabled: false,
-      enabled_search: false,
-      enabled_time_series: false,
-      id: 'ele',
-      last_time: 0,
-      name: '电流',
-      type: 'float',
-      weight: 0,
-    },
-    {
-      define: {
-        default_value: 100,
-        rw: 'rw',
-      },
-      description: '',
-      enabled: false,
-      enabled_search: false,
-      enabled_time_series: false,
-      id: 'size',
-      last_time: 0,
-      name: '尺寸',
-      type: 'float',
-      weight: 0,
-    },
-  ],
-  watchFields,
-}: Props) {
+function AttributeDataPart({ attributeList = [], watchFields }: Props) {
   return (
     <Flex flexDirection="column" h="100%">
       <Text color="gray.500" fontSize="12px" mb="12px">

@@ -52,7 +52,8 @@
   width: 246px;
 
   .rs-calendar-table-cell:hover .rs-calendar-table-cell-content {
-    color: var(--chakra-colors-primarySub) !important;
+    color: var(--chakra-colors-primary) !important;
+    background-color: var(--chakra-colors-primarySub) !important;
   }
 
   .rs-calendar-month-dropdown-cell-active

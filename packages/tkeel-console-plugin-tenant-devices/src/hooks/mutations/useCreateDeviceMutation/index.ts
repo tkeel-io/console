@@ -16,6 +16,7 @@ export interface DeviceInfoType {
       description: string;
       directConnection: boolean;
       parentId: string;
+      parentName: string;
       templateId: string;
       templateName: string;
     };
@@ -34,11 +35,11 @@ export interface RequestData {
   name: string;
   directConnection: boolean;
   selfLearn: boolean;
-  templateId: string;
-  templateName: string;
+  templateId?: string;
+  templateName?: string;
   parentId: string;
   ext: {
-    [propName: string]: unknown;
+    [propName: string]: string;
   };
 }
 

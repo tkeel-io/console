@@ -257,7 +257,7 @@ function Index(): JSX.Element {
     params,
     onSuccess: (data) => {
       const total = data?.data?.listDeviceObject?.total ?? 0;
-      setTotalSize(total as number);
+      setTotalSize(total);
     },
   });
 
