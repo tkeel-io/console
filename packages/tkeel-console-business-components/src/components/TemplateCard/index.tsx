@@ -51,7 +51,14 @@ function TemplateCard({
           </Flex>
 
           <Flex>
-            <Box ml="6px">{buttons && <MoreAction buttons={buttons} />}</Box>
+            <Box ml="6px">
+              {buttons && (
+                <MoreAction
+                  buttons={buttons}
+                  styles={{ actionList: { width: '140px' } }}
+                />
+              )}
+            </Box>
           </Flex>
         </Flex>
 

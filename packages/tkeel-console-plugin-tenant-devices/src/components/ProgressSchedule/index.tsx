@@ -9,6 +9,7 @@ export interface Props {
   infos?: string[];
   currentStep?: number;
   mode?: ModalMode;
+  handleClick?: (index: number) => void;
 }
 const STATUS = {
   DEFAULT: 0,
@@ -38,14 +39,24 @@ function renderProgressDot({
   index,
   label,
   mode,
+  handleClick,
 }: {
   status: number;
   index: number;
   label: string;
   mode: ModalMode;
+  handleClick: (index: number) => void;
 }) {
   return (
-    <Flex h="48px" w="100%" align="center">
+    <Flex
+      h="48px"
+      w="100%"
+      align="center"
+      cursor={mode === ModalMode.EDIT ? 'pointer' : 'default'}
+      onClick={() => {
+        handleClick(index);
+      }}
+    >
       <Center
         w="24px"
         h="24px"
@@ -79,6 +90,7 @@ function renderProgressDot({
 }
 
 function getStatus({ idx, current }: { idx: number; current: number }) {
+  // eslint-disable-next-line no-nested-ternary
   return idx < current
     ? STATUS.COMPLETED
     : idx === current
@@ -90,6 +102,7 @@ export default function ProgressSchedule({
   infos = [],
   currentStep = 0,
   mode = ModalMode.CREATE,
+  handleClick = () => {},
 }: Props) {
   return (
     <Flex h="100%" flexDirection="column">
@@ -101,6 +114,11 @@ export default function ProgressSchedule({
               index: idx + 1,
               label: item,
               mode,
+              handleClick: () => {
+                if (mode === ModalMode.EDIT) {
+                  handleClick(idx);
+                }
+              },
             })}
             {idx !== infos.length - 1 &&
               mode !== ModalMode.EDIT &&

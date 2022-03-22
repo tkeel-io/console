@@ -37,7 +37,7 @@ type Props = {
   modalBodyStyle?: StyleProps;
   onClose: () => unknown;
   onCancel?: () => unknown;
-  onConfirm?: (arg: any) => unknown;
+  onConfirm?: (arg: unknown) => unknown;
 };
 
 const modalFooterProps = {

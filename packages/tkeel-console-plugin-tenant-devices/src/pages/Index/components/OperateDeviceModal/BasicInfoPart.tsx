@@ -157,6 +157,7 @@ export default function BasicInfoPart({
                         value={watchFields.templateId}
                         style={{ width: '100%' }}
                         allowClear
+                        disabled
                         {...register('templateId', {
                           required: (watchFields.connectInfo || []).includes(
                             ConnectInfoType.useTemplate

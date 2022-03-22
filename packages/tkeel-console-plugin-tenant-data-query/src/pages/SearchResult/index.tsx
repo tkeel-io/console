@@ -149,31 +149,37 @@ export default function SearchResult() {
           canHover={false}
         />
       </Flex>
-      {isLoading ? (
-        <Loading styles={{ wrapper: { flex: '1' } }} />
-      ) : deviceList.length === 0 ? (
-        <Empty styles={{ wrapper: { flex: '1' } }} />
-      ) : (
-        <Flex
-          alignContent="flex-start"
-          flexWrap="wrap"
-          marginTop="12px"
-          flex="1"
-          width="100%"
-        >
-          {deviceList.map((device, i) => (
-            <DeviceInfoCard
-              key={device.id}
-              device={device}
-              style={{
-                marginRight: (i + 1) % 4 === 0 ? '0' : '0.5%',
-                marginBottom: '10px',
-                width: '24.6%',
-              }}
-            />
-          ))}
-        </Flex>
-      )}
+      {(() => {
+        if (isLoading) {
+          return <Loading styles={{ wrapper: { flex: '1' } }} />;
+        }
+
+        if (deviceList.length === 0) {
+          return <Empty styles={{ wrapper: { flex: '1' } }} />;
+        }
+
+        return (
+          <Flex
+            alignContent="flex-start"
+            flexWrap="wrap"
+            marginTop="12px"
+            flex="1"
+            width="100%"
+          >
+            {deviceList.map((device, i) => (
+              <DeviceInfoCard
+                key={device.id}
+                device={device}
+                style={{
+                  marginRight: (i + 1) % 4 === 0 ? '0' : '0.5%',
+                  marginBottom: '10px',
+                  width: '24.6%',
+                }}
+              />
+            ))}
+          </Flex>
+        );
+      })()}
     </Flex>
   );
 }
