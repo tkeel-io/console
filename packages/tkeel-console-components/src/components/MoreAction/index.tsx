@@ -1,4 +1,11 @@
-import { Box, Circle, Colors, StyleProps, useTheme } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Circle,
+  Colors,
+  StyleProps,
+  useTheme,
+} from '@chakra-ui/react';
 import {
   cloneElement,
   MouseEventHandler,
@@ -8,9 +15,14 @@ import {
   useState,
 } from 'react';
 
-import { MoreVerticalFilledIcon } from '@tkeel/console-icons';
+import {
+  CaretDownFilledIcon,
+  CaretUpFilledIcon,
+  MoreVerticalFilledIcon,
+} from '@tkeel/console-icons';
 
 type Props = {
+  type?: 'icon' | 'text';
   element?: ReactNode;
   buttons: ReactElement[];
   buttonProps?: object;
@@ -28,6 +40,7 @@ interface CustomColors extends Colors {
 }
 
 export default function MoreAction({
+  type = 'icon',
   element,
   buttons,
   isActionListOpen = false,
@@ -103,23 +116,43 @@ export default function MoreAction({
       onMouseLeave={handleMouseLeave}
       {...styles.wrapper}
     >
-      {element || (
-        <Circle
-          size="28px"
-          backgroundColor={showActionList ? 'gray.100' : 'transparent'}
-          cursor="pointer"
-          _hover={{
-            backgroundColor: 'gray.100',
-            '& > svg': {
-              fill: `${colors.primary} !important`,
-            },
-          }}
-        >
-          <MoreVerticalFilledIcon
-            color={showActionList ? 'primary' : 'grayAlternatives.300'}
-          />
-        </Circle>
-      )}
+      {element ||
+        (type === 'icon' ? (
+          <Circle
+            size="28px"
+            backgroundColor={showActionList ? 'gray.100' : 'transparent'}
+            cursor="pointer"
+            _hover={{
+              backgroundColor: 'gray.100',
+              '& > svg': {
+                fill: `${colors.primary} !important`,
+              },
+            }}
+          >
+            <MoreVerticalFilledIcon
+              color={showActionList ? 'primary' : 'grayAlternatives.300'}
+            />
+          </Circle>
+        ) : (
+          <Button
+            rightIcon={
+              isActionListOpen ? (
+                <CaretUpFilledIcon color="white" />
+              ) : (
+                <CaretDownFilledIcon color="white" />
+              )
+            }
+            width="92px"
+            paddingRight="18px"
+            css={`
+              > span {
+                margin-left: 1px;
+              }
+            `}
+          >
+            更多操作
+          </Button>
+        ))}
       <Box
         display={showActionList ? 'block' : 'none'}
         position="absolute"
