@@ -81,7 +81,7 @@ function Table<D extends object>({
 
   useDeepCompareEffect(() => {
     if (onSelect) {
-      console.log('selectedRows', selectedRows);
+      // console.log('selectedRows', selectedRows);
       onSelect({
         isAllRowsSelected,
         selectedRowIds,

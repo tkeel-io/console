@@ -35,7 +35,6 @@ function Index() {
   const { keyData, refetch } = useTemplateQuery(defaultParams);
 
   // eslint-disable-next-line no-console
-
   console.log(keyWord);
   // console.log(keyWord, result);
 

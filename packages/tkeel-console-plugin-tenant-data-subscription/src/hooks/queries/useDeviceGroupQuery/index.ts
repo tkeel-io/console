@@ -1,3 +1,4 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 import { useQuery } from '@tkeel/console-hooks';
 
 const url = '/tkeel-device/v1/groups/tree';
