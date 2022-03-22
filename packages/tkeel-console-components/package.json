@@ -1,6 +1,6 @@
 {
   "name": "@tkeel/console-components",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "homepage": "https://github.com/tkeel-io/console#readme",
   "bugs": {
     "url": "https://github.com/tkeel-io/console/issues"
@@ -21,23 +21,25 @@
     "@tkeel/console-themes": "workspace:^",
     "@tkeel/console-types": "workspace:^",
     "@tkeel/console-utils": "workspace:^",
-    "@types/lodash": "^4.14.179",
-    "dayjs": "^1.10.8",
+    "@types/lodash": "^4.14.180",
+    "ace-builds": "^1.4.14",
+    "dayjs": "^1.11.0",
     "framer-motion": "^6.2.8",
     "lodash": "^4.17.21",
     "rc-pagination": "^3.1.15",
-    "rc-select": "^14.0.2",
-    "rc-tree": "^5.4.4",
-    "rc-tree-select": "^5.1.4",
+    "rc-select": "^14.0.5",
+    "rc-tree": "^5.5.0",
+    "rc-tree-select": "^5.2.0",
     "react": "^17.0.2",
+    "react-ace": "^9.5.0",
     "react-dom": "^17.0.2",
-    "react-hook-form": "^7.27.1",
+    "react-hook-form": "^7.28.1",
     "react-table": "^7.7.0",
     "react-toastify": "^8.2.0",
     "react-use": "^17.3.2",
-    "rsuite": "^5.6.4"
+    "rsuite": "^5.6.5"
   },
   "devDependencies": {
-    "@types/react-table": "^7.7.9"
+    "@types/react-table": "^7.7.10"
   }
 }

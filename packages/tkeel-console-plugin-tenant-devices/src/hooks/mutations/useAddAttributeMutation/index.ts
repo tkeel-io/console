@@ -11,7 +11,7 @@ export interface RequestData {
   name: string;
   parentId: string;
   ext: {
-    [propName: string]: unknown;
+    [propName: string]: string;
   };
 }
 

@@ -16,6 +16,10 @@ import { RequestDataCondition } from '@/tkeel-console-plugin-tenant-data-query/t
 
 const { DEVICE_GROUP_ID, DEVICE_TEMPLATES_ID, KEYWORDS } = FilterConditionIds;
 
+const decode = (value: string) => {
+  return decodeURIComponent(Base64.decode(value));
+};
+
 // eslint-disable-next-line sonarjs/cognitive-complexity
 export default function SearchResult() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -75,7 +79,7 @@ export default function SearchResult() {
     });
   }
 
-  const { deviceList, data, isLoading, refetch } = useDeviceListQuery({
+  const { deviceList, data, isFetching, refetch } = useDeviceListQuery({
     requestData: {
       condition: conditions,
     },
@@ -84,12 +88,8 @@ export default function SearchResult() {
 
   const defaultFilterConditions = [];
 
-  const groupName = decodeURIComponent(
-    Base64.decode(searchParams.get('group-name') || '')
-  );
-  const templateName = decodeURIComponent(
-    Base64.decode(searchParams.get('template-name') || '')
-  );
+  const groupName = decode(searchParams.get('group-name') || '');
+  const templateName = decode(searchParams.get('template-name') || '');
   if (groupName) {
     defaultFilterConditions.push({
       id: DEVICE_GROUP_ID,
@@ -149,31 +149,37 @@ export default function SearchResult() {
           canHover={false}
         />
       </Flex>
-      {isLoading ? (
-        <Loading styles={{ wrapper: { flex: '1' } }} />
-      ) : deviceList.length === 0 ? (
-        <Empty styles={{ wrapper: { flex: '1' } }} />
-      ) : (
-        <Flex
-          alignContent="flex-start"
-          flexWrap="wrap"
-          marginTop="12px"
-          flex="1"
-          width="100%"
-        >
-          {deviceList.map((device, i) => (
-            <DeviceInfoCard
-              key={device.id}
-              device={device}
-              style={{
-                marginRight: (i + 1) % 4 === 0 ? '0' : '0.5%',
-                marginBottom: '10px',
-                width: '24.6%',
-              }}
-            />
-          ))}
-        </Flex>
-      )}
+      {(() => {
+        if (isFetching) {
+          return <Loading styles={{ wrapper: { flex: '1' } }} />;
+        }
+
+        if (deviceList.length === 0) {
+          return <Empty styles={{ wrapper: { flex: '1' } }} />;
+        }
+
+        return (
+          <Flex
+            alignContent="flex-start"
+            flexWrap="wrap"
+            marginTop="12px"
+            flex="1"
+            width="100%"
+          >
+            {deviceList.map((device, i) => (
+              <DeviceInfoCard
+                key={device.id}
+                device={device}
+                style={{
+                  marginRight: (i + 1) % 4 === 0 ? '0' : '0.5%',
+                  marginBottom: '10px',
+                  width: '24.6%',
+                }}
+              />
+            ))}
+          </Flex>
+        );
+      })()}
     </Flex>
   );
 }

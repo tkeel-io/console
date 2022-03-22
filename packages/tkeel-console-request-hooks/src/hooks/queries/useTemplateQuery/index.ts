@@ -10,17 +10,16 @@ const method = 'POST';
 export interface NodeInfo {
   id: string;
   properties: {
+    basicInfo: {
+      description: string;
+      name: string;
+    };
     group: {
       name: string;
       description: string;
       ext: { [propName: string]: string };
-      [propName: string]: any;
-    };
-    sysField: {
-      [propName: string]: any;
     };
   };
-  [propName: string]: any;
 }
 
 export type TemplateTreeNodeDataType = {
@@ -53,7 +52,7 @@ type RequestParams = {
   order_by?: string;
   is_descending?: boolean;
   query?: string;
-  condition: any[];
+  condition: { field: string; operator: string; value: string }[];
 };
 interface ApiData {
   '@type': string;

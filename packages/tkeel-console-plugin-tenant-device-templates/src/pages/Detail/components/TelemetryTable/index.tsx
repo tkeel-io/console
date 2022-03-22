@@ -40,6 +40,7 @@ function Index({ id, title }: { id: string; title: string }) {
 
   if (keywords) {
     params = { ...params, key_words: keywords };
+    // eslint-disable-next-line no-console
     console.log('Index ~ params', params);
   }
   // const { data } = useListSubscribeEntitiesQuery(id);
@@ -48,6 +49,7 @@ function Index({ id, title }: { id: string; title: string }) {
   const { usefulData: data, isLoading } = useListTemplateTelemetryQuery({
     id,
     onSuccess(res) {
+      // eslint-disable-next-line no-console
       console.log('onSuccess ~ res', res);
       // const total = res?.data?.total ?? 0;
       setTotalSize(1);
@@ -158,7 +160,7 @@ function Index({ id, title }: { id: string; title: string }) {
         // ]}
       />
       <Table
-        style={{ flex: 1, overflow: 'hidden' }}
+        styles={{ wrapper: { flex: 1, overflow: 'hidden' } }}
         columns={columns}
         data={data || []}
         // onSelect={handleSelect}

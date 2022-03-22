@@ -10,7 +10,7 @@ type RequestParams = {
   order_by?: string;
   is_descending?: boolean;
   query?: string;
-  condition: any[];
+  condition: { field: string; operator: string; value: string }[];
 };
 
 export interface DeviceItem {
@@ -32,19 +32,18 @@ export interface DeviceApiItem {
       description: string;
       directConnection: boolean;
       templateId?: string;
+      templateName?: string;
       selfLearn: boolean;
       parentId: string;
       parentName?: string;
       ext: {
-        [propName: string]: any;
+        [propName: string]: string;
       };
-      [propName: string]: any;
     };
     sysField: {
       _status: boolean | string;
       _createdAt: number;
       _subscribeAddr: string;
-      [propName: string]: any;
     };
     connectInfo?: {
       _online: boolean;
@@ -53,17 +52,15 @@ export interface DeviceApiItem {
       _protocol?: string;
       _sockPort?: string;
       _userName?: string;
-      [propName: string]: any;
     };
   };
-  [propName: string]: any;
 }
 
 interface ApiData {
   '@type': string;
   listDeviceObject: {
     items?: DeviceApiItem[];
-    [propName: string]: any;
+    total: number;
   };
 }
 

@@ -29,14 +29,13 @@ function Table<D extends object>({
   data = [],
   hasPagination = true,
   paginationProps,
-  paginationStyle = {},
   scroll,
   isLoading,
   isShowStripe = false,
   empty = <Empty styles={{ wrapper: { height: '100%' } }} />,
   onSelect,
   onSort,
-  style = {},
+  styles,
 }: Props<D>) {
   let plugins: PluginHook<D>[] = [];
   const pushSelectionColumn = (hooks: Hooks<D>) => {
@@ -82,6 +81,7 @@ function Table<D extends object>({
 
   useDeepCompareEffect(() => {
     if (onSelect) {
+      console.log('selectedRows', selectedRows);
       onSelect({
         isAllRowsSelected,
         selectedRowIds,
@@ -119,6 +119,7 @@ function Table<D extends object>({
             fixHead={Boolean(scroll?.y)}
             canSort={Boolean(onSort)}
             isShowStripe={isShowStripe}
+            styles={{ head: styles?.head, tr: styles?.headTr }}
           />
           <Body
             page={rows}
@@ -126,17 +127,21 @@ function Table<D extends object>({
             prepareRow={prepareRow}
             scroll={scroll}
             isShowStripe={isShowStripe}
+            styles={{ body: styles?.body, tr: styles?.bodyTr }}
           />
         </ChakraTable>
         {hasPagination && (
-          <Pagination {...paginationProps} style={paginationStyle} />
+          <Pagination
+            {...paginationProps}
+            styles={{ wrapper: styles?.pagination }}
+          />
         )}
       </>
     );
   };
 
   return (
-    <Flex {...style} flexDirection="column">
+    <Flex {...styles?.wrapper} flexDirection="column">
       {render()}
     </Flex>
   );
