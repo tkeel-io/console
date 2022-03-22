@@ -69,6 +69,17 @@ export default function DateRangePicker({
       placeholder="请选择时间范围"
       cleanable={false}
       ranges={[]}
+      locale={{
+        sunday: '日',
+        monday: '一',
+        tuesday: '二',
+        wednesday: '三',
+        thursday: '四',
+        friday: '五',
+        saturday: '六',
+        formattedDayPattern: 'yyyy-MM-dd',
+        ok: '确定',
+      }}
       // onEntered={handleEntered}
       {...rest}
     />

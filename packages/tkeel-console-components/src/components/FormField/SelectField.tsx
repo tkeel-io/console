@@ -41,7 +41,7 @@ const defaultProps = {
   placeholder: '请选择',
 };
 
-function CustomFormControl<T>({
+export default function CustomFormControl<T>({
   id,
   name,
   options,
@@ -88,5 +88,3 @@ function CustomFormControl<T>({
 }
 
 CustomFormControl.defaultProps = defaultProps;
-
-export default CustomFormControl;

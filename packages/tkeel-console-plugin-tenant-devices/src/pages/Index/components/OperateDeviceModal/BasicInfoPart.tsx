@@ -38,6 +38,7 @@ interface Props {
   formHandler: UseFormReturn<DeviceFormFields, object>;
   watchFields: DeviceFormFields;
   type: ModalType;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   groupOptions: any;
   handleSelectTemplate?: (selected: boolean) => void;
 }
@@ -76,9 +77,9 @@ export default function BasicInfoPart({
           treeData={groupOptions}
           defaultValue={watchFields.parentId}
           notFoundContent="暂无选项"
-          onChange={(value: any, label: ReactNode[]) => {
+          onChange={(value: string, label: ReactNode[]) => {
             if (value) {
-              setValue('parentId', value as string);
+              setValue('parentId', value);
               setValue('parentName', label[0] as string);
             }
           }}
@@ -163,6 +164,7 @@ export default function BasicInfoPart({
                             ConnectInfoType.useTemplate
                           ),
                         })}
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         onChange={(value: string, option: any) => {
                           setValue('templateId', value);
                           setValue('templateName', option?.children ?? '');
