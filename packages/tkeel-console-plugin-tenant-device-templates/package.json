@@ -1,6 +1,6 @@
 {
   "name": "@tkeel/console-plugin-tenant-device-templates",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "homepage": "https://github.com/tkeel-io/console#readme",
   "bugs": {
     "url": "https://github.com/tkeel-io/console/issues"
@@ -26,11 +26,12 @@
     "@tkeel/console-request-hooks": "workspace:^",
     "@tkeel/console-types": "workspace:^",
     "@tkeel/console-utils": "workspace:^",
-    "@types/lodash": "^4.14.179",
+    "@types/lodash": "^4.14.180",
+    "@types/react-table": "^7.7.10",
     "framer-motion": "^6.2.8",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-hook-form": "^7.27.1",
+    "react-hook-form": "^7.28.1",
     "react-query": "^3.34.16",
     "react-router-dom": "^6.2.2"
   }
