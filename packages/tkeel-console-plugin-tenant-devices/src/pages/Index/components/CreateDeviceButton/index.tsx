@@ -21,7 +21,7 @@ import {
 
 interface Props {
   variant: 'link' | 'solid';
-  onSuccess?: ({ data }: { data: any }) => void;
+  onSuccess?: ({ data }: { data: unknown }) => void;
   defaultFormValues?: DeviceDefaultInfoType;
 }
 
