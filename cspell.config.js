@@ -66,6 +66,7 @@ module.exports = {
     'Timout',
     'Multiselect',
     'multiselect',
+    'Tele',
   ],
   ignorePaths: [
     '**/.idea/**',
