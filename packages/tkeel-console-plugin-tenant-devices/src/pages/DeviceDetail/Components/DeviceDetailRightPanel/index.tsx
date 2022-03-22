@@ -9,6 +9,7 @@ import { DeviceObject } from '@/tkeel-console-plugin-tenant-devices/hooks/querie
 import AttributesData from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/AttributesData';
 import ConnectionInfo from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/ConnectionInfo';
 import RawData from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/RawData';
+import TelemetryData from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/TelemetryData';
 
 type Props = {
   deviceObject: DeviceObject;
@@ -17,7 +18,8 @@ type Props = {
 
 function DeviceDetailRightPanel({ deviceObject, refetch }: Props): JSX.Element {
   const { properties, configs, id } = deviceObject;
-  const attributeDefines = configs?.attributes?.define?.fields ?? {};
+  const attributeField = configs?.attributes?.define?.fields ?? {};
+  const telemetryFields = configs?.telemetry?.define?.fields ?? {};
   const {
     connectInfo,
     rawData,
@@ -43,15 +45,26 @@ function DeviceDetailRightPanel({ deviceObject, refetch }: Props): JSX.Element {
       component: (
         <AttributesData
           attributeValues={attributeValues}
-          attributeDefines={values(attributeDefines)}
+          attributeField={values(attributeField)}
           deviceName={basicInfo?.name ?? ''}
           deviceId={id}
           refetch={refetch}
         />
       ),
     },
+    {
+      label: '遥测数据',
+      key: 'telemetry',
+      component: (
+        <TelemetryData
+          deviceId={id}
+          refetch={refetch}
+          telemetryFields={values(telemetryFields)}
+        />
+      ),
+    },
   ];
-  const [tabIndex, setTabIndex] = useState(2);
+  const [tabIndex, setTabIndex] = useState(3);
   const handleTabChange = (index: number) => {
     setTabIndex(index);
   };

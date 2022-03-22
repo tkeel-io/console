@@ -42,6 +42,7 @@ function DeviceDetail(): JSX.Element {
       sysField: sysField as SysField,
       basicInfo: basicInfo as BasicInfo,
       rawData,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       attributes: !isEmpty(attributes)
         ? attributes
         : properties?.attributes ?? {},

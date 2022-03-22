@@ -12,7 +12,7 @@ type Props = {
   refetch?: () => void;
 };
 
-function AddAttributeButton({ id, refetch = () => {} }: Props) {
+function AddTelemetryButton({ id, refetch = () => {} }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = plugin.getPortalToast();
   const { mutate: addAttributeMutate } = useAddAttributeMutation({
@@ -48,4 +48,4 @@ function AddAttributeButton({ id, refetch = () => {} }: Props) {
   );
 }
 
-export default AddAttributeButton;
+export default AddTelemetryButton;

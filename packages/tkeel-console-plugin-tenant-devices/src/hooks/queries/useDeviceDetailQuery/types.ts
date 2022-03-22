@@ -29,7 +29,34 @@ export interface RawData {
   values: string;
 }
 
+export interface AttributeItem {
+  define: {
+    default_value: unknown;
+    rw: ReadWriteType;
+  };
+  description: string;
+  id: string;
+  name: string;
+  type: string;
+}
 export interface Attributes {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [propName: string]: any;
+}
+
+export interface TelemetryItem {
+  define: {
+    default_value: unknown;
+    rw: ReadWriteType;
+  };
+  description: string;
+  id: string;
+  name: string;
+  type: string;
+}
+
+export interface Telemetry {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [propName: string]: any;
 }
 
@@ -73,12 +100,14 @@ export interface SysField {
 export interface DeviceObject {
   id: string;
   configs: {
-    attributes?: { define?: { fields?: Attributes } };
+    attributes?: { define?: { fields?: AttributeItem } };
+    telemetry?: { define?: { fields?: TelemetryItem } };
   };
   properties: {
     basicInfo: BasicInfo;
     sysField: SysField;
     rawData: RawData;
+    telemetry?: Telemetry;
     attributes: Attributes;
     connectInfo: ConnectInfo;
   };

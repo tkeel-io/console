@@ -30,11 +30,13 @@ import {
   MoreVerticalFilledIcon,
   QuestionFilledIcon,
 } from '@tkeel/console-icons';
-import { AttributeItem } from '@tkeel/console-request-hooks';
 import { plugin } from '@tkeel/console-utils';
 
 import useSetAttributeMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useSetAttributeValueMutation';
-import { Attributes } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
+import {
+  AttributeItem,
+  Attributes,
+} from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 import AddAttributeButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/AddAttributeButton';
 import DeleteAttributeButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/DeleteAttributeButton';
 import EditAttributeButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/EditAttributeButton';
@@ -44,7 +46,7 @@ const TOOLTIP_OPTIONS = [
   { label: '读写类型', key: 'rw' },
 ];
 type Props = {
-  attributeDefines: AttributeItem[];
+  attributeField: AttributeItem[];
   attributeValues: Attributes;
   deviceName: string;
   deviceId: string;
@@ -71,7 +73,7 @@ function renderTooltip(info: { type: string; rw: ReadWriteType }) {
 function AttributesPanel({
   deviceId,
   deviceName,
-  attributeDefines,
+  attributeField,
   attributeValues,
   refetch: refetchDeviceDetail = () => {},
 }: Props) {
@@ -107,7 +109,7 @@ function AttributesPanel({
 
   return (
     <Flex flex="1" direction="column" height="100%">
-      {isEmpty(attributeDefines) ? (
+      {isEmpty(attributeField) ? (
         <Empty
           description={
             <Box>
@@ -149,8 +151,8 @@ function AttributesPanel({
           />
           <Box flex="1" overflowY="scroll" pb="30px">
             <SimpleGrid columns={2} spacingX="20px" spacingY="12px">
-              {attributeDefines.length > 0 &&
-                attributeDefines.map((item: AttributeItem) => {
+              {attributeField.length > 0 &&
+                attributeField.map((item: AttributeItem) => {
                   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                   const defaultValue = attributeValues[item.id] as string;
                   const define = item?.define ?? '';
