@@ -25,10 +25,10 @@ export default function DeviceList({ data }: Props) {
     <Box padding="8px 10px" backgroundColor="gray.50" lineHeight="24px">
       {data.map((device, i) => {
         const { id, properties } = device;
-        const { basicInfo, sysField } = properties || {};
+        const { basicInfo, connectInfo } = properties || {};
         const isSelfLearn = basicInfo?.selfLearn ?? false;
         // eslint-disable-next-line no-underscore-dangle
-        const isOnline = sysField?._status === 'online' ?? false;
+        const isOnline = connectInfo?._online ?? false;
 
         return (
           <Flex

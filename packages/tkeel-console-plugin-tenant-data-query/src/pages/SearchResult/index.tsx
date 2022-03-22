@@ -16,6 +16,10 @@ import { RequestDataCondition } from '@/tkeel-console-plugin-tenant-data-query/t
 
 const { DEVICE_GROUP_ID, DEVICE_TEMPLATES_ID, KEYWORDS } = FilterConditionIds;
 
+const decode = (value: string) => {
+  return decodeURIComponent(Base64.decode(value));
+};
+
 // eslint-disable-next-line sonarjs/cognitive-complexity
 export default function SearchResult() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -75,7 +79,7 @@ export default function SearchResult() {
     });
   }
 
-  const { deviceList, data, isLoading, refetch } = useDeviceListQuery({
+  const { deviceList, data, isFetching, refetch } = useDeviceListQuery({
     requestData: {
       condition: conditions,
     },
@@ -84,12 +88,8 @@ export default function SearchResult() {
 
   const defaultFilterConditions = [];
 
-  const groupName = decodeURIComponent(
-    Base64.decode(searchParams.get('group-name') || '')
-  );
-  const templateName = decodeURIComponent(
-    Base64.decode(searchParams.get('template-name') || '')
-  );
+  const groupName = decode(searchParams.get('group-name') || '');
+  const templateName = decode(searchParams.get('template-name') || '');
   if (groupName) {
     defaultFilterConditions.push({
       id: DEVICE_GROUP_ID,
@@ -150,7 +150,7 @@ export default function SearchResult() {
         />
       </Flex>
       {(() => {
-        if (isLoading) {
+        if (isFetching) {
           return <Loading styles={{ wrapper: { flex: '1' } }} />;
         }
 
