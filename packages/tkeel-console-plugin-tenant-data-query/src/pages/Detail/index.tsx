@@ -39,7 +39,7 @@ export default function Detail() {
   );
   const [checkedKeys, setCheckedKeys] = useState<string[]>([]);
   const [isTelemetryDataRequested, setIsTelemetryDataRequested] =
-    useState(true);
+    useState(false);
   const [startTime, setStartTime] = useState(
     getSeconds(dayjs().subtract(1, 'hour').valueOf())
   );
