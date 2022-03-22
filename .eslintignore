@@ -5,8 +5,6 @@ packages/**
 **/handlebars/
 scripts/**/template/
 charts/**
-!.lintstagedrc.js
-scripts/**/template/.lintstagedrc.js
 
 
 # Editor
