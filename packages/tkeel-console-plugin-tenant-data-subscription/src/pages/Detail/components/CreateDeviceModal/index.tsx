@@ -307,33 +307,32 @@ export default function CreateDeviceModal({
                     });
                   }}
                 />
-
-                {!isLoading ? (
-                  treeNodeData.length > 0 ? (
-                    <Tree
-                      style={{ marginTop: '16px' }}
-                      icon={FolderOpenTwoToneIcon}
-                      checkable
-                      treeData={treeNodeData}
-                      checkedKeys={selectedKeys}
-                      onCheck={(keys, el) => {
-                        if (keys) {
-                          const { checkedNodes } = el;
-                          const selectNodeData = getSelectNode(checkedNodes);
-                          const selectKeyData = getSelectKey(selectNodeData);
-                          setSelectNode(selectNodeData);
-                          setSearchSelectNode(selectNodeData);
-                          setSelectedKeys(selectKeyData);
-                        }
-                      }}
-                    />
-                  ) : (
-                    <Empty
-                      title="暂无数据"
-                      styles={{ wrapper: { height: '100%' } }}
-                    />
-                  )
-                ) : (
+                {!isLoading && treeNodeData.length > 0 && (
+                  <Tree
+                    style={{ marginTop: '16px' }}
+                    icon={FolderOpenTwoToneIcon}
+                    checkable
+                    treeData={treeNodeData}
+                    checkedKeys={selectedKeys}
+                    onCheck={(keys, el) => {
+                      if (keys) {
+                        const { checkedNodes } = el;
+                        const selectNodeData = getSelectNode(checkedNodes);
+                        const selectKeyData = getSelectKey(selectNodeData);
+                        setSelectNode(selectNodeData);
+                        setSearchSelectNode(selectNodeData);
+                        setSelectedKeys(selectKeyData);
+                      }
+                    }}
+                  />
+                )}
+                {!isLoading && treeNodeData.length === 0 && (
+                  <Empty
+                    title="暂无数据"
+                    styles={{ wrapper: { height: '100%' } }}
+                  />
+                )}
+                {isLoading && (
                   <Loading styles={{ wrapper: { height: '100%' } }} />
                 )}
               </TabPanel>
@@ -348,32 +347,32 @@ export default function CreateDeviceModal({
                     });
                   }}
                 />
-                {!templateIsLoading ? (
-                  templateTreeNodeData.length > 0 ? (
-                    <Tree
-                      style={{ marginTop: '16px' }}
-                      icon={FolderOpenTwoToneIcon}
-                      checkable
-                      treeData={templateTreeNodeData}
-                      checkedKeys={selectedKeys}
-                      onCheck={(key, el) => {
-                        if (key) {
-                          const { checkedNodes } = el;
-                          const selectNodeData = getSelectNode(checkedNodes);
-                          const selectKeyData = getSelectKey(selectNodeData);
-                          setSelectNode(selectNodeData);
-                          setSearchSelectNode(selectNodeData);
-                          setSelectedKeys(selectKeyData);
-                        }
-                      }}
-                    />
-                  ) : (
-                    <Empty
-                      title="暂无数据"
-                      styles={{ wrapper: { height: '100%' } }}
-                    />
-                  )
-                ) : (
+                {!templateIsLoading && templateTreeNodeData.length > 0 && (
+                  <Tree
+                    style={{ marginTop: '16px' }}
+                    icon={FolderOpenTwoToneIcon}
+                    checkable
+                    treeData={templateTreeNodeData}
+                    checkedKeys={selectedKeys}
+                    onCheck={(key, el) => {
+                      if (key) {
+                        const { checkedNodes } = el;
+                        const selectNodeData = getSelectNode(checkedNodes);
+                        const selectKeyData = getSelectKey(selectNodeData);
+                        setSelectNode(selectNodeData);
+                        setSearchSelectNode(selectNodeData);
+                        setSelectedKeys(selectKeyData);
+                      }
+                    }}
+                  />
+                )}
+                {!templateIsLoading && templateTreeNodeData.length === 0 && (
+                  <Empty
+                    title="暂无数据"
+                    styles={{ wrapper: { height: '100%' } }}
+                  />
+                )}
+                {templateIsLoading && (
                   <Loading styles={{ wrapper: { height: '100%' } }} />
                 )}
               </TabPanel>

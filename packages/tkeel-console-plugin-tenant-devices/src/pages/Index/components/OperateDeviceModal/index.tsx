@@ -187,6 +187,7 @@ export default function OperateDeviceModal({
       const deviceDefaultInfo = {
         connectInfo,
         connectType:
+          // eslint-disable-next-line no-nested-ternary
           directConnection === true
             ? ConnectOption.DIRECT
             : directConnection === false

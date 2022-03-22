@@ -60,6 +60,7 @@ function getTreeNode({
 }: {
   list: TreeNodeData[];
   key: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 }): TreeNodeData | any {
   // eslint-disable-next-line no-restricted-syntax
   for (const item of list) {

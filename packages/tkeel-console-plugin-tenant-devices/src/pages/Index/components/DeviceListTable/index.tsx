@@ -37,7 +37,7 @@ import { SUBSCRIBES } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDe
 interface Props {
   groupTree: TreeNodeType;
   pagination: UsePaginationReturnType;
-  deviceList: any;
+  deviceList: DeviceApiItem[];
   isLoading: boolean;
   refetch?: () => void;
 }
@@ -93,11 +93,16 @@ function DeviceListTable({
   }
 
   const deviceTableData = deviceList.map((item: DeviceApiItem) => {
-    const { id, properties } = item;
-    const { basicInfo, sysField } = properties;
-    const { name, directConnection, templateId, templateName, selfLearn } =
-      basicInfo;
-    const { _createdAt: createTime, _status: status } = sysField;
+    const id = item?.id ?? '';
+    const name = item?.properties?.basicInfo?.name ?? '';
+    const templateId = item?.properties?.basicInfo?.templateId ?? '';
+    const templateName = item?.properties?.basicInfo?.templateName ?? '';
+    const selfLearn = item?.properties?.basicInfo?.templateName ?? false;
+    const directConnection =
+      item?.properties?.basicInfo?.directConnection ?? false;
+    const createTime = item?.properties?.sysField?._createdAt ?? '';
+    const status = item?.properties?.sysField?._status ?? '';
+
     return {
       id,
       name,
@@ -186,17 +191,18 @@ function DeviceListTable({
       Cell: ({ row }: Cell<DeviceItem>) =>
         useMemo(() => {
           const originData = row.original?.originData as DeviceApiItem;
-          const { id, properties } = originData;
-          const { basicInfo } = properties;
-          const {
-            name,
-            description,
-            directConnection,
-            templateId,
-            parentId,
-            selfLearn,
-            ext,
-          } = basicInfo;
+          const id = originData?.id ?? '';
+          const name = originData?.properties?.basicInfo?.name ?? '';
+          const ext = originData?.properties?.basicInfo?.ext ?? {};
+          const selfLearn =
+            originData?.properties?.basicInfo?.selfLearn ?? false;
+          const parentId = originData?.properties?.basicInfo?.parentId ?? '';
+          const directConnection =
+            originData?.properties?.basicInfo?.directConnection ?? false;
+          const templateId =
+            originData?.properties?.basicInfo?.templateId ?? '';
+          const description =
+            originData?.properties?.basicInfo?.description ?? '';
           const defaultFormValues = {
             id,
             selfLearn,

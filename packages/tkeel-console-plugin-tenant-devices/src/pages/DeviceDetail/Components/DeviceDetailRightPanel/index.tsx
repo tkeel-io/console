@@ -24,8 +24,6 @@ function DeviceDetailRightPanel({ deviceObject, refetch }: Props): JSX.Element {
     basicInfo,
     attributes: attributeValues,
   } = properties;
-  // eslint-disable-next-line no-console
-  console.log(attributeValues);
   const tabs = [
     {
       label: '连接信息',

@@ -19,6 +19,7 @@ import {
   ConnectInfoType,
   ConnectOption,
   DeviceFormFields,
+  GroupOptions,
   ModalMode,
   ModalType,
 } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
@@ -30,7 +31,7 @@ interface Props {
   watchFields: DeviceFormFields;
   type: ModalType;
   mode: ModalMode;
-  groupOptions: any;
+  groupOptions: GroupOptions[];
   handleSelectTemplate?: (selected: boolean) => void;
   templateOptions: Array<{ label: string; id: string }>;
 }
@@ -71,9 +72,9 @@ export default function BasicInfoPart({
           treeData={groupOptions}
           defaultValue={watchFields.parentId}
           notFoundContent="暂无选项"
-          onChange={(value: any, label: ReactNode[]) => {
+          onChange={(value: string, label: ReactNode[]) => {
             if (value) {
-              setValue('parentId', value as string);
+              setValue('parentId', value);
               setValue('parentName', label[0] as string);
             }
           }}
@@ -152,12 +153,13 @@ export default function BasicInfoPart({
                         value={watchFields.templateId}
                         style={{ width: '100%' }}
                         allowClear
+                        disabled
                         {...register('templateId', {
                           required: (watchFields.connectInfo || []).includes(
                             ConnectInfoType.useTemplate
                           ),
                         })}
-                        disabled={mode === ModalMode.EDIT}
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         onChange={(value: string, option: any) => {
                           setValue('templateId', value);
                           setValue('templateName', option?.children ?? '');

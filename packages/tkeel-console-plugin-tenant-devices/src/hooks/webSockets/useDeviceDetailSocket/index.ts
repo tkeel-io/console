@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { useEffect, useMemo } from 'react';
 
 import { useWebSocket } from '@tkeel/console-hooks';
@@ -13,7 +12,7 @@ type Message = {
   rawData: RawData;
   attributes: Attributes;
   connectInfo: ConnectInfo;
-  [propName: string]: any;
+  [propName: string]: unknown;
 };
 
 type Props = {
