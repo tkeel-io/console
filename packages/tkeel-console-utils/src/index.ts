@@ -9,5 +9,3 @@ export * from './utils/status';
 export * from './utils/toast';
 export { default as getTreeNodeData } from './utils/tree';
 export * from './utils/tree';
-
-const a = 1;
