@@ -9,7 +9,7 @@ function Routes() {
   return (
     <ReactRouterRoutes>
       <Route path="/" element={<Index />} />
-      <Route path="/detail" element={<Detail />} />
+      <Route path="/detail/:id" element={<Detail />} />
       <Route path="*" element={<NotFound />} />
     </ReactRouterRoutes>
   );

@@ -143,4 +143,3 @@ export default function BaseRulesModal({
     </Modal>
   );
 }
-//

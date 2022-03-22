@@ -63,7 +63,7 @@ export interface Properties {
   connectInfo?: ConnectInfo;
 }
 
-export interface Telemetry {
+export interface TelemetryFields {
   [propName: string]: {
     id: string;
     name: string;
@@ -73,7 +73,11 @@ export interface Telemetry {
 export interface DeviceObject {
   id: string;
   configs: {
-    telemetry: Telemetry;
+    telemetry: {
+      define: {
+        fields: TelemetryFields;
+      };
+    };
   };
   properties: Properties;
 }

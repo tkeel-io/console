@@ -41,9 +41,6 @@
       "@/tkeel-console-plugin-admin-tenants/*": [
         "./packages/tkeel-console-plugin-admin-tenants/src/*"
       ],
-      "@/tkeel-console-plugin-example/*": [
-        "./packages/tkeel-console-plugin-example/src/*"
-      ],
       "@/tkeel-console-plugin-tenant-data-query/*": [
         "./packages/tkeel-console-plugin-tenant-data-query/src/*"
       ],
@@ -96,7 +93,6 @@
     { "path": "./packages/tkeel-console-icons/" },
     { "path": "./packages/tkeel-console-plugin-admin-plugins/" },
     { "path": "./packages/tkeel-console-plugin-admin-tenants/" },
-    { "path": "./packages/tkeel-console-plugin-example/" },
     { "path": "./packages/tkeel-console-plugin-tenant-data-query/" },
     { "path": "./packages/tkeel-console-plugin-tenant-data-subscription/" },
     { "path": "./packages/tkeel-console-plugin-tenant-device-templates/" },

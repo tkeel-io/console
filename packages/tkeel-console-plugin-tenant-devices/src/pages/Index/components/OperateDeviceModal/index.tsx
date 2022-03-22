@@ -98,9 +98,9 @@ export default function OperateDeviceModal({
 }: Props) {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
-  const [useTemplate, setUseTemplate] = useState(
-    !!defaultFormValues.templateId
-  );
+  // const [useTemplate, setUseTemplate] = useState(
+  //   !!defaultFormValues.templateId
+  // );
   const [progressLabels, setProgressLabels] = useState(BASIC_STEP);
   const formHandler = useForm<DeviceFormFields>({
     defaultValues: defaultFormInfo,
@@ -115,21 +115,27 @@ export default function OperateDeviceModal({
   // console.log(templateList);
 
   useEffect(() => {
-    if (useTemplate && mode === ModalMode.CREATE) {
-      setProgressLabels([
-        ...BASIC_STEP,
-        PROGRESS_LABELS.ATTRIBUTE_DATA,
-        PROGRESS_LABELS.COMPLETE_INFO,
-      ]);
-    } else if (useTemplate && mode === ModalMode.EDIT) {
-      setProgressLabels([...BASIC_STEP, PROGRESS_LABELS.ATTRIBUTE_DATA]);
-    } else if (!useTemplate && mode === ModalMode.CREATE) {
+    // if (useTemplate && mode === ModalMode.CREATE) {
+    //   setProgressLabels([
+    //     ...BASIC_STEP,
+    //     PROGRESS_LABELS.ATTRIBUTE_DATA,
+    //     PROGRESS_LABELS.COMPLETE_INFO,
+    //   ]);
+    // } else if (useTemplate && mode === ModalMode.EDIT) {
+    //   setProgressLabels([...BASIC_STEP, PROGRESS_LABELS.ATTRIBUTE_DATA]);
+    // } else if (!useTemplate && mode === ModalMode.CREATE) {
+    //   setProgressLabels([...BASIC_STEP, PROGRESS_LABELS.COMPLETE_INFO]);
+    // } else {
+    //   setProgressLabels([...BASIC_STEP]);
+    // }
+    if (mode === ModalMode.CREATE) {
       setProgressLabels([...BASIC_STEP, PROGRESS_LABELS.COMPLETE_INFO]);
     } else {
       setProgressLabels([...BASIC_STEP]);
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [useTemplate, mode]);
+  }, [mode]);
   const groupTreeCopy = groupTree || useGroupTreeQuery().groupTree;
   const deviceGroupOptions = getTreeNodeData({
     data: groupTreeCopy,
@@ -240,9 +246,9 @@ export default function OperateDeviceModal({
     return BUTTON_TEXT.NEXT;
   };
 
-  const handleSelectTemplate = (selected: boolean) => {
-    setUseTemplate(selected);
-  };
+  // const handleSelectTemplate = (selected: boolean) => {
+  //   setUseTemplate(selected);
+  // };
   return (
     <Modal
       title={<Text fontSize="14px">{title}</Text>}
@@ -264,6 +270,9 @@ export default function OperateDeviceModal({
             infos={progressLabels}
             currentStep={currentStep}
             mode={mode}
+            handleClick={(index) => {
+              setCurrentStep(index);
+            }}
           />
         </Box>
         <Flex
@@ -294,7 +303,7 @@ export default function OperateDeviceModal({
                 watchFields={watchFields}
                 type={type}
                 groupOptions={deviceGroupOptions}
-                handleSelectTemplate={handleSelectTemplate}
+                // handleSelectTemplate={handleSelectTemplate}
               />
             )}
 
@@ -319,19 +328,20 @@ export default function OperateDeviceModal({
               w="100%"
             >
               <Spacer />
-              {progressLabels[currentStep] === PROGRESS_LABELS.EXTEND_INFO && (
-                <Button
-                  colorScheme="primary"
-                  fontSize="14px"
-                  mr="14px"
-                  boxShadow={`0px 4px 12px ${useColor('primarySub')}`}
-                  onClick={() => {
-                    setCurrentStep(currentStep - 1);
-                  }}
-                >
-                  上一步
-                </Button>
-              )}
+              {progressLabels[currentStep] === PROGRESS_LABELS.EXTEND_INFO &&
+                mode !== ModalMode.EDIT && (
+                  <Button
+                    colorScheme="primary"
+                    fontSize="14px"
+                    mr="14px"
+                    boxShadow={`0px 4px 12px ${useColor('primarySub')}`}
+                    onClick={() => {
+                      setCurrentStep(currentStep - 1);
+                    }}
+                  >
+                    上一步
+                  </Button>
+                )}
               <Button
                 colorScheme={
                   getButtonText() === BUTTON_TEXT.SKIP ? 'gray' : 'primary'

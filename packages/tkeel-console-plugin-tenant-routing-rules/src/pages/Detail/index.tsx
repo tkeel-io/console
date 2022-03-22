@@ -3,17 +3,18 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { BackButton } from '@tkeel/console-components';
-import { PingTwoToneIcon, ReportFilledIcon } from '@tkeel/console-icons';
+import { PingTwoToneIcon } from '@tkeel/console-icons';
+import { DeviceItem } from '@tkeel/console-request-hooks';
 
-import AddDevicesButton from './components/AddDevicesButton';
-import DeviceTable from './components/DeviceTable';
+import DataRepublish from './components/DataRepublish';
+import DataSelect from './components/DataSelect';
 import StepBar, { CurrentStep } from './components/StepBar';
 import TextWrapper from './components/TextWrapper';
-import TitleWrapper from './components/TitleWrapper';
 
 export default function Detail() {
   const navigate = useNavigate();
   const [currentStep] = useState<CurrentStep>(1);
+  const [deviceList, setDeviceList] = useState<DeviceItem[]>([]);
 
   return (
     <Flex
@@ -21,6 +22,8 @@ export default function Detail() {
       height="100%"
       justifyContent="center"
       position="relative"
+      overflowX="hidden"
+      overflowY="auto"
     >
       <Box
         position="absolute"
@@ -76,19 +79,14 @@ export default function Detail() {
           flexDirection="column"
           marginTop="20px"
           padding="20px"
+          borderRadius="4px"
           backgroundColor="white"
         >
-          <Flex width="100%" justifyContent="space-between" alignItems="center">
-            <TitleWrapper
-              icon={
-                <ReportFilledIcon color="grayAlternatives.300" size="20px" />
-              }
-              title="选择数据"
-              description="选择设备所触发的数据"
-            />
-            <AddDevicesButton />
-          </Flex>
-          <DeviceTable styles={{ wrapper: { marginTop: '8px' } }} />
+          <DataSelect
+            deviceList={deviceList}
+            handleSelectDevices={(devices) => setDeviceList(devices)}
+          />
+          <DataRepublish styles={{ wrapper: { marginTop: '40px' } }} />
         </Flex>
       </Flex>
     </Flex>
