@@ -7,7 +7,7 @@ export interface ApiData {
 }
 export interface RequestData {
   description: string;
-  ext: { [propName: string]: any };
+  ext: { [propName: string]: unknown };
   name: string;
   parentId?: string;
   parentName?: string;

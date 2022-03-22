@@ -10,10 +10,7 @@ export interface BasicInfo {
   name: string;
   type: string;
   ext: {
-    [propName: string]: {
-      value: string;
-      name: string;
-    };
+    [propName: string]: string;
   };
   parentId: string;
   selfLearn: boolean;

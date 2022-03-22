@@ -10,7 +10,6 @@ import {
 type Message = {
   rawData: RawData;
   connectInfo: ConnectInfo;
-  [propName: string]: any;
 };
 
 type Props = {
