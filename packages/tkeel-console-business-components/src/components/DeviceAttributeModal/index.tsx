@@ -1,4 +1,5 @@
 import { Radio, RadioGroup, Stack, Text } from '@chakra-ui/react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import {
@@ -14,6 +15,7 @@ export type DeviceAttributeFormFields = {
   id: string;
   type: string;
   define: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     default_value: any;
     rw: ReadWriteType;
   };
@@ -77,9 +79,13 @@ function DeviceAttributeModal({
     if (result) {
       const values = getValues();
       onSubmit(values);
-      reset();
     }
   };
+  useEffect(() => {
+    if (!isEdit) {
+      reset();
+    }
+  }, [isEdit, reset]);
   return (
     <Modal
       title={`${isEdit ? '编辑' : '新增'}属性`}

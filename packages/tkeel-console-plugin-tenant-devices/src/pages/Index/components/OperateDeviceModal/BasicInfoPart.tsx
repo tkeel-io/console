@@ -153,7 +153,7 @@ export default function BasicInfoPart({
                         value={watchFields.templateId}
                         style={{ width: '100%' }}
                         allowClear
-                        disabled
+                        disabled={mode === ModalMode.EDIT}
                         {...register('templateId', {
                           required: (watchFields.connectInfo || []).includes(
                             ConnectInfoType.useTemplate

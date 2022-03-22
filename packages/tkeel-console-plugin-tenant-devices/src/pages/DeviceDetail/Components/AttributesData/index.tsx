@@ -225,16 +225,15 @@ function AttributesPanel({
                               buttons={[
                                 <DeleteAttributeButton
                                   key="delete"
-                                  attributeInfo={{ name, id }}
-                                  handleSubmit={(formValues) => {
-                                    // eslint-disable-next-line no-console
-                                    console.log('delete:', formValues);
-                                  }}
+                                  defaultValues={editFormValues}
+                                  id={deviceId}
+                                  refetch={refetchDeviceDetail}
                                 />,
                                 <EditAttributeButton
                                   key="edit"
                                   id={deviceId}
                                   defaultValues={editFormValues}
+                                  refetch={refetchDeviceDetail}
                                 />,
                               ]}
                             />
