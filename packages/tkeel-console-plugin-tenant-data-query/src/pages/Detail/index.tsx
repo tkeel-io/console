@@ -16,7 +16,7 @@ import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 import SearchEmpty from '@/tkeel-console-plugin-tenant-data-query/components/SearchEmpty';
 import useTelemetryDataMutation from '@/tkeel-console-plugin-tenant-data-query/hooks/mutations/useTelemetryDataMutation';
 import useDeviceDetailQuery, {
-  Telemetry,
+  TelemetryFields,
 } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceDetailQuery';
 
 import DataResultTitle from './components/DataResultTitle';
@@ -33,7 +33,7 @@ function getSeconds(timestamp: number) {
 
 export default function Detail() {
   const [keywords, setKeywords] = useState('');
-  const [telemetry, setTelemetry] = useState<Telemetry>({});
+  const [telemetry, setTelemetry] = useState<TelemetryFields>({});
   const [templateCheckboxStatus, setTemplateCheckboxStatus] = useState(
     CheckBoxStatus.CHECKED
   );
@@ -58,7 +58,7 @@ export default function Detail() {
       id,
       onSuccess(data) {
         const telemetryData =
-          data?.data?.deviceObject?.configs?.telemetry ?? {};
+          data?.data?.deviceObject?.configs?.telemetry?.define?.fields ?? {};
         setTelemetry(telemetryData);
         const telemetryDataKeys = Object.keys(telemetryData);
         let telemetryKeys = [...telemetryDataKeys];
