@@ -11,7 +11,7 @@ function runESLint({ cwd, files, isFix }) {
   shell.cd(cwd);
   logger.info(command);
   const result = shell.exec(command);
-  logger.info();
+  logger.info('\n');
 
   return result;
 }
