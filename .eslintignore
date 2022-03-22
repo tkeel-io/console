@@ -2,10 +2,12 @@
 **/node_modules/
 **/dist/
 packages/**
+**/handlebars/
+scripts/**/template/
 charts/**
 !.lintstagedrc.js
-**/handlebars/**
-scripts/**/template/**
+scripts/**/template/.lintstagedrc.js
+
 
 # Editor
 packages/tkeel-console-components/src/components/Editor/basic-languages/sql.ts
