@@ -41,10 +41,6 @@ function runESLintAllFiles({ isFix } = {}) {
     }
   });
 
-  /* if (results.length > 0) {
-    throw new Error('ESLint found errors or warnings');
-  } */
-
   return results;
 }
 

@@ -2,4 +2,8 @@
 
 const { runESLintAllFiles } = require('./exec');
 
-runESLintAllFiles({ isFix: true });
+const results = runESLintAllFiles({ isFix: true });
+
+if (results.length > 0) {
+  process.exit(1);
+}
