@@ -25,5 +25,3 @@ jobs:
 
       - name: ESLint
         run: yarn run lint:script
-        with:
-          reporter: github-pr-review
