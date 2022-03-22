@@ -90,12 +90,15 @@ function renderProgressDot({
 }
 
 function getStatus({ idx, current }: { idx: number; current: number }) {
-  // eslint-disable-next-line no-nested-ternary
-  return idx < current
-    ? STATUS.COMPLETED
-    : idx === current
-    ? STATUS.PENDING
-    : STATUS.DEFAULT;
+  let status = STATUS.DEFAULT;
+  if (idx < current) {
+    status = STATUS.COMPLETED;
+  }
+
+  if (idx === current) {
+    status = STATUS.PENDING;
+  }
+  return status;
 }
 
 export default function ProgressSchedule({
