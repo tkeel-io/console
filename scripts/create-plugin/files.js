@@ -38,3 +38,6 @@ function writeTemplates(options) {
 }
 
 module.exports = { copyTemplates, writeTemplates };
+
+function a() {}
+a();
