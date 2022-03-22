@@ -196,11 +196,7 @@ function Index({ id, title }: { id: string; title: string }) {
         ]}
       />
       <Table
-        style={{
-          flex: 1,
-          height: '100%',
-          minHeight: '60vh',
-        }}
+        styles={{ wrapper: { flex: 1, height: '100%', minHeight: '60vh' } }}
         columns={columns}
         data={data || []}
         isShowStripe

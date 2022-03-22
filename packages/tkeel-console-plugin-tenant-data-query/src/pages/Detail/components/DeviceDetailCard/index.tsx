@@ -20,9 +20,9 @@ export default function DeviceDetailCard({ detailData }: Props) {
   const { navigate } = portalProps.client;
   const [searchParams] = useSearchParams();
   const { properties } = detailData || {};
-  const { basicInfo, sysField } = properties || {};
+  const { basicInfo, connectInfo } = properties || {};
   // eslint-disable-next-line no-underscore-dangle
-  const isOnline = sysField?._status === 'online';
+  const isOnline = connectInfo?._online ?? false;
   const isSelfLearn = basicInfo?.selfLearn ?? false;
   const textStyle = {
     color: 'gray.800',
@@ -39,7 +39,7 @@ export default function DeviceDetailCard({ detailData }: Props) {
       >
         <BackButton
           onClick={() => {
-            const url = searchParams.get('from-url') || '/';
+            const url = searchParams.get('from-url') || '/tenant-data-query';
             navigate(decodeURIComponent(url));
           }}
         />

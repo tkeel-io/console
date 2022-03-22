@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { useEffect, useMemo } from 'react';
 
 import { useWebSocket } from '@tkeel/console-hooks';
@@ -11,7 +10,6 @@ import {
 type Message = {
   rawData: RawData;
   connectInfo: ConnectInfo;
-  [propName: string]: any;
 };
 
 type Props = {
@@ -36,7 +34,6 @@ function useDeviceDetailSocket({ id }: Props) {
   useEffect(() => {
     sendJsonMessage({ id });
   }, [sendJsonMessage, id, readyState]);
-
   const rawData = lastJsonMessage?.rawData || {};
   const connectInfo = lastJsonMessage?.connectInfo;
   return { rawData, connectInfo };

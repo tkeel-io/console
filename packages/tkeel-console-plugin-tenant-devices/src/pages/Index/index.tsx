@@ -60,6 +60,7 @@ function getTreeNode({
 }: {
   list: TreeNodeData[];
   key: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 }): TreeNodeData | any {
   // eslint-disable-next-line no-restricted-syntax
   for (const item of list) {
@@ -129,15 +130,7 @@ function Index(): JSX.Element {
       const { nodeInfo, subNode } = item;
       const { id, properties } = nodeInfo;
       const group = properties?.group ?? {};
-      const {
-        name,
-        description,
-        ext,
-        parentId,
-        parentName,
-        templateId,
-        templateName,
-      } = group;
+      const { name, description, ext, parentId, parentName } = group;
       const defaultFormValues = {
         id,
         description,
@@ -145,8 +138,6 @@ function Index(): JSX.Element {
         ext,
         parentId,
         parentName,
-        templateId,
-        templateName,
       };
       return {
         name,
@@ -266,7 +257,7 @@ function Index(): JSX.Element {
     params,
     onSuccess: (data) => {
       const total = data?.data?.listDeviceObject?.total ?? 0;
-      setTotalSize(total as number);
+      setTotalSize(total);
     },
   });
 

@@ -25,6 +25,7 @@ interface PortalConfig {
   plugin: {
     identify: {
       plugin_id: string;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       entries: Record<string, any>[];
       dependence: { id: string; version: string }[];
     };

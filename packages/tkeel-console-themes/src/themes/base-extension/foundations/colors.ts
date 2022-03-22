@@ -7,6 +7,9 @@ const colors = {
   blackAlias: '#000',
   whiteAlias: '#FFF',
 
+  'success.50': '#E1F3D8',
+  'success.300': '#67C23A',
+
   whiteAlpha: {
     50: 'rgba(255, 255, 255, 0.04)',
     100: 'rgba(255, 255, 255, 0.06)',

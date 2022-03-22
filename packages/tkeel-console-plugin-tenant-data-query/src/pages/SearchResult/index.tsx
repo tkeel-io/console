@@ -3,13 +3,13 @@ import { Base64 } from 'js-base64';
 import { useSearchParams } from 'react-router-dom';
 
 import { Empty, Loading, PageHeaderToolbar } from '@tkeel/console-components';
+import { useDeviceListQuery } from '@tkeel/console-request-hooks';
 
 import {
   Status,
   StatusSelect,
 } from '@/tkeel-console-plugin-tenant-data-query/components';
 import DeviceInfoCard from '@/tkeel-console-plugin-tenant-data-query/components/DeviceInfoCard';
-import useDeviceListQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceListQuery';
 import SearchDeviceInput from '@/tkeel-console-plugin-tenant-data-query/pages/Index/components/SearchDeviceInput';
 import { FilterConditionIds } from '@/tkeel-console-plugin-tenant-data-query/pages/Index/constants';
 import { RequestDataCondition } from '@/tkeel-console-plugin-tenant-data-query/types/request-data';
@@ -20,24 +20,12 @@ const { DEVICE_GROUP_ID, DEVICE_TEMPLATES_ID, KEYWORDS } = FilterConditionIds;
 export default function SearchResult() {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const baseRequestData = {
-    query: '',
-    page_num: 1,
-    page_size: 1000,
-    order_by: 'name',
-    is_descending: false,
-  };
+  const deviceNameQueryField = 'basicInfo.name';
   const statusQueryField = 'connectInfo._online';
   const deviceGroupIdQueryField = 'sysField._spacePath';
   const templateIdQueryField = 'basicInfo.templateId';
 
-  const conditions: RequestDataCondition[] = [
-    {
-      field: 'type',
-      operator: '$eq',
-      value: 'device',
-    },
-  ];
+  const conditions: RequestDataCondition[] = [];
 
   const groupId = searchParams.get('group-id');
   if (groupId) {
@@ -72,17 +60,23 @@ export default function SearchResult() {
   } else if (status === 'offline') {
     statusLabel = '离线';
   }
+
   const deviceStatusInfo = {
     label: statusLabel,
     value: status,
   };
 
-  const keywords = searchParams.get('keywords') || '';
+  const keywords = searchParams.get('keywords');
+  if (keywords) {
+    conditions.push({
+      field: deviceNameQueryField,
+      operator: '$wildcard',
+      value: keywords,
+    });
+  }
 
   const { deviceList, data, isLoading, refetch } = useDeviceListQuery({
     requestData: {
-      ...baseRequestData,
-      query: keywords,
       condition: conditions,
     },
     enabled: conditions.length > 0,
@@ -141,47 +135,51 @@ export default function SearchResult() {
           }}
         />
       </Flex>
-      {isLoading ? (
-        <Loading styles={{ wrapper: { flex: '1' } }} />
-      ) : deviceList.length === 0 ? (
-        <Empty styles={{ wrapper: { flex: '1' } }} />
-      ) : (
-        <>
-          <Flex marginTop="16px" justifyContent="space-between">
-            <Flex color="gray.800" fontSize="12px" lineHeight="24px">
-              共
-              <Text margin="0 3px" color="primary">
-                {data?.listDeviceObject?.total ?? 0}
-              </Text>
-              条结果
-            </Flex>
-            <StatusSelect
-              status={deviceStatusInfo}
-              onStatusChange={handleStatusChange}
-              canHover={false}
-            />
-          </Flex>
+      <Flex marginTop="16px" justifyContent="space-between">
+        <Flex color="gray.800" fontSize="12px" lineHeight="24px">
+          共
+          <Text margin="0 3px" color="primary">
+            {data?.listDeviceObject?.total ?? 0}
+          </Text>
+          条结果
+        </Flex>
+        <StatusSelect
+          status={deviceStatusInfo}
+          onStatusChange={handleStatusChange}
+          canHover={false}
+        />
+      </Flex>
+      {(() => {
+        if (isLoading) {
+          return <Loading styles={{ wrapper: { flex: '1' } }} />;
+        }
+
+        if (deviceList.length === 0) {
+          return <Empty styles={{ wrapper: { flex: '1' } }} />;
+        }
+
+        return (
           <Flex
-            justifyContent="space-between"
             alignContent="flex-start"
             flexWrap="wrap"
             marginTop="12px"
             flex="1"
             width="100%"
           >
-            {deviceList.map((device) => (
+            {deviceList.map((device, i) => (
               <DeviceInfoCard
                 key={device.id}
                 device={device}
                 style={{
-                  marginBottom: '12px',
+                  marginRight: (i + 1) % 4 === 0 ? '0' : '0.5%',
+                  marginBottom: '10px',
                   width: '24.6%',
                 }}
               />
             ))}
           </Flex>
-        </>
-      )}
+        );
+      })()}
     </Flex>
   );
 }

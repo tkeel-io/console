@@ -18,7 +18,9 @@ type Props = {
   setPageNum?: (pageNum: number) => unknown;
   setPageSize?: (pageSize: number) => unknown;
   showBoxShadow?: boolean;
-  style?: StyleProps;
+  styles?: {
+    wrapper?: StyleProps;
+  };
 };
 
 function Pagination({
@@ -31,7 +33,7 @@ function Pagination({
   setPageNum,
   setPageSize,
   showBoxShadow = false,
-  style = {},
+  styles,
 }: Props) {
   return (
     <Flex
@@ -43,7 +45,7 @@ function Pagination({
       boxShadow={
         showBoxShadow ? '0px -4px 8px rgba(239, 244, 249, 0.8)' : 'none'
       }
-      {...style}
+      {...styles?.wrapper}
     >
       <Flex alignItems="center" height="32px" fontSize="12px">
         共

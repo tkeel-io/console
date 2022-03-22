@@ -8,6 +8,7 @@ import { getLocalTenantInfo, getLocalTokenInfo } from '@tkeel/console-utils';
 
 import { App, MenuInfo } from './types';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type LifeCycles = FrameworkLifeCycles<Record<string, any>>;
 
 export interface InitOptions {

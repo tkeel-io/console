@@ -40,7 +40,7 @@ type RequestParams = {
   order_by?: string;
   is_descending?: boolean;
   query?: string;
-  condition: any[];
+  condition: { field: string; operator: string; value: string }[];
 };
 interface ApiData {
   '@type': string;
