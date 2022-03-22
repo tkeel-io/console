@@ -8,6 +8,9 @@ module.exports = {
     {
       files: ['**/*.ts'],
       extends: './eslint/typescript',
+      parserOptions: {
+        project: './tsconfig.json',
+      },
     },
   ],
 };

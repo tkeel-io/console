@@ -1,3 +1,15 @@
 module.exports = {
-  extends: '../../eslint/package-console',
+  overrides: [
+    {
+      files: ['**/*.js'],
+      extends: ['../../eslint/javascript'],
+    },
+    {
+      files: ['**/*.{ts,tsx}'],
+      extends: '../../eslint/typescript-react',
+      parserOptions: {
+        project: './tsconfig.json',
+      },
+    },
+  ],
 };
