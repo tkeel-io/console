@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import {
   Box,
   Flex,
@@ -50,7 +49,7 @@ function renderTooltip(info: {
 }
 function renderLabel(item: AttributeItem) {
   const { id, name, define, type } = item;
-  const { rw, default_value } = define;
+  const { rw, default_value: defaultValue } = define;
   return (
     <Flex>
       <HStack>
@@ -62,7 +61,7 @@ function renderLabel(item: AttributeItem) {
         bg="white"
         hasArrow
         p="8px 12px"
-        label={renderTooltip({ type, rw, default_value })}
+        label={renderTooltip({ type, rw, default_value: defaultValue })}
       >
         ?
       </Tooltip>
