@@ -137,7 +137,7 @@ export default function FilterDropdown({
       },
     });
 
-  const { deviceList, isLoading: isDeviceListLoading } = useDeviceListQuery({
+  const { deviceList, isFetching: isDeviceListFetching } = useDeviceListQuery({
     requestData: {
       condition: deviceListQueryConditions,
     },
@@ -176,7 +176,7 @@ export default function FilterDropdown({
         statusQueryCondition.value = statusValue;
         setDeviceListQueryConditions(newDeviceListQueryConditions);
       }
-    } else {
+    } else if (statusValue !== 'all') {
       setDeviceListQueryConditions([
         ...newDeviceListQueryConditions,
         {
@@ -361,7 +361,7 @@ export default function FilterDropdown({
           groupIdFilterCondition || templateIdFilterCondition
         )}
         showDeviceList={showDeviceList}
-        isDeviceListLoading={isDeviceListLoading}
+        isDeviceListLoading={isDeviceListFetching}
         deviceList={deviceList}
         onDeviceListBackBtnClick={handleDeviceListBackBtnClick}
         onTemplateClick={handleTemplateClick}
