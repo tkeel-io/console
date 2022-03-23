@@ -1,13 +1,24 @@
-import { Box, Button, Center, Flex, Image, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Center,
+  Flex,
+  Image,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Text,
+} from '@chakra-ui/react';
 import { Dispatch, SetStateAction } from 'react';
 
 import { Loading, SearchInput, Tree } from '@tkeel/console-components';
 
-import iconCheckbox from '@/tkeel-console-plugin-tenant-data-query/assets/images/checkbox.svg';
-import iconCheckboxChecked from '@/tkeel-console-plugin-tenant-data-query/assets/images/checkbox-checked.svg';
-import iconCheckboxIndeterminate from '@/tkeel-console-plugin-tenant-data-query/assets/images/checkbox-indeterminate.svg';
 import propertiesEmpty from '@/tkeel-console-plugin-tenant-data-query/assets/images/properties-empty.svg';
 import { TelemetryFields } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceDetailQuery';
+
+import CustomCheckbox from '../CustomCheckbox';
+import CustomTab from '../CustomTab';
 
 export enum CheckBoxStatus {
   NOT_CHECKED = 'not-checked',
@@ -59,17 +70,12 @@ export default function PropertiesConditions({
     },
   ];
 
-  let checkboxImage = iconCheckbox;
-  const checkboxBackgroundSize =
-    templateCheckboxStatus === CheckBoxStatus.NOT_CHECKED
-      ? '12px 12px'
-      : '16px 16px';
-
-  if (templateCheckboxStatus === CheckBoxStatus.CHECKED) {
-    checkboxImage = iconCheckboxChecked;
-  } else if (templateCheckboxStatus === CheckBoxStatus.INDETERMINATE) {
-    checkboxImage = iconCheckboxIndeterminate;
-  }
+  const tabTextStyle = {
+    marginLeft: '8px',
+    color: 'gray.700',
+    fontSize: '12px',
+    fontWeight: '400',
+  };
 
   return (
     <Flex
@@ -102,77 +108,82 @@ export default function PropertiesConditions({
         placeholder="搜索"
         onSearch={onSearch}
       />
-      <Flex
-        alignItems="center"
-        marginLeft="20px"
-        width="max-content"
-        height="32px"
-        cursor="pointer"
-        onClick={() => {
-          if (templateCheckboxStatus === CheckBoxStatus.CHECKED) {
-            setTemplateCheckboxStatus(CheckBoxStatus.NOT_CHECKED);
-            setCheckedKeys([]);
-          } else {
-            setTemplateCheckboxStatus(CheckBoxStatus.CHECKED);
-            setCheckedKeys(telemetryKeys);
-          }
-        }}
-      >
-        <Box
-          width="12px"
-          height="12px"
-          backgroundImage={`url(${checkboxImage})`}
-          backgroundPosition="center"
-          backgroundSize={checkboxBackgroundSize}
-        />
-        <Text marginLeft="8px" color="gray.700" fontSize="12px">
-          模板数据
-        </Text>
-      </Flex>
-      <Flex flex="1" backgroundColor="gray.50">
-        {(() => {
-          if (isDeviceDetailLoading) {
-            return <Loading styles={{ wrapper: { flex: '1' } }} />;
-          }
-
-          if (children.length === 0) {
-            return (
-              <Center flex="1">
-                <Image src={propertiesEmpty} />
-              </Center>
-            );
-          }
-
-          return (
-            <Box flex="1" paddingTop="14px" paddingLeft="20px">
-              <Tree
-                treeData={treeData}
-                checkable
-                defaultExpandAll
-                checkedKeys={checkedKeys}
-                selectable={false}
-                onCheck={(keys) => {
-                  const checkedNodeKeys = (keys as string[]).filter(
-                    (key) => key !== 'telemetryData'
-                  );
-                  setCheckedKeys(checkedNodeKeys);
-                  let checkboxStatus = CheckBoxStatus.NOT_CHECKED;
-                  const { length } = telemetryKeys;
-                  const { length: keysLength } = checkedNodeKeys;
-                  if (keysLength > 0) {
-                    if (keysLength === length) {
-                      checkboxStatus = CheckBoxStatus.CHECKED;
-                    } else if (keysLength < length) {
-                      checkboxStatus = CheckBoxStatus.INDETERMINATE;
-                    }
+      <Tabs index={1} display="flex" flexDirection="column" flex="1">
+        <TabList display="flex" borderBottom="none">
+          <CustomTab isDisabled flex="1">
+            <CustomCheckbox />
+            <Text {...tabTextStyle}>原始数据</Text>
+          </CustomTab>
+          <CustomTab flex="1">
+            <Flex alignItems="center">
+              <CustomCheckbox
+                checkboxStatus={templateCheckboxStatus}
+                onClick={() => {
+                  if (templateCheckboxStatus === CheckBoxStatus.CHECKED) {
+                    setTemplateCheckboxStatus(CheckBoxStatus.NOT_CHECKED);
+                    setCheckedKeys([]);
+                  } else {
+                    setTemplateCheckboxStatus(CheckBoxStatus.CHECKED);
+                    setCheckedKeys(telemetryKeys);
                   }
-                  setTemplateCheckboxStatus(checkboxStatus);
                 }}
               />
-            </Box>
-          );
-        })()}
-      </Flex>
+              <Text {...tabTextStyle}>模板数据</Text>
+            </Flex>
+          </CustomTab>
+        </TabList>
+        <TabPanels flex="1">
+          <TabPanel height="100%" padding="0">
+            <Flex height="100%" backgroundColor="gray.50" />
+          </TabPanel>
+          <TabPanel height="100%" padding="0">
+            <Flex height="100%" backgroundColor="gray.50">
+              {(() => {
+                if (isDeviceDetailLoading) {
+                  return <Loading styles={{ wrapper: { flex: '1' } }} />;
+                }
+
+                if (children.length === 0) {
+                  return (
+                    <Center flex="1">
+                      <Image src={propertiesEmpty} />
+                    </Center>
+                  );
+                }
+
+                return (
+                  <Box flex="1" paddingTop="14px" paddingLeft="20px">
+                    <Tree
+                      treeData={treeData}
+                      checkable
+                      defaultExpandAll
+                      checkedKeys={checkedKeys}
+                      selectable={false}
+                      onCheck={(keys) => {
+                        const checkedNodeKeys = (keys as string[]).filter(
+                          (key) => key !== 'telemetryData'
+                        );
+                        setCheckedKeys(checkedNodeKeys);
+                        let checkboxStatus = CheckBoxStatus.NOT_CHECKED;
+                        const { length } = telemetryKeys;
+                        const { length: keysLength } = checkedNodeKeys;
+                        if (keysLength > 0) {
+                          if (keysLength === length) {
+                            checkboxStatus = CheckBoxStatus.CHECKED;
+                          } else if (keysLength < length) {
+                            checkboxStatus = CheckBoxStatus.INDETERMINATE;
+                          }
+                        }
+                        setTemplateCheckboxStatus(checkboxStatus);
+                      }}
+                    />
+                  </Box>
+                );
+              })()}
+            </Flex>
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
       <Button
         colorScheme="primary"
         margin="12px 20px"
