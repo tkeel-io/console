@@ -70,7 +70,11 @@ function renderProgressDot({
         lineHeight="24px"
         fontWeight="600"
       >
-        {status === STATUS.COMPLETED ? <CheckFilledIcon /> : `0${index}`}
+        {status === STATUS.COMPLETED ? (
+          <CheckFilledIcon color="white" />
+        ) : (
+          `0${index}`
+        )}
       </Center>
       <Box fontSize="12px" color={FontColor[status]} pos="relative">
         {label}
