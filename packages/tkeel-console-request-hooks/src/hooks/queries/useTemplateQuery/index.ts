@@ -7,7 +7,8 @@ const method = 'POST';
 
 export interface AttributeItem {
   define: {
-    default_value: unknown;
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+    default_value: any;
     rw: ReadWriteType;
   };
   description: string;
@@ -15,6 +16,8 @@ export interface AttributeItem {
   id: string;
   name: string;
   type: string;
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+  [propName: string]: any;
 }
 export interface TemplateItem {
   configs: {
@@ -46,6 +49,14 @@ interface ApiData {
   listDeviceObject: {
     items: TemplateItem[];
   };
+}
+
+export interface KeyDataType {
+  title: string;
+  description: string;
+  id: string;
+  key: string;
+  updatedAt: string;
 }
 
 export default function useTemplateQuery({

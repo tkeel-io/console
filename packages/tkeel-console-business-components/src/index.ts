@@ -1,7 +1,10 @@
 export { default as BasicInfo } from './components/BasicInfo';
+export { default as CreateTelemetryButton } from './components/CreateTelemetryButton';
+export { default as DeleteTelemetryButton } from './components/DeleteTelemetryButton';
 export { default as DeveloperInfo } from './components/DeveloperInfo';
 export { default as DeviceAttributeModal } from './components/DeviceAttributeModal';
 export * from './components/DeviceIcons';
+export { default as EditTelemetryButton } from './components/EditTelemetryButton';
 export { default as NotFound } from './components/NotFound';
 export * as PluginBase from './components/PluginBase';
 export { default as PluginCard } from './components/PluginCard';

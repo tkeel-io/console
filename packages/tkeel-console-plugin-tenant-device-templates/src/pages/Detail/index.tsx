@@ -9,7 +9,8 @@ import {
   InfoCard,
   MoreAction,
 } from '@tkeel/console-components';
-import { BoxTwoToneIcon, DownloadFilledIcon } from '@tkeel/console-icons';
+import { BoxTwoToneIcon } from '@tkeel/console-icons';
+// import { BoxTwoToneIcon, DownloadFilledIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import useTemplateInfoQuery from '@/tkeel-console-plugin-tenant-device-templates/hooks/queries/useTemplateInfoQuery';
@@ -17,6 +18,8 @@ import useTemplateInfoQuery from '@/tkeel-console-plugin-tenant-device-templates
 // import DeleteSubscriptionButton from '@/tkeel-console-plugin-tenant-device-templates/pages/Index/components/DeleteSubscriptionButton';
 // import ModifySubscriptionButton from '@/tkeel-console-plugin-tenant-device-templates/pages/Index/components/ModifySubscriptionButton';
 import TelemetryTable from '@/tkeel-console-plugin-tenant-device-templates/pages/Detail/components/TelemetryTable';
+
+import AttributeTable from './components/AttributeTable';
 
 function Detail(): JSX.Element {
   const navigate = useNavigate();
@@ -119,7 +122,7 @@ function Detail(): JSX.Element {
           />
         </Box>
 
-        <Box background="#FFFFFF" mt="12px" padding="0 20px">
+        {/* <Box background="#FFFFFF" mt="12px" padding="0 20px">
           <Box style={{ fontSize: '14px', fontWeight: 600, color: 'gray.700' }}>
             批量入口
           </Box>
@@ -128,19 +131,18 @@ function Detail(): JSX.Element {
           </Box>
 
           <Box display="inline">批量导入</Box>
-        </Box>
+        </Box> */}
       </Box>
       <Box
         flex="1"
         borderRadius="4px"
-        minH="80vh"
         background="linear-gradient(180deg, #FFFFFF 0%, #F9FBFD 100%)"
       >
         <Tabs display="flex" flexDirection="column" flex="1">
           <CustomTabList>
-            {/* <CustomTab>属性模板</CustomTab> */}
+            <CustomTab>属性模板</CustomTab>
             <CustomTab>遥测模板</CustomTab>
-            <CustomTab>服务指令</CustomTab>
+            {/* <CustomTab>服务指令</CustomTab> */}
           </CustomTabList>
 
           <TabPanels
@@ -149,16 +151,15 @@ function Detail(): JSX.Element {
             borderBottomLeftRadius="4px"
             borderBottomRightRadius="4px"
           >
-            {/* <TabPanel padding="0" height="100%" backgroundColor="white">
-              1
-            </TabPanel> */}
-            <TabPanel padding="0" height="100%" backgroundColor="white">
-              {/* <TelemetryTable id={ID} title={data?.title} ></TelemetryTable> */}
+            <TabPanel padding="0" height="100%">
+              <AttributeTable id={ID} title="123" />
+            </TabPanel>
+            <TabPanel padding="0" height="100%">
               <TelemetryTable id={ID} title="123" />
             </TabPanel>
-            <TabPanel padding="0" height="100%" backgroundColor="white">
+            {/* <TabPanel padding="0" height="100%" backgroundColor="white">
               3
-            </TabPanel>
+            </TabPanel> */}
           </TabPanels>
         </Tabs>
 

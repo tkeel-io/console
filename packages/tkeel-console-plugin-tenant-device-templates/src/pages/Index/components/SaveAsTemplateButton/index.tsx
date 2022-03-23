@@ -1,11 +1,12 @@
 import { useDisclosure } from '@chakra-ui/react';
 
 import { MoreActionButton } from '@tkeel/console-components';
-import { PencilFilledIcon } from '@tkeel/console-icons';
+import { FolderCloseTwoToneIcon } from '@tkeel/console-icons';
 import { KeyDataType } from '@tkeel/console-request-hooks';
 
-import { RequestData as FormValues } from '@/tkeel-console-plugin-tenant-device-templates/hooks/mutations/useCreateTemplateMutation';
-import useModifyTemplateMutation from '@/tkeel-console-plugin-tenant-device-templates/hooks/mutations/useModifyTemplateMutation';
+import useCreateTemplateMutation, {
+  RequestData as FormValues,
+} from '@/tkeel-console-plugin-tenant-device-templates/hooks/mutations/useCreateTemplateMutation';
 
 import CustomTemplateModal from '../CustomTemplateModal';
 
@@ -14,15 +15,14 @@ type Props = {
   data: KeyDataType;
 };
 
-export default function ModifyTemplateButton({ onSuccess, data }: Props) {
+export default function SaveAsTemplateButton({ onSuccess, data }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { mutate, isLoading } = useModifyTemplateMutation({
+  const { mutate, isLoading } = useCreateTemplateMutation({
     onSuccess() {
       onSuccess();
       onClose();
     },
-    id: data.id,
   });
 
   const handleConfirm = (formValues: FormValues) => {
@@ -41,15 +41,15 @@ export default function ModifyTemplateButton({ onSuccess, data }: Props) {
   return (
     <>
       <MoreActionButton
-        icon={<PencilFilledIcon />}
-        title="修改信息"
+        icon={<FolderCloseTwoToneIcon />}
+        title="另存为模板"
         onClick={() => {
           onOpen();
         }}
       />
       {isOpen && (
         <CustomTemplateModal
-          title="修改模板"
+          title="另存为模板"
           defaultValues={{ ...data, name: data.title }}
           isOpen={isOpen}
           isConfirmButtonLoading={isLoading}
