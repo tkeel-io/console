@@ -1,16 +1,19 @@
-import { Box, Text, Flex, RadioGroup, Stack, Radio } from '@chakra-ui/react';
+/* eslint-disable sonarjs/no-duplicate-string */
+/* eslint-disable  @typescript-eslint/no-unsafe-argument */
+/* eslint-disable  @typescript-eslint/no-unsafe-assignment */
 
+import { Box, Flex, Radio, RadioGroup, Stack, Text } from '@chakra-ui/react';
 import { ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import {
+  FormControl,
   FormField,
   Modal,
   Select,
-  FormControl,
 } from '@tkeel/console-components';
-
-import { baseRequestData as FormValues } from '@tkeel/console-request-hooks';
+import { AddFilledIcon } from '@tkeel/console-icons';
+import { BaseRequestData as FormValues } from '@tkeel/console-request-hooks';
 
 import SelectRadioCard from './components/SelectRadioCard';
 
@@ -52,15 +55,15 @@ const configData = [
   // },
 ];
 
-const inputType = [
+const inputType = new Set([
   '最大值',
   '最小值',
   '步长',
   '单位',
   '元素个数',
   '数据最大长度',
-];
-const selectType = ['元素类型'];
+]);
+const selectType = new Set(['元素类型']);
 
 // const boolType = ['布尔值'];
 
@@ -83,11 +86,12 @@ type Props = {
   onClose: () => unknown;
   onConfirm: (formValues: FormValues) => unknown;
 };
-
 function handleConfigData(
+  // eslint-disable-next-line  @typescript-eslint/no-shadow
   configData: { value: string; config: string[] }[],
   selectVal: string
 ): string[] {
+  // eslint-disable-next-line  no-restricted-syntax
   for (const items of configData) {
     if (items.value === selectVal) {
       return items.config;
@@ -119,32 +123,33 @@ export default function CreateTelemetryModal({
     reset,
   } = useForm<FormValues>({ defaultValues });
 
+  const required = { value: true, message: 'required' };
   const selectRadioCardObj = {
     // int
     最大值: register('define.max', {
-      required: { value: true, message: 'required' },
+      required,
     }),
     最小值: register('define.min', {
-      required: { value: true, message: 'required' },
+      required,
     }),
     步长: register('define.step', {
-      required: { value: true, message: 'required' },
+      required,
     }),
     单位: register('define.unit', {
-      required: { value: true, message: 'required' },
+      required,
     }),
     // array
     元素个数: register('define.length', {
-      required: { value: true, message: 'required' },
+      required,
     }),
     元素类型: register('define.elem_type', {
-      required: { value: true, message: 'required' },
+      required,
     }),
     '0': register('define.0', {
-      required: { value: true, message: 'required' },
+      required,
     }),
     '1': register('define.1', {
-      required: { value: true, message: 'required' },
+      required,
     }),
   };
 
@@ -189,7 +194,6 @@ export default function CreateTelemetryModal({
           required: { value: true, message: 'required' },
         })}
       />
-
       <Box color="gray.600" fontWeight="500" fontSize="14px">
         数据类型
       </Box>
@@ -199,15 +203,13 @@ export default function CreateTelemetryModal({
         options={configData}
         style={{ width: '100%', marginBottom: '14px', marginTop: '8px' }}
         onChange={(el) => {
-          console.log('el', el);
           setSelectValue(el);
           const config = handleConfigData(configData, el);
-          setSelectOptions(config);
+          setSelectOptions(config as []);
           setSelectRadioCardItem('');
           // setValue("define":  )
         }}
       />
-
       {selectOptions.length > 0 && (
         <Flex justifyContent="space-between" mb="10px" alignItems="center">
           <Box>
@@ -216,16 +218,23 @@ export default function CreateTelemetryModal({
               onChange={(el) => {
                 setSelectRadioCardItem(el);
               }}
-            ></SelectRadioCard>
+            />
           </Box>
-          <Box>扩展配置</Box>
+          <Flex
+            width="86px"
+            alignItems="center"
+            justifyContent="space-between"
+            color="grayAlternatives.300"
+            cursor="pointer"
+          >
+            <AddFilledIcon color="grayAlternatives.300" /> <Box>扩展配置</Box>
+          </Flex>
         </Flex>
       )}
-
       {/* select */}
       {selectRadioCardItem && (
         <>
-          {inputType.includes(selectRadioCardItem) && (
+          {inputType.has(selectRadioCardItem) && (
             <TextField
               id={selectRadioCardItem}
               label={selectRadioCardItem}
@@ -234,8 +243,7 @@ export default function CreateTelemetryModal({
               registerReturn={selectRadioCardObj[selectRadioCardItem]}
             />
           )}
-
-          {selectType.includes(selectRadioCardItem) && (
+          {selectType.has(selectRadioCardItem) && (
             <FormControl id="elem_type" label="元素类型">
               <RadioGroup
                 {...register('define.elem_type', {
@@ -281,7 +289,16 @@ export default function CreateTelemetryModal({
           )}
         </>
       )}
-
+      {/* extend */}
+      {/* <TextField
+        id="ext"
+        label="请修改扩展属性标题"
+        isDisabled={formFields?.username?.disabled}
+        error={errors.name}
+        registerReturn={register('id', {
+          required: { value: true, message: 'required' },
+        })}
+      /> */}
       {/*  */}
       <Box>
         <Text color="gray.600" fontSize="14px" mb="4px">

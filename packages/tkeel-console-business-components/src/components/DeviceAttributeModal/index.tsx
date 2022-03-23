@@ -14,6 +14,7 @@ export type DeviceAttributeFormFields = {
   id: string;
   type: string;
   define: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     default_value: any;
     rw: ReadWriteType;
   };

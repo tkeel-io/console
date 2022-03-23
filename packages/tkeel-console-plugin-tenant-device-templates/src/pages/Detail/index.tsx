@@ -11,7 +11,6 @@ import {
 } from '@tkeel/console-components';
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
 // import { BoxTwoToneIcon, DownloadFilledIcon } from '@tkeel/console-icons';
-
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import useTemplateInfoQuery from '@/tkeel-console-plugin-tenant-device-templates/hooks/queries/useTemplateInfoQuery';
@@ -19,6 +18,7 @@ import useTemplateInfoQuery from '@/tkeel-console-plugin-tenant-device-templates
 // import DeleteSubscriptionButton from '@/tkeel-console-plugin-tenant-device-templates/pages/Index/components/DeleteSubscriptionButton';
 // import ModifySubscriptionButton from '@/tkeel-console-plugin-tenant-device-templates/pages/Index/components/ModifySubscriptionButton';
 import TelemetryTable from '@/tkeel-console-plugin-tenant-device-templates/pages/Detail/components/TelemetryTable';
+
 import AttributeTable from './components/AttributeTable';
 
 function Detail(): JSX.Element {

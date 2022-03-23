@@ -1,18 +1,12 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
 import { Cell, Column } from 'react-table';
-// import { Column } from 'react-table';
-// import MoveSubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/MoveSubscriptionButton';
-// import { plugin } from '@tkeel/console-utils';
-
-import DetailTelemetryButton from '../DetailTelemetryButton';
 
 import {
   CreateTelemetryButton,
-  EditTelemetryButton,
   DeleteTelemetryButton,
+  EditTelemetryButton,
 } from '@tkeel/console-business-components';
-
 import {
   Empty,
   MoreAction,
@@ -27,6 +21,11 @@ import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 import useListTemplateTelemetryQuery, {
   UsefulData as Data,
 } from '@/tkeel-console-plugin-tenant-device-templates/hooks/queries/useListTemplateTelemetryQuery';
+
+// import { Column } from 'react-table';
+// import MoveSubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/MoveSubscriptionButton';
+// import { plugin } from '@tkeel/console-utils';
+import DetailTelemetryButton from '../DetailTelemetryButton';
 
 function Index({ id, title }: { id: string; title: string }) {
   // const toast = plugin.getPortalToast();
@@ -48,6 +47,7 @@ function Index({ id, title }: { id: string; title: string }) {
 
   if (keywords) {
     params = { ...params, key_words: keywords };
+    // eslint-disable-next-line no-console
     console.log('Index ~ params', params);
   }
   // const { data } = useListSubscribeEntitiesQuery(id);
@@ -131,6 +131,7 @@ function Index({ id, title }: { id: string; title: string }) {
       Cell: ({ row }: Cell<Data>) =>
         useMemo(() => {
           const { original } = row;
+          // eslint-disable-next-line no-console
           console.log('useMemo ~ original', original);
 
           return (
@@ -144,6 +145,7 @@ function Index({ id, title }: { id: string; title: string }) {
                 <EditTelemetryButton
                   key="modify"
                   handleSubmit={(formValues) => {
+                    // eslint-disable-next-line no-console
                     console.log('useMemo ~ formValues', formValues);
                     // refetch();
                   }}

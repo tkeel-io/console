@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import {
   Box,
   Flex,
@@ -307,7 +308,6 @@ export default function CreateDeviceModal({
                     });
                   }}
                 />
-
                 {!isLoading ? (
                   treeNodeData.length > 0 ? (
                     <Tree

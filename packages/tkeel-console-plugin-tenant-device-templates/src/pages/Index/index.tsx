@@ -67,7 +67,6 @@ function Index() {
   });
 
   // eslint-disable-next-line no-console
-
   console.log(keyWord);
   // console.log(keyWord, result);
 

@@ -7,6 +7,7 @@ const method = 'POST';
 
 export interface AttributeItem {
   define: {
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     default_value: any;
     rw: ReadWriteType;
   };
@@ -15,6 +16,7 @@ export interface AttributeItem {
   id: string;
   name: string;
   type: string;
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   [propName: string]: any;
 }
 export interface TemplateItem {
@@ -49,6 +51,7 @@ interface ApiData {
   };
 }
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export interface keyDataType {
   title: string;
   description: string;
@@ -56,7 +59,6 @@ export interface keyDataType {
   key: string;
   updatedAt: string;
 }
-
 
 export default function useTemplateQuery({
   params,
