@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable react/jsx-key */
 import { StyleProps, Tbody, Td, Text, Tr } from '@chakra-ui/react';
 import { Row, TableBodyPropGetter, TableBodyProps } from 'react-table';
 
@@ -56,6 +53,7 @@ function Body<D extends object>({
           }
         }
         return (
+          // eslint-disable-next-line react/jsx-key
           <Tr
             backgroundColor={backgroundColor}
             _hover={isShowStripe ? {} : { backgroundColor: 'gray.50' }}
@@ -65,9 +63,10 @@ function Body<D extends object>({
             {...styles?.tr}
           >
             {row.cells.map((cell) => {
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              const funcName = (cell.column.Cell as any).name;
+              const columnCell = cell.column.Cell as { name: string };
+              const funcName = columnCell.name;
               return (
+                // eslint-disable-next-line react/jsx-key
                 <Td
                   display="flex"
                   alignItems="center"

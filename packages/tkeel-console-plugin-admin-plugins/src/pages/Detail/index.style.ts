@@ -1,7 +1,7 @@
-/* eslint-disable import/prefer-default-export */
 import { Box } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
+// eslint-disable-next-line import/prefer-default-export
 export const MarkdownWrapper = styled(Box)`
   h1 {
     font-size: 2em;
