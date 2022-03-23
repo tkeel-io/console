@@ -30,7 +30,6 @@ module.exports = {
     'unicorn/no-array-for-each': 'off',
     'unicorn/no-null': 'off',
     'unicorn/prevent-abbreviations': 'off',
-    'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
     'import/no-duplicates': ['error', { considerQueryString: true }],
     'import/order': [
       'error',

@@ -1,13 +1,12 @@
 const shell = require('shelljs');
 
-const prompt = require('./prompt');
-const setChartVersions = require('./set-chart-versions');
+const logger = require('../utils/logger');
 
-(async () => {
-  const infos = await prompt();
-  infos.forEach(({ name }) => {
-    const command = `docker image push ${name}`;
-    shell.exec(command);
-  });
-  setChartVersions(infos);
-})();
+module.exports = function push(packageInfo) {
+  const { docker } = packageInfo;
+  const { imageName, imageTag } = docker;
+  const command = `docker image push ${imageName}:${imageTag}`;
+  logger.info(`${command}\n`);
+  shell.exec(command);
+  logger.success('docker push success\n');
+};
