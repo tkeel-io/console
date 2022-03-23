@@ -37,4 +37,19 @@ function writeTemplates(options) {
   });
 }
 
-module.exports = { copyTemplates, writeTemplates };
+function createFiles(options) {
+  const { name } = options;
+  const directoryName = getPluginPackageDirectoryName({ pluginName: name });
+  const pluginAbsolutePath = paths.resolvePackages(directoryName);
+
+  const fileName = '.lintstagedrc.js';
+  const data = `const config = require('../../.lintstagedrc.js');
+
+module.exports = config;
+  `;
+  const destAbsolutePath = path.resolve(pluginAbsolutePath, fileName);
+
+  fs.outputFileSync(destAbsolutePath, data);
+}
+
+module.exports = { copyTemplates, writeTemplates, createFiles };
