@@ -1,4 +1,5 @@
-import { useRadioGroup, HStack } from '@chakra-ui/react';
+import { HStack, useRadioGroup } from '@chakra-ui/react';
+
 import { RadioCard } from '@tkeel/console-components';
 
 export interface Props {

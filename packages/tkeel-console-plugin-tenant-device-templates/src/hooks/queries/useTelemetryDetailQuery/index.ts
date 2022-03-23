@@ -22,7 +22,7 @@ type RequestData = {
   id: string;
 };
 
-export default function useTelemetryDetailQuery(uid:string, id: string) {
+export default function useTelemetryDetailQuery(uid: string, id: string) {
   const url = `/tkeel-device/v1/templates/${uid}/telemetry/${id}`;
   const { data, ...rest } = useQuery<ApiData, undefined, RequestData>({
     url,

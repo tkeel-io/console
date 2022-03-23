@@ -42,11 +42,9 @@ export interface ApiData {
     configs: {
       telemetry: {
         define: {
-          fields: Telemetry
-        }
-      }
-      
-      ;
+          fields: Telemetry;
+        };
+      };
     };
   };
 }

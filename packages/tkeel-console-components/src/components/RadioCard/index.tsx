@@ -1,4 +1,4 @@
-import { useRadio, Box, UseRadioProps } from '@chakra-ui/react';
+import { Box, useRadio, UseRadioProps } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 // interface Props extends UseRadioProps {
@@ -7,9 +7,10 @@ import { ReactNode } from 'react';
 
 function RadioCard(props: UseRadioProps & { children: ReactNode }) {
   const { getInputProps, getCheckboxProps } = useRadio(props);
-
+  const { children } = props;
   const input = getInputProps();
   const checkbox = getCheckboxProps();
+  // eslint-disable-next-line react/destructuring-assignment
   return (
     <Box as="label">
       <input {...input} />
@@ -35,7 +36,7 @@ function RadioCard(props: UseRadioProps & { children: ReactNode }) {
         justifyContent="center"
         alignItems="center"
       >
-        {props.children}
+        {children}
       </Box>
     </Box>
   );

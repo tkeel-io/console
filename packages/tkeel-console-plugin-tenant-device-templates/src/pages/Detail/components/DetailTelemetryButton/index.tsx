@@ -1,11 +1,3 @@
-import { Drawer } from '@tkeel/console-components';
-import { MoreActionButton } from '@tkeel/console-components';
-import { PencilFilledIcon, BoxTwoToneIcon } from '@tkeel/console-icons';
-// import useCreateSubscribeMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useCreateSubscribeMutation';
-// import { baseRequestData as FormValues } from '@tkeel/console-request-hooks';
-
-import useTelemetryDetailQuery from '@/tkeel-console-plugin-tenant-device-templates/hooks/queries/useTelemetryDetailQuery';
-
 import {
   Box,
   Circle,
@@ -14,6 +6,13 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
+
+import { Drawer, MoreActionButton } from '@tkeel/console-components';
+import { BoxTwoToneIcon, PencilFilledIcon } from '@tkeel/console-icons';
+
+// import useCreateSubscribeMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useCreateSubscribeMutation';
+// import { baseRequestData as FormValues } from '@tkeel/console-request-hooks';
+import useTelemetryDetailQuery from '@/tkeel-console-plugin-tenant-device-templates/hooks/queries/useTelemetryDetailQuery';
 
 type Props = {
   uid: string;
@@ -28,6 +27,8 @@ export default function DetailTelemetryButton({ uid, id }: Props) {
   const desc = '123123';
 
   const { data } = useTelemetryDetailQuery(uid, id);
+
+  // eslint-disable-next-line no-console
   console.log('DetailTelemetryButton ~ data', data);
   // const handleConfirm = (formValues: FormValues) => {
   //   const { title, description } = formValues;
