@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 
@@ -32,29 +31,36 @@ function ConnectionInfo({ data }: Props) {
   const list = [
     {
       label: '接入协议',
+      // eslint-disable-next-line no-underscore-dangle
       value: infoData._protocol,
     },
     {
       label: '客户端ID',
+      // eslint-disable-next-line no-underscore-dangle
       value: infoData._clientId,
     },
     {
       label: '客户端端口',
+      // eslint-disable-next-line no-underscore-dangle
       value: infoData._sockPort,
     },
     {
       label: '客户端地址',
+      // eslint-disable-next-line no-underscore-dangle
       value: infoData._peerHost,
     },
     {
       label: '连接时间',
+      // eslint-disable-next-line no-underscore-dangle
       value: infoData._timestamp
         ? formatDateTimeByTimestamp({
+            // eslint-disable-next-line no-underscore-dangle
             timestamp: infoData._timestamp,
           })
         : '',
     },
   ];
+  // eslint-disable-next-line no-underscore-dangle
   return infoData?._online ? (
     <Box>
       <Text

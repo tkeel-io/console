@@ -1,6 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Box, Button, Flex, Spacer, Text } from '@chakra-ui/react';
 import { isEmpty, values } from 'lodash';
 import { useEffect, useState } from 'react';
@@ -136,6 +133,7 @@ export default function OperateDeviceModal({
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode]);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const groupTreeCopy = groupTree || useGroupTreeQuery().groupTree;
   const deviceGroupOptions = getTreeNodeData({
     data: groupTreeCopy,
@@ -249,6 +247,7 @@ export default function OperateDeviceModal({
   // const handleSelectTemplate = (selected: boolean) => {
   //   setUseTemplate(selected);
   // };
+  const primaryColor = useColor('primarySub');
   return (
     <Modal
       title={<Text fontSize="14px">{title}</Text>}
@@ -334,7 +333,7 @@ export default function OperateDeviceModal({
                     colorScheme="primary"
                     fontSize="14px"
                     mr="14px"
-                    boxShadow={`0px 4px 12px ${useColor('primarySub')}`}
+                    boxShadow={`0px 4px 12px ${primaryColor}`}
                     onClick={() => {
                       setCurrentStep(currentStep - 1);
                     }}
