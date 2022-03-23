@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import { values } from 'lodash';
 
 import { useQuery } from '@tkeel/console-hooks';
@@ -69,6 +68,7 @@ function getTemplateKeyData(
       id: item?.id,
       key: item?.id,
       updatedAt: formatDateTimeByTimestamp({
+        // eslint-disable-next-line no-underscore-dangle
         timestamp: item?.properties?.sysField?._updatedAt,
       }),
     };
