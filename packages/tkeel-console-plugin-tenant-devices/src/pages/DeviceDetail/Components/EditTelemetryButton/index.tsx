@@ -1,7 +1,8 @@
 import { useDisclosure } from '@chakra-ui/react';
 
 import { CreateTelemetryModal } from '@tkeel/console-business-components';
-import { CreateButton } from '@tkeel/console-components';
+import { MoreActionButton } from '@tkeel/console-components';
+import { PencilFilledIcon } from '@tkeel/console-icons';
 import {
   BaseRequestData as FormFields,
   useCreateTelemetryMutation,
@@ -9,12 +10,11 @@ import {
 import { plugin } from '@tkeel/console-utils';
 
 type Props = {
-  // handleSubmit: (values: FormValues) => void;
   id: string;
-  refetch: () => void;
+  refetch?: () => void;
 };
 
-export default function AddTelemetryButton({ id, refetch = () => {} }: Props) {
+export default function EditTelemetryButton({ id, refetch = () => {} }: Props) {
   const toast = plugin.getPortalToast();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -22,7 +22,7 @@ export default function AddTelemetryButton({ id, refetch = () => {} }: Props) {
     id,
     onSuccess() {
       onClose();
-      toast('创建遥测成功', { status: 'success' });
+      toast('编辑遥测成功', { status: 'success' });
       refetch();
     },
   });
@@ -40,9 +40,13 @@ export default function AddTelemetryButton({ id, refetch = () => {} }: Props) {
 
   return (
     <>
-      <CreateButton onClick={onOpen}>创建遥测</CreateButton>
+      <MoreActionButton
+        icon={<PencilFilledIcon size="12px" color="grayAlternatives.300" />}
+        title="编辑遥测"
+        onClick={onOpen}
+      />
       <CreateTelemetryModal
-        title="新建遥测"
+        title="编辑遥测"
         isOpen={isOpen}
         // isConfirmButtonLoading={isLoading}
         onClose={onClose}

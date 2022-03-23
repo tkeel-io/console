@@ -53,6 +53,7 @@ export interface TelemetryItem {
   id: string;
   name: string;
   type: string;
+  last_time: number;
 }
 
 export interface Telemetry {
@@ -107,7 +108,7 @@ export interface DeviceObject {
     basicInfo: BasicInfo;
     sysField: SysField;
     rawData: RawData;
-    telemetry?: Telemetry;
+    telemetry: Telemetry;
     attributes: Attributes;
     connectInfo: ConnectInfo;
   };

@@ -6,12 +6,14 @@ import {
   Attributes,
   ConnectInfo,
   RawData,
+  Telemetry,
 } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 
 type Message = {
   rawData: RawData;
   attributes: Attributes;
   connectInfo: ConnectInfo;
+  telemetry: Telemetry;
   [propName: string]: unknown;
 };
 
@@ -41,7 +43,8 @@ function useDeviceDetailSocket({ id }: Props) {
   const rawData = lastJsonMessage?.rawData || {};
   const connectInfo = lastJsonMessage?.connectInfo;
   const attributes = lastJsonMessage?.attributes || {};
-  return { rawData, connectInfo, attributes };
+  const telemetry = lastJsonMessage?.telemetry || {};
+  return { rawData, connectInfo, attributes, telemetry };
 }
 
 export default useDeviceDetailSocket;

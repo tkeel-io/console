@@ -1,5 +1,6 @@
 export { default as BasicInfo } from './components/BasicInfo';
 export { default as CreateTelemetryButton } from './components/CreateTelemetryButton';
+export { default as CreateTelemetryModal } from './components/CreateTelemetryModal';
 export { default as DeleteTelemetryButton } from './components/DeleteTelemetryButton';
 export { default as DeveloperInfo } from './components/DeveloperInfo';
 export { default as DeviceAttributeModal } from './components/DeviceAttributeModal';

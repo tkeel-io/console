@@ -3,8 +3,11 @@ import { isEmpty } from 'lodash';
 
 import { Empty, PageHeaderToolbar } from '@tkeel/console-components';
 
-import { TelemetryItem } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
-import AddTelemetryButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/AddAttributeButton';
+import {
+  Telemetry,
+  TelemetryItem,
+} from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
+import AddTelemetryButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/AddTelemetryButton';
 
 import TelemetryDataTable from './TelemetryDataTable';
 
@@ -13,12 +16,14 @@ type Props = {
   deviceName: string;
   refetch?: () => void;
   telemetryFields: TelemetryItem[];
+  telemetryValues: Telemetry;
 };
 export default function TelemetryData({
   deviceId,
   deviceName,
   refetch: refetchDeviceDetail = () => {},
   telemetryFields,
+  telemetryValues,
 }: Props) {
   return (
     <Box>
@@ -62,7 +67,12 @@ export default function TelemetryData({
               />,
             ]}
           />
-          <TelemetryDataTable />
+          <TelemetryDataTable
+            telemetryFields={telemetryFields}
+            telemetryValues={telemetryValues}
+            deviceId={deviceId}
+            refetch={refetchDeviceDetail}
+          />
         </>
       )}
     </Box>

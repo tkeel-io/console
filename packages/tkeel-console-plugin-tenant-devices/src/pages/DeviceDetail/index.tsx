@@ -28,9 +28,11 @@ function DeviceDetail(): JSX.Element {
   const { sysField, basicInfo } = properties ?? {};
   const originConnectInfo = properties?.connectInfo;
   const configs = deviceObject?.configs ?? {};
-  const { rawData, connectInfo, attributes } = useDeviceDetailSocket({
-    id: id as string,
-  });
+  const { rawData, connectInfo, attributes, telemetry } = useDeviceDetailSocket(
+    {
+      id: id as string,
+    }
+  );
   const connectData = connectInfo || originConnectInfo;
 
   const deviceInfo = {
@@ -44,6 +46,8 @@ function DeviceDetail(): JSX.Element {
       attributes: !isEmpty(attributes)
         ? attributes
         : properties?.attributes ?? {},
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      telemetry: !isEmpty(telemetry) ? telemetry : properties?.telemetry ?? {},
       connectInfo: connectData,
     },
   };

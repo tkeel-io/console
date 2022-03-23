@@ -24,6 +24,7 @@ function DeviceDetailRightPanel({ deviceObject, refetch }: Props): JSX.Element {
     rawData,
     basicInfo,
     attributes: attributeValues,
+    telemetry: telemetryValues,
   } = properties;
   const tabs = [
     {
@@ -61,6 +62,7 @@ function DeviceDetailRightPanel({ deviceObject, refetch }: Props): JSX.Element {
           deviceId={id}
           refetch={refetch}
           telemetryFields={values(telemetryFields)}
+          telemetryValues={telemetryValues}
         />
       ),
     },
