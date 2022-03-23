@@ -1,6 +1,6 @@
 import { Text } from '@chakra-ui/react';
 import { Base64 } from 'js-base64';
-import { MouseEventHandler, useState } from 'react';
+import { useState } from 'react';
 
 import { AceEditor, Modal } from '@tkeel/console-components';
 
@@ -46,7 +46,7 @@ function EditConfigModal({
     onSuccess,
   });
 
-  const handleInstall: MouseEventHandler<HTMLButtonElement> = () => {
+  const handleInstall = () => {
     mutate({
       data: {
         name,

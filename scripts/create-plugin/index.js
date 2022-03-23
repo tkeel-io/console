@@ -9,7 +9,7 @@ const {
   showServerPorts,
 } = require('../utils/packages');
 const { getArgv } = require('./argv');
-const { copyTemplates, writeTemplates } = require('./files');
+const { copyTemplates, writeTemplates, createFiles } = require('./files');
 const prompt = require('./prompt');
 
 (async () => {
@@ -42,6 +42,7 @@ const prompt = require('./prompt');
 
     copyTemplates(options);
     writeTemplates(options);
+    createFiles(options);
 
     logger.success('\nDONE\n');
   } catch (error) {

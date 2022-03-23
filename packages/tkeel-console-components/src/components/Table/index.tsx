@@ -1,6 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Flex, Table as ChakraTable } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import {
@@ -81,7 +78,6 @@ function Table<D extends object>({
 
   useDeepCompareEffect(() => {
     if (onSelect) {
-      // console.log('selectedRows', selectedRows);
       onSelect({
         isAllRowsSelected,
         selectedRowIds,
