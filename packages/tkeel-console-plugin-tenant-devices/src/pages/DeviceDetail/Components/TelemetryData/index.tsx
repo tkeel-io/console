@@ -6,13 +6,17 @@ import { Empty, PageHeaderToolbar } from '@tkeel/console-components';
 import { TelemetryItem } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 import AddTelemetryButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/AddAttributeButton';
 
+import TelemetryDataTable from './TelemetryDataTable';
+
 type Props = {
   deviceId: string;
+  deviceName: string;
   refetch?: () => void;
   telemetryFields: TelemetryItem[];
 };
 export default function TelemetryData({
   deviceId,
+  deviceName,
   refetch: refetchDeviceDetail = () => {},
   telemetryFields,
 }: Props) {
@@ -23,7 +27,7 @@ export default function TelemetryData({
           description={
             <Box>
               <Box display="inline" color="gray.700" fontWeight="500">
-                {/* [{deviceName}]&nbsp; */}
+                [{deviceName}]&nbsp;
               </Box>
               暂无遥测数据,可手动添加
             </Box>
@@ -39,24 +43,27 @@ export default function TelemetryData({
           }
         />
       ) : (
-        <PageHeaderToolbar
-          styles={{
-            wrapper: { height: '32px', marginBottom: '12px' },
-            title: { fontSize: '14px' },
-          }}
-          name="遥测数据"
-          hasSearchInput
-          searchInputProps={{
-            onSearch() {},
-          }}
-          buttons={[
-            <AddTelemetryButton
-              key="add"
-              id={deviceId}
-              refetch={refetchDeviceDetail}
-            />,
-          ]}
-        />
+        <>
+          <PageHeaderToolbar
+            styles={{
+              wrapper: { height: '32px', marginBottom: '12px' },
+              title: { fontSize: '14px' },
+            }}
+            name="遥测数据"
+            hasSearchInput
+            searchInputProps={{
+              onSearch() {},
+            }}
+            buttons={[
+              <AddTelemetryButton
+                key="add"
+                id={deviceId}
+                refetch={refetchDeviceDetail}
+              />,
+            ]}
+          />
+          <TelemetryDataTable />
+        </>
       )}
     </Box>
   );

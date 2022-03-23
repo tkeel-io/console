@@ -4,9 +4,8 @@ import { DeviceAttributeModal } from '@tkeel/console-business-components';
 import { DeviceAttributeFormFields } from '@tkeel/console-business-components/src/components/DeviceAttributeModal';
 import { MoreActionButton } from '@tkeel/console-components';
 import { PencilFilledIcon } from '@tkeel/console-icons';
+import { useEditAttributeMutation } from '@tkeel/console-request-hooks/src/hooks/mutations';
 import { plugin } from '@tkeel/console-utils';
-
-import useEditAttributeMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useEditAttributeMutation';
 
 interface Props {
   id: string;

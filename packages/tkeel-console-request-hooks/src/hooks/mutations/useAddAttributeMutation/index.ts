@@ -1,8 +1,8 @@
-import { ReadWriteType } from '@tkeel/console-business-components/src/components/DeviceAttributeModal';
 import { useMutation } from '@tkeel/console-hooks';
 
-const method = 'PUT';
+const method = 'POST';
 
+type ReadWriteType = 'rw' | 'r' | 'w';
 export interface ApiData {
   details?: unknown;
 }
@@ -18,7 +18,7 @@ export interface RequestData {
   };
 }
 
-export default function useEditAttributeMutation({
+export default function useAddAttributeMutation({
   id,
   onSuccess,
 }: {

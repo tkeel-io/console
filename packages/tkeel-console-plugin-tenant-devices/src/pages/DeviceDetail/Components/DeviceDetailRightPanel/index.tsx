@@ -57,6 +57,7 @@ function DeviceDetailRightPanel({ deviceObject, refetch }: Props): JSX.Element {
       key: 'telemetry',
       component: (
         <TelemetryData
+          deviceName={basicInfo?.name ?? ''}
           deviceId={id}
           refetch={refetch}
           telemetryFields={values(telemetryFields)}

@@ -3,9 +3,8 @@ import { useDisclosure } from '@chakra-ui/react';
 import { DeviceAttributeModal } from '@tkeel/console-business-components';
 import { DeviceAttributeFormFields } from '@tkeel/console-business-components/src/components/DeviceAttributeModal';
 import { CreateButton } from '@tkeel/console-components';
+import useAddAttributeMutation from '@tkeel/console-request-hooks/src/hooks/mutations/useAddAttributeMutation';
 import { plugin } from '@tkeel/console-utils';
-
-import useAddAttributeMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useAddAttributeMutation';
 
 type Props = {
   id: string;
