@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-key */
 import { Box, StyleProps, Th, Thead, Tr } from '@chakra-ui/react';
 import { HeaderGroup } from 'react-table';
 
@@ -27,6 +26,7 @@ function Head<D extends object>({
     >
       {headerGroups.map((headerGroup) => {
         return (
+          // eslint-disable-next-line react/jsx-key
           <Tr
             {...headerGroup.getHeaderGroupProps()}
             height="34px"
@@ -45,6 +45,7 @@ function Head<D extends object>({
               }
 
               return (
+                // eslint-disable-next-line react/jsx-key
                 <Th
                   display="flex"
                   alignItems="center"
