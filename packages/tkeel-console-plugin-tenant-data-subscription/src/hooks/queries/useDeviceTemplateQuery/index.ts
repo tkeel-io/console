@@ -1,5 +1,3 @@
-/* eslint-disable  @typescript-eslint/no-explicit-any */
-
 import { useQuery } from '@tkeel/console-hooks';
 
 const url = '/tkeel-device/v1/search';
@@ -12,12 +10,15 @@ export interface NodeInfo {
       name: string;
       description: string;
       ext: { [propName: string]: string };
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       [propName: string]: any;
     };
     sysField: {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       [propName: string]: any;
     };
   };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [propName: string]: any;
 }
 
@@ -45,6 +46,7 @@ type RequestParams = {
   order_by?: string;
   is_descending?: boolean;
   query?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   condition: any[];
 };
 interface ApiData {
