@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import {
   Box,
   Flex,
@@ -11,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 import { values } from 'lodash';
 import { DataNode } from 'node_modules/rc-tree/es/interface';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import {
@@ -258,6 +257,56 @@ export default function CreateDeviceModal({
     setSearchSelectNode(arr);
   };
 
+  // eslint-disable-next-line react/no-unstable-nested-components
+  function TREE() {
+    return treeNodeData.length > 0 ? (
+      <Tree
+        style={{ marginTop: '16px' }}
+        icon={FolderOpenTwoToneIcon}
+        checkable
+        treeData={treeNodeData}
+        checkedKeys={selectedKeys}
+        onCheck={(keys, el) => {
+          if (keys) {
+            const { checkedNodes } = el;
+            const selectNodeData = getSelectNode(checkedNodes);
+            const selectKeyData = getSelectKey(selectNodeData);
+            setSelectNode(selectNodeData);
+            setSearchSelectNode(selectNodeData);
+            setSelectedKeys(selectKeyData);
+          }
+        }}
+      />
+    ) : (
+      <Empty title="暂无数据" styles={{ wrapper: { height: '100%' } }} />
+    );
+  }
+
+  // eslint-disable-next-line react/no-unstable-nested-components
+  function TemplateTree() {
+    return templateTreeNodeData.length > 0 ? (
+      <Tree
+        style={{ marginTop: '16px' }}
+        icon={FolderOpenTwoToneIcon}
+        checkable
+        treeData={templateTreeNodeData}
+        checkedKeys={selectedKeys}
+        onCheck={(key, el) => {
+          if (key) {
+            const { checkedNodes } = el;
+            const selectNodeData = getSelectNode(checkedNodes);
+            const selectKeyData = getSelectKey(selectNodeData);
+            setSelectNode(selectNodeData);
+            setSearchSelectNode(selectNodeData);
+            setSelectedKeys(selectKeyData);
+          }
+        }}
+      />
+    ) : (
+      <Empty title="暂无数据" styles={{ wrapper: { height: '100%' } }} />
+    );
+  }
+
   return (
     <Modal
       title="添加设备"
@@ -308,31 +357,9 @@ export default function CreateDeviceModal({
                     });
                   }}
                 />
+
                 {!isLoading ? (
-                  treeNodeData.length > 0 ? (
-                    <Tree
-                      style={{ marginTop: '16px' }}
-                      icon={FolderOpenTwoToneIcon}
-                      checkable
-                      treeData={treeNodeData}
-                      checkedKeys={selectedKeys}
-                      onCheck={(keys, el) => {
-                        if (keys) {
-                          const { checkedNodes } = el;
-                          const selectNodeData = getSelectNode(checkedNodes);
-                          const selectKeyData = getSelectKey(selectNodeData);
-                          setSelectNode(selectNodeData);
-                          setSearchSelectNode(selectNodeData);
-                          setSelectedKeys(selectKeyData);
-                        }
-                      }}
-                    />
-                  ) : (
-                    <Empty
-                      title="暂无数据"
-                      styles={{ wrapper: { height: '100%' } }}
-                    />
-                  )
+                  memo(TREE)
                 ) : (
                   <Loading styles={{ wrapper: { height: '100%' } }} />
                 )}
@@ -349,30 +376,7 @@ export default function CreateDeviceModal({
                   }}
                 />
                 {!templateIsLoading ? (
-                  templateTreeNodeData.length > 0 ? (
-                    <Tree
-                      style={{ marginTop: '16px' }}
-                      icon={FolderOpenTwoToneIcon}
-                      checkable
-                      treeData={templateTreeNodeData}
-                      checkedKeys={selectedKeys}
-                      onCheck={(key, el) => {
-                        if (key) {
-                          const { checkedNodes } = el;
-                          const selectNodeData = getSelectNode(checkedNodes);
-                          const selectKeyData = getSelectKey(selectNodeData);
-                          setSelectNode(selectNodeData);
-                          setSearchSelectNode(selectNodeData);
-                          setSelectedKeys(selectKeyData);
-                        }
-                      }}
-                    />
-                  ) : (
-                    <Empty
-                      title="暂无数据"
-                      styles={{ wrapper: { height: '100%' } }}
-                    />
-                  )
+                  memo(TemplateTree)
                 ) : (
                   <Loading styles={{ wrapper: { height: '100%' } }} />
                 )}

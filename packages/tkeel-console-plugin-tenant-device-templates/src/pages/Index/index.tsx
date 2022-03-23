@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import { Box, Flex } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -61,6 +60,7 @@ function Index() {
       id: val.id,
       key: val.id,
       updatedAt: formatDateTimeByTimestamp({
+        // eslint-disable-next-line no-underscore-dangle
         timestamp: val.properties.sysField._updatedAt as string,
       }),
     };

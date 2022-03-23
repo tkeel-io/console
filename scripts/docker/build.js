@@ -21,13 +21,11 @@ function execCommand(packageInfo) {
   logger.success('docker build success\n');
 }
 
-function build(packageInfo) {
+module.exports = function build(packageInfo) {
   deleteTmpDirectory();
   createJsonFiles(packageInfo);
   createNginxConfigFile(packageInfo);
   execCommand(packageInfo);
   deleteJsonFiles();
   deleteNginxConfigFile();
-}
-
-module.exports = build;
+};

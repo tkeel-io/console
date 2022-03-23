@@ -1,0 +1,6 @@
+replicaCount: 1
+imagePullSecrets: ''
+image:
+  repository: tkeelio/console-plugin-tenant-device-templates
+  # tag: 0.4.3
+  pullPolicy: Always

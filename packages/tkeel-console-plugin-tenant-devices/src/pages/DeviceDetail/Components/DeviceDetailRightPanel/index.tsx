@@ -1,5 +1,4 @@
-/* eslint-disable no-underscore-dangle */
-import { TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { Box, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { useState } from 'react';
 
 import { CustomTab, CustomTabList } from '@tkeel/console-components';
@@ -31,6 +30,7 @@ function DeviceDetailRightPanel({ deviceObject }: Props): JSX.Element {
       label: '原始数据',
       key: 'rawData',
       component: (
+        // eslint-disable-next-line no-underscore-dangle
         <RawData data={rawData} online={connectInfo?._online ?? false} />
       ),
     },
