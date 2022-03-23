@@ -89,13 +89,8 @@ export default function DateRangePickerStyles() {
         }
       }
 
-      .rs-calendar-table-cell:not(.rs-calendar-table-cell-selected):hover
-        .rs-calendar-table-cell-content {
-        color: ${primaryColor} !important;
-        background-color: ${primarySubColor} !important;
-      }
-
       .rs-calendar-table-cell:not(.rs-calendar-table-cell-selected) {
+        &:hover .rs-calendar-table-cell-content,
         .rs-calendar-table-cell-content:hover,
         .rs-calendar-table-cell-day:hover {
           color: ${primaryColor} !important;
