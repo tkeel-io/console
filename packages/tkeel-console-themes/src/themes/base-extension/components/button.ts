@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import type {
   SystemStyleFunction,
   SystemStyleObject,
@@ -28,8 +27,8 @@ const baseStyle: SystemStyleObject = {
 
 const variantGhost: SystemStyleFunction = (props) => {
   const { colorScheme: c, theme } = props;
-
   if (c === 'gray') {
+    /* eslint-disable @typescript-eslint/no-unsafe-assignment */
     return {
       color: mode(`inherit`, `whiteAlpha.900`)(props),
       _hover: {
@@ -180,6 +179,7 @@ const variantLink: SystemStyleFunction = (props) => {
     },
   };
 };
+/* eslint-enable */
 
 const variantUnstyled: SystemStyleObject = {
   bg: 'none',
