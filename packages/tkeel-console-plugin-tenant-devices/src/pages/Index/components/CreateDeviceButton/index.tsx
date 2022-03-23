@@ -1,6 +1,3 @@
-/* eslint-disable import/no-cycle */
-/* eslint-disable no-console */
-/* eslint-disable unicorn/consistent-function-scoping */
 import { useDisclosure } from '@chakra-ui/react';
 import { keyBy, mapValues } from 'lodash';
 import { useEffect } from 'react';
