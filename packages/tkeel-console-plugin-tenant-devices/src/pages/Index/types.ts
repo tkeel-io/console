@@ -55,9 +55,9 @@ export interface DeviceDefaultInfoType {
 
 export type TreeNodeData = {
   name?: string;
-  title?: ReactNode;
-  key?: string;
-  children?: TreeNodeData[];
+  title: ReactNode;
+  key: string;
+  children: TreeNodeData[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   icon?: any;
   originData?: {

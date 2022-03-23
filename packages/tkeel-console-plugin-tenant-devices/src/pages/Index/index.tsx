@@ -45,7 +45,7 @@ function getParentTreeNode({
     }
     if (!isEmpty(item.children)) {
       const node = getParentTreeNode({
-        list: item.children as TreeNodeData[],
+        list: item.children,
         key,
       });
       if (!isEmpty(node)) {
@@ -68,13 +68,13 @@ function getTreeNode({
       return item;
     }
     if (!isEmpty(item.children)) {
-      const node = getTreeNode({ list: item.children as TreeNodeData[], key });
-      if (!isEmpty(node)) {
+      const node = getTreeNode({ list: item.children, key });
+      if (!isEmpty(node.key)) {
         return node;
       }
     }
   }
-  return {};
+  return { ...defaultGroupItem };
 }
 function getDefaultFormValues({ groupItem }: { groupItem: TreeNodeData }) {
   const nodeInfo = groupItem?.originData?.nodeInfo as NodeInfo;
