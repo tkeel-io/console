@@ -72,11 +72,6 @@ export default function DateRangePickerStyles() {
         box-shadow: inset 0 0 0 1px ${primaryColor};
       }
 
-      .rs-calendar-table-cell:hover .rs-calendar-table-cell-content {
-        color: ${primaryColor} !important;
-        background-color: ${primarySubColor} !important;
-      }
-
       .rs-calendar-month-dropdown-cell-active
         .rs-calendar-month-dropdown-cell-content {
         &:hover {
@@ -92,6 +87,12 @@ export default function DateRangePickerStyles() {
         .rs-calendar-table-cell-day:hover {
           color: ${whiteColor} !important;
         }
+      }
+
+      .rs-calendar-table-cell:not(.rs-calendar-table-cell-selected):hover
+        .rs-calendar-table-cell-content {
+        color: ${primaryColor} !important;
+        background-color: ${primarySubColor} !important;
       }
 
       .rs-calendar-table-cell:not(.rs-calendar-table-cell-selected) {
