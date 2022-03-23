@@ -24,11 +24,11 @@ import { WebcamTwoToneIcon } from '@tkeel/console-icons';
 // import { formatDateTimeByTimestamp, plugin } from '@tkeel/console-utils';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
-import useListTemplateTelemetryQuery, {
+import useListTemplateAttributeQuery, {
   UsefulData as Data,
-} from '@/tkeel-console-plugin-tenant-device-templates/hooks/queries/useListTemplateTelemetryQuery';
+} from '@/tkeel-console-plugin-tenant-device-templates/hooks/queries/useListTemplateAttributeQuery';
 
-function Index({ id, title }: { id: string; title: string }) {
+function AttributeTable({ id, title }: { id: string; title: string }) {
   // const toast = plugin.getPortalToast();
 
   const [keywords, setKeyWords] = useState('');
@@ -57,13 +57,13 @@ function Index({ id, title }: { id: string; title: string }) {
     usefulData: data,
     isLoading,
     refetch,
-  } = useListTemplateTelemetryQuery({
+  } = useListTemplateAttributeQuery({
     id,
     onSuccess(res) {
       // console.log('onSuccess ~ res');
       // const total = res?.data?.total ?? 0;
       const total = Object.keys(
-        res.data.templateTeleObject.configs.telemetry.define.fields
+        res.data.templateAttrObject.configs.telemetry.define.fields
       ).length;
       setTotalSize(total);
     },
@@ -78,7 +78,7 @@ function Index({ id, title }: { id: string; title: string }) {
 
   const columns: ReadonlyArray<Column<Data>> = [
     {
-      Header: '遥测名称',
+      Header: '属性名称',
       accessor: 'name',
       Cell: ({ value }: { value: string }) =>
         useMemo(
@@ -175,7 +175,7 @@ function Index({ id, title }: { id: string; title: string }) {
   return (
     <Flex flexDirection="column" height="100%" margin="0 20px">
       <PageHeaderToolbar
-        name="遥测模板"
+        name="属性模板"
         hasSearchInput
         searchInputProps={{
           onSearch(value) {
@@ -236,4 +236,4 @@ function Index({ id, title }: { id: string; title: string }) {
   );
 }
 
-export default Index;
+export default AttributeTable;

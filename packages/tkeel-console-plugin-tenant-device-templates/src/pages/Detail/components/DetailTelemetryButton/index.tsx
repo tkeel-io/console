@@ -3,6 +3,9 @@ import { MoreActionButton } from '@tkeel/console-components';
 import { PencilFilledIcon, BoxTwoToneIcon } from '@tkeel/console-icons';
 // import useCreateSubscribeMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useCreateSubscribeMutation';
 // import { baseRequestData as FormValues } from '@tkeel/console-request-hooks';
+
+import useTelemetryDetailQuery from '@/tkeel-console-plugin-tenant-device-templates/hooks/queries/useTelemetryDetailQuery';
+
 import {
   Box,
   Circle,
@@ -12,17 +15,20 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
-// type Props = {
-//   handleSubmit: (values: FormValues) => void;
-// };
+type Props = {
+  uid: string;
+  id: string;
+};
 
-export default function DetailTelemetryButton() {
+export default function DetailTelemetryButton({ uid, id }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const name = '123123';
   // const icon = "123123";
   const desc = '123123';
 
+  const { data } = useTelemetryDetailQuery(uid, id);
+  console.log('DetailTelemetryButton ~ data', data);
   // const handleConfirm = (formValues: FormValues) => {
   //   const { title, description } = formValues;
   //   if (formValues) {
