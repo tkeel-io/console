@@ -264,6 +264,10 @@ function getCliArgv() {
         type: 'string',
         desc: 'Docker image tag, the default is "dev"',
       },
+      'docker-image-push': {
+        type: 'boolean',
+        desc: 'Is push docker image ?',
+      },
     })
     .help()
     .alias('h', 'help')
@@ -309,10 +313,13 @@ async function getSelectedCanRunPackageInfos() {
   const argv = getCliArgv();
   const inputPackageNamesString = argv?.packageNames ?? '';
   const dockerImageTag = argv?.dockerImageTag ?? 'dev';
+  const isDockerImagePush = argv?.dockerImagePush;
   const inputPackageNames = inputPackageNamesString.split(',').filter(Boolean);
 
   const packageInfos = readPackageInfos().map((packageInfo) =>
-    _.merge({}, packageInfo, { docker: { imageTag: dockerImageTag } })
+    _.merge({}, packageInfo, {
+      docker: { imageTag: dockerImageTag, isDockerImagePush },
+    })
   );
   const canRunPackageInfos = packageInfos.filter(({ canRun }) => canRun);
   const incorrectPackageNames = [];
