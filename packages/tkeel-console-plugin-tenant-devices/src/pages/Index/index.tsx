@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Box, Center, Flex, HStack, Text } from '@chakra-ui/react';
 import { isEmpty, values } from 'lodash';
 import { Fragment, useState } from 'react';
@@ -46,7 +44,10 @@ function getParentTreeNode({
       return [item];
     }
     if (!isEmpty(item.children)) {
-      const node = getParentTreeNode({ list: item.children, key });
+      const node = getParentTreeNode({
+        list: item.children as TreeNodeData[],
+        key,
+      });
       if (!isEmpty(node)) {
         return [item, ...node];
       }
@@ -60,15 +61,14 @@ function getTreeNode({
 }: {
   list: TreeNodeData[];
   key: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-}): TreeNodeData | any {
+}): TreeNodeData {
   // eslint-disable-next-line no-restricted-syntax
   for (const item of list) {
     if (item.key === key) {
       return item;
     }
     if (!isEmpty(item.children)) {
-      const node = getTreeNode({ list: item.children, key });
+      const node = getTreeNode({ list: item.children as TreeNodeData[], key });
       if (!isEmpty(node)) {
         return node;
       }
@@ -284,7 +284,7 @@ function Index(): JSX.Element {
             variant="solid"
             defaultFormValues={{
               parentId: groupId,
-              parentName: groupItem.name,
+              parentName: groupItem?.name ?? '',
             }}
             onSuccess={() => {
               const timer = setTimeout(() => {
@@ -347,7 +347,7 @@ function Index(): JSX.Element {
                       color: isTarget ? 'grayAlternatives.700' : 'primary',
                     }}
                     onClick={() => {
-                      setGroupId(item.key);
+                      setGroupId(item.key || '');
                     }}
                     color={`grayAlternatives.${isTarget ? 700 : 300}`}
                     fontWeight={isTarget ? 500 : 400}

@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import {
   Button,
   Center,
@@ -37,6 +36,7 @@ function clickDownload({ content }: { content: string }) {
 
 export default function CompletedInfoPart({ type, responseData }: Props) {
   const deviceObject = (responseData as DeviceResData)?.deviceObject ?? {};
+  // eslint-disable-next-line no-underscore-dangle
   const token = deviceObject?.properties?.sysField?._token ?? '';
   const deviceName = deviceObject?.properties?.basicInfo?.name ?? '';
   let expiredAt = '';

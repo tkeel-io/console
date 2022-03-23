@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Stack, Text } from '@chakra-ui/react';
 import { map } from 'lodash';
 import { ReactNode } from 'react';
@@ -160,9 +157,13 @@ export default function BasicInfoPart({
                           ),
                         })}
                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        onChange={(value: string, option: any) => {
+                        onChange={(value: string) => {
                           setValue('templateId', value);
-                          setValue('templateName', option?.children ?? '');
+                          setValue(
+                            'templateName',
+                            templateOptions.find((v) => v.id === value)
+                              ?.label ?? ''
+                          );
                           if (value) {
                             clearErrors('templateId');
                           }

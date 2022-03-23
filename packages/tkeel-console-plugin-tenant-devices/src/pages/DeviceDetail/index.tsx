@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable no-underscore-dangle */
 import { Flex } from '@chakra-ui/react';
 import { isEmpty } from 'lodash';
 import qs from 'qs';

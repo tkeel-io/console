@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable no-underscore-dangle */
 import { HStack, Text } from '@chakra-ui/react';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -73,7 +69,9 @@ function DeviceListTable({
   }): JSX.Element {
     const { basicInfo, sysField, connectInfo } = originData?.properties ?? {};
     const selfLearn = basicInfo?.selfLearn ?? false;
+    // eslint-disable-next-line no-underscore-dangle
     const subscribeAddr = sysField?._subscribeAddr ?? '';
+    // eslint-disable-next-line no-underscore-dangle
     const isOnline = connectInfo?._online ?? false;
     return (
       <HStack>
@@ -100,7 +98,9 @@ function DeviceListTable({
     const selfLearn = item?.properties?.basicInfo?.selfLearn ?? false;
     const directConnection =
       item?.properties?.basicInfo?.directConnection ?? false;
+    // eslint-disable-next-line no-underscore-dangle
     const createTime = item?.properties?.sysField?._createdAt ?? '';
+    // eslint-disable-next-line no-underscore-dangle
     const status = item?.properties?.sysField?._status ?? '';
 
     return {

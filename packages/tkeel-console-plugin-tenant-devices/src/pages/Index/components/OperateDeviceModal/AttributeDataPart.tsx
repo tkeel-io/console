@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import {
   Box,
   Center,
@@ -47,7 +46,8 @@ function renderTooltip(info: {
 function renderLabel(item: AttributeItem) {
   const { define, name, type, id } = item;
   const rw = define?.rw ?? 'rw';
-  const default_value = define?.default_value;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const defaultValue = define?.default_value;
   return (
     <Flex alignItems="center">
       <HStack h="24px" lineHeight="24px">
@@ -63,7 +63,7 @@ function renderLabel(item: AttributeItem) {
         bg="white"
         hasArrow
         p="8px 12px"
-        label={renderTooltip({ type, rw, default_value })}
+        label={renderTooltip({ type, rw, default_value: defaultValue })}
         boxShadow="base"
       >
         <Center h="24px" w="24px">
