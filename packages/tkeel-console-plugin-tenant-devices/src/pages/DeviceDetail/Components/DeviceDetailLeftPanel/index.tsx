@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import { Box, Flex, Text, VStack } from '@chakra-ui/react';
 
 import { IconWrapper } from '@tkeel/console-business-components';
@@ -30,7 +29,9 @@ const getTime = (value: number | undefined) => {
 function DeviceDetailLeftPanel({ deviceObject, refetch }: Props): JSX.Element {
   const properties = deviceObject?.properties;
   const { sysField, basicInfo } = properties;
+  // eslint-disable-next-line no-underscore-dangle
   const tokenStr = sysField?._token ?? '';
+  // eslint-disable-next-line no-underscore-dangle
   const deviceId = sysField?._id ?? '';
   const isDirectConnection = basicInfo?.directConnection;
   const basic: Basic[] = [
@@ -51,7 +52,10 @@ function DeviceDetailLeftPanel({ deviceObject, refetch }: Props): JSX.Element {
           <Text mr="4px">{`${tokenStr.slice(0, 4)}*******${tokenStr.slice(
             -4
           )}`}</Text>
-          <Clipboard text={sysField?._token ?? ''} />
+          <Clipboard
+            // eslint-disable-next-line no-underscore-dangle
+            text={sysField?._token ?? ''}
+          />
         </Flex>
       ),
       label: '设备凭证',
@@ -90,6 +94,7 @@ function DeviceDetailLeftPanel({ deviceObject, refetch }: Props): JSX.Element {
     },
     {
       value: formatDateTimeByTimestamp({
+        // eslint-disable-next-line no-underscore-dangle
         timestamp: getTime(sysField?._createdAt),
       }),
       label: '创建时间',
@@ -97,6 +102,7 @@ function DeviceDetailLeftPanel({ deviceObject, refetch }: Props): JSX.Element {
     {
       label: '更新时间',
       value: formatDateTimeByTimestamp({
+        // eslint-disable-next-line no-underscore-dangle
         timestamp: getTime(sysField?._createdAt),
       }),
     },

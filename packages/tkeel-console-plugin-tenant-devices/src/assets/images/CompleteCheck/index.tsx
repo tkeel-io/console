@@ -1,5 +1,3 @@
-/* eslint-disable react/no-unknown-property */
-
 export interface Props {
   colors: {
     main: string;
@@ -51,8 +49,8 @@ export default function App({
       <circle cx="57.7189" cy="57.9987" r="23.6784" fill={sub} />
       <circle cx="57.7189" cy="57.998" r="20.6483" fill={sub2} />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M69.173 51.6943L55.8256 65.0417C55.0551 65.8122 53.8057 65.8122 53.0351 65.0417L46.2651 58.2717L48.1255 56.4113L54.4304 62.7162L67.3126 49.834L69.173 51.6943Z"
         fill={main}
       />
@@ -65,8 +63,8 @@ export default function App({
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(58.2123 57.9994) rotate(90) scale(47.3568)"
         >
-          <stop stop-color={main} stop-opacity="0.12" />
-          <stop offset="0.859375" stop-color={main} stop-opacity="0" />
+          <stop stopColor={main} stopOpacity="0.12" />
+          <stop offset="0.859375" stopColor={main} stopOpacity="0" />
         </radialGradient>
         <radialGradient
           id="paint1_radial_2136_108814"
@@ -76,8 +74,8 @@ export default function App({
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(58.2121 58) rotate(105) scale(47.3568)"
         >
-          <stop stop-color={main} stop-opacity="0.12" />
-          <stop offset="0.859375" stop-color={main} stop-opacity="0" />
+          <stop stopColor={main} stopOpacity="0.12" />
+          <stop offset="0.859375" stopColor={main} stopOpacity="0" />
         </radialGradient>
       </defs>
     </svg>
