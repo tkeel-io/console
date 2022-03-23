@@ -258,7 +258,7 @@ function getCliArgv() {
     .options({
       'package-names': {
         type: 'csv',
-        desc: 'package names',
+        desc: 'package names, "all" is all portal and plugin packages',
       },
       'docker-image-tag': {
         type: 'string',
@@ -266,7 +266,7 @@ function getCliArgv() {
       },
       'docker-image-push': {
         type: 'boolean',
-        desc: 'Is push docker image ?',
+        desc: 'is push docker image ?',
       },
     })
     .help()
