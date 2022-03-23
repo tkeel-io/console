@@ -1,3 +1,15 @@
 import { SelectProps as RCSelectProps } from 'rc-select';
 
-export type SelectProps = RCSelectProps;
+export interface SelectExtrasProps {
+  styles?: {
+    selector?: string;
+    selectionSearch?: string;
+    selectionItem?: string;
+    arrow?: string;
+    dropdown?: string;
+    selectItem?: string;
+    itemOptionState?: string;
+  };
+}
+
+export interface SelectProps extends RCSelectProps, SelectExtrasProps {}

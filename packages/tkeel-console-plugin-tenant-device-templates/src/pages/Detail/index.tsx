@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import { Box, Flex, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -30,6 +29,7 @@ function Detail(): JSX.Element {
     description: data?.templateObject?.properties?.basicInfo?.description,
     id: data?.templateObject?.id,
     title: data?.templateObject?.properties?.basicInfo?.name,
+    // eslint-disable-next-line  no-underscore-dangle
     updatedAt: data?.templateObject?.properties?.sysField?._updatedAt,
   };
   // const created_at = data.created_at
