@@ -45,8 +45,8 @@ pipeline {
                   sh 'npm install -g yarn --force'
                   sh 'yarn'
                     withCredentials([usernamePassword(passwordVariable : 'DOCKER_PASSWORD' ,usernameVariable : 'DOCKER_USERNAME' ,credentialsId : "$DOCKER_CREDENTIAL_ID" ,)]) {
-                        // sh 'yarn build:production-and-docker:build --package-names=@tkeel/$PLUGIN_NAME --docker-image-tag=$APP_VERSION --docker-image-push=true'
-                        sh 'if test $PLUGIN_NAME = all; then yarn build:production-and-docker:build --package-names=all --docker-image-tag=$APP_VERSION --docker-image-push=true ;else yarn build:production-and-docker:build --package-names=@tkeel/$PLUGIN_NAME --docker-image-tag=$APP_VERSION --docker-image-push=true ;fi'
+                      sh 'echo "$DOCKER_PASSWORD" | docker login $REGISTRY -u "$DOCKER_USERNAME" --password-stdin'
+                      sh 'if test $PLUGIN_NAME = all; then yarn build:production-and-docker:build --package-names=all --docker-image-tag=$BRANCH_NAME-$APP_VERSION --docker-image-push=true ;else yarn build:production-and-docker:build --package-names=@tkeel/$PLUGIN_NAME --docker-image-tag=$BRANCH_NAME-$APP_VERSION --docker-image-push=true ;fi'
                     }
               }
           }
@@ -55,7 +55,6 @@ pipeline {
         stage('build & push chart'){
           steps {
               container ('nodejs') {
-                // sh 'cd charts && helm3 package ./$PLUGIN_NAME --app-version=$BRANCH_NAME-$APP_VERSION --version=$CHART_VERSION'
                 sh 'if test $PLUGIN_NAME = all; then cd charts && helm3 package ./* --app-version=$BRANCH_NAME-$APP_VERSION --version=$CHART_VERSION ;else cd charts && helm3 package ./$PLUGIN_NAME --app-version=$BRANCH_NAME-$APP_VERSION --version=$CHART_VERSION ;fi'
                 // input(id: 'release-image-with-tag', message: 'release image with tag?')
                   withCredentials([usernamePassword(credentialsId: "$GITHUB_CREDENTIAL_ID", passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
