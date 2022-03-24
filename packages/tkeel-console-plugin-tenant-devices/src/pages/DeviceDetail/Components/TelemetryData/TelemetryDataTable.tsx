@@ -1,5 +1,5 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
-import { useMemo } from 'react';
+import { Flex, Text } from '@chakra-ui/react';
+import { useCallback, useMemo } from 'react';
 import { Cell, Column } from 'react-table';
 
 import { MoreAction, Table } from '@tkeel/console-components';
@@ -15,14 +15,13 @@ import DetailTelemetryButton from '@/tkeel-console-plugin-tenant-devices/pages/D
 import EditTelemetryButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/EditTelemetryButton';
 
 interface TelemetryTableItem extends TelemetryItem {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  value?: any;
+  value?: string | number | boolean;
 }
 
 type Props = {
   deviceId: string;
-  telemetryFields: TelemetryTableItem[];
-  telemetryValues?: Telemetry;
+  telemetryFields: TelemetryItem[];
+  telemetryValues: Telemetry;
   refetch: () => void;
 };
 
@@ -32,29 +31,53 @@ export default function TelemetryDataTable({
   refetch: refetchDeviceDetail,
   telemetryValues,
 }: Props) {
+  const operateCell = useCallback(
+    ({ row }: Cell<TelemetryItem>) => {
+      const { original } = row;
+      return (
+        <MoreAction
+          buttons={[
+            <DetailTelemetryButton telemetryInfo={original} key="detail" />,
+            <EditTelemetryButton
+              key="modify"
+              id={deviceId}
+              refetch={refetchDeviceDetail}
+            />,
+            <DeleteTelemetryButton
+              key="delete"
+              attributeInfo={{ name: original.name, id: original.id }}
+              id={deviceId}
+              refetch={refetchDeviceDetail}
+            />,
+          ]}
+        />
+      );
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const columns: ReadonlyArray<Column<TelemetryTableItem>> = [
     {
       Header: '遥测名称',
       accessor: 'name',
       width: 160,
-      Cell: ({ value }: { value: string }) =>
-        useMemo(
-          () => (
-            <Flex alignItems="center" justifyContent="space-between">
-              <WebcamTwoToneIcon />
-              <Text
-                color="gray.800"
-                fontWeight="600"
-                fontSize="12px"
-                marginLeft="12px"
-              >
-                {value}
-              </Text>
-            </Flex>
-          ),
-          [value]
+      Cell: useCallback(
+        ({ value }) => (
+          <Flex alignItems="center" justifyContent="space-between">
+            <WebcamTwoToneIcon />
+            <Text
+              color="gray.800"
+              fontWeight="600"
+              fontSize="12px"
+              marginLeft="12px"
+            >
+              {value}
+            </Text>
+          </Flex>
         ),
+        []
+      ),
     },
     {
       Header: '遥测ID',
@@ -63,12 +86,12 @@ export default function TelemetryDataTable({
     },
     {
       Header: '数据类型',
-      width: 90,
+      width: 100,
       accessor: 'type',
     },
     {
       Header: '遥测值',
-      width: 120,
+      width: 100,
       accessor: 'value',
     },
     {
@@ -78,11 +101,11 @@ export default function TelemetryDataTable({
       Cell: ({ value }: { value: string }) =>
         useMemo(
           () => (
-            <Box>
+            <Text fontSize="12px">
               {formatDateTimeByTimestamp({
                 timestamp: value,
               })}
-            </Box>
+            </Text>
           ),
           [value]
         ),
@@ -96,49 +119,34 @@ export default function TelemetryDataTable({
     {
       Header: '操作',
       width: 60,
-      Cell: ({ row }: Cell<TelemetryItem>) =>
-        useMemo(() => {
-          const { original } = row;
-          return (
-            <MoreAction
-              buttons={[
-                <DetailTelemetryButton telemetryInfo={original} key="detail" />,
-                <EditTelemetryButton
-                  key="modify"
-                  id={deviceId}
-                  refetch={refetchDeviceDetail}
-                />,
-                <DeleteTelemetryButton
-                  key="delete"
-                  attributeInfo={{ name: original.name, id: original.id }}
-                  id={deviceId}
-                  refetch={refetchDeviceDetail}
-                />,
-              ]}
-            />
-          );
-        }, [row]),
+      Cell: operateCell,
     },
   ];
+
+  const telemetryTableData: TelemetryTableItem[] = telemetryFields.map(
+    (item) => {
+      const valueObject =
+        (telemetryValues[item.id] as {
+          value?: string | number | boolean;
+          ts?: number;
+        }) || {};
+      return {
+        ...item,
+        last_time: valueObject?.ts ?? item.last_time,
+        value: valueObject?.value ?? '',
+      };
+    }
+  );
   // eslint-disable-next-line no-console
-  console.log(telemetryValues);
-  // const telemetryTableData = telemetryFields.map((item) => {
-  //   return {
-  //     ...item,
-  //     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  //     value: telemetryValues[item.id] || '',
-  //   };
-  // });
+  console.log('telemetryTableData', telemetryTableData);
   return (
-    <Box>
-      <Table
-        styles={{ wrapper: { flex: 1, height: '100%', minHeight: '60vh' } }}
-        columns={columns}
-        data={telemetryFields || []}
-        isShowStripe
-        // isLoading={isLoading}
-        // paginationProps={pagination}
-      />
-    </Box>
+    <Table
+      styles={{ wrapper: { flex: 1, height: '100%', minHeight: '60vh' } }}
+      columns={columns}
+      data={telemetryTableData || []}
+      isShowStripe
+      // isLoading={isLoading}
+      // paginationProps={pagination}
+    />
   );
 }

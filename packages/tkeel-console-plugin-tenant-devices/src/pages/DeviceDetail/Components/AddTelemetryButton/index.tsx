@@ -40,7 +40,7 @@ export default function AddTelemetryButton({ id, refetch = () => {} }: Props) {
 
   return (
     <>
-      <CreateButton onClick={onOpen}>创建遥测</CreateButton>
+      <CreateButton onClick={onOpen}>添加遥测</CreateButton>
       <CreateTelemetryModal
         title="新建遥测"
         isOpen={isOpen}

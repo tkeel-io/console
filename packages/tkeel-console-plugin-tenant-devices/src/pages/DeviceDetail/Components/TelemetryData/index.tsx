@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 import { isEmpty } from 'lodash';
 
 import { Empty, PageHeaderToolbar } from '@tkeel/console-components';
@@ -26,7 +26,7 @@ export default function TelemetryData({
   telemetryValues,
 }: Props) {
   return (
-    <Box>
+    <Box h="100%">
       {isEmpty(telemetryFields) ? (
         <Empty
           description={
@@ -48,7 +48,7 @@ export default function TelemetryData({
           }
         />
       ) : (
-        <>
+        <Flex flexDir="column" h="100%">
           <PageHeaderToolbar
             styles={{
               wrapper: { height: '32px', marginBottom: '12px' },
@@ -73,7 +73,7 @@ export default function TelemetryData({
             deviceId={deviceId}
             refetch={refetchDeviceDetail}
           />
-        </>
+        </Flex>
       )}
     </Box>
   );

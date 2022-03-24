@@ -16,14 +16,18 @@ import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import { TelemetryItem } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 
+interface TelemetryTableItem extends TelemetryItem {
+  value?: string | number | boolean;
+}
+
 type Props = {
-  telemetryInfo: TelemetryItem;
+  telemetryInfo: TelemetryTableItem;
 };
 
-function getDetailData(data: TelemetryItem) {
+function getDetailData(data: TelemetryTableItem) {
   return [
     { label: '遥测ID', value: data.id },
-    { label: '遥测值', value: '' },
+    { label: '遥测值', value: data.value || '-' },
     {
       label: '时间戳',
       value: formatDateTimeByTimestamp({ timestamp: data.last_time }),
