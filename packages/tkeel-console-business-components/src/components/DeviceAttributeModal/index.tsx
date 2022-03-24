@@ -17,7 +17,8 @@ export type DeviceAttributeFormFields = {
   id: string;
   type: string;
   define: {
-    default_value: string | number | unknown[] | object | boolean;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    default_value: any;
     rw: ReadWriteType;
   };
 };
@@ -100,6 +101,7 @@ function DeviceAttributeModal({
       // eslint-disable-next-line no-console
       const define = values?.define ?? {};
       const { type } = values;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const defaultValue = define.default_value;
       const isJson = isJSON(defaultValue as string);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

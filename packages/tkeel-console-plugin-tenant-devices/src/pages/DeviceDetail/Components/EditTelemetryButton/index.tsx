@@ -4,7 +4,7 @@ import { CreateTelemetryModal } from '@tkeel/console-business-components';
 import { MoreActionButton } from '@tkeel/console-components';
 import { PencilFilledIcon } from '@tkeel/console-icons';
 import {
-  BaseRequestData as FormFields,
+  BaseRequestData as TelemetryFormFields,
   useCreateTelemetryMutation,
 } from '@tkeel/console-request-hooks';
 import { plugin } from '@tkeel/console-utils';
@@ -12,9 +12,14 @@ import { plugin } from '@tkeel/console-utils';
 type Props = {
   id: string;
   refetch?: () => void;
+  defaultValues?: TelemetryFormFields;
 };
 
-export default function EditTelemetryButton({ id, refetch = () => {} }: Props) {
+export default function EditTelemetryButton({
+  id,
+  refetch = () => {},
+  defaultValues,
+}: Props) {
   const toast = plugin.getPortalToast();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -26,7 +31,7 @@ export default function EditTelemetryButton({ id, refetch = () => {} }: Props) {
       refetch();
     },
   });
-  const handleConfirm = (formValues: FormFields) => {
+  const handleConfirm = (formValues: TelemetryFormFields) => {
     if (formValues) {
       const params = {
         [formValues.id]: { ...formValues },
@@ -48,6 +53,7 @@ export default function EditTelemetryButton({ id, refetch = () => {} }: Props) {
       <CreateTelemetryModal
         title="编辑遥测"
         isOpen={isOpen}
+        defaultValues={defaultValues}
         // isConfirmButtonLoading={isLoading}
         onClose={onClose}
         onConfirm={handleConfirm}

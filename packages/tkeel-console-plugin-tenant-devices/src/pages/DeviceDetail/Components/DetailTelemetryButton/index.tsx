@@ -9,8 +9,9 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react';
+import { useState } from 'react';
 
-import { Drawer, MoreActionButton } from '@tkeel/console-components';
+import { AceEditor, Drawer, MoreActionButton } from '@tkeel/console-components';
 import { EyeFilledIcon, WebcamTwoToneIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
@@ -35,10 +36,18 @@ function getDetailData(data: TelemetryTableItem) {
     { label: '数据类型', value: data.type },
   ];
 }
+function getJsonString(data: unknown) {
+  try {
+    return JSON.stringify(data, null, '\t');
+  } catch {
+    return '';
+  }
+}
 export default function DetailTelemetryButton({ telemetryInfo }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { name, description } = telemetryInfo;
   const detailData = getDetailData(telemetryInfo);
+  const [isJson, setIsJson] = useState(false);
   return (
     <>
       <MoreActionButton
@@ -78,30 +87,41 @@ export default function DetailTelemetryButton({ telemetryInfo }: Props) {
             </Text>
             <Spacer />
             <HStack>
-              <Switch size="sm" colorScheme="primary" />
+              <Switch
+                size="sm"
+                colorScheme="primary"
+                isChecked={isJson}
+                onChange={(e) => {
+                  setIsJson(e.target.checked);
+                }}
+              />
               <Text fontSize="12px" color="gray.500" lineHeight="24px">
                 json格式
               </Text>
             </HStack>
           </Flex>
-          <Box p="16px 24px" bg="gray.50">
-            {detailData.map((item) => (
-              <Flex
-                align="flex-start"
-                flexDir="row"
-                key={item.label}
-                fontSize="12px"
-                lineHeight="24px"
-              >
-                <Text width="80px" color="grayAlternatives.300">
-                  {item.label}
-                </Text>
-                <Text flex="1" color="gray.700">
-                  {item.value}
-                </Text>
-              </Flex>
-            ))}
-          </Box>
+          {!isJson ? (
+            <Box p="16px 24px" bg="gray.50">
+              {detailData.map((item) => (
+                <Flex
+                  align="flex-start"
+                  flexDir="row"
+                  key={item.label}
+                  fontSize="12px"
+                  lineHeight="24px"
+                >
+                  <Text width="80px" color="grayAlternatives.300">
+                    {item.label}
+                  </Text>
+                  <Text flex="1" color="gray.700">
+                    {item.value}
+                  </Text>
+                </Flex>
+              ))}
+            </Box>
+          ) : (
+            <AceEditor height="400px" value={getJsonString(telemetryInfo)} />
+          )}
         </Box>
       </Drawer>
     </>

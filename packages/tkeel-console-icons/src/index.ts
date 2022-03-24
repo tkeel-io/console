@@ -23,6 +23,7 @@ export { default as CopyFilledIcon } from './components/CopyFilledIcon';
 export { default as DocumentPencilTowToneIcon } from './components/DocumentPencilTowToneIcon';
 export { default as DotLineFilledIcon } from './components/DotLineFilledIcon';
 export { default as DownloadFilledIcon } from './components/DownloadFilledIcon';
+export { default as DuotoneTwoToneIcon } from './components/DuotoneTwoToneIcon';
 export { default as EmptyFileIcon } from './components/EmptyFileIcon';
 export { default as EqualizerTwoToneIcon } from './components/EqualizerTwoToneIcon';
 export { default as ErrorFilledIcon } from './components/ErrorFilledIcon';

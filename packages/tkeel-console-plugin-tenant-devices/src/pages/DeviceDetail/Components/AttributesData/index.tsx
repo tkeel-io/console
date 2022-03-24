@@ -102,16 +102,10 @@ function AttributesPanel({
   };
   const { mutate: setAttributeMutate, isLoading } =
     useSetAttributeMutation(params);
-  const setAttributeData = ({
-    id,
-    value,
-  }: {
-    id: string;
-    value: string | number | unknown[] | boolean | object;
-  }) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const setAttributeData = ({ id, value }: { id: string; value: any }) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const reqData = { id, value };
-    // eslint-disable-next-line no-console
-    console.log(value, isLoading, reqData);
     setAttributeMutate({ data: reqData });
   };
 
@@ -258,7 +252,7 @@ function AttributesPanel({
                             placeholder={`默认值 ${
                               item?.define?.default_value as string
                             }`}
-                            isDisabled={isLoading}
+                            isDisabled={isLoading && currentId === item.id}
                             borderColor="gray.200"
                             fontSize="14px"
                             boxShadow="none!important"
@@ -288,11 +282,12 @@ function AttributesPanel({
                             justify="flex-start"
                           >
                             <Switch
-                              isDisabled={isLoading}
+                              isDisabled={isLoading && currentId === item.id}
                               colorScheme="primary"
                               size="sm"
                               isChecked={defaultValue as boolean}
                               onChange={(e) => {
+                                setCurrentId(item.id);
                                 setAttributeData({
                                   id: item.id,
                                   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -301,20 +296,17 @@ function AttributesPanel({
                               }}
                             />
                             <Text color="gray.700" fontSize="14px" ml="10px">
-                              {defaultValue === true ? 'true' : 'false'}
+                              {defaultValue ? 'true' : 'false'}
                             </Text>
                           </Flex>
                         )}
                         {['array', 'struct'].includes(item.type) && (
                           <JsonInfoButton
+                            handleSetId={() => {
+                              setCurrentId(item.id);
+                            }}
                             deviceId={deviceId}
                             id={item.id}
-                            // handleConfirm={(value) => {
-                            //   setAttributeData({
-                            //     id: item.id,
-                            //     value,
-                            //   });
-                            // }}
                             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                             defaultValue={defaultValue}
                           />

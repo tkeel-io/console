@@ -1,5 +1,5 @@
 import { Box, Text, useDisclosure } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { AceEditor, Modal } from '@tkeel/console-components';
 import { plugin } from '@tkeel/console-utils';
@@ -9,11 +9,12 @@ import useSetAttributeMutation from '@/tkeel-console-plugin-tenant-devices/hooks
 type Props = {
   deviceId: string;
   id: string;
-  defaultValue: object;
+  defaultValue: unknown;
+  handleSetId?: () => void;
   refetch?: () => void;
 };
 
-const getEditorValue = (data: unknown) => {
+const getJsonValue = (data: unknown) => {
   try {
     return JSON.stringify(data, null, '\t');
   } catch {
@@ -48,13 +49,16 @@ export default function JsonInfoButton({
   defaultValue,
   deviceId,
   refetch = () => {},
+  handleSetId = () => {},
 }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const defaultEditorValue = getEditorValue(defaultValue);
+  const defaultEditorValue = getJsonValue(defaultValue);
   const [editorValue, setEditorValue] = useState(defaultEditorValue);
   const [isJson, setIsJson] = useState(true);
   const toast = plugin.getPortalToast();
-
+  useEffect(() => {
+    setEditorValue(defaultEditorValue);
+  }, [defaultEditorValue]);
   const params = {
     id: deviceId,
     onSuccess: () => {
@@ -90,7 +94,10 @@ export default function JsonInfoButton({
         borderColor="gray.200"
         p="8px 16px"
         cursor="pointer"
-        onClick={onOpen}
+        onClick={() => {
+          handleSetId();
+          onOpen();
+        }}
       >
         <Text color="primary" fontSize="14px" lineHeight="24px">
           JSON

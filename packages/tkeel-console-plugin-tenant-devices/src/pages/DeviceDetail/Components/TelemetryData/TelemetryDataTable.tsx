@@ -3,7 +3,7 @@ import { useCallback, useMemo } from 'react';
 import { Cell, Column } from 'react-table';
 
 import { MoreAction, Table } from '@tkeel/console-components';
-import { WebcamTwoToneIcon } from '@tkeel/console-icons';
+import { DuotoneTwoToneIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import {
@@ -42,6 +42,7 @@ export default function TelemetryDataTable({
               key="modify"
               id={deviceId}
               refetch={refetchDeviceDetail}
+              defaultValues={original}
             />,
             <DeleteTelemetryButton
               key="delete"
@@ -65,7 +66,7 @@ export default function TelemetryDataTable({
       Cell: useCallback(
         ({ value }) => (
           <Flex alignItems="center" justifyContent="space-between">
-            <WebcamTwoToneIcon />
+            <DuotoneTwoToneIcon />
             <Text
               color="gray.800"
               fontWeight="600"
@@ -137,8 +138,6 @@ export default function TelemetryDataTable({
       };
     }
   );
-  // eslint-disable-next-line no-console
-  console.log('telemetryTableData', telemetryTableData);
   return (
     <Table
       styles={{
