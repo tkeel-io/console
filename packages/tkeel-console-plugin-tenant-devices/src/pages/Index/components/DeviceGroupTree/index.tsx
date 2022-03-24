@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable no-console */
 import { Box } from '@chakra-ui/react';
 
 import { Tree } from '@tkeel/console-components';

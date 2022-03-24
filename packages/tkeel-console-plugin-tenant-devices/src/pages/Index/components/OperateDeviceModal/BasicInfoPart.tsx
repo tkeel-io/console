@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Stack, Text } from '@chakra-ui/react';
 import { map } from 'lodash';
 import { ReactNode } from 'react';
@@ -23,16 +20,16 @@ import {
 } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
 
 const { TextField, TextareaField } = FormField;
-const templateOption = [
-  {
-    label: '测试模版_1',
-    id: 'iot-3decd8f3-d0c4-4923-81f2-a559f2b707da',
-  },
-  {
-    label: '测试模版_2',
-    id: 'iot-eb871989-e839-4451-ab62-534da8686b4e',
-  },
-];
+// const templateOption = [
+//   {
+//     label: '测试模版_1',
+//     id: 'iot-3decd8f3-d0c4-4923-81f2-a559f2b707da',
+//   },
+//   {
+//     label: '测试模版_2',
+//     id: 'iot-eb871989-e839-4451-ab62-534da8686b4e',
+//   },
+// ];
 
 interface Props {
   formHandler: UseFormReturn<DeviceFormFields, object>;
@@ -47,8 +44,8 @@ export default function BasicInfoPart({
   formHandler,
   watchFields,
   groupOptions,
-  handleSelectTemplate,
-}: Props) {
+}: // handleSelectTemplate,
+Props) {
   const { register, formState, setValue, clearErrors } = formHandler;
   const { errors } = formState;
   return (
@@ -74,6 +71,7 @@ export default function BasicInfoPart({
           styles={{
             treeTitle: 'font-size:14px;height:32px;line-height:32px;',
           }}
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           treeData={groupOptions}
           defaultValue={watchFields.parentId}
           notFoundContent="暂无选项"
@@ -126,11 +124,11 @@ export default function BasicInfoPart({
               <CheckboxGroup
                 onChange={(value: ConnectInfoType[]) => {
                   setValue('connectInfo', value);
-                  if (handleSelectTemplate) {
-                    handleSelectTemplate(
-                      value.includes(ConnectInfoType.useTemplate)
-                    );
-                  }
+                  // if (handleSelectTemplate) {
+                  //   handleSelectTemplate(
+                  //     value.includes(ConnectInfoType.useTemplate)
+                  //   );
+                  // }
                 }}
                 value={watchFields.connectInfo}
               >
@@ -148,7 +146,7 @@ export default function BasicInfoPart({
                       使用设备模版
                     </Text>
                   </Checkbox>
-                  {(watchFields.connectInfo || []).includes(
+                  {/* {(watchFields.connectInfo || []).includes(
                     ConnectInfoType.useTemplate
                   ) && (
                     <>
@@ -185,7 +183,7 @@ export default function BasicInfoPart({
                         </Text>
                       )}
                     </>
-                  )}
+                  )} */}
 
                   <Checkbox
                     colorScheme="primary"

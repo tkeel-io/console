@@ -1,6 +1,7 @@
 import { Flex, StyleProps, Text } from '@chakra-ui/react';
 
 import { Empty, Loading } from '@tkeel/console-components';
+import { useColor } from '@tkeel/console-hooks';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import { DataItem } from '@/tkeel-console-plugin-tenant-data-query/hooks/mutations/useTelemetryDataMutation';
@@ -29,9 +30,21 @@ export default function DataTable({
   telemetry,
   styles = {},
 }: Props) {
-  const keys = originalData[0]
-    ? ['遥测数据', ...Object.keys(originalData[0]?.value ?? {})]
-    : [];
+  const originalDataKeys = Object.keys(originalData[0]?.value ?? {});
+  const keys = originalData[0] ? ['遥测数据', ...originalDataKeys] : [];
+
+  data.forEach((item) => {
+    const { value } = item;
+    originalDataKeys.forEach((key) => {
+      if (!value[key]) {
+        value[key] = '-';
+      }
+    });
+  });
+
+  const wrapperBoxShadow = `0px 10px 15px -3px ${useColor('gray.500', 0.02)}`;
+  const columnBoxShadow = `7px -4px 12px ${useColor('gray.200', 0.2)}`;
+
   const rowHeight = '40px';
   if (isLoading) {
     return <Loading styles={{ wrapper: styles?.loading ?? {} }} />;
@@ -42,12 +55,13 @@ export default function DataTable({
   }
 
   return (
-    <Flex {...styles.wrapper}>
+    <Flex boxShadow={wrapperBoxShadow} {...styles.wrapper}>
       <Flex
         flexDirection="column"
         position="relative"
         zIndex="1"
-        boxShadow="7px -4px 12px rgba(216, 222, 229, 0.4)"
+        boxShadow={columnBoxShadow}
+        // boxShadow="7px -4px 12px rgba(216, 222, 229, 0.4)"
       >
         {keys.map((key, i) => {
           const telemetryName = telemetry[key]?.name ?? '';
