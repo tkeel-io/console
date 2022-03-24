@@ -55,6 +55,7 @@ function getParentTreeNode({
   }
   return [];
 }
+
 function getTreeNode({
   list,
   key,
@@ -218,11 +219,13 @@ function Index(): JSX.Element {
     list: treeNodeData,
     key: groupId,
   });
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const groupItem = getTreeNode({
     list: treeNodeData,
     key: groupId,
   });
   const defaultFormValues = getDefaultFormValues({
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     groupItem: isEmpty(groupItem) ? defaultGroupItem : groupItem,
   });
 
@@ -317,7 +320,7 @@ function Index(): JSX.Element {
             callback={refetchGroupTree}
             defaultFormValues={{
               parentId: groupId,
-              parentName: groupItem.name,
+              parentName: groupItem?.name ?? '',
             }}
           />
           <DeviceGroupTree

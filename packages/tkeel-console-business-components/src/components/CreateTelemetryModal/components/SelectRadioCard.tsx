@@ -5,12 +5,13 @@ import { RadioCard } from '@tkeel/console-components';
 export interface Props {
   options: string[];
   onChange: (value: string) => void;
+  defaultValue: string;
 }
 
-function SelectRadioCard({ options, onChange }: Props) {
+function SelectRadioCard({ options, onChange, defaultValue }: Props) {
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: 'framework',
-    // defaultValue: 'react',
+    defaultValue,
     onChange: (value) => {
       onChange(value);
     },

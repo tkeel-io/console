@@ -144,6 +144,7 @@ function Index({ id, title }: { id: string; title: string }) {
                 />,
                 <EditTelemetryButton
                   key="modify"
+                  defaultValues={original}
                   handleSubmit={(formValues) => {
                     // eslint-disable-next-line no-console
                     console.log('useMemo ~ formValues', formValues);

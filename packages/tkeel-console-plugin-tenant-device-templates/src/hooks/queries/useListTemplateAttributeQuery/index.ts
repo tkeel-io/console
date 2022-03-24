@@ -82,6 +82,7 @@ export default function useListTemplateAttributeQuery({
     // },
     reactQueryOptions: { onSuccess },
   });
+  // console.log('data', data);
 
   const usefulData = getUsefulData(
     data?.templateAttrObject?.configs?.telemetry?.define?.fields as Telemetry
