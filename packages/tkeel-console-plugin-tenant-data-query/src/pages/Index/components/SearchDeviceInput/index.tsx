@@ -162,8 +162,6 @@ export default function SearchDeviceInput({
   const handleRemoveCondition = (conditionId: string) => {
     if (conditionId === DEVICE_GROUP_ID) {
       setDeviceGroupId('');
-      // searchParams.delete(GROUP_ID);
-      // searchParams.delete(GROUP_NAME);
       setSearchParams(searchParams);
     } else if (conditionId === DEVICE_TEMPLATES_ID) {
       setTemplateId('');
@@ -245,7 +243,7 @@ export default function SearchDeviceInput({
 
     if (groupFilterCondition) {
       searchParams.set(GROUP_ID, deviceGroupId);
-      searchParams.set(GROUP_NAME, encode(groupFilterCondition.value));
+      searchParams.set(GROUP_NAME, Base64.encode(groupFilterCondition.value));
     } else {
       searchParams.delete(GROUP_ID);
       searchParams.delete(GROUP_NAME);
@@ -253,7 +251,10 @@ export default function SearchDeviceInput({
 
     if (templateFilterCondition) {
       searchParams.set(TEMPLATE_ID, templateId);
-      searchParams.set(TEMPLATE_NAME, encode(templateFilterCondition.value));
+      searchParams.set(
+        TEMPLATE_NAME,
+        Base64.encode(templateFilterCondition.value)
+      );
     } else {
       searchParams.delete(TEMPLATE_ID);
       searchParams.delete(TEMPLATE_NAME);

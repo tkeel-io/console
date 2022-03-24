@@ -20,9 +20,9 @@ export default function DeviceDetailCard({ detailData }: Props) {
   const { navigate } = portalProps.client;
   const [searchParams] = useSearchParams();
   const { properties } = detailData || {};
-  const { basicInfo, sysField } = properties || {};
+  const { basicInfo, connectInfo } = properties || {};
   // eslint-disable-next-line no-underscore-dangle
-  const isOnline = sysField?._status === 'online';
+  const isOnline = connectInfo?._online ?? false;
   const isSelfLearn = basicInfo?.selfLearn ?? false;
   const textStyle = {
     color: 'gray.800',

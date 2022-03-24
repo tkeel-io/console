@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { Button, useDisclosure } from '@chakra-ui/react';
 import { keyBy, mapValues } from 'lodash';
 import { useEffect } from 'react';

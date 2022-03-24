@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable no-console */
 import { Box } from '@chakra-ui/react';
 
 import { Tree } from '@tkeel/console-components';
@@ -7,7 +5,7 @@ import { Tree } from '@tkeel/console-components';
 import { TreeNodeData } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
 
 interface Props {
-  handleSelectGroup: (selectedKeys: React.Key[], e: any) => void;
+  handleSelectGroup: (selectedKeys: React.Key[], e: unknown) => void;
   treeNodeData: TreeNodeData[];
   selectedKeys?: string[];
 }

@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import { values } from 'lodash';
 
 import { useQuery } from '@tkeel/console-hooks';
@@ -10,17 +9,16 @@ const method = 'POST';
 export interface NodeInfo {
   id: string;
   properties: {
+    basicInfo: {
+      description: string;
+      name: string;
+    };
     group: {
       name: string;
       description: string;
       ext: { [propName: string]: string };
-      [propName: string]: any;
-    };
-    sysField: {
-      [propName: string]: any;
     };
   };
-  [propName: string]: any;
 }
 
 export type TemplateTreeNodeDataType = {
@@ -53,7 +51,7 @@ type RequestParams = {
   order_by?: string;
   is_descending?: boolean;
   query?: string;
-  condition: any[];
+  condition: { field: string; operator: string; value: string }[];
 };
 interface ApiData {
   '@type': string;
@@ -70,6 +68,7 @@ function getTemplateKeyData(
       id: item?.id,
       key: item?.id,
       updatedAt: formatDateTimeByTimestamp({
+        // eslint-disable-next-line no-underscore-dangle
         timestamp: item?.properties?.sysField?._updatedAt,
       }),
     };

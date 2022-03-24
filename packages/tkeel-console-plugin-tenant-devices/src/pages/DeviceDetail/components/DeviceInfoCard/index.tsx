@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import { Box, Flex, HStack, Text } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
@@ -37,12 +36,14 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
     id,
     properties: { sysField, basicInfo, connectInfo },
   } = deviceObject;
+  // eslint-disable-next-line no-underscore-dangle
   const subscribeAddr = sysField?._subscribeAddr ?? '';
   const addrList = handleSubscribeAddr(subscribeAddr);
 
   const sub = addrList.length > 0 ? '1' : '0';
   const deviceName = basicInfo?.name ?? '';
   const isSelfLearn = basicInfo?.selfLearn;
+  // eslint-disable-next-line no-underscore-dangle
   const isOnline = connectInfo?._online ?? false;
 
   const {
@@ -51,6 +52,7 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
     directConnection,
     templateId,
     parentId,
+    templateName,
     selfLearn,
     ext,
   } = basicInfo || {};
@@ -59,6 +61,7 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
     selfLearn,
     description,
     templateId,
+    templateName,
     directConnection,
     name,
     ext,
