@@ -104,6 +104,7 @@ function AddSubscribeModal({
             onChange={onChange}
             loading={!isSuccess}
             value={value}
+            showSearch={false}
           />
         )}
       />
