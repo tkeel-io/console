@@ -3,7 +3,9 @@ import 'rc-select/assets/index.less';
 import { Theme, useTheme } from '@chakra-ui/react';
 import { css, Global } from '@emotion/react';
 
-interface Props {
+import { SelectExtrasProps } from './types';
+
+interface Props extends SelectExtrasProps {
   prefixCls: string;
 }
 
@@ -18,7 +20,7 @@ type CustomTheme = Theme & {
   };
 };
 
-export default function SelectStyles({ prefixCls }: Props) {
+export default function SelectStyles({ prefixCls, styles }: Props) {
   const selectPrefix = prefixCls;
   const { colors }: CustomTheme = useTheme();
   const globalStyles = css`
@@ -27,18 +29,20 @@ export default function SelectStyles({ prefixCls }: Props) {
     }
     .${selectPrefix} {
       width: inherit;
-      // --------------- Single ----------------
+
       &-single {
         .${selectPrefix}-selector {
-          display: flex;
           position: relative;
-          cursor: pointer;
+          display: flex;
           border-radius: 4px;
+          cursor: pointer;
+          ${styles?.selector}
           .${selectPrefix}-selection-search {
             width: 100%;
             padding: 8px 16px;
             font-size: 14px;
             line-height: 24px;
+            ${styles?.selectionSearch}
             &-input {
               width: 100%;
               pointer-events: none;
@@ -50,13 +54,16 @@ export default function SelectStyles({ prefixCls }: Props) {
             position: absolute;
             top: 8px;
             left: 16px;
-
-            pointer-events: none;
             color: ${colors.grayAlternatives[700]};
             cursor: pointer;
+            pointer-events: none;
+          }
+
+          .${selectPrefix}-selection-item {
+            ${styles?.selectionItem}
           }
         }
-        // Not customize
+
         &:not(.${selectPrefix}-customize-input) {
           .${selectPrefix}-selector {
             border-width: 1px;
@@ -64,34 +71,38 @@ export default function SelectStyles({ prefixCls }: Props) {
             font-size: 14px;
             line-height: 24px;
             border-color: ${colors.grayAlternatives[50]};
+            ${styles?.selector}
           }
         }
       }
-      // -------------- Multiple ---------------
+
       &-multiple .${selectPrefix}-selector {
         padding: 8px 16px;
-        border: 1px solid ${colors.primary};
         font-size: 14px;
         line-height: 24px;
+        border: 1px solid ${colors.primary};
         border-radius: 4px;
+        ${styles?.selector}
 
         .${selectPrefix}-selection-placeholder {
           position: absolute;
           top: 8px;
           left: 16px;
+          color: ${colors.grayAlternatives[700]};
           font-size: 14px;
           line-height: 24px;
-          pointer-events: none;
-          color: ${colors.grayAlternatives[700]};
           cursor: pointer;
+          pointer-events: none;
         }
         .${selectPrefix}-selection-item {
           flex: none;
           margin-right: 2px;
-          background: ${colors.primarySub};
-          font-weight: 500;
           padding: 4px;
           color: ${colors.primary};
+          font-weight: 500;
+          background: ${colors.primarySub};
+          ${styles?.selectionItem}
+
           &-disabled {
             cursor: not-allowed;
             opacity: 0.5;
@@ -99,6 +110,7 @@ export default function SelectStyles({ prefixCls }: Props) {
         }
         .${selectPrefix}-selection-overflow {
           cursor: pointer;
+
           &-item {
             height: 24px;
             .${selectPrefix}-selection-item {
@@ -112,6 +124,7 @@ export default function SelectStyles({ prefixCls }: Props) {
         }
         .${selectPrefix}-selection-overflow-item-suffix {
           .${selectPrefix}-selection-search {
+            ${styles?.selectionSearch}
             .${selectPrefix}-selection-search-input {
               height: 24px;
               margin-top: 1px;
@@ -121,23 +134,23 @@ export default function SelectStyles({ prefixCls }: Props) {
           }
         }
       }
-      // =============== Focused ===============
+
       &-focused {
         .${selectPrefix}-selector {
           border-color: ${colors.primary} !important;
         }
       }
-      // ================ Icons ================
+
       &-allow-clear {
         &.${selectPrefix}-multiple .${selectPrefix}-selector {
           padding-right: 20px;
         }
 
         .${selectPrefix}-clear {
-          right: 40px;
           top: 7px;
-          font-size: 18px;
+          right: 40px;
           color: ${colors.gray[400]};
+          font-size: 18px;
           cursor: pointer;
         }
       }
@@ -150,62 +163,61 @@ export default function SelectStyles({ prefixCls }: Props) {
         .${selectPrefix}-arrow {
           right: 16px;
           top: 14px;
+          ${styles?.arrow}
         }
       }
-      // ============== Dropdown ===============
+
       &-dropdown {
         border: 1px solid ${colors.gray[200]};
         min-height: 60px;
         border-radius: 4px;
         padding: 16px 12px;
         color: ${colors.gray[700]};
-        box-shadow: 0px 10px 15px ${colors.gray[100]},
-          0px 4px 6px ${colors.gray[100]};
+        box-shadow: 0 10px 15px ${colors.gray[100]},
+          0 4px 6px ${colors.gray[100]};
         z-index: 1400;
+        ${styles?.dropdown}
       }
-      // =============== Option ================
+
       &-item {
+        padding: 5px;
         font-size: 14px;
         line-height: 32px;
-        padding: 4px;
         cursor: pointer;
+        ${styles?.selectItem}
 
-        // >>> Group
         &-group {
           color: #999;
           font-weight: bold;
           font-size: 80%;
         }
 
-        // >>> Option
         &-option {
           position: relative;
+
           &-selected {
-            /* background: ${colors.primarySub}; */
             color: ${colors.primary};
           }
 
           .${selectPrefix}-item-option-state {
             right: 4px;
             top: 2px;
+            ${styles?.itemOptionState}
           }
 
-          // ------- Active -------
           &-active {
-            background: ${colors.primarySub};
             color: ${colors.primary};
+            background: ${colors.primarySub};
           }
 
-          // ------ Disabled ------
           &-disabled {
             color: ${colors.gray[300]};
           }
         }
 
-        // >>> Empty
         &-empty {
-          text-align: center;
           color: #999;
+          text-align: center;
         }
       }
     }

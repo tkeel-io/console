@@ -1,7 +1,11 @@
 import { Theme, useTheme } from '@chakra-ui/react';
-import { getColor } from '@chakra-ui/theme-tools';
+import { getColor, transparentize } from '@chakra-ui/theme-tools';
 
-export default function useColor(color: string): string {
+export default function useColor(color: string, opacity?: number): string {
   const theme: Theme = useTheme();
-  return getColor(theme, color, color) as string;
+  const newColor = getColor(theme, color, color) as string;
+  if (opacity === undefined) {
+    return newColor;
+  }
+  return transparentize(newColor, opacity)(theme);
 }
