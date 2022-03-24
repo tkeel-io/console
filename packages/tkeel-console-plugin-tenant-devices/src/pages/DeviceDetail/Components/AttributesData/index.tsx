@@ -6,6 +6,7 @@ import {
   Input,
   SimpleGrid,
   Spacer,
+  Switch,
   Text,
   Tooltip,
 } from '@chakra-ui/react';
@@ -40,6 +41,7 @@ import {
 import AddAttributeButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/AddAttributeButton';
 import DeleteAttributeButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/DeleteAttributeButton';
 import EditAttributeButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/EditAttributeButton';
+import JsonInfoButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/JsonInfoButton';
 
 const TOOLTIP_OPTIONS = [
   { label: '数据类型', key: 'type' },
@@ -100,7 +102,13 @@ function AttributesPanel({
   };
   const { mutate: setAttributeMutate, isLoading } =
     useSetAttributeMutation(params);
-  const setAttributeData = ({ id, value }: { id: string; value: string }) => {
+  const setAttributeData = ({
+    id,
+    value,
+  }: {
+    id: string;
+    value: string | number | unknown[] | boolean | object;
+  }) => {
     const reqData = { id, value };
     // eslint-disable-next-line no-console
     console.log(value, isLoading, reqData);
@@ -152,9 +160,10 @@ function AttributesPanel({
           <Box flex="1" overflowY="scroll" pb="30px">
             <SimpleGrid columns={2} spacingX="20px" spacingY="12px">
               {attributeField.length > 0 &&
+                // eslint-disable-next-line sonarjs/cognitive-complexity
                 attributeField.map((item: AttributeItem) => {
                   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                  const defaultValue = attributeValues[item.id] as string;
+                  const defaultValue = attributeValues[item.id];
                   const define = item?.define ?? '';
                   const name = item?.name ?? '';
                   const type = item?.type ?? '';
@@ -241,33 +250,75 @@ function AttributesPanel({
                             />
                           </Flex>
                         </Box>
-                        <Input
-                          id={item.id}
-                          defaultValue={defaultValue}
-                          bg="white"
-                          placeholder={`默认值 ${
-                            item?.define?.default_value as string
-                          }`}
-                          borderColor="gray.200"
-                          fontSize="14px"
-                          boxShadow="none!important"
-                          _placeholder={{ color: 'blackAlpha.500' }}
-                          _focus={getFocusStyle(!!errors[item.id])}
-                          {...register(
-                            currentId === item.id ? 'default_edit' : item.id,
-                            {}
-                          )}
-                          onFocus={() => {
-                            setCurrentId(item.id);
-                            setValue('default_edit', defaultValue);
-                          }}
-                          onBlur={(e) => {
-                            const { value } = e.target;
-                            if (value !== defaultValue) {
-                              setAttributeData({ id: item.id, value });
-                            }
-                          }}
-                        />
+                        {['int', 'float', 'double'].includes(item.type) && (
+                          <Input
+                            id={item.id}
+                            defaultValue={defaultValue as string}
+                            bg="white"
+                            placeholder={`默认值 ${
+                              item?.define?.default_value as string
+                            }`}
+                            isDisabled={isLoading}
+                            borderColor="gray.200"
+                            fontSize="14px"
+                            boxShadow="none!important"
+                            _placeholder={{ color: 'blackAlpha.500' }}
+                            _focus={getFocusStyle(!!errors[item.id])}
+                            {...register(
+                              currentId === item.id ? 'default_edit' : item.id,
+                              {}
+                            )}
+                            onFocus={() => {
+                              setCurrentId(item.id);
+                              setValue('default_edit', defaultValue);
+                            }}
+                            onBlur={(e) => {
+                              const { value } = e.target;
+                              if (value !== defaultValue) {
+                                setAttributeData({ id: item.id, value });
+                              }
+                            }}
+                          />
+                        )}
+                        {item.type === 'bool' && (
+                          <Flex
+                            h="40px"
+                            flexDir="row"
+                            align="center"
+                            justify="flex-start"
+                          >
+                            <Switch
+                              isDisabled={isLoading}
+                              colorScheme="primary"
+                              size="sm"
+                              isChecked={defaultValue as boolean}
+                              onChange={(e) => {
+                                setAttributeData({
+                                  id: item.id,
+                                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                                  value: e?.target?.checked ?? false,
+                                });
+                              }}
+                            />
+                            <Text color="gray.700" fontSize="14px" ml="10px">
+                              {defaultValue === true ? 'true' : 'false'}
+                            </Text>
+                          </Flex>
+                        )}
+                        {['array', 'struct'].includes(item.type) && (
+                          <JsonInfoButton
+                            deviceId={deviceId}
+                            id={item.id}
+                            // handleConfirm={(value) => {
+                            //   setAttributeData({
+                            //     id: item.id,
+                            //     value,
+                            //   });
+                            // }}
+                            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                            defaultValue={defaultValue}
+                          />
+                        )}
                       </FormControl>
                     </Box>
                   );

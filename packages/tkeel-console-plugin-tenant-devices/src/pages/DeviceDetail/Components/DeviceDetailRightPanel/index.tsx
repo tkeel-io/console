@@ -67,7 +67,7 @@ function DeviceDetailRightPanel({ deviceObject, refetch }: Props): JSX.Element {
       ),
     },
   ];
-  const [tabIndex, setTabIndex] = useState(3);
+  const [tabIndex, setTabIndex] = useState(2);
   const handleTabChange = (index: number) => {
     setTabIndex(index);
   };

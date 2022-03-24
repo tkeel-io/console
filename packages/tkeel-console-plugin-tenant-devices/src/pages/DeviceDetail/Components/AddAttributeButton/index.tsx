@@ -14,7 +14,7 @@ type Props = {
 function AddAttributeButton({ id, refetch = () => {} }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = plugin.getPortalToast();
-  const { mutate: addAttributeMutate } = useAddAttributeMutation({
+  const { mutate: addAttributeMutate, isLoading } = useAddAttributeMutation({
     id,
     onSuccess: () => {
       toast.success('添加属性成功');
@@ -33,10 +33,10 @@ function AddAttributeButton({ id, refetch = () => {} }: Props) {
   };
   return (
     <>
-      <CreateButton onClick={onOpen}>添加遥测</CreateButton>
+      <CreateButton onClick={onOpen}>添加属性</CreateButton>
       {isOpen && (
         <DeviceAttributeModal
-          // isConfirmButtonLoading={isLoading}
+          isConfirmButtonLoading={isLoading}
           isOpen={isOpen}
           isEdit={false}
           onClose={onClose}

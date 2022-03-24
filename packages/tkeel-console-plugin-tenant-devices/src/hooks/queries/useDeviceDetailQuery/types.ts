@@ -31,7 +31,8 @@ export interface RawData {
 
 export interface AttributeItem {
   define: {
-    default_value: unknown;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    default_value: string | number | any[] | boolean | object;
     rw: ReadWriteType;
   };
   description: string;

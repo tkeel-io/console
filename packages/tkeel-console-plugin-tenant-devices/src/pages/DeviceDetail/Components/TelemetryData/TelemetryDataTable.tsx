@@ -141,7 +141,10 @@ export default function TelemetryDataTable({
   console.log('telemetryTableData', telemetryTableData);
   return (
     <Table
-      styles={{ wrapper: { flex: 1, height: '100%', minHeight: '60vh' } }}
+      styles={{
+        wrapper: { flex: 1, height: '100%', minHeight: '60vh' },
+        bodyTr: { fontSize: '12px' },
+      }}
       columns={columns}
       data={telemetryTableData || []}
       isShowStripe

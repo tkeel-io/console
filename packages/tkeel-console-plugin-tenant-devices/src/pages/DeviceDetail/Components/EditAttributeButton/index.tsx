@@ -15,7 +15,7 @@ interface Props {
 function EditAttributeButton({ id, defaultValues, refetch = () => {} }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = plugin.getPortalToast();
-  const { mutate: editAttributeMutate } = useEditAttributeMutation({
+  const { mutate: editAttributeMutate, isLoading } = useEditAttributeMutation({
     id,
     onSuccess: () => {
       toast.success('修改属性成功');
@@ -40,6 +40,7 @@ function EditAttributeButton({ id, defaultValues, refetch = () => {} }: Props) {
       />
       {isOpen && (
         <DeviceAttributeModal
+          isConfirmButtonLoading={isLoading}
           onClose={onClose}
           isOpen={isOpen}
           isEdit
