@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import { Flex } from '@chakra-ui/react';
 import qs from 'qs';
 import { useLocation } from 'react-router-dom';
