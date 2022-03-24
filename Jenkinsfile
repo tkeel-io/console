@@ -45,8 +45,8 @@ pipeline {
                   sh 'npm install -g yarn --force'
                   sh 'yarn'
                     withCredentials([usernamePassword(passwordVariable : 'DOCKER_PASSWORD' ,usernameVariable : 'DOCKER_USERNAME' ,credentialsId : "$DOCKER_CREDENTIAL_ID" ,)]) {
-                        // sh 'yarn build:production-and-docker:build --package-names=@tkeel/$PLUGIN_NAME --docker-image-tag=$APP_VERSION --docker-image-push=true'
-                        sh 'if test $PLUGIN_NAME = all; then yarn build:production-and-docker:build --package-names=all --docker-image-tag=$APP_VERSION --docker-image-push=true ;else yarn build:production-and-docker:build --package-names=@tkeel/$PLUGIN_NAME --docker-image-tag=$APP_VERSION --docker-image-push=true ;fi'
+                        sh 'echo "$DOCKER_PASSWORD" | docker login $REGISTRY -u "$DOCKER_USERNAME" --password-stdin'
+                        sh 'if test $PLUGIN_NAME = all; then yarn build:production-and-docker:build --package-names=all --docker-image-tag=$BRANCH_NAME-$APP_VERSION --docker-image-push=true ;else yarn build:production-and-docker:build --package-names=@tkeel/$PLUGIN_NAME --docker-image-tag=$BRANCH_NAME-$APP_VERSION --docker-image-push=true ;fi'
                     }
               }
           }
