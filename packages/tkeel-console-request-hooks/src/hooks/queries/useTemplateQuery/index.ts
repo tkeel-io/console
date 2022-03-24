@@ -56,7 +56,7 @@ export interface keyDataType {
   title: string;
   description: string;
   id: string;
-  key: string;
+  key?: string;
   updatedAt: string;
 }
 

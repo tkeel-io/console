@@ -16,6 +16,8 @@ import CreateTemplateButton from '@/tkeel-console-plugin-tenant-device-templates
 import DeleteTemplateButton from '@/tkeel-console-plugin-tenant-device-templates/pages/Index/components/DeleteTemplateButton';
 import ModifyTemplateButton from '@/tkeel-console-plugin-tenant-device-templates/pages/Index/components/ModifyTemplateButton';
 
+import SaveAsTemplateButton from './components/SaveAsTemplateButton';
+
 // function getTemplateKeyData(
 //   data: TemplateTreeNodeType
 // ): TemplateTreeNodeDataType[] {
@@ -112,6 +114,13 @@ function Index() {
                 description={item.description}
                 navigateUrl={`/detail/${item.id}`}
                 buttons={[
+                  <SaveAsTemplateButton
+                    data={item}
+                    key="modify"
+                    onSuccess={() => {
+                      refetch();
+                    }}
+                  />,
                   <ModifyTemplateButton
                     data={item}
                     key="modify"
