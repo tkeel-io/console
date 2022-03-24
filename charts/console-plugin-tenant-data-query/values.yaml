@@ -2,5 +2,9 @@ replicaCount: 1
 imagePullSecrets: ''
 image:
   repository: tkeelio/console-plugin-tenant-data-query
+<<<<<<< HEAD
+  tag: 0.4.3
+=======
   # tag: 0.4.3
+>>>>>>> feat/fixbug
   pullPolicy: Always
