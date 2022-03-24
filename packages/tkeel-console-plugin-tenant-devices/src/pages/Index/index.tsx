@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Box, Center, Flex, HStack, Text } from '@chakra-ui/react';
 import { isEmpty, values } from 'lodash';
 import { Fragment, useState } from 'react';
@@ -46,7 +44,10 @@ function getParentTreeNode({
       return [item];
     }
     if (!isEmpty(item.children)) {
-      const node = getParentTreeNode({ list: item.children, key });
+      const node = getParentTreeNode({
+        list: item.children,
+        key,
+      });
       if (!isEmpty(node)) {
         return [item, ...node];
       }
@@ -54,13 +55,14 @@ function getParentTreeNode({
   }
   return [];
 }
+
 function getTreeNode({
   list,
   key,
 }: {
   list: TreeNodeData[];
   key: string;
-}): TreeNodeData | any {
+}): TreeNodeData {
   // eslint-disable-next-line no-restricted-syntax
   for (const item of list) {
     if (item.key === key) {
@@ -68,12 +70,12 @@ function getTreeNode({
     }
     if (!isEmpty(item.children)) {
       const node = getTreeNode({ list: item.children, key });
-      if (!isEmpty(node)) {
+      if (!isEmpty(node.key)) {
         return node;
       }
     }
   }
-  return {};
+  return { ...defaultGroupItem };
 }
 function getDefaultFormValues({ groupItem }: { groupItem: TreeNodeData }) {
   const nodeInfo = groupItem?.originData?.nodeInfo as NodeInfo;
@@ -129,15 +131,7 @@ function Index(): JSX.Element {
       const { nodeInfo, subNode } = item;
       const { id, properties } = nodeInfo;
       const group = properties?.group ?? {};
-      const {
-        name,
-        description,
-        ext,
-        parentId,
-        parentName,
-        templateId,
-        templateName,
-      } = group;
+      const { name, description, ext, parentId, parentName } = group;
       const defaultFormValues = {
         id,
         description,
@@ -145,8 +139,6 @@ function Index(): JSX.Element {
         ext,
         parentId,
         parentName,
-        templateId,
-        templateName,
       };
       return {
         name,
@@ -227,11 +219,13 @@ function Index(): JSX.Element {
     list: treeNodeData,
     key: groupId,
   });
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const groupItem = getTreeNode({
     list: treeNodeData,
     key: groupId,
   });
   const defaultFormValues = getDefaultFormValues({
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     groupItem: isEmpty(groupItem) ? defaultGroupItem : groupItem,
   });
 
@@ -266,7 +260,7 @@ function Index(): JSX.Element {
     params,
     onSuccess: (data) => {
       const total = data?.data?.listDeviceObject?.total ?? 0;
-      setTotalSize(total as number);
+      setTotalSize(total);
     },
   });
 
@@ -292,7 +286,7 @@ function Index(): JSX.Element {
             variant="solid"
             defaultFormValues={{
               parentId: groupId,
-              parentName: groupItem.name,
+              parentName: groupItem?.name ?? '',
             }}
             onSuccess={() => {
               const timer = setTimeout(() => {
@@ -325,7 +319,7 @@ function Index(): JSX.Element {
             callback={refetchGroupTree}
             defaultFormValues={{
               parentId: groupId,
-              parentName: groupItem.name,
+              parentName: groupItem?.name ?? '',
             }}
           />
           <DeviceGroupTree
@@ -355,7 +349,7 @@ function Index(): JSX.Element {
                       color: isTarget ? 'grayAlternatives.700' : 'primary',
                     }}
                     onClick={() => {
-                      setGroupId(item.key);
+                      setGroupId(item.key || '');
                     }}
                     color={`grayAlternatives.${isTarget ? 700 : 300}`}
                     fontWeight={isTarget ? 500 : 400}

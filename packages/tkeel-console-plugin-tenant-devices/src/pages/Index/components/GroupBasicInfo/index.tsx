@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Button, Flex, HStack, SimpleGrid, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 
@@ -10,16 +9,6 @@ interface Props {
 
 const defaultCount = 4;
 
-function renderInfoItem(item: { key: string; value: string }) {
-  const { key, value } = item;
-
-  return (
-    <HStack key={key} fontSize="12px" lineHeight="24px" fontWeight="500">
-      <Text color="grayAlternatives.300">{key}:</Text>
-      <Text color="gray.600">{value}</Text>
-    </HStack>
-  );
-}
 function GroupBasicInfo({ groupItem }: Props): JSX.Element {
   const [isExpend, setIsExpend] = useState(false);
   const nodeInfo = groupItem?.originData?.nodeInfo ?? null;
@@ -52,7 +41,17 @@ function GroupBasicInfo({ groupItem }: Props): JSX.Element {
       >
         {groupInfoArray
           .slice(0, isExpend ? groupInfoArray.length * 2 : defaultCount)
-          .map((item) => renderInfoItem(item))}
+          .map((item) => (
+            <HStack
+              key={item.key}
+              fontSize="12px"
+              lineHeight="24px"
+              fontWeight="500"
+            >
+              <Text color="grayAlternatives.300">{item.key}:</Text>
+              <Text color="gray.600">{item.value}</Text>
+            </HStack>
+          ))}
       </SimpleGrid>
       <Button
         ml="16px"

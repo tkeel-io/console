@@ -1,5 +1,4 @@
 import 'rsuite/DateRangePicker/styles/index.less';
-import './style.scss';
 
 // import { Text } from '@chakra-ui/react';
 // import * as dayjs from 'dayjs';
@@ -7,6 +6,9 @@ import './style.scss';
 import RsuiteDateRangePicker, {
   DateRangePickerProps,
 } from 'rsuite/DateRangePicker';
+
+// import './style.scss';
+import DateRangePickerStyles from './DateRangePickerStyles';
 
 // type DateRange = [Date, Date];
 
@@ -51,26 +53,27 @@ export default function DateRangePicker({
   //   },
   // ];
 
-  // const handleEntered = () => {
-  //   if (startTime && endTime && dayjs(endTime).isSame(dayjs())) {
-  //     if (dayjs(endTime).subtract(5, 'minute').isSame(startTime)) {
-  //       setSelectedRangeLabel('5分钟');
-  //     } else if (dayjs(endTime).subtract(30, 'minute').isSame(startTime)) {
-  //       setSelectedRangeLabel('30分钟');
-  //     } else if (dayjs(endTime).subtract(1, 'hour').isSame(startTime)) {
-  //       setSelectedRangeLabel('1小时');
-  //     }
-  //   }
-  // };
-
   return (
-    <RsuiteDateRangePicker
-      format={format}
-      placeholder="请选择时间范围"
-      cleanable={false}
-      ranges={[]}
-      // onEntered={handleEntered}
-      {...rest}
-    />
+    <>
+      <DateRangePickerStyles />
+      <RsuiteDateRangePicker
+        format={format}
+        placeholder="请选择时间范围"
+        cleanable={false}
+        ranges={[]}
+        locale={{
+          sunday: '日',
+          monday: '一',
+          tuesday: '二',
+          wednesday: '三',
+          thursday: '四',
+          friday: '五',
+          saturday: '六',
+          formattedDayPattern: 'yyyy-MM-dd',
+          ok: '确定',
+        }}
+        {...rest}
+      />
+    </>
   );
 }

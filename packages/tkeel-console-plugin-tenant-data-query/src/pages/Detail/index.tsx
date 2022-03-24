@@ -1,15 +1,17 @@
-import { Center, Circle, Flex, Switch, Text } from '@chakra-ui/react';
+import { Center, Circle, Flex, Text } from '@chakra-ui/react';
 import * as dayjs from 'dayjs';
 import { useState } from 'react';
 import { CSVLink } from 'react-csv';
 import { useSearchParams } from 'react-router-dom';
 
-import { DateRangePicker, IconButton } from '@tkeel/console-components';
+import { DateRangePicker, IconButton, Select } from '@tkeel/console-components';
+import { useColor } from '@tkeel/console-hooks';
 import {
+  // RightFilledIcon,
+  // CheckFilledIcon,
   DownloadFilledIcon,
   // LeftFilledIcon,
   RefreshFilledIcon,
-  // RightFilledIcon,
 } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
@@ -27,8 +29,15 @@ import PropertiesConditions, {
   CheckBoxStatus,
 } from './components/PropertiesConditions';
 
-function getSeconds(timestamp: number) {
-  return Math.round(timestamp / 1000);
+enum TimeType {
+  FiveMinutes = 'fiveMinutes',
+  ThirtyMinutes = 'thirtyMinutes',
+  OneHour = 'oneHour',
+  Custom = 'custom',
+}
+
+function getRecentTimestamp(num: number, unit = 'minute') {
+  return dayjs().subtract(num, unit).unix();
 }
 
 export default function Detail() {
@@ -40,17 +49,17 @@ export default function Detail() {
   const [checkedKeys, setCheckedKeys] = useState<string[]>([]);
   const [isTelemetryDataRequested, setIsTelemetryDataRequested] =
     useState(false);
-  const [startTime, setStartTime] = useState(
-    getSeconds(dayjs().subtract(1, 'hour').valueOf())
-  );
-  const [endTime, setEndTime] = useState(getSeconds(dayjs().valueOf()));
+  const [timeType, setTimeType] = useState<TimeType>(TimeType.FiveMinutes);
+  const [startTime, setStartTime] = useState(getRecentTimestamp(5));
+  const [endTime, setEndTime] = useState(dayjs().unix());
   const dateRangeLength = 5;
   const intervalTime = (endTime - startTime) / dateRangeLength;
 
   const [rangeIndex, setRangeIndex] = useState(0);
 
-  const [isRangeSearch, setIsRangeSearch] = useState(false);
+  const [isRangeSearch] = useState(false);
 
+  const borderGrayColor = useColor('gray.200');
   const [searchParams] = useSearchParams();
   const id = searchParams.get('id') || '';
   const { deviceObject, isLoading: isDeviceDetailLoading } =
@@ -146,6 +155,25 @@ export default function Detail() {
     };
   });
 
+  const selectOptions = [
+    {
+      label: '5 分钟',
+      value: TimeType.FiveMinutes,
+    },
+    {
+      label: '30 分钟',
+      value: TimeType.ThirtyMinutes,
+    },
+    {
+      label: '1 小时',
+      value: TimeType.OneHour,
+    },
+    {
+      label: '自定义',
+      value: TimeType.Custom,
+    },
+  ];
+
   return (
     <Flex height="100%" justifyContent="space-between">
       <Flex flexDirection="column" width="360px">
@@ -178,30 +206,26 @@ export default function Detail() {
               <Flex alignItems="center">
                 <DataResultTitle />
                 <Flex>
-                  <DateRangePicker
-                    startTime={dayjs(startTime * 1000).toDate()}
-                    endTime={dayjs(endTime * 1000).toDate()}
-                    defaultValue={[
-                      new Date(startTime * 1000),
-                      new Date(endTime * 1000),
-                    ]}
-                    disabledDate={(date: Date) => {
-                      return (
-                        dayjs(date).isBefore(
-                          dayjs().subtract(3, 'day'),
-                          'day'
-                        ) || dayjs(date).isAfter(dayjs(), 'day')
-                      );
-                    }}
-                    onOk={(date: [Date, Date]) => {
-                      const requestStartTime = getSeconds(
-                        dayjs(date[0]).valueOf()
-                      );
-                      const requestEndTime = getSeconds(
-                        dayjs(date[1]).valueOf()
-                      );
+                  <Select
+                    options={selectOptions}
+                    onChange={(value) => {
+                      const timeTypeValue = value as TimeType;
+                      setTimeType(timeTypeValue);
+
+                      let requestStartTime = getRecentTimestamp(5);
+                      const requestEndTime = dayjs().unix();
+
+                      if (value === TimeType.ThirtyMinutes) {
+                        requestStartTime = getRecentTimestamp(30);
+                      }
+
+                      if (value === TimeType.OneHour) {
+                        requestStartTime = getRecentTimestamp(1, 'hour');
+                      }
+
                       setStartTime(requestStartTime);
                       setEndTime(requestEndTime);
+
                       if (hasIdentifiers) {
                         handleTelemetryDataMutate({
                           requestStartTime,
@@ -209,7 +233,51 @@ export default function Detail() {
                         });
                       }
                     }}
+                    value={timeType}
+                    style={{
+                      marginRight: '10px',
+                      width: '89px',
+                    }}
+                    styles={{
+                      selector: `padding: 0; line-height: 34px; border-color: ${borderGrayColor};`,
+                      selectionSearch: 'padding: 0; line-height: 34px;',
+                      selectionItem: 'top: 0; left: 10px;',
+                      arrow: 'top: 10px; right: 10px',
+                      dropdown: 'padding: 5px; min-height: 42px;',
+                      selectItem: 'line-height: 22px;',
+                      itemOptionState: 'display: none',
+                    }}
                   />
+                  {timeType === TimeType.Custom && (
+                    <DateRangePicker
+                      startTime={dayjs(startTime * 1000).toDate()}
+                      endTime={dayjs(endTime * 1000).toDate()}
+                      defaultValue={[
+                        new Date(startTime * 1000),
+                        new Date(endTime * 1000),
+                      ]}
+                      disabledDate={(date: Date) => {
+                        return (
+                          dayjs(date).isBefore(
+                            dayjs().subtract(3, 'day'),
+                            'day'
+                          ) || dayjs(date).isAfter(dayjs(), 'day')
+                        );
+                      }}
+                      onOk={(date: [Date, Date]) => {
+                        const requestStartTime = dayjs(date[0]).unix();
+                        const requestEndTime = dayjs(date[1]).unix();
+                        setStartTime(requestStartTime);
+                        setEndTime(requestEndTime);
+                        if (hasIdentifiers) {
+                          handleTelemetryDataMutate({
+                            requestStartTime,
+                            requestEndTime,
+                          });
+                        }
+                      }}
+                    />
+                  )}
                 </Flex>
               </Flex>
               <Flex alignItems="center">
@@ -231,7 +299,7 @@ export default function Detail() {
                   filename={`data-${dayjs().valueOf()}.csv`}
                 >
                   <IconButton
-                    paddingLeft="4px"
+                    paddingLeft="6px"
                     paddingRight="16px"
                     icon={<DownloadFilledIcon size={14} />}
                     isShowCircle
@@ -249,7 +317,7 @@ export default function Detail() {
               alignItems="center"
             >
               <Text fontSize="12px">遥测数据</Text>
-              <Flex alignItems="center">
+              {/* <Flex alignItems="center">
                 <Switch
                   size="sm"
                   isChecked={isRangeSearch}
@@ -267,13 +335,13 @@ export default function Detail() {
                 >
                   分段查询
                 </Text>
-                {/* <CustomCircle onClick={() => {}}>
-              <LeftFilledIcon color="grayAlternatives.300" />
-            </CustomCircle>
-            <CustomCircle marginLeft="8px" onClick={() => {}}>
-              <RightFilledIcon color="grayAlternatives.300" />
-            </CustomCircle> */}
-              </Flex>
+                <CustomCircle onClick={() => {}}>
+                  <LeftFilledIcon color="grayAlternatives.300" />
+                </CustomCircle>
+                <CustomCircle marginLeft="8px" onClick={() => {}}>
+                  <RightFilledIcon color="grayAlternatives.300" />
+                </CustomCircle>
+              </Flex> */}
             </Flex>
             {isRangeSearch && (
               <DateRangeIndicator
@@ -303,7 +371,7 @@ export default function Detail() {
             <DataResultTitle />
             <Center flex="1">
               <SearchEmpty
-                title="请选择查询条件后，点击查询按钮 "
+                title="请选择查询条件后，点击确定按钮 "
                 styles={{ image: { marginBottom: '8px', width: '104px' } }}
               />
             </Center>

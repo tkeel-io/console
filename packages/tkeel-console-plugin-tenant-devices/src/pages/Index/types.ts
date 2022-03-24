@@ -18,11 +18,11 @@ export type DeviceFormFields = {
   name: string;
   parentId: string;
   parentName: string;
-  templateId: string;
-  templateName: string;
+  templateId?: string;
+  templateName?: string;
   // useTemplate?: boolean;
   // selfLearn?: boolean;
-  extendInfo: any[];
+  extendInfo: { label: string; value: string }[];
   connectType?: string;
   connectInfo?: ConnectInfoType[];
   description: string;
@@ -43,7 +43,7 @@ export interface DeviceDefaultInfoType {
   description?: string;
   name?: string;
   ext?: {
-    [propName: string]: unknown;
+    [propName: string]: string;
   };
   selfLearn?: boolean;
   parentId?: string;
@@ -58,6 +58,7 @@ export type TreeNodeData = {
   title: ReactNode;
   key: string;
   children: TreeNodeData[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   icon?: any;
   originData?: {
     nodeInfo: NodeInfo;

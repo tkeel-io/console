@@ -3,5 +3,5 @@ imagePullSecrets: ''
 httpPort: 80
 image:
   repository: tkeelio/console-portal-admin
-  tag: 0.4.3
+  # tag: 0.4.3
   pullPolicy: Always
