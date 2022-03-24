@@ -1,10 +1,15 @@
 import { Box, Flex, Square, Text } from '@chakra-ui/react';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { BackButton } from '@tkeel/console-components';
 import { PingTwoToneIcon } from '@tkeel/console-icons';
-import { DeviceItem } from '@tkeel/console-request-hooks';
+// import { DeviceItem } from '@tkeel/console-request-hooks';
+import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
+
+import RouteLabel from '@/tkeel-console-plugin-tenant-routing-rules/components/RouteLabel';
+import StatusLabel from '@/tkeel-console-plugin-tenant-routing-rules/components/StatusLabel';
+import useRuleDetailQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDetailQuery';
 
 import DataRepublish from './components/DataRepublish';
 import DataSelect from './components/DataSelect';
@@ -12,10 +17,18 @@ import ErrorAction from './components/ErrorAction';
 import StepBar, { CurrentStep } from './components/StepBar';
 import TextWrapper from './components/TextWrapper';
 
+function getFormattedDateTime(time: string | undefined) {
+  return time ? formatDateTimeByTimestamp({ timestamp: `${time}000` }) : '';
+}
+
 export default function Detail() {
   const navigate = useNavigate();
   const [currentStep] = useState<CurrentStep>(1);
-  const [deviceList, setDeviceList] = useState<DeviceItem[]>([]);
+  // const [deviceList, setDeviceList] = useState<DeviceItem[]>([]);
+  const { id } = useParams();
+  const { data: ruleDetail } = useRuleDetailQuery(id || '');
+  const createTime = getFormattedDateTime(ruleDetail?.created_at);
+  const updateTime = getFormattedDateTime(ruleDetail?.updated_at);
 
   return (
     <Flex
@@ -50,25 +63,30 @@ export default function Detail() {
             </Square>
             <Text
               marginLeft="8px"
+              marginRight="20px"
               color="gray.700"
               fontSize="18px"
               fontWeight="600"
               lineHeight="24px"
             >
-              数据存储方案B
+              {ruleDetail?.name ?? ''}
             </Text>
+            <RouteLabel routeType="msg" />
+          </Flex>
+          <Flex>
+            <StatusLabel status={0} />
           </Flex>
         </Flex>
         <TextWrapper
           label="描述"
-          value="模型说明一句话描述模型说明一句话描述模型说明一句话描述模型说明一句话模型描述明"
+          value={ruleDetail?.desc ?? ''}
           styles={{ wrapper: { marginTop: '8px' } }}
         />
         <Flex marginTop="8px">
-          <TextWrapper label="创建时间" value="2021-12-01 13:41" />
+          <TextWrapper label="创建时间" value={createTime} />
           <TextWrapper
             label="修改时间"
-            value="2022-03-01 15:15"
+            value={updateTime}
             styles={{ wrapper: { marginLeft: '20px' } }}
           />
         </Flex>
@@ -84,8 +102,8 @@ export default function Detail() {
           backgroundColor="white"
         >
           <DataSelect
-            deviceList={deviceList}
-            handleSelectDevices={(devices) => setDeviceList(devices)}
+          // deviceList={deviceList}
+          // handleSelectDevices={(devices) => setDeviceList(devices)}
           />
           <DataRepublish styles={{ wrapper: { margin: '40px 0' } }} />
           <ErrorAction />

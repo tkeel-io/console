@@ -1,6 +1,6 @@
 import { Center, Flex, HStack, Text } from '@chakra-ui/react';
 import { useCallback, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Cell, Column } from 'react-table';
 
 import { DeviceStatusIcon } from '@tkeel/console-business-components';
@@ -19,15 +19,18 @@ import {
 } from '@tkeel/console-icons';
 import { DeviceItem } from '@tkeel/console-request-hooks';
 
+import useAddDevicesMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useAddDevicesMutation';
+import useRuleDevicesQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDevicesQuery';
+
 import TitleWrapper from '../TitleWrapper';
 import AddDevicesButton from './AddDevicesButton';
 import DeleteDevicesButton from './DeleteDevicesButton';
 import MoveRoutingRuleButton from './MoveRoutingRuleButton';
 
-type Props = {
-  deviceList: DeviceItem[];
-  handleSelectDevices: (devices: DeviceItem[]) => unknown;
-};
+// type Props = {
+//   deviceList: DeviceItem[];
+//   handleSelectDevices: (devices: DeviceItem[]) => unknown;
+// };
 
 type DeviceColumnData = {
   id: string;
@@ -38,17 +41,27 @@ type DeviceColumnData = {
   originData: DeviceItem;
 };
 
-export default function DataSelect({ deviceList, handleSelectDevices }: Props) {
+export default function DataSelect() {
   const navigate = useNavigate();
+  const [deviceList, setDeviceList] = useState<DeviceItem[]>([]);
   const [showDeviceList, setShowDeviceList] = useState(true);
   const [selectedDevices, setSelectedDevices] = useState<
     { id: string; name: string }[]
   >([]);
   const [keywords, setKeywords] = useState('');
   const pagination = usePagination();
+  const { id: ruleId } = useParams();
 
+  const { data } = useRuleDevicesQuery({
+    id: ruleId || '',
+    pageNum: 1,
+    pageSize: 10,
+    keywords,
+  });
   // eslint-disable-next-line no-console
-  console.log('keywords', keywords);
+  console.log('DataSelect ~ data', data);
+  const { mutate } = useAddDevicesMutation();
+
   const columns: ReadonlyArray<Column<DeviceColumnData>> = [
     {
       Header: '设备名称',
@@ -150,6 +163,15 @@ export default function DataSelect({ deviceList, handleSelectDevices }: Props) {
     },
     [setSelectedDevices]
   );
+
+  const handleSelectDevices = (devices: DeviceItem[]) => {
+    setDeviceList(devices);
+    mutate({
+      data: {
+        devices_ids: selectedDevices.map((device) => device.id),
+      },
+    });
+  };
 
   return (
     <>

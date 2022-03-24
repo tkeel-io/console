@@ -6,7 +6,9 @@ import { EmptyFileIcon } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
 import MoreActionButton from '@/tkeel-console-plugin-tenant-routing-rules/components/MoreActionButton';
-import RouteLabel from '@/tkeel-console-plugin-tenant-routing-rules/components/RouteLabel';
+import RouteLabel, {
+  RouteType,
+} from '@/tkeel-console-plugin-tenant-routing-rules/components/RouteLabel';
 // import useRouteRulesQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRouteRulesQuery';
 import CreateRulesButton from '@/tkeel-console-plugin-tenant-routing-rules/pages/Index/components/CreateRulesButton';
 import RouteRulesCard from '@/tkeel-console-plugin-tenant-routing-rules/pages/Index/components/RouteRulesCard';
@@ -25,7 +27,7 @@ export default function Index(): JSX.Element {
       name: '数据方案A',
       status: 1,
       desc: '将设备数据中的无用数据过滤掉1',
-      routeType: 'msg',
+      routeType: 'msg' as RouteType,
       process: 1,
     },
     {
@@ -33,7 +35,7 @@ export default function Index(): JSX.Element {
       name: '数据方案B',
       status: 0,
       desc: '将设备数据中的无用数据过滤掉2',
-      routeType: 'time',
+      routeType: 'time' as RouteType,
       process: 2,
     },
     {
@@ -41,7 +43,7 @@ export default function Index(): JSX.Element {
       name: '数据方案C',
       status: 1,
       desc: '将设备数据中的无用数据过滤掉3',
-      routeType: 'msg',
+      routeType: 'msg' as RouteType,
       process: 3,
     },
   ];
