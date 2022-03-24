@@ -1,5 +1,5 @@
 import { HStack, useRadioGroup } from '@chakra-ui/react';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { FormControl, FormField, Modal } from '@tkeel/console-components';
@@ -12,7 +12,7 @@ const { TextField, TextareaField } = FormField;
 
 export interface FormValues {
   title: string;
-  type: string;
+  type: number;
   description?: string;
 }
 
@@ -33,6 +33,7 @@ export default function BaseRulesModal({
   onClose,
   onConfirm,
 }: Props) {
+  const [routeType, setRouteType] = useState('msg');
   const {
     register,
     formState: { errors },
@@ -45,8 +46,10 @@ export default function BaseRulesModal({
 
   const handleConfirm = async () => {
     const result = await trigger();
+    const routeTypeArr = ['msg', 'time'];
+    const typeIndex = routeTypeArr.indexOf(routeType) + 1;
     if (result) {
-      const formValues = getValues();
+      const formValues = { ...getValues(), type: typeIndex };
       onConfirm(formValues);
       reset();
     }
@@ -77,11 +80,11 @@ export default function BaseRulesModal({
     },
   ];
 
-  const { getRootProps, getRadioProps, setValue } = useRadioGroup({
+  const { getRootProps, getRadioProps } = useRadioGroup({
     name: 'routes',
     defaultValue: options[0].keyOpt,
     onChange: (val) => {
-      setValue(val);
+      setRouteType(val);
     },
   });
 
