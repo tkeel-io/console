@@ -9,5 +9,3 @@ export default function App() {
     </PluginBase.App>
   );
 }
-
-const a = 0;
