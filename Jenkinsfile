@@ -55,7 +55,8 @@ pipeline {
         stage('build & push chart'){
           steps {
               container ('nodejs') {
-                sh 'cd charts && helm3 package ./$PLUGIN_NAME --app-version=$BRANCH_NAME-$APP_VERSION --version=$CHART_VERSION'
+                // sh 'cd charts && helm3 package ./$PLUGIN_NAME --app-version=$BRANCH_NAME-$APP_VERSION --version=$CHART_VERSION'
+                sh 'if test $PLUGIN_NAME = all; then cd charts && helm3 package ./* --app-version=$BRANCH_NAME-$APP_VERSION --version=$CHART_VERSION ;else cd charts && helm3 package ./$PLUGIN_NAME --app-version=$BRANCH_NAME-$APP_VERSION --version=$CHART_VERSION ;fi'
                 // input(id: 'release-image-with-tag', message: 'release image with tag?')
                   withCredentials([usernamePassword(credentialsId: "$GITHUB_CREDENTIAL_ID", passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                     sh 'git config --global user.email "lunz1207@yunify.com"'
