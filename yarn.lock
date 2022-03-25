@@ -3623,8 +3623,6 @@ __metadata:
     js-base64: ^3.7.2
     markdown: ^0.5.0
     marked: ^4.0.12
-    monaco-editor: ^0.33.0
-    monaco-themes: ^0.4.0
     react: ^17.0.2
     react-dom: ^17.0.2
     react-hook-form: ^7.28.1
@@ -8770,13 +8768,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-plist@npm:^0.1.2":
-  version: 0.1.2
-  resolution: "fast-plist@npm:0.1.2"
-  checksum: 3baf1b4c533024561595f28eae7c36f4fa0782f52374b2f4e067561bd62464240f4bcff8d47b1ed6b981333be5f2bb613ce10229c5ec1e0194dfc271b873ade8
-  languageName: node
-  linkType: hard
-
 "fast-shallow-equal@npm:^1.0.0":
   version: 1.0.0
   resolution: "fast-shallow-equal@npm:1.0.0"
@@ -12076,22 +12067,6 @@ __metadata:
     monaco-editor: ">= 0.31.0"
     webpack: ^4.5.0 || 5.x
   checksum: 436814c724d5033254519ef8203f0df600d15c6bf0a3bf48a42ea678086becb56ed5685df2bca4cd4107855ecf8cea73722e52b63573edba5c020ff51b4f2d31
-  languageName: node
-  linkType: hard
-
-"monaco-editor@npm:^0.33.0":
-  version: 0.33.0
-  resolution: "monaco-editor@npm:0.33.0"
-  checksum: f88fd1c9be0d6845436aa92ee7f7bcc49f9e9bf452f73bb5efbbe52e50678d1c2aec4d612a943310f5e2282c1d9fcc41b792b65a5b9008e6054908e7e10311ea
-  languageName: node
-  linkType: hard
-
-"monaco-themes@npm:^0.4.0":
-  version: 0.4.0
-  resolution: "monaco-themes@npm:0.4.0"
-  dependencies:
-    fast-plist: ^0.1.2
-  checksum: b48e9597bed6a333ce51a1ebcef3f047a555a463c76d86f66e1f7161d99cf9e8ded0d0ed182dbd48e80b3f73cb5a930ad26954d368b2aed8ef529449fb4b380d
   languageName: node
   linkType: hard
 
