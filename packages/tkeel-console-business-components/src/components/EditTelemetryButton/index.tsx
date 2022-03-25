@@ -44,14 +44,16 @@ export default function EditTelemetryButton({
         }}
       />
 
-      <CreateTelemetryModal
-        title="修改遥测"
-        isOpen={isOpen}
-        defaultValues={defaultValues}
-        // isConfirmButtonLoading={isLoading}
-        onClose={onClose}
-        onConfirm={handleSubmit}
-      />
+      {isOpen && (
+        <CreateTelemetryModal
+          title="修改遥测"
+          isOpen={isOpen}
+          defaultValues={defaultValues}
+          // isConfirmButtonLoading={isLoading}
+          onClose={onClose}
+          onConfirm={handleSubmit}
+        />
+      )}
     </>
   );
 }

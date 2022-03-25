@@ -2,7 +2,7 @@ import { Box, Circle, Flex, Switch, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 
 import { AceEditor, Drawer, InfoCard } from '@tkeel/console-components';
-import { BoxTwoToneIcon } from '@tkeel/console-icons';
+import { DuotoneTwoToneIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 type Props = {
@@ -33,6 +33,12 @@ function TelemetryDrawer({ usefulData, isOpen, onClose }: Props) {
       default_value: '默认值',
       rw: '读写',
       max: '最大值',
+      min: '最小值',
+      '0': '0',
+      '1': '1',
+      length: '长度',
+      step: '步长',
+      ext: '扩展',
     };
     const defineInfo = [
       {
@@ -45,13 +51,15 @@ function TelemetryDrawer({ usefulData, isOpen, onClose }: Props) {
       const entry = Object.entries(usefulData?.define as object);
       // eslint-disable-next-line no-restricted-syntax
       for (const [key, value] of entry) {
+        if (key !== 'ext') {
+          defineInfo.push({
+            // eslint-disable-next-line  @typescript-eslint/no-unsafe-assignment
+            label: defineType[key],
+            // eslint-disable-next-line  @typescript-eslint/no-unsafe-assignment
+            value,
+          });
+        }
         // eslint-disable-next-line  @typescript-eslint/no-unsafe-assignment
-        defineInfo.push({
-          // eslint-disable-next-line  @typescript-eslint/no-unsafe-assignment
-          label: defineType[key],
-          // eslint-disable-next-line  @typescript-eslint/no-unsafe-assignment
-          value,
-        });
       }
     }
     return defineInfo;
@@ -61,7 +69,10 @@ function TelemetryDrawer({ usefulData, isOpen, onClose }: Props) {
     <Drawer
       title={`遥测「${usefulData?.name}」详情`}
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={() => {
+        onClose();
+        setIsShowJson(false);
+      }}
     >
       <Box>
         <Flex
@@ -71,7 +82,7 @@ function TelemetryDrawer({ usefulData, isOpen, onClose }: Props) {
           borderBottomColor="grayAlternatives.50"
         >
           <Circle size="76px" backgroundColor="gray.50">
-            <BoxTwoToneIcon size={32} />
+            <DuotoneTwoToneIcon size={32} />
           </Circle>
           <Box marginLeft="20px">
             <Text
@@ -117,7 +128,7 @@ function TelemetryDrawer({ usefulData, isOpen, onClose }: Props) {
           {isShowJson ? (
             <AceEditor
               theme="light"
-              value={JSON.stringify(usefulData?.define, null, 2)}
+              value={JSON.stringify(usefulData, null, 2)}
               language="json"
               readOnly
               width="100%"
