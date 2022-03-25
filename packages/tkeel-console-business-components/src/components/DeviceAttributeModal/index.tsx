@@ -20,6 +20,8 @@ export type DeviceAttributeFormFields = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     default_value: any;
     rw: ReadWriteType;
+    length?: number;
+    elem_type?: { type?: string };
   };
 };
 export const RW_LABELS = {
@@ -215,6 +217,41 @@ function DeviceAttributeModal({
           </Text>
         )}
       </FormControl>
+      {watchFields.type === 'array' && (
+        <>
+          <TextField
+            label="元素个数"
+            id="length"
+            defaultValue="10"
+            error={errors.define?.length}
+            registerReturn={register('define.length', {
+              required: { value: true, message: '请填写元素个数' },
+              valueAsNumber: true,
+            })}
+          />
+          <FormControl id="elem_type" label="元素类型">
+            <RadioGroup
+              defaultValue="int"
+              onChange={(value: ReadWriteType) => {
+                setValue('define.elem_type.type', value);
+              }}
+            >
+              <Stack direction="row" spacing="12px">
+                {TypeOptions.map((item) => (
+                  <Radio
+                    key={item.type}
+                    size="sm"
+                    colorScheme="primary"
+                    value={item.type}
+                  >
+                    {item.type}
+                  </Radio>
+                ))}
+              </Stack>
+            </RadioGroup>
+          </FormControl>
+        </>
+      )}
       <FormControl id="default_value" label="默认值">
         <>
           {!['bool', 'struct', 'array'].includes(getValues('type')) && (

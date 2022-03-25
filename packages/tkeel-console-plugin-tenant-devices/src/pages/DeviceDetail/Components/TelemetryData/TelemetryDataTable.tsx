@@ -96,7 +96,7 @@ export default function TelemetryDataTable({
       accessor: 'value',
     },
     {
-      Header: '时间戳',
+      Header: '更新时间',
       accessor: 'last_time',
       width: 140,
       Cell: ({ value }: { value: string }) =>
@@ -140,15 +140,15 @@ export default function TelemetryDataTable({
   );
   return (
     <Table
+      scroll={{ y: '100%' }}
       styles={{
-        wrapper: { flex: 1, height: '100%', minHeight: '60vh' },
+        wrapper: { flex: 1, height: '100%', overflow: 'hidden' },
         bodyTr: { fontSize: '12px' },
       }}
       columns={columns}
       data={telemetryTableData || []}
       isShowStripe
-      // isLoading={isLoading}
-      // paginationProps={pagination}
+      hasPagination={false}
     />
   );
 }

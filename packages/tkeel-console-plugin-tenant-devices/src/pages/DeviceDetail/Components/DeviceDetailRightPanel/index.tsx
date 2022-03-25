@@ -47,8 +47,8 @@ function DeviceDetailRightPanel({ deviceObject, refetch }: Props): JSX.Element {
         <AttributesData
           attributeValues={attributeValues}
           attributeField={values(attributeField)}
-          deviceName={basicInfo?.name ?? ''}
           deviceId={id}
+          basicInfo={basicInfo}
           refetch={refetch}
         />
       ),
@@ -58,7 +58,7 @@ function DeviceDetailRightPanel({ deviceObject, refetch }: Props): JSX.Element {
       key: 'telemetry',
       component: (
         <TelemetryData
-          deviceName={basicInfo?.name ?? ''}
+          basicInfo={basicInfo}
           deviceId={id}
           refetch={refetch}
           telemetryFields={values(telemetryFields)}

@@ -1,30 +1,63 @@
 import { Box, Flex } from '@chakra-ui/react';
 import { isEmpty } from 'lodash';
-
-import { Empty, PageHeaderToolbar } from '@tkeel/console-components';
+import { useState } from 'react';
 
 import {
+  Empty,
+  IconButton,
+  MoreAction,
+  PageHeaderToolbar,
+} from '@tkeel/console-components';
+import { SmcFilledIcon } from '@tkeel/console-icons';
+
+import {
+  BasicInfo,
   Telemetry,
   TelemetryItem,
 } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 import AddTelemetryButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/AddTelemetryButton';
+import SaveTemplateButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/SaveTemplateButton';
+import SyncTemplateButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/SyncTemplateButton';
 
 import TelemetryDataTable from './TelemetryDataTable';
 
 type Props = {
   deviceId: string;
-  deviceName: string;
+  basicInfo: BasicInfo;
   refetch?: () => void;
   telemetryFields: TelemetryItem[];
   telemetryValues: Telemetry;
 };
+const FILTER_COLUMNS = ['name', 'id', 'type'];
+function getFilterList({
+  list,
+  keywords,
+}: {
+  list: TelemetryItem[];
+  keywords: string;
+}) {
+  if (keywords) {
+    return list.filter((item) => {
+      return FILTER_COLUMNS.find((key) =>
+        (item[key] as string).includes(keywords)
+      );
+    });
+  }
+  return list;
+}
 export default function TelemetryData({
   deviceId,
-  deviceName,
+  basicInfo,
   refetch: refetchDeviceDetail = () => {},
   telemetryFields,
   telemetryValues,
 }: Props) {
+  const [keywords, setKeywords] = useState('');
+  const deviceName = basicInfo?.name ?? '';
+  const templateId = basicInfo?.templateId ?? '';
+  const handleSearch = (value: string) => {
+    setKeywords(value.trim());
+  };
   return (
     <Box h="100%">
       {isEmpty(telemetryFields) ? (
@@ -57,7 +90,7 @@ export default function TelemetryData({
             name="遥测数据"
             hasSearchInput
             searchInputProps={{
-              onSearch() {},
+              onSearch: handleSearch,
             }}
             buttons={[
               <AddTelemetryButton
@@ -65,10 +98,34 @@ export default function TelemetryData({
                 id={deviceId}
                 refetch={refetchDeviceDetail}
               />,
+              templateId ? (
+                <MoreAction
+                  styles={{ actionList: { width: '110px' } }}
+                  element={
+                    <IconButton
+                      colorScheme="gray"
+                      icon={<SmcFilledIcon size="14px" color="white" />}
+                    >
+                      同步模版
+                    </IconButton>
+                  }
+                  key="more"
+                  buttons={[
+                    <SyncTemplateButton key="sync" deviceId={deviceId} />,
+                    <SaveTemplateButton key="save" deviceId={deviceId} />,
+                  ]}
+                />
+              ) : (
+                <SaveTemplateButton
+                  variant="iconButton"
+                  key="save"
+                  deviceId={deviceId}
+                />
+              ),
             ]}
           />
           <TelemetryDataTable
-            telemetryFields={telemetryFields}
+            telemetryFields={getFilterList({ list: telemetryFields, keywords })}
             telemetryValues={telemetryValues}
             deviceId={deviceId}
             refetch={refetchDeviceDetail}

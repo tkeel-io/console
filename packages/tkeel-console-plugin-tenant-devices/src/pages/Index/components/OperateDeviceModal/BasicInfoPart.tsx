@@ -38,11 +38,13 @@ export default function BasicInfoPart({
   formHandler,
   watchFields,
   groupOptions,
-  handleSelectTemplate,
+  // handleSelectTemplate,
   templateOptions,
 }: Props) {
   const { register, formState, setValue, clearErrors } = formHandler;
   const { errors } = formState;
+  // eslint-disable-next-line no-console
+  console.log(watchFields);
   return (
     <>
       <TextField
@@ -118,12 +120,14 @@ export default function BasicInfoPart({
             <FormControl id="connectInfo">
               <CheckboxGroup
                 onChange={(value: ConnectInfoType[]) => {
+                  // eslint-disable-next-line no-console
+                  console.log(value);
                   setValue('connectInfo', value);
-                  if (handleSelectTemplate) {
-                    handleSelectTemplate(
-                      value.includes(ConnectInfoType.useTemplate)
-                    );
-                  }
+                  // if (handleSelectTemplate) {
+                  //   handleSelectTemplate(
+                  //     value.includes(ConnectInfoType.useTemplate)
+                  //   );
+                  // }
                 }}
                 value={watchFields.connectInfo}
               >

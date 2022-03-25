@@ -15,14 +15,13 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import {
-  // DeviceAttributeFormFields,
   ReadWriteType,
   RW_LABELS,
 } from '@tkeel/console-business-components/src/components/DeviceAttributeModal';
 import {
   Empty,
   FormControl,
-  // FormField,
+  IconButton,
   MoreAction,
   PageHeaderToolbar,
 } from '@tkeel/console-components';
@@ -30,6 +29,7 @@ import { getFocusStyle } from '@tkeel/console-components/src/components/FormFiel
 import {
   MoreVerticalFilledIcon,
   QuestionFilledIcon,
+  SmcFilledIcon,
 } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
@@ -37,11 +37,14 @@ import useSetAttributeMutation from '@/tkeel-console-plugin-tenant-devices/hooks
 import {
   AttributeItem,
   Attributes,
+  BasicInfo,
 } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 import AddAttributeButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/AddAttributeButton';
 import DeleteAttributeButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/DeleteAttributeButton';
 import EditAttributeButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/EditAttributeButton';
 import JsonInfoButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/JsonInfoButton';
+import SaveTemplateButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/SaveTemplateButton';
+import SyncTemplateButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/SyncTemplateButton';
 
 const TOOLTIP_OPTIONS = [
   { label: '数据类型', key: 'type' },
@@ -50,10 +53,27 @@ const TOOLTIP_OPTIONS = [
 type Props = {
   attributeField: AttributeItem[];
   attributeValues: Attributes;
-  deviceName: string;
+  basicInfo: BasicInfo;
   deviceId: string;
   refetch?: () => void;
 };
+const FILTER_COLUMNS = ['name', 'id'];
+function getFilterList({
+  list,
+  keywords,
+}: {
+  list: AttributeItem[];
+  keywords: string;
+}) {
+  if (keywords) {
+    return list.filter((item) => {
+      return FILTER_COLUMNS.find((key) =>
+        (item[key] as string).includes(keywords)
+      );
+    });
+  }
+  return list;
+}
 
 function renderTooltip(info: { type: string; rw: ReadWriteType }) {
   return (
@@ -74,19 +94,23 @@ function renderTooltip(info: { type: string; rw: ReadWriteType }) {
 }
 function AttributesPanel({
   deviceId,
-  deviceName,
+  basicInfo,
   attributeField,
   attributeValues,
   refetch: refetchDeviceDetail = () => {},
 }: Props) {
   const [currentId, setCurrentId] = useState('');
   const toast = plugin.getPortalToast();
+  const [keywords, setKeywords] = useState('');
+  const handleSearch = (value: string) => {
+    setKeywords(value.trim());
+  };
+  const deviceName = basicInfo?.name ?? '';
+  const templateId = basicInfo?.templateId ?? '';
   const {
     register,
-    // getValues,
     setValue,
     formState: { errors },
-    // trigger,
     reset,
   } = useForm<{ [propName: string]: unknown }>({});
   useEffect(() => {
@@ -141,7 +165,7 @@ function AttributesPanel({
             name="属性数据"
             hasSearchInput
             searchInputProps={{
-              onSearch() {},
+              onSearch: handleSearch,
             }}
             buttons={[
               <AddAttributeButton
@@ -149,13 +173,37 @@ function AttributesPanel({
                 id={deviceId}
                 refetch={refetchDeviceDetail}
               />,
+              templateId ? (
+                <MoreAction
+                  styles={{ actionList: { width: '110px' } }}
+                  element={
+                    <IconButton
+                      colorScheme="gray"
+                      icon={<SmcFilledIcon size="14px" color="white" />}
+                    >
+                      同步模版
+                    </IconButton>
+                  }
+                  key="more"
+                  buttons={[
+                    <SyncTemplateButton key="sync" deviceId={deviceId} />,
+                    <SaveTemplateButton key="save" deviceId={deviceId} />,
+                  ]}
+                />
+              ) : (
+                <SaveTemplateButton
+                  variant="iconButton"
+                  key="save"
+                  deviceId={deviceId}
+                />
+              ),
             ]}
           />
           <Box flex="1" overflowY="scroll" pb="30px">
             <SimpleGrid columns={2} spacingX="20px" spacingY="12px">
-              {attributeField.length > 0 &&
+              {getFilterList({ list: attributeField, keywords }).map(
                 // eslint-disable-next-line sonarjs/cognitive-complexity
-                attributeField.map((item: AttributeItem) => {
+                (item: AttributeItem) => {
                   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                   const defaultValue = attributeValues[item.id];
                   const define = item?.define ?? '';
@@ -314,7 +362,8 @@ function AttributesPanel({
                       </FormControl>
                     </Box>
                   );
-                })}
+                }
+              )}
             </SimpleGrid>
           </Box>
         </>

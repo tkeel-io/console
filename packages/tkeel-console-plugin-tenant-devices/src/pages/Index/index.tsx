@@ -288,6 +288,8 @@ function Index(): JSX.Element {
             defaultFormValues={{
               parentId: groupId,
               parentName: groupItem?.name ?? '',
+              templateId: '',
+              templateName: '',
             }}
             onSuccess={() => {
               const timer = setTimeout(() => {
