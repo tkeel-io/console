@@ -1,8 +1,9 @@
 import { Box, StyleProps } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
-import { VpcTwoToneIcon } from '@tkeel/console-icons';
 import { Tooltip } from '@tkeel/console-components';
+import { VpcTwoToneIcon } from '@tkeel/console-icons';
+
 import IconWrapper from './IconWrapper';
 
 type Props = {
