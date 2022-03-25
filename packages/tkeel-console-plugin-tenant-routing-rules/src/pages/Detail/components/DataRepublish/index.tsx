@@ -1,13 +1,16 @@
-import { Flex, StyleProps, Text } from '@chakra-ui/react';
+import { Flex, HStack, StyleProps, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 
+import { Tooltip } from '@tkeel/console-components';
 import {
   AutoFilledIcon,
   KafkaFilledIcon,
   ObjectStorageFilledIcon,
 } from '@tkeel/console-icons';
 
+import ProductTab from '../ProductTab';
 import TitleWrapper from '../TitleWrapper';
+import RepublishInfoCard from './RepublishInfoCard';
 import RepublishToKafkaModal from './RepublishToKafkaModal';
 
 type Props = {
@@ -16,21 +19,29 @@ type Props = {
 
 export default function DataRepublish({ styles }: Props) {
   const [selectedProductId, setSelectedProductId] = useState('');
+  const [publishInfoList] = useState<{ address: string; topic: string }[]>([
+    {
+      address: '',
+      topic: 'test',
+    },
+  ]);
+
   const iconColor = 'grayAlternatives.300';
   const products = [
     {
       id: 'kafka',
-      icon: <KafkaFilledIcon color={iconColor} />,
+      icon: <KafkaFilledIcon size={22} color={iconColor} />,
       name: 'Kafka',
       disable: false,
     },
     {
       id: 'objectStorage',
-      icon: <ObjectStorageFilledIcon color={iconColor} />,
+      icon: <ObjectStorageFilledIcon size={22} color={iconColor} />,
       name: '对象存储',
       disable: true,
     },
   ];
+
   return (
     <Flex flexDirection="column" {...styles?.wrapper}>
       <TitleWrapper
@@ -48,43 +59,31 @@ export default function DataRepublish({ styles }: Props) {
         <Text color="grayAlternatives.500" fontSize="14px" lineHeight="24px">
           请添加相关产品转发数据
         </Text>
-        <Flex marginTop="8px" alignItems="center">
+        <HStack marginTop="8px" spacing="8px">
           {products.map((product) => {
             const { id, icon, name, disable } = product;
             return (
-              <Flex
-                key={id}
-                marginRight="8px"
-                justifyContent="center"
-                alignItems="center"
-                width="200px"
-                height="44px"
-                border="1px"
-                borderColor="gray.200"
-                borderRadius="4px"
-                backgroundColor="white"
-                opacity={disable ? '0.5' : '1'}
-                cursor={disable ? 'not-allowed' : 'pointer'}
-                onClick={() => {
-                  if (!disable) {
+              <Tooltip key={id} label={disable ? '敬请期待' : ''}>
+                <ProductTab
+                  name={name}
+                  icon={icon}
+                  disable={disable}
+                  onClick={() => {
                     setSelectedProductId(id);
-                  }
-                }}
-              >
-                {icon}
-                <Text
-                  marginLeft="10px"
-                  color="grayAlternatives.500"
-                  fontSize="14px"
-                  fontWeight="500"
-                  lineHeight="24px"
-                >
-                  {name}
-                </Text>
-              </Flex>
+                  }}
+                />
+              </Tooltip>
             );
           })}
-        </Flex>
+        </HStack>
+        {publishInfoList.map((info, i) => (
+          <RepublishInfoCard
+            // eslint-disable-next-line react/no-array-index-key
+            key={i}
+            info={info}
+            styles={{ wrapper: { marginTop: '20px' } }}
+          />
+        ))}
       </Flex>
       {selectedProductId === 'kafka' && (
         <RepublishToKafkaModal

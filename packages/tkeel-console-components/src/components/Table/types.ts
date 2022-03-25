@@ -24,6 +24,8 @@ export interface Props<D extends object> extends UseTableOptions<D> {
   empty?: ReactNode;
   styles?: {
     wrapper?: StyleProps;
+    loading?: StyleProps;
+    empty?: StyleProps;
     table?: StyleProps;
     head?: StyleProps;
     headTr?: StyleProps;

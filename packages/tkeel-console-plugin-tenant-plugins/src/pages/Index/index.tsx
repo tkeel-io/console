@@ -90,7 +90,7 @@ function Index(): JSX.Element {
             <Loading styles={{ wrapper: { flex: 1 } }} />
           ) : (
             <Grid
-              templateColumns="repeat(4, 1fr)"
+              templateColumns="repeat(4, minmax(0, 1fr))"
               gap="8px"
               overflowY="auto"
               padding="12px 20px"
@@ -141,19 +141,24 @@ function Index(): JSX.Element {
                     }
                     bottomInfo={
                       <Flex>
-                        {bottomData.map((item) => (
-                          <Flex
-                            key={item.key}
-                            marginRight="20px"
-                            color="gray.500"
-                            fontSize="12px"
-                          >
-                            <Text>{item.label}：</Text>
-                            <Text>
-                              {installerBrief ? installerBrief[item.key] : ''}
-                            </Text>
-                          </Flex>
-                        ))}
+                        {bottomData.map((item) => {
+                          const value = installerBrief
+                            ? (installerBrief[item.key] as string)
+                            : '';
+                          return (
+                            <Flex
+                              key={item.key}
+                              marginRight="20px"
+                              color="gray.500"
+                              fontSize="12px"
+                              maxWidth="49%"
+                            >
+                              <Text isTruncated title={value}>
+                                {item.label}：{value}
+                              </Text>
+                            </Flex>
+                          );
+                        })}
                       </Flex>
                     }
                     onClick={() => {
