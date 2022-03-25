@@ -48,9 +48,7 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
     // eslint-disable-next-line no-console
     console.log('Index ~ params', params);
   }
-  // const { data } = useListSubscribeEntitiesQuery(id);
 
-  // refetch
   const {
     usefulData: data,
     isLoading,

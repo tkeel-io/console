@@ -94,7 +94,6 @@ export default function useListTemplateAttributeQuery({
     // },
     reactQueryOptions: { onSuccess },
   });
-  console.log('data123', data);
   let usefulData: UsefulData[] = [];
   if (JSON.stringify(data?.templateAttrObject?.configs) !== '{}') {
     usefulData = getUsefulData(

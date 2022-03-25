@@ -40,7 +40,6 @@ export default function MoveSubscriptionButton({
   });
 
   // const handleConfirm = (selectKey:string) => {
-  // console.log("handleConfirm ~ selectKey", selectKey)
 
   //   mutate({});
 
@@ -69,7 +68,6 @@ export default function MoveSubscriptionButton({
         icon={<PencilFilledIcon />}
         title="移动订阅"
         onClick={() => {
-          // console.log('test');
           onOpen();
         }}
       />

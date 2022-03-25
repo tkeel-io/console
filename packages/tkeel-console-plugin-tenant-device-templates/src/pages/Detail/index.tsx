@@ -40,8 +40,6 @@ function Detail(): JSX.Element {
     // eslint-disable-next-line  no-underscore-dangle
     updatedAt: String(data?.templateObject?.properties?.sysField?._updatedAt),
   };
-  // const created_at = data.created_at
-  // console.log('data', data);
 
   return (
     <Flex>

@@ -70,7 +70,6 @@ function Index() {
 
   // eslint-disable-next-line no-console
   console.log(keyWord);
-  // console.log(keyWord, result);
 
   const handleCreateSuccess = (id: string) => {
     toast('创建模板成功', { status: 'success' });

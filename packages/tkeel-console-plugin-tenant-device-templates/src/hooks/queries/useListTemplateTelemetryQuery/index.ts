@@ -88,7 +88,6 @@ export default function useListSubscribeEntitiesQuery({
     reactQueryOptions: { onSuccess },
   });
 
-  console.log('data123', data);
   let usefulData: UsefulData[] = [];
   if (JSON.stringify(data?.templateTeleObject?.configs) !== '{}') {
     usefulData = getUsefulData(
