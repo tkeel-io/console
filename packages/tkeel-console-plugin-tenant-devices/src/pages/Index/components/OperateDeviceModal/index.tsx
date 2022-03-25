@@ -343,22 +343,20 @@ export default function OperateDeviceModal({
               w="100%"
             >
               <Spacer />
-              {[
-                PROGRESS_LABELS.EXTEND_INFO,
-                // PROGRESS_LABELS.ATTRIBUTE_DATA,
-              ].includes(progressLabels[currentStep]) && (
-                <Button
-                  colorScheme="primary"
-                  fontSize="14px"
-                  mr="14px"
-                  boxShadow={`0px 4px 12px ${primaryColor}`}
-                  onClick={() => {
-                    setCurrentStep(currentStep - 1);
-                  }}
-                >
-                  上一步
-                </Button>
-              )}
+              {progressLabels[currentStep] === PROGRESS_LABELS.EXTEND_INFO &&
+                mode !== ModalMode.EDIT && (
+                  <Button
+                    colorScheme="primary"
+                    fontSize="14px"
+                    mr="14px"
+                    boxShadow={`0px 4px 12px ${primaryColor}`}
+                    onClick={() => {
+                      setCurrentStep(currentStep - 1);
+                    }}
+                  >
+                    上一步
+                  </Button>
+                )}
               <Button
                 colorScheme={
                   getButtonText() === BUTTON_TEXT.SKIP ? 'gray' : 'primary'

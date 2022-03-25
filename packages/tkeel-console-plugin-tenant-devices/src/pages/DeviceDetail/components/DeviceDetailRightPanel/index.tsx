@@ -1,5 +1,9 @@
+<<<<<<< HEAD:packages/tkeel-console-plugin-tenant-devices/src/pages/DeviceDetail/Components/DeviceDetailRightPanel/index.tsx
 import { TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { values } from 'lodash';
+=======
+import { Box, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+>>>>>>> 8712ea6d984b80a6c1fd3aeab25c8f6fb29c3d1d:packages/tkeel-console-plugin-tenant-devices/src/pages/DeviceDetail/components/DeviceDetailRightPanel/index.tsx
 import { useState } from 'react';
 
 import { CustomTab, CustomTabList } from '@tkeel/console-components';

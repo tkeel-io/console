@@ -1,9 +1,9 @@
 import { useMutation } from '@tkeel/console-hooks';
 
 interface RequestData {
-  title: string;
-  type: string;
-  description: string;
+  name: string;
+  type: number;
+  desc: string;
 }
 
 export interface ApiData {
@@ -17,7 +17,7 @@ export default function useCreateRulesMutation({
 }: {
   onSuccess?: () => void;
 } = {}) {
-  const url = `/core-broker/v1/subscribe`;
+  const url = `/rule-manager/v1/rules`;
 
   return useMutation<ApiData, undefined, RequestData>({
     url,
