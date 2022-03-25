@@ -157,7 +157,7 @@ export default function PropertiesConditions({
                 }
 
                 return (
-                  <Box flex="1" paddingTop="14px" paddingLeft="20px">
+                  <Box flex="1" padding="10px 20px">
                     <Tree
                       treeData={treeData}
                       checkable
