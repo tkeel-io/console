@@ -2,11 +2,7 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
 import { Cell, Column } from 'react-table';
 
-import {
-  CreateTelemetryButton,
-  DeleteTelemetryButton,
-  EditTelemetryButton,
-} from '@tkeel/console-business-components';
+import { RW_LABELS } from '@tkeel/console-business-components/src/components/DeviceAttributeModal';
 import {
   Empty,
   MoreAction,
@@ -14,18 +10,20 @@ import {
   Table,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
-import { WebcamTwoToneIcon } from '@tkeel/console-icons';
-// import { formatDateTimeByTimestamp, plugin } from '@tkeel/console-utils';
-import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
+import { DuotoneTwoToneIcon } from '@tkeel/console-icons';
 
+// import { formatDateTimeByTimestamp, plugin } from '@tkeel/console-utils';
 import useListTemplateAttributeQuery, {
   UsefulData as Data,
 } from '@/tkeel-console-plugin-tenant-device-templates/hooks/queries/useListTemplateAttributeQuery';
 
-// import { Column } from 'react-table';
-// import MoveSubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/MoveSubscriptionButton';
+import AddAttributeButton from '../AddAttributeButton';
+import DeleteAttributeButton from '../DeleteAttributeButton';
+import EditAttributeButton from '../EditAttributeButton';
+
+// import { DeviceAttributeFormFields  } from '@tkeel/console-business-components/src/components/DeviceAttributeModal';
+
 // import { plugin } from '@tkeel/console-utils';
-import DetailTelemetryButton from '../DetailTelemetryButton';
 
 function AttributeTable({ id, title }: { id: string; title: string }) {
   // const toast = plugin.getPortalToast();
@@ -60,21 +58,15 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
   } = useListTemplateAttributeQuery({
     id,
     onSuccess(res) {
-      // console.log('onSuccess ~ res');
-      // const total = res?.data?.total ?? 0;
-      const total = Object.keys(
-        res.data.templateAttrObject.configs.telemetry.define.fields
-      ).length;
-      setTotalSize(total);
+      if (JSON.stringify(res.data?.templateAttrObject?.configs) !== '{}') {
+        const total = Object.keys(
+          res.data.templateAttrObject.configs.attributes.define.fields
+        ).length;
+        setTotalSize(total);
+      }
+      setTotalSize(0);
     },
   });
-
-  // const { mutate } = useCreateTelemetryMutation({
-  //   id,
-  //   onSuccess() {},
-  // });
-
-  // setTotalSize(data?.total || 0);
 
   const columns: ReadonlyArray<Column<Data>> = [
     {
@@ -84,7 +76,7 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
         useMemo(
           () => (
             <Flex alignItems="center" justifyContent="space-between">
-              <WebcamTwoToneIcon />
+              <DuotoneTwoToneIcon />
               <Text color="gray.800" fontWeight="600" marginLeft="14px">
                 {value}
               </Text>
@@ -94,7 +86,7 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
         ),
     },
     {
-      Header: '遥测ID',
+      Header: '属性ID',
       width: 100,
       accessor: 'id',
     },
@@ -104,25 +96,23 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
       accessor: 'type',
     },
     {
-      Header: '时间戳',
-      accessor: 'last_time',
-      width: 200,
-      Cell: ({ value }: { value: string }) =>
-        useMemo(
-          () => (
-            <Box>
-              {formatDateTimeByTimestamp({
-                timestamp: value,
-              })}
-            </Box>
-          ),
-          [value]
-        ),
+      Header: '默认值',
+      width: 110,
+      Cell: ({ row }: Cell<Data>) =>
+        useMemo(() => {
+          const { original } = row;
+          return <Box>{original?.define?.default_value}</Box>;
+        }, [row]),
     },
     {
-      Header: '描述',
+      Header: '读写类型',
       width: 110,
-      accessor: 'description',
+      Cell: ({ row }: Cell<Data>) =>
+        useMemo(() => {
+          const { original } = row;
+          const map = new Map(Object.entries(RW_LABELS));
+          return <Box>{map.get(original?.define?.rw)}</Box>;
+        }, [row]),
     },
 
     {
@@ -131,41 +121,22 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
       Cell: ({ row }: Cell<Data>) =>
         useMemo(() => {
           const { original } = row;
-          // console.log('useMemo ~ original', original);
 
           return (
             <MoreAction
               buttons={[
-                <DetailTelemetryButton
-                  key="detail"
+                <EditAttributeButton
+                  key="edit"
                   id={original.id}
-                  uid={id}
+                  defaultValues={original}
+                  refetch={refetch}
                 />,
-                <EditTelemetryButton
-                  key="modify"
-                  handleSubmit={(formValues) => {
-                    // eslint-disable-next-line  no-console
-                    console.log('useMemo ~ formValues', formValues);
-                    // refetch();
-                  }}
-                />,
-                <DeleteTelemetryButton
+                <DeleteAttributeButton
                   key="delete"
-                  attributeInfo={{ name: original.name, id: original.id }}
-                  uid={id}
-                  refetchData={() => {
-                    refetch();
-                  }}
+                  defaultValues={original}
+                  id={original.id}
+                  refetch={refetch}
                 />,
-                // <DeleteDeviceButton
-                //   onSuccess={() => {}}
-                //   name={[original.name]}
-                //   key="delete"
-                //   selected_ids={[original.ID]}
-                //   refetchData={() => {
-                //     refetch();
-                //   }}
-                // />,
               ]}
             />
           );
@@ -183,27 +154,19 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
             setKeyWords(value.trim());
           },
         }}
-        buttons={[
-          <CreateTelemetryButton
-            key="create"
-            id={id}
-            refetchData={() => {
-              refetch();
-            }}
-            // handleSubmit={(formValues) => {
-            //   // eslint-disable-next-line no-console
-            //   console.log('add', formValues);
-            //   mutate({
-            //     data: { [formValues.id]: formValues },
-            //   });
-            // }}
-          />,
-        ]}
+        buttons={[<AddAttributeButton id={id} refetch={refetch} key="add" />]}
       />
       <Table
-        styles={{ wrapper: { flex: 1, height: '100%', minHeight: '60vh' } }}
+        scroll={{ y: '100%' }}
+        styles={{
+          wrapper: {
+            flex: 1,
+            overflow: 'hidden',
+            backgroundColor: 'whiteAlias',
+          },
+        }}
         columns={columns}
-        data={data || []}
+        data={data}
         isShowStripe
         isLoading={isLoading}
         paginationProps={pagination}
@@ -214,7 +177,7 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
                 <Box display="inline" color="gray.600" fontWeight="500">
                   [{title}]
                 </Box>
-                暂无设备,可手动添加
+                暂无数据
               </Box>
             }
             styles={{

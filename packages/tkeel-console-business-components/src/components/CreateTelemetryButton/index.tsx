@@ -26,35 +26,34 @@ export default function CreateTelemetryTableButton({ id, refetchData }: Props) {
       refetchData();
     },
   });
-  // const handleConfirm = (formValues: FormValues) => {
-  //   const { title, description } = formValues;
-  //   if (formValues) {
-  //     mutate({
-  //       data: {
-  //         title,
-  //         description,
-  //       },
-  //     });
-  //   }
-  //   return null;
-  // };
+
+  console.log('isOpen', isOpen);
 
   return (
     <>
       <CreateButton onClick={onOpen}>创建遥测</CreateButton>
-      <CreateTelemetryModal
-        title="新建遥测"
-        isOpen={isOpen}
-        // isConfirmButtonLoading={isLoading}
-        onClose={onClose}
-        onConfirm={(formValues) => {
-          // eslint-disable-next-line no-console
-          console.log('add', formValues);
-          mutate({
-            data: { [formValues.id]: formValues },
-          });
-        }}
-      />
+      {isOpen && (
+        <CreateTelemetryModal
+          title="新建遥测"
+          isOpen={isOpen}
+          // isConfirmButtonLoading={isLoading}
+          onClose={onClose}
+          onConfirm={(formValues) => {
+            if (formValues.define.ext.length > 0) {
+              const obj = {};
+              formValues.define.ext.forEach(
+                (el: { label: string; value: string }) => {
+                  obj[el.label] = el.value;
+                }
+              );
+              formValues.define.ext = obj;
+            }
+            mutate({
+              data: { [formValues.id]: formValues },
+            });
+          }}
+        />
+      )}
     </>
   );
 }
