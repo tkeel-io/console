@@ -20,6 +20,7 @@ function PluginCard({
   bottomInfo,
   onClick,
 }: Props) {
+  const name = briefPluginInfo?.name ?? '';
   const desc = briefPluginInfo?.desc ?? '';
 
   return (
@@ -54,8 +55,10 @@ function PluginCard({
             lineHeight="18px"
             color="gray.800"
             fontSize="14px"
+            noOfLines={2}
+            title={name}
           >
-            {briefPluginInfo?.name ?? ''}
+            {name}
           </Text>
         </Flex>
         {operatorButton}
