@@ -4,22 +4,14 @@ import { CreateButton } from '@tkeel/console-components';
 
 import AddDevicesModal from '../AddDevicesModal';
 
-export interface DeviceItem {
-  id: string;
-  name: string;
-  status: 'online' | 'offline';
-  templateName: string;
-  parentName: string;
-}
-
 type Props = {
   type?: 'button' | 'link';
-  handleSelectDevices: (devices: DeviceItem[]) => unknown;
+  refetchData: () => unknown;
 };
 
 export default function AddDeviceButton({
   type = 'button',
-  handleSelectDevices,
+  refetchData,
 }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -42,26 +34,7 @@ export default function AddDeviceButton({
       <AddDevicesModal
         isOpen={isOpen}
         onClose={onClose}
-        onConfirm={(devices) => {
-          onClose();
-          const newDevices: DeviceItem[] = devices.map((device) => {
-            const { id, properties } = device;
-            const { basicInfo, connectInfo } = properties || {};
-            const name = basicInfo?.name;
-            const templateName = basicInfo?.templateName;
-            const parentName = basicInfo?.parentName;
-            // eslint-disable-next-line no-underscore-dangle
-            const online = connectInfo?._online;
-            return {
-              id,
-              name,
-              status: online ? 'online' : 'offline',
-              templateName,
-              parentName,
-            };
-          });
-          handleSelectDevices(newDevices);
-        }}
+        refetchData={refetchData}
       />
     </>
   );

@@ -18,12 +18,10 @@ import {
   SmartObjectTwoToneIcon,
 } from '@tkeel/console-icons';
 
-import useAddDevicesMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useAddDevicesMutation';
-import useRuleDevicesIdArrayQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDevicesIdArrayQuery';
 import useRuleDevicesQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDevicesQuery';
 
 import TitleWrapper from '../TitleWrapper';
-import AddDevicesButton, { DeviceItem } from './AddDevicesButton';
+import AddDevicesButton from './AddDevicesButton';
 import DeleteDevicesButton from './DeleteDevicesButton';
 import MoveRoutingRuleButton from './MoveRoutingRuleButton';
 
@@ -46,9 +44,6 @@ export default function DataSelect() {
   const pagination = usePagination();
   const { pageNum, pageSize, setTotalSize } = pagination;
 
-  const { deviceIds } = useRuleDevicesIdArrayQuery(ruleId || '');
-  // eslint-disable-next-line no-console
-  console.log('DataSelect ~ deviceIds', deviceIds);
   const { deviceList, total, isLoading, isSuccess, refetch } =
     useRuleDevicesQuery({
       ruleId: ruleId || '',
@@ -60,8 +55,6 @@ export default function DataSelect() {
   if (isSuccess) {
     setTotalSize(total);
   }
-
-  const { mutate } = useAddDevicesMutation();
 
   const columns: ReadonlyArray<Column<DeviceColumnData>> = [
     {
@@ -155,14 +148,6 @@ export default function DataSelect() {
     []
   );
 
-  const handleSelectDevices = (devices: DeviceItem[]) => {
-    mutate({
-      data: {
-        devices_ids: devices.map((device) => device.id),
-      },
-    });
-  };
-
   return (
     <>
       <Flex width="100%" justifyContent="space-between" alignItems="center">
@@ -171,7 +156,7 @@ export default function DataSelect() {
           title="选择数据"
           description="选择设备所触发的数据"
         />
-        <AddDevicesButton handleSelectDevices={handleSelectDevices} />
+        <AddDevicesButton refetchData={() => refetch()} />
       </Flex>
       <Flex marginTop="20px" backgroundColor="gray.100" borderRadius="4px">
         {!isLoading && deviceList.length === 0 ? (
@@ -179,10 +164,7 @@ export default function DataSelect() {
             <Text color="gray.600" fontSize="14px" lineHeight="32px">
               暂未选择任何设备数据，请
             </Text>
-            <AddDevicesButton
-              type="link"
-              handleSelectDevices={handleSelectDevices}
-            />
+            <AddDevicesButton type="link" refetchData={() => refetch()} />
           </Center>
         ) : (
           <Flex flex="1" flexDirection="column" padding="20px">

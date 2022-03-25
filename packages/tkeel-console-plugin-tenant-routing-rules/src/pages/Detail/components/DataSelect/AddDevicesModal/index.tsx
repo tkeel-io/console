@@ -1,5 +1,6 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { ChangeEvent, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { Loading, Modal, SearchInput, Tree } from '@tkeel/console-components';
 import { BroomFilledIcon } from '@tkeel/console-icons';
@@ -11,16 +12,31 @@ import {
 } from '@tkeel/console-request-hooks';
 import { getTreeNodeData } from '@tkeel/console-utils';
 
+import useAddDevicesMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useAddDevicesMutation';
+import useRuleDevicesIdArrayQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDevicesIdArrayQuery';
+
 import DeviceList from './DeviceList';
 import SelectedDevices from './SelectedDevices';
+
+export interface Device {
+  id: string;
+  name: string;
+  status: 'online' | 'offline';
+  templateName: string;
+  parentName: string;
+}
 
 type Props = {
   isOpen: boolean;
   onClose: () => unknown;
-  onConfirm: (devices: DeviceItem[]) => unknown;
+  refetchData: () => unknown;
 };
 
-export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
+export default function AddDevicesModal({
+  isOpen,
+  onClose,
+  refetchData,
+}: Props) {
   const [deviceGroupKeywords, setDeviceGroupKeywords] = useState('');
   const [groupId, setGroupId] = useState('');
   const [deviceKeywords, setDeviceKeywords] = useState('');
@@ -31,6 +47,10 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
   const [filteredSelectedDevices, setFilteredSelectedDevices] = useState<
     DeviceItem[]
   >([]);
+
+  const { id: ruleId } = useParams();
+
+  const { deviceIds } = useRuleDevicesIdArrayQuery(ruleId || '');
 
   const { deviceGroupTree, isLoading: isDeviceGroupLoading } =
     useDeviceGroupQuery({
@@ -52,9 +72,20 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
     enabled: Boolean(groupId),
   });
 
+  const { mutate, isLoading } = useAddDevicesMutation({
+    ruleId: ruleId || '',
+    onSuccess() {
+      onClose();
+      refetchData();
+      setGroupId('');
+      setDeviceGroupConditions([]);
+      setSelectedDevices([]);
+      setDeviceKeywords('');
+      setFilteredSelectedDevices([]);
+    },
+  });
+
   const handleDeviceGroupSearch = () => {
-    // eslint-disable-next-line no-console
-    console.log('deviceGroupKeywords', deviceGroupKeywords);
     setDeviceGroupConditions([
       {
         field: 'group.name',
@@ -136,6 +167,37 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
     handleSetSelectedDevices(newSelectedDevices);
   };
 
+  const handleConfirm = () => {
+    const newDevices: Device[] = selectedDevices.map((device) => {
+      const { id, properties } = device;
+      const { basicInfo, connectInfo } = properties || {};
+      const name = basicInfo?.name;
+      const templateName = basicInfo?.templateName;
+      const parentName = basicInfo?.parentName;
+      // eslint-disable-next-line no-underscore-dangle
+      const online = connectInfo?._online;
+      return {
+        id,
+        name,
+        status: online ? 'online' : 'offline',
+        templateName,
+        parentName,
+      };
+    });
+
+    const addDeviceIds = newDevices
+      .filter((device) => !deviceIds.includes(device.id))
+      .map((device) => device.id);
+
+    if (addDeviceIds.length > 0) {
+      mutate({
+        data: {
+          devices_ids: addDeviceIds,
+        },
+      });
+    }
+  };
+
   const titleStyle = {
     color: 'gray.800',
     fontSize: '14px',
@@ -163,7 +225,9 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
       width="900px"
       isOpen={isOpen}
       onClose={onClose}
-      onConfirm={() => onConfirm(selectedDevices)}
+      onConfirm={handleConfirm}
+      isConfirmButtonLoading={isLoading}
+      isConfirmButtonDisabled={selectedDevices.length === 0}
       modalBodyStyle={{ padding: '20px' }}
     >
       <Flex justifyContent="space-between">
