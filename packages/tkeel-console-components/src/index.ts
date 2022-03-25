@@ -23,5 +23,6 @@ export * from './components/Select';
 export * as StatusIcon from './components/StatusIcon';
 export { default as Table } from './components/Table';
 export * from './components/Toast';
+export { default as Tooltip } from './components/Tooltip';
 export * from './components/Tree';
 export * from './components/TreeSelect';

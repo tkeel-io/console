@@ -27,6 +27,7 @@ export enum CheckBoxStatus {
 }
 
 type Props = {
+  identifiers: string[];
   telemetry: TelemetryFields;
   templateCheckboxStatus: CheckBoxStatus;
   setTemplateCheckboxStatus: Dispatch<SetStateAction<CheckBoxStatus>>;
@@ -39,6 +40,7 @@ type Props = {
 };
 
 export default function PropertiesConditions({
+  identifiers,
   telemetry,
   templateCheckboxStatus,
   setTemplateCheckboxStatus,
@@ -53,8 +55,8 @@ export default function PropertiesConditions({
 
   const children = telemetryKeys.map((key) => ({
     title: telemetry[key].name,
-    id: telemetry[key].id,
-    key: telemetry[key].id,
+    id: key,
+    key,
   }));
 
   const treeData = [
@@ -155,7 +157,7 @@ export default function PropertiesConditions({
                 }
 
                 return (
-                  <Box flex="1" paddingTop="14px" paddingLeft="20px">
+                  <Box flex="1" padding="10px 20px">
                     <Tree
                       treeData={treeData}
                       checkable
@@ -191,7 +193,7 @@ export default function PropertiesConditions({
         colorScheme="primary"
         margin="12px 20px"
         flexShrink="0"
-        disabled={checkedKeys.length === 0}
+        disabled={identifiers.length === 0}
         isLoading={isTelemetryDataLoading}
         onClick={onConfirm}
       >

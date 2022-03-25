@@ -65,7 +65,6 @@ export interface Properties {
 
 export interface TelemetryFields {
   [propName: string]: {
-    id: string;
     name: string;
   };
 }
@@ -102,6 +101,7 @@ export default function useDeviceDetailQuery({ id, onSuccess }: Props) {
       onSuccess,
     },
   });
+
   const deviceObject = data?.deviceObject;
 
   return { deviceObject, ...rest };
