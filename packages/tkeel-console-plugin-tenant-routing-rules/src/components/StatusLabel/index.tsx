@@ -15,11 +15,11 @@ function StatusLabel({ styles, status }: Props) {
   const statusInfo: StatusInfo = [
     {
       label: '未启动',
-      color: '#AFC0D0',
+      color: 'gray.300',
     },
     {
       label: '已启动',
-      color: '#67C23A',
+      color: 'success.300',
     },
   ];
   return (

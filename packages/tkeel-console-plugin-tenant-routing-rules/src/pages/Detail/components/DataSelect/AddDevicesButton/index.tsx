@@ -1,9 +1,16 @@
 import { Text, useDisclosure } from '@chakra-ui/react';
 
 import { CreateButton } from '@tkeel/console-components';
-import { DeviceItem } from '@tkeel/console-request-hooks';
 
 import AddDevicesModal from '../AddDevicesModal';
+
+export interface DeviceItem {
+  id: string;
+  name: string;
+  status: 'online' | 'offline';
+  templateName: string;
+  parentName: string;
+}
 
 type Props = {
   type?: 'button' | 'link';
@@ -37,7 +44,23 @@ export default function AddDeviceButton({
         onClose={onClose}
         onConfirm={(devices) => {
           onClose();
-          handleSelectDevices(devices);
+          const newDevices: DeviceItem[] = devices.map((device) => {
+            const { id, properties } = device;
+            const { basicInfo, connectInfo } = properties || {};
+            const name = basicInfo?.name;
+            const templateName = basicInfo?.templateName;
+            const parentName = basicInfo?.parentName;
+            // eslint-disable-next-line no-underscore-dangle
+            const online = connectInfo?._online;
+            return {
+              id,
+              name,
+              status: online ? 'online' : 'offline',
+              templateName,
+              parentName,
+            };
+          });
+          handleSelectDevices(newDevices);
         }}
       />
     </>
