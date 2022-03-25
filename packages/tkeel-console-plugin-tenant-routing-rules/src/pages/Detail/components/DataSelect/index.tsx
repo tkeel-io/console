@@ -92,9 +92,6 @@ export default function DataSelect() {
       Cell: ({ row }: Cell<DeviceColumnData>) =>
         useMemo(() => {
           const { status } = row.original;
-          // const { connectInfo } = originData?.properties ?? {};
-          // eslint-disable-next-line no-underscore-dangle
-          // const isOnline = connectInfo?._online ?? false;
           return <DeviceStatusIcon isOnline={status === 'online'} />;
         }, [row]),
     },
@@ -155,7 +152,7 @@ export default function DataSelect() {
         }))
       );
     },
-    [setSelectedDevices]
+    []
   );
 
   const handleSelectDevices = (devices: DeviceItem[]) => {

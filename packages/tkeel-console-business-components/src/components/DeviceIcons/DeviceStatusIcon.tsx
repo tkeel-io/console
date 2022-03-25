@@ -1,8 +1,9 @@
 import { Box, Flex, StyleProps, Text } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
-import { WifiFilledIcon, WifiOffFilledIcon } from '@tkeel/console-icons';
 import { Tooltip } from '@tkeel/console-components';
+import { WifiFilledIcon, WifiOffFilledIcon } from '@tkeel/console-icons';
+
 import IconWrapper from './IconWrapper';
 
 type Props = {
