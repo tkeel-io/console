@@ -1,24 +1,23 @@
 import { useMutation } from '@tkeel/console-hooks';
 
 interface RequestData {
-  name: string;
-  type: number;
-  desc: string;
+  id: string;
 }
 
 export interface ApiData {
   '@type': string;
 }
 
-const method = 'POST';
+const method = 'PUT';
 
-export default function useCreateRulesMutation({
+export default function useModifyRulesMutation({
+  id,
   onSuccess,
 }: {
-  onSuccess?: () => void;
-} = {}) {
-  const url = `/rule-manager/v1/rules`;
-
+  id: string;
+  onSuccess: () => void;
+}) {
+  const url = `/rule-manager/v1/rules/${id}`;
   return useMutation<ApiData, undefined, RequestData>({
     url,
     method,

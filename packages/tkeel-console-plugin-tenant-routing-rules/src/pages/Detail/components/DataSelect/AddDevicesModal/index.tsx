@@ -224,6 +224,7 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
               cursor="pointer"
               onClick={() => {
                 handleSetSelectedDevices([]);
+                setDeviceKeywords('');
               }}
             >
               <BroomFilledIcon size="14px" color="grayAlternatives.300" />

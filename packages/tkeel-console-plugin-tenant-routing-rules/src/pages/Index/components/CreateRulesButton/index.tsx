@@ -18,13 +18,7 @@ interface Props {
 
 export default function CreateRulesButton({ type, onSuccess }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  // const {
-  //   isOpen: isSuccessModalOpen,
-  //   onOpen: onSuccessModalOpen,
-  //   onClose: onSuccessModalClose,
-  // } = useDisclosure();
-
-  const { isLoading, mutate } = useCreateRulesMutation({
+  const { isLoading, mutate: createMutate } = useCreateRulesMutation({
     onSuccess() {
       onSuccess();
       onClose();
@@ -32,11 +26,11 @@ export default function CreateRulesButton({ type, onSuccess }: Props) {
   });
 
   const handleConfirm = (formValues: FormValues) => {
-    mutate({
+    createMutate({
       data: {
-        title: formValues.title,
+        name: formValues.title,
         type: formValues.type,
-        description: formValues?.description ?? '',
+        desc: formValues?.description ?? '',
       },
     });
   };

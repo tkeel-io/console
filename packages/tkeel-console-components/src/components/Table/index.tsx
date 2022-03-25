@@ -29,7 +29,7 @@ function Table<D extends object>({
   scroll,
   isLoading,
   isShowStripe = false,
-  empty = <Empty styles={{ wrapper: { height: '100%' } }} />,
+  empty,
   onSelect,
   onSort,
   styles,
@@ -94,11 +94,17 @@ function Table<D extends object>({
 
   const render = () => {
     if (isLoading) {
-      return <Loading styles={{ wrapper: { height: '100%' } }} />;
+      return (
+        <Loading styles={{ wrapper: { height: '100%', ...styles?.loading } }} />
+      );
     }
 
     if (data?.length === 0) {
-      return empty;
+      return (
+        empty || (
+          <Empty styles={{ wrapper: { height: '100%', ...styles?.empty } }} />
+        )
+      );
     }
 
     return (
