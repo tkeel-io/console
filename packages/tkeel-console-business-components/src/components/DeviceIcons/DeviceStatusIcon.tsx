@@ -1,9 +1,9 @@
 import { Box, Flex, StyleProps, Text } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
+import { Tooltip } from '@tkeel/console-components';
 import { WifiFilledIcon, WifiOffFilledIcon } from '@tkeel/console-icons';
 
-import IconTooltip from './IconTooltip';
 import IconWrapper from './IconWrapper';
 
 type Props = {
@@ -34,7 +34,7 @@ export default function StatusIcon({
   }
   return (
     <Box {...styles?.wrapper}>
-      <IconTooltip label={label}>
+      <Tooltip label={label}>
         <IconWrapper bg={isOnline ? 'green.50' : 'gray.100'}>
           {isOnline ? (
             <WifiFilledIcon color="green.300" size={20} />
@@ -42,7 +42,7 @@ export default function StatusIcon({
             <WifiOffFilledIcon color="gray.500" size={20} />
           )}
         </IconWrapper>
-      </IconTooltip>
+      </Tooltip>
     </Box>
   );
 }

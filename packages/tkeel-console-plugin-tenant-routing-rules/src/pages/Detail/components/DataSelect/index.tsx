@@ -1,6 +1,6 @@
 import { Center, Flex, HStack, Text } from '@chakra-ui/react';
 import { useCallback, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Cell, Column } from 'react-table';
 
 import { DeviceStatusIcon } from '@tkeel/console-business-components';
@@ -17,38 +17,52 @@ import {
   ReportFilledIcon,
   SmartObjectTwoToneIcon,
 } from '@tkeel/console-icons';
-import { DeviceItem } from '@tkeel/console-request-hooks';
+
+import useAddDevicesMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useAddDevicesMutation';
+import useRuleDevicesIdArrayQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDevicesIdArrayQuery';
+import useRuleDevicesQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDevicesQuery';
 
 import TitleWrapper from '../TitleWrapper';
-import AddDevicesButton from './AddDevicesButton';
+import AddDevicesButton, { DeviceItem } from './AddDevicesButton';
 import DeleteDevicesButton from './DeleteDevicesButton';
 import MoveRoutingRuleButton from './MoveRoutingRuleButton';
-
-type Props = {
-  deviceList: DeviceItem[];
-  handleSelectDevices: (devices: DeviceItem[]) => unknown;
-};
 
 type DeviceColumnData = {
   id: string;
   name: string;
-  status: boolean | string;
+  status: 'online' | 'offline';
   templateName: string;
   parentName: string;
-  originData: DeviceItem;
 };
 
-export default function DataSelect({ deviceList, handleSelectDevices }: Props) {
+export default function DataSelect() {
   const navigate = useNavigate();
   const [showDeviceList, setShowDeviceList] = useState(true);
   const [selectedDevices, setSelectedDevices] = useState<
     { id: string; name: string }[]
   >([]);
   const [keywords, setKeywords] = useState('');
+  const { id: ruleId } = useParams();
   const pagination = usePagination();
+  const { pageNum, pageSize, setTotalSize } = pagination;
 
+  const { deviceIds } = useRuleDevicesIdArrayQuery(ruleId || '');
   // eslint-disable-next-line no-console
-  console.log('keywords', keywords);
+  console.log('DataSelect ~ deviceIds', deviceIds);
+  const { deviceList, total, isLoading, isSuccess, refetch } =
+    useRuleDevicesQuery({
+      ruleId: ruleId || '',
+      pageNum,
+      pageSize,
+      keywords,
+    });
+
+  if (isSuccess) {
+    setTotalSize(total);
+  }
+
+  const { mutate } = useAddDevicesMutation();
+
   const columns: ReadonlyArray<Column<DeviceColumnData>> = [
     {
       Header: '设备名称',
@@ -77,11 +91,11 @@ export default function DataSelect({ deviceList, handleSelectDevices }: Props) {
       width: 80,
       Cell: ({ row }: Cell<DeviceColumnData>) =>
         useMemo(() => {
-          const originData = row.original?.originData;
-          const { connectInfo } = originData?.properties ?? {};
+          const { status } = row.original;
+          // const { connectInfo } = originData?.properties ?? {};
           // eslint-disable-next-line no-underscore-dangle
-          const isOnline = connectInfo?._online ?? false;
-          return <DeviceStatusIcon isOnline={isOnline} />;
+          // const isOnline = connectInfo?._online ?? false;
+          return <DeviceStatusIcon isOnline={status === 'online'} />;
         }, [row]),
     },
     {
@@ -101,11 +115,7 @@ export default function DataSelect({ deviceList, handleSelectDevices }: Props) {
       width: 60,
       Cell: ({ row }: Cell<DeviceColumnData>) =>
         useMemo(() => {
-          const originData = row.original?.originData;
-          const { id, properties } = originData;
-          const name = properties?.basicInfo?.name ?? '';
-          // eslint-disable-next-line no-console
-          console.log('操作 ~ id', id);
+          const { id, name } = row.original;
 
           return (
             <MoreAction
@@ -114,6 +124,7 @@ export default function DataSelect({ deviceList, handleSelectDevices }: Props) {
                 <DeleteDevicesButton
                   key="delete"
                   selectedDevices={[{ id, name }]}
+                  refetchData={() => refetch()}
                 />,
               ]}
             />
@@ -124,17 +135,13 @@ export default function DataSelect({ deviceList, handleSelectDevices }: Props) {
 
   const deviceTableData = useMemo(() => {
     return deviceList.map((item) => {
-      const { id, properties } = item;
-      const { basicInfo, sysField } = properties;
-      const { name, templateName, parentName } = basicInfo;
-      const { _status: status } = sysField;
+      const { id, name, template, group_name: groupName, status } = item;
       return {
         id,
         name,
-        templateName,
         status,
-        parentName,
-        originData: item,
+        templateName: template,
+        parentName: groupName,
       };
     });
   }, [deviceList]);
@@ -151,6 +158,14 @@ export default function DataSelect({ deviceList, handleSelectDevices }: Props) {
     [setSelectedDevices]
   );
 
+  const handleSelectDevices = (devices: DeviceItem[]) => {
+    mutate({
+      data: {
+        devices_ids: devices.map((device) => device.id),
+      },
+    });
+  };
+
   return (
     <>
       <Flex width="100%" justifyContent="space-between" alignItems="center">
@@ -162,7 +177,7 @@ export default function DataSelect({ deviceList, handleSelectDevices }: Props) {
         <AddDevicesButton handleSelectDevices={handleSelectDevices} />
       </Flex>
       <Flex marginTop="20px" backgroundColor="gray.100" borderRadius="4px">
-        {deviceList.length === 0 ? (
+        {!isLoading && deviceList.length === 0 ? (
           <Center width="100%" height="104px">
             <Text color="gray.600" fontSize="14px" lineHeight="32px">
               暂未选择任何设备数据，请
@@ -191,7 +206,7 @@ export default function DataSelect({ deviceList, handleSelectDevices }: Props) {
               <Flex alignItems="center">
                 <Text>转发</Text>
                 <Text margin="0 2px" color="primary" fontWeight="500">
-                  82
+                  {total}
                 </Text>
                 <Text>台设备</Text>
               </Flex>
@@ -221,6 +236,7 @@ export default function DataSelect({ deviceList, handleSelectDevices }: Props) {
                       <DeleteDevicesButton
                         key="delete"
                         selectedDevices={selectedDevices}
+                        refetchData={() => refetch()}
                       />,
                     ]}
                     styles={{ wrapper: { margin: '6px 0', width: '92px' } }}
@@ -236,6 +252,7 @@ export default function DataSelect({ deviceList, handleSelectDevices }: Props) {
                 <Table
                   columns={columns}
                   data={deviceTableData}
+                  isLoading={isLoading}
                   onSelect={handleSelect}
                   paginationProps={pagination}
                   scroll={{ y: '400px' }}
@@ -245,6 +262,9 @@ export default function DataSelect({ deviceList, handleSelectDevices }: Props) {
                       marginTop: '20px',
                       overflow: 'hidden',
                       backgroundColor: 'gray.50',
+                    },
+                    loading: {
+                      height: '500px',
                     },
                     head: { backgroundColor: 'gray.100' },
                     headTr: { height: '44px', border: 'none' },

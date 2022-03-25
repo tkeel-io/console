@@ -11,7 +11,7 @@
   },
   "license": "Apache-2.0",
   "scripts": {
-    "analyze": "cross-env NODE_ENV=development ANALYZE=true npm run build",
+    "analyze": "cross-env ANALYZE=true yarn build",
     "build": "cross-env NODE_ENV=production webpack --config ../../webpack/webpack.config.plugins",
     "dev": "cross-env NODE_ENV=development webpack serve --config ../../webpack/webpack.config.plugins"
   },
@@ -32,8 +32,6 @@
     "js-base64": "^3.7.2",
     "markdown": "^0.5.0",
     "marked": "^4.0.12",
-    "monaco-editor": "^0.33.0",
-    "monaco-themes": "^0.4.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.28.1",

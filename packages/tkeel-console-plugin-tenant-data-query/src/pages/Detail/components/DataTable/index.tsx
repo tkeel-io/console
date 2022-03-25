@@ -30,7 +30,7 @@ export default function DataTable({
   telemetry,
   styles = {},
 }: Props) {
-  const originalDataKeys = Object.keys(originalData[0]?.value ?? {});
+  const originalDataKeys = Object.keys(telemetry);
   const keys = originalData[0] ? ['遥测数据', ...originalDataKeys] : [];
 
   data.forEach((item) => {
@@ -107,7 +107,7 @@ export default function DataTable({
                   template: 'MM/DD HH:mm:ss',
                 }).replace(' ', '\r\n')}
               </Flex>
-              {Object.keys(item.value).map((key, i) => (
+              {originalDataKeys.map((key, i) => (
                 <Text
                   key={key}
                   paddingLeft="12px"

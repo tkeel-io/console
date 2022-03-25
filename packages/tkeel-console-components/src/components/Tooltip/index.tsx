@@ -1,4 +1,4 @@
-import { Box, Tooltip } from '@chakra-ui/react';
+import { Box, Tooltip as ChakraTooltip } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 type Props = {
@@ -6,9 +6,9 @@ type Props = {
   children: ReactNode;
 };
 
-export default function IconTooltip({ label, children }: Props) {
+export default function Tooltip({ label, children }: Props) {
   return (
-    <Tooltip
+    <ChakraTooltip
       label={label}
       hasArrow
       placement="top"
@@ -19,6 +19,6 @@ export default function IconTooltip({ label, children }: Props) {
       p="4px 8px"
     >
       <Box>{children}</Box>
-    </Tooltip>
+    </ChakraTooltip>
   );
 }
