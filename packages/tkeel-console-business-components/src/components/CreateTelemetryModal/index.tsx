@@ -1,6 +1,16 @@
-import { Box, Flex, Radio, RadioGroup, Stack, Text } from '@chakra-ui/react';
-import { ReactNode, useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import {
+  Box,
+  Center,
+  Flex,
+  IconButton,
+  Input,
+  Radio,
+  RadioGroup,
+  Stack,
+  Text,
+} from '@chakra-ui/react';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
+import { useFieldArray, useForm } from 'react-hook-form';
 
 import {
   FormControl,
@@ -8,12 +18,18 @@ import {
   Modal,
   Select,
 } from '@tkeel/console-components';
-import { AddFilledIcon } from '@tkeel/console-icons';
+import {
+  AddFilledIcon,
+  PencilFilledIcon,
+  TrashFilledIcon,
+} from '@tkeel/console-icons';
 import { BaseRequestData as FormValues } from '@tkeel/console-request-hooks';
 
 import SelectRadioCard from './components/SelectRadioCard';
 
 const { TextField, TextareaField } = FormField;
+
+let typeConfig: string[] = [];
 
 const ELEMENT_LABELS = {
   int32: 'int32',
@@ -30,10 +46,20 @@ const configData = [
     config: ['最大值', '最小值', '步长', '单位'],
   },
   {
-    value: 'array',
-    label: 'array(数组)',
-    config: ['元素个数', '元素类型'],
+    value: 'float',
+    label: 'float(浮点型)',
+    config: ['最大值', '最小值', '步长', '单位'],
   },
+  {
+    value: 'double',
+    label: 'double(双精度浮点型)',
+    config: ['最大值', '最小值', '步长', '单位'],
+  },
+  // {
+  //   value: 'array',
+  //   label: 'array(数组)',
+  //   config: ['元素个数', '元素类型'],
+  // },
   {
     value: 'bool',
     label: 'bool(布尔)',
@@ -56,8 +82,11 @@ const KV = new Map([
   ['min', '最小值'],
   ['step', '步长'],
   ['unit', '单位'],
-  ['元素个数', 'length'],
-  ['元素类型', 'elem_type'],
+  // ['length', '元素个数'],
+  ['elem_type', '元素类型'],
+  ['elem_type', '元素类型'],
+  ['0', '布尔值'],
+  ['1', '布尔值'],
 ]);
 
 const inputType = new Set([
@@ -115,20 +144,34 @@ export default function CreateTelemetryModal({
   onConfirm,
 }: Props) {
   const [selectOptions, setSelectOptions] = useState<string[]>([]);
-  const [selectValue, setSelectValue] = useState<string>();
 
   const [selectRadioCardItem, setSelectRadioCardItem] = useState<string>();
 
+  if (defaultValues && defaultValues.define && defaultValues.define.ext) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const arr: { label: any; value: any }[] = [];
+    // eslint-disable-next-line  @typescript-eslint/no-unsafe-argument
+    Object.entries(defaultValues.define.ext).forEach((item) => {
+      arr.push({
+        label: item[0],
+        value: item[1],
+      });
+    });
+    // eslint-disable-next-line no-param-reassign
+    defaultValues.define.ext = arr;
+  }
   const {
     register,
     formState: { errors },
-    // trigger,
+    trigger,
     getValues,
     setValue,
     reset,
+    control,
+    setFocus,
   } = useForm<FormValues>({ defaultValues });
 
-  const required = { value: true, message: 'required' };
+  const required = { value: false, message: 'required' };
   const selectRadioCardObj = {
     // int
     最大值: register('define.max', {
@@ -144,9 +187,9 @@ export default function CreateTelemetryModal({
       required,
     }),
     // array
-    元素个数: register('define.length', {
-      required,
-    }),
+    // 元素个数: register('define.length', {
+    //   required,
+    // }),
     // eslint-disable-next-line  sonarjs/no-duplicate-string
     元素类型: register('define.elem_type', {
       required,
@@ -165,27 +208,146 @@ export default function CreateTelemetryModal({
     setSelectRadioCardItem('');
   };
   const handleConfirm = async () => {
-    const formValues = getValues();
-    onConfirm({ ...formValues, type: selectValue as string });
-    setTimeout(() => {
-      RESET();
-    }, 500);
+    const result = await trigger();
+
+    if (result) {
+      const formValues = getValues();
+      onConfirm(formValues);
+      reset();
+      setTimeout(() => {
+        RESET();
+      }, 500);
+    }
+
     // }
   };
 
-  const handleDataType = (el: string) => {
-    setSelectValue(el);
-    const config = handleConfigData(configData, el);
-    setSelectOptions(config as []);
-    setSelectRadioCardItem('');
-  };
+  const handleDataType = useCallback(
+    (el: string) => {
+      setValue('type', el);
+      const config = handleConfigData(configData, el);
+      if (
+        !(
+          config.length === typeConfig.length &&
+          config.every((v, i) => {
+            return v === typeConfig[i];
+          })
+        )
+      ) {
+        typeConfig = config;
+        setSelectRadioCardItem('');
+      }
+      setSelectOptions(config as []);
+    },
+    [setValue, setSelectOptions]
+  );
+
+  // if (defaultValues) {
+  //   // Object.entries(defaultValues.define.ext).map((item) => {
+  //   //   append({
+  //   //     label: item[0],
+  //   //     value: item[1],
+  //   //   });
+  //   // });
+  //   // defaultValues.define.ext = [];
+  // }
+
+  const fieldArrayHandler = useFieldArray({
+    control,
+    name: 'define.ext',
+  });
+  const { fields, append, remove } = fieldArrayHandler;
+
+  const handleSelectRadioCardDefaultValue = useCallback(() => {
+    if (defaultValues) {
+      const arr = Object.keys(defaultValues?.define as object).find((item) => {
+        return item !== 'ext';
+      });
+      return KV.get(arr as string) as string;
+    }
+    return ' ';
+  }, [defaultValues]);
+
+  // eslint-disable-next-line react/no-unstable-nested-components
+  function Extend() {
+    const [labelId, setLabelId] = useState<string>('');
+
+    const renderLabel = (params: {
+      field: Record<'id', string>;
+      index: number;
+    }) => {
+      const fontColor = 'grayAlternatives.300';
+      const { field, index } = params;
+      return (
+        <Flex justify="space-between">
+          <Input
+            color="gray.700"
+            border="none"
+            m="1px"
+            size="xs"
+            placeholder="请修改扩展属性标题"
+            fontSize="14px"
+            fontWeight="500"
+            pl="2px"
+            isReadOnly={labelId !== field.id}
+            {...register(`define.ext.${index}.label` as const, {
+              required: { value: false, message: 'required' },
+            })}
+            focusBorderColor="primary"
+            onBlur={() => {
+              setLabelId('');
+            }}
+          />
+          <Center>
+            <IconButton
+              variant="link"
+              size="sm"
+              aria-label="edit"
+              icon={<PencilFilledIcon color={fontColor} />}
+              onClick={() => {
+                setLabelId(field.id);
+                setFocus(`define.ext.${index}.label` as const);
+              }}
+            />
+            <IconButton
+              lineHeight="24px"
+              variant="link"
+              size="sm"
+              aria-label="delete"
+              icon={<TrashFilledIcon color={fontColor} />}
+              onClick={() => {
+                remove(index);
+              }}
+            />
+          </Center>
+        </Flex>
+      );
+    };
+
+    return (
+      <Box overflowY="scroll">
+        {fields.map((field, index) => {
+          return (
+            <TextField
+              key={field.id}
+              label={renderLabel({ field, index })}
+              id={field.id}
+              registerReturn={register(`define.ext.${index}.value` as const, {
+                required: { value: false, message: 'required' },
+              })}
+            />
+          );
+        })}
+      </Box>
+    );
+  }
 
   useEffect(() => {
     if (defaultValues) {
       handleDataType(defaultValues.type);
-      setSelectRadioCardItem(KV.get(Object.keys(defaultValues.define)[0]));
+      setSelectRadioCardItem(handleSelectRadioCardDefaultValue());
     }
-  }, [defaultValues]);
+  }, [defaultValues, handleDataType, handleSelectRadioCardDefaultValue]);
 
   return (
     <Modal
@@ -220,21 +382,20 @@ export default function CreateTelemetryModal({
         数据类型
       </Box>
       <Select
-        defaultValue={defaultValues?.type}
+        defaultValue={getValues('type')}
         placeholder="请选择"
         options={configData}
-        style={{ width: '100%', marginBottom: '14px', marginTop: '8px' }}
+        {...register('type', {
+          required: { value: true, message: '请选择数据类型' },
+        })}
         onChange={handleDataType}
+        style={{ width: '100%', marginBottom: '14px', marginTop: '8px' }}
       />
       {selectOptions.length > 0 && (
         <Flex justifyContent="space-between" mb="10px" alignItems="center">
           <Box>
             <SelectRadioCard
-              defaultValue={
-                defaultValues
-                  ? (KV.get(Object.keys(defaultValues?.define)[0]) as string)
-                  : '最大值'
-              }
+              defaultValue={handleSelectRadioCardDefaultValue()}
               options={selectOptions}
               onChange={(el) => {
                 setSelectRadioCardItem(el);
@@ -247,6 +408,14 @@ export default function CreateTelemetryModal({
             justifyContent="space-between"
             color="grayAlternatives.300"
             cursor="pointer"
+            onClick={() => {
+              append({
+                // label: `属性名称${fieldCount || ''}`,
+                label: `请修改扩展属性标题`,
+                value: '',
+              });
+              // setFieldCount(fieldCount + 1);
+            }}
           >
             <AddFilledIcon color="grayAlternatives.300" /> <Box>扩展配置</Box>
           </Flex>
@@ -313,15 +482,8 @@ export default function CreateTelemetryModal({
         </>
       )}
       {/* extend */}
-      {/* <TextField
-        id="ext"
-        label="请修改扩展属性标题"
-        isDisabled={formFields?.username?.disabled}
-        error={errors.name}
-        registerReturn={register('id', {
-          required: { value: true, message: 'required' },
-        })}
-      /> */}
+      <Extend />
+
       {/*  */}
       <Box>
         <Text color="gray.600" fontSize="14px" mb="4px">

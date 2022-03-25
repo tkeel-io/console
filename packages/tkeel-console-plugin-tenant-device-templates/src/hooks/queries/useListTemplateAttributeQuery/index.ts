@@ -25,28 +25,39 @@ export interface User {
   created_at: string;
   roles: string[];
 }
+export type ReadWriteType = 'rw' | 'r' | 'w';
 
 export interface UsefulData {
   name: string;
   id: string;
   type: string;
-  description: string;
-  last_time: number;
+  description?: string;
+  last_time?: number;
+  define: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    default_value: any;
+    rw: ReadWriteType;
+  };
 }
 interface Telemetry {
   [propName: string]: UsefulData;
 }
+
 export interface ApiData {
   '@type': string;
   templateAttrObject: {
     configs: {
-      telemetry: {
+      attributes: {
         define: {
           fields: Telemetry;
         };
       };
     };
   };
+
+  // templateAttrObject: {
+  //   configs: Telemetry
+  // };
 }
 
 function getUsefulData(data: Telemetry): UsefulData[] {
@@ -57,6 +68,7 @@ function getUsefulData(data: Telemetry): UsefulData[] {
       type: item.type,
       description: item.description,
       last_time: item.last_time,
+      define: item.define,
     };
   });
 }
@@ -82,11 +94,13 @@ export default function useListTemplateAttributeQuery({
     // },
     reactQueryOptions: { onSuccess },
   });
-  // console.log('data', data);
-
-  const usefulData = getUsefulData(
-    data?.templateAttrObject?.configs?.telemetry?.define?.fields as Telemetry
-  );
-
+  console.log('data123', data);
+  let usefulData: UsefulData[] = [];
+  if (JSON.stringify(data?.templateAttrObject?.configs) !== '{}') {
+    usefulData = getUsefulData(
+      data?.templateAttrObject?.configs.attributes.define.fields as Telemetry
+    );
+    return { usefulData, data, ...rest };
+  }
   return { usefulData, data, ...rest };
 }

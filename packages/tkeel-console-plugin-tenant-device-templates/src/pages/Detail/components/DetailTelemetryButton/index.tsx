@@ -2,7 +2,7 @@ import { useDisclosure } from '@chakra-ui/react';
 
 import { TelemetryDrawer } from '@tkeel/console-business-components';
 import { MoreActionButton } from '@tkeel/console-components';
-import { PencilFilledIcon } from '@tkeel/console-icons';
+import { EyeFilledIcon } from '@tkeel/console-icons';
 
 import useTelemetryDetailQuery, {
   UsefulData,
@@ -20,7 +20,7 @@ export default function DetailTelemetryButton({ uid, id }: Props) {
   return (
     <>
       <MoreActionButton
-        icon={<PencilFilledIcon />}
+        icon={<EyeFilledIcon />}
         title="查看详情"
         onClick={() => {
           onOpen();
