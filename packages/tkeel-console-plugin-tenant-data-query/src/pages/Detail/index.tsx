@@ -50,7 +50,6 @@ export default function Detail() {
     CheckBoxStatus.CHECKED
   );
   const [checkedKeys, setCheckedKeys] = useState<string[]>([]);
-  const [tableKeys, setTableKeys] = useState<string[]>([]);
   const [isTelemetryDataRequested, setIsTelemetryDataRequested] =
     useState(false);
   const [timeType, setTimeType] = useState<TimeType>(TimeType.FiveMinutes);
@@ -103,7 +102,9 @@ export default function Detail() {
       },
     });
 
-  const identifiers = checkedKeys.join(',');
+  const identifiers = checkedKeys.filter((key) =>
+    Object.keys(filteredTelemetry).includes(key)
+  );
 
   const hasIdentifiers = identifiers.length > 0;
 
@@ -128,16 +129,13 @@ export default function Detail() {
       ...defaultDataMutateProps,
       ...props,
     };
-    const newTableKeys = checkedKeys.filter((key) =>
-      Object.keys(filteredTelemetry).includes(key)
-    );
-    setTableKeys(newTableKeys);
+
     mutate({
       url: `core/v1/ts/${id}`,
       data: {
         start_time: requestStartTime,
         end_time: requestEndTime,
-        identifiers,
+        identifiers: identifiers.join(','),
         page_size: 1_000_000,
         page_num: 1,
       },
@@ -161,7 +159,7 @@ export default function Detail() {
 
   const exportData = originDataItems.map((dataItem) => {
     const valueObj = {};
-    tableKeys.forEach((key) => {
+    identifiers.forEach((key) => {
       const nameKey = telemetry[key].name ?? '';
       valueObj[nameKey] = dataItem.value[key];
 
@@ -180,7 +178,7 @@ export default function Detail() {
   });
 
   const tableTelemetry = {};
-  tableKeys.forEach((key) => {
+  identifiers.forEach((key) => {
     tableTelemetry[key] = telemetry[key];
   });
 
@@ -220,6 +218,7 @@ export default function Detail() {
       <Flex flexDirection="column" width="360px">
         <DeviceDetailCard detailData={deviceObject} />
         <PropertiesConditions
+          identifiers={identifiers}
           telemetry={filteredTelemetry}
           templateCheckboxStatus={templateCheckboxStatus}
           setTemplateCheckboxStatus={setTemplateCheckboxStatus}
