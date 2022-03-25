@@ -1,7 +1,7 @@
 import { Box, Circle, Flex, Switch, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 
-import { Drawer, Editor, InfoCard } from '@tkeel/console-components';
+import { AceEditor, Drawer, InfoCard } from '@tkeel/console-components';
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
@@ -115,7 +115,7 @@ function TelemetryDrawer({ usefulData, isOpen, onClose }: Props) {
           </Flex>
 
           {isShowJson ? (
-            <Editor
+            <AceEditor
               theme="light"
               value={JSON.stringify(usefulData?.define, null, 2)}
               language="json"
