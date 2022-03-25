@@ -1,7 +1,7 @@
 import { Box, Circle, Flex, Switch, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 
-import { Drawer, AceEditor, InfoCard } from '@tkeel/console-components';
+import { AceEditor, Drawer, InfoCard } from '@tkeel/console-components';
 import { DuotoneTwoToneIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
