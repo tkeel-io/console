@@ -55,6 +55,8 @@ Props) {
         label={type === ModalType.DEVICE ? '设备名称' : '设备组名称'}
         registerReturn={register('name', {
           required: { value: true, message: '请填写设备名称' },
+          validate: (value) =>
+            value !== watchFields.parentName || '名称不可重复',
         })}
         error={errors.name}
       />
