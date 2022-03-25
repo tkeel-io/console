@@ -15,7 +15,6 @@
     "@chakra-ui/react": "^1.8.6",
     "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.8.1",
-    "@monaco-editor/react": "^4.3.1",
     "@tkeel/console-hooks": "workspace:^",
     "@tkeel/console-icons": "workspace:^",
     "@tkeel/console-themes": "workspace:^",
