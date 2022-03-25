@@ -5,8 +5,8 @@ export interface ApiData {
   id: string;
   name: string;
   desc: string;
-  type: 0 | 1;
-  status: 2;
+  type: 1 | 2;
+  status: 0 | 1;
   created_at: string;
   updated_at: string;
 }

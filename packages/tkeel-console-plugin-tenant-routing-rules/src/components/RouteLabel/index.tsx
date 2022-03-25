@@ -3,21 +3,19 @@ import { ReactNode } from 'react';
 
 import { RoutesMsgIcon, RoutesTimeIcon } from '@tkeel/console-icons';
 
+interface Props extends SpinnerProps {
+  routeType: string;
+  styles?: {
+    wrapper?: StyleProps;
+  };
+}
+
 type RouteItem = { name: string; color: string; icon: ReactNode };
 
 type RouteTypeInfo = {
   time: RouteItem;
   msg: RouteItem;
 };
-
-export type RouteType = keyof RouteTypeInfo;
-
-interface Props extends SpinnerProps {
-  routeType: RouteType;
-  styles?: {
-    wrapper?: StyleProps;
-  };
-}
 
 function RouteLabel({ styles, routeType }: Props) {
   const attribute = {
@@ -40,7 +38,7 @@ function RouteLabel({ styles, routeType }: Props) {
     },
   };
 
-  const item = routeTypeInfo[routeType];
+  const item = routeTypeInfo[routeType] as RouteItem;
 
   return (
     <Flex

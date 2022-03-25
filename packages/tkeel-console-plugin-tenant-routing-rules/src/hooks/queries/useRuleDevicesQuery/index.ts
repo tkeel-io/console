@@ -1,7 +1,17 @@
 import { useQuery } from '@tkeel/console-hooks';
 
+export interface DeviceItem {
+  id: string;
+  name: string;
+  template: string;
+  group_name: string;
+  status: 'online' | 'offline';
+}
+
 export interface ApiData {
   '@type': string;
+  data: DeviceItem[];
+  total: number;
 }
 
 const url = '/rule-manager/v1/rules';
@@ -35,9 +45,12 @@ export default function useRuleDevicesQuery({
       key_words: keywords,
     },
     reactQueryOptions: {
-      enabled: id !== '',
+      enabled: !!id,
     },
   });
 
-  return { data, ...rest };
+  const deviceList = data?.data ?? [];
+  const total = data?.total ?? 0;
+
+  return { deviceList, total, ...rest };
 }

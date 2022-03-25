@@ -30,6 +30,12 @@ export default function Detail() {
   const createTime = getFormattedDateTime(ruleDetail?.created_at);
   const updateTime = getFormattedDateTime(ruleDetail?.updated_at);
 
+  let routeType = 'msg';
+  const type = ruleDetail?.type ?? '';
+  if (type === 2) {
+    routeType = 'time';
+  }
+
   return (
     <Flex
       paddingTop="20px"
@@ -71,10 +77,10 @@ export default function Detail() {
             >
               {ruleDetail?.name ?? ''}
             </Text>
-            <RouteLabel routeType="msg" />
+            <RouteLabel routeType={routeType} />
           </Flex>
           <Flex>
-            <StatusLabel status={0} />
+            <StatusLabel status={ruleDetail?.status ?? 0} />
           </Flex>
         </Flex>
         <TextWrapper
