@@ -1,6 +1,7 @@
 import { Flex, HStack, StyleProps, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 
+import { Tooltip } from '@tkeel/console-components';
 import {
   AutoFilledIcon,
   KafkaFilledIcon,
@@ -29,13 +30,13 @@ export default function DataRepublish({ styles }: Props) {
   const products = [
     {
       id: 'kafka',
-      icon: <KafkaFilledIcon color={iconColor} />,
+      icon: <KafkaFilledIcon size={22} color={iconColor} />,
       name: 'Kafka',
       disable: false,
     },
     {
       id: 'objectStorage',
-      icon: <ObjectStorageFilledIcon color={iconColor} />,
+      icon: <ObjectStorageFilledIcon size={22} color={iconColor} />,
       name: '对象存储',
       disable: true,
     },
@@ -62,15 +63,16 @@ export default function DataRepublish({ styles }: Props) {
           {products.map((product) => {
             const { id, icon, name, disable } = product;
             return (
-              <ProductTab
-                key={id}
-                name={name}
-                icon={icon}
-                disable={disable}
-                onClick={() => {
-                  setSelectedProductId(id);
-                }}
-              />
+              <Tooltip key={id} label={disable ? '敬请期待' : ''}>
+                <ProductTab
+                  name={name}
+                  icon={icon}
+                  disable={disable}
+                  onClick={() => {
+                    setSelectedProductId(id);
+                  }}
+                />
+              </Tooltip>
             );
           })}
         </HStack>

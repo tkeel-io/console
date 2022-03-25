@@ -46,7 +46,8 @@ export default function DataSelect() {
   const pagination = usePagination();
   const { pageNum, pageSize, setTotalSize } = pagination;
 
-  const { deviceIds } = useRuleDevicesIdArrayQuery();
+  const { deviceIds } = useRuleDevicesIdArrayQuery(ruleId || '');
+  // eslint-disable-next-line no-console
   console.log('DataSelect ~ deviceIds', deviceIds);
   const { deviceList, total, isLoading, isSuccess, refetch } =
     useRuleDevicesQuery({

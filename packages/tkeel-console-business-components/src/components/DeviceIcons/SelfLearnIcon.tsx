@@ -2,8 +2,7 @@ import { Box, StyleProps } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 import { VpcTwoToneIcon } from '@tkeel/console-icons';
-
-import IconTooltip from './IconTooltip';
+import { Tooltip } from '@tkeel/console-components';
 import IconWrapper from './IconWrapper';
 
 type Props = {
@@ -25,7 +24,7 @@ export default function SelfLearnIcon({
   }
   return (
     <Box {...styles?.wrapper}>
-      <IconTooltip label={label}>
+      <Tooltip label={label}>
         <IconWrapper bg={isSelfLearn ? 'blue.50' : 'gray.100'}>
           <VpcTwoToneIcon
             size={20}
@@ -33,7 +32,7 @@ export default function SelfLearnIcon({
             twoToneColor={isSelfLearn ? 'green.300' : 'gray.500'}
           />
         </IconWrapper>
-      </IconTooltip>
+      </Tooltip>
     </Box>
   );
 }
