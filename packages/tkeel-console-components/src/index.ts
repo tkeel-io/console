@@ -7,7 +7,6 @@ export { default as CustomTab } from './components/CustomTab';
 export { default as CustomTabList } from './components/CustomTabList';
 export { default as DateRangePicker } from './components/DateRangePicker';
 export { default as Drawer } from './components/Drawer';
-export { default as Editor } from './components/Editor';
 export { default as Empty } from './components/Empty';
 export { default as Form } from './components/Form';
 export { default as FormControl } from './components/FormControl';
