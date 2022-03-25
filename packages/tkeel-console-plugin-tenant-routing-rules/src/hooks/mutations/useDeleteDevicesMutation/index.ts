@@ -4,15 +4,16 @@ export interface ApiData {
   '@types': string;
 }
 
-const method = 'DELETE';
-
 type RequestParams = {
   devices_ids: string;
 };
 
+const url = '/rule-manager/v1/rules';
+const method = 'DELETE';
+
 export default function useDeleteDevicesMutation(ruleId: string) {
   return useMutation<ApiData, RequestParams>({
-    url: `/rules/${ruleId}/devices`,
+    url: `${url}/${ruleId}/devices`,
     method,
   });
 }

@@ -24,20 +24,20 @@ type RequestParams = {
 };
 
 type Props = {
-  id: string;
+  ruleId: string;
   pageNum: number;
   pageSize: number;
   keywords: string;
 };
 
 export default function useRuleDevicesQuery({
-  id,
+  ruleId,
   pageNum,
   pageSize,
   keywords,
 }: Props) {
   const { data, ...rest } = useQuery<ApiData, RequestParams>({
-    url: `${url}/${id}/devices`,
+    url: `${url}/${ruleId}/devices`,
     method,
     params: {
       page_num: pageNum,
@@ -45,7 +45,7 @@ export default function useRuleDevicesQuery({
       key_words: keywords,
     },
     reactQueryOptions: {
-      enabled: !!id,
+      enabled: !!ruleId,
     },
   });
 

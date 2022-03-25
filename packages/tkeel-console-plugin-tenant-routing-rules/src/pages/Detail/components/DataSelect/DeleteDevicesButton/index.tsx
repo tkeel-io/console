@@ -12,12 +12,13 @@ type Props = {
     id: string;
     name: string;
   }[];
-  // refetchData: () => unknown;
+  refetchData: () => unknown;
   // onSuccess: () => void;
 };
 
 export default function DeleteDevicesButton({
   selectedDevices,
+  refetchData,
 }: // refetchData,
 // onSuccess,
 Props) {
@@ -28,6 +29,8 @@ Props) {
 
   if (isSuccess) {
     toast('移除设备成功', { status: 'success' });
+    refetchData();
+    onClose();
   }
   // const { mutate } = useDeleteDeviceMutation({
   //   onSuccess() {

@@ -19,6 +19,7 @@ import {
 } from '@tkeel/console-icons';
 
 import useAddDevicesMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useAddDevicesMutation';
+import useRuleDevicesIdArrayQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDevicesIdArrayQuery';
 import useRuleDevicesQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDevicesQuery';
 
 import TitleWrapper from '../TitleWrapper';
@@ -45,12 +46,15 @@ export default function DataSelect() {
   const pagination = usePagination();
   const { pageNum, pageSize, setTotalSize } = pagination;
 
-  const { deviceList, total, isLoading, isSuccess } = useRuleDevicesQuery({
-    id: ruleId || '',
-    pageNum,
-    pageSize,
-    keywords,
-  });
+  const { deviceIds } = useRuleDevicesIdArrayQuery();
+  console.log('DataSelect ~ deviceIds', deviceIds);
+  const { deviceList, total, isLoading, isSuccess, refetch } =
+    useRuleDevicesQuery({
+      ruleId: ruleId || '',
+      pageNum,
+      pageSize,
+      keywords,
+    });
 
   if (isSuccess) {
     setTotalSize(total);
@@ -111,10 +115,6 @@ export default function DataSelect() {
       Cell: ({ row }: Cell<DeviceColumnData>) =>
         useMemo(() => {
           const { id, name } = row.original;
-          // const { id, properties } = originData;
-          // const name = properties?.basicInfo?.name ?? '';
-          // eslint-disable-next-line no-console
-          console.log('操作 ~ id', id);
 
           return (
             <MoreAction
@@ -123,6 +123,7 @@ export default function DataSelect() {
                 <DeleteDevicesButton
                   key="delete"
                   selectedDevices={[{ id, name }]}
+                  refetchData={() => refetch()}
                 />,
               ]}
             />
@@ -234,6 +235,7 @@ export default function DataSelect() {
                       <DeleteDevicesButton
                         key="delete"
                         selectedDevices={selectedDevices}
+                        refetchData={() => refetch()}
                       />,
                     ]}
                     styles={{ wrapper: { margin: '6px 0', width: '92px' } }}
