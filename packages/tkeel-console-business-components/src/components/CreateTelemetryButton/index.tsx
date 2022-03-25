@@ -26,9 +26,6 @@ export default function CreateTelemetryTableButton({ id, refetchData }: Props) {
       refetchData();
     },
   });
-
-  console.log('isOpen', isOpen);
-
   return (
     <>
       <CreateButton onClick={onOpen}>创建遥测</CreateButton>
@@ -39,13 +36,17 @@ export default function CreateTelemetryTableButton({ id, refetchData }: Props) {
           // isConfirmButtonLoading={isLoading}
           onClose={onClose}
           onConfirm={(formValues) => {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             if (formValues.define.ext.length > 0) {
               const obj = {};
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
               formValues.define.ext.forEach(
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
                 (el: { label: string; value: string }) => {
                   obj[el.label] = el.value;
                 }
               );
+              // eslint-disable-next-line no-param-reassign
               formValues.define.ext = obj;
             }
             mutate({

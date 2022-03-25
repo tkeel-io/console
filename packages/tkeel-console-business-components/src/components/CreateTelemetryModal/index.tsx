@@ -1,21 +1,16 @@
 import {
   Box,
+  Center,
   Flex,
+  IconButton,
+  Input,
   Radio,
   RadioGroup,
   Stack,
   Text,
-  Input,
-  IconButton,
-  Center,
 } from '@chakra-ui/react';
-import { ReactNode, useEffect, useState } from 'react';
-import { useForm, useFieldArray } from 'react-hook-form';
-import {
-  PencilFilledIcon,
-  TrashFilledIcon,
-  AddFilledIcon,
-} from '@tkeel/console-icons';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
+import { useFieldArray, useForm } from 'react-hook-form';
 
 import {
   FormControl,
@@ -23,6 +18,11 @@ import {
   Modal,
   Select,
 } from '@tkeel/console-components';
+import {
+  AddFilledIcon,
+  PencilFilledIcon,
+  TrashFilledIcon,
+} from '@tkeel/console-icons';
 import { BaseRequestData as FormValues } from '@tkeel/console-request-hooks';
 
 import SelectRadioCard from './components/SelectRadioCard';
@@ -148,13 +148,16 @@ export default function CreateTelemetryModal({
   const [selectRadioCardItem, setSelectRadioCardItem] = useState<string>();
 
   if (defaultValues && defaultValues.define && defaultValues.define.ext) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const arr: { label: any; value: any }[] = [];
-    Object.entries(defaultValues.define.ext).map((item) => {
+    // eslint-disable-next-line  @typescript-eslint/no-unsafe-argument
+    Object.entries(defaultValues.define.ext).forEach((item) => {
       arr.push({
         label: item[0],
         value: item[1],
       });
     });
+    // eslint-disable-next-line no-param-reassign
     defaultValues.define.ext = arr;
   }
   const {
@@ -219,23 +222,25 @@ export default function CreateTelemetryModal({
     // }
   };
 
-  const handleDataType = (el: string) => {
-    setValue('type', el);
-    const config = handleConfigData(configData, el);
-
-    if (
-      !(
-        config.length == typeConfig.length &&
-        config.every(function (v, i) {
-          return v === typeConfig[i];
-        })
-      )
-    ) {
-      typeConfig = config;
-      setSelectRadioCardItem('');
-    }
-    setSelectOptions(config as []);
-  };
+  const handleDataType = useCallback(
+    (el: string) => {
+      setValue('type', el);
+      const config = handleConfigData(configData, el);
+      if (
+        !(
+          config.length === typeConfig.length &&
+          config.every((v, i) => {
+            return v === typeConfig[i];
+          })
+        )
+      ) {
+        typeConfig = config;
+        setSelectRadioCardItem('');
+      }
+      setSelectOptions(config as []);
+    },
+    [setValue, setSelectOptions]
+  );
 
   // if (defaultValues) {
   //   // Object.entries(defaultValues.define.ext).map((item) => {
@@ -246,7 +251,6 @@ export default function CreateTelemetryModal({
   //   // });
   //   // defaultValues.define.ext = [];
   // }
-  console.log('defaultValues', defaultValues);
 
   const fieldArrayHandler = useFieldArray({
     control,
@@ -254,18 +258,17 @@ export default function CreateTelemetryModal({
   });
   const { fields, append, remove } = fieldArrayHandler;
 
-  const handleSelectRadioCardDefaultValue = () => {
+  const handleSelectRadioCardDefaultValue = useCallback(() => {
     if (defaultValues) {
-      const arr = Object.keys(defaultValues?.define as object).filter(
-        (item) => {
-          return item !== 'ext';
-        }
-      );
-      return KV.get(arr[0]) as string;
+      const arr = Object.keys(defaultValues?.define as object).find((item) => {
+        return item !== 'ext';
+      });
+      return KV.get(arr as string) as string;
     }
     return ' ';
-  };
+  }, [defaultValues]);
 
+  // eslint-disable-next-line react/no-unstable-nested-components
   function Extend() {
     const [labelId, setLabelId] = useState<string>('');
 
@@ -275,7 +278,6 @@ export default function CreateTelemetryModal({
     }) => {
       const fontColor = 'grayAlternatives.300';
       const { field, index } = params;
-      console.log('Extend ~ field', field);
       return (
         <Flex justify="space-between">
           <Input
@@ -344,14 +346,8 @@ export default function CreateTelemetryModal({
     if (defaultValues) {
       handleDataType(defaultValues.type);
       setSelectRadioCardItem(handleSelectRadioCardDefaultValue());
-      // defaultValues.define.forEach((el:{[propName: string]:any}) => {
-      //   append({
-      //     label: el,
-      //     value: '',
-      //   });
-      // });
     }
-  }, [defaultValues]);
+  }, [defaultValues, handleDataType, handleSelectRadioCardDefaultValue]);
 
   return (
     <Modal
