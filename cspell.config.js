@@ -54,7 +54,6 @@ module.exports = {
     'iotd',
     'toastify',
     'rsuite',
-    'struct',
     'noconflict',
     'lunz',
     'dockerhub',

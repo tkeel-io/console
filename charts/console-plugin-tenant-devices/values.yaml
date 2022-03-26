@@ -2,9 +2,5 @@ replicaCount: 1
 imagePullSecrets: ''
 image:
   repository: tkeelio/console-plugin-tenant-devices
-<<<<<<< HEAD
-  tag: 0.4.3
-=======
   # tag: 0.4.3
->>>>>>> feat/fixbug
   pullPolicy: Always
