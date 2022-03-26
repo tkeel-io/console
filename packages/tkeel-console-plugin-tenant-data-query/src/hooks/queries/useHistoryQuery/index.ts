@@ -1,6 +1,5 @@
 import { useQuery } from '@tkeel/console-hooks';
-
-import { DeviceItem } from '../useDeviceListQuery';
+import { DeviceItem } from '@tkeel/console-request-hooks';
 
 const method = 'GET';
 
