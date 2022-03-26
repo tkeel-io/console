@@ -2,9 +2,5 @@ replicaCount: 1
 imagePullSecrets: ''
 image:
   repository: tkeelio/console-plugin-admin-plugins
-<<<<<<< HEAD
-  tag: 0.4.3
-=======
-  # tag: 0.4.3
->>>>>>> feat/fixbug
+# tag: 0.4.3
   pullPolicy: Always
