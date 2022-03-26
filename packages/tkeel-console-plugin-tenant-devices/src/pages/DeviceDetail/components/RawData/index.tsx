@@ -12,7 +12,7 @@ import { Base64 } from 'js-base64';
 import { isEmpty, throttle } from 'lodash';
 import { useEffect, useState } from 'react';
 
-import { AceEditor, Empty } from '@tkeel/console-components';
+import { Editor, Empty } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
@@ -33,7 +33,9 @@ const handleValues = (value: string, selected: string) => {
     if (item.startsWith('{')) {
       try {
         return JSON.stringify(JSON.parse(item), null, 2);
-      } catch {
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
         return item;
       }
     }
@@ -152,7 +154,7 @@ function RawDataPanel({ data, online }: Props) {
                     <AccordionIcon />
                   </AccordionButton>
                   <AccordionPanel p="12px 0 0 0">
-                    <AceEditor
+                    <Editor
                       theme="light"
                       value={handleValues(r?.values || '', selected)}
                       language="json"
