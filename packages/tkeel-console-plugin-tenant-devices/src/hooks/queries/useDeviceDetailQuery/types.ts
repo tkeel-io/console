@@ -1,5 +1,3 @@
-export type ReadWriteType = 'r' | 'w' | 'rw';
-
 export interface BasicInfo {
   configs?: object;
   mappers?: object;
@@ -29,39 +27,6 @@ export interface RawData {
   values: string;
 }
 
-export interface AttributeItem {
-  define: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    default_value: string | number | any[] | boolean | object;
-    rw: ReadWriteType;
-  };
-  description: string;
-  id: string;
-  name: string;
-  type: string;
-}
-export interface Attributes {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [propName: string]: any;
-}
-
-export interface TelemetryItem {
-  define: {
-    default_value: unknown;
-    rw: ReadWriteType;
-  };
-  description: string;
-  id: string;
-  name: string;
-  type: string;
-  last_time: number;
-}
-
-export interface Telemetry {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [propName: string]: any;
-}
-
 export interface ConnectInfo {
   _clientId: string;
   _online: boolean;
@@ -86,31 +51,28 @@ export interface SysField {
   _subscribeAddr: string;
 }
 
-// export interface Attributes {
-//   [propName: string]: {
-//     define: {
-//       default_value: string;
-//       rw: ReadWriteType;
-//     };
-//     description: string;
-//     id: string;
-//     name: string;
-//     type: string;
-//   };
-// }
+export interface Attributes {
+  [propName: string]: {
+    define: {
+      default_value: string;
+      rw: 'r' | 'w' | 'rw';
+    };
+    description: string;
+    id: string;
+    name: string;
+    type: string;
+  };
+}
 
 export interface DeviceObject {
   id: string;
   configs: {
-    attributes?: { define?: { fields?: AttributeItem } };
-    telemetry?: { define?: { fields?: TelemetryItem } };
+    attributes?: Attributes;
   };
   properties: {
     basicInfo: BasicInfo;
     sysField: SysField;
     rawData: RawData;
-    telemetry: Telemetry;
-    attributes: Attributes;
     connectInfo: ConnectInfo;
   };
 }

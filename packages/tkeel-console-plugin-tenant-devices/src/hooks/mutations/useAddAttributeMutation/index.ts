@@ -1,29 +1,28 @@
 import { useMutation } from '@tkeel/console-hooks';
 
+const url = '/tkeel-device/v1/groups';
 const method = 'POST';
 
 export interface ApiData {
-  '@type': string;
-  value?: unknown;
+  details?: unknown;
 }
 export interface RequestData {
-  id: string;
-  value: unknown;
+  description?: string;
+  name: string;
+  parentId: string;
+  ext: {
+    [propName: string]: string;
+  };
 }
 
-export default function useSetAttributeMutation({
-  id,
+export default function useAddAttributeMutation({
   onSuccess,
 }: {
-  id: string;
-  // data: RequestData;
   onSuccess?: () => void;
 }) {
-  const url = `/tkeel-device/v1/devices/${id}/attribute/set`;
   return useMutation<ApiData, undefined, RequestData>({
     url,
     method,
-    // data,
     reactQueryOptions: { onSuccess },
   });
 }
