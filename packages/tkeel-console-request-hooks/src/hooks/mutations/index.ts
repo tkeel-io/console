@@ -6,6 +6,3 @@ export { default as useDeleteTelemetryMutation } from './useDeleteTelemetryMutat
 export { default as useEditAttributeMutation } from './useEditAttributeMutation';
 export { default as useGetResetPasswordKeyMutation } from './useGetResetPasswordKeyMutation';
 export { default as useModifyTelemetryMutation } from './useModifyTelemetryMutation';
-
-
-

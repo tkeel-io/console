@@ -1,10 +1,8 @@
 import { useMutation } from '@tkeel/console-hooks';
 import { RequestResult } from '@tkeel/console-utils';
-// import {BaseRequestData as RequestData } from "../useCreateTelemetryMutation"
-import { BaseRequestData as RequestData } from '@tkeel/console-request-hooks';
 
-
-// export interface RequestData extends BaseRequestData;
+import { BaseRequestData as RequestData } from '../useCreateTelemetryMutation';
+// import { BaseRequestData as RequestData } from '@tkeel/console-request-hooks';
 
 export interface ApiData {
   '@type': string;
