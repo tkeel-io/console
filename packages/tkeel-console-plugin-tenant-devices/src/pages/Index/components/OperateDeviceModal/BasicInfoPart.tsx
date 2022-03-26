@@ -16,8 +16,6 @@ import {
   ConnectInfoType,
   ConnectOption,
   DeviceFormFields,
-  GroupOptions,
-  ModalMode,
   ModalType,
 } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
 
@@ -37,14 +35,12 @@ interface Props {
   formHandler: UseFormReturn<DeviceFormFields, object>;
   watchFields: DeviceFormFields;
   type: ModalType;
-  mode: ModalMode;
-  groupOptions: GroupOptions[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  groupOptions: any;
   handleSelectTemplate?: (selected: boolean) => void;
-  templateOptions: Array<{ label: string; id: string }>;
 }
 export default function BasicInfoPart({
   type,
-  mode,
   formHandler,
   watchFields,
   groupOptions,
@@ -101,14 +97,13 @@ Props) {
               {...register('connectType', {
                 required: { value: true, message: '请选择设备连接方式' },
               })}
-              disabled={mode === ModalMode.EDIT}
               onChange={(value: string) => {
                 if (value) {
                   setValue('connectType', value);
                   clearErrors('connectType');
-                  if (value === ConnectOption.INDIRECT) {
-                    setValue('connectInfo', [ConnectInfoType.useTemplate]);
-                  }
+                  // if (value === ConnectOption.INDIRECT) {
+                  //   setValue('connectInfo', [ConnectInfoType.useTemplate]);
+                  // }
                 }
               }}
             >
@@ -144,9 +139,10 @@ Props) {
                     colorScheme="primary"
                     id="useTemplate"
                     value={ConnectInfoType.useTemplate}
-                    isDisabled={
-                      watchFields.connectType !== ConnectOption.DIRECT
-                    }
+                    isDisabled
+                    // isDisabled={
+                    //   watchFields.connectType !== ConnectOption.DIRECT
+                    // }
                   >
                     <Text color="gray.600" fontSize="14px">
                       使用设备模版
@@ -162,26 +158,22 @@ Props) {
                         value={watchFields.templateId}
                         style={{ width: '100%' }}
                         allowClear
-                        disabled={mode === ModalMode.EDIT}
+                        disabled
                         {...register('templateId', {
                           required: (watchFields.connectInfo || []).includes(
                             ConnectInfoType.useTemplate
                           ),
                         })}
                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        onChange={(value: string) => {
+                        onChange={(value: string, option: any) => {
                           setValue('templateId', value);
-                          setValue(
-                            'templateName',
-                            templateOptions.find((v) => v.id === value)
-                              ?.label ?? ''
-                          );
+                          setValue('templateName', option?.children ?? '');
                           if (value) {
                             clearErrors('templateId');
                           }
                         }}
                       >
-                        {templateOptions.map((val) => (
+                        {templateOption.map((val) => (
                           <Select.Option value={val.id} key={val.id}>
                             {val.label}
                           </Select.Option>

@@ -120,7 +120,7 @@ function DeviceDetailLeftPanel({ deviceObject, refetch }: Props): JSX.Element {
     };
   });
   return (
-    <VStack spacing="12px" width="360px" mr="20px">
+    <VStack spacing="12px" minWidth="360px" flex="1" mr="20px">
       <DeviceInfoCard deviceObject={deviceObject} refetch={refetch} />
       <DeviceBasicInfoCard basic={basic} />
       <InfoCard

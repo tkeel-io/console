@@ -6,8 +6,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { Form, Modal } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
-import { TemplateItem, useTemplateQuery } from '@tkeel/console-request-hooks';
 
+// import { useTemplateQuery } from '@tkeel/console-request-hooks';
 import ProgressSchedule from '@/tkeel-console-plugin-tenant-devices/components/ProgressSchedule';
 import { ApiData as GroupResData } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceGroupMutation';
 import { ApiData as DeviceResData } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceMutation';
@@ -24,7 +24,7 @@ import {
   ModalType,
 } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
 
-// import AttributeDataPart from './AttributeDataPart';
+import AttributeDataPart from './AttributeDataPart';
 import BasicInfoPart from './BasicInfoPart';
 import CompleteInfoPart from './CompleteInfoPart';
 import ExtendInfoPart from './ExtendInfoPart';
@@ -60,7 +60,7 @@ const BUTTON_TEXT = {
 const PROGRESS_LABELS = {
   BASIC_INFO: '基本信息',
   EXTEND_INFO: '扩展信息',
-  // ATTRIBUTE_DATA: '属性数据',
+  ATTRIBUTE_DATA: '属性数据',
   COMPLETE_INFO: '创建完成',
 };
 
@@ -83,7 +83,7 @@ function getTreeNodeData({ data }: { data: TreeNodeType }): GroupOptions[] {
 export default function OperateDeviceModal({
   title,
   type,
-  isOpen = true,
+  isOpen,
   onClose,
   handleConfirm,
   defaultFormValues = defaultFormInfo,
@@ -108,43 +108,30 @@ export default function OperateDeviceModal({
     control,
     name: 'extendInfo',
   });
-  const params = {
-    page_num: 1,
-    page_size: 1000,
-    order_by: 'name',
-    is_descending: false,
-    query: '',
-    condition: [{ field: 'type', operator: '$eq', value: 'template' }],
-  };
-  const { items: templateList } = useTemplateQuery({ params, enabled: isOpen });
-  const templateOptions = templateList.map((val: TemplateItem) => {
-    return { id: val.id, label: val.properties.basicInfo.name };
-  });
-  // const templateItem = templateList.find(
-  //   (val) => val.id === watchFields.templateId
-  // );
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  // const attributeList = values(templateItem?.configs?.attributes ?? {});
+  // const { items: templateList } = useTemplateQuery();
+  // console.log(templateList);
 
   useEffect(() => {
-    /* if (useTemplate && mode === ModalMode.CREATE) {
-      setProgressLabels([
-        ...BASIC_STEP,
-        PROGRESS_LABELS.ATTRIBUTE_DATA,
-        PROGRESS_LABELS.COMPLETE_INFO,
-      ]);
-    } else if (useTemplate && mode === ModalMode.EDIT) {
-      setProgressLabels([...BASIC_STEP, PROGRESS_LABELS.ATTRIBUTE_DATA]);
-    } else if (!useTemplate && mode === ModalMode.CREATE) {
-      setProgressLabels([...BASIC_STEP, PROGRESS_LABELS.COMPLETE_INFO]);
-    } else {
-      setProgressLabels([...BASIC_STEP]);
-    } */
+    // if (useTemplate && mode === ModalMode.CREATE) {
+    //   setProgressLabels([
+    //     ...BASIC_STEP,
+    //     PROGRESS_LABELS.ATTRIBUTE_DATA,
+    //     PROGRESS_LABELS.COMPLETE_INFO,
+    //   ]);
+    // } else if (useTemplate && mode === ModalMode.EDIT) {
+    //   setProgressLabels([...BASIC_STEP, PROGRESS_LABELS.ATTRIBUTE_DATA]);
+    // } else if (!useTemplate && mode === ModalMode.CREATE) {
+    //   setProgressLabels([...BASIC_STEP, PROGRESS_LABELS.COMPLETE_INFO]);
+    // } else {
+    //   setProgressLabels([...BASIC_STEP]);
+    // }
     if (mode === ModalMode.CREATE) {
       setProgressLabels([...BASIC_STEP, PROGRESS_LABELS.COMPLETE_INFO]);
     } else {
       setProgressLabels([...BASIC_STEP]);
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode]);
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const groupTreeCopy = groupTree || useGroupTreeQuery().groupTree;
@@ -185,12 +172,11 @@ export default function OperateDeviceModal({
       const deviceDefaultInfo = {
         connectInfo,
         connectType:
-          // eslint-disable-next-line no-nested-ternary
           directConnection === true
             ? ConnectOption.DIRECT
-            : directConnection === false
-            ? ConnectOption.INDIRECT
-            : '',
+            : // : directConnection === false
+              // ? ConnectOption.INDIRECT
+              '',
         templateId,
         templateName,
       };
@@ -236,11 +222,11 @@ export default function OperateDeviceModal({
       // 校验第二步的信息并提交
       const result = await trigger(['extendInfo']);
       if (result) {
-        // if (progressLabels.includes(PROGRESS_LABELS.ATTRIBUTE_DATA)) {
-        //   setCurrentStep(currentStep + 1);
-        // } else {
-        handleConfirm({ formValues });
-        // }
+        if (progressLabels.includes(PROGRESS_LABELS.ATTRIBUTE_DATA)) {
+          setCurrentStep(currentStep + 1);
+        } else {
+          handleConfirm({ formValues });
+        }
       }
     }
   };
@@ -283,6 +269,9 @@ export default function OperateDeviceModal({
             infos={progressLabels}
             currentStep={currentStep}
             mode={mode}
+            handleClick={(index) => {
+              setCurrentStep(index);
+            }}
           />
         </Box>
         <Flex
@@ -312,9 +301,7 @@ export default function OperateDeviceModal({
                 formHandler={formHandler}
                 watchFields={watchFields}
                 type={type}
-                mode={mode}
                 groupOptions={deviceGroupOptions}
-                templateOptions={templateOptions}
                 // handleSelectTemplate={handleSelectTemplate}
               />
             )}
@@ -326,12 +313,9 @@ export default function OperateDeviceModal({
                 fieldArrayHandler={fieldArrayHandler}
               />
             )}
-            {/* {progressLabels[currentStep] === PROGRESS_LABELS.ATTRIBUTE_DATA && (
-              <AttributeDataPart
-                attributeList={attributeList}
-                watchFields={watchFields}
-              />
-            )} */}
+            {progressLabels[currentStep] === PROGRESS_LABELS.ATTRIBUTE_DATA && (
+              <AttributeDataPart attributeList={[]} />
+            )}
             {progressLabels[currentStep] === PROGRESS_LABELS.COMPLETE_INFO && (
               <CompleteInfoPart type={type} responseData={responseData} />
             )}
