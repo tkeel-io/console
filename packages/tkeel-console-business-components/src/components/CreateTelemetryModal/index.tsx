@@ -82,7 +82,7 @@ const KV = new Map([
   ['min', '最小值'],
   ['step', '步长'],
   ['unit', '单位'],
-  // ['length', '元素个数'],
+  ['length', '数据最大长度'],
   ['elem_type', '元素类型'],
   ['elem_type', '元素类型'],
   ['0', '布尔值'],
@@ -198,6 +198,10 @@ export default function CreateTelemetryModal({
       required,
     }),
     '1': register('define.1', {
+      required,
+    }),
+    // string
+    数据最大长度: register('define.length', {
       required,
     }),
   };
