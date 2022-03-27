@@ -52,7 +52,6 @@ export default function useListSubscribeEntitiesQuery({
   ) => unknown;
 }) {
   // const url = `/security/v1/tenants/${tenantId}/users`;
-  // console.log('params', params);
   const url = `/core-broker/v1/subscribe/${params?.id || 0}/entities/list`;
 
   const { data, ...rest } = useQuery<ApiData, undefined, RequestParams>({

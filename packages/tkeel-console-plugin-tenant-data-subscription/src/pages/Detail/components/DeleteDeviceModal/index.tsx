@@ -17,10 +17,6 @@ export default function DeleteSubscriptionModal({
   onClose,
   onConfirm,
 }: Props) {
-  // const { username } = data;
-  // const username = '123';
-  // console.log('isOpen', isOpen);
-
   return (
     <Alert
       iconPosition="left"
