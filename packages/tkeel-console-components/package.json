@@ -12,7 +12,7 @@
   "license": "Apache-2.0",
   "main": "./src/index.ts",
   "dependencies": {
-    "@chakra-ui/react": "^1.8.6",
+    "@chakra-ui/react": "^1.8.7",
     "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.8.1",
     "@tkeel/console-hooks": "workspace:^",
@@ -36,7 +36,7 @@
     "react-table": "^7.7.0",
     "react-toastify": "^8.2.0",
     "react-use": "^17.3.2",
-    "rsuite": "^5.6.5"
+    "rsuite": "^5.6.6"
   },
   "devDependencies": {
     "@types/react-table": "^7.7.10"
