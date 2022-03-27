@@ -4,10 +4,5 @@
     "composite": true,
     "outDir": "./dist/"
   },
-  "include": [
-    "./src/",
-    "../tkeel-console-plugin-tenant-devices/src/pages/DeviceDetail/components/DeleteAttributeButton",
-    "../tkeel-console-plugin-tenant-devices/src/pages/DeviceDetail/EditAttributeButton",
-    "../tkeel-console-plugin-tenant-devices/src/pages/DeviceDetail/components/AddAttributeButton"
-  ]
+  "include": ["./src/"]
 }

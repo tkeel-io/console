@@ -9,13 +9,9 @@ import {
   MoreAction,
 } from '@tkeel/console-components';
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
-// import { BoxTwoToneIcon, DownloadFilledIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp, plugin } from '@tkeel/console-utils';
 
 import useTemplateInfoQuery from '@/tkeel-console-plugin-tenant-device-templates/hooks/queries/useTemplateInfoQuery';
-// import Table from '@/tkeel-console-plugin-tenant-device-templates/pages/Detail/components/Table';
-// import DeleteSubscriptionButton from '@/tkeel-console-plugin-tenant-device-templates/pages/Index/components/DeleteSubscriptionButton';
-// import ModifySubscriptionButton from '@/tkeel-console-plugin-tenant-device-templates/pages/Index/components/ModifySubscriptionButton';
 import TelemetryTable from '@/tkeel-console-plugin-tenant-device-templates/pages/Detail/components/TelemetryTable';
 
 import DeleteTemplateButton from '../Index/components/DeleteTemplateButton';
@@ -171,8 +167,6 @@ function Detail(): JSX.Element {
             </TabPanel> */}
           </TabPanels>
         </Tabs>
-
-        {/* <Table id={ID} title={data?.title} /> */}
       </Box>
     </Flex>
   );

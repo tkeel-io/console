@@ -2,14 +2,11 @@ import { useDisclosure } from '@chakra-ui/react';
 
 import { CreateButton } from '@tkeel/console-components';
 import { useCreateTelemetryMutation } from '@tkeel/console-request-hooks';
-// import useCreateSubscribeMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useCreateSubscribeMutation';
-// import { baseRequestData as FormValues } from '@tkeel/console-request-hooks';
 import { plugin } from '@tkeel/console-utils';
 
 import CreateTelemetryModal from '../CreateTelemetryModal';
 
 type Props = {
-  // handleSubmit: (values: FormValues) => void;
   id: string;
   refetchData: () => void;
 };

@@ -98,7 +98,6 @@ function DeviceAttributeModal({
     const result = await trigger();
     if (result) {
       const values = getValues();
-      // eslint-disable-next-line no-console
       const define = values?.define ?? {};
       const { type } = values;
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

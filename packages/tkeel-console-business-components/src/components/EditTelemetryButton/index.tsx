@@ -37,9 +37,7 @@ export default function EditTelemetryButton({
         icon={<PencilFilledIcon />}
         title="修改遥测"
         onClick={() => {
-          // eslint-disable-next-line no-console
           onOpen();
-          // console.log('停用插件');
           // mutate({});
         }}
       />

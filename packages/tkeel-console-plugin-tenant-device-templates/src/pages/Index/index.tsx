@@ -18,21 +18,6 @@ import ModifyTemplateButton from '@/tkeel-console-plugin-tenant-device-templates
 
 import SaveAsTemplateButton from './components/SaveAsTemplateButton';
 
-// function getTemplateKeyData(
-//   data: TemplateTreeNodeType
-// ): TemplateTreeNodeDataType[] {
-//   return values(data).map((item) => {
-//     return {
-//       title: item?.properties?.basicInfo?.name,
-//       description: item?.properties?.basicInfo?.description,
-//       id: item?.id,
-//       key: item?.id,
-//       updatedAt: formatDateTimeByTimestamp({
-//         timestamp: item?.properties?.sysField?._updatedAt,
-//       }),
-//     };
-//   });
-
 function Index() {
   const navigate = useNavigate();
   const toast = plugin.getPortalToast();

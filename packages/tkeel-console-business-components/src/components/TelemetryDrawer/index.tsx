@@ -116,7 +116,6 @@ function TelemetryDrawer({ usefulData, isOpen, onClose }: Props) {
                 __css={{ 'span:focus': { boxShadow: 'none !important' } }}
                 onChange={(e) => {
                   setIsShowJson(e.target.checked);
-                  // console.log('e', e.target.checked);
                 }}
               />
               <Box color="gray.500" fontSize="12px" fontWeight="400" ml="4px">

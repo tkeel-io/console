@@ -183,14 +183,6 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
               content: { marginTop: '10px' },
             }}
             title=""
-            // content={
-            //   <Box mt="20px">
-            //     <CreateDeviceButton
-            //       key="create"
-            //       onSuccess={handleCreateRoleSuccess}
-            //     />
-            //   </Box>
-            // }
           />
         }
       />
