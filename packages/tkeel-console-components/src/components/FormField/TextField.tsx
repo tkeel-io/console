@@ -1,5 +1,5 @@
 import { Input, StyleProps } from '@chakra-ui/react';
-import { HTMLInputTypeAttribute } from 'react';
+import { FocusEventHandler, HTMLInputTypeAttribute } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
 import FormControl, {
@@ -18,6 +18,7 @@ type Props = FormControlProps & {
   isDisabled?: boolean;
   registerReturn?: UseFormRegisterReturn;
   inputStyle?: StyleProps;
+  onBlur?: FocusEventHandler<HTMLInputElement>;
 };
 
 const defaultProps = {
@@ -35,6 +36,7 @@ export default function TextField({
   isDisabled,
   registerReturn,
   inputStyle,
+  onBlur,
   ...rest
 }: Props) {
   return (
@@ -51,6 +53,7 @@ export default function TextField({
         boxShadow="none!important"
         _placeholder={{ color: 'blackAlpha.500' }}
         _focus={getFocusStyle(!!rest.error)}
+        onBlur={onBlur}
         {...registerReturn}
         {...inputStyle}
       />
