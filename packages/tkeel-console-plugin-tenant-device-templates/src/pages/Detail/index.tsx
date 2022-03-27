@@ -9,28 +9,25 @@ import {
   MoreAction,
 } from '@tkeel/console-components';
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
-// import { BoxTwoToneIcon, DownloadFilledIcon } from '@tkeel/console-icons';
-import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
+import { formatDateTimeByTimestamp, plugin } from '@tkeel/console-utils';
 
 import useTemplateInfoQuery from '@/tkeel-console-plugin-tenant-device-templates/hooks/queries/useTemplateInfoQuery';
-// import Table from '@/tkeel-console-plugin-tenant-device-templates/pages/Detail/components/Table';
-// import DeleteSubscriptionButton from '@/tkeel-console-plugin-tenant-device-templates/pages/Index/components/DeleteSubscriptionButton';
-// import ModifySubscriptionButton from '@/tkeel-console-plugin-tenant-device-templates/pages/Index/components/ModifySubscriptionButton';
 import TelemetryTable from '@/tkeel-console-plugin-tenant-device-templates/pages/Detail/components/TelemetryTable';
 
 import DeleteTemplateButton from '../Index/components/DeleteTemplateButton';
 import ModifyTemplateButton from '../Index/components/ModifyTemplateButton';
 import SaveAsTemplateButton from '../Index/components/SaveAsTemplateButton';
-
-// import AttributeTable from './components/AttributeTable';
+import AttributeTable from './components/AttributeTable';
 
 function Detail(): JSX.Element {
+  const toast = plugin.getPortalToast();
+
   const navigate = useNavigate();
   const location = useLocation();
   const { pathname }: { pathname: string } = location;
   const ID = pathname.split('/')[pathname.split('/').length - 1];
   // const { data, isSuccess, refetch } = useTemplateInfoQuery(ID);
-  const { data, isSuccess } = useTemplateInfoQuery(ID);
+  const { data, isSuccess, refetch } = useTemplateInfoQuery(ID);
 
   const defaultValues = {
     description: data?.templateObject?.properties?.basicInfo?.description,
@@ -39,8 +36,6 @@ function Detail(): JSX.Element {
     // eslint-disable-next-line  no-underscore-dangle
     updatedAt: String(data?.templateObject?.properties?.sysField?._updatedAt),
   };
-  // const created_at = data.created_at
-  // console.log('data', data);
 
   return (
     <Flex>
@@ -69,14 +64,15 @@ function Detail(): JSX.Element {
                     data={defaultValues}
                     key="modify"
                     onSuccess={() => {
-                      // refetch();
+                      toast('另存为模板成功', { status: 'success' });
                     }}
                   />,
                   <ModifyTemplateButton
                     data={defaultValues}
                     key="modify"
                     onSuccess={() => {
-                      // refetch();
+                      toast('修改成功', { status: 'success' });
+                      refetch();
                     }}
                   />,
                   <DeleteTemplateButton
@@ -84,7 +80,7 @@ function Detail(): JSX.Element {
                     id={defaultValues.id}
                     name={defaultValues.title}
                     refetchData={() => {
-                      // refetch();
+                      navigate('/');
                     }}
                   />,
                 ]}
@@ -149,7 +145,7 @@ function Detail(): JSX.Element {
       >
         <Tabs display="flex" flexDirection="column" flex="1">
           <CustomTabList>
-            {/* <CustomTab>属性模板</CustomTab> */}
+            <CustomTab>属性模板</CustomTab>
             <CustomTab>遥测模板</CustomTab>
             {/* <CustomTab>服务指令</CustomTab> */}
           </CustomTabList>
@@ -160,19 +156,17 @@ function Detail(): JSX.Element {
             borderBottomLeftRadius="4px"
             borderBottomRightRadius="4px"
           >
-            {/* <TabPanel padding="0" height="100%">
-              <AttributeTable id={ID} title="123" />
-            </TabPanel> */}
             <TabPanel padding="0" height="100%">
-              <TelemetryTable id={ID} title="123" />
+              <AttributeTable id={ID} title={defaultValues.title} />
+            </TabPanel>
+            <TabPanel padding="0" height="100%">
+              <TelemetryTable id={ID} title={defaultValues.title} />
             </TabPanel>
             {/* <TabPanel padding="0" height="100%" backgroundColor="white">
               3
             </TabPanel> */}
           </TabPanels>
         </Tabs>
-
-        {/* <Table id={ID} title={data?.title} /> */}
       </Box>
     </Flex>
   );

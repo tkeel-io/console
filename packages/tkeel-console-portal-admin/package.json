@@ -18,7 +18,7 @@
     "start": "serve -p 3000 --single --cors ./dist/"
   },
   "dependencies": {
-    "@chakra-ui/react": "^1.8.6",
+    "@chakra-ui/react": "^1.8.7",
     "@tkeel/console-business-components": "workspace:^",
     "@tkeel/console-components": "workspace:^",
     "@tkeel/console-hooks": "workspace:^",
@@ -30,7 +30,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.28.1",
-    "react-query": "^3.34.16",
+    "react-query": "^3.34.19",
     "react-router-dom": "^6.2.2",
     "react-use": "^17.3.2"
   }

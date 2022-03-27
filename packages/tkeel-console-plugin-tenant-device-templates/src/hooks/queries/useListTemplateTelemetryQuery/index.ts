@@ -88,9 +88,18 @@ export default function useListSubscribeEntitiesQuery({
     reactQueryOptions: { onSuccess },
   });
 
-  const usefulData = getUsefulData(
-    data?.templateTeleObject?.configs?.telemetry?.define?.fields as Telemetry
-  );
-
+  let usefulData: UsefulData[] = [];
+  if (JSON.stringify(data?.templateTeleObject?.configs) !== '{}') {
+    usefulData = getUsefulData(
+      data?.templateTeleObject?.configs.telemetry.define.fields as Telemetry
+    );
+    return { usefulData, data, ...rest };
+  }
   return { usefulData, data, ...rest };
+
+  // const usefulData = getUsefulData(
+  //   data?.templateTeleObject?.configs?.telemetry?.define?.fields as Telemetry
+  // );
+
+  // return { usefulData, data, ...rest };
 }

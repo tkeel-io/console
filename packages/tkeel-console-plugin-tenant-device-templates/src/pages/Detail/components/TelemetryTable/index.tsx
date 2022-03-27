@@ -14,21 +14,18 @@ import {
   Table,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
-import { WebcamTwoToneIcon } from '@tkeel/console-icons';
-// import { formatDateTimeByTimestamp, plugin } from '@tkeel/console-utils';
-import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
+import { DuotoneTwoToneIcon } from '@tkeel/console-icons';
+import { useModifyTelemetryMutation } from '@tkeel/console-request-hooks';
+import { formatDateTimeByTimestamp, plugin } from '@tkeel/console-utils';
 
 import useListTemplateTelemetryQuery, {
   UsefulData as Data,
 } from '@/tkeel-console-plugin-tenant-device-templates/hooks/queries/useListTemplateTelemetryQuery';
 
-// import { Column } from 'react-table';
-// import MoveSubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/MoveSubscriptionButton';
-// import { plugin } from '@tkeel/console-utils';
 import DetailTelemetryButton from '../DetailTelemetryButton';
 
 function Index({ id, title }: { id: string; title: string }) {
-  // const toast = plugin.getPortalToast();
+  const toast = plugin.getPortalToast();
 
   const [keywords, setKeyWords] = useState('');
 
@@ -50,9 +47,6 @@ function Index({ id, title }: { id: string; title: string }) {
     // eslint-disable-next-line no-console
     console.log('Index ~ params', params);
   }
-  // const { data } = useListSubscribeEntitiesQuery(id);
-
-  // refetch
   const {
     usefulData: data,
     isLoading,
@@ -60,21 +54,27 @@ function Index({ id, title }: { id: string; title: string }) {
   } = useListTemplateTelemetryQuery({
     id,
     onSuccess(res) {
-      // console.log('onSuccess ~ res');
-      // const total = res?.data?.total ?? 0;
-      const total = Object.keys(
-        res.data.templateTeleObject.configs.telemetry.define.fields
-      ).length;
-      setTotalSize(total);
+      if (JSON.stringify(res.data?.templateTeleObject?.configs) !== '{}') {
+        const total = Object.keys(
+          res.data.templateTeleObject.configs.telemetry.define.fields
+        ).length;
+        setTotalSize(total);
+        return;
+      }
+      setTotalSize(0);
     },
   });
 
-  // const { mutate } = useCreateTelemetryMutation({
-  //   id,
-  //   onSuccess() {},
-  // });
-
-  // setTotalSize(data?.total || 0);
+  const { mutate } = useModifyTelemetryMutation({
+    id,
+    onSuccess() {
+      // onSuccess();
+      toast('更新成功', { status: 'success' });
+      refetch();
+      // refetchData();
+      // onClose();
+    },
+  });
 
   const columns: ReadonlyArray<Column<Data>> = [
     {
@@ -84,7 +84,7 @@ function Index({ id, title }: { id: string; title: string }) {
         useMemo(
           () => (
             <Flex alignItems="center" justifyContent="space-between">
-              <WebcamTwoToneIcon />
+              <DuotoneTwoToneIcon />
               <Text color="gray.800" fontWeight="600" marginLeft="14px">
                 {value}
               </Text>
@@ -131,9 +131,6 @@ function Index({ id, title }: { id: string; title: string }) {
       Cell: ({ row }: Cell<Data>) =>
         useMemo(() => {
           const { original } = row;
-          // eslint-disable-next-line no-console
-          console.log('useMemo ~ original', original);
-
           return (
             <MoreAction
               buttons={[
@@ -146,9 +143,9 @@ function Index({ id, title }: { id: string; title: string }) {
                   key="modify"
                   defaultValues={original}
                   handleSubmit={(formValues) => {
-                    // eslint-disable-next-line no-console
-                    console.log('useMemo ~ formValues', formValues);
-                    // refetch();
+                    mutate({
+                      data: formValues,
+                    });
                   }}
                 />,
                 <DeleteTelemetryButton
@@ -159,15 +156,6 @@ function Index({ id, title }: { id: string; title: string }) {
                     refetch();
                   }}
                 />,
-                // <DeleteDeviceButton
-                //   onSuccess={() => {}}
-                //   name={[original.name]}
-                //   key="delete"
-                //   selected_ids={[original.ID]}
-                //   refetchData={() => {
-                //     refetch();
-                //   }}
-                // />,
               ]}
             />
           );
@@ -185,25 +173,28 @@ function Index({ id, title }: { id: string; title: string }) {
             setKeyWords(value.trim());
           },
         }}
-        buttons={[
-          <CreateTelemetryButton
-            key="create"
-            id={id}
-            refetchData={() => {
-              refetch();
-            }}
-            // handleSubmit={(formValues) => {
-            //   // eslint-disable-next-line no-console
-            //   console.log('add', formValues);
-            //   mutate({
-            //     data: { [formValues.id]: formValues },
-            //   });
-            // }}
-          />,
-        ]}
+        // eslint-disable-next-line react/no-unstable-nested-components
+        buttons={useMemo(() => {
+          return [
+            <CreateTelemetryButton
+              key="create"
+              id={id}
+              refetchData={() => {
+                refetch();
+              }}
+            />,
+          ];
+        }, [id, refetch])}
       />
       <Table
-        styles={{ wrapper: { flex: 1, height: '100%', minHeight: '60vh' } }}
+        scroll={{ y: '100%' }}
+        styles={{
+          wrapper: {
+            flex: 1,
+            overflow: 'hidden',
+            backgroundColor: 'whiteAlias',
+          },
+        }}
         columns={columns}
         data={data || []}
         isShowStripe
@@ -216,7 +207,7 @@ function Index({ id, title }: { id: string; title: string }) {
                 <Box display="inline" color="gray.600" fontWeight="500">
                   [{title}]
                 </Box>
-                暂无设备,可手动添加
+                暂无数据
               </Box>
             }
             styles={{
@@ -224,14 +215,6 @@ function Index({ id, title }: { id: string; title: string }) {
               content: { marginTop: '10px' },
             }}
             title=""
-            // content={
-            //   <Box mt="20px">
-            //     <CreateDeviceButton
-            //       key="create"
-            //       onSuccess={handleCreateRoleSuccess}
-            //     />
-            //   </Box>
-            // }
           />
         }
       />

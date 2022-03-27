@@ -69,6 +69,7 @@ module.exports = {
     'multiselect',
     'Tele',
     'proxied',
+    'struct',
   ],
   ignorePaths: [
     '**/.idea/**',
