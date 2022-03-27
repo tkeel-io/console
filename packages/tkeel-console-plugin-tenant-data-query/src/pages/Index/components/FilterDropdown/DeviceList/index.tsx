@@ -6,8 +6,7 @@ import {
   SelfLearnIcon,
 } from '@tkeel/console-business-components';
 import { SmartObjectTwoToneIcon } from '@tkeel/console-icons';
-
-import { DeviceItem } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceListQuery';
+import { DeviceItem } from '@tkeel/console-request-hooks';
 
 import NoData from '../NoData';
 

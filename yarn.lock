@@ -3628,11 +3628,12 @@ __metadata:
     "@tkeel/console-components": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
     "@tkeel/console-icons": "workspace:^"
+    "@tkeel/console-request-hooks": "workspace:^"
     "@tkeel/console-types": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
-    "@types/lodash": ^4.14.179
+    "@types/lodash": ^4.14.180
     "@types/react-csv": ^1.1.2
-    dayjs: ^1.10.8
+    dayjs: ^1.11.0
     framer-motion: ^6.2.8
     js-base64: ^3.7.2
     lodash: ^4.17.21
@@ -7235,7 +7236,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dayjs@npm:^1.10.8, dayjs@npm:^1.11.0":
+"dayjs@npm:^1.11.0":
   version: 1.11.0
   resolution: "dayjs@npm:1.11.0"
   checksum: 2d36f6d71345114cdcd89147adf9e05b4f8fe81684e08c8bf1f86b140aa0b86ecc3cae661a9348d96feb7fbefd03e1bc3697303688e95209670abcb36b4ece15
