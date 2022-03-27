@@ -2,7 +2,7 @@ import { useDisclosure } from '@chakra-ui/react';
 
 import { MoreActionButton } from '@tkeel/console-components';
 import { PencilFilledIcon } from '@tkeel/console-icons';
-import { TemplateTreeNodeDataType } from '@tkeel/console-request-hooks';
+import { KeyDataType } from '@tkeel/console-request-hooks';
 
 import { RequestData as FormValues } from '@/tkeel-console-plugin-tenant-device-templates/hooks/mutations/useCreateTemplateMutation';
 import useModifyTemplateMutation from '@/tkeel-console-plugin-tenant-device-templates/hooks/mutations/useModifyTemplateMutation';
@@ -11,7 +11,7 @@ import CustomTemplateModal from '../CustomTemplateModal';
 
 type Props = {
   onSuccess: () => void;
-  data: TemplateTreeNodeDataType;
+  data: KeyDataType;
 };
 
 export default function ModifyTemplateButton({ onSuccess, data }: Props) {
