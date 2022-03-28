@@ -1,12 +1,16 @@
 import { useQuery } from '@tkeel/console-hooks';
 
-export interface Tenant {
-  title: string;
-  remark: string;
-  tenant_id: string;
-  operator_id: string;
-  enable_timestamp: string;
-  user_num: number;
+export interface RouteItemData {
+  created_at: string;
+  desc: string;
+  id: string;
+  name: string;
+  status: number;
+  type: number;
+  updated_at: string;
+  devices_status: number;
+  targets_status: number;
+  sub_id: number | unknown;
 }
 
 export interface ApiData {
@@ -14,7 +18,7 @@ export interface ApiData {
   total: number;
   page_num: number;
   page_size: number;
-  tenants: Tenant[];
+  data: RouteItemData[];
 }
 
 const url = '/rule-manager/v1/rules';
@@ -41,7 +45,7 @@ export default function useRouteRulesQuery({ pageNum, pageSize }: Props) {
       key_words: '',
     },
   });
-  const tenants = data?.tenants || [];
+  const routeRulesData = data?.data || [];
 
-  return { tenants, data, ...rest };
+  return { routeRulesData, data, ...rest };
 }

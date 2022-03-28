@@ -1,18 +1,12 @@
 import { useMutation } from '@tkeel/console-hooks';
 
-export interface RequestData {
-  name: string;
-  type: number;
-  desc: string;
-}
-
 export interface ApiData {
   '@type': string;
 }
 
-const method = 'PUT';
+const method = 'DELETE';
 
-export default function useModifyRulesMutation({
+export default function useDeleteRulesMutation({
   id,
   onSuccess,
 }: {
@@ -20,7 +14,8 @@ export default function useModifyRulesMutation({
   onSuccess: () => void;
 }) {
   const url = `/rule-manager/v1/rules/${id}`;
-  return useMutation<ApiData, undefined, RequestData>({
+
+  return useMutation<ApiData, undefined, undefined>({
     url,
     method,
     reactQueryOptions: { onSuccess },

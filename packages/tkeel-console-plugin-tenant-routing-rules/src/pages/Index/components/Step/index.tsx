@@ -8,7 +8,8 @@ import {
 
 import IconCircle from '@/tkeel-console-plugin-tenant-routing-rules/components/IconCircle';
 
-export type CurrentStep = 0 | 1 | 2 | 3;
+// export type CurrentStep = 0 | 1 | 2 | 3;
+export type CurrentStep = number[] | unknown[];
 
 type Props = {
   currentStep: CurrentStep;
@@ -26,7 +27,7 @@ export default function Step({ currentStep }: Props) {
       {stepInfoArr.map((item, index) => {
         const Icon = item.icon;
         const isLastIndex = index === stepInfoArr.length - 1;
-        const active = index < currentStep;
+        const active = currentStep[index] !== 0;
         return (
           <Flex
             key={item.key}
