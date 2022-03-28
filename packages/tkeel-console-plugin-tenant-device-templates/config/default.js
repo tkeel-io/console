@@ -1,10 +1,10 @@
 const { tkeel } = require('../../../config/default');
+
 module.exports = {
   portalName: 'tenant',
   publicPath: '/static/console-plugin-tenant-device-templates/',
   client: {
     basePath: '/tenant-device-templates',
-    documentTitle: '',
   },
   api: {
     basePath: '/apis',
