@@ -41,7 +41,7 @@ function RouteRulesCard({
       <Box bgColor="gray.50" padding="16px 24px 12px">
         <Flex alignItems="center" justifyContent="space-between">
           <Flex alignItems="center">
-            <Box flexShrink="0">
+            <Box flexShrink={0}>
               <MethodIcon size={28} />
             </Box>
             <Text

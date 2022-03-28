@@ -192,7 +192,7 @@ export default function PropertiesConditions({
       <Button
         colorScheme="primary"
         margin="12px 20px"
-        flexShrink="0"
+        flexShrink={0}
         disabled={identifiers.length === 0}
         isLoading={isTelemetryDataLoading}
         onClick={onConfirm}

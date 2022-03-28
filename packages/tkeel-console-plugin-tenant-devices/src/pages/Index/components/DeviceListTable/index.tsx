@@ -192,6 +192,7 @@ function DeviceListTable({
     },
     {
       Header: '操作',
+      width: 80,
       Cell: ({ row }: Cell<DeviceItem>) =>
         useMemo(() => {
           const originData = row.original?.originData as DeviceApiItem;

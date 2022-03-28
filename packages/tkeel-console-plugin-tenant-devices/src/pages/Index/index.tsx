@@ -268,6 +268,7 @@ function Index(): JSX.Element {
     <Flex flexDirection="column" h="100%">
       <PageHeaderToolbar
         name="设备列表"
+        hasIcon
         hasSearchInput
         searchInputProps={{
           onSearch(value) {
@@ -287,6 +288,8 @@ function Index(): JSX.Element {
             defaultFormValues={{
               parentId: groupId,
               parentName: groupItem?.name ?? '',
+              templateId: '',
+              templateName: '',
             }}
             onSuccess={() => {
               const timer = setTimeout(() => {
