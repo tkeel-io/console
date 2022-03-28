@@ -4,9 +4,6 @@
     "composite": true,
     "outDir": "./dist/"
   },
-  "include": [
-    "./src/",
-    "../tkeel-console-request-hooks/src/hooks/mutations/useAddAttributeMutation"
-  ]
+  "include": ["./src/"]
   // "defaultSeverity": "none"
 }

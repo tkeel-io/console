@@ -133,6 +133,17 @@ function AttributesPanel({
     setAttributeMutate({ data: reqData });
   };
 
+  const getFormValue = (item: AttributeItem) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const defaultValue = attributeValues[item.id];
+    const define = item?.define ?? '';
+    const name = item?.name ?? '';
+    const type = item?.type ?? '';
+    const id = item?.id ?? '';
+    const rw = define?.rw ?? 'rw';
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    return { defaultValue, define, name, type, id, rw };
+  };
   return (
     <Flex flex="1" direction="column" height="100%">
       {isEmpty(attributeField) ? (
@@ -202,15 +213,10 @@ function AttributesPanel({
           <Box flex="1" overflowY="scroll" pb="30px">
             <SimpleGrid columns={2} spacingX="20px" spacingY="12px">
               {getFilterList({ list: attributeField, keywords }).map(
-                // eslint-disable-next-line sonarjs/cognitive-complexity
                 (item: AttributeItem) => {
                   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                  const defaultValue = attributeValues[item.id];
-                  const define = item?.define ?? '';
-                  const name = item?.name ?? '';
-                  const type = item?.type ?? '';
-                  const id = item?.id ?? '';
-                  const rw = define?.rw ?? 'rw';
+                  const { defaultValue, name, type, id, define, rw } =
+                    getFormValue(item);
                   const editFormValues = {
                     name,
                     id,
