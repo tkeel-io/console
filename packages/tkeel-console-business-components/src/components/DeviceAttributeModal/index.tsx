@@ -95,51 +95,58 @@ function DeviceAttributeModal({
   });
   const watchFields = watch();
   const DEFAULT_VALUE_STR = 'define.default_value';
-  // eslint-disable-next-line sonarjs/cognitive-complexity
+  const getValidType = (values: DeviceAttributeFormFields) => {
+    const { type, define } = values;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const defaultValue = define?.default_value ?? '';
+    const isJson = isJSON(defaultValue as string);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const parsedValue = isJson ? JSON.parse(defaultValue as string) : '';
+    if (isJson) {
+      if (type === 'array' && isArray(parsedValue)) {
+        return { type: 'array', defaultValue: parsedValue };
+      }
+      if (type === 'struct' && isObject(parsedValue)) {
+        return { type: 'struct', defaultValue: parsedValue };
+      }
+    }
+    if (
+      ['int', 'float', 'double'].includes(type) &&
+      !Number.isNaN(Number(defaultValue))
+    ) {
+      return { type: 'number', defaultValue: Number(defaultValue) };
+    }
+    if (['string', 'bool'].includes(type)) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      return { type: 'other', defaultValue };
+    }
+    return { type: 'error', defaultValue: '' };
+  };
   const handleConfirm = async () => {
     const result = await trigger();
     if (result) {
       const values = getValues();
-      const define = values?.define ?? {};
-      const { type } = values;
+      const { define } = values;
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const defaultValue = define.default_value;
-      const isJson = isJSON(defaultValue as string);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const parsedValue = isJson ? JSON.parse(defaultValue as string) : '';
-      const isNumberType =
-        ['int', 'float', 'double'].includes(type) &&
-        !Number.isNaN(Number(defaultValue));
-      const isArrayType = type === 'array' && isJson && isArray(parsedValue);
-      const isObjectType = type === 'struct' && isJson && isObject(parsedValue);
-      const isOtherType = ['string', 'bool'].includes(type);
+      const { type, defaultValue } = getValidType(values);
       if (defaultValue) {
-        if (isArrayType || isObjectType) {
+        if (type !== 'error') {
           const valuesCopy = {
             ...values,
             define: {
               ...define,
               // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-              default_value: JSON.parse(defaultValue as string),
+              default_value: defaultValue,
             },
           };
           onSubmit(valuesCopy);
-        } else if (isNumberType) {
-          const valuesCopy = {
-            ...values,
-            define: {
-              ...define,
-              default_value: Number(defaultValue),
-            },
-          };
-          onSubmit(valuesCopy);
-        } else if (isOtherType) {
-          onSubmit(values);
         } else {
           setError(DEFAULT_VALUE_STR, {
             type: 'focus',
           });
         }
+      } else {
+        onSubmit(values);
       }
     }
   };
