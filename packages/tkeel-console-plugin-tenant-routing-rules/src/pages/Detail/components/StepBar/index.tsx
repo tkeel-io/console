@@ -34,7 +34,7 @@ export default function StepBar({ styles, currentStep }: Props) {
       padding="0 126px"
       alignItems="center"
       height="88px"
-      flexShrink="0"
+      flexShrink={0}
       backgroundColor="gray.600"
       borderRadius="4px"
       {...styles?.wrapper}
