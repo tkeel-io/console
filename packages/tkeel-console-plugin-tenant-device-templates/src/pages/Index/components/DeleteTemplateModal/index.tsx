@@ -29,7 +29,7 @@ export default function DeleteTemplateModal({
           &nbsp;「{name}」？
         </>
       }
-      description="删除订阅后不可恢复，请谨慎操作。"
+      description="删除后不可恢复，请谨慎操作。"
       isOpen={isOpen}
       isConfirmButtonLoading={isConfirmButtonLoading}
       onClose={onClose}
