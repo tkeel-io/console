@@ -23,7 +23,7 @@ export default function FilterCondition({
   return (
     <Flex
       marginRight="10px"
-      flexShrink="0"
+      flexShrink={0}
       position="relative"
       paddingLeft="5px"
       paddingRight="4px"

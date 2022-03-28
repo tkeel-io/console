@@ -44,7 +44,7 @@ function PluginList({
         <>
           <Grid
             padding="20px 24px"
-            templateColumns="repeat(4, 1fr)"
+            templateColumns="repeat(4, minmax(0, 1fr))"
             gap="8px"
             overflowY="auto"
           >
@@ -110,7 +110,7 @@ function PluginList({
                     <Flex justifyContent="space-between">
                       {tagMap[tag] && (
                         <Tag
-                          flexShrink="0"
+                          flexShrink={0}
                           colorScheme={tag === 'User' ? 'orange' : 'green'}
                           size="sm"
                           padding="0 4px"
@@ -121,11 +121,19 @@ function PluginList({
                       )}
                       <Flex
                         alignItems="center"
+                        maxWidth="80%"
                         color="gray.500"
                         fontSize="12px"
                       >
-                        <Text isTruncated>版本：{version}</Text>
-                        <Text marginLeft="20px" isTruncated>
+                        <Text maxWidth="50%" isTruncated title={version}>
+                          版本：{version}
+                        </Text>
+                        <Text
+                          maxWidth="50%"
+                          marginLeft="20px"
+                          isTruncated
+                          title={repo}
+                        >
                           插件源：{repo}
                         </Text>
                       </Flex>

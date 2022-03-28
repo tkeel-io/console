@@ -11,12 +11,12 @@
   },
   "license": "Apache-2.0",
   "scripts": {
-    "analyze": "cross-env NODE_ENV=development ANALYZE=true npm run build",
+    "analyze": "cross-env ANALYZE=true yarn build",
     "build": "cross-env NODE_ENV=production webpack --config ../../webpack/webpack.config.plugins",
     "dev": "cross-env NODE_ENV=development webpack serve --config ../../webpack/webpack.config.plugins"
   },
   "dependencies": {
-    "@chakra-ui/react": "^1.8.6",
+    "@chakra-ui/react": "^1.8.7",
     "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.8.1",
     "@tkeel/console-business-components": "workspace:^",
@@ -31,7 +31,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.28.1",
-    "react-query": "^3.34.16",
+    "react-query": "^3.34.19",
     "react-router-dom": "^6.2.2",
     "react-table": "^7.7.0"
   }

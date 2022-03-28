@@ -5,11 +5,15 @@ import { Cell, Column } from 'react-table';
 
 import {
   DeviceStatusIcon,
-  IconTooltip,
   IconWrapper,
   SelfLearnIcon,
 } from '@tkeel/console-business-components';
-import { LinkButton, MoreAction, Table } from '@tkeel/console-components';
+import {
+  LinkButton,
+  MoreAction,
+  Table,
+  Tooltip,
+} from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 import {
   BranchTowToneIcon,
@@ -76,7 +80,7 @@ function DeviceListTable({
     return (
       <HStack>
         <DeviceStatusIcon isOnline={isOnline} />
-        <IconTooltip label={subscribeAddr ? '已订阅' : '未订阅'}>
+        <Tooltip label={subscribeAddr ? '已订阅' : '未订阅'}>
           <IconWrapper bg={COLORS.SUBSCRIBE.BG[subscribeAddr ? 1 : 0]}>
             <MessageWarningTwoToneIcon
               size="20px"
@@ -84,7 +88,7 @@ function DeviceListTable({
               twoToneColor={COLORS.SUBSCRIBE.ICON_TWO[subscribeAddr ? 1 : 0]}
             />
           </IconWrapper>
-        </IconTooltip>
+        </Tooltip>
         <SelfLearnIcon isSelfLearn={selfLearn} />
       </HStack>
     );
@@ -145,7 +149,7 @@ function DeviceListTable({
       Cell: ({ value }: { value: boolean }) =>
         useMemo(() => {
           return (
-            <IconTooltip label={value ? '直连' : '非直连'}>
+            <Tooltip label={value ? '直连' : '非直连'}>
               <IconWrapper bg={COLORS.DIR_CONNECT.BG[value ? 1 : 0]}>
                 {value ? (
                   <DotLineFilledIcon size="20px" />
@@ -153,7 +157,7 @@ function DeviceListTable({
                   <BranchTowToneIcon size="20px" />
                 )}
               </IconWrapper>
-            </IconTooltip>
+            </Tooltip>
           );
         }, [value]),
     },
@@ -188,6 +192,7 @@ function DeviceListTable({
     },
     {
       Header: '操作',
+      width: 80,
       Cell: ({ row }: Cell<DeviceItem>) =>
         useMemo(() => {
           const originData = row.original?.originData as DeviceApiItem;

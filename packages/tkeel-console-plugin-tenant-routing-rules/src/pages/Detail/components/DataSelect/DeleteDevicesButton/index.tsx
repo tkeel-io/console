@@ -1,26 +1,37 @@
 import { useDisclosure } from '@chakra-ui/react';
+import { useParams } from 'react-router-dom';
 
 import { Alert, MoreActionButton } from '@tkeel/console-components';
 import { TrashFilledIcon } from '@tkeel/console-icons';
-// import { plugin } from '@tkeel/console-utils';
+import { plugin } from '@tkeel/console-utils';
+
+import useDeleteDevicesMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useDeleteDevicesMutation';
 
 type Props = {
   selectedDevices: {
     id: string;
     name: string;
   }[];
-  // refetchData: () => unknown;
+  refetchData: () => unknown;
   // onSuccess: () => void;
 };
 
 export default function DeleteDevicesButton({
   selectedDevices,
+  refetchData,
 }: // refetchData,
 // onSuccess,
 Props) {
-  // const toast = plugin.getPortalToast();
+  const toast = plugin.getPortalToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { id } = useParams();
+  const { mutate, isSuccess } = useDeleteDevicesMutation(id || '');
 
+  if (isSuccess) {
+    toast('移除设备成功', { status: 'success' });
+    refetchData();
+    onClose();
+  }
   // const { mutate } = useDeleteDeviceMutation({
   //   onSuccess() {
   //     onSuccess();
@@ -30,9 +41,15 @@ Props) {
   //   },
   // });
 
-  // const handleConfirm = () => {
-  // mutate({ data: { entities: selectedIds } });
-  // };
+  const handleConfirm = () => {
+    if (id && selectedDevices.length > 0) {
+      mutate({
+        params: {
+          devices_ids: selectedDevices.map((device) => device.id).join(','),
+        },
+      });
+    }
+  };
 
   return (
     <>
@@ -40,9 +57,7 @@ Props) {
         icon={<TrashFilledIcon />}
         title="移除设备"
         onClick={() => {
-          // eslint-disable-next-line no-console
           onOpen();
-          // console.log('停用插件');
           // mutate({});
         }}
       />
@@ -59,7 +74,7 @@ Props) {
         isOpen={isOpen}
         // isConfirmButtonLoading={isConfirmButtonLoading}
         onClose={onClose}
-        // onConfirm={onConfirm}
+        onConfirm={handleConfirm}
       />
     </>
   );
