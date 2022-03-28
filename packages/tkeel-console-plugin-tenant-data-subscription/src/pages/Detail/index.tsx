@@ -30,7 +30,6 @@ function Detail(): JSX.Element {
     is_default: data?.is_default,
   };
   // const created_at = data.created_at
-  // console.log('data', data);
 
   return (
     <Flex>

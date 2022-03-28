@@ -32,6 +32,10 @@ export interface UsefulData {
   type: string;
   description: string;
   last_time: number;
+  define: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [propName: string]: any;
+  };
 }
 interface Telemetry {
   [propName: string]: UsefulData;
@@ -40,7 +44,11 @@ export interface ApiData {
   '@type': string;
   templateTeleObject: {
     configs: {
-      telemetry: Telemetry;
+      telemetry: {
+        define: {
+          fields: Telemetry;
+        };
+      };
     };
   };
 }
@@ -53,6 +61,7 @@ function getUsefulData(data: Telemetry): UsefulData[] {
       type: item.type,
       description: item.description,
       last_time: item.last_time,
+      define: item.define,
     };
   });
 }
@@ -79,9 +88,18 @@ export default function useListSubscribeEntitiesQuery({
     reactQueryOptions: { onSuccess },
   });
 
-  const usefulData = getUsefulData(
-    data?.templateTeleObject?.configs?.telemetry as Telemetry
-  );
-
+  let usefulData: UsefulData[] = [];
+  if (JSON.stringify(data?.templateTeleObject?.configs) !== '{}') {
+    usefulData = getUsefulData(
+      data?.templateTeleObject?.configs.telemetry.define.fields as Telemetry
+    );
+    return { usefulData, data, ...rest };
+  }
   return { usefulData, data, ...rest };
+
+  // const usefulData = getUsefulData(
+  //   data?.templateTeleObject?.configs?.telemetry?.define?.fields as Telemetry
+  // );
+
+  // return { usefulData, data, ...rest };
 }
