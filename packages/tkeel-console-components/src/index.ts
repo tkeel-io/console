@@ -18,6 +18,7 @@ export { default as MoreAction } from './components/MoreAction';
 export { default as PageHeader } from './components/PageHeader';
 export { default as PageHeaderToolbar } from './components/PageHeaderToolbar';
 export { default as Pagination } from './components/Pagination';
+export { default as RadioCard } from './components/RadioCard';
 export { default as SearchInput } from './components/SearchInput';
 export * from './components/Select';
 export * as StatusIcon from './components/StatusIcon';
