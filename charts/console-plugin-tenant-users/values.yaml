@@ -2,5 +2,5 @@ replicaCount: 1
 imagePullSecrets: ''
 image:
   repository: tkeelio/console-plugin-tenant-users
-  # tag: 0.4.3
+# tag: 0.4.3
   pullPolicy: Always

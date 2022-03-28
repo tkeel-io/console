@@ -12,7 +12,7 @@
   "license": "Apache-2.0",
   "main": "./src/index.ts",
   "dependencies": {
-    "@chakra-ui/react": "^1.8.6",
+    "@chakra-ui/react": "^1.8.7",
     "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.8.1",
     "@tkeel/console-components": "workspace:^",
@@ -27,8 +27,8 @@
     "qs": "^6.10.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-hook-form": "^7.28.0",
-    "react-query": "^3.34.16",
+    "react-hook-form": "^7.28.1",
+    "react-query": "^3.34.19",
     "react-router-dom": "^6.2.2"
   }
 }

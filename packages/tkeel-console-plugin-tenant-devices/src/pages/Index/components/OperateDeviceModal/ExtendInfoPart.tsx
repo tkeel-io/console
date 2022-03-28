@@ -119,7 +119,7 @@ export default function ExtendInfoPart({
       >
         添加
       </Button>
-      <Text fontSize="12px" color="grayAlternatives.300" mb="12px">
+      <Text fontSize="12px" color="gray.300" mb="12px">
         支持用户自定义扩展信息
       </Text>
       <Wrap spacing="8px" mb="20px">

@@ -16,38 +16,35 @@ import {
   ConnectInfoType,
   ConnectOption,
   DeviceFormFields,
+  GroupOptions,
+  ModalMode,
   ModalType,
 } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
 
 const { TextField, TextareaField } = FormField;
-// const templateOption = [
-//   {
-//     label: '测试模版_1',
-//     id: 'iot-3decd8f3-d0c4-4923-81f2-a559f2b707da',
-//   },
-//   {
-//     label: '测试模版_2',
-//     id: 'iot-eb871989-e839-4451-ab62-534da8686b4e',
-//   },
-// ];
 
 interface Props {
   formHandler: UseFormReturn<DeviceFormFields, object>;
   watchFields: DeviceFormFields;
   type: ModalType;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  groupOptions: any;
+  mode: ModalMode;
+  groupOptions: GroupOptions[];
   handleSelectTemplate?: (selected: boolean) => void;
+  templateOptions: Array<{ label: string; id: string }>;
 }
 export default function BasicInfoPart({
   type,
+  mode,
   formHandler,
   watchFields,
   groupOptions,
-}: // handleSelectTemplate,
-Props) {
+  // handleSelectTemplate,
+  templateOptions,
+}: Props) {
   const { register, formState, setValue, clearErrors } = formHandler;
   const { errors } = formState;
+  // eslint-disable-next-line no-console
+  console.log(watchFields);
   return (
     <>
       <TextField
@@ -55,8 +52,6 @@ Props) {
         label={type === ModalType.DEVICE ? '设备名称' : '设备组名称'}
         registerReturn={register('name', {
           required: { value: true, message: '请填写设备名称' },
-          validate: (value) =>
-            value !== watchFields.parentName || '名称不可重复',
         })}
         error={errors.name}
       />
@@ -73,7 +68,6 @@ Props) {
           styles={{
             treeTitle: 'font-size:14px;height:32px;line-height:32px;',
           }}
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           treeData={groupOptions}
           defaultValue={watchFields.parentId}
           notFoundContent="暂无选项"
@@ -97,13 +91,14 @@ Props) {
               {...register('connectType', {
                 required: { value: true, message: '请选择设备连接方式' },
               })}
+              disabled={mode === ModalMode.EDIT}
               onChange={(value: string) => {
                 if (value) {
                   setValue('connectType', value);
                   clearErrors('connectType');
-                  // if (value === ConnectOption.INDIRECT) {
-                  //   setValue('connectInfo', [ConnectInfoType.useTemplate]);
-                  // }
+                  if (value === ConnectOption.INDIRECT) {
+                    setValue('connectInfo', [ConnectInfoType.useTemplate]);
+                  }
                 }
               }}
             >
@@ -125,6 +120,8 @@ Props) {
             <FormControl id="connectInfo">
               <CheckboxGroup
                 onChange={(value: ConnectInfoType[]) => {
+                  // eslint-disable-next-line no-console
+                  console.log(value);
                   setValue('connectInfo', value);
                   // if (handleSelectTemplate) {
                   //   handleSelectTemplate(
@@ -139,16 +136,15 @@ Props) {
                     colorScheme="primary"
                     id="useTemplate"
                     value={ConnectInfoType.useTemplate}
-                    isDisabled
-                    // isDisabled={
-                    //   watchFields.connectType !== ConnectOption.DIRECT
-                    // }
+                    isDisabled={
+                      watchFields.connectType !== ConnectOption.DIRECT
+                    }
                   >
                     <Text color="gray.600" fontSize="14px">
                       使用设备模版
                     </Text>
                   </Checkbox>
-                  {/* {(watchFields.connectInfo || []).includes(
+                  {(watchFields.connectInfo || []).includes(
                     ConnectInfoType.useTemplate
                   ) && (
                     <>
@@ -158,22 +154,26 @@ Props) {
                         value={watchFields.templateId}
                         style={{ width: '100%' }}
                         allowClear
-                        disabled
+                        disabled={mode === ModalMode.EDIT}
                         {...register('templateId', {
                           required: (watchFields.connectInfo || []).includes(
                             ConnectInfoType.useTemplate
                           ),
                         })}
                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        onChange={(value: string, option: any) => {
+                        onChange={(value: string) => {
                           setValue('templateId', value);
-                          setValue('templateName', option?.children ?? '');
+                          setValue(
+                            'templateName',
+                            templateOptions.find((v) => v.id === value)
+                              ?.label ?? ''
+                          );
                           if (value) {
                             clearErrors('templateId');
                           }
                         }}
                       >
-                        {templateOption.map((val) => (
+                        {templateOptions.map((val) => (
                           <Select.Option value={val.id} key={val.id}>
                             {val.label}
                           </Select.Option>
@@ -185,7 +185,7 @@ Props) {
                         </Text>
                       )}
                     </>
-                  )} */}
+                  )}
 
                   <Checkbox
                     colorScheme="primary"
