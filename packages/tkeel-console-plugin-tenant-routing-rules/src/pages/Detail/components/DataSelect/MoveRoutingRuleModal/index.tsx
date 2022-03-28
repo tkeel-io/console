@@ -1,15 +1,20 @@
-import { Select } from '@chakra-ui/react';
-import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 
-import { Modal } from '@tkeel/console-components';
+import { FormField, Modal } from '@tkeel/console-components';
+
+const { SelectField } = FormField;
+
+type FormValues = {
+  ruleId: string;
+};
 
 type Props = {
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
   onClose: () => unknown;
-  data?: { id: string; name: string }[];
-  onConfirm: (targetId: number) => unknown;
+  data?: { label: string; value: string }[];
+  defaultValue: string;
+  onConfirm: (ruleId: string) => unknown;
 };
 
 export default function MoveRoutingRuleModal({
@@ -17,15 +22,14 @@ export default function MoveRoutingRuleModal({
   isConfirmButtonLoading,
   onClose,
   data,
+  defaultValue,
   onConfirm,
 }: Props) {
-  const [targetId, setTargetId] = useState<number>();
-
-  const params = useParams();
-  const { id } = params;
+  const { control, getValues } = useForm<FormValues>();
 
   const handleConfirm = async () => {
-    onConfirm(targetId as number);
+    const ruleId = getValues('ruleId');
+    onConfirm(ruleId);
   };
 
   return (
@@ -38,20 +42,15 @@ export default function MoveRoutingRuleModal({
       }}
       onConfirm={handleConfirm}
     >
-      <Select
-        defaultValue={id || ''}
-        onChange={(el) => {
-          setTargetId(Number(el.target.value));
-        }}
-      >
-        {data?.map((item) => {
-          return (
-            <option value={item.id} key={item.id}>
-              {item.name}
-            </option>
-          );
-        })}
-      </Select>
+      <SelectField<FormValues>
+        id="ruleId"
+        name="ruleId"
+        label="规则名称"
+        defaultValue={defaultValue}
+        options={data || []}
+        control={control}
+        formControlStyle={{ marginTop: '20px' }}
+      />
     </Modal>
   );
 }

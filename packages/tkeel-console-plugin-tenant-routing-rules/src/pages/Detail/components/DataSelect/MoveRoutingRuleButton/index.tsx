@@ -1,29 +1,64 @@
 import { useDisclosure } from '@chakra-ui/react';
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { MoreActionButton } from '@tkeel/console-components';
 import { PencilFilledIcon } from '@tkeel/console-icons';
+import { plugin } from '@tkeel/console-utils';
 
+import useAddDevicesMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useAddDevicesMutation';
+import useDeleteDevicesMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useDeleteDevicesMutation';
+
+// import useRouteRulesQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRouteRulesQuery';
 import MoveRoutingRuleModal from '../MoveRoutingRuleModal';
 
 type Props = {
   selectedIds: string[];
-  // onSuccess: () => void;
+  refetchData: () => unknown;
 };
 
 export default function MoveRoutingRuleButton({
   selectedIds,
-}: // onSuccess,
-Props) {
-  // eslint-disable-next-line no-console
-  console.log('selectedIds', selectedIds);
+  refetchData,
+}: Props) {
+  const { id } = useParams();
+  const [selectedRuleId, setSelectedRuleId] = useState(id || '');
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  // const { mutate, isLoading } = useMoveSubscriptionMutation({
-  //   onSuccess() {
-  //     onSuccess();
-  //     onClose();
-  //   },
-  // });
+  // const {} = useRouteRulesQuery();
+
+  const toast = plugin.getPortalToast();
+  const { mutate: addMutate, isLoading: isAddDevicesLoading } =
+    useAddDevicesMutation({
+      ruleId: selectedRuleId,
+      onSuccess() {
+        toast('移动路由成功', { status: 'success' });
+      },
+    });
+
+  const { mutate: deleteMutate, isLoading: isDeleteTargetLoading } =
+    useDeleteDevicesMutation({
+      ruleId: id || '',
+      onSuccess() {
+        refetchData();
+        addMutate({
+          data: {
+            devices_ids: selectedIds,
+          },
+        });
+      },
+    });
+
+  const handleConfirm = (ruleId: string) => {
+    setSelectedRuleId(ruleId);
+    if (ruleId && ruleId !== id) {
+      deleteMutate({
+        params: {
+          devices_ids: selectedIds.join(','),
+        },
+      });
+    }
+  };
 
   return (
     <>
@@ -35,17 +70,15 @@ Props) {
         }}
       />
       <MoveRoutingRuleModal
-        data={[{ id: '1', name: '1' }]}
+        data={[
+          { label: '测试路由01', value: '33' },
+          { label: '测试路由02', value: '34' },
+        ]}
+        defaultValue="33"
         isOpen={isOpen}
-        isConfirmButtonLoading={false}
+        isConfirmButtonLoading={isDeleteTargetLoading || isAddDevicesLoading}
         onClose={onClose}
-        onConfirm={() => {
-          // mutate({
-          //   data: {
-          //     selectedIds: selectedIds,
-          //   },
-          // });
-        }}
+        onConfirm={handleConfirm}
       />
     </>
   );

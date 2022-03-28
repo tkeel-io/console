@@ -1,4 +1,5 @@
 import { useMutation } from '@tkeel/console-hooks';
+import { RequestResult } from '@tkeel/console-utils';
 
 interface RequestData {
   id: string;
@@ -10,13 +11,16 @@ export interface ApiData {
 
 const method = 'PUT';
 
-export default function useModifyRulesMutation({
-  id,
-  onSuccess,
-}: {
+type Props = {
   id: string;
-  onSuccess: () => void;
-}) {
+  onSuccess: (
+    data: RequestResult<ApiData, undefined, RequestData>,
+    variables: unknown,
+    context: unknown
+  ) => void | Promise<unknown>;
+};
+
+export default function useModifyRulesMutation({ id, onSuccess }: Props) {
   const url = `/rule-manager/v1/rules/${id}`;
   return useMutation<ApiData, undefined, RequestData>({
     url,

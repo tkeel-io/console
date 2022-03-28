@@ -110,7 +110,11 @@ export default function DataSelect() {
           return (
             <MoreAction
               buttons={[
-                <MoveRoutingRuleButton key="move" selectedIds={[id]} />,
+                <MoveRoutingRuleButton
+                  key="move"
+                  selectedIds={[id]}
+                  refetchData={() => refetch()}
+                />,
                 <DeleteDevicesButton
                   key="delete"
                   selectedDevices={[{ id, name }]}
@@ -211,6 +215,7 @@ export default function DataSelect() {
                       <MoveRoutingRuleButton
                         key="move"
                         selectedIds={selectedDevices.map(({ id }) => id)}
+                        refetchData={() => refetch()}
                       />,
                       <DeleteDevicesButton
                         key="delete"

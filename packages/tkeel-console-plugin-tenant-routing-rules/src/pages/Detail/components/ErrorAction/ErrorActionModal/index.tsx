@@ -1,7 +1,7 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { FormField, Modal } from '@tkeel/console-components';
-import { KafkaFilledIcon } from '@tkeel/console-icons';
+import { MessageWarningFilledIcon } from '@tkeel/console-icons';
 
 import ModalContentTitle from '@/tkeel-console-plugin-tenant-routing-rules/pages/Detail/components/ModalContentTitle';
 
@@ -47,7 +47,10 @@ export default function ErrorActionModal({ isOpen, onClose }: Props) {
       onClose={onClose}
       onConfirm={handleConfirm}
     >
-      <ModalContentTitle icon={<KafkaFilledIcon />} title="将数据发送到订阅" />
+      <ModalContentTitle
+        icon={<MessageWarningFilledIcon size={24} />}
+        title="将数据发送到订阅"
+      />
       <SelectField<FormValues>
         id="address"
         name="address"
