@@ -110,7 +110,7 @@ function PluginList({
                     <Flex justifyContent="space-between">
                       {tagMap[tag] && (
                         <Tag
-                          flexShrink="0"
+                          flexShrink={0}
                           colorScheme={tag === 'User' ? 'orange' : 'green'}
                           size="sm"
                           padding="0 4px"
