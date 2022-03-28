@@ -187,19 +187,23 @@ function Index({ id, title }: { id: string; title: string }) {
         }, [id, refetch])}
       />
       <Table
-        scroll={{ y: '100%' }}
         styles={{
           wrapper: {
+            minH: '80vh',
             flex: 1,
             overflow: 'hidden',
             backgroundColor: 'whiteAlias',
           },
         }}
+        scroll={{ y: '100%' }}
         columns={columns}
-        data={data || []}
+        data={data.filter((item) => {
+          return item.name.includes(keywords);
+        })}
         isShowStripe
         isLoading={isLoading}
         paginationProps={pagination}
+        hasPagination={false}
         empty={
           <Empty
             description={
