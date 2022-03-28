@@ -43,7 +43,7 @@ function PluginCard({
     >
       <Flex alignItems="center" justifyContent="space-between">
         <Flex alignItems="center">
-          <Box flexShrink="0">
+          <Box flexShrink={0}>
             {briefPluginInfo?.icon ? (
               <Image width="28px" height="28px" src={briefPluginInfo.icon} />
             ) : (

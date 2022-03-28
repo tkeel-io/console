@@ -187,9 +187,9 @@ function Index({ id, title }: { id: string; title: string }) {
         }, [id, refetch])}
       />
       <Table
-        scroll={{ y: '100%' }}
         styles={{
           wrapper: {
+            minH: '80vh',
             flex: 1,
             overflow: 'hidden',
             backgroundColor: 'whiteAlias',
