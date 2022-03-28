@@ -155,16 +155,19 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
         buttons={[<AddAttributeButton id={id} refetch={refetch} key="add" />]}
       />
       <Table
-        scroll={{ y: '100%' }}
         styles={{
           wrapper: {
             flex: 1,
+            minH: '80vh',
             overflow: 'hidden',
             backgroundColor: 'whiteAlias',
           },
         }}
+        scroll={{ y: '100%' }}
         columns={columns}
-        data={data}
+        data={data.filter((item) => {
+          return item.name.includes(keywords);
+        })}
         isShowStripe
         isLoading={isLoading}
         paginationProps={pagination}

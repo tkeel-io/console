@@ -21,7 +21,7 @@ function InstallButton({ installPluginInfo, onSuccess }: Props) {
   } = useDisclosure();
 
   return (
-    <Box flexShrink="0">
+    <Box flexShrink={0}>
       <Tooltip hasArrow shouldWrapChildren placement="top">
         <IconButton
           size="sm"
