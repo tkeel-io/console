@@ -39,7 +39,7 @@ function Pagination({
     <Flex
       justifyContent="space-between"
       alignItems="center"
-      flexShrink="0"
+      flexShrink={0}
       height="56px"
       backgroundColor="white"
       boxShadow={
