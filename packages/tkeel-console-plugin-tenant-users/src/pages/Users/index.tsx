@@ -139,6 +139,7 @@ export default function Users() {
         paginationProps={pagination}
         scroll={{ y: '100%' }}
         isLoading={isLoading}
+        isShowStripe
         styles={{
           wrapper: {
             flex: 1,
