@@ -3706,6 +3706,7 @@ __metadata:
     "@tkeel/console-components": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
     "@tkeel/console-icons": "workspace:^"
+    "@tkeel/console-request-hooks": "workspace:^"
     "@tkeel/console-types": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
     "@types/lodash": ^4.14.180
@@ -6920,11 +6921,11 @@ __metadata:
   linkType: hard
 
 "css-declaration-sorter@npm:^6.0.3":
-  version: 6.2.1
-  resolution: "css-declaration-sorter@npm:6.2.1"
+  version: 6.2.2
+  resolution: "css-declaration-sorter@npm:6.2.2"
   peerDependencies:
     postcss: ^8.0.9
-  checksum: e80bbe9b597b144e221127e2659241f56124b953625521f7fc3a89e8ba0dcd7a8c55060370a17f713ba69d95e02ca208b3946d72a27a2bff9360d5bb6632f2f4
+  checksum: afd3aea1b763b7abb5a9d0e10e973e99520b528522be421d9ef13d4fa7ead2cd48acd85d48c0fd0e954f596da2181dafbafc176a080ab017ebd1909a8231c9b4
   languageName: node
   linkType: hard
 
@@ -7801,9 +7802,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.84":
-  version: 1.4.95
-  resolution: "electron-to-chromium@npm:1.4.95"
-  checksum: fe4f53e573532401050839c89c39710cb628470bacb46670f5a03cdf8e5ccabea0c27a98ba1e6f2555d50fe1bb63c0a4ea568cfcfef45456647d308c43f61d4f
+  version: 1.4.96
+  resolution: "electron-to-chromium@npm:1.4.96"
+  checksum: 6a7f97c5fc7080b8739df269a9da0047aee9153807af99e72138dc416ea1dd8ccc167812c66c49d3bb83a55098cd8669ef075515d999aad13b266da72bc98cee
   languageName: node
   linkType: hard
 
@@ -10052,11 +10053,11 @@ __metadata:
   linkType: hard
 
 "import-html-entry@npm:^1.9.0":
-  version: 1.11.1
-  resolution: "import-html-entry@npm:1.11.1"
+  version: 1.12.0
+  resolution: "import-html-entry@npm:1.12.0"
   dependencies:
     "@babel/runtime": ^7.7.2
-  checksum: a2f853d23af1487ecdc612dec6ca0e20f35f6e474debf0b14618f5ee0f00a52db12a36c7cebfe5b000c0e53a6619d2bef687760162f51c9cbf912538a770d5aa
+  checksum: 86bead4fa384c165ec56577a2e684251f50b8b98d29a55e4bff3bb95710f5fe5a58014386145322626d39e5fb7d38e69cdd4ff14ac0d1b41c37c34d53dbac122
   languageName: node
   linkType: hard
 
