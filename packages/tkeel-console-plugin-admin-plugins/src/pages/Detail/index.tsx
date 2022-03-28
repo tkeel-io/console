@@ -36,7 +36,7 @@ function Detail() {
 
   return (
     <Flex height="100%" justifyContent="space-between">
-      <Box width="360px" flexShrink="0">
+      <Box width="360px" flexShrink={0}>
         <BasicInfoCard data={pluginDetail} refetchDetails={refetch} />
         <DeveloperInfo data={maintainers} />
       </Box>
