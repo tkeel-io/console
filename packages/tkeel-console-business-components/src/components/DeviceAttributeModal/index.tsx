@@ -20,6 +20,8 @@ export type DeviceAttributeFormFields = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     default_value: any;
     rw: ReadWriteType;
+    length?: number;
+    elem_type?: { type?: string };
   };
 };
 export const RW_LABELS = {
@@ -93,51 +95,58 @@ function DeviceAttributeModal({
   });
   const watchFields = watch();
   const DEFAULT_VALUE_STR = 'define.default_value';
-  // eslint-disable-next-line sonarjs/cognitive-complexity
+  const getValidType = (values: DeviceAttributeFormFields) => {
+    const { type, define } = values;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const defaultValue = define?.default_value ?? '';
+    const isJson = isJSON(defaultValue as string);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const parsedValue = isJson ? JSON.parse(defaultValue as string) : '';
+    if (isJson) {
+      if (type === 'array' && isArray(parsedValue)) {
+        return { type: 'array', defaultValue: parsedValue };
+      }
+      if (type === 'struct' && isObject(parsedValue)) {
+        return { type: 'struct', defaultValue: parsedValue };
+      }
+    }
+    if (
+      ['int', 'float', 'double'].includes(type) &&
+      !Number.isNaN(Number(defaultValue))
+    ) {
+      return { type: 'number', defaultValue: Number(defaultValue) };
+    }
+    if (['string', 'bool'].includes(type)) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      return { type: 'other', defaultValue };
+    }
+    return { type: 'error', defaultValue: '' };
+  };
   const handleConfirm = async () => {
     const result = await trigger();
     if (result) {
       const values = getValues();
-      const define = values?.define ?? {};
-      const { type } = values;
+      const { define } = values;
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const defaultValue = define.default_value;
-      const isJson = isJSON(defaultValue as string);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const parsedValue = isJson ? JSON.parse(defaultValue as string) : '';
-      const isNumberType =
-        ['int', 'float', 'double'].includes(type) &&
-        !Number.isNaN(Number(defaultValue));
-      const isArrayType = type === 'array' && isJson && isArray(parsedValue);
-      const isObjectType = type === 'struct' && isJson && isObject(parsedValue);
-      const isOtherType = ['string', 'bool'].includes(type);
+      const { type, defaultValue } = getValidType(values);
       if (defaultValue) {
-        if (isArrayType || isObjectType) {
+        if (type !== 'error') {
           const valuesCopy = {
             ...values,
             define: {
               ...define,
               // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-              default_value: JSON.parse(defaultValue as string),
+              default_value: defaultValue,
             },
           };
           onSubmit(valuesCopy);
-        } else if (isNumberType) {
-          const valuesCopy = {
-            ...values,
-            define: {
-              ...define,
-              default_value: Number(defaultValue),
-            },
-          };
-          onSubmit(valuesCopy);
-        } else if (isOtherType) {
-          onSubmit(values);
         } else {
           setError(DEFAULT_VALUE_STR, {
             type: 'focus',
           });
         }
+      } else {
+        onSubmit(values);
       }
     }
   };
@@ -214,6 +223,41 @@ function DeviceAttributeModal({
           </Text>
         )}
       </FormControl>
+      {watchFields.type === 'array' && (
+        <>
+          <TextField
+            label="元素个数"
+            id="length"
+            defaultValue="10"
+            error={errors.define?.length}
+            registerReturn={register('define.length', {
+              required: { value: true, message: '请填写元素个数' },
+              valueAsNumber: true,
+            })}
+          />
+          <FormControl id="elem_type" label="元素类型">
+            <RadioGroup
+              defaultValue="int"
+              onChange={(value: ReadWriteType) => {
+                setValue('define.elem_type.type', value);
+              }}
+            >
+              <Stack direction="row" spacing="12px">
+                {TypeOptions.map((item) => (
+                  <Radio
+                    key={item.type}
+                    size="sm"
+                    colorScheme="primary"
+                    value={item.type}
+                  >
+                    {item.type}
+                  </Radio>
+                ))}
+              </Stack>
+            </RadioGroup>
+          </FormControl>
+        </>
+      )}
       <FormControl id="default_value" label="默认值">
         <>
           {!['bool', 'struct', 'array'].includes(getValues('type')) && (

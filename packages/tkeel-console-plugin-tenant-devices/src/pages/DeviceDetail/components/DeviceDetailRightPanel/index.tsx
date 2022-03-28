@@ -1,26 +1,31 @@
-import { Box, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { values } from 'lodash';
 import { useState } from 'react';
 
 import { CustomTab, CustomTabList } from '@tkeel/console-components';
 
-import {
-  // Attributes,
-  DeviceObject,
-} from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
-// import AttributesData from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/AttributesData';
+import { DeviceObject } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
+import AttributesData from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/AttributesData';
 import ConnectionInfo from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/ConnectionInfo';
 import RawData from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/RawData';
+import TelemetryData from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/TelemetryData';
 
 type Props = {
   deviceObject: DeviceObject;
-  // refetch?: () => void;
+  refetch?: () => void;
 };
 
-function DeviceDetailRightPanel({ deviceObject }: Props): JSX.Element {
-  const { properties } = deviceObject;
-  // const { properties, configs } = deviceObject;
-  // const attributes = configs?.attributes;
-  const { connectInfo, rawData } = properties;
+function DeviceDetailRightPanel({ deviceObject, refetch }: Props): JSX.Element {
+  const { properties, configs, id } = deviceObject;
+  const attributeField = configs?.attributes?.define?.fields ?? {};
+  const telemetryFields = configs?.telemetry?.define?.fields ?? {};
+  const {
+    connectInfo,
+    rawData,
+    basicInfo,
+    attributes: attributeValues,
+    telemetry: telemetryValues,
+  } = properties;
   const tabs = [
     {
       label: '连接信息',
@@ -35,45 +40,67 @@ function DeviceDetailRightPanel({ deviceObject }: Props): JSX.Element {
         <RawData data={rawData} online={connectInfo?._online ?? false} />
       ),
     },
-    // {
-    //   label: '属性数据',
-    //   key: 'attributeData',
-    //   component: (
-    //     <AttributesData
-    //       // data={attributes as Attributes}
-    //       refetch={refetch}
-    //       deviceName={basicInfo?.name}
-    //     />
-    //   ),
-    // },
+    {
+      label: '属性数据',
+      key: 'attributeData',
+      component: (
+        <AttributesData
+          attributeValues={attributeValues}
+          attributeField={values(attributeField)}
+          deviceId={id}
+          basicInfo={basicInfo}
+          refetch={refetch}
+        />
+      ),
+    },
+    {
+      label: '遥测数据',
+      key: 'telemetry',
+      component: (
+        <TelemetryData
+          basicInfo={basicInfo}
+          deviceId={id}
+          refetch={refetch}
+          telemetryFields={values(telemetryFields)}
+          telemetryValues={telemetryValues}
+        />
+      ),
+    },
   ];
-  const [tabIndex, setTabIndex] = useState(0);
+  const [tabIndex, setTabIndex] = useState(2);
   const handleTabChange = (index: number) => {
     setTabIndex(index);
   };
 
   return (
-    <Box minWidth="700px" flex="2.5" bg="white" borderRadius="4px">
-      <Tabs variant="unstyled" index={tabIndex} onChange={handleTabChange}>
-        <CustomTabList>
-          {tabs.map((r, index) => (
-            <CustomTab
-              borderTopLeftRadius={index === 0 ? '4px' : '0'}
-              key={r.key}
-            >
-              {r.label}
-            </CustomTab>
-          ))}
-        </CustomTabList>
-        <TabPanels>
-          {tabs.map((r) => (
-            <TabPanel key={r.key} p="12px 20px">
-              {r.component}
-            </TabPanel>
-          ))}
-        </TabPanels>
-      </Tabs>
-    </Box>
+    <Tabs
+      flex="1"
+      bg="white"
+      borderRadius="4px"
+      variant="unstyled"
+      index={tabIndex}
+      onChange={handleTabChange}
+      display="flex"
+      flexDirection="column"
+    >
+      <CustomTabList>
+        {tabs.map((r, index) => (
+          <CustomTab
+            borderTopLeftRadius={index === 0 ? '4px' : '0'}
+            key={r.key}
+          >
+            {r.label}
+          </CustomTab>
+        ))}
+      </CustomTabList>
+      <TabPanels flex="1" display="flex" overflow="hidden">
+        {tabs.map((r) => (
+          <TabPanel key={r.key} p="12px 20px" flex="1">
+            {r.component}
+          </TabPanel>
+        ))}
+      </TabPanels>
+    </Tabs>
   );
 }
 
