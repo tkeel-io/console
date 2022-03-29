@@ -13,9 +13,10 @@ type Props = {
     name: string;
   };
   refetch?: () => void;
+  onDeleteSuccess?: () => unknown;
 };
 
-function DeleteButton({ cruxData, refetch }: Props) {
+function DeleteButton({ cruxData, refetch, onDeleteSuccess }: Props) {
   const { id, name } = cruxData;
   const toast = plugin.getPortalToast();
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ function DeleteButton({ cruxData, refetch }: Props) {
       toast('删除成功', { status: 'success' });
       onClose();
       if (refetch) refetch();
+      if (onDeleteSuccess) onDeleteSuccess();
     },
   });
 

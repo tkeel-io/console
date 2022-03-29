@@ -8,8 +8,8 @@ import { plugin } from '@tkeel/console-utils';
 
 import useAddDevicesMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useAddDevicesMutation';
 import useDeleteDevicesMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useDeleteDevicesMutation';
+import useRouteRulesQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRouteRulesQuery';
 
-// import useRouteRulesQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRouteRulesQuery';
 import MoveRoutingRuleModal from '../MoveRoutingRuleModal';
 
 type Props = {
@@ -25,8 +25,15 @@ export default function MoveRoutingRuleButton({
   const [selectedRuleId, setSelectedRuleId] = useState(id || '');
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  // const {} = useRouteRulesQuery();
+  const { routeRulesData } = useRouteRulesQuery({
+    pageNum: 1,
+    pageSize: 100_000,
+  });
 
+  const ruleModalData = routeRulesData.map((item) => ({
+    label: item.name,
+    value: item.id,
+  }));
   const toast = plugin.getPortalToast();
   const { mutate: addMutate, isLoading: isAddDevicesLoading } =
     useAddDevicesMutation({
@@ -60,6 +67,10 @@ export default function MoveRoutingRuleButton({
     }
   };
 
+  let defaultValue = '';
+  if (id && ruleModalData.some((item) => item.value === id)) {
+    defaultValue = id;
+  }
   return (
     <>
       <MoreActionButton
@@ -70,11 +81,8 @@ export default function MoveRoutingRuleButton({
         }}
       />
       <MoveRoutingRuleModal
-        data={[
-          { label: '测试路由01', value: '33' },
-          { label: '测试路由02', value: '34' },
-        ]}
-        defaultValue="33"
+        data={ruleModalData}
+        defaultValue={defaultValue}
         isOpen={isOpen}
         isConfirmButtonLoading={isDeleteTargetLoading || isAddDevicesLoading}
         onClose={onClose}

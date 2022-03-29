@@ -1,4 +1,5 @@
 import { Flex, Grid, Text } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 
 import {
   Loading,
@@ -17,6 +18,7 @@ import RouteRulesCard from '@/tkeel-console-plugin-tenant-routing-rules/pages/In
 import Step from '@/tkeel-console-plugin-tenant-routing-rules/pages/Index/components/Step';
 
 export default function Index(): JSX.Element {
+  const navigate = useNavigate();
   const pagination = usePagination();
   const { pageNum, pageSize, setTotalSize } = pagination;
   const toast = plugin.getPortalToast();
@@ -123,7 +125,7 @@ export default function Index(): JSX.Element {
                           <Step currentStep={currentStep} />
                         </Flex>
                       }
-                      onClick={() => {}}
+                      onClick={() => navigate(`/detail/${id}`)}
                     />
                   );
                 })}

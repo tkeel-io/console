@@ -13,10 +13,11 @@ type Props = {
     status: number;
     type: number;
   };
-  refetch: () => void;
+  refetch?: () => void;
+  onDeleteSuccess?: () => unknown;
 };
 
-function MoreActionButton({ cruxData, refetch }: Props) {
+function MoreActionButton({ cruxData, refetch, onDeleteSuccess }: Props) {
   // const portalProps = plugin.getPortalProps();
   // const { refetchMenus } = portalProps.client;
   // const toast = plugin.getPortalToast();
@@ -31,9 +32,15 @@ function MoreActionButton({ cruxData, refetch }: Props) {
   // });
   const toast = plugin.getPortalToast();
 
+  const handleRefetch = () => {
+    if (refetch) {
+      refetch();
+    }
+  };
+
   const handleEditSuccess = () => {
     toast('修改成功', { status: 'success' });
-    refetch();
+    handleRefetch();
   };
 
   return (
@@ -43,9 +50,7 @@ function MoreActionButton({ cruxData, refetch }: Props) {
           key="switch"
           status={cruxData.status}
           id={cruxData.id}
-          refetch={() => {
-            refetch();
-          }}
+          refetch={handleRefetch}
         />,
         <CreateRulesButton
           key="edit"
@@ -56,8 +61,11 @@ function MoreActionButton({ cruxData, refetch }: Props) {
         <DeleteButton
           key="delete"
           cruxData={cruxData}
-          refetch={() => {
-            refetch();
+          refetch={handleRefetch}
+          onDeleteSuccess={() => {
+            if (onDeleteSuccess) {
+              onDeleteSuccess();
+            }
           }}
         />,
       ]}

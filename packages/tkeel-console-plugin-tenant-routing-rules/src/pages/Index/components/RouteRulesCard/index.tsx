@@ -38,7 +38,13 @@ function RouteRulesCard({
       }}
       onClick={onClick}
     >
-      <Box bgColor="gray.50" padding="16px 24px 12px" h="86px">
+      <Box
+        bgColor="gray.50"
+        borderTopLeftRadius="4px"
+        borderTopRightRadius="4px"
+        padding="16px 24px 12px"
+        h="86px"
+      >
         <Flex alignItems="center" justifyContent="space-between">
           <Flex alignItems="center">
             <Box flexShrink={0}>
