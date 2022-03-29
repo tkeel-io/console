@@ -6,6 +6,7 @@ import 'ace-builds/src-noconflict/theme-dracula';
 import 'ace-builds/src-noconflict/theme-github';
 import 'ace-builds/src-noconflict/ext-language_tools';
 import './index.scss';
+import 'ace-builds/webpack-resolver';
 
 import Ace from 'react-ace';
 
