@@ -23,7 +23,7 @@ function Index() {
   const toast = plugin.getPortalToast();
   const [keyWord, setKeyWord] = useState('');
 
-  const defaultParams = {
+  let defaultParams = {
     page_num: 1,
     page_size: 1000,
     order_by: 'name',
@@ -37,6 +37,9 @@ function Index() {
       },
     ],
   };
+  if (keyWord) {
+    defaultParams = { ...defaultParams, query: keyWord };
+  }
 
   const { items, refetch } = useTemplateQuery({ params: defaultParams });
 
@@ -52,9 +55,6 @@ function Index() {
       }),
     };
   });
-
-  // eslint-disable-next-line no-console
-  console.log(keyWord);
 
   const handleCreateSuccess = (id: string) => {
     toast('创建模板成功', { status: 'success' });

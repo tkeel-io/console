@@ -163,8 +163,11 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
             backgroundColor: 'whiteAlias',
           },
         }}
+        scroll={{ y: '100%' }}
         columns={columns}
-        data={data}
+        data={data.filter((item) => {
+          return item.name.includes(keywords);
+        })}
         isShowStripe
         isLoading={isLoading}
         paginationProps={pagination}
