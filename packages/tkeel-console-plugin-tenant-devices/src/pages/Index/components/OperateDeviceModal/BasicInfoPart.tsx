@@ -43,8 +43,6 @@ export default function BasicInfoPart({
 }: Props) {
   const { register, formState, setValue, clearErrors } = formHandler;
   const { errors } = formState;
-  // eslint-disable-next-line no-console
-  console.log(watchFields);
   return (
     <>
       <TextField
@@ -120,14 +118,7 @@ export default function BasicInfoPart({
             <FormControl id="connectInfo">
               <CheckboxGroup
                 onChange={(value: ConnectInfoType[]) => {
-                  // eslint-disable-next-line no-console
-                  console.log(value);
                   setValue('connectInfo', value);
-                  // if (handleSelectTemplate) {
-                  //   handleSelectTemplate(
-                  //     value.includes(ConnectInfoType.useTemplate)
-                  //   );
-                  // }
                 }}
                 value={watchFields.connectInfo}
               >
@@ -154,12 +145,10 @@ export default function BasicInfoPart({
                         value={watchFields.templateId}
                         style={{ width: '100%' }}
                         allowClear
-                        disabled={mode === ModalMode.EDIT}
-                        {...register('templateId', {
-                          required: (watchFields.connectInfo || []).includes(
-                            ConnectInfoType.useTemplate
-                          ),
-                        })}
+                        disabled={
+                          mode === ModalMode.EDIT && !watchFields.templateId
+                        }
+                        {...register('templateId')}
                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         onChange={(value: string) => {
                           setValue('templateId', value);
