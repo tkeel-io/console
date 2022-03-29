@@ -11,9 +11,9 @@ import RadioCard from '@/tkeel-console-plugin-tenant-routing-rules/pages/Index/c
 const { TextField, TextareaField } = FormField;
 
 export interface FormValues {
-  title: string;
+  name: string;
   type: number;
-  description?: string;
+  desc?: string;
 }
 
 type Props = {
@@ -89,7 +89,6 @@ export default function BaseRulesModal({
   });
 
   const group = getRootProps();
-
   return (
     <Modal
       title={title}
@@ -102,11 +101,11 @@ export default function BaseRulesModal({
       onConfirm={handleConfirm}
     >
       <TextField
-        id="title"
+        id="name"
         label="规则名称"
         placeholder="请输入"
-        error={errors.title}
-        registerReturn={register('title', {
+        error={errors.name}
+        registerReturn={register('name', {
           required: { value: true, message: '请输入规则名称' },
         })}
       />
@@ -119,7 +118,7 @@ export default function BaseRulesModal({
             });
             return (
               <RadioCard
-                isDisabled
+                isDisabled // 二期删掉
                 {...radio}
                 key={keyOpt}
                 label={titleOpt}
@@ -135,13 +134,11 @@ export default function BaseRulesModal({
         </HStack>
       </FormControl>
       <TextareaField
-        id="description"
+        id="desc"
         label="描述"
         placeholder="请输入"
-        error={errors.description}
-        registerReturn={register('description', {
-          required: { value: false, message: '' },
-        })}
+        error={errors.desc}
+        registerReturn={register('desc')}
       />
     </Modal>
   );

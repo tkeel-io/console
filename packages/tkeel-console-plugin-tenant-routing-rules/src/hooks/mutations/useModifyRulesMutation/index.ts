@@ -1,8 +1,10 @@
 import { useMutation } from '@tkeel/console-hooks';
 import { RequestResult } from '@tkeel/console-utils';
 
-interface RequestData {
-  id: string;
+export interface RequestData {
+  name: string;
+  type: number;
+  desc: string;
 }
 
 export interface ApiData {
