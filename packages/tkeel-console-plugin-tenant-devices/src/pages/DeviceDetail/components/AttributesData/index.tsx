@@ -100,6 +100,8 @@ function AttributesPanel({
   refetch: refetchDeviceDetail = () => {},
 }: Props) {
   const [currentId, setCurrentId] = useState('');
+  const [focusId, setFocusId] = useState('');
+  // const [focusValue, setFocusValue] = useState('');
   const toast = plugin.getPortalToast();
   const [keywords, setKeywords] = useState('');
   const handleSearch = (value: string) => {
@@ -110,9 +112,11 @@ function AttributesPanel({
   const {
     register,
     setValue,
+    // getValues,
     formState: { errors },
     reset,
-  } = useForm<{ [propName: string]: unknown }>({});
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } = useForm<{ [propName: string]: any }>({});
   useEffect(() => {
     reset(attributeValues);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -144,6 +148,7 @@ function AttributesPanel({
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     return { defaultValue, define, name, type, id, rw };
   };
+
   return (
     <Flex flex="1" direction="column" height="100%">
       {isEmpty(attributeField) ? (
@@ -298,10 +303,11 @@ function AttributesPanel({
                             />
                           </Flex>
                         </Box>
-                        {['int', 'float', 'double'].includes(item.type) && (
+                        {['int', 'float', 'double', 'string'].includes(
+                          item.type
+                        ) && (
                           <Input
                             id={item.id}
-                            defaultValue={defaultValue as string}
                             bg="white"
                             placeholder={`默认值 ${
                               item?.define?.default_value as string
@@ -313,17 +319,23 @@ function AttributesPanel({
                             _placeholder={{ color: 'blackAlpha.500' }}
                             _focus={getFocusStyle(!!errors[item.id])}
                             {...register(
-                              currentId === item.id ? 'default_edit' : item.id,
-                              {}
+                              focusId === item.id
+                                ? `default_edit_${item.id}`
+                                : item.id
                             )}
                             onFocus={() => {
-                              setCurrentId(item.id);
-                              setValue('default_edit', defaultValue);
+                              setValue(`default_edit_${item.id}`, defaultValue);
+                              setFocusId(item.id);
                             }}
                             onBlur={(e) => {
                               const { value } = e.target;
+                              setValue(item.id, value.trim());
+                              setCurrentId(item.id);
                               if (value !== defaultValue) {
-                                setAttributeData({ id: item.id, value });
+                                setAttributeData({
+                                  id: item.id,
+                                  value: value.trim(),
+                                });
                               }
                             }}
                           />
@@ -341,7 +353,7 @@ function AttributesPanel({
                               size="sm"
                               isChecked={defaultValue as boolean}
                               onChange={(e) => {
-                                setCurrentId(item.id);
+                                setFocusId(item.id);
                                 setAttributeData({
                                   id: item.id,
                                   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -357,7 +369,7 @@ function AttributesPanel({
                         {['array', 'struct'].includes(item.type) && (
                           <JsonInfoButton
                             handleSetId={() => {
-                              setCurrentId(item.id);
+                              setFocusId(item.id);
                             }}
                             deviceId={deviceId}
                             id={item.id}

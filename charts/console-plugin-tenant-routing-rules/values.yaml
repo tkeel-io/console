@@ -1,0 +1,6 @@
+replicaCount: 1
+imagePullSecrets: ''
+image:
+  repository: tkeelio/console-plugin-tenant-routing-rules
+# tag: 0.4.3
+  pullPolicy: Always
