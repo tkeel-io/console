@@ -8,11 +8,15 @@ import CreateRulesButton from '@/tkeel-console-plugin-tenant-routing-rules/pages
 type Props = {
   cruxData: {
     id: string;
+    name: string;
+    desc: string;
     status: number;
+    type: number;
   };
+  refetch: () => void;
 };
 
-function MoreActionButton({ cruxData }: Props) {
+function MoreActionButton({ cruxData, refetch }: Props) {
   // const portalProps = plugin.getPortalProps();
   // const { refetchMenus } = portalProps.client;
   // const toast = plugin.getPortalToast();
@@ -27,21 +31,35 @@ function MoreActionButton({ cruxData }: Props) {
   // });
   const toast = plugin.getPortalToast();
 
-  const handleCreateUserSuccess = () => {
-    toast('创建成功', { status: 'success' });
-    // refetch();
+  const handleEditSuccess = () => {
+    toast('修改成功', { status: 'success' });
+    refetch();
   };
 
   return (
     <MoreAction
       buttons={[
-        <SwitchButton key="switch" status={cruxData.status} />,
+        <SwitchButton
+          key="switch"
+          status={cruxData.status}
+          id={cruxData.id}
+          refetch={() => {
+            refetch();
+          }}
+        />,
         <CreateRulesButton
           key="edit"
           type="editButton"
-          onSuccess={handleCreateUserSuccess}
+          cruxData={cruxData}
+          onSuccess={handleEditSuccess}
         />,
-        <DeleteButton key="delete" />,
+        <DeleteButton
+          key="delete"
+          cruxData={cruxData}
+          refetch={() => {
+            refetch();
+          }}
+        />,
       ]}
     />
   );
