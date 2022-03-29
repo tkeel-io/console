@@ -7,10 +7,9 @@ import MenuIcon from '@/tkeel-console-portal-base/containers/Layout/Menus/Expand
 type Props = {
   icon: string;
   active: boolean;
-  isMenuLink?: boolean;
 };
 
-function MenuItem({ icon, active, isMenuLink = false }: Props) {
+function MenuItem({ icon, active }: Props) {
   const primaryColor = useColor('primary');
   const primarySub2Color = useColor('primarySub2');
 
@@ -33,7 +32,7 @@ function MenuItem({ icon, active, isMenuLink = false }: Props) {
       cursor="pointer"
     >
       <Center width="40px" height="40px">
-        <MenuIcon icon={icon} active={active} isMenuLink={isMenuLink} />
+        <MenuIcon icon={icon} active={active} />
       </Center>
     </Box>
   );
