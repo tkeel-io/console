@@ -15,7 +15,7 @@ function MenuLink({ path, icon }: Props) {
 
   return (
     <Link marginTop="10px" as={ReactRouterLink} to={path}>
-      <MenuItem icon={icon} active={!!match} isMenuLink />
+      <MenuItem icon={icon} active={!!match} />
     </Link>
   );
 }
