@@ -36,7 +36,7 @@ function DeleteAttributeButton({
   return (
     <>
       <MoreActionButton
-        icon={<TrashFilledIcon size="12px" color="grayAlternatives.300" />}
+        icon={<TrashFilledIcon size="20px" color="grayAlternatives.300" />}
         title="删除属性"
         onClick={onOpen}
       />

@@ -34,7 +34,7 @@ function EditAttributeButton({ id, defaultValues, refetch = () => {} }: Props) {
   return (
     <>
       <MoreActionButton
-        icon={<PencilFilledIcon size="12px" color="grayAlternatives.300" />}
+        icon={<PencilFilledIcon size="20px" color="grayAlternatives.300" />}
         title="编辑属性"
         onClick={onOpen}
       />

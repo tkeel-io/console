@@ -24,6 +24,8 @@ function SubscriptionCard() {
       borderRadius="4px"
       mt="20px"
       paddingBottom="20px"
+      overflowY="auto"
+      height="80vh"
     >
       <Text
         fontWeight="600"
