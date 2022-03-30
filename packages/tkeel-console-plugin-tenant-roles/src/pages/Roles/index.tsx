@@ -137,6 +137,9 @@ export default function Roles() {
         name="角色管理"
         hasSearchInput
         searchInputProps={{
+          inputStyle: {
+            backgroundColor: 'gray.50',
+          },
           onSearch(value) {
             setPageNum(1);
             setKeyWords(value.trim());

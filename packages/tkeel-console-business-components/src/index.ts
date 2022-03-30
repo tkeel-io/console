@@ -5,6 +5,7 @@ export { default as DeleteTelemetryButton } from './components/DeleteTelemetryBu
 export { default as DeveloperInfo } from './components/DeveloperInfo';
 export { default as DeviceAttributeModal } from './components/DeviceAttributeModal';
 export * from './components/DeviceIcons';
+export { default as Documents } from './components/Documents';
 export { default as EditTelemetryButton } from './components/EditTelemetryButton';
 export { default as NotFound } from './components/NotFound';
 export * as PluginBase from './components/PluginBase';
