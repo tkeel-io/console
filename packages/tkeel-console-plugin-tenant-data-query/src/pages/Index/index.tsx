@@ -19,7 +19,7 @@ function Index(): JSX.Element {
         flexDirection="column"
         alignItems="center"
       >
-        <Image marginBottom="32px" width="25%" src={SearchBg} />
+        <Image marginBottom="32px" height="120px" src={SearchBg} />
         <SearchDeviceInput />
       </Flex>
       {history?.length > 0 && (
