@@ -25,9 +25,12 @@ export default function DeleteDevicesButton({
   const { mutate, isLoading } = useDeleteDevicesMutation({
     ruleId: id || '',
     onSuccess() {
-      toast('移除设备成功', { status: 'success' });
-      refetchData();
-      onClose();
+      // TODO 移除设备后有延迟，临时处理方案
+      setTimeout(() => {
+        toast('移除设备成功', { status: 'success' });
+        refetchData();
+        onClose();
+      }, 1000);
     },
   });
 

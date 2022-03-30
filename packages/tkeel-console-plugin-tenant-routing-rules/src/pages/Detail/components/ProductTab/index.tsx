@@ -43,7 +43,6 @@ export default function ProductTab({
         marginLeft="10px"
         color="grayAlternatives.500"
         fontSize="14px"
-        fontWeight="500"
         lineHeight="24px"
       >
         {name}

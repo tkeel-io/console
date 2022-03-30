@@ -1,4 +1,5 @@
 import { Box, Flex, Square, Text } from '@chakra-ui/react';
+import { useQueryClient } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { BackButton } from '@tkeel/console-components';
@@ -24,6 +25,8 @@ function getFormattedDateTime(time: string | undefined) {
 export default function Detail() {
   const navigate = useNavigate();
   const { id } = useParams();
+  const queryClient = useQueryClient();
+
   const { data: ruleDetail, refetch } = useRuleDetailQuery(id || '');
   const createTime = getFormattedDateTime(ruleDetail?.created_at);
   const updateTime = getFormattedDateTime(ruleDetail?.updated_at);
@@ -92,6 +95,7 @@ export default function Detail() {
                 refetch();
               }}
               onDeleteSuccess={() => {
+                queryClient.invalidateQueries('routeRules');
                 navigate('/');
               }}
             />
@@ -103,12 +107,12 @@ export default function Detail() {
           styles={{ wrapper: { marginTop: '8px' } }}
         />
         <Flex marginTop="8px">
-          <TextWrapper label="创建时间" value={createTime} />
           <TextWrapper
-            label="修改时间"
-            value={updateTime}
-            styles={{ wrapper: { marginLeft: '20px' } }}
+            label="创建时间"
+            value={createTime}
+            styles={{ text: { width: '140px' } }}
           />
+          <TextWrapper label="修改时间" value={updateTime} />
         </Flex>
         <StepBar
           ruleStatus={{
@@ -127,7 +131,10 @@ export default function Detail() {
         >
           <DataSelect />
           <DataRepublish styles={{ wrapper: { margin: '40px 0' } }} />
-          <ErrorAction />
+          <ErrorAction
+            subscribeId={ruleDetail?.sub_id ?? 0}
+            refetchDetail={() => refetch()}
+          />
         </Flex>
       </Flex>
     </Flex>

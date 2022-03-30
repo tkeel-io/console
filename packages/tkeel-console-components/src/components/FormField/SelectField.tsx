@@ -4,7 +4,10 @@ import {
   Control,
   Controller,
   FieldPath,
+  FieldPathValue,
+  Path,
   RegisterOptions,
+  UnpackNestedValue,
 } from 'react-hook-form';
 
 import { CheckFilledIcon } from '@tkeel/console-icons';
@@ -18,21 +21,23 @@ import { fieldDefaultProps } from './default-props';
 
 type Value = string | number;
 
-type Props<T> = FormControlProps & {
+type Props<TFieldValues> = FormControlProps & {
   id: string;
-  name: FieldPath<T>;
+  name: FieldPath<TFieldValues>;
   options: { value: Value; label: string | ReactNode }[];
   mode?: 'combobox' | 'multiple' | 'tags';
   showArrow?: boolean;
   allowClear?: boolean;
   loading?: boolean;
-  defaultValue?: Value;
+  defaultValue?: UnpackNestedValue<
+    FieldPathValue<TFieldValues, Path<TFieldValues>>
+  >;
   placeholder?: string;
   rules?: Omit<
     RegisterOptions,
     'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'
   >;
-  control: Control<T>;
+  control: Control<TFieldValues>;
   selectStyle?: CSSProperties;
 };
 
@@ -41,7 +46,7 @@ const defaultProps = {
   placeholder: '请选择',
 };
 
-export default function CustomFormControl<T>({
+export default function CustomFormControl<TFieldValues>({
   id,
   name,
   options,
@@ -55,10 +60,10 @@ export default function CustomFormControl<T>({
   control,
   selectStyle,
   ...rest
-}: Props<T>) {
+}: Props<TFieldValues>) {
   return (
     <FormControl id={id} {...rest}>
-      <Controller<T, FieldPath<T>>
+      <Controller<TFieldValues, FieldPath<TFieldValues>>
         name={name}
         control={control}
         rules={rules}
@@ -73,7 +78,7 @@ export default function CustomFormControl<T>({
             options={options}
             onChange={onChange}
             value={value}
-            defaultValue={defaultValue}
+            // defaultValue={defaultValue}
             menuItemSelectedIcon={
               <Center width="30px" height="36px">
                 <CheckFilledIcon color="primary" />
@@ -82,6 +87,7 @@ export default function CustomFormControl<T>({
             style={{ width: '100%', ...selectStyle }}
           />
         )}
+        defaultValue={defaultValue}
       />
     </FormControl>
   );

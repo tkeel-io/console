@@ -1,40 +1,39 @@
 import {
-  Box,
   Circle,
   Flex,
   HStack,
-  Image,
   StyleProps,
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
 
 import { Alert } from '@tkeel/console-components';
-import { PencilFilledIcon, TrashFilledIcon } from '@tkeel/console-icons';
+import {
+  MessageWarningTwoToneIcon,
+  PencilFilledIcon,
+  TrashFilledIcon,
+} from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
-import kafkaImg from '@/tkeel-console-plugin-tenant-routing-rules/assets/images/kafka.svg';
-import useCreateRuleTargetMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useCreateRuleTargetMutation';
-import useDeleteTargetMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useDeleteTargetMutation';
-import { Target } from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleTargetsQuery';
+import useAddErrorActionMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useAddErrorActionMutation';
+import useDeleteErrorActionMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useDeleteErrorActionMutation';
+import { ApiData as ErrorAction } from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useErrorActionQuery';
 
-import RepublishToKafkaModal, {
-  FormValues as KafkaRepublishInfo,
-} from '../RepublishToKafkaModal';
+import ErrorActionModal from '../ErrorActionModal';
 
 type Props = {
   ruleId: string;
-  target: Target;
-  refetchData: () => unknown;
+  errorAction: ErrorAction;
+  refetchDetail: () => unknown;
   styles?: {
     wrapper?: StyleProps;
   };
 };
 
-export default function RepublishInfoCard({
+export default function ErrorActionInfoCard({
   ruleId,
-  target,
-  refetchData,
+  errorAction,
+  refetchDetail,
   styles,
 }: Props) {
   const {
@@ -52,42 +51,39 @@ export default function RepublishInfoCard({
   const handleSuccess = (text: string) => {
     toast(text, { status: 'success' });
     onModalClose();
-    refetchData();
+    refetchDetail();
   };
 
-  const { mutate: editMutate, isLoading: isEditRuleTargetLoading } =
-    useCreateRuleTargetMutation({
+  const { mutate: editMutate, isLoading: isEditErrorActionLoading } =
+    useAddErrorActionMutation({
       method: 'PUT',
       ruleId,
-      targetId: target.id,
       onSuccess() {
-        handleSuccess('编辑转发成功');
+        handleSuccess('编辑错误操作成功');
       },
     });
 
-  const { mutate: deleteMutate, isLoading: isDeleteTargetLoading } =
-    useDeleteTargetMutation({
+  const { mutate: deleteMutate, isLoading: isDeleteErrorActionLoading } =
+    useDeleteErrorActionMutation({
+      ruleId,
       onSuccess() {
-        handleSuccess('删除转发成功');
+        handleSuccess('删除错误操作成功');
       },
     });
 
-  const handleSubmit = ({ address, topic }: KafkaRepublishInfo) => {
-    if (ruleId && target.id) {
+  const handleSubmit = (subscribeId: string) => {
+    if (ruleId && subscribeId) {
       editMutate({
         data: {
-          host: address,
-          value: topic,
+          subscribe_id: subscribeId,
         },
       });
     }
   };
 
   const handleConfirm = () => {
-    if (ruleId && target.id) {
-      deleteMutate({
-        url: `/rule-manager/v1/rules/${ruleId}/target/${target.id}`,
-      });
+    if (ruleId) {
+      deleteMutate({});
     }
   };
 
@@ -108,17 +104,25 @@ export default function RepublishInfoCard({
       }}
       {...styles?.wrapper}
     >
-      <Box width="5px" height="40px" backgroundColor="success.300" />
-      <Image marginLeft="20px" width="95px" src={kafkaImg} />
+      <Flex alignItems="center">
+        <MessageWarningTwoToneIcon
+          size={30}
+          color="gray.700"
+          twoToneColor="gray.300"
+        />
+        <Text marginLeft="12px" color="gray.700" fontSize="14px">
+          将数据及错误记录发送到订阅
+        </Text>
+      </Flex>
       <Text
         flex="1"
-        marginLeft="200px"
+        marginLeft="97px"
         color="grayAlternatives.700"
         fontSize="14px"
         isTruncated
-        title={target.value}
+        title={errorAction.title}
       >
-        主题 Topic：{target.value}
+        {errorAction.title}：{errorAction.endpoint}
       </Text>
       <HStack display="none" spacing="20px">
         <PencilFilledIcon
@@ -134,12 +138,12 @@ export default function RepublishInfoCard({
           onClick={() => onAlertOpen()}
         />
       </HStack>
-      <RepublishToKafkaModal
-        info={{ address: target.host, topic: target.value }}
+      <ErrorActionModal
+        defaultSubscribeId={errorAction.id}
         isOpen={isModalOpen}
         onClose={onModalClose}
+        isLoading={isEditErrorActionLoading}
         handleSubmit={handleSubmit}
-        isLoading={isEditRuleTargetLoading}
       />
       <Alert
         iconPosition="left"
@@ -148,9 +152,9 @@ export default function RepublishInfoCard({
             <TrashFilledIcon size="24px" color="red.300" />
           </Circle>
         }
-        title={`确认删除转发「${target.value || ''}」？`}
+        title={`确认删除错误操作「${errorAction.title || ''}」？`}
         isOpen={isAlertOpen}
-        isConfirmButtonLoading={isDeleteTargetLoading}
+        isConfirmButtonLoading={isDeleteErrorActionLoading}
         onClose={onAlertClose}
         onConfirm={handleConfirm}
       />

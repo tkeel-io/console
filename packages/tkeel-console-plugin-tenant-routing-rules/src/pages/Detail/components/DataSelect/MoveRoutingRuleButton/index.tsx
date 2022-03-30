@@ -64,6 +64,8 @@ export default function MoveRoutingRuleButton({
           devices_ids: selectedIds.join(','),
         },
       });
+    } else {
+      onClose();
     }
   };
 
@@ -71,6 +73,7 @@ export default function MoveRoutingRuleButton({
   if (id && ruleModalData.some((item) => item.value === id)) {
     defaultValue = id;
   }
+
   return (
     <>
       <MoreActionButton

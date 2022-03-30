@@ -1,5 +1,4 @@
 import { Circle, useDisclosure } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
 
 import { Alert, MoreActionButton } from '@tkeel/console-components';
 import { TrashFilledIcon } from '@tkeel/console-icons';
@@ -19,7 +18,6 @@ type Props = {
 function DeleteButton({ cruxData, refetch, onDeleteSuccess }: Props) {
   const { id, name } = cruxData;
   const toast = plugin.getPortalToast();
-  const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate, isLoading } = useDeleteRulesMutation({
     id,
@@ -33,8 +31,8 @@ function DeleteButton({ cruxData, refetch, onDeleteSuccess }: Props) {
 
   const handleConfirm = () => {
     mutate({});
-    navigate('/');
   };
+
   return (
     <>
       <MoreActionButton

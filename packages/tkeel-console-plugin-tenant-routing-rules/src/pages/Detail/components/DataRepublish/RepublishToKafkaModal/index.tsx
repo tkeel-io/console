@@ -1,8 +1,10 @@
 import { Button } from '@chakra-ui/react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { FormField, Modal } from '@tkeel/console-components';
 import { KafkaFilledIcon } from '@tkeel/console-icons';
+import { plugin } from '@tkeel/console-utils';
 
 import useVerifyKafkaMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useVerifyKafkaMutation';
 import ModalContentTitle from '@/tkeel-console-plugin-tenant-routing-rules/pages/Detail/components/ModalContentTitle';
@@ -29,6 +31,7 @@ export default function RepublishToKafkaModal({
   onClose,
   handleSubmit,
 }: Props) {
+  const [validated, setValidated] = useState(!!info?.address);
   const {
     register,
     formState: { errors },
@@ -44,9 +47,15 @@ export default function RepublishToKafkaModal({
     });
   };
 
+  const toast = plugin.getPortalToast();
   const { mutate, isLoading: isVerifyKafkaLoading } = useVerifyKafkaMutation({
-    onSuccess() {},
+    onSuccess() {
+      toast('验证成功', { status: 'success' });
+      setValidated(true);
+    },
     onError() {
+      toast('验证失败', { status: 'error' });
+      setValidated(false);
       handleSetAddressError();
     },
   });
@@ -67,9 +76,15 @@ export default function RepublishToKafkaModal({
 
   const handleConfirm = async () => {
     const result = await trigger();
-    if (result) {
+    if (!result) return;
+    if (validated) {
       const formValues = getValues();
       handleSubmit(formValues);
+    } else {
+      setError('address', {
+        type: 'manual',
+        message: '请验证数据库（集群）地址',
+      });
     }
   };
 

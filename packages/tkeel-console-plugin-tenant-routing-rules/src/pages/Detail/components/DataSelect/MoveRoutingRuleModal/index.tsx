@@ -25,12 +25,22 @@ export default function MoveRoutingRuleModal({
   defaultValue,
   onConfirm,
 }: Props) {
-  const { control, getValues } = useForm<FormValues>();
+  const {
+    control,
+    formState: { errors },
+    trigger,
+    getValues,
+  } = useForm<FormValues>();
 
   const handleConfirm = async () => {
-    const ruleId = getValues('ruleId');
-    onConfirm(ruleId);
+    const result = await trigger('ruleId');
+    if (result) {
+      const ruleId = getValues('ruleId');
+      onConfirm(ruleId);
+    }
   };
+
+  const options = data || [];
 
   return (
     <Modal
@@ -41,14 +51,19 @@ export default function MoveRoutingRuleModal({
         onClose();
       }}
       onConfirm={handleConfirm}
+      isConfirmButtonDisabled={options.length === 0}
     >
       <SelectField<FormValues>
         id="ruleId"
         name="ruleId"
         label="规则名称"
         defaultValue={defaultValue}
-        options={data || []}
+        options={options}
         control={control}
+        error={errors.ruleId}
+        rules={{
+          required: { value: true, message: '规则名称为空' },
+        }}
         formControlStyle={{ marginTop: '20px' }}
       />
     </Modal>

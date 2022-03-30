@@ -5,6 +5,7 @@ type Props = {
   value: string;
   styles?: {
     wrapper?: StyleProps;
+    text?: StyleProps;
   };
 };
 
@@ -17,7 +18,7 @@ export default function TextWrapper({ label, value, styles }: Props) {
       {...styles?.wrapper}
     >
       <Text color="grayAlternatives.300">{label}：</Text>
-      <Text marginLeft="4px" color="gray.800">
+      <Text marginLeft="4px" color="gray.800" {...styles?.text}>
         {value}
       </Text>
     </Flex>
