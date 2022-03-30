@@ -61,7 +61,7 @@ function MenuLink({ path, name, icon }: Props) {
       as={as}
       to={to}
     >
-      <MenuItem active={active} name={name} leftIcon={icon} isMenuLink />
+      <MenuItem active={active} name={name} leftIcon={icon} />
     </Link>
   );
 }

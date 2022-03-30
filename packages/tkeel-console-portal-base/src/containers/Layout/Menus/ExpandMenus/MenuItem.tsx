@@ -8,16 +8,9 @@ type Props = {
   name: string;
   leftIcon: string;
   rightIcon?: ReactNode;
-  isMenuLink?: boolean;
 };
 
-function MenuItem({
-  active,
-  name,
-  leftIcon,
-  rightIcon = null,
-  isMenuLink = false,
-}: Props) {
+function MenuItem({ active, name, leftIcon, rightIcon = null }: Props) {
   return (
     <Flex
       alignItems="center"
@@ -33,7 +26,6 @@ function MenuItem({
           icon={leftIcon}
           active={active}
           style={{ marginRight: '10px' }}
-          isMenuLink={isMenuLink}
         />
         {name}
       </Flex>

@@ -15,12 +15,11 @@ export const DEFAULT_CUSTOM_EXTRAS: RequestExtras = {
   isWithToken: true,
   isSuccessFunction(response) {
     const code = response?.data?.code;
-    // TODO: tmp
-    return ['io.tkeel.SUCCESS', 200].includes(code);
+    return code === 'io.tkeel.SUCCESS';
   },
   isNoAuthFunction(response) {
     const { status } = response;
-    return [401, 403].includes(status);
+    return status === 401;
   },
   handleNoAuth() {
     // custom codes

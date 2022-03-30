@@ -102,7 +102,8 @@ export default function OperateDeviceModal({
   const formHandler = useForm<DeviceFormFields>({
     defaultValues: defaultFormInfo,
   });
-  const { handleSubmit, trigger, watch, reset, control } = formHandler;
+  const { handleSubmit, trigger, watch, reset, control, setError } =
+    formHandler;
   const watchFields = watch();
   const fieldArrayHandler = useFieldArray({
     control,
@@ -226,11 +227,18 @@ export default function OperateDeviceModal({
         'name',
         'parentId',
         'connectType',
-        'templateId',
         'description',
       ]);
+
       if (result) {
-        setCurrentStep(currentStep + 1);
+        if (
+          watchFields.connectInfo?.includes(ConnectInfoType.useTemplate) &&
+          !watchFields.templateId
+        ) {
+          setError('templateId', {});
+        } else {
+          setCurrentStep(currentStep + 1);
+        }
       }
     } else if (progressLabels[currentStep] === PROGRESS_LABELS.EXTEND_INFO) {
       // 校验第二步的信息并提交

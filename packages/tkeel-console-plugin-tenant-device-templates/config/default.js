@@ -4,7 +4,6 @@ module.exports = {
   publicPath: '/static/console-plugin-tenant-device-templates/',
   client: {
     basePath: '/tenant-device-templates',
-    documentTitle: '',
   },
   api: {
     basePath: '/apis',
