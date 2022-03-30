@@ -68,7 +68,7 @@ export default function Detail() {
       />
       <Flex position="relative" flexDirection="column" width="82%">
         <Flex justifyContent="space-between">
-          <Flex alignItems="center">
+          <Flex alignItems="center" maxWidth="80%">
             <Square size="40px" backgroundColor="gray.50" borderRadius="4px">
               <PingTwoToneIcon size={20} />
             </Square>
@@ -79,10 +79,15 @@ export default function Detail() {
               fontSize="18px"
               fontWeight="600"
               lineHeight="24px"
+              isTruncated
+              title={name}
             >
               {name}
             </Text>
-            <RouteLabel routeType={routeType} />
+            <RouteLabel
+              routeType={routeType}
+              styles={{ wrapper: { flexShrink: 0 } }}
+            />
           </Flex>
           <Flex alignItems="center">
             <StatusLabel

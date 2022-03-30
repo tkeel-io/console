@@ -62,6 +62,7 @@ export default function DataSelect() {
       Cell: ({ row }: Cell<DeviceColumnData>) =>
         useMemo(() => {
           const { id, name } = row.original;
+          const deviceName = name || '';
           return (
             <LinkButton
               onClick={() => {
@@ -73,7 +74,14 @@ export default function DataSelect() {
             >
               <HStack>
                 <SmartObjectTwoToneIcon size="24px" />
-                <Text fontSize="12px">{name || ''}</Text>
+                <Text
+                  maxWidth="150px"
+                  fontSize="12px"
+                  isTruncated
+                  title={deviceName}
+                >
+                  {deviceName}
+                </Text>
               </HStack>
             </LinkButton>
           );
@@ -81,7 +89,7 @@ export default function DataSelect() {
     },
     {
       Header: '设备状态',
-      width: 80,
+      width: 100,
       Cell: ({ row }: Cell<DeviceColumnData>) =>
         useMemo(() => {
           const { status } = row.original;
@@ -91,14 +99,42 @@ export default function DataSelect() {
     {
       Header: '设备模版',
       accessor: 'templateName',
-      Cell: ({ value }: { value: string }) =>
-        useMemo(() => <Text color="gray.700">{value || '-'}</Text>, [value]),
+      Cell: ({ value }: { value: string }) => {
+        const templateName = value || '-';
+        return useMemo(
+          () => (
+            <Text
+              color="gray.700"
+              maxWidth="150px"
+              isTruncated
+              title={templateName}
+            >
+              {templateName}
+            </Text>
+          ),
+          [templateName]
+        );
+      },
     },
     {
       Header: '设备分组',
       accessor: 'parentName',
-      Cell: ({ value }: { value: string }) =>
-        useMemo(() => <Text color="gray.700">{value || '-'}</Text>, [value]),
+      Cell: ({ value }: { value: string }) => {
+        const parentName = value || '-';
+        return useMemo(
+          () => (
+            <Text
+              color="gray.700"
+              maxWidth="180px"
+              isTruncated
+              title={parentName}
+            >
+              {parentName}
+            </Text>
+          ),
+          [parentName]
+        );
+      },
     },
     {
       Header: '操作',
