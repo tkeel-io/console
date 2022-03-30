@@ -9,7 +9,7 @@ export interface Props {
   infos?: string[];
   currentStep?: number;
   mode?: ModalMode;
-  handleClick?: (index: number) => void;
+  handleClick: (index: number) => void;
 }
 const STATUS = {
   DEFAULT: 0,
@@ -109,7 +109,7 @@ export default function ProgressSchedule({
   infos = [],
   currentStep = 0,
   mode = ModalMode.CREATE,
-  handleClick = () => {},
+  handleClick,
 }: Props) {
   return (
     <Flex h="100%" flexDirection="column">

@@ -291,6 +291,9 @@ export default function OperateDeviceModal({
             infos={progressLabels}
             currentStep={currentStep}
             mode={mode}
+            handleClick={(idx) => {
+              setCurrentStep(idx);
+            }}
           />
         </Box>
         <Flex
