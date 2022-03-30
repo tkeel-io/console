@@ -388,7 +388,7 @@ export default function CreateDeviceModal({
           <Flex
             justifyContent="space-between"
             alignItems="center"
-            mt="19px"
+            mt="13px"
             mb="19px"
           >
             <Text color="gray.800" fontSize="12px" fontWeight="600">
