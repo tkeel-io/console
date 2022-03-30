@@ -147,19 +147,6 @@ export default function CreateTelemetryModal({
 
   const [selectRadioCardItem, setSelectRadioCardItem] = useState<string>();
 
-  if (defaultValues && defaultValues.define && defaultValues.define.ext) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const arr: { label: any; value: any }[] = [];
-    // eslint-disable-next-line  @typescript-eslint/no-unsafe-argument
-    Object.entries(defaultValues.define.ext).forEach((item) => {
-      arr.push({
-        label: item[0],
-        value: item[1],
-      });
-    });
-    // eslint-disable-next-line no-param-reassign
-    defaultValues.define.ext = arr;
-  }
   const {
     register,
     formState: { errors },
