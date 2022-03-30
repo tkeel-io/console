@@ -59,7 +59,7 @@ export default function BasicInfoPart({
       >
         <TreeSelect
           id="parentId"
-          allowClear
+          allowClear={!!watchFields.parentId}
           placeholder="请选择设备分组"
           extras={{ hideTreeIcon: true }}
           style={{ width: '100%' }}
@@ -144,7 +144,7 @@ export default function BasicInfoPart({
                         id="templateId"
                         value={watchFields.templateId}
                         style={{ width: '100%' }}
-                        allowClear
+                        allowClear={!!watchFields.templateId}
                         disabled={
                           mode === ModalMode.EDIT && !watchFields.templateId
                         }
