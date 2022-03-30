@@ -64,7 +64,7 @@ export default function SearchDeviceInput({
   const hasKeywordsOrConditions = inputValue || filterConditions.length > 0;
   let inputPaddingRight = '10px';
   if (hasKeywordsOrConditions) {
-    inputPaddingRight = type === 'index' ? '124px' : '160px';
+    inputPaddingRight = type === 'index' ? '130px' : '160px';
   }
 
   const groupCondition = filterConditions.find(
@@ -201,7 +201,7 @@ export default function SearchDeviceInput({
     let search = '';
     if (deviceGroupId) {
       const groupName = encode(groupCondition?.value || '');
-      search += `group-id=${deviceGroupId}&${GROUP_NAME}=${groupName}&`;
+      search += `group-id=${deviceGroupId}&group-name=${groupName}&`;
     }
 
     if (templateId) {
@@ -296,6 +296,7 @@ export default function SearchDeviceInput({
     justifyContent: 'center',
     width: '20px',
     cursor: 'pointer',
+    zIndex: 1,
   };
 
   return (
@@ -351,28 +352,26 @@ export default function SearchDeviceInput({
           onFocus={() => setShowFilterDropdown(true)}
           onKeyDown={handleKeyDown}
         />
-        <Flex>
-          {type === 'searchResult' && hasKeywordsOrConditions && (
-            <Flex {...iconWrapperStyle}>
-              <RefreshFilledIcon
-                color="grayAlternatives.300"
-                onClick={() => {
-                  if (refetchData) {
-                    refetchData();
-                  }
-                }}
-              />
-            </Flex>
-          )}
-          {hasKeywordsOrConditions && (
-            <Flex {...iconWrapperStyle} right="110px">
-              <BroomFilledIcon
-                color="grayAlternatives.300"
-                onClick={handleClearCondition}
-              />
-            </Flex>
-          )}
-        </Flex>
+        {type === 'searchResult' && hasKeywordsOrConditions && (
+          <Flex {...iconWrapperStyle}>
+            <RefreshFilledIcon
+              color="grayAlternatives.300"
+              onClick={() => {
+                if (refetchData) {
+                  refetchData();
+                }
+              }}
+            />
+          </Flex>
+        )}
+        {hasKeywordsOrConditions && (
+          <Flex {...iconWrapperStyle} right="110px">
+            <BroomFilledIcon
+              color="grayAlternatives.300"
+              onClick={handleClearCondition}
+            />
+          </Flex>
+        )}
         <SearchButton disabled={buttonDisabled} onClick={handleSearch} />
       </InputGroup>
       <FilterDropdown
