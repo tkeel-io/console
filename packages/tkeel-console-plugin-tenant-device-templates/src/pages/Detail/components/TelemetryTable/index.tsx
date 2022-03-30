@@ -131,6 +131,20 @@ function Index({ id, title }: { id: string; title: string }) {
       Cell: ({ row }: Cell<Data>) =>
         useMemo(() => {
           const { original } = row;
+          if (original && original.define && original.define.ext) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const arr: { label: any; value: any }[] = [];
+            // eslint-disable-next-line  @typescript-eslint/no-unsafe-argument
+            Object.entries(original.define.ext).forEach((item) => {
+              arr.push({
+                label: item[0],
+                value: item[1],
+              });
+            });
+            // eslint-disable-next-line no-param-reassign
+            original.define.ext = arr;
+          }
+
           return (
             <MoreAction
               buttons={[
@@ -193,6 +207,9 @@ function Index({ id, title }: { id: string; title: string }) {
             flex: 1,
             overflow: 'hidden',
             backgroundColor: 'whiteAlias',
+          },
+          body: {
+            flex: 1,
           },
         }}
         scroll={{ y: '100%' }}

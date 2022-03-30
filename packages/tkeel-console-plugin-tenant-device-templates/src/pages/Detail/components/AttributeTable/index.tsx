@@ -157,10 +157,13 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
       <Table
         styles={{
           wrapper: {
-            flex: 1,
             minH: '80vh',
+            flex: 1,
             overflow: 'hidden',
             backgroundColor: 'whiteAlias',
+          },
+          body: {
+            flex: 1,
           },
         }}
         scroll={{ y: '100%' }}
@@ -171,6 +174,7 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
         isShowStripe
         isLoading={isLoading}
         paginationProps={pagination}
+        hasPagination={false}
         empty={
           <Empty
             description={
