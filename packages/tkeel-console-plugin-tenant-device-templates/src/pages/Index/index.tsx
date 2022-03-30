@@ -3,7 +3,12 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { TemplateCard } from '@tkeel/console-business-components';
-import { PageHeaderToolbar } from '@tkeel/console-components';
+import {
+  Empty,
+  PageHeaderToolbar,
+  Pagination,
+} from '@tkeel/console-components';
+import { usePagination } from '@tkeel/console-hooks';
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
 import {
   KeyDataType,
@@ -22,6 +27,9 @@ function Index() {
   const navigate = useNavigate();
   const toast = plugin.getPortalToast();
   const [keyWord, setKeyWord] = useState('');
+
+  const pagination = usePagination();
+  const { pageNum, pageSize, setTotalSize, ...rest } = pagination;
 
   let defaultParams = {
     page_num: 1,
@@ -55,36 +63,23 @@ function Index() {
       }),
     };
   });
+  setTotalSize(keyData.length);
 
   const handleCreateSuccess = (id: string) => {
     toast('创建模板成功', { status: 'success' });
     navigate(`/detail/${id}`);
   };
 
-  return (
-    <Flex flexDirection="column" height="100%">
-      <PageHeaderToolbar
-        name="设备模板"
-        hasSearchInput
-        searchInputProps={{
-          onSearch(value) {
-            setKeyWord(value.trim());
-          },
-        }}
-        buttons={[
-          <CreateTemplateButton
-            key="create"
-            templateData={keyData}
-            onSuccess={handleCreateSuccess}
-          />,
-        ]}
-      />
+  // eslint-disable-next-line react/no-unstable-nested-components
+  function Card() {
+    return (
       <Box
         bg="gray.50"
         boxShadow="0px 8px 8px rgba(152, 163, 180, 0.1)"
         borderRadius="4px"
         mt="20px"
         padding="20px 0"
+        overflowY="auto"
       >
         <Flex flexWrap="wrap" paddingLeft="20px">
           {keyData.map((item: KeyDataType) => {
@@ -129,7 +124,48 @@ function Index() {
             );
           })}
         </Flex>
+
+        <Pagination
+          pageNum={pageNum}
+          pageSize={pageSize}
+          {...rest}
+          styles={{ wrapper: { padding: '0 20px' } }}
+        />
       </Box>
+    );
+  }
+
+  return (
+    <Flex flexDirection="column" height="100%">
+      <PageHeaderToolbar
+        name="设备模板"
+        hasSearchInput
+        searchInputProps={{
+          onSearch(value) {
+            setKeyWord(value.trim());
+          },
+        }}
+        buttons={[
+          <CreateTemplateButton
+            key="create"
+            templateData={keyData}
+            onSuccess={handleCreateSuccess}
+          />,
+        ]}
+      />
+
+      {keyData.length > 0 ? (
+        <Card />
+      ) : (
+        <Empty
+          description={<Box>暂无数据</Box>}
+          styles={{
+            wrapper: { height: '100%' },
+            content: { marginTop: '10px' },
+          }}
+          title=""
+        />
+      )}
     </Flex>
   );
 }

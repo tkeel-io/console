@@ -194,6 +194,9 @@ function Index({ id, title }: { id: string; title: string }) {
             overflow: 'hidden',
             backgroundColor: 'whiteAlias',
           },
+          body: {
+            flex: 1,
+          },
         }}
         scroll={{ y: '100%' }}
         columns={columns}
