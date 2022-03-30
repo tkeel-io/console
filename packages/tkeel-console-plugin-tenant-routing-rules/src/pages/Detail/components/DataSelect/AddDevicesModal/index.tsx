@@ -10,10 +10,11 @@ import {
   useDeviceGroupQuery,
   useDeviceListQuery,
 } from '@tkeel/console-request-hooks';
-import { getTreeNodeData } from '@tkeel/console-utils';
+import { getTreeNodeData, TreeNodeData } from '@tkeel/console-utils';
 
 import useAddDevicesMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useAddDevicesMutation';
 import useRuleDevicesIdArrayQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDevicesIdArrayQuery';
+import Empty from '@/tkeel-console-plugin-tenant-routing-rules/pages/Detail/components/DataSelect/Empty';
 
 import DeviceList from './DeviceList';
 import SelectedDevices from './SelectedDevices';
@@ -38,6 +39,7 @@ export default function AddDevicesModal({
   refetchData,
 }: Props) {
   const [deviceGroupKeywords, setDeviceGroupKeywords] = useState('');
+  const [treeNodeData, setTreeNodeData] = useState<TreeNodeData[]>([]);
   const [groupId, setGroupId] = useState('');
   const [deviceKeywords, setDeviceKeywords] = useState('');
   const [deviceGroupConditions, setDeviceGroupConditions] = useState<
@@ -52,12 +54,20 @@ export default function AddDevicesModal({
 
   const { deviceIds } = useRuleDevicesIdArrayQuery(ruleId || '');
 
-  const { deviceGroupTree, isLoading: isDeviceGroupLoading } =
-    useDeviceGroupQuery({
-      requestData: {
-        condition: deviceGroupConditions,
-      },
-    });
+  const { isLoading: isDeviceGroupLoading } = useDeviceGroupQuery({
+    requestData: {
+      condition: deviceGroupConditions,
+    },
+    onSuccess(data) {
+      const groupTree = data?.data?.GroupTree ?? {};
+      const groupTreeNodeData = getTreeNodeData({ data: groupTree });
+      setTreeNodeData(groupTreeNodeData);
+      const key = groupTreeNodeData[0]?.key;
+      if (key) {
+        setGroupId(key);
+      }
+    },
+  });
 
   const { deviceList, isLoading: isDeviceListLoading } = useDeviceListQuery({
     requestData: {
@@ -114,8 +124,6 @@ export default function AddDevicesModal({
 
     setFilteredSelectedDevices(newFilteredSelectedDevices);
   };
-
-  const treeNodeData = getTreeNodeData({ data: deviceGroupTree });
 
   const handleSetSelectedDevices = (devices: DeviceItem[]) => {
     setSelectedDevices(devices);
@@ -244,39 +252,49 @@ export default function AddDevicesModal({
           />
           <Flex justifyContent="space-between">
             <Box {...contentStyle}>
-              {isDeviceGroupLoading ? (
-                <Loading styles={{ wrapper: { height: '100%' } }} />
-              ) : (
-                <Tree
-                  extras={{ isTreeTitleFullWidth: true }}
-                  treeData={treeNodeData}
-                  selectedKeys={[groupId]}
-                  selectable
-                  showIcon
-                  onSelect={(_, info) => {
-                    const key = info.node.key as string;
-                    if (key && key !== groupId) {
-                      setGroupId(key);
-                    }
-                  }}
-                  styles={{
-                    treeNodeContentWrapper: 'flex: 1',
-                    treeTitle: 'font-size:14px; line-height: 32px;',
-                  }}
-                />
-              )}
+              {(() => {
+                if (isDeviceGroupLoading) {
+                  return <Loading styles={{ wrapper: { height: '100%' } }} />;
+                }
+
+                if (treeNodeData.length === 0) {
+                  return (
+                    <Empty
+                      styles={{ wrapper: { width: '100%', height: '100%' } }}
+                    />
+                  );
+                }
+
+                return (
+                  <Tree
+                    extras={{ isTreeTitleFullWidth: true }}
+                    treeData={treeNodeData}
+                    selectedKeys={[groupId]}
+                    selectable
+                    showIcon
+                    onSelect={(_, info) => {
+                      const key = info.node.key as string;
+                      if (key && key !== groupId) {
+                        setGroupId(key);
+                      }
+                    }}
+                    styles={{
+                      treeNodeContentWrapper: 'flex: 1',
+                      treeTitle: 'font-size:14px; line-height: 32px;',
+                    }}
+                  />
+                );
+              })()}
             </Box>
             <Flex marginLeft="20px" {...contentStyle}>
-              {isDeviceListLoading ? (
-                <Loading styles={{ wrapper: { flex: '1' } }} />
-              ) : (
-                <DeviceList
-                  deviceList={deviceList}
-                  selectedDevices={selectedDevices}
-                  handleAllCheckBoxChange={handleAllCheckBoxChange}
-                  handleItemCheckBoxChange={handleItemCheckBoxChange}
-                />
-              )}
+              <DeviceList
+                groupId={groupId}
+                isLoading={isDeviceListLoading}
+                deviceList={deviceList}
+                selectedDevices={selectedDevices}
+                handleAllCheckBoxChange={handleAllCheckBoxChange}
+                handleItemCheckBoxChange={handleItemCheckBoxChange}
+              />
             </Flex>
           </Flex>
         </Flex>
@@ -313,6 +331,7 @@ export default function AddDevicesModal({
           />
           <Box {...contentStyle}>
             <SelectedDevices
+              groupId={groupId}
               devices={filteredSelectedDevices}
               removeDevice={(deviceId) => {
                 handleSetSelectedDevices(

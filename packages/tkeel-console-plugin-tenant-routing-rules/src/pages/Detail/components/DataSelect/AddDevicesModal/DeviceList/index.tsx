@@ -1,11 +1,15 @@
 import { Flex, Text } from '@chakra-ui/react';
 import { ChangeEvent } from 'react';
 
-import { Checkbox } from '@tkeel/console-components';
+import { Checkbox, Loading } from '@tkeel/console-components';
 import { SmartObjectTwoToneIcon } from '@tkeel/console-icons';
 import { DeviceItem } from '@tkeel/console-request-hooks';
 
+import Empty from '@/tkeel-console-plugin-tenant-routing-rules/pages/Detail/components/DataSelect/Empty';
+
 type Props = {
+  groupId: string;
+  isLoading: boolean;
   deviceList: DeviceItem[];
   selectedDevices: DeviceItem[];
   handleAllCheckBoxChange: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -19,6 +23,8 @@ type Props = {
 };
 
 export default function DeviceList({
+  groupId,
+  isLoading,
   deviceList,
   selectedDevices,
   handleAllCheckBoxChange,
@@ -38,6 +44,28 @@ export default function DeviceList({
     fontSize: '14px',
     lineHeight: '24px',
   };
+
+  if (isLoading) {
+    <Loading styles={{ wrapper: { flex: '1' } }} />;
+  }
+
+  if (deviceList.length === 0) {
+    if (groupId) {
+      return (
+        <Empty
+          text={
+            <Flex flexDirection="column" alignItems="center">
+              <Text>该设备组暂无设备请</Text>
+              <Text>重新选择</Text>
+            </Flex>
+          }
+          styles={{ wrapper: { width: '100%', height: '100%' } }}
+        />
+      );
+    }
+
+    return null;
+  }
 
   return (
     <Flex flexDirection="column" paddingLeft="20px">

@@ -41,7 +41,7 @@ type Props = {
   noTitleText?: string;
 };
 
-export default function getTreeNodeData({
+export function getTreeNodeData({
   data,
   noTitleText = '暂无数据',
 }: Props): TreeNodeData[] {
