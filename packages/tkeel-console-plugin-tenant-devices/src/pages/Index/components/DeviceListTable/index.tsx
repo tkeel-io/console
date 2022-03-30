@@ -207,6 +207,8 @@ function DeviceListTable({
             originData?.properties?.basicInfo?.directConnection ?? false;
           const templateId =
             originData?.properties?.basicInfo?.templateId ?? '';
+          const templateName =
+            originData?.properties?.basicInfo?.templateName ?? '';
           const description =
             originData?.properties?.basicInfo?.description ?? '';
           const defaultFormValues = {
@@ -214,6 +216,7 @@ function DeviceListTable({
             selfLearn,
             description,
             templateId,
+            templateName,
             directConnection,
             name,
             ext,
