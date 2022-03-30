@@ -39,6 +39,7 @@ function TelemetryDrawer({ usefulData, isOpen, onClose }: Props) {
       length: '长度',
       step: '步长',
       ext: '扩展',
+      unit: '单位',
     };
     const defineInfo = [
       {

@@ -158,7 +158,7 @@ export default function CreateTelemetryModal({
     setFocus,
   } = useForm<FormValues>({ defaultValues });
 
-  const required = { value: false, message: 'required' };
+  const required = { value: false, message: '请输入' };
   const selectRadioCardObj = {
     // int
     最大值: register('define.max', {

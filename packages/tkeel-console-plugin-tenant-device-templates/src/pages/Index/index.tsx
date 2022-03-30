@@ -90,7 +90,7 @@ function Index() {
                   <BoxTwoToneIcon style={{ width: '24px', height: '22px' }} />
                 }
                 title={item.title}
-                description={item.description}
+                description={item.description || '暂无描述'}
                 navigateUrl={`/detail/${item.id}`}
                 buttons={[
                   <SaveAsTemplateButton
@@ -143,6 +143,9 @@ function Index() {
         searchInputProps={{
           onSearch(value) {
             setKeyWord(value.trim());
+          },
+          inputStyle: {
+            backgroundColor: 'gray.50',
           },
         }}
         buttons={[
