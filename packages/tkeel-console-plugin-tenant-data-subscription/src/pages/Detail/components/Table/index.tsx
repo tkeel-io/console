@@ -273,12 +273,16 @@ function Index({ id, title }: { id: string; title: string }) {
       <Table
         styles={{
           wrapper: {
+            minH: '80vh',
             flex: 1,
             overflow: 'hidden',
-            height: '100%',
-            minHeight: '60vh',
+            backgroundColor: 'whiteAlias',
+          },
+          body: {
+            flex: 1,
           },
         }}
+        scroll={{ y: '100%' }}
         columns={columns}
         data={data?.data || []}
         onSelect={handleSelect}
