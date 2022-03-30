@@ -10,7 +10,7 @@ import {
   Text,
   Tooltip,
 } from '@chakra-ui/react';
-import { isEmpty } from 'lodash';
+import { fromPairs, isEmpty } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -51,7 +51,7 @@ const TOOLTIP_OPTIONS = [
   { label: '读写类型', key: 'rw' },
 ];
 type Props = {
-  attributeField: AttributeItem[];
+  attributeFields: AttributeItem[];
   attributeValues: Attributes;
   basicInfo: BasicInfo;
   deviceId: string;
@@ -95,15 +95,17 @@ function renderTooltip(info: { type: string; rw: ReadWriteType }) {
 function AttributesPanel({
   deviceId,
   basicInfo,
-  attributeField,
+  attributeFields,
   attributeValues,
   refetch: refetchDeviceDetail = () => {},
 }: Props) {
   const [currentId, setCurrentId] = useState('');
   const [focusId, setFocusId] = useState('');
-  // const [focusValue, setFocusValue] = useState('');
   const toast = plugin.getPortalToast();
   const [keywords, setKeywords] = useState('');
+  const defaultFormValue = fromPairs(
+    attributeFields.map((v) => [v.id, v.define.default_value])
+  );
   const handleSearch = (value: string) => {
     setKeywords(value.trim());
   };
@@ -112,11 +114,10 @@ function AttributesPanel({
   const {
     register,
     setValue,
-    // getValues,
     formState: { errors },
     reset,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } = useForm<{ [propName: string]: any }>({});
+  } = useForm<{ [propName: string]: any }>(attributeValues);
   useEffect(() => {
     reset(attributeValues);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -151,7 +152,7 @@ function AttributesPanel({
 
   return (
     <Flex flex="1" direction="column" height="100%">
-      {isEmpty(attributeField) ? (
+      {isEmpty(attributeFields) ? (
         <Empty
           description={
             <Box>
@@ -217,17 +218,17 @@ function AttributesPanel({
           />
           <Box flex="1" overflowY="scroll" pb="30px">
             <SimpleGrid columns={2} spacingX="20px" spacingY="12px">
-              {getFilterList({ list: attributeField, keywords }).map(
+              {getFilterList({ list: attributeFields, keywords }).map(
                 (item: AttributeItem) => {
                   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                   const { defaultValue, name, type, id, define, rw } =
                     getFormValue(item);
-                  const editFormValues = {
-                    name,
-                    id,
-                    type,
-                    define,
-                  };
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                  const defaultValueCopy =
+                    defaultValue !== undefined
+                      ? defaultValue
+                      : defaultFormValue[item.id];
+                  const editFormValues = { name, id, type, define };
                   return (
                     <Box
                       w="100%"
@@ -309,9 +310,7 @@ function AttributesPanel({
                           <Input
                             id={item.id}
                             bg="white"
-                            placeholder={`默认值 ${
-                              item?.define?.default_value as string
-                            }`}
+                            defaultValue={defaultValueCopy as number | string}
                             isDisabled={isLoading && currentId === item.id}
                             borderColor="gray.200"
                             fontSize="14px"
@@ -351,9 +350,10 @@ function AttributesPanel({
                               isDisabled={isLoading && currentId === item.id}
                               colorScheme="primary"
                               size="sm"
-                              isChecked={defaultValue as boolean}
+                              isChecked={defaultValueCopy as boolean}
                               onChange={(e) => {
                                 setFocusId(item.id);
+                                setCurrentId(item.id);
                                 setAttributeData({
                                   id: item.id,
                                   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -362,7 +362,7 @@ function AttributesPanel({
                               }}
                             />
                             <Text color="gray.700" fontSize="14px" ml="10px">
-                              {defaultValue ? 'true' : 'false'}
+                              {defaultValueCopy ? 'true' : 'false'}
                             </Text>
                           </Flex>
                         )}
@@ -370,11 +370,11 @@ function AttributesPanel({
                           <JsonInfoButton
                             handleSetId={() => {
                               setFocusId(item.id);
+                              setCurrentId(item.id);
                             }}
                             deviceId={deviceId}
                             id={item.id}
-                            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                            defaultValue={defaultValue}
+                            defaultValue={defaultValueCopy as string}
                           />
                         )}
                       </FormControl>
