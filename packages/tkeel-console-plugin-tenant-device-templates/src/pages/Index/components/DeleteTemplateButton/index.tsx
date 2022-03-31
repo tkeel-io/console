@@ -19,7 +19,6 @@ function DeleteTemplateButton({ id, refetchData, name }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate, isLoading } = useDeleteTemplateMutation({
     onSuccess() {
-      // onSuccess();
       toast('删除成功', { status: 'success' });
       refetchData();
       onClose();

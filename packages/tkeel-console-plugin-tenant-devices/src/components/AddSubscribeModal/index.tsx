@@ -1,4 +1,4 @@
-import { Text } from '@chakra-ui/react';
+import { HStack, Text } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
@@ -9,7 +9,7 @@ import useListSubscribeQuery, {
 } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useListSubscribeQuery';
 
 export interface FormValues {
-  subscribe_ids: number[];
+  subscribe_ids: string[];
 }
 
 export interface AddrList {
@@ -26,13 +26,25 @@ type Props = {
   onConfirm: (formValues: FormValues) => void;
 };
 
+const renderLabel = (item: Data) => {
+  return (
+    <HStack>
+      <Text fontWeight={800}>{item.title}</Text>: <Text>{item.endpoint}</Text>
+    </HStack>
+  );
+};
+
 const handleSubscribeOptions = (
   subscribed: AddrList[],
   allSubscribe: Data[]
 ) => {
   return allSubscribe.map((r) => {
     const arr = subscribed.find((v) => r.id === v.id);
-    const obj = { value: Number(r.id), label: r.description };
+    const obj = {
+      value: r.id,
+      label: renderLabel(r),
+      displayLabel: r.title,
+    };
     if (arr) return { disabled: true, ...obj };
     return { disabled: false, ...obj };
   });
@@ -52,13 +64,15 @@ function AddSubscribeModal({
   });
   const selectOptions = handleSubscribeOptions(addrList ?? [], subscribeList);
   const isSelectDisabled = addrList.length === subscribeList.length;
-  const defaultSelectValue = selectOptions.find((r) => !r.disabled);
+  const defaultSelectValue = selectOptions.filter((r) => r.disabled);
   const { setValue, trigger, getValues, control } = useForm<FormValues>();
   useEffect(() => {
     setValue(
       'subscribe_ids',
-      defaultSelectValue ? [defaultSelectValue.value] : []
+      defaultSelectValue.map((v) => v.value)
     );
+    // eslint-disable-next-line no-console
+    console.log('defaultSelectValue', defaultSelectValue);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultSelectValue]);
 
@@ -93,18 +107,19 @@ function AddSubscribeModal({
         name="subscribe_ids"
         control={control}
         rules={{ required: { value: true, message: '请选择订阅通道' } }}
-        render={({ field: { onChange, value } }) => (
+        render={({ field: { onChange } }) => (
           <Select
             style={{ width: '100%' }}
             mode="multiple"
             showArrow
-            allowClear
+            value={getValues('subscribe_ids')}
             dropdownStyle={{ boxShadow: 'none' }}
             options={selectOptions}
             onChange={onChange}
             loading={!isSuccess}
-            value={value}
+            // value={value}
             showSearch={false}
+            optionLabelProp="displayLabel"
           />
         )}
       />

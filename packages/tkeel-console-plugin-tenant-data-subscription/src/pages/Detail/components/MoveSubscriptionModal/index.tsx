@@ -28,12 +28,7 @@ export default function ModifySubscriptionModal({
   const ID = pathname.split('/')[pathname.split('/').length - 1];
 
   const handleConfirm = async () => {
-    // const result = await trigger();
-    // if (result) {
-    //   onConfirm(formValues);
     onConfirm(targetId as number);
-    //   reset();
-    // }
   };
 
   return (
@@ -42,8 +37,6 @@ export default function ModifySubscriptionModal({
       isOpen={isOpen}
       isConfirmButtonLoading={isConfirmButtonLoading}
       onClose={() => {
-        // reset();
-
         onClose();
       }}
       onConfirm={handleConfirm}

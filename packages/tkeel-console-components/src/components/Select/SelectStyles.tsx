@@ -173,8 +173,7 @@ export default function SelectStyles({ prefixCls, styles }: Props) {
         border-radius: 4px;
         padding: 16px 12px;
         color: ${colors.gray[700]};
-        box-shadow: 0 10px 15px ${colors.gray[100]},
-          0 4px 6px ${colors.gray[100]};
+        box-shadow: 0 2px 10px ${colors.gray[100]};
         z-index: 1400;
         ${styles?.dropdown}
       }
