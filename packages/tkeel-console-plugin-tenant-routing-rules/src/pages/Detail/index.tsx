@@ -1,5 +1,5 @@
 import { Box, Flex, Square, Text } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useQueryClient } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { BackButton } from '@tkeel/console-components';
@@ -7,6 +7,7 @@ import { PingTwoToneIcon } from '@tkeel/console-icons';
 // import { DeviceItem } from '@tkeel/console-request-hooks';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
+import MoreActionButton from '@/tkeel-console-plugin-tenant-routing-rules/components/MoreActionButton';
 import RouteLabel from '@/tkeel-console-plugin-tenant-routing-rules/components/RouteLabel';
 import StatusLabel from '@/tkeel-console-plugin-tenant-routing-rules/components/StatusLabel';
 import useRuleDetailQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDetailQuery';
@@ -14,7 +15,7 @@ import useRuleDetailQuery from '@/tkeel-console-plugin-tenant-routing-rules/hook
 import DataRepublish from './components/DataRepublish';
 import DataSelect from './components/DataSelect';
 import ErrorAction from './components/ErrorAction';
-import StepBar, { CurrentStep } from './components/StepBar';
+import StepBar from './components/StepBar';
 import TextWrapper from './components/TextWrapper';
 
 function getFormattedDateTime(time: string | undefined) {
@@ -23,18 +24,22 @@ function getFormattedDateTime(time: string | undefined) {
 
 export default function Detail() {
   const navigate = useNavigate();
-  const [currentStep] = useState<CurrentStep>(1);
-  // const [deviceList, setDeviceList] = useState<DeviceItem[]>([]);
   const { id } = useParams();
-  const { data: ruleDetail } = useRuleDetailQuery(id || '');
+  const queryClient = useQueryClient();
+
+  const { data: ruleDetail, refetch } = useRuleDetailQuery(id || '');
   const createTime = getFormattedDateTime(ruleDetail?.created_at);
   const updateTime = getFormattedDateTime(ruleDetail?.updated_at);
 
   let routeType = 'msg';
-  const type = ruleDetail?.type ?? '';
+  const type = ruleDetail?.type ?? 1;
   if (type === 2) {
     routeType = 'time';
   }
+
+  const name = ruleDetail?.name ?? '';
+  const status = ruleDetail?.status ?? 0;
+  const desc = ruleDetail?.desc ?? '';
 
   return (
     <Flex
@@ -63,7 +68,7 @@ export default function Detail() {
       />
       <Flex position="relative" flexDirection="column" width="82%">
         <Flex justifyContent="space-between">
-          <Flex alignItems="center">
+          <Flex alignItems="center" maxWidth="80%">
             <Square size="40px" backgroundColor="gray.50" borderRadius="4px">
               <PingTwoToneIcon size={20} />
             </Square>
@@ -74,30 +79,52 @@ export default function Detail() {
               fontSize="18px"
               fontWeight="600"
               lineHeight="24px"
+              isTruncated
+              title={name}
             >
-              {ruleDetail?.name ?? ''}
+              {name}
             </Text>
-            <RouteLabel routeType={routeType} />
+            <RouteLabel
+              routeType={routeType}
+              styles={{ wrapper: { flexShrink: 0 } }}
+            />
           </Flex>
-          <Flex>
-            <StatusLabel status={ruleDetail?.status ?? 0} />
+          <Flex alignItems="center">
+            <StatusLabel
+              status={status}
+              styles={{ wrapper: { marginRight: '15px' } }}
+            />
+            <MoreActionButton
+              cruxData={{ id: id || '', name, status, desc, type }}
+              refetch={() => {
+                refetch();
+              }}
+              onDeleteSuccess={() => {
+                queryClient.invalidateQueries('routeRules');
+                navigate('/');
+              }}
+            />
           </Flex>
         </Flex>
         <TextWrapper
           label="描述"
-          value={ruleDetail?.desc ?? ''}
+          value={desc}
           styles={{ wrapper: { marginTop: '8px' } }}
         />
         <Flex marginTop="8px">
-          <TextWrapper label="创建时间" value={createTime} />
           <TextWrapper
-            label="修改时间"
-            value={updateTime}
-            styles={{ wrapper: { marginLeft: '20px' } }}
+            label="创建时间"
+            value={createTime}
+            styles={{ text: { width: '140px' } }}
           />
+          <TextWrapper label="修改时间" value={updateTime} />
         </Flex>
         <StepBar
-          currentStep={currentStep}
+          ruleStatus={{
+            devicesStatus: ruleDetail?.devices_status ?? 0,
+            targetStatus: ruleDetail?.targets_status ?? 0,
+            subId: ruleDetail?.sub_id ?? 0,
+          }}
           styles={{ wrapper: { marginTop: '32px' } }}
         />
         <Flex
@@ -107,12 +134,12 @@ export default function Detail() {
           borderRadius="4px"
           backgroundColor="white"
         >
-          <DataSelect
-          // deviceList={deviceList}
-          // handleSelectDevices={(devices) => setDeviceList(devices)}
-          />
+          <DataSelect />
           <DataRepublish styles={{ wrapper: { margin: '40px 0' } }} />
-          <ErrorAction />
+          <ErrorAction
+            subscribeId={ruleDetail?.sub_id ?? 0}
+            refetchDetail={() => refetch()}
+          />
         </Flex>
       </Flex>
     </Flex>

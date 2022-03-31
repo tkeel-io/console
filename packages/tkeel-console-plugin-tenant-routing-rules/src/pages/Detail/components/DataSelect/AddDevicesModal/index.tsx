@@ -1,5 +1,6 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { ChangeEvent, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { Loading, Modal, SearchInput, Tree } from '@tkeel/console-components';
 import { BroomFilledIcon } from '@tkeel/console-icons';
@@ -9,19 +10,36 @@ import {
   useDeviceGroupQuery,
   useDeviceListQuery,
 } from '@tkeel/console-request-hooks';
-import { getTreeNodeData } from '@tkeel/console-utils';
+import { getTreeNodeData, TreeNodeData } from '@tkeel/console-utils';
+
+import useAddDevicesMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useAddDevicesMutation';
+// import useRuleDevicesIdArrayQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDevicesIdArrayQuery';
+import Empty from '@/tkeel-console-plugin-tenant-routing-rules/pages/Detail/components/DataSelect/Empty';
 
 import DeviceList from './DeviceList';
 import SelectedDevices from './SelectedDevices';
 
+export interface Device {
+  id: string;
+  name: string;
+  status: 'online' | 'offline';
+  templateName: string;
+  parentName: string;
+}
+
 type Props = {
   isOpen: boolean;
   onClose: () => unknown;
-  onConfirm: (devices: DeviceItem[]) => unknown;
+  refetchData: () => unknown;
 };
 
-export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
+export default function AddDevicesModal({
+  isOpen,
+  onClose,
+  refetchData,
+}: Props) {
   const [deviceGroupKeywords, setDeviceGroupKeywords] = useState('');
+  const [treeNodeData, setTreeNodeData] = useState<TreeNodeData[]>([]);
   const [groupId, setGroupId] = useState('');
   const [deviceKeywords, setDeviceKeywords] = useState('');
   const [deviceGroupConditions, setDeviceGroupConditions] = useState<
@@ -32,12 +50,24 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
     DeviceItem[]
   >([]);
 
-  const { deviceGroupTree, isLoading: isDeviceGroupLoading } =
-    useDeviceGroupQuery({
-      requestData: {
-        condition: deviceGroupConditions,
-      },
-    });
+  const { id: ruleId } = useParams();
+
+  // const { deviceIds } = useRuleDevicesIdArrayQuery(ruleId || '');
+
+  const { isLoading: isDeviceGroupLoading } = useDeviceGroupQuery({
+    requestData: {
+      condition: deviceGroupConditions,
+    },
+    onSuccess(data) {
+      const groupTree = data?.data?.GroupTree ?? {};
+      const groupTreeNodeData = getTreeNodeData({ data: groupTree });
+      setTreeNodeData(groupTreeNodeData);
+      const key = groupTreeNodeData[0]?.key;
+      if (key) {
+        setGroupId(key);
+      }
+    },
+  });
 
   const { deviceList, isLoading: isDeviceListLoading } = useDeviceListQuery({
     requestData: {
@@ -52,9 +82,27 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
     enabled: Boolean(groupId),
   });
 
+  const clearState = () => {
+    setGroupId('');
+    setDeviceGroupConditions([]);
+    setSelectedDevices([]);
+    setDeviceKeywords('');
+    setFilteredSelectedDevices([]);
+  };
+
+  const { mutate, isLoading } = useAddDevicesMutation({
+    ruleId: ruleId || '',
+    onSuccess() {
+      onClose();
+      clearState();
+      // TODO 添加设备后有延迟，临时处理方案
+      setTimeout(() => {
+        refetchData();
+      }, 500);
+    },
+  });
+
   const handleDeviceGroupSearch = () => {
-    // eslint-disable-next-line no-console
-    console.log('deviceGroupKeywords', deviceGroupKeywords);
     setDeviceGroupConditions([
       {
         field: 'group.name',
@@ -83,8 +131,6 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
 
     setFilteredSelectedDevices(newFilteredSelectedDevices);
   };
-
-  const treeNodeData = getTreeNodeData({ data: deviceGroupTree });
 
   const handleSetSelectedDevices = (devices: DeviceItem[]) => {
     setSelectedDevices(devices);
@@ -136,6 +182,48 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
     handleSetSelectedDevices(newSelectedDevices);
   };
 
+  const handleConfirm = () => {
+    const newDevices: Device[] = selectedDevices.map((device) => {
+      const { id, properties } = device;
+      const { basicInfo, connectInfo } = properties || {};
+      const name = basicInfo?.name;
+      const templateName = basicInfo?.templateName;
+      const parentName = basicInfo?.parentName;
+      // eslint-disable-next-line no-underscore-dangle
+      const online = connectInfo?._online;
+      return {
+        id,
+        name,
+        status: online ? 'online' : 'offline',
+        templateName,
+        parentName,
+      };
+    });
+
+    const addDeviceIds = newDevices.map((device) => device.id);
+
+    mutate({
+      data: {
+        devices_ids: addDeviceIds,
+      },
+    });
+
+    // const addDeviceIds = newDevices
+    //   .filter((device) => !deviceIds.includes(device.id))
+    //   .map((device) => device.id);
+
+    // if (addDeviceIds.length > 0) {
+    //   mutate({
+    //     data: {
+    //       devices_ids: addDeviceIds,
+    //     },
+    //   });
+    // } else {
+    //   onClose();
+    //   clearState();
+    // }
+  };
+
   const titleStyle = {
     color: 'gray.800',
     fontSize: '14px',
@@ -163,7 +251,9 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
       width="900px"
       isOpen={isOpen}
       onClose={onClose}
-      onConfirm={() => onConfirm(selectedDevices)}
+      onConfirm={handleConfirm}
+      isConfirmButtonLoading={isLoading}
+      isConfirmButtonDisabled={selectedDevices.length === 0}
       modalBodyStyle={{ padding: '20px' }}
     >
       <Flex justifyContent="space-between">
@@ -180,39 +270,49 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
           />
           <Flex justifyContent="space-between">
             <Box {...contentStyle}>
-              {isDeviceGroupLoading ? (
-                <Loading styles={{ wrapper: { height: '100%' } }} />
-              ) : (
-                <Tree
-                  extras={{ isTreeTitleFullWidth: true }}
-                  treeData={treeNodeData}
-                  selectedKeys={[groupId]}
-                  selectable
-                  showIcon
-                  onSelect={(_, info) => {
-                    const key = info.node.key as string;
-                    if (key && key !== groupId) {
-                      setGroupId(key);
-                    }
-                  }}
-                  styles={{
-                    treeNodeContentWrapper: 'flex: 1',
-                    treeTitle: 'font-size:14px; line-height: 32px;',
-                  }}
-                />
-              )}
+              {(() => {
+                if (isDeviceGroupLoading) {
+                  return <Loading styles={{ wrapper: { height: '100%' } }} />;
+                }
+
+                if (treeNodeData.length === 0) {
+                  return (
+                    <Empty
+                      styles={{ wrapper: { width: '100%', height: '100%' } }}
+                    />
+                  );
+                }
+
+                return (
+                  <Tree
+                    extras={{ isTreeTitleFullWidth: true }}
+                    treeData={treeNodeData}
+                    selectedKeys={[groupId]}
+                    selectable
+                    showIcon
+                    onSelect={(_, info) => {
+                      const key = info.node.key as string;
+                      if (key && key !== groupId) {
+                        setGroupId(key);
+                      }
+                    }}
+                    styles={{
+                      treeNodeContentWrapper: 'flex: 1',
+                      treeTitle: 'font-size:14px; line-height: 32px;',
+                    }}
+                  />
+                );
+              })()}
             </Box>
             <Flex marginLeft="20px" {...contentStyle}>
-              {isDeviceListLoading ? (
-                <Loading styles={{ wrapper: { flex: '1' } }} />
-              ) : (
-                <DeviceList
-                  deviceList={deviceList}
-                  selectedDevices={selectedDevices}
-                  handleAllCheckBoxChange={handleAllCheckBoxChange}
-                  handleItemCheckBoxChange={handleItemCheckBoxChange}
-                />
-              )}
+              <DeviceList
+                groupId={groupId}
+                isLoading={isDeviceListLoading}
+                deviceList={deviceList}
+                selectedDevices={selectedDevices}
+                handleAllCheckBoxChange={handleAllCheckBoxChange}
+                handleItemCheckBoxChange={handleItemCheckBoxChange}
+              />
             </Flex>
           </Flex>
         </Flex>
@@ -249,6 +349,7 @@ export default function AddDevicesModal({ isOpen, onClose, onConfirm }: Props) {
           />
           <Box {...contentStyle}>
             <SelectedDevices
+              groupId={groupId}
               devices={filteredSelectedDevices}
               removeDevice={(deviceId) => {
                 handleSetSelectedDevices(

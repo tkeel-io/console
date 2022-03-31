@@ -5,6 +5,7 @@ type Props = {
   value: string;
   styles?: {
     wrapper?: StyleProps;
+    text?: StyleProps;
   };
 };
 
@@ -16,8 +17,16 @@ export default function TextWrapper({ label, value, styles }: Props) {
       lineHeight="24px"
       {...styles?.wrapper}
     >
-      <Text color="grayAlternatives.300">{label}：</Text>
-      <Text marginLeft="4px" color="gray.800">
+      <Text color="grayAlternatives.300" flexShrink={0}>
+        {label}：
+      </Text>
+      <Text
+        marginLeft="4px"
+        color="gray.800"
+        isTruncated
+        title={value}
+        {...styles?.text}
+      >
         {value}
       </Text>
     </Flex>

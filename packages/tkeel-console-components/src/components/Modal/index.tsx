@@ -2,25 +2,17 @@ import {
   Button,
   Modal as ChakraModal,
   ModalBody,
-  ModalCloseButton as ChakraModalCloseButton,
+  ModalCloseButton,
   ModalContent,
   ModalFooter,
   ModalHeader,
   ModalOverlay,
   StyleProps,
 } from '@chakra-ui/react';
-import styled from '@emotion/styled';
 import { noop } from 'lodash';
 import { ReactNode } from 'react';
 
 import ButtonsHStack from '@/tkeel-console-components/components/ButtonsHStack';
-
-const ModalCloseButton = styled(ChakraModalCloseButton)`
-  svg {
-    width: 9px;
-    height: 9px;
-  }
-`;
 
 type Props = {
   isOpen: boolean;
@@ -102,6 +94,12 @@ function Modal({
         maxWidth="unset"
         borderRadius="4px"
         boxShadow="0px 4px 8px rgba(36, 46, 66, 0.06)"
+        css={`
+          .chakra-icon {
+            width: 9px;
+            height: 9px;
+          }
+        `}
       >
         {title && (
           <ModalHeader

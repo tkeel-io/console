@@ -1,11 +1,11 @@
 import { Center, Flex, HStack, Text } from '@chakra-ui/react';
 import { useCallback, useMemo, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Cell, Column } from 'react-table';
 
 import { DeviceStatusIcon } from '@tkeel/console-business-components';
 import {
-  LinkButton,
+  // LinkButton,
   MoreAction,
   SearchInput,
   Table,
@@ -18,12 +18,10 @@ import {
   SmartObjectTwoToneIcon,
 } from '@tkeel/console-icons';
 
-import useAddDevicesMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useAddDevicesMutation';
-import useRuleDevicesIdArrayQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDevicesIdArrayQuery';
 import useRuleDevicesQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDevicesQuery';
 
 import TitleWrapper from '../TitleWrapper';
-import AddDevicesButton, { DeviceItem } from './AddDevicesButton';
+import AddDevicesButton from './AddDevicesButton';
 import DeleteDevicesButton from './DeleteDevicesButton';
 import MoveRoutingRuleButton from './MoveRoutingRuleButton';
 
@@ -36,7 +34,7 @@ type DeviceColumnData = {
 };
 
 export default function DataSelect() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [showDeviceList, setShowDeviceList] = useState(true);
   const [selectedDevices, setSelectedDevices] = useState<
     { id: string; name: string }[]
@@ -46,9 +44,6 @@ export default function DataSelect() {
   const pagination = usePagination();
   const { pageNum, pageSize, setTotalSize } = pagination;
 
-  const { deviceIds } = useRuleDevicesIdArrayQuery(ruleId || '');
-  // eslint-disable-next-line no-console
-  console.log('DataSelect ~ deviceIds', deviceIds);
   const { deviceList, total, isLoading, isSuccess, refetch } =
     useRuleDevicesQuery({
       ruleId: ruleId || '',
@@ -61,54 +56,87 @@ export default function DataSelect() {
     setTotalSize(total);
   }
 
-  const { mutate } = useAddDevicesMutation();
-
   const columns: ReadonlyArray<Column<DeviceColumnData>> = [
     {
       Header: '设备名称',
       Cell: ({ row }: Cell<DeviceColumnData>) =>
         useMemo(() => {
-          const { id, name } = row.original;
+          const { name } = row.original;
+          const deviceName = name || '';
           return (
-            <LinkButton
-              onClick={() => {
-                navigate(`/detail?id=${id}&menu-collapsed=true`);
-              }}
-              color="gray.600"
-              fontWeight="600"
-              _hover={{ color: 'primary' }}
-            >
-              <HStack>
-                <SmartObjectTwoToneIcon size="24px" />
-                <Text fontSize="12px">{name || ''}</Text>
-              </HStack>
-            </LinkButton>
+            // <LinkButton
+            // onClick={() => {
+            //   navigate(`/detail?id=${id}&menu-collapsed=true`);
+            // }}
+            // color="gray.600"
+            // fontWeight="600"
+            // _hover={{ color: 'primary' }}
+            // >
+            <HStack>
+              <SmartObjectTwoToneIcon size="24px" />
+              <Text
+                maxWidth="150px"
+                color="gray.600"
+                fontSize="12px"
+                fontWeight="500"
+                isTruncated
+                title={deviceName}
+              >
+                {deviceName}
+              </Text>
+            </HStack>
+            // </LinkButton>
           );
         }, [row]),
     },
     {
       Header: '设备状态',
-      width: 80,
+      width: 100,
       Cell: ({ row }: Cell<DeviceColumnData>) =>
         useMemo(() => {
           const { status } = row.original;
-          // const { connectInfo } = originData?.properties ?? {};
-          // eslint-disable-next-line no-underscore-dangle
-          // const isOnline = connectInfo?._online ?? false;
           return <DeviceStatusIcon isOnline={status === 'online'} />;
         }, [row]),
     },
     {
       Header: '设备模版',
       accessor: 'templateName',
-      Cell: ({ value }: { value: string }) =>
-        useMemo(() => <Text color="gray.700">{value || '-'}</Text>, [value]),
+      Cell: ({ value }: { value: string }) => {
+        const templateName = value || '-';
+        return useMemo(
+          () => (
+            <Text
+              color="gray.700"
+              maxWidth="150px"
+              isTruncated
+              title={templateName}
+            >
+              {templateName}
+            </Text>
+          ),
+          [templateName]
+        );
+      },
     },
     {
       Header: '设备分组',
       accessor: 'parentName',
-      Cell: ({ value }: { value: string }) =>
-        useMemo(() => <Text color="gray.700">{value || '-'}</Text>, [value]),
+      Cell: ({ value }: { value: string }) => {
+        const parentName = value || '-';
+        return useMemo(
+          () => (
+            <Text
+              color="gray.700"
+              maxWidth="180px"
+              isTruncated
+              title={parentName}
+            >
+              {parentName}
+            </Text>
+          ),
+          [parentName]
+        );
+      },
     },
     {
       Header: '操作',
@@ -120,7 +148,11 @@ export default function DataSelect() {
           return (
             <MoreAction
               buttons={[
-                <MoveRoutingRuleButton key="move" selectedIds={[id]} />,
+                <MoveRoutingRuleButton
+                  key="move"
+                  selectedIds={[id]}
+                  refetchData={() => refetch()}
+                />,
                 <DeleteDevicesButton
                   key="delete"
                   selectedDevices={[{ id, name }]}
@@ -155,16 +187,8 @@ export default function DataSelect() {
         }))
       );
     },
-    [setSelectedDevices]
+    []
   );
-
-  const handleSelectDevices = (devices: DeviceItem[]) => {
-    mutate({
-      data: {
-        devices_ids: devices.map((device) => device.id),
-      },
-    });
-  };
 
   return (
     <>
@@ -174,7 +198,7 @@ export default function DataSelect() {
           title="选择数据"
           description="选择设备所触发的数据"
         />
-        <AddDevicesButton handleSelectDevices={handleSelectDevices} />
+        <AddDevicesButton refetchData={() => refetch()} />
       </Flex>
       <Flex marginTop="20px" backgroundColor="gray.100" borderRadius="4px">
         {!isLoading && deviceList.length === 0 ? (
@@ -182,10 +206,7 @@ export default function DataSelect() {
             <Text color="gray.600" fontSize="14px" lineHeight="32px">
               暂未选择任何设备数据，请
             </Text>
-            <AddDevicesButton
-              type="link"
-              handleSelectDevices={handleSelectDevices}
-            />
+            <AddDevicesButton type="link" refetchData={() => refetch()} />
           </Center>
         ) : (
           <Flex flex="1" flexDirection="column" padding="20px">
@@ -232,6 +253,7 @@ export default function DataSelect() {
                       <MoveRoutingRuleButton
                         key="move"
                         selectedIds={selectedDevices.map(({ id }) => id)}
+                        refetchData={() => refetch()}
                       />,
                       <DeleteDevicesButton
                         key="delete"
