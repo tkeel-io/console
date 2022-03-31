@@ -68,11 +68,8 @@ function Index({ id, title }: { id: string; title: string }) {
   const { mutate } = useModifyTelemetryMutation({
     id,
     onSuccess() {
-      // onSuccess();
       toast('更新成功', { status: 'success' });
       refetch();
-      // refetchData();
-      // onClose();
     },
   });
 
@@ -84,7 +81,7 @@ function Index({ id, title }: { id: string; title: string }) {
         useMemo(
           () => (
             <Flex alignItems="center" justifyContent="space-between">
-              <DuotoneTwoToneIcon />
+              <DuotoneTwoToneIcon size="20" />
               <Text color="gray.800" fontWeight="600" marginLeft="14px">
                 {value}
               </Text>

@@ -65,7 +65,7 @@ function DeviceDetailLeftPanel({ deviceObject, refetch }: Props): JSX.Element {
       label: '设备凭证',
     },
     {
-      value: basicInfo?.parentName ?? '',
+      value: basicInfo?.parentName || '默认分组',
       label: '设备组',
     },
     {

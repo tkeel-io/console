@@ -20,11 +20,10 @@ export default function DetailTelemetryButton({ uid, id }: Props) {
   return (
     <>
       <MoreActionButton
-        icon={<EyeFilledIcon />}
+        icon={<EyeFilledIcon size="12px" color="grayAlternatives.300" />}
         title="查看详情"
         onClick={() => {
           onOpen();
-          // mutate({});
         }}
       />
       <TelemetryDrawer
