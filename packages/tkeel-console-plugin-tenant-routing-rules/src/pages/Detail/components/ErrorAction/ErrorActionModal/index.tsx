@@ -62,7 +62,6 @@ export default function ErrorActionModal({
 
   return (
     <Modal
-      height="343px"
       title="错误操作至订阅"
       isOpen={isOpen}
       isConfirmButtonLoading={isLoading}
