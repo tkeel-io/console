@@ -46,7 +46,7 @@ export default function DeviceList({
   };
 
   if (isLoading) {
-    <Loading styles={{ wrapper: { flex: '1' } }} />;
+    return <Loading styles={{ wrapper: { flex: '1' } }} />;
   }
 
   if (deviceList.length === 0) {
