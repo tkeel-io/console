@@ -27,6 +27,7 @@ const method = 'GET';
 type Props = {
   pageNum: number;
   pageSize: number;
+  // keyWords: string;
 };
 
 type TRequestParams = {
@@ -35,7 +36,11 @@ type TRequestParams = {
   key_words: string;
 };
 
-export default function useRouteRulesQuery({ pageNum, pageSize }: Props) {
+export default function useRouteRulesQuery({
+  pageNum,
+  pageSize,
+}: // keyWords,
+Props) {
   const { data, ...rest } = useQuery<ApiData, TRequestParams>({
     url,
     method,

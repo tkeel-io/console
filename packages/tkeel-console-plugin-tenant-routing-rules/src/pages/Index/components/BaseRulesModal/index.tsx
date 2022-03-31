@@ -33,7 +33,10 @@ export default function BaseRulesModal({
   onClose,
   onConfirm,
 }: Props) {
-  const [routeType, setRouteType] = useState('msg');
+  const routeTypeArr = ['msg', 'time'];
+  const routeVal = routeTypeArr[(defaultValues?.type ?? 1) - 1];
+  const [routeType, setRouteType] = useState(routeVal);
+  const typeIndex = routeTypeArr.indexOf(routeType) + 1;
   const {
     register,
     formState: { errors },
@@ -46,8 +49,6 @@ export default function BaseRulesModal({
 
   const handleConfirm = async () => {
     const result = await trigger();
-    const routeTypeArr = ['msg', 'time'];
-    const typeIndex = routeTypeArr.indexOf(routeType) + 1;
     if (result) {
       const formValues = { ...getValues(), type: typeIndex };
       onConfirm(formValues);
@@ -82,7 +83,7 @@ export default function BaseRulesModal({
 
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: 'routes',
-    defaultValue: options[0].keyOpt,
+    defaultValue: routeVal,
     onChange: (val) => {
       setRouteType(val);
     },
