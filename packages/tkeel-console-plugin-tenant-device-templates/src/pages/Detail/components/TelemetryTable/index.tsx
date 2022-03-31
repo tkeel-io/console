@@ -68,11 +68,8 @@ function Index({ id, title }: { id: string; title: string }) {
   const { mutate } = useModifyTelemetryMutation({
     id,
     onSuccess() {
-      // onSuccess();
       toast('更新成功', { status: 'success' });
       refetch();
-      // refetchData();
-      // onClose();
     },
   });
 

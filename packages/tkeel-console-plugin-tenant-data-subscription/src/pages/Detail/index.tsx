@@ -32,7 +32,6 @@ function Detail(): JSX.Element {
     title: data?.title,
     is_default: data?.is_default,
   };
-  // const created_at = data.created_at
 
   return (
     <Flex>

@@ -42,17 +42,6 @@ function Index({ id, title }: { id: string; title: string }) {
   const [keywords, setKeyWords] = useState('');
   const [checkBoxIcon, setCheckBoxIcon] = useState<boolean>(false);
 
-  // const [rowNames, setRowNames] = useState<
-  //   {
-  //     ID: string;
-  //     group: string;
-  //     name: string;
-  //     status: string;
-  //     template: string;
-  //     updated_at: string;
-  //   }[]
-  // >([]);
-
   const [rowIds, setRowIds] = useState<string[]>([]);
   const [rowNames, setRowNames] = useState<string[]>([]);
 
@@ -62,10 +51,6 @@ function Index({ id, title }: { id: string; title: string }) {
   const handleCreateRoleSuccess = () => {
     toast('创建成功', { status: 'success' });
   };
-
-  // const pagination = usePagination();
-  // const { setTotalSize } = pagination;
-
   let params = {
     page_num: pageNum,
     page_size: pageSize,
@@ -79,7 +64,6 @@ function Index({ id, title }: { id: string; title: string }) {
   if (keywords) {
     params = { ...params, key_words: keywords };
   }
-  // const { data } = useListSubscribeEntitiesQuery(id);
 
   const { data, isLoading, refetch } = useListSubscribeEntitiesQuery({
     params,
@@ -89,7 +73,6 @@ function Index({ id, title }: { id: string; title: string }) {
     },
   });
 
-  // setTotalSize(data?.total || 0);
   const handleSelect = useCallback(
     ({ selectedFlatRows }: { selectedFlatRows: Data[] }) => {
       const selectedFlatRowsIds: string[] = [];
