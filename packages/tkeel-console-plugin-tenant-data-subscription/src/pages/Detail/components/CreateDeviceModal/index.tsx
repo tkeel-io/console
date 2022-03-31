@@ -176,13 +176,13 @@ export default function CreateDeviceModal({
       id: ID,
     });
 
-  const {
-    mutate: createSubscribeEntitiesTemplateMutation,
-    isSuccess: templateIsSuccess,
-  } = useCreateSubscribeEntitiesTemplateMutation({
-    onSuccess() {},
-    id: ID,
-  });
+  const { mutate: createSubscribeEntitiesTemplateMutation } =
+    useCreateSubscribeEntitiesTemplateMutation({
+      onSuccess() {
+        onConfirm();
+      },
+      id: ID,
+    });
 
   const handleConfirm = async () => {
     if (selectIndex === 0) {
@@ -193,9 +193,6 @@ export default function CreateDeviceModal({
       createSubscribeEntitiesTemplateMutation({
         data: { models: selectedKeys },
       });
-      if (templateIsSuccess) {
-        onConfirm();
-      }
     }
   };
 
