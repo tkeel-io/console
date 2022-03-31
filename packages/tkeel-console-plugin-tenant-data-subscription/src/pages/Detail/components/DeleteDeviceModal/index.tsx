@@ -1,7 +1,6 @@
 import { Alert } from '@tkeel/console-components';
 
 type Props = {
-  // data: User;
   name: string[];
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
@@ -10,7 +9,6 @@ type Props = {
 };
 
 export default function DeleteSubscriptionModal({
-  // data,
   name,
   isOpen,
   isConfirmButtonLoading,
