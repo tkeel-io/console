@@ -3,12 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { TemplateCard } from '@tkeel/console-business-components';
-import {
-  Empty,
-  PageHeaderToolbar,
-  Pagination,
-} from '@tkeel/console-components';
-import { usePagination } from '@tkeel/console-hooks';
+import { Empty, PageHeaderToolbar } from '@tkeel/console-components';
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
 import {
   KeyDataType,
@@ -27,9 +22,6 @@ function Index() {
   const navigate = useNavigate();
   const toast = plugin.getPortalToast();
   const [keyWord, setKeyWord] = useState('');
-
-  const pagination = usePagination();
-  const { pageNum, pageSize, setTotalSize, ...rest } = pagination;
 
   let defaultParams = {
     page_num: 1,
@@ -63,7 +55,6 @@ function Index() {
       }),
     };
   });
-  setTotalSize(keyData.length);
 
   const handleCreateSuccess = (id: string) => {
     toast('创建模板成功', { status: 'success' });
@@ -124,13 +115,6 @@ function Index() {
             );
           })}
         </Flex>
-
-        <Pagination
-          pageNum={pageNum}
-          pageSize={pageSize}
-          {...rest}
-          styles={{ wrapper: { padding: '0 20px' } }}
-        />
       </Box>
     );
   }

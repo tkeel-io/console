@@ -31,7 +31,7 @@ function DeleteTelemetryButton({ attributeInfo, refetchData, uid }: Props) {
   return (
     <>
       <MoreActionButton
-        icon={<TrashFilledIcon size="12px" color="grayAlternatives.300" />}
+        icon={<TrashFilledIcon color="grayAlternatives.300" />}
         title="删除遥测"
         onClick={onOpen}
       />

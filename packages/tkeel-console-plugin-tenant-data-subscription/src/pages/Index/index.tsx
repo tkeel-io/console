@@ -41,7 +41,7 @@ function SubscriptionCard() {
       {isLoading ? (
         <Loading styles={{ wrapper: { height: '100%' } }} />
       ) : (
-        <Flex flexWrap="wrap" paddingLeft="20px">
+        <Flex flexWrap="wrap" paddingLeft="20px" mb="60px">
           {data.map((item) => {
             return (
               <TemplateCard
