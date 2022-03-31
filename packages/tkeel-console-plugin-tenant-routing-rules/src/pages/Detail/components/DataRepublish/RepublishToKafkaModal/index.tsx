@@ -112,6 +112,9 @@ export default function RepublishToKafkaModal({
             value: /.*:9092$/,
             message: '请输入合法的数据库（集群）地址',
           },
+          onChange() {
+            setValidated(false);
+          },
         })}
         formControlStyle={{ margin: '20px 0' }}
       />
