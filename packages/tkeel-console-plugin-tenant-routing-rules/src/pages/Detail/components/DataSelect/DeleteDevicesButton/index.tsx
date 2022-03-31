@@ -13,33 +13,26 @@ type Props = {
     name: string;
   }[];
   refetchData: () => unknown;
-  // onSuccess: () => void;
 };
 
 export default function DeleteDevicesButton({
   selectedDevices,
   refetchData,
-}: // refetchData,
-// onSuccess,
-Props) {
+}: Props) {
   const toast = plugin.getPortalToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { id } = useParams();
-  const { mutate, isSuccess } = useDeleteDevicesMutation(id || '');
-
-  if (isSuccess) {
-    toast('移除设备成功', { status: 'success' });
-    refetchData();
-    onClose();
-  }
-  // const { mutate } = useDeleteDeviceMutation({
-  //   onSuccess() {
-  //     onSuccess();
-  //     toast('移除设备成功', { status: 'success' });
-  //     refetchData();
-  //     onClose();
-  //   },
-  // });
+  const { mutate, isLoading } = useDeleteDevicesMutation({
+    ruleId: id || '',
+    onSuccess() {
+      // TODO 移除设备后有延迟，临时处理方案
+      setTimeout(() => {
+        toast('移除设备成功', { status: 'success' });
+        refetchData();
+        onClose();
+      }, 500);
+    },
+  });
 
   const handleConfirm = () => {
     if (id && selectedDevices.length > 0) {
@@ -58,7 +51,6 @@ Props) {
         title="移除设备"
         onClick={() => {
           onOpen();
-          // mutate({});
         }}
       />
       <Alert
@@ -72,7 +64,7 @@ Props) {
         }
         description="移除后不可恢复，请谨慎操作。"
         isOpen={isOpen}
-        // isConfirmButtonLoading={isConfirmButtonLoading}
+        isConfirmButtonLoading={isLoading}
         onClose={onClose}
         onConfirm={handleConfirm}
       />

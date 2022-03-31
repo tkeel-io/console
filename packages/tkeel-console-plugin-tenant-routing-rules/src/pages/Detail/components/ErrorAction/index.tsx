@@ -1,20 +1,53 @@
 import { Flex, StyleProps, Text, useDisclosure } from '@chakra-ui/react';
+import { useParams } from 'react-router-dom';
 
 import { AutoFilledIcon, MessageWarningFilledIcon } from '@tkeel/console-icons';
+import { plugin } from '@tkeel/console-utils';
+
+import useAddErrorActionMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useAddErrorActionMutation';
+import useErrorActionQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useErrorActionQuery';
 
 import ProductTab from '../ProductTab';
 import TitleWrapper from '../TitleWrapper';
+import ErrorActionInfoCard from './ErrorActionInfoCard';
 import ErrorActionModal from './ErrorActionModal';
 
 type Props = {
+  subscribeId: number;
+  refetchDetail: () => unknown;
   styles?: {
     wrapper?: StyleProps;
   };
 };
 
-export default function ErrorAction({ styles }: Props) {
+export default function ErrorAction({
+  subscribeId,
+  refetchDetail,
+  styles,
+}: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const iconColor = 'grayAlternatives.300';
+  const { id } = useParams();
+  const toast = plugin.getPortalToast();
+
+  const { errorAction } = useErrorActionQuery(subscribeId);
+
+  const { mutate, isLoading } = useAddErrorActionMutation({
+    ruleId: id || '',
+    onSuccess() {
+      onClose();
+      toast('添加错误操作成功', { status: 'success' });
+      refetchDetail();
+    },
+  });
+
+  const handleSubmit = (addSubscribeId: string) => {
+    mutate({
+      data: {
+        subscribe_id: addSubscribeId,
+      },
+    });
+  };
 
   return (
     <Flex flexDirection="column" {...styles?.wrapper}>
@@ -45,8 +78,21 @@ export default function ErrorAction({ styles }: Props) {
             },
           }}
         />
+        {!!subscribeId && errorAction && (
+          <ErrorActionInfoCard
+            ruleId={id || ''}
+            errorAction={errorAction}
+            refetchDetail={() => refetchDetail()}
+            styles={{ wrapper: { marginTop: '20px' } }}
+          />
+        )}
       </Flex>
-      <ErrorActionModal isOpen={isOpen} onClose={onClose} />
+      <ErrorActionModal
+        isLoading={isLoading}
+        isOpen={isOpen}
+        onClose={onClose}
+        handleSubmit={handleSubmit}
+      />
     </Flex>
   );
 }
