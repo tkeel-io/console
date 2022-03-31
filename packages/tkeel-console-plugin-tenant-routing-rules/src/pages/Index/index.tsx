@@ -1,6 +1,7 @@
 import { Flex, Grid, Text } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
+// import { useState } from 'react';
 import {
   Loading,
   PageHeaderToolbar,
@@ -16,17 +17,20 @@ import useRouteRulesQuery from '@/tkeel-console-plugin-tenant-routing-rules/hook
 import CreateRulesButton from '@/tkeel-console-plugin-tenant-routing-rules/pages/Index/components/CreateRulesButton';
 import RouteRulesCard from '@/tkeel-console-plugin-tenant-routing-rules/pages/Index/components/RouteRulesCard';
 import Step from '@/tkeel-console-plugin-tenant-routing-rules/pages/Index/components/Step';
+// import Tabs from '@/tkeel-console-plugin-tenant-routing-rules/pages/Index/components/Tabs';
 
 export default function Index(): JSX.Element {
   const navigate = useNavigate();
   const pagination = usePagination();
   const { pageNum, pageSize, setTotalSize } = pagination;
+  // const [keyWords, setKeyWords] = useState('');
   const toast = plugin.getPortalToast();
   const routeTypeArr = ['msg', 'time'];
   const { routeRulesData, data, isSuccess, isLoading, refetch } =
     useRouteRulesQuery({
       pageNum,
       pageSize,
+      // keyWords,
     });
   const totalNum = data?.total ?? 0;
   if (isSuccess) {
@@ -51,6 +55,11 @@ export default function Index(): JSX.Element {
           />,
         ]}
       />
+      {/* <Tabs 二期放开
+        onClick={(e: string) => {
+          setKeyWords(e);
+        }}
+      /> */}
       {isLoading ? (
         <Loading styles={{ wrapper: { height: '100%' } }} />
       ) : (
@@ -80,57 +89,58 @@ export default function Index(): JSX.Element {
               </Text>
             </Flex>
           ) : (
-            <Flex
-              flexDirection="column"
-              justifyContent="space-between"
-              flex="1"
-              overflow="hidden"
-            >
-              <Grid
-                templateColumns="repeat(2, 1fr)"
-                gap="20px"
-                padding="12px 20px"
+            <Flex flexDirection="column" flex="1" overflow="hidden">
+              <Flex
+                flexDirection="column"
+                justifyContent="space-between"
+                flex="1"
+                overflow="auto"
               >
-                {routeRulesData.map((rule) => {
-                  const {
-                    id,
-                    name,
-                    desc,
-                    status,
-                    type,
-                    devices_status: deviceStatus,
-                    targets_status: targetStatus,
-                    sub_id: errorOperation,
-                  } = rule;
-                  const currentStep = [
-                    deviceStatus,
-                    targetStatus,
-                    errorOperation,
-                  ];
-                  return (
-                    <RouteRulesCard
-                      key={id}
-                      briefInfo={{ name, desc, status }}
-                      operatorButton={
-                        <MoreActionButton
-                          cruxData={{ id, name, status, desc, type }}
-                          refetch={() => {
-                            refetch();
-                          }}
-                          onDeleteSuccess={() => refetch()}
-                        />
-                      }
-                      bottomInfo={
-                        <Flex>
-                          <RouteLabel routeType={routeTypeArr[type - 1]} />
-                          <Step currentStep={currentStep} />
-                        </Flex>
-                      }
-                      onClick={() => navigate(`/detail/${id}`)}
-                    />
-                  );
-                })}
-              </Grid>
+                <Grid
+                  templateColumns="repeat(2, 1fr)"
+                  gap="20px"
+                  padding="12px 20px"
+                >
+                  {routeRulesData.map((rule) => {
+                    const {
+                      id,
+                      name,
+                      desc,
+                      status,
+                      type,
+                      devices_status: deviceStatus,
+                      targets_status: targetStatus,
+                      sub_id: errorOperation,
+                    } = rule;
+                    const currentStep = [
+                      deviceStatus,
+                      targetStatus,
+                      errorOperation,
+                    ];
+                    return (
+                      <RouteRulesCard
+                        key={id}
+                        briefInfo={{ name, desc, status }}
+                        operatorButton={
+                          <MoreActionButton
+                            cruxData={{ id, name, status, desc, type }}
+                            refetch={() => {
+                              refetch();
+                            }}
+                          />
+                        }
+                        bottomInfo={
+                          <Flex alignItems="center">
+                            <RouteLabel routeType={routeTypeArr[type - 1]} />
+                            <Step currentStep={currentStep} />
+                          </Flex>
+                        }
+                        onClick={() => navigate(`/detail/${id}`)}
+                      />
+                    );
+                  })}
+                </Grid>
+              </Flex>
               <Pagination
                 {...pagination}
                 styles={{ wrapper: { padding: '0 20px' } }}
