@@ -18,18 +18,6 @@ type Props = {
 };
 
 function MoreActionButton({ cruxData, refetch, onDeleteSuccess }: Props) {
-  // const portalProps = plugin.getPortalProps();
-  // const { refetchMenus } = portalProps.client;
-  // const toast = plugin.getPortalToast();
-
-  // const { mutate } = useDisablePluginMutation({
-  //   pluginName,
-  //   onSuccess() {
-  //     toast('停用插件成功', { status: 'success' });
-  //     refetchList();
-  //     refetchMenus();
-  //   },
-  // });
   const toast = plugin.getPortalToast();
 
   const handleRefetch = () => {
