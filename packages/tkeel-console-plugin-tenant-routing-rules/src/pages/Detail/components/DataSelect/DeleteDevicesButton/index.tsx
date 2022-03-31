@@ -30,7 +30,7 @@ export default function DeleteDevicesButton({
         toast('移除设备成功', { status: 'success' });
         refetchData();
         onClose();
-      }, 1000);
+      }, 500);
     },
   });
 

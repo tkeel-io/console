@@ -13,7 +13,7 @@ import {
 import { getTreeNodeData, TreeNodeData } from '@tkeel/console-utils';
 
 import useAddDevicesMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useAddDevicesMutation';
-import useRuleDevicesIdArrayQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDevicesIdArrayQuery';
+// import useRuleDevicesIdArrayQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDevicesIdArrayQuery';
 import Empty from '@/tkeel-console-plugin-tenant-routing-rules/pages/Detail/components/DataSelect/Empty';
 
 import DeviceList from './DeviceList';
@@ -52,7 +52,7 @@ export default function AddDevicesModal({
 
   const { id: ruleId } = useParams();
 
-  const { deviceIds } = useRuleDevicesIdArrayQuery(ruleId || '');
+  // const { deviceIds } = useRuleDevicesIdArrayQuery(ruleId || '');
 
   const { isLoading: isDeviceGroupLoading } = useDeviceGroupQuery({
     requestData: {
@@ -82,16 +82,23 @@ export default function AddDevicesModal({
     enabled: Boolean(groupId),
   });
 
+  const clearState = () => {
+    setGroupId('');
+    setDeviceGroupConditions([]);
+    setSelectedDevices([]);
+    setDeviceKeywords('');
+    setFilteredSelectedDevices([]);
+  };
+
   const { mutate, isLoading } = useAddDevicesMutation({
     ruleId: ruleId || '',
     onSuccess() {
       onClose();
-      refetchData();
-      setGroupId('');
-      setDeviceGroupConditions([]);
-      setSelectedDevices([]);
-      setDeviceKeywords('');
-      setFilteredSelectedDevices([]);
+      clearState();
+      // TODO 添加设备后有延迟，临时处理方案
+      setTimeout(() => {
+        refetchData();
+      }, 500);
     },
   });
 
@@ -193,17 +200,28 @@ export default function AddDevicesModal({
       };
     });
 
-    const addDeviceIds = newDevices
-      .filter((device) => !deviceIds.includes(device.id))
-      .map((device) => device.id);
+    const addDeviceIds = newDevices.map((device) => device.id);
 
-    if (addDeviceIds.length > 0) {
-      mutate({
-        data: {
-          devices_ids: addDeviceIds,
-        },
-      });
-    }
+    mutate({
+      data: {
+        devices_ids: addDeviceIds,
+      },
+    });
+
+    // const addDeviceIds = newDevices
+    //   .filter((device) => !deviceIds.includes(device.id))
+    //   .map((device) => device.id);
+
+    // if (addDeviceIds.length > 0) {
+    //   mutate({
+    //     data: {
+    //       devices_ids: addDeviceIds,
+    //     },
+    //   });
+    // } else {
+    //   onClose();
+    //   clearState();
+    // }
   };
 
   const titleStyle = {
