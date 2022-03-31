@@ -114,7 +114,6 @@ export interface FormFields {
 type Props = {
   title: ReactNode;
   isOpen: boolean;
-  // isConfirmButtonLoading: boolean;
   formFields?: FormFields;
   defaultValues?: FormValues;
   onClose: () => unknown;
@@ -137,7 +136,6 @@ function handleConfigData(
 export default function CreateTelemetryModal({
   title,
   isOpen,
-  // isConfirmButtonLoading,
   formFields,
   defaultValues,
   onClose,
@@ -205,8 +203,6 @@ export default function CreateTelemetryModal({
         RESET();
       }, 500);
     }
-
-    // }
   };
 
   const handleDataType = useCallback(
@@ -228,16 +224,6 @@ export default function CreateTelemetryModal({
     },
     [setValue, setSelectOptions]
   );
-
-  // if (defaultValues) {
-  //   // Object.entries(defaultValues.define.ext).map((item) => {
-  //   //   append({
-  //   //     label: item[0],
-  //   //     value: item[1],
-  //   //   });
-  //   // });
-  //   // defaultValues.define.ext = [];
-  // }
 
   const fieldArrayHandler = useFieldArray({
     control,
@@ -340,7 +326,6 @@ export default function CreateTelemetryModal({
     <Modal
       title={title}
       isOpen={isOpen}
-      // isConfirmButtonLoading={isConfirmButtonLoading}
       onClose={() => {
         RESET();
         onClose();
@@ -397,11 +382,9 @@ export default function CreateTelemetryModal({
             cursor="pointer"
             onClick={() => {
               append({
-                // label: `属性名称${fieldCount || ''}`,
                 label: `请修改扩展属性标题`,
                 value: '',
               });
-              // setFieldCount(fieldCount + 1);
             }}
           >
             <AddFilledIcon color="grayAlternatives.300" /> <Box>扩展配置</Box>
