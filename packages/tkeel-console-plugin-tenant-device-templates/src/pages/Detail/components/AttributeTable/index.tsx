@@ -125,14 +125,14 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
               buttons={[
                 <EditAttributeButton
                   key="edit"
-                  id={original.id}
+                  id={id}
                   defaultValues={original}
                   refetch={refetch}
                 />,
                 <DeleteAttributeButton
                   key="delete"
                   defaultValues={original}
-                  id={original.id}
+                  id={id}
                   refetch={refetch}
                 />,
               ]}
