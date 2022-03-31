@@ -33,6 +33,7 @@ import {
 } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceListQuery';
 import { TreeNodeType } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
 import { SUBSCRIBES } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
+import handleSubscribeAddr from '@/tkeel-console-plugin-tenant-devices/utils';
 
 interface Props {
   groupTree: TreeNodeType;
@@ -195,7 +196,7 @@ function DeviceListTable({
       width: 80,
       Cell: ({ row }: Cell<DeviceItem>) =>
         useMemo(() => {
-          const originData = row.original?.originData as DeviceApiItem;
+          const originData = row.original.originData as DeviceApiItem;
           const id = originData?.id ?? '';
           const name = originData?.properties?.basicInfo?.name ?? '';
           const ext = originData?.properties?.basicInfo?.ext ?? {};
@@ -206,6 +207,8 @@ function DeviceListTable({
             originData?.properties?.basicInfo?.directConnection ?? false;
           const templateId =
             originData?.properties?.basicInfo?.templateId ?? '';
+          const templateName =
+            originData?.properties?.basicInfo?.templateName ?? '';
           const description =
             originData?.properties?.basicInfo?.description ?? '';
           const defaultFormValues = {
@@ -213,16 +216,22 @@ function DeviceListTable({
             selfLearn,
             description,
             templateId,
+            templateName,
             directConnection,
             name,
             ext,
             parentId,
           };
+          const subscribeAddr =
+            // eslint-disable-next-line no-underscore-dangle
+            originData.properties?.sysField?._subscribeAddr ?? '';
+          const addrList = handleSubscribeAddr(subscribeAddr);
           return (
             <MoreAction
               buttons={[
                 <AddSubscribeButton
                   key="subscribe"
+                  addrList={addrList}
                   deviceId={id}
                   refetch={refetch}
                 />,

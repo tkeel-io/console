@@ -74,7 +74,7 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
         useMemo(
           () => (
             <Flex alignItems="center" justifyContent="space-between">
-              <DuotoneTwoToneIcon />
+              <DuotoneTwoToneIcon size="20" />
               <Text color="gray.800" fontWeight="600" marginLeft="14px">
                 {value}
               </Text>
@@ -125,14 +125,14 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
               buttons={[
                 <EditAttributeButton
                   key="edit"
-                  id={original.id}
+                  id={id}
                   defaultValues={original}
                   refetch={refetch}
                 />,
                 <DeleteAttributeButton
                   key="delete"
                   defaultValues={original}
-                  id={original.id}
+                  id={id}
                   refetch={refetch}
                 />,
               ]}

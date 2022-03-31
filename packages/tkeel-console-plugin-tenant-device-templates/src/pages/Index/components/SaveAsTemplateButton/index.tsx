@@ -1,7 +1,7 @@
 import { useDisclosure } from '@chakra-ui/react';
 
 import { MoreActionButton } from '@tkeel/console-components';
-import { FolderCloseTwoToneIcon } from '@tkeel/console-icons';
+import { FloppyDiskFilledIcon } from '@tkeel/console-icons';
 import { KeyDataType } from '@tkeel/console-request-hooks';
 
 import useCreateTemplateMutation, {
@@ -41,7 +41,7 @@ export default function SaveAsTemplateButton({ onSuccess, data }: Props) {
   return (
     <>
       <MoreActionButton
-        icon={<FolderCloseTwoToneIcon />}
+        icon={<FloppyDiskFilledIcon />}
         title="另存为模板"
         onClick={() => {
           onOpen();
