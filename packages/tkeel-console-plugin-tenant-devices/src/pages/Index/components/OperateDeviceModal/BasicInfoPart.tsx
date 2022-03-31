@@ -70,10 +70,8 @@ export default function BasicInfoPart({
           defaultValue={watchFields.parentId}
           notFoundContent="暂无选项"
           onChange={(value: string, label: ReactNode[]) => {
-            if (value) {
-              setValue('parentId', value);
-              setValue('parentName', label[0] as string);
-            }
+            setValue('parentId', value);
+            setValue('parentName', label[0] as string);
           }}
         />
       </FormControl>
@@ -128,7 +126,8 @@ export default function BasicInfoPart({
                     id="useTemplate"
                     value={ConnectInfoType.useTemplate}
                     isDisabled={
-                      watchFields.connectType !== ConnectOption.DIRECT
+                      watchFields.connectType !== ConnectOption.DIRECT ||
+                      mode === ModalMode.EDIT
                     }
                   >
                     <Text color="gray.600" fontSize="14px">

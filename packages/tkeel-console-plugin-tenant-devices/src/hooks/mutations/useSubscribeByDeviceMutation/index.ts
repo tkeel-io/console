@@ -7,7 +7,7 @@ interface ApiData {
 }
 
 interface RequestData {
-  subscribe_ids: number[];
+  subscribe_ids: string[];
 }
 
 type Props = {
