@@ -1,11 +1,11 @@
 import { Center, Flex, HStack, Text } from '@chakra-ui/react';
 import { useCallback, useMemo, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Cell, Column } from 'react-table';
 
 import { DeviceStatusIcon } from '@tkeel/console-business-components';
 import {
-  LinkButton,
+  // LinkButton,
   MoreAction,
   SearchInput,
   Table,
@@ -34,7 +34,7 @@ type DeviceColumnData = {
 };
 
 export default function DataSelect() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [showDeviceList, setShowDeviceList] = useState(true);
   const [selectedDevices, setSelectedDevices] = useState<
     { id: string; name: string }[]
@@ -61,29 +61,31 @@ export default function DataSelect() {
       Header: '设备名称',
       Cell: ({ row }: Cell<DeviceColumnData>) =>
         useMemo(() => {
-          const { id, name } = row.original;
+          const { name } = row.original;
           const deviceName = name || '';
           return (
-            <LinkButton
-              onClick={() => {
-                navigate(`/detail?id=${id}&menu-collapsed=true`);
-              }}
-              color="gray.600"
-              fontWeight="600"
-              _hover={{ color: 'primary' }}
-            >
-              <HStack>
-                <SmartObjectTwoToneIcon size="24px" />
-                <Text
-                  maxWidth="150px"
-                  fontSize="12px"
-                  isTruncated
-                  title={deviceName}
-                >
-                  {deviceName}
-                </Text>
-              </HStack>
-            </LinkButton>
+            // <LinkButton
+            // onClick={() => {
+            //   navigate(`/detail?id=${id}&menu-collapsed=true`);
+            // }}
+            // color="gray.600"
+            // fontWeight="600"
+            // _hover={{ color: 'primary' }}
+            // >
+            <HStack>
+              <SmartObjectTwoToneIcon size="24px" />
+              <Text
+                maxWidth="150px"
+                color="gray.600"
+                fontSize="12px"
+                fontWeight="500"
+                isTruncated
+                title={deviceName}
+              >
+                {deviceName}
+              </Text>
+            </HStack>
+            // </LinkButton>
           );
         }, [row]),
     },
