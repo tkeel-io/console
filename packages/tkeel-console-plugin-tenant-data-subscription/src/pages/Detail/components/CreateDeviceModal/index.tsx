@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 import { values } from 'lodash';
 import { DataNode } from 'node_modules/rc-tree/es/interface';
-import { memo, useState } from 'react';
+import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import {
@@ -359,7 +359,7 @@ export default function CreateDeviceModal({
                 />
 
                 {!isLoading ? (
-                  memo(TREE)
+                  <TREE />
                 ) : (
                   <Loading styles={{ wrapper: { height: '100%' } }} />
                 )}
@@ -376,7 +376,7 @@ export default function CreateDeviceModal({
                   }}
                 />
                 {!templateIsLoading ? (
-                  memo(TemplateTree)
+                  <TemplateTree />
                 ) : (
                   <Loading styles={{ wrapper: { height: '100%' } }} />
                 )}
@@ -388,7 +388,7 @@ export default function CreateDeviceModal({
           <Flex
             justifyContent="space-between"
             alignItems="center"
-            mt="19px"
+            mt="13px"
             mb="19px"
           >
             <Text color="gray.800" fontSize="12px" fontWeight="600">

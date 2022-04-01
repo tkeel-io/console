@@ -40,7 +40,7 @@ export default function DeviceDetailCard({ detailData }: Props) {
         <BackButton
           onClick={() => {
             const url = searchParams.get('from-url') || '/tenant-data-query';
-            navigate(decodeURIComponent(url));
+            navigate(url);
           }}
         />
         <Flex

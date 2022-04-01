@@ -74,8 +74,8 @@ export default function Tenants() {
           () => (
             <Button
               size="small"
-              color="gray.800"
               variant="link"
+              color="gray.800"
               onClick={() => navigate(`${row?.original?.tenant_id}`)}
             >
               {value}

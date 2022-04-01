@@ -16,36 +16,31 @@ import {
   ConnectInfoType,
   ConnectOption,
   DeviceFormFields,
+  GroupOptions,
+  ModalMode,
   ModalType,
 } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
 
 const { TextField, TextareaField } = FormField;
-// const templateOption = [
-//   {
-//     label: '测试模版_1',
-//     id: 'iot-3decd8f3-d0c4-4923-81f2-a559f2b707da',
-//   },
-//   {
-//     label: '测试模版_2',
-//     id: 'iot-eb871989-e839-4451-ab62-534da8686b4e',
-//   },
-// ];
 
 interface Props {
   formHandler: UseFormReturn<DeviceFormFields, object>;
   watchFields: DeviceFormFields;
   type: ModalType;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  groupOptions: any;
+  mode: ModalMode;
+  groupOptions: GroupOptions[];
   handleSelectTemplate?: (selected: boolean) => void;
+  templateOptions: Array<{ label: string; id: string }>;
 }
 export default function BasicInfoPart({
   type,
+  mode,
   formHandler,
   watchFields,
   groupOptions,
-}: // handleSelectTemplate,
-Props) {
+  // handleSelectTemplate,
+  templateOptions,
+}: Props) {
   const { register, formState, setValue, clearErrors } = formHandler;
   const { errors } = formState;
   return (
@@ -64,22 +59,19 @@ Props) {
       >
         <TreeSelect
           id="parentId"
-          allowClear
+          allowClear={!!watchFields.parentId}
           placeholder="请选择设备分组"
           extras={{ hideTreeIcon: true }}
           style={{ width: '100%' }}
           styles={{
             treeTitle: 'font-size:14px;height:32px;line-height:32px;',
           }}
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           treeData={groupOptions}
           defaultValue={watchFields.parentId}
           notFoundContent="暂无选项"
           onChange={(value: string, label: ReactNode[]) => {
-            if (value) {
-              setValue('parentId', value);
-              setValue('parentName', label[0] as string);
-            }
+            setValue('parentId', value);
+            setValue('parentName', label[0] as string);
           }}
         />
       </FormControl>
@@ -95,13 +87,14 @@ Props) {
               {...register('connectType', {
                 required: { value: true, message: '请选择设备连接方式' },
               })}
+              disabled={mode === ModalMode.EDIT}
               onChange={(value: string) => {
                 if (value) {
                   setValue('connectType', value);
                   clearErrors('connectType');
-                  // if (value === ConnectOption.INDIRECT) {
-                  //   setValue('connectInfo', [ConnectInfoType.useTemplate]);
-                  // }
+                  if (value === ConnectOption.INDIRECT) {
+                    setValue('connectInfo', [ConnectInfoType.useTemplate]);
+                  }
                 }
               }}
             >
@@ -124,11 +117,6 @@ Props) {
               <CheckboxGroup
                 onChange={(value: ConnectInfoType[]) => {
                   setValue('connectInfo', value);
-                  // if (handleSelectTemplate) {
-                  //   handleSelectTemplate(
-                  //     value.includes(ConnectInfoType.useTemplate)
-                  //   );
-                  // }
                 }}
                 value={watchFields.connectInfo}
               >
@@ -137,16 +125,16 @@ Props) {
                     colorScheme="primary"
                     id="useTemplate"
                     value={ConnectInfoType.useTemplate}
-                    isDisabled
-                    // isDisabled={
-                    //   watchFields.connectType !== ConnectOption.DIRECT
-                    // }
+                    isDisabled={
+                      watchFields.connectType !== ConnectOption.DIRECT ||
+                      mode === ModalMode.EDIT
+                    }
                   >
                     <Text color="gray.600" fontSize="14px">
                       使用设备模版
                     </Text>
                   </Checkbox>
-                  {/* {(watchFields.connectInfo || []).includes(
+                  {(watchFields.connectInfo || []).includes(
                     ConnectInfoType.useTemplate
                   ) && (
                     <>
@@ -155,23 +143,25 @@ Props) {
                         id="templateId"
                         value={watchFields.templateId}
                         style={{ width: '100%' }}
-                        allowClear
-                        disabled
-                        {...register('templateId', {
-                          required: (watchFields.connectInfo || []).includes(
-                            ConnectInfoType.useTemplate
-                          ),
-                        })}
+                        allowClear={!!watchFields.templateId}
+                        disabled={
+                          mode === ModalMode.EDIT && !watchFields.templateId
+                        }
+                        {...register('templateId')}
                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        onChange={(value: string, option: any) => {
+                        onChange={(value: string) => {
                           setValue('templateId', value);
-                          setValue('templateName', option?.children ?? '');
+                          setValue(
+                            'templateName',
+                            templateOptions.find((v) => v.id === value)
+                              ?.label ?? ''
+                          );
                           if (value) {
                             clearErrors('templateId');
                           }
                         }}
                       >
-                        {templateOption.map((val) => (
+                        {templateOptions.map((val) => (
                           <Select.Option value={val.id} key={val.id}>
                             {val.label}
                           </Select.Option>
@@ -183,7 +173,7 @@ Props) {
                         </Text>
                       )}
                     </>
-                  )} */}
+                  )}
 
                   <Checkbox
                     colorScheme="primary"

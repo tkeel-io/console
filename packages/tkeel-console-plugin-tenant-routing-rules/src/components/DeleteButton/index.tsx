@@ -12,9 +12,10 @@ type Props = {
     name: string;
   };
   refetch?: () => void;
+  onDeleteSuccess?: () => unknown;
 };
 
-function DeleteButton({ cruxData, refetch }: Props) {
+function DeleteButton({ cruxData, refetch, onDeleteSuccess }: Props) {
   const { id, name } = cruxData;
   const toast = plugin.getPortalToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -24,12 +25,14 @@ function DeleteButton({ cruxData, refetch }: Props) {
       toast('删除成功', { status: 'success' });
       onClose();
       if (refetch) refetch();
+      if (onDeleteSuccess) onDeleteSuccess();
     },
   });
 
   const handleConfirm = () => {
     mutate({});
   };
+
   return (
     <>
       <MoreActionButton

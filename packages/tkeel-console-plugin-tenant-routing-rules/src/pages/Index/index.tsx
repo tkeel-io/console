@@ -1,4 +1,5 @@
 import { Flex, Grid, Text } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 
 // import { useState } from 'react';
 import {
@@ -19,6 +20,7 @@ import Step from '@/tkeel-console-plugin-tenant-routing-rules/pages/Index/compon
 // import Tabs from '@/tkeel-console-plugin-tenant-routing-rules/pages/Index/components/Tabs';
 
 export default function Index(): JSX.Element {
+  const navigate = useNavigate();
   const pagination = usePagination();
   const { pageNum, pageSize, setTotalSize } = pagination;
   // const [keyWords, setKeyWords] = useState('');
@@ -133,7 +135,7 @@ export default function Index(): JSX.Element {
                             <Step currentStep={currentStep} />
                           </Flex>
                         }
-                        onClick={() => {}}
+                        onClick={() => navigate(`/detail/${id}`)}
                       />
                     );
                   })}

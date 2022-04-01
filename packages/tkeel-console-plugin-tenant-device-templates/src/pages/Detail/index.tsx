@@ -1,4 +1,4 @@
-import { Box, Flex, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { Box, Flex, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import {
@@ -8,32 +8,33 @@ import {
   InfoCard,
   MoreAction,
 } from '@tkeel/console-components';
-import { BoxTwoToneIcon, DownloadFilledIcon } from '@tkeel/console-icons';
-import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
+import { BoxTwoToneIcon, OfficialFilledIcon } from '@tkeel/console-icons';
+import { formatDateTimeByTimestamp, plugin } from '@tkeel/console-utils';
 
 import useTemplateInfoQuery from '@/tkeel-console-plugin-tenant-device-templates/hooks/queries/useTemplateInfoQuery';
-// import Table from '@/tkeel-console-plugin-tenant-device-templates/pages/Detail/components/Table';
-// import DeleteSubscriptionButton from '@/tkeel-console-plugin-tenant-device-templates/pages/Index/components/DeleteSubscriptionButton';
-// import ModifySubscriptionButton from '@/tkeel-console-plugin-tenant-device-templates/pages/Index/components/ModifySubscriptionButton';
 import TelemetryTable from '@/tkeel-console-plugin-tenant-device-templates/pages/Detail/components/TelemetryTable';
 
+import DeleteTemplateButton from '../Index/components/DeleteTemplateButton';
+import ModifyTemplateButton from '../Index/components/ModifyTemplateButton';
+import SaveAsTemplateButton from '../Index/components/SaveAsTemplateButton';
+import AttributeTable from './components/AttributeTable';
+
 function Detail(): JSX.Element {
+  const toast = plugin.getPortalToast();
+
   const navigate = useNavigate();
   const location = useLocation();
   const { pathname }: { pathname: string } = location;
   const ID = pathname.split('/')[pathname.split('/').length - 1];
-  // const { data, isSuccess, refetch } = useTemplateInfoQuery(ID);
-  const { data, isSuccess } = useTemplateInfoQuery(ID);
+  const { data, isSuccess, refetch } = useTemplateInfoQuery(ID);
 
   const defaultValues = {
     description: data?.templateObject?.properties?.basicInfo?.description,
     id: data?.templateObject?.id,
     title: data?.templateObject?.properties?.basicInfo?.name,
     // eslint-disable-next-line  no-underscore-dangle
-    updatedAt: data?.templateObject?.properties?.sysField?._updatedAt,
+    updatedAt: String(data?.templateObject?.properties?.sysField?._updatedAt),
   };
-  // const created_at = data.created_at
-  // console.log('data', data);
 
   return (
     <Flex>
@@ -42,7 +43,17 @@ function Detail(): JSX.Element {
           height="108px"
           background="linear-gradient(180deg, #FFFFFF 0%, #F9FBFD 100%)"
           borderRadius="4px"
+          position="relative"
         >
+          <OfficialFilledIcon
+            style={{
+              width: '197px',
+              height: '108px',
+              position: 'absolute',
+              top: 0,
+              right: 0,
+            }}
+          />
           <Flex
             alignItems="center"
             justifyContent="space-between"
@@ -56,50 +67,55 @@ function Detail(): JSX.Element {
             />
             {isSuccess && (
               <MoreAction
-                buttons={
-                  [
-                    // <ModifySubscriptionButton
-                    //   key="modify"
-                    //   data={defaultValues}
-                    //   onSuccess={() => {
-                    //     refetch();
-                    //   }}
-                    // />,
-                    // <DeleteSubscriptionButton
-                    //   key="delete"
-                    //   id={data?.id}
-                    //   name={data?.title}
-                    //   refetchData={() => {
-                    //     navigate('/');
-                    //     // refetch();
-                    //   }}
-                    // />,
-                  ]
-                }
+                styles={{ actionList: { width: '140px' } }}
+                buttons={[
+                  <SaveAsTemplateButton
+                    data={defaultValues}
+                    key="modify"
+                    onSuccess={() => {
+                      toast('另存为模板成功', { status: 'success' });
+                    }}
+                  />,
+                  <ModifyTemplateButton
+                    data={defaultValues}
+                    key="modify"
+                    onSuccess={() => {
+                      toast('修改成功', { status: 'success' });
+                      refetch();
+                    }}
+                  />,
+                  <DeleteTemplateButton
+                    key="delete"
+                    id={defaultValues.id}
+                    name={defaultValues.title}
+                    refetchData={() => {
+                      navigate('/');
+                    }}
+                  />,
+                ]}
               />
             )}
           </Flex>
 
-          <Flex height="70px" align="center" padding="0 20px">
+          <Flex
+            height="70px"
+            align="center"
+            padding="0 20px"
+            position="relative"
+            zIndex="2"
+          >
             <BoxTwoToneIcon style={{ width: '24px', height: '22px' }} />
-            <Box
+            <Text
               lineHeight="50px"
               ml="12px"
               color="gray.700"
               fontWeight="600"
               fontSize="14px"
+              isTruncated
             >
               {defaultValues?.title}
-            </Box>
+            </Text>
           </Flex>
-          {/* <Flex background="white" height="40px" alignItems="center">
-            <Box fontSize="12px" color="grayAlternatives.300" padding="0 20px">
-              订阅地址
-              <Text display="inline" color="gray.800" ml="26px">
-                {data?.endpoint}
-              </Text>
-            </Box>
-          </Flex> */}
         </Box>
         <Box background="linear-gradient(180deg, #FFFFFF 0%, #F9FBFD 100%)">
           <InfoCard
@@ -119,7 +135,7 @@ function Detail(): JSX.Element {
           />
         </Box>
 
-        <Box background="#FFFFFF" mt="12px" padding="0 20px">
+        {/* <Box background="#FFFFFF" mt="12px" padding="0 20px">
           <Box style={{ fontSize: '14px', fontWeight: 600, color: 'gray.700' }}>
             批量入口
           </Box>
@@ -128,19 +144,17 @@ function Detail(): JSX.Element {
           </Box>
 
           <Box display="inline">批量导入</Box>
-        </Box>
+        </Box> */}
       </Box>
       <Box
         flex="1"
         borderRadius="4px"
-        minH="80vh"
         background="linear-gradient(180deg, #FFFFFF 0%, #F9FBFD 100%)"
       >
         <Tabs display="flex" flexDirection="column" flex="1">
           <CustomTabList>
-            {/* <CustomTab>属性模板</CustomTab> */}
+            <CustomTab>属性模板</CustomTab>
             <CustomTab>遥测模板</CustomTab>
-            <CustomTab>服务指令</CustomTab>
           </CustomTabList>
 
           <TabPanels
@@ -149,20 +163,14 @@ function Detail(): JSX.Element {
             borderBottomLeftRadius="4px"
             borderBottomRightRadius="4px"
           >
-            {/* <TabPanel padding="0" height="100%" backgroundColor="white">
-              1
-            </TabPanel> */}
-            <TabPanel padding="0" height="100%" backgroundColor="white">
-              {/* <TelemetryTable id={ID} title={data?.title} ></TelemetryTable> */}
-              <TelemetryTable id={ID} title="123" />
+            <TabPanel padding="0" height="100%">
+              <AttributeTable id={ID} title={defaultValues.title} />
             </TabPanel>
-            <TabPanel padding="0" height="100%" backgroundColor="white">
-              3
+            <TabPanel padding="0" height="100%">
+              <TelemetryTable id={ID} title={defaultValues.title} />
             </TabPanel>
           </TabPanels>
         </Tabs>
-
-        {/* <Table id={ID} title={data?.title} /> */}
       </Box>
     </Flex>
   );

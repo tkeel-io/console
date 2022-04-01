@@ -1,12 +1,12 @@
 import { useDisclosure } from '@chakra-ui/react';
 
 import { CreateButton } from '@tkeel/console-components';
-import { TemplateTreeNodeDataType } from '@tkeel/console-request-hooks';
+import { KeyDataType } from '@tkeel/console-request-hooks';
 
 import CreateTemplateModal from '../CreateTemplateModal';
 
 type Props = {
-  templateData: TemplateTreeNodeDataType[];
+  templateData: KeyDataType[];
   onSuccess: (id: string) => void;
 };
 

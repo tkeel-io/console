@@ -211,9 +211,11 @@ function Index(): JSX.Element {
   const treeNodeData = getTreeNodeData({ data: groupTree });
   const handleSelectGroup = (selectedKeys: React.Key[]) => {
     const id = selectedKeys[0] as string;
-    setGroupId(id);
-    setKeyWords('');
-    refetchGroupTree();
+    if (id && id !== groupId) {
+      setGroupId(id);
+      setKeyWords('');
+      refetchGroupTree();
+    }
   };
   const groupCrumb = getParentTreeNode({
     list: treeNodeData,
@@ -229,28 +231,39 @@ function Index(): JSX.Element {
     groupItem: isEmpty(groupItem) ? defaultGroupItem : groupItem,
   });
 
+  const keywordCondition = [
+    {
+      field: 'basicInfo.name',
+      operator: '$wildcard',
+      value: keyWords || '',
+    },
+    {
+      field: 'id',
+      operator: '$wildcard',
+      value: keyWords || '',
+    },
+  ];
+  const basicCondition = [
+    {
+      field: 'sysField._spacePath',
+      operator: '$wildcard',
+      value: groupId,
+    },
+    {
+      field: 'type',
+      operator: '$eq',
+      value: 'device',
+    },
+  ];
+
   const params = {
     page_num: pageNum || 1,
     page_size: pageSize,
     order_by: 'name',
     is_descending: false,
-    condition: [
-      {
-        field: 'basicInfo.name',
-        operator: '$wildcard',
-        value: keyWords || '',
-      },
-      {
-        field: 'sysField._spacePath',
-        operator: '$wildcard',
-        value: groupId,
-      },
-      {
-        field: 'type',
-        operator: '$eq',
-        value: 'device',
-      },
-    ],
+    condition: keyWords
+      ? [...keywordCondition, ...basicCondition]
+      : basicCondition,
   };
   const {
     refetch: refetchDeviceList,
@@ -268,6 +281,7 @@ function Index(): JSX.Element {
     <Flex flexDirection="column" h="100%">
       <PageHeaderToolbar
         name="设备列表"
+        hasIcon
         hasSearchInput
         searchInputProps={{
           onSearch(value) {
@@ -287,6 +301,8 @@ function Index(): JSX.Element {
             defaultFormValues={{
               parentId: groupId,
               parentName: groupItem?.name ?? '',
+              templateId: '',
+              templateName: '',
             }}
             onSuccess={() => {
               const timer = setTimeout(() => {

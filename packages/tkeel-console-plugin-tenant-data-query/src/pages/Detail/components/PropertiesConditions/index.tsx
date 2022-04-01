@@ -27,8 +27,8 @@ export enum CheckBoxStatus {
 }
 
 type Props = {
+  identifiers: string[];
   telemetry: TelemetryFields;
-  keywords: string;
   templateCheckboxStatus: CheckBoxStatus;
   setTemplateCheckboxStatus: Dispatch<SetStateAction<CheckBoxStatus>>;
   checkedKeys: string[];
@@ -40,8 +40,8 @@ type Props = {
 };
 
 export default function PropertiesConditions({
+  identifiers,
   telemetry,
-  keywords,
   templateCheckboxStatus,
   setTemplateCheckboxStatus,
   checkedKeys,
@@ -53,13 +53,11 @@ export default function PropertiesConditions({
 }: Props) {
   const telemetryKeys = Object.keys(telemetry);
 
-  const children = telemetryKeys
-    .map((key) => ({
-      title: telemetry[key].name,
-      id: telemetry[key].id,
-      key: telemetry[key].id,
-    }))
-    .filter((item) => item.title.includes(keywords));
+  const children = telemetryKeys.map((key) => ({
+    title: telemetry[key].name,
+    id: key,
+    key,
+  }));
 
   const treeData = [
     {
@@ -81,6 +79,7 @@ export default function PropertiesConditions({
     <Flex
       flexDirection="column"
       flex="1"
+      overflow="hidden"
       marginTop="12px"
       borderRadius="4px"
       backgroundColor="white"
@@ -104,11 +103,17 @@ export default function PropertiesConditions({
       </Flex>
       <SearchInput
         width="320px"
-        inputGroupStyle={{ margin: '8px 20px 12px' }}
+        inputGroupStyle={{ margin: '8px 20px 12px', flexShrink: 0 }}
         placeholder="搜索"
         onSearch={onSearch}
       />
-      <Tabs index={1} display="flex" flexDirection="column" flex="1">
+      <Tabs
+        index={1}
+        display="flex"
+        overflowY="auto"
+        flexDirection="column"
+        flex="1"
+      >
         <TabList display="flex" borderBottom="none">
           <CustomTab isDisabled flex="1">
             <CustomCheckbox />
@@ -152,7 +157,7 @@ export default function PropertiesConditions({
                 }
 
                 return (
-                  <Box flex="1" paddingTop="14px" paddingLeft="20px">
+                  <Box flex="1" padding="10px 20px">
                     <Tree
                       treeData={treeData}
                       checkable
@@ -187,7 +192,8 @@ export default function PropertiesConditions({
       <Button
         colorScheme="primary"
         margin="12px 20px"
-        disabled={checkedKeys.length === 0}
+        flexShrink={0}
+        disabled={identifiers.length === 0}
         isLoading={isTelemetryDataLoading}
         onClick={onConfirm}
       >

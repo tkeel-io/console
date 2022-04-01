@@ -1,8 +1,8 @@
 import { useDisclosure } from '@chakra-ui/react';
 
 import { MoreActionButton } from '@tkeel/console-components';
-import { FolderCloseTwoToneIcon } from '@tkeel/console-icons';
-import { TemplateTreeNodeDataType } from '@tkeel/console-request-hooks';
+import { FloppyDiskFilledIcon } from '@tkeel/console-icons';
+import { KeyDataType } from '@tkeel/console-request-hooks';
 
 import useCreateTemplateMutation, {
   RequestData as FormValues,
@@ -12,7 +12,7 @@ import CustomTemplateModal from '../CustomTemplateModal';
 
 type Props = {
   onSuccess: () => void;
-  data: TemplateTreeNodeDataType;
+  data: KeyDataType;
 };
 
 export default function SaveAsTemplateButton({ onSuccess, data }: Props) {
@@ -41,7 +41,7 @@ export default function SaveAsTemplateButton({ onSuccess, data }: Props) {
   return (
     <>
       <MoreActionButton
-        icon={<FolderCloseTwoToneIcon />}
+        icon={<FloppyDiskFilledIcon />}
         title="另存为模板"
         onClick={() => {
           onOpen();

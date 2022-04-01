@@ -10,20 +10,27 @@ type Props = {
   styles?: {
     wrapper?: StyleProps;
   };
-  currentStep: CurrentStep;
+  ruleStatus: {
+    devicesStatus: number;
+    targetStatus: number;
+    subId: number;
+  };
 };
 
-export default function StepBar({ styles, currentStep }: Props) {
+export default function StepBar({ styles, ruleStatus }: Props) {
   const stepInfoArr = [
     {
+      id: 'devicesStatus',
       icon: 'ReportFilledIcon',
       title: '选择数据',
     },
     {
+      id: 'targetStatus',
       icon: 'AutoFilledIcon',
       title: '选择转发',
     },
     {
+      id: 'subId',
       icon: 'WarningFilledIcon',
       title: '错误操作（可选）',
     },
@@ -34,7 +41,7 @@ export default function StepBar({ styles, currentStep }: Props) {
       padding="0 126px"
       alignItems="center"
       height="88px"
-      flexShrink="0"
+      flexShrink={0}
       backgroundColor="gray.600"
       borderRadius="4px"
       {...styles?.wrapper}
@@ -42,8 +49,8 @@ export default function StepBar({ styles, currentStep }: Props) {
       {stepInfoArr.map((info, i) => {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const Icon = icons[info.icon];
-        const active = i < currentStep;
         const isLastIndex = i === stepInfoArr.length - 1;
+        const active = ruleStatus[info.id] !== 0;
         return (
           <Flex
             key={info.icon}

@@ -53,6 +53,7 @@ function Head<D extends object>({
                   padding="0 20px"
                   position={fixHead ? 'sticky' : 'static'}
                   color="grayAlternatives.400"
+                  fontSize="12px"
                   border="none"
                   {...headerProps}
                 >

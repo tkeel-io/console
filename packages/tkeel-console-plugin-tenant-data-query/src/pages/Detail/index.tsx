@@ -1,6 +1,6 @@
 import { Center, Circle, Flex, Text } from '@chakra-ui/react';
 import * as dayjs from 'dayjs';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CSVLink } from 'react-csv';
 import { useSearchParams } from 'react-router-dom';
 
@@ -43,6 +43,9 @@ function getRecentTimestamp(num: number, unit = 'minute') {
 export default function Detail() {
   const [keywords, setKeywords] = useState('');
   const [telemetry, setTelemetry] = useState<TelemetryFields>({});
+  const [filteredTelemetry, setFilteredTelemetry] = useState<TelemetryFields>(
+    {}
+  );
   const [templateCheckboxStatus, setTemplateCheckboxStatus] = useState(
     CheckBoxStatus.CHECKED
   );
@@ -62,38 +65,46 @@ export default function Detail() {
   const borderGrayColor = useColor('gray.200');
   const [searchParams] = useSearchParams();
   const id = searchParams.get('id') || '';
+
+  const setTelemetryState = (telemetryFields: TelemetryFields) => {
+    setTelemetry(telemetryFields);
+    setFilteredTelemetry(telemetryFields);
+    const telemetryDataKeys = Object.keys(telemetryFields);
+    let telemetryKeys = [...telemetryDataKeys];
+
+    const searchTelemetryKeys = searchParams.get('telemetry-keys') || '';
+    let telemetryKeyArray = searchTelemetryKeys.split(',');
+    telemetryKeyArray = telemetryKeyArray.filter((key) =>
+      telemetryDataKeys.includes(key)
+    );
+    if (telemetryKeyArray.length > 0) {
+      telemetryKeys = telemetryKeyArray;
+    }
+    setCheckedKeys(telemetryKeys);
+
+    let checkedStatus = CheckBoxStatus.NOT_CHECKED;
+    if (telemetryKeys.length > 0) {
+      checkedStatus =
+        telemetryKeys.length === telemetryDataKeys.length
+          ? CheckBoxStatus.CHECKED
+          : CheckBoxStatus.INDETERMINATE;
+    }
+    setTemplateCheckboxStatus(checkedStatus);
+  };
+
   const { deviceObject, isLoading: isDeviceDetailLoading } =
     useDeviceDetailQuery({
       id,
       onSuccess(data) {
-        const telemetryData =
+        const telemetryFields =
           data?.data?.deviceObject?.configs?.telemetry?.define?.fields ?? {};
-        setTelemetry(telemetryData);
-        const telemetryDataKeys = Object.keys(telemetryData);
-        let telemetryKeys = [...telemetryDataKeys];
-
-        const searchTelemetryKeys = searchParams.get('telemetry-keys') || '';
-        let telemetryKeyArray = searchTelemetryKeys.split(',');
-        telemetryKeyArray = telemetryKeyArray.filter((key) =>
-          telemetryDataKeys.includes(key)
-        );
-        if (telemetryKeyArray.length > 0) {
-          telemetryKeys = telemetryKeyArray;
-        }
-        setCheckedKeys(telemetryKeys);
-
-        let checkedStatus = CheckBoxStatus.NOT_CHECKED;
-        if (telemetryKeys.length > 0) {
-          checkedStatus =
-            telemetryKeys.length === telemetryDataKeys.length
-              ? CheckBoxStatus.CHECKED
-              : CheckBoxStatus.INDETERMINATE;
-        }
-        setTemplateCheckboxStatus(checkedStatus);
+        setTelemetryState(telemetryFields);
       },
     });
 
-  const identifiers = checkedKeys.join(',');
+  const identifiers = checkedKeys.filter((key) =>
+    Object.keys(filteredTelemetry).includes(key)
+  );
 
   const hasIdentifiers = identifiers.length > 0;
 
@@ -104,30 +115,54 @@ export default function Detail() {
     isLoading: isTelemetryDataLoading,
   } = useTelemetryDataMutation();
 
-  const defaultDataMutateProps = {
-    requestStartTime: startTime,
-    requestEndTime: endTime,
+  const getRequestTimeByTimeType = (timeTypeValue: TimeType) => {
+    if (timeTypeValue === TimeType.Custom) {
+      return {
+        requestStartTime: startTime,
+        requestEndTime: endTime,
+      };
+    }
+
+    let requestStartTime = getRecentTimestamp(3, 'day');
+    const requestEndTime = dayjs().unix();
+    if (timeTypeValue === TimeType.FiveMinutes) {
+      requestStartTime = getRecentTimestamp(5);
+    }
+
+    if (timeTypeValue === TimeType.ThirtyMinutes) {
+      requestStartTime = getRecentTimestamp(30);
+    }
+
+    if (timeTypeValue === TimeType.OneHour) {
+      requestStartTime = getRecentTimestamp(1, 'hour');
+    }
+
+    return {
+      requestStartTime,
+      requestEndTime,
+    };
   };
 
-  const handleTelemetryDataMutate = (props?: {
-    requestStartTime: number;
-    requestEndTime: number;
-  }) => {
+  const handleTelemetryDataMutate = () => {
     setIsTelemetryDataRequested(true);
-    const { requestStartTime, requestEndTime } = {
-      ...defaultDataMutateProps,
-      ...props,
-    };
+
+    const { requestStartTime, requestEndTime } =
+      getRequestTimeByTimeType(timeType);
+
     mutate({
       url: `core/v1/ts/${id}`,
       data: {
         start_time: requestStartTime,
         end_time: requestEndTime,
-        identifiers,
+        identifiers: identifiers.join(','),
         page_size: 1_000_000,
         page_num: 1,
       },
     });
+  };
+
+  const handleSearch = (value: string) => {
+    setKeywords(value);
   };
 
   const originDataItems = data?.items ?? [];
@@ -143,9 +178,15 @@ export default function Detail() {
 
   const exportData = originDataItems.map((dataItem) => {
     const valueObj = {};
-    Object.keys(dataItem.value).forEach((key) => {
-      valueObj[key] = dataItem.value[key];
+    identifiers.forEach((key) => {
+      const nameKey = telemetry[key].name ?? '';
+      valueObj[nameKey] = dataItem.value[key];
+
+      if (!valueObj[nameKey]) {
+        valueObj[nameKey] = '-';
+      }
     });
+
     return {
       time: formatDateTimeByTimestamp({
         timestamp: dataItem.time,
@@ -153,6 +194,11 @@ export default function Detail() {
       }),
       ...valueObj,
     };
+  });
+
+  const tableTelemetry = {};
+  identifiers.forEach((key) => {
+    tableTelemetry[key] = telemetry[key];
   });
 
   const selectOptions = [
@@ -174,20 +220,32 @@ export default function Detail() {
     },
   ];
 
+  useEffect(() => {
+    const newFilteredTelemetry = {};
+    Object.keys(telemetry).forEach((key) => {
+      const name = telemetry[key]?.name ?? '';
+      if (name.includes(keywords)) {
+        newFilteredTelemetry[key] = telemetry[key];
+      }
+    });
+    setFilteredTelemetry(newFilteredTelemetry);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [keywords]);
+
   return (
     <Flex height="100%" justifyContent="space-between">
       <Flex flexDirection="column" width="360px">
         <DeviceDetailCard detailData={deviceObject} />
         <PropertiesConditions
-          telemetry={telemetry}
-          keywords={keywords}
+          identifiers={identifiers}
+          telemetry={filteredTelemetry}
           templateCheckboxStatus={templateCheckboxStatus}
           setTemplateCheckboxStatus={setTemplateCheckboxStatus}
           checkedKeys={checkedKeys}
           setCheckedKeys={setCheckedKeys}
           isDeviceDetailLoading={isDeviceDetailLoading}
           isTelemetryDataLoading={isTelemetryDataLoading}
-          onSearch={(value) => setKeywords(value)}
+          onSearch={handleSearch}
           onConfirm={handleTelemetryDataMutate}
         />
       </Flex>
@@ -212,8 +270,12 @@ export default function Detail() {
                       const timeTypeValue = value as TimeType;
                       setTimeType(timeTypeValue);
 
-                      let requestStartTime = getRecentTimestamp(5);
+                      let requestStartTime = getRecentTimestamp(3, 'day');
                       const requestEndTime = dayjs().unix();
+
+                      if (value === TimeType.FiveMinutes) {
+                        requestStartTime = getRecentTimestamp(5);
+                      }
 
                       if (value === TimeType.ThirtyMinutes) {
                         requestStartTime = getRecentTimestamp(30);
@@ -227,10 +289,7 @@ export default function Detail() {
                       setEndTime(requestEndTime);
 
                       if (hasIdentifiers) {
-                        handleTelemetryDataMutate({
-                          requestStartTime,
-                          requestEndTime,
-                        });
+                        handleTelemetryDataMutate();
                       }
                     }}
                     value={timeType}
@@ -270,10 +329,7 @@ export default function Detail() {
                         setStartTime(requestStartTime);
                         setEndTime(requestEndTime);
                         if (hasIdentifiers) {
-                          handleTelemetryDataMutate({
-                            requestStartTime,
-                            requestEndTime,
-                          });
+                          handleTelemetryDataMutate();
                         }
                       }}
                     />
@@ -357,7 +413,7 @@ export default function Detail() {
                 originalData={originDataItems}
                 data={tableDataItems}
                 isLoading={isTelemetryDataLoading}
-                telemetry={telemetry}
+                telemetry={tableTelemetry}
                 styles={{
                   wrapper: { width: '100%', height: 'max-content' },
                   loading: { flex: '1' },

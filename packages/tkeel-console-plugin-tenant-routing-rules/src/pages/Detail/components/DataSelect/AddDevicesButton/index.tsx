@@ -1,18 +1,17 @@
 import { Text, useDisclosure } from '@chakra-ui/react';
 
 import { CreateButton } from '@tkeel/console-components';
-import { DeviceItem } from '@tkeel/console-request-hooks';
 
 import AddDevicesModal from '../AddDevicesModal';
 
 type Props = {
   type?: 'button' | 'link';
-  handleSelectDevices: (devices: DeviceItem[]) => unknown;
+  refetchData: () => unknown;
 };
 
 export default function AddDeviceButton({
   type = 'button',
-  handleSelectDevices,
+  refetchData,
 }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -35,10 +34,7 @@ export default function AddDeviceButton({
       <AddDevicesModal
         isOpen={isOpen}
         onClose={onClose}
-        onConfirm={(devices) => {
-          onClose();
-          handleSelectDevices(devices);
-        }}
+        refetchData={refetchData}
       />
     </>
   );

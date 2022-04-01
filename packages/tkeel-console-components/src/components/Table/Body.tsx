@@ -73,7 +73,7 @@ function Body<D extends object>({
                   height="40px"
                   padding="0 20px"
                   color="gray.700"
-                  fontSize="14px"
+                  fontSize="12px"
                   border="none"
                   {...cell.getCellProps()}
                 >

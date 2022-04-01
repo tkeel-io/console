@@ -5,11 +5,15 @@ import { Cell, Column } from 'react-table';
 
 import {
   DeviceStatusIcon,
-  IconTooltip,
   IconWrapper,
   SelfLearnIcon,
 } from '@tkeel/console-business-components';
-import { LinkButton, MoreAction, Table } from '@tkeel/console-components';
+import {
+  LinkButton,
+  MoreAction,
+  Table,
+  Tooltip,
+} from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 import {
   BranchTowToneIcon,
@@ -29,6 +33,7 @@ import {
 } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceListQuery';
 import { TreeNodeType } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useGroupTreeQuery';
 import { SUBSCRIBES } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
+import handleSubscribeAddr from '@/tkeel-console-plugin-tenant-devices/utils';
 
 interface Props {
   groupTree: TreeNodeType;
@@ -76,7 +81,7 @@ function DeviceListTable({
     return (
       <HStack>
         <DeviceStatusIcon isOnline={isOnline} />
-        <IconTooltip label={subscribeAddr ? '已订阅' : '未订阅'}>
+        <Tooltip label={subscribeAddr ? '已订阅' : '未订阅'}>
           <IconWrapper bg={COLORS.SUBSCRIBE.BG[subscribeAddr ? 1 : 0]}>
             <MessageWarningTwoToneIcon
               size="20px"
@@ -84,7 +89,7 @@ function DeviceListTable({
               twoToneColor={COLORS.SUBSCRIBE.ICON_TWO[subscribeAddr ? 1 : 0]}
             />
           </IconWrapper>
-        </IconTooltip>
+        </Tooltip>
         <SelfLearnIcon isSelfLearn={selfLearn} />
       </HStack>
     );
@@ -145,7 +150,7 @@ function DeviceListTable({
       Cell: ({ value }: { value: boolean }) =>
         useMemo(() => {
           return (
-            <IconTooltip label={value ? '直连' : '非直连'}>
+            <Tooltip label={value ? '直连' : '非直连'}>
               <IconWrapper bg={COLORS.DIR_CONNECT.BG[value ? 1 : 0]}>
                 {value ? (
                   <DotLineFilledIcon size="20px" />
@@ -153,7 +158,7 @@ function DeviceListTable({
                   <BranchTowToneIcon size="20px" />
                 )}
               </IconWrapper>
-            </IconTooltip>
+            </Tooltip>
           );
         }, [value]),
     },
@@ -188,9 +193,10 @@ function DeviceListTable({
     },
     {
       Header: '操作',
+      width: 80,
       Cell: ({ row }: Cell<DeviceItem>) =>
         useMemo(() => {
-          const originData = row.original?.originData as DeviceApiItem;
+          const originData = row.original.originData as DeviceApiItem;
           const id = originData?.id ?? '';
           const name = originData?.properties?.basicInfo?.name ?? '';
           const ext = originData?.properties?.basicInfo?.ext ?? {};
@@ -201,6 +207,8 @@ function DeviceListTable({
             originData?.properties?.basicInfo?.directConnection ?? false;
           const templateId =
             originData?.properties?.basicInfo?.templateId ?? '';
+          const templateName =
+            originData?.properties?.basicInfo?.templateName ?? '';
           const description =
             originData?.properties?.basicInfo?.description ?? '';
           const defaultFormValues = {
@@ -208,16 +216,22 @@ function DeviceListTable({
             selfLearn,
             description,
             templateId,
+            templateName,
             directConnection,
             name,
             ext,
             parentId,
           };
+          const subscribeAddr =
+            // eslint-disable-next-line no-underscore-dangle
+            originData.properties?.sysField?._subscribeAddr ?? '';
+          const addrList = handleSubscribeAddr(subscribeAddr);
           return (
             <MoreAction
               buttons={[
                 <AddSubscribeButton
                   key="subscribe"
+                  addrList={addrList}
                   deviceId={id}
                   refetch={refetch}
                 />,

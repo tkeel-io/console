@@ -36,7 +36,7 @@ export default function Step({ currentStep }: Props) {
     },
   ];
   return (
-    <Flex alignItems="center" flexShrink="0" ml="75px" flex={1}>
+    <Flex alignItems="center" flexShrink={0} ml="75px" flex={1}>
       {stepInfoArr.map((item, index) => {
         const Icon = item.icon;
         const isLastIndex = index === stepInfoArr.length - 1;

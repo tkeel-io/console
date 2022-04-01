@@ -26,6 +26,7 @@ type Props = {
   hasIcon?: boolean;
   styles?: {
     wrapper?: StyleProps;
+    title?: StyleProps;
   };
 };
 
@@ -59,6 +60,7 @@ function PageHeaderToolbar({
             fontWeight="600"
             lineHeight="26px"
             color="gray.700"
+            {...styles?.title}
           >
             {name}
           </Text>

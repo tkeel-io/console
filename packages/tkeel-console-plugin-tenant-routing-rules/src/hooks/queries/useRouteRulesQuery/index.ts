@@ -49,6 +49,9 @@ Props) {
       page_size: pageSize,
       key_words: '',
     },
+    reactQueryOptions: {
+      queryKey: 'routeRules',
+    },
   });
   const routeRulesData = data?.data || [];
 

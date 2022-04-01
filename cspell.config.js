@@ -54,6 +54,7 @@ module.exports = {
     'iotd',
     'toastify',
     'rsuite',
+    'struct',
     'noconflict',
     'lunz',
     'dockerhub',
@@ -67,6 +68,8 @@ module.exports = {
     'Multiselect',
     'multiselect',
     'Tele',
+    'proxied',
+    'struct',
   ],
   ignorePaths: [
     '**/.idea/**',

@@ -1,38 +1,48 @@
 import { useDisclosure } from '@chakra-ui/react';
+import { useParams } from 'react-router-dom';
 
 import { Alert, MoreActionButton } from '@tkeel/console-components';
 import { TrashFilledIcon } from '@tkeel/console-icons';
-// import { plugin } from '@tkeel/console-utils';
+import { plugin } from '@tkeel/console-utils';
+
+import useDeleteDevicesMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useDeleteDevicesMutation';
 
 type Props = {
   selectedDevices: {
     id: string;
     name: string;
   }[];
-  // refetchData: () => unknown;
-  // onSuccess: () => void;
+  refetchData: () => unknown;
 };
 
 export default function DeleteDevicesButton({
   selectedDevices,
-}: // refetchData,
-// onSuccess,
-Props) {
-  // const toast = plugin.getPortalToast();
+  refetchData,
+}: Props) {
+  const toast = plugin.getPortalToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { id } = useParams();
+  const { mutate, isLoading } = useDeleteDevicesMutation({
+    ruleId: id || '',
+    onSuccess() {
+      // TODO 移除设备后有延迟，临时处理方案
+      setTimeout(() => {
+        toast('移除设备成功', { status: 'success' });
+        refetchData();
+        onClose();
+      }, 500);
+    },
+  });
 
-  // const { mutate } = useDeleteDeviceMutation({
-  //   onSuccess() {
-  //     onSuccess();
-  //     toast('移除设备成功', { status: 'success' });
-  //     refetchData();
-  //     onClose();
-  //   },
-  // });
-
-  // const handleConfirm = () => {
-  // mutate({ data: { entities: selectedIds } });
-  // };
+  const handleConfirm = () => {
+    if (id && selectedDevices.length > 0) {
+      mutate({
+        params: {
+          devices_ids: selectedDevices.map((device) => device.id).join(','),
+        },
+      });
+    }
+  };
 
   return (
     <>
@@ -40,10 +50,7 @@ Props) {
         icon={<TrashFilledIcon />}
         title="移除设备"
         onClick={() => {
-          // eslint-disable-next-line no-console
           onOpen();
-          // console.log('停用插件');
-          // mutate({});
         }}
       />
       <Alert
@@ -57,9 +64,9 @@ Props) {
         }
         description="移除后不可恢复，请谨慎操作。"
         isOpen={isOpen}
-        // isConfirmButtonLoading={isConfirmButtonLoading}
+        isConfirmButtonLoading={isLoading}
         onClose={onClose}
-        // onConfirm={onConfirm}
+        onConfirm={handleConfirm}
       />
     </>
   );

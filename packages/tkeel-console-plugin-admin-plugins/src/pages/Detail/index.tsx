@@ -29,14 +29,14 @@ function Detail() {
 
   const readme = pluginDetail?.metadata?.readme ?? '';
   const maintainers = pluginDetail?.maintainers ?? [];
-  let uninstall = true;
+  let installed = false;
   if (isSuccess) {
-    uninstall = pluginDetail?.state === 'UNINSTALL';
+    installed = pluginDetail?.state === 'INSTALLED';
   }
 
   return (
     <Flex height="100%" justifyContent="space-between">
-      <Box width="360px" flexShrink="0">
+      <Box width="360px" flexShrink={0}>
         <BasicInfoCard data={pluginDetail} refetchDetails={refetch} />
         <DeveloperInfo data={maintainers} />
       </Box>
@@ -80,7 +80,7 @@ function Detail() {
             />
           </TabPanel>
           <TabPanel padding="0" height="100%">
-            <EnablePluginList pluginName={name || ''} uninstall={uninstall} />
+            <EnablePluginList pluginName={name || ''} installed={installed} />
           </TabPanel>
         </TabPanels>
       </Tabs>

@@ -4,7 +4,7 @@ import { IconWrapper } from '@tkeel/console-business-components';
 import { InfoCard } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 import { BranchTowToneIcon, DotLineFilledIcon } from '@tkeel/console-icons';
-import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
+import { formatDateTimeByTimestamp, plugin } from '@tkeel/console-utils';
 
 import { DeviceObject } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 import DeviceBasicInfoCard, {
@@ -34,6 +34,10 @@ function DeviceDetailLeftPanel({ deviceObject, refetch }: Props): JSX.Element {
   // eslint-disable-next-line no-underscore-dangle
   const deviceId = sysField?._id ?? '';
   const isDirectConnection = basicInfo?.directConnection;
+  const { navigate } = plugin.getPortalProps().client;
+  const handleNavigateTemplate = ({ templateId }: { templateId: string }) => {
+    navigate(`tenant-device-templates/detail/${templateId}`);
+  };
   const basic: Basic[] = [
     {
       value: (
@@ -61,7 +65,7 @@ function DeviceDetailLeftPanel({ deviceObject, refetch }: Props): JSX.Element {
       label: '设备凭证',
     },
     {
-      value: basicInfo?.parentName ?? '',
+      value: basicInfo?.parentName || '默认分组',
       label: '设备组',
     },
     {
@@ -86,7 +90,13 @@ function DeviceDetailLeftPanel({ deviceObject, refetch }: Props): JSX.Element {
     },
     {
       value: (
-        <Text as={basicInfo?.templateName ? 'u' : 'p'}>
+        <Text
+          as={basicInfo?.templateName ? 'u' : 'p'}
+          cursor={basicInfo?.templateId ? 'pointer' : 'default'}
+          onClick={() => {
+            handleNavigateTemplate({ templateId: basicInfo.templateId });
+          }}
+        >
           {basicInfo?.templateName || '暂无模板'}
         </Text>
       ),
@@ -120,7 +130,7 @@ function DeviceDetailLeftPanel({ deviceObject, refetch }: Props): JSX.Element {
     };
   });
   return (
-    <VStack spacing="12px" minWidth="360px" flex="1" mr="20px">
+    <VStack spacing="12px" width="360px" mr="20px">
       <DeviceInfoCard deviceObject={deviceObject} refetch={refetch} />
       <DeviceBasicInfoCard basic={basic} />
       <InfoCard

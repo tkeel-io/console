@@ -41,10 +41,7 @@ function DeleteDeviceButton({
         icon={<TrashFilledIcon />}
         title="移除设备"
         onClick={() => {
-          // eslint-disable-next-line no-console
           onOpen();
-          // console.log('停用插件');
-          // mutate({});
         }}
       />
       <DeleteDeviceModal

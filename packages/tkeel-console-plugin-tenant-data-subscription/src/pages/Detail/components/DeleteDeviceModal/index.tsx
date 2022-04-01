@@ -1,7 +1,6 @@
 import { Alert } from '@tkeel/console-components';
 
 type Props = {
-  // data: User;
   name: string[];
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
@@ -10,17 +9,12 @@ type Props = {
 };
 
 export default function DeleteSubscriptionModal({
-  // data,
   name,
   isOpen,
   isConfirmButtonLoading,
   onClose,
   onConfirm,
 }: Props) {
-  // const { username } = data;
-  // const username = '123';
-  // console.log('isOpen', isOpen);
-
   return (
     <Alert
       iconPosition="left"
