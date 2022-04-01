@@ -5,7 +5,7 @@ import { useColor } from '@tkeel/console-hooks';
 
 type Props = {
   children: ReactNode;
-  active: boolean;
+  active?: boolean;
   defaultBorderColor?: string;
   defaultBgColor?: string;
   defaultIconColor?: string;

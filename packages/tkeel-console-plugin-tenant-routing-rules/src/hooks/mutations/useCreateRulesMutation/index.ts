@@ -1,6 +1,6 @@
 import { useMutation } from '@tkeel/console-hooks';
 
-interface RequestData {
+export interface RequestData {
   name: string;
   type: number;
   desc: string;
