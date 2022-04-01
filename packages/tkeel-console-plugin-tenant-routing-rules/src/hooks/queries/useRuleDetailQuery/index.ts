@@ -7,6 +7,9 @@ export interface ApiData {
   desc: string;
   type: 1 | 2;
   status: 0 | 1;
+  devices_status: number;
+  targets_status: number;
+  sub_id: number;
   created_at: string;
   updated_at: string;
 }

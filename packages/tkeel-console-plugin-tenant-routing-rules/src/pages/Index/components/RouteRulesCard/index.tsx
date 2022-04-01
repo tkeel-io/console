@@ -38,7 +38,13 @@ function RouteRulesCard({
       }}
       onClick={onClick}
     >
-      <Box bgColor="gray.50" padding="16px 24px 12px">
+      <Box
+        bgColor="gray.50"
+        borderTopLeftRadius="4px"
+        borderTopRightRadius="4px"
+        padding="16px 24px 12px"
+        h="86px"
+      >
         <Flex alignItems="center" justifyContent="space-between">
           <Flex alignItems="center">
             <Box flexShrink={0}>
@@ -49,8 +55,13 @@ function RouteRulesCard({
               color="gray.800"
               fontSize="14px"
               fontWeight="600"
+              whiteSpace="nowrap"
+              textOverflow="ellipsis"
+              overflow="hidden"
+              maxWidth="350px"
+              title={briefInfo?.name}
             >
-              {briefInfo?.name ?? ''}
+              {briefInfo?.name}
             </Text>
           </Flex>
           <Flex alignItems="center">
@@ -61,7 +72,16 @@ function RouteRulesCard({
             {operatorButton}
           </Flex>
         </Flex>
-        <Text color="gray.500" fontSize="12px" lineHeight="30px">
+        <Text
+          color="gray.500"
+          fontSize="12px"
+          lineHeight="30px"
+          whiteSpace="nowrap"
+          textOverflow="ellipsis"
+          overflow="hidden"
+          maxWidth="480px"
+          title={briefInfo?.desc ?? ''}
+        >
           {briefInfo?.desc ?? ''}
         </Text>
       </Box>
