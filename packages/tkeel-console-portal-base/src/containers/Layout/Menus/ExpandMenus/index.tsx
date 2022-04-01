@@ -70,7 +70,7 @@ export default function ExpandMenus({ isDarkMenu, logo }: Props) {
         placeholder="搜索"
         onSearch={handleSearch}
       /> */}
-      <Box flex="1" overflow="auto" padding="20px">
+      <Box flex="1" overflow="auto">
         {(() => {
           if (menus.length > 0) {
             return menus.map((menu) => {
@@ -94,14 +94,7 @@ export default function ExpandMenus({ isDarkMenu, logo }: Props) {
                       />
                     )}
                     {hasChildren && spread && (
-                      <Box
-                        marginTop="10px"
-                        padding="8px"
-                        borderRadius="4px"
-                        backgroundColor={
-                          isDarkMenu ? 'whiteAlpha.100' : 'gray.100'
-                        }
-                      >
+                      <Box marginTop="4px" borderRadius="4px">
                         {children.map((subMenu) => (
                           <SubMenuLink
                             key={subMenu.id}

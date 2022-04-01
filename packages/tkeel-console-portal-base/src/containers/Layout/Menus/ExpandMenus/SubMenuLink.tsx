@@ -1,8 +1,7 @@
-import { Link } from '@chakra-ui/react';
+import { Link, Text } from '@chakra-ui/react';
 
-import { isDarkMenuTheme } from '@/tkeel-console-portal-base/utils';
-
-import { useMenuLinkProps } from './MenuLink';
+import { getLinkStyle, getTextColor, useMenuLinkProps } from './MenuLink';
+import Rectangle from './Rectangle';
 
 type Props = {
   path: string;
@@ -11,26 +10,19 @@ type Props = {
 
 function SubMenuLink({ path, name }: Props) {
   const { as, to, active } = useMenuLinkProps(path);
-  const isDarkMenu = isDarkMenuTheme();
-  const defaultColor = isDarkMenu ? 'gray.400' : 'gray.600';
-  const hoverStyle = active
-    ? {}
-    : { color: isDarkMenu ? 'white' : 'primary', fontWeight: '600' };
+  const color = getTextColor(active);
+  const linkStyle = getLinkStyle(active);
 
   return (
-    <Link
-      display="flex"
-      alignItems="center"
-      height="32px"
-      paddingLeft="44px"
-      color={active ? 'primary' : defaultColor}
-      fontWeight={active ? '500' : 'normal'}
-      borderRadius="4px"
-      _hover={hoverStyle}
-      as={as}
-      to={to}
-    >
-      {name}
+    <Link position="relative" {...linkStyle} as={as} to={to}>
+      <Rectangle style={{ display: 'none' }} />
+      <Text
+        paddingLeft="64px"
+        color={color}
+        fontWeight={active ? '600' : 'normal'}
+      >
+        {name}
+      </Text>
     </Link>
   );
 }

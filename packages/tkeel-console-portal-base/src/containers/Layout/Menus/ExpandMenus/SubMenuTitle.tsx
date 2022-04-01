@@ -34,8 +34,18 @@ function ParentMenu({
 
   const iconColor = active ? 'white' : 'grayAlternatives.300';
 
+  const color = isDarkMenu ? 'white' : 'primary';
   const hoverStyle = {
-    color: isDarkMenu ? 'white' : 'primary',
+    color,
+    '.menu-name': {
+      fontWeight: '600',
+    },
+    svg: {
+      color: `${color} !important`,
+    },
+    '.up-icon, .down-icon': {
+      fill: `${color} !important`,
+    },
   };
 
   return (
@@ -52,9 +62,9 @@ function ParentMenu({
         leftIcon={icon as string}
         rightIcon={
           spread ? (
-            <ChevronUpFilledIcon color={iconColor} />
+            <ChevronUpFilledIcon className="up-icon" color={iconColor} />
           ) : (
-            <ChevronDownFilledIcon color={iconColor} />
+            <ChevronDownFilledIcon className="down-icon" color={iconColor} />
           )
         }
       />
