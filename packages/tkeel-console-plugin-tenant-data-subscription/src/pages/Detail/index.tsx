@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import {
   BackButton,
+  Clipboard,
   CustomTab,
   CustomTabList,
   InfoCard,
@@ -25,9 +26,10 @@ function Detail(): JSX.Element {
   const { pathname }: { pathname: string } = location;
   const ID = pathname.split('/')[pathname.split('/').length - 1];
   const { data, isSuccess, refetch } = useSubscribeInfoQuery(ID);
+  const endpoint = data?.endpoint ?? '';
   const defaultValues = {
     description: data?.description,
-    endpoint: data?.endpoint,
+    endpoint,
     id: data?.id,
     title: data?.title,
     is_default: data?.is_default,
@@ -62,7 +64,6 @@ function Detail(): JSX.Element {
                 navigate('/');
               }}
             />
-
             {isSuccess && (
               <MoreAction
                 buttons={[
@@ -79,14 +80,12 @@ function Detail(): JSX.Element {
                     name={data?.title}
                     refetchData={() => {
                       navigate('/');
-                      // refetch();
                     }}
                   />,
                 ]}
               />
             )}
           </Flex>
-
           <Flex
             height="70px"
             align="center"
@@ -108,15 +107,27 @@ function Detail(): JSX.Element {
           </Flex>
           <Flex background="white" height="40px" alignItems="center">
             <Flex
+              alignItems="center"
               fontSize="12px"
               color="grayAlternatives.300"
               padding="0 20px"
-              flexWrap="nowrap"
             >
-              <Text whiteSpace="nowrap">订阅地址</Text>
-              <Text display="inline" color="gray.800" ml="26px" isTruncated>
-                {data?.endpoint}
+              <Text color="grayAlternatives.300" fontSize="12px">
+                订阅地址
               </Text>
+              <Text
+                color="gray.800"
+                ml="26px"
+                maxWidth="200px"
+                isTruncated
+                title={endpoint}
+              >
+                {endpoint}
+              </Text>
+              <Clipboard
+                text={endpoint}
+                styles={{ wrapper: { marginLeft: '3px' } }}
+              />
             </Flex>
           </Flex>
         </Box>
@@ -166,7 +177,6 @@ function Detail(): JSX.Element {
           <CustomTabList>
             <CustomTab>订阅设备</CustomTab>
           </CustomTabList>
-
           <TabPanels borderBottomLeftRadius="4px" borderBottomRightRadius="4px">
             <TabPanel height="100%" padding="0" backgroundColor="white">
               <Table id={ID} title={data?.title} />
