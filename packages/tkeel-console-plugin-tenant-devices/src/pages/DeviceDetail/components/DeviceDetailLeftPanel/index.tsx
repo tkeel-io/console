@@ -1,7 +1,7 @@
 import { Box, Flex, Text, VStack } from '@chakra-ui/react';
 
 import { IconWrapper } from '@tkeel/console-business-components';
-import { InfoCard } from '@tkeel/console-components';
+import { Clipboard, InfoCard } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 import { BranchTowToneIcon, DotLineFilledIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp, plugin } from '@tkeel/console-utils';
@@ -11,8 +11,6 @@ import DeviceBasicInfoCard, {
   Basic,
 } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/DeviceBasicInfoCard';
 import DeviceInfoCard from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/DeviceInfoCard';
-
-import Clipboard from './Clipboard';
 
 type Props = {
   deviceObject: DeviceObject;
