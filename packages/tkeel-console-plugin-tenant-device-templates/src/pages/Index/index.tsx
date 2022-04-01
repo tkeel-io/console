@@ -2,8 +2,16 @@ import { Box, Flex } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { TemplateCard } from '@tkeel/console-business-components';
-import { Empty, PageHeaderToolbar } from '@tkeel/console-components';
+import {
+  SaveAsOtherTemplateButton,
+  TemplateCard,
+} from '@tkeel/console-business-components';
+import {
+  Empty,
+  PageHeaderToolbar,
+  Pagination,
+} from '@tkeel/console-components';
+import { usePagination } from '@tkeel/console-hooks';
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
 import {
   KeyDataType,
@@ -16,12 +24,13 @@ import CreateTemplateButton from '@/tkeel-console-plugin-tenant-device-templates
 import DeleteTemplateButton from '@/tkeel-console-plugin-tenant-device-templates/pages/Index/components/DeleteTemplateButton';
 import ModifyTemplateButton from '@/tkeel-console-plugin-tenant-device-templates/pages/Index/components/ModifyTemplateButton';
 
-import SaveAsTemplateButton from './components/SaveAsTemplateButton';
-
 function Index() {
   const navigate = useNavigate();
   const toast = plugin.getPortalToast();
   const [keyWord, setKeyWord] = useState('');
+
+  const pagination = usePagination();
+  const { pageNum, pageSize, setTotalSize, ...rest } = pagination;
 
   let defaultParams = {
     page_num: 1,
@@ -55,24 +64,27 @@ function Index() {
       }),
     };
   });
+  setTotalSize(keyData.length);
 
   const handleCreateSuccess = (id: string) => {
     toast('创建模板成功', { status: 'success' });
-    navigate(`/detail/${id}`);
+    navigate(`/detail/${id}?menu-collapsed=true`);
   };
 
   // eslint-disable-next-line react/no-unstable-nested-components
   function Card() {
     return (
-      <Box
+      <Flex
         bg="gray.50"
         boxShadow="0px 8px 8px rgba(152, 163, 180, 0.1)"
         borderRadius="4px"
         mt="20px"
         padding="20px 0"
         overflowY="auto"
+        height="100%"
+        flexDir="column"
       >
-        <Flex flexWrap="wrap" paddingLeft="20px">
+        <Flex flexWrap="wrap" paddingLeft="20px" flex="1">
           {keyData.map((item: KeyDataType) => {
             return (
               <TemplateCard
@@ -82,14 +94,12 @@ function Index() {
                 }
                 title={item.title}
                 description={item.description || '暂无描述'}
-                navigateUrl={`/detail/${item.id}`}
+                navigateUrl={`/detail/${item.id}?menu-collapsed=true`}
                 buttons={[
-                  <SaveAsTemplateButton
-                    data={item}
+                  <SaveAsOtherTemplateButton
+                    id={item.id}
                     key="modify"
-                    onSuccess={() => {
-                      refetch();
-                    }}
+                    refetch={refetch}
                   />,
                   <ModifyTemplateButton
                     data={item}
@@ -107,12 +117,22 @@ function Index() {
                     }}
                   />,
                 ]}
-                footer={[{ name: '最新时间', value: item.updatedAt }]}
+                footer={[
+                  // { name: '使用设备', value: item.id },
+                  { name: '最新时间', value: item.updatedAt },
+                ]}
               />
             );
           })}
         </Flex>
-      </Box>
+
+        <Pagination
+          pageNum={pageNum}
+          pageSize={pageSize}
+          {...rest}
+          styles={{ wrapper: { padding: '0 20px' } }}
+        />
+      </Flex>
     );
   }
 
@@ -138,18 +158,20 @@ function Index() {
         ]}
       />
 
-      {keyData.length > 0 ? (
-        <Card />
-      ) : (
-        <Empty
-          description={<Box>暂无数据</Box>}
-          styles={{
-            wrapper: { height: '100%' },
-            content: { marginTop: '10px' },
-          }}
-          title=""
-        />
-      )}
+      <Box flex="1">
+        {keyData.length > 0 ? (
+          <Card />
+        ) : (
+          <Empty
+            description={<Box>暂无数据</Box>}
+            styles={{
+              wrapper: { height: '100%' },
+              content: { marginTop: '10px' },
+            }}
+            title=""
+          />
+        )}
+      </Box>
     </Flex>
   );
 }

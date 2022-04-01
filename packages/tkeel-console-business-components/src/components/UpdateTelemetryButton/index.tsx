@@ -1,30 +1,31 @@
 import { useDisclosure } from '@chakra-ui/react';
 
-import { CreateTelemetryModal } from '@tkeel/console-business-components';
 import { MoreActionButton } from '@tkeel/console-components';
 import { PencilFilledIcon } from '@tkeel/console-icons';
 import {
-  BaseRequestData as TelemetryFormFields,
+  TelemetryFormFields,
   useCreateTelemetryMutation,
 } from '@tkeel/console-request-hooks';
 import { plugin } from '@tkeel/console-utils';
 
+import DeviceTelemetryModal from '../DeviceTelemetryModal';
+
 type Props = {
-  id: string;
+  uid: string;
   refetch?: () => void;
   defaultValues?: TelemetryFormFields;
 };
 
-export default function EditTelemetryButton({
-  id,
+export default function UpdateTelemetryButton({
+  uid,
   refetch = () => {},
   defaultValues,
 }: Props) {
   const toast = plugin.getPortalToast();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { mutate } = useCreateTelemetryMutation({
-    id,
+  const { mutate, isLoading } = useCreateTelemetryMutation({
+    uid,
     onSuccess() {
       onClose();
       toast('编辑遥测成功', { status: 'success' });
@@ -50,11 +51,11 @@ export default function EditTelemetryButton({
         title="编辑遥测"
         onClick={onOpen}
       />
-      <CreateTelemetryModal
+      <DeviceTelemetryModal
         title="编辑遥测"
         isOpen={isOpen}
         defaultValues={defaultValues}
-        // isConfirmButtonLoading={isLoading}
+        isConfirmButtonLoading={isLoading}
         onClose={onClose}
         onConfirm={handleConfirm}
       />

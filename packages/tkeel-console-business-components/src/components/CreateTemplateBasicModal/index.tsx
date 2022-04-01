@@ -1,38 +1,25 @@
 import { Box, Text } from '@chakra-ui/react';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { FormField, Modal } from '@tkeel/console-components';
-
-import { RequestData as FormValues } from '@/tkeel-console-plugin-tenant-device-templates/hooks/mutations/useCreateTemplateMutation';
+import { RequestData as TemplateBasicField } from '@tkeel/console-request-hooks/src/hooks/mutations/useSaveAsOtherTemplateMutation';
 
 const { TextField, TextareaField } = FormField;
-
-export interface FormFields {
-  username?: {
-    disabled?: boolean;
-  };
-
-  nick_name?: {
-    disabled?: boolean;
-  };
-}
 
 type Props = {
   title: ReactNode;
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
-  formFields?: FormFields;
-  defaultValues?: FormValues;
+  defaultValues?: TemplateBasicField;
   onClose: () => unknown;
-  onConfirm: (formValues: FormValues) => unknown;
+  onConfirm: (formValues: TemplateBasicField) => unknown;
 };
 
-export default function BaseSubscriptionModal({
+export default function CreateTemplateBasicModal({
   title,
   isOpen,
   isConfirmButtonLoading,
-  formFields,
   defaultValues,
   onClose,
   onConfirm,
@@ -43,14 +30,18 @@ export default function BaseSubscriptionModal({
     trigger,
     getValues,
     reset,
-  } = useForm<FormValues>({ defaultValues });
+  } = useForm<TemplateBasicField>({ defaultValues });
+
+  useEffect(() => {
+    reset();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleConfirm = async () => {
     const result = await trigger();
     if (result) {
       const formValues = getValues();
       onConfirm(formValues);
-      reset();
     }
   };
 
@@ -68,10 +59,9 @@ export default function BaseSubscriptionModal({
       <TextField
         id="title"
         label="模板名称"
-        isDisabled={formFields?.username?.disabled}
         error={errors.name}
         registerReturn={register('name', {
-          required: { value: true, message: 'required' },
+          required: { value: true, message: '请输入模版名称' },
         })}
       />
       <Box>
@@ -81,9 +71,7 @@ export default function BaseSubscriptionModal({
         <TextareaField
           id="description"
           error={errors.description}
-          registerReturn={register('description', {
-            required: { value: false, message: '用户名称' },
-          })}
+          registerReturn={register('description')}
         />
       </Box>
     </Modal>

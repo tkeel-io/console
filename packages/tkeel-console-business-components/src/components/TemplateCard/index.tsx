@@ -32,6 +32,7 @@ function TemplateCard({
       borderStyle="solid"
       borderColor="grayAlternatives.50"
       width="48%"
+      height="118px"
       // key={title}
       margin="0 20px 12px 0"
     >

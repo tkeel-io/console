@@ -2,32 +2,40 @@ import { useDisclosure } from '@chakra-ui/react';
 
 import { Alert, MoreActionButton } from '@tkeel/console-components';
 import { TrashFilledIcon } from '@tkeel/console-icons';
-import { useDeleteTelemetryMutation } from '@tkeel/console-request-hooks';
+import {
+  TelemetryFormFields,
+  useDeleteTelemetryMutation,
+} from '@tkeel/console-request-hooks';
 import { plugin } from '@tkeel/console-utils';
 
 interface Props {
-  attributeInfo: {
-    name: string;
-    id: string;
-  };
+  defaultValues: TelemetryFormFields;
   uid: string;
-  refetchData: () => unknown;
+  refetch?: () => void;
 }
 
-function DeleteTelemetryButton({ attributeInfo, refetchData, uid }: Props) {
+function DeleteTelemetryButton({
+  defaultValues,
+  refetch = () => {},
+  uid,
+}: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { name, id } = attributeInfo;
+  const { name, id } = defaultValues;
   const toast = plugin.getPortalToast();
 
-  const { mutate: deleteTemplateMutate } = useDeleteTelemetryMutation({
-    id: uid,
-    onSuccess() {
-      // onSuccess();
-      toast('删除成功', { status: 'success' });
-      refetchData();
-      // onClose();
-    },
-  });
+  const { mutate: deleteTemplateMutate, isLoading } =
+    useDeleteTelemetryMutation({
+      uid,
+      onSuccess() {
+        toast('删除成功', { status: 'success' });
+        refetch();
+        onClose();
+      },
+    });
+
+  const handleConfirm = () => {
+    deleteTemplateMutate({ data: { ids: [id] } });
+  };
   return (
     <>
       <MoreActionButton
@@ -42,11 +50,8 @@ function DeleteTelemetryButton({ attributeInfo, refetchData, uid }: Props) {
         description={`遥测ID: ${id}`}
         title={`确定要删除遥测「${name}」吗？`}
         onClose={onClose}
-        onConfirm={() => {
-          // handleSubmit({ id });
-
-          deleteTemplateMutate({ data: { ids: [id] } });
-        }}
+        isConfirmButtonLoading={isLoading}
+        onConfirm={handleConfirm}
       />
     </>
   );

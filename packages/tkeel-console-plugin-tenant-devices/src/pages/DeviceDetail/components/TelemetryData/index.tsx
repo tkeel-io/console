@@ -3,6 +3,10 @@ import { isEmpty } from 'lodash';
 import { useState } from 'react';
 
 import {
+  CreateTelemetryButton,
+  SaveAsOtherTemplateButton,
+} from '@tkeel/console-business-components';
+import {
   Empty,
   IconButton,
   MoreAction,
@@ -15,9 +19,7 @@ import {
   Telemetry,
   TelemetryItem,
 } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
-import AddTelemetryButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/AddTelemetryButton';
-import SaveTemplateButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/SaveTemplateButton';
-import SyncTemplateButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/SyncTemplateButton';
+import SaveAsSelfTemplateButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/SaveAsSelfTemplateButton';
 
 import TelemetryDataTable from './TelemetryDataTable';
 
@@ -77,7 +79,10 @@ export default function TelemetryData({
           }}
           title=""
           content={
-            <AddTelemetryButton id={deviceId} refetch={refetchDeviceDetail} />
+            <CreateTelemetryButton
+              uid={deviceId}
+              refetch={refetchDeviceDetail}
+            />
           }
         />
       ) : (
@@ -93,9 +98,9 @@ export default function TelemetryData({
               onSearch: handleSearch,
             }}
             buttons={[
-              <AddTelemetryButton
+              <CreateTelemetryButton
                 key="add"
-                id={deviceId}
+                uid={deviceId}
                 refetch={refetchDeviceDetail}
               />,
               templateId ? (
@@ -111,15 +116,15 @@ export default function TelemetryData({
                   }
                   key="more"
                   buttons={[
-                    <SyncTemplateButton key="sync" deviceId={deviceId} />,
-                    <SaveTemplateButton key="save" deviceId={deviceId} />,
+                    <SaveAsSelfTemplateButton key="sync" id={deviceId} />,
+                    <SaveAsOtherTemplateButton key="save" id={deviceId} />,
                   ]}
                 />
               ) : (
-                <SaveTemplateButton
+                <SaveAsOtherTemplateButton
                   variant="iconButton"
                   key="save"
-                  deviceId={deviceId}
+                  id={deviceId}
                 />
               ),
             ]}

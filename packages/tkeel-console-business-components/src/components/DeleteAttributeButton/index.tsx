@@ -1,26 +1,27 @@
 import { useDisclosure } from '@chakra-ui/react';
 
-import { DeviceAttributeFormFields } from '@tkeel/console-business-components/src/components/DeviceAttributeModal';
 import { Alert, MoreActionButton } from '@tkeel/console-components';
 import { TrashFilledIcon } from '@tkeel/console-icons';
 import { useDeleteAttributeMutation } from '@tkeel/console-request-hooks/src/hooks/mutations';
 import { plugin } from '@tkeel/console-utils';
 
+import { DeviceAttributeFormFields } from '../DeviceAttributeModal';
+
 interface Props {
   defaultValues: DeviceAttributeFormFields;
-  id: string;
+  uid: string;
   refetch?: () => void;
 }
 function DeleteAttributeButton({
-  id,
+  uid,
   defaultValues,
   refetch = () => {},
 }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { name, id: attrId } = defaultValues;
+  const { name, id } = defaultValues;
   const toast = plugin.getPortalToast();
-  const { mutate: addAttributeMutate } = useDeleteAttributeMutation({
-    id,
+  const { mutate: addAttributeMutate, isLoading } = useDeleteAttributeMutation({
+    id: uid,
     onSuccess: () => {
       toast.success(`删除属性「${name}」成功`);
       refetch();
@@ -29,7 +30,7 @@ function DeleteAttributeButton({
   });
   const handleDeleteAttribute = () => {
     const data = {
-      ids: [attrId],
+      ids: [id],
     };
     addAttributeMutate({ data });
   };
@@ -44,7 +45,8 @@ function DeleteAttributeButton({
         icon="warning"
         iconPosition="left"
         isOpen={isOpen}
-        description={`属性ID: ${attrId}`}
+        isConfirmButtonLoading={isLoading}
+        description={`属性ID: ${id}`}
         title={`确定要删除属性「${name}」吗？`}
         onClose={onClose}
         onConfirm={handleDeleteAttribute}

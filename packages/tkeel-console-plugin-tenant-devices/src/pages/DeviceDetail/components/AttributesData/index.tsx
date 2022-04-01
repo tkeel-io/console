@@ -15,6 +15,12 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import {
+  CreateAttributeButton,
+  DeleteAttributeButton,
+  SaveAsOtherTemplateButton,
+  UpdateAttributeButton,
+} from '@tkeel/console-business-components';
+import {
   ReadWriteType,
   RW_LABELS,
 } from '@tkeel/console-business-components/src/components/DeviceAttributeModal';
@@ -39,12 +45,8 @@ import {
   Attributes,
   BasicInfo,
 } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
-import AddAttributeButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/AddAttributeButton';
-import DeleteAttributeButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/DeleteAttributeButton';
-import EditAttributeButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/EditAttributeButton';
 import JsonInfoButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/JsonInfoButton';
-import SaveTemplateButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/SaveTemplateButton';
-import SyncTemplateButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/SyncTemplateButton';
+import SaveAsSelfTemplateButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/SaveAsSelfTemplateButton';
 
 const TOOLTIP_OPTIONS = [
   { label: '数据类型', key: 'type' },
@@ -169,7 +171,10 @@ function AttributesPanel({
           }}
           title=""
           content={
-            <AddAttributeButton id={deviceId} refetch={refetchDeviceDetail} />
+            <CreateAttributeButton
+              uid={deviceId}
+              refetch={refetchDeviceDetail}
+            />
           }
         />
       ) : (
@@ -185,9 +190,9 @@ function AttributesPanel({
               onSearch: handleSearch,
             }}
             buttons={[
-              <AddAttributeButton
+              <CreateAttributeButton
                 key="add"
-                id={deviceId}
+                uid={deviceId}
                 refetch={refetchDeviceDetail}
               />,
               templateId ? (
@@ -203,15 +208,15 @@ function AttributesPanel({
                   }
                   key="more"
                   buttons={[
-                    <SyncTemplateButton key="sync" deviceId={deviceId} />,
-                    <SaveTemplateButton key="save" deviceId={deviceId} />,
+                    <SaveAsSelfTemplateButton key="sync" id={deviceId} />,
+                    <SaveAsOtherTemplateButton key="save" id={deviceId} />,
                   ]}
                 />
               ) : (
-                <SaveTemplateButton
+                <SaveAsOtherTemplateButton
                   variant="iconButton"
                   key="save"
-                  deviceId={deviceId}
+                  id={deviceId}
                 />
               ),
             ]}
@@ -291,12 +296,12 @@ function AttributesPanel({
                                 <DeleteAttributeButton
                                   key="delete"
                                   defaultValues={editFormValues}
-                                  id={deviceId}
+                                  uid={deviceId}
                                   refetch={refetchDeviceDetail}
                                 />,
-                                <EditAttributeButton
+                                <UpdateAttributeButton
                                   key="edit"
-                                  id={deviceId}
+                                  uid={deviceId}
                                   defaultValues={editFormValues}
                                   refetch={refetchDeviceDetail}
                                 />,

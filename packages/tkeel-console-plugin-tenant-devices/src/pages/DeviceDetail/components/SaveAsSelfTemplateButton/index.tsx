@@ -7,14 +7,14 @@ import { plugin } from '@tkeel/console-utils';
 import useSaveAsSelfTemplateMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useSaveAsSelfTemplateMutation';
 
 type Props = {
-  deviceId: string;
+  id: string;
 };
 
-export default function SyncTemplateButton({ deviceId }: Props) {
+export default function SaveAsSelfTemplateButton({ id }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = plugin.getPortalToast();
   const { mutate, isLoading } = useSaveAsSelfTemplateMutation({
-    id: deviceId,
+    id,
     onSuccess: () => {
       onClose();
       toast.success('同步模版成功');

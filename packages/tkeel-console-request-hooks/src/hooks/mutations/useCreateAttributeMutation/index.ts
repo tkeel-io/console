@@ -1,8 +1,8 @@
 import { useMutation } from '@tkeel/console-hooks';
 
-const method = 'PUT';
-type ReadWriteType = 'r' | 'w' | 'rw';
+const method = 'POST';
 
+type ReadWriteType = 'rw' | 'r' | 'w';
 export interface ApiData {
   details?: unknown;
 }
@@ -18,14 +18,14 @@ export interface RequestData {
   };
 }
 
-export default function useEditAttributeMutation({
-  id,
+export default function useCreateAttributeMutation({
+  uid,
   onSuccess,
 }: {
-  id: string;
+  uid: string;
   onSuccess?: () => void;
 }) {
-  const url = `/tkeel-device/v1/templates/${id}/attribute`;
+  const url = `/tkeel-device/v1/templates/${uid}/attribute`;
   return useMutation<ApiData, undefined, RequestData>({
     url,
     method,

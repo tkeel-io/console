@@ -2,6 +2,10 @@ import { Flex, Text } from '@chakra-ui/react';
 import { useCallback, useMemo } from 'react';
 import { Cell, Column } from 'react-table';
 
+import {
+  DeleteTelemetryButton,
+  UpdateTelemetryButton,
+} from '@tkeel/console-business-components';
 import { MoreAction, Table } from '@tkeel/console-components';
 import { DuotoneTwoToneIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
@@ -10,9 +14,7 @@ import {
   Telemetry,
   TelemetryItem,
 } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
-import DeleteTelemetryButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/DeleteTelemetryButton';
 import DetailTelemetryButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/DetailTelemetryButton';
-import EditTelemetryButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/EditTelemetryButton';
 
 interface TelemetryTableItem extends TelemetryItem {
   value?: string | number | boolean;
@@ -38,16 +40,16 @@ export default function TelemetryDataTable({
         <MoreAction
           buttons={[
             <DetailTelemetryButton telemetryInfo={original} key="detail" />,
-            <EditTelemetryButton
+            <UpdateTelemetryButton
               key="modify"
-              id={deviceId}
+              uid={deviceId}
               refetch={refetchDeviceDetail}
               defaultValues={original}
             />,
             <DeleteTelemetryButton
               key="delete"
-              attributeInfo={{ name: original.name, id: original.id }}
-              id={deviceId}
+              defaultValues={original}
+              uid={deviceId}
               refetch={refetchDeviceDetail}
             />,
           ]}

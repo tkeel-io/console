@@ -1,35 +1,42 @@
 import { useDisclosure } from '@chakra-ui/react';
 
-import { DeviceAttributeModal } from '@tkeel/console-business-components';
-import { DeviceAttributeFormFields } from '@tkeel/console-business-components/src/components/DeviceAttributeModal';
 import { MoreActionButton } from '@tkeel/console-components';
 import { PencilFilledIcon } from '@tkeel/console-icons';
-import { useEditAttributeMutation } from '@tkeel/console-request-hooks/src/hooks/mutations';
+import { useUpdateAttributeMutation } from '@tkeel/console-request-hooks/src/hooks/mutations';
 import { plugin } from '@tkeel/console-utils';
 
+import DeviceAttributeModal, {
+  DeviceAttributeFormFields,
+} from '../DeviceAttributeModal';
+
 interface Props {
-  id: string;
+  uid: string;
   defaultValues: DeviceAttributeFormFields;
   refetch?: () => void;
 }
-function EditAttributeButton({ id, defaultValues, refetch = () => {} }: Props) {
+function UpdateAttributeButton({
+  uid,
+  defaultValues,
+  refetch = () => {},
+}: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = plugin.getPortalToast();
-  const { mutate: editAttributeMutate, isLoading } = useEditAttributeMutation({
-    id,
-    onSuccess: () => {
-      toast.success('修改属性成功');
-      refetch();
-      onClose();
-    },
-  });
-  const handleEditAttribute = (formValues: DeviceAttributeFormFields) => {
+  const { mutate: updateAttributeMutate, isLoading } =
+    useUpdateAttributeMutation({
+      id: uid,
+      onSuccess: () => {
+        toast.success('修改属性成功');
+        refetch();
+        onClose();
+      },
+    });
+  const handleUpdateAttribute = (formValues: DeviceAttributeFormFields) => {
     const data = {
       [formValues.id]: {
         ...formValues,
       },
     };
-    editAttributeMutate({ data });
+    updateAttributeMutate({ data });
   };
   return (
     <>
@@ -44,11 +51,11 @@ function EditAttributeButton({ id, defaultValues, refetch = () => {} }: Props) {
           onClose={onClose}
           isOpen={isOpen}
           isEdit
-          onSubmit={handleEditAttribute}
+          onSubmit={handleUpdateAttribute}
           defaultValues={defaultValues}
         />
       )}
     </>
   );
 }
-export default EditAttributeButton;
+export default UpdateAttributeButton;
