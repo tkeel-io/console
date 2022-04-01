@@ -55,22 +55,6 @@ export default function ExpandMenus({ isDarkMenu, logo }: Props) {
     >
       <Flex alignItems="center" height="96px" paddingLeft="20px">
         {isDarkMenu ? logo.typeLight : logo.typeDark}
-        {/* {isQingCloudTheme ? (
-          <Image
-            width={isQingCloudTheme ? '184px' : '150px'}
-            src={isDarkMenu ? qingcloudLogoLight : qingcloudLogoDark}
-          />
-        ) : (
-          <>
-            <Image htmlWidth="47px" src={tkeelLogo} alt="" />
-            <Image
-              marginLeft="8px"
-              htmlWidth="93px"
-              src={isDarkMenu ? tKeelLogoLight : tKeelLogoDark}
-              alt=""
-            />
-          </>
-        )} */}
       </Flex>
       {/* <SearchInput
         width="200px"

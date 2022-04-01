@@ -43,7 +43,6 @@ function ParentMenu({
       paddingRight="18px"
       color={active ? 'white' : defaultColor}
       borderRadius="4px"
-      backgroundColor={active ? 'primary' : 'transparent'}
       _hover={hoverStyle}
       onClick={() => handleMenuClick(id)}
     >
