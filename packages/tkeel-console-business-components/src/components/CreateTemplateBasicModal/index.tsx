@@ -57,7 +57,7 @@ export default function CreateTemplateBasicModal({
       onConfirm={handleConfirm}
     >
       <TextField
-        id="title"
+        id="name"
         label="模板名称"
         error={errors.name}
         registerReturn={register('name', {

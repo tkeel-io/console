@@ -18,10 +18,20 @@ function DeleteTemplateButton({ id, refetchData, name }: Props) {
   const toast = plugin.getPortalToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate, isLoading } = useDeleteTemplateMutation({
-    onSuccess() {
-      toast('删除成功', { status: 'success' });
-      refetchData();
+    onSuccess(data) {
+      const faildDelTemplate = data?.data?.faildDelTemplate ?? [];
+      toast(
+        `删除${
+          faildDelTemplate.length > 0
+            ? `失败, Reason: ${faildDelTemplate[0].reason}`
+            : '成功'
+        }`,
+        {
+          status: faildDelTemplate.length > 0 ? 'warning' : 'success',
+        }
+      );
       onClose();
+      refetchData();
     },
   });
 
