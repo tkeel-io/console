@@ -3,6 +3,7 @@ export { default as Alert } from './components/Alert';
 export * from './components/Button';
 export { default as ButtonsHStack } from './components/ButtonsHStack';
 export * from './components/Checkbox';
+export { default as Clipboard } from './components/Clipboard';
 export { default as CustomTab } from './components/CustomTab';
 export { default as CustomTabList } from './components/CustomTabList';
 export { default as DateRangePicker } from './components/DateRangePicker';

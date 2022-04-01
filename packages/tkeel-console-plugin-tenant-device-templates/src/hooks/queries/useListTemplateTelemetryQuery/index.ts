@@ -14,19 +14,7 @@ type RequestParams = {
   id?: string;
 };
 
-export interface User {
-  tenant_id: string;
-  user_id: string;
-  external_id?: string;
-  username: string;
-  email?: string;
-  nick_name?: string;
-  avatar?: string;
-  created_at: string;
-  roles: string[];
-}
-
-export interface UsefulData {
+export interface TelemetryItem {
   name: string;
   id: string;
   type: string;
@@ -37,36 +25,23 @@ export interface UsefulData {
     [propName: string]: any;
   };
 }
-interface Telemetry {
-  [propName: string]: UsefulData;
+export interface Telemetry {
+  [propName: string]: TelemetryItem;
 }
 export interface ApiData {
   '@type': string;
   templateTeleObject: {
-    configs: {
-      telemetry: {
-        define: {
-          fields: Telemetry;
+    configs?: {
+      telemetry?: {
+        define?: {
+          fields?: Telemetry;
         };
       };
     };
   };
 }
 
-function getUsefulData(data: Telemetry): UsefulData[] {
-  return values(data).map((item) => {
-    return {
-      name: item.name,
-      id: item.id,
-      type: item.type,
-      description: item.description,
-      last_time: item.last_time,
-      define: item.define,
-    };
-  });
-}
-
-export default function useListSubscribeEntitiesQuery({
+export default function useListTemplateTelemetryQuery({
   id,
   onSuccess,
 }: {
@@ -80,26 +55,10 @@ export default function useListSubscribeEntitiesQuery({
   const { data, ...rest } = useQuery<ApiData, undefined, RequestParams>({
     url,
     method,
-    // data: {
-    //   key_words: params?.key_words,
-    //   page_num: params?.page_num,
-    //   page_size: params?.page_size,
-    // },
     reactQueryOptions: { onSuccess },
   });
 
-  let usefulData: UsefulData[] = [];
-  if (JSON.stringify(data?.templateTeleObject?.configs) !== '{}') {
-    usefulData = getUsefulData(
-      data?.templateTeleObject?.configs.telemetry.define.fields as Telemetry
-    );
-    return { usefulData, data, ...rest };
-  }
-  return { usefulData, data, ...rest };
-
-  // const usefulData = getUsefulData(
-  //   data?.templateTeleObject?.configs?.telemetry?.define?.fields as Telemetry
-  // );
-
-  // return { usefulData, data, ...rest };
+  const telemetryList =
+    values(data?.templateTeleObject?.configs?.telemetry?.define?.fields) || [];
+  return { telemetryList, data, ...rest };
 }

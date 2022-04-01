@@ -1,6 +1,7 @@
 import { Flex, Text, useDisclosure } from '@chakra-ui/react';
 import { useIsMutating } from 'react-query';
 
+import { CreateTemplateBasicModal } from '@tkeel/console-business-components';
 import {
   ChevronRightFilledIcon,
   DocumentPencilTowToneIcon,
@@ -9,8 +10,6 @@ import {
 import useCreateTemplateMutation, {
   RequestData as FormValues,
 } from '@/tkeel-console-plugin-tenant-device-templates/hooks/mutations/useCreateTemplateMutation';
-
-import CustomTemplateModal from '../CustomTemplateModal';
 
 type Props = {
   onSuccess: (id: string) => void;
@@ -29,14 +28,8 @@ export default function CustomTemplateButton({ onSuccess }: Props) {
   });
 
   const handleConfirm = (formValues: FormValues) => {
-    const { name, description } = formValues;
     if (formValues) {
-      mutate({
-        data: {
-          name,
-          description,
-        },
-      });
+      mutate({ data: formValues });
     }
     return null;
   };
@@ -80,7 +73,7 @@ export default function CustomTemplateButton({ onSuccess }: Props) {
         </Text>
       </Flex>
       <ChevronRightFilledIcon size="24px" />
-      <CustomTemplateModal
+      <CreateTemplateBasicModal
         title="创建自定义模板"
         isOpen={isOpen}
         onClose={onClose}
