@@ -105,30 +105,33 @@ function Detail(): JSX.Element {
               {data?.title}
             </Text>
           </Flex>
-          <Flex background="white" height="40px" alignItems="center">
-            <Flex
-              alignItems="center"
-              fontSize="12px"
-              color="grayAlternatives.300"
-              padding="0 20px"
-            >
-              <Text color="grayAlternatives.300" fontSize="12px">
-                订阅地址
-              </Text>
-              <Text
-                color="gray.800"
-                ml="26px"
-                maxWidth="200px"
-                isTruncated
-                title={endpoint}
-              >
-                {endpoint}
-              </Text>
-              <Clipboard
-                text={endpoint}
-                styles={{ wrapper: { marginLeft: '3px' } }}
-              />
-            </Flex>
+          <Flex
+            alignItems="center"
+            height="40px"
+            fontSize="12px"
+            color="grayAlternatives.300"
+            paddingLeft="20px"
+          >
+            <Text color="grayAlternatives.300" fontSize="12px">
+              订阅地址
+            </Text>
+            {endpoint && (
+              <>
+                <Text
+                  color="gray.800"
+                  ml="26px"
+                  maxWidth="200px"
+                  isTruncated
+                  title={endpoint}
+                >
+                  {endpoint}
+                </Text>
+                <Clipboard
+                  text={endpoint}
+                  styles={{ wrapper: { marginLeft: '3px' } }}
+                />
+              </>
+            )}
           </Flex>
         </Box>
         <Box
