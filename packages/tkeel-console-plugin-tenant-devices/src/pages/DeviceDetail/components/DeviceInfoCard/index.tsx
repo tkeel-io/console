@@ -6,7 +6,7 @@ import {
   IconWrapper,
   SelfLearnIcon,
 } from '@tkeel/console-business-components';
-import { BackButton, MoreAction } from '@tkeel/console-components';
+import { BackButton, Clipboard, MoreAction } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 import {
   MessageWarningTwoToneIcon,
@@ -22,7 +22,6 @@ import { SUBSCRIBES } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDe
 import handleSubscribeAddr from '@/tkeel-console-plugin-tenant-devices/utils';
 
 import CardContentFlex from './components/CardContentFlex';
-import Clipboard from './components/Clipboard';
 import UnsubscribeButton from './components/UnsubscribeButton';
 
 type Props = {

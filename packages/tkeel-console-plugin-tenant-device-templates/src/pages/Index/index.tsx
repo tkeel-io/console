@@ -107,10 +107,7 @@ function Index() {
                     }}
                   />,
                 ]}
-                footer={[
-                  // { name: '使用设备', value: item.id },
-                  { name: '最新时间', value: item.updatedAt },
-                ]}
+                footer={[{ name: '最新时间', value: item.updatedAt }]}
               />
             );
           })}

@@ -1,12 +1,16 @@
 import { useQuery } from '@tkeel/console-hooks';
 
-export interface Tenant {
-  title: string;
-  remark: string;
-  tenant_id: string;
-  operator_id: string;
-  enable_timestamp: string;
-  user_num: number;
+export interface RouteItemData {
+  created_at: string;
+  desc: string;
+  id: string;
+  name: string;
+  status: number;
+  type: number;
+  updated_at: string;
+  devices_status: number;
+  targets_status: number;
+  sub_id: number | unknown;
 }
 
 export interface ApiData {
@@ -14,7 +18,7 @@ export interface ApiData {
   total: number;
   page_num: number;
   page_size: number;
-  tenants: Tenant[];
+  data: RouteItemData[];
 }
 
 const url = '/rule-manager/v1/rules';
@@ -23,6 +27,7 @@ const method = 'GET';
 type Props = {
   pageNum: number;
   pageSize: number;
+  // keyWords: string;
 };
 
 type TRequestParams = {
@@ -31,7 +36,11 @@ type TRequestParams = {
   key_words: string;
 };
 
-export default function useRouteRulesQuery({ pageNum, pageSize }: Props) {
+export default function useRouteRulesQuery({
+  pageNum,
+  pageSize,
+}: // keyWords,
+Props) {
   const { data, ...rest } = useQuery<ApiData, TRequestParams>({
     url,
     method,
@@ -40,8 +49,11 @@ export default function useRouteRulesQuery({ pageNum, pageSize }: Props) {
       page_size: pageSize,
       key_words: '',
     },
+    reactQueryOptions: {
+      queryKey: 'routeRules',
+    },
   });
-  const tenants = data?.tenants || [];
+  const routeRulesData = data?.data || [];
 
-  return { tenants, data, ...rest };
+  return { routeRulesData, data, ...rest };
 }

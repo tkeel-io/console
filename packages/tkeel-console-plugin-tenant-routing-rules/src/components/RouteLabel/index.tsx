@@ -46,13 +46,13 @@ function RouteLabel({ styles, routeType }: Props) {
       h="24px"
       alignItems="center"
       justifyContent="center"
-      bg={item.color}
+      bg={item?.color}
       borderRadius="2px"
       {...styles?.wrapper}
     >
-      {item.icon}
+      {item?.icon}
       <Text fontSize="12px" color="white" ml="4px">
-        {item.name}
+        {item?.name}
       </Text>
     </Flex>
   );

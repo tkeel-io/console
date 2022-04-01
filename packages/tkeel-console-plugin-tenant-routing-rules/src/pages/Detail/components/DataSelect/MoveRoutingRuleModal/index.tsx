@@ -1,15 +1,20 @@
-import { Select } from '@chakra-ui/react';
-import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 
-import { Modal } from '@tkeel/console-components';
+import { FormField, Modal } from '@tkeel/console-components';
+
+const { SelectField } = FormField;
+
+type FormValues = {
+  ruleId: string;
+};
 
 type Props = {
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
   onClose: () => unknown;
-  data?: { id: string; name: string }[];
-  onConfirm: (targetId: number) => unknown;
+  data?: { label: string; value: string }[];
+  defaultValue: string;
+  onConfirm: (ruleId: string) => unknown;
 };
 
 export default function MoveRoutingRuleModal({
@@ -17,16 +22,25 @@ export default function MoveRoutingRuleModal({
   isConfirmButtonLoading,
   onClose,
   data,
+  defaultValue,
   onConfirm,
 }: Props) {
-  const [targetId, setTargetId] = useState<number>();
-
-  const params = useParams();
-  const { id } = params;
+  const {
+    control,
+    formState: { errors },
+    trigger,
+    getValues,
+  } = useForm<FormValues>();
 
   const handleConfirm = async () => {
-    onConfirm(targetId as number);
+    const result = await trigger('ruleId');
+    if (result) {
+      const ruleId = getValues('ruleId');
+      onConfirm(ruleId);
+    }
   };
+
+  const options = data || [];
 
   return (
     <Modal
@@ -37,21 +51,21 @@ export default function MoveRoutingRuleModal({
         onClose();
       }}
       onConfirm={handleConfirm}
+      isConfirmButtonDisabled={options.length === 0}
     >
-      <Select
-        defaultValue={id || ''}
-        onChange={(el) => {
-          setTargetId(Number(el.target.value));
+      <SelectField<FormValues>
+        id="ruleId"
+        name="ruleId"
+        label="规则名称"
+        defaultValue={defaultValue}
+        options={options}
+        control={control}
+        error={errors.ruleId}
+        rules={{
+          required: { value: true, message: '规则名称为空' },
         }}
-      >
-        {data?.map((item) => {
-          return (
-            <option value={item.id} key={item.id}>
-              {item.name}
-            </option>
-          );
-        })}
-      </Select>
+        formControlStyle={{ marginTop: '20px' }}
+      />
     </Modal>
   );
 }

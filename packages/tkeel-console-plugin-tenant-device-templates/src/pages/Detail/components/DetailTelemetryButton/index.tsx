@@ -24,7 +24,6 @@ export default function DetailTelemetryButton({ uid, id }: Props) {
         title="查看详情"
         onClick={() => {
           onOpen();
-          // mutate({});
         }}
       />
       <TelemetryDrawer

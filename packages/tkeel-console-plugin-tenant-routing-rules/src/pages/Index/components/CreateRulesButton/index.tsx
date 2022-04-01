@@ -8,17 +8,32 @@ import {
 import { PencilFilledIcon } from '@tkeel/console-icons';
 
 import useCreateRulesMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useCreateRulesMutation';
+import useModifyRulesMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useModifyRulesMutation';
 import { FormValues } from '@/tkeel-console-plugin-tenant-routing-rules/pages/Index/components/BaseRulesModal';
 import CreateRulesModal from '@/tkeel-console-plugin-tenant-routing-rules/pages/Index/components/CreateRulesModal';
 
 interface Props {
+  cruxData?: {
+    id: string;
+    name: string;
+    desc: string;
+    status: number;
+    type: number;
+  };
   type: 'createButton' | 'createText' | 'editButton';
   onSuccess: () => void;
 }
 
-export default function CreateRulesButton({ type, onSuccess }: Props) {
+export default function CreateRulesButton({
+  type,
+  cruxData,
+  onSuccess,
+}: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { isLoading, mutate: createMutate } = useCreateRulesMutation({
+  const useOperationMutation =
+    type === 'editButton' ? useModifyRulesMutation : useCreateRulesMutation;
+  const { isLoading, mutate } = useOperationMutation({
+    id: cruxData?.id || '',
     onSuccess() {
       onSuccess();
       onClose();
@@ -26,11 +41,11 @@ export default function CreateRulesButton({ type, onSuccess }: Props) {
   });
 
   const handleConfirm = (formValues: FormValues) => {
-    createMutate({
+    mutate({
       data: {
-        name: formValues.title,
+        name: formValues.name,
         type: formValues.type,
-        desc: formValues?.description ?? '',
+        desc: formValues?.desc ?? '',
       },
     });
   };
@@ -55,6 +70,7 @@ export default function CreateRulesButton({ type, onSuccess }: Props) {
       {isOpen && (
         <CreateRulesModal
           type={type}
+          cruxData={cruxData}
           isOpen={isOpen}
           isConfirmButtonLoading={isLoading}
           onClose={onClose}

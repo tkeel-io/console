@@ -19,7 +19,6 @@ function DeleteSubscriptionButton({ id, refetchData, name }: Props) {
   const { mutate, isLoading } = useDeleteSubscriptionMutation({
     id,
     onSuccess() {
-      // onSuccess();
       toast('删除订阅成功', { status: 'success' });
       refetchData();
       onClose();
