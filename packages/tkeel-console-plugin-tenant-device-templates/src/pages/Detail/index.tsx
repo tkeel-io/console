@@ -1,4 +1,4 @@
-import { Box, Flex, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { Box, Flex, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import {
@@ -8,7 +8,7 @@ import {
   InfoCard,
   MoreAction,
 } from '@tkeel/console-components';
-import { BoxTwoToneIcon } from '@tkeel/console-icons';
+import { BoxTwoToneIcon, OfficialFilledIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp, plugin } from '@tkeel/console-utils';
 
 import useTemplateInfoQuery from '@/tkeel-console-plugin-tenant-device-templates/hooks/queries/useTemplateInfoQuery';
@@ -26,7 +26,6 @@ function Detail(): JSX.Element {
   const location = useLocation();
   const { pathname }: { pathname: string } = location;
   const ID = pathname.split('/')[pathname.split('/').length - 1];
-  // const { data, isSuccess, refetch } = useTemplateInfoQuery(ID);
   const { data, isSuccess, refetch } = useTemplateInfoQuery(ID);
 
   const defaultValues = {
@@ -44,7 +43,17 @@ function Detail(): JSX.Element {
           height="108px"
           background="linear-gradient(180deg, #FFFFFF 0%, #F9FBFD 100%)"
           borderRadius="4px"
+          position="relative"
         >
+          <OfficialFilledIcon
+            style={{
+              width: '197px',
+              height: '108px',
+              position: 'absolute',
+              top: 0,
+              right: 0,
+            }}
+          />
           <Flex
             alignItems="center"
             justifyContent="space-between"
@@ -88,26 +97,25 @@ function Detail(): JSX.Element {
             )}
           </Flex>
 
-          <Flex height="70px" align="center" padding="0 20px">
+          <Flex
+            height="70px"
+            align="center"
+            padding="0 20px"
+            position="relative"
+            zIndex="2"
+          >
             <BoxTwoToneIcon style={{ width: '24px', height: '22px' }} />
-            <Box
+            <Text
               lineHeight="50px"
               ml="12px"
               color="gray.700"
               fontWeight="600"
               fontSize="14px"
+              isTruncated
             >
               {defaultValues?.title}
-            </Box>
+            </Text>
           </Flex>
-          {/* <Flex background="white" height="40px" alignItems="center">
-            <Box fontSize="12px" color="grayAlternatives.300" padding="0 20px">
-              订阅地址
-              <Text display="inline" color="gray.800" ml="26px">
-                {data?.endpoint}
-              </Text>
-            </Box>
-          </Flex> */}
         </Box>
         <Box background="linear-gradient(180deg, #FFFFFF 0%, #F9FBFD 100%)">
           <InfoCard
@@ -147,7 +155,6 @@ function Detail(): JSX.Element {
           <CustomTabList>
             <CustomTab>属性模板</CustomTab>
             <CustomTab>遥测模板</CustomTab>
-            {/* <CustomTab>服务指令</CustomTab> */}
           </CustomTabList>
 
           <TabPanels
@@ -162,9 +169,6 @@ function Detail(): JSX.Element {
             <TabPanel padding="0" height="100%">
               <TelemetryTable id={ID} title={defaultValues.title} />
             </TabPanel>
-            {/* <TabPanel padding="0" height="100%" backgroundColor="white">
-              3
-            </TabPanel> */}
           </TabPanels>
         </Tabs>
       </Box>

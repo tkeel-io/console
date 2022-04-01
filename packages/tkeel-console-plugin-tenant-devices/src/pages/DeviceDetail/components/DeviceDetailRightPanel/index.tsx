@@ -17,7 +17,7 @@ type Props = {
 
 function DeviceDetailRightPanel({ deviceObject, refetch }: Props): JSX.Element {
   const { properties, configs, id } = deviceObject;
-  const attributeField = configs?.attributes?.define?.fields ?? {};
+  const attributeFields = configs?.attributes?.define?.fields ?? {};
   const telemetryFields = configs?.telemetry?.define?.fields ?? {};
   const {
     connectInfo,
@@ -40,13 +40,15 @@ function DeviceDetailRightPanel({ deviceObject, refetch }: Props): JSX.Element {
         <RawData data={rawData} online={connectInfo?._online ?? false} />
       ),
     },
+  ];
+  const useTemplateTabs = [
     {
       label: '属性数据',
       key: 'attributeData',
       component: (
         <AttributesData
           attributeValues={attributeValues}
-          attributeField={values(attributeField)}
+          attributeFields={values(attributeFields)}
           deviceId={id}
           basicInfo={basicInfo}
           refetch={refetch}
@@ -67,11 +69,10 @@ function DeviceDetailRightPanel({ deviceObject, refetch }: Props): JSX.Element {
       ),
     },
   ];
-  const [tabIndex, setTabIndex] = useState(2);
+  const [tabIndex, setTabIndex] = useState(0);
   const handleTabChange = (index: number) => {
     setTabIndex(index);
   };
-
   return (
     <Tabs
       flex="1"
@@ -84,21 +85,25 @@ function DeviceDetailRightPanel({ deviceObject, refetch }: Props): JSX.Element {
       flexDirection="column"
     >
       <CustomTabList>
-        {tabs.map((r, index) => (
-          <CustomTab
-            borderTopLeftRadius={index === 0 ? '4px' : '0'}
-            key={r.key}
-          >
-            {r.label}
-          </CustomTab>
-        ))}
+        {(basicInfo?.templateId ? [...tabs, ...useTemplateTabs] : tabs).map(
+          (r, index) => (
+            <CustomTab
+              borderTopLeftRadius={index === 0 ? '4px' : '0'}
+              key={r.key}
+            >
+              {r.label}
+            </CustomTab>
+          )
+        )}
       </CustomTabList>
       <TabPanels flex="1" display="flex" overflow="hidden">
-        {tabs.map((r) => (
-          <TabPanel key={r.key} p="12px 20px" flex="1">
-            {r.component}
-          </TabPanel>
-        ))}
+        {(basicInfo?.templateId ? [...tabs, ...useTemplateTabs] : tabs).map(
+          (r) => (
+            <TabPanel key={r.key} p="12px 20px" flex="1">
+              {r.component}
+            </TabPanel>
+          )
+        )}
       </TabPanels>
     </Tabs>
   );

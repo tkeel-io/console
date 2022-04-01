@@ -43,8 +43,6 @@ export default function BasicInfoPart({
 }: Props) {
   const { register, formState, setValue, clearErrors } = formHandler;
   const { errors } = formState;
-  // eslint-disable-next-line no-console
-  console.log(watchFields);
   return (
     <>
       <TextField
@@ -61,7 +59,7 @@ export default function BasicInfoPart({
       >
         <TreeSelect
           id="parentId"
-          allowClear
+          allowClear={!!watchFields.parentId}
           placeholder="请选择设备分组"
           extras={{ hideTreeIcon: true }}
           style={{ width: '100%' }}
@@ -72,10 +70,8 @@ export default function BasicInfoPart({
           defaultValue={watchFields.parentId}
           notFoundContent="暂无选项"
           onChange={(value: string, label: ReactNode[]) => {
-            if (value) {
-              setValue('parentId', value);
-              setValue('parentName', label[0] as string);
-            }
+            setValue('parentId', value);
+            setValue('parentName', label[0] as string);
           }}
         />
       </FormControl>
@@ -120,14 +116,7 @@ export default function BasicInfoPart({
             <FormControl id="connectInfo">
               <CheckboxGroup
                 onChange={(value: ConnectInfoType[]) => {
-                  // eslint-disable-next-line no-console
-                  console.log(value);
                   setValue('connectInfo', value);
-                  // if (handleSelectTemplate) {
-                  //   handleSelectTemplate(
-                  //     value.includes(ConnectInfoType.useTemplate)
-                  //   );
-                  // }
                 }}
                 value={watchFields.connectInfo}
               >
@@ -137,7 +126,8 @@ export default function BasicInfoPart({
                     id="useTemplate"
                     value={ConnectInfoType.useTemplate}
                     isDisabled={
-                      watchFields.connectType !== ConnectOption.DIRECT
+                      watchFields.connectType !== ConnectOption.DIRECT ||
+                      mode === ModalMode.EDIT
                     }
                   >
                     <Text color="gray.600" fontSize="14px">
@@ -153,13 +143,11 @@ export default function BasicInfoPart({
                         id="templateId"
                         value={watchFields.templateId}
                         style={{ width: '100%' }}
-                        allowClear
-                        disabled={mode === ModalMode.EDIT}
-                        {...register('templateId', {
-                          required: (watchFields.connectInfo || []).includes(
-                            ConnectInfoType.useTemplate
-                          ),
-                        })}
+                        allowClear={!!watchFields.templateId}
+                        disabled={
+                          mode === ModalMode.EDIT && !watchFields.templateId
+                        }
+                        {...register('templateId')}
                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         onChange={(value: string) => {
                           setValue('templateId', value);

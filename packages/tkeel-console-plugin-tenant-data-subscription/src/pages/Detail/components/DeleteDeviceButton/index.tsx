@@ -42,7 +42,6 @@ function DeleteDeviceButton({
         title="移除设备"
         onClick={() => {
           onOpen();
-          // mutate({});
         }}
       />
       <DeleteDeviceModal

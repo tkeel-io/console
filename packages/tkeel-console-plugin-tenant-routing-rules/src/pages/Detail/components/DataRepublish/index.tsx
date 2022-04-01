@@ -1,5 +1,6 @@
 import { Flex, HStack, StyleProps, Text } from '@chakra-ui/react';
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { Tooltip } from '@tkeel/console-components';
 import {
@@ -7,11 +8,17 @@ import {
   KafkaFilledIcon,
   ObjectStorageFilledIcon,
 } from '@tkeel/console-icons';
+import { plugin } from '@tkeel/console-utils';
+
+import useCreateRuleTargetMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useCreateRuleTargetMutation';
+import useRuleTargetsQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleTargetsQuery';
 
 import ProductTab from '../ProductTab';
 import TitleWrapper from '../TitleWrapper';
 import RepublishInfoCard from './RepublishInfoCard';
-import RepublishToKafkaModal from './RepublishToKafkaModal';
+import RepublishToKafkaModal, {
+  FormValues as KafkaRepublishInfo,
+} from './RepublishToKafkaModal';
 
 type Props = {
   styles?: { wrapper: StyleProps };
@@ -19,12 +26,32 @@ type Props = {
 
 export default function DataRepublish({ styles }: Props) {
   const [selectedProductId, setSelectedProductId] = useState('');
-  const [publishInfoList] = useState<{ address: string; topic: string }[]>([
-    {
-      address: '',
-      topic: 'test',
+
+  const { id: ruleId } = useParams();
+  const toast = plugin.getPortalToast();
+
+  const { targets, refetch } = useRuleTargetsQuery(ruleId || '');
+
+  const { mutate, isLoading } = useCreateRuleTargetMutation({
+    ruleId: ruleId || '',
+    onSuccess() {
+      toast('添加转发成功', { status: 'success' });
+      setSelectedProductId('');
+      refetch();
     },
-  ]);
+  });
+
+  const handleSubmit = ({ address, topic }: KafkaRepublishInfo) => {
+    if (ruleId) {
+      mutate({
+        data: {
+          type: 1,
+          host: address,
+          value: topic,
+        },
+      });
+    }
+  };
 
   const iconColor = 'grayAlternatives.300';
   const products = [
@@ -76,11 +103,12 @@ export default function DataRepublish({ styles }: Props) {
             );
           })}
         </HStack>
-        {publishInfoList.map((info, i) => (
+        {targets.map((target) => (
           <RepublishInfoCard
-            // eslint-disable-next-line react/no-array-index-key
-            key={i}
-            info={info}
+            key={target.id}
+            ruleId={ruleId || ''}
+            target={target}
+            refetchData={() => refetch()}
             styles={{ wrapper: { marginTop: '20px' } }}
           />
         ))}
@@ -88,7 +116,9 @@ export default function DataRepublish({ styles }: Props) {
       {selectedProductId === 'kafka' && (
         <RepublishToKafkaModal
           isOpen
+          isLoading={isLoading}
           onClose={() => setSelectedProductId('')}
+          handleSubmit={handleSubmit}
         />
       )}
     </Flex>

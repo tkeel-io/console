@@ -25,9 +25,9 @@ function DeviceDetail(): JSX.Element {
     id: id as string,
   });
   const properties = deviceObject?.properties;
-  const { sysField, basicInfo } = properties ?? {};
-  const originConnectInfo = properties?.connectInfo;
   const configs = deviceObject?.configs ?? {};
+  const originConnectInfo = properties?.connectInfo;
+  const { sysField, basicInfo } = properties ?? {};
   const { rawData, connectInfo, attributes, telemetry } = useDeviceDetailSocket(
     {
       id: id as string,
@@ -56,7 +56,6 @@ function DeviceDetail(): JSX.Element {
       didUnmount.current = true;
     };
   }, []);
-
   return (
     <Flex h="100%">
       <DeviceDetailLeftPanel refetch={refetch} deviceObject={deviceInfo} />

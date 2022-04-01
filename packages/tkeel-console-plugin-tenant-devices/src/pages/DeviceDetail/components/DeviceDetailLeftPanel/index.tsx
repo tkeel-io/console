@@ -36,7 +36,7 @@ function DeviceDetailLeftPanel({ deviceObject, refetch }: Props): JSX.Element {
   const isDirectConnection = basicInfo?.directConnection;
   const { navigate } = plugin.getPortalProps().client;
   const handleNavigateTemplate = ({ templateId }: { templateId: string }) => {
-    navigate(`tenant-device-templates/detail/${templateId}}`);
+    navigate(`tenant-device-templates/detail/${templateId}`);
   };
   const basic: Basic[] = [
     {
@@ -65,7 +65,7 @@ function DeviceDetailLeftPanel({ deviceObject, refetch }: Props): JSX.Element {
       label: '设备凭证',
     },
     {
-      value: basicInfo?.parentName ?? '',
+      value: basicInfo?.parentName || '默认分组',
       label: '设备组',
     },
     {

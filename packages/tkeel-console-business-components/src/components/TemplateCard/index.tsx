@@ -45,9 +45,9 @@ function TemplateCard({
             style={{ cursor: 'pointer' }}
           >
             {icon}
-            <Box lineHeight="50px" ml="12px">
+            <Text lineHeight="50px" ml="12px" isTruncated width="30vw">
               {title}
-            </Box>
+            </Text>
           </Flex>
 
           <Flex>
@@ -62,7 +62,7 @@ function TemplateCard({
           </Flex>
         </Flex>
 
-        <Text color="grayAlternatives.300" fontSize="12px">
+        <Text color="grayAlternatives.300" fontSize="12px" isTruncated>
           {description}
         </Text>
       </Flex>

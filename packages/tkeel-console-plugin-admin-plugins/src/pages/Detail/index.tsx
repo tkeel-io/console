@@ -29,9 +29,9 @@ function Detail() {
 
   const readme = pluginDetail?.metadata?.readme ?? '';
   const maintainers = pluginDetail?.maintainers ?? [];
-  let uninstall = true;
+  let installed = false;
   if (isSuccess) {
-    uninstall = pluginDetail?.state === 'UNINSTALL';
+    installed = pluginDetail?.state === 'INSTALLED';
   }
 
   return (
@@ -80,7 +80,7 @@ function Detail() {
             />
           </TabPanel>
           <TabPanel padding="0" height="100%">
-            <EnablePluginList pluginName={name || ''} uninstall={uninstall} />
+            <EnablePluginList pluginName={name || ''} installed={installed} />
           </TabPanel>
         </TabPanels>
       </Tabs>

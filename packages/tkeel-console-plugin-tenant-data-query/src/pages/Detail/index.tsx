@@ -115,20 +115,39 @@ export default function Detail() {
     isLoading: isTelemetryDataLoading,
   } = useTelemetryDataMutation();
 
-  const defaultDataMutateProps = {
-    requestStartTime: startTime,
-    requestEndTime: endTime,
+  const getRequestTimeByTimeType = (timeTypeValue: TimeType) => {
+    if (timeTypeValue === TimeType.Custom) {
+      return {
+        requestStartTime: startTime,
+        requestEndTime: endTime,
+      };
+    }
+
+    let requestStartTime = getRecentTimestamp(3, 'day');
+    const requestEndTime = dayjs().unix();
+    if (timeTypeValue === TimeType.FiveMinutes) {
+      requestStartTime = getRecentTimestamp(5);
+    }
+
+    if (timeTypeValue === TimeType.ThirtyMinutes) {
+      requestStartTime = getRecentTimestamp(30);
+    }
+
+    if (timeTypeValue === TimeType.OneHour) {
+      requestStartTime = getRecentTimestamp(1, 'hour');
+    }
+
+    return {
+      requestStartTime,
+      requestEndTime,
+    };
   };
 
-  const handleTelemetryDataMutate = (props?: {
-    requestStartTime: number;
-    requestEndTime: number;
-  }) => {
+  const handleTelemetryDataMutate = () => {
     setIsTelemetryDataRequested(true);
-    const { requestStartTime, requestEndTime } = {
-      ...defaultDataMutateProps,
-      ...props,
-    };
+
+    const { requestStartTime, requestEndTime } =
+      getRequestTimeByTimeType(timeType);
 
     mutate({
       url: `core/v1/ts/${id}`,
@@ -270,10 +289,7 @@ export default function Detail() {
                       setEndTime(requestEndTime);
 
                       if (hasIdentifiers) {
-                        handleTelemetryDataMutate({
-                          requestStartTime,
-                          requestEndTime,
-                        });
+                        handleTelemetryDataMutate();
                       }
                     }}
                     value={timeType}
@@ -313,10 +329,7 @@ export default function Detail() {
                         setStartTime(requestStartTime);
                         setEndTime(requestEndTime);
                         if (hasIdentifiers) {
-                          handleTelemetryDataMutate({
-                            requestStartTime,
-                            requestEndTime,
-                          });
+                          handleTelemetryDataMutate();
                         }
                       }}
                     />

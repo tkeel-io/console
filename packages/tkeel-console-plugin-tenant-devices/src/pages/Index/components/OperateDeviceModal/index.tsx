@@ -102,7 +102,8 @@ export default function OperateDeviceModal({
   const formHandler = useForm<DeviceFormFields>({
     defaultValues: defaultFormInfo,
   });
-  const { handleSubmit, trigger, watch, reset, control } = formHandler;
+  const { handleSubmit, trigger, watch, reset, control, setError } =
+    formHandler;
   const watchFields = watch();
   const fieldArrayHandler = useFieldArray({
     control,
@@ -226,22 +227,26 @@ export default function OperateDeviceModal({
         'name',
         'parentId',
         'connectType',
-        'templateId',
         'description',
       ]);
+
       if (result) {
-        setCurrentStep(currentStep + 1);
+        if (
+          watchFields.connectInfo?.includes(ConnectInfoType.useTemplate) &&
+          !watchFields.templateId
+        ) {
+          setError('templateId', {});
+        } else if (mode === ModalMode.EDIT) {
+          handleConfirm({ formValues });
+        } else {
+          setCurrentStep(currentStep + 1);
+        }
       }
-    } else if (progressLabels[currentStep] === PROGRESS_LABELS.EXTEND_INFO) {
-      // 校验第二步的信息并提交
-      const result = await trigger(['extendInfo']);
-      if (result) {
-        // if (progressLabels.includes(PROGRESS_LABELS.ATTRIBUTE_DATA)) {
-        //   setCurrentStep(currentStep + 1);
-        // } else {
-        handleConfirm({ formValues });
-        // }
-      }
+    } else if (
+      progressLabels[currentStep] === PROGRESS_LABELS.EXTEND_INFO && // 校验第二步的信息并提交
+      (await trigger(['extendInfo']))
+    ) {
+      handleConfirm({ formValues });
     }
   };
 
@@ -283,6 +288,9 @@ export default function OperateDeviceModal({
             infos={progressLabels}
             currentStep={currentStep}
             mode={mode}
+            handleClick={(idx) => {
+              setCurrentStep(idx);
+            }}
           />
         </Box>
         <Flex
@@ -346,19 +354,20 @@ export default function OperateDeviceModal({
               {[
                 PROGRESS_LABELS.EXTEND_INFO,
                 // PROGRESS_LABELS.ATTRIBUTE_DATA,
-              ].includes(progressLabels[currentStep]) && (
-                <Button
-                  colorScheme="primary"
-                  fontSize="14px"
-                  mr="14px"
-                  boxShadow={`0px 4px 12px ${primaryColor}`}
-                  onClick={() => {
-                    setCurrentStep(currentStep - 1);
-                  }}
-                >
-                  上一步
-                </Button>
-              )}
+              ].includes(progressLabels[currentStep]) &&
+                mode !== ModalMode.EDIT && (
+                  <Button
+                    colorScheme="primary"
+                    fontSize="14px"
+                    mr="14px"
+                    boxShadow={`0px 4px 12px ${primaryColor}`}
+                    onClick={() => {
+                      setCurrentStep(currentStep - 1);
+                    }}
+                  >
+                    上一步
+                  </Button>
+                )}
               <Button
                 colorScheme={
                   getButtonText() === BUTTON_TEXT.SKIP ? 'gray' : 'primary'
@@ -369,7 +378,9 @@ export default function OperateDeviceModal({
                 isLoading={isLoading}
                 boxShadow={`0px 4px 12px ${useColor('primarySub')}`}
               >
-                {getButtonText()}
+                {mode === ModalMode.EDIT
+                  ? BUTTON_TEXT.COMPLETE
+                  : getButtonText()}
               </Button>
             </Flex>
           </Form>

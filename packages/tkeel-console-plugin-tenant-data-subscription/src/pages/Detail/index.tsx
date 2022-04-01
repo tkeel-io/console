@@ -8,7 +8,10 @@ import {
   InfoCard,
   MoreAction,
 } from '@tkeel/console-components';
-import { MessageWarningTwoToneIcon } from '@tkeel/console-icons';
+import {
+  MessageWarningTwoToneIcon,
+  OfficialFilledIcon,
+} from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import useSubscribeInfoQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useSubscribeInfoQuery';
@@ -29,7 +32,6 @@ function Detail(): JSX.Element {
     title: data?.title,
     is_default: data?.is_default,
   };
-  // const created_at = data.created_at
 
   return (
     <Flex>
@@ -38,7 +40,17 @@ function Detail(): JSX.Element {
           height="150px"
           background="linear-gradient(180deg, #FFFFFF 0%, #F9FBFD 100%)"
           borderRadius="4px"
+          position="relative"
         >
+          <OfficialFilledIcon
+            style={{
+              width: '197px',
+              height: '108px',
+              position: 'absolute',
+              top: 0,
+              right: 0,
+            }}
+          />
           <Flex
             alignItems="center"
             justifyContent="space-between"
@@ -50,6 +62,7 @@ function Detail(): JSX.Element {
                 navigate('/');
               }}
             />
+
             {isSuccess && (
               <MoreAction
                 buttons={[
@@ -74,27 +87,37 @@ function Detail(): JSX.Element {
             )}
           </Flex>
 
-          <Flex height="70px" align="center" padding="0 20px">
-            <MessageWarningTwoToneIcon
-              style={{ width: '24px', height: '22px' }}
-            />
-            <Box
+          <Flex
+            height="70px"
+            align="center"
+            padding="0 20px"
+            position="relative"
+            zIndex="2"
+          >
+            <MessageWarningTwoToneIcon size="22px" />
+            <Text
               lineHeight="50px"
               ml="12px"
               color="gray.700"
               fontWeight="600"
               fontSize="14px"
+              isTruncated
             >
               {data?.title}
-            </Box>
+            </Text>
           </Flex>
           <Flex background="white" height="40px" alignItems="center">
-            <Box fontSize="12px" color="grayAlternatives.300" padding="0 20px">
-              订阅地址
-              <Text display="inline" color="gray.800" ml="26px">
+            <Flex
+              fontSize="12px"
+              color="grayAlternatives.300"
+              padding="0 20px"
+              flexWrap="nowrap"
+            >
+              <Text whiteSpace="nowrap">订阅地址</Text>
+              <Text display="inline" color="gray.800" ml="26px" isTruncated>
                 {data?.endpoint}
               </Text>
-            </Box>
+            </Flex>
           </Flex>
         </Box>
         <Box

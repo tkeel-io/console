@@ -3,6 +3,13 @@ import BaseUserModal, {
 } from '@/tkeel-console-plugin-tenant-routing-rules/pages/Index/components/BaseRulesModal';
 
 type Props = {
+  cruxData?: {
+    id: string;
+    name: string;
+    desc: string;
+    status: number;
+    type: number;
+  };
   type: 'createButton' | 'createText' | 'editButton';
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
@@ -11,6 +18,7 @@ type Props = {
 };
 
 export default function CreateRulesModal({
+  cruxData,
   type,
   isOpen,
   isConfirmButtonLoading,
@@ -20,6 +28,7 @@ export default function CreateRulesModal({
   return (
     <BaseUserModal
       title={type === 'editButton' ? '编辑规则' : '创建规则'}
+      defaultValues={cruxData}
       isOpen={isOpen}
       isConfirmButtonLoading={isConfirmButtonLoading}
       onClose={onClose}

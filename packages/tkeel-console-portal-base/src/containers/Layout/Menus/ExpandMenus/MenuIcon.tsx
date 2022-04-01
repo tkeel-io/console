@@ -8,10 +8,9 @@ type Props = {
   icon: string;
   active: boolean;
   style?: CSSProperties;
-  isMenuLink?: boolean;
 };
 
-function MenuIcon({ icon, active, style = {}, isMenuLink = false }: Props) {
+function MenuIcon({ icon, active, style = {} }: Props) {
   const iconName = icon || 'AppsAddFilledIcon';
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const Icon = icons[iconName];
@@ -28,10 +27,7 @@ function MenuIcon({ icon, active, style = {}, isMenuLink = false }: Props) {
     defaultTwoToneColor = isTwoTone ? 'whiteAlpha.800' : 'whiteAlpha.500';
   }
 
-  let activeColor = 'white';
-  if (isMenuLink) {
-    activeColor = isTwoTone ? 'whiteAlpha.700' : 'white';
-  }
+  const activeColor = isTwoTone ? 'whiteAlpha.700' : 'white';
 
   const iconProps = isTwoTone
     ? {
