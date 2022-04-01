@@ -36,7 +36,7 @@ export default function ModifyTemplateButton({ onSuccess, data }: Props) {
   return (
     <>
       <MoreActionButton
-        icon={<PencilFilledIcon />}
+        icon={<PencilFilledIcon size="12px" color="grayAlternatives.300" />}
         title="修改信息"
         onClick={() => {
           onOpen();
