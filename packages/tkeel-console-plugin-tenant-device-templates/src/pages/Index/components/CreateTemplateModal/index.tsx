@@ -32,8 +32,6 @@ export default function CreateTemplateModal({
   const { mutate } = useCreateTemplateMutation({
     onSuccess(data) {
       handleCreateSuccess(data.data.templateObject.id);
-      // onSuccess(data.data.templateObject.id);
-      // onClose();
     },
   });
   // eslint-disable-next-line react/no-unstable-nested-components
@@ -99,7 +97,6 @@ export default function CreateTemplateModal({
     >
       <Flex w="100%" justifyContent="space-between">
         <CustomTemplateButton onSuccess={handleCreateSuccess} />
-        {/* <CustomTemplateButton onSuccess={handleCreateSuccess} /> */}
       </Flex>
       <Text fontSize="14px" m="20px 0 12px 0" fontWeight="600">
         使用已有模板

@@ -27,11 +27,11 @@ function StatusLabel({ styles, status }: Props) {
       <Box
         w="6px"
         h="6px"
-        bg={statusInfo[status].color}
+        bg={statusInfo[status]?.color}
         borderRadius="50%"
         mr="4px"
       />
-      <Text fontSize="12px">{statusInfo[status].label}</Text>
+      <Text fontSize="12px">{statusInfo[status]?.label}</Text>
     </Flex>
   );
 }

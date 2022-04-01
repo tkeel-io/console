@@ -26,7 +26,6 @@ function Detail(): JSX.Element {
   const location = useLocation();
   const { pathname }: { pathname: string } = location;
   const ID = pathname.split('/')[pathname.split('/').length - 1];
-  // const { data, isSuccess, refetch } = useTemplateInfoQuery(ID);
   const { data, isSuccess, refetch } = useTemplateInfoQuery(ID);
 
   const defaultValues = {
@@ -154,7 +153,6 @@ function Detail(): JSX.Element {
           <CustomTabList>
             <CustomTab>属性模板</CustomTab>
             <CustomTab>遥测模板</CustomTab>
-            {/* <CustomTab>服务指令</CustomTab> */}
           </CustomTabList>
 
           <TabPanels
@@ -170,9 +168,6 @@ function Detail(): JSX.Element {
             <TabPanel padding="0" height="100%">
               <TelemetryTable id={ID} title={defaultValues.title} />
             </TabPanel>
-            {/* <TabPanel padding="0" height="100%" backgroundColor="white">
-              3
-            </TabPanel> */}
           </TabPanels>
         </Tabs>
       </Box>

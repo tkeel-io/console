@@ -22,7 +22,7 @@ function RadioCard(props: UseRadioProps & { children: ReactNode }) {
         cursor="pointer"
         borderWidth="1px"
         borderRadius="md"
-        boxShadow="md"
+        boxShadow="none"
         padding="0 20px"
         _checked={{
           bg: 'primarySub',

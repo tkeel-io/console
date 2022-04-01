@@ -6,16 +6,14 @@ export interface ApiData {
 
 const method = 'DELETE';
 
-export default function useDeleteUserMutation({
-  tenantId,
-  userId,
+export default function useDeleteRulesMutation({
+  id,
   onSuccess,
 }: {
-  tenantId: string;
-  userId: string;
+  id: string;
   onSuccess: () => void;
 }) {
-  const url = `/security/v1/tenants/${tenantId}/users/${userId}`;
+  const url = `/rule-manager/v1/rules/${id}`;
 
   return useMutation<ApiData, undefined, undefined>({
     url,

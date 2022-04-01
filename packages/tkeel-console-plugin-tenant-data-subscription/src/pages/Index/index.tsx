@@ -12,7 +12,6 @@ import useListSubscribeQuery from '@/tkeel-console-plugin-tenant-data-subscripti
 import DeleteSubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/DeleteSubscriptionButton';
 import ModifySubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/ModifySubscriptionButton';
 
-// import SubscriptionButton from './components/Button/SubscriptionButton';
 import CreateSubscriptionButton from './components/CreateSubscriptionButton';
 
 function SubscriptionCard() {
@@ -41,7 +40,7 @@ function SubscriptionCard() {
       {isLoading ? (
         <Loading styles={{ wrapper: { height: '100%' } }} />
       ) : (
-        <Flex flexWrap="wrap" paddingLeft="20px">
+        <Flex flexWrap="wrap" paddingLeft="20px" mb="60px">
           {data.map((item) => {
             return (
               <TemplateCard
@@ -86,7 +85,6 @@ function SubscriptionCard() {
 
 function Index(): JSX.Element {
   const toast = plugin.getPortalToast();
-  //  const {data} =  useSubscribeInfoQuery(id)
 
   const { data, refetch } = useListSubscribeQuery();
   const defaultInfo = data.find((item) => {

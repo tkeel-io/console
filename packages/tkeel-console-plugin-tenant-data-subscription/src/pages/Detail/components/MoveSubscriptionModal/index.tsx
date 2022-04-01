@@ -1,6 +1,6 @@
 import { Select } from '@chakra-ui/react';
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import { Modal } from '@tkeel/console-components';
 
@@ -21,37 +21,26 @@ export default function ModifySubscriptionModal({
   data,
   onConfirm,
 }: Props) {
-  const [targetId, setTargetId] = useState<number>();
+  const { id } = useParams();
 
-  const location = useLocation();
-  const { pathname }: { pathname: string } = location;
-  const ID = pathname.split('/')[pathname.split('/').length - 1];
-
-  const handleConfirm = async () => {
-    // const result = await trigger();
-    // if (result) {
-    //   onConfirm(formValues);
-    onConfirm(targetId as number);
-    //   reset();
-    // }
-  };
+  const [targetId, setTargetId] = useState(id || '');
 
   return (
     <Modal
       title="移动订阅"
       isOpen={isOpen}
       isConfirmButtonLoading={isConfirmButtonLoading}
-      onClose={() => {
-        // reset();
-
-        onClose();
+      onClose={onClose}
+      onConfirm={() => {
+        if (targetId && !Number.isNaN(Number(targetId))) {
+          onConfirm(Number(targetId));
+        }
       }}
-      onConfirm={handleConfirm}
     >
       <Select
-        defaultValue={ID}
-        onChange={(el) => {
-          setTargetId(Number(el.target.value));
+        defaultValue={id || ''}
+        onChange={(e) => {
+          setTargetId(e.target.value);
         }}
       >
         {data?.map((item) => {
