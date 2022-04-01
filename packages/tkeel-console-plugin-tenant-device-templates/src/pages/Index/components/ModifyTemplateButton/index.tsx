@@ -1,13 +1,12 @@
 import { useDisclosure } from '@chakra-ui/react';
 
+import { CreateTemplateBasicModal } from '@tkeel/console-business-components';
 import { MoreActionButton } from '@tkeel/console-components';
 import { PencilFilledIcon } from '@tkeel/console-icons';
 import { KeyDataType } from '@tkeel/console-request-hooks';
 
 import { RequestData as FormValues } from '@/tkeel-console-plugin-tenant-device-templates/hooks/mutations/useCreateTemplateMutation';
 import useModifyTemplateMutation from '@/tkeel-console-plugin-tenant-device-templates/hooks/mutations/useModifyTemplateMutation';
-
-import CustomTemplateModal from '../CustomTemplateModal';
 
 type Props = {
   onSuccess: () => void;
@@ -26,13 +25,9 @@ export default function ModifyTemplateButton({ onSuccess, data }: Props) {
   });
 
   const handleConfirm = (formValues: FormValues) => {
-    const { name, description } = formValues;
     if (formValues) {
       mutate({
-        data: {
-          name,
-          description,
-        },
+        data: formValues,
       });
     }
     return null;
@@ -48,7 +43,7 @@ export default function ModifyTemplateButton({ onSuccess, data }: Props) {
         }}
       />
       {isOpen && (
-        <CustomTemplateModal
+        <CreateTemplateBasicModal
           title="修改模板"
           defaultValues={{ ...data, name: data.title }}
           isOpen={isOpen}

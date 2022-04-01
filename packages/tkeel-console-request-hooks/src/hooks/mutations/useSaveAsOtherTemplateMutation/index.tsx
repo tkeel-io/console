@@ -1,31 +1,22 @@
 import { useMutation } from '@tkeel/console-hooks';
 
 const method = 'POST';
-
-type ReadWriteType = 'rw' | 'r' | 'w';
 export interface ApiData {
-  details?: unknown;
+  '@type': string;
 }
 export interface RequestData {
-  [propName: string]: {
-    name: string;
-    type: string;
-    id: string;
-    define: {
-      default_value: unknown;
-      rw: ReadWriteType;
-    };
-  };
+  name: string;
+  description: string;
 }
 
-export default function useAddAttributeMutation({
+export default function useSaveAsOtherTemplateMutation({
   id,
   onSuccess,
 }: {
   id: string;
   onSuccess?: () => void;
 }) {
-  const url = `/tkeel-device/v1/templates/${id}/attribute`;
+  const url = `/tkeel-device/v1/devices/${id}/configs/saveAsOtherTemplate`;
   return useMutation<ApiData, undefined, RequestData>({
     url,
     method,

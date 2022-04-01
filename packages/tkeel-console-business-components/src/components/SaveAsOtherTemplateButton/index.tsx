@@ -2,25 +2,31 @@ import { useDisclosure } from '@chakra-ui/react';
 
 import { IconButton, MoreActionButton } from '@tkeel/console-components';
 import { FloppyDiskFilledIcon } from '@tkeel/console-icons';
-import { plugin } from '@tkeel/console-utils';
-
 import useSaveAsOtherTemplateMutation, {
   RequestData as TemplateBasicField,
-} from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useSaveAsOtherTemplateMutation';
-import CreateTemplateModal from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/CreateTemplateModal';
+} from '@tkeel/console-request-hooks/src/hooks/mutations/useSaveAsOtherTemplateMutation';
+import { plugin } from '@tkeel/console-utils';
+
+import CreateTemplateBasicModal from '../CreateTemplateBasicModal';
 
 type Props = {
-  deviceId: string;
+  id: string;
   variant?: string;
+  refetch?: () => void;
 };
 
-export default function SyncTemplateButton({ deviceId, variant }: Props) {
+export default function SaveAsOtherTemplateButton({
+  id,
+  variant,
+  refetch = () => {},
+}: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = plugin.getPortalToast();
   const { mutate, isLoading } = useSaveAsOtherTemplateMutation({
-    id: deviceId,
+    id,
     onSuccess: () => {
       onClose();
+      refetch();
       toast.success('另存为模版成功');
     },
   });
@@ -46,7 +52,7 @@ export default function SyncTemplateButton({ deviceId, variant }: Props) {
           onClick={onOpen}
         />
       )}
-      <CreateTemplateModal
+      <CreateTemplateBasicModal
         isOpen={isOpen}
         title="另存为模版"
         isConfirmButtonLoading={isLoading}

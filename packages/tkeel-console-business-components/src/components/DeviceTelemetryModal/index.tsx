@@ -9,6 +9,7 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
+import { isObject, keyBy, mapValues, merge } from 'lodash';
 import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 
@@ -23,7 +24,7 @@ import {
   PencilFilledIcon,
   TrashFilledIcon,
 } from '@tkeel/console-icons';
-import { BaseRequestData as FormValues } from '@tkeel/console-request-hooks';
+import { TelemetryFormFields } from '@tkeel/console-request-hooks';
 
 import SelectRadioCard from './components/SelectRadioCard';
 
@@ -101,24 +102,13 @@ const selectType = new Set(['元素类型']);
 
 // const boolType = ['布尔值'];
 
-export interface FormFields {
-  username?: {
-    disabled?: boolean;
-  };
-
-  nick_name?: {
-    disabled?: boolean;
-  };
-}
-
 type Props = {
   title: ReactNode;
   isOpen: boolean;
-  // isConfirmButtonLoading: boolean;
-  formFields?: FormFields;
-  defaultValues?: FormValues;
+  isConfirmButtonLoading: boolean;
+  defaultValues?: TelemetryFormFields;
   onClose: () => unknown;
-  onConfirm: (formValues: FormValues) => unknown;
+  onConfirm: (formValues: TelemetryFormFields) => unknown;
 };
 function handleConfigData(
   // eslint-disable-next-line  @typescript-eslint/no-shadow
@@ -133,22 +123,31 @@ function handleConfigData(
   }
   return [];
 }
+// eslint-disable-next-line sonarjs/no-duplicate-string
+// const EXTEND_INFO = 'define.extendInfo';
 
-export default function CreateTelemetryModal({
+export default function DeviceTelemetryModal({
   title,
   isOpen,
-  // isConfirmButtonLoading,
-  formFields,
+  isConfirmButtonLoading,
   defaultValues,
   onClose,
   onConfirm,
 }: Props) {
   const [selectOptions, setSelectOptions] = useState<string[]>([]);
-
   const [selectRadioCardItem, setSelectRadioCardItem] = useState<string>();
-
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const defaultExt = defaultValues?.define?.ext ?? {};
+  const extendInfo = isObject(defaultExt)
+    ? // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      Object.keys(defaultExt).map((k) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
+        return { label: k, value: defaultExt[k] };
+      })
+    : [];
   const {
     register,
+    // unregister,
     formState: { errors },
     trigger,
     getValues,
@@ -156,7 +155,11 @@ export default function CreateTelemetryModal({
     reset,
     control,
     setFocus,
-  } = useForm<FormValues>({ defaultValues });
+  } = useForm<TelemetryFormFields>({
+    defaultValues: merge({}, defaultValues, {
+      define: { extendInfo },
+    }),
+  });
 
   const required = { value: false, message: '请输入' };
   const selectRadioCardObj = {
@@ -194,19 +197,20 @@ export default function CreateTelemetryModal({
     setSelectOptions([]);
     setSelectRadioCardItem('');
   };
+  useEffect(() => {
+    RESET();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const handleConfirm = async () => {
     const result = await trigger();
 
     if (result) {
       const formValues = getValues();
-      onConfirm(formValues);
-      reset();
-      setTimeout(() => {
-        RESET();
-      }, 500);
+      const define = formValues?.define;
+      const ext = mapValues(keyBy(define?.extendInfo ?? [], 'label'), 'value');
+      const formValuesCopy = { ...formValues, define: { ...define, ext } };
+      onConfirm(formValuesCopy);
     }
-
-    // }
   };
 
   const handleDataType = useCallback(
@@ -228,20 +232,9 @@ export default function CreateTelemetryModal({
     },
     [setValue, setSelectOptions]
   );
-
-  // if (defaultValues) {
-  //   // Object.entries(defaultValues.define.ext).map((item) => {
-  //   //   append({
-  //   //     label: item[0],
-  //   //     value: item[1],
-  //   //   });
-  //   // });
-  //   // defaultValues.define.ext = [];
-  // }
-
   const fieldArrayHandler = useFieldArray({
     control,
-    name: 'define.ext',
+    name: 'define.extendInfo',
   });
   const { fields, append, remove } = fieldArrayHandler;
 
@@ -277,7 +270,7 @@ export default function CreateTelemetryModal({
             fontWeight="500"
             pl="2px"
             isReadOnly={labelId !== field.id}
-            {...register(`define.ext.${index}.label` as const, {
+            {...register(`define.extendInfo.${index}.label`, {
               required: { value: false, message: 'required' },
             })}
             focusBorderColor="primary"
@@ -293,7 +286,7 @@ export default function CreateTelemetryModal({
               icon={<PencilFilledIcon color={fontColor} />}
               onClick={() => {
                 setLabelId(field.id);
-                setFocus(`define.ext.${index}.label` as const);
+                setFocus(`define.extendInfo.${index}.label` as const);
               }}
             />
             <IconButton
@@ -319,9 +312,12 @@ export default function CreateTelemetryModal({
               key={field.id}
               label={renderLabel({ field, index })}
               id={field.id}
-              registerReturn={register(`define.ext.${index}.value` as const, {
-                required: { value: false, message: 'required' },
-              })}
+              registerReturn={register(
+                `define.extendInfo.${index}.value` as const,
+                {
+                  required: { value: false, message: 'required' },
+                }
+              )}
             />
           );
         })}
@@ -340,7 +336,7 @@ export default function CreateTelemetryModal({
     <Modal
       title={title}
       isOpen={isOpen}
-      // isConfirmButtonLoading={isConfirmButtonLoading}
+      isConfirmButtonLoading={isConfirmButtonLoading}
       onClose={() => {
         RESET();
         onClose();
@@ -350,17 +346,15 @@ export default function CreateTelemetryModal({
       <TextField
         id="name"
         label="遥测名称"
-        isDisabled={formFields?.username?.disabled}
         error={errors.name}
         registerReturn={register('name', {
           required: { value: true, message: 'required' },
         })}
       />
       <TextField
-        id="title"
+        id="id"
         label="遥测ID"
-        isDisabled={formFields?.username?.disabled}
-        error={errors.name}
+        error={errors.id}
         registerReturn={register('id', {
           required: { value: true, message: 'required' },
         })}
@@ -378,44 +372,38 @@ export default function CreateTelemetryModal({
         onChange={handleDataType}
         style={{ width: '100%', marginBottom: '14px', marginTop: '8px' }}
       />
-      {selectOptions.length > 0 && (
-        <Flex justifyContent="space-between" mb="10px" alignItems="center">
-          <Box>
-            <SelectRadioCard
-              defaultValue={handleSelectRadioCardDefaultValue()}
-              options={selectOptions}
-              onChange={(el) => {
-                setSelectRadioCardItem(el);
-              }}
-            />
-          </Box>
-          <Flex
-            width="86px"
-            alignItems="center"
-            justifyContent="space-between"
-            color="grayAlternatives.300"
-            cursor="pointer"
-            onClick={() => {
-              append({
-                // label: `属性名称${fieldCount || ''}`,
-                label: `请修改扩展属性标题`,
-                value: '',
-              });
-              // setFieldCount(fieldCount + 1);
+      <Flex justifyContent="space-between" mb="10px" alignItems="center">
+        <Box>
+          <SelectRadioCard
+            defaultValue={handleSelectRadioCardDefaultValue()}
+            options={selectOptions}
+            onChange={(el) => {
+              setSelectRadioCardItem(el);
             }}
-          >
-            <AddFilledIcon color="grayAlternatives.300" /> <Box>扩展配置</Box>
-          </Flex>
+          />
+        </Box>
+        <Flex
+          width="86px"
+          alignItems="center"
+          justifyContent="space-between"
+          color="grayAlternatives.300"
+          cursor="pointer"
+          onClick={() => {
+            append({
+              label: `请修改扩展属性标题`,
+              value: '',
+            });
+          }}
+        >
+          <AddFilledIcon color="grayAlternatives.300" /> <Box>扩展配置</Box>
         </Flex>
-      )}
-      {/* select */}
+      </Flex>
       {selectRadioCardItem && (
         <>
           {inputType.has(selectRadioCardItem) && (
             <TextField
               id={selectRadioCardItem}
               label={selectRadioCardItem}
-              isDisabled={formFields?.username?.disabled}
               // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
               error={errors.name}
               // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -453,25 +441,18 @@ export default function CreateTelemetryModal({
               <TextField
                 id="0"
                 label="0"
-                isDisabled={formFields?.username?.disabled}
-                error={errors.name}
                 registerReturn={selectRadioCardObj['0']}
               />
               <TextField
                 id="1"
                 label="1"
-                isDisabled={formFields?.username?.disabled}
-                error={errors.name}
                 registerReturn={selectRadioCardObj['1']}
               />
             </>
           )}
         </>
       )}
-      {/* extend */}
       <Extend />
-
-      {/*  */}
       <Box>
         <Text color="gray.600" fontSize="14px" mb="4px">
           描述

@@ -1,21 +1,23 @@
 import { useDisclosure } from '@chakra-ui/react';
 
-import { DeviceAttributeModal } from '@tkeel/console-business-components';
-import { DeviceAttributeFormFields } from '@tkeel/console-business-components/src/components/DeviceAttributeModal';
 import { CreateButton } from '@tkeel/console-components';
-import { useAddAttributeMutation } from '@tkeel/console-request-hooks/src/hooks/mutations';
+import { useCreateAttributeMutation } from '@tkeel/console-request-hooks/src/hooks/mutations';
 import { plugin } from '@tkeel/console-utils';
 
+import DeviceAttributeModal, {
+  DeviceAttributeFormFields,
+} from '../DeviceAttributeModal';
+
 type Props = {
-  id: string;
+  uid: string;
   refetch?: () => void;
 };
 
-function AddAttributeButton({ id, refetch = () => {} }: Props) {
+function CreateAttributeButton({ uid, refetch = () => {} }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = plugin.getPortalToast();
-  const { mutate: addAttributeMutate, isLoading } = useAddAttributeMutation({
-    id,
+  const { mutate: addAttributeMutate, isLoading } = useCreateAttributeMutation({
+    uid,
     onSuccess: () => {
       toast.success('添加属性成功');
       refetch();
@@ -47,4 +49,4 @@ function AddAttributeButton({ id, refetch = () => {} }: Props) {
   );
 }
 
-export default AddAttributeButton;
+export default CreateAttributeButton;
