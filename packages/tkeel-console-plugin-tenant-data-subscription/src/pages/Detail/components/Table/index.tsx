@@ -65,7 +65,7 @@ function Index({ id, title }: { id: string; title: string }) {
     params = { ...params, key_words: keywords };
   }
 
-  const { data, isLoading, refetch } = useListSubscribeEntitiesQuery({
+  const { entities, isLoading, refetch } = useListSubscribeEntitiesQuery({
     params,
     onSuccess(res) {
       const total = res?.data?.total ?? 0;
@@ -252,6 +252,7 @@ function Index({ id, title }: { id: string; title: string }) {
             }}
           />,
         ]}
+        styles={{ title: { fontSize: '14px' } }}
       />
       <Table
         styles={{
@@ -267,7 +268,7 @@ function Index({ id, title }: { id: string; title: string }) {
         }}
         scroll={{ y: '100%' }}
         columns={columns}
-        data={data?.data || []}
+        data={entities}
         onSelect={handleSelect}
         isShowStripe
         isLoading={isLoading}

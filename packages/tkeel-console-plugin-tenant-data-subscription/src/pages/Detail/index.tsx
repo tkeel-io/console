@@ -178,7 +178,7 @@ function Detail(): JSX.Element {
       <Box flex="1" borderRadius="4px">
         <Tabs display="flex" flexDirection="column" flex="1">
           <CustomTabList>
-            <CustomTab>订阅设备</CustomTab>
+            <CustomTab borderTopLeftRadius="4px">订阅设备</CustomTab>
           </CustomTabList>
           <TabPanels borderBottomLeftRadius="4px" borderBottomRightRadius="4px">
             <TabPanel height="100%" padding="0" backgroundColor="white">
