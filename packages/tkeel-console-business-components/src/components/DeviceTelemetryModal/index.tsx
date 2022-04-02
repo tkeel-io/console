@@ -192,23 +192,27 @@ export default function DeviceTelemetryModal({
     }),
   };
 
-  const RESET = () => {
+  const resetAll = () => {
     reset();
     setSelectOptions([]);
     setSelectRadioCardItem('');
   };
   useEffect(() => {
-    RESET();
+    if (isOpen) {
+      resetAll();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isOpen]);
   const handleConfirm = async () => {
     const result = await trigger();
 
     if (result) {
       const formValues = getValues();
       const define = formValues?.define;
+      const defineCopy = { ...define };
+      delete defineCopy.extendInfo;
       const ext = mapValues(keyBy(define?.extendInfo ?? [], 'label'), 'value');
-      const formValuesCopy = { ...formValues, define: { ...define, ext } };
+      const formValuesCopy = { ...formValues, define: { ...defineCopy, ext } };
       onConfirm(formValuesCopy);
     }
   };
@@ -338,7 +342,7 @@ export default function DeviceTelemetryModal({
       isOpen={isOpen}
       isConfirmButtonLoading={isConfirmButtonLoading}
       onClose={() => {
-        RESET();
+        resetAll();
         onClose();
       }}
       onConfirm={handleConfirm}

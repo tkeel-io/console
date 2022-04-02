@@ -140,7 +140,6 @@ function DeviceDetailLeftPanel({ deviceObject, refetch }: Props): JSX.Element {
           wrapper: {
             bg: 'white',
             w: '100%',
-            minHeight: '108px',
           },
         }}
       />

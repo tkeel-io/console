@@ -37,7 +37,13 @@ function InfoCard({ title, data, styles }: Props) {
       >
         {title}
       </Text>
-      <Box marginTop="4px" {...styles?.content}>
+      <Box
+        marginTop="4px"
+        minH="108px"
+        maxH="300px"
+        overflowY="scroll"
+        {...styles?.content}
+      >
         {data.map((info) => (
           <Flex key={info.label} marginTop="8px" lineHeight="24px">
             <Text

@@ -10,8 +10,8 @@ import { BackButton, Clipboard, MoreAction } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 import {
   MessageWarningTwoToneIcon,
-  MgmtNodeTwoToneIcon,
   OfficialFilledIcon,
+  SmartObjectTwoToneIcon,
 } from '@tkeel/console-icons';
 
 import AddSubscribeButton from '@/tkeel-console-plugin-tenant-devices/components/AddSubscribeButton';
@@ -116,7 +116,7 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
         </CardContentFlex>
         <CardContentFlex>
           <Box display="flex">
-            <MgmtNodeTwoToneIcon size="24px" style={{ marginLeft: '7px' }} />
+            <SmartObjectTwoToneIcon size="24px" style={{ marginLeft: '7px' }} />
             <Box as="span" fontSize="14px" fontWeight="600" ml="8px">
               {deviceName}
             </Box>

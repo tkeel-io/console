@@ -1,4 +1,9 @@
-export type ReadWriteType = 'r' | 'w' | 'rw';
+import {
+  AttributeItem,
+  AttributeValue,
+  TelemetryItem,
+  TelemetryValue,
+} from '@tkeel/console-types';
 
 export interface BasicInfo {
   configs?: object;
@@ -29,39 +34,6 @@ export interface RawData {
   values: string;
 }
 
-export interface AttributeItem {
-  define: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    default_value: string | number | any[] | boolean | object;
-    rw: ReadWriteType;
-  };
-  description: string;
-  id: string;
-  name: string;
-  type: string;
-}
-export interface Attributes {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [propName: string]: any;
-}
-
-export interface TelemetryItem {
-  define: {
-    default_value: unknown;
-    rw: ReadWriteType;
-  };
-  description: string;
-  id: string;
-  name: string;
-  type: string;
-  last_time: number;
-}
-
-export interface Telemetry {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [propName: string]: any;
-}
-
 export interface ConnectInfo {
   _clientId: string;
   _online: boolean;
@@ -86,19 +58,6 @@ export interface SysField {
   _subscribeAddr: string;
 }
 
-// export interface Attributes {
-//   [propName: string]: {
-//     define: {
-//       default_value: string;
-//       rw: ReadWriteType;
-//     };
-//     description: string;
-//     id: string;
-//     name: string;
-//     type: string;
-//   };
-// }
-
 export interface DeviceObject {
   id: string;
   configs: {
@@ -109,8 +68,10 @@ export interface DeviceObject {
     basicInfo: BasicInfo;
     sysField: SysField;
     rawData: RawData;
-    telemetry: Telemetry;
-    attributes: Attributes;
+    telemetry: TelemetryValue;
+    attributes: AttributeValue;
     connectInfo: ConnectInfo;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [propName: string]: any;
   };
 }
