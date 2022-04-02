@@ -5,7 +5,8 @@ import { Cell, Column } from 'react-table';
 import {
   CreateTelemetryButton,
   DeleteTelemetryButton,
-  EditTelemetryButton,
+  TelemetryDetailButton,
+  UpdateTelemetryButton,
 } from '@tkeel/console-business-components';
 import {
   Empty,
@@ -13,67 +14,20 @@ import {
   PageHeaderToolbar,
   Table,
 } from '@tkeel/console-components';
-import { usePagination } from '@tkeel/console-hooks';
 import { DuotoneTwoToneIcon } from '@tkeel/console-icons';
-import { useModifyTelemetryMutation } from '@tkeel/console-request-hooks';
-import { formatDateTimeByTimestamp, plugin } from '@tkeel/console-utils';
+import { TelemetryItem } from '@tkeel/console-types';
+import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
-import useListTemplateTelemetryQuery, {
-  UsefulData as Data,
-} from '@/tkeel-console-plugin-tenant-device-templates/hooks/queries/useListTemplateTelemetryQuery';
-
-import DetailTelemetryButton from '../DetailTelemetryButton';
+import useListTemplateTelemetryQuery from '@/tkeel-console-plugin-tenant-device-templates/hooks/queries/useListTemplateTelemetryQuery';
 
 function Index({ id, title }: { id: string; title: string }) {
-  const toast = plugin.getPortalToast();
-
   const [keywords, setKeyWords] = useState('');
-
-  const pagination = usePagination();
-  const { pageNum, pageSize, setTotalSize } = pagination;
-
-  let params = {
-    page_num: pageNum,
-    page_size: pageSize,
-    order_by: 'created_at',
-    is_descending: true,
-    key_words: '',
-    id: '',
-  };
-  params = { ...params, id };
-
-  if (keywords) {
-    params = { ...params, key_words: keywords };
-    // eslint-disable-next-line no-console
-    console.log('Index ~ params', params);
-  }
-  const {
-    usefulData: data,
-    isLoading,
-    refetch,
-  } = useListTemplateTelemetryQuery({
+  const { telemetryList, isLoading, refetch } = useListTemplateTelemetryQuery({
     id,
-    onSuccess(res) {
-      if (JSON.stringify(res.data?.templateTeleObject?.configs) !== '{}') {
-        const total = Object.keys(
-          res.data.templateTeleObject.configs.telemetry.define.fields
-        ).length;
-        setTotalSize(total);
-        return;
-      }
-      setTotalSize(0);
-    },
+    onSuccess() {},
   });
 
-  const { mutate } = useModifyTelemetryMutation({
-    id,
-    onSuccess() {
-      toast('更新成功', { status: 'success' });
-      refetch();
-    },
-  });
-
-  const columns: ReadonlyArray<Column<Data>> = [
+  const columns: ReadonlyArray<Column<TelemetryItem>> = [
     {
       Header: '遥测名称',
       accessor: 'name',
@@ -81,7 +35,7 @@ function Index({ id, title }: { id: string; title: string }) {
         useMemo(
           () => (
             <Flex alignItems="center" justifyContent="space-between">
-              <DuotoneTwoToneIcon size="20" />
+              <DuotoneTwoToneIcon />
               <Text color="gray.800" fontWeight="600" marginLeft="14px">
                 {value}
               </Text>
@@ -125,47 +79,24 @@ function Index({ id, title }: { id: string; title: string }) {
     {
       Header: '操作',
       width: 80,
-      Cell: ({ row }: Cell<Data>) =>
+      Cell: ({ row }: Cell<TelemetryItem>) =>
         useMemo(() => {
           const { original } = row;
-          if (original && original.define && original.define.ext) {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const arr: { label: any; value: any }[] = [];
-            // eslint-disable-next-line  @typescript-eslint/no-unsafe-argument
-            Object.entries(original.define.ext).forEach((item) => {
-              arr.push({
-                label: item[0],
-                value: item[1],
-              });
-            });
-            // eslint-disable-next-line no-param-reassign
-            original.define.ext = arr;
-          }
-
           return (
             <MoreAction
               buttons={[
-                <DetailTelemetryButton
-                  key="detail"
-                  id={original.id}
+                <TelemetryDetailButton key="detail" defaultValues={original} />,
+                <UpdateTelemetryButton
                   uid={id}
-                />,
-                <EditTelemetryButton
                   key="modify"
                   defaultValues={original}
-                  handleSubmit={(formValues) => {
-                    mutate({
-                      data: formValues,
-                    });
-                  }}
+                  refetch={refetch}
                 />,
                 <DeleteTelemetryButton
                   key="delete"
-                  attributeInfo={{ name: original.name, id: original.id }}
+                  defaultValues={original}
                   uid={id}
-                  refetchData={() => {
-                    refetch();
-                  }}
+                  refetch={refetch}
                 />,
               ]}
             />
@@ -175,7 +106,7 @@ function Index({ id, title }: { id: string; title: string }) {
   ];
 
   return (
-    <Flex flexDirection="column" height="100%" margin="0 20px">
+    <Flex flexDirection="column" height="100%">
       <PageHeaderToolbar
         name="遥测模板"
         hasSearchInput
@@ -184,39 +115,29 @@ function Index({ id, title }: { id: string; title: string }) {
             setKeyWords(value.trim());
           },
         }}
+        styles={{
+          title: { fontSize: '14px' },
+          wrapper: { height: '48px', margin: '4px 0' },
+        }}
         // eslint-disable-next-line react/no-unstable-nested-components
         buttons={useMemo(() => {
           return [
-            <CreateTelemetryButton
-              key="create"
-              id={id}
-              refetchData={() => {
-                refetch();
-              }}
-            />,
+            <CreateTelemetryButton key="create" uid={id} refetch={refetch} />,
           ];
         }, [id, refetch])}
       />
       <Table
         styles={{
-          wrapper: {
-            minH: '80vh',
-            flex: 1,
-            overflow: 'hidden',
-            backgroundColor: 'whiteAlias',
-          },
-          body: {
-            flex: 1,
-          },
+          wrapper: { flex: 1, overflow: 'hidden' },
+          bodyTr: { fontSize: '12px' },
         }}
         scroll={{ y: '100%' }}
         columns={columns}
-        data={data.filter((item) => {
+        data={(telemetryList || []).filter((item) => {
           return item.name.includes(keywords);
         })}
         isShowStripe
         isLoading={isLoading}
-        paginationProps={pagination}
         hasPagination={false}
         empty={
           <Empty

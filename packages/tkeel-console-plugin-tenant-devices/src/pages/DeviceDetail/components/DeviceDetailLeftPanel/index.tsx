@@ -34,7 +34,9 @@ function DeviceDetailLeftPanel({ deviceObject, refetch }: Props): JSX.Element {
   const isDirectConnection = basicInfo?.directConnection;
   const { navigate } = plugin.getPortalProps().client;
   const handleNavigateTemplate = ({ templateId }: { templateId: string }) => {
-    navigate(`tenant-device-templates/detail/${templateId}`);
+    navigate(
+      `tenant-device-templates/detail/${templateId}?menu-collapsed=true`
+    );
   };
   const basic: Basic[] = [
     {
@@ -138,7 +140,6 @@ function DeviceDetailLeftPanel({ deviceObject, refetch }: Props): JSX.Element {
           wrapper: {
             bg: 'white',
             w: '100%',
-            minHeight: '108px',
           },
         }}
       />

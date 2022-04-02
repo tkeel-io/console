@@ -2,6 +2,11 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
 import { Cell, Column } from 'react-table';
 
+import {
+  CreateAttributeButton,
+  DeleteAttributeButton,
+  UpdateAttributeButton,
+} from '@tkeel/console-business-components';
 import { RW_LABELS } from '@tkeel/console-business-components/src/components/DeviceAttributeModal';
 import {
   Empty,
@@ -9,18 +14,11 @@ import {
   PageHeaderToolbar,
   Table,
 } from '@tkeel/console-components';
-import { usePagination } from '@tkeel/console-hooks';
 import { DuotoneTwoToneIcon } from '@tkeel/console-icons';
+import { AttributeItem } from '@tkeel/console-types';
 
 // import { formatDateTimeByTimestamp, plugin } from '@tkeel/console-utils';
-import useListTemplateAttributeQuery, {
-  UsefulData as Data,
-} from '@/tkeel-console-plugin-tenant-device-templates/hooks/queries/useListTemplateAttributeQuery';
-
-import AddAttributeButton from '../AddAttributeButton';
-import DeleteAttributeButton from '../DeleteAttributeButton';
-import EditAttributeButton from '../EditAttributeButton';
-
+import useListTemplateAttributeQuery from '@/tkeel-console-plugin-tenant-device-templates/hooks/queries/useListTemplateAttributeQuery';
 // import { DeviceAttributeFormFields  } from '@tkeel/console-business-components/src/components/DeviceAttributeModal';
 
 // import { plugin } from '@tkeel/console-utils';
@@ -29,44 +27,12 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
   // const toast = plugin.getPortalToast();
 
   const [keywords, setKeyWords] = useState('');
-
-  const pagination = usePagination();
-  const { pageNum, pageSize, setTotalSize } = pagination;
-
-  let params = {
-    page_num: pageNum,
-    page_size: pageSize,
-    order_by: 'created_at',
-    is_descending: true,
-    key_words: '',
-    id: '',
-  };
-  params = { ...params, id };
-
-  if (keywords) {
-    params = { ...params, key_words: keywords };
-    // eslint-disable-next-line no-console
-    console.log('Index ~ params', params);
-  }
-
-  const {
-    usefulData: data,
-    isLoading,
-    refetch,
-  } = useListTemplateAttributeQuery({
+  const { attributeList, isLoading, refetch } = useListTemplateAttributeQuery({
     id,
-    onSuccess(res) {
-      if (JSON.stringify(res.data?.templateAttrObject?.configs) !== '{}') {
-        const total = Object.keys(
-          res.data.templateAttrObject.configs.attributes.define.fields
-        ).length;
-        setTotalSize(total);
-      }
-      setTotalSize(0);
-    },
+    onSuccess() {},
   });
 
-  const columns: ReadonlyArray<Column<Data>> = [
+  const columns: ReadonlyArray<Column<AttributeItem>> = [
     {
       Header: '属性名称',
       accessor: 'name',
@@ -96,7 +62,7 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
     {
       Header: '默认值',
       width: 110,
-      Cell: ({ row }: Cell<Data>) =>
+      Cell: ({ row }: Cell<AttributeItem>) =>
         useMemo(() => {
           const { original } = row;
           return <Box>{original?.define?.default_value}</Box>;
@@ -105,7 +71,7 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
     {
       Header: '读写类型',
       width: 110,
-      Cell: ({ row }: Cell<Data>) =>
+      Cell: ({ row }: Cell<AttributeItem>) =>
         useMemo(() => {
           const { original } = row;
           const map = new Map(Object.entries(RW_LABELS));
@@ -116,23 +82,23 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
     {
       Header: '操作',
       width: 80,
-      Cell: ({ row }: Cell<Data>) =>
+      Cell: ({ row }: Cell<AttributeItem>) =>
         useMemo(() => {
           const { original } = row;
 
           return (
             <MoreAction
               buttons={[
-                <EditAttributeButton
+                <UpdateAttributeButton
                   key="edit"
-                  id={id}
+                  uid={id}
                   defaultValues={original}
                   refetch={refetch}
                 />,
                 <DeleteAttributeButton
                   key="delete"
                   defaultValues={original}
-                  id={id}
+                  uid={id}
                   refetch={refetch}
                 />,
               ]}
@@ -143,7 +109,7 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
   ];
 
   return (
-    <Flex flexDirection="column" height="100%" margin="0 20px">
+    <Flex flexDirection="column" height="100%">
       <PageHeaderToolbar
         name="属性模板"
         hasSearchInput
@@ -152,28 +118,28 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
             setKeyWords(value.trim());
           },
         }}
-        buttons={[<AddAttributeButton id={id} refetch={refetch} key="add" />]}
+        styles={{
+          title: { fontSize: '14px' },
+          wrapper: { height: '48px', margin: '4px 0' },
+        }}
+        buttons={[
+          <CreateAttributeButton uid={id} refetch={refetch} key="add" />,
+        ]}
       />
       <Table
         styles={{
           wrapper: {
-            minH: '80vh',
-            flex: 1,
-            overflow: 'hidden',
-            backgroundColor: 'whiteAlias',
-          },
-          body: {
             flex: 1,
           },
         }}
         scroll={{ y: '100%' }}
         columns={columns}
-        data={data.filter((item) => {
+        data={attributeList.filter((item) => {
           return item.name.includes(keywords);
         })}
         isShowStripe
         isLoading={isLoading}
-        paginationProps={pagination}
+        // paginationProps={pagination}
         hasPagination={false}
         empty={
           <Empty

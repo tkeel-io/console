@@ -1,6 +1,7 @@
 import { Box, Flex, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { SaveAsOtherTemplateButton } from '@tkeel/console-business-components';
 import {
   BackButton,
   CustomTab,
@@ -16,7 +17,6 @@ import TelemetryTable from '@/tkeel-console-plugin-tenant-device-templates/pages
 
 import DeleteTemplateButton from '../Index/components/DeleteTemplateButton';
 import ModifyTemplateButton from '../Index/components/ModifyTemplateButton';
-import SaveAsTemplateButton from '../Index/components/SaveAsTemplateButton';
 import AttributeTable from './components/AttributeTable';
 
 function Detail(): JSX.Element {
@@ -37,7 +37,7 @@ function Detail(): JSX.Element {
   };
 
   return (
-    <Flex>
+    <Flex h="100%">
       <Box width="360px" mr="20px">
         <Box
           height="108px"
@@ -69,12 +69,10 @@ function Detail(): JSX.Element {
               <MoreAction
                 styles={{ actionList: { width: '140px' } }}
                 buttons={[
-                  <SaveAsTemplateButton
-                    data={defaultValues}
+                  <SaveAsOtherTemplateButton
+                    // data={defaultValues}
+                    id={defaultValues.id}
                     key="modify"
-                    onSuccess={() => {
-                      toast('另存为模板成功', { status: 'success' });
-                    }}
                   />,
                   <ModifyTemplateButton
                     data={defaultValues}
@@ -151,7 +149,7 @@ function Detail(): JSX.Element {
         borderRadius="4px"
         background="linear-gradient(180deg, #FFFFFF 0%, #F9FBFD 100%)"
       >
-        <Tabs display="flex" flexDirection="column" flex="1">
+        <Tabs display="flex" flexDirection="column" h="100%">
           <CustomTabList>
             <CustomTab>属性模板</CustomTab>
             <CustomTab>遥测模板</CustomTab>
@@ -162,6 +160,7 @@ function Detail(): JSX.Element {
             overflow="hidden"
             borderBottomLeftRadius="4px"
             borderBottomRightRadius="4px"
+            p="0 20px 20px"
           >
             <TabPanel padding="0" height="100%">
               <AttributeTable id={ID} title={defaultValues.title} />
