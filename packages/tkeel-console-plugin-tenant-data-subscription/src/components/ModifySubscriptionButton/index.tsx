@@ -6,17 +6,20 @@ import { PencilFilledIcon } from '@tkeel/console-icons';
 import useModifySubscriptionMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useModifySubscriptionMutation';
 import { Data } from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useListSubscribeQuery';
 import { FormValues } from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/BaseSubscriptionModal';
-import ModifySubscriptionModal from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/ModifySubscriptionModal';
+
+import ModifySubscriptionModal from '../ModifySubscriptionModal';
 
 type Props = {
-  onSuccess: () => void;
+  onSuccess: () => unknown;
   data?: Data;
 };
 
 export default function ModifySubscriptionButton({ onSuccess, data }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const id = data?.id ?? '';
+
   const { mutate, isLoading } = useModifySubscriptionMutation({
-    id: data?.id || '0',
+    id,
     onSuccess() {
       onSuccess();
       onClose();
@@ -24,12 +27,12 @@ export default function ModifySubscriptionButton({ onSuccess, data }: Props) {
   });
 
   const handleConfirm = (formValues: FormValues) => {
-    if (formValues) {
+    const numberId = Number(id);
+    if (formValues && !Number.isNaN(numberId)) {
       mutate({
-        data: { ...formValues, id: Number(data?.id) || 0 },
+        data: { ...formValues, id: numberId },
       });
     }
-    return null;
   };
 
   return (

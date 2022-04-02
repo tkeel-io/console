@@ -8,9 +8,9 @@ import {
 } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
+import DeleteSubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/components/DeleteSubscriptionButton';
+import ModifySubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/components/ModifySubscriptionButton';
 import useListSubscribeQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useListSubscribeQuery';
-import DeleteSubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/DeleteSubscriptionButton';
-import ModifySubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/ModifySubscriptionButton';
 
 import CreateSubscriptionButton from './components/CreateSubscriptionButton';
 
