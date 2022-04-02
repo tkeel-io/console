@@ -1,4 +1,4 @@
-import { Box, Flex } from '@chakra-ui/react';
+import { Box, Flex, SimpleGrid } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -78,53 +78,53 @@ function Index() {
         bg="gray.50"
         boxShadow="0px 8px 8px rgba(152, 163, 180, 0.1)"
         borderRadius="4px"
-        mt="20px"
-        padding="20px 0"
-        overflowY="auto"
+        py="20px"
         height="100%"
         flexDir="column"
       >
-        <Flex flexWrap="wrap" paddingLeft="20px" flex="1">
-          {keyData.map((item: KeyDataType) => {
-            return (
-              <TemplateCard
-                key={item.id}
-                icon={
-                  <BoxTwoToneIcon style={{ width: '24px', height: '22px' }} />
-                }
-                title={item.title}
-                description={item.description || '暂无描述'}
-                navigateUrl={`/detail/${item.id}?menu-collapsed=true`}
-                buttons={[
-                  <SaveAsOtherTemplateButton
-                    id={item.id}
-                    key="modify"
-                    refetch={refetch}
-                  />,
-                  <ModifyTemplateButton
-                    data={item}
-                    key="modify"
-                    onSuccess={() => {
-                      refetch();
-                    }}
-                  />,
-                  <DeleteTemplateButton
-                    key="delete"
-                    id={item.id}
-                    name={item.title}
-                    refetchData={() => {
-                      refetch();
-                    }}
-                  />,
-                ]}
-                footer={[
-                  // { name: '使用设备', value: item.id },
-                  { name: '最新时间', value: item.updatedAt },
-                ]}
-              />
-            );
-          })}
-        </Flex>
+        <Box flex="1" overflowY="scroll" px="20px">
+          <SimpleGrid spacingX="20px" spacingY="12px" columns={2}>
+            {keyData.map((item: KeyDataType) => {
+              return (
+                <TemplateCard
+                  key={item.id}
+                  icon={
+                    <BoxTwoToneIcon style={{ width: '24px', height: '22px' }} />
+                  }
+                  title={item.title}
+                  description={item.description || '暂无描述'}
+                  navigateUrl={`/detail/${item.id}?menu-collapsed=true`}
+                  buttons={[
+                    <SaveAsOtherTemplateButton
+                      id={item.id}
+                      key="modify"
+                      refetch={refetch}
+                    />,
+                    <ModifyTemplateButton
+                      data={item}
+                      key="modify"
+                      onSuccess={() => {
+                        refetch();
+                      }}
+                    />,
+                    <DeleteTemplateButton
+                      key="delete"
+                      id={item.id}
+                      name={item.title}
+                      refetchData={() => {
+                        refetch();
+                      }}
+                    />,
+                  ]}
+                  footer={[
+                    // { name: '使用设备', value: item.id },
+                    { name: '最新时间', value: item.updatedAt },
+                  ]}
+                />
+              );
+            })}
+          </SimpleGrid>
+        </Box>
 
         <Pagination
           pageNum={pageNum}
@@ -158,7 +158,7 @@ function Index() {
         ]}
       />
 
-      <Box flex="1">
+      <Box flex="1" overflowY="hidden">
         {keyData.length > 0 ? (
           <Card />
         ) : (

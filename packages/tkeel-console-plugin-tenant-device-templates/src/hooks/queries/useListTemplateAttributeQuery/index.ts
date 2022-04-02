@@ -1,6 +1,7 @@
 import { values } from 'lodash';
 
 import { useQuery } from '@tkeel/console-hooks';
+import { AttributeItem } from '@tkeel/console-types';
 import { RequestResult } from '@tkeel/console-utils';
 
 const method = 'GET';
@@ -14,20 +15,6 @@ type RequestParams = {
   id?: string;
 };
 
-export type ReadWriteType = 'rw' | 'r' | 'w';
-
-export interface AttributeItem {
-  name: string;
-  id: string;
-  type: string;
-  description?: string;
-  last_time?: number;
-  define: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    default_value: any;
-    rw: ReadWriteType;
-  };
-}
 export interface Attribute {
   [propName: string]: AttributeItem;
 }

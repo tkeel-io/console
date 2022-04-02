@@ -15,12 +15,10 @@ import {
   Table,
 } from '@tkeel/console-components';
 import { DuotoneTwoToneIcon } from '@tkeel/console-icons';
+import { AttributeItem } from '@tkeel/console-types';
 
 // import { formatDateTimeByTimestamp, plugin } from '@tkeel/console-utils';
-import useListTemplateAttributeQuery, {
-  AttributeItem,
-} from '@/tkeel-console-plugin-tenant-device-templates/hooks/queries/useListTemplateAttributeQuery';
-
+import useListTemplateAttributeQuery from '@/tkeel-console-plugin-tenant-device-templates/hooks/queries/useListTemplateAttributeQuery';
 // import { DeviceAttributeFormFields  } from '@tkeel/console-business-components/src/components/DeviceAttributeModal';
 
 // import { plugin } from '@tkeel/console-utils';

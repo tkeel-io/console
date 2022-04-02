@@ -1,6 +1,6 @@
 import { Box, Flex } from '@chakra-ui/react';
 import { isEmpty } from 'lodash';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   CreateTelemetryButton,
@@ -13,12 +13,9 @@ import {
   PageHeaderToolbar,
 } from '@tkeel/console-components';
 import { SmcFilledIcon } from '@tkeel/console-icons';
+import { TelemetryItem, TelemetryValue } from '@tkeel/console-types';
 
-import {
-  BasicInfo,
-  Telemetry,
-  TelemetryItem,
-} from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
+import { BasicInfo } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 import SaveAsSelfTemplateButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/SaveAsSelfTemplateButton';
 
 import TelemetryDataTable from './TelemetryDataTable';
@@ -28,7 +25,9 @@ type Props = {
   basicInfo: BasicInfo;
   refetch?: () => void;
   telemetryFields: TelemetryItem[];
-  telemetryValues: Telemetry;
+  telemetryValues: TelemetryValue;
+  telemetryDefaultValues: TelemetryValue;
+  wsReadyState: number;
 };
 const FILTER_COLUMNS = ['name', 'id', 'type'];
 function getFilterList({
@@ -53,6 +52,8 @@ export default function TelemetryData({
   refetch: refetchDeviceDetail = () => {},
   telemetryFields,
   telemetryValues,
+  telemetryDefaultValues,
+  wsReadyState,
 }: Props) {
   const [keywords, setKeywords] = useState('');
   const deviceName = basicInfo?.name ?? '';
@@ -60,6 +61,15 @@ export default function TelemetryData({
   const handleSearch = (value: string) => {
     setKeywords(value.trim());
   };
+  const [renderTelemetryValue, setRenderTelemetryValue] = useState(
+    telemetryDefaultValues
+  );
+
+  useEffect(() => {
+    if (wsReadyState === 1 && !isEmpty(telemetryValues)) {
+      setRenderTelemetryValue(telemetryValues);
+    }
+  }, [wsReadyState, telemetryValues]);
   return (
     <Box h="100%">
       {isEmpty(telemetryFields) ? (
@@ -131,7 +141,7 @@ export default function TelemetryData({
           />
           <TelemetryDataTable
             telemetryFields={getFilterList({ list: telemetryFields, keywords })}
-            telemetryValues={telemetryValues}
+            telemetryValues={renderTelemetryValue}
             deviceId={deviceId}
             refetch={refetchDeviceDetail}
           />

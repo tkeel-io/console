@@ -198,17 +198,21 @@ export default function DeviceTelemetryModal({
     setSelectRadioCardItem('');
   };
   useEffect(() => {
-    RESET();
+    if (isOpen) {
+      RESET();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isOpen]);
   const handleConfirm = async () => {
     const result = await trigger();
 
     if (result) {
       const formValues = getValues();
       const define = formValues?.define;
+      const defineCopy = { ...define };
+      delete defineCopy.extendInfo;
       const ext = mapValues(keyBy(define?.extendInfo ?? [], 'label'), 'value');
-      const formValuesCopy = { ...formValues, define: { ...define, ext } };
+      const formValuesCopy = { ...formValues, define: { ...defineCopy, ext } };
       onConfirm(formValuesCopy);
     }
   };

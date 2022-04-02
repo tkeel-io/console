@@ -27,7 +27,7 @@ function DeleteTemplateButton({ id, refetchData, name }: Props) {
             : '成功'
         }`,
         {
-          status: faildDelTemplate.length > 0 ? 'warning' : 'success',
+          status: faildDelTemplate.length > 0 ? 'error' : 'success',
         }
       );
       onClose();

@@ -39,7 +39,7 @@ function DeleteTelemetryButton({
   return (
     <>
       <MoreActionButton
-        icon={<TrashFilledIcon color="grayAlternatives.300" />}
+        icon={<TrashFilledIcon color="grayAlternatives.300" size="12px" />}
         title="删除遥测"
         onClick={onOpen}
       />

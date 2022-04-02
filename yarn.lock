@@ -3900,6 +3900,7 @@ __metadata:
   dependencies:
     "@tkeel/console-constants": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
+    "@tkeel/console-types": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
     lodash: ^4.17.21
     react: ^17.0.2

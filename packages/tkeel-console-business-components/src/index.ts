@@ -14,6 +14,7 @@ export { default as PluginCard } from './components/PluginCard';
 export { default as PluginNum } from './components/PluginNum';
 export { default as SaveAsOtherTemplateButton } from './components/SaveAsOtherTemplateButton';
 export { default as SetPasswordModal } from './components/SetPasswordModal';
+export { default as TelemetryDetailButton } from './components/TelemetryDetailButton';
 export { default as TelemetryDrawer } from './components/TelemetryDrawer';
 export { default as TemplateCard } from './components/TemplateCard';
 export { default as UpdateAttributeButton } from './components/UpdateAttributeButton';

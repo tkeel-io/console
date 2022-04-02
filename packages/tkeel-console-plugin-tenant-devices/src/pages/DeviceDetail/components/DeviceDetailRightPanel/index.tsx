@@ -13,9 +13,14 @@ import TelemetryData from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDet
 type Props = {
   deviceObject: DeviceObject;
   refetch?: () => void;
+  wsReadyState: number;
 };
 
-function DeviceDetailRightPanel({ deviceObject, refetch }: Props): JSX.Element {
+function DeviceDetailRightPanel({
+  deviceObject,
+  refetch,
+  wsReadyState,
+}: Props): JSX.Element {
   const { properties, configs, id } = deviceObject;
   const attributeFields = configs?.attributes?.define?.fields ?? {};
   const telemetryFields = configs?.telemetry?.define?.fields ?? {};
@@ -25,6 +30,8 @@ function DeviceDetailRightPanel({ deviceObject, refetch }: Props): JSX.Element {
     basicInfo,
     attributes: attributeValues,
     telemetry: telemetryValues,
+    telemetryDefaultValues,
+    attributeDefaultValues,
   } = properties;
   const tabs = [
     {
@@ -52,6 +59,9 @@ function DeviceDetailRightPanel({ deviceObject, refetch }: Props): JSX.Element {
           deviceId={id}
           basicInfo={basicInfo}
           refetch={refetch}
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          attributeDefaultValues={attributeDefaultValues}
+          wsReadyState={wsReadyState}
         />
       ),
     },
@@ -65,6 +75,9 @@ function DeviceDetailRightPanel({ deviceObject, refetch }: Props): JSX.Element {
           refetch={refetch}
           telemetryFields={values(telemetryFields)}
           telemetryValues={telemetryValues}
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          telemetryDefaultValues={telemetryDefaultValues}
+          wsReadyState={wsReadyState}
         />
       ),
     },

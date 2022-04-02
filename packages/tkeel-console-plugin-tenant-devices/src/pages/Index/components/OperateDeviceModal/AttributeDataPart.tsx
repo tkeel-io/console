@@ -12,7 +12,7 @@ import {
 // import { UseFormReturn } from 'react-hook-form';
 import { FormField } from '@tkeel/console-components/';
 import { QuestionFilledIcon } from '@tkeel/console-icons';
-import { AttributeItem } from '@tkeel/console-request-hooks';
+import { AttributeItem } from '@tkeel/console-types';
 
 import { DeviceFormFields } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
 
