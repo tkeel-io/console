@@ -2,6 +2,7 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import { useCallback, useMemo, useState } from 'react';
 import { Cell, Column } from 'react-table';
 
+import { DeviceStatusIcon } from '@tkeel/console-business-components';
 import {
   Empty,
   MoreAction,
@@ -13,8 +14,6 @@ import {
   CaretDownFilledIcon,
   CaretUpFilledIcon,
   WebcamTwoToneIcon,
-  WifiFilledIcon,
-  WifiOffFilledIcon,
 } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp, plugin } from '@tkeel/console-utils';
 
@@ -30,11 +29,6 @@ type Data = {
   status: string;
   template: string;
   updated_at: string;
-};
-
-const connectionIcon = {
-  offline: <WifiOffFilledIcon key="wifi-off" size={20} />,
-  online: <WifiFilledIcon key="wifi" size={20} />,
 };
 
 function Index({ id, title }: { id: string; title: string }) {
@@ -112,7 +106,7 @@ function Index({ id, title }: { id: string; title: string }) {
       accessor: 'status',
       Cell: ({ value }: { value: string }) =>
         useMemo(
-          () => <Box color="gray.700">{connectionIcon[value]}</Box>,
+          () => <DeviceStatusIcon isOnline={value === 'online'} />,
           [value]
         ),
     },
