@@ -1,4 +1,4 @@
-import { Flex } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 import MenuIcon from './MenuIcon';
@@ -16,8 +16,8 @@ function MenuItem({ active, name, leftIcon, rightIcon = null }: Props) {
       alignItems="center"
       justifyContent="space-between"
       height="40px"
-      paddingLeft="22px"
-      fontWeight="500"
+      paddingLeft="34px"
+      fontWeight={active ? '600' : 'normal'}
       cursor="pointer"
       userSelect="none"
     >
@@ -27,7 +27,7 @@ function MenuItem({ active, name, leftIcon, rightIcon = null }: Props) {
           active={active}
           style={{ marginRight: '10px' }}
         />
-        {name}
+        <Text className="menu-name">{name}</Text>
       </Flex>
       {rightIcon}
     </Flex>

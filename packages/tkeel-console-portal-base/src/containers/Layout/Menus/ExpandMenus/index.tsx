@@ -5,11 +5,9 @@ import { useLocation } from 'react-router-dom';
 import { Logo, Menu } from '@tkeel/console-types';
 
 import emptyMenu from '@/tkeel-console-portal-base/assets/images/empty-menu.svg';
+import logoBottomLineImg from '@/tkeel-console-portal-base/assets/images/logo-bottom-line.svg';
 // import { SearchInput } from '@tkeel/console-components';
 // import { MagnifierTwoToneIcon } from '@tkeel/console-icons';
-// import tkeelLogo from '@/tkeel-console-portal-base/assets/images/tkeel-logo.svg';
-// import tKeelLogoDark from '@/tkeel-console-portal-base/assets/images/tkeel-logo-dark.svg';
-// import tKeelLogoLight from '@/tkeel-console-portal-base/assets/images/tkeel-logo-light.svg';
 import useMenusQuery from '@/tkeel-console-portal-base/hooks/queries/useMenusQuery';
 
 import MenuLink from './MenuLink';
@@ -53,25 +51,10 @@ export default function ExpandMenus({ isDarkMenu, logo }: Props) {
       width="240px"
       height="100%"
     >
-      <Flex alignItems="center" height="96px" paddingLeft="20px">
+      <Flex paddingTop="17px" height="80px" paddingLeft="20px">
         {isDarkMenu ? logo.typeLight : logo.typeDark}
-        {/* {isQingCloudTheme ? (
-          <Image
-            width={isQingCloudTheme ? '184px' : '150px'}
-            src={isDarkMenu ? qingcloudLogoLight : qingcloudLogoDark}
-          />
-        ) : (
-          <>
-            <Image htmlWidth="47px" src={tkeelLogo} alt="" />
-            <Image
-              marginLeft="8px"
-              htmlWidth="93px"
-              src={isDarkMenu ? tKeelLogoLight : tKeelLogoDark}
-              alt=""
-            />
-          </>
-        )} */}
       </Flex>
+      <Image src={logoBottomLineImg} marginLeft="20px" width="200px" />
       {/* <SearchInput
         width="200px"
         height="44px"
@@ -86,7 +69,7 @@ export default function ExpandMenus({ isDarkMenu, logo }: Props) {
         placeholder="搜索"
         onSearch={handleSearch}
       /> */}
-      <Box flex="1" overflow="auto" padding="20px">
+      <Box marginTop="11px" flex="1" overflow="auto">
         {(() => {
           if (menus.length > 0) {
             return menus.map((menu) => {
@@ -110,14 +93,7 @@ export default function ExpandMenus({ isDarkMenu, logo }: Props) {
                       />
                     )}
                     {hasChildren && spread && (
-                      <Box
-                        marginTop="10px"
-                        padding="8px"
-                        borderRadius="4px"
-                        backgroundColor={
-                          isDarkMenu ? 'whiteAlpha.100' : 'gray.100'
-                        }
-                      >
+                      <Box marginTop="4px" borderRadius="4px">
                         {children.map((subMenu) => (
                           <SubMenuLink
                             key={subMenu.id}
