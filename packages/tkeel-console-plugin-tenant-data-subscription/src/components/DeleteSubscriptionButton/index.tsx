@@ -5,7 +5,8 @@ import { TrashFilledIcon } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
 import useDeleteSubscriptionMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useDeleteSubscriptionMutation';
-import DeleteSubscriptionModal from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/DeleteSubscriptionModal';
+
+import DeleteSubscriptionModal from '../DeleteSubscriptionModal';
 
 type Props = {
   id: string;
