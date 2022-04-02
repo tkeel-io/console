@@ -57,6 +57,7 @@ export function getHoverStyle(active: boolean) {
         backgroundColor: isDarkTheme ? 'grayAlternatives.700' : 'transparent',
         '.menu-name': {
           fontWeight: '600',
+          color: 'white',
         },
         '.rectangle': {
           display: 'block',

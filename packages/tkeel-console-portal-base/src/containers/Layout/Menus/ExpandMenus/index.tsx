@@ -69,7 +69,7 @@ export default function ExpandMenus({ isDarkMenu, logo }: Props) {
         placeholder="搜索"
         onSearch={handleSearch}
       /> */}
-      <Box marginTop="11px" flex="1" overflow="auto">
+      <Box marginTop="20px" flex="1" overflow="auto">
         {(() => {
           if (menus.length > 0) {
             return menus.map((menu) => {
