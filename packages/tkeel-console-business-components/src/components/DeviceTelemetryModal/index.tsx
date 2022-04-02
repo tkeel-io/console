@@ -192,14 +192,14 @@ export default function DeviceTelemetryModal({
     }),
   };
 
-  const RESET = () => {
+  const resetAll = () => {
     reset();
     setSelectOptions([]);
     setSelectRadioCardItem('');
   };
   useEffect(() => {
     if (isOpen) {
-      RESET();
+      resetAll();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
@@ -342,7 +342,7 @@ export default function DeviceTelemetryModal({
       isOpen={isOpen}
       isConfirmButtonLoading={isConfirmButtonLoading}
       onClose={() => {
-        RESET();
+        resetAll();
         onClose();
       }}
       onConfirm={handleConfirm}
