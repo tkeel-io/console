@@ -1,6 +1,7 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 
+import { CreateTemplateBasicModal } from '@tkeel/console-business-components';
 import { Empty } from '@tkeel/console-components';
 import Modal from '@tkeel/console-components/src/components/Modal';
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
@@ -11,7 +12,6 @@ import useCreateTemplateMutation, {
 } from '@/tkeel-console-plugin-tenant-device-templates/hooks/mutations/useCreateTemplateMutation';
 
 import CustomTemplateButton from '../CustomTemplateButton';
-import CustomTemplateModal from '../CustomTemplateModal';
 
 type Props = {
   templateData: KeyDataType[];
@@ -116,7 +116,7 @@ export default function CreateTemplateModal({
         )}
 
         {isOpenSaveAs && (
-          <CustomTemplateModal
+          <CreateTemplateBasicModal
             title="另存为模板"
             isOpen={isOpenSaveAs}
             onClose={() => {
@@ -126,14 +126,8 @@ export default function CreateTemplateModal({
             // isConfirmButtonLoading={isLoading}
             isConfirmButtonLoading={false}
             onConfirm={(formValues: FormValues) => {
-              const { name, description } = formValues;
               if (formValues) {
-                mutate({
-                  data: {
-                    name,
-                    description,
-                  },
-                });
+                mutate({ data: formValues });
               }
               return null;
             }}
