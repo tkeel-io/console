@@ -15,6 +15,12 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import {
+  CreateAttributeButton,
+  DeleteAttributeButton,
+  SaveAsOtherTemplateButton,
+  UpdateAttributeButton,
+} from '@tkeel/console-business-components';
+import {
   ReadWriteType,
   RW_LABELS,
 } from '@tkeel/console-business-components/src/components/DeviceAttributeModal';
@@ -31,20 +37,13 @@ import {
   QuestionFilledIcon,
   SmcFilledIcon,
 } from '@tkeel/console-icons';
+import { AttributeItem, AttributeValue } from '@tkeel/console-types';
 import { plugin } from '@tkeel/console-utils';
 
 import useSetAttributeMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useSetAttributeValueMutation';
-import {
-  AttributeItem,
-  Attributes,
-  BasicInfo,
-} from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
-import AddAttributeButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/AddAttributeButton';
-import DeleteAttributeButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/DeleteAttributeButton';
-import EditAttributeButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/EditAttributeButton';
+import { BasicInfo } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 import JsonInfoButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/JsonInfoButton';
-import SaveTemplateButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/SaveTemplateButton';
-import SyncTemplateButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/SyncTemplateButton';
+import SaveAsSelfTemplateButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/SaveAsSelfTemplateButton';
 
 const TOOLTIP_OPTIONS = [
   { label: '数据类型', key: 'type' },
@@ -52,7 +51,9 @@ const TOOLTIP_OPTIONS = [
 ];
 type Props = {
   attributeFields: AttributeItem[];
-  attributeValues: Attributes;
+  attributeValues: AttributeValue;
+  attributeDefaultValues: AttributeValue;
+  wsReadyState: number;
   basicInfo: BasicInfo;
   deviceId: string;
   refetch?: () => void;
@@ -98,7 +99,17 @@ function AttributesPanel({
   attributeFields,
   attributeValues,
   refetch: refetchDeviceDetail = () => {},
+  wsReadyState,
+  attributeDefaultValues,
 }: Props) {
+  const [renderAttributeValue, setRenderAttributeValue] = useState(
+    attributeDefaultValues
+  );
+  useEffect(() => {
+    if (wsReadyState === 1 && !isEmpty(attributeValues)) {
+      setRenderAttributeValue(attributeValues);
+    }
+  }, [wsReadyState, attributeValues]);
   const [currentId, setCurrentId] = useState('');
   const [focusId, setFocusId] = useState('');
   const toast = plugin.getPortalToast();
@@ -117,7 +128,8 @@ function AttributesPanel({
     formState: { errors },
     reset,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } = useForm<{ [propName: string]: any }>(attributeValues);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  } = useForm<AttributeValue>(renderAttributeValue);
   useEffect(() => {
     reset(attributeValues);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -169,7 +181,10 @@ function AttributesPanel({
           }}
           title=""
           content={
-            <AddAttributeButton id={deviceId} refetch={refetchDeviceDetail} />
+            <CreateAttributeButton
+              uid={deviceId}
+              refetch={refetchDeviceDetail}
+            />
           }
         />
       ) : (
@@ -185,9 +200,9 @@ function AttributesPanel({
               onSearch: handleSearch,
             }}
             buttons={[
-              <AddAttributeButton
+              <CreateAttributeButton
                 key="add"
-                id={deviceId}
+                uid={deviceId}
                 refetch={refetchDeviceDetail}
               />,
               templateId ? (
@@ -203,15 +218,15 @@ function AttributesPanel({
                   }
                   key="more"
                   buttons={[
-                    <SyncTemplateButton key="sync" deviceId={deviceId} />,
-                    <SaveTemplateButton key="save" deviceId={deviceId} />,
+                    <SaveAsSelfTemplateButton key="sync" id={deviceId} />,
+                    <SaveAsOtherTemplateButton key="save" id={deviceId} />,
                   ]}
                 />
               ) : (
-                <SaveTemplateButton
+                <SaveAsOtherTemplateButton
                   variant="iconButton"
                   key="save"
-                  deviceId={deviceId}
+                  id={deviceId}
                 />
               ),
             ]}
@@ -225,9 +240,9 @@ function AttributesPanel({
                     getFormValue(item);
                   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                   const defaultValueCopy =
-                    defaultValue !== undefined
-                      ? defaultValue
-                      : defaultFormValue[item.id];
+                    renderAttributeValue[item.id] || // websocket
+                    defaultFormValue[item.id] || // properties
+                    defaultValue; // configs
                   const editFormValues = { name, id, type, define };
                   return (
                     <Box
@@ -291,12 +306,12 @@ function AttributesPanel({
                                 <DeleteAttributeButton
                                   key="delete"
                                   defaultValues={editFormValues}
-                                  id={deviceId}
+                                  uid={deviceId}
                                   refetch={refetchDeviceDetail}
                                 />,
-                                <EditAttributeButton
+                                <UpdateAttributeButton
                                   key="edit"
-                                  id={deviceId}
+                                  uid={deviceId}
                                   defaultValues={editFormValues}
                                   refetch={refetchDeviceDetail}
                                 />,

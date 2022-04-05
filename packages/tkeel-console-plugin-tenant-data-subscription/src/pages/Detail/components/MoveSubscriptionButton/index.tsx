@@ -42,10 +42,10 @@ export default function MoveSubscriptionButton({
           isOpen={isOpen}
           isConfirmButtonLoading={isLoading}
           onClose={onClose}
-          onConfirm={(target_id: number) => {
+          onConfirm={(targetId) => {
             mutate({
               data: {
-                targetId: target_id,
+                targetId,
                 selectedIds: selected_ids,
               },
             });

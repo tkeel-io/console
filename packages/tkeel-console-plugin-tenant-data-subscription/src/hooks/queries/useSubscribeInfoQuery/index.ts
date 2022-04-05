@@ -22,6 +22,9 @@ export default function useSubscribeInfoQuery(id: string) {
   const { data, ...rest } = useQuery<ApiData, undefined, RequestData>({
     url,
     method,
+    reactQueryOptions: {
+      enabled: !!id,
+    },
   });
   return { data: data as ApiData, ...rest };
 }

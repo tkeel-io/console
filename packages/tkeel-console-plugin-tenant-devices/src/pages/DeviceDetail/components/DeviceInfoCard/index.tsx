@@ -6,12 +6,12 @@ import {
   IconWrapper,
   SelfLearnIcon,
 } from '@tkeel/console-business-components';
-import { BackButton, MoreAction } from '@tkeel/console-components';
+import { BackButton, Clipboard, MoreAction } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 import {
   MessageWarningTwoToneIcon,
-  MgmtNodeTwoToneIcon,
   OfficialFilledIcon,
+  SmartObjectTwoToneIcon,
 } from '@tkeel/console-icons';
 
 import AddSubscribeButton from '@/tkeel-console-plugin-tenant-devices/components/AddSubscribeButton';
@@ -22,7 +22,6 @@ import { SUBSCRIBES } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDe
 import handleSubscribeAddr from '@/tkeel-console-plugin-tenant-devices/utils';
 
 import CardContentFlex from './components/CardContentFlex';
-import Clipboard from './components/Clipboard';
 import UnsubscribeButton from './components/UnsubscribeButton';
 
 type Props = {
@@ -117,7 +116,7 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
         </CardContentFlex>
         <CardContentFlex>
           <Box display="flex">
-            <MgmtNodeTwoToneIcon size="24px" style={{ marginLeft: '7px' }} />
+            <SmartObjectTwoToneIcon size="24px" style={{ marginLeft: '7px' }} />
             <Box as="span" fontSize="14px" fontWeight="600" ml="8px">
               {deviceName}
             </Box>

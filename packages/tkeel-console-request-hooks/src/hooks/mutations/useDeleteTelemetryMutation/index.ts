@@ -10,13 +10,13 @@ export interface ApiData {
 
 type Props = {
   onSuccess: () => void;
-  id: string;
+  uid: string;
 };
 
 const method = 'post';
 
-export default function useDeleteTelemetryMutation({ onSuccess, id }: Props) {
-  const url = `/tkeel-device/v1/templates/${id}/telemetry/delete`;
+export default function useDeleteTelemetryMutation({ onSuccess, uid }: Props) {
+  const url = `/tkeel-device/v1/templates/${uid}/telemetry/delete`;
 
   return useMutation<ApiData, undefined, RequestData>({
     url,

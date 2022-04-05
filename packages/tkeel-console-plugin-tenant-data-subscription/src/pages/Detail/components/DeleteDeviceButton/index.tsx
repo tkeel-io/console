@@ -23,12 +23,15 @@ function DeleteDeviceButton({
   const toast = plugin.getPortalToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { mutate } = useDeleteSubscriptionDeviceMutation({
+  const { mutate, isLoading } = useDeleteSubscriptionDeviceMutation({
     onSuccess() {
       onSuccess();
-      toast('删除订阅成功', { status: 'success' });
-      refetchData();
       onClose();
+      toast('移除设备成功', { status: 'success' });
+      // TODO 移除设备后有延迟，临时解决方案
+      setTimeout(() => {
+        refetchData();
+      }, 800);
     },
   });
 
@@ -47,7 +50,7 @@ function DeleteDeviceButton({
       <DeleteDeviceModal
         name={name}
         isOpen={isOpen}
-        isConfirmButtonLoading={false}
+        isConfirmButtonLoading={isLoading}
         onClose={onClose}
         onConfirm={handleConfirm}
       />
