@@ -270,7 +270,7 @@ function Index({ id, title }: { id: string; title: string }) {
         isLoading={isLoading}
         paginationProps={pagination}
         empty={
-          !keywords ? (
+          keywords ? (
             <SearchEmpty
               styles={{
                 wrapper: { height: '100%' },
