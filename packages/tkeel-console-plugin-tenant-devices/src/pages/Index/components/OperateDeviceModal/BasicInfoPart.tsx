@@ -144,9 +144,7 @@ export default function BasicInfoPart({
                         value={watchFields.templateId}
                         style={{ width: '100%' }}
                         allowClear={!!watchFields.templateId}
-                        disabled={
-                          mode === ModalMode.EDIT && !watchFields.templateId
-                        }
+                        disabled={mode === ModalMode.EDIT}
                         {...register('templateId')}
                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         onChange={(value: string) => {

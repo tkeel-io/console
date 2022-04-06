@@ -1,7 +1,6 @@
 import background01 from '../assets/images/background-01.png';
 import background02 from '../assets/images/background-02.png';
 import logoMark from '../assets/images/logo-mark.svg';
-import logoSetPassword from '../assets/images/logo-set-password.svg';
 import logoTypeAdminDark from '../assets/images/logo-type-admin-dark.svg';
 import logoTypeAdminLight from '../assets/images/logo-type-admin-light.svg';
 import logoTypeTenantDark from '../assets/images/logo-type-tenant-dark.svg';
@@ -58,7 +57,7 @@ export const DEFAULT_PORTAL_TENANT_CONFIG = {
       },
       SetPassword: {
         backgroundImage: background02,
-        logo: logoSetPassword,
+        logo: logoTypeTenantLight,
       },
     },
   },

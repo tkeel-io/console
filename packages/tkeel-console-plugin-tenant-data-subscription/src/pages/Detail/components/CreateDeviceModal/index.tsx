@@ -171,7 +171,7 @@ export default function CreateDeviceModal({
       // TODO 添加设备后有延迟，临时解决方案
       setTimeout(() => {
         onConfirm();
-      }, 500);
+      }, 800);
     },
     id: id || '',
   };

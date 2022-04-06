@@ -1,5 +1,4 @@
 import { Flex } from '@chakra-ui/react';
-import { isEmpty } from 'lodash';
 import qs from 'qs';
 import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -28,11 +27,10 @@ function DeviceDetail(): JSX.Element {
   const configs = deviceObject?.configs ?? {};
   const originConnectInfo = properties?.connectInfo;
   const { sysField, basicInfo } = properties ?? {};
-  const { rawData, connectInfo, attributes, telemetry } = useDeviceDetailSocket(
-    {
+  const { rawData, connectInfo, attributes, telemetry, readyState } =
+    useDeviceDetailSocket({
       id: id as string,
-    }
-  );
+    });
   const connectData = connectInfo || originConnectInfo;
 
   const deviceInfo = {
@@ -42,12 +40,13 @@ function DeviceDetail(): JSX.Element {
       sysField: sysField as SysField,
       basicInfo: basicInfo as BasicInfo,
       rawData,
+      attributeDefaultValues: properties?.attributes ?? {},
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      attributes: !isEmpty(attributes)
-        ? attributes
-        : properties?.attributes ?? {},
+      attributes,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      telemetry: !isEmpty(telemetry) ? telemetry : properties?.telemetry ?? {},
+      /*  telemetry: !isEmpty(telemetry) ? telemetry : properties?.telemetry ?? {}, */
+      telemetryDefaultValues: properties?.telemetry ?? {},
+      telemetry,
       connectInfo: connectData,
     },
   };
@@ -59,7 +58,11 @@ function DeviceDetail(): JSX.Element {
   return (
     <Flex h="100%">
       <DeviceDetailLeftPanel refetch={refetch} deviceObject={deviceInfo} />
-      <DeviceDetailRightPanel deviceObject={deviceInfo} refetch={refetch} />
+      <DeviceDetailRightPanel
+        deviceObject={deviceInfo}
+        refetch={refetch}
+        wsReadyState={readyState}
+      />
     </Flex>
   );
 }

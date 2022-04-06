@@ -7,6 +7,7 @@ export interface RequestData {
 
 export interface ApiData {
   '@type': string;
+  faildDelTemplate?: { id: string; reason: string }[];
 }
 
 type Props = {

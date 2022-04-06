@@ -1,6 +1,7 @@
 import { values } from 'lodash';
 
 import { useQuery } from '@tkeel/console-hooks';
+import { TelemetryItem } from '@tkeel/console-types';
 import { RequestResult } from '@tkeel/console-utils';
 
 const method = 'GET';
@@ -14,17 +15,6 @@ type RequestParams = {
   id?: string;
 };
 
-export interface TelemetryItem {
-  name: string;
-  id: string;
-  type: string;
-  description: string;
-  last_time: number;
-  define: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    [propName: string]: any;
-  };
-}
 export interface Telemetry {
   [propName: string]: TelemetryItem;
 }

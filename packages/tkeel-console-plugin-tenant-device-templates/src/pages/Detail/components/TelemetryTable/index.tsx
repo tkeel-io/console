@@ -1,11 +1,11 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-// import { fromPairs, mapKeys } from 'lodash';
 import { useMemo, useState } from 'react';
 import { Cell, Column } from 'react-table';
 
 import {
   CreateTelemetryButton,
   DeleteTelemetryButton,
+  TelemetryDetailButton,
   UpdateTelemetryButton,
 } from '@tkeel/console-business-components';
 import {
@@ -15,13 +15,10 @@ import {
   Table,
 } from '@tkeel/console-components';
 import { DuotoneTwoToneIcon } from '@tkeel/console-icons';
+import { TelemetryItem } from '@tkeel/console-types';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
-import useListTemplateTelemetryQuery, {
-  TelemetryItem,
-} from '@/tkeel-console-plugin-tenant-device-templates/hooks/queries/useListTemplateTelemetryQuery';
-
-import DetailTelemetryButton from '../DetailTelemetryButton';
+import useListTemplateTelemetryQuery from '@/tkeel-console-plugin-tenant-device-templates/hooks/queries/useListTemplateTelemetryQuery';
 
 function Index({ id, title }: { id: string; title: string }) {
   const [keywords, setKeyWords] = useState('');
@@ -88,11 +85,7 @@ function Index({ id, title }: { id: string; title: string }) {
           return (
             <MoreAction
               buttons={[
-                <DetailTelemetryButton
-                  key="detail"
-                  id={original.id}
-                  uid={id}
-                />,
+                <TelemetryDetailButton key="detail" defaultValues={original} />,
                 <UpdateTelemetryButton
                   uid={id}
                   key="modify"

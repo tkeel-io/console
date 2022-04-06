@@ -77,7 +77,7 @@ export default function FilterDropdown({
   const showDeviceTemplates = !!templateIdFilterCondition;
 
   const deviceNameQueryField = 'basicInfo.name';
-  const statusQueryField = 'sysField._status';
+  const statusQueryField = 'connectInfo._online';
   const deviceGroupIdQueryField = 'sysField._spacePath';
   const templateIdQueryField = 'basicInfo.templateId';
   const wildcard = '$wildcard';
@@ -182,7 +182,7 @@ export default function FilterDropdown({
         {
           field: statusQueryField,
           operator: '$eq',
-          value: statusValue,
+          value: statusValue === 'online',
         },
       ]);
     }
