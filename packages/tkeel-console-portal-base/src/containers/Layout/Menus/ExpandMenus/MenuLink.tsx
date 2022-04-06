@@ -50,10 +50,11 @@ export function getTextColor(active: boolean) {
 export function getHoverStyle(active: boolean) {
   const isDarkTheme = isDarkMenuTheme();
 
+  const color = isDarkTheme ? 'white' : 'primary';
   return active
     ? {}
     : {
-        color: isDarkTheme ? 'white' : 'primary',
+        color,
         backgroundColor: isDarkTheme ? 'grayAlternatives.700' : 'transparent',
         '.menu-name': {
           fontWeight: '600',
@@ -61,6 +62,9 @@ export function getHoverStyle(active: boolean) {
         },
         '.rectangle': {
           display: 'block',
+        },
+        svg: {
+          color: `${color} !important`,
         },
       };
 }

@@ -1,9 +1,9 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 
 import { TemplateCard } from '@tkeel/console-business-components';
-import { Loading } from '@tkeel/console-components';
+import { Loading, PageHeaderToolbar } from '@tkeel/console-components';
 import {
-  BookOpenedFilledIcon,
+  // BookOpenedFilledIcon,
   MessageWarningTwoToneIcon,
 } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
@@ -18,29 +18,27 @@ function SubscriptionCard() {
   const { isLoading, data, refetch } = useListSubscribeQuery();
   return (
     <Box
+      flex="1"
+      marginTop="20px"
+      padding="20px"
+      borderRadius="4px"
+      overflowY="auto"
       bg="gray.50"
       boxShadow="0px 8px 8px rgba(152, 163, 180, 0.1)"
-      borderRadius="4px"
-      mt="20px"
-      paddingBottom="20px"
-      overflowY="auto"
-      height="80vh"
     >
       <Text
         fontWeight="600"
         fontSize="14px"
         color="gray.800"
-        mt="20px"
         mb="12px"
         display="inline-block"
-        padding="0 20"
       >
         更多订阅
       </Text>
       {isLoading ? (
         <Loading styles={{ wrapper: { height: '100%' } }} />
       ) : (
-        <Flex flexWrap="wrap" paddingLeft="20px" mb="60px">
+        <Flex justifyContent="space-between" flexWrap="wrap">
           {data.map((item) => {
             return (
               <TemplateCard
@@ -74,6 +72,7 @@ function SubscriptionCard() {
                   { name: '订阅ID', value: item.id },
                   { name: '订阅地址', value: item.endpoint },
                 ]}
+                styles={{ wrapper: { width: '49.7%' } }}
               />
             );
           })}
@@ -92,8 +91,20 @@ function Index(): JSX.Element {
   });
 
   return (
-    <Box paddingTop="8px">
-      <Flex height="30px" alignItems="center" justifyContent="space-between">
+    <Flex flexDirection="column" height="100%" paddingTop="8px">
+      <PageHeaderToolbar
+        name="数据订阅"
+        buttons={[
+          <CreateSubscriptionButton
+            key="create"
+            onSuccess={() => {
+              toast('创建订阅成功', { status: 'success' });
+              refetch();
+            }}
+          />,
+        ]}
+      />
+      {/* <Flex height="30px" alignItems="center" justifyContent="space-between">
         <Flex
           fontWeight="600"
           fontSize="14px"
@@ -110,7 +121,7 @@ function Index(): JSX.Element {
             refetch();
           }}
         />
-      </Flex>
+      </Flex> */}
       <Box
         border="1px solid"
         borderColor="grayAlternatives.50"
@@ -162,7 +173,7 @@ function Index(): JSX.Element {
         </Flex>
       </Box>
       <SubscriptionCard />
-    </Box>
+    </Flex>
   );
 }
 
