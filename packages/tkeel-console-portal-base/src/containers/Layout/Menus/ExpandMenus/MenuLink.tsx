@@ -8,6 +8,7 @@ import {
 import { isDarkMenuTheme } from '@/tkeel-console-portal-base/utils';
 
 import MenuItem from './MenuItem';
+import Rectangle from './Rectangle';
 
 type Props = {
   path: string;
@@ -39,31 +40,53 @@ export function useMenuLinkProps(to: string): MenuLinkReturnType {
   };
 }
 
-function MenuLink({ path, name, icon }: Props) {
-  const { as, to, active } = useMenuLinkProps(path || '');
+export function getTextColor(active: boolean) {
   const isDarkTheme = isDarkMenuTheme();
-  const hoverStyle = active
+  const defaultColor = isDarkTheme ? 'gray.400' : 'gray.600';
+
+  return active ? 'white' : defaultColor;
+}
+
+export function getHoverStyle(active: boolean) {
+  const isDarkTheme = isDarkMenuTheme();
+
+  return active
     ? {}
     : {
         color: isDarkTheme ? 'white' : 'primary',
+        backgroundColor: isDarkTheme ? 'grayAlternatives.700' : 'transparent',
+        '.menu-name': {
+          fontWeight: '600',
+          color: 'white',
+        },
+        '.rectangle': {
+          display: 'block',
+        },
       };
-  const defaultColor = isDarkTheme ? 'gray.400' : 'gray.600';
+}
+
+export function getLinkStyle(active: boolean) {
+  const color = getTextColor(active);
+  const hoverStyle = getHoverStyle(active);
+
+  return {
+    display: 'flex',
+    alignItems: 'center',
+    height: '40px',
+    color,
+    backgroundColor: active ? 'primary' : 'transparent',
+    _hover: hoverStyle,
+  };
+}
+
+export default function MenuLink({ path, name, icon }: Props) {
+  const { as, to, active } = useMenuLinkProps(path || '');
+  const linkStyle = getLinkStyle(active);
 
   return (
-    <Link
-      display="flex"
-      alignItems="center"
-      height="44px"
-      borderRadius="4px"
-      color={active ? 'white' : defaultColor}
-      backgroundColor={active ? 'primary' : 'transparent'}
-      _hover={hoverStyle}
-      as={as}
-      to={to}
-    >
+    <Link position="relative" {...linkStyle} as={as} to={to}>
+      <Rectangle style={{ display: 'none' }} />
       <MenuItem active={active} name={name} leftIcon={icon} />
     </Link>
   );
 }
-
-export default MenuLink;

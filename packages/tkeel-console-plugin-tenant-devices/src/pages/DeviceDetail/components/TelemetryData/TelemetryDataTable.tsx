@@ -2,17 +2,15 @@ import { Flex, Text } from '@chakra-ui/react';
 import { useCallback, useMemo } from 'react';
 import { Cell, Column } from 'react-table';
 
+import {
+  DeleteTelemetryButton,
+  TelemetryDetailButton,
+  UpdateTelemetryButton,
+} from '@tkeel/console-business-components';
 import { MoreAction, Table } from '@tkeel/console-components';
 import { DuotoneTwoToneIcon } from '@tkeel/console-icons';
+import { TelemetryItem, TelemetryValue } from '@tkeel/console-types';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
-
-import {
-  Telemetry,
-  TelemetryItem,
-} from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
-import DeleteTelemetryButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/DeleteTelemetryButton';
-import DetailTelemetryButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/DetailTelemetryButton';
-import EditTelemetryButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/EditTelemetryButton';
 
 interface TelemetryTableItem extends TelemetryItem {
   value?: string | number | boolean;
@@ -21,7 +19,7 @@ interface TelemetryTableItem extends TelemetryItem {
 type Props = {
   deviceId: string;
   telemetryFields: TelemetryItem[];
-  telemetryValues: Telemetry;
+  telemetryValues: TelemetryValue;
   refetch: () => void;
 };
 
@@ -37,17 +35,17 @@ export default function TelemetryDataTable({
       return (
         <MoreAction
           buttons={[
-            <DetailTelemetryButton telemetryInfo={original} key="detail" />,
-            <EditTelemetryButton
+            <TelemetryDetailButton defaultValues={original} key="detail" />,
+            <UpdateTelemetryButton
               key="modify"
-              id={deviceId}
+              uid={deviceId}
               refetch={refetchDeviceDetail}
               defaultValues={original}
             />,
             <DeleteTelemetryButton
               key="delete"
-              attributeInfo={{ name: original.name, id: original.id }}
-              id={deviceId}
+              defaultValues={original}
+              uid={deviceId}
               refetch={refetchDeviceDetail}
             />,
           ]}
@@ -57,6 +55,7 @@ export default function TelemetryDataTable({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const columns: ReadonlyArray<Column<TelemetryTableItem>> = [
     {
@@ -127,6 +126,7 @@ export default function TelemetryDataTable({
   const telemetryTableData: TelemetryTableItem[] = telemetryFields.map(
     (item) => {
       const valueObject =
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         (telemetryValues[item.id] as {
           value?: string | number | boolean;
           ts?: number;

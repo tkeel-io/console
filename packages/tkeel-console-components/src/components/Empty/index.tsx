@@ -35,7 +35,7 @@ export default function Empty({
       <Box {...styles?.image}>{image}</Box>
       <Box
         marginTop="28px"
-        fontSize="18px"
+        fontSize="16px"
         lineHeight="28px"
         color="gray.500"
         {...styles?.title}

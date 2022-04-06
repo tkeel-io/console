@@ -12,6 +12,7 @@ import {
 } from '@tkeel/console-components';
 
 export type ReadWriteType = 'rw' | 'r' | 'w';
+
 export type DeviceAttributeFormFields = {
   name: string;
   id: string;
@@ -23,11 +24,6 @@ export type DeviceAttributeFormFields = {
     length?: number;
     elem_type?: { type?: string };
   };
-};
-export const RW_LABELS = {
-  rw: '读写',
-  r: '只读',
-  w: '只写',
 };
 
 function isJSON(str: string) {
@@ -41,6 +37,12 @@ function isJSON(str: string) {
   }
   return false;
 }
+
+export const RW_LABELS = {
+  rw: '读写',
+  r: '只读',
+  w: '只写',
+};
 
 const { TextField } = FormField;
 

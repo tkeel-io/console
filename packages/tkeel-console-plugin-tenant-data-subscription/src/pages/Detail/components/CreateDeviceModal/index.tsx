@@ -11,7 +11,7 @@ import {
 import { values } from 'lodash';
 import { DataNode } from 'node_modules/rc-tree/es/interface';
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import {
   Empty,
@@ -157,9 +157,7 @@ export default function CreateDeviceModal({
   const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
   const [selectIndex, setSelectIndex] = useState<number>(0);
 
-  const location = useLocation();
-  const { pathname }: { pathname: string } = location;
-  const ID = pathname.split('/')[pathname.split('/').length - 1];
+  const { id } = useParams();
 
   const { groupTree, isLoading } = useDeviceGroupQuery(defaultRequestParams);
   const treeNodeData = assemblePath(getTreeNodeData(groupTree), '');
@@ -168,23 +166,27 @@ export default function CreateDeviceModal({
   );
   const templateTreeNodeData = getTemplateTreeNodeData(items);
 
-  const { mutate: createSubscribeEntitiesDeviceMutate } =
-    useCreateSubscribeEntitiesDeviceMutation({
-      onSuccess() {
+  const mutationProps = {
+    onSuccess() {
+      // TODO 添加设备后有延迟，临时解决方案
+      setTimeout(() => {
         onConfirm();
-      },
-      id: ID,
-    });
+      }, 800);
+    },
+    id: id || '',
+  };
 
-  const {
-    mutate: createSubscribeEntitiesTemplateMutation,
-    isSuccess: templateIsSuccess,
-  } = useCreateSubscribeEntitiesTemplateMutation({
-    onSuccess() {},
-    id: ID,
-  });
+  const { mutate: createSubscribeEntitiesDeviceMutate } =
+    useCreateSubscribeEntitiesDeviceMutation(mutationProps);
 
-  const handleConfirm = async () => {
+  const { mutate: createSubscribeEntitiesTemplateMutation } =
+    useCreateSubscribeEntitiesTemplateMutation(mutationProps);
+
+  const handleConfirm = () => {
+    if (!id) {
+      return;
+    }
+
     if (selectIndex === 0) {
       createSubscribeEntitiesDeviceMutate({
         data: { groups: selectedKeys },
@@ -193,9 +195,6 @@ export default function CreateDeviceModal({
       createSubscribeEntitiesTemplateMutation({
         data: { models: selectedKeys },
       });
-      if (templateIsSuccess) {
-        onConfirm();
-      }
     }
   };
 
@@ -213,27 +212,22 @@ export default function CreateDeviceModal({
   };
 
   const getSelectKey = (data: DataNode[]) => {
-    const arr: string[] = [];
-    data.forEach((el) => {
-      arr.push(el.key as string);
-    });
-    return arr;
+    return data.map(({ key }) => key as string);
+  };
+
+  const isDisable = (type: number) => {
+    return selectIndex === type && selectedKeys?.length > 0;
   };
 
   const disableStyles = (type: number) => {
     return {
       margin: '0 30px',
       fontSize: '12px',
-      cursor:
-        selectIndex === type && selectedKeys?.length > 0
-          ? 'not-allowed'
-          : 'default',
-      color:
-        selectIndex === type && selectedKeys?.length > 0
-          ? '#CCD3DB'
-          : '#242E42',
+      cursor: isDisable(type) ? 'not-allowed' : 'default',
+      color: isDisable(type) ? '#CCD3DB' : '#242E42',
     };
   };
+
   const selectedStyles = {
     color: `${useColor('green.300')} !important`,
     boxShadow: 'none',
@@ -242,17 +236,10 @@ export default function CreateDeviceModal({
     margin: '0 30px',
   };
 
-  const isDisable = (type: number) => {
-    return selectIndex === type && selectedKeys?.length > 0;
-  };
-
   const localSearch = (keyWord: string, list: DataNode[]) => {
-    const arr: DataNode[] = [];
-    list.forEach((item: DataNode) => {
-      if (item.title && String(item.title).includes(keyWord)) {
-        arr.push(item);
-      }
-    });
+    const arr = list.filter(
+      (item) => item.title && String(item.title).includes(keyWord)
+    );
 
     setSearchSelectNode(arr);
   };
