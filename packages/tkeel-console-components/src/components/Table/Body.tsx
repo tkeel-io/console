@@ -1,4 +1,5 @@
-import { StyleProps, Tbody, Td, Text, Tr } from '@chakra-ui/react';
+import { Box, StyleProps, Tbody, Td, Text, Tr } from '@chakra-ui/react';
+import { ReactNode } from 'react';
 import { Row, TableBodyPropGetter, TableBodyProps } from 'react-table';
 
 type Props<D extends object> = {
@@ -52,42 +53,47 @@ function Body<D extends object>({
             borderColor = defaultBorderColor;
           }
         }
+
+        const { id, getRowProps, cells, isExpanded, original } = row;
         return (
-          // eslint-disable-next-line react/jsx-key
-          <Tr
-            backgroundColor={backgroundColor}
-            _hover={isShowStripe ? {} : { backgroundColor: 'gray.50' }}
-            borderBottom="1px"
-            borderColor={borderColor}
-            {...row.getRowProps()}
-            {...styles?.tr}
-          >
-            {row.cells.map((cell) => {
-              const columnCell = cell.column.Cell as { name: string };
-              const funcName = columnCell.name;
-              return (
-                // eslint-disable-next-line react/jsx-key
-                <Td
-                  display="flex"
-                  alignItems="center"
-                  height="40px"
-                  padding="0 20px"
-                  color="gray.700"
-                  fontSize="12px"
-                  border="none"
-                  {...cell.getCellProps()}
-                >
-                  {funcName === 'defaultRenderer' ? (
-                    <Text title={String(cell.value)} isTruncated>
-                      {cell.value}
-                    </Text>
-                  ) : (
-                    cell.render('Cell')
-                  )}
-                </Td>
-              );
-            })}
-          </Tr>
+          <Box role="row" key={id}>
+            <Tr
+              backgroundColor={backgroundColor}
+              _hover={isShowStripe ? {} : { backgroundColor: 'gray.50' }}
+              borderBottom="1px"
+              borderColor={borderColor}
+              {...getRowProps()}
+              {...styles?.tr}
+            >
+              {cells.map((cell) => {
+                const columnCell = cell.column.Cell as { name: string };
+                const funcName = columnCell.name;
+                return (
+                  // eslint-disable-next-line react/jsx-key
+                  <Td
+                    display="flex"
+                    alignItems="center"
+                    height="40px"
+                    padding="0 20px"
+                    color="gray.700"
+                    fontSize="12px"
+                    border="none"
+                    {...cell.getCellProps()}
+                  >
+                    {funcName === 'defaultRenderer' ? (
+                      <Text title={String(cell.value)} isTruncated>
+                        {cell.value}
+                      </Text>
+                    ) : (
+                      cell.render('Cell')
+                    )}
+                  </Td>
+                );
+              })}
+            </Tr>
+            {isExpanded &&
+              (original as { expandElement: ReactNode }).expandElement}
+          </Box>
         );
       })}
     </Tbody>
