@@ -24,6 +24,8 @@ export default function useCreateSubscribeEntitiesTemplateMutation({
   return useMutation<ApiData, undefined, RequestData>({
     url,
     method,
-    reactQueryOptions: { onSuccess },
+    reactQueryOptions: {
+      onSuccess,
+    },
   });
 }

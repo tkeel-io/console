@@ -27,6 +27,7 @@ function UpdateDeviceButton({ defaultFormValues, refetch, groupTree }: Props) {
   const toast = plugin.getPortalToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const onSuccess = () => {
+    onClose();
     toast('修改设备成功', {
       status: 'success',
     });

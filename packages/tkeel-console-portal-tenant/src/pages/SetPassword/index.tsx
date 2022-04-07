@@ -4,7 +4,7 @@ import {
   Center,
   Heading,
   Image,
-  Text,
+  // Text,
   useDisclosure,
 } from '@chakra-ui/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -56,12 +56,10 @@ export default function SetPassword() {
 
   const [searchParams] = useSearchParams();
   const resetKey = searchParams.get('reset_key') ?? '';
-  const { isSuccess, data: resetPasswordKeyInfo } =
-    useResetPasswordKeyInfoQuery({
-      data: { reset_key: resetKey },
-      enabled: !!resetKey,
-    });
-  const username = resetPasswordKeyInfo?.username ?? '';
+  const { isSuccess } = useResetPasswordKeyInfoQuery({
+    data: { reset_key: resetKey },
+    enabled: !!resetKey,
+  });
 
   const { isOpen, onOpen } = useDisclosure();
   const {
@@ -113,7 +111,7 @@ export default function SetPassword() {
         backgroundSize="100% 40%"
       >
         <Box position="absolute" top="24px" left="20px">
-          <Image src={pageConfig?.logo} width="auto" height="50px" />
+          <Image src={pageConfig?.logo} width="auto" height="52px" />
         </Box>
         <Box
           padding="40px 46px 70px"
@@ -121,7 +119,10 @@ export default function SetPassword() {
           borderRadius="4px"
           backgroundColor="white"
         >
-          <Heading fontSize="18px" lineHeight="28px" color="gray.900">
+          <Heading color="gray.800" fontSize="24px" lineHeight="40px">
+            设置密码
+          </Heading>
+          {/* <Heading fontSize="18px" lineHeight="28px" color="gray.900">
             欢迎您{username ? `，${username}！` : '！'}
           </Heading>
           <Text
@@ -139,8 +140,8 @@ export default function SetPassword() {
             color="gray.500"
           >
             {clientConfig?.subTitle2}
-          </Text>
-          <Form paddingTop="24px" onSubmit={handleSubmit(onSubmit)}>
+          </Text> */}
+          <Form paddingTop="40px" onSubmit={handleSubmit(onSubmit)}>
             <TextField
               type="password"
               id="password"
@@ -163,7 +164,7 @@ export default function SetPassword() {
               help={schemas.password.help}
               placeholder="请输入"
               error={errors.confirmPassword}
-              formControlStyle={{ marginBottom: '24px', width: '350px' }}
+              formControlStyle={{ width: '350px' }}
               formLabelStyle={formLabelStyle}
               inputStyle={inputStyle}
               registerReturn={register(
@@ -171,18 +172,19 @@ export default function SetPassword() {
                 schemas.password.registerOptions
               )}
             />
-            <Box paddingTop="46px">
-              <Button
-                type="submit"
-                colorScheme="primary"
-                width="76px"
-                height="32px"
-                isDisabled={!isSuccess}
-                isLoading={isLoading}
-              >
-                确定
-              </Button>
-            </Box>
+            <Button
+              marginTop="36px"
+              type="submit"
+              colorScheme="primary"
+              isFullWidth
+              height="45px"
+              borderRadius="4px"
+              shadow="none"
+              isDisabled={!isSuccess}
+              isLoading={isLoading}
+            >
+              登录
+            </Button>
           </Form>
         </Box>
       </Center>

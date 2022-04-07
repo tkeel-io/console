@@ -2,26 +2,27 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import { useCallback, useMemo, useState } from 'react';
 import { Cell, Column } from 'react-table';
 
+import { DeviceStatusIcon } from '@tkeel/console-business-components';
 import {
-  Empty,
   MoreAction,
   PageHeaderToolbar,
+  SearchEmpty,
   Table,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
 import {
   CaretDownFilledIcon,
   CaretUpFilledIcon,
-  WebcamTwoToneIcon,
-  WifiFilledIcon,
-  WifiOffFilledIcon,
+  SmartObjectTwoToneIcon,
 } from '@tkeel/console-icons';
-import { formatDateTimeByTimestamp, plugin } from '@tkeel/console-utils';
+import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import useListSubscribeEntitiesQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useListSubscribeEntitiesQuery';
 import CreateDeviceButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/CreateDeviceButton';
 import DeleteDeviceButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/DeleteDeviceButton';
 import MoveSubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/MoveSubscriptionButton';
+
+import Empty from '../Empty';
 
 type Data = {
   ID: string;
@@ -32,13 +33,7 @@ type Data = {
   updated_at: string;
 };
 
-const connectionIcon = {
-  offline: <WifiOffFilledIcon key="wifi-off" size={20} />,
-  online: <WifiFilledIcon key="wifi" size={20} />,
-};
-
 function Index({ id, title }: { id: string; title: string }) {
-  const toast = plugin.getPortalToast();
   const [keywords, setKeyWords] = useState('');
   const [checkBoxIcon, setCheckBoxIcon] = useState<boolean>(false);
 
@@ -48,9 +43,6 @@ function Index({ id, title }: { id: string; title: string }) {
   const pagination = usePagination();
   const { pageNum, pageSize, setTotalSize } = pagination;
 
-  const handleCreateRoleSuccess = () => {
-    toast('创建成功', { status: 'success' });
-  };
   let params = {
     page_num: pageNum,
     page_size: pageSize,
@@ -65,7 +57,7 @@ function Index({ id, title }: { id: string; title: string }) {
     params = { ...params, key_words: keywords };
   }
 
-  const { data, isLoading, refetch } = useListSubscribeEntitiesQuery({
+  const { entities, isLoading, refetch } = useListSubscribeEntitiesQuery({
     params,
     onSuccess(res) {
       const total = res?.data?.total ?? 0;
@@ -97,7 +89,7 @@ function Index({ id, title }: { id: string; title: string }) {
         useMemo(
           () => (
             <Flex alignItems="center" justifyContent="space-between">
-              <WebcamTwoToneIcon size={20} />
+              <SmartObjectTwoToneIcon size={24} />
               <Text color="gray.800" fontWeight="600" marginLeft="14px">
                 {value}
               </Text>
@@ -112,7 +104,7 @@ function Index({ id, title }: { id: string; title: string }) {
       accessor: 'status',
       Cell: ({ value }: { value: string }) =>
         useMemo(
-          () => <Box color="gray.700">{connectionIcon[value]}</Box>,
+          () => <DeviceStatusIcon isOnline={value === 'online'} />,
           [value]
         ),
     },
@@ -187,6 +179,7 @@ function Index({ id, title }: { id: string; title: string }) {
     },
   ];
 
+  const noData = pageNum === 1 && !keywords && entities.length === 0;
   return (
     <Flex flexDirection="column" height="100%" margin="0 20px">
       <PageHeaderToolbar
@@ -238,25 +231,29 @@ function Index({ id, title }: { id: string; title: string }) {
             '订阅设备'
           )
         }
-        hasSearchInput
+        hasSearchInput={!noData}
         searchInputProps={{
           onSearch(value) {
             setKeyWords(value.trim());
           },
         }}
-        buttons={[
-          <CreateDeviceButton
-            key="create"
-            onSuccess={() => {
-              refetch();
-            }}
-          />,
-        ]}
+        buttons={
+          noData
+            ? []
+            : [
+                <CreateDeviceButton
+                  key="create"
+                  refetchData={() => {
+                    refetch();
+                  }}
+                />,
+              ]
+        }
+        styles={{ title: { fontSize: '14px' } }}
       />
       <Table
         styles={{
           wrapper: {
-            minH: '80vh',
             flex: 1,
             overflow: 'hidden',
             backgroundColor: 'whiteAlias',
@@ -267,35 +264,23 @@ function Index({ id, title }: { id: string; title: string }) {
         }}
         scroll={{ y: '100%' }}
         columns={columns}
-        data={data?.data || []}
+        data={entities}
         onSelect={handleSelect}
         isShowStripe
         isLoading={isLoading}
         paginationProps={pagination}
         empty={
-          <Empty
-            description={
-              <Box>
-                <Box display="inline" color="gray.600" fontWeight="500">
-                  [{title}]
-                </Box>
-                暂无设备,可手动添加
-              </Box>
-            }
-            styles={{
-              wrapper: { height: '100%' },
-              content: { marginTop: '10px' },
-            }}
-            title=""
-            content={
-              <Box mt="20px">
-                <CreateDeviceButton
-                  key="create"
-                  onSuccess={handleCreateRoleSuccess}
-                />
-              </Box>
-            }
-          />
+          keywords ? (
+            <SearchEmpty
+              styles={{
+                wrapper: { height: '100%' },
+                image: { width: '80px' },
+                text: { color: 'gray.500', fontSize: '14px' },
+              }}
+            />
+          ) : (
+            <Empty title={title} refetchData={() => refetch()} />
+          )
         }
       />
     </Flex>

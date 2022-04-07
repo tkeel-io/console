@@ -46,7 +46,7 @@ export default function DeviceList({
   };
 
   if (isLoading) {
-    <Loading styles={{ wrapper: { flex: '1' } }} />;
+    return <Loading styles={{ wrapper: { flex: '1' } }} />;
   }
 
   if (deviceList.length === 0) {
@@ -88,7 +88,7 @@ export default function DeviceList({
             }
           >
             <Flex alignItems="center">
-              <SmartObjectTwoToneIcon />
+              <SmartObjectTwoToneIcon size={20} />
               <Text marginLeft="6px" {...textStyle}>
                 {device?.properties?.basicInfo?.name ?? ''}
               </Text>

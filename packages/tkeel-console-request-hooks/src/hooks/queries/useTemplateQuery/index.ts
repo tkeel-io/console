@@ -1,24 +1,9 @@
 import { useQuery } from '@tkeel/console-hooks';
-
-type ReadWriteType = 'r' | 'w' | 'rw';
+import { AttributeItem } from '@tkeel/console-types';
 
 const url = '/tkeel-device/v1/search';
 const method = 'POST';
 
-export interface AttributeItem {
-  define: {
-    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-    default_value: any;
-    rw: ReadWriteType;
-  };
-  description: string;
-  enabled?: boolean;
-  id: string;
-  name: string;
-  type: string;
-  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-  [propName: string]: any;
-}
 export interface TemplateItem {
   configs: {
     attributes: { [propName: string]: AttributeItem };
