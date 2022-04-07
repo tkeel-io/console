@@ -1,20 +1,17 @@
-import { useDisclosure } from '@chakra-ui/react';
-
-import { Documents } from '@tkeel/console-business-components';
 import { MoreActionButton } from '@tkeel/console-components';
+import { useDocuments } from '@tkeel/console-hooks';
 import { ShutdownFilledIcon } from '@tkeel/console-icons';
 
 export default function OpenDocsButton() {
-  const { isOpen, onOpen } = useDisclosure();
+  const documents = useDocuments();
 
   return (
-    <>
-      <MoreActionButton
-        title="OpenDocs"
-        icon={<ShutdownFilledIcon />}
-        onClick={onOpen}
-      />
-      {isOpen && <Documents />}
-    </>
+    <MoreActionButton
+      title="OpenDocs"
+      icon={<ShutdownFilledIcon />}
+      onClick={() => {
+        documents.onOen(documents.config.paths.roles);
+      }}
+    />
   );
 }

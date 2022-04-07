@@ -3,6 +3,7 @@ import { ReactNode } from 'react';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 
 import { NotFound } from '@tkeel/console-business-components';
+import { useDocuments } from '@tkeel/console-hooks';
 import { Logo } from '@tkeel/console-types';
 import { env } from '@tkeel/console-utils';
 
@@ -23,18 +24,20 @@ type Props = {
 };
 
 export default function Layout({ userActionMenusComponent, logo }: Props) {
+  const navigate = useNavigate();
+  const documents = useDocuments();
+
   const { menus, isLoading: isLoadingMenus, refetch } = useMenusQuery();
 
-  const navigate = useNavigate();
-
-  const InitOptions = {
+  const initOptions = {
     menus,
+    documents,
     navigate,
     refetchMenus: () => {
       refetch();
     },
   };
-  const apps = menusToApps(InitOptions);
+  const apps = menusToApps(initOptions);
 
   const renderApps = () => {
     const [firstApp] = apps;
@@ -62,7 +65,7 @@ export default function Layout({ userActionMenusComponent, logo }: Props) {
     );
   };
 
-  const { isLoading } = useQiankunInit(InitOptions);
+  const { isLoading } = useQiankunInit(initOptions);
 
   return (
     <Flex height="100%" overflowX="auto">
