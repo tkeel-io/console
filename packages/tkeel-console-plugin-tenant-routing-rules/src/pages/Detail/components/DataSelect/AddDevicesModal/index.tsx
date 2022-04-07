@@ -12,6 +12,7 @@ import {
 } from '@tkeel/console-request-hooks';
 import { getTreeNodeData, TreeNodeData } from '@tkeel/console-utils';
 
+import { RouteType } from '@/tkeel-console-plugin-tenant-routing-rules/components/RouteLabel';
 import useAddDevicesMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useAddDevicesMutation';
 // import useRuleDevicesIdArrayQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDevicesIdArrayQuery';
 import Empty from '@/tkeel-console-plugin-tenant-routing-rules/pages/Detail/components/DataSelect/Empty';
@@ -30,14 +31,18 @@ export interface Device {
 type Props = {
   isOpen: boolean;
   onClose: () => unknown;
+  routeType: RouteType;
   refetchData: () => unknown;
 };
 
 export default function AddDevicesModal({
   isOpen,
   onClose,
+  routeType,
   refetchData,
 }: Props) {
+  // eslint-disable-next-line no-console
+  console.log('routeType', routeType === 'msg');
   const [deviceGroupKeywords, setDeviceGroupKeywords] = useState('');
   const [treeNodeData, setTreeNodeData] = useState<TreeNodeData[]>([]);
   const [groupId, setGroupId] = useState('');
@@ -51,8 +56,6 @@ export default function AddDevicesModal({
   >([]);
 
   const { id: ruleId } = useParams();
-
-  // const { deviceIds } = useRuleDevicesIdArrayQuery(ruleId || '');
 
   const { isLoading: isDeviceGroupLoading } = useDeviceGroupQuery({
     requestData: {

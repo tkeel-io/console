@@ -18,6 +18,7 @@ import {
   SmartObjectTwoToneIcon,
 } from '@tkeel/console-icons';
 
+import { RouteType } from '@/tkeel-console-plugin-tenant-routing-rules/components/RouteLabel';
 import useRuleDevicesQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDevicesQuery';
 
 import TitleWrapper from '../TitleWrapper';
@@ -33,7 +34,11 @@ type DeviceColumnData = {
   parentName: string;
 };
 
-export default function DataSelect() {
+type Props = {
+  routeType: RouteType;
+};
+
+export default function DataSelect({ routeType }: Props) {
   // const navigate = useNavigate();
   const [showDeviceList, setShowDeviceList] = useState(true);
   const [selectedDevices, setSelectedDevices] = useState<
@@ -198,7 +203,7 @@ export default function DataSelect() {
           title="选择数据"
           description="选择设备所触发的数据"
         />
-        <AddDevicesButton refetchData={() => refetch()} />
+        <AddDevicesButton routeType={routeType} refetchData={() => refetch()} />
       </Flex>
       <Flex marginTop="20px" backgroundColor="gray.100" borderRadius="4px">
         {!isLoading && deviceList.length === 0 ? (
@@ -206,7 +211,11 @@ export default function DataSelect() {
             <Text color="gray.600" fontSize="14px" lineHeight="32px">
               暂未选择任何设备数据，请
             </Text>
-            <AddDevicesButton type="link" refetchData={() => refetch()} />
+            <AddDevicesButton
+              type="link"
+              routeType={routeType}
+              refetchData={() => refetch()}
+            />
           </Center>
         ) : (
           <Flex flex="1" flexDirection="column" padding="20px">

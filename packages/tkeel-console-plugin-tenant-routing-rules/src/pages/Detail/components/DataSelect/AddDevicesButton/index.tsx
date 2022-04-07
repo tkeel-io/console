@@ -2,15 +2,19 @@ import { Text, useDisclosure } from '@chakra-ui/react';
 
 import { CreateButton } from '@tkeel/console-components';
 
+import { RouteType } from '@/tkeel-console-plugin-tenant-routing-rules/components/RouteLabel';
+
 import AddDevicesModal from '../AddDevicesModal';
 
 type Props = {
   type?: 'button' | 'link';
+  routeType: RouteType;
   refetchData: () => unknown;
 };
 
 export default function AddDeviceButton({
   type = 'button',
+  routeType,
   refetchData,
 }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -34,6 +38,7 @@ export default function AddDeviceButton({
       <AddDevicesModal
         isOpen={isOpen}
         onClose={onClose}
+        routeType={routeType}
         refetchData={refetchData}
       />
     </>
