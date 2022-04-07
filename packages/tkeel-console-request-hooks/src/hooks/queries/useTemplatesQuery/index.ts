@@ -64,7 +64,7 @@ const defaultRequestData = {
   query: '',
 };
 
-export default function useTemplateQuery(props?: Props) {
+export default function useTemplatesQuery(props?: Props) {
   const requestData: RequestData | undefined = props?.requestData;
   const enabled = props?.enabled ?? true;
   let requestConditions = requestData?.condition || [];

@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { Form, Modal } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
-import { TemplateItem, useTemplateQuery } from '@tkeel/console-request-hooks';
+import { TemplateItem, useTemplatesQuery } from '@tkeel/console-request-hooks';
 
 import ProgressSchedule from '@/tkeel-console-plugin-tenant-devices/components/ProgressSchedule';
 import { ApiData as GroupResData } from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceGroupMutation';
@@ -110,7 +110,7 @@ export default function OperateDeviceModal({
     name: 'extendInfo',
   });
 
-  const { items: templateList } = useTemplateQuery({ enabled: isOpen });
+  const { items: templateList } = useTemplatesQuery({ enabled: isOpen });
   const templateOptions = templateList.map((val: TemplateItem) => {
     return { id: val.id, label: val.properties.basicInfo.name };
   });
