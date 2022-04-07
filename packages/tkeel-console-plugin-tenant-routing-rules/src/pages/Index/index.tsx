@@ -43,7 +43,7 @@ export default function Index(): JSX.Element {
   };
 
   return (
-    <Flex flexDirection="column" h="100%">
+    <Flex flexDirection="column" h="100%" padding="8px 20px 20px">
       <PageHeaderToolbar
         name="数据路由规则"
         hasIcon
