@@ -96,7 +96,7 @@ function Index(): JSX.Element {
   const { setPageNum, pageNum, pageSize, setTotalSize } = pagination;
 
   const { groupTree, refetch: refetchGroupTree } = useGroupTreeQuery();
-  const selectedColor = useColor('primary');
+  const iconHoverColor = useColor('gray.700');
 
   function getTreeNodeData({ data }: { data: TreeNodeType }): TreeNodeData[] {
     return values(data).map((item) => {
@@ -120,7 +120,7 @@ function Index(): JSX.Element {
             key={id}
             _hover={{
               'svg.verticalFilled': {
-                fill: `${selectedColor} !important`,
+                fill: `${iconHoverColor} !important`,
               },
             }}
           >
