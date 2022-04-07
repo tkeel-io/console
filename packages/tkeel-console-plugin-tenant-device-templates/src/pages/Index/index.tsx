@@ -78,11 +78,10 @@ function Index() {
         bg="gray.50"
         boxShadow="0px 8px 8px rgba(152, 163, 180, 0.1)"
         borderRadius="4px"
-        py="20px"
         height="100%"
         flexDir="column"
       >
-        <Box flex="1" overflowY="scroll" px="20px">
+        <Box flex="1" p="20px" overflowY="scroll">
           <SimpleGrid spacingX="20px" spacingY="12px" columns={2}>
             {keyData.map((item: KeyDataType) => {
               return (
