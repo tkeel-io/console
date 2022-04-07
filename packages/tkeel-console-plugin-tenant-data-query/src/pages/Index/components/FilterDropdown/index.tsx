@@ -332,7 +332,7 @@ export default function FilterDropdown({
       zIndex="2"
       padding="8px 20px 20px"
       width="100%"
-      maxHeight="450px"
+      height="410px"
       backgroundColor="white"
       boxShadow="0px 8px 8px rgba(182, 194, 205, 0.2)"
       borderRadius="4px"
