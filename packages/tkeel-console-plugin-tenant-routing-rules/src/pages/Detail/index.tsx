@@ -39,11 +39,11 @@ export default function Detail() {
 
   const name = ruleDetail?.name ?? '';
   const status = ruleDetail?.status ?? 0;
-  const desc = ruleDetail?.desc ?? '';
+  const desc = ruleDetail?.desc || '暂无描述';
 
   return (
     <Flex
-      paddingTop="20px"
+      padding="20px"
       height="100%"
       justifyContent="center"
       position="relative"
@@ -52,7 +52,7 @@ export default function Detail() {
     >
       <Box
         position="absolute"
-        left="-20px"
+        left="0"
         top="0"
         width="calc(100% + 40px)"
         height="200px"
@@ -70,7 +70,7 @@ export default function Detail() {
         <Flex justifyContent="space-between">
           <Flex alignItems="center" maxWidth="80%">
             <Square size="40px" backgroundColor="gray.50" borderRadius="4px">
-              <PingTwoToneIcon size={20} />
+              <PingTwoToneIcon size={24} />
             </Square>
             <Text
               marginLeft="8px"
