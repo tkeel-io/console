@@ -109,15 +109,8 @@ export default function OperateDeviceModal({
     control,
     name: 'extendInfo',
   });
-  const params = {
-    page_num: 1,
-    page_size: 1000,
-    order_by: 'name',
-    is_descending: false,
-    query: '',
-    condition: [{ field: 'type', operator: '$eq', value: 'template' }],
-  };
-  const { items: templateList } = useTemplateQuery({ params, enabled: isOpen });
+
+  const { items: templateList } = useTemplateQuery({ enabled: isOpen });
   const templateOptions = templateList.map((val: TemplateItem) => {
     return { id: val.id, label: val.properties.basicInfo.name };
   });
