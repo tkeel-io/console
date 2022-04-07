@@ -29,6 +29,7 @@ export default function SelectStyles({ prefixCls, styles }: Props) {
     }
     .${selectPrefix} {
       width: inherit;
+      ${styles?.select}
 
       &-single {
         .${selectPrefix}-selector {
