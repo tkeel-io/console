@@ -1,6 +1,7 @@
 import {
   AttributeItem,
   AttributeValue,
+  CommandItem,
   TelemetryItem,
   TelemetryValue,
 } from '@tkeel/console-types';
@@ -63,6 +64,7 @@ export interface DeviceObject {
   configs: {
     attributes?: { define?: { fields?: AttributeItem } };
     telemetry?: { define?: { fields?: TelemetryItem } };
+    commands?: { define?: { fields?: CommandItem } };
   };
   properties: {
     basicInfo: BasicInfo;

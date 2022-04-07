@@ -43,8 +43,6 @@ function DeviceDetail(): JSX.Element {
       attributeDefaultValues: properties?.attributes ?? {},
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       attributes,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      /*  telemetry: !isEmpty(telemetry) ? telemetry : properties?.telemetry ?? {}, */
       telemetryDefaultValues: properties?.telemetry ?? {},
       telemetry,
       connectInfo: connectData,

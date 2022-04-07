@@ -27,6 +27,21 @@ export interface AttributeItem {
   last_time: number;
 }
 
+export interface CommandItem {
+  define: {
+    fields: {
+      [propName: string]: {
+        [propName: string]: unknown;
+      };
+    };
+  };
+  type: string;
+  id: string;
+  description: string;
+  name: string;
+  last_time: number;
+}
+
 export type AttributeValue = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [propName: string]: any;

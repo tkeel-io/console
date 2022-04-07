@@ -8,6 +8,7 @@ import { DeviceObject } from '@/tkeel-console-plugin-tenant-devices/hooks/querie
 import AttributesData from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/AttributesData';
 import ConnectionInfo from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/ConnectionInfo';
 import RawData from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/RawData';
+import ServiceCommand from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/ServiceCommand';
 import TelemetryData from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/TelemetryData';
 
 type Props = {
@@ -24,6 +25,7 @@ function DeviceDetailRightPanel({
   const { properties, configs, id } = deviceObject;
   const attributeFields = configs?.attributes?.define?.fields ?? {};
   const telemetryFields = configs?.telemetry?.define?.fields ?? {};
+  const commandFields = configs?.commands?.define?.fields ?? {};
   const {
     connectInfo,
     rawData,
@@ -37,21 +39,22 @@ function DeviceDetailRightPanel({
     {
       label: '连接信息',
       key: 'connectionInfo',
+      isVisible: true,
       component: <ConnectionInfo data={connectInfo} />,
     },
     {
       label: '原始数据',
       key: 'rawData',
+      isVisible: true,
       component: (
         // eslint-disable-next-line no-underscore-dangle
         <RawData data={rawData} online={connectInfo?._online ?? false} />
       ),
     },
-  ];
-  const useTemplateTabs = [
     {
       label: '属性数据',
       key: 'attributeData',
+      isVisible: !!basicInfo?.templateId || basicInfo?.selfLearn,
       component: (
         <AttributesData
           attributeValues={attributeValues}
@@ -68,6 +71,7 @@ function DeviceDetailRightPanel({
     {
       label: '遥测数据',
       key: 'telemetry',
+      isVisible: !!basicInfo?.templateId || basicInfo?.selfLearn,
       component: (
         <TelemetryData
           basicInfo={basicInfo}
@@ -81,8 +85,21 @@ function DeviceDetailRightPanel({
         />
       ),
     },
+    {
+      label: '服务命令',
+      key: 'command',
+      isVisible: !!basicInfo?.templateId || basicInfo?.selfLearn,
+      component: (
+        <ServiceCommand
+          basicInfo={basicInfo}
+          deviceId={id}
+          refetch={refetch}
+          commandFields={values(commandFields)}
+        />
+      ),
+    },
   ];
-  const [tabIndex, setTabIndex] = useState(0);
+  const [tabIndex, setTabIndex] = useState(4);
   const handleTabChange = (index: number) => {
     setTabIndex(index);
   };
@@ -98,24 +115,26 @@ function DeviceDetailRightPanel({
       flexDirection="column"
     >
       <CustomTabList>
-        {(basicInfo?.templateId ? [...tabs, ...useTemplateTabs] : tabs).map(
-          (r, index) => (
-            <CustomTab
-              borderTopLeftRadius={index === 0 ? '4px' : '0'}
-              key={r.key}
-            >
-              {r.label}
-            </CustomTab>
-          )
+        {tabs.map(
+          (r, index) =>
+            r.isVisible && (
+              <CustomTab
+                borderTopLeftRadius={index === 0 ? '4px' : '0'}
+                key={r.key}
+              >
+                {r.label}
+              </CustomTab>
+            )
         )}
       </CustomTabList>
       <TabPanels flex="1" display="flex" overflow="hidden">
-        {(basicInfo?.templateId ? [...tabs, ...useTemplateTabs] : tabs).map(
-          (r) => (
-            <TabPanel key={r.key} p="12px 20px" flex="1">
-              {r.component}
-            </TabPanel>
-          )
+        {tabs.map(
+          (r) =>
+            r.isVisible && (
+              <TabPanel key={r.key} p="12px 20px" flex="1">
+                {r.component}
+              </TabPanel>
+            )
         )}
       </TabPanels>
     </Tabs>
