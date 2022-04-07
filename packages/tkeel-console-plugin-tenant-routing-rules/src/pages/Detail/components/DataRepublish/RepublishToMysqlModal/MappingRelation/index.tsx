@@ -102,7 +102,7 @@ export default function MappingRelation() {
                 formLabelStyle={{ mb: 0 }}
                 formHelperStyle={{ mt: 0 }}
                 formControlStyle={{ mb: 0, height: '42px' }}
-                selectStyle={{ borderWidth: '0px' }}
+                selectStyles={{ selector: 'border-width: 0' }}
               />
             </Box>
           ),
