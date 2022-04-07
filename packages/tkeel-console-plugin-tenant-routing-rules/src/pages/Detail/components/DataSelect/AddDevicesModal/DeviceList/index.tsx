@@ -88,7 +88,7 @@ export default function DeviceList({
             }
           >
             <Flex alignItems="center">
-              <SmartObjectTwoToneIcon />
+              <SmartObjectTwoToneIcon size={20} />
               <Text marginLeft="6px" {...textStyle}>
                 {device?.properties?.basicInfo?.name ?? ''}
               </Text>

@@ -39,7 +39,7 @@ export default function Detail() {
 
   const name = ruleDetail?.name ?? '';
   const status = ruleDetail?.status ?? 0;
-  const desc = ruleDetail?.desc ?? '';
+  const desc = ruleDetail?.desc || '暂无描述';
 
   return (
     <Flex
