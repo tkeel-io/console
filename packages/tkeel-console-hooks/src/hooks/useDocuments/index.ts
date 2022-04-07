@@ -9,7 +9,10 @@ export default function useDocuments(): UserDocumentsReturns {
 
   const onOen = (path: string) => {
     setPath(path);
-    setIsOpen(true);
+
+    setTimeout(() => {
+      setIsOpen(true);
+    });
   };
 
   const onClose = () => {

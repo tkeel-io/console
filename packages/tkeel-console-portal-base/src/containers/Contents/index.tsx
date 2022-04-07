@@ -48,6 +48,7 @@ export default function Contents({
         value={{
           documents: {
             isOpen: isOpenDocuments,
+            // TODO: temp
             baseURL: 'http://localhost:3000/docs',
             path: documentsPath,
             setIsOpen: setIsOpenDocuments,

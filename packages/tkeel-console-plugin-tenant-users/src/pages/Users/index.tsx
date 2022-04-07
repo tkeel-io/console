@@ -123,7 +123,7 @@ export default function Users() {
     <Flex flexDirection="column" height="100%">
       <PageHeaderToolbar
         name="用户管理"
-        documentsPath={documents.config.paths.roles}
+        documentsPath={documents.config.paths.users}
         hasSearchInput
         searchInputProps={{
           inputStyle: { backgroundColor: colors.white },

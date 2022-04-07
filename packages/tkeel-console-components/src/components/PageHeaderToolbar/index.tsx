@@ -43,8 +43,7 @@ const defaultSearchInputProps = {
 
 function PageHeaderToolbar({
   name,
-  documentsPath,
-
+  documentsPath = '',
   hasSearchInput = false,
   searchInputProps = defaultSearchInputProps,
   buttons = [],
