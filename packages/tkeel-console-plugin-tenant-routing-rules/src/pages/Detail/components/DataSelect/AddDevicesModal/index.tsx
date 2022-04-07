@@ -2,7 +2,7 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import { ChangeEvent, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { Loading, Modal, SearchInput, Tree } from '@tkeel/console-components';
+import { Modal, SearchInput } from '@tkeel/console-components';
 import { BroomFilledIcon } from '@tkeel/console-icons';
 import {
   DeviceItem,
@@ -12,11 +12,10 @@ import {
 } from '@tkeel/console-request-hooks';
 import { getTreeNodeData, TreeNodeData } from '@tkeel/console-utils';
 
-import { RouteType } from '@/tkeel-console-plugin-tenant-routing-rules/components/RouteLabel';
 import useAddDevicesMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useAddDevicesMutation';
-// import useRuleDevicesIdArrayQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDevicesIdArrayQuery';
-import Empty from '@/tkeel-console-plugin-tenant-routing-rules/pages/Detail/components/DataSelect/Empty';
 
+import DeviceGroupTree from './DeviceGroupTree';
+// import useRuleDevicesIdArrayQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDevicesIdArrayQuery';
 import DeviceList from './DeviceList';
 import SelectedDevices from './SelectedDevices';
 
@@ -31,18 +30,14 @@ export interface Device {
 type Props = {
   isOpen: boolean;
   onClose: () => unknown;
-  routeType: RouteType;
   refetchData: () => unknown;
 };
 
 export default function AddDevicesModal({
   isOpen,
   onClose,
-  routeType,
   refetchData,
 }: Props) {
-  // eslint-disable-next-line no-console
-  console.log('routeType', routeType === 'msg');
   const [deviceGroupKeywords, setDeviceGroupKeywords] = useState('');
   const [treeNodeData, setTreeNodeData] = useState<TreeNodeData[]>([]);
   const [groupId, setGroupId] = useState('');
@@ -273,39 +268,12 @@ export default function AddDevicesModal({
           />
           <Flex justifyContent="space-between">
             <Box {...contentStyle}>
-              {(() => {
-                if (isDeviceGroupLoading) {
-                  return <Loading styles={{ wrapper: { height: '100%' } }} />;
-                }
-
-                if (treeNodeData.length === 0) {
-                  return (
-                    <Empty
-                      styles={{ wrapper: { width: '100%', height: '100%' } }}
-                    />
-                  );
-                }
-
-                return (
-                  <Tree
-                    extras={{ isTreeTitleFullWidth: true }}
-                    treeData={treeNodeData}
-                    selectedKeys={[groupId]}
-                    selectable
-                    showIcon
-                    onSelect={(_, info) => {
-                      const key = info.node.key as string;
-                      if (key && key !== groupId) {
-                        setGroupId(key);
-                      }
-                    }}
-                    styles={{
-                      treeNodeContentWrapper: 'flex: 1',
-                      treeTitle: 'font-size:14px; line-height: 32px;',
-                    }}
-                  />
-                );
-              })()}
+              <DeviceGroupTree
+                isLoading={isDeviceGroupLoading}
+                treeNodeData={treeNodeData}
+                groupId={groupId}
+                setGroupId={(key: string) => setGroupId(key)}
+              />
             </Box>
             <Flex marginLeft="20px" {...contentStyle}>
               <DeviceList

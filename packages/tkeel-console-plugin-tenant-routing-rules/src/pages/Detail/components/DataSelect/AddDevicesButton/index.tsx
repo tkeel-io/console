@@ -17,6 +17,8 @@ export default function AddDeviceButton({
   routeType,
   refetchData,
 }: Props) {
+  // eslint-disable-next-line no-console
+  console.log('routeType', routeType);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -38,7 +40,6 @@ export default function AddDeviceButton({
       <AddDevicesModal
         isOpen={isOpen}
         onClose={onClose}
-        routeType={routeType}
         refetchData={refetchData}
       />
     </>

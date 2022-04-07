@@ -5,6 +5,7 @@ import { Cell, Column } from 'react-table';
 
 import { DeviceStatusIcon } from '@tkeel/console-business-components';
 import {
+  Loading,
   // LinkButton,
   MoreAction,
   SearchInput,
@@ -206,111 +207,126 @@ export default function DataSelect({ routeType }: Props) {
         <AddDevicesButton routeType={routeType} refetchData={() => refetch()} />
       </Flex>
       <Flex marginTop="20px" backgroundColor="gray.100" borderRadius="4px">
-        {!isLoading && deviceList.length === 0 ? (
-          <Center width="100%" height="104px">
-            <Text color="gray.600" fontSize="14px" lineHeight="32px">
-              暂未选择任何设备数据，请
-            </Text>
-            <AddDevicesButton
-              type="link"
-              routeType={routeType}
-              refetchData={() => refetch()}
-            />
-          </Center>
-        ) : (
-          <Flex flex="1" flexDirection="column" padding="20px">
-            <Flex
-              padding="0 20px"
-              justifyContent="space-between"
-              alignItems="center"
-              border="1px"
-              borderColor="grayAlternatives.50"
-              borderRadius="4px"
-              color="gray.700"
-              fontSize="14px"
-              height="64px"
-              backgroundColor="white"
-              cursor="pointer"
-              onClick={() => setShowDeviceList(!showDeviceList)}
-            >
-              <Flex alignItems="center">
-                <Text>转发</Text>
-                <Text margin="0 2px" color="primary" fontWeight="500">
-                  {total}
+        {(() => {
+          if (isLoading) {
+            return (
+              <Loading
+                styles={{ wrapper: { width: '100%', height: '104px' } }}
+              />
+            );
+          }
+
+          if (deviceList.length === 0) {
+            return (
+              <Center width="100%" height="104px">
+                <Text color="gray.600" fontSize="14px" lineHeight="32px">
+                  暂未选择任何设备数据，请
+                  {routeType === 'time' ? '通过设备模板' : ''}
                 </Text>
-                <Text>台设备</Text>
+                <AddDevicesButton
+                  type="link"
+                  routeType={routeType}
+                  refetchData={() => refetch()}
+                />
+              </Center>
+            );
+          }
+
+          return (
+            <Flex flex="1" flexDirection="column" padding="20px">
+              <Flex
+                padding="0 20px"
+                justifyContent="space-between"
+                alignItems="center"
+                border="1px"
+                borderColor="grayAlternatives.50"
+                borderRadius="4px"
+                color="gray.700"
+                fontSize="14px"
+                height="64px"
+                backgroundColor="white"
+                cursor="pointer"
+                onClick={() => setShowDeviceList(!showDeviceList)}
+              >
+                <Flex alignItems="center">
+                  <Text>转发</Text>
+                  <Text margin="0 2px" color="primary" fontWeight="500">
+                    {total}
+                  </Text>
+                  <Text>台设备</Text>
+                </Flex>
+                {showDeviceList ? (
+                  <ChevronUpFilledIcon />
+                ) : (
+                  <ChevronDownFilledIcon />
+                )}
               </Flex>
-              {showDeviceList ? (
-                <ChevronUpFilledIcon />
-              ) : (
-                <ChevronDownFilledIcon />
+              {showDeviceList && (
+                <Flex
+                  marginTop="12px"
+                  padding="20px"
+                  flexDirection="column"
+                  flex="1"
+                  borderRadius="4px"
+                  backgroundColor="gray.50"
+                >
+                  {selectedDevices.length > 0 ? (
+                    <MoreAction
+                      type="text"
+                      buttons={[
+                        <MoveRoutingRuleButton
+                          key="move"
+                          selectedIds={selectedDevices.map(({ id }) => id)}
+                          refetchData={() => refetch()}
+                        />,
+                        <DeleteDevicesButton
+                          key="delete"
+                          selectedDevices={selectedDevices}
+                          refetchData={() => refetch()}
+                        />,
+                      ]}
+                      styles={{ wrapper: { margin: '6px 0', width: '92px' } }}
+                    />
+                  ) : (
+                    <SearchInput
+                      onSearch={(value) => setKeywords(value)}
+                      height="44px"
+                      inputGroupStyle={{ width: '100%' }}
+                      inputStyle={{ borderRadius: '30px' }}
+                    />
+                  )}
+                  <Table
+                    columns={columns}
+                    data={deviceTableData}
+                    isLoading={isLoading}
+                    onSelect={handleSelect}
+                    paginationProps={pagination}
+                    scroll={{ y: '400px' }}
+                    styles={{
+                      wrapper: {
+                        flex: 1,
+                        marginTop: '20px',
+                        overflow: 'hidden',
+                        backgroundColor: 'gray.50',
+                      },
+                      loading: {
+                        height: '500px',
+                      },
+                      head: { backgroundColor: 'gray.100' },
+                      headTr: { height: '44px', border: 'none' },
+                      bodyTr: {
+                        marginTop: '8px',
+                        border: 'none',
+                        backgroundColor: 'white',
+                      },
+                      pagination: { padding: '0 20px' },
+                    }}
+                  />
+                </Flex>
               )}
             </Flex>
-            {showDeviceList && (
-              <Flex
-                marginTop="12px"
-                padding="20px"
-                flexDirection="column"
-                flex="1"
-                borderRadius="4px"
-                backgroundColor="gray.50"
-              >
-                {selectedDevices.length > 0 ? (
-                  <MoreAction
-                    type="text"
-                    buttons={[
-                      <MoveRoutingRuleButton
-                        key="move"
-                        selectedIds={selectedDevices.map(({ id }) => id)}
-                        refetchData={() => refetch()}
-                      />,
-                      <DeleteDevicesButton
-                        key="delete"
-                        selectedDevices={selectedDevices}
-                        refetchData={() => refetch()}
-                      />,
-                    ]}
-                    styles={{ wrapper: { margin: '6px 0', width: '92px' } }}
-                  />
-                ) : (
-                  <SearchInput
-                    onSearch={(value) => setKeywords(value)}
-                    height="44px"
-                    inputGroupStyle={{ width: '100%' }}
-                    inputStyle={{ borderRadius: '30px' }}
-                  />
-                )}
-                <Table
-                  columns={columns}
-                  data={deviceTableData}
-                  isLoading={isLoading}
-                  onSelect={handleSelect}
-                  paginationProps={pagination}
-                  scroll={{ y: '400px' }}
-                  styles={{
-                    wrapper: {
-                      flex: 1,
-                      marginTop: '20px',
-                      overflow: 'hidden',
-                      backgroundColor: 'gray.50',
-                    },
-                    loading: {
-                      height: '500px',
-                    },
-                    head: { backgroundColor: 'gray.100' },
-                    headTr: { height: '44px', border: 'none' },
-                    bodyTr: {
-                      marginTop: '8px',
-                      border: 'none',
-                      backgroundColor: 'white',
-                    },
-                    pagination: { padding: '0 20px' },
-                  }}
-                />
-              </Flex>
-            )}
-          </Flex>
-        )}
+          );
+        })()}
       </Flex>
     </>
   );
