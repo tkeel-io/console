@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { Dispatch, SetStateAction } from 'react';
 
-import { Loading, SearchInput, Tree } from '@tkeel/console-components';
+import { Loading, SearchInput, Tooltip, Tree } from '@tkeel/console-components';
 
 import propertiesEmpty from '@/tkeel-console-plugin-tenant-data-query/assets/images/properties-empty.svg';
 import { TelemetryFields } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceDetailQuery';
@@ -115,9 +115,11 @@ export default function PropertiesConditions({
         flex="1"
       >
         <TabList display="flex" borderBottom="none">
-          <CustomTab isDisabled flex="1">
+          <CustomTab flex="1" isDisabled>
             <CustomCheckbox />
-            <Text {...tabTextStyle}>原始数据</Text>
+            <Tooltip label="敬请期待">
+              <Text {...tabTextStyle}>原始数据</Text>
+            </Tooltip>
           </CustomTab>
           <CustomTab flex="1">
             <Flex alignItems="center">
