@@ -38,7 +38,7 @@ export default function AddDeviceButton({
           添加设备
         </Text>
       )}
-      {routeType === 'time' ? (
+      {routeType === 'msg' ? (
         <AddTemplateDevicesModal isOpen={isOpen} onClose={onClose} />
       ) : (
         <AddGroupDevicesModal

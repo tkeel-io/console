@@ -1,5 +1,4 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { ChangeEvent } from 'react';
 
 import { Checkbox, Loading } from '@tkeel/console-components';
 import { SmartObjectTwoToneIcon } from '@tkeel/console-icons';
@@ -10,7 +9,7 @@ type Props = {
   empty?: JSX.Element | null;
   deviceList: DeviceItem[];
   selectedDevices: DeviceItem[];
-  handleAllCheckBoxChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  handleAllCheckBoxChange: (checked: boolean) => void;
   handleItemCheckBoxChange: ({
     checked,
     device,
@@ -56,7 +55,7 @@ export default function DeviceList({
       <Checkbox
         isChecked={isAllChecked}
         isIndeterminate={isIndeterminate}
-        onChange={handleAllCheckBoxChange}
+        onChange={(e) => handleAllCheckBoxChange(e.target.checked)}
       >
         <Text {...textStyle}>全选</Text>
       </Checkbox>

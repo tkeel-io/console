@@ -1,5 +1,5 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { Modal, SearchInput } from '@tkeel/console-components';
@@ -136,8 +136,7 @@ export default function AddGroupDevicesModal({
     setFilteredSelectedDevices(searchDevicesByKeywords({ devices }));
   };
 
-  const handleAllCheckBoxChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { checked } = e.target;
+  const handleAllCheckBoxChange = (checked: boolean) => {
     let newSelectedDevices = [];
     if (checked) {
       const addDevices = deviceList.filter(
