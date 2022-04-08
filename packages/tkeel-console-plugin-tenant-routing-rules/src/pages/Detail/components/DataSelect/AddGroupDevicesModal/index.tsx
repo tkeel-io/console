@@ -244,18 +244,6 @@ export default function AddGroupDevicesModal({
     backgroundColor: 'gray.50',
   };
 
-  let mockDeviceList: DeviceItem[] = [];
-  Array.from({ length: 10 }).forEach(() => {
-    mockDeviceList = [...mockDeviceList, ...deviceList];
-  });
-
-  let mockFilteredSelectedDevices: DeviceItem[] = [];
-  Array.from({ length: 10 }).forEach(() => {
-    mockFilteredSelectedDevices = [
-      ...mockFilteredSelectedDevices,
-      ...deviceList,
-    ];
-  });
   return (
     <Modal
       title="添加设备"
@@ -304,7 +292,7 @@ export default function AddGroupDevicesModal({
                     />
                   ) : null
                 }
-                deviceList={mockDeviceList}
+                deviceList={deviceList}
                 selectedDevices={selectedDevices}
                 handleAllCheckBoxChange={handleAllCheckBoxChange}
                 handleItemCheckBoxChange={handleItemCheckBoxChange}
@@ -346,7 +334,7 @@ export default function AddGroupDevicesModal({
           <Box {...contentStyle}>
             <SelectedDevices
               groupId={groupId}
-              devices={mockFilteredSelectedDevices || filteredSelectedDevices}
+              devices={filteredSelectedDevices}
               removeDevice={(deviceId) => {
                 handleSetSelectedDevices(
                   selectedDevices.filter((device) => device.id !== deviceId)
