@@ -92,6 +92,6 @@ export default function useTemplatesQuery(props?: Props) {
       enabled,
     },
   });
-  const items = data?.listDeviceObject?.items ?? [];
-  return { items, data, ...rest };
+  const templates = data?.listDeviceObject?.items ?? [];
+  return { templates, data, ...rest };
 }

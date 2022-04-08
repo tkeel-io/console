@@ -110,11 +110,11 @@ export default function OperateDeviceModal({
     name: 'extendInfo',
   });
 
-  const { items: templateList } = useTemplatesQuery({ enabled: isOpen });
-  const templateOptions = templateList.map((val: TemplateItem) => {
+  const { templates } = useTemplatesQuery({ enabled: isOpen });
+  const templateOptions = templates.map((val: TemplateItem) => {
     return { id: val.id, label: val.properties.basicInfo.name };
   });
-  // const templateItem = templateList.find(
+  // const templateItem = templates.find(
   //   (val) => val.id === watchFields.templateId
   // );
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
