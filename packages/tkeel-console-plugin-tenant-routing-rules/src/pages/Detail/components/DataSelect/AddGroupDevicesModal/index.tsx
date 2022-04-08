@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { Modal, SearchInput } from '@tkeel/console-components';
 import { BroomFilledIcon } from '@tkeel/console-icons';
 import {
-  DeviceItem,
   RequestDataCondition,
   useDeviceGroupQuery,
   useDeviceListQuery,
@@ -12,7 +11,7 @@ import {
 import { getTreeNodeData, TreeNodeData } from '@tkeel/console-utils';
 
 // import useRuleDevicesIdArrayQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDevicesIdArrayQuery';
-import DeviceList from '../DeviceList';
+import DeviceList, { DeviceItemExtended } from '../DeviceList';
 import Empty from '../Empty';
 import DeviceGroupTree from './DeviceGroupTree';
 import SelectedDevices from './SelectedDevices';
@@ -29,7 +28,7 @@ type Props = {
   isOpen: boolean;
   onClose: () => unknown;
   isLoading: boolean;
-  onConfirm: (devices: DeviceItem[]) => unknown;
+  onConfirm: (devices: DeviceItemExtended[]) => unknown;
 };
 
 export default function AddGroupDevicesModal({
@@ -45,9 +44,11 @@ export default function AddGroupDevicesModal({
   const [deviceGroupConditions, setDeviceGroupConditions] = useState<
     RequestDataCondition[]
   >([]);
-  const [selectedDevices, setSelectedDevices] = useState<DeviceItem[]>([]);
+  const [selectedDevices, setSelectedDevices] = useState<DeviceItemExtended[]>(
+    []
+  );
   const [filteredSelectedDevices, setFilteredSelectedDevices] = useState<
-    DeviceItem[]
+    DeviceItemExtended[]
   >([]);
 
   const { isLoading: isDeviceGroupLoading } = useDeviceGroupQuery({
@@ -100,7 +101,7 @@ export default function AddGroupDevicesModal({
     devices,
     keywords = deviceKeywords,
   }: {
-    devices: DeviceItem[];
+    devices: DeviceItemExtended[];
     keywords?: string;
   }) => {
     return devices.filter((device) =>
@@ -116,7 +117,7 @@ export default function AddGroupDevicesModal({
     setFilteredSelectedDevices(newFilteredSelectedDevices);
   };
 
-  const handleSetSelectedDevices = (devices: DeviceItem[]) => {
+  const handleSetSelectedDevices = (devices: DeviceItemExtended[]) => {
     setSelectedDevices(devices);
     setFilteredSelectedDevices(searchDevicesByKeywords({ devices }));
   };
@@ -154,7 +155,9 @@ export default function AddGroupDevicesModal({
       width="900px"
       isOpen={isOpen}
       onClose={onClose}
-      onConfirm={() => onConfirm(selectedDevices)}
+      onConfirm={() =>
+        onConfirm(selectedDevices.filter((device) => !device.disable))
+      }
       isConfirmButtonLoading={isLoading}
       isConfirmButtonDisabled={selectedDevices.length === 0}
       modalBodyStyle={{ padding: '20px' }}

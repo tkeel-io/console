@@ -4,13 +4,17 @@ import { Checkbox, Loading } from '@tkeel/console-components';
 import { SmartObjectTwoToneIcon } from '@tkeel/console-icons';
 import { DeviceItem } from '@tkeel/console-request-hooks';
 
+export interface DeviceItemExtended extends DeviceItem {
+  disable?: boolean;
+}
+
 type Props = {
   isLoading: boolean;
   empty?: JSX.Element | null;
-  deviceList: DeviceItem[];
+  deviceList: DeviceItemExtended[];
   keywords?: string;
-  selectedDevices: DeviceItem[];
-  handleSetSelectedDevices: (selectedDevices: DeviceItem[]) => unknown;
+  selectedDevices: DeviceItemExtended[];
+  handleSetSelectedDevices: (selectedDevices: DeviceItemExtended[]) => unknown;
 };
 
 const getNewDevices = ({
@@ -18,8 +22,8 @@ const getNewDevices = ({
   device,
   checked,
 }: {
-  devices: DeviceItem[];
-  device: DeviceItem;
+  devices: DeviceItemExtended[];
+  device: DeviceItemExtended;
   checked: boolean;
 }) => {
   return checked
@@ -70,7 +74,7 @@ export default function DeviceList({
     device,
   }: {
     checked: boolean;
-    device: DeviceItem;
+    device: DeviceItemExtended;
   }) => {
     const newSelectedDevices = getNewDevices({
       devices: selectedDevices,
@@ -87,6 +91,7 @@ export default function DeviceList({
   const filteredDeviceList = deviceList.filter((device) =>
     (device?.properties?.basicInfo?.name ?? '').includes(keywords)
   );
+
   if (filteredDeviceList.length === 0) {
     return empty;
   }
@@ -102,33 +107,40 @@ export default function DeviceList({
         <Text {...textStyle}>全选</Text>
       </Checkbox>
       <Box flex={1} overflowY="auto">
-        {filteredDeviceList.map((device) => (
-          <Flex
-            key={device.id}
-            height="32px"
-            paddingLeft="20px"
-            alignItems="center"
-            _hover={{ backgroundColor: 'grayAlternatives.50' }}
-          >
-            <Checkbox
-              isChecked={checkedDevices.some((item) => item.id === device.id)}
-              onChange={(e) =>
-                handleItemCheckBoxChange({
-                  checked: e.target.checked,
-                  device,
-                })
-              }
-              width="100%"
+        {filteredDeviceList.map((device) => {
+          const { id, properties, disable } = device;
+          return (
+            <Flex
+              key={id}
+              height="32px"
+              paddingLeft="20px"
+              alignItems="center"
+              _hover={{ backgroundColor: 'grayAlternatives.50' }}
             >
-              <Flex alignItems="center">
-                <SmartObjectTwoToneIcon size={20} />
-                <Text marginLeft="6px" {...textStyle}>
-                  {device?.properties?.basicInfo?.name ?? ''}
-                </Text>
-              </Flex>
-            </Checkbox>
-          </Flex>
-        ))}
+              <Checkbox
+                isChecked={checkedDevices.some((item) => item.id === id)}
+                onChange={(e) => {
+                  if (!disable) {
+                    handleItemCheckBoxChange({
+                      checked: e.target.checked,
+                      device,
+                    });
+                  }
+                }}
+                width="100%"
+                cursor={disable ? 'not-allowed' : 'pointer'}
+                opacity={disable ? '.5' : '1'}
+              >
+                <Flex alignItems="center">
+                  <SmartObjectTwoToneIcon size={20} />
+                  <Text marginLeft="6px" {...textStyle}>
+                    {properties?.basicInfo?.name ?? ''}
+                  </Text>
+                </Flex>
+              </Checkbox>
+            </Flex>
+          );
+        })}
       </Box>
     </Flex>
   );

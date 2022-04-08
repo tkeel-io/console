@@ -2,15 +2,15 @@ import { Flex, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 
 import { Modal, SearchInput } from '@tkeel/console-components';
-import { DeviceItem, useDeviceListQuery } from '@tkeel/console-request-hooks';
+import { useDeviceListQuery } from '@tkeel/console-request-hooks';
 
-import DeviceList from '../DeviceList';
+import DeviceList, { DeviceItemExtended } from '../DeviceList';
 
 type Props = {
   isOpen: boolean;
   isLoading: boolean;
   onClose: () => unknown;
-  onConfirm: (devices: DeviceItem[]) => unknown;
+  onConfirm: (devices: DeviceItemExtended[]) => unknown;
 };
 
 export default function AddTemplateDevicesModal({
@@ -20,7 +20,9 @@ export default function AddTemplateDevicesModal({
   onConfirm,
 }: Props) {
   const [keywords, setKeywords] = useState('');
-  const [selectedDevices, setSelectedDevices] = useState<DeviceItem[]>([]);
+  const [selectedDevices, setSelectedDevices] = useState<DeviceItemExtended[]>(
+    []
+  );
 
   const { deviceList } = useDeviceListQuery({
     requestData: {
@@ -40,7 +42,9 @@ export default function AddTemplateDevicesModal({
       width="600px"
       isOpen={isOpen}
       onClose={onClose}
-      onConfirm={() => onConfirm(selectedDevices)}
+      onConfirm={() =>
+        onConfirm(selectedDevices.filter((device) => !device.disable))
+      }
       isConfirmButtonLoading={isLoading}
       isConfirmButtonDisabled={selectedDevices.length === 0}
       modalBodyStyle={{ padding: '20px' }}
