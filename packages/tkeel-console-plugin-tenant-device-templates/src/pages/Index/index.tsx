@@ -32,11 +32,11 @@ function Index() {
   const pagination = usePagination();
   const { pageNum, pageSize, setTotalSize, ...rest } = pagination;
 
-  const { items, refetch } = useTemplatesQuery({
+  const { templates, refetch } = useTemplatesQuery({
     requestData: { query: keyWord },
   });
 
-  const keyData: KeyDataType[] = items.map((val: TemplateItem) => {
+  const keyData: KeyDataType[] = templates.map((val: TemplateItem) => {
     return {
       title: val.properties.basicInfo.name,
       description: val.properties.basicInfo.description,
