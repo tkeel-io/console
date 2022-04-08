@@ -8,6 +8,7 @@ type Props = {
   isLoading: boolean;
   empty?: JSX.Element | null;
   deviceList: DeviceItem[];
+  keywords?: string;
   selectedDevices: DeviceItem[];
   handleSetSelectedDevices: (selectedDevices: DeviceItem[]) => unknown;
 };
@@ -30,6 +31,7 @@ export default function DeviceList({
   isLoading,
   empty = null,
   deviceList,
+  keywords = '',
   selectedDevices,
   handleSetSelectedDevices,
 }: Props) {
@@ -82,7 +84,10 @@ export default function DeviceList({
     return <Loading styles={{ wrapper: { flex: '1' } }} />;
   }
 
-  if (deviceList.length === 0) {
+  const filteredDeviceList = deviceList.filter((device) =>
+    (device?.properties?.basicInfo?.name ?? '').includes(keywords)
+  );
+  if (filteredDeviceList.length === 0) {
     return empty;
   }
 
@@ -97,7 +102,7 @@ export default function DeviceList({
         <Text {...textStyle}>全选</Text>
       </Checkbox>
       <Box flex={1} overflowY="auto">
-        {deviceList.map((device) => (
+        {filteredDeviceList.map((device) => (
           <Flex
             key={device.id}
             height="32px"

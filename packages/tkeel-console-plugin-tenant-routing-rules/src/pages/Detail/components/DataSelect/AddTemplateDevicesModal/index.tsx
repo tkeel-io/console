@@ -8,14 +8,19 @@ import DeviceList from '../DeviceList';
 
 type Props = {
   isOpen: boolean;
+  isLoading: boolean;
   onClose: () => unknown;
+  onConfirm: (devices: DeviceItem[]) => unknown;
 };
 
-export default function AddTemplateDevicesModal({ isOpen, onClose }: Props) {
+export default function AddTemplateDevicesModal({
+  isOpen,
+  isLoading,
+  onClose,
+  onConfirm,
+}: Props) {
   const [keywords, setKeywords] = useState('');
   const [selectedDevices, setSelectedDevices] = useState<DeviceItem[]>([]);
-  // eslint-disable-next-line no-console
-  console.log('AddTemplateDevicesModal ~ keywords', keywords);
 
   const { deviceList } = useDeviceListQuery({
     requestData: {
@@ -25,16 +30,9 @@ export default function AddTemplateDevicesModal({ isOpen, onClose }: Props) {
           operator: '$wildcard',
           value: 'iotd-29c1fca9-79eb-437b-ba9d-0dc225eb4ce0',
         },
-        // {
-        //   field: 'basicInfo.name',
-        //   operator: '$wildcard',
-        //   value: keywords,
-        // },
       ],
     },
   });
-  // eslint-disable-next-line no-console
-  console.log('AddTemplateDevicesModal ~ deviceList', deviceList);
 
   return (
     <Modal
@@ -42,9 +40,9 @@ export default function AddTemplateDevicesModal({ isOpen, onClose }: Props) {
       width="600px"
       isOpen={isOpen}
       onClose={onClose}
-      // onConfirm={handleConfirm}
-      // isConfirmButtonLoading={isLoading}
-      // isConfirmButtonDisabled={selectedDevices.length === 0}
+      onConfirm={() => onConfirm(selectedDevices)}
+      isConfirmButtonLoading={isLoading}
+      isConfirmButtonDisabled={selectedDevices.length === 0}
       modalBodyStyle={{ padding: '20px' }}
     >
       <Flex flexDirection="column">
@@ -70,6 +68,7 @@ export default function AddTemplateDevicesModal({ isOpen, onClose }: Props) {
           <DeviceList
             isLoading={false}
             deviceList={deviceList}
+            keywords={keywords}
             selectedDevices={selectedDevices}
             handleSetSelectedDevices={(devices) => setSelectedDevices(devices)}
           />
