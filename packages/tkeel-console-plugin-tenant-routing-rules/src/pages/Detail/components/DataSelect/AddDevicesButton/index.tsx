@@ -4,7 +4,8 @@ import { CreateButton } from '@tkeel/console-components';
 
 import { RouteType } from '@/tkeel-console-plugin-tenant-routing-rules/components/RouteLabel';
 
-import AddDevicesModal from '../AddDevicesModal';
+import AddGroupDevicesModal from '../AddGroupDevicesModal';
+import AddTemplateDevicesModal from '../AddTemplateDevicesModal';
 
 type Props = {
   type?: 'button' | 'link';
@@ -37,11 +38,15 @@ export default function AddDeviceButton({
           添加设备
         </Text>
       )}
-      <AddDevicesModal
-        isOpen={isOpen}
-        onClose={onClose}
-        refetchData={refetchData}
-      />
+      {routeType === 'time' ? (
+        <AddTemplateDevicesModal isOpen={isOpen} onClose={onClose} />
+      ) : (
+        <AddGroupDevicesModal
+          isOpen={isOpen}
+          onClose={onClose}
+          refetchData={refetchData}
+        />
+      )}
     </>
   );
 }

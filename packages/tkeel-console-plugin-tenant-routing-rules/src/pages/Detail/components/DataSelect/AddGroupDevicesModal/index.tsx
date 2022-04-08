@@ -14,9 +14,10 @@ import { getTreeNodeData, TreeNodeData } from '@tkeel/console-utils';
 
 import useAddDevicesMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useAddDevicesMutation';
 
-import DeviceGroupTree from './DeviceGroupTree';
 // import useRuleDevicesIdArrayQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDevicesIdArrayQuery';
-import DeviceList from './DeviceList';
+import DeviceList from '../DeviceList';
+import Empty from '../Empty';
+import DeviceGroupTree from './DeviceGroupTree';
 import SelectedDevices from './SelectedDevices';
 
 export interface Device {
@@ -33,7 +34,7 @@ type Props = {
   refetchData: () => unknown;
 };
 
-export default function AddDevicesModal({
+export default function AddGroupDevicesModal({
   isOpen,
   onClose,
   refetchData,
@@ -243,6 +244,18 @@ export default function AddDevicesModal({
     backgroundColor: 'gray.50',
   };
 
+  let mockDeviceList: DeviceItem[] = [];
+  Array.from({ length: 10 }).forEach(() => {
+    mockDeviceList = [...mockDeviceList, ...deviceList];
+  });
+
+  let mockFilteredSelectedDevices: DeviceItem[] = [];
+  Array.from({ length: 10 }).forEach(() => {
+    mockFilteredSelectedDevices = [
+      ...mockFilteredSelectedDevices,
+      ...deviceList,
+    ];
+  });
   return (
     <Modal
       title="添加设备"
@@ -277,9 +290,21 @@ export default function AddDevicesModal({
             </Box>
             <Flex marginLeft="20px" {...contentStyle}>
               <DeviceList
-                groupId={groupId}
                 isLoading={isDeviceListLoading}
-                deviceList={deviceList}
+                empty={
+                  groupId ? (
+                    <Empty
+                      text={
+                        <Flex flexDirection="column" alignItems="center">
+                          <Text>该设备组暂无设备请</Text>
+                          <Text>重新选择</Text>
+                        </Flex>
+                      }
+                      styles={{ wrapper: { width: '100%', height: '100%' } }}
+                    />
+                  ) : null
+                }
+                deviceList={mockDeviceList}
                 selectedDevices={selectedDevices}
                 handleAllCheckBoxChange={handleAllCheckBoxChange}
                 handleItemCheckBoxChange={handleItemCheckBoxChange}
@@ -321,12 +346,13 @@ export default function AddDevicesModal({
           <Box {...contentStyle}>
             <SelectedDevices
               groupId={groupId}
-              devices={filteredSelectedDevices}
+              devices={mockFilteredSelectedDevices || filteredSelectedDevices}
               removeDevice={(deviceId) => {
                 handleSetSelectedDevices(
                   selectedDevices.filter((device) => device.id !== deviceId)
                 );
               }}
+              styles={{ wrapper: { height: '439px' } }}
             />
           </Box>
         </Flex>
