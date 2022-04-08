@@ -16,7 +16,7 @@ import { BoxTwoToneIcon } from '@tkeel/console-icons';
 import {
   KeyDataType,
   TemplateItem,
-  useTemplateQuery,
+  useTemplatesQuery,
 } from '@tkeel/console-request-hooks';
 import { formatDateTimeByTimestamp, plugin } from '@tkeel/console-utils';
 
@@ -32,25 +32,9 @@ function Index() {
   const pagination = usePagination();
   const { pageNum, pageSize, setTotalSize, ...rest } = pagination;
 
-  let defaultParams = {
-    page_num: 1,
-    page_size: 1000,
-    order_by: 'name',
-    is_descending: false,
-    query: '',
-    condition: [
-      {
-        field: 'type',
-        operator: '$eq',
-        value: 'template',
-      },
-    ],
-  };
-  if (keyWord) {
-    defaultParams = { ...defaultParams, query: keyWord };
-  }
-
-  const { items, refetch } = useTemplateQuery({ params: defaultParams });
+  const { items, refetch } = useTemplatesQuery({
+    requestData: { query: keyWord },
+  });
 
   const keyData: KeyDataType[] = items.map((val: TemplateItem) => {
     return {
