@@ -1,44 +1,31 @@
 import { useQuery } from '@tkeel/console-hooks';
-import { RequestResult } from '@tkeel/console-utils';
+import { AttributeItem } from '@tkeel/console-types';
 
-const url = '/tkeel-device/v1/groups/tree';
+const url = '/tkeel-device/v1/search';
 const method = 'POST';
 
-export interface TreeNodeInfo {
+export interface TemplateItem {
+  configs: {
+    attributes: { [propName: string]: AttributeItem };
+  };
   id: string;
   properties: {
-    group: {
+    basicInfo: {
       name: string;
       description: string;
-      ext: { [propName: string]: string };
-      parentId: string;
-      parentName?: string;
-      [propName: string]: unknown;
     };
     sysField: {
-      [propName: string]: unknown;
+      _createdAt: string | number;
+      _updatedAt: string | number;
     };
   };
-  [propName: string]: unknown;
 }
 
-export interface TreeNodeType {
-  [propName: string]: {
-    nodeInfo: TreeNodeInfo;
-    subNode: TreeNodeType;
-  };
-}
-
-interface ApiData {
-  '@type': string;
-  GroupTree: TreeNodeType;
-}
-
-export interface RequestDataCondition {
+type RequestDataCondition = {
   field: string;
   operator: string;
   value: unknown;
-}
+};
 
 type RequestData = {
   page_name?: number;
@@ -49,9 +36,24 @@ type RequestData = {
   condition?: RequestDataCondition[];
 };
 
+interface ApiData {
+  '@type': string;
+  listDeviceObject: {
+    items: TemplateItem[];
+  };
+}
+
+export interface KeyDataType {
+  title: string;
+  description: string;
+  id: string;
+  key?: string;
+  updatedAt: string;
+}
+
 type Props = {
-  requestData: RequestData;
-  onSuccess?: (data: RequestResult<ApiData, undefined, RequestData>) => void;
+  requestData?: RequestData;
+  enabled?: boolean;
 };
 
 const defaultRequestData = {
@@ -62,12 +64,13 @@ const defaultRequestData = {
   query: '',
 };
 
-export default function useDeviceGroupQuery(props?: Props) {
+export default function useTemplatesQuery(props?: Props) {
   const requestData: RequestData | undefined = props?.requestData;
-  const onSuccess = props?.onSuccess;
+  const enabled = props?.enabled ?? true;
   let requestConditions = requestData?.condition || [];
   requestConditions = requestConditions.filter(
-    (condition) => !(condition.field === 'type' && condition.value === 'group')
+    (condition) =>
+      !(condition.field === 'type' && condition.value === 'template')
   );
   const newRequestData = {
     ...defaultRequestData,
@@ -76,20 +79,19 @@ export default function useDeviceGroupQuery(props?: Props) {
       {
         field: 'type',
         operator: '$eq',
-        value: 'group',
+        value: 'template',
       },
       ...requestConditions,
     ],
   };
-
-  const reactQueryOptions = onSuccess ? { onSuccess } : {};
   const { data, ...rest } = useQuery<ApiData, undefined, RequestData>({
     url,
     method,
     data: newRequestData,
-    reactQueryOptions,
+    reactQueryOptions: {
+      enabled,
+    },
   });
-
-  const deviceGroupTree = data?.GroupTree ?? {};
-  return { deviceGroupTree, data, ...rest };
+  const items = data?.listDeviceObject?.items ?? [];
+  return { items, data, ...rest };
 }
