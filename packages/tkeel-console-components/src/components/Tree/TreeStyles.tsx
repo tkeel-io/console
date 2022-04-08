@@ -35,7 +35,8 @@ export default function TreeStyles({ prefixCls, extras, styles }: Props) {
         align-items: center;
         min-height: 24px;
         padding: 0 4px;
-        border-radius: 4px;
+
+        /* border-radius: 4px; */
 
         .${treePrefixCls}-node-content-wrapper {
           display: flex;
@@ -120,7 +121,7 @@ export default function TreeStyles({ prefixCls, extras, styles }: Props) {
         }
 
         &:not(:last-of-type) {
-          margin-bottom: 8px;
+          margin-bottom: 1px;
         }
 
         &:hover {
