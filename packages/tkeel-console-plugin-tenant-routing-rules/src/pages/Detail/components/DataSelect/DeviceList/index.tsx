@@ -9,14 +9,21 @@ type Props = {
   empty?: JSX.Element | null;
   deviceList: DeviceItem[];
   selectedDevices: DeviceItem[];
-  handleAllCheckBoxChange: (checked: boolean) => void;
-  handleItemCheckBoxChange: ({
-    checked,
-    device,
-  }: {
-    checked: boolean;
-    device: DeviceItem;
-  }) => void;
+  handleSetSelectedDevices: (selectedDevices: DeviceItem[]) => unknown;
+};
+
+const getNewDevices = ({
+  devices,
+  device,
+  checked,
+}: {
+  devices: DeviceItem[];
+  device: DeviceItem;
+  checked: boolean;
+}) => {
+  return checked
+    ? [...devices, device]
+    : devices.filter((item) => item.id !== device.id);
 };
 
 export default function DeviceList({
@@ -24,8 +31,7 @@ export default function DeviceList({
   empty = null,
   deviceList,
   selectedDevices,
-  handleAllCheckBoxChange,
-  handleItemCheckBoxChange,
+  handleSetSelectedDevices,
 }: Props) {
   const checkedDevices = selectedDevices.filter(({ id }) =>
     deviceList.some((device) => device.id === id)
@@ -39,7 +45,37 @@ export default function DeviceList({
   const textStyle = {
     color: 'gray.800',
     fontSize: '14px',
-    lineHeight: '24px',
+    lineHeight: '32px',
+  };
+
+  const handleAllCheckBoxChange = (checked: boolean) => {
+    let newSelectedDevices = [];
+    if (checked) {
+      const addDevices = deviceList.filter(
+        ({ id }) => !selectedDevices.some((device) => device.id === id)
+      );
+      newSelectedDevices = [...selectedDevices, ...addDevices];
+    } else {
+      newSelectedDevices = selectedDevices.filter(
+        ({ id }) => !deviceList.some((device) => device.id === id)
+      );
+    }
+    handleSetSelectedDevices(newSelectedDevices);
+  };
+
+  const handleItemCheckBoxChange = ({
+    checked,
+    device,
+  }: {
+    checked: boolean;
+    device: DeviceItem;
+  }) => {
+    const newSelectedDevices = getNewDevices({
+      devices: selectedDevices,
+      device,
+      checked,
+    });
+    handleSetSelectedDevices(newSelectedDevices);
   };
 
   if (isLoading) {
@@ -51,17 +87,24 @@ export default function DeviceList({
   }
 
   return (
-    <Flex flexDirection="column" paddingLeft="20px" width="100%">
+    <Flex flexDirection="column" width="100%">
       <Checkbox
         isChecked={isAllChecked}
         isIndeterminate={isIndeterminate}
         onChange={(e) => handleAllCheckBoxChange(e.target.checked)}
+        marginLeft="20px"
       >
         <Text {...textStyle}>全选</Text>
       </Checkbox>
       <Box flex={1} overflowY="auto">
         {deviceList.map((device) => (
-          <Flex key={device.id} margin="8px 0" alignItems="center">
+          <Flex
+            key={device.id}
+            height="32px"
+            paddingLeft="20px"
+            alignItems="center"
+            _hover={{ backgroundColor: 'grayAlternatives.50' }}
+          >
             <Checkbox
               isChecked={checkedDevices.some((item) => item.id === device.id)}
               onChange={(e) =>
@@ -70,6 +113,7 @@ export default function DeviceList({
                   device,
                 })
               }
+              width="100%"
             >
               <Flex alignItems="center">
                 <SmartObjectTwoToneIcon size={20} />

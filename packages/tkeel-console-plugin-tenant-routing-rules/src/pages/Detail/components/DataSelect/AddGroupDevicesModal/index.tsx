@@ -136,50 +136,6 @@ export default function AddGroupDevicesModal({
     setFilteredSelectedDevices(searchDevicesByKeywords({ devices }));
   };
 
-  const handleAllCheckBoxChange = (checked: boolean) => {
-    let newSelectedDevices = [];
-    if (checked) {
-      const addDevices = deviceList.filter(
-        ({ id }) => !selectedDevices.some((device) => device.id === id)
-      );
-      newSelectedDevices = [...selectedDevices, ...addDevices];
-    } else {
-      newSelectedDevices = selectedDevices.filter(
-        ({ id }) => !deviceList.some((device) => device.id === id)
-      );
-    }
-    handleSetSelectedDevices(newSelectedDevices);
-  };
-
-  const getNewDevices = ({
-    devices,
-    device,
-    checked,
-  }: {
-    devices: DeviceItem[];
-    device: DeviceItem;
-    checked: boolean;
-  }) => {
-    return checked
-      ? [...devices, device]
-      : devices.filter((item) => item.id !== device.id);
-  };
-
-  const handleItemCheckBoxChange = ({
-    checked,
-    device,
-  }: {
-    checked: boolean;
-    device: DeviceItem;
-  }) => {
-    const newSelectedDevices = getNewDevices({
-      devices: selectedDevices,
-      device,
-      checked,
-    });
-    handleSetSelectedDevices(newSelectedDevices);
-  };
-
   const handleConfirm = () => {
     const newDevices: Device[] = selectedDevices.map((device) => {
       const { id, properties } = device;
@@ -293,8 +249,7 @@ export default function AddGroupDevicesModal({
                 }
                 deviceList={deviceList}
                 selectedDevices={selectedDevices}
-                handleAllCheckBoxChange={handleAllCheckBoxChange}
-                handleItemCheckBoxChange={handleItemCheckBoxChange}
+                handleSetSelectedDevices={handleSetSelectedDevices}
               />
             </Flex>
           </Flex>

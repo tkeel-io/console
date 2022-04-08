@@ -2,7 +2,7 @@ import { Flex, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 
 import { Modal, SearchInput } from '@tkeel/console-components';
-import { DeviceItem } from '@tkeel/console-request-hooks';
+import { DeviceItem, useDeviceListQuery } from '@tkeel/console-request-hooks';
 
 import DeviceList from '../DeviceList';
 
@@ -13,26 +13,28 @@ type Props = {
 
 export default function AddTemplateDevicesModal({ isOpen, onClose }: Props) {
   const [keywords, setKeywords] = useState('');
+  const [selectedDevices, setSelectedDevices] = useState<DeviceItem[]>([]);
   // eslint-disable-next-line no-console
   console.log('AddTemplateDevicesModal ~ keywords', keywords);
 
-  const handleAllCheckBoxChange = (checked: boolean) => {
-    // eslint-disable-next-line no-console
-    console.log('handleAllCheckBoxChange ~ checked', checked);
-  };
-
-  const handleItemCheckBoxChange = ({
-    checked,
-    device,
-  }: {
-    checked: boolean;
-    device: DeviceItem;
-  }) => {
-    // eslint-disable-next-line no-console
-    console.log('AddTemplateDevicesModal ~ device', device);
-    // eslint-disable-next-line no-console
-    console.log('AddTemplateDevicesModal ~ checked', checked);
-  };
+  const { deviceList } = useDeviceListQuery({
+    requestData: {
+      condition: [
+        {
+          field: 'basicInfo.templateId',
+          operator: '$wildcard',
+          value: 'iotd-29c1fca9-79eb-437b-ba9d-0dc225eb4ce0',
+        },
+        // {
+        //   field: 'basicInfo.name',
+        //   operator: '$wildcard',
+        //   value: keywords,
+        // },
+      ],
+    },
+  });
+  // eslint-disable-next-line no-console
+  console.log('AddTemplateDevicesModal ~ deviceList', deviceList);
 
   return (
     <Modal
@@ -59,17 +61,20 @@ export default function AddTemplateDevicesModal({ isOpen, onClose }: Props) {
           placeholder="搜索"
           inputGroupStyle={{ margin: '12px 0', width: '100%' }}
         />
-        <Flex height="416px" borderRadius="4px" backgroundColor="gray.50">
+        <Flex
+          height="408px"
+          padding="16px 0"
+          borderRadius="4px"
+          backgroundColor="gray.50"
+        >
           <DeviceList
             isLoading={false}
-            deviceList={[]}
-            selectedDevices={[]}
-            handleAllCheckBoxChange={handleAllCheckBoxChange}
-            handleItemCheckBoxChange={handleItemCheckBoxChange}
+            deviceList={deviceList}
+            selectedDevices={selectedDevices}
+            handleSetSelectedDevices={(devices) => setSelectedDevices(devices)}
           />
         </Flex>
       </Flex>
-      AddTemplateDevicesModal
     </Modal>
   );
 }
