@@ -5,7 +5,7 @@ import { SmartObjectTwoToneIcon } from '@tkeel/console-icons';
 import { DeviceItem } from '@tkeel/console-request-hooks';
 
 export interface DeviceItemExtended extends DeviceItem {
-  disable?: boolean;
+  hasSelected?: boolean;
 }
 
 type Props = {
@@ -63,7 +63,8 @@ export default function DeviceList({
       newSelectedDevices = [...selectedDevices, ...addDevices];
     } else {
       newSelectedDevices = selectedDevices.filter(
-        ({ id }) => !deviceList.some((device) => device.id === id)
+        ({ id }) =>
+          !deviceList.some((device) => !device.hasSelected && device.id === id)
       );
     }
     handleSetSelectedDevices(newSelectedDevices);
@@ -108,7 +109,7 @@ export default function DeviceList({
       </Checkbox>
       <Box flex={1} overflowY="auto">
         {filteredDeviceList.map((device) => {
-          const { id, properties, disable } = device;
+          const { id, properties, hasSelected } = device;
           return (
             <Flex
               key={id}
@@ -120,7 +121,7 @@ export default function DeviceList({
               <Checkbox
                 isChecked={checkedDevices.some((item) => item.id === id)}
                 onChange={(e) => {
-                  if (!disable) {
+                  if (!hasSelected) {
                     handleItemCheckBoxChange({
                       checked: e.target.checked,
                       device,
@@ -128,8 +129,8 @@ export default function DeviceList({
                   }
                 }}
                 width="100%"
-                cursor={disable ? 'not-allowed' : 'pointer'}
-                opacity={disable ? '.5' : '1'}
+                cursor={hasSelected ? 'not-allowed' : 'pointer'}
+                opacity={hasSelected ? '.5' : '1'}
               >
                 <Flex alignItems="center">
                   <SmartObjectTwoToneIcon size={20} />

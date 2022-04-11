@@ -1,8 +1,11 @@
 import { Flex, Text } from '@chakra-ui/react';
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { Modal, SearchInput } from '@tkeel/console-components';
 import { useDeviceListQuery } from '@tkeel/console-request-hooks';
+
+import useRuleDevicesIdArrayQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDevicesIdArrayQuery';
 
 import DeviceList, { DeviceItemExtended } from '../DeviceList';
 
@@ -19,12 +22,15 @@ export default function AddTemplateDevicesModal({
   onClose,
   onConfirm,
 }: Props) {
+  const { id } = useParams();
+  const [deviceList, setDeviceList] = useState<DeviceItemExtended[]>([]);
   const [keywords, setKeywords] = useState('');
   const [selectedDevices, setSelectedDevices] = useState<DeviceItemExtended[]>(
     []
   );
 
-  const { deviceList } = useDeviceListQuery({
+  const { deviceIds } = useRuleDevicesIdArrayQuery(id || '');
+  useDeviceListQuery({
     requestData: {
       condition: [
         {
@@ -33,6 +39,16 @@ export default function AddTemplateDevicesModal({
           value: 'iotd-29c1fca9-79eb-437b-ba9d-0dc225eb4ce0',
         },
       ],
+    },
+    onSuccess(data) {
+      const items = data?.data?.listDeviceObject?.items ?? [];
+      const devices = items.map((device) => ({
+        ...device,
+        hasSelected: deviceIds.includes(device.id),
+      }));
+      const hasSelectedDevices = devices.filter((device) => device.hasSelected);
+      setDeviceList(devices);
+      setSelectedDevices(hasSelectedDevices);
     },
   });
 
@@ -43,7 +59,7 @@ export default function AddTemplateDevicesModal({
       isOpen={isOpen}
       onClose={onClose}
       onConfirm={() =>
-        onConfirm(selectedDevices.filter((device) => !device.disable))
+        onConfirm(selectedDevices.filter((device) => !device.hasSelected))
       }
       isConfirmButtonLoading={isLoading}
       isConfirmButtonDisabled={selectedDevices.length === 0}

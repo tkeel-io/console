@@ -156,7 +156,7 @@ export default function AddGroupDevicesModal({
       isOpen={isOpen}
       onClose={onClose}
       onConfirm={() =>
-        onConfirm(selectedDevices.filter((device) => !device.disable))
+        onConfirm(selectedDevices.filter((device) => !device.hasSelected))
       }
       isConfirmButtonLoading={isLoading}
       isConfirmButtonDisabled={selectedDevices.length === 0}
