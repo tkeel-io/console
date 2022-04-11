@@ -14,7 +14,7 @@ export { default as FormControl } from './components/FormControl';
 export { default as FormField } from './components/FormField';
 export { default as InfoCard } from './components/InfoCard';
 export { default as Loading } from './components/Loading';
-export { default as Modal } from './components/Modal';
+export * from './components/Modal';
 export { default as MoreAction } from './components/MoreAction';
 export { default as PageHeader } from './components/PageHeader';
 export { default as PageHeaderToolbar } from './components/PageHeaderToolbar';
