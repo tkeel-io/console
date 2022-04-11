@@ -6,6 +6,7 @@ type Options = Omit<InitOptions, 'lifeCycles'>;
 
 export default function useQiankunInit({
   menus,
+  documents,
   navigate,
   refetchMenus,
 }: Options) {
@@ -14,6 +15,7 @@ export default function useQiankunInit({
   useEffect(() => {
     init({
       menus,
+      documents,
       navigate,
       lifeCycles: {
         beforeLoad() {
@@ -37,7 +39,7 @@ export default function useQiankunInit({
       },
       refetchMenus,
     });
-  }, [menus, navigate, refetchMenus]);
+  }, [menus, documents, navigate, refetchMenus]);
 
   return { isLoading };
 }
