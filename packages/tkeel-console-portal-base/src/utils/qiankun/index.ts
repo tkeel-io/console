@@ -3,7 +3,11 @@ import { NavigateFunction } from 'react-router-dom';
 
 import { toast } from '@tkeel/console-components';
 import themes, { DEFAULT_THEME_NAME } from '@tkeel/console-themes';
-import { GlobalPluginPropsPortalProps, Menu } from '@tkeel/console-types';
+import {
+  GlobalPluginPropsPortalProps,
+  Menu,
+  UserDocumentsReturns,
+} from '@tkeel/console-types';
 import { getLocalTenantInfo, getLocalTokenInfo } from '@tkeel/console-utils';
 
 import { App, MenuInfo } from './types';
@@ -13,6 +17,7 @@ export type LifeCycles = FrameworkLifeCycles<Record<string, any>>;
 
 export interface InitOptions {
   menus: Menu[];
+  documents: UserDocumentsReturns;
   navigate: NavigateFunction;
   lifeCycles?: LifeCycles;
   refetchMenus: () => void;
@@ -41,6 +46,7 @@ function getTotalMenus(menus: Menu[]): MenuInfo[] {
 
 export function menusToApps({
   menus,
+  documents,
   navigate,
   refetchMenus,
 }: InitOptions): App[] {
@@ -56,6 +62,7 @@ export function menusToApps({
       tenantInfo,
       tokenInfo,
       toast,
+      documents,
       navigate,
       refetchMenus,
     },
@@ -83,11 +90,12 @@ function register({
 
 export function init({
   menus,
+  documents,
   navigate,
   lifeCycles,
   refetchMenus,
 }: InitOptions) {
-  const apps = menusToApps({ menus, navigate, refetchMenus });
+  const apps = menusToApps({ menus, documents, navigate, refetchMenus });
   register({ apps, lifeCycles });
   start({ sandbox: true });
 }

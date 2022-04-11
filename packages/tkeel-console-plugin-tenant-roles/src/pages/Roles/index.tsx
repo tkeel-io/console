@@ -17,6 +17,8 @@ import ModifyRoleButton from './components/ModifyRoleButton';
 
 export default function Roles() {
   const toast = plugin.getPortalToast();
+  const documents = plugin.getPortalDocuments();
+
   const [keywords, setKeyWords] = useState('');
   const pagination = usePagination();
   const { pageNum, pageSize, setPageNum, setTotalSize } = pagination;
@@ -135,8 +137,12 @@ export default function Roles() {
     <Flex flexDirection="column" height="100%">
       <PageHeaderToolbar
         name="角色管理"
+        documentsPath={documents.config.paths.roles}
         hasSearchInput
         searchInputProps={{
+          inputStyle: {
+            backgroundColor: 'gray.50',
+          },
           onSearch(value) {
             setPageNum(1);
             setKeyWords(value.trim());
