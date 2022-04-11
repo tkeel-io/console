@@ -123,7 +123,6 @@ export default function SearchResult() {
       <Flex justifyContent="flex-start" alignItems="center">
         <PageHeaderToolbar
           name="数据查询"
-          hasIcon
           styles={{ wrapper: { width: 'auto' } }}
         />
         <SearchDeviceInput
@@ -165,6 +164,7 @@ export default function SearchResult() {
             marginTop="12px"
             flex="1"
             width="100%"
+            overflowY="auto"
           >
             {deviceList.map((device, i) => (
               <DeviceInfoCard

@@ -12,7 +12,7 @@ function Index(): JSX.Element {
   const { history, isLoading } = useHistoryQuery();
   return (
     <Flex height="100%" flexDirection="column">
-      <PageHeaderToolbar name="数据查询" hasIcon />
+      <PageHeaderToolbar name="数据查询" />
       <Flex
         marginTop="80px"
         flex="1"
