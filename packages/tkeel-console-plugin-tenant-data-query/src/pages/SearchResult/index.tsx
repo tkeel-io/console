@@ -123,7 +123,6 @@ export default function SearchResult() {
       <Flex justifyContent="flex-start" alignItems="center">
         <PageHeaderToolbar
           name="数据查询"
-          hasIcon
           styles={{ wrapper: { width: 'auto' } }}
         />
         <SearchDeviceInput
