@@ -3862,7 +3862,6 @@ __metadata:
     "@tkeel/console-types": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
     framer-motion: ^6.2.8
-    lodash: ^4.17.21
     qiankun: ^2.7.0
     react: ^17.0.2
     react-dom: ^17.0.2
