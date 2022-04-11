@@ -3,6 +3,7 @@ import { ReactNode, useState } from 'react';
 
 import { GlobalPortalProvider } from '@tkeel/console-business-components';
 import { ToastContainer } from '@tkeel/console-components';
+import { useDeploymentConfigQuery } from '@tkeel/console-request-hooks';
 import { Logo } from '@tkeel/console-types';
 
 import Routes from '@/tkeel-console-portal-base/routes';
@@ -41,6 +42,8 @@ export default function Contents({
 }: Props) {
   const [isOpenDocuments, setIsOpenDocuments] = useState(false);
   const [documentsPath, setDocumentsPath] = useState('');
+  const { config } = useDeploymentConfigQuery();
+  const docsBaseURL = config?.docs_addr;
 
   return (
     <ChakraProvider theme={theme}>
@@ -48,8 +51,7 @@ export default function Contents({
         value={{
           documents: {
             isOpen: isOpenDocuments,
-            // TODO: temp
-            baseURL: 'http://localhost:3000/docs',
+            baseURL: docsBaseURL,
             path: documentsPath,
             setIsOpen: setIsOpenDocuments,
             setPath: setDocumentsPath,
