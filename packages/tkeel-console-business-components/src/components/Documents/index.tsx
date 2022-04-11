@@ -63,6 +63,9 @@ export default function Documents({
             _hover={{
               opacity: 0.7,
             }}
+            as="a"
+            href="http://localhost:3000/docs/"
+            target="_blank"
           >
             <Text
               marginRight="4px"
