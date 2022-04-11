@@ -21,10 +21,12 @@ import {
   MoreVerticalFilledIcon,
 } from '@tkeel/console-icons';
 
+type Placement = 'bottom' | 'top';
 type Props = {
   type?: 'icon' | 'text';
   element?: ReactNode;
   buttons: ReactElement[];
+  defaultPlacement?: Placement;
   buttonProps?: object;
   isActionListOpen?: boolean;
   onActionListOpen?: () => unknown;
@@ -39,16 +41,31 @@ interface CustomColors extends Colors {
   primary: string;
 }
 
+function getScrollParent(node: Element | null): Element | null {
+  if (node == null) return null;
+
+  const { parentNode } = node;
+
+  const overflowRegex = /(auto|scroll|overlay)/;
+  const { overflow, overflowX, overflowY } = window.getComputedStyle(node);
+  if (overflowRegex.test(overflow + overflowY + overflowX)) {
+    return node;
+  }
+  return getScrollParent(parentNode as Element);
+}
+
 export default function MoreAction({
   type = 'icon',
   element,
   buttons,
+  defaultPlacement = 'bottom',
   isActionListOpen = false,
   onActionListOpen,
   onActionListClose,
   buttonProps = {},
   styles = {},
 }: Props) {
+  const [placement, setPlacement] = useState<Placement>(defaultPlacement);
   const [showActionList, setShowActionList] = useState(isActionListOpen);
   const { colors }: { colors: CustomColors } = useTheme();
   let timer: number | null = null;
@@ -66,8 +83,17 @@ export default function MoreAction({
   };
 
   const handleClick: MouseEventHandler<HTMLDivElement> = (event) => {
+    const scrollParent = getScrollParent(event.currentTarget);
     event.stopPropagation();
     handleSetShowActionList(!showActionList);
+    const top = event.currentTarget?.getBoundingClientRect().top;
+    const { top: parentTop, height: parentHeight } =
+      scrollParent?.getBoundingClientRect() || {};
+    if (parentTop && parentHeight) {
+      const scrolledBottom =
+        top > parentTop + parentHeight - (60 + 32 * buttons.length);
+      setPlacement(scrolledBottom ? 'top' : 'bottom');
+    }
   };
 
   const handleMouseLeave: MouseEventHandler<HTMLDivElement> = () => {
@@ -108,6 +134,15 @@ export default function MoreAction({
       ...buttonProps,
     });
   });
+
+  const actionListPositionStyle =
+    placement === 'top'
+      ? {
+          bottom: '38px',
+        }
+      : {
+          top: '38px',
+        };
 
   return (
     <Box
@@ -157,7 +192,7 @@ export default function MoreAction({
         display={showActionList ? 'block' : 'none'}
         position="absolute"
         right="0"
-        top="38px"
+        {...actionListPositionStyle}
         padding="8px"
         borderWidth="1px"
         borderStyle="solid"
