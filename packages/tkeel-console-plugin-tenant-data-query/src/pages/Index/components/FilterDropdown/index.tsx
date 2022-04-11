@@ -166,23 +166,25 @@ export default function FilterDropdown({
     );
 
     const { value: statusValue } = deviceStatus;
+    const isAllStatus = statusValue === 'all';
+    const isOnlineStatus = statusValue === 'online';
     if (statusQueryCondition) {
-      if (statusValue === 'all') {
+      if (isAllStatus) {
         newDeviceListQueryConditions = newDeviceListQueryConditions.filter(
           (queryCondition) => queryCondition.field !== statusQueryField
         );
         setDeviceListQueryConditions(newDeviceListQueryConditions);
       } else {
-        statusQueryCondition.value = statusValue;
+        statusQueryCondition.value = isOnlineStatus;
         setDeviceListQueryConditions(newDeviceListQueryConditions);
       }
-    } else if (statusValue !== 'all') {
+    } else if (!isAllStatus) {
       setDeviceListQueryConditions([
         ...newDeviceListQueryConditions,
         {
           field: statusQueryField,
           operator: '$eq',
-          value: statusValue === 'online',
+          value: isOnlineStatus,
         },
       ]);
     }
