@@ -165,6 +165,7 @@ export default function SearchResult() {
             marginTop="12px"
             flex="1"
             width="100%"
+            overflowY="auto"
           >
             {deviceList.map((device, i) => (
               <DeviceInfoCard
