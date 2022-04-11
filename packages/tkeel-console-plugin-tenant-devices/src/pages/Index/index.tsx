@@ -4,11 +4,8 @@ import { Fragment, useState } from 'react';
 
 import { MoreAction, PageHeaderToolbar } from '@tkeel/console-components';
 import { useColor, usePagination } from '@tkeel/console-hooks';
-import {
-  FolderCloseTwoToneIcon,
-  FolderOpenTwoToneIcon,
-  MoreVerticalFilledIcon,
-} from '@tkeel/console-icons';
+import { MoreVerticalFilledIcon } from '@tkeel/console-icons';
+import { getTreeIcon } from '@tkeel/console-utils';
 
 import useDeviceListQuery from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceListQuery';
 import useGroupTreeQuery, {
@@ -99,32 +96,7 @@ function Index(): JSX.Element {
   const { setPageNum, pageNum, pageSize, setTotalSize } = pagination;
 
   const { groupTree, refetch: refetchGroupTree } = useGroupTreeQuery();
-  const selectedColor = useColor('primary');
-  const selectedTwoTone = useColor('primarySub2');
-  const unselectedColor = useColor('gray.700');
-  const unselectedTwoTone = useColor('gray.300');
-  function getTreeIcon(props: { selected: boolean; expanded: boolean }) {
-    const { selected, expanded } = props;
-    const color = selected ? selectedColor : unselectedColor;
-    const twoToneColor = selected ? selectedTwoTone : unselectedTwoTone;
-    return (
-      <Center h="100%">
-        {expanded ? (
-          <FolderOpenTwoToneIcon
-            size="20px"
-            color={color}
-            twoToneColor={twoToneColor}
-          />
-        ) : (
-          <FolderCloseTwoToneIcon
-            size="20px"
-            color={color}
-            twoToneColor={twoToneColor}
-          />
-        )}
-      </Center>
-    );
-  }
+  const iconHoverColor = useColor('gray.700');
 
   function getTreeNodeData({ data }: { data: TreeNodeType }): TreeNodeData[] {
     return values(data).map((item) => {
@@ -148,7 +120,7 @@ function Index(): JSX.Element {
             key={id}
             _hover={{
               'svg.verticalFilled': {
-                fill: `${selectedColor} !important`,
+                fill: `${iconHoverColor} !important`,
               },
             }}
           >
@@ -197,13 +169,8 @@ function Index(): JSX.Element {
         ),
         key: id,
         children: getTreeNodeData({ data: subNode }),
-        icon: ({
-          expanded,
-          selected,
-        }: {
-          expanded: boolean;
-          selected: boolean;
-        }) => getTreeIcon({ expanded, selected }),
+        icon: ({ expanded }: { expanded: boolean }) =>
+          getTreeIcon({ expanded }),
         originData: item,
       };
     });

@@ -4,7 +4,7 @@ import Routes from './routes';
 
 export default function App() {
   return (
-    <PluginBase.App>
+    <PluginBase.App style={{ padding: '0' }}>
       <Routes />
     </PluginBase.App>
   );

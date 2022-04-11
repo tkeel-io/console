@@ -29,7 +29,8 @@ export default function IconCircle({
     <Circle
       position="relative"
       size="32px"
-      border="1px"
+      borderWidth="1px"
+      borderStyle="solid"
       borderColor={active ? 'primary' : defaultBorderColor}
       css={`
         svg {

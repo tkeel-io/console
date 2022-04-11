@@ -8,7 +8,9 @@ import { PingTwoToneIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import MoreActionButton from '@/tkeel-console-plugin-tenant-routing-rules/components/MoreActionButton';
-import RouteLabel from '@/tkeel-console-plugin-tenant-routing-rules/components/RouteLabel';
+import RouteLabel, {
+  RouteType,
+} from '@/tkeel-console-plugin-tenant-routing-rules/components/RouteLabel';
 import StatusLabel from '@/tkeel-console-plugin-tenant-routing-rules/components/StatusLabel';
 import useRuleDetailQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDetailQuery';
 
@@ -31,7 +33,7 @@ export default function Detail() {
   const createTime = getFormattedDateTime(ruleDetail?.created_at);
   const updateTime = getFormattedDateTime(ruleDetail?.updated_at);
 
-  let routeType = 'msg';
+  let routeType: RouteType = 'msg';
   const type = ruleDetail?.type ?? 1;
   if (type === 2) {
     routeType = 'time';
@@ -39,11 +41,11 @@ export default function Detail() {
 
   const name = ruleDetail?.name ?? '';
   const status = ruleDetail?.status ?? 0;
-  const desc = ruleDetail?.desc ?? '';
+  const desc = ruleDetail?.desc || '暂无描述';
 
   return (
     <Flex
-      paddingTop="20px"
+      padding="20px"
       height="100%"
       justifyContent="center"
       position="relative"
@@ -52,7 +54,7 @@ export default function Detail() {
     >
       <Box
         position="absolute"
-        left="-20px"
+        left="0"
         top="0"
         width="calc(100% + 40px)"
         height="200px"
@@ -70,7 +72,7 @@ export default function Detail() {
         <Flex justifyContent="space-between">
           <Flex alignItems="center" maxWidth="80%">
             <Square size="40px" backgroundColor="gray.50" borderRadius="4px">
-              <PingTwoToneIcon size={20} />
+              <PingTwoToneIcon size={24} />
             </Square>
             <Text
               marginLeft="8px"
@@ -134,7 +136,7 @@ export default function Detail() {
           borderRadius="4px"
           backgroundColor="white"
         >
-          <DataSelect />
+          <DataSelect routeType={routeType} />
           <DataRepublish styles={{ wrapper: { margin: '40px 0' } }} />
           <ErrorAction
             subscribeId={ruleDetail?.sub_id ?? 0}

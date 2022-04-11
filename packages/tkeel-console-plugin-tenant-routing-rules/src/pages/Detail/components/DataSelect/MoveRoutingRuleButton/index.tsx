@@ -40,6 +40,7 @@ export default function MoveRoutingRuleButton({
       ruleId: selectedRuleId,
       onSuccess() {
         toast('移动路由成功', { status: 'success' });
+        onClose();
       },
     });
 

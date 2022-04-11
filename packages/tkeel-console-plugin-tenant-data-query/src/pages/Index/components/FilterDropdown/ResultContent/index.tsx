@@ -106,7 +106,7 @@ function ResultContent({
     );
   }
 
-  return <SearchEmpty />;
+  return <SearchEmpty styles={{ wrapper: { flex: '1' } }} />;
 }
 
 export default ResultContent;
