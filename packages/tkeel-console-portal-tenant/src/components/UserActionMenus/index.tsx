@@ -13,7 +13,6 @@ import useAuthenticateTokenQuery from '@/tkeel-console-portal-tenant/hooks/queri
 import LogoutTenantButton from './LogoutTenantButton';
 import LogoutUserButton from './LogoutUserButton';
 import ModifyPasswordButton from './ModifyPasswordButton';
-import OpenDocsButton from './OpenDocsButton';
 
 export default function UserActionMenus() {
   const primaryColor = useColor('primary');
@@ -68,7 +67,6 @@ export default function UserActionMenus() {
         <ModifyPasswordButton key="modify-password" />,
         <LogoutUserButton key="logout-user" />,
         <LogoutTenantButton key="logout-tenant" />,
-        <OpenDocsButton key={0} />,
       ]}
       onActionListOpen={onOpen}
       onActionListClose={onClose}
