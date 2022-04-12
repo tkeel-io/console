@@ -9,7 +9,6 @@ export default function Documents({
   isOpen,
   baseURL,
   path,
-  setPath,
   onClose,
 }: DocumentsProps) {
   const url = `${baseURL}${path}`;
@@ -56,7 +55,6 @@ export default function Documents({
           <CloseButton
             marginLeft="12px"
             onClick={() => {
-              setPath('');
               setIsIFrameLoaded(false);
               onClose();
             }}

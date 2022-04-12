@@ -3,6 +3,7 @@ import { ReactNode, useState } from 'react';
 
 import { GlobalPortalProvider } from '@tkeel/console-business-components';
 import { ToastContainer } from '@tkeel/console-components';
+import { useLocationChange } from '@tkeel/console-hooks';
 import { useDeploymentConfigQuery } from '@tkeel/console-request-hooks';
 import { Logo } from '@tkeel/console-types';
 
@@ -42,8 +43,16 @@ export default function Contents({
 }: Props) {
   const [isOpenDocuments, setIsOpenDocuments] = useState(false);
   const [documentsPath, setDocumentsPath] = useState('');
+
   const { config } = useDeploymentConfigQuery();
   const docsBaseURL = config?.docs_addr;
+
+  useLocationChange({
+    onChange: () => {
+      setDocumentsPath('');
+      setIsOpenDocuments(false);
+    },
+  });
 
   return (
     <ChakraProvider theme={theme}>
