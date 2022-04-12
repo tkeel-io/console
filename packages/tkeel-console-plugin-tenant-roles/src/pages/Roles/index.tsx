@@ -137,7 +137,7 @@ export default function Roles() {
     <Flex flexDirection="column" height="100%">
       <PageHeaderToolbar
         name="角色管理"
-        documentsPath={documents.config.paths.roles}
+        documentsPath={documents.config.paths.tenantGuide.roles}
         hasSearchInput
         searchInputProps={{
           inputStyle: {

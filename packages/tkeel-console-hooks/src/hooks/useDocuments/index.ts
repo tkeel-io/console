@@ -7,7 +7,7 @@ export default function useDocuments(): UserDocumentsReturns {
   const { documents } = useGlobalPortalValue();
   const { setIsOpen, setPath } = documents;
 
-  const onOen = (path: string) => {
+  const open = (path: string) => {
     setPath(path);
 
     setTimeout(() => {
@@ -15,10 +15,10 @@ export default function useDocuments(): UserDocumentsReturns {
     });
   };
 
-  const onClose = () => {
+  const close = () => {
     setPath('');
     setIsOpen(false);
   };
 
-  return { ...documents, config, onOen, onClose };
+  return { ...documents, config, open, close };
 }
