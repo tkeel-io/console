@@ -208,28 +208,30 @@ export default function DataSelect({ routeType }: Props) {
       </Flex>
       <Flex marginTop="20px" backgroundColor="gray.100" borderRadius="4px">
         {(() => {
-          if (isLoading) {
-            return (
-              <Loading
-                styles={{ wrapper: { width: '100%', height: '104px' } }}
-              />
-            );
-          }
-
-          if (deviceList.length === 0) {
-            return (
-              <Center width="100%" height="104px">
-                <Text color="gray.600" fontSize="14px" lineHeight="32px">
-                  暂未选择任何设备数据，请
-                  {routeType === 'time' ? '通过设备模板' : ''}
-                </Text>
-                <AddDevicesButton
-                  type="link"
-                  routeType={routeType}
-                  refetchData={() => refetch()}
+          if (pageNum === 1 && !keywords) {
+            if (isLoading) {
+              return (
+                <Loading
+                  styles={{ wrapper: { width: '100%', height: '104px' } }}
                 />
-              </Center>
-            );
+              );
+            }
+
+            if (deviceList.length === 0) {
+              return (
+                <Center width="100%" height="104px">
+                  <Text color="gray.600" fontSize="14px" lineHeight="32px">
+                    暂未选择任何设备数据，请
+                    {routeType === 'time' ? '通过设备模板' : ''}
+                  </Text>
+                  <AddDevicesButton
+                    type="link"
+                    routeType={routeType}
+                    refetchData={() => refetch()}
+                  />
+                </Center>
+              );
+            }
           }
 
           return (

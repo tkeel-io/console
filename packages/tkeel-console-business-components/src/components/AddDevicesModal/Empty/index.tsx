@@ -1,7 +1,7 @@
 import { Flex, Image, StyleProps, Text } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
-import emptyImg from '@/tkeel-console-plugin-tenant-routing-rules/assets/images/empty.svg';
+import emptyImg from '@/tkeel-console-business-components/assets/images/empty.svg';
 
 type Props = {
   text?: ReactNode;

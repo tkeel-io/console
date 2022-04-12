@@ -1,12 +1,14 @@
 import { Flex, StyleProps, Text } from '@chakra-ui/react';
 
+import { SearchEmpty } from '@tkeel/console-components';
 import { CloseFilledIcon, SmartObjectTwoToneIcon } from '@tkeel/console-icons';
 import { DeviceItem } from '@tkeel/console-request-hooks';
 
-import Empty from '@/tkeel-console-plugin-tenant-routing-rules/pages/Detail/components/DataSelect/Empty';
+import Empty from '../Empty';
 
 type Props = {
-  groupId: string;
+  hasSelectedGroupOrTemplate: boolean;
+  keywords: string;
   devices: DeviceItem[];
   removeDevice: (deviceId: string) => unknown;
   styles?: {
@@ -15,12 +17,17 @@ type Props = {
 };
 
 export default function SelectedDevices({
-  groupId,
+  hasSelectedGroupOrTemplate,
+  keywords,
   devices,
   removeDevice,
   styles,
 }: Props) {
-  if (groupId && devices.length === 0) {
+  if (hasSelectedGroupOrTemplate && devices.length === 0) {
+    if (keywords) {
+      return <SearchEmpty styles={{ wrapper: { height: '100%' } }} />;
+    }
+
     return (
       <Empty
         text={

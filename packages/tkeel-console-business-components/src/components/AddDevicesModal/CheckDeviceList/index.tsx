@@ -31,7 +31,7 @@ const getNewDevices = ({
     : devices.filter((item) => item.id !== device.id);
 };
 
-export default function DeviceList({
+export default function CheckDeviceList({
   isLoading,
   empty = null,
   deviceList,
@@ -39,14 +39,21 @@ export default function DeviceList({
   selectedDevices,
   handleSetSelectedDevices,
 }: Props) {
-  const checkedDevices = selectedDevices.filter(({ id }) =>
-    deviceList.some((device) => device.id === id)
+  const checkedDevices = selectedDevices.filter(
+    ({ id, hasSelected }) =>
+      deviceList.some((device) => device.id === id) || hasSelected
+  );
+
+  const hasSelectedDevices = deviceList.filter(
+    ({ hasSelected }) => hasSelected
   );
 
   const { length } = checkedDevices;
-  const hasDevices = length > 0;
-  const isAllChecked = hasDevices && length === deviceList.length;
-  const isIndeterminate = hasDevices && length < deviceList.length;
+  const { length: hasSelectedLength } = hasSelectedDevices;
+  const totalLength = length + hasSelectedLength;
+  const hasDevices = totalLength > 0;
+  const isAllChecked = hasDevices && totalLength === deviceList.length;
+  const isIndeterminate = hasDevices && totalLength < deviceList.length;
 
   const textStyle = {
     color: 'gray.800',
@@ -58,7 +65,8 @@ export default function DeviceList({
     let newSelectedDevices = [];
     if (checked) {
       const addDevices = deviceList.filter(
-        ({ id }) => !selectedDevices.some((device) => device.id === id)
+        ({ id, hasSelected }) =>
+          !selectedDevices.some((device) => device.id === id) && !hasSelected
       );
       newSelectedDevices = [...selectedDevices, ...addDevices];
     } else {
@@ -82,7 +90,9 @@ export default function DeviceList({
       device,
       checked,
     });
-    handleSetSelectedDevices(newSelectedDevices);
+    handleSetSelectedDevices(
+      newSelectedDevices.filter((selectedDevice) => !selectedDevice.hasSelected)
+    );
   };
 
   if (isLoading) {
@@ -97,13 +107,23 @@ export default function DeviceList({
     return empty;
   }
 
+  const selectAllDisabled =
+    deviceList.filter((device) => device.hasSelected).length ===
+    deviceList.length;
+
   return (
     <Flex flexDirection="column" width="100%">
       <Checkbox
         isChecked={isAllChecked}
         isIndeterminate={isIndeterminate}
-        onChange={(e) => handleAllCheckBoxChange(e.target.checked)}
+        onChange={(e) => {
+          if (!selectAllDisabled) {
+            handleAllCheckBoxChange(e.target.checked);
+          }
+        }}
         marginLeft="20px"
+        cursor={selectAllDisabled ? 'not-allowed' : 'pointer'}
+        opacity={selectAllDisabled ? '.5' : '1'}
       >
         <Text {...textStyle}>全选</Text>
       </Checkbox>
@@ -116,10 +136,16 @@ export default function DeviceList({
               height="32px"
               paddingLeft="20px"
               alignItems="center"
-              _hover={{ backgroundColor: 'grayAlternatives.50' }}
+              _hover={{
+                backgroundColor: hasSelected
+                  ? 'transparent'
+                  : 'grayAlternatives.50',
+              }}
             >
               <Checkbox
-                isChecked={checkedDevices.some((item) => item.id === id)}
+                isChecked={
+                  checkedDevices.some((item) => item.id === id) || hasSelected
+                }
                 onChange={(e) => {
                   if (!hasSelected) {
                     handleItemCheckBoxChange({

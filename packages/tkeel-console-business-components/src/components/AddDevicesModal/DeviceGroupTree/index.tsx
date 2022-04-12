@@ -1,7 +1,7 @@
 import { Loading, Tree } from '@tkeel/console-components';
 import { TreeNodeData } from '@tkeel/console-utils';
 
-import Empty from '@/tkeel-console-plugin-tenant-routing-rules/pages/Detail/components/DataSelect/Empty';
+import Empty from '../Empty';
 
 type Props = {
   isLoading: boolean;

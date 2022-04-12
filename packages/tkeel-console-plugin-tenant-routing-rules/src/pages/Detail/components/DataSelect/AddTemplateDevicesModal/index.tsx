@@ -2,12 +2,14 @@ import { Flex, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
+import {
+  CheckDeviceList,
+  DeviceItemExtended,
+} from '@tkeel/console-business-components';
 import { Modal, SearchInput } from '@tkeel/console-components';
 import { useDeviceListQuery } from '@tkeel/console-request-hooks';
 
 import useRuleDevicesIdArrayQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDevicesIdArrayQuery';
-
-import DeviceList, { DeviceItemExtended } from '../DeviceList';
 
 type Props = {
   isOpen: boolean;
@@ -46,9 +48,7 @@ export default function AddTemplateDevicesModal({
         ...device,
         hasSelected: deviceIds.includes(device.id),
       }));
-      const hasSelectedDevices = devices.filter((device) => device.hasSelected);
       setDeviceList(devices);
-      setSelectedDevices(hasSelectedDevices);
     },
   });
 
@@ -85,7 +85,7 @@ export default function AddTemplateDevicesModal({
           borderRadius="4px"
           backgroundColor="gray.50"
         >
-          <DeviceList
+          <CheckDeviceList
             isLoading={false}
             deviceList={deviceList}
             keywords={keywords}

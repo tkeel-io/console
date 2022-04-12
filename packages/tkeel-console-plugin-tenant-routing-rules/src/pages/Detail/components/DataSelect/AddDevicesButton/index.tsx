@@ -1,14 +1,15 @@
 import { Text, useDisclosure } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 
+import { AddDevicesModal } from '@tkeel/console-business-components';
 import { CreateButton } from '@tkeel/console-components';
 import { DeviceItem } from '@tkeel/console-request-hooks';
 import { plugin } from '@tkeel/console-utils';
 
 import { RouteType } from '@/tkeel-console-plugin-tenant-routing-rules/components/RouteLabel';
 import useAddDevicesMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useAddDevicesMutation';
+import useRuleDevicesIdArrayQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDevicesIdArrayQuery';
 
-import AddGroupDevicesModal from '../AddGroupDevicesModal';
 import AddTemplateDevicesModal from '../AddTemplateDevicesModal';
 
 type Props = {
@@ -37,6 +38,10 @@ export default function AddDeviceButton({
       }, 800);
     },
   });
+
+  const { deviceIds: hasSelectedDeviceIds } = useRuleDevicesIdArrayQuery(
+    ruleId || ''
+  );
 
   const onConfirm = (devices: DeviceItem[]) => {
     const deviceIds = devices.map((device) => device.id);
@@ -71,9 +76,11 @@ export default function AddDeviceButton({
           onConfirm={onConfirm}
         />
       ) : (
-        <AddGroupDevicesModal
+        <AddDevicesModal
+          type="group"
           isOpen={isOpen}
           isLoading={isLoading}
+          hasSelectedDeviceIds={hasSelectedDeviceIds}
           onClose={onClose}
           onConfirm={onConfirm}
         />
