@@ -62,9 +62,9 @@ export default function SearchDeviceInput({
 
   const hasFilterConditions = filterConditions.length > 0;
   const hasKeywordsOrConditions = inputValue || filterConditions.length > 0;
-  let inputPaddingRight = '10px';
+  let inputMarginRight = '10px';
   if (hasKeywordsOrConditions) {
-    inputPaddingRight = type === 'index' ? '130px' : '160px';
+    inputMarginRight = type === 'index' ? '130px' : '160px';
   }
 
   const groupCondition = filterConditions.find(
@@ -193,6 +193,18 @@ export default function SearchDeviceInput({
         (condition) => condition.id !== removeConditionId
       );
       handleRemoveCondition(removeConditionId);
+      if (removeConditionId === DEVICE_GROUP_ID) {
+        setDeviceGroupId('');
+      }
+      if (removeConditionId === DEVICE_TEMPLATES_ID) {
+        setTemplateId('');
+      }
+      const hasKeywordsCondition = newFilterConditions.some(
+        (condition) => condition.id === KEYWORDS
+      );
+      if (!hasKeywordsCondition) {
+        setShowDeviceList(false);
+      }
     }
     setFilterConditions(newFilterConditions);
   };
@@ -332,7 +344,7 @@ export default function SearchDeviceInput({
         )}
         <Input
           flex="1"
-          paddingRight={inputPaddingRight}
+          marginRight={inputMarginRight}
           paddingLeft={hasFilterConditions ? '1px' : '20px'}
           width="auto"
           height="44px"
