@@ -30,10 +30,13 @@ export default function MoveRoutingRuleButton({
     pageSize: 100_000,
   });
 
-  const ruleModalData = routeRulesData.map((item) => ({
-    label: item.name,
-    value: item.id,
-  }));
+  const ruleModalData = routeRulesData
+    .filter((rule) => rule.id !== id)
+    .map((item) => ({
+      label: item.name,
+      value: item.id,
+    }));
+
   const toast = plugin.getPortalToast();
   const { mutate: addMutate, isLoading: isAddDevicesLoading } =
     useAddDevicesMutation({
@@ -59,21 +62,16 @@ export default function MoveRoutingRuleButton({
 
   const handleConfirm = (ruleId: string) => {
     setSelectedRuleId(ruleId);
-    if (ruleId && ruleId !== id) {
+    if (ruleId) {
       deleteMutate({
         params: {
           devices_ids: selectedIds.join(','),
         },
       });
-    } else {
-      onClose();
     }
   };
 
-  let defaultValue = '';
-  if (id && ruleModalData.some((item) => item.value === id)) {
-    defaultValue = id;
-  }
+  const defaultValue = ruleModalData[0]?.value ?? '';
 
   return (
     <>

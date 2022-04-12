@@ -40,7 +40,6 @@ type Props = {
 };
 
 export default function DataSelect({ routeType }: Props) {
-  // const navigate = useNavigate();
   const [showDeviceList, setShowDeviceList] = useState(true);
   const [selectedDevices, setSelectedDevices] = useState<
     { id: string; name: string }[]
@@ -48,6 +47,7 @@ export default function DataSelect({ routeType }: Props) {
   const [keywords, setKeywords] = useState('');
   const { id: ruleId } = useParams();
   const pagination = usePagination();
+
   const { pageNum, pageSize, setTotalSize } = pagination;
 
   const { deviceList, total, isLoading, isSuccess, refetch } =
@@ -279,7 +279,9 @@ export default function DataSelect({ routeType }: Props) {
                         <MoveRoutingRuleButton
                           key="move"
                           selectedIds={selectedDevices.map(({ id }) => id)}
-                          refetchData={() => refetch()}
+                          refetchData={() => {
+                            refetch();
+                          }}
                         />,
                         <DeleteDevicesButton
                           key="delete"
