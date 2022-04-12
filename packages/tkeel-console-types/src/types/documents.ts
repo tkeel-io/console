@@ -15,7 +15,10 @@ interface DocumentsProps extends BaseDocuments {
 }
 
 interface DocumentsConfig {
-  paths: Record<string, string>;
+  paths: {
+    adminGuide: Record<string, string>;
+    tenantGuide: Record<string, string>;
+  };
 }
 
 interface UserDocumentsReturns extends BaseDocuments {
@@ -27,7 +30,6 @@ interface UserDocumentsReturns extends BaseDocuments {
 }
 
 export type {
-  DocumentsConfig,
   DocumentsProps,
   GlobalPortalValueDocuments,
   UserDocumentsReturns,
