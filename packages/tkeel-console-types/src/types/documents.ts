@@ -10,24 +10,25 @@ interface GlobalPortalValueDocuments extends BaseDocuments {
 }
 
 interface DocumentsProps extends BaseDocuments {
-  setPath: (path: string) => void;
   onClose: () => void;
 }
 
 interface DocumentsConfig {
-  paths: Record<string, string>;
+  paths: {
+    adminGuide: Record<string, string>;
+    tenantGuide: Record<string, string>;
+  };
 }
 
 interface UserDocumentsReturns extends BaseDocuments {
   config: DocumentsConfig;
   setIsOpen: (isOpen: boolean) => void;
   setPath: (path: string) => void;
-  onOen: (path: string) => void;
-  onClose: () => void;
+  open: (path: string) => void;
+  close: () => void;
 }
 
 export type {
-  DocumentsConfig,
   DocumentsProps,
   GlobalPortalValueDocuments,
   UserDocumentsReturns,
