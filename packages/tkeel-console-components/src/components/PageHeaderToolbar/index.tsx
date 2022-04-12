@@ -78,7 +78,7 @@ function PageHeaderToolbar({
                     fill: `${colors.primary} !important`,
                   },
                 }}
-                onClick={() => documents.onOen(documentsPath)}
+                onClick={() => documents.open(documentsPath)}
               >
                 <BookOpenedFilledIcon color="grayAlternatives.300" />
               </Circle>

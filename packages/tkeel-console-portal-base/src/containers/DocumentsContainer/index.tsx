@@ -12,8 +12,8 @@ export default function DocumentsContainer() {
       isOpen={isOpen}
       baseURL={baseURL}
       path={path}
-      setPath={setPath}
       onClose={() => {
+        setPath('');
         setIsOpen(false);
       }}
     />
