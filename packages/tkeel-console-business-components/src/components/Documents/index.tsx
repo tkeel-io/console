@@ -1,11 +1,4 @@
-import {
-  Button,
-  Drawer,
-  DrawerContent,
-  Flex,
-  Skeleton,
-  Text,
-} from '@chakra-ui/react';
+import { Button, Flex, Portal, Skeleton, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 
 import { CloseButton } from '@tkeel/console-components';
@@ -27,21 +20,23 @@ export default function Documents({
     setIsIFrameLoaded(true);
   };
 
+  if (!isOpen) {
+    return null;
+  }
+
   return (
-    <Drawer
-      isOpen={isOpen}
-      onClose={onClose}
-      closeOnOverlayClick={false}
-      placement="right"
-    >
-      <DrawerContent
-        display="flex"
+    <Portal>
+      <Flex
+        position="fixed"
+        top="12px"
+        right="12px"
+        bottom="12px"
+        zIndex="999"
         flexDirection="column"
-        maxWidth="360px"
+        width="360px"
         backgroundColor="gray.100"
         boxShadow="-8px 4px 20px rgba(182, 194, 205, 0.3), 8px -4px 20px rgba(182, 194, 205, 0.3), 0px 12px 20px rgba(182, 194, 205, 0.3)"
         borderRadius="4px"
-        style={{ top: '12px', right: '12px', bottom: '12px' }}
       >
         <Flex
           position="absolute"
@@ -103,7 +98,7 @@ export default function Documents({
             <ArrowRightFilledIcon size="16px" color="primary" />
           </Button>
         </Flex>
-      </DrawerContent>
-    </Drawer>
+      </Flex>
+    </Portal>
   );
 }
