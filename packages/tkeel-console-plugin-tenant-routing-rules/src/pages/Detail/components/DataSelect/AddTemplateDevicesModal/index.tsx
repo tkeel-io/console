@@ -6,7 +6,7 @@ import {
   CheckDeviceList,
   DeviceItemExtended,
 } from '@tkeel/console-business-components';
-import { Modal, SearchInput } from '@tkeel/console-components';
+import { Modal, SearchEmpty, SearchInput } from '@tkeel/console-components';
 import { useDeviceListQuery } from '@tkeel/console-request-hooks';
 
 import useRuleDevicesIdArrayQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDevicesIdArrayQuery';
@@ -89,6 +89,7 @@ export default function AddTemplateDevicesModal({
             isLoading={false}
             deviceList={deviceList}
             keywords={keywords}
+            empty={<SearchEmpty styles={{ wrapper: { width: '100%' } }} />}
             selectedDevices={selectedDevices}
             handleSetSelectedDevices={(devices) => setSelectedDevices(devices)}
           />
