@@ -40,7 +40,7 @@ type Props = {
   isOpen: boolean;
   onClose: () => unknown;
   isLoading: boolean;
-  hasSelectedDeviceIds: string[];
+  hasSelectedDeviceIds?: string[];
   onConfirm: (devices: DeviceItemExtended[]) => unknown;
 };
 
@@ -49,7 +49,7 @@ export default function AddDevicesModal({
   isOpen,
   onClose,
   isLoading,
-  hasSelectedDeviceIds,
+  hasSelectedDeviceIds = [],
   onConfirm,
 }: Props) {
   const [tabType, setTabType] = useState<'group' | 'template'>(
@@ -396,6 +396,7 @@ export default function AddDevicesModal({
           />
           <Box {...contentStyle}>
             <SelectedDevices
+              type={tabType}
               hasSelectedGroupOrTemplate={
                 (tabTypeIsGroup && !!groupId) ||
                 (tabTypeIsTemplate && !!templateId)

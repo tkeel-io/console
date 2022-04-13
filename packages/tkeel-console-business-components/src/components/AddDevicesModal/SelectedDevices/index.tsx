@@ -7,6 +7,7 @@ import { DeviceItem } from '@tkeel/console-request-hooks';
 import Empty from '../Empty';
 
 type Props = {
+  type: 'group' | 'template';
   hasSelectedGroupOrTemplate: boolean;
   keywords: string;
   devices: DeviceItem[];
@@ -17,6 +18,7 @@ type Props = {
 };
 
 export default function SelectedDevices({
+  type,
   hasSelectedGroupOrTemplate,
   keywords,
   devices,
@@ -47,7 +49,7 @@ export default function SelectedDevices({
         const { basicInfo } = device?.properties ?? {};
         const { parentName, name } = basicInfo || {};
         let deviceName = name || '';
-        if (parentName) {
+        if (type === 'group' && parentName) {
           deviceName = `${parentName}/${deviceName}`;
         }
         return (
