@@ -44,7 +44,7 @@ export default function MoveRoutingRuleModal({
 
   return (
     <Modal
-      title="移动订阅"
+      title="移动路由"
       isOpen={isOpen}
       isConfirmButtonLoading={isConfirmButtonLoading}
       onClose={() => {
