@@ -62,6 +62,7 @@ export default function AddDevicesModal({
   const [groupId, setGroupId] = useState('');
   const [templateId, setTemplateId] = useState('');
   const [deviceKeywords, setDeviceKeywords] = useState('');
+  const [selectedDeviceKeywords, setSelectedDeviceKeywords] = useState('');
   const [deviceGroupConditions, setDeviceGroupConditions] = useState<
     RequestDataCondition[]
   >([]);
@@ -76,7 +77,7 @@ export default function AddDevicesModal({
     DeviceItemExtended[]
   >([]);
 
-  const { isLoading: isDeviceGroupLoading } = useDeviceGroupQuery({
+  const { isFetching: isDeviceGroupFetching } = useDeviceGroupQuery({
     requestData: {
       condition: deviceGroupConditions,
     },
@@ -92,7 +93,7 @@ export default function AddDevicesModal({
     },
   });
 
-  const { isLoading: isDeviceTemplateLoading } = useTemplatesQuery({
+  const { isFetching: isDeviceTemplateFetching } = useTemplatesQuery({
     requestData: {
       condition: deviceTemplateConditions,
     },
@@ -148,23 +149,34 @@ export default function AddDevicesModal({
 
   const handleDeviceGroupSearch = (keywords: string) => {
     setDeviceGroupKeywords(keywords);
-    setDeviceGroupConditions([
-      {
-        field: 'group.name',
-        operator: '$wildcard',
-        value: keywords,
-      },
-    ]);
+    if (keywords) {
+      setDeviceGroupConditions([
+        {
+          field: 'group.name',
+          operator: '$wildcard',
+          value: keywords,
+        },
+      ]);
+    } else {
+      setDeviceGroupConditions([]);
+    }
+    setGroupId('');
+    setDeviceList([]);
   };
 
-  const handleDeviceTemplateSearch = () => {
-    setDeviceTemplateConditions([
-      {
-        field: 'basicInfo.name',
-        operator: '$wildcard',
-        value: deviceTemplateKeywords,
-      },
-    ]);
+  const handleDeviceTemplateSearch = (keywords: string) => {
+    setDeviceTemplateKeywords(keywords);
+    if (keywords) {
+      setDeviceTemplateConditions([
+        {
+          field: 'basicInfo.name',
+          operator: '$wildcard',
+          value: keywords,
+        },
+      ]);
+    } else {
+      setDeviceTemplateConditions([]);
+    }
   };
 
   const searchDevicesByKeywords = ({
@@ -179,7 +191,9 @@ export default function AddDevicesModal({
     );
   };
 
-  const handleDeviceSearch = () => {
+  const handleDeviceSearch = (keywords: string) => {
+    setDeviceKeywords(keywords);
+    setSelectedDeviceKeywords(keywords);
     const newFilteredSelectedDevices = searchDevicesByKeywords({
       devices: selectedDevices,
     });
@@ -281,9 +295,10 @@ export default function AddDevicesModal({
                   <Flex justifyContent="space-between">
                     <Box {...contentStyle}>
                       <DeviceGroupTree
-                        isLoading={isDeviceGroupLoading}
+                        isLoading={isDeviceGroupFetching}
                         treeNodeData={treeNodeData}
                         groupId={groupId}
+                        keywords={deviceGroupKeywords}
                         setGroupId={(key: string) => setGroupId(key)}
                       />
                     </Box>
@@ -293,7 +308,7 @@ export default function AddDevicesModal({
                         empty={
                           groupId ? (
                             <Empty
-                              text={
+                              textNode={
                                 <Flex
                                   flexDirection="column"
                                   alignItems="center"
@@ -329,9 +344,10 @@ export default function AddDevicesModal({
                 <Flex justifyContent="space-between">
                   <Box {...contentStyle} overflowY="auto">
                     <DeviceTemplates
-                      isLoading={isDeviceTemplateLoading}
+                      isLoading={isDeviceTemplateFetching}
                       templates={templates}
                       templateId={templateId}
+                      keywords={deviceTemplateKeywords}
                       onTemplateClick={(id) => setTemplateId(id)}
                     />
                   </Box>
@@ -341,7 +357,7 @@ export default function AddDevicesModal({
                       empty={
                         templateId ? (
                           <Empty
-                            text={
+                            textNode={
                               <Flex flexDirection="column" alignItems="center">
                                 <Text>该模板暂无设备请</Text>
                                 <Text>重新选择</Text>
@@ -401,7 +417,7 @@ export default function AddDevicesModal({
                 (tabTypeIsGroup && !!groupId) ||
                 (tabTypeIsTemplate && !!templateId)
               }
-              keywords={deviceKeywords}
+              keywords={selectedDeviceKeywords}
               devices={filteredSelectedDevices}
               removeDevice={(deviceId) => {
                 handleSetSelectedDevices(

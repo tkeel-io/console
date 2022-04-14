@@ -77,7 +77,7 @@ export default function AddDeviceButton({
         />
       ) : (
         <AddDevicesModal
-          type="group"
+          // type="group"
           isOpen={isOpen}
           isLoading={isLoading}
           hasSelectedDeviceIds={hasSelectedDeviceIds}

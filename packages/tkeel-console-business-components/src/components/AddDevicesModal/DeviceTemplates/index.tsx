@@ -1,6 +1,6 @@
 import { Flex, StyleProps, Text } from '@chakra-ui/react';
 
-import { Loading } from '@tkeel/console-components';
+import { Loading, SearchEmpty } from '@tkeel/console-components';
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
 import { TemplateItem } from '@tkeel/console-request-hooks';
 
@@ -10,6 +10,7 @@ type Props = {
   isLoading: boolean;
   templates: TemplateItem[];
   templateId: string;
+  keywords: string;
   onTemplateClick: (templateId: string) => unknown;
   styles?: {
     wrapper?: StyleProps;
@@ -20,6 +21,7 @@ export default function DeviceTemplates({
   isLoading,
   templates,
   templateId,
+  keywords,
   onTemplateClick,
   styles,
 }: Props) {
@@ -28,7 +30,22 @@ export default function DeviceTemplates({
   }
 
   if (templates.length === 0) {
-    return <Empty styles={{ wrapper: { width: '100%', height: '100%' } }} />;
+    return keywords ? (
+      <SearchEmpty
+        title="没有符合条件的模板"
+        styles={{ wrapper: { height: '100%' }, text: { color: 'gray.600' } }}
+      />
+    ) : (
+      <Empty
+        textNode={
+          <Flex flexDirection="column" alignItems="center">
+            <Text>暂无模板，请前往</Text>
+            <Text>设备模板添加</Text>
+          </Flex>
+        }
+        styles={{ wrapper: { width: '100%', height: '100%' } }}
+      />
+    );
   }
   return (
     <Flex flexDirection="column" {...styles?.wrapper}>

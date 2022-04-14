@@ -4,14 +4,14 @@ import { ReactNode } from 'react';
 import emptyImg from '@/tkeel-console-business-components/assets/images/empty.svg';
 
 type Props = {
-  text?: ReactNode;
+  textNode?: ReactNode;
   styles?: {
     wrapper?: StyleProps;
   };
 };
 
 export default function Empty({
-  text = (
+  textNode = (
     <Flex flexDirection="column" alignItems="center">
       <Text>暂无设备组，请前往</Text>
       <Text>设备管理添加</Text>
@@ -28,7 +28,7 @@ export default function Empty({
     >
       <Image src={emptyImg} width="70px" />
       <Flex color="gray.600" fontSize="12px">
-        {text}
+        {textNode}
       </Flex>
     </Flex>
   );

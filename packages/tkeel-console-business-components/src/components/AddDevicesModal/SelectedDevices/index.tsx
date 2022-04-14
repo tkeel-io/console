@@ -27,12 +27,16 @@ export default function SelectedDevices({
 }: Props) {
   if (hasSelectedGroupOrTemplate && devices.length === 0) {
     if (keywords) {
-      return <SearchEmpty styles={{ wrapper: { height: '100%' } }} />;
+      return (
+        <SearchEmpty
+          styles={{ wrapper: { height: '100%' }, text: { color: 'gray.600' } }}
+        />
+      );
     }
 
     return (
       <Empty
-        text={
+        textNode={
           <Flex flexDirection="column" alignItems="center">
             <Text>请从左侧设备列表选择</Text>
             <Text>需要添加的设备</Text>

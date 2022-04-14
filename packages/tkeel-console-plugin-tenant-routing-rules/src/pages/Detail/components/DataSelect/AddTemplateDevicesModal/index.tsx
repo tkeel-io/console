@@ -89,7 +89,14 @@ export default function AddTemplateDevicesModal({
             isLoading={false}
             deviceList={deviceList}
             keywords={keywords}
-            empty={<SearchEmpty styles={{ wrapper: { width: '100%' } }} />}
+            empty={
+              <SearchEmpty
+                styles={{
+                  wrapper: { width: '100%' },
+                  text: { color: 'gray.600' },
+                }}
+              />
+            }
             selectedDevices={selectedDevices}
             handleSetSelectedDevices={(devices) => setSelectedDevices(devices)}
           />
