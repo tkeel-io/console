@@ -43,7 +43,7 @@ export default function RepublishToKafkaModal({
   const handleSetAddressError = () => {
     setError('address', {
       type: 'manual',
-      message: '请输入合法的数据库（集群）地址',
+      message: '请输入正确的数据库（集群）地址',
     });
   };
 
