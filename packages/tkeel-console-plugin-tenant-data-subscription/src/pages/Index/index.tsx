@@ -90,10 +90,13 @@ function Index(): JSX.Element {
     return item.is_default;
   });
 
+  const documents = plugin.getPortalDocuments();
+
   return (
     <Flex flexDirection="column" height="100%" paddingTop="8px">
       <PageHeaderToolbar
         name="数据订阅"
+        documentsPath={documents.config.paths.tenantGuide.dataSubscribe}
         buttons={[
           <CreateSubscriptionButton
             key="create"
