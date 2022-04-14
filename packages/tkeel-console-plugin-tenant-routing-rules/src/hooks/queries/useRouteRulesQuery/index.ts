@@ -27,27 +27,24 @@ const method = 'GET';
 type Props = {
   pageNum: number;
   pageSize: number;
-  // keyWords: string;
+  type?: number;
 };
 
 type TRequestParams = {
   page_num: number;
   page_size: number;
-  key_words: string;
+  type: number;
 };
 
-export default function useRouteRulesQuery({
-  pageNum,
-  pageSize,
-}: // keyWords,
-Props) {
+export default function useRouteRulesQuery({ pageNum, pageSize, type }: Props) {
+  // console.log(type);
   const { data, ...rest } = useQuery<ApiData, TRequestParams>({
     url,
     method,
     params: {
       page_num: pageNum,
       page_size: pageSize,
-      key_words: '',
+      type: type ?? 0,
     },
     reactQueryOptions: {
       queryKey: 'routeRules',

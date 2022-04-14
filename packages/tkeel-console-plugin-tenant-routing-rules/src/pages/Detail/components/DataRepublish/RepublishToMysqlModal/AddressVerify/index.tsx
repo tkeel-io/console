@@ -1,44 +1,60 @@
-import { Box, Flex } from '@chakra-ui/react';
+import { Box, Button, Flex } from '@chakra-ui/react';
+import { ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { FormControl, FormField } from '@tkeel/console-components';
-import { MySqlFilledIcon } from '@tkeel/console-icons';
 
 import ModalContentTitle from '@/tkeel-console-plugin-tenant-routing-rules/pages/Detail/components/ModalContentTitle';
 
 const { TextField } = FormField;
 
-export interface FormValues {
+export interface AddressFormValues {
   address: string;
   name: string;
   userName: string;
   passWord: string;
 }
 
-// type Props = {
-//   onClose: () => unknown;
-// };
+type Props = {
+  title: string;
+  icon: ReactNode;
+  onVerify: (e: AddressFormValues) => unknown;
+};
 
-export default function AddressVerify() {
+export default function AddressVerify({ title, icon, onVerify }: Props) {
   const {
     register,
     formState: { errors },
-    // trigger,
-    // getValues,
-    // reset,
-  } = useForm<FormValues>();
+    trigger,
+    getValues,
+    reset,
+  } = useForm<AddressFormValues>();
+  const headTitle = `将数据转发到 ${title}`;
+  const [verify, setVerify] = useState(true);
+
+  const handleConfirm = async () => {
+    const result = await trigger();
+    setVerify(result);
+    if (result) {
+      const formValues = getValues();
+      onVerify(formValues);
+      reset();
+    }
+  };
+
   return (
     <Box>
-      <ModalContentTitle
-        icon={<MySqlFilledIcon size={44} />}
-        title="将数据发送到 MySQL"
-      />
+      <ModalContentTitle icon={icon} title={headTitle} />
       <FormControl
         label="数据库地址"
         id="form-verify"
         formControlStyle={{ mt: '20px' }}
       >
-        <Flex border="1px solid" borderColor="gray.200" borderRadius="4px">
+        <Flex
+          border="1px solid"
+          borderColor={verify ? 'gray.200' : 'red.500'}
+          borderRadius="4px"
+        >
           <TextField
             id="address"
             label={false}
@@ -47,11 +63,11 @@ export default function AddressVerify() {
               required: { value: true, message: '请输入数据库地址' },
             })}
             formControlStyle={{ w: '70%', mb: '0' }}
-            inputStyle={{ borderWidth: '0px', mb: '0' }}
-            formHelperStyle={{ mt: 0 }}
+            inputStyle={{ borderWidth: '0', mb: '0', borderRadius: '0' }}
+            formHelperStyle={{ mt: 0, position: 'absolute', bottom: '-28px' }}
             formLabelStyle={{ mb: 0 }}
           />
-          <Box height="" width="1px" bg="gray.200" />
+          <Box height="" width="1px" bg={verify ? 'gray.200' : 'red.500'} />
           <TextField
             id="name"
             label={false}
@@ -61,12 +77,12 @@ export default function AddressVerify() {
               required: { value: true, message: '请输入数据库地址' },
             })}
             formControlStyle={{ w: '30%', mb: '0' }}
-            inputStyle={{ borderWidth: '0px', mb: '0' }}
-            formHelperStyle={{ mt: 0 }}
+            inputStyle={{ borderWidth: '0', mb: '0', borderRadius: '0' }}
             formLabelStyle={{ mb: 0 }}
+            formHelperStyle={{ mt: 0, position: 'absolute', bottom: '-28px' }}
           />
         </Flex>
-        <Flex mt="20px">
+        <Flex mt={verify ? '20px' : '40px'}>
           <TextField
             id="userName"
             error={errors.userName}
@@ -75,8 +91,6 @@ export default function AddressVerify() {
               required: { value: true, message: '请输入用户名' },
             })}
             formControlStyle={{ mr: '6px' }}
-            formHelperStyle={{ mt: 0 }}
-            formLabelStyle={{ mb: 0 }}
           />
           <TextField
             id=" passWord"
@@ -86,9 +100,12 @@ export default function AddressVerify() {
               required: { value: true, message: '请输入密码' },
             })}
             formControlStyle={{ ml: '6px' }}
-            formHelperStyle={{ mt: 0 }}
-            formLabelStyle={{ mb: 0 }}
           />
+        </Flex>
+        <Flex justifyContent="end">
+          <Button onClick={handleConfirm} colorScheme="primary">
+            验证
+          </Button>
         </Flex>
       </FormControl>
     </Box>

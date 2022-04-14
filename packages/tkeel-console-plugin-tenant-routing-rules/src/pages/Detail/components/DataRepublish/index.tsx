@@ -137,7 +137,16 @@ export default function DataRepublish({ styles }: Props) {
         />
       )}
       {selectedProductId === 'mysql' && (
-        <RepublishToMysqlModal onClose={() => setSelectedProductId('')} />
+        <RepublishToMysqlModal
+          republishType={0}
+          onClose={() => setSelectedProductId('')}
+        />
+      )}
+      {selectedProductId === 'clickHouse' && (
+        <RepublishToMysqlModal
+          republishType={1}
+          onClose={() => setSelectedProductId('')}
+        />
       )}
     </Flex>
   );

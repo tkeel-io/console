@@ -9,7 +9,6 @@ type Props = {
   defaultBorderColor?: string;
   defaultBgColor?: string;
   defaultIconColor?: string;
-  defaultBorderWidth?: string;
   styles?: {
     wrapper?: StyleProps;
     backgroundCircle?: StyleProps;
@@ -22,7 +21,6 @@ export default function IconCircle({
   defaultBorderColor = 'gray.800',
   defaultBgColor = 'gray.500',
   defaultIconColor = 'grayAlternatives.100',
-  defaultBorderWidth = '1px',
   styles,
 }: Props) {
   const fillColor = useColor(active ? 'primary' : defaultIconColor);
@@ -31,7 +29,7 @@ export default function IconCircle({
     <Circle
       position="relative"
       size="32px"
-      borderWidth={defaultBorderWidth}
+      borderWidth="1px"
       borderColor={active ? 'primary' : defaultBorderColor}
       css={`
         svg {

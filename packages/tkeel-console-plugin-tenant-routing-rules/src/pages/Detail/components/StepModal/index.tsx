@@ -1,5 +1,5 @@
-import { Box, Button, Flex } from '@chakra-ui/react';
-import { ReactNode, useState } from 'react';
+import { Box, Flex, StyleProps } from '@chakra-ui/react';
+import { ReactNode } from 'react';
 
 import { Modal } from '@tkeel/console-components';
 
@@ -14,77 +14,46 @@ type Props = {
   title: string;
   stepBarInfo?: StepBarInfo[];
   children: ReactNode[];
-  cancelText?: string;
-  verifyText?: string;
-  prevText?: string;
-  nextText?: string;
-  onClose: () => unknown;
-  // onOk: () => unknown;
-  onNext?: (e: number) => unknown;
-  onPrev?: (e: number) => unknown;
-  otherButtons?: ReactNode;
+  step: number;
   isOpen: boolean;
-  // isLoading: boolean;
-  // onClose: () => unknown;
-  // handleSubmit: (values: FormValues) => unknown;
+  onClose: () => unknown;
+
+  styles?: {
+    wrapper?: StyleProps;
+  };
 };
 
 export default function StepModal({
   title,
   stepBarInfo,
   children,
-  // okText = '确认',
-  cancelText = '完成',
-  verifyText = '验证',
-  prevText = '上一步',
-  nextText = '下一步',
+  step,
   onClose,
-  // onOk,
-  onNext,
-  onPrev,
-  otherButtons,
-  // info,
   isOpen,
-}: // isLoading,
-// handleSubmit,
-Props) {
-  const [step, setStep] = useState(1);
-  const stepLen = children.length;
-
-  const onStepPrev = () => {
-    setStep((p: number) => {
-      if (onPrev) onPrev(p - 1);
-      return p - 1;
-    });
-  };
-  const onStepNext = () => {
-    setStep((p: number) => {
-      if (onNext) onNext(p + 1);
-      return p + 1;
-    });
-  };
-  const onVerify = () => {
-    onStepNext();
-  };
-  // const onCancel = () => {};
-  // const onOk = () => {};
+  styles,
+}: Props) {
   return (
     <Modal
       height="696px"
       width="800px"
       title={title}
       isOpen={isOpen}
-      // isConfirmButtonLoading={isLoading}
       onClose={onClose}
-      // onConfirm={handleConfirm}
       hasCancelButton={false}
       hasConfirmButton={false}
+      modalBodyStyle={{ padding: '12px 20px 20px' }}
     >
-      <Flex bg="gray.50" h="100%" p="12px" flexDirection="row">
+      <Flex bg="gray.50" h="614px" p="12px" flexDirection="row">
         {stepBarInfo && (
           <StepBar stepBarInfo={stepBarInfo} currentStep={step} />
         )}
-        <Box flex="1" bg="white" p="20px">
+        <Box
+          flex="1"
+          bg="white"
+          p="20px"
+          position="relative"
+          {...styles?.wrapper}
+        >
           {children.map((child, index) => {
             const active = step === index + 1;
             return (
@@ -93,29 +62,6 @@ Props) {
               </Box>
             );
           })}
-          <Box>
-            {step === 1 && (
-              <Button colorScheme="primary" onClick={onVerify}>
-                {verifyText}
-              </Button>
-            )}
-            {step > 1 && step !== stepLen && (
-              <Button colorScheme="primary" onClick={onStepPrev}>
-                {prevText}
-              </Button>
-            )}
-            {step > 1 && step < stepLen && stepLen > 1 && (
-              <Button colorScheme="primary" onClick={onStepNext}>
-                {nextText}
-              </Button>
-            )}
-            {otherButtons}
-            {step === stepLen && (
-              <Button colorScheme="primary" onClick={onClose}>
-                {cancelText}
-              </Button>
-            )}
-          </Box>
         </Box>
       </Flex>
     </Modal>
