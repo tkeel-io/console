@@ -43,19 +43,21 @@ export default function useMenusQuery(props?: Props) {
     let mockMenus: Menu[] = [];
 
     const localMockMenus = sessionStorage.getItem('mockMenus');
-    if (localMockMenus) {
-      try {
+    const { showDevTools } = GLOBAL_PORTAL_CONFIG?.client || {};
+    try {
+      if (showDevTools && localMockMenus) {
         mockMenus = JSON.parse(localMockMenus) as Menu[];
-      } catch {
-        //
-      }
-    } else {
-      try {
+      } else {
         mockMenus = (GLOBAL_PORTAL_CONFIG?.mock?.menus ?? []) as Menu[];
-        sessionStorage.setItem('mockMenus', JSON.stringify(mockMenus, null, 2));
-      } catch {
-        //
+        if (showDevTools) {
+          sessionStorage.setItem(
+            'mockMenus',
+            JSON.stringify(mockMenus, null, 2)
+          );
+        }
       }
+    } catch {
+      //
     }
 
     return {
