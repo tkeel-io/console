@@ -309,6 +309,16 @@ export default function FilterDropdown({
   ]);
 
   useEffect(() => {
+    if (!groupIdFilterCondition) {
+      const newDeviceListQueryConditions = deviceListQueryConditions.filter(
+        (condition) => condition.field !== deviceGroupIdQueryField
+      );
+      setDeviceListQueryConditions(newDeviceListQueryConditions);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [groupIdFilterCondition]);
+
+  useEffect(() => {
     const newDeviceListQueryConditions = deviceListQueryConditions.filter(
       (condition) => condition.field !== deviceNameQueryField
     );
