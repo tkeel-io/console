@@ -2,7 +2,7 @@ import { Box, Flex } from '@chakra-ui/react';
 import { useState } from 'react';
 
 type Props = {
-  onClick: (e: string) => unknown;
+  onClick: (e: number) => unknown;
 };
 
 export default function Tabs({ onClick }: Props) {
@@ -10,19 +10,19 @@ export default function Tabs({ onClick }: Props) {
     {
       key: '1',
       name: '全部',
-      keyWords: '',
+      keyWords: 0,
       active: true,
     },
     {
       key: '2',
       name: '消息路由',
-      keyWords: 'msg',
+      keyWords: 1,
       active: false,
     },
     {
       key: '3',
       name: '时序路由',
-      keyWords: 'time',
+      keyWords: 2,
       active: false,
     },
   ];

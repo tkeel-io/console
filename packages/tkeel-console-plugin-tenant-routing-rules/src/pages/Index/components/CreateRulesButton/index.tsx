@@ -46,6 +46,7 @@ export default function CreateRulesButton({
         name: formValues.name,
         type: formValues.type,
         desc: formValues?.desc ?? '',
+        // desc: formValues?.deviceTemplate ?? '',
       },
     });
   };
