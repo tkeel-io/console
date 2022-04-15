@@ -1,5 +1,5 @@
 import { Center } from '@chakra-ui/react';
-import { CSSProperties, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import {
   Control,
   Controller,
@@ -17,6 +17,7 @@ import FormControl, {
 } from '@/tkeel-console-components/components/FormControl';
 
 import { Select } from '../Select';
+import { SelectStyles } from '../Select/types';
 import { fieldDefaultProps } from './default-props';
 
 type Value = string | number;
@@ -38,7 +39,7 @@ type Props<TFieldValues> = FormControlProps & {
     'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'
   >;
   control: Control<TFieldValues>;
-  selectStyle?: CSSProperties;
+  selectStyles?: SelectStyles;
 };
 
 const defaultProps = {
@@ -58,7 +59,7 @@ export default function CustomFormControl<TFieldValues>({
   defaultValue,
   rules,
   control,
-  selectStyle,
+  selectStyles,
   ...rest
 }: Props<TFieldValues>) {
   return (
@@ -84,7 +85,7 @@ export default function CustomFormControl<TFieldValues>({
                 <CheckFilledIcon color="primary" />
               </Center>
             }
-            style={{ width: '100%', ...selectStyle }}
+            styles={{ select: 'width: 100%;', ...selectStyles }}
           />
         )}
         defaultValue={defaultValue}

@@ -77,7 +77,7 @@ export default function FilterDropdown({
   const showDeviceTemplates = !!templateIdFilterCondition;
 
   const deviceNameQueryField = 'basicInfo.name';
-  const statusQueryField = 'sysField._status';
+  const statusQueryField = 'connectInfo._online';
   const deviceGroupIdQueryField = 'sysField._spacePath';
   const templateIdQueryField = 'basicInfo.templateId';
   const wildcard = '$wildcard';
@@ -166,23 +166,25 @@ export default function FilterDropdown({
     );
 
     const { value: statusValue } = deviceStatus;
+    const isAllStatus = statusValue === 'all';
+    const isOnlineStatus = statusValue === 'online';
     if (statusQueryCondition) {
-      if (statusValue === 'all') {
+      if (isAllStatus) {
         newDeviceListQueryConditions = newDeviceListQueryConditions.filter(
           (queryCondition) => queryCondition.field !== statusQueryField
         );
         setDeviceListQueryConditions(newDeviceListQueryConditions);
       } else {
-        statusQueryCondition.value = statusValue;
+        statusQueryCondition.value = isOnlineStatus;
         setDeviceListQueryConditions(newDeviceListQueryConditions);
       }
-    } else if (statusValue !== 'all') {
+    } else if (!isAllStatus) {
       setDeviceListQueryConditions([
         ...newDeviceListQueryConditions,
         {
           field: statusQueryField,
           operator: '$eq',
-          value: statusValue,
+          value: isOnlineStatus,
         },
       ]);
     }
@@ -307,6 +309,16 @@ export default function FilterDropdown({
   ]);
 
   useEffect(() => {
+    if (!groupIdFilterCondition) {
+      const newDeviceListQueryConditions = deviceListQueryConditions.filter(
+        (condition) => condition.field !== deviceGroupIdQueryField
+      );
+      setDeviceListQueryConditions(newDeviceListQueryConditions);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [groupIdFilterCondition]);
+
+  useEffect(() => {
     const newDeviceListQueryConditions = deviceListQueryConditions.filter(
       (condition) => condition.field !== deviceNameQueryField
     );
@@ -332,7 +344,7 @@ export default function FilterDropdown({
       zIndex="2"
       padding="8px 20px 20px"
       width="100%"
-      maxHeight="450px"
+      height="410px"
       backgroundColor="white"
       boxShadow="0px 8px 8px rgba(182, 194, 205, 0.2)"
       borderRadius="4px"

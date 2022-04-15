@@ -35,6 +35,9 @@ interface PortalConfig {
     tenantTitle?: string; // tenant only
     username?: string; // tenant only
     password?: string;
+    documents?: {
+      baseURL: string;
+    };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     menus?: Array<Record<string, any>>;
   };

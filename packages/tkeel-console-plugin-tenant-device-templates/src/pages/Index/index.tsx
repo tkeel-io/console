@@ -16,7 +16,7 @@ import { BoxTwoToneIcon } from '@tkeel/console-icons';
 import {
   KeyDataType,
   TemplateItem,
-  useTemplateQuery,
+  useTemplatesQuery,
 } from '@tkeel/console-request-hooks';
 import { formatDateTimeByTimestamp, plugin } from '@tkeel/console-utils';
 
@@ -32,27 +32,11 @@ function Index() {
   const pagination = usePagination();
   const { pageNum, pageSize, setTotalSize, ...rest } = pagination;
 
-  let defaultParams = {
-    page_num: 1,
-    page_size: 1000,
-    order_by: 'name',
-    is_descending: false,
-    query: '',
-    condition: [
-      {
-        field: 'type',
-        operator: '$eq',
-        value: 'template',
-      },
-    ],
-  };
-  if (keyWord) {
-    defaultParams = { ...defaultParams, query: keyWord };
-  }
+  const { templates, refetch } = useTemplatesQuery({
+    requestData: { query: keyWord },
+  });
 
-  const { items, refetch } = useTemplateQuery({ params: defaultParams });
-
-  const keyData: KeyDataType[] = items.map((val: TemplateItem) => {
+  const keyData: KeyDataType[] = templates.map((val: TemplateItem) => {
     return {
       title: val.properties.basicInfo.name,
       description: val.properties.basicInfo.description,
@@ -78,10 +62,11 @@ function Index() {
         bg="gray.50"
         boxShadow="0px 8px 8px rgba(152, 163, 180, 0.1)"
         borderRadius="4px"
+        py="20px"
         height="100%"
         flexDir="column"
       >
-        <Box flex="1" p="20px" overflowY="scroll">
+        <Box flex="1" overflowY="scroll" px="20px">
           <SimpleGrid spacingX="20px" spacingY="12px" columns={2}>
             {keyData.map((item: KeyDataType) => {
               return (

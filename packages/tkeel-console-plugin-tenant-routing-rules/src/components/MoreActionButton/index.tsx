@@ -49,6 +49,7 @@ function MoreActionButton({ cruxData, refetch, onDeleteSuccess }: Props) {
         <DeleteButton
           key="delete"
           cruxData={cruxData}
+          refetch={handleRefetch}
           onDeleteSuccess={onDeleteSuccess}
         />,
       ]}

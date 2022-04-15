@@ -46,7 +46,7 @@ type RequestData = {
   order_by?: string;
   is_descending?: boolean;
   query?: string;
-  condition: RequestDataCondition[];
+  condition?: RequestDataCondition[];
 };
 
 type Props = {
