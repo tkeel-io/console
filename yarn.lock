@@ -3682,7 +3682,6 @@ __metadata:
     "@tkeel/console-components": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
     "@tkeel/console-icons": "workspace:^"
-    "@tkeel/console-plugin-tenant-devices": "workspace:^"
     "@tkeel/console-request-hooks": "workspace:^"
     "@tkeel/console-types": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
@@ -3697,7 +3696,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tkeel/console-plugin-tenant-devices@workspace:^, @tkeel/console-plugin-tenant-devices@workspace:packages/tkeel-console-plugin-tenant-devices":
+"@tkeel/console-plugin-tenant-devices@workspace:packages/tkeel-console-plugin-tenant-devices":
   version: 0.0.0-use.local
   resolution: "@tkeel/console-plugin-tenant-devices@workspace:packages/tkeel-console-plugin-tenant-devices"
   dependencies:
