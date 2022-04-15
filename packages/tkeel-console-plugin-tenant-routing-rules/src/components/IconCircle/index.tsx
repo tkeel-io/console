@@ -6,7 +6,6 @@ import { useColor } from '@tkeel/console-hooks';
 type Props = {
   children: ReactNode;
   active?: boolean;
-  defaultBorderWidth?: string;
   defaultBorderColor?: string;
   defaultBgColor?: string;
   defaultIconColor?: string;
@@ -19,7 +18,6 @@ type Props = {
 export default function IconCircle({
   children,
   active,
-  defaultBorderWidth = '1px',
   defaultBorderColor = 'gray.800',
   defaultBgColor = 'gray.500',
   defaultIconColor = 'grayAlternatives.100',
@@ -31,7 +29,7 @@ export default function IconCircle({
     <Circle
       position="relative"
       size="32px"
-      border={defaultBorderWidth}
+      borderWidth="1px"
       borderColor={active ? 'primary' : defaultBorderColor}
       css={`
         svg {

@@ -63,7 +63,6 @@ export default function Step({ currentStep }: Props) {
             >
               <Box>
                 <IconCircle
-                  defaultBorderWidth="1px"
                   defaultBorderColor={
                     active ? 'grayAlternatives.500' : 'grayAlternatives.200'
                   }
