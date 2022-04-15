@@ -1,5 +1,6 @@
-import { useQuery } from '@tkeel/console-hooks';
+import { useQuery, UseQueryOptionsExtended } from '@tkeel/console-hooks';
 import { AttributeItem } from '@tkeel/console-types';
+import { RequestResult } from '@tkeel/console-utils';
 
 const url = '/tkeel-device/v1/search';
 const method = 'POST';
@@ -54,6 +55,7 @@ export interface KeyDataType {
 type Props = {
   requestData?: RequestData;
   enabled?: boolean;
+  onSuccess?: (data: RequestResult<ApiData, undefined, RequestData>) => void;
 };
 
 const defaultRequestData = {
@@ -66,6 +68,7 @@ const defaultRequestData = {
 
 export default function useTemplatesQuery(props?: Props) {
   const requestData: RequestData | undefined = props?.requestData;
+  const onSuccess = props?.onSuccess;
   const enabled = props?.enabled ?? true;
   let requestConditions = requestData?.condition || [];
   requestConditions = requestConditions.filter(
@@ -84,13 +87,20 @@ export default function useTemplatesQuery(props?: Props) {
       ...requestConditions,
     ],
   };
+
+  const reactQueryOptions: UseQueryOptionsExtended<
+    ApiData,
+    undefined,
+    RequestData
+  > = { enabled };
+  if (onSuccess) {
+    reactQueryOptions.onSuccess = onSuccess;
+  }
   const { data, ...rest } = useQuery<ApiData, undefined, RequestData>({
     url,
     method,
     data: newRequestData,
-    reactQueryOptions: {
-      enabled,
-    },
+    reactQueryOptions,
   });
   const templates = data?.listDeviceObject?.items ?? [];
   return { templates, data, ...rest };

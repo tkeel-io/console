@@ -4,6 +4,7 @@ interface PortalConfig {
   publicPath: string;
   client: {
     themeName: 'tkeel-light' | 'qingcloud-light';
+    showDevTools?: boolean;
   };
   backend: {
     api: {
