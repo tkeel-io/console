@@ -1,10 +1,8 @@
 import { Flex, StyleProps, Text } from '@chakra-ui/react';
 
-import { SearchEmpty } from '@tkeel/console-components';
+import { Empty, SearchEmpty } from '@tkeel/console-components';
 import { CloseFilledIcon, SmartObjectTwoToneIcon } from '@tkeel/console-icons';
 import { DeviceItem } from '@tkeel/console-request-hooks';
-
-import Empty from '../Empty';
 
 type Props = {
   type: 'group' | 'template';
@@ -36,13 +34,16 @@ export default function SelectedDevices({
 
     return (
       <Empty
-        textNode={
+        type="component"
+        title={
           <Flex flexDirection="column" alignItems="center">
             <Text>请从左侧设备列表选择</Text>
             <Text>需要添加的设备</Text>
           </Flex>
         }
-        styles={{ wrapper: { width: '100%', height: '100%' } }}
+        styles={{
+          wrapper: { width: '100%', height: '100%' },
+        }}
       />
     );
   }

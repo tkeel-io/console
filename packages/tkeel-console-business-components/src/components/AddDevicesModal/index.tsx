@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 
-import { Modal, SearchInput } from '@tkeel/console-components';
+import { Empty, Modal, SearchInput } from '@tkeel/console-components';
 import { BroomFilledIcon } from '@tkeel/console-icons';
 import {
   RequestDataCondition,
@@ -24,7 +24,6 @@ import CheckDeviceList, { DeviceItemExtended } from './CheckDeviceList';
 import CustomTab from './CustomTab';
 import DeviceGroupTree from './DeviceGroupTree';
 import DeviceTemplates from './DeviceTemplates';
-import Empty from './Empty';
 import SelectedDevices from './SelectedDevices';
 
 export interface Device {
@@ -308,7 +307,8 @@ export default function AddDevicesModal({
                         empty={
                           groupId ? (
                             <Empty
-                              textNode={
+                              type="component"
+                              title={
                                 <Flex
                                   flexDirection="column"
                                   alignItems="center"
@@ -357,7 +357,8 @@ export default function AddDevicesModal({
                       empty={
                         templateId ? (
                           <Empty
-                            textNode={
+                            type="component"
+                            title={
                               <Flex flexDirection="column" alignItems="center">
                                 <Text>该模板暂无设备请</Text>
                                 <Text>重新选择</Text>

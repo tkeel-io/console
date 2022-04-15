@@ -1,7 +1,5 @@
-import { Loading, SearchEmpty, Tree } from '@tkeel/console-components';
+import { Empty, Loading, SearchEmpty, Tree } from '@tkeel/console-components';
 import { TreeNodeData } from '@tkeel/console-utils';
-
-import Empty from '../Empty';
 
 type Props = {
   isLoading: boolean;
@@ -26,10 +24,15 @@ export default function DeviceGroupTree({
     return keywords ? (
       <SearchEmpty
         title="没有符合条件的设备组"
-        styles={{ wrapper: { height: '100%' }, text: { color: 'gray.600' } }}
+        styles={{ wrapper: { height: '100%' } }}
       />
     ) : (
-      <Empty styles={{ wrapper: { width: '100%', height: '100%' } }} />
+      <Empty
+        type="component"
+        styles={{
+          wrapper: { width: '100%', height: '100%' },
+        }}
+      />
     );
   }
 

@@ -4,6 +4,7 @@ import { ReactNode } from 'react';
 import EmptyImage from './assets/images/empty.svg?svgr';
 
 interface Props {
+  type?: 'page' | 'component';
   image?: ReactNode;
   title?: ReactNode;
   description?: ReactNode;
@@ -18,12 +19,14 @@ interface Props {
 }
 
 export default function Empty({
+  type = 'page',
   image = <EmptyImage />,
   title = '暂无数据',
   description,
   content,
   styles,
 }: Props) {
+  const typeIsComponent = type === 'component';
   return (
     <Box
       display="flex"
@@ -34,10 +37,10 @@ export default function Empty({
     >
       <Box {...styles?.image}>{image}</Box>
       <Box
-        marginTop="28px"
-        fontSize="16px"
-        lineHeight="28px"
-        color="gray.500"
+        marginTop={typeIsComponent ? '0' : '28px'}
+        fontSize={typeIsComponent ? '12px' : '16px'}
+        lineHeight={typeIsComponent ? '18px' : '28px'}
+        color="gray.600"
         {...styles?.title}
       >
         {title}
@@ -46,7 +49,7 @@ export default function Empty({
         marginTop="8px"
         fontSize="14px"
         lineHeight="20px"
-        color="gray.500"
+        color="gray.600"
         {...styles?.description}
       >
         {description}
