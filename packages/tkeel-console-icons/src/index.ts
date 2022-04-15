@@ -38,6 +38,7 @@ export { default as FileBoxTwoToneIcon } from './components/FileBoxTwoToneIcon';
 export { default as FloppyDiskFilledIcon } from './components/FloppyDiskFilledIcon';
 export { default as FolderCloseTwoToneIcon } from './components/FolderCloseTwoToneIcon';
 export { default as FolderOpenTwoToneIcon } from './components/FolderOpenTwoToneIcon';
+export { default as GearTwoToneIcon } from './components/GearTwoToneIcon';
 export { default as GoBackFilledIcon } from './components/GoBackFilledIcon';
 export { default as GroupTwoToneIcon } from './components/GroupTwoToneIcon';
 export { default as HumanCircleTwoToneIcon } from './components/HumanCircleTwoToneIcon';
