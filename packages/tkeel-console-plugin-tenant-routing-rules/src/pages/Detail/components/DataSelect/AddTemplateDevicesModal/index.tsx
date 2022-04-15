@@ -6,9 +6,15 @@ import {
   CheckDeviceList,
   DeviceItemExtended,
 } from '@tkeel/console-business-components';
-import { Modal, SearchEmpty, SearchInput } from '@tkeel/console-components';
+import {
+  Empty,
+  Modal,
+  SearchEmpty,
+  SearchInput,
+} from '@tkeel/console-components';
 import { useDeviceListQuery } from '@tkeel/console-request-hooks';
 
+import useRuleDetailQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDetailQuery';
 import useRuleDevicesIdArrayQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDevicesIdArrayQuery';
 
 type Props = {
@@ -31,14 +37,17 @@ export default function AddTemplateDevicesModal({
     []
   );
 
+  const { data: ruleDetail } = useRuleDetailQuery(id || '');
   const { deviceIds } = useRuleDevicesIdArrayQuery(id || '');
+  const templateId = ruleDetail?.model_id ?? '';
+  const templateName = ruleDetail?.model_name ?? '';
   useDeviceListQuery({
     requestData: {
       condition: [
         {
           field: 'basicInfo.templateId',
           operator: '$wildcard',
-          value: 'iotd-29c1fca9-79eb-437b-ba9d-0dc225eb4ce0',
+          value: templateId,
         },
       ],
     },
@@ -50,6 +59,7 @@ export default function AddTemplateDevicesModal({
       }));
       setDeviceList(devices);
     },
+    enabled: !!templateId,
   });
 
   return (
@@ -72,7 +82,7 @@ export default function AddTemplateDevicesModal({
           fontWeight="600"
           lineHeight="24px"
         >
-          设备模版：SIC电表
+          设备模版：{templateName}
         </Text>
         <SearchInput
           onSearch={(value: string) => setKeywords(value)}
@@ -90,12 +100,22 @@ export default function AddTemplateDevicesModal({
             deviceList={deviceList}
             keywords={keywords}
             empty={
-              <SearchEmpty
-                styles={{
-                  wrapper: { width: '100%' },
-                  text: { color: 'gray.600' },
-                }}
-              />
+              keywords ? (
+                <SearchEmpty
+                  styles={{
+                    wrapper: { width: '100%' },
+                    text: { color: 'gray.600' },
+                  }}
+                />
+              ) : (
+                <Empty
+                  title="该模板暂无设备"
+                  styles={{
+                    wrapper: { marginTop: '0', width: '100%', height: '100%' },
+                    title: { fontSize: '12px' },
+                  }}
+                />
+              )
             }
             selectedDevices={selectedDevices}
             handleSetSelectedDevices={(devices) => setSelectedDevices(devices)}
