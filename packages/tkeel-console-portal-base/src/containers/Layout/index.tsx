@@ -69,7 +69,7 @@ export default function Layout({ userActionMenusComponent, logo }: Props) {
 
   return (
     <Flex height="100%" overflowX="auto">
-      <Menus logo={logo} />
+      <Menus logo={logo} menus={menus} />
       <Flex flex="1" overflow="hidden" minWidth="1200px" flexDirection="column">
         <Header
           menus={menus}

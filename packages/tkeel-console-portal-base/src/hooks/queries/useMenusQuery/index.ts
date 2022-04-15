@@ -42,8 +42,20 @@ export default function useMenusQuery(props?: Props) {
   if (env.isEnvDevelopment()) {
     let mockMenus: Menu[] = [];
 
+    const localMockMenus = sessionStorage.getItem('mockMenus');
+    const { showDevTools } = GLOBAL_PORTAL_CONFIG?.client || {};
     try {
-      mockMenus = (GLOBAL_PORTAL_CONFIG?.mock?.menus ?? []) as Menu[];
+      if (showDevTools && localMockMenus) {
+        mockMenus = JSON.parse(localMockMenus) as Menu[];
+      } else {
+        mockMenus = (GLOBAL_PORTAL_CONFIG?.mock?.menus ?? []) as Menu[];
+        if (showDevTools) {
+          sessionStorage.setItem(
+            'mockMenus',
+            JSON.stringify(mockMenus, null, 2)
+          );
+        }
+      }
     } catch {
       //
     }
