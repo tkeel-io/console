@@ -4,10 +4,10 @@ import { ReactNode } from 'react';
 type Props = {
   icon: ReactNode;
   name: string;
-  desc: string;
+  desc?: string;
 };
 
-function PageHeader({ icon, name, desc }: Props) {
+function PageHeader({ icon, name, desc = '' }: Props) {
   return (
     <Flex
       padding="20px 24px"
