@@ -16,6 +16,7 @@ type Props<D extends object> = {
   styles?: {
     body?: StyleProps;
     tr?: StyleProps;
+    td?: StyleProps;
   };
 };
 
@@ -75,6 +76,7 @@ function Body<D extends object>({
                   color="gray.700"
                   fontSize="12px"
                   border="none"
+                  {...styles?.td}
                   {...cell.getCellProps()}
                 >
                   {funcName === 'defaultRenderer' ? (

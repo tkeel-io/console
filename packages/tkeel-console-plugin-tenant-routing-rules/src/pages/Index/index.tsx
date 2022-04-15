@@ -1,7 +1,7 @@
 import { Flex, Grid, Text } from '@chakra-ui/react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// import { useState } from 'react';
 import {
   Loading,
   PageHeaderToolbar,
@@ -19,20 +19,20 @@ import useRouteRulesQuery from '@/tkeel-console-plugin-tenant-routing-rules/hook
 import CreateRulesButton from '@/tkeel-console-plugin-tenant-routing-rules/pages/Index/components/CreateRulesButton';
 import RouteRulesCard from '@/tkeel-console-plugin-tenant-routing-rules/pages/Index/components/RouteRulesCard';
 import Step from '@/tkeel-console-plugin-tenant-routing-rules/pages/Index/components/Step';
-// import Tabs from '@/tkeel-console-plugin-tenant-routing-rules/pages/Index/components/Tabs';
+import Tabs from '@/tkeel-console-plugin-tenant-routing-rules/pages/Index/components/Tabs';
 
 export default function Index(): JSX.Element {
   const navigate = useNavigate();
   const pagination = usePagination();
   const { pageNum, pageSize, setTotalSize } = pagination;
-  // const [keyWords, setKeyWords] = useState('');
+  const [keyWords, setKeyWords] = useState(0);
   const toast = plugin.getPortalToast();
   const routeTypeArr: RouteType[] = ['msg', 'time'];
   const { routeRulesData, data, isSuccess, isLoading, refetch } =
     useRouteRulesQuery({
       pageNum,
       pageSize,
-      // keyWords,
+      type: keyWords,
     });
   const totalNum = data?.total ?? 0;
   if (isSuccess) {
@@ -57,11 +57,11 @@ export default function Index(): JSX.Element {
           />,
         ]}
       />
-      {/* <Tabs 二期放开
-        onClick={(e: string) => {
+      <Tabs
+        onClick={(e: number) => {
           setKeyWords(e);
         }}
-      /> */}
+      />
       {isLoading ? (
         <Loading styles={{ wrapper: { height: '100%' } }} />
       ) : (
