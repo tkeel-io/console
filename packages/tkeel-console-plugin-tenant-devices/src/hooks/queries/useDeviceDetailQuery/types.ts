@@ -2,6 +2,7 @@ import {
   AttributeItem,
   AttributeValue,
   CommandItem,
+  CommandValue,
   TelemetryItem,
   TelemetryValue,
 } from '@tkeel/console-types';
@@ -73,6 +74,7 @@ export interface DeviceObject {
     telemetry: TelemetryValue;
     attributes: AttributeValue;
     connectInfo: ConnectInfo;
+    commands: CommandValue;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [propName: string]: any;
   };

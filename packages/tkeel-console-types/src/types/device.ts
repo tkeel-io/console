@@ -27,11 +27,34 @@ export interface AttributeItem {
   last_time: number;
 }
 
-export interface CommandItem {
+export type CommandParamItem = {
+  id: string;
+  name: string;
+  type: string;
   define: {
     fields: {
-      [propName: string]: {
-        [propName: string]: unknown;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      [propName: string]: any;
+    };
+  };
+};
+
+export interface CommandItem {
+  define?: {
+    fields?: {
+      input?: {
+        define?: {
+          fields?: {
+            [propName: string]: CommandParamItem;
+          };
+        };
+      };
+      output?: {
+        define?: {
+          fields?: {
+            [propName: string]: CommandParamItem;
+          };
+        };
       };
     };
   };
@@ -50,4 +73,8 @@ export type AttributeValue = {
 export type TelemetryValue = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [propName: string]: any;
+};
+
+export type CommandValue = {
+  [propName: string]: object;
 };

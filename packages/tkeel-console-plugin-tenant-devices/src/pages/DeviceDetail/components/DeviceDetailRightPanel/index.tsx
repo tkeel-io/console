@@ -1,5 +1,5 @@
 import { TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
-import { values } from 'lodash';
+import { mapValues, values } from 'lodash';
 import { useState } from 'react';
 
 import { CustomTab, CustomTabList } from '@tkeel/console-components';
@@ -94,12 +94,16 @@ function DeviceDetailRightPanel({
           basicInfo={basicInfo}
           deviceId={id}
           refetch={refetch}
-          commandFields={values(commandFields)}
+          commandFields={values(
+            mapValues(commandFields, (val: object, key) => {
+              return { ...val, id: key };
+            })
+          )}
         />
       ),
     },
   ];
-  const [tabIndex, setTabIndex] = useState(4);
+  const [tabIndex, setTabIndex] = useState(0);
   const handleTabChange = (index: number) => {
     setTabIndex(index);
   };

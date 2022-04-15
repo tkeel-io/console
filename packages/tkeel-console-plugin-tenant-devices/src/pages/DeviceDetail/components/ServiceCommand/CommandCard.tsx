@@ -1,13 +1,23 @@
-import { Button, Flex, HStack, Text } from '@chakra-ui/react';
+import { Flex, HStack, Text } from '@chakra-ui/react';
 
-import { AppsTwoToneIcon, CaretRightFilledIcon } from '@tkeel/console-icons';
+import {
+  DeleteCommandButton,
+  UpdateCommandButton,
+} from '@tkeel/console-business-components';
+import { MoreAction } from '@tkeel/console-components';
+import { AppsTwoToneIcon } from '@tkeel/console-icons';
 import { CommandItem } from '@tkeel/console-types';
+
+// import { DATA_TYPE_CONFIG } from '../CommandParamModal/DataType';
+import CallCommandButton from '../CallCommandButton';
 
 interface Props {
   data: CommandItem;
+  uid: string;
+  refetch: () => void;
 }
 
-export default function CommandCard({ data }: Props) {
+export default function CommandCard({ data, uid, refetch }: Props) {
   const { name, id } = data;
   return (
     <Flex
@@ -22,48 +32,35 @@ export default function CommandCard({ data }: Props) {
       borderWidth="1px"
       borderColor="grayAlternatives.50"
     >
-      <HStack spacing="12px">
+      <HStack spacing="12px" w="35%">
         <AppsTwoToneIcon size="24px" />
         <Text fontSize="14px" fontWeight="600">
           {name}
         </Text>
       </HStack>
-      <HStack fontSize="12px" fontWeight="400" spacing="12px">
+      <HStack fontSize="12px" fontWeight="400" spacing="12px" w="35%">
         <Text color="grayAlternatives.400">命令ID</Text>
         <Text>{id}</Text>
       </HStack>
-      <HStack fontSize="12px" fontWeight="400" spacing="12px">
-        <Text color="grayAlternatives.400">调用次数</Text>
-        <Text color="grayAlternatives.400" fontWeight="400">
-          <Text
-            as="b"
-            fontSize="14px"
-            fontWeight="700"
-            mr="4px"
-            color="gray.800"
-          >
-            {1}
-          </Text>
-          次
-        </Text>
+      <HStack spacing="20px">
+        <CallCommandButton data={data} uid={uid} />
+        <MoreAction
+          buttons={[
+            <DeleteCommandButton
+              key="delete"
+              uid={uid}
+              data={data}
+              refetch={refetch}
+            />,
+            <UpdateCommandButton
+              key="update"
+              uid={uid}
+              data={data}
+              refetch={refetch}
+            />,
+          ]}
+        />
       </HStack>
-      <Button
-        p="6px 12px 6px 8px"
-        borderRadius="4px"
-        borderColor="primary"
-        borderStyle="solid"
-        boxShadow="none"
-        bg="primarySub"
-        borderWidth="1px"
-        h="28px"
-        fontSize="12px"
-        color="primary"
-        leftIcon={<CaretRightFilledIcon color="primary" />}
-        _hover={{ background: 'primarySub' }}
-        _active={{ background: 'primarySub' }}
-      >
-        调用
-      </Button>
     </Flex>
   );
 }

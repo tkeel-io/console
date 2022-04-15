@@ -1,12 +1,13 @@
 import { Box, Flex } from '@chakra-ui/react';
 import { isEmpty } from 'lodash';
+import { useState } from 'react';
 
+import { CreateCommandButton } from '@tkeel/console-business-components';
 import { Empty, PageHeaderToolbar } from '@tkeel/console-components';
 import { CommandItem } from '@tkeel/console-types';
 
 import { BasicInfo } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 
-import CreateCommandButton from '../CreateCommandButton';
 import CommandCard from './CommandCard';
 
 type Props = {
@@ -15,6 +16,24 @@ type Props = {
   commandFields: CommandItem[];
   refetch?: () => void;
 };
+const FILTER_COLUMNS = ['name', 'id'];
+
+function getFilterList({
+  list,
+  keywords,
+}: {
+  list: CommandItem[];
+  keywords: string;
+}) {
+  if (keywords) {
+    return list.filter((item) => {
+      return FILTER_COLUMNS.find((key) =>
+        (item[key] as string).includes(keywords)
+      );
+    });
+  }
+  return list;
+}
 
 export default function ServiceCommand({
   deviceId,
@@ -23,10 +42,12 @@ export default function ServiceCommand({
   refetch: refetchDeviceDetail = () => {},
 }: Props) {
   const deviceName = basicInfo?.name ?? '';
-  // eslint-disable-next-line no-console
-  console.log(commandFields);
-  // eslint-disable-next-line unicorn/consistent-function-scoping
-  const handleSearch = () => {};
+
+  const [keywords, setKeywords] = useState('');
+
+  const handleSearch = (value: string) => {
+    setKeywords(value.trim());
+  };
   return (
     <Flex flex="1" direction="column" height="100%">
       {isEmpty(commandFields) ? (
@@ -70,8 +91,13 @@ export default function ServiceCommand({
             ]}
           />
           <Box>
-            {commandFields.map((item) => (
-              <CommandCard data={item} key={item.id} />
+            {getFilterList({ list: commandFields, keywords }).map((item) => (
+              <CommandCard
+                data={item}
+                key={item.id}
+                uid={deviceId}
+                refetch={refetchDeviceDetail}
+              />
             ))}
           </Box>
         </>
