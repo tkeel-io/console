@@ -2,17 +2,24 @@ import { Text, useDisclosure } from '@chakra-ui/react';
 
 import { CreateButton } from '@tkeel/console-components';
 
-import AddDevicesModal from '../AddDevicesModal';
+import { RouteType } from '@/tkeel-console-plugin-tenant-routing-rules/components/RouteLabel';
+
+import AddGroupDevicesModal from '../AddGroupDevicesModal';
+import AddTemplateDevicesModal from '../AddTemplateDevicesModal';
 
 type Props = {
   type?: 'button' | 'link';
+  routeType: RouteType;
   refetchData: () => unknown;
 };
 
 export default function AddDeviceButton({
   type = 'button',
+  routeType,
   refetchData,
 }: Props) {
+  // eslint-disable-next-line no-console
+  console.log('routeType', routeType);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -31,11 +38,15 @@ export default function AddDeviceButton({
           添加设备
         </Text>
       )}
-      <AddDevicesModal
-        isOpen={isOpen}
-        onClose={onClose}
-        refetchData={refetchData}
-      />
+      {routeType === 'time' ? (
+        <AddTemplateDevicesModal isOpen={isOpen} onClose={onClose} />
+      ) : (
+        <AddGroupDevicesModal
+          isOpen={isOpen}
+          onClose={onClose}
+          refetchData={refetchData}
+        />
+      )}
     </>
   );
 }

@@ -18,7 +18,7 @@ export default function DeviceList({ data }: Props) {
   const navigate = useNavigate();
 
   if (data.length === 0) {
-    return <NoData />;
+    return <NoData style={{ height: '100%' }} />;
   }
 
   return (
@@ -41,7 +41,7 @@ export default function DeviceList({ data }: Props) {
               flex="1"
               cursor="pointer"
               onClick={() => {
-                navigate(`/detail?id=${id}`);
+                navigate(`/detail?id=${id}&menu-collapsed=true`);
               }}
             >
               <SmartObjectTwoToneIcon size={24} />

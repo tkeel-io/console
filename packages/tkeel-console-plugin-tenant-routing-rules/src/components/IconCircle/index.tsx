@@ -30,6 +30,7 @@ export default function IconCircle({
       position="relative"
       size="32px"
       borderWidth="1px"
+      borderStyle="solid"
       borderColor={active ? 'primary' : defaultBorderColor}
       css={`
         svg {

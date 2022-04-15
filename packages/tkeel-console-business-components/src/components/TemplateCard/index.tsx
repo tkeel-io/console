@@ -32,10 +32,9 @@ function TemplateCard({
     <Box
       borderRadius="4px"
       background="gray.50"
-      border="1px"
+      borderWidth="1px"
       borderStyle="solid"
       borderColor="grayAlternatives.50"
-      // width="48%"
       height="118px"
       bg="white"
       {...styles?.wrapper}

@@ -33,6 +33,7 @@ export default function DeviceInfoCard({ device, style }: Props) {
     },
   ];
 
+  const fromUrl = encodeURIComponent(`${pathname}${search}`);
   return (
     <Flex
       flexDirection="column"
@@ -46,9 +47,7 @@ export default function DeviceInfoCard({ device, style }: Props) {
       onClick={() =>
         navigate(
           // eslint-disable-next-line sonarjs/no-nested-template-literals
-          `/detail?id=${id}&from-url=${encodeURIComponent(
-            `${pathname}${search}`
-          )}`
+          `/detail?id=${id}&from-url=${fromUrl}&menu-collapsed=true`
         )
       }
     >
