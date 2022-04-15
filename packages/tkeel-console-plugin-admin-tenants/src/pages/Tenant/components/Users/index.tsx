@@ -93,6 +93,9 @@ export default function Users() {
         hasSearchInput
         styles={{ wrapper: { margin: '4px 0' } }}
         searchInputProps={{
+          inputStyle: {
+            backgroundColor: 'gray.50',
+          },
           onSearch(value) {
             setPageNum(1);
             setKeyWords(value.trim());

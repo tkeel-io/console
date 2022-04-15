@@ -82,7 +82,7 @@ function RouteRulesCard({
           maxWidth="480px"
           title={briefInfo?.desc ?? ''}
         >
-          {briefInfo?.desc ?? ''}
+          {briefInfo?.desc || '暂无描述'}
         </Text>
       </Box>
       <Box padding="16px 24px">{bottomInfo}</Box>

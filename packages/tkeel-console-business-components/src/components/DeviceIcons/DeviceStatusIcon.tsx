@@ -25,7 +25,7 @@ export default function StatusIcon({
       <Flex>
         设备
         {isOnline ? (
-          <Text color="green.50">在线</Text>
+          <Text color="green.300">在线</Text>
         ) : (
           <Text color="gray.500">离线</Text>
         )}

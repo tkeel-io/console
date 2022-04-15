@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, StyleProps, Text } from '@chakra-ui/react';
 import { ReactElement, ReactNode } from 'react';
 // import { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +12,9 @@ type Props = {
   navigateUrl: string;
   buttons?: ReactElement[];
   footer: { name: string; value: string }[];
+  styles?: {
+    wrapper?: StyleProps;
+  };
 };
 
 function TemplateCard({
@@ -21,6 +24,7 @@ function TemplateCard({
   navigateUrl,
   buttons,
   footer,
+  styles,
 }: Props) {
   const navigate = useNavigate();
 
@@ -28,12 +32,12 @@ function TemplateCard({
     <Box
       borderRadius="4px"
       background="gray.50"
-      border="1px"
+      borderWidth="1px"
       borderStyle="solid"
       borderColor="grayAlternatives.50"
-      // width="48%"
       height="118px"
       bg="white"
+      {...styles?.wrapper}
     >
       <Flex height="76px" flexDir="column" padding="0 20">
         <Flex alignItems="center" justifyContent="space-between">

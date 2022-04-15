@@ -18,3 +18,7 @@ export function getPortalProps() {
 export function getPortalToast() {
   return GLOBAL_PLUGIN_PROPS?.portalProps.client.toast;
 }
+
+export function getPortalDocuments() {
+  return GLOBAL_PLUGIN_PROPS?.portalProps.client.documents;
+}

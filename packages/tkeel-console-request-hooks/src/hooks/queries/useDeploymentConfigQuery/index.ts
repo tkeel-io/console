@@ -27,6 +27,7 @@ interface ApiData {
   admin_host: string;
   tenant_host: string;
   port: string;
+  docs_addr: string;
 }
 
 export default function useDeploymentConfigQuery() {
@@ -41,6 +42,14 @@ export default function useDeploymentConfigQuery() {
   const portalAdminURL = getURL(adminHost, port);
   const portalTenantURL = getURL(tenantHost, port);
   const config = merge({}, data, { portalAdminURL, portalTenantURL });
+
+  if (process.env.NODE_ENV === 'development') {
+    const mockDocsBaseURL =
+      GLOBAL_PORTAL_CONFIG.mock?.documents?.baseURL || config.docs_addr;
+    const mockConfig = merge({}, config, { docs_addr: mockDocsBaseURL });
+
+    return { config: mockConfig, ...result };
+  }
 
   return { config, ...result };
 }
