@@ -12,6 +12,8 @@ export { default as DeviceCommandModal } from './components/DeviceCommandModal';
 export { default as CommandParamModal } from './components/DeviceCommandModal/components/CommandParamModal';
 export * from './components/DeviceIcons';
 export { default as DeviceTelemetryModal } from './components/DeviceTelemetryModal';
+export { default as Documents } from './components/Documents';
+export * from './components/GlobalPortalProvider';
 export { default as NotFound } from './components/NotFound';
 export * as PluginBase from './components/PluginBase';
 export { default as PluginCard } from './components/PluginCard';

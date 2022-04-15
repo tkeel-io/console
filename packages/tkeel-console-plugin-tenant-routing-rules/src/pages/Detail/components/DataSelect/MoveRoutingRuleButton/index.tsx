@@ -30,16 +30,20 @@ export default function MoveRoutingRuleButton({
     pageSize: 100_000,
   });
 
-  const ruleModalData = routeRulesData.map((item) => ({
-    label: item.name,
-    value: item.id,
-  }));
+  const ruleModalData = routeRulesData
+    .filter((rule) => rule.id !== id)
+    .map((item) => ({
+      label: item.name,
+      value: item.id,
+    }));
+
   const toast = plugin.getPortalToast();
   const { mutate: addMutate, isLoading: isAddDevicesLoading } =
     useAddDevicesMutation({
       ruleId: selectedRuleId,
       onSuccess() {
         toast('移动路由成功', { status: 'success' });
+        onClose();
       },
     });
 
@@ -47,7 +51,10 @@ export default function MoveRoutingRuleButton({
     useDeleteDevicesMutation({
       ruleId: id || '',
       onSuccess() {
-        refetchData();
+        // TODO 移除设备后有延迟，临时处理方案
+        setTimeout(() => {
+          refetchData();
+        }, 500);
         addMutate({
           data: {
             devices_ids: selectedIds,
@@ -58,21 +65,16 @@ export default function MoveRoutingRuleButton({
 
   const handleConfirm = (ruleId: string) => {
     setSelectedRuleId(ruleId);
-    if (ruleId && ruleId !== id) {
+    if (ruleId) {
       deleteMutate({
         params: {
           devices_ids: selectedIds.join(','),
         },
       });
-    } else {
-      onClose();
     }
   };
 
-  let defaultValue = '';
-  if (id && ruleModalData.some((item) => item.value === id)) {
-    defaultValue = id;
-  }
+  const defaultValue = ruleModalData[0]?.value ?? '';
 
   return (
     <>

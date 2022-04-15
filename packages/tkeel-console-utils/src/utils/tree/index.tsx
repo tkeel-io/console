@@ -18,14 +18,11 @@ export interface TreeNodeData {
   key: string;
 }
 
-function getTreeIcon(props: { selected: boolean; expanded: boolean }) {
-  const { selected, expanded } = props;
-  const color = selected ? 'primary' : 'gray.700';
-  const twoToneColor = selected ? 'primarySub2' : 'gray.300';
+export function getTreeIcon({ expanded }: { expanded: boolean }) {
   const iconStyle = {
     size: 20,
-    color,
-    twoToneColor,
+    color: 'gray.700',
+    twoToneColor: 'gray.300',
     style: { position: 'relative', bottom: '2px' } as CSSProperties,
   };
 
@@ -54,13 +51,7 @@ export function getTreeNodeData({
       children: getTreeNodeData({ data: subNode }),
       originData: item,
       key: id,
-      icon: ({
-        expanded,
-        selected,
-      }: {
-        expanded: boolean;
-        selected: boolean;
-      }) => getTreeIcon({ expanded, selected }),
+      icon: ({ expanded }: { expanded: boolean }) => getTreeIcon({ expanded }),
     };
   });
 }

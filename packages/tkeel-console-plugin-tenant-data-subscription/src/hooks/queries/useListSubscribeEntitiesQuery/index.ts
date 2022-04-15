@@ -29,7 +29,6 @@ export interface ApiData {
   page_num: number;
   page_size: number;
   total: number;
-  users: User[];
   data: [
     {
       ID: string;
@@ -51,7 +50,6 @@ export default function useListSubscribeEntitiesQuery({
     data: RequestResult<ApiData, undefined, RequestParams>
   ) => unknown;
 }) {
-  // const url = `/security/v1/tenants/${tenantId}/users`;
   const url = `/core-broker/v1/subscribe/${params?.id || 0}/entities/list`;
 
   const { data, ...rest } = useQuery<ApiData, undefined, RequestParams>({
@@ -64,7 +62,7 @@ export default function useListSubscribeEntitiesQuery({
     },
     reactQueryOptions: { onSuccess },
   });
-  const users = data?.users ?? [];
+  const entities = data?.data ?? [];
 
-  return { users, data, ...rest };
+  return { entities, data, ...rest };
 }
