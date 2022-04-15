@@ -25,6 +25,7 @@ export default function MenuSetting({
       padding="20px"
       width="100%"
       height="600px"
+      maxHeight="100vh"
       backgroundColor="white"
     >
       <CloseButton

@@ -85,6 +85,8 @@ function Menus({ logo, menus }: Props) {
     : {};
 
   const isDevelopment = env.isEnvDevelopment();
+  const isShowDevTools = GLOBAL_PORTAL_CONFIG.client.showDevTools ?? false;
+
   return (
     <Box
       position="relative"
@@ -137,7 +139,7 @@ function Menus({ logo, menus }: Props) {
           </Flex>
         )}
       </Flex>
-      {isDevelopment && (
+      {isDevelopment && isShowDevTools && (
         <GearTwoToneIcon
           style={{
             position: 'absolute',
