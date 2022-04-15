@@ -8,7 +8,9 @@ import { PingTwoToneIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import MoreActionButton from '@/tkeel-console-plugin-tenant-routing-rules/components/MoreActionButton';
-import RouteLabel from '@/tkeel-console-plugin-tenant-routing-rules/components/RouteLabel';
+import RouteLabel, {
+  RouteType,
+} from '@/tkeel-console-plugin-tenant-routing-rules/components/RouteLabel';
 import StatusLabel from '@/tkeel-console-plugin-tenant-routing-rules/components/StatusLabel';
 import useRuleDetailQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDetailQuery';
 
@@ -31,7 +33,7 @@ export default function Detail() {
   const createTime = getFormattedDateTime(ruleDetail?.created_at);
   const updateTime = getFormattedDateTime(ruleDetail?.updated_at);
 
-  let routeType = 'msg';
+  let routeType: RouteType = 'msg';
   const type = ruleDetail?.type ?? 1;
   if (type === 2) {
     routeType = 'time';
@@ -134,7 +136,7 @@ export default function Detail() {
           borderRadius="4px"
           backgroundColor="white"
         >
-          <DataSelect />
+          <DataSelect routeType={routeType} />
           <DataRepublish styles={{ wrapper: { margin: '40px 0' } }} />
           <ErrorAction
             subscribeId={ruleDetail?.sub_id ?? 0}

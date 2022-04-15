@@ -2,7 +2,7 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import { ChangeEvent, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { Loading, Modal, SearchInput, Tree } from '@tkeel/console-components';
+import { Modal, SearchInput } from '@tkeel/console-components';
 import { BroomFilledIcon } from '@tkeel/console-icons';
 import {
   DeviceItem,
@@ -13,10 +13,11 @@ import {
 import { getTreeNodeData, TreeNodeData } from '@tkeel/console-utils';
 
 import useAddDevicesMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useAddDevicesMutation';
-// import useRuleDevicesIdArrayQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDevicesIdArrayQuery';
-import Empty from '@/tkeel-console-plugin-tenant-routing-rules/pages/Detail/components/DataSelect/Empty';
 
-import DeviceList from './DeviceList';
+// import useRuleDevicesIdArrayQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDevicesIdArrayQuery';
+import DeviceList from '../DeviceList';
+import Empty from '../Empty';
+import DeviceGroupTree from './DeviceGroupTree';
 import SelectedDevices from './SelectedDevices';
 
 export interface Device {
@@ -33,7 +34,7 @@ type Props = {
   refetchData: () => unknown;
 };
 
-export default function AddDevicesModal({
+export default function AddGroupDevicesModal({
   isOpen,
   onClose,
   refetchData,
@@ -51,8 +52,6 @@ export default function AddDevicesModal({
   >([]);
 
   const { id: ruleId } = useParams();
-
-  // const { deviceIds } = useRuleDevicesIdArrayQuery(ruleId || '');
 
   const { isLoading: isDeviceGroupLoading } = useDeviceGroupQuery({
     requestData: {
@@ -270,44 +269,29 @@ export default function AddDevicesModal({
           />
           <Flex justifyContent="space-between">
             <Box {...contentStyle}>
-              {(() => {
-                if (isDeviceGroupLoading) {
-                  return <Loading styles={{ wrapper: { height: '100%' } }} />;
-                }
-
-                if (treeNodeData.length === 0) {
-                  return (
-                    <Empty
-                      styles={{ wrapper: { width: '100%', height: '100%' } }}
-                    />
-                  );
-                }
-
-                return (
-                  <Tree
-                    extras={{ isTreeTitleFullWidth: true }}
-                    treeData={treeNodeData}
-                    selectedKeys={[groupId]}
-                    selectable
-                    showIcon
-                    onSelect={(_, info) => {
-                      const key = info.node.key as string;
-                      if (key && key !== groupId) {
-                        setGroupId(key);
-                      }
-                    }}
-                    styles={{
-                      treeNodeContentWrapper: 'flex: 1',
-                      treeTitle: 'font-size:14px; line-height: 32px;',
-                    }}
-                  />
-                );
-              })()}
+              <DeviceGroupTree
+                isLoading={isDeviceGroupLoading}
+                treeNodeData={treeNodeData}
+                groupId={groupId}
+                setGroupId={(key: string) => setGroupId(key)}
+              />
             </Box>
             <Flex marginLeft="20px" {...contentStyle}>
               <DeviceList
-                groupId={groupId}
                 isLoading={isDeviceListLoading}
+                empty={
+                  groupId ? (
+                    <Empty
+                      text={
+                        <Flex flexDirection="column" alignItems="center">
+                          <Text>该设备组暂无设备请</Text>
+                          <Text>重新选择</Text>
+                        </Flex>
+                      }
+                      styles={{ wrapper: { width: '100%', height: '100%' } }}
+                    />
+                  ) : null
+                }
                 deviceList={deviceList}
                 selectedDevices={selectedDevices}
                 handleAllCheckBoxChange={handleAllCheckBoxChange}
@@ -356,6 +340,7 @@ export default function AddDevicesModal({
                   selectedDevices.filter((device) => device.id !== deviceId)
                 );
               }}
+              styles={{ wrapper: { height: '439px' } }}
             />
           </Box>
         </Flex>

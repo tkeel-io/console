@@ -12,7 +12,9 @@ import { EmptyFileIcon } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
 import MoreActionButton from '@/tkeel-console-plugin-tenant-routing-rules/components/MoreActionButton';
-import RouteLabel from '@/tkeel-console-plugin-tenant-routing-rules/components/RouteLabel';
+import RouteLabel, {
+  RouteType,
+} from '@/tkeel-console-plugin-tenant-routing-rules/components/RouteLabel';
 import useRouteRulesQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRouteRulesQuery';
 import CreateRulesButton from '@/tkeel-console-plugin-tenant-routing-rules/pages/Index/components/CreateRulesButton';
 import RouteRulesCard from '@/tkeel-console-plugin-tenant-routing-rules/pages/Index/components/RouteRulesCard';
@@ -25,7 +27,7 @@ export default function Index(): JSX.Element {
   const { pageNum, pageSize, setTotalSize } = pagination;
   const [keyWords, setKeyWords] = useState(0);
   const toast = plugin.getPortalToast();
-  const routeTypeArr = ['msg', 'time'];
+  const routeTypeArr: RouteType[] = ['msg', 'time'];
   const { routeRulesData, data, isSuccess, isLoading, refetch } =
     useRouteRulesQuery({
       pageNum,
@@ -46,7 +48,6 @@ export default function Index(): JSX.Element {
     <Flex flexDirection="column" h="100%" padding="8px 20px 20px">
       <PageHeaderToolbar
         name="数据路由规则"
-        hasIcon
         buttons={[
           <CreateRulesButton
             key="create"

@@ -1,6 +1,7 @@
 import { NavigateFunction } from 'react-router-dom';
 
 import { TenantInfo, TokenInfo } from './auth';
+import { UserDocumentsReturns } from './documents';
 import { ToastFunction } from './toast';
 
 export interface GlobalPluginPropsPortalProps {
@@ -11,6 +12,7 @@ export interface GlobalPluginPropsPortalProps {
     tenantInfo: TenantInfo;
     tokenInfo: TokenInfo;
     toast: ToastFunction;
+    documents: UserDocumentsReturns;
     navigate: NavigateFunction;
     refetchMenus: () => void;
   };

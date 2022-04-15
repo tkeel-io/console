@@ -1,4 +1,4 @@
-import { Flex, Text } from '@chakra-ui/react';
+import { Flex, StyleProps, Text } from '@chakra-ui/react';
 
 import { CloseFilledIcon, SmartObjectTwoToneIcon } from '@tkeel/console-icons';
 import { DeviceItem } from '@tkeel/console-request-hooks';
@@ -9,12 +9,16 @@ type Props = {
   groupId: string;
   devices: DeviceItem[];
   removeDevice: (deviceId: string) => unknown;
+  styles?: {
+    wrapper?: StyleProps;
+  };
 };
 
 export default function SelectedDevices({
   groupId,
   devices,
   removeDevice,
+  styles,
 }: Props) {
   if (groupId && devices.length === 0) {
     return (
@@ -31,7 +35,7 @@ export default function SelectedDevices({
   }
 
   return (
-    <>
+    <Flex flexDirection="column" overflowY="auto" {...styles?.wrapper}>
       {devices.map((device) => {
         const { basicInfo } = device?.properties ?? {};
         const { parentName, name } = basicInfo || {};
@@ -44,7 +48,8 @@ export default function SelectedDevices({
             key={device.id}
             justifyContent="space-between"
             alignItems="center"
-            padding="0 10px"
+            flexShrink={0}
+            padding="0 12px"
             height="32px"
             _hover={{ backgroundColor: 'grayAlternatives.50' }}
           >
@@ -68,6 +73,6 @@ export default function SelectedDevices({
           </Flex>
         );
       })}
-    </>
+    </Flex>
   );
 }
