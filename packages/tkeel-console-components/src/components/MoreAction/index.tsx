@@ -83,15 +83,18 @@ export default function MoreAction({
   };
 
   const handleClick: MouseEventHandler<HTMLDivElement> = (event) => {
-    const scrollParent = getScrollParent(event.currentTarget);
+    const { currentTarget } = event;
+    const scrollParent = getScrollParent(currentTarget);
     event.stopPropagation();
     handleSetShowActionList(!showActionList);
-    const top = event.currentTarget?.getBoundingClientRect().top;
-    const { top: parentTop, height: parentHeight } =
-      scrollParent?.getBoundingClientRect() || {};
-    if (parentTop && parentHeight) {
+
+    const top = currentTarget?.getBoundingClientRect().top;
+    const parentTop = scrollParent?.getBoundingClientRect().top;
+    const parentScrollHeight = scrollParent?.scrollHeight;
+    if (parentTop && parentScrollHeight) {
+      const actionListHeight = 60 + 32 * buttons.length;
       const scrolledBottom =
-        top > parentTop + parentHeight - (60 + 32 * buttons.length);
+        top > parentTop + parentScrollHeight - actionListHeight;
       setPlacement(scrolledBottom ? 'top' : 'bottom');
     }
   };
@@ -192,7 +195,6 @@ export default function MoreAction({
         display={showActionList ? 'block' : 'none'}
         position="absolute"
         right="0"
-        // top="38px"
         {...actionListPositionStyle}
         padding="8px"
         borderWidth="1px"

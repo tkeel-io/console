@@ -4,6 +4,7 @@ interface PortalConfig {
   publicPath: string;
   client: {
     themeName: 'tkeel-light' | 'qingcloud-light';
+    showDevTools?: boolean;
   };
   backend: {
     api: {
@@ -35,6 +36,9 @@ interface PortalConfig {
     tenantTitle?: string; // tenant only
     username?: string; // tenant only
     password?: string;
+    documents?: {
+      baseURL: string;
+    };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     menus?: Array<Record<string, any>>;
   };

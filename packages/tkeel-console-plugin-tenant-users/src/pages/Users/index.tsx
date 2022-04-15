@@ -22,6 +22,8 @@ import ResetPasswordButton from './components/ResetPasswordButton';
 
 export default function Users() {
   const toast = plugin.getPortalToast();
+  const documents = plugin.getPortalDocuments();
+
   const { colors }: Theme = useTheme();
   const { tenant_id: tenantId } = getLocalTenantInfo();
   const [keyWords, setKeyWords] = useState('');
@@ -121,6 +123,7 @@ export default function Users() {
     <Flex flexDirection="column" height="100%">
       <PageHeaderToolbar
         name="用户管理"
+        documentsPath={documents.config.paths.tenantGuide.users}
         hasSearchInput
         searchInputProps={{
           inputStyle: { backgroundColor: colors.white },
