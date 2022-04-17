@@ -159,7 +159,6 @@ export default function MappingRelation({
       Cell: ({ row }: Cell<Fields>) =>
         useMemo(() => {
           const { original, index } = row;
-
           return (
             <Box bgColor="gray.50" padding="0 4px">
               <SelectField<MapFormValues>
