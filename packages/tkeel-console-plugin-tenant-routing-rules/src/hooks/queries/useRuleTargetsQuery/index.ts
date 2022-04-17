@@ -12,6 +12,7 @@ export interface Target {
   host: string;
   value: string;
   ext: string;
+  sink_type: string;
 }
 
 export interface ApiData {

@@ -12,6 +12,7 @@ export interface ApiData {
   sub_id: number;
   created_at: string;
   updated_at: string;
+  model_id: string;
 }
 
 const url = '/rule-manager/v1/rules';

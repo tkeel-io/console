@@ -13,7 +13,9 @@ import { Alert } from '@tkeel/console-components';
 import { PencilFilledIcon, TrashFilledIcon } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
+import clickHouseImg from '@/tkeel-console-plugin-tenant-routing-rules/assets/images/click-house.svg';
 import kafkaImg from '@/tkeel-console-plugin-tenant-routing-rules/assets/images/kafka.svg';
+import mysqlImg from '@/tkeel-console-plugin-tenant-routing-rules/assets/images/mysql.svg';
 import useCreateRuleTargetMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useCreateRuleTargetMutation';
 import useDeleteTargetMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useDeleteTargetMutation';
 import { Target } from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleTargetsQuery';
@@ -37,6 +39,12 @@ export default function RepublishInfoCard({
   refetchData,
   styles,
 }: Props) {
+  const imgType = {
+    kafka: kafkaImg,
+    mysql: mysqlImg,
+    clickhouse: clickHouseImg,
+  };
+  const image = imgType[target.sink_type] as string;
   const {
     isOpen: isAlertOpen,
     onClose: onAlertClose,
@@ -109,11 +117,17 @@ export default function RepublishInfoCard({
       }}
       {...styles?.wrapper}
     >
-      <Box width="5px" height="40px" backgroundColor="success.300" />
-      <Image marginLeft="20px" width="95px" src={kafkaImg} />
+      <Flex alignItems="center" w="260px">
+        <Box width="5px" height="40px" backgroundColor="success.300" />
+        <Image
+          marginLeft="20px"
+          width={target.sink_type === 'mysql' ? '48px' : '95px'}
+          src={image}
+        />
+      </Flex>
       <Text
         flex="1"
-        marginLeft="200px"
+        // marginLeft="200px"
         color="grayAlternatives.700"
         fontSize="14px"
         isTruncated

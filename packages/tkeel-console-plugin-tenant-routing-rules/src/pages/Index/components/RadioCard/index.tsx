@@ -26,7 +26,6 @@ export default function RadioCard(props: PropsType) {
         bg="white"
         borderColor="gray.200"
         borderRadius="4px"
-        cursor="pointer"
         _checked={{
           bg: 'primarySub',
           color: 'gray.600',

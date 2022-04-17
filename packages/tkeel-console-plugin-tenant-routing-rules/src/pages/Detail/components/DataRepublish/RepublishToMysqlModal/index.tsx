@@ -8,17 +8,22 @@ import StepModal from '@/tkeel-console-plugin-tenant-routing-rules/pages/Detail/
 
 import AddressVerify, { AddressFormValues } from './AddressVerify';
 import CreateFinished from './CreateFinished';
-// import MappingRelation, { MapFormValues } from './MappingRelation';
-import MappingRelation from './MappingRelation';
+import MappingRelation, { FiledItem } from './MappingRelation';
 
 type Props = {
   republishType: number;
+  ruleId: string;
+  deviceTemplateId: string;
   onClose: () => unknown;
+  refetch: () => void;
 };
 
 export default function RepublishToMysqlModal({
   republishType,
+  ruleId,
+  deviceTemplateId,
   onClose,
+  refetch,
 }: Props) {
   const stepBarInfo = [
     { key: '1', name: '地址验证' },
@@ -34,15 +39,15 @@ export default function RepublishToMysqlModal({
     },
     {
       title: 'ClickHouse',
-      interfaceType: 'clickHouse',
+      interfaceType: 'clickhouse',
       icon: <ClickHouseFilledIcon size={28} />,
     },
   ];
   const republishTitle = `转发到 ${republishInfo[republishType].title}`;
 
   const [step, setStep] = useState(1);
-  // const [timeCount, setTimeCount] = useState(false);
   const [verifyId, setVerifyId] = useState('');
+  const [reFields, setReFields] = useState<FiledItem[]>([]);
 
   const { mappingData, isLoading } = useMappingQuery(verifyId);
 
@@ -67,15 +72,15 @@ export default function RepublishToMysqlModal({
       },
     });
   };
-  const onPrev = () => {
+  const onPrev = (e: FiledItem[] | []) => {
+    setReFields(e);
     setStep((p: number) => p - 1);
   };
-  // const onNext = () => {
-  //   e: MapFormValues
-  //   console.log('jj', e);
-  //   setStep((p: number) => p + 1);
-  //   setTimeCount(true);
-  // };
+  const onNext = () => {
+    setStep((p: number) => p + 1);
+    setTimeout(() => onClose(), 5000);
+    refetch();
+  };
 
   return (
     <StepModal
@@ -92,13 +97,16 @@ export default function RepublishToMysqlModal({
       />
       <MappingRelation
         onPrev={onPrev}
-        // onNext={onNext}
+        onNext={onNext}
         isLoading={isLoading}
-        // verifyId={verifyId}
-        mappingData={mappingData && mappingData[0]}
+        ruleId={ruleId}
+        deviceTemplateId={deviceTemplateId}
+        verifyId={verifyId}
+        reFields={reFields}
+        mappingData={mappingData}
+        interfaceType={republishInfo[republishType].interfaceType}
       />
       <CreateFinished onClose={onClose} />
-      {/* <CreateFinished onClose={onClose} isTime={timeCount} /> */}
     </StepModal>
   );
 }

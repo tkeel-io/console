@@ -24,10 +24,11 @@ import RepublishToKafkaModal, {
 import RepublishToMysqlModal from './RepublishToMysqlModal';
 
 type Props = {
+  deviceTemplateId: string;
   styles?: { wrapper: StyleProps };
 };
 
-export default function DataRepublish({ styles }: Props) {
+export default function DataRepublish({ styles, deviceTemplateId }: Props) {
   const [selectedProductId, setSelectedProductId] = useState('');
 
   const { id: ruleId } = useParams();
@@ -139,13 +140,19 @@ export default function DataRepublish({ styles }: Props) {
       {selectedProductId === 'mysql' && (
         <RepublishToMysqlModal
           republishType={0}
+          ruleId={ruleId || ''}
+          deviceTemplateId={deviceTemplateId}
           onClose={() => setSelectedProductId('')}
+          refetch={() => refetch()}
         />
       )}
       {selectedProductId === 'clickHouse' && (
         <RepublishToMysqlModal
           republishType={1}
+          ruleId={ruleId || ''}
+          deviceTemplateId={deviceTemplateId}
           onClose={() => setSelectedProductId('')}
+          refetch={() => refetch()}
         />
       )}
     </Flex>

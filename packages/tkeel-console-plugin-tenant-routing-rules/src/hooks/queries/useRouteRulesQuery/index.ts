@@ -11,6 +11,7 @@ export interface RouteItemData {
   devices_status: number;
   targets_status: number;
   sub_id: number | unknown;
+  model_id: string;
 }
 
 export interface ApiData {
@@ -37,7 +38,6 @@ type TRequestParams = {
 };
 
 export default function useRouteRulesQuery({ pageNum, pageSize, type }: Props) {
-  // console.log(type);
   const { data, ...rest } = useQuery<ApiData, TRequestParams>({
     url,
     method,
@@ -46,9 +46,9 @@ export default function useRouteRulesQuery({ pageNum, pageSize, type }: Props) {
       page_size: pageSize,
       type: type ?? 0,
     },
-    reactQueryOptions: {
-      queryKey: 'routeRules',
-    },
+    // reactQueryOptions: {
+    //   queryKey: 'routeRules',
+    // },
   });
   const routeRulesData = data?.data || [];
 
