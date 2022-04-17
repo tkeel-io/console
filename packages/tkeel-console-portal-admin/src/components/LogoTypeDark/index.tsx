@@ -4,5 +4,6 @@ import { usePortalAdminConfigQuery } from '@tkeel/console-request-hooks';
 
 export default function LogoTypeDark() {
   const { config } = usePortalAdminConfigQuery();
-  return <Image width="189px" src={config?.client.logoTypeDark} />;
+  const { logoTypeDark } = config?.client || {};
+  return logoTypeDark ? <Image width="189px" src={logoTypeDark} /> : null;
 }

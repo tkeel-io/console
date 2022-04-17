@@ -10,6 +10,8 @@ export interface ApiData {
   devices_status: number;
   targets_status: number;
   sub_id: number;
+  model_id: string;
+  model_name: string;
   created_at: string;
   updated_at: string;
 }
