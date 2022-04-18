@@ -1,9 +1,12 @@
 import { Box, FormControl, FormLabel } from '@chakra-ui/react';
+import { omit } from 'lodash';
 import { ReactNode } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { FormField, Modal } from '@tkeel/console-components';
 import { schemas } from '@tkeel/console-utils';
+
+import { AuthTypes } from '@/tkeel-console-plugin-admin-tenants/hooks/mutations/useCreateTenantMutation';
 
 import AuthTypeRadioGroup from './AuthTypeRadioGroup';
 
@@ -40,8 +43,8 @@ export interface FormFields {
 
 export interface FormValues {
   title: string;
-  auth_type: 'internal' | 'external';
-  admin: {
+  auth_type: AuthTypes;
+  admin?: {
     username: string;
     password?: string;
     nick_name?: string;
@@ -64,7 +67,7 @@ export default function BaseTenantModal({
   isOpen,
   isConfirmButtonLoading,
   formFields,
-  defaultValues,
+  defaultValues = { title: '', auth_type: 'internal' },
   onClose,
   onConfirm,
 }: Props) {
@@ -74,6 +77,7 @@ export default function BaseTenantModal({
     trigger,
     getValues,
     setValue,
+    watch,
   } = useForm<FormValues>({
     defaultValues,
   });
@@ -82,6 +86,11 @@ export default function BaseTenantModal({
     const result = await trigger();
     if (result) {
       const formValues = getValues();
+
+      if (formValues.auth_type === 'external') {
+        onConfirm(omit(formValues, 'admin'));
+      }
+
       onConfirm(formValues);
     }
   };
@@ -110,32 +119,34 @@ export default function BaseTenantModal({
           <FormLabel fontSize="14px" lineHeight="24px" color="gray.600">
             平台选择
           </FormLabel>
-
           <AuthTypeRadioGroup
             onChange={(value) => {
               setValue('auth_type', value);
             }}
           />
         </FormControl>
-
-        <TextField
-          id="admin"
-          label="管理员账号"
-          isDisabled={formFields?.admin?.username?.disabled}
-          help={schemas.username.help}
-          error={errors.admin?.username}
-          registerReturn={register(
-            'admin.username',
-            schemas.username.registerOptions
-          )}
-        />
-        <TextField
-          id="nickName"
-          label="管理员名称"
-          isDisabled={formFields?.admin?.nick_name?.disabled}
-          error={errors.admin?.nick_name}
-          registerReturn={register('admin.nick_name')}
-        />
+        {watch('auth_type') === 'internal' && (
+          <>
+            <TextField
+              id="admin"
+              label="管理员账号"
+              isDisabled={formFields?.admin?.username?.disabled}
+              help={schemas.username.help}
+              error={errors.admin?.username}
+              registerReturn={register(
+                'admin.username',
+                schemas.username.registerOptions
+              )}
+            />
+            <TextField
+              id="nickName"
+              label="管理员名称"
+              isDisabled={formFields?.admin?.nick_name?.disabled}
+              error={errors.admin?.nick_name}
+              registerReturn={register('admin.nick_name')}
+            />
+          </>
+        )}
         <TextareaField
           id="remark"
           label="备注"

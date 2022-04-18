@@ -8,7 +8,11 @@ export type AuthTypes = 'internal' | 'external';
 interface RequestData {
   title: string;
   auth_type: AuthTypes;
-  admin: { username: string; password?: string; nick_name?: string };
+  admin?: {
+    username: string;
+    password?: string;
+    nick_name?: string;
+  };
   remark?: string;
 }
 
