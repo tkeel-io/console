@@ -1,2 +1,2 @@
 # console-portal-tenant
-前端 租户平台 基座
+前端租户平台的基座

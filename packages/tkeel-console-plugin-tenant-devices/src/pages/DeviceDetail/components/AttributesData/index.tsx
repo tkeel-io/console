@@ -93,7 +93,7 @@ function renderTooltip(info: { type: string; rw: ReadWriteType }) {
     </SimpleGrid>
   );
 }
-function AttributesPanel({
+function AttributesData({
   deviceId,
   basicInfo,
   attributeFields,
@@ -105,6 +105,7 @@ function AttributesPanel({
   const [renderAttributeValue, setRenderAttributeValue] = useState(
     attributeDefaultValues
   );
+
   useEffect(() => {
     if (wsReadyState === 1 && !isEmpty(attributeValues)) {
       setRenderAttributeValue(attributeValues);
@@ -239,10 +240,11 @@ function AttributesPanel({
                   const { defaultValue, name, type, id, define, rw } =
                     getFormValue(item);
                   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                  const defaultValueCopy =
-                    renderAttributeValue[item.id] || // websocket
-                    defaultFormValue[item.id] || // properties
-                    defaultValue; // configs
+                  const defaultValueCopy = [
+                    renderAttributeValue[item.id],
+                    defaultValue,
+                    defaultFormValue[item.id],
+                  ].find((v) => !Object.is(undefined, v));
                   const editFormValues = { name, id, type, define };
                   return (
                     <Box
@@ -367,13 +369,15 @@ function AttributesPanel({
                               size="sm"
                               isChecked={defaultValueCopy as boolean}
                               onChange={(e) => {
+                                const checked = e?.target?.checked ?? false;
                                 setFocusId(item.id);
                                 setCurrentId(item.id);
                                 setAttributeData({
                                   id: item.id,
                                   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                                  value: e?.target?.checked ?? false,
+                                  value: checked,
                                 });
+                                // setValue(item.id, checked);
                               }}
                             />
                             <Text color="gray.700" fontSize="14px" ml="10px">
@@ -405,4 +409,4 @@ function AttributesPanel({
   );
 }
 
-export default AttributesPanel;
+export default AttributesData;

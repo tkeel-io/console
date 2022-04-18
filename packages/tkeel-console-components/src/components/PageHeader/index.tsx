@@ -1,15 +1,22 @@
 import { Center, Flex, Text } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
+import { BookOpenedFilledIcon } from '@tkeel/console-icons';
+import { plugin } from '@tkeel/console-utils';
+
 type Props = {
   icon: ReactNode;
   name: string;
-  desc?: string;
+  desc: string;
+  documentsPath?: string;
 };
 
-function PageHeader({ icon, name, desc = '' }: Props) {
+function PageHeader({ icon, name, desc, documentsPath = '' }: Props) {
+  const documents = plugin.getPortalDocuments();
+
   return (
     <Flex
+      position="relative"
       padding="20px 24px"
       width="100%"
       height="100px"
@@ -44,6 +51,21 @@ function PageHeader({ icon, name, desc = '' }: Props) {
           {desc}
         </Text>
       </Flex>
+      {documentsPath && (
+        <Flex
+          position="absolute"
+          right="32px"
+          bottom="24px"
+          alignItems="center"
+          cursor="pointer"
+          onClick={() => documents.open(documentsPath)}
+        >
+          <BookOpenedFilledIcon color="grayAlternatives.300" />
+          <Text marginLeft="8px" color="grayAlternatives.300" fontSize="12px">
+            帮助引导
+          </Text>
+        </Flex>
+      )}
     </Flex>
   );
 }
