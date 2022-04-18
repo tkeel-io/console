@@ -1,16 +1,20 @@
-import { Box, FormControl, FormLabel, Grid, GridItem } from '@chakra-ui/react';
-import { ReactNode, useState } from 'react';
+import { Box, FormControl, FormLabel } from '@chakra-ui/react';
+import { ReactNode } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { FormField, Modal } from '@tkeel/console-components';
 import { schemas } from '@tkeel/console-utils';
 
-import AuthTypeOption from './AuthTypeOption';
+import AuthTypeRadioGroup from './AuthTypeRadioGroup';
 
 const { TextField, TextareaField } = FormField;
 
 export interface FormFields {
   title?: {
+    isHide?: boolean;
+    disabled?: boolean;
+  };
+  auth_type?: {
     isHide?: boolean;
     disabled?: boolean;
   };
@@ -36,6 +40,7 @@ export interface FormFields {
 
 export interface FormValues {
   title: string;
+  auth_type: 'internal' | 'external';
   admin: {
     username: string;
     password?: string;
@@ -54,21 +59,6 @@ type Props = {
   onConfirm: (formValues: FormValues) => unknown;
 };
 
-const AUTH_TYPES = [
-  {
-    title: '平台默认',
-    key: 'default',
-    description:
-      '用户的管理在平台侧，管理员可在 tkeel 租户平台注册、管理用户。',
-  },
-  {
-    title: '第三方',
-    key: 'thirdParty',
-    description:
-      '用户的管理在第三方，用户登录 tkeel 平台需要跳转至第三方登录。',
-  },
-];
-
 export default function BaseTenantModal({
   title,
   isOpen,
@@ -83,14 +73,10 @@ export default function BaseTenantModal({
     formState: { errors },
     trigger,
     getValues,
+    setValue,
   } = useForm<FormValues>({
     defaultValues,
   });
-
-  const [selectedAuthType, setSelectedAuthType] = useState<string>('default');
-  const handleSelectAuth = (key: string) => () => {
-    setSelectedAuthType(key);
-  };
 
   const handleConfirm = async () => {
     const result = await trigger();
@@ -120,26 +106,16 @@ export default function BaseTenantModal({
           )}
         />
 
-        <FormControl display="none" marginBottom="16px">
+        <FormControl marginBottom="16px">
           <FormLabel fontSize="14px" lineHeight="24px" color="gray.600">
             平台选择
           </FormLabel>
-          <Grid templateColumns="repeat(2, 1fr)" gap={4}>
-            {AUTH_TYPES.map((item) => {
-              return (
-                <GridItem
-                  colSpan={1}
-                  key={item.key}
-                  onClick={handleSelectAuth(item.key)}
-                >
-                  <AuthTypeOption
-                    {...item}
-                    isSelected={selectedAuthType === item.key}
-                  />
-                </GridItem>
-              );
-            })}
-          </Grid>
+
+          <AuthTypeRadioGroup
+            onChange={(value) => {
+              setValue('auth_type', value);
+            }}
+          />
         </FormControl>
 
         <TextField
