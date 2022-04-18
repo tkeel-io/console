@@ -119,8 +119,8 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
           },
         }}
         styles={{
+          wrapper: { height: '32px', marginBottom: '12px' },
           title: { fontSize: '14px' },
-          wrapper: { height: '48px', margin: '4px 0' },
         }}
         buttons={[
           <CreateAttributeButton uid={id} refetch={refetch} key="add" />,
