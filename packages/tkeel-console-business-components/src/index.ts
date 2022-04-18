@@ -1,3 +1,6 @@
+export { default as AddDevicesModal } from './components/AddDevicesModal';
+export * from './components/AddDevicesModal/CheckDeviceList';
+export { default as CheckDeviceList } from './components/AddDevicesModal/CheckDeviceList';
 export { default as BasicInfo } from './components/BasicInfo';
 export { default as CreateAttributeButton } from './components/CreateAttributeButton';
 export { default as CreateTelemetryButton } from './components/CreateTelemetryButton';
