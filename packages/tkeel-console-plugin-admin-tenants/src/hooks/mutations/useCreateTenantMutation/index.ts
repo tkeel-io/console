@@ -1,9 +1,9 @@
 import { useMutation } from '@tkeel/console-hooks';
 
+import { AuthTypes } from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useTenantsQuery';
+
 const url = '/security/v1/tenants';
 const method = 'POST';
-
-export type AuthTypes = 'internal' | 'external';
 
 interface RequestData {
   title: string;

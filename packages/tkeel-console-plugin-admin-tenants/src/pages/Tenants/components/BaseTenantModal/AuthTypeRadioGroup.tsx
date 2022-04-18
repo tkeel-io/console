@@ -2,31 +2,20 @@ import { Box, HStack, Text, useRadioGroup } from '@chakra-ui/react';
 
 import { RadioCard } from '@tkeel/console-components';
 
-import { AuthTypes } from '@/tkeel-console-plugin-admin-tenants/hooks/mutations/useCreateTenantMutation';
+import {
+  AUTH_TYPES,
+  DEFAULT_AUTH_TYPE,
+} from '@/tkeel-console-plugin-admin-tenants/constants';
+import { AuthTypes } from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useTenantsQuery';
 
 export interface Props {
   onChange: (value: AuthTypes) => void;
 }
 
-const OPTIONS = [
-  {
-    name: '平台默认',
-    description:
-      '用户的管理在平台侧，管理员可在 tkeel 租户平台注册、管理用户。',
-    value: 'internal',
-  },
-  {
-    name: '第三方',
-    description:
-      '用户的管理在第三方，用户登录 tkeel 平台需要跳转至第三方登录。',
-    value: 'external',
-  },
-];
-
 export default function AuthTypeRadioGroup({ onChange }: Props) {
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: 'auth_type',
-    defaultValue: 'internal',
+    defaultValue: DEFAULT_AUTH_TYPE,
     onChange,
   });
 
@@ -34,12 +23,12 @@ export default function AuthTypeRadioGroup({ onChange }: Props) {
 
   return (
     <HStack spacing="12px" {...group}>
-      {OPTIONS.map(({ value, name, description }) => {
-        const radio = getRadioProps({ value });
+      {AUTH_TYPES.map(({ key, name, description }) => {
+        const radio = getRadioProps({ value: key });
 
         return (
           <RadioCard
-            key={value}
+            key={key}
             style={{
               borderWidth: '2px',
               borderRadius: '4px',

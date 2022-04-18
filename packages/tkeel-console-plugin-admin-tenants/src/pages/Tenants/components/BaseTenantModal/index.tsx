@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { FormField, Modal } from '@tkeel/console-components';
 import { schemas } from '@tkeel/console-utils';
 
-import { AuthTypes } from '@/tkeel-console-plugin-admin-tenants/hooks/mutations/useCreateTenantMutation';
+import { AuthTypes } from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useTenantsQuery';
 
 import AuthTypeRadioGroup from './AuthTypeRadioGroup';
 
@@ -89,9 +89,9 @@ export default function BaseTenantModal({
 
       if (formValues.auth_type === 'external') {
         onConfirm(omit(formValues, 'admin'));
+      } else {
+        onConfirm(formValues);
       }
-
-      onConfirm(formValues);
     }
   };
 
@@ -117,7 +117,7 @@ export default function BaseTenantModal({
 
         <FormControl marginBottom="16px">
           <FormLabel fontSize="14px" lineHeight="24px" color="gray.600">
-            平台选择
+            认证方式
           </FormLabel>
           <AuthTypeRadioGroup
             onChange={(value) => {

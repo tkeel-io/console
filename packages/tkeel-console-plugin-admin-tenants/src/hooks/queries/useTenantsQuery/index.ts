@@ -11,6 +11,8 @@ type RequestParams = {
   key_words?: string;
 };
 
+export type AuthTypes = 'internal' | 'external';
+
 export interface Admin {
   username: '';
   password: '';
@@ -19,6 +21,7 @@ export interface Admin {
 export interface Tenant {
   tenant_id: string;
   title: string;
+  auth_type: AuthTypes;
   admins: Admin[];
   remark: string;
 
