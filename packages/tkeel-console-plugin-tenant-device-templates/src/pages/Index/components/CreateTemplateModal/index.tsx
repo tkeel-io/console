@@ -2,8 +2,7 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 
 import { CreateTemplateBasicModal } from '@tkeel/console-business-components';
-import { Empty } from '@tkeel/console-components';
-import Modal from '@tkeel/console-components/src/components/Modal';
+import { Empty, Modal } from '@tkeel/console-components';
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
 import { KeyDataType } from '@tkeel/console-request-hooks';
 

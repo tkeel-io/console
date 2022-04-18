@@ -6,5 +6,8 @@ export const paths = {
   tenantGuide: {
     users: '/tenant-guide/user-mgt/user_mgt',
     roles: '/tenant-guide/user-mgt/role_mgt',
+    deviceList: '/tenant-guide/device-mgt/device_mgt_list',
+    deviceTemplate:
+      '/tenant-guide/device-mgt/device_template/device_template_intro',
   },
 };
