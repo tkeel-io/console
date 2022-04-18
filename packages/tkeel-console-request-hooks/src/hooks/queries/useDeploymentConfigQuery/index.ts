@@ -44,11 +44,16 @@ export default function useDeploymentConfigQuery() {
   const config = merge({}, data, { portalAdminURL, portalTenantURL });
 
   if (process.env.NODE_ENV === 'development') {
-    const mockDocsBaseURL =
-      GLOBAL_PORTAL_CONFIG?.mock?.documents?.baseURL || config.docs_addr;
-    const mockConfig = merge({}, config, { docs_addr: mockDocsBaseURL });
+    try {
+      const mockDocsBaseURL =
+        GLOBAL_PORTAL_CONFIG.mock?.documents?.baseURL || config.docs_addr;
+      const mockConfig = merge({}, config, { docs_addr: mockDocsBaseURL });
 
-    return { config: mockConfig, ...result };
+      return { config: mockConfig, ...result };
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+    }
   }
 
   return { config, ...result };

@@ -26,9 +26,6 @@ export default function CreateTenantButton({ onSuccess }: Props) {
     },
   });
 
-  // TODO: SetPasswordModal url delete later
-  // const { protocol, host } = window.location;
-  // const url = `${protocol}//${host.replace(/^admin\./, '')}/auth/set-password`;
   const setPasswordModalData = {
     reset_key: data?.reset_key ?? '',
   };
@@ -53,7 +50,6 @@ export default function CreateTenantButton({ onSuccess }: Props) {
         <SetPasswordModal
           isOpen={isSuccessModalOpen}
           title="创建成功"
-          // url={url}
           data={setPasswordModalData}
           onClose={onSuccessModalClose}
         />
