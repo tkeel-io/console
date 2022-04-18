@@ -1,2 +1,2 @@
 # console-portal-admin
-前端 管理平台 基座
+前端管理平台的基座
