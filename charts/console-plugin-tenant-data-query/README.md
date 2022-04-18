@@ -1,3 +1,2 @@
 # console-plugin-tenant-data-query
-
-用户管理的数据查询插件
+前端租户平台的「数据查询」插件
