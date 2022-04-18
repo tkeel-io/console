@@ -22,6 +22,7 @@ export { default as Pagination } from './components/Pagination';
 export * from './components/RadioCard';
 export { default as SearchEmpty } from './components/SearchEmpty';
 export { default as SearchInput } from './components/SearchInput';
+export * from './components/SegmentedControl';
 export * from './components/Select';
 export * as StatusIcon from './components/StatusIcon';
 export { default as Table } from './components/Table';
