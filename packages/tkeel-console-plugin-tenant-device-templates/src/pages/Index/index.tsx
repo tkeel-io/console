@@ -28,6 +28,7 @@ function Index() {
   const navigate = useNavigate();
   const toast = plugin.getPortalToast();
   const [keyWord, setKeyWord] = useState('');
+  const documents = plugin.getPortalDocuments();
 
   const pagination = usePagination();
   const { pageNum, pageSize, setTotalSize, ...rest } = pagination;
@@ -125,6 +126,7 @@ function Index() {
       <PageHeaderToolbar
         name="设备模板"
         hasSearchInput
+        documentsPath={documents.config.paths.tenantGuide.deviceTemplate}
         searchInputProps={{
           onSearch(value) {
             setKeyWord(value.trim());
