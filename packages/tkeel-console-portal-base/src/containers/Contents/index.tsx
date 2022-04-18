@@ -45,7 +45,7 @@ export default function Contents({
   const [documentsPath, setDocumentsPath] = useState('');
 
   const { config } = useDeploymentConfigQuery();
-  const docsBaseURL = config?.docs_addr;
+  const docsBaseURL = config?.docsURL ?? '';
 
   useLocationChange({
     onChange: () => {
