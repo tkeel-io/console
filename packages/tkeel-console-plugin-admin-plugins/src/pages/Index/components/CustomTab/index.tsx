@@ -19,7 +19,7 @@ function CustomTab(props: Props) {
       position="relative"
       margin="0"
       width="max-content"
-      padding="0 25px"
+      padding="0 32px"
       height="28px"
       border="none"
       borderRadius="22px"
