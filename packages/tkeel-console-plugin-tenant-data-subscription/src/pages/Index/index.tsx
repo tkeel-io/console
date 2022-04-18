@@ -72,7 +72,7 @@ function SubscriptionCard() {
                   { name: '订阅ID', value: item.id },
                   { name: '订阅地址', value: item.endpoint },
                 ]}
-                styles={{ wrapper: { width: '49.7%' } }}
+                styles={{ wrapper: { marginBottom: '12px', width: '49.7%' } }}
               />
             );
           })}
