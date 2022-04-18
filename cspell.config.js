@@ -70,6 +70,7 @@ module.exports = {
     'Tele',
     'proxied',
     'struct',
+    'tinycolor',
   ],
   ignorePaths: [
     '**/.idea/**',

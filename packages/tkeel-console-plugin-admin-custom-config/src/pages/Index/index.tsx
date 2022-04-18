@@ -3,6 +3,8 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import { PageHeader } from '@tkeel/console-components';
 import { GearTwoToneIcon } from '@tkeel/console-icons';
 
+import ThemeColorConfig from './components/ThemeColorConfig';
+
 export default function Index() {
   return (
     <Box>
@@ -30,7 +32,7 @@ export default function Index() {
           对平台进行外观配置与功能菜单配置
         </Text>
         <Flex marginTop="10px" padding="24px 32px" backgroundColor="gray.50">
-          主题色配置
+          <ThemeColorConfig />
         </Flex>
       </Flex>
     </Box>
