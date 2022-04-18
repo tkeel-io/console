@@ -5,7 +5,9 @@ import { useParams } from 'react-router-dom';
 import { Tooltip } from '@tkeel/console-components';
 import {
   AutoFilledIcon,
+  ClickHouseFilledIcon,
   KafkaFilledIcon,
+  MySqlFilledIcon,
   ObjectStorageFilledIcon,
 } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
@@ -19,6 +21,7 @@ import RepublishInfoCard from './RepublishInfoCard';
 import RepublishToKafkaModal, {
   FormValues as KafkaRepublishInfo,
 } from './RepublishToKafkaModal';
+import RepublishToMysqlModal from './RepublishToMysqlModal';
 
 type Props = {
   styles?: { wrapper: StyleProps };
@@ -59,6 +62,18 @@ export default function DataRepublish({ styles }: Props) {
       id: 'kafka',
       icon: <KafkaFilledIcon size={22} color={iconColor} />,
       name: 'Kafka',
+      disable: false,
+    },
+    {
+      id: 'mysql',
+      icon: <MySqlFilledIcon size={38} color={iconColor} />,
+      name: 'MySQL',
+      disable: false,
+    },
+    {
+      id: 'clickHouse',
+      icon: <ClickHouseFilledIcon size={22} color={iconColor} />,
+      name: 'click house',
       disable: false,
     },
     {
@@ -119,6 +134,18 @@ export default function DataRepublish({ styles }: Props) {
           isLoading={isLoading}
           onClose={() => setSelectedProductId('')}
           handleSubmit={handleSubmit}
+        />
+      )}
+      {selectedProductId === 'mysql' && (
+        <RepublishToMysqlModal
+          republishType={0}
+          onClose={() => setSelectedProductId('')}
+        />
+      )}
+      {selectedProductId === 'clickHouse' && (
+        <RepublishToMysqlModal
+          republishType={1}
+          onClose={() => setSelectedProductId('')}
         />
       )}
     </Flex>

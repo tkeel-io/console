@@ -1,11 +1,18 @@
+export { default as AddDevicesModal } from './components/AddDevicesModal';
+export * from './components/AddDevicesModal/CheckDeviceList';
+export { default as CheckDeviceList } from './components/AddDevicesModal/CheckDeviceList';
 export { default as BasicInfo } from './components/BasicInfo';
 export { default as CreateAttributeButton } from './components/CreateAttributeButton';
+export { default as CreateCommandButton } from './components/CreateCommandButton';
 export { default as CreateTelemetryButton } from './components/CreateTelemetryButton';
 export { default as CreateTemplateBasicModal } from './components/CreateTemplateBasicModal';
 export { default as DeleteAttributeButton } from './components/DeleteAttributeButton';
+export { default as DeleteCommandButton } from './components/DeleteCommandButton';
 export { default as DeleteTelemetryButton } from './components/DeleteTelemetryButton';
 export { default as DeveloperInfo } from './components/DeveloperInfo';
 export { default as DeviceAttributeModal } from './components/DeviceAttributeModal';
+export { default as DeviceCommandModal } from './components/DeviceCommandModal';
+export { default as CommandParamModal } from './components/DeviceCommandModal/components/CommandParamModal';
 export * from './components/DeviceIcons';
 export { default as DeviceTelemetryModal } from './components/DeviceTelemetryModal';
 export { default as Documents } from './components/Documents';
@@ -20,4 +27,5 @@ export { default as TelemetryDetailButton } from './components/TelemetryDetailBu
 export { default as TelemetryDrawer } from './components/TelemetryDrawer';
 export { default as TemplateCard } from './components/TemplateCard';
 export { default as UpdateAttributeButton } from './components/UpdateAttributeButton';
+export { default as UpdateCommandButton } from './components/UpdateCommandButton';
 export { default as UpdateTelemetryButton } from './components/UpdateTelemetryButton';

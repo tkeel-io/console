@@ -82,7 +82,7 @@ export default function Documents({
               opacity: 0.7,
             }}
             as="a"
-            href={baseURL}
+            href={url}
             target="_blank"
           >
             <Text

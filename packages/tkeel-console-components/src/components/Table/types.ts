@@ -31,6 +31,7 @@ export interface Props<D extends object> extends UseTableOptions<D> {
     headTr?: StyleProps;
     body?: StyleProps;
     bodyTr?: StyleProps;
+    bodyTd?: StyleProps;
     pagination?: StyleProps;
   };
   onSelect?: ({
