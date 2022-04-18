@@ -1,6 +1,6 @@
-import { Box, Button, Divider, Flex, Text } from '@chakra-ui/react';
+import { Box, Button, Divider, Flex, Tabs, Text } from '@chakra-ui/react';
 
-import { PageHeaderToolbar } from '@tkeel/console-components';
+import { PageHeaderToolbar, SegmentedControl } from '@tkeel/console-components';
 import { plugin } from '@tkeel/console-utils';
 
 export default function ThirdPartyAuth() {
@@ -14,7 +14,7 @@ export default function ThirdPartyAuth() {
         styles={{ wrapper: { margin: '4px 0' } }}
       />
       <Divider />
-      <Box paddingTop="20px">
+      <Box paddingTop="20px" paddingBottom="16px">
         <Flex>
           <Text fontSize="12px" lineHeight="140%" color="gray.500">
             用户的管理在第三方，用户登录 tkeel 平台需要跳转至第三方登录。
@@ -31,6 +31,9 @@ export default function ThirdPartyAuth() {
             查看文档
           </Button>
         </Flex>
+        <Tabs>
+          <SegmentedControl />
+        </Tabs>
       </Box>
     </Flex>
   );
