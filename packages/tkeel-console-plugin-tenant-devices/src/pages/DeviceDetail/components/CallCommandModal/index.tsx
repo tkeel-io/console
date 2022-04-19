@@ -19,11 +19,15 @@ import {
   FormField,
   Modal,
 } from '@tkeel/console-components';
-import { CommandItem, CommandParamItem } from '@tkeel/console-types';
+import {
+  CommandItem,
+  CommandParamItem,
+  CommandValue,
+} from '@tkeel/console-types';
 import { plugin } from '@tkeel/console-utils';
 
 import useCallCommandMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCallCommandMutation';
-import useDeviceDetailSocket from '@/tkeel-console-plugin-tenant-devices/hooks/websockets/useDeviceDetailSocket';
+// import useDeviceDetailSocket from '@/tkeel-console-plugin-tenant-devices/hooks/websockets/useDeviceDetailSocket';
 
 const getStringifyValue = (data: object) => {
   try {
@@ -38,6 +42,7 @@ interface Props {
   onClose: () => void;
   data: CommandItem;
   uid: string;
+  commandValues: CommandValue;
 }
 const { TextField } = FormField;
 function getParsedValue(data: string): object {
@@ -54,10 +59,11 @@ export default function CallCommandModal({
   onClose,
   data,
   uid,
+  commandValues,
 }: Props) {
-  const { commands } = useDeviceDetailSocket({
-    id: uid,
-  });
+  // const { commands } = useDeviceDetailSocket({
+  //   id: uid,
+  // });
   const input = data.define?.fields?.input?.define?.fields ?? {};
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [commandList, setCommandList] = useState<any[]>([]);
@@ -74,18 +80,18 @@ export default function CallCommandModal({
       toast.success('调用成功');
     },
   });
+
   useEffect(() => {
     if (isOpen) {
       reset();
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const commandItem = commands[data.id];
+      const commandItem = commandValues[data.id];
       if (!isEmpty(commandItem)) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         setCommandList([commandItem, ...commandList]);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen, reset, data]);
+  }, [isOpen, commandValues, reset, data.id]);
 
   const handleConfirm = async () => {
     const formValues = getValues();
@@ -231,7 +237,7 @@ export default function CallCommandModal({
           </Button>
         </Flex>
         <Flex w="440px" h="100%" flexDir="column">
-          <Flex justify="space-between" w="100%">
+          <Flex justify="space-between" w="100%" h="24px" mb="12px">
             <Text fontSize="14px" fontWeight="500">
               输出结果
             </Text>
@@ -252,18 +258,26 @@ export default function CallCommandModal({
             fontSize="12px"
             color="grayAlternatives.300"
           >
-            {commandList.map((v, i) => (
-              <Box
-                p="12px"
-                borderRadius="4px"
-                bg="gray.50"
-                marginY="12px"
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
-                key={v?.id ?? i}
-              >
-                {getStringifyValue(v as object)}
-              </Box>
-            ))}
+            {commandList.map(
+              (v, i) =>
+                !!v && (
+                  <Box
+                    p="12px"
+                    borderRadius="4px"
+                    bg="gray.50"
+                    mb="12px"
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
+                    key={v?.id ?? i}
+                    border="1px solid"
+                    borderColor={i === 0 ? 'primarySub2' : 'transparent'}
+                  >
+                    {
+                      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+                      getStringifyValue(v)
+                    }
+                  </Box>
+                )
+            )}
           </Box>
         </Flex>
       </HStack>

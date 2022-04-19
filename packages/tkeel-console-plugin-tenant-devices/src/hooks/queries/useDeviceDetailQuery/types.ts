@@ -18,9 +18,7 @@ export interface BasicInfo {
   parentName: string;
   name: string;
   type: string;
-  ext: {
-    [propName: string]: string;
-  };
+  ext: { [propName: string]: string };
   parentId: string;
   selfLearn: boolean;
   description?: string;

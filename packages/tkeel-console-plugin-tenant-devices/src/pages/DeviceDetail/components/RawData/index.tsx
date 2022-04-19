@@ -6,6 +6,7 @@ import {
   AccordionPanel,
   Box,
   Flex,
+  Spacer,
   Text,
 } from '@chakra-ui/react';
 import { Base64 } from 'js-base64';
@@ -20,11 +21,13 @@ import { RawData } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/use
 import CustomEmpty from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/CustomEmpty';
 import { OPTIONS } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
 
+import CreateUpstreamDataButton from '../CreateUpstreamDataButton';
 import CustomSelect from './components/CustomSelect';
 
 type Props = {
   data: RawData;
   online: boolean;
+  deviceId: string;
 };
 
 const handleValues = (value: string, selected: string) => {
@@ -50,7 +53,7 @@ const handleValues = (value: string, selected: string) => {
 
 type TRawData = RawData[];
 
-function RawDataPanel({ data, online }: Props) {
+function RawDataPanel({ data, online, deviceId }: Props) {
   const [rawDataList, setRawDataList] = useState<TRawData>([]);
   const [selected, setSelected] = useState('text');
   const func = throttle(setRawDataList, 10 * 1000);
@@ -73,14 +76,16 @@ function RawDataPanel({ data, online }: Props) {
   return online ? (
     <Box>
       <Flex align="center" w="100%" h="32px" lineHeight="32px" mb="12px">
-        <Text fontWeight="600" fontSize="14px">
+        <Text fontWeight="600" fontSize="14px" mr="16px">
           原始数据
         </Text>
+        <Spacer />
         <CustomSelect
           onChange={handleChange}
           color={selectColor}
           selected={selected}
         />
+        <CreateUpstreamDataButton deviceId={deviceId} />
       </Flex>
       {!isEmpty(rawDataList) ? (
         <Accordion
