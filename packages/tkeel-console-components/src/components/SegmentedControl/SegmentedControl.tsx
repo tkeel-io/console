@@ -1,11 +1,18 @@
-import { Flex, Tab, TabList } from '@chakra-ui/react';
+import { TabList, TabListProps } from '@chakra-ui/react';
 
-export default function SegmentedControl() {
+export default function SegmentedControl(props: TabListProps) {
   return (
-    <Flex as={TabList}>
-      <Tab>1</Tab>
-      <Tab>2</Tab>
-      <Tab>3</Tab>
-    </Flex>
+    <TabList
+      display="inline-flex"
+      borderRadius="16px"
+      border="1px solid"
+      borderTopColor="gray.200"
+      borderRightColor="gray.200"
+      borderBottomColor="gray.200"
+      borderLeftColor="gray.200"
+      padding="2px"
+      backgroundColor="gray.50"
+      {...props}
+    />
   );
 }

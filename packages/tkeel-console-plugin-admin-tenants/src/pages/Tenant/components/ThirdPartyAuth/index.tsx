@@ -1,6 +1,10 @@
 import { Box, Button, Divider, Flex, Tabs, Text } from '@chakra-ui/react';
 
-import { PageHeaderToolbar, SegmentedControl } from '@tkeel/console-components';
+import {
+  PageHeaderToolbar,
+  SegmentedControl,
+  SegmentedControlItem,
+} from '@tkeel/console-components';
 import { plugin } from '@tkeel/console-utils';
 
 export default function ThirdPartyAuth() {
@@ -32,7 +36,11 @@ export default function ThirdPartyAuth() {
           </Button>
         </Flex>
         <Tabs>
-          <SegmentedControl />
+          <SegmentedControl>
+            <SegmentedControlItem>1</SegmentedControlItem>
+            <SegmentedControlItem>1</SegmentedControlItem>
+            <SegmentedControlItem>1</SegmentedControlItem>
+          </SegmentedControl>
         </Tabs>
       </Box>
     </Flex>

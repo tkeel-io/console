@@ -1,2 +1,2 @@
-// eslint-disable-next-line import/prefer-default-export
 export { default as SegmentedControl } from './SegmentedControl';
+export { default as SegmentedControlItem } from './SegmentedControlItem';
