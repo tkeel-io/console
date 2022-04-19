@@ -8,6 +8,7 @@ import {
   Tabs,
   Text,
 } from '@chakra-ui/react';
+import { Base64 } from 'js-base64';
 
 import {
   AceEditor,
@@ -19,8 +20,13 @@ import {
 import { PencilTwoToneIcon } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
+import useAuthTemplateQuery from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useAuthTemplateQuery';
+
 export default function ThirdPartyAuth() {
   const documents = plugin.getPortalDocuments();
+  const { data } = useAuthTemplateQuery({ params: { type: 'OIDC' } });
+  const config = data?.config ?? '';
+  const yaml = Base64.decode(config);
 
   return (
     <Flex flexDirection="column" height="100%">
@@ -41,7 +47,7 @@ export default function ThirdPartyAuth() {
             color="primary"
             variant="link"
             onClick={() => documents.open('')}
-            // TODO: temp
+            // TODO: need doc
             display="none"
           >
             查看文档
@@ -74,10 +80,9 @@ export default function ThirdPartyAuth() {
             <TabPanel padding="16px 0">
               <AceEditor
                 theme="light"
-                // value={JSON.stringify(usefulData, null, 2)}
+                value={yaml}
                 language="yaml"
                 readOnly
-                // width="100%"
                 height="256px"
               />
             </TabPanel>
