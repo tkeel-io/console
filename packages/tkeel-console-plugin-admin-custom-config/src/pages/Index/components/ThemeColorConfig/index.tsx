@@ -1,7 +1,22 @@
-import { Box, Button, Flex, HStack, Input, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  ColorHues,
+  Colors,
+  Flex,
+  HStack,
+  Input,
+  Text,
+  useTheme,
+} from '@chakra-ui/react';
 import { TinyColor } from '@ctrl/tinycolor';
+import { Base64 } from 'js-base64';
 import { useEffect, useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
+
+import { useConfigQuery } from '@tkeel/console-request-hooks';
+
+import useUpdateConfigMutation from '@/tkeel-console-plugin-admin-custom-config/hooks/mutations/useUpdateConfigMutation';
 
 function getThemeColors(hue: number) {
   const r = 100;
@@ -23,8 +38,22 @@ function getHue(hexColor: string) {
   return new TinyColor(hexColor).toHsv().h;
 }
 
+type ExtraThemeColors = {
+  primary?: string;
+  'primary.500'?: string;
+  primarySub?: string;
+  primarySub2?: string;
+  primarySub3?: string;
+  brand?: ColorHues;
+};
+
+interface CustomColor extends Colors {
+  primary: string;
+}
+
 function Index(): JSX.Element {
-  const defaultColor = '#55BC8A';
+  const { colors: themeColors }: { colors: CustomColor } = useTheme();
+  const defaultColor = themeColors.primary;
   const [color, setColor] = useState(defaultColor);
 
   const [isShowColorPicker, setIsShowColorPicker] = useState(false);
@@ -33,8 +62,58 @@ function Index(): JSX.Element {
   const defaultColors = getThemeColors(hue);
   const [colors, setColors] = useState(defaultColors);
 
+  const { extra } = useConfigQuery();
+
+  const { mutate } = useUpdateConfigMutation({
+    onSuccess() {
+      window.location.reload();
+    },
+  });
+
   const handleDocumentClick = () => {
     setIsShowColorPicker(false);
+  };
+
+  const handleUpdateThemeColors = (extraThemeColors: ExtraThemeColors) => {
+    const extraData = {
+      ...extra,
+      theme: {
+        colors: extraThemeColors,
+      },
+    };
+    mutate({
+      data: {
+        extra: Base64.encode(JSON.stringify(extraData)),
+      },
+    });
+  };
+
+  const onConfirm = () => {
+    if (color.length < 7) {
+      handleUpdateThemeColors({});
+      return;
+    }
+
+    const brand = {};
+    colors.forEach((item, i) => {
+      if (i === 0) {
+        brand[50] = item;
+      } else {
+        brand[i * 100] = item;
+      }
+    });
+    brand[500] = color;
+
+    const primary = brand[500] as string;
+    const extraThemeColors: ExtraThemeColors = {
+      primary,
+      'primary.500': primary,
+      primarySub: brand[50] as string,
+      primarySub2: brand[200] as string,
+      primarySub3: brand[700] as string,
+      brand: brand as ColorHues,
+    };
+    handleUpdateThemeColors(extraThemeColors);
   };
 
   useEffect(() => {
@@ -47,21 +126,7 @@ function Index(): JSX.Element {
   }, []);
 
   return (
-    <Flex
-      justifyContent="space-between"
-      alignItems="center"
-      padding="20px 28px 20px 24px"
-      borderRadius="2px"
-      backgroundColor="white"
-    >
-      <Box lineHeight="20px">
-        <Text color="gray.800" fontSize="14px" fontWeight="500">
-          主题色配置
-        </Text>
-        <Text color="gray.500" fontSize="12px">
-          设定系统主题色，根据颜色插件化配置功能实现一件换肤
-        </Text>
-      </Box>
+    <Flex alignItems="center">
       <Flex
         position="relative"
         alignItems="center"
@@ -103,7 +168,11 @@ function Index(): JSX.Element {
           _focus={{ outline: 'none !important' }}
           maxLength={6}
           value={color.slice(1)}
-          onChange={(e) => setColor(`#${e.target.value}`)}
+          onChange={(e) => {
+            const value = `#${e.target.value}`;
+            setColor(value);
+            setColors(getThemeColors(getHue(value)));
+          }}
         />
         {isShowColorPicker && (
           <HexColorPicker
@@ -117,18 +186,41 @@ function Index(): JSX.Element {
         )}
       </Flex>
       <HStack marginLeft="10px" spacing="8px">
-        <Button colorScheme="primary" borderRadius="6px" boxShadow="none">
+        <Button
+          colorScheme="primary"
+          borderRadius="6px"
+          boxShadow="none"
+          onClick={onConfirm}
+        >
           确定
         </Button>
-        <Button borderRadius="6px" boxShadow="none">
+        <Button
+          borderRadius="6px"
+          boxShadow="none"
+          onClick={() => handleUpdateThemeColors({})}
+        >
           重置
         </Button>
       </HStack>
-      <Flex>
-        {colors.map((item) => (
-          <Box key={item} width="30px" height="30px" backgroundColor={item} />
-        ))}
-      </Flex>
+      {/* <Flex flexDirection="column">
+        <Flex>
+          {Object.entries(extra?.theme?.colors?.brand ?? {}).map(
+            ([key, value], i) => (
+              <Box key={key} width="80px" height="80px" backgroundColor={value}>
+                {i === 0 ? 50 : 100 * i}
+              </Box>
+            )
+          )}
+        </Flex>
+        <Box
+          marginLeft="400px"
+          width="80px"
+          height="80px"
+          backgroundColor={colors[5]}
+        >
+          primary
+        </Box>
+      </Flex> */}
     </Flex>
   );
 }
