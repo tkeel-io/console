@@ -10,12 +10,13 @@ import {
 } from '@chakra-ui/react';
 
 import {
+  AceEditor,
   IconButton,
   PageHeaderToolbar,
   SegmentedControlTab,
   SegmentedControlTabList,
 } from '@tkeel/console-components';
-import { PencilFilledIcon } from '@tkeel/console-icons';
+import { PencilTwoToneIcon } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
 export default function ThirdPartyAuth() {
@@ -55,17 +56,31 @@ export default function ThirdPartyAuth() {
             </SegmentedControlTabList>
             <IconButton
               marginLeft="24px"
-              icon={
-                <PencilFilledIcon size="14px" color="grayAlternatives.300" />
-              }
+              border="1px solid"
+              borderColor="gray.200"
+              backgroundColor="gray.50"
+              fontSize="12px"
+              fontWeight="20px"
+              lineHeight="400"
+              color="gray.800"
+              variant="outline"
+              colorScheme="gray"
+              icon={<PencilTwoToneIcon size="16px" />}
             >
               编辑
             </IconButton>
           </Flex>
           <TabPanels>
-            <TabPanel>111</TabPanel>
-            <TabPanel>222</TabPanel>
-            <TabPanel>333</TabPanel>
+            <TabPanel padding="16px 0">
+              <AceEditor
+                theme="light"
+                // value={JSON.stringify(usefulData, null, 2)}
+                language="yaml"
+                readOnly
+                // width="100%"
+                height="256px"
+              />
+            </TabPanel>
           </TabPanels>
         </Tabs>
       </Box>
