@@ -11,7 +11,7 @@ export interface RequestData {
   value: any;
 }
 
-function useSetUpstreamDataMutation({
+function useSetDownstreamDataMutation({
   id,
   onSuccess,
 }: {
@@ -27,4 +27,4 @@ function useSetUpstreamDataMutation({
   });
 }
 
-export default useSetUpstreamDataMutation;
+export default useSetDownstreamDataMutation;

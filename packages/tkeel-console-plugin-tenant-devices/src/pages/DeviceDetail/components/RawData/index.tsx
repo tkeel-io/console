@@ -21,7 +21,7 @@ import { RawData } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/use
 import CustomEmpty from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/CustomEmpty';
 import { OPTIONS } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
 
-import CreateUpstreamDataButton from '../CreateUpstreamDataButton';
+import CreateUpstreamDataButton from '../CreateDownstreamDataButton';
 import CustomSelect from './components/CustomSelect';
 
 type Props = {

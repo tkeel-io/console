@@ -3,18 +3,20 @@ import { useDisclosure } from '@chakra-ui/react';
 import { CreateButton } from '@tkeel/console-components/src/components/Button';
 import { plugin } from '@tkeel/console-utils';
 
-import useSetUpstreamDataMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useSetUpstreamDataMutation';
+import useSetDownstreamDataMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useSetDownstreamDataMutation';
 
-import UpstreamDataModal, { UpstreamFormField } from '../UpstreamDataModal';
+import DownstreamDataModal, {
+  DownstreamFormField,
+} from '../DownstreamDataModal';
 
 interface Props {
   deviceId: string;
 }
 
-export default function CreateUpstreamDataButton({ deviceId }: Props) {
+export default function CreateDownstreamDataButton({ deviceId }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = plugin.getPortalToast();
-  const { mutate, isLoading } = useSetUpstreamDataMutation({
+  const { mutate, isLoading } = useSetDownstreamDataMutation({
     id: deviceId,
     onSuccess: () => {
       toast.success('操作成功');
@@ -22,14 +24,14 @@ export default function CreateUpstreamDataButton({ deviceId }: Props) {
     },
   });
   // eslint-disable-next-line unicorn/consistent-function-scoping
-  const onSubmit = (formValues: UpstreamFormField) => {
-    mutate({ data: { value: formValues.upstream } });
+  const onSubmit = (formValues: DownstreamFormField) => {
+    mutate({ data: { value: formValues.downstream } });
   };
   return (
     <>
       <CreateButton onClick={onOpen}>下行反控</CreateButton>
       {isOpen && (
-        <UpstreamDataModal
+        <DownstreamDataModal
           isOpen={isOpen}
           onClose={onClose}
           onSubmit={onSubmit}
