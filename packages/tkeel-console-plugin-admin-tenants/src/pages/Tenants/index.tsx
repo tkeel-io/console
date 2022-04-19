@@ -18,7 +18,7 @@ import DeleteTenantButton from '@/tkeel-console-plugin-admin-tenants/components/
 import ModifyTenantButton from '@/tkeel-console-plugin-admin-tenants/components/ModifyTenantButton';
 import {
   AUTH_TYPE_MAP,
-  DEFAULT_AUTH_TYPE,
+  DEFAULT_AUTH_TYPE_KEY,
 } from '@/tkeel-console-plugin-admin-tenants/constants';
 import useTenantsQuery, {
   Admin,
@@ -92,7 +92,7 @@ export default function Tenants() {
       Header: '认证方式',
       accessor: 'auth_type',
       Cell: ({ value }) =>
-        AUTH_TYPE_MAP[value].name ?? AUTH_TYPE_MAP[DEFAULT_AUTH_TYPE].name,
+        AUTH_TYPE_MAP[value].name ?? AUTH_TYPE_MAP[DEFAULT_AUTH_TYPE_KEY].name,
     },
     { Header: '租户 ID', accessor: 'tenant_id' },
     {

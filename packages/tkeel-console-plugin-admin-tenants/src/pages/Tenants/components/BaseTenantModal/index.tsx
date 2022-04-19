@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { FormField, Modal } from '@tkeel/console-components';
 import { schemas } from '@tkeel/console-utils';
 
-import { AuthTypes } from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useTenantsQuery';
+import { AuthType } from '@/tkeel-console-plugin-admin-tenants/types';
 
 import AuthTypeRadioGroup from './AuthTypeRadioGroup';
 
@@ -43,7 +43,7 @@ export interface FormFields {
 
 export interface FormValues {
   title: string;
-  auth_type: AuthTypes;
+  auth_type: AuthType;
   admin?: {
     username: string;
     password?: string;

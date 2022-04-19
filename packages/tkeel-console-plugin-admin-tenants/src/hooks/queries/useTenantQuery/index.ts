@@ -1,6 +1,6 @@
 import { useQuery } from '@tkeel/console-hooks';
 
-import { AuthTypes } from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useTenantsQuery';
+import { AuthType } from '@/tkeel-console-plugin-admin-tenants/types';
 
 const method = 'GET';
 
@@ -8,7 +8,7 @@ interface AipData {
   '@type': string;
   tenant_id: string;
   title: string;
-  auth_type: AuthTypes;
+  auth_type: AuthType;
   num_user: number;
   admins: { username: string; password: string }[];
   remark: string;

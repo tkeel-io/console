@@ -1,13 +1,13 @@
 import { useMutation } from '@tkeel/console-hooks';
 
-import { AuthTypes } from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useTenantsQuery';
+import { AuthType } from '@/tkeel-console-plugin-admin-tenants/types';
 
 const url = '/security/v1/tenants';
 const method = 'POST';
 
 interface RequestData {
   title: string;
-  auth_type: AuthTypes;
+  auth_type: AuthType;
   admin?: {
     username: string;
     password?: string;

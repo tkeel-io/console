@@ -15,4 +15,22 @@ export const AUTH_TYPES = Object.entries(AUTH_TYPE_MAP).map(
   ([key, { name, description }]) => ({ key, name, description })
 );
 
-export const DEFAULT_AUTH_TYPE = 'internal';
+export const DEFAULT_AUTH_TYPE_KEY = 'internal';
+
+export const AUTH_CONFIG_TYPE_MAP = {
+  OIDC: {
+    name: 'OIDC',
+  },
+  /* LDAP: {
+    name: 'LDAP',
+  },
+  SMAL: {
+    name: 'SMAL',
+  }, */
+};
+
+export const AUTH_CONFIG_TYPES = Object.entries(AUTH_CONFIG_TYPE_MAP).map(
+  ([key, { name }]) => ({ key, name })
+);
+
+export const DEFAULT_AUTH_CONFIG_TYPE_KEY = 'OIDC';

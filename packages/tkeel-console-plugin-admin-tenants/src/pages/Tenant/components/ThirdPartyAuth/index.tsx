@@ -7,11 +7,11 @@ import {
   TabPanels,
   Tabs,
   Text,
+  useDisclosure,
 } from '@chakra-ui/react';
-import { Base64 } from 'js-base64';
+import { useState } from 'react';
 
 import {
-  AceEditor,
   IconButton,
   PageHeaderToolbar,
   SegmentedControlTab,
@@ -20,13 +20,24 @@ import {
 import { PencilTwoToneIcon } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
-import useAuthTemplateQuery from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useAuthTemplateQuery';
+import {
+  AUTH_CONFIG_TYPES,
+  DEFAULT_AUTH_CONFIG_TYPE_KEY,
+} from '@/tkeel-console-plugin-admin-tenants/constants';
+import { AuthConfigType } from '@/tkeel-console-plugin-admin-tenants/types';
+
+import OIDC from './OIDC';
 
 export default function ThirdPartyAuth() {
   const documents = plugin.getPortalDocuments();
-  const { data } = useAuthTemplateQuery({ params: { type: 'OIDC' } });
-  const config = data?.config ?? '';
-  const yaml = Base64.decode(config);
+  const [authConfigType, setAuthConfigType] = useState<AuthConfigType>(
+    DEFAULT_AUTH_CONFIG_TYPE_KEY
+  );
+  const {
+    isOpen: isOIDCModalOpen,
+    onOpen: onOIDCModalOpen,
+    onClose: onOIDCModalClose,
+  } = useDisclosure();
 
   return (
     <Flex flexDirection="column" height="100%">
@@ -53,7 +64,12 @@ export default function ThirdPartyAuth() {
             查看文档
           </Button>
         </Flex>
-        <Tabs>
+        <Tabs
+          onChange={(index) => {
+            const { key } = AUTH_CONFIG_TYPES[index];
+            setAuthConfigType(key as AuthConfigType);
+          }}
+        >
           <Flex justifyContent="space-between" alignItems="center">
             <SegmentedControlTabList>
               <SegmentedControlTab>OIDC</SegmentedControlTab>
@@ -72,18 +88,20 @@ export default function ThirdPartyAuth() {
               variant="outline"
               colorScheme="gray"
               icon={<PencilTwoToneIcon size="16px" />}
+              onClick={() => {
+                if (authConfigType === 'OIDC') {
+                  onOIDCModalOpen();
+                }
+              }}
             >
               编辑
             </IconButton>
           </Flex>
           <TabPanels>
             <TabPanel padding="16px 0">
-              <AceEditor
-                theme="light"
-                value={yaml}
-                language="yaml"
-                readOnly
-                height="256px"
+              <OIDC
+                isModalOpen={isOIDCModalOpen}
+                onModalClose={onOIDCModalClose}
               />
             </TabPanel>
           </TabPanels>

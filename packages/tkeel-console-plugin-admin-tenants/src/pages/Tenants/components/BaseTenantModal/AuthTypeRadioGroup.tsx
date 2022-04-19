@@ -4,18 +4,18 @@ import { RadioCard } from '@tkeel/console-components';
 
 import {
   AUTH_TYPES,
-  DEFAULT_AUTH_TYPE,
+  DEFAULT_AUTH_TYPE_KEY,
 } from '@/tkeel-console-plugin-admin-tenants/constants';
-import { AuthTypes } from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useTenantsQuery';
+import { AuthType } from '@/tkeel-console-plugin-admin-tenants/types';
 
 export interface Props {
-  onChange: (value: AuthTypes) => void;
+  onChange: (value: AuthType) => void;
 }
 
 export default function AuthTypeRadioGroup({ onChange }: Props) {
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: 'auth_type',
-    defaultValue: DEFAULT_AUTH_TYPE,
+    defaultValue: DEFAULT_AUTH_TYPE_KEY,
     onChange,
   });
 

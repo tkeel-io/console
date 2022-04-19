@@ -1,5 +1,7 @@
 import { useQuery } from '@tkeel/console-hooks';
 
+import { AuthType } from '@/tkeel-console-plugin-admin-tenants/types';
+
 const url = '/security/v1/tenants';
 const method = 'GET';
 
@@ -11,8 +13,6 @@ type RequestParams = {
   key_words?: string;
 };
 
-export type AuthTypes = 'internal' | 'external';
-
 export interface Admin {
   username: '';
   password: '';
@@ -21,7 +21,7 @@ export interface Admin {
 export interface Tenant {
   tenant_id: string;
   title: string;
-  auth_type: AuthTypes;
+  auth_type: AuthType;
   admins: Admin[];
   remark: string;
 
