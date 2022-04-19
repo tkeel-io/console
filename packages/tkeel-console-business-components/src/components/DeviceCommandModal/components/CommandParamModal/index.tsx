@@ -31,6 +31,7 @@ export default function CommandParamModal({
     getValues,
     trigger,
     formState: { errors },
+    setValue,
     reset,
   } = formHandler;
   const fieldArrayHandler = useFieldArray({
@@ -38,6 +39,9 @@ export default function CommandParamModal({
     name: `fields`,
   });
   const onConfirm = async () => {
+    if (isEdit) {
+      setValue('id', defaultValues?.id ?? '');
+    }
     const result = await trigger();
     if (result) {
       const formValues = getValues();
@@ -47,12 +51,13 @@ export default function CommandParamModal({
   };
   useEffect(() => {
     if (isOpen) {
-      if (defaultValues) {
+      if (defaultValues && isEdit) {
         reset(defaultValues);
+      } else {
+        reset();
       }
-      reset();
     }
-  }, [defaultValues, isOpen, reset]);
+  }, [defaultValues, isOpen, reset, isEdit]);
 
   return (
     <Modal

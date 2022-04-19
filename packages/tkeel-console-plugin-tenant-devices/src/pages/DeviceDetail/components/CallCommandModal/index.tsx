@@ -61,9 +61,6 @@ export default function CallCommandModal({
   uid,
   commandValues,
 }: Props) {
-  // const { commands } = useDeviceDetailSocket({
-  //   id: uid,
-  // });
   const input = data.define?.fields?.input?.define?.fields ?? {};
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [commandList, setCommandList] = useState<any[]>([]);
@@ -80,18 +77,19 @@ export default function CallCommandModal({
       toast.success('调用成功');
     },
   });
-
   useEffect(() => {
     if (isOpen) {
-      reset();
       const commandItem = commandValues[data.id];
       if (!isEmpty(commandItem)) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         setCommandList([commandItem, ...commandList]);
       }
+    } else {
+      reset();
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen, commandValues, reset, data.id]);
+  }, [isOpen, commandValues, data.id]);
 
   const handleConfirm = async () => {
     const formValues = getValues();
@@ -144,6 +142,7 @@ export default function CallCommandModal({
               defaultValue={Object.keys(fields)[0]}
               // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
               value={watchFields[id]}
+              {...register(id)}
               onChange={(value) => {
                 setValue(id, value);
               }}

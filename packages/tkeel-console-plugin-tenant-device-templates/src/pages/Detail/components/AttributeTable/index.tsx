@@ -65,7 +65,13 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
       Cell: ({ row }: Cell<AttributeItem>) =>
         useMemo(() => {
           const { original } = row;
-          return <Box>{original?.define?.default_value}</Box>;
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          const defaultValue = original?.define?.default_value;
+          return (
+            <Box>
+              {typeof defaultValue === 'object' ? 'JSON' : defaultValue}
+            </Box>
+          );
         }, [row]),
     },
     {

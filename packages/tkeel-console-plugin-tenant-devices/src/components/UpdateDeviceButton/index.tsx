@@ -1,5 +1,6 @@
 import { useDisclosure } from '@chakra-ui/react';
 import { keyBy, mapValues } from 'lodash';
+import { useEffect } from 'react';
 
 import { MoreActionButton } from '@tkeel/console-components';
 import { PencilFilledIcon } from '@tkeel/console-icons';
@@ -35,10 +36,15 @@ function UpdateDeviceButton({ defaultFormValues, refetch, groupTree }: Props) {
       refetch();
     }
   };
-  const { isLoading, mutate, isSuccess } = useUpdateDeviceMutation({
+  const { isLoading, mutate, isSuccess, reset } = useUpdateDeviceMutation({
     id: defaultFormValues.id as string,
     onSuccess,
   });
+  useEffect(() => {
+    if (isSuccess) {
+      reset();
+    }
+  }, [isSuccess, reset]);
   const handleConfirm = ({ formValues }: { formValues: DeviceFormFields }) => {
     const {
       description,
