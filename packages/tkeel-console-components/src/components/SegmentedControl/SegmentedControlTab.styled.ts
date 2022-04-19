@@ -18,7 +18,6 @@ export const StyledTab = styled(Tab)<StyledTabProps>`
   font-size: 12px;
   line-height: 20px;
   color: ${({ colors }) => colors.gray[800]};
-  outline: 0;
 
   &[aria-selected='true'] {
     background-color: ${({ colors }) => colors.gray[800]};
