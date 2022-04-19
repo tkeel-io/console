@@ -70,6 +70,8 @@ module.exports = {
     'Tele',
     'proxied',
     'struct',
+    'OIDC',
+    'SMAL',
   ],
   ignorePaths: [
     '**/.idea/**',

@@ -1,9 +1,18 @@
-import { Box, Button, Divider, Flex, Tabs, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Divider,
+  Flex,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Text,
+} from '@chakra-ui/react';
 
 import {
   PageHeaderToolbar,
-  SegmentedControl,
-  SegmentedControlItem,
+  SegmentedControlTab,
+  SegmentedControlTabList,
 } from '@tkeel/console-components';
 import { plugin } from '@tkeel/console-utils';
 
@@ -19,7 +28,7 @@ export default function ThirdPartyAuth() {
       />
       <Divider />
       <Box paddingTop="20px" paddingBottom="16px">
-        <Flex>
+        <Flex paddingBottom="16px">
           <Text fontSize="12px" lineHeight="140%" color="gray.500">
             用户的管理在第三方，用户登录 tkeel 平台需要跳转至第三方登录。
           </Text>
@@ -36,11 +45,14 @@ export default function ThirdPartyAuth() {
           </Button>
         </Flex>
         <Tabs>
-          <SegmentedControl>
-            <SegmentedControlItem>1</SegmentedControlItem>
-            <SegmentedControlItem>1</SegmentedControlItem>
-            <SegmentedControlItem>1</SegmentedControlItem>
-          </SegmentedControl>
+          <SegmentedControlTabList>
+            <SegmentedControlTab>OIDC</SegmentedControlTab>
+            <SegmentedControlTab isDisabled>LDAP</SegmentedControlTab>
+            <SegmentedControlTab isDisabled>SMAL</SegmentedControlTab>
+          </SegmentedControlTabList>
+          <TabPanels>
+            <TabPanel>111</TabPanel>
+          </TabPanels>
         </Tabs>
       </Box>
     </Flex>

@@ -1,2 +1,2 @@
-export { default as SegmentedControl } from './SegmentedControl';
-export { default as SegmentedControlItem } from './SegmentedControlItem';
+export { default as SegmentedControlTab } from './SegmentedControlTab';
+export { default as SegmentedControlTabList } from './SegmentedControlTabList';

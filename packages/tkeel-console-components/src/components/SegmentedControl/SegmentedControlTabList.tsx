@@ -1,6 +1,6 @@
 import { TabList, TabListProps } from '@chakra-ui/react';
 
-export default function SegmentedControl(props: TabListProps) {
+export default function SegmentedControlTabList(props: TabListProps) {
   return (
     <TabList
       display="inline-flex"
