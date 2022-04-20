@@ -8,6 +8,7 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
+import { useState } from 'react';
 
 import { Alert } from '@tkeel/console-components';
 import { PencilFilledIcon, TrashFilledIcon } from '@tkeel/console-icons';
@@ -23,10 +24,12 @@ import { Target } from '@/tkeel-console-plugin-tenant-routing-rules/hooks/querie
 import RepublishToKafkaModal, {
   FormValues as KafkaRepublishInfo,
 } from '../RepublishToKafkaModal';
+import RepublishToMysqlModal from '../RepublishToMysqlModal';
 
 type Props = {
   ruleId: string;
   target: Target;
+  deviceTemplateId?: string;
   refetchData: () => unknown;
   styles?: {
     wrapper?: StyleProps;
@@ -36,6 +39,7 @@ type Props = {
 export default function RepublishInfoCard({
   ruleId,
   target,
+  deviceTemplateId,
   refetchData,
   styles,
 }: Props) {
@@ -45,6 +49,7 @@ export default function RepublishInfoCard({
     clickhouse: clickHouseImg,
   };
   const image = imgType[target.sink_type] as string;
+  const [publishType, setPublishType] = useState('');
   const {
     isOpen: isAlertOpen,
     onClose: onAlertClose,
@@ -133,29 +138,77 @@ export default function RepublishInfoCard({
         isTruncated
         title={target.value}
       >
-        主题 Topic：{target.value}
+        {imgType[target.sink_type] === 'kafka'
+          ? `主题 Topic：${target.value}`
+          : `数据库地址：${target.host}`}
       </Text>
       <HStack display="none" spacing="20px">
         <PencilFilledIcon
           size={20}
           color="grayAlternatives.300"
           style={{ cursor: 'pointer' }}
-          onClick={() => onModalOpen()}
+          onClick={() => {
+            const type = target.sink_type;
+            setPublishType(type);
+            onModalOpen();
+          }}
         />
         <TrashFilledIcon
           size={20}
           color="grayAlternatives.300"
           style={{ cursor: 'pointer' }}
-          onClick={() => onAlertOpen()}
+          onClick={() => {
+            const type = target.sink_type;
+            setPublishType(type);
+            onAlertOpen();
+          }}
         />
       </HStack>
-      <RepublishToKafkaModal
-        info={{ address: target.host, topic: target.value }}
-        isOpen={isModalOpen}
-        onClose={onModalClose}
-        handleSubmit={handleSubmit}
-        isLoading={isEditRuleTargetLoading}
-      />
+      {publishType === 'kafka' && (
+        <RepublishToKafkaModal
+          info={{ address: target.host, topic: target.value }}
+          isOpen={isModalOpen}
+          onClose={onModalClose}
+          handleSubmit={handleSubmit}
+          isLoading={isEditRuleTargetLoading}
+        />
+      )}
+      {publishType === 'mysql' && (
+        <RepublishToMysqlModal
+          modalKey="edit"
+          isOpen={isModalOpen}
+          republishType={0}
+          ruleId={ruleId || ''}
+          deviceTemplateId={deviceTemplateId ?? ''}
+          publishedInfo={{
+            targetId: target?.id,
+            fields: target?.fields,
+            address: target?.host,
+            name: target?.database,
+            mapping: target?.table_name,
+          }}
+          refetchData={refetchData}
+          onClose={onModalClose}
+        />
+      )}
+      {publishType === 'clickhouse' && (
+        <RepublishToMysqlModal
+          modalKey="edit"
+          isOpen={isModalOpen}
+          republishType={1}
+          ruleId={ruleId || ''}
+          deviceTemplateId={deviceTemplateId ?? ''}
+          publishedInfo={{
+            targetId: target?.id,
+            fields: target?.fields,
+            address: target?.host,
+            name: target?.database,
+            mapping: target?.table_name,
+          }}
+          refetchData={refetchData}
+          onClose={onModalClose}
+        />
+      )}
       <Alert
         iconPosition="left"
         icon={

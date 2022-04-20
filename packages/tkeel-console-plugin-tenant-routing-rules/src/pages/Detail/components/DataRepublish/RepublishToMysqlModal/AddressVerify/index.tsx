@@ -14,21 +14,35 @@ export interface AddressFormValues {
   userName: string;
   passWord: string;
 }
+type FormValues = {
+  address: string;
+  name: string;
+};
 
 type Props = {
+  modalKey: string;
   title: string;
   icon: ReactNode;
+  defaultValues?: FormValues;
   onVerify: (e: AddressFormValues) => unknown;
 };
 
-export default function AddressVerify({ title, icon, onVerify }: Props) {
+export default function AddressVerify({
+  modalKey,
+  title,
+  icon,
+  defaultValues,
+  onVerify,
+}: Props) {
   const {
     register,
     formState: { errors },
     trigger,
     getValues,
     reset,
-  } = useForm<AddressFormValues>();
+  } = useForm<AddressFormValues>({
+    defaultValues,
+  });
   const headTitle = `将数据转发到 ${title}`;
   const [verify, setVerify] = useState(true);
 
@@ -41,7 +55,6 @@ export default function AddressVerify({ title, icon, onVerify }: Props) {
       reset();
     }
   };
-
   return (
     <Box>
       <ModalContentTitle icon={icon} title={headTitle} />
@@ -58,10 +71,12 @@ export default function AddressVerify({ title, icon, onVerify }: Props) {
           <TextField
             id="address"
             label={false}
+            isDisabled={modalKey === 'edit'}
             error={errors.address}
             registerReturn={register('address', {
               required: { value: true, message: '请输入数据库地址' },
             })}
+            defaultValue={defaultValues?.address}
             formControlStyle={{ w: '70%', mb: '0' }}
             inputStyle={{ borderWidth: '0', mb: '0', borderRadius: '0' }}
             formHelperStyle={{ mt: 0, position: 'absolute', bottom: '-28px' }}
@@ -71,6 +86,7 @@ export default function AddressVerify({ title, icon, onVerify }: Props) {
           <TextField
             id="name"
             label={false}
+            isDisabled={modalKey === 'edit'}
             error={errors.name}
             placeholder="数据库名称"
             registerReturn={register('name', {

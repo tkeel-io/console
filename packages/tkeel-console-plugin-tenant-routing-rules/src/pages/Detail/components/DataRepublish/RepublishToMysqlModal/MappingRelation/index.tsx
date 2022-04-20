@@ -14,9 +14,11 @@ import { SuccessFilledIcon, WarningCircleIcon } from '@tkeel/console-icons';
 
 import Tip from '@/tkeel-console-plugin-tenant-routing-rules/components/Tip';
 import useCreateRelationMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useCreateRelationMutation';
+import useEditRelationMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useEditRelationMutation';
 import useDeviceMsgQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useDeviceMsgQuery';
 import { Tables } from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useMappingQuery';
 import useRelationTableQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRelationTableQuery';
+import { PublishedFields } from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleTargetsQuery';
 
 const { SelectField } = FormField;
 
@@ -24,6 +26,9 @@ export interface MapFormValues {
   mapping: string;
   [name: string]: string;
 }
+type FormValues = {
+  mapping: string;
+};
 
 type SelectVal = {
   value: string;
@@ -36,50 +41,65 @@ type SelectEle = {
 };
 
 type Fields = {
+  id?: string;
   name: string;
   type: string;
 };
 
-export type FiledItem = { index: number; tfield_name: string; m_field: Fields };
+export type FiledItem = { index: number; t_field: Fields; m_field: Fields };
 
 type Props = {
+  modalKey: string;
   ruleId: string;
   deviceTemplateId: string;
   verifyId: string;
+  targetId?: string;
   reFields: FiledItem[];
   mappingData: Tables[] | undefined;
   interfaceType: string;
   isLoading: boolean;
+  defaultValues?: FormValues;
+  publishedFieldsData: PublishedFields[] | [];
   onPrev: (e: FiledItem[] | []) => unknown;
   onNext: () => unknown;
 };
 
 export default function MappingRelation({
+  modalKey,
   ruleId,
   deviceTemplateId,
   verifyId,
+  targetId,
   reFields,
   mappingData,
   interfaceType,
   isLoading,
+  defaultValues,
+  publishedFieldsData,
   onPrev,
   onNext,
 }: Props) {
   const tdBorderColor = useColor('gray.200');
   const [isGetDeviceMsg, setIsGetDeviceMsg] = useState(false);
   const [isShowTip, setIsShowTip] = useState(false);
-  const [selName, setSelName] = useState('');
-  // const [fields, setFields] = useState<FiledItem[]>(reFields);
-  let fields: FiledItem[] = reFields;
+  const [selName, setSelName] = useState(defaultValues?.mapping ?? '');
   // const templateId = 'iotd-b66a435e-db31-4be4-8f30-4891905ee436';
-  const { deviceMsgList } = useDeviceMsgQuery(deviceTemplateId, isGetDeviceMsg);
+  const isRequest = !!defaultValues?.mapping || isGetDeviceMsg;
+  const { deviceMsgList } = useDeviceMsgQuery(deviceTemplateId, isRequest);
   const { fieldsData } = useRelationTableQuery(verifyId, selName);
-  const { mutate } = useCreateRelationMutation({
+  const { mutate: createMutate } = useCreateRelationMutation({
     ruleId,
     onSuccess() {
       onNext();
     },
   });
+  const { mutate: editMutate } = useEditRelationMutation({
+    verifyId,
+    onSuccess() {
+      onNext();
+    },
+  });
+
   const options =
     mappingData?.map((i) => ({
       value: i.Name,
@@ -93,15 +113,31 @@ export default function MappingRelation({
       type: i.type,
     })) || [];
 
+  const backFieldsData = publishedFieldsData.map((item, index) => {
+    return {
+      ...item,
+      name: item.t_field.name,
+      type: item.t_field.type,
+      id: item.m_field.name,
+      index,
+    };
+  });
+
+  const [editFields, setEditFields] = useState<FiledItem[]>(backFieldsData);
+  let fields: FiledItem[] = reFields;
+  const data = modalKey === 'edit' ? backFieldsData : fieldsData;
   const {
     control,
     formState: { errors },
     trigger,
     getValues,
     reset,
-  } = useForm<MapFormValues>();
+  } = useForm<MapFormValues>({
+    defaultValues,
+  });
 
   const handlePrev = () => {
+    fields = modalKey === 'edit' ? editFields : fields;
     onPrev(fields);
   };
   const handleNext = async () => {
@@ -110,14 +146,26 @@ export default function MappingRelation({
     const isShow = !result && formValues?.mapping !== undefined;
     setIsShowTip(isShow);
     if (result) {
-      mutate({
-        data: {
-          sink_type: interfaceType,
-          sink_id: verifyId,
-          table_name: selName,
-          fields,
-        },
-      });
+      if (modalKey === 'edit') {
+        editMutate({
+          data: {
+            target_id: targetId ?? '',
+            sink_type: interfaceType,
+            sink_id: verifyId,
+            table_name: selName,
+            fields: editFields,
+          },
+        });
+      } else {
+        createMutate({
+          data: {
+            sink_type: interfaceType,
+            sink_id: verifyId,
+            table_name: selName,
+            fields,
+          },
+        });
+      }
       reset();
     }
   };
@@ -164,14 +212,16 @@ export default function MappingRelation({
               <SelectField<MapFormValues>
                 id={original.name}
                 name={`word${index}`}
+                placeholder="请选择"
                 options={deviceMsgOption}
                 control={control}
+                defaultValue={original?.id}
                 formLabelStyle={{ mb: 0 }}
                 formHelperStyle={{ mt: 0 }}
                 formControlStyle={{ mb: 0, height: '42px', width: '100%' }}
                 selectStyles={{ selector: 'border-width: 0' }}
                 rules={{
-                  required: { value: true, message: '65575' },
+                  required: { value: true, message: '' },
                   onChange(e: SelectEle) {
                     const val = e.target.value;
                     const templateObj = deviceMsgOption.find(
@@ -179,16 +229,31 @@ export default function MappingRelation({
                     );
                     const fieldsItem = {
                       index,
-                      tfield_name: original.name,
+                      t_field: { name: original.name, type: original.type },
                       m_field: {
                         type: templateObj?.type || '',
                         name: templateObj?.label || '',
                       },
                     };
-                    fields = [
-                      ...fields.filter((i) => i.index !== fieldsItem.index),
-                      fieldsItem,
-                    ];
+                    if (modalKey === 'edit') {
+                      setEditFields([
+                        ...editFields.filter(
+                          (i) => i.index !== fieldsItem.index
+                        ),
+                        fieldsItem,
+                      ]);
+                      // editFields = [
+                      //   ...editFields.filter(
+                      //     (i) => i.index !== fieldsItem.index
+                      //   ),
+                      //   fieldsItem,
+                      // ];
+                    } else {
+                      fields = [
+                        ...fields.filter((i) => i.index !== fieldsItem.index),
+                        fieldsItem,
+                      ];
+                    }
                   },
                 }}
               />
@@ -237,8 +302,11 @@ export default function MappingRelation({
                   <SelectField<MapFormValues>
                     id="mapping"
                     name="mapping"
+                    placeholder="请选择"
                     options={options}
+                    defaultValue={defaultValues?.mapping}
                     error={errors.mapping}
+                    disabled={modalKey === 'edit'}
                     rules={{
                       required: { value: true, message: '请选择映射表' },
                       onChange(e: SelectEle) {
@@ -254,20 +322,20 @@ export default function MappingRelation({
                     formLabelStyle={{ mb: 0 }}
                     formControlStyle={{
                       height: '44px',
-                      borderWidth: fieldsData?.length > 0 ? '1px' : '0',
+                      borderWidth: data?.length > 0 ? '1px' : '0',
                       borderRadius: '4px',
                     }}
                   />
                 )}
               </FormControl>
               <FormControl label="映射关系" id="mappingTable">
-                {fieldsData.length === 0 ? (
+                {backFieldsData.length === 0 && data.length === 0 ? (
                   <Tip title="请优先选择映射表，进行映射" />
                 ) : (
                   <Box>
                     <Table
                       columns={columns}
-                      data={fieldsData}
+                      data={data}
                       hasPagination={false}
                       styles={{
                         head: {

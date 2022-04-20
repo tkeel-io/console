@@ -4,16 +4,8 @@ type Field = { name: string; type: string };
 
 type Fields = { t_field: Field; m_field: Field };
 
-// type MysqlRequest = {
-//   sink_type: string;
-//   sink_id: string;
-//   table_name: string;
-//   fields: Fields[];
-// };
-// export interface RequestData {
-//   mysqlrequest: MysqlRequest;
-// }
 export interface RequestData {
+  target_id: string;
   sink_type: string;
   sink_id: string;
   table_name: string;
@@ -24,16 +16,16 @@ export interface ApiData {
   '@type': string;
 }
 
-const method = 'POST';
+const method = 'PUT';
 
-export default function useCreateRelationMutation({
-  ruleId,
+export default function useEditRelationMutation({
+  verifyId,
   onSuccess,
 }: {
-  ruleId: string;
+  verifyId: string;
   onSuccess?: () => void;
 }) {
-  const url = `rule-manager/v1/rules/${ruleId}/target`;
+  const url = `rule-manager/v1/sink/${verifyId}/maps`;
 
   return useMutation<ApiData, undefined, RequestData>({
     url,

@@ -35,7 +35,6 @@ export default function DataRepublish({ styles, deviceTemplateId }: Props) {
   const toast = plugin.getPortalToast();
 
   const { targets, refetch } = useRuleTargetsQuery(ruleId || '');
-
   const { mutate, isLoading } = useCreateRuleTargetMutation({
     ruleId: ruleId || '',
     onSuccess() {
@@ -124,6 +123,7 @@ export default function DataRepublish({ styles, deviceTemplateId }: Props) {
             key={target.id}
             ruleId={ruleId || ''}
             target={target}
+            deviceTemplateId={deviceTemplateId}
             refetchData={() => refetch()}
             styles={{ wrapper: { marginTop: '20px' } }}
           />
@@ -139,17 +139,21 @@ export default function DataRepublish({ styles, deviceTemplateId }: Props) {
       )}
       {selectedProductId === 'mysql' && (
         <RepublishToMysqlModal
+          modalKey="create"
           republishType={0}
           ruleId={ruleId || ''}
           deviceTemplateId={deviceTemplateId}
+          isOpen
           onClose={() => setSelectedProductId('')}
           refetch={() => refetch()}
         />
       )}
       {selectedProductId === 'clickHouse' && (
         <RepublishToMysqlModal
+          modalKey="create"
           republishType={1}
           ruleId={ruleId || ''}
+          isOpen
           deviceTemplateId={deviceTemplateId}
           onClose={() => setSelectedProductId('')}
           refetch={() => refetch()}

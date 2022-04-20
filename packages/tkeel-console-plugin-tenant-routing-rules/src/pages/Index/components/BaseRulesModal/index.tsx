@@ -164,6 +164,7 @@ export default function BaseRulesModal({
           id="deviceTemplate"
           name="deviceTemplate"
           label="使用设备模版"
+          disabled={buttonType === 'editButton'}
           defaultValue={defaultValues?.deviceTemplateId}
           options={templateOptions}
           control={control}
