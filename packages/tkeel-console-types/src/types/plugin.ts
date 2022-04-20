@@ -7,7 +7,6 @@ import { ToastFunction } from './toast';
 export interface GlobalPluginPropsPortalProps {
   portalName: 'admin' | 'tenant';
   client: {
-    themeName: string;
     theme: Record<string, unknown>;
     tenantInfo: TenantInfo;
     tokenInfo: TokenInfo;

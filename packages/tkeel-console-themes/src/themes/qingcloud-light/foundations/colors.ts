@@ -7,6 +7,12 @@ const colors = {
   primarySub3: primaryColors[3],
 
   'primary.500': primaryColors[0],
+
+  // brand: {
+  //   50: primaryColors[1],
+  //   200: primaryColors[2],
+  //   700: primaryColors[3],
+  // },
 };
 
 export default colors;
