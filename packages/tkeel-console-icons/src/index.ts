@@ -13,6 +13,7 @@ export { default as BookOpenedFilledIcon } from './components/BookOpenedFilledIc
 export { default as BoxTwoToneIcon } from './components/BoxTwoToneIcon';
 export { default as BranchTowToneIcon } from './components/BranchTowToneIcon';
 export { default as BroomFilledIcon } from './components/BroomFilledIcon';
+export { default as BrushTwoToneIcon } from './components/BrushTwoToneIcon';
 export { default as CaretDownFilledIcon } from './components/CaretDownFilledIcon';
 export { default as CaretRightFilledIcon } from './components/CaretRightFilledIcon';
 export { default as CaretUpFilledIcon } from './components/CaretUpFilledIcon';

@@ -72,6 +72,10 @@ module.exports = {
     'struct',
     'OIDC',
     'SMAL',
+    'clickhouse',
+    'tfield_name',
+    'mysqlrequest',
+    'tinycolor',
   ],
   ignorePaths: [
     '**/.idea/**',

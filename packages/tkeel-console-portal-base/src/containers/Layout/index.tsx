@@ -1,4 +1,4 @@
-import { Box, Center, Flex, Image, Skeleton } from '@chakra-ui/react';
+import { Box, Center, Flex, Image, Skeleton, useTheme } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 
@@ -26,10 +26,12 @@ type Props = {
 export default function Layout({ userActionMenusComponent, logo }: Props) {
   const navigate = useNavigate();
   const documents = useDocuments();
+  const theme = useTheme();
 
   const { menus, isLoading: isLoadingMenus, refetch } = useMenusQuery();
 
   const initOptions = {
+    theme,
     menus,
     documents,
     navigate,

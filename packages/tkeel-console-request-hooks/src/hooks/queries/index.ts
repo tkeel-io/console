@@ -1,3 +1,4 @@
+export { default as useConfigQuery } from './useConfigQuery';
 export { default as useDeploymentConfigQuery } from './useDeploymentConfigQuery';
 export { default as useDeviceGroupQuery } from './useDeviceGroupQuery';
 export * from './useDeviceGroupQuery';
