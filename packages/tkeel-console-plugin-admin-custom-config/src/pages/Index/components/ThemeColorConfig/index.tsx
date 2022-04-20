@@ -18,24 +18,40 @@ import { useConfigQuery } from '@tkeel/console-request-hooks';
 
 import useUpdateConfigMutation from '@/tkeel-console-plugin-admin-custom-config/hooks/mutations/useUpdateConfigMutation';
 
-function getThemeColors(hue: number) {
+// import ColorsBlock from './ColorsBlock';
+// import ColorsCoordinate from './ColorsCoordinate';
+
+function getThemeColors(hexColor: string) {
+  const hsv = new TinyColor(hexColor).toHsv();
+  const hue = hsv.h;
+  const { v } = hsv;
+  let addValue = 0;
+  if (v > 0.9) {
+    addValue = 3;
+  } else if (v < 0.78) {
+    addValue = -3;
+  }
+
   const r = 100;
   const length = 11;
   return Array.from({ length })
     .map((_, i) => {
       const saturation = Math.round((r / length) * i);
-      const value = Math.round(Math.sqrt(10_000 - saturation ** 2));
+      let value = Math.round(Math.sqrt(10_000 - saturation ** 2));
+      value += addValue * i;
+      if (value > 100) {
+        value = 100;
+      }
+      if (value < 0) {
+        value = 0;
+      }
       return new TinyColor({
         h: hue,
         s: saturation,
-        v: value,
+        v: value + addValue,
       }).toHexString();
     })
     .slice(1);
-}
-
-function getHue(hexColor: string) {
-  return new TinyColor(hexColor).toHsv().h;
 }
 
 type ExtraThemeColors = {
@@ -58,8 +74,7 @@ function Index(): JSX.Element {
 
   const [isShowColorPicker, setIsShowColorPicker] = useState(false);
 
-  const hue = getHue(defaultColor);
-  const defaultColors = getThemeColors(hue);
+  const defaultColors = getThemeColors(defaultColor);
   const [colors, setColors] = useState(defaultColors);
 
   const { extra } = useConfigQuery();
@@ -125,6 +140,7 @@ function Index(): JSX.Element {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // const brand = extra?.theme?.colors?.brand;
   return (
     <Flex alignItems="center">
       <Flex
@@ -171,7 +187,7 @@ function Index(): JSX.Element {
           onChange={(e) => {
             const value = `#${e.target.value}`;
             setColor(value);
-            setColors(getThemeColors(getHue(value)));
+            setColors(getThemeColors(value));
           }}
         />
         {isShowColorPicker && (
@@ -179,7 +195,7 @@ function Index(): JSX.Element {
             color={color}
             onChange={(value) => {
               setColor(value);
-              setColors(getThemeColors(getHue(value)));
+              setColors(getThemeColors(value));
             }}
             style={{ position: 'absolute', left: '0', bottom: '45px' }}
           />
@@ -202,25 +218,8 @@ function Index(): JSX.Element {
           重置
         </Button>
       </HStack>
-      {/* <Flex flexDirection="column">
-        <Flex>
-          {Object.entries(extra?.theme?.colors?.brand ?? {}).map(
-            ([key, value], i) => (
-              <Box key={key} width="80px" height="80px" backgroundColor={value}>
-                {i === 0 ? 50 : 100 * i}
-              </Box>
-            )
-          )}
-        </Flex>
-        <Box
-          marginLeft="400px"
-          width="80px"
-          height="80px"
-          backgroundColor={colors[5]}
-        >
-          primary
-        </Box>
-      </Flex> */}
+      {/* {brand && <ColorsBlock brand={brand} primary={colors[5]} />}
+      {brand && <ColorsCoordinate brand={brand} />} */}
     </Flex>
   );
 }

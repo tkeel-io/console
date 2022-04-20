@@ -2204,7 +2204,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chakra-ui/react@npm:^1.8.6":
+"@chakra-ui/react@npm:^1.8.6, @chakra-ui/react@npm:^1.8.8":
   version: 1.8.8
   resolution: "@chakra-ui/react@npm:1.8.8"
   dependencies:
@@ -4473,6 +4473,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tkeel/console-request-hooks@workspace:packages/tkeel-console-request-hooks"
   dependencies:
+    "@chakra-ui/react": ^1.8.8
     "@tkeel/console-constants": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
     "@tkeel/console-types": "workspace:^"

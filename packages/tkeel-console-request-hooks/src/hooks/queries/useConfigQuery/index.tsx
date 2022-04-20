@@ -1,3 +1,4 @@
+import { ColorHues } from '@chakra-ui/react';
 import { Base64 } from 'js-base64';
 
 import { useQuery } from '@tkeel/console-hooks';
@@ -10,9 +11,7 @@ type ParsedExtra = {
       primarySub: string;
       primarySub2: string;
       primarySub3: string;
-      brand: {
-        50: string;
-      };
+      brand: ColorHues;
     };
   };
 };

@@ -1,8 +1,9 @@
 import { Flex, Image, Text } from '@chakra-ui/react';
 
 import { PageHeader } from '@tkeel/console-components';
-import { GearTwoToneIcon } from '@tkeel/console-icons';
+import { BrushTwoToneIcon } from '@tkeel/console-icons';
 
+import configBlockImg from '@/tkeel-console-plugin-admin-custom-config/assets/images/config-block.png';
 import curlyBracesImg from '@/tkeel-console-plugin-admin-custom-config/assets/images/curly-braces.svg';
 
 import ConfigButton from './components/ConfigButton';
@@ -27,12 +28,19 @@ export default function Index() {
       children: <ConfigButton title="更改菜单配置" />,
     },
   ];
+
   return (
-    <Flex flex="1" flexDirection="column">
+    <Flex flex="1" flexDirection="column" overflowY="auto">
       <PageHeader
-        icon={<GearTwoToneIcon size={26} />}
+        icon={
+          <BrushTwoToneIcon
+            size={26}
+            color="gray.300"
+            twoToneColor="gray.700"
+          />
+        }
         name="定制化配置"
-        desc="支持主题色、外观和功能菜单的配置"
+        desc="对平台进行主题色、外观与功能菜单配置"
       />
       <Flex
         flex="1"
@@ -60,10 +68,11 @@ export default function Index() {
         <Flex
           flex="1"
           marginTop="10px"
+          minHeight="320px"
           padding="24px 32px"
           backgroundColor="gray.50"
         >
-          <Flex width="240px" backgroundColor="white" />
+          <Image width="280px" height="100%" src={configBlockImg} />
           <Flex flex="1" flexDirection="column">
             {configNodeInfos.map(({ title, desc, children }) => (
               <Flex key={title} alignItems="center" marginBottom="16px">
