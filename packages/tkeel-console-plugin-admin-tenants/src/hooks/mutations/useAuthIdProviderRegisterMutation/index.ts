@@ -10,13 +10,17 @@ interface ApiData {
   '@type': string;
 }
 
-export default function useAuthIdProviderRegisterMutation({
-  onSuccess,
-}: {
+interface Options {
+  tenantId: string;
   onSuccess: () => void;
-}) {
+}
+
+export default function useAuthIdProviderRegisterMutation({
+  tenantId,
+  onSuccess,
+}: Options) {
   return useMutation<ApiData, undefined, RequestData>({
-    url: '/rudder/v1/oauth/id-provider/register',
+    url: `/rudder/v1/oauth/id-provider/register/${tenantId}`,
     method: 'POST',
     reactQueryOptions: { onSuccess },
   });

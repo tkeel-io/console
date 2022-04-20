@@ -1,81 +1,32 @@
-import {
-  Box,
-  Button,
-  Divider,
-  Flex,
-  TabPanel,
-  TabPanels,
-  Tabs,
-  Text,
-  useDisclosure,
-} from '@chakra-ui/react';
-import { useState } from 'react';
+import { Box, Flex, useDisclosure } from '@chakra-ui/react';
+import { useParams } from 'react-router-dom';
 
-import {
-  IconButton,
-  PageHeaderToolbar,
-  SegmentedControlTab,
-  SegmentedControlTabList,
-} from '@tkeel/console-components';
+import { IconButton, PageHeaderToolbar } from '@tkeel/console-components';
 import { PencilTwoToneIcon } from '@tkeel/console-icons';
-import { AuthConfigType } from '@tkeel/console-types';
 import { plugin } from '@tkeel/console-utils';
 
-import {
-  AUTH_CONFIG_TYPES,
-  DEFAULT_AUTH_CONFIG_TYPE_KEY,
-} from '@/tkeel-console-plugin-admin-tenants/constants';
+import useAuthIdProviderQuery from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useAuthIdProviderQuery';
 
-import OIDC from './OIDC';
+import Config from './Config';
+import CreateConfigButton from './CreateConfigButton';
 
 export default function ThirdPartyAuth() {
-  const documents = plugin.getPortalDocuments();
-  const [authConfigType, setAuthConfigType] = useState<AuthConfigType>(
-    DEFAULT_AUTH_CONFIG_TYPE_KEY
-  );
-  const {
-    isOpen: isOIDCModalOpen,
-    onOpen: onOIDCModalOpen,
-    onClose: onOIDCModalClose,
-  } = useDisclosure();
+  const { onOpen: onOIDCModalOpen } = useDisclosure();
+
+  const { tenantId = '' } = useParams();
+  const { data, refetch } = useAuthIdProviderQuery({ tenantId });
+  const config = data?.config;
 
   return (
-    <Flex flexDirection="column" height="100%">
+    <Flex flexDirection="column">
       <PageHeaderToolbar
         name="第三方认证"
         hasSearchInput={false}
         styles={{ wrapper: { margin: '4px 0' } }}
       />
-      <Divider />
-      <Box paddingTop="20px" paddingBottom="16px">
-        <Flex paddingBottom="16px">
-          <Text fontSize="12px" lineHeight="140%" color="gray.500">
-            用户的管理在第三方，用户登录 tkeel 平台需要跳转至第三方登录。
-          </Text>
-          <Button
-            fontSize="12px"
-            lineHeight="140%"
-            color="primary"
-            variant="link"
-            onClick={() => documents.open('')}
-            // TODO: need doc
-            display="none"
-          >
-            查看文档
-          </Button>
-        </Flex>
-        <Tabs
-          onChange={(index) => {
-            const { key } = AUTH_CONFIG_TYPES[index];
-            setAuthConfigType(key as AuthConfigType);
-          }}
-        >
-          <Flex justifyContent="space-between" alignItems="center">
-            <SegmentedControlTabList>
-              <SegmentedControlTab>OIDC</SegmentedControlTab>
-              <SegmentedControlTab isDisabled>LDAP</SegmentedControlTab>
-              <SegmentedControlTab isDisabled>SMAL</SegmentedControlTab>
-            </SegmentedControlTabList>
+      <Box padding="12px 0">
+        {config ? (
+          <>
             <IconButton
               marginLeft="24px"
               border="1px solid"
@@ -89,23 +40,24 @@ export default function ThirdPartyAuth() {
               colorScheme="gray"
               icon={<PencilTwoToneIcon size="16px" />}
               onClick={() => {
-                if (authConfigType === 'OIDC') {
-                  onOIDCModalOpen();
-                }
+                onOIDCModalOpen();
               }}
             >
               编辑
             </IconButton>
-          </Flex>
-          <TabPanels>
-            <TabPanel padding="16px 0">
-              <OIDC
-                isModalOpen={isOIDCModalOpen}
-                onModalClose={onOIDCModalClose}
-              />
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
+            <Config />
+          </>
+        ) : (
+          <Box borderRadius="4px" padding="12px" backgroundColor="gray.50">
+            <CreateConfigButton
+              onSuccess={() => {
+                const toast = plugin.getPortalToast();
+                toast.success('设置成功');
+                refetch();
+              }}
+            />
+          </Box>
+        )}
       </Box>
     </Flex>
   );

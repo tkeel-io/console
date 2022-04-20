@@ -71,7 +71,6 @@ module.exports = {
     'proxied',
     'struct',
     'OIDC',
-    'SMAL',
     'clickhouse',
     'tfield_name',
     'mysqlrequest',

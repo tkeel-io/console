@@ -1,34 +1,32 @@
 /* eslint-disable eslint-comments/disable-enable-pair, unicorn/filename-case */
 import { Base64 } from 'js-base64';
 
+// import { useParams } from 'react-router-dom';
 import { AceEditor } from '@tkeel/console-components';
-import { plugin } from '@tkeel/console-utils';
 
-import useAuthIdProviderRegisterMutation from '@/tkeel-console-plugin-admin-tenants/hooks/mutations/useAuthIdProviderRegisterMutation';
+// import { plugin } from '@tkeel/console-utils';
+// import useAuthIdProviderRegisterMutation from '@/tkeel-console-plugin-admin-tenants/hooks/mutations/useAuthIdProviderRegisterMutation';
 import useAuthIdProviderTemplateQuery from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useAuthIdProviderTemplateQuery';
 
-import EditorModal from './EditorModal';
+// import ConfigModal from './ConfigModal';
 
-type Props = {
-  isModalOpen: boolean;
-  onModalClose: () => void;
-};
-
-export default function OIDC({ isModalOpen, onModalClose }: Props) {
-  const { data, refetch } = useAuthIdProviderTemplateQuery({
+export default function Config() {
+  const { data } = useAuthIdProviderTemplateQuery({
     params: { type: 'OIDC' },
   });
   const config = data?.config ?? '';
   const yaml = Base64.decode(config);
 
-  const { isLoading, mutate } = useAuthIdProviderRegisterMutation({
+  // const { tenantId = '' } = useParams();
+  /* const { isLoading, mutate } = useAuthIdProviderRegisterMutation({
+    tenantId,
     onSuccess: () => {
       const toast = plugin.getPortalToast();
       toast.success('设置成功');
       onModalClose();
       refetch();
     },
-  });
+  }); */
 
   return (
     <>
@@ -39,8 +37,8 @@ export default function OIDC({ isModalOpen, onModalClose }: Props) {
         readOnly
         height="300px"
       />
-      {isModalOpen && (
-        <EditorModal
+      {/* {isModalOpen && (
+        <ConfigModal
           isOpen={isModalOpen}
           isConfirmButtonLoading={isLoading}
           value={yaml}
@@ -49,7 +47,7 @@ export default function OIDC({ isModalOpen, onModalClose }: Props) {
             mutate({ data: { type: 'OIDC', config: Base64.encode(value) } });
           }}
         />
-      )}
+      )} */}
     </>
   );
 }

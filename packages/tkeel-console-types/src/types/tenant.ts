@@ -1,3 +1,3 @@
 export type AuthType = 'internal' | 'external';
 
-export type AuthConfigType = 'OIDC'; // | 'LDAP' | 'SMAL'
+export type AuthConfigType = 'OIDC'; // | 'LDAP' | 'SAML'

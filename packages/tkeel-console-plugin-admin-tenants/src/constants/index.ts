@@ -24,8 +24,8 @@ export const AUTH_CONFIG_TYPE_MAP = {
   /* LDAP: {
     name: 'LDAP',
   },
-  SMAL: {
-    name: 'SMAL',
+  SAML: {
+    name: 'SAML',
   }, */
 };
 
