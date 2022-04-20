@@ -148,6 +148,8 @@ export default function Detail() {
           <DataRepublish
             styles={{ wrapper: { margin: '40px 0' } }}
             deviceTemplateId={deviceTemplateId}
+            routeType={routeType}
+            status={status}
           />
           <ErrorAction
             subscribeId={ruleDetail?.sub_id ?? 0}

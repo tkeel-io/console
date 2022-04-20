@@ -30,6 +30,7 @@ type Props = {
   ruleId: string;
   target: Target;
   deviceTemplateId?: string;
+  status: number;
   refetchData: () => unknown;
   styles?: {
     wrapper?: StyleProps;
@@ -40,6 +41,7 @@ export default function RepublishInfoCard({
   ruleId,
   target,
   deviceTemplateId,
+  status,
   refetchData,
   styles,
 }: Props) {
@@ -143,16 +145,18 @@ export default function RepublishInfoCard({
           : `数据库地址：${target.host}`}
       </Text>
       <HStack display="none" spacing="20px">
-        <PencilFilledIcon
-          size={20}
-          color="grayAlternatives.300"
-          style={{ cursor: 'pointer' }}
-          onClick={() => {
-            const type = target.sink_type;
-            setPublishType(type);
-            onModalOpen();
-          }}
-        />
+        {!status && (
+          <PencilFilledIcon
+            size={20}
+            color="grayAlternatives.300"
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              const type = target.sink_type;
+              setPublishType(type);
+              onModalOpen();
+            }}
+          />
+        )}
         <TrashFilledIcon
           size={20}
           color="grayAlternatives.300"

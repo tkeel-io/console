@@ -21,7 +21,7 @@ export default function useRelationTableQuery(
     url: `${url}/${verifyId}/maps?table_name=${selName}`,
     method,
     reactQueryOptions: {
-      enabled: !!selName,
+      enabled: !!selName && !!verifyId,
     },
   });
 

@@ -8,7 +8,7 @@ import {
   ClickHouseFilledIcon,
   KafkaFilledIcon,
   MySqlFilledIcon,
-  ObjectStorageFilledIcon,
+  // ObjectStorageFilledIcon,
 } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
@@ -24,11 +24,18 @@ import RepublishToKafkaModal, {
 import RepublishToMysqlModal from './RepublishToMysqlModal';
 
 type Props = {
+  routeType: string;
+  status: number;
   deviceTemplateId: string;
   styles?: { wrapper: StyleProps };
 };
 
-export default function DataRepublish({ styles, deviceTemplateId }: Props) {
+export default function DataRepublish({
+  styles,
+  deviceTemplateId,
+  routeType,
+  status,
+}: Props) {
   const [selectedProductId, setSelectedProductId] = useState('');
 
   const { id: ruleId } = useParams();
@@ -57,13 +64,21 @@ export default function DataRepublish({ styles, deviceTemplateId }: Props) {
   };
 
   const iconColor = 'grayAlternatives.300';
-  const products = [
+  const baseProducts = [
     {
       id: 'kafka',
       icon: <KafkaFilledIcon size={22} color={iconColor} />,
       name: 'Kafka',
       disable: false,
     },
+    // {
+    //   id: 'objectStorage',
+    //   icon: <ObjectStorageFilledIcon size={22} color={iconColor} />,
+    //   name: '对象存储',
+    //   disable: true,
+    // },
+  ];
+  const upgradeProducts = [
     {
       id: 'mysql',
       icon: <MySqlFilledIcon size={38} color={iconColor} />,
@@ -76,13 +91,9 @@ export default function DataRepublish({ styles, deviceTemplateId }: Props) {
       name: 'click house',
       disable: false,
     },
-    {
-      id: 'objectStorage',
-      icon: <ObjectStorageFilledIcon size={22} color={iconColor} />,
-      name: '对象存储',
-      disable: true,
-    },
   ];
+  const products =
+    routeType === 'msg' ? baseProducts : [...baseProducts, ...upgradeProducts];
 
   return (
     <Flex flexDirection="column" {...styles?.wrapper}>
@@ -124,6 +135,7 @@ export default function DataRepublish({ styles, deviceTemplateId }: Props) {
             ruleId={ruleId || ''}
             target={target}
             deviceTemplateId={deviceTemplateId}
+            status={status}
             refetchData={() => refetch()}
             styles={{ wrapper: { marginTop: '20px' } }}
           />
