@@ -1,6 +1,6 @@
 {
-  "name": "@tkeel/console-portal-base",
-  "version": "0.4.3",
+  "name": "@tkeel/console-plugin-admin-custom-config",
+  "version": "0.0.1",
   "homepage": "https://github.com/tkeel-io/console#readme",
   "bugs": {
     "url": "https://github.com/tkeel-io/console/issues"
@@ -10,9 +10,14 @@
     "url": "git+https://github.com/tkeel-io/console.git"
   },
   "license": "Apache-2.0",
-  "main": "./src/index.ts",
+  "scripts": {
+    "analyze": "cross-env ANALYZE=true yarn build",
+    "build": "cross-env NODE_ENV=production webpack --config ../../webpack/webpack.config.plugins",
+    "dev": "cross-env NODE_ENV=development webpack serve --config ../../webpack/webpack.config.plugins"
+  },
   "dependencies": {
-    "@chakra-ui/react": "^1.8.7",
+    "@chakra-ui/react": "^1.8.6",
+    "@ctrl/tinycolor": "^3.4.1",
     "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.8.1",
     "@tkeel/console-business-components": "workspace:^",
@@ -20,16 +25,15 @@
     "@tkeel/console-hooks": "workspace:^",
     "@tkeel/console-icons": "workspace:^",
     "@tkeel/console-request-hooks": "workspace:^",
-    "@tkeel/console-themes": "workspace:^",
     "@tkeel/console-types": "workspace:^",
     "@tkeel/console-utils": "workspace:^",
     "framer-motion": "^6.2.8",
     "js-base64": "^3.7.2",
-    "qiankun": "^2.7.0",
+    "lodash": "^4.17.21",
     "react": "^17.0.2",
+    "react-colorful": "^5.5.1",
     "react-dom": "^17.0.2",
-    "react-query": "^3.34.19",
-    "react-router-dom": "^6.2.2",
-    "store2": "^2.13.2"
+    "react-query": "^3.34.16",
+    "react-router-dom": "^6.2.2"
   }
 }
