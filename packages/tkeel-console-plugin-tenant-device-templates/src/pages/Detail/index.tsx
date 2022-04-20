@@ -10,7 +10,7 @@ import {
   MoreAction,
 } from '@tkeel/console-components';
 import { BoxTwoToneIcon, OfficialFilledIcon } from '@tkeel/console-icons';
-import { formatDateTimeByTimestamp, plugin } from '@tkeel/console-utils';
+import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import useTemplateInfoQuery from '@/tkeel-console-plugin-tenant-device-templates/hooks/queries/useTemplateInfoQuery';
 import TelemetryTable from '@/tkeel-console-plugin-tenant-device-templates/pages/Detail/components/TelemetryTable';
@@ -18,10 +18,9 @@ import TelemetryTable from '@/tkeel-console-plugin-tenant-device-templates/pages
 import DeleteTemplateButton from '../Index/components/DeleteTemplateButton';
 import ModifyTemplateButton from '../Index/components/ModifyTemplateButton';
 import AttributeTable from './components/AttributeTable';
+import CommandTable from './components/CommandTable';
 
 function Detail(): JSX.Element {
-  const toast = plugin.getPortalToast();
-
   const navigate = useNavigate();
   const location = useLocation();
   const { pathname }: { pathname: string } = location;
@@ -35,6 +34,24 @@ function Detail(): JSX.Element {
     // eslint-disable-next-line  no-underscore-dangle
     updatedAt: String(data?.templateObject?.properties?.sysField?._updatedAt),
   };
+
+  const tabs = [
+    {
+      label: '属性模板',
+      key: 'attribute',
+      component: <AttributeTable id={ID} title={defaultValues.title} />,
+    },
+    {
+      label: '遥测模板',
+      key: 'telemetry',
+      component: <TelemetryTable id={ID} title={defaultValues.title} />,
+    },
+    {
+      label: '服务命令',
+      key: 'command',
+      component: <CommandTable id={ID} title={defaultValues.title} />,
+    },
+  ];
 
   return (
     <Flex h="100%">
@@ -77,10 +94,7 @@ function Detail(): JSX.Element {
                   <ModifyTemplateButton
                     data={defaultValues}
                     key="modify"
-                    onSuccess={() => {
-                      toast('修改成功', { status: 'success' });
-                      refetch();
-                    }}
+                    onSuccess={refetch}
                   />,
                   <DeleteTemplateButton
                     key="delete"
@@ -95,13 +109,7 @@ function Detail(): JSX.Element {
             )}
           </Flex>
 
-          <Flex
-            height="70px"
-            align="center"
-            padding="0 20px"
-            position="relative"
-            zIndex="2"
-          >
+          <Flex height="70px" align="center" padding="0 20px">
             <BoxTwoToneIcon style={{ width: '24px', height: '22px' }} />
             <Text
               lineHeight="50px"
@@ -151,8 +159,9 @@ function Detail(): JSX.Element {
       >
         <Tabs display="flex" flexDirection="column" h="100%">
           <CustomTabList>
-            <CustomTab>属性模板</CustomTab>
-            <CustomTab>遥测模板</CustomTab>
+            {tabs.map((item) => (
+              <CustomTab key={item.key}>{item.label}</CustomTab>
+            ))}
           </CustomTabList>
 
           <TabPanels
@@ -160,14 +169,13 @@ function Detail(): JSX.Element {
             overflow="hidden"
             borderBottomLeftRadius="4px"
             borderBottomRightRadius="4px"
-            p="0 20px 20px"
+            paddingX="8px"
           >
-            <TabPanel padding="0" height="100%">
-              <AttributeTable id={ID} title={defaultValues.title} />
-            </TabPanel>
-            <TabPanel padding="0" height="100%">
-              <TelemetryTable id={ID} title={defaultValues.title} />
-            </TabPanel>
+            {tabs.map((item) => (
+              <TabPanel height="100%" key={item.key}>
+                {item.component}
+              </TabPanel>
+            ))}
           </TabPanels>
         </Tabs>
       </Box>

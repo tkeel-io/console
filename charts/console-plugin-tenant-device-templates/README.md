@@ -1,3 +1,2 @@
 # console-plugin-tenant-device-templates
-
-设备模版
+前端租户平台的「设备模版」插件

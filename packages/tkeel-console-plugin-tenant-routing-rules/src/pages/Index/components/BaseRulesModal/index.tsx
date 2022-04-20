@@ -17,10 +17,13 @@ export interface FormValues {
   type: number;
   desc?: string;
   deviceTemplate?: string;
+  deviceTemplateId?: string;
+  deviceTemplateName?: string;
 }
 
 type Props = {
   title: ReactNode;
+  buttonType: string;
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
   defaultValues?: FormValues;
@@ -30,6 +33,7 @@ type Props = {
 
 export default function BaseRulesModal({
   title,
+  buttonType,
   isOpen,
   isConfirmButtonLoading,
   defaultValues,
@@ -41,7 +45,7 @@ export default function BaseRulesModal({
   const [routeType, setRouteType] = useState(routeVal);
   const typeIndex = routeTypeArr.indexOf(routeType) + 1;
 
-  const { templates } = useTemplatesQuery();
+  const { templates } = useTemplatesQuery({ enabled: routeType === 'time' });
   const templateOptions = templates.map((val: TemplateItem) => {
     return { value: val.id, label: val.properties.basicInfo.name };
   });
@@ -60,7 +64,16 @@ export default function BaseRulesModal({
   const handleConfirm = async () => {
     const result = await trigger();
     if (result) {
-      const formValues = { ...getValues(), type: typeIndex };
+      const template = templateOptions.filter(
+        (i) => i.value === getValues().deviceTemplate
+      );
+      const condition = template.length > 0 && routeType === 'time';
+      const formValues = {
+        ...getValues(),
+        deviceTemplateId: condition ? template[0]?.value : '',
+        deviceTemplateName: condition ? template[0]?.label : '',
+        type: typeIndex,
+      };
       onConfirm(formValues);
       reset();
     }
@@ -127,6 +140,7 @@ export default function BaseRulesModal({
             });
             return (
               <RadioCard
+                isDisabled={buttonType === 'editButton'}
                 {...radio}
                 key={keyOpt}
                 label={titleOpt}
@@ -150,6 +164,8 @@ export default function BaseRulesModal({
           id="deviceTemplate"
           name="deviceTemplate"
           label="使用设备模版"
+          disabled={buttonType === 'editButton'}
+          defaultValue={defaultValues?.deviceTemplateId}
           options={templateOptions}
           control={control}
           error={errors.deviceTemplate}

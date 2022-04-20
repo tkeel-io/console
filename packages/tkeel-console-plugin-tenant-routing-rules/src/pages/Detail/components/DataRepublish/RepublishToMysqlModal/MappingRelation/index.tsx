@@ -13,9 +13,12 @@ import { useColor } from '@tkeel/console-hooks';
 import { SuccessFilledIcon, WarningCircleIcon } from '@tkeel/console-icons';
 
 import Tip from '@/tkeel-console-plugin-tenant-routing-rules/components/Tip';
+import useCreateRelationMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useCreateRelationMutation';
+import useEditRelationMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useEditRelationMutation';
 import useDeviceMsgQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useDeviceMsgQuery';
 import { Tables } from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useMappingQuery';
-// import useRelationTableQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRelationTableQuery';
+import useRelationTableQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRelationTableQuery';
+import { PublishedFields } from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleTargetsQuery';
 
 const { SelectField } = FormField;
 
@@ -23,78 +26,149 @@ export interface MapFormValues {
   mapping: string;
   [name: string]: string;
 }
-
-type Props = {
-  // verifyId: string;
-  mappingData: Tables | undefined;
-  isLoading: boolean;
-  onPrev: () => unknown;
-  // onNext: (e: MapFormValues) => unknown;
+type FormValues = {
+  mapping: string;
 };
 
-// type SelectVal = {
-//   value: string;
-//   name: string;
-// };
+type SelectVal = {
+  value: string;
+  name: string;
+};
 
-// type SelectEle = {
-//   target: SelectVal;
-//   type: string;
-// };
+type SelectEle = {
+  target: SelectVal;
+  type: string;
+};
 
 type Fields = {
+  id?: string;
   name: string;
   type: string;
 };
 
+export type FiledItem = { index: number; t_field: Fields; m_field: Fields };
+
+type Props = {
+  modalKey: string;
+  ruleId: string;
+  deviceTemplateId: string;
+  verifyId: string;
+  targetId?: string;
+  reFields: FiledItem[];
+  mappingData: Tables[] | undefined;
+  interfaceType: string;
+  isLoading: boolean;
+  defaultValues?: FormValues;
+  publishedFieldsData: PublishedFields[] | [];
+  onPrev: (e: FiledItem[] | []) => unknown;
+  onNext: () => unknown;
+};
+
 export default function MappingRelation({
-  // verifyId,
+  modalKey,
+  ruleId,
+  deviceTemplateId,
+  verifyId,
+  targetId,
+  reFields,
   mappingData,
+  interfaceType,
   isLoading,
+  defaultValues,
+  publishedFieldsData,
   onPrev,
-}: // onNext,
-Props) {
+  onNext,
+}: Props) {
   const tdBorderColor = useColor('gray.200');
   const [isGetDeviceMsg, setIsGetDeviceMsg] = useState(false);
-  // const [selName, setSelName] = useState('');
-  const [data, setData] = useState<Fields[]>([]);
+  const [isShowTip, setIsShowTip] = useState(false);
+  const [selName, setSelName] = useState(defaultValues?.mapping ?? '');
+  // const templateId = 'iotd-b66a435e-db31-4be4-8f30-4891905ee436';
+  const isRequest = !!defaultValues?.mapping || isGetDeviceMsg;
+  const { deviceMsgList } = useDeviceMsgQuery(deviceTemplateId, isRequest);
+  const { fieldsData } = useRelationTableQuery(verifyId, selName);
+  const { mutate: createMutate } = useCreateRelationMutation({
+    ruleId,
+    onSuccess() {
+      onNext();
+    },
+  });
+  const { mutate: editMutate } = useEditRelationMutation({
+    verifyId,
+    onSuccess() {
+      onNext();
+    },
+  });
 
-  const templateId = 'iotd-228a5510-d640-417b-a4b6-095e5970d82b';
-  const { deviceMsgList } = useDeviceMsgQuery(templateId, isGetDeviceMsg);
-  // const { fieldsData } = useRelationTableQuery(verifyId, selName);
-  // console.log(fieldsData);
   const options =
-    mappingData?.fields.map((i) => ({
-      value: i.name,
-      label: i.name,
+    mappingData?.map((i) => ({
+      value: i.Name,
+      label: i.Name,
     })) || [];
 
   const deviceMsgOption =
     deviceMsgList.map((i) => ({
       value: i.id,
       label: i.name,
+      type: i.type,
     })) || [];
 
+  const backFieldsData = publishedFieldsData.map((item, index) => {
+    return {
+      ...item,
+      name: item.t_field.name,
+      type: item.t_field.type,
+      id: item.m_field.name,
+      index,
+    };
+  });
+
+  const [editFields, setEditFields] = useState<FiledItem[]>(backFieldsData);
+  let fields: FiledItem[] = reFields;
+  const data = modalKey === 'edit' ? backFieldsData : fieldsData;
   const {
     control,
-    // register,
     formState: { errors },
-    // trigger,
-    // getValues,
-    // reset,
-  } = useForm<MapFormValues>();
+    trigger,
+    getValues,
+    reset,
+  } = useForm<MapFormValues>({
+    defaultValues,
+  });
 
   const handlePrev = () => {
-    onPrev();
+    fields = modalKey === 'edit' ? editFields : fields;
+    onPrev(fields);
   };
-  // const handleNext = async () => {
-  //   const result = await trigger();
-  //   if (result) {
-  //     const formValues = getValues();
-  //     onNext(formValues);
-  //     reset();
-  //   }
-  // };
+  const handleNext = async () => {
+    const result = await trigger();
+    const formValues = getValues();
+    const isShow = !result && formValues?.mapping !== undefined;
+    setIsShowTip(isShow);
+    if (result) {
+      if (modalKey === 'edit') {
+        editMutate({
+          data: {
+            target_id: targetId ?? '',
+            sink_type: interfaceType,
+            sink_id: verifyId,
+            table_name: selName,
+            fields: editFields,
+          },
+        });
+      } else {
+        createMutate({
+          data: {
+            sink_type: interfaceType,
+            sink_id: verifyId,
+            table_name: selName,
+            fields,
+          },
+        });
+      }
+      reset();
+    }
+  };
 
   const columns: ReadonlyArray<Column> = [
     {
@@ -138,25 +212,50 @@ Props) {
               <SelectField<MapFormValues>
                 id={original.name}
                 name={`word${index}`}
-                // defaultValue={value}
+                placeholder="请选择"
                 options={deviceMsgOption}
                 control={control}
+                defaultValue={original?.id}
                 formLabelStyle={{ mb: 0 }}
                 formHelperStyle={{ mt: 0 }}
                 formControlStyle={{ mb: 0, height: '42px', width: '100%' }}
                 selectStyles={{ selector: 'border-width: 0' }}
-                // rules={{
-                //   onChange(e: SelectEle) {
-                //     console.log(e);
-                //     console.log(original);
-                //     // const val = e?.target?.value;
-                //     //     const field = mappingData.find(
-                //     //       (i) => i.IndexGranularity === val
-                //     //     );
-                //     //     const fields: Fields[] = field?.fields || [];
-                //     //     setData(fields);
-                //   },
-                // }}
+                rules={{
+                  required: { value: true, message: '' },
+                  onChange(e: SelectEle) {
+                    const val = e.target.value;
+                    const templateObj = deviceMsgOption.find(
+                      (i) => i.value === val
+                    );
+                    const fieldsItem = {
+                      index,
+                      t_field: { name: original.name, type: original.type },
+                      m_field: {
+                        type: templateObj?.type || '',
+                        name: templateObj?.label || '',
+                      },
+                    };
+                    if (modalKey === 'edit') {
+                      setEditFields([
+                        ...editFields.filter(
+                          (i) => i.index !== fieldsItem.index
+                        ),
+                        fieldsItem,
+                      ]);
+                      // editFields = [
+                      //   ...editFields.filter(
+                      //     (i) => i.index !== fieldsItem.index
+                      //   ),
+                      //   fieldsItem,
+                      // ];
+                    } else {
+                      fields = [
+                        ...fields.filter((i) => i.index !== fieldsItem.index),
+                        fieldsItem,
+                      ];
+                    }
+                  },
+                }}
               />
             </Box>
           );
@@ -203,29 +302,17 @@ Props) {
                   <SelectField<MapFormValues>
                     id="mapping"
                     name="mapping"
-                    // defaultValue={defaultValue}
+                    placeholder="请选择"
                     options={options}
+                    defaultValue={defaultValues?.mapping}
                     error={errors.mapping}
+                    disabled={modalKey === 'edit'}
                     rules={{
                       required: { value: true, message: '请选择映射表' },
-                      onChange() {
-                        // e: SelectEle
-                        // console.log(e);
-                        // const val = e?.target?.value;
-                        // setSelName(() => val);
+                      onChange(e: SelectEle) {
+                        const val = e?.target?.value;
+                        setSelName(() => val);
                         setIsGetDeviceMsg(() => true);
-                        const fields = [
-                          { name: 'test1', type: 'string' },
-                          { name: 'test2', type: 'number' },
-                          { name: 'test3', type: 'number' },
-                        ];
-                        setData(fields);
-                        // const val = e?.target?.value;
-                        // const field = mappingData.find(
-                        //   (i) => i.IndexGranularity === val
-                        // );
-                        // const fields: Fields[] = field?.fields || [];
-                        // setData(fields);
                       },
                     }}
                     control={control}
@@ -242,33 +329,40 @@ Props) {
                 )}
               </FormControl>
               <FormControl label="映射关系" id="mappingTable">
-                {data.length === 0 ? (
+                {backFieldsData.length === 0 && data.length === 0 ? (
                   <Tip title="请优先选择映射表，进行映射" />
                 ) : (
-                  <Table
-                    columns={columns}
-                    data={data}
-                    hasPagination={false}
-                    styles={{
-                      head: {
-                        border: '1px solid ',
-                        borderColor: 'gray.200',
-                        backgroundColor: 'gray.100',
-                        padding: '5px 0',
-                      },
-                      headTr: { border: 'none' },
-                      body: {
-                        borderRight: '1px solid ',
-                        borderColor: 'gray.200',
-                      },
-                      bodyTd: {
-                        height: '42px',
-                        borderLeft: '1px solid',
-                        borderColor: `${tdBorderColor} !important`,
-                        padding: 0,
-                      },
-                    }}
-                  />
+                  <Box>
+                    <Table
+                      columns={columns}
+                      data={data}
+                      hasPagination={false}
+                      styles={{
+                        head: {
+                          border: '1px solid ',
+                          borderColor: 'gray.200',
+                          backgroundColor: 'gray.100',
+                          padding: '5px 0',
+                        },
+                        headTr: { border: 'none' },
+                        body: {
+                          borderRight: '1px solid ',
+                          borderColor: 'gray.200',
+                        },
+                        bodyTd: {
+                          height: '42px',
+                          borderLeft: '1px solid',
+                          borderColor: `${tdBorderColor} !important`,
+                          padding: 0,
+                        },
+                      }}
+                    />
+                    {isShowTip && (
+                      <Text color="red.500" fontSize="14px" mt="4px">
+                        设备消息字段为空
+                      </Text>
+                    )}
+                  </Box>
                 )}
               </FormControl>
             </Flex>
@@ -277,9 +371,9 @@ Props) {
             <Button onClick={handlePrev} colorScheme="primary" mr="8px">
               上一步
             </Button>
-            {/* <Button onClick={handleNext} colorScheme="primary">
-             */}
-            <Button colorScheme="primary">下一步</Button>
+            <Button onClick={handleNext} colorScheme="primary">
+              下一步
+            </Button>
           </Flex>
         </Box>
       )}

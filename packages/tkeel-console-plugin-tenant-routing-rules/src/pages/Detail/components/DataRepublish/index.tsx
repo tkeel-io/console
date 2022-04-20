@@ -8,7 +8,7 @@ import {
   ClickHouseFilledIcon,
   KafkaFilledIcon,
   MySqlFilledIcon,
-  ObjectStorageFilledIcon,
+  // ObjectStorageFilledIcon,
 } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
@@ -24,17 +24,24 @@ import RepublishToKafkaModal, {
 import RepublishToMysqlModal from './RepublishToMysqlModal';
 
 type Props = {
+  routeType: string;
+  status: number;
+  deviceTemplateId: string;
   styles?: { wrapper: StyleProps };
 };
 
-export default function DataRepublish({ styles }: Props) {
+export default function DataRepublish({
+  styles,
+  deviceTemplateId,
+  routeType,
+  status,
+}: Props) {
   const [selectedProductId, setSelectedProductId] = useState('');
 
   const { id: ruleId } = useParams();
   const toast = plugin.getPortalToast();
 
   const { targets, refetch } = useRuleTargetsQuery(ruleId || '');
-
   const { mutate, isLoading } = useCreateRuleTargetMutation({
     ruleId: ruleId || '',
     onSuccess() {
@@ -57,13 +64,21 @@ export default function DataRepublish({ styles }: Props) {
   };
 
   const iconColor = 'grayAlternatives.300';
-  const products = [
+  const baseProducts = [
     {
       id: 'kafka',
       icon: <KafkaFilledIcon size={22} color={iconColor} />,
       name: 'Kafka',
       disable: false,
     },
+    // {
+    //   id: 'objectStorage',
+    //   icon: <ObjectStorageFilledIcon size={22} color={iconColor} />,
+    //   name: '对象存储',
+    //   disable: true,
+    // },
+  ];
+  const upgradeProducts = [
     {
       id: 'mysql',
       icon: <MySqlFilledIcon size={38} color={iconColor} />,
@@ -76,13 +91,9 @@ export default function DataRepublish({ styles }: Props) {
       name: 'click house',
       disable: false,
     },
-    {
-      id: 'objectStorage',
-      icon: <ObjectStorageFilledIcon size={22} color={iconColor} />,
-      name: '对象存储',
-      disable: true,
-    },
   ];
+  const products =
+    routeType === 'msg' ? baseProducts : [...baseProducts, ...upgradeProducts];
 
   return (
     <Flex flexDirection="column" {...styles?.wrapper}>
@@ -123,6 +134,8 @@ export default function DataRepublish({ styles }: Props) {
             key={target.id}
             ruleId={ruleId || ''}
             target={target}
+            deviceTemplateId={deviceTemplateId}
+            status={status}
             refetchData={() => refetch()}
             styles={{ wrapper: { marginTop: '20px' } }}
           />
@@ -138,14 +151,24 @@ export default function DataRepublish({ styles }: Props) {
       )}
       {selectedProductId === 'mysql' && (
         <RepublishToMysqlModal
+          modalKey="create"
           republishType={0}
+          ruleId={ruleId || ''}
+          deviceTemplateId={deviceTemplateId}
+          isOpen
           onClose={() => setSelectedProductId('')}
+          refetch={() => refetch()}
         />
       )}
       {selectedProductId === 'clickHouse' && (
         <RepublishToMysqlModal
+          modalKey="create"
           republishType={1}
+          ruleId={ruleId || ''}
+          isOpen
+          deviceTemplateId={deviceTemplateId}
           onClose={() => setSelectedProductId('')}
+          refetch={() => refetch()}
         />
       )}
     </Flex>

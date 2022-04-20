@@ -10,6 +10,7 @@ import {
   Pagination,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
+import { plugin } from '@tkeel/console-utils';
 
 import EnableButton from '@/tkeel-console-plugin-tenant-plugins/components/EnableButton';
 import usePluginsQuery from '@/tkeel-console-plugin-tenant-plugins/hooks/queries/usePluginsQuery';
@@ -21,7 +22,7 @@ function Index(): JSX.Element {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [keyWords, setKeyWords] = useState('');
   const [pluginName, setPluginName] = useState('');
-
+  const documents = plugin.getPortalDocuments();
   const pagination = usePagination();
   const { pageNum, pageSize, setTotalSize } = pagination;
   const { plugins, data, isSuccess, isLoading, refetch } = usePluginsQuery({
@@ -66,6 +67,7 @@ function Index(): JSX.Element {
     <Flex flexDirection="column" height="100%">
       <PageHeaderToolbar
         name="插件管理"
+        documentsPath={documents.config.paths.tenantGuide.plugins}
         hasSearchInput
         searchInputProps={{
           onSearch: (value) => setKeyWords(value),
@@ -95,12 +97,12 @@ function Index(): JSX.Element {
               overflowY="auto"
               padding="12px 20px"
             >
-              {plugins.map((plugin) => {
+              {plugins.map((info) => {
                 const {
                   id,
                   installer_brief: installerBrief,
                   tenant_enable: tenantEnable,
-                } = plugin;
+                } = info;
                 const name = installerBrief?.name ?? '';
                 return (
                   <PluginCard
