@@ -12,10 +12,12 @@
   "license": "Apache-2.0",
   "main": "./src/index.ts",
   "dependencies": {
+    "@chakra-ui/react": "^1.8.8",
     "@tkeel/console-constants": "workspace:^",
     "@tkeel/console-hooks": "workspace:^",
     "@tkeel/console-types": "workspace:^",
     "@tkeel/console-utils": "workspace:^",
+    "js-base64": "^3.7.2",
     "lodash": "^4.17.21",
     "react": "^17.0.2",
     "react-router-dom": "^6.2.2"

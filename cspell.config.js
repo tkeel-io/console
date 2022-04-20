@@ -73,6 +73,7 @@ module.exports = {
     'clickhouse',
     'tfield_name',
     'mysqlrequest',
+    'tinycolor',
   ],
   ignorePaths: [
     '**/.idea/**',
