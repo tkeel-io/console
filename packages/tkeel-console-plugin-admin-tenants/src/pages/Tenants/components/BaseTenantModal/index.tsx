@@ -4,9 +4,8 @@ import { ReactNode } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { FormField, Modal } from '@tkeel/console-components';
+import { AuthType } from '@tkeel/console-types';
 import { schemas } from '@tkeel/console-utils';
-
-import { AuthType } from '@/tkeel-console-plugin-admin-tenants/types';
 
 import AuthTypeRadioGroup from './AuthTypeRadioGroup';
 

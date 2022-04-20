@@ -9,10 +9,12 @@ import {
   Table,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
-import { User, useUsersQuery } from '@tkeel/console-request-hooks';
+import {
+  User,
+  useTenantQuery,
+  useUsersQuery,
+} from '@tkeel/console-request-hooks';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
-
-import useTenantQuery from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useTenantQuery';
 
 import ResetPasswordButton from '../ResetPasswordButton';
 

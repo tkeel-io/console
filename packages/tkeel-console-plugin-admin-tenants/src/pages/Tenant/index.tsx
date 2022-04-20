@@ -2,8 +2,7 @@ import { Box, Flex, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 
 import { CustomTab, CustomTabList } from '@tkeel/console-components';
-
-import useTenantQuery from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useTenantQuery';
+import { useTenantQuery } from '@tkeel/console-request-hooks';
 
 import BasicInfoCard from './components/BasicInfoCard';
 import ThirdPartyAuth from './components/ThirdPartyAuth';

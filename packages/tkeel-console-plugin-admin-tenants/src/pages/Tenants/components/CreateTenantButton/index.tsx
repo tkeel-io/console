@@ -3,11 +3,11 @@ import { useState } from 'react';
 
 import { SetPasswordModal } from '@tkeel/console-business-components';
 import { CreateButton } from '@tkeel/console-components';
+import { AuthType } from '@tkeel/console-types';
 
 import useCreateTenantMutation from '@/tkeel-console-plugin-admin-tenants/hooks/mutations/useCreateTenantMutation';
 import { FormValues } from '@/tkeel-console-plugin-admin-tenants/pages/Tenants/components/BaseTenantModal';
 import CreateTenantModal from '@/tkeel-console-plugin-admin-tenants/pages/Tenants/components/CreateTenantModal';
-import { AuthType } from '@/tkeel-console-plugin-admin-tenants/types';
 
 type Props = {
   onSuccess: () => void;

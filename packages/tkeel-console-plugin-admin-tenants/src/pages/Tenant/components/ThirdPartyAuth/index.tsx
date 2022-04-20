@@ -18,13 +18,13 @@ import {
   SegmentedControlTabList,
 } from '@tkeel/console-components';
 import { PencilTwoToneIcon } from '@tkeel/console-icons';
+import { AuthConfigType } from '@tkeel/console-types';
 import { plugin } from '@tkeel/console-utils';
 
 import {
   AUTH_CONFIG_TYPES,
   DEFAULT_AUTH_CONFIG_TYPE_KEY,
 } from '@/tkeel-console-plugin-admin-tenants/constants';
-import { AuthConfigType } from '@/tkeel-console-plugin-admin-tenants/types';
 
 import OIDC from './OIDC';
 

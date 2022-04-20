@@ -1,6 +1,5 @@
 import { useQuery } from '@tkeel/console-hooks';
-
-import { AuthType } from '@/tkeel-console-plugin-admin-tenants/types';
+import { AuthType } from '@tkeel/console-types';
 
 const url = '/security/v1/tenants';
 const method = 'GET';

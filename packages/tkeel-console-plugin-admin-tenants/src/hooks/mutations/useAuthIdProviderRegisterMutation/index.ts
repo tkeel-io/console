@@ -1,6 +1,5 @@
 import { useMutation } from '@tkeel/console-hooks';
-
-import { AuthConfigType } from '@/tkeel-console-plugin-admin-tenants/types';
+import { AuthConfigType } from '@tkeel/console-types';
 
 interface RequestData {
   type: AuthConfigType;

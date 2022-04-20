@@ -1,12 +1,12 @@
 import { Box, HStack, Text, useRadioGroup } from '@chakra-ui/react';
 
 import { RadioCard } from '@tkeel/console-components';
+import { AuthType } from '@tkeel/console-types';
 
 import {
   AUTH_TYPES,
   DEFAULT_AUTH_TYPE_KEY,
 } from '@/tkeel-console-plugin-admin-tenants/constants';
-import { AuthType } from '@/tkeel-console-plugin-admin-tenants/types';
 
 export interface Props {
   onChange: (value: AuthType) => void;
