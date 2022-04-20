@@ -42,6 +42,7 @@ export default function Detail() {
   const name = ruleDetail?.name ?? '';
   const status = ruleDetail?.status ?? 0;
   const desc = ruleDetail?.desc || '暂无描述';
+  const deviceTemplateId = ruleDetail?.model_id ?? '';
 
   return (
     <Flex
@@ -97,7 +98,14 @@ export default function Detail() {
               styles={{ wrapper: { marginRight: '15px' } }}
             />
             <MoreActionButton
-              cruxData={{ id: id || '', name, status, desc, type }}
+              cruxData={{
+                id: id || '',
+                name,
+                status,
+                desc,
+                type,
+                deviceTemplateId,
+              }}
               refetch={() => {
                 refetch();
               }}
@@ -137,7 +145,12 @@ export default function Detail() {
           backgroundColor="white"
         >
           <DataSelect routeType={routeType} />
-          <DataRepublish styles={{ wrapper: { margin: '40px 0' } }} />
+          <DataRepublish
+            styles={{ wrapper: { margin: '40px 0' } }}
+            deviceTemplateId={deviceTemplateId}
+            routeType={routeType}
+            status={status}
+          />
           <ErrorAction
             subscribeId={ruleDetail?.sub_id ?? 0}
             refetchDetail={() => refetch()}

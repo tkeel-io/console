@@ -6,7 +6,7 @@ import {
 } from '@tkeel/console-business-components';
 import { MoreAction } from '@tkeel/console-components';
 import { AppsTwoToneIcon } from '@tkeel/console-icons';
-import { CommandItem } from '@tkeel/console-types';
+import { CommandItem, CommandValue } from '@tkeel/console-types';
 
 // import { DATA_TYPE_CONFIG } from '../CommandParamModal/DataType';
 import CallCommandButton from '../CallCommandButton';
@@ -15,9 +15,17 @@ interface Props {
   data: CommandItem;
   uid: string;
   refetch: () => void;
+  online: boolean;
+  commandValues: CommandValue;
 }
 
-export default function CommandCard({ data, uid, refetch }: Props) {
+export default function CommandCard({
+  data,
+  uid,
+  refetch,
+  online,
+  commandValues,
+}: Props) {
   const { name, id } = data;
   return (
     <Flex
@@ -43,7 +51,12 @@ export default function CommandCard({ data, uid, refetch }: Props) {
         <Text>{id}</Text>
       </HStack>
       <HStack spacing="20px">
-        <CallCommandButton data={data} uid={uid} />
+        <CallCommandButton
+          data={data}
+          uid={uid}
+          online={online}
+          commandValues={commandValues}
+        />
         <MoreAction
           buttons={[
             <DeleteCommandButton

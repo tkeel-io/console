@@ -13,6 +13,7 @@ export interface RouteItemData {
   devices_status: number;
   targets_status: number;
   sub_id: number | unknown;
+  model_id: string;
 }
 
 export interface ApiData {

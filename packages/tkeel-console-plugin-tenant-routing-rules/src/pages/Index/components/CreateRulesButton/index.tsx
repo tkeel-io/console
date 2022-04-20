@@ -19,6 +19,7 @@ interface Props {
     desc: string;
     status: number;
     type: number;
+    deviceTemplateId: string;
   };
   type: 'createButton' | 'createText' | 'editButton';
   onSuccess: () => void;
@@ -46,7 +47,8 @@ export default function CreateRulesButton({
         name: formValues.name,
         type: formValues.type,
         desc: formValues?.desc ?? '',
-        // desc: formValues?.deviceTemplate ?? '',
+        model_id: formValues?.deviceTemplateId ?? '',
+        model_name: formValues?.deviceTemplateName ?? '',
       },
     });
   };

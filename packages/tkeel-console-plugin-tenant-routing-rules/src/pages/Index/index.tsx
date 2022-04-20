@@ -112,6 +112,7 @@ export default function Index(): JSX.Element {
                       devices_status: deviceStatus,
                       targets_status: targetStatus,
                       sub_id: errorOperation,
+                      model_id: deviceTemplateId,
                     } = rule;
                     const currentStep = [
                       deviceStatus,
@@ -124,7 +125,14 @@ export default function Index(): JSX.Element {
                         briefInfo={{ name, desc, status }}
                         operatorButton={
                           <MoreActionButton
-                            cruxData={{ id, name, status, desc, type }}
+                            cruxData={{
+                              id,
+                              name,
+                              status,
+                              desc,
+                              type,
+                              deviceTemplateId,
+                            }}
                             refetch={() => {
                               refetch();
                             }}

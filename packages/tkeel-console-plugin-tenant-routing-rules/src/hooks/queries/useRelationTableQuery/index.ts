@@ -1,19 +1,13 @@
 import { useQuery } from '@tkeel/console-hooks';
 
-export type Fields = {
+export type Tables = {
   name: string;
   type: string;
 };
 
-export type Tables = {
-  Name: string;
-  IndexGranularity: string;
-  fields: Fields[];
-};
-
 export interface ApiData {
   '@type': string;
-  tables: Tables[];
+  table_fields: Tables[];
 }
 
 const url = '/rule-manager/v1/sink';
@@ -27,9 +21,9 @@ export default function useRelationTableQuery(
     url: `${url}/${verifyId}/maps?table_name=${selName}`,
     method,
     reactQueryOptions: {
-      enabled: !!selName,
+      enabled: !!selName && !!verifyId,
     },
   });
 
-  return { fieldsData: data, ...rest };
+  return { fieldsData: data?.table_fields || [], ...rest };
 }

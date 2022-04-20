@@ -7,7 +7,7 @@ import CreateTemplateModal from '../CreateTemplateModal';
 
 type Props = {
   templateData: KeyDataType[];
-  onSuccess: (id: string) => void;
+  onSuccess: (id?: string) => void;
 };
 
 export default function CreateTemplateButton({

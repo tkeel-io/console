@@ -40,6 +40,7 @@ type Props<TFieldValues> = FormControlProps & {
   >;
   control: Control<TFieldValues>;
   selectStyles?: SelectStyles;
+  disabled?: boolean;
 };
 
 const defaultProps = {
@@ -60,6 +61,7 @@ export default function CustomFormControl<TFieldValues>({
   rules,
   control,
   selectStyles,
+  disabled = false,
   ...rest
 }: Props<TFieldValues>) {
   return (
@@ -70,6 +72,7 @@ export default function CustomFormControl<TFieldValues>({
         rules={rules}
         render={({ field: { onChange, value } }) => (
           <Select
+            disabled={disabled}
             mode={mode}
             placeholder={placeholder}
             showArrow={showArrow}
