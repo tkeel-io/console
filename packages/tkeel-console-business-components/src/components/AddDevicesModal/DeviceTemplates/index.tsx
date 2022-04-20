@@ -1,10 +1,8 @@
 import { Flex, StyleProps, Text } from '@chakra-ui/react';
 
-import { Loading, SearchEmpty } from '@tkeel/console-components';
+import { Empty, Loading, SearchEmpty } from '@tkeel/console-components';
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
 import { TemplateItem } from '@tkeel/console-request-hooks';
-
-import Empty from '../Empty';
 
 type Props = {
   isLoading: boolean;
@@ -37,13 +35,16 @@ export default function DeviceTemplates({
       />
     ) : (
       <Empty
-        textNode={
+        type="component"
+        title={
           <Flex flexDirection="column" alignItems="center">
             <Text>暂无模板，请前往</Text>
             <Text>设备模板添加</Text>
           </Flex>
         }
-        styles={{ wrapper: { width: '100%', height: '100%' } }}
+        styles={{
+          wrapper: { width: '100%', height: '100%' },
+        }}
       />
     );
   }
