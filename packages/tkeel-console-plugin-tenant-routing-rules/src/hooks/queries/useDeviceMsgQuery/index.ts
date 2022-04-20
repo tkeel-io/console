@@ -24,13 +24,13 @@ const method = 'GET';
 
 export default function useDeviceMsgQuery(
   templateId: string,
-  isGetDeviceMsg: boolean
+  isRequest: boolean
 ) {
   const { data, ...rest } = useQuery<ApiData>({
     url: `${url}/${templateId}/telemetry`,
     method,
     reactQueryOptions: {
-      enabled: isGetDeviceMsg,
+      enabled: isRequest,
     },
   });
   const deviceMsgList =

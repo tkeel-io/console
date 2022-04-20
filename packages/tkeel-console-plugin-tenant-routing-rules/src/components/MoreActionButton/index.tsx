@@ -12,6 +12,7 @@ type Props = {
     desc: string;
     status: number;
     type: number;
+    deviceTemplateId: string;
   };
   refetch?: () => void;
   onDeleteSuccess?: () => unknown;
