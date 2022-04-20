@@ -5,7 +5,7 @@ import { Fragment, useState } from 'react';
 import { MoreAction, PageHeaderToolbar } from '@tkeel/console-components';
 import { useColor, usePagination } from '@tkeel/console-hooks';
 import { MoreVerticalFilledIcon } from '@tkeel/console-icons';
-import { getTreeIcon } from '@tkeel/console-utils';
+import { getTreeIcon, plugin } from '@tkeel/console-utils';
 
 import useDeviceListQuery from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceListQuery';
 import useGroupTreeQuery, {
@@ -94,6 +94,7 @@ function Index(): JSX.Element {
   const [keyWords, setKeyWords] = useState('');
   const pagination = usePagination();
   const { setPageNum, pageNum, pageSize, setTotalSize } = pagination;
+  const documents = plugin.getPortalDocuments();
 
   const { groupTree, refetch: refetchGroupTree } = useGroupTreeQuery();
   const iconHoverColor = useColor('gray.700');
@@ -247,6 +248,7 @@ function Index(): JSX.Element {
   return (
     <Flex flexDirection="column" h="100%">
       <PageHeaderToolbar
+        documentsPath={documents.config.paths.tenantGuide.deviceList}
         name="设备列表"
         hasSearchInput
         searchInputProps={{

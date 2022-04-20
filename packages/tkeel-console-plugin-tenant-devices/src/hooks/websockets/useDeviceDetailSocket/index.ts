@@ -1,7 +1,11 @@
 import { useEffect, useMemo } from 'react';
 
 import { useWebSocket } from '@tkeel/console-hooks';
-import { AttributeValue, TelemetryValue } from '@tkeel/console-types';
+import {
+  AttributeValue,
+  CommandValue,
+  TelemetryValue,
+} from '@tkeel/console-types';
 
 import {
   ConnectInfo,
@@ -13,6 +17,7 @@ type Message = {
   attributes: AttributeValue;
   connectInfo: ConnectInfo;
   telemetry: TelemetryValue;
+  commands: CommandValue;
   [propName: string]: unknown;
 };
 
@@ -43,7 +48,8 @@ function useDeviceDetailSocket({ id }: Props) {
   const connectInfo = lastJsonMessage?.connectInfo;
   const attributes = lastJsonMessage?.attributes || {};
   const telemetry = lastJsonMessage?.telemetry || {};
-  return { rawData, connectInfo, attributes, telemetry, readyState };
+  const commands = lastJsonMessage?.commands || {};
+  return { rawData, connectInfo, attributes, telemetry, readyState, commands };
 }
 
 export default useDeviceDetailSocket;

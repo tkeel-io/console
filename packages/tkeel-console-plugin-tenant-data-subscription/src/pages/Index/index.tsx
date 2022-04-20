@@ -72,7 +72,7 @@ function SubscriptionCard() {
                   { name: '订阅ID', value: item.id },
                   { name: '订阅地址', value: item.endpoint },
                 ]}
-                styles={{ wrapper: { width: '49.7%' } }}
+                styles={{ wrapper: { marginBottom: '12px', width: '49.7%' } }}
               />
             );
           })}
@@ -90,10 +90,13 @@ function Index(): JSX.Element {
     return item.is_default;
   });
 
+  const documents = plugin.getPortalDocuments();
+
   return (
     <Flex flexDirection="column" height="100%" paddingTop="8px">
       <PageHeaderToolbar
         name="数据订阅"
+        documentsPath={documents.config.paths.tenantGuide.dataSubscribe}
         buttons={[
           <CreateSubscriptionButton
             key="create"

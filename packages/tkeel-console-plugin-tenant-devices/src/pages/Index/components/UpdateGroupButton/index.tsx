@@ -34,6 +34,7 @@ function UpdateGroupButton({
     toast('修改设备组成功', {
       status: 'success',
     });
+    onClose();
     if (callback) {
       const timer = window.setTimeout(() => {
         callback();

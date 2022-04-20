@@ -1,6 +1,7 @@
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
 
 import { Loading, PageHeaderToolbar } from '@tkeel/console-components';
+import { plugin } from '@tkeel/console-utils';
 
 import SearchBg from '@/tkeel-console-plugin-tenant-data-query/assets/images/search-bg.svg';
 import DeviceInfoCard from '@/tkeel-console-plugin-tenant-data-query/components/DeviceInfoCard';
@@ -10,9 +11,14 @@ import SearchDeviceInput from './components/SearchDeviceInput';
 
 function Index(): JSX.Element {
   const { history, isLoading } = useHistoryQuery();
+  const documents = plugin.getPortalDocuments();
+
   return (
     <Flex height="100%" flexDirection="column">
-      <PageHeaderToolbar name="数据查询" />
+      <PageHeaderToolbar
+        name="数据查询"
+        documentsPath={documents.config.paths.tenantGuide.dataQuery}
+      />
       <Flex
         marginTop="80px"
         flex="1"
