@@ -4,21 +4,43 @@ import { ClickHouseFilledIcon, MySqlFilledIcon } from '@tkeel/console-icons';
 
 import useVerifyAddressMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useVerifyAddressMutation';
 import useMappingQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useMappingQuery';
+import { PublishedFields } from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleTargetsQuery';
 import StepModal from '@/tkeel-console-plugin-tenant-routing-rules/pages/Detail/components/StepModal';
 
 import AddressVerify, { AddressFormValues } from './AddressVerify';
 import CreateFinished from './CreateFinished';
-// import MappingRelation, { MapFormValues } from './MappingRelation';
-import MappingRelation from './MappingRelation';
+import MappingRelation, { FiledItem } from './MappingRelation';
 
+type PublishedInfo = {
+  targetId: string;
+  fields: PublishedFields[] | [];
+  address: string;
+  name: string;
+  mapping: string;
+};
 type Props = {
+  modalKey: string;
   republishType: number;
+  ruleId: string;
+  deviceTemplateId: string;
+  isOpen: boolean;
+  publishedInfo?: PublishedInfo;
   onClose: () => unknown;
+  refetchData?: () => void;
+  refetch?: () => void;
 };
 
+let timer = 0;
 export default function RepublishToMysqlModal({
+  modalKey,
   republishType,
-  onClose,
+  ruleId,
+  deviceTemplateId,
+  publishedInfo,
+  isOpen,
+  onClose: onMClose,
+  refetch,
+  refetchData,
 }: Props) {
   const stepBarInfo = [
     { key: '1', name: '地址验证' },
@@ -34,15 +56,22 @@ export default function RepublishToMysqlModal({
     },
     {
       title: 'ClickHouse',
-      interfaceType: 'clickHouse',
+      interfaceType: 'clickhouse',
       icon: <ClickHouseFilledIcon size={28} />,
     },
   ];
   const republishTitle = `转发到 ${republishInfo[republishType].title}`;
 
   const [step, setStep] = useState(1);
-  // const [timeCount, setTimeCount] = useState(false);
   const [verifyId, setVerifyId] = useState('');
+  const [reFields, setReFields] = useState<FiledItem[]>([]);
+  const onClose = () => {
+    onMClose();
+    if (timer) {
+      clearTimeout(timer);
+      timer = 0;
+    }
+  };
 
   const { mappingData, isLoading } = useMappingQuery(verifyId);
 
@@ -67,38 +96,63 @@ export default function RepublishToMysqlModal({
       },
     });
   };
-  const onPrev = () => {
+  const onPrev = (e: FiledItem[] | []) => {
+    setReFields(e);
     setStep((p: number) => p - 1);
   };
-  // const onNext = () => {
-  //   e: MapFormValues
-  //   console.log('jj', e);
-  //   setStep((p: number) => p + 1);
-  //   setTimeCount(true);
-  // };
-
+  const onNext = () => {
+    setStep((p: number) => p + 1);
+    timer = window.setTimeout(() => {
+      setStep(1);
+      if (step !== 1) onClose();
+    }, 5000);
+    if (refetch) refetch();
+    if (refetchData) refetchData();
+  };
   return (
     <StepModal
       title={republishTitle}
       stepBarInfo={stepBarInfo}
       step={step}
-      onClose={onClose}
-      isOpen
+      onClose={() => {
+        setStep(1);
+        onClose();
+      }}
+      isOpen={isOpen}
     >
       <AddressVerify
+        modalKey={modalKey}
         onVerify={onVerify}
         title={republishInfo[republishType].title}
         icon={republishInfo[republishType].icon}
+        defaultValues={{
+          address: publishedInfo?.address ?? '',
+          name: publishedInfo?.name ?? '',
+        }}
       />
       <MappingRelation
+        modalKey={modalKey}
         onPrev={onPrev}
-        // onNext={onNext}
+        onNext={onNext}
         isLoading={isLoading}
-        // verifyId={verifyId}
-        mappingData={mappingData && mappingData[0]}
+        ruleId={ruleId}
+        deviceTemplateId={deviceTemplateId}
+        verifyId={verifyId}
+        targetId={publishedInfo?.targetId}
+        reFields={reFields}
+        mappingData={mappingData}
+        defaultValues={{
+          mapping: publishedInfo?.mapping ?? '',
+        }}
+        publishedFieldsData={publishedInfo?.fields ?? []}
+        interfaceType={republishInfo[republishType].interfaceType}
       />
-      <CreateFinished onClose={onClose} />
-      {/* <CreateFinished onClose={onClose} isTime={timeCount} /> */}
+      <CreateFinished
+        onClose={() => {
+          setStep(1);
+          onClose();
+        }}
+      />
     </StepModal>
   );
 }
