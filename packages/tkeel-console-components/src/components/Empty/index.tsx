@@ -1,7 +1,7 @@
-import { Box, StyleProps } from '@chakra-ui/react';
+import { Box, Image, StyleProps } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
-import EmptyImage from './assets/images/empty.svg?svgr';
+import EmptyImage from './assets/images/empty.svg';
 
 interface Props {
   type?: 'page' | 'component';
@@ -20,7 +20,7 @@ interface Props {
 
 export default function Empty({
   type = 'page',
-  image = <EmptyImage />,
+  image = <Image src={EmptyImage} />,
   title = '暂无数据',
   description,
   content,
