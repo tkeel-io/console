@@ -115,7 +115,7 @@ export default function RepublishToKafkaModal({
         formControlStyle={{ margin: '20px 0' }}
       />
       <Button
-        colorScheme="primary"
+        colorScheme="brand"
         isLoading={isVerifyKafkaLoading}
         onClick={handleVerifyAddress}
       >

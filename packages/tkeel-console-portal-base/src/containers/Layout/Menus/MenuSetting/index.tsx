@@ -54,7 +54,7 @@ export default function MenuSetting({
         </Button>
         <Button
           marginTop="10px"
-          colorScheme="primary"
+          colorScheme="brand"
           width="80px"
           onClick={() => {
             sessionStorage.setItem('mockMenus', mockMenus);

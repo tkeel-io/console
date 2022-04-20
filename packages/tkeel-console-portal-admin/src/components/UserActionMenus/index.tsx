@@ -13,7 +13,7 @@ import ModifyPasswordButton from './ModifyPasswordButton';
 
 export default function UserActionMenus() {
   const primaryColor = useColor('primary');
-  const primarySub2 = useColor('primarySub2');
+  const primarySub2 = useColor('brand.200');
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (

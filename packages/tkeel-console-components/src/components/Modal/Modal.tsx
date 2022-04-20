@@ -72,7 +72,7 @@ export default function Modal({
               <Button
                 isDisabled={isConfirmButtonDisabled}
                 isLoading={isConfirmButtonLoading}
-                colorScheme="primary"
+                colorScheme="brand"
                 onClick={onConfirm}
               >
                 确定

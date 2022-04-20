@@ -47,8 +47,8 @@ export default function CompletedInfoPart({ type, responseData }: Props) {
   }
   const colors = {
     main: useColor('primary'),
-    sub: useColor('primarySub2'),
-    sub2: useColor('primarySub'),
+    sub: useColor('brand.200'),
+    sub2: useColor('brand.50'),
   };
   const { hasCopied, onCopy } = useClipboard(token);
   return (
@@ -70,7 +70,7 @@ export default function CompletedInfoPart({ type, responseData }: Props) {
             台设备,请点击复制设备凭证
           </Text>
           <Button
-            colorScheme="primary"
+            colorScheme="brand"
             w="200px"
             my="32px"
             onClick={() => {

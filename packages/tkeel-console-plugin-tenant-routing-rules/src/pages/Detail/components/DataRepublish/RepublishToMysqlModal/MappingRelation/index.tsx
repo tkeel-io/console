@@ -366,10 +366,10 @@ export default function MappingRelation({
             </Flex>
           </Box>
           <Flex justifyContent="end" mt="20px">
-            <Button onClick={handlePrev} colorScheme="primary" mr="8px">
+            <Button onClick={handlePrev} colorScheme="brand" mr="8px">
               上一步
             </Button>
-            <Button onClick={handleNext} colorScheme="primary">
+            <Button onClick={handleNext} colorScheme="brand">
               下一步
             </Button>
           </Flex>

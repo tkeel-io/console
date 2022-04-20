@@ -11,7 +11,7 @@ export default function SearchButton({ disabled, onClick }: Props) {
   return (
     <Button
       leftIcon={<MagnifierFilledIcon color="white" size={20} />}
-      colorScheme="primary"
+      colorScheme="brand"
       position="absolute"
       right="0"
       top="0"
