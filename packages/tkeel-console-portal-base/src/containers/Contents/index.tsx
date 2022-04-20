@@ -5,6 +5,8 @@ import { GlobalPortalProvider } from '@tkeel/console-business-components';
 import { ToastContainer } from '@tkeel/console-components';
 import { useLocationChange } from '@tkeel/console-hooks';
 import { useDeploymentConfigQuery } from '@tkeel/console-request-hooks';
+import useConfigQuery from '@tkeel/console-request-hooks/src/hooks/queries/useConfigQuery';
+import { Colors } from '@tkeel/console-themes';
 import { Logo } from '@tkeel/console-types';
 
 import Routes from '@/tkeel-console-portal-base/routes';
@@ -47,6 +49,8 @@ export default function Contents({
   const { config } = useDeploymentConfigQuery();
   const docsBaseURL = config?.docsURL ?? '';
 
+  const { extra } = useConfigQuery();
+
   useLocationChange({
     onChange: () => {
       setDocumentsPath('');
@@ -54,8 +58,17 @@ export default function Contents({
     },
   });
 
+  if (!extra) return null;
+  const newTheme = {
+    ...theme,
+    colors: {
+      ...theme.colors,
+      ...extra?.theme?.colors,
+    } as Colors,
+  };
+
   return (
-    <ChakraProvider theme={theme}>
+    <ChakraProvider theme={newTheme}>
       <GlobalPortalProvider
         value={{
           documents: {
