@@ -52,7 +52,7 @@ export default function CustomSelect({ onChange, color, selected }: Props) {
     }
   `;
   return (
-    <Wrapper>
+    <Wrapper mr="10px">
       <Select
         defaultValue="text"
         value={selected}

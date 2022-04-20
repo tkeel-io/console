@@ -32,6 +32,7 @@ function DeviceDetailRightPanel({
     basicInfo,
     attributes: attributeValues,
     telemetry: telemetryValues,
+    commands: commandValues,
     telemetryDefaultValues,
     attributeDefaultValues,
   } = properties;
@@ -47,8 +48,12 @@ function DeviceDetailRightPanel({
       key: 'rawData',
       isVisible: true,
       component: (
-        // eslint-disable-next-line no-underscore-dangle
-        <RawData data={rawData} online={connectInfo?._online ?? false} />
+        <RawData
+          data={rawData}
+          // eslint-disable-next-line no-underscore-dangle
+          online={connectInfo?._online ?? false}
+          deviceId={id}
+        />
       ),
     },
     {
@@ -94,11 +99,14 @@ function DeviceDetailRightPanel({
           basicInfo={basicInfo}
           deviceId={id}
           refetch={refetch}
+          // eslint-disable-next-line no-underscore-dangle
+          online={connectInfo?._online ?? false}
           commandFields={values(
             mapValues(commandFields, (val: object, key) => {
               return { ...val, id: key };
             })
           )}
+          commandValues={commandValues}
         />
       ),
     },

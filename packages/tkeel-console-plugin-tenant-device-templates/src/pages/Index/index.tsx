@@ -33,8 +33,8 @@ function Index() {
   const pagination = usePagination();
   const { pageNum, pageSize, setTotalSize, ...rest } = pagination;
 
-  const { templates, refetch } = useTemplatesQuery({
-    requestData: { query: keyWord },
+  const { templates, total, refetch } = useTemplatesQuery({
+    requestData: { query: keyWord, page_num: pageNum, page_size: pageSize },
   });
 
   const keyData: KeyDataType[] = templates.map((val: TemplateItem) => {
@@ -49,11 +49,14 @@ function Index() {
       }),
     };
   });
-  setTotalSize(keyData.length);
+  setTotalSize(total);
 
-  const handleCreateSuccess = (id: string) => {
+  const handleCreateSuccess = (id?: string) => {
     toast('创建模板成功', { status: 'success' });
-    navigate(`/detail/${id}?menu-collapsed=true`);
+    refetch();
+    if (id) {
+      navigate(`/detail/${id}?menu-collapsed=true`);
+    }
   };
 
   // eslint-disable-next-line react/no-unstable-nested-components
