@@ -23,7 +23,7 @@ export default function SearchEmpty({
       {...styles?.wrapper}
     >
       <Image width="70px" {...styles.image} src={searchEmpty} />
-      <Text color="gray.400" fontSize="12px" lineHeight="20px" {...styles.text}>
+      <Text color="gray.600" fontSize="12px" lineHeight="20px" {...styles.text}>
         {title}
       </Text>
     </Flex>

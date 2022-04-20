@@ -41,7 +41,7 @@ function InfoCard({ title, data, styles }: Props) {
         marginTop="4px"
         minH="108px"
         maxH="300px"
-        overflowY="scroll"
+        overflowY="auto"
         {...styles?.content}
       >
         {data.map((info) => (

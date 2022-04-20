@@ -2,6 +2,7 @@ import { Flex, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 
 import { PageHeader } from '@tkeel/console-components';
 import { PuzzleTwoToneIcon } from '@tkeel/console-icons';
+import { plugin } from '@tkeel/console-utils';
 
 import useInstalledPluginsQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/useInstalledPluginsQuery';
 import useReposQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/useReposQuery';
@@ -13,12 +14,14 @@ import CustomTab from './components/CustomTab';
 function Index(): JSX.Element {
   const { repos, refetch, isLoading } = useReposQuery();
   const { plugins: installedPlugins } = useInstalledPluginsQuery();
+  const documents = plugin.getPortalDocuments();
 
   return (
     <Flex paddingTop="16px" flexDirection="column" height="100%">
       <PageHeader
         icon={<PuzzleTwoToneIcon size={26} />}
         name="插件管理"
+        documentsPath={documents.config.paths.adminGuide.plugins}
         desc="展示平台安装完成后静默注册的核心插件。"
       />
       <Tabs
