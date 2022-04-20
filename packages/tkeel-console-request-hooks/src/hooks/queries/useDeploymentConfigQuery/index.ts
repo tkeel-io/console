@@ -15,10 +15,6 @@ export default function useDeploymentConfigQuery() {
   const result = useQuery<ApiData>({
     url: '/rudder/v1/config/deployment',
     method: 'GET',
-    // TODO: temp
-    /* extras: {
-      handleNoAuth: false,
-    }, */
   });
   const { data } = result;
   const adminHost = data?.admin_host ?? '';
