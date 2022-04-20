@@ -91,7 +91,6 @@ function DeviceAttributeModal({
     watch,
     reset,
     setError,
-    resetField,
   } = useForm<DeviceAttributeFormFields>({
     defaultValues,
   });
@@ -207,7 +206,7 @@ function DeviceAttributeModal({
           onChange={(value: string) => {
             if (value) {
               setValue('type', value);
-              resetField(DEFAULT_VALUE_STR);
+              setValue(DEFAULT_VALUE_STR, '');
             }
           }}
         >
