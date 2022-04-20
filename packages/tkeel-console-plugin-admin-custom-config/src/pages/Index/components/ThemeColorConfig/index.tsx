@@ -56,10 +56,6 @@ function getThemeColors(hexColor: string) {
 
 type ExtraThemeColors = {
   primary?: string;
-  'primary.500'?: string;
-  primarySub?: string;
-  primarySub2?: string;
-  primarySub3?: string;
   brand?: ColorHues;
 };
 
@@ -122,10 +118,6 @@ function Index(): JSX.Element {
     const primary = brand[500] as string;
     const extraThemeColors: ExtraThemeColors = {
       primary,
-      'primary.500': primary,
-      primarySub: brand[50] as string,
-      primarySub2: brand[200] as string,
-      primarySub3: brand[700] as string,
       brand: brand as ColorHues,
     };
     handleUpdateThemeColors(extraThemeColors);
@@ -203,7 +195,7 @@ function Index(): JSX.Element {
       </Flex>
       <HStack marginLeft="10px" spacing="8px">
         <Button
-          colorScheme="primary"
+          colorScheme="brand"
           borderRadius="6px"
           boxShadow="none"
           onClick={onConfirm}

@@ -143,7 +143,7 @@ export default function Login() {
           <Box paddingTop="40px">
             <Button
               type="submit"
-              colorScheme="primary"
+              colorScheme="brand"
               isFullWidth
               height="45px"
               borderRadius="4px"

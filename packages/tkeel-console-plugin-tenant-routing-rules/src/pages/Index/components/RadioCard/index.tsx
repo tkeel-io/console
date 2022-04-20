@@ -8,7 +8,7 @@ interface PropsType extends UseRadioProps {
   icon: ReactNode;
 }
 export default function RadioCard(props: PropsType) {
-  const { label, icon, isChecked } = props;
+  const { isDisabled, label, icon, isChecked } = props;
   const { getInputProps, getCheckboxProps } = useRadio(props);
   const input = getInputProps();
   const checkbox = getCheckboxProps();
@@ -17,6 +17,7 @@ export default function RadioCard(props: PropsType) {
       <input {...input} />
       <Flex
         {...checkbox}
+        cursor={isDisabled ? 'not-allowed' : 'pointer'}
         alignItems="center"
         justifyContent="space-between"
         borderWidth="1px"
@@ -27,16 +28,16 @@ export default function RadioCard(props: PropsType) {
         borderColor="gray.200"
         borderRadius="4px"
         _checked={{
-          bg: 'primarySub',
+          bg: 'brand.50',
           color: 'gray.600',
-          borderColor: 'green.300',
+          borderColor: 'primary',
         }}
       >
         <Flex alignItems="center">
           {icon}
-          <Text color={isChecked ? 'green.300' : 'gray.600'}>{label}</Text>
+          <Text color={isChecked ? 'primary' : 'gray.600'}>{label}</Text>
         </Flex>
-        {isChecked && <SuccessFilledIcon color="green.300" size={18} />}
+        {isChecked && <SuccessFilledIcon color="primary" size={18} />}
       </Flex>
     </Box>
   );

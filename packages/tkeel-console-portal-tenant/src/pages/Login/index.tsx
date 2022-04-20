@@ -130,7 +130,7 @@ export default function Login() {
           fontWeight="600"
           fontSize="30px"
           lineHeight="42px"
-          color="primary"
+          color="gray.100"
         >
           {pageConfig?.title}
         </Heading>
@@ -196,7 +196,7 @@ export default function Login() {
           <Box paddingTop="40px">
             <Button
               type="submit"
-              colorScheme="primary"
+              colorScheme="brand"
               isFullWidth
               height="45px"
               borderRadius="4px"
