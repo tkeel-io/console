@@ -7,11 +7,11 @@ import { plugin } from '@tkeel/console-utils';
 type Props = {
   icon: ReactNode;
   name: string;
-  desc: string;
+  desc?: string;
   documentsPath?: string;
 };
 
-function PageHeader({ icon, name, desc, documentsPath = '' }: Props) {
+function PageHeader({ icon, name, desc = '', documentsPath = '' }: Props) {
   const documents = plugin.getPortalDocuments();
 
   return (

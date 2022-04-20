@@ -74,6 +74,7 @@ export default function AddressVerify({
             registerReturn={register('address', {
               required: { value: true, message: '请输入数据库地址' },
             })}
+            defaultValue={defaultValues?.address}
             formControlStyle={{ w: '70%', mb: '0' }}
             inputStyle={{ borderWidth: '0', mb: '0', borderRadius: '0' }}
             formHelperStyle={{ mt: 0, position: 'absolute', bottom: '-28px' }}
