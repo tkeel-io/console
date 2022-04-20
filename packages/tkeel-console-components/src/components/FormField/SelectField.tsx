@@ -48,7 +48,7 @@ const defaultProps = {
   placeholder: '请选择',
 };
 
-export default function CustomFormControl<TFieldValues>({
+export default function SelectField<TFieldValues>({
   id,
   name,
   options,
@@ -97,4 +97,4 @@ export default function CustomFormControl<TFieldValues>({
   );
 }
 
-CustomFormControl.defaultProps = defaultProps;
+SelectField.defaultProps = defaultProps;
