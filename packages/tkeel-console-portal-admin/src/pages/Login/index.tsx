@@ -91,10 +91,11 @@ export default function Login() {
           marginTop="80px"
           fontWeight="600"
           fontSize="30px"
+          color="gray.100"
           lineHeight="42px"
         >
-          <Text color="primary">{pageConfig?.title}</Text>
-          <Text color="primarySub3">{pageConfig?.additionalTitle}</Text>
+          <Text>{pageConfig?.title}</Text>
+          <Text>{pageConfig?.additionalTitle}</Text>
         </Heading>
         <Heading
           marginTop="12px"
