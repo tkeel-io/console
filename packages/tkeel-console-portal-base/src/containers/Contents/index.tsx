@@ -63,7 +63,7 @@ export default function Contents({
     ...theme,
     colors: {
       ...theme.colors,
-      ...extra.theme.colors,
+      ...extra?.theme?.colors,
     } as Colors,
   };
 
