@@ -7,6 +7,7 @@ import { CustomTab, CustomTabList } from '@tkeel/console-components';
 import { DeviceObject } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 import AttributesData from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/AttributesData';
 import ConnectionInfo from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/ConnectionInfo';
+import MappingData from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/MappingData';
 import RawData from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/RawData';
 import ServiceCommand from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/ServiceCommand';
 import TelemetryData from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/TelemetryData';
@@ -102,8 +103,25 @@ function DeviceDetailRightPanel({
         />
       ),
     },
+    {
+      label: '关系映射',
+      key: 'mapping',
+      isVisible: !!basicInfo?.templateId || basicInfo?.selfLearn,
+      component: (
+        <MappingData
+        /* basicInfo={basicInfo}
+          deviceId={id}
+          refetch={refetch}
+          commandFields={values(
+            mapValues(commandFields, (val: object, key) => {
+              return { ...val, id: key };
+            })
+          )} */
+        />
+      ),
+    },
   ];
-  const [tabIndex, setTabIndex] = useState(0);
+  const [tabIndex, setTabIndex] = useState(5);
   const handleTabChange = (index: number) => {
     setTabIndex(index);
   };
