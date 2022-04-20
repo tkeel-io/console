@@ -10,7 +10,7 @@ import {
   MoreAction,
 } from '@tkeel/console-components';
 import { BoxTwoToneIcon, OfficialFilledIcon } from '@tkeel/console-icons';
-import { formatDateTimeByTimestamp, plugin } from '@tkeel/console-utils';
+import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import useTemplateInfoQuery from '@/tkeel-console-plugin-tenant-device-templates/hooks/queries/useTemplateInfoQuery';
 import TelemetryTable from '@/tkeel-console-plugin-tenant-device-templates/pages/Detail/components/TelemetryTable';
@@ -21,8 +21,6 @@ import AttributeTable from './components/AttributeTable';
 import CommandTable from './components/CommandTable';
 
 function Detail(): JSX.Element {
-  const toast = plugin.getPortalToast();
-
   const navigate = useNavigate();
   const location = useLocation();
   const { pathname }: { pathname: string } = location;
@@ -96,10 +94,7 @@ function Detail(): JSX.Element {
                   <ModifyTemplateButton
                     data={defaultValues}
                     key="modify"
-                    onSuccess={() => {
-                      toast('修改成功', { status: 'success' });
-                      refetch();
-                    }}
+                    onSuccess={refetch}
                   />,
                   <DeleteTemplateButton
                     key="delete"

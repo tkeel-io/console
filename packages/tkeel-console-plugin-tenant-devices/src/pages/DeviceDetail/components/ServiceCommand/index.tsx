@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import { CreateCommandButton } from '@tkeel/console-business-components';
 import { Empty, PageHeaderToolbar } from '@tkeel/console-components';
-import { CommandItem } from '@tkeel/console-types';
+import { CommandItem, CommandValue } from '@tkeel/console-types';
 
 import { BasicInfo } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 
@@ -14,7 +14,9 @@ type Props = {
   deviceId: string;
   basicInfo: BasicInfo;
   commandFields: CommandItem[];
+  commandValues: CommandValue;
   refetch?: () => void;
+  online: boolean;
 };
 const FILTER_COLUMNS = ['name', 'id'];
 
@@ -39,6 +41,8 @@ export default function ServiceCommand({
   deviceId,
   basicInfo,
   commandFields,
+  commandValues,
+  online,
   refetch: refetchDeviceDetail = () => {},
 }: Props) {
   const deviceName = basicInfo?.name ?? '';
@@ -90,13 +94,15 @@ export default function ServiceCommand({
               />,
             ]}
           />
-          <Box>
+          <Box overflow="auto">
             {getFilterList({ list: commandFields, keywords }).map((item) => (
               <CommandCard
                 data={item}
                 key={item.id}
                 uid={deviceId}
                 refetch={refetchDeviceDetail}
+                online={online}
+                commandValues={commandValues}
               />
             ))}
           </Box>
