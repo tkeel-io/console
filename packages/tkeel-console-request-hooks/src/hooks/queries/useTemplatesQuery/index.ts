@@ -29,7 +29,7 @@ type RequestDataCondition = {
 };
 
 type RequestData = {
-  page_name?: number;
+  page_num?: number;
   page_size?: number;
   order_by?: string;
   is_descending?: boolean;
@@ -41,6 +41,7 @@ interface ApiData {
   '@type': string;
   listDeviceObject: {
     items: TemplateItem[];
+    total: number;
   };
 }
 
@@ -103,5 +104,6 @@ export default function useTemplatesQuery(props?: Props) {
     reactQueryOptions,
   });
   const templates = data?.listDeviceObject?.items ?? [];
-  return { templates, data, ...rest };
+  const total = data?.listDeviceObject?.total ?? 0;
+  return { templates, total, data, ...rest };
 }

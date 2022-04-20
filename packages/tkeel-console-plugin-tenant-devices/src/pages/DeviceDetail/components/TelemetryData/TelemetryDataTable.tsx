@@ -118,7 +118,7 @@ export default function TelemetryDataTable({
 
     {
       Header: '操作',
-      width: 60,
+      width: 80,
       Cell: operateCell,
     },
   ];

@@ -1,4 +1,4 @@
-import { Box, Flex } from '@chakra-ui/react';
+import { Box, Flex, Text } from '@chakra-ui/react';
 import { isEmpty } from 'lodash';
 import { useEffect, useState } from 'react';
 
@@ -13,13 +13,36 @@ import {
   PageHeaderToolbar,
 } from '@tkeel/console-components';
 import { SmcFilledIcon } from '@tkeel/console-icons';
-import { TelemetryItem, TelemetryValue } from '@tkeel/console-types';
+import {
+  ReadWriteType,
+  TelemetryItem,
+  TelemetryValue,
+} from '@tkeel/console-types';
 
 import { BasicInfo } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 import SaveAsSelfTemplateButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/SaveAsSelfTemplateButton';
 
+import SetSelfLearnButton from '../SetSelfLearnButton';
 import TelemetryDataTable from './TelemetryDataTable';
 
+function formatType(type: string) {
+  let result = '';
+  switch (type) {
+    case 'number':
+      result = 'float';
+      break;
+    case 'boolean':
+      result = 'bool';
+      break;
+    case 'object':
+      result = 'struct';
+      break;
+    default:
+      result = 'string';
+      break;
+  }
+  return result;
+}
 type Props = {
   deviceId: string;
   basicInfo: BasicInfo;
@@ -70,6 +93,30 @@ export default function TelemetryData({
       setRenderTelemetryValue(telemetryValues);
     }
   }, [wsReadyState, telemetryValues]);
+  const telemetryFieldsExtra = Object.entries(telemetryValues)
+    .filter((val) => !telemetryFields.some((v) => v.id === val[0]))
+    .map((item) => {
+      const id = item[0];
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const { ts, value } = item[1];
+      const existItem = telemetryFields.find((v) => v.id === id);
+      if (existItem) {
+        return existItem;
+      }
+      const type = typeof value;
+      return {
+        id,
+        type: formatType(type),
+        name: id,
+        define: {
+          default_value: '',
+          rw: 'rw' as ReadWriteType,
+        },
+        description: '',
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        last_time: ts || Date.now(),
+      };
+    });
   return (
     <Box h="100%">
       {isEmpty(telemetryFields) ? (
@@ -102,7 +149,12 @@ export default function TelemetryData({
               wrapper: { height: '32px', marginBottom: '12px' },
               title: { fontSize: '14px' },
             }}
-            name="遥测数据"
+            name={
+              <Flex align="center">
+                <Text mr="12px">遥测数据</Text>
+                <SetSelfLearnButton deviceId={deviceId} />
+              </Flex>
+            }
             hasSearchInput
             searchInputProps={{
               onSearch: handleSearch,
@@ -140,7 +192,10 @@ export default function TelemetryData({
             ]}
           />
           <TelemetryDataTable
-            telemetryFields={getFilterList({ list: telemetryFields, keywords })}
+            telemetryFields={getFilterList({
+              list: [...telemetryFields, ...telemetryFieldsExtra],
+              keywords,
+            })}
             telemetryValues={renderTelemetryValue}
             deviceId={deviceId}
             refetch={refetchDeviceDetail}

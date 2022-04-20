@@ -1,2 +1,2 @@
 # console-plugin-tenant-roles
-用户管理的前端插件
+前端租户平台的「角色管理」插件

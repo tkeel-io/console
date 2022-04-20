@@ -2,14 +2,12 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 
 import { CreateTemplateBasicModal } from '@tkeel/console-business-components';
-import { Empty } from '@tkeel/console-components';
-import Modal from '@tkeel/console-components/src/components/Modal';
+import { Empty, Modal } from '@tkeel/console-components';
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
 import { KeyDataType } from '@tkeel/console-request-hooks';
-
-import useCreateTemplateMutation, {
+import useSaveAsOtherTemplateMutation, {
   RequestData as FormValues,
-} from '@/tkeel-console-plugin-tenant-device-templates/hooks/mutations/useCreateTemplateMutation';
+} from '@tkeel/console-request-hooks/src/hooks/mutations/useSaveAsOtherTemplateMutation';
 
 import CustomTemplateButton from '../CustomTemplateButton';
 
@@ -27,11 +25,13 @@ export default function CreateTemplateModal({
   templateData,
 }: Props) {
   const [isOpenSaveAs, setIsOpenSaveAs] = useState(false);
+  const [templateId, setTemplateId] = useState('');
   const [defaultValues, setDefaultValues] = useState<FormValues>();
 
-  const { mutate } = useCreateTemplateMutation({
+  const { mutate } = useSaveAsOtherTemplateMutation({
+    id: templateId,
     onSuccess(data) {
-      handleCreateSuccess(data.data.templateObject.id);
+      handleCreateSuccess(data?.data?.templateObject?.id ?? '');
     },
   });
   // eslint-disable-next-line react/no-unstable-nested-components
@@ -60,7 +60,8 @@ export default function CreateTemplateModal({
               cursor="pointer"
               onClick={() => {
                 setIsOpenSaveAs(!isOpenSaveAs);
-                setDefaultValues({ ...r, name: r.title, id: r.id });
+                setDefaultValues({ ...r, name: r.title });
+                setTemplateId(r.id);
               }}
             >
               <BoxTwoToneIcon size="28px" />
