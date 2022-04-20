@@ -39,7 +39,6 @@ export default function AddressVerify({
     formState: { errors },
     trigger,
     getValues,
-    reset,
   } = useForm<AddressFormValues>({
     defaultValues,
   });
@@ -48,12 +47,11 @@ export default function AddressVerify({
 
   const handleConfirm = async () => {
     const result = await trigger();
-    setVerify(result);
     if (result) {
       const formValues = getValues();
       onVerify(formValues);
-      reset();
     }
+    setVerify(!!getValues('address') && !!getValues('name'));
   };
   return (
     <Box>
@@ -76,7 +74,6 @@ export default function AddressVerify({
             registerReturn={register('address', {
               required: { value: true, message: '请输入数据库地址' },
             })}
-            defaultValue={defaultValues?.address}
             formControlStyle={{ w: '70%', mb: '0' }}
             inputStyle={{ borderWidth: '0', mb: '0', borderRadius: '0' }}
             formHelperStyle={{ mt: 0, position: 'absolute', bottom: '-28px' }}
