@@ -4,6 +4,8 @@ export interface RequestData {
   name: string;
   type: number;
   desc: string;
+  model_id: string;
+  model_name: string;
 }
 
 export interface ApiData {

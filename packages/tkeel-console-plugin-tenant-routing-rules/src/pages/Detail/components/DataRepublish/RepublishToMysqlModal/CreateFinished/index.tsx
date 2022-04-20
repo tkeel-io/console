@@ -1,25 +1,11 @@
 import { Button, Flex, Text } from '@chakra-ui/react';
 
-// import { useState } from 'react';
 import { CreateFinishedIcon } from '@tkeel/console-icons';
 
 type Props = {
   onClose: () => unknown;
-  // isTime: boolean;
 };
 export default function CreateFinished({ onClose }: Props) {
-  // export default function CreateFinished({ onClose, isTime }: Props) {
-  // const [time, setTime] = useState(5);
-  // const timer = isTime
-  //   ? setInterval(() => {
-  //       setTime((t: number) => t - 1);
-  //       if (time <= 0) {
-  //         onClose();
-  //       }
-  //       if (timer !== null) clearInterval(timer);
-  //       return time;
-  //     }, 1000)
-  //   : null;
   return (
     <Flex
       flexDirection="column"
@@ -33,8 +19,7 @@ export default function CreateFinished({ onClose }: Props) {
         已成功将数据发送到 Mysql
       </Text>
       <Text color="gray.500" fontSize="12px">
-        {/* 当前弹窗将在{time}秒后自动关闭 */}
-        当前弹窗将在55秒后自动关闭
+        当前弹窗将在5秒后自动关闭
       </Text>
       <Button
         onClick={onClose}

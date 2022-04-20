@@ -1,14 +1,8 @@
 import { useQuery } from '@tkeel/console-hooks';
 
-export type Fields = {
-  name: string;
-  type: string;
-};
-
 export type Tables = {
   Name: string;
   IndexGranularity: string;
-  fields: Fields[];
 };
 
 export interface ApiData {
