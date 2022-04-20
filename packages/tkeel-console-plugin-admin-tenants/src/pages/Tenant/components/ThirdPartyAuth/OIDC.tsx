@@ -2,8 +2,9 @@
 import { Base64 } from 'js-base64';
 
 import { AceEditor } from '@tkeel/console-components';
+import { plugin } from '@tkeel/console-utils';
 
-import useAuthIdProviderTemplateMutation from '@/tkeel-console-plugin-admin-tenants/hooks/mutations/useAuthIdProviderTemplateMutation';
+import useAuthIdProviderRegisterMutation from '@/tkeel-console-plugin-admin-tenants/hooks/mutations/useAuthIdProviderRegisterMutation';
 import useAuthIdProviderTemplateQuery from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useAuthIdProviderTemplateQuery';
 
 import EditorModal from './EditorModal';
@@ -20,8 +21,10 @@ export default function OIDC({ isModalOpen, onModalClose }: Props) {
   const config = data?.config ?? '';
   const yaml = Base64.decode(config);
 
-  const { isLoading, mutate } = useAuthIdProviderTemplateMutation({
+  const { isLoading, mutate } = useAuthIdProviderRegisterMutation({
     onSuccess: () => {
+      const toast = plugin.getPortalToast();
+      toast.success('设置成功');
       onModalClose();
       refetch();
     },
@@ -43,7 +46,7 @@ export default function OIDC({ isModalOpen, onModalClose }: Props) {
           value={yaml}
           onClose={onModalClose}
           onConfirm={(value) => {
-            mutate({ data: { type: 'OIDC', config: value } });
+            mutate({ data: { type: 'OIDC', config: Base64.encode(value) } });
           }}
         />
       )}
