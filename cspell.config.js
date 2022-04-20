@@ -70,6 +70,9 @@ module.exports = {
     'Tele',
     'proxied',
     'struct',
+    'clickhouse',
+    'tfield_name',
+    'mysqlrequest',
   ],
   ignorePaths: [
     '**/.idea/**',

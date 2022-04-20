@@ -28,6 +28,7 @@ export default function CreateRulesModal({
   return (
     <BaseUserModal
       title={type === 'editButton' ? '编辑规则' : '创建规则'}
+      buttonType={type}
       defaultValues={cruxData}
       isOpen={isOpen}
       isConfirmButtonLoading={isConfirmButtonLoading}
