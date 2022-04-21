@@ -412,7 +412,7 @@ function AttributesData({
                         >
                           <Switch
                             isDisabled={isLoading && currentId === item.id}
-                            colorScheme="primary"
+                            colorScheme="brand"
                             size="sm"
                             isChecked={defaultValueCopy as boolean}
                             onChange={(e) => {

@@ -152,7 +152,7 @@ export default function CallCommandModal({
                   <Radio
                     key={val[0]}
                     size="sm"
-                    colorScheme="primary"
+                    colorScheme="brand"
                     value={val[0]}
                   >
                     <Text fontSize="12px">{val[1]}</Text>
@@ -229,7 +229,7 @@ export default function CallCommandModal({
           <Button
             isLoading={isLoading}
             w="358px"
-            colorScheme="primary"
+            colorScheme="brand"
             onClick={handleConfirm}
           >
             调用
@@ -268,7 +268,7 @@ export default function CallCommandModal({
                     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
                     key={v?.id ?? i}
                     border="1px solid"
-                    borderColor={i === 0 ? 'primarySub2' : 'transparent'}
+                    borderColor={i === 0 ? 'brand.200' : 'transparent'}
                   >
                     {
                       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument

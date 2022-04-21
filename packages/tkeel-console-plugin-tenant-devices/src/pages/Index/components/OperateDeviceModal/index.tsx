@@ -259,7 +259,7 @@ export default function OperateDeviceModal({
   // const handleSelectTemplate = (selected: boolean) => {
   //   setUseTemplate(selected);
   // };
-  const primaryColor = useColor('primarySub');
+  const primaryColor = useColor('brand.50');
   return (
     <Modal
       title={<Text fontSize="14px">{title}</Text>}
@@ -350,7 +350,7 @@ export default function OperateDeviceModal({
               ].includes(progressLabels[currentStep]) &&
                 mode !== ModalMode.EDIT && (
                   <Button
-                    colorScheme="primary"
+                    colorScheme="brand"
                     fontSize="14px"
                     mr="14px"
                     boxShadow={`0px 4px 12px ${primaryColor}`}
@@ -369,7 +369,7 @@ export default function OperateDeviceModal({
                 px="30px"
                 type="submit"
                 isLoading={isLoading}
-                boxShadow={`0px 4px 12px ${useColor('primarySub')}`}
+                boxShadow={`0px 4px 12px ${useColor('brand.50')}`}
               >
                 {mode === ModalMode.EDIT
                   ? BUTTON_TEXT.COMPLETE

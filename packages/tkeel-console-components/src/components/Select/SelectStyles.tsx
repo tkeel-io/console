@@ -12,7 +12,9 @@ interface Props extends SelectExtrasProps {
 type CustomTheme = Theme & {
   colors: {
     primary: string;
-    primarySub: string;
+    brand: {
+      50: string;
+    };
     grayAlternatives: {
       50: string;
       700: string;
@@ -101,7 +103,7 @@ export default function SelectStyles({ prefixCls, styles }: Props) {
           padding: 4px;
           color: ${colors.primary};
           font-weight: 500;
-          background: ${colors.primarySub};
+          background: ${colors.brand[50]};
           ${styles?.selectionItem}
 
           &-disabled {
@@ -130,7 +132,7 @@ export default function SelectStyles({ prefixCls, styles }: Props) {
               height: 24px;
               margin-top: 1px;
               color: ${colors.primary};
-              background-color: ${colors.primarySub};
+              background-color: ${colors.brand[50]};
             }
           }
         }
@@ -207,7 +209,7 @@ export default function SelectStyles({ prefixCls, styles }: Props) {
 
           &-active {
             color: ${colors.primary};
-            background: ${colors.primarySub};
+            background: ${colors.brand[50]};
           }
 
           &-disabled {

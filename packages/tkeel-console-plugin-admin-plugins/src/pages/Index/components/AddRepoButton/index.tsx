@@ -65,7 +65,7 @@ function AddRepoButton({ refetchRepos }: Props) {
             <Button onClick={onClose}>取消</Button>
             <Button
               marginLeft="12px"
-              colorScheme="primary"
+              colorScheme="brand"
               onClick={handleConfirm}
             >
               确定
