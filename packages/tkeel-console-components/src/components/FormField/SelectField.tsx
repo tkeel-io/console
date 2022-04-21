@@ -21,11 +21,14 @@ import { SelectStyles } from '../Select/types';
 import { fieldDefaultProps } from './default-props';
 
 type Value = string | number;
+type Label = string | ReactNode;
 
 type Props<TFieldValues> = FormControlProps & {
   id: string;
   name: FieldPath<TFieldValues>;
-  options: { value: Value; label: string | ReactNode }[];
+  options: { [key: string]: Value | Label }[];
+  valueKey?: string;
+  labelKey?: string;
   mode?: 'combobox' | 'multiple' | 'tags';
   showArrow?: boolean;
   allowClear?: boolean;
@@ -52,6 +55,8 @@ export default function SelectField<TFieldValues>({
   id,
   name,
   options,
+  valueKey = 'value',
+  labelKey = 'label',
   mode,
   showArrow = true,
   allowClear = false,
@@ -64,6 +69,10 @@ export default function SelectField<TFieldValues>({
   disabled = false,
   ...rest
 }: Props<TFieldValues>) {
+  const newOptions = options.map((option) => ({
+    value: option[valueKey] as Value,
+    label: option[labelKey] as Label,
+  }));
   return (
     <FormControl id={id} {...rest}>
       <Controller<TFieldValues, FieldPath<TFieldValues>>
@@ -79,7 +88,7 @@ export default function SelectField<TFieldValues>({
             allowClear={allowClear}
             loading={loading}
             dropdownStyle={{ boxShadow: 'none' }}
-            options={options}
+            options={newOptions}
             onChange={onChange}
             value={value}
             // defaultValue={defaultValue}

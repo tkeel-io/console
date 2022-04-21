@@ -1,6 +1,5 @@
 import { Box, Center, Flex, Image } from '@chakra-ui/react';
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
 
 import { Logo, Menu } from '@tkeel/console-types';
 import { env } from '@tkeel/console-utils';
@@ -23,9 +22,11 @@ type Props = {
   logo: Logo;
 };
 
-export default function ExpandMenus({ isDarkMenu, logo }: Props) {
-  const location = useLocation();
+function isActive(path: string) {
+  return window.location.pathname.includes(path);
+}
 
+export default function ExpandMenus({ isDarkMenu, logo }: Props) {
   const [spreadMenuId, setSpreadMenuId] = useState('');
 
   const { menus, isLoading } = useMenusQuery({
@@ -35,10 +36,16 @@ export default function ExpandMenus({ isDarkMenu, logo }: Props) {
         entries = getMockMenus();
       }
       entries.forEach((menu) => {
-        const { id, children } = menu;
-        const active: boolean = (children as Menu[]).some((item) => {
-          return item.path && location.pathname.includes(item.path);
-        });
+        const { id, path, children } = menu;
+        let active = false;
+        if (path) {
+          active = isActive(path);
+        } else if (children && Array.isArray(children)) {
+          active = (children as Menu[]).some((item) => {
+            return isActive(item.path || '');
+          });
+        }
+
         if (active) {
           setSpreadMenuId(id);
         }
