@@ -24,7 +24,7 @@ export default function ThirdPartyAuth() {
         hasSearchInput={false}
         styles={{ wrapper: { margin: '4px 0' } }}
       />
-      <Box padding="12px 0">
+      <Box padding="8px 0 12px">
         {config ? (
           <>
             <IconButton

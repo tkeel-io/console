@@ -98,7 +98,7 @@ export default function SelectStyles({ prefixCls, styles }: Props) {
         .${selectPrefix}-selection-item {
           flex: none;
           margin-right: 2px;
-          padding: 4px;
+          padding: 0 4px;
           color: ${colors.primary};
           font-weight: 500;
           background: ${colors.primarySub};

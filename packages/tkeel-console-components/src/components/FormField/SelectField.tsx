@@ -84,7 +84,7 @@ export default function CustomFormControl<TFieldValues>({
             value={value}
             // defaultValue={defaultValue}
             menuItemSelectedIcon={
-              <Center width="30px" height="36px">
+              <Center width="30px" height="32px">
                 <CheckFilledIcon color="primary" />
               </Center>
             }

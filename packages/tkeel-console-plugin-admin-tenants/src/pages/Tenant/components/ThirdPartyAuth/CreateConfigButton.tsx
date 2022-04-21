@@ -13,7 +13,7 @@ type Props = {
 };
 
 export default function CreateConfigButton({ onSuccess }: Props) {
-  const { isOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const { tenantId = '' } = useParams();
   const { isLoading, mutate } = useAuthIdProviderRegisterMutation({
     tenantId,
@@ -25,7 +25,18 @@ export default function CreateConfigButton({ onSuccess }: Props) {
 
   return (
     <>
-      <IconButton variant="outline" icon={<AddFilledIcon size="16px" />}>
+      <IconButton
+        borderColor="gray.100"
+        borderRadius="4px"
+        height="72px"
+        backgroundColor="white"
+        color="grayAlternatives.300"
+        _active={{ opacity: '0.7' }}
+        variant="outline"
+        isFullWidth
+        icon={<AddFilledIcon size="16px" />}
+        onClick={onOpen}
+      >
         新建配置
       </IconButton>
       {isOpen && (
