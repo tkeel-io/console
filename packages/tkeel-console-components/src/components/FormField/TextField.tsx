@@ -18,6 +18,7 @@ type Props = FormControlProps & {
   isDisabled?: boolean;
   registerReturn?: UseFormRegisterReturn;
   inputStyle?: StyleProps;
+  autoComplete?: 'on' | 'off' | 'new-password';
 };
 
 const defaultProps = {
@@ -35,6 +36,7 @@ export default function TextField({
   isDisabled,
   registerReturn,
   inputStyle,
+  autoComplete = 'on',
   ...rest
 }: Props) {
   return (
@@ -51,6 +53,7 @@ export default function TextField({
         boxShadow="none!important"
         _placeholder={{ color: 'blackAlpha.500' }}
         _focus={getFocusStyle(!!rest.error)}
+        autoComplete={autoComplete}
         {...registerReturn}
         {...inputStyle}
       />

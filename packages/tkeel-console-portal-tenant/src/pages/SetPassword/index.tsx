@@ -183,7 +183,7 @@ export default function SetPassword() {
               isDisabled={!isSuccess}
               isLoading={isLoading}
             >
-              登录
+              确定
             </Button>
           </Form>
         </Box>

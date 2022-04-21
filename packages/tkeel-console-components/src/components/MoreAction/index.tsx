@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  Circle,
-  Colors,
-  StyleProps,
-  useTheme,
-} from '@chakra-ui/react';
+import { Box, Button, Circle, StyleProps, useTheme } from '@chakra-ui/react';
 import {
   cloneElement,
   MouseEventHandler,
@@ -20,6 +13,7 @@ import {
   CaretUpFilledIcon,
   MoreVerticalFilledIcon,
 } from '@tkeel/console-icons';
+import { Theme } from '@tkeel/console-themes';
 
 type Placement = 'bottom' | 'top';
 type Props = {
@@ -36,10 +30,6 @@ type Props = {
     actionList?: StyleProps;
   };
 };
-
-interface CustomColors extends Colors {
-  primary: string;
-}
 
 function getScrollParent(node: Element | null): Element | null {
   if (node == null) return null;
@@ -67,7 +57,7 @@ export default function MoreAction({
 }: Props) {
   const [placement, setPlacement] = useState<Placement>(defaultPlacement);
   const [showActionList, setShowActionList] = useState(isActionListOpen);
-  const { colors }: { colors: CustomColors } = useTheme();
+  const { colors } = useTheme<Theme>();
   let timer: number | null = null;
 
   const handleSetShowActionList = (show: boolean) => {
