@@ -131,7 +131,6 @@ export default function MappingRelation({
     formState: { errors },
     trigger,
     getValues,
-    reset,
   } = useForm<MapFormValues>({
     defaultValues,
   });
@@ -166,7 +165,6 @@ export default function MappingRelation({
           },
         });
       }
-      reset();
     }
   };
 

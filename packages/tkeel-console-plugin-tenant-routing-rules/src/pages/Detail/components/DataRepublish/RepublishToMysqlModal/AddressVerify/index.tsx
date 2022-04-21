@@ -39,7 +39,6 @@ export default function AddressVerify({
     formState: { errors },
     trigger,
     getValues,
-    reset,
   } = useForm<AddressFormValues>({
     defaultValues,
   });
@@ -48,12 +47,11 @@ export default function AddressVerify({
 
   const handleConfirm = async () => {
     const result = await trigger();
-    setVerify(result);
     if (result) {
       const formValues = getValues();
       onVerify(formValues);
-      reset();
     }
+    setVerify(!!getValues('address') && !!getValues('name'));
   };
   return (
     <Box>
