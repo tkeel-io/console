@@ -94,7 +94,7 @@ export default function ServiceCommand({
               />,
             ]}
           />
-          <Box overflow="auto">
+          <Box overflow="auto" flex="1">
             {getFilterList({ list: commandFields, keywords }).map((item) => (
               <CommandCard
                 data={item}
