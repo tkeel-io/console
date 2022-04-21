@@ -4,12 +4,14 @@ import { ReactNode } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { FormField, Modal } from '@tkeel/console-components';
-import { AuthType } from '@tkeel/console-types';
+import { AuthType, IdProviderType } from '@tkeel/console-types';
 import { schemas } from '@tkeel/console-utils';
+
+import { ID_PROVIDER_TYPES } from '@/tkeel-console-plugin-admin-tenants/constants';
 
 import AuthTypeRadioGroup from './AuthTypeRadioGroup';
 
-const { TextField, TextareaField } = FormField;
+const { TextField, TextareaField, SelectField } = FormField;
 
 export interface FormFields {
   title?: {
@@ -34,6 +36,10 @@ export interface FormFields {
       disabled?: boolean;
     };
   };
+  external_type?: {
+    isHide?: boolean;
+    disabled?: boolean;
+  };
   remark?: {
     isHide?: boolean;
     disabled?: boolean;
@@ -48,6 +54,7 @@ export interface FormValues {
     password?: string;
     nick_name?: string;
   };
+  external_type?: IdProviderType;
   remark?: string;
 }
 
@@ -72,6 +79,7 @@ export default function BaseTenantModal({
 }: Props) {
   const {
     register,
+    control,
     formState: { errors },
     trigger,
     getValues,
@@ -146,6 +154,14 @@ export default function BaseTenantModal({
             />
           </>
         )}
+        <SelectField<FormValues>
+          id="external_type"
+          name="external_type"
+          label="认证协议"
+          options={ID_PROVIDER_TYPES}
+          control={control}
+          error={errors.external_type}
+        />
         <TextareaField
           id="remark"
           label="备注"

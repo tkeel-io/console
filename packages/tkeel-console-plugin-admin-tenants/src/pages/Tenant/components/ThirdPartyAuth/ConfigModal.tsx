@@ -1,14 +1,14 @@
 import { useForm } from 'react-hook-form';
 
 import { AceEditor, FormField, Modal } from '@tkeel/console-components';
-import { AuthConfigType } from '@tkeel/console-types';
+import { IdProviderType } from '@tkeel/console-types';
 
-import { AUTH_CONFIG_TYPES } from '@/tkeel-console-plugin-admin-tenants/constants';
+import { ID_PROVIDER_TYPES } from '@/tkeel-console-plugin-admin-tenants/constants';
 
 const { SelectField } = FormField;
 
 type FormValues = {
-  type: AuthConfigType;
+  type: IdProviderType;
   config: string;
 };
 
@@ -55,10 +55,7 @@ export default function ConfigModal({
       <SelectField<FormValues>
         id="type"
         name="type"
-        options={AUTH_CONFIG_TYPES.map(({ key, name }) => ({
-          value: key,
-          label: name,
-        }))}
+        options={ID_PROVIDER_TYPES}
         control={control}
         error={errors.type}
       />

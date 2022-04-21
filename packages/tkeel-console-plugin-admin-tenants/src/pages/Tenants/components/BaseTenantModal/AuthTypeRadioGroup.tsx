@@ -5,7 +5,7 @@ import { AuthType } from '@tkeel/console-types';
 
 import {
   AUTH_TYPES,
-  DEFAULT_AUTH_TYPE_KEY,
+  DEFAULT_AUTH_TYPE_VALUE,
 } from '@/tkeel-console-plugin-admin-tenants/constants';
 
 export interface Props {
@@ -15,7 +15,7 @@ export interface Props {
 export default function AuthTypeRadioGroup({ onChange }: Props) {
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: 'auth_type',
-    defaultValue: DEFAULT_AUTH_TYPE_KEY,
+    defaultValue: DEFAULT_AUTH_TYPE_VALUE,
     onChange,
   });
 
@@ -23,12 +23,12 @@ export default function AuthTypeRadioGroup({ onChange }: Props) {
 
   return (
     <HStack spacing="12px" {...group}>
-      {AUTH_TYPES.map(({ key, name, description }) => {
-        const radio = getRadioProps({ value: key });
+      {AUTH_TYPES.map(({ value, label, description }) => {
+        const radio = getRadioProps({ value });
 
         return (
           <RadioCard
-            key={key}
+            key={value}
             style={{
               borderWidth: '2px',
               borderRadius: '4px',
@@ -39,7 +39,7 @@ export default function AuthTypeRadioGroup({ onChange }: Props) {
           >
             <Box>
               <Text color="black" fontSize="14px" lineHeight="24px">
-                {name}
+                {label}
               </Text>
               <Text
                 paddingTop="4px"

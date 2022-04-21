@@ -1,8 +1,8 @@
 import { useQuery } from '@tkeel/console-hooks';
-import { AuthConfigType } from '@tkeel/console-types';
+import { IdProviderType } from '@tkeel/console-types';
 
 interface RequestParams {
-  type: AuthConfigType;
+  type: IdProviderType;
 }
 
 interface AipData {

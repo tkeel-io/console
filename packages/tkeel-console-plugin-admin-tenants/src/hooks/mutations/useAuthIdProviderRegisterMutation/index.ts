@@ -1,8 +1,8 @@
 import { useMutation } from '@tkeel/console-hooks';
-import { AuthConfigType } from '@tkeel/console-types';
+import { IdProviderType } from '@tkeel/console-types';
 
 interface RequestData {
-  type: AuthConfigType;
+  type: IdProviderType;
   config: string;
 }
 
