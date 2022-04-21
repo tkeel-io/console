@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import { PageHeaderToolbar } from '@tkeel/console-components';
 
+import AutoButton from '../AutoButton';
 import AutoMappingButton from '../AutoMappingButton';
 
 export default function MappingData() {
@@ -21,7 +22,7 @@ export default function MappingData() {
         searchInputProps={{
           onSearch: handleSearch,
         }}
-        buttons={[<AutoMappingButton key="add" />]}
+        buttons={[<AutoMappingButton key="add" />, <AutoButton key="demo" />]}
       />
     </Flex>
   );
