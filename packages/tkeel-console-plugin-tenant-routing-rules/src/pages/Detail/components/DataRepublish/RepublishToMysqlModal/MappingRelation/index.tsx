@@ -64,6 +64,7 @@ type Props = {
   onNext: () => unknown;
 };
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export default function MappingRelation({
   modalKey,
   ruleId,
