@@ -377,7 +377,7 @@ export default function Detail() {
                 <Switch
                   size="sm"
                   isChecked={isRangeSearch}
-                  colorScheme="primary"
+                  colorScheme="brand"
                   __css={{ 'span:focus': { boxShadow: 'none !important' } }}
                   onChange={(e) => {
                     setIsRangeSearch(e.target.checked);

@@ -108,7 +108,7 @@ export default function TelemetryDetailDrawer({
           <HStack>
             <Switch
               size="sm"
-              colorScheme="primary"
+              colorScheme="brand"
               isChecked={isJson}
               onChange={(e) => {
                 setIsJson(e.target.checked);

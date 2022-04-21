@@ -145,7 +145,7 @@ export default function DateRangeIndicator({
           position="relative"
           width="100%"
           height="4px"
-          backgroundColor="primarySub2"
+          backgroundColor="brand.200"
         />
       </Flex>
     </Flex>

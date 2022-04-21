@@ -192,7 +192,7 @@ export default function PropertiesConditions({
         </TabPanels>
       </Tabs>
       <Button
-        colorScheme="primary"
+        colorScheme="brand"
         margin="12px 20px"
         flexShrink={0}
         disabled={identifiers.length === 0}

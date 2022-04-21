@@ -41,6 +41,7 @@ export default function ErrorActionModal({
     const result = await trigger('subscribeId');
     if (result) {
       const subscribeId = getValues('subscribeId');
+
       if (handleSubmit) {
         handleSubmit(subscribeId);
       }
