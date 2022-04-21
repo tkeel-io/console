@@ -19,7 +19,7 @@ export default function IndicatorBar({ styles }: Props) {
       bottom="4px"
       width="20%"
       height="35px"
-      backgroundColor="primarySub"
+      backgroundColor="brand.50"
       {...styles?.wrapper}
     >
       <Indicator left="0" />

@@ -27,14 +27,14 @@ export default function CallCommandButton({
         borderColor="primary"
         borderStyle="solid"
         boxShadow="none"
-        bg="primarySub"
+        bg="brand.50"
         borderWidth="1px"
         h="28px"
         fontSize="12px"
         color="primary"
         leftIcon={<CaretRightFilledIcon color="primary" />}
-        _hover={{ background: 'primarySub' }}
-        _active={{ background: 'primarySub' }}
+        _hover={{ background: 'brand.50' }}
+        _active={{ background: 'brand.50' }}
         onClick={onOpen}
         isDisabled={!online}
       >

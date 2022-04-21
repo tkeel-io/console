@@ -143,7 +143,7 @@ export default function Tenant() {
           <Box paddingTop="40px">
             <Button
               type="submit"
-              colorScheme="primary"
+              colorScheme="brand"
               isFullWidth
               isLoading={isLoading}
               height="45px"

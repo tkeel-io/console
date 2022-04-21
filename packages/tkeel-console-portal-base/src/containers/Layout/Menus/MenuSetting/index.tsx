@@ -2,7 +2,7 @@ import { Button, CloseButton, Flex, HStack } from '@chakra-ui/react';
 
 import { AceEditor } from '@tkeel/console-components';
 
-import tenantMenus from './tenantMenus';
+import { adminMenus, tenantMenus } from '@/tkeel-console-portal-base/constants';
 
 type Props = {
   mockMenus: string;
@@ -15,6 +15,8 @@ export default function MenuSetting({
   setMockMenus,
   onClose,
 }: Props) {
+  const totalMenus =
+    GLOBAL_PORTAL_CONFIG.portalName === 'admin' ? adminMenus : tenantMenus;
   return (
     <Flex
       position="fixed"
@@ -43,7 +45,7 @@ export default function MenuSetting({
         />
         <AceEditor
           language="json"
-          value={JSON.stringify(tenantMenus, null, 2)}
+          value={JSON.stringify(totalMenus, null, 2)}
         />
       </HStack>
       <HStack marginTop="10px" spacing="10px">
@@ -52,7 +54,7 @@ export default function MenuSetting({
         </Button>
         <Button
           marginTop="10px"
-          colorScheme="primary"
+          colorScheme="brand"
           width="80px"
           onClick={() => {
             sessionStorage.setItem('mockMenus', mockMenus);

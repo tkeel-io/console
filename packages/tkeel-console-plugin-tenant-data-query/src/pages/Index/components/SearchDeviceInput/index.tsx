@@ -316,7 +316,7 @@ export default function SearchDeviceInput({
       position="relative"
       borderRadius="24px"
       onClick={(e) => e.stopPropagation()}
-      backgroundColor={showFilterDropdown ? 'primarySub' : 'white'}
+      backgroundColor={showFilterDropdown ? 'brand.50' : 'white'}
       {...style}
     >
       <InputGroup

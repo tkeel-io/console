@@ -1,3 +1,4 @@
+import { useTheme } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 
 import { init, InitOptions } from '@/tkeel-console-portal-base/utils/qiankun';
@@ -11,9 +12,11 @@ export default function useQiankunInit({
   refetchMenus,
 }: Options) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const theme = useTheme();
 
   useEffect(() => {
     init({
+      theme,
       menus,
       documents,
       navigate,
@@ -39,7 +42,7 @@ export default function useQiankunInit({
       },
       refetchMenus,
     });
-  }, [menus, documents, navigate, refetchMenus]);
+  }, [theme, menus, documents, navigate, refetchMenus]);
 
   return { isLoading };
 }

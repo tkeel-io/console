@@ -119,12 +119,12 @@ const variantSolid: SystemStyleFunction = (props) => {
       bg,
       boxShadow,
       _hover: {
-        bg: mode(`primarySub3`, `whiteAlpha.300`)(props),
+        bg: 'var(--chakra-colors-primary)',
         _disabled: {
           bg,
         },
       },
-      _active: { bg: mode(`primarySub3`, `whiteAlpha.400`)(props) },
+      _active: { bg: 'var(--chakra-colors-primary)' },
     };
   }
 
