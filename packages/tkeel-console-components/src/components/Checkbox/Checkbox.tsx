@@ -5,7 +5,7 @@ export default function CustomCheckbox(props: CheckboxProps) {
   return (
     <Checkbox
       size="sm"
-      colorScheme="primary"
+      colorScheme="brand"
       css={`
         > span:first-of-type {
           box-shadow: unset;

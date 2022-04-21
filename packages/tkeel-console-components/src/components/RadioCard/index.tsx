@@ -25,7 +25,7 @@ function RadioCard(props: UseRadioProps & { children: ReactNode }) {
         boxShadow="none"
         padding="0 20px"
         _checked={{
-          bg: 'primarySub',
+          bg: 'brand.50',
           color: 'primary',
           borderColor: 'primary',
         }}

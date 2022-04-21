@@ -86,7 +86,7 @@ export default function BaseRulesModal({
 
   const activeAttribute = {
     twoToneColor: 'green.100',
-    color: 'green.300',
+    color: 'primary',
   };
 
   const options = [

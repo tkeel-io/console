@@ -104,7 +104,7 @@ export default function DeviceCommandModal({
         fontSize="12px"
         width="100%"
         padding="6px 10px"
-        bg="primarySub"
+        bg="brand.50"
         borderRadius="4px"
       >
         <HStack color="gray.600">
@@ -181,7 +181,7 @@ export default function DeviceCommandModal({
               <Radio
                 key={item[0]}
                 size="sm"
-                colorScheme="primary"
+                colorScheme="brand"
                 value={item[0]}
               >
                 {item[1]}

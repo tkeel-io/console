@@ -18,14 +18,14 @@ function IconButton({ isShowCircle = false, icon, children, ...rest }: Props) {
     <Button
       leftIcon={
         isShowCircle ? (
-          <Circle marginRight="4px" size="20px" backgroundColor="primarySub3">
+          <Circle marginRight="4px" size="20px" backgroundColor="brand.700">
             {icon}
           </Circle>
         ) : (
           icon
         )
       }
-      colorScheme="primary"
+      colorScheme="brand"
       fontWeight={600}
       fontSize="12px"
       lineHeight="24px"

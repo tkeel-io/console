@@ -46,7 +46,7 @@ export default function DeviceTemplates({ templates, onTemplateClick }: Props) {
           height="32px"
           cursor="pointer"
           borderRadius="4px"
-          _hover={{ backgroundColor: 'primarySub' }}
+          _hover={{ backgroundColor: 'brand.50' }}
           onClick={() =>
             onTemplateClick({
               templateId: template.id,

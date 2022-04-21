@@ -11,7 +11,7 @@ type Props = {
 
 function MenuItem({ icon, active }: Props) {
   const primaryColor = useColor('primary');
-  const primarySub2Color = useColor('primarySub2');
+  const primarySub2Color = useColor('brand.200');
 
   const backgroundColor = active ? 'primary' : 'transparent';
 

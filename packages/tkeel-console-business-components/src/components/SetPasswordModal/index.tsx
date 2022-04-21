@@ -82,7 +82,7 @@ export default function SetPasswordModal({
         </InputRightElement>
       </InputGroup>
       <Center paddingTop="40px">
-        <Button colorScheme="primary" isLoading={isLoading} onClick={onCopy}>
+        <Button colorScheme="brand" isLoading={isLoading} onClick={onCopy}>
           复制链接
         </Button>
       </Center>

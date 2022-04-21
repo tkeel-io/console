@@ -117,7 +117,7 @@ export default function AddressVerify({
           />
         </Flex>
         <Flex justifyContent="end">
-          <Button onClick={handleConfirm} colorScheme="primary">
+          <Button onClick={handleConfirm} colorScheme="brand">
             验证
           </Button>
         </Flex>
