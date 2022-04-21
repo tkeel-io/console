@@ -110,7 +110,7 @@ const variantSolid: SystemStyleFunction = (props) => {
     };
   }
 
-  if (c === 'primary') {
+  if (c === 'brand') {
     const bg = mode(`primary`, `whiteAlpha.200`)(props);
 
     return {
@@ -124,7 +124,13 @@ const variantSolid: SystemStyleFunction = (props) => {
           bg,
         },
       },
-      _active: { bg: mode(`primary`, `whiteAlpha.400`)(props) },
+      _active: {
+        color: 'white',
+        svg: {
+          fill: 'white !important',
+        },
+        bg: mode(`primary`, `whiteAlpha.400`)(props),
+      },
     };
   }
 
