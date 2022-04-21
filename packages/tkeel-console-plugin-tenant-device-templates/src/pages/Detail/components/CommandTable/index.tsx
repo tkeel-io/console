@@ -134,7 +134,7 @@ export default function CommandTable({ id, title }: Props) {
         isShowStripe
         hasPagination={false}
         styles={{
-          wrapper: { flex: 1, overflow: 'hidden' },
+          wrapper: { flex: 1, height: '100%', overflow: 'hidden' },
           bodyTr: { fontSize: '12px' },
         }}
         empty={
