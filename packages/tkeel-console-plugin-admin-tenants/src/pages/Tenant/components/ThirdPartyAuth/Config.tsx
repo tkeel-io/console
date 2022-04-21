@@ -1,9 +1,11 @@
-import { Box, Button, Flex, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Text, useTheme } from '@chakra-ui/react';
 import { Base64 } from 'js-base64';
 import { useParams } from 'react-router-dom';
 
 // import { useParams } from 'react-router-dom';
 import { AceEditor } from '@tkeel/console-components';
+import { InformationFilledIcon } from '@tkeel/console-icons';
+import { Theme } from '@tkeel/console-themes';
 
 // import { plugin } from '@tkeel/console-utils';
 // import useAuthIdProviderRegisterMutation from '@/tkeel-console-plugin-admin-tenants/hooks/mutations/useAuthIdProviderRegisterMutation';
@@ -13,6 +15,7 @@ import useAuthIdProviderQuery from '@/tkeel-console-plugin-admin-tenants/hooks/q
 // import ConfigModal from './ConfigModal';
 
 export default function Config() {
+  const { colors }: Theme = useTheme();
   const { tenantId = '' } = useParams();
   const { data } = useAuthIdProviderQuery({ tenantId });
   /* const { data } = useAuthIdProviderTemplateQuery({
@@ -80,8 +83,28 @@ export default function Config() {
           />
         </Box>
       </Box>
-      <Flex paddingTop="16px">
-        <Button>编辑</Button>
+      <Flex justifyContent="flex-end" paddingTop="12px">
+        <InformationFilledIcon size="16px" color={colors.primary} />
+        <Text
+          padding="0 4px"
+          fontSize="12px"
+          lineHeight="150%"
+          color="gray.500"
+        >
+          如需编辑配置文件，请点击下方编辑按钮
+        </Text>
+      </Flex>
+      <Flex padding="16px 0 24px">
+        <Button
+          borderRadius="2px"
+          height="32px"
+          fontWeight="400"
+          fontSize="12px"
+          lineHeight="24px"
+          colorScheme="brand"
+        >
+          编辑
+        </Button>
       </Flex>
     </Box>
   );
