@@ -36,7 +36,7 @@ export interface FormFields {
       disabled?: boolean;
     };
   };
-  external_type?: {
+  id_provider_type?: {
     isHide?: boolean;
     disabled?: boolean;
   };
@@ -54,7 +54,7 @@ export interface FormValues {
     password?: string;
     nick_name?: string;
   };
-  external_type?: IdProviderType;
+  id_provider_type?: IdProviderType;
   remark?: string;
 }
 
@@ -94,10 +94,10 @@ export default function BaseTenantModal({
     if (result) {
       const formValues = getValues();
 
-      if (formValues.auth_type === 'external') {
+      if (formValues.auth_type === 'internal') {
+        onConfirm(omit(formValues, 'id_provider_type'));
+      } else if (formValues.auth_type === 'external') {
         onConfirm(omit(formValues, 'admin'));
-      } else {
-        onConfirm(formValues);
       }
     }
   };
@@ -156,15 +156,15 @@ export default function BaseTenantModal({
         )}
         {watch('auth_type') === 'external' && (
           <SelectField<FormValues>
-            id="external_type"
-            name="external_type"
+            id="id_provider_type"
+            name="id_provider_type"
             label="认证协议"
             options={ID_PROVIDER_TYPES}
             control={control}
             rules={{
               required: { value: true, message: '认证协议为空' },
             }}
-            error={errors.external_type}
+            error={errors.id_provider_type}
           />
         )}
         <TextareaField
