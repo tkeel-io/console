@@ -22,7 +22,8 @@ export default function Tenant() {
       <Tabs display="flex" flexDirection="column" marginLeft="20px" flex="1">
         <CustomTabList>
           <CustomTab>客户列表</CustomTab>
-          {isExternal && <CustomTab>第三方认证</CustomTab>}
+          {/* TODO: temp */}
+          {!isExternal && <CustomTab>第三方认证</CustomTab>}
         </CustomTabList>
         <TabPanels
           flex="1"
@@ -33,8 +34,9 @@ export default function Tenant() {
           <TabPanel height="100%" padding="0px 20px">
             <Users />
           </TabPanel>
-          {isExternal && (
-            <TabPanel height="100%" padding="0px 20px">
+          {/* TODO: temp */}
+          {!isExternal && (
+            <TabPanel overflowY="auto" height="100%" padding="0px 20px">
               <ThirdPartyAuth />
             </TabPanel>
           )}
