@@ -154,14 +154,19 @@ export default function BaseTenantModal({
             />
           </>
         )}
-        <SelectField<FormValues>
-          id="external_type"
-          name="external_type"
-          label="认证协议"
-          options={ID_PROVIDER_TYPES}
-          control={control}
-          error={errors.external_type}
-        />
+        {watch('auth_type') === 'external' && (
+          <SelectField<FormValues>
+            id="external_type"
+            name="external_type"
+            label="认证协议"
+            options={ID_PROVIDER_TYPES}
+            control={control}
+            rules={{
+              required: { value: true, message: '认证协议为空' },
+            }}
+            error={errors.external_type}
+          />
+        )}
         <TextareaField
           id="remark"
           label="备注"
