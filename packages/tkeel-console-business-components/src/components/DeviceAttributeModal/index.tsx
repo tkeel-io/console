@@ -248,7 +248,7 @@ function DeviceAttributeModal({
                   <Radio
                     key={item.type}
                     size="sm"
-                    colorScheme="primary"
+                    colorScheme="brand"
                     value={item.type}
                   >
                     {item.type}
@@ -267,7 +267,7 @@ function DeviceAttributeModal({
           {watchFields.type === 'bool' && (
             <Flex flexDir="row" align="center" justify="flex-start">
               <Switch
-                colorScheme="primary"
+                colorScheme="brand"
                 size="sm"
                 {...register(DEFAULT_VALUE_STR)}
               />
@@ -318,7 +318,7 @@ function DeviceAttributeModal({
               <Radio
                 key={item[0]}
                 size="sm"
-                colorScheme="primary"
+                colorScheme="brand"
                 value={item[0]}
               >
                 {item[1]}

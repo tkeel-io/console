@@ -57,7 +57,7 @@ function GroupBasicInfo({ groupItem }: Props): JSX.Element {
         ml="16px"
         visibility={groupInfoArray.length > defaultCount ? 'visible' : 'hidden'}
         variant="link"
-        colorScheme="primary"
+        colorScheme="brand"
         fontSize="12px"
         px="6px"
         lineHeight="24px"

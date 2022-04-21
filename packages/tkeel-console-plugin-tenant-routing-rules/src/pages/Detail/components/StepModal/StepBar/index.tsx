@@ -34,8 +34,8 @@ export default function StepBar({ stepBarInfo, currentStep }: Props) {
                 fontSize="14px"
                 borderRadius="50%"
                 borderWidth="1px"
-                borderColor={active ? 'green.300' : 'gray.200'}
-                bgColor={active ? 'green.300' : 'transparent'}
+                borderColor={active ? 'primary' : 'gray.200'}
+                bgColor={active ? 'primary' : 'transparent'}
                 color={active ? 'white' : 'gray.400'}
                 fontWeight={active ? 700 : 400}
               >

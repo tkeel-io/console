@@ -82,7 +82,7 @@ export default function DataType({ formHandler, fieldArrayHandler }: Props) {
                   borderRadius="4px"
                   color={isSelected ? 'primary' : 'gray.400'}
                   borderColor={isSelected ? 'primary' : 'gray.200'}
-                  bg={isSelected ? 'primarySub' : 'white'}
+                  bg={isSelected ? 'brand.50' : 'white'}
                   height="24px"
                   p="0 12px"
                   fontSize="12px"

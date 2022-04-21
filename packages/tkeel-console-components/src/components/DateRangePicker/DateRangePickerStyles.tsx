@@ -4,7 +4,7 @@ import { useColor } from '@tkeel/console-hooks';
 
 export default function DateRangePickerStyles() {
   const primaryColor = useColor('primary');
-  const primarySubColor = useColor('primarySub');
+  const primarySubColor = useColor('brand.50');
   const whiteColor = useColor('white');
   const redColor = useColor('red.300');
   const grayLight = useColor('gray.200');

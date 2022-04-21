@@ -122,7 +122,7 @@ export default function BasicInfoPart({
               >
                 <Stack spacing="16px" direction="column">
                   <Checkbox
-                    colorScheme="primary"
+                    colorScheme="brand"
                     id="useTemplate"
                     value={ConnectInfoType.useTemplate}
                     isDisabled={
@@ -174,7 +174,7 @@ export default function BasicInfoPart({
                   )}
 
                   <Checkbox
-                    colorScheme="primary"
+                    colorScheme="brand"
                     id="selfLearn"
                     value={ConnectInfoType.selfLearn}
                     isDisabled={

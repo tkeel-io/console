@@ -2,5 +2,5 @@
 import { CheckboxGroup, CheckboxGroupProps } from '@chakra-ui/react';
 
 export default function CustomCheckboxGroup(props: CheckboxGroupProps) {
-  return <CheckboxGroup colorScheme="primary" {...props} />;
+  return <CheckboxGroup colorScheme="brand" {...props} />;
 }

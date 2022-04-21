@@ -23,7 +23,7 @@ export default function CreateFinished({ onClose }: Props) {
       </Text>
       <Button
         onClick={onClose}
-        colorScheme="primary"
+        colorScheme="brand"
         position="absolute"
         bottom="26px"
         right="20px"

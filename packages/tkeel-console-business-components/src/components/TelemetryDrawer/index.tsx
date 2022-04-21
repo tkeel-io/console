@@ -113,7 +113,7 @@ function TelemetryDrawer({ usefulData, isOpen, onClose }: Props) {
               <Switch
                 size="sm"
                 // isChecked={isRangeSearch}
-                colorScheme="primary"
+                colorScheme="brand"
                 __css={{ 'span:focus': { boxShadow: 'none !important' } }}
                 onChange={(e) => {
                   setIsShowJson(e.target.checked);
