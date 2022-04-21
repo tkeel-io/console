@@ -18,7 +18,7 @@ export const AUTH_TYPES = Object.entries(AUTH_TYPE_MAP).map(
 export const DEFAULT_AUTH_TYPE_VALUE = 'internal';
 
 export const ID_PROVIDER_TYPES = [
-  { value: 'OIDC', label: 'OIDC', isDisabled: false },
-  { value: 'LDAP', label: 'LDAP', isDisabled: true },
-  { value: 'SAML', label: 'SAML', isDisabled: true },
+  { value: 'OIDC', label: 'OIDC', disabled: false },
+  { value: 'LDAP', label: 'LDAP', disabled: true },
+  { value: 'SAML', label: 'SAML', disabled: true },
 ];
