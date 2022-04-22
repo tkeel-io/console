@@ -3,14 +3,13 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { Modal } from '@tkeel/console-components';
-
-import { Data } from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useListSubscribeQuery';
+import { SubscribeInfo } from '@tkeel/console-request-hooks';
 
 type Props = {
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
   onClose: () => unknown;
-  data?: Data[];
+  data?: SubscribeInfo[];
   onConfirm: (targetId: number) => unknown;
 };
 
