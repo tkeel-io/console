@@ -64,6 +64,7 @@ type Props = {
   onNext: () => unknown;
 };
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export default function MappingRelation({
   modalKey,
   ruleId,
@@ -79,11 +80,16 @@ export default function MappingRelation({
   onPrev,
   onNext,
 }: Props) {
+  const databaseNameMap = {
+    clickhouse: 'ClickHouse',
+    mysql: 'MySQL',
+  };
+  const databaseName = (databaseNameMap[interfaceType] || '') as string;
   const tdBorderColor = useColor('gray.200');
   const [isGetDeviceMsg, setIsGetDeviceMsg] = useState(false);
-  const [isShowTip, setIsShowTip] = useState(false);
+  // const [isShowTip, setIsShowTip] = useState(false);
+  const [isShowTip] = useState(false);
   const [selName, setSelName] = useState(defaultValues?.mapping ?? '');
-  // const templateId = 'iotd-b66a435e-db31-4be4-8f30-4891905ee436';
   const isRequest = !!defaultValues?.mapping || isGetDeviceMsg;
   const { deviceMsgList } = useDeviceMsgQuery(deviceTemplateId, isRequest);
   const { fieldsData } = useRelationTableQuery(verifyId, selName);
@@ -129,8 +135,8 @@ export default function MappingRelation({
   const {
     control,
     formState: { errors },
-    trigger,
-    getValues,
+    // trigger,
+    // getValues,
   } = useForm<MapFormValues>({
     defaultValues,
   });
@@ -140,31 +146,31 @@ export default function MappingRelation({
     onPrev(fields);
   };
   const handleNext = async () => {
-    const result = await trigger();
-    const formValues = getValues();
-    const isShow = !result && formValues?.mapping !== undefined;
-    setIsShowTip(isShow);
-    if (result) {
-      if (modalKey === 'edit') {
-        editMutate({
-          data: {
-            target_id: targetId ?? '',
-            sink_type: interfaceType,
-            sink_id: verifyId,
-            table_name: selName,
-            fields: editFields,
-          },
-        });
-      } else {
-        createMutate({
-          data: {
-            sink_type: interfaceType,
-            sink_id: verifyId,
-            table_name: selName,
-            fields,
-          },
-        });
-      }
+    // const result = await trigger();
+    // const formValues = getValues();
+    // const isShow = !result && formValues?.mapping !== undefined;
+    // setIsShowTip(isShow);
+    // if (result) {
+    // }
+    if (modalKey === 'edit') {
+      editMutate({
+        data: {
+          target_id: targetId ?? '',
+          sink_type: interfaceType,
+          sink_id: verifyId,
+          table_name: selName,
+          fields: editFields,
+        },
+      });
+    } else {
+      createMutate({
+        data: {
+          sink_type: interfaceType,
+          sink_id: verifyId,
+          table_name: selName,
+          fields,
+        },
+      });
     }
   };
 
@@ -230,7 +236,7 @@ export default function MappingRelation({
                       t_field: { name: original.name, type: original.type },
                       m_field: {
                         type: templateObj?.type || '',
-                        name: templateObj?.label || '',
+                        name: templateObj?.value || '',
                       },
                     };
                     if (modalKey === 'edit') {
@@ -260,121 +266,121 @@ export default function MappingRelation({
         }, [row]),
     },
   ];
+
+  if (isLoading) {
+    return <Loading styles={{ wrapper: { height: '100%' } }} />;
+  }
+
   return (
     <Box>
-      {' '}
-      {isLoading ? (
-        <Loading styles={{ wrapper: { height: '100%' } }} />
-      ) : (
-        <Box>
-          <Box h="calc(100% - 50px)" overflowY="auto">
-            <Flex
-              height="32px"
-              lineHeight="32px"
-              paddingLeft="12px"
-              border="1px"
-              borderColor="success.300"
-              color="success.300"
-              fontSize="12px"
-              fontWeight="500"
-              borderRadius="4px"
-              backgroundColor="success.50"
-              alignItems="center"
-            >
-              <SuccessFilledIcon color="green.300" size={18} />
-              <Text ml="10px">数据库地址验证成功</Text>
-            </Flex>
-            <Flex flexDirection="column">
-              <FormControl
-                label="映射表"
-                id="mappingSelect"
-                formControlStyle={{ m: '20px 0 24px' }}
-              >
-                {options.length === 0 ? (
+      <Box h="calc(100% - 50px)" overflowY="auto">
+        <Flex
+          height="32px"
+          lineHeight="32px"
+          paddingLeft="12px"
+          border="1px"
+          borderColor="success.300"
+          color="success.300"
+          fontSize="12px"
+          fontWeight="500"
+          borderRadius="4px"
+          backgroundColor="success.50"
+          alignItems="center"
+        >
+          <SuccessFilledIcon color="green.300" size={18} />
+          <Text ml="10px">数据库地址验证成功</Text>
+        </Flex>
+        <Flex flexDirection="column">
+          <FormControl
+            label="映射表"
+            id="mappingSelect"
+            formControlStyle={{ m: '20px 0 24px' }}
+          >
+            {options.length === 0 ? (
+              <Tip
+                icon={<WarningCircleIcon size={14} />}
+                title={`当前地址无法检测出有效数据表，请移步「${databaseName}」创建映射表`}
+                styles={{ text: { color: 'red.300' } }}
+              />
+            ) : (
+              <SelectField<MapFormValues>
+                id="mapping"
+                name="mapping"
+                placeholder="请选择"
+                options={options}
+                defaultValue={defaultValues?.mapping}
+                error={errors.mapping}
+                disabled={modalKey === 'edit'}
+                rules={{
+                  required: { value: true, message: '请选择映射表' },
+                  onChange(e: SelectEle) {
+                    const val = e?.target?.value;
+                    setSelName(() => val);
+                    setIsGetDeviceMsg(() => true);
+                  },
+                }}
+                control={control}
+                help={
                   <Tip
-                    icon={<WarningCircleIcon size={14} />}
-                    title="当前地址无法检测出有效数据表，请移步「MySQL」创建映射表"
-                    styles={{ text: { color: 'red.300' } }}
+                    title={`如无法匹配合适映射表，请移步「${databaseName}」创建映射表`}
                   />
-                ) : (
-                  <SelectField<MapFormValues>
-                    id="mapping"
-                    name="mapping"
-                    placeholder="请选择"
-                    options={options}
-                    defaultValue={defaultValues?.mapping}
-                    error={errors.mapping}
-                    disabled={modalKey === 'edit'}
-                    rules={{
-                      required: { value: true, message: '请选择映射表' },
-                      onChange(e: SelectEle) {
-                        const val = e?.target?.value;
-                        setSelName(() => val);
-                        setIsGetDeviceMsg(() => true);
-                      },
-                    }}
-                    control={control}
-                    help={
-                      <Tip title="如无法匹配合适映射表，请移步「MySQL」创建映射表" />
-                    }
-                    formLabelStyle={{ mb: 0 }}
-                    formControlStyle={{
-                      height: '44px',
-                      borderWidth: data?.length > 0 ? '1px' : '0',
-                      borderRadius: '4px',
-                    }}
-                  />
+                }
+                formLabelStyle={{ mb: 0 }}
+                formControlStyle={{
+                  height: '44px',
+                  borderWidth: data?.length > 0 ? '1px' : '0',
+                  borderRadius: '4px',
+                }}
+              />
+            )}
+          </FormControl>
+          <FormControl label="映射关系" id="mappingTable">
+            {backFieldsData.length === 0 && data.length === 0 ? (
+              <Tip title="请优先选择映射表，进行映射" />
+            ) : (
+              <Box>
+                <Table
+                  columns={columns}
+                  data={data}
+                  hasPagination={false}
+                  styles={{
+                    head: {
+                      border: '1px solid ',
+                      borderColor: 'gray.200',
+                      backgroundColor: 'gray.100',
+                      padding: '5px 0',
+                    },
+                    headTr: { border: 'none' },
+                    body: {
+                      borderRight: '1px solid ',
+                      borderColor: 'gray.200',
+                    },
+                    bodyTd: {
+                      height: '42px',
+                      borderLeft: '1px solid',
+                      borderColor: `${tdBorderColor} !important`,
+                      padding: 0,
+                    },
+                  }}
+                />
+                {isShowTip && (
+                  <Text color="red.500" fontSize="14px" mt="4px">
+                    设备消息字段为空
+                  </Text>
                 )}
-              </FormControl>
-              <FormControl label="映射关系" id="mappingTable">
-                {backFieldsData.length === 0 && data.length === 0 ? (
-                  <Tip title="请优先选择映射表，进行映射" />
-                ) : (
-                  <Box>
-                    <Table
-                      columns={columns}
-                      data={data}
-                      hasPagination={false}
-                      styles={{
-                        head: {
-                          border: '1px solid ',
-                          borderColor: 'gray.200',
-                          backgroundColor: 'gray.100',
-                          padding: '5px 0',
-                        },
-                        headTr: { border: 'none' },
-                        body: {
-                          borderRight: '1px solid ',
-                          borderColor: 'gray.200',
-                        },
-                        bodyTd: {
-                          height: '42px',
-                          borderLeft: '1px solid',
-                          borderColor: `${tdBorderColor} !important`,
-                          padding: 0,
-                        },
-                      }}
-                    />
-                    {isShowTip && (
-                      <Text color="red.500" fontSize="14px" mt="4px">
-                        设备消息字段为空
-                      </Text>
-                    )}
-                  </Box>
-                )}
-              </FormControl>
-            </Flex>
-          </Box>
-          <Flex justifyContent="end" mt="20px">
-            <Button onClick={handlePrev} colorScheme="brand" mr="8px">
-              上一步
-            </Button>
-            <Button onClick={handleNext} colorScheme="brand">
-              下一步
-            </Button>
-          </Flex>
-        </Box>
-      )}
+              </Box>
+            )}
+          </FormControl>
+        </Flex>
+      </Box>
+      <Flex justifyContent="end" mt="20px">
+        <Button onClick={handlePrev} colorScheme="brand" mr="8px">
+          上一步
+        </Button>
+        <Button onClick={handleNext} colorScheme="brand">
+          下一步
+        </Button>
+      </Flex>
     </Box>
   );
 }

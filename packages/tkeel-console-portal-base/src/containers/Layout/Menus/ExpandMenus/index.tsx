@@ -1,14 +1,16 @@
 import { Box, Center, Flex, Image } from '@chakra-ui/react';
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
 
 import { Logo, Menu } from '@tkeel/console-types';
+import { env } from '@tkeel/console-utils';
 
 import emptyMenu from '@/tkeel-console-portal-base/assets/images/empty-menu.svg';
 import logoBottomLineImg from '@/tkeel-console-portal-base/assets/images/logo-bottom-line.svg';
 // import { SearchInput } from '@tkeel/console-components';
 // import { MagnifierTwoToneIcon } from '@tkeel/console-icons';
-import useMenusQuery from '@/tkeel-console-portal-base/hooks/queries/useMenusQuery';
+import useMenusQuery, {
+  getMockMenus,
+} from '@/tkeel-console-portal-base/hooks/queries/useMenusQuery';
 
 import MenuLink from './MenuLink';
 import SubMenuLink from './SubMenuLink';
@@ -20,19 +22,30 @@ type Props = {
   logo: Logo;
 };
 
-export default function ExpandMenus({ isDarkMenu, logo }: Props) {
-  const location = useLocation();
+function isActive(path: string) {
+  return window.location.pathname.includes(path);
+}
 
+export default function ExpandMenus({ isDarkMenu, logo }: Props) {
   const [spreadMenuId, setSpreadMenuId] = useState('');
 
   const { menus, isLoading } = useMenusQuery({
     onSuccess(data) {
-      const entries = data?.data?.entries ?? [];
+      let entries = data?.data?.entries ?? [];
+      if (env.isEnvDevelopment()) {
+        entries = getMockMenus();
+      }
       entries.forEach((menu) => {
-        const { id, children } = menu;
-        const active: boolean = (children as Menu[]).some((item) => {
-          return item.path && location.pathname.includes(item.path);
-        });
+        const { id, path, children } = menu;
+        let active = false;
+        if (path) {
+          active = isActive(path);
+        } else if (children && Array.isArray(children)) {
+          active = (children as Menu[]).some((item) => {
+            return isActive(item.path || '');
+          });
+        }
+
         if (active) {
           setSpreadMenuId(id);
         }

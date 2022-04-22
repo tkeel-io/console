@@ -20,12 +20,10 @@ import { Select } from '../Select';
 import { SelectStyles } from '../Select/types';
 import { fieldDefaultProps } from './default-props';
 
-type Value = string | number;
-
 type Props<TFieldValues> = FormControlProps & {
   id: string;
   name: FieldPath<TFieldValues>;
-  options: { value: Value; label: string | ReactNode }[];
+  options?: { label: ReactNode; value?: string | number; disabled?: boolean }[];
   mode?: 'combobox' | 'multiple' | 'tags';
   showArrow?: boolean;
   allowClear?: boolean;
@@ -48,7 +46,7 @@ const defaultProps = {
   placeholder: '请选择',
 };
 
-export default function CustomFormControl<TFieldValues>({
+export default function SelectField<TFieldValues>({
   id,
   name,
   options,
@@ -82,9 +80,8 @@ export default function CustomFormControl<TFieldValues>({
             options={options}
             onChange={onChange}
             value={value}
-            // defaultValue={defaultValue}
             menuItemSelectedIcon={
-              <Center width="30px" height="36px">
+              <Center width="30px" height="32px">
                 <CheckFilledIcon color="primary" />
               </Center>
             }
@@ -97,4 +94,4 @@ export default function CustomFormControl<TFieldValues>({
   );
 }
 
-CustomFormControl.defaultProps = defaultProps;
+SelectField.defaultProps = defaultProps;
