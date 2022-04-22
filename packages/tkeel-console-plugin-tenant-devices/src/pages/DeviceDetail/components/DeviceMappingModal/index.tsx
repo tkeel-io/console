@@ -7,7 +7,7 @@ import {
   Tabs,
   Text,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import CustomTab from '@tkeel/console-business-components/src/components/AddDevicesModal/CustomTab';
 import DeviceGroupTree from '@tkeel/console-business-components/src/components/AddDevicesModal/DeviceGroupTree';
@@ -26,6 +26,7 @@ import { getTreeNodeData, TreeNodeData } from '@tkeel/console-utils';
 import DeviceList from './DeviceList';
 
 interface Props {
+  uid: string;
   isOpen: boolean;
   onClose: () => void;
   onConfirm: (device: DeviceItem) => void;
@@ -52,6 +53,7 @@ const contentStyle = {
 };
 
 export default function DeviceMappingModal({
+  uid,
   isOpen,
   onClose,
   onConfirm,
@@ -63,7 +65,7 @@ export default function DeviceMappingModal({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [templateId, setTemplateId] = useState('');
   const [templates, setTemplates] = useState<TemplateItem[]>([]);
-  const [selectedDevice, setSelectedDevice] = useState<DeviceItem>();
+  const [selectedDevice, setSelectedDevice] = useState<DeviceItem | null>(null);
   const [tabType, setTabType] = useState<'group' | 'template'>('group');
   const [deviceGroupConditions, setDeviceGroupConditions] = useState<
     RequestDataCondition[]
@@ -159,6 +161,32 @@ export default function DeviceMappingModal({
   const handleSubmit = () => {
     onConfirm(selectedDevice as DeviceItem);
   };
+
+  const clearState = () => {
+    setGroupId('');
+    setTemplateId('');
+    setDeviceGroupKeywords('');
+    setDeviceTemplateKeywords('');
+    setDeviceGroupConditions([]);
+    setDeviceTemplateConditions([]);
+    setDeviceList([]);
+    setSelectedDevice(null);
+  };
+
+  useEffect(() => {
+    if (!isOpen) {
+      clearState();
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    setSelectedDevice(null);
+    setDeviceList([]);
+    setDeviceGroupKeywords('');
+    setDeviceTemplateKeywords('');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tabType]);
+
   return (
     <Modal
       height="694px"
@@ -202,6 +230,7 @@ export default function DeviceMappingModal({
                 </Box>
                 <Flex marginLeft="20px" {...contentStyle}>
                   <DeviceList
+                    uid={uid}
                     isLoading={isDeviceListLoading}
                     selectedDevice={selectedDevice}
                     deviceList={deviceList}
@@ -232,6 +261,7 @@ export default function DeviceMappingModal({
                 </Box>
                 <Flex ml="20px" {...contentStyle}>
                   <DeviceList
+                    uid={uid}
                     isLoading={isDeviceListLoading}
                     selectedDevice={selectedDevice}
                     deviceList={deviceList}

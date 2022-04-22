@@ -5,8 +5,9 @@ import { SmartObjectTwoToneIcon } from '@tkeel/console-icons';
 import { DeviceItem } from '@tkeel/console-request-hooks';
 
 interface Props {
+  uid: string;
   isLoading: boolean;
-  selectedDevice?: DeviceItem;
+  selectedDevice?: DeviceItem | null;
   deviceList: DeviceItem[];
   handleSelectDevice: (selectedDevice: DeviceItem) => void;
 }
@@ -16,6 +17,7 @@ const textStyle = {
   lineHeight: '32px',
 };
 export default function DeviceList({
+  uid,
   isLoading,
   selectedDevice,
   deviceList,
@@ -31,23 +33,27 @@ export default function DeviceList({
           const { id, properties } = device;
           const hasSelected = selectedDevice?.id === id;
           return (
-            <Flex
-              key={id}
-              height="32px"
-              paddingLeft="20px"
-              alignItems="center"
-              cursor="pointer"
-              bg={hasSelected ? 'grayAlternatives.50' : ''}
-              onClick={() => {
-                handleSelectDevice(device);
-              }}
-              _hover={{ backgroundColor: 'grayAlternatives.50' }}
-            >
-              <SmartObjectTwoToneIcon size={20} />
-              <Text marginLeft="6px" {...textStyle}>
-                {properties?.basicInfo?.name ?? ''}
-              </Text>
-            </Flex>
+            uid !== id && (
+              <Flex
+                key={id}
+                height="32px"
+                paddingLeft="20px"
+                alignItems="center"
+                cursor="pointer"
+                bg={hasSelected ? 'grayAlternatives.50' : ''}
+                onClick={() => {
+                  if (uid !== id) {
+                    handleSelectDevice(device);
+                  }
+                }}
+                _hover={{ backgroundColor: 'grayAlternatives.50' }}
+              >
+                <SmartObjectTwoToneIcon size={20} />
+                <Text marginLeft="6px" {...textStyle}>
+                  {properties?.basicInfo?.name ?? ''}
+                </Text>
+              </Flex>
+            )
           );
         })
       ) : (

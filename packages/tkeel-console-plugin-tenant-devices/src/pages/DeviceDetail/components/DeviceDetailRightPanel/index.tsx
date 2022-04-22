@@ -117,7 +117,8 @@ function DeviceDetailRightPanel({
       isVisible: !!basicInfo?.templateId || basicInfo?.selfLearn,
       component: (
         <MappingData
-        /* basicInfo={basicInfo}
+          deviceObject={deviceObject}
+          /* basicInfo={basicInfo}
           deviceId={id}
           refetch={refetch}
           commandFields={values(

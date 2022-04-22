@@ -3,10 +3,16 @@ import { useState } from 'react';
 
 import { PageHeaderToolbar } from '@tkeel/console-components';
 
+import { DeviceObject } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
+
 import AutoButton from '../AutoButton';
 import AutoMappingButton from '../AutoMappingButton';
 
-export default function MappingData() {
+interface Props {
+  deviceObject: DeviceObject;
+}
+
+export default function MappingData({ deviceObject }: Props) {
   const [keywords, setKeywords] = useState('');
   const handleSearch = (value: string) => {
     setKeywords(value.trim());
@@ -22,7 +28,10 @@ export default function MappingData() {
         searchInputProps={{
           onSearch: handleSearch,
         }}
-        buttons={[<AutoMappingButton key="add" />, <AutoButton key="demo" />]}
+        buttons={[
+          <AutoMappingButton key="add" deviceObject={deviceObject} />,
+          <AutoButton key="demo" />,
+        ]}
       />
     </Flex>
   );
