@@ -39,7 +39,6 @@ export default function AddressVerify({
     formState: { errors },
     trigger,
     getValues,
-    reset,
   } = useForm<AddressFormValues>({
     defaultValues,
   });
@@ -48,12 +47,11 @@ export default function AddressVerify({
 
   const handleConfirm = async () => {
     const result = await trigger();
-    setVerify(result);
     if (result) {
       const formValues = getValues();
       onVerify(formValues);
-      reset();
     }
+    setVerify(!!getValues('address') && !!getValues('name'));
   };
   return (
     <Box>
@@ -90,7 +88,7 @@ export default function AddressVerify({
             error={errors.name}
             placeholder="数据库名称"
             registerReturn={register('name', {
-              required: { value: true, message: '请输入数据库地址' },
+              required: { value: true, message: '请输入数据库名称' },
             })}
             formControlStyle={{ w: '30%', mb: '0' }}
             inputStyle={{ borderWidth: '0', mb: '0', borderRadius: '0' }}
@@ -109,9 +107,11 @@ export default function AddressVerify({
             formControlStyle={{ mr: '6px' }}
           />
           <TextField
-            id=" passWord"
+            id="passWord"
+            type="password"
             error={errors.passWord}
             placeholder="密码"
+            autoComplete="new-password"
             registerReturn={register('passWord', {
               required: { value: true, message: '请输入密码' },
             })}
@@ -119,7 +119,7 @@ export default function AddressVerify({
           />
         </Flex>
         <Flex justifyContent="end">
-          <Button onClick={handleConfirm} colorScheme="primary">
+          <Button onClick={handleConfirm} colorScheme="brand">
             验证
           </Button>
         </Flex>

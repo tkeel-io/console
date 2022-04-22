@@ -36,7 +36,7 @@ export default function SetSelfLearnButton({ deviceId }: Props) {
   return (
     <>
       <Switch
-        colorScheme="primary"
+        colorScheme="brand"
         id="selfLearn"
         size="sm"
         isChecked={basicInfo?.selfLearn ?? false}

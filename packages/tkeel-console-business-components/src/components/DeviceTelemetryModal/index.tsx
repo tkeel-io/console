@@ -429,7 +429,7 @@ export default function DeviceTelemetryModal({
                     <Radio
                       key={item[0]}
                       size="sm"
-                      colorScheme="primary"
+                      colorScheme="brand"
                       value={item[0]}
                     >
                       {item[1]}

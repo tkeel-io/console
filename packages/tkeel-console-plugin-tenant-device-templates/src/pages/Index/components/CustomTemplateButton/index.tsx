@@ -55,7 +55,7 @@ export default function CustomTemplateButton({ onSuccess }: Props) {
         h="24px"
         lineHeight="24px"
         align="center"
-        bg="primarySub"
+        bg="brand.50"
         color="primary"
         fontSize="12px"
         fontWeight="600"

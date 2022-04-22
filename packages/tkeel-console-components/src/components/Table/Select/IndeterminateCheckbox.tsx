@@ -28,7 +28,7 @@ const IndeterminateCheckbox = forwardRef(
         isIndeterminate={indeterminate}
         isChecked={checked}
         size="sm"
-        colorScheme="primary"
+        colorScheme="brand"
         css={`
           > span:first-of-type {
             box-shadow: unset;
