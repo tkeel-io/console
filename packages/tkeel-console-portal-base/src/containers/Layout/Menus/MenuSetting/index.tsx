@@ -79,7 +79,7 @@ export default function MenuSetting({
       totalMenus,
     })
   );
-  const [isShowTotalMenus, setIsShowTotalMenus] = useState(false);
+  // const [isShowTotalMenus, setIsShowTotalMenus] = useState(false);
   const treeData = getTreeData(totalMenus);
 
   const getMockMenusByIds = (checkedIds: string[]) => {
@@ -114,6 +114,9 @@ export default function MenuSetting({
       width="100%"
       height="600px"
       maxHeight="100vh"
+      borderTopWidth="1px"
+      borderTopStyle="solid"
+      borderTopColor="grayAlternatives.50"
       backgroundColor="white"
     >
       <CloseButton
@@ -122,14 +125,14 @@ export default function MenuSetting({
         top="20px"
         onClick={onClose}
       />
-      <HStack flex="1" paddingLeft="20px" spacing="20px">
+      <HStack flex="1" spacing="20px">
         <Tree
           treeData={treeData}
           checkable
           defaultExpandAll
           checkedKeys={checkedKeys}
           selectable={false}
-          style={{ width: '200px' }}
+          styles={{ tree: 'width: 200px; padding-left: 10px;' }}
           onCheck={(keys) => {
             const checkedIds = keys as string[];
             setCheckedKeys(checkedIds);
@@ -139,17 +142,16 @@ export default function MenuSetting({
         <AceEditor
           language="json"
           value={mockMenus}
-          readOnly={false}
           style={{ flex: 1 }}
-          onChange={(value) => setMockMenus(value)}
+          // onChange={(value) => setMockMenus(value)}
         />
-        {isShowTotalMenus && (
+        {/* {isShowTotalMenus && (
           <AceEditor
             language="json"
             style={{ flex: 1 }}
             value={JSON.stringify(totalMenus, null, 2)}
           />
-        )}
+        )} */}
       </HStack>
       <Flex marginTop="20px" justifyContent="space-between" alignItems="center">
         <HStack spacing="10px">
@@ -168,9 +170,9 @@ export default function MenuSetting({
             保存
           </Button>
         </HStack>
-        <Button onClick={() => setIsShowTotalMenus(!isShowTotalMenus)}>
+        {/* <Button onClick={() => setIsShowTotalMenus(!isShowTotalMenus)}>
           {isShowTotalMenus ? '隐藏' : '显示'}全部菜单
-        </Button>
+        </Button> */}
       </Flex>
     </Flex>
   );
