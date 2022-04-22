@@ -7,6 +7,7 @@ export interface TreeExtrasProps {
   };
 
   styles?: {
+    tree?: string;
     treeNodeContentWrapper?: string;
     treeTitle?: string;
   };

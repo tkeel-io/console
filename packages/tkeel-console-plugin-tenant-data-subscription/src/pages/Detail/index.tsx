@@ -83,7 +83,11 @@ function Detail(): JSX.Element {
             borderBottomRightRadius="4px"
             backgroundColor="white"
           >
-            <Table id={subscribeId} title={data?.title ?? ''} />
+            <Table
+              id={subscribeId}
+              title={data?.title ?? ''}
+              refetchSubscribeInfo={() => refetch()}
+            />
           </TabPanel>
         </TabPanels>
       </Tabs>
