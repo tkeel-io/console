@@ -3,9 +3,11 @@ import { Button, Flex, Text } from '@chakra-ui/react';
 import { CreateFinishedIcon } from '@tkeel/console-icons';
 
 type Props = {
+  databaseName: string;
   onClose: () => unknown;
 };
-export default function CreateFinished({ onClose }: Props) {
+
+export default function CreateFinished({ databaseName, onClose }: Props) {
   return (
     <Flex
       flexDirection="column"
@@ -16,7 +18,7 @@ export default function CreateFinished({ onClose }: Props) {
     >
       <CreateFinishedIcon size={116} />
       <Text color="gray.800" fontSize="14px" m="5px 0 16px">
-        已成功将数据发送到 Mysql
+        已成功将数据发送到 {databaseName}
       </Text>
       <Text color="gray.500" fontSize="12px">
         当前弹窗将在5秒后自动关闭
