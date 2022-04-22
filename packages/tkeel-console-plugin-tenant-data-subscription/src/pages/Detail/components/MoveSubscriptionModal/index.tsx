@@ -1,15 +1,13 @@
-import { Select } from '@chakra-ui/react';
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
 
-import { Modal } from '@tkeel/console-components';
+import { Modal, Select } from '@tkeel/console-components';
 import { SubscribeInfo } from '@tkeel/console-request-hooks';
 
 type Props = {
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
   onClose: () => unknown;
-  data?: SubscribeInfo[];
+  subscribeList: SubscribeInfo[];
   onConfirm: (targetId: number) => unknown;
 };
 
@@ -17,12 +15,15 @@ export default function ModifySubscriptionModal({
   isOpen,
   isConfirmButtonLoading,
   onClose,
-  data,
+  subscribeList,
   onConfirm,
 }: Props) {
-  const { id } = useParams();
-
-  const [targetId, setTargetId] = useState(id || '');
+  const defaultTargetId = subscribeList[0]?.id || '';
+  const [targetId, setTargetId] = useState(defaultTargetId);
+  const options = subscribeList?.map((item) => ({
+    label: item.title,
+    value: item.id,
+  }));
 
   return (
     <Modal
@@ -37,19 +38,11 @@ export default function ModifySubscriptionModal({
       }}
     >
       <Select
-        defaultValue={id || ''}
-        onChange={(e) => {
-          setTargetId(e.target.value);
-        }}
-      >
-        {data?.map((item) => {
-          return (
-            <option value={item.id} key={item.id}>
-              {item.title}
-            </option>
-          );
-        })}
-      </Select>
+        defaultValue={defaultTargetId}
+        onChange={(value) => setTargetId(value as string)}
+        options={options}
+        styles={{ select: 'width: 100%;' }}
+      />
     </Modal>
   );
 }

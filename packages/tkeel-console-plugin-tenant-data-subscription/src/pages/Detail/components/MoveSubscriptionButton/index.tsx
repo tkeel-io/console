@@ -46,7 +46,7 @@ export default function MoveSubscriptionButton({
       />
       {isOpen && (
         <MoveSubscriptionModal
-          data={newSubscribeList}
+          subscribeList={newSubscribeList}
           isOpen={isOpen}
           isConfirmButtonLoading={isLoading}
           onClose={onClose}
