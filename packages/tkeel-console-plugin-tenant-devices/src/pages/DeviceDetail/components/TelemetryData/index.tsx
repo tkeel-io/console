@@ -93,33 +93,35 @@ export default function TelemetryData({
       setRenderTelemetryValue(telemetryValues);
     }
   }, [wsReadyState, telemetryValues]);
-  const telemetryFieldsExtra = Object.entries(telemetryValues)
-    .filter((val) => !telemetryFields.some((v) => v.id === val[0]))
-    .map((item) => {
-      const id = item[0];
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { ts, value } = item[1];
-      const existItem = telemetryFields.find((v) => v.id === id);
-      if (existItem) {
-        return existItem;
-      }
-      const type = typeof value;
-      return {
-        id,
-        type: formatType(type),
-        name: id,
-        define: {
-          default_value: '',
-          rw: 'rw' as ReadWriteType,
-        },
-        description: '',
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        last_time: ts || Date.now(),
-      };
-    });
+  const telemetryFieldsExtra = !basicInfo?.selfLearn
+    ? []
+    : Object.entries(telemetryValues)
+        .filter((val) => !telemetryFields.some((v) => v.id === val[0]))
+        .map((item) => {
+          const id = item[0];
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          const { ts, value } = item[1];
+          const existItem = telemetryFields.find((v) => v.id === id);
+          if (existItem) {
+            return existItem;
+          }
+          const type = typeof value;
+          return {
+            id,
+            type: formatType(type),
+            name: id,
+            define: {
+              default_value: '',
+              rw: 'rw' as ReadWriteType,
+            },
+            description: '',
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            last_time: ts || Date.now(),
+          };
+        });
   return (
     <Box h="100%">
-      {isEmpty(telemetryFields) ? (
+      {isEmpty(telemetryFields) && !basicInfo?.selfLearn ? (
         <Empty
           description={
             <Box>
@@ -152,7 +154,9 @@ export default function TelemetryData({
             name={
               <Flex align="center">
                 <Text mr="12px">遥测数据</Text>
-                <SetSelfLearnButton deviceId={deviceId} />
+                {basicInfo?.directConnection && (
+                  <SetSelfLearnButton deviceId={deviceId} />
+                )}
               </Flex>
             }
             hasSearchInput

@@ -175,7 +175,7 @@ export default function SetPassword() {
             <Button
               marginTop="36px"
               type="submit"
-              colorScheme="primary"
+              colorScheme="brand"
               isFullWidth
               height="45px"
               borderRadius="4px"
@@ -183,7 +183,7 @@ export default function SetPassword() {
               isDisabled={!isSuccess}
               isLoading={isLoading}
             >
-              登录
+              确定
             </Button>
           </Form>
         </Box>

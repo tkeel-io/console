@@ -49,7 +49,7 @@ export default function Contents({
   const { config } = useDeploymentConfigQuery();
   const docsBaseURL = config?.docsURL ?? '';
 
-  const { extra } = useConfigQuery();
+  const { extra, isFetched } = useConfigQuery();
 
   useLocationChange({
     onChange: () => {
@@ -58,7 +58,8 @@ export default function Contents({
     },
   });
 
-  if (!extra) return null;
+  if (!isFetched) return null;
+
   const newTheme = {
     ...theme,
     colors: {

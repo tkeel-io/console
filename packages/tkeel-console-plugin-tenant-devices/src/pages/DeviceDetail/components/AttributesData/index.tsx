@@ -60,6 +60,7 @@ type Props = {
   deviceId: string;
   refetch?: () => void;
 };
+
 const FILTER_COLUMNS = ['name', 'id'];
 function getFilterList({
   list,
@@ -131,29 +132,31 @@ function AttributesData({
       setRenderAttributeValue(attributeValues);
     }
   }, [wsReadyState, attributeValues]);
-  const attributeFieldsExtra = Object.entries(attributeValues)
-    .filter((val) => !attributeFields.some((v) => v.id === val[0]))
-    .map((item) => {
-      const id = item[0];
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const value = item[1];
-      const existItem = attributeFields.find((v) => v.id === id);
-      if (existItem) {
-        return existItem;
-      }
-      const type = typeof value;
-      return {
-        id,
-        type: formatType(type),
-        name: id,
-        define: {
-          default_value: '',
-          rw: 'rw' as ReadWriteType,
-        },
-        description: '',
-        last_time: Date.now(),
-      };
-    });
+  const attributeFieldsExtra = !basicInfo?.selfLearn
+    ? []
+    : Object.entries(attributeValues)
+        .filter((val) => !attributeFields.some((v) => v.id === val[0]))
+        .map((item) => {
+          const id = item[0];
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          const value = item[1];
+          const existItem = attributeFields.find((v) => v.id === id);
+          if (existItem) {
+            return existItem;
+          }
+          const type = typeof value;
+          return {
+            id,
+            type: formatType(type),
+            name: id,
+            define: {
+              default_value: '',
+              rw: 'rw' as ReadWriteType,
+            },
+            description: '',
+            last_time: Date.now(),
+          };
+        });
   const [currentId, setCurrentId] = useState('');
   const [focusId, setFocusId] = useState('');
   const toast = plugin.getPortalToast();
@@ -208,7 +211,7 @@ function AttributesData({
 
   return (
     <Flex flex="1" direction="column" height="100%">
-      {isEmpty(attributeFields) ? (
+      {isEmpty(attributeFields) && !basicInfo?.selfLearn ? (
         <Empty
           description={
             <Box>
@@ -241,7 +244,9 @@ function AttributesData({
             name={
               <Flex align="center">
                 <Text mr="12px">属性数据</Text>
-                <SetSelfLearnButton deviceId={deviceId} />
+                {basicInfo?.directConnection && (
+                  <SetSelfLearnButton deviceId={deviceId} />
+                )}
               </Flex>
             }
             hasSearchInput
@@ -281,6 +286,17 @@ function AttributesData({
             ]}
           />
           <Box flex="1" overflowY="scroll" pb="30px">
+            {getFilterList({
+              list: [...attributeFields, ...attributeFieldsExtra],
+              keywords,
+            }).length === 0 && (
+              <Empty
+                title="暂无数据"
+                styles={{
+                  wrapper: { height: '100%' },
+                }}
+              />
+            )}
             <SimpleGrid columns={2} spacingX="20px" spacingY="12px">
               {getFilterList({
                 list: [...attributeFields, ...attributeFieldsExtra],
@@ -412,7 +428,7 @@ function AttributesData({
                         >
                           <Switch
                             isDisabled={isLoading && currentId === item.id}
-                            colorScheme="primary"
+                            colorScheme="brand"
                             size="sm"
                             isChecked={defaultValueCopy as boolean}
                             onChange={(e) => {

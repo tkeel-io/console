@@ -28,6 +28,27 @@ const defaultProps = {
   onSuccess: undefined,
 };
 
+export function getMockMenus() {
+  let mockMenus: Menu[] = [];
+
+  const localMockMenus = sessionStorage.getItem('mockMenus');
+  const { showDevTools } = GLOBAL_PORTAL_CONFIG?.client || {};
+  try {
+    if (showDevTools && localMockMenus) {
+      mockMenus = JSON.parse(localMockMenus) as Menu[];
+    } else {
+      mockMenus = (GLOBAL_PORTAL_CONFIG?.mock?.menus ?? []) as Menu[];
+      if (showDevTools) {
+        sessionStorage.setItem('mockMenus', JSON.stringify(mockMenus, null, 2));
+      }
+    }
+  } catch {
+    //
+  }
+
+  return mockMenus;
+}
+
 export default function useMenusQuery(props?: Props) {
   const { onSuccess } = { ...defaultProps, ...props };
   const { data, ...rest } = useQuery<ApiData>({
@@ -40,28 +61,8 @@ export default function useMenusQuery(props?: Props) {
   const menus = data?.entries || [];
 
   if (env.isEnvDevelopment()) {
-    let mockMenus: Menu[] = [];
-
-    const localMockMenus = sessionStorage.getItem('mockMenus');
-    const { showDevTools } = GLOBAL_PORTAL_CONFIG?.client || {};
-    try {
-      if (showDevTools && localMockMenus) {
-        mockMenus = JSON.parse(localMockMenus) as Menu[];
-      } else {
-        mockMenus = (GLOBAL_PORTAL_CONFIG?.mock?.menus ?? []) as Menu[];
-        if (showDevTools) {
-          sessionStorage.setItem(
-            'mockMenus',
-            JSON.stringify(mockMenus, null, 2)
-          );
-        }
-      }
-    } catch {
-      //
-    }
-
     return {
-      menus: [...mockMenus],
+      menus: [...getMockMenus()],
       data,
       ...rest,
     };

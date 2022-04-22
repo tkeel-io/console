@@ -16,7 +16,7 @@ type Props = Menu & {
   handleMenuClick: (id: string) => void;
 };
 
-function ParentMenu({
+export default function SubMenuTitle({
   id,
   name,
   icon,
@@ -71,5 +71,3 @@ function ParentMenu({
     </Box>
   );
 }
-
-export default ParentMenu;

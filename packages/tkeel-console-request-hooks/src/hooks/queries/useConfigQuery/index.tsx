@@ -7,10 +7,6 @@ type ParsedExtra = {
   theme: {
     colors: {
       primary: string;
-      'primary.500': string;
-      primarySub: string;
-      primarySub2: string;
-      primarySub3: string;
       brand: ColorHues;
     };
   };
@@ -32,10 +28,12 @@ export default function useConfigQuery() {
   const extraStr = data?.extra || '';
 
   let parsedExtra: ParsedExtra | null = null;
-  try {
-    parsedExtra = JSON.parse(Base64.decode(extraStr)) as ParsedExtra;
-  } catch {
-    //
+  if (extraStr) {
+    try {
+      parsedExtra = JSON.parse(Base64.decode(extraStr)) as ParsedExtra;
+    } catch {
+      //
+    }
   }
 
   return { extra: parsedExtra, data, ...rest };

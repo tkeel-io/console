@@ -32,7 +32,7 @@ export default function ProductTab({
       backgroundColor="white"
       opacity={disable ? '0.5' : '1'}
       cursor={disable ? 'not-allowed' : 'pointer'}
-      _hover={{ backgroundColor: 'primarySub', borderColor: 'primary' }}
+      _hover={{ backgroundColor: 'brand.50', borderColor: 'primary' }}
       onClick={() => {
         if (!disable && onClick) {
           onClick();
