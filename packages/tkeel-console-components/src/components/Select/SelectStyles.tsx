@@ -1,7 +1,9 @@
 import 'rc-select/assets/index.less';
 
-import { Theme, useTheme } from '@chakra-ui/react';
+import { useTheme } from '@chakra-ui/react';
 import { css, Global } from '@emotion/react';
+
+import { Theme } from '@tkeel/console-themes';
 
 import { SelectExtrasProps } from './types';
 
@@ -9,22 +11,9 @@ interface Props extends SelectExtrasProps {
   prefixCls: string;
 }
 
-type CustomTheme = Theme & {
-  colors: {
-    primary: string;
-    brand: {
-      50: string;
-    };
-    grayAlternatives: {
-      50: string;
-      700: string;
-    };
-  };
-};
-
 export default function SelectStyles({ prefixCls, styles }: Props) {
   const selectPrefix = prefixCls;
-  const { colors }: CustomTheme = useTheme();
+  const { colors } = useTheme<Theme>();
   const globalStyles = css`
     * {
       box-sizing: border-box;
@@ -32,6 +21,23 @@ export default function SelectStyles({ prefixCls, styles }: Props) {
     .${selectPrefix} {
       width: inherit;
       ${styles?.select}
+
+      &-disabled {
+        .${selectPrefix}-selector {
+          border: 1px solid ${colors.grayAlternatives[50]} !important;
+          cursor: not-allowed !important;
+          background-color: ${colors.gray[50]};
+          opacity: 1;
+        }
+
+        .${selectPrefix}-selection-item {
+          color: ${colors.gray[400]} !important;
+        }
+
+        .${selectPrefix}-arrow svg {
+          fill: ${colors.grayAlternatives[200]} !important;
+        }
+      }
 
       &-single {
         .${selectPrefix}-selector {
@@ -63,6 +69,7 @@ export default function SelectStyles({ prefixCls, styles }: Props) {
           }
 
           .${selectPrefix}-selection-item {
+            line-height: 26px;
             ${styles?.selectionItem}
           }
         }
@@ -100,7 +107,7 @@ export default function SelectStyles({ prefixCls, styles }: Props) {
         .${selectPrefix}-selection-item {
           flex: none;
           margin-right: 2px;
-          padding: 4px;
+          padding: 0 5px;
           color: ${colors.primary};
           font-weight: 500;
           background: ${colors.brand[50]};
@@ -176,13 +183,15 @@ export default function SelectStyles({ prefixCls, styles }: Props) {
         border-radius: 4px;
         padding: 16px 12px;
         color: ${colors.gray[700]};
-        box-shadow: 0 2px 10px ${colors.gray[100]};
         z-index: 1400;
+        box-shadow: 0px 10px 15px rgba(113, 128, 150, 0.1),
+          0px 4px 6px rgba(113, 128, 150, 0.2) !important;
         ${styles?.dropdown}
       }
 
       &-item {
-        padding: 5px;
+        margin-bottom: 4px;
+        padding: 0 5px;
         font-size: 14px;
         line-height: 32px;
         cursor: pointer;
@@ -203,7 +212,7 @@ export default function SelectStyles({ prefixCls, styles }: Props) {
 
           .${selectPrefix}-item-option-state {
             right: 4px;
-            top: 2px;
+            top: 0;
             ${styles?.itemOptionState}
           }
 
@@ -214,6 +223,7 @@ export default function SelectStyles({ prefixCls, styles }: Props) {
 
           &-disabled {
             color: ${colors.gray[300]};
+            cursor: not-allowed;
           }
         }
 

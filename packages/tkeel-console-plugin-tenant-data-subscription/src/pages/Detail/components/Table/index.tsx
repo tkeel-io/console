@@ -43,22 +43,11 @@ function Index({ id, title }: { id: string; title: string }) {
   const pagination = usePagination();
   const { pageNum, pageSize, setTotalSize } = pagination;
 
-  let params = {
-    page_num: pageNum,
-    page_size: pageSize,
-    order_by: 'created_at',
-    is_descending: true,
-    key_words: '',
-    id: '',
-  };
-  params = { ...params, id };
-
-  if (keywords) {
-    params = { ...params, key_words: keywords };
-  }
-
   const { entities, isLoading, refetch } = useListSubscribeEntitiesQuery({
-    params,
+    id: id || '',
+    pageNum,
+    pageSize,
+    keywords,
     onSuccess(res) {
       const total = res?.data?.total ?? 0;
       setTotalSize(total);
@@ -180,6 +169,7 @@ function Index({ id, title }: { id: string; title: string }) {
   ];
 
   const noData = pageNum === 1 && !keywords && entities.length === 0;
+
   return (
     <Flex flexDirection="column" height="100%" margin="0 20px">
       <PageHeaderToolbar

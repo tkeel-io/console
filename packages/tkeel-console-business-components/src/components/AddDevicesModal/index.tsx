@@ -195,6 +195,7 @@ export default function AddDevicesModal({
     setSelectedDeviceKeywords(keywords);
     const newFilteredSelectedDevices = searchDevicesByKeywords({
       devices: selectedDevices,
+      keywords,
     });
 
     setFilteredSelectedDevices(newFilteredSelectedDevices);
