@@ -144,7 +144,7 @@ function Index({ id, title }: { id: string; title: string }) {
             description={
               <Box>
                 <Box display="inline" color="gray.600" fontWeight="500">
-                  [{title}]
+                  「{title}」
                 </Box>
                 暂无数据
               </Box>
