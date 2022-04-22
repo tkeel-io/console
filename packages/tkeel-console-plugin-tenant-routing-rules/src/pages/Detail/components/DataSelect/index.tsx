@@ -47,6 +47,7 @@ export default function DataSelect({ routeType }: Props) {
   const [keywords, setKeywords] = useState('');
   const { id: ruleId } = useParams();
   const pagination = usePagination();
+  const isMsgRouter = routeType === 'msg';
 
   const { pageNum, pageSize, setTotalSize } = pagination;
 
@@ -150,23 +151,23 @@ export default function DataSelect({ routeType }: Props) {
       Cell: ({ row }: Cell<DeviceColumnData>) =>
         useMemo(() => {
           const { id, name } = row.original;
-
-          return (
-            <MoreAction
-              buttons={[
-                <MoveRoutingRuleButton
-                  key="move"
-                  selectedIds={[id]}
-                  refetchData={() => refetch()}
-                />,
-                <DeleteDevicesButton
-                  key="delete"
-                  selectedDevices={[{ id, name }]}
-                  refetchData={() => refetch()}
-                />,
-              ]}
-            />
-          );
+          const buttons = [
+            <DeleteDevicesButton
+              key="delete"
+              selectedDevices={[{ id, name }]}
+              refetchData={() => refetch()}
+            />,
+          ];
+          if (isMsgRouter) {
+            buttons.unshift(
+              <MoveRoutingRuleButton
+                key="move"
+                selectedIds={[id]}
+                refetchData={() => refetch()}
+              />
+            );
+          }
+          return <MoreAction buttons={buttons} />;
         }, [row]),
     },
   ];
@@ -222,7 +223,7 @@ export default function DataSelect({ routeType }: Props) {
                 <Center width="100%" height="104px">
                   <Text color="gray.600" fontSize="14px" lineHeight="32px">
                     暂未选择任何设备数据，请
-                    {routeType === 'time' ? '通过设备模板' : ''}
+                    {isMsgRouter ? '' : '通过设备模板'}
                   </Text>
                   <AddDevicesButton
                     type="link"
@@ -234,6 +235,24 @@ export default function DataSelect({ routeType }: Props) {
             }
           }
 
+          const buttons = [
+            <DeleteDevicesButton
+              key="delete"
+              selectedDevices={selectedDevices}
+              refetchData={() => refetch()}
+            />,
+          ];
+          if (isMsgRouter) {
+            buttons.unshift(
+              <MoveRoutingRuleButton
+                key="move"
+                selectedIds={selectedDevices.map(({ id }) => id)}
+                refetchData={() => {
+                  refetch();
+                }}
+              />
+            );
+          }
           return (
             <Flex flex="1" flexDirection="column" padding="20px">
               <Flex
@@ -275,20 +294,7 @@ export default function DataSelect({ routeType }: Props) {
                   {selectedDevices.length > 0 ? (
                     <MoreAction
                       type="text"
-                      buttons={[
-                        <MoveRoutingRuleButton
-                          key="move"
-                          selectedIds={selectedDevices.map(({ id }) => id)}
-                          refetchData={() => {
-                            refetch();
-                          }}
-                        />,
-                        <DeleteDevicesButton
-                          key="delete"
-                          selectedDevices={selectedDevices}
-                          refetchData={() => refetch()}
-                        />,
-                      ]}
+                      buttons={buttons}
                       styles={{ wrapper: { margin: '6px 0', width: '92px' } }}
                     />
                   ) : (
