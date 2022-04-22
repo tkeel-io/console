@@ -2,7 +2,6 @@ import { Button, CloseButton, Flex, HStack } from '@chakra-ui/react';
 import { useState } from 'react';
 
 import { AceEditor, Tree } from '@tkeel/console-components';
-import { getTreeIcon } from '@tkeel/console-utils';
 
 import { adminMenus, tenantMenus } from '@/tkeel-console-portal-base/constants';
 import { Menu } from '@/tkeel-console-portal-base/hooks/queries/useMenusQuery';
@@ -30,7 +29,6 @@ function getTreeData(menus: Menu[]): TreeNodeData[] {
       children: children ? getTreeData(children) : [],
       originData: menu,
       key: id,
-      icon: ({ expanded }: { expanded: boolean }) => getTreeIcon({ expanded }),
     };
   });
 }
