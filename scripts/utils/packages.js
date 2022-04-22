@@ -266,7 +266,7 @@ function getCliArgv() {
       },
       'docker-image-push': {
         type: 'boolean',
-        desc: 'is push docker image ?',
+        desc: 'push docker image ?',
       },
     })
     .help()
