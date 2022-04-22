@@ -2,6 +2,7 @@ import { useDisclosure } from '@chakra-ui/react';
 
 import { MoreActionButton } from '@tkeel/console-components';
 import { PencilFilledIcon } from '@tkeel/console-icons';
+import { plugin } from '@tkeel/console-utils';
 
 import useMoveSubscriptionMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useMoveSubscriptionMutation';
 import useListSubscribeQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useListSubscribeQuery';
@@ -20,10 +21,12 @@ export default function MoveSubscriptionButton({
 
   const { data: listSubscribeData } = useListSubscribeQuery();
 
+  const toast = plugin.getPortalToast();
   const { mutate, isLoading } = useMoveSubscriptionMutation({
     onSuccess() {
       onSuccess();
       onClose();
+      toast('移动订阅成功', { status: 'success' });
     },
   });
 

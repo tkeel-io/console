@@ -37,23 +37,20 @@ function TemplateCard({
       borderColor="grayAlternatives.50"
       height="118px"
       bg="white"
+      cursor="pointer"
       {...styles?.wrapper}
+      onClick={() => {
+        navigate(navigateUrl);
+      }}
     >
       <Flex height="76px" flexDir="column" padding="0 20">
         <Flex alignItems="center" justifyContent="space-between">
-          <Flex
-            alignItems="center"
-            onClick={() => {
-              navigate(navigateUrl);
-            }}
-            style={{ cursor: 'pointer' }}
-          >
+          <Flex alignItems="center" style={{ cursor: 'pointer' }}>
             {icon}
             <Text lineHeight="50px" ml="12px" isTruncated width="30vw">
               {title}
             </Text>
           </Flex>
-
           <Flex>
             <Box ml="6px">
               {buttons && (

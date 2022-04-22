@@ -28,10 +28,7 @@ function DeleteDeviceButton({
       onSuccess();
       onClose();
       toast('移除设备成功', { status: 'success' });
-      // TODO 移除设备后有延迟，临时解决方案
-      setTimeout(() => {
-        refetchData();
-      }, 800);
+      refetchData();
     },
   });
 

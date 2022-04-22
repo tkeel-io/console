@@ -33,7 +33,13 @@ type Data = {
   updated_at: string;
 };
 
-function Index({ id, title }: { id: string; title: string }) {
+type Props = {
+  id: string;
+  title: string;
+  refetchSubscribeInfo: () => unknown;
+};
+
+export default function Index({ id, title, refetchSubscribeInfo }: Props) {
   const [keywords, setKeyWords] = useState('');
   const [checkBoxIcon, setCheckBoxIcon] = useState<boolean>(false);
 
@@ -69,6 +75,14 @@ function Index({ id, title }: { id: string; title: string }) {
     },
     [setRowIds, setRowNames]
   );
+
+  const handleRefetch = () => {
+    // TODO 添加或移除设备后有延迟，临时处理方案
+    setTimeout(() => {
+      refetch();
+      refetchSubscribeInfo();
+    }, 500);
+  };
 
   const columns: ReadonlyArray<Column<Data>> = [
     {
@@ -148,18 +162,14 @@ function Index({ id, title }: { id: string; title: string }) {
                 <MoveSubscriptionButton
                   selected_ids={[original.ID]}
                   key="modify"
-                  onSuccess={() => {
-                    refetch();
-                  }}
+                  onSuccess={() => handleRefetch()}
                 />,
                 <DeleteDeviceButton
                   onSuccess={() => {}}
                   name={[original.name]}
                   key="delete"
                   selected_ids={[original.ID]}
-                  refetchData={() => {
-                    refetch();
-                  }}
+                  refetchData={() => handleRefetch()}
                 />,
               ]}
             />
@@ -202,18 +212,14 @@ function Index({ id, title }: { id: string; title: string }) {
                 <MoveSubscriptionButton
                   selected_ids={rowIds}
                   key="modify"
-                  onSuccess={() => {
-                    refetch();
-                  }}
+                  onSuccess={() => handleRefetch()}
                 />,
                 <DeleteDeviceButton
                   onSuccess={() => {}}
                   name={rowNames}
                   key="delete"
                   selected_ids={rowIds}
-                  refetchData={() => {
-                    refetch();
-                  }}
+                  refetchData={() => handleRefetch()}
                 />,
               ]}
             />
@@ -233,9 +239,7 @@ function Index({ id, title }: { id: string; title: string }) {
             : [
                 <CreateDeviceButton
                   key="create"
-                  refetchData={() => {
-                    refetch();
-                  }}
+                  refetchData={() => handleRefetch()}
                 />,
               ]
         }
@@ -269,12 +273,10 @@ function Index({ id, title }: { id: string; title: string }) {
               }}
             />
           ) : (
-            <Empty title={title} refetchData={() => refetch()} />
+            <Empty title={title} refetchData={() => handleRefetch()} />
           )
         }
       />
     </Flex>
   );
 }
-
-export default Index;
