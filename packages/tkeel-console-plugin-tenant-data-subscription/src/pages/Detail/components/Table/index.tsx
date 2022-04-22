@@ -10,19 +10,15 @@ import {
   Table,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
-import {
-  CaretDownFilledIcon,
-  CaretUpFilledIcon,
-  SmartObjectTwoToneIcon,
-} from '@tkeel/console-icons';
+import { SmartObjectTwoToneIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import useListSubscribeEntitiesQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useListSubscribeEntitiesQuery';
-import CreateDeviceButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/CreateDeviceButton';
-import DeleteDeviceButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/DeleteDeviceButton';
-import MoveSubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/MoveSubscriptionButton';
 
+import CreateDeviceButton from '../CreateDeviceButton';
+import DeleteDeviceButton from '../DeleteDeviceButton';
 import Empty from '../Empty';
+import MoveSubscriptionButton from '../MoveSubscriptionButton';
 
 type Data = {
   ID: string;
@@ -41,7 +37,6 @@ type Props = {
 
 export default function Index({ id, title, refetchSubscribeInfo }: Props) {
   const [keywords, setKeyWords] = useState('');
-  const [checkBoxIcon, setCheckBoxIcon] = useState<boolean>(false);
 
   const [rowIds, setRowIds] = useState<string[]>([]);
   const [rowNames, setRowNames] = useState<string[]>([]);
@@ -148,7 +143,6 @@ export default function Index({ id, title, refetchSubscribeInfo }: Props) {
           [value]
         ),
     },
-
     {
       Header: '操作',
       width: 80,
@@ -186,28 +180,7 @@ export default function Index({ id, title, refetchSubscribeInfo }: Props) {
         name={
           rowNames.length > 0 ? (
             <MoreAction
-              element={
-                <Box
-                  display="flex"
-                  backgroundColor="gray.800"
-                  borderRadius="35px"
-                  color="white"
-                  onClick={() => {
-                    setCheckBoxIcon(!checkBoxIcon);
-                  }}
-                  width="86px"
-                  alignItems="center"
-                  pl="12px"
-                  fontSize="12px"
-                >
-                  更多操作
-                  {checkBoxIcon ? (
-                    <CaretUpFilledIcon key="up" color="white" />
-                  ) : (
-                    <CaretDownFilledIcon key="down" color="white" />
-                  )}
-                </Box>
-              }
+              type="text"
               buttons={[
                 <MoveSubscriptionButton
                   selected_ids={rowIds}

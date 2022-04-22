@@ -7,7 +7,8 @@ import { useSubscribeListQuery } from '@tkeel/console-request-hooks';
 import { plugin } from '@tkeel/console-utils';
 
 import useMoveSubscriptionMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useMoveSubscriptionMutation';
-import MoveSubscriptionModal from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/MoveSubscriptionModal';
+
+import MoveSubscriptionModal from '../MoveSubscriptionModal';
 
 type Props = {
   onSuccess: () => void;

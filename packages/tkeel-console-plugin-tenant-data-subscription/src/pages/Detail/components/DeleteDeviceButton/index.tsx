@@ -5,7 +5,8 @@ import { TrashFilledIcon } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
 import useDeleteSubscriptionDeviceMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useDeleteSubscriptionDeviceMutation';
-import DeleteDeviceModal from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/DeleteDeviceModal';
+
+import DeleteDeviceModal from '../DeleteDeviceModal';
 
 type Props = {
   selected_ids: string[];
