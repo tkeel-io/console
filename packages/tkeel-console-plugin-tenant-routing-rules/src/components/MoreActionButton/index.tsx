@@ -32,30 +32,32 @@ function MoreActionButton({ cruxData, refetch, onDeleteSuccess }: Props) {
     handleRefetch();
   };
 
-  return (
-    <MoreAction
-      buttons={[
-        <SwitchButton
-          key="switch"
-          status={cruxData.status}
-          id={cruxData.id}
-          refetch={handleRefetch}
-        />,
-        <CreateRulesButton
-          key="edit"
-          type="editButton"
-          cruxData={cruxData}
-          onSuccess={handleEditSuccess}
-        />,
-        <DeleteButton
-          key="delete"
-          cruxData={cruxData}
-          refetch={handleRefetch}
-          onDeleteSuccess={onDeleteSuccess}
-        />,
-      ]}
-    />
-  );
+  const buttons = [
+    <SwitchButton
+      key="switch"
+      status={cruxData.status}
+      id={cruxData.id}
+      refetch={handleRefetch}
+    />,
+    <CreateRulesButton
+      key="edit"
+      type="editButton"
+      cruxData={cruxData}
+      onSuccess={handleEditSuccess}
+    />,
+  ];
+
+  if (cruxData.status !== 1) {
+    buttons.push(
+      <DeleteButton
+        key="delete"
+        cruxData={cruxData}
+        refetch={handleRefetch}
+        onDeleteSuccess={onDeleteSuccess}
+      />
+    );
+  }
+  return <MoreAction buttons={buttons} />;
 }
 
 export default MoreActionButton;

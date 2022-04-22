@@ -148,6 +148,7 @@ export default function RepublishToMysqlModal({
         interfaceType={republishInfo[republishType].interfaceType}
       />
       <CreateFinished
+        databaseName={republishInfo[republishType].title}
         onClose={() => {
           setStep(1);
           onClose();
