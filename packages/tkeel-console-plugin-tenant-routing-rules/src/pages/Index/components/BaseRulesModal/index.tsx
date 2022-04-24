@@ -163,7 +163,7 @@ export default function BaseRulesModal({
         <SelectField<FormValues>
           id="deviceTemplate"
           name="deviceTemplate"
-          label="使用设备模版"
+          label="使用设备模板"
           disabled={buttonType === 'editButton'}
           defaultValue={defaultValues?.deviceTemplateId}
           options={templateOptions}
