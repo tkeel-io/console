@@ -356,7 +356,7 @@ export default function SearchDeviceInput({
           placeholder={
             showFilterDropdown || hasFilterConditions
               ? ''
-              : '支持关键字搜索，支持设备分组、设备模版搜索'
+              : '支持关键字搜索，支持设备分组、设备模板搜索'
           }
           disabled={inputDisabled}
           value={inputValue}

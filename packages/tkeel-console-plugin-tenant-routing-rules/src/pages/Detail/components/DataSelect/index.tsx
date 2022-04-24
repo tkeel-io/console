@@ -106,7 +106,7 @@ export default function DataSelect({ routeType }: Props) {
         }, [row]),
     },
     {
-      Header: '设备模版',
+      Header: '设备模板',
       accessor: 'templateName',
       Cell: ({ value }: { value: string }) => {
         const templateName = value || '-';

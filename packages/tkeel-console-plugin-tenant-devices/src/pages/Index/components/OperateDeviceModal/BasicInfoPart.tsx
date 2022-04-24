@@ -131,7 +131,7 @@ export default function BasicInfoPart({
                     }
                   >
                     <Text color="gray.600" fontSize="14px">
-                      使用设备模版
+                      使用设备模板
                     </Text>
                   </Checkbox>
                   {(watchFields.connectInfo || []).includes(

@@ -46,6 +46,7 @@ export default function Detail() {
 
   return (
     <Flex
+      marginBottom="20px"
       padding="20px"
       height="100%"
       justifyContent="center"

@@ -77,7 +77,7 @@ function AttributeDataPart({ attributeList = [], watchFields }: Props) {
   return (
     <Flex flexDirection="column" h="100%">
       <Text color="gray.500" fontSize="12px" mb="12px">
-        使用「{watchFields.templateName}」模版的属性数据
+        使用「{watchFields.templateName}」模板的属性数据
       </Text>
       <Box overflowY="scroll" h="390px">
         {attributeList.length > 0 &&
