@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, Flex, StyleProps, Text } from '@chakra-ui/react';
 
 import iconCheckbox from '@/tkeel-console-plugin-tenant-data-query/assets/images/checkbox.svg';
 import iconCheckboxChecked from '@/tkeel-console-plugin-tenant-data-query/assets/images/checkbox-checked.svg';
@@ -13,11 +13,17 @@ export enum CheckBoxStatus {
 type Props = {
   checkboxStatus?: CheckBoxStatus;
   onClick?: () => unknown;
+  children?: string;
+  styles?: {
+    wrapper?: StyleProps;
+  };
 };
 
 export default function CustomCheckbox({
   checkboxStatus = CheckBoxStatus.NOT_CHECKED,
   onClick,
+  children,
+  styles,
 }: Props) {
   let checkboxImage = iconCheckbox;
   const checkboxBackgroundSize =
@@ -29,13 +35,22 @@ export default function CustomCheckbox({
     checkboxImage = iconCheckboxIndeterminate;
   }
   return (
-    <Box
-      width="12px"
-      height="12px"
-      backgroundImage={`url(${checkboxImage})`}
-      backgroundPosition="center"
-      backgroundSize={checkboxBackgroundSize}
+    <Flex
+      alignItems="center"
+      cursor="pointer"
+      {...styles?.wrapper}
       onClick={onClick}
-    />
+    >
+      <Box
+        width="12px"
+        height="12px"
+        backgroundImage={`url(${checkboxImage})`}
+        backgroundPosition="center"
+        backgroundSize={checkboxBackgroundSize}
+      />
+      <Text marginLeft="8px" color="gray.700" fontSize="12px">
+        {children}
+      </Text>
+    </Flex>
   );
 }

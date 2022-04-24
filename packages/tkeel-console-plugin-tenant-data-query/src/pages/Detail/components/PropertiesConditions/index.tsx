@@ -15,7 +15,8 @@ import { TelemetryFields } from '@/tkeel-console-plugin-tenant-data-query/hooks/
 
 import CustomCheckbox, { CheckBoxStatus } from '../CustomCheckbox';
 import CustomTab from '../CustomTab';
-import TemplateData from '../TemplateData';
+import RawDataCheckboxes from '../RawDataCheckboxes';
+import TemplateDataCheckboxes from '../TemplateDataCheckboxes';
 
 type Props = {
   identifiers: string[];
@@ -24,6 +25,8 @@ type Props = {
   setTemplateCheckboxStatus: Dispatch<SetStateAction<CheckBoxStatus>>;
   checkedKeys: string[];
   setCheckedKeys: Dispatch<SetStateAction<string[]>>;
+  checkedRawDataKeys: string[];
+  setCheckedRawDataKeys: Dispatch<SetStateAction<string[]>>;
   isDeviceDetailLoading: boolean;
   isTelemetryDataLoading: boolean;
   onSearch: (value: string) => unknown;
@@ -37,6 +40,8 @@ export default function PropertiesConditions({
   setTemplateCheckboxStatus,
   checkedKeys,
   setCheckedKeys,
+  checkedRawDataKeys,
+  setCheckedRawDataKeys,
   isDeviceDetailLoading,
   isTelemetryDataLoading,
   onSearch,
@@ -105,13 +110,21 @@ export default function PropertiesConditions({
         </TabList>
         <TabPanels flex="1">
           <TabPanel height="100%" padding="0">
-            <Flex height="100%" backgroundColor="gray.50">
-              1
+            <Flex
+              flexDirection="column"
+              height="100%"
+              padding="8px 20px"
+              backgroundColor="gray.50"
+            >
+              <RawDataCheckboxes
+                checkedRawDataKeys={checkedRawDataKeys}
+                setCheckedRawDataKeys={setCheckedRawDataKeys}
+              />
             </Flex>
           </TabPanel>
           <TabPanel height="100%" padding="0">
             <Flex height="100%" backgroundColor="gray.50">
-              <TemplateData
+              <TemplateDataCheckboxes
                 telemetry={telemetry}
                 checkedKeys={checkedKeys}
                 setCheckedKeys={setCheckedKeys}

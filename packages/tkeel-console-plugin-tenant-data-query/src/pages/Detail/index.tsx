@@ -4,15 +4,8 @@ import { useEffect, useState } from 'react';
 import { CSVLink } from 'react-csv';
 import { useSearchParams } from 'react-router-dom';
 
-import { DateRangePicker, IconButton, Select } from '@tkeel/console-components';
-import { useColor } from '@tkeel/console-hooks';
-import {
-  // RightFilledIcon,
-  // CheckFilledIcon,
-  DownloadFilledIcon,
-  // LeftFilledIcon,
-  RefreshFilledIcon,
-} from '@tkeel/console-icons';
+import { DateRangePicker, IconButton } from '@tkeel/console-components';
+import { DownloadFilledIcon, RefreshFilledIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import SearchEmpty from '@/tkeel-console-plugin-tenant-data-query/components/SearchEmpty';
@@ -25,19 +18,12 @@ import { CheckBoxStatus } from './components/CustomCheckbox';
 import DataResultTitle from './components/DataResultTitle';
 import DataTable from './components/DataTable';
 import DateRangeIndicator from './components/DateRangeIndicator';
+import DateSelect, {
+  getRecentTimestamp,
+  TimeType,
+} from './components/DateSelect';
 import DeviceDetailCard from './components/DeviceDetailCard';
 import PropertiesConditions from './components/PropertiesConditions';
-
-enum TimeType {
-  FiveMinutes = 'fiveMinutes',
-  ThirtyMinutes = 'thirtyMinutes',
-  OneHour = 'oneHour',
-  Custom = 'custom',
-}
-
-function getRecentTimestamp(num: number, unit = 'minute') {
-  return dayjs().subtract(num, unit).unix();
-}
 
 export default function Detail() {
   const [keywords, setKeywords] = useState('');
@@ -48,6 +34,7 @@ export default function Detail() {
   const [templateCheckboxStatus, setTemplateCheckboxStatus] = useState(
     CheckBoxStatus.CHECKED
   );
+  const [checkedRawDataKeys, setCheckedRawDataKeys] = useState<string[]>([]);
   const [checkedKeys, setCheckedKeys] = useState<string[]>([]);
   const [isTelemetryDataRequested, setIsTelemetryDataRequested] =
     useState(false);
@@ -61,7 +48,6 @@ export default function Detail() {
 
   const [isRangeSearch] = useState(false);
 
-  const borderGrayColor = useColor('gray.200');
   const [searchParams] = useSearchParams();
   const id = searchParams.get('id') || '';
 
@@ -200,25 +186,6 @@ export default function Detail() {
     tableTelemetry[key] = telemetry[key];
   });
 
-  const selectOptions = [
-    {
-      label: '5 分钟',
-      value: TimeType.FiveMinutes,
-    },
-    {
-      label: '30 分钟',
-      value: TimeType.ThirtyMinutes,
-    },
-    {
-      label: '1 小时',
-      value: TimeType.OneHour,
-    },
-    {
-      label: '自定义',
-      value: TimeType.Custom,
-    },
-  ];
-
   useEffect(() => {
     const newFilteredTelemetry = {};
     Object.keys(telemetry).forEach((key) => {
@@ -242,6 +209,8 @@ export default function Detail() {
           setTemplateCheckboxStatus={setTemplateCheckboxStatus}
           checkedKeys={checkedKeys}
           setCheckedKeys={setCheckedKeys}
+          checkedRawDataKeys={checkedRawDataKeys}
+          setCheckedRawDataKeys={setCheckedRawDataKeys}
           isDeviceDetailLoading={isDeviceDetailLoading}
           isTelemetryDataLoading={isTelemetryDataLoading}
           onSearch={handleSearch}
@@ -263,47 +232,13 @@ export default function Detail() {
               <Flex alignItems="center">
                 <DataResultTitle />
                 <Flex>
-                  <Select
-                    options={selectOptions}
-                    onChange={(value) => {
-                      const timeTypeValue = value as TimeType;
-                      setTimeType(timeTypeValue);
-
-                      let requestStartTime = getRecentTimestamp(3, 'day');
-                      const requestEndTime = dayjs().unix();
-
-                      if (value === TimeType.FiveMinutes) {
-                        requestStartTime = getRecentTimestamp(5);
-                      }
-
-                      if (value === TimeType.ThirtyMinutes) {
-                        requestStartTime = getRecentTimestamp(30);
-                      }
-
-                      if (value === TimeType.OneHour) {
-                        requestStartTime = getRecentTimestamp(1, 'hour');
-                      }
-
-                      setStartTime(requestStartTime);
-                      setEndTime(requestEndTime);
-
-                      if (hasIdentifiers) {
-                        handleTelemetryDataMutate();
-                      }
-                    }}
-                    value={timeType}
-                    style={{
-                      marginRight: '10px',
-                      width: '89px',
-                    }}
-                    styles={{
-                      selector: `padding: 0; line-height: 34px; border-color: ${borderGrayColor};`,
-                      selectionSearch: 'padding: 0; line-height: 34px;',
-                      selectionItem: 'top: 0; left: 10px; line-height: 34px;',
-                      arrow: 'top: 10px; right: 10px',
-                      dropdown: 'padding: 5px; min-height: 42px;',
-                      itemOptionState: 'display: none',
-                    }}
+                  <DateSelect
+                    timeType={timeType}
+                    hasIdentifiers={hasIdentifiers}
+                    setTimeType={setTimeType}
+                    setStartTime={setStartTime}
+                    setEndTime={setEndTime}
+                    handleTelemetryDataMutate={handleTelemetryDataMutate}
                   />
                   {timeType === TimeType.Custom && (
                     <DateRangePicker
@@ -389,12 +324,6 @@ export default function Detail() {
                 >
                   分段查询
                 </Text>
-                <CustomCircle onClick={() => {}}>
-                  <LeftFilledIcon color="grayAlternatives.300" />
-                </CustomCircle>
-                <CustomCircle marginLeft="8px" onClick={() => {}}>
-                  <RightFilledIcon color="grayAlternatives.300" />
-                </CustomCircle>
               </Flex> */}
             </Flex>
             {isRangeSearch && (

@@ -16,7 +16,7 @@ type Props = {
   isDeviceDetailLoading: boolean;
 };
 
-export default function TemplateData({
+export default function TemplateDataCheckboxes({
   telemetry,
   checkedKeys,
   setCheckedKeys,
