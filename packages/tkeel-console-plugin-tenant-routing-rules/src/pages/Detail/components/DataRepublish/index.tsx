@@ -64,7 +64,7 @@ export default function DataRepublish({
   };
 
   const iconColor = 'grayAlternatives.300';
-  const msgProducts = [
+  const baseProducts = [
     {
       id: 'kafka',
       icon: <KafkaFilledIcon size={22} color={iconColor} />,
@@ -79,7 +79,7 @@ export default function DataRepublish({
     // },
   ];
 
-  const timeProducts = [
+  const upgradeProducts = [
     {
       id: 'mysql',
       icon: <MySqlFilledIcon size={38} color={iconColor} />,
@@ -93,7 +93,8 @@ export default function DataRepublish({
       disable: false,
     },
   ];
-  const products = routeType === 'msg' ? msgProducts : timeProducts;
+  const products =
+    routeType === 'msg' ? baseProducts : [...baseProducts, ...upgradeProducts];
 
   return (
     <Flex flexDirection="column" {...styles?.wrapper}>
