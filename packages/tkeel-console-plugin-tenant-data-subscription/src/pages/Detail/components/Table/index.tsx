@@ -76,7 +76,7 @@ export default function Index({ id, title, refetchSubscribeInfo }: Props) {
     setTimeout(() => {
       refetch();
       refetchSubscribeInfo();
-    }, 500);
+    }, 700);
   };
 
   const columns: ReadonlyArray<Column<Data>> = [

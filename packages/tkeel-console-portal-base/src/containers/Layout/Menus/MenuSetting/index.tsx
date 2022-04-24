@@ -161,7 +161,7 @@ export default function MenuSetting({
             colorScheme="brand"
             width="80px"
             onClick={() => {
-              sessionStorage.setItem('mockMenus', mockMenus);
+              localStorage.setItem('mockMenus', mockMenus);
               onClose();
             }}
           >
