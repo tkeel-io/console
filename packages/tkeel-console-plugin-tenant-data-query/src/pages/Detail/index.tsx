@@ -21,13 +21,12 @@ import useDeviceDetailQuery, {
   TelemetryFields,
 } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceDetailQuery';
 
+import { CheckBoxStatus } from './components/CustomCheckbox';
 import DataResultTitle from './components/DataResultTitle';
 import DataTable from './components/DataTable';
 import DateRangeIndicator from './components/DateRangeIndicator';
 import DeviceDetailCard from './components/DeviceDetailCard';
-import PropertiesConditions, {
-  CheckBoxStatus,
-} from './components/PropertiesConditions';
+import PropertiesConditions from './components/PropertiesConditions';
 
 enum TimeType {
   FiveMinutes = 'fiveMinutes',

@@ -4,7 +4,7 @@ import iconCheckbox from '@/tkeel-console-plugin-tenant-data-query/assets/images
 import iconCheckboxChecked from '@/tkeel-console-plugin-tenant-data-query/assets/images/checkbox-checked.svg';
 import iconCheckboxIndeterminate from '@/tkeel-console-plugin-tenant-data-query/assets/images/checkbox-indeterminate.svg';
 
-enum CheckBoxStatus {
+export enum CheckBoxStatus {
   NOT_CHECKED = 'not-checked',
   CHECKED = 'checked',
   INDETERMINATE = 'indeterminate',
