@@ -99,6 +99,7 @@ function SearchInput({
       <Input
         ref={inputRef}
         height="100%"
+        paddingInlineEnd="30px"
         borderColor="gray.200"
         borderRadius="20px"
         color="gray.600"

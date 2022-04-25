@@ -1,4 +1,5 @@
-import { Data } from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useListSubscribeQuery';
+import { SubscribeInfo } from '@tkeel/console-request-hooks';
+
 import BaseSubscriptionModal, {
   FormValues,
 } from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/BaseSubscriptionModal';
@@ -8,7 +9,7 @@ type Props = {
   isConfirmButtonLoading: boolean;
   onClose: () => unknown;
   onConfirm: (formValues: FormValues) => unknown;
-  data?: Data;
+  data?: SubscribeInfo;
 };
 
 export default function ModifySubscriptionModal({

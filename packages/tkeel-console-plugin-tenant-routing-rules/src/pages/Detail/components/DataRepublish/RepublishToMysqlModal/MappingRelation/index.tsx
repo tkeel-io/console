@@ -87,8 +87,7 @@ export default function MappingRelation({
   const databaseName = (databaseNameMap[interfaceType] || '') as string;
   const tdBorderColor = useColor('gray.200');
   const [isGetDeviceMsg, setIsGetDeviceMsg] = useState(false);
-  // const [isShowTip, setIsShowTip] = useState(false);
-  const [isShowTip] = useState(false);
+  const [isShowTip, setIsShowTip] = useState(false);
   const [selName, setSelName] = useState(defaultValues?.mapping ?? '');
   const isRequest = !!defaultValues?.mapping || isGetDeviceMsg;
   const { deviceMsgList } = useDeviceMsgQuery(deviceTemplateId, isRequest);
@@ -129,14 +128,23 @@ export default function MappingRelation({
     };
   });
 
+  const createFieldsData = fieldsData.map((item, index) => {
+    return {
+      ...item,
+      t_field: { name: item.name, type: item.type },
+      m_field: { name: '', type: '' },
+      index,
+    };
+  });
+
   const [editFields, setEditFields] = useState<FiledItem[]>(backFieldsData);
-  let fields: FiledItem[] = reFields;
-  const data = modalKey === 'edit' ? backFieldsData : fieldsData;
+  let fields: FiledItem[] = reFields.length > 0 ? reFields : createFieldsData;
+  const data = modalKey === 'edit' ? backFieldsData : createFieldsData;
   const {
     control,
     formState: { errors },
-    // trigger,
-    // getValues,
+    trigger,
+    getValues,
   } = useForm<MapFormValues>({
     defaultValues,
   });
@@ -146,31 +154,36 @@ export default function MappingRelation({
     onPrev(fields);
   };
   const handleNext = async () => {
-    // const result = await trigger();
-    // const formValues = getValues();
-    // const isShow = !result && formValues?.mapping !== undefined;
-    // setIsShowTip(isShow);
-    // if (result) {
-    // }
-    if (modalKey === 'edit') {
-      editMutate({
-        data: {
-          target_id: targetId ?? '',
-          sink_type: interfaceType,
-          sink_id: verifyId,
-          table_name: selName,
-          fields: editFields,
-        },
-      });
-    } else {
-      createMutate({
-        data: {
-          sink_type: interfaceType,
-          sink_id: verifyId,
-          table_name: selName,
-          fields,
-        },
-      });
+    const result = await trigger();
+    const formValues = getValues();
+    const msgKey = Object.keys(formValues);
+    msgKey.splice(0, 1);
+    const hasMsgKey = msgKey
+      .map((item) => getValues(item) !== undefined)
+      .includes(true);
+    setIsShowTip(!hasMsgKey);
+    const isSend = result || (formValues?.mapping !== undefined && hasMsgKey);
+    if (isSend) {
+      if (modalKey === 'edit') {
+        editMutate({
+          data: {
+            target_id: targetId ?? '',
+            sink_type: interfaceType,
+            sink_id: verifyId,
+            table_name: selName,
+            fields: editFields,
+          },
+        });
+      } else {
+        createMutate({
+          data: {
+            sink_type: interfaceType,
+            sink_id: verifyId,
+            table_name: selName,
+            fields,
+          },
+        });
+      }
     }
   };
 
@@ -246,12 +259,6 @@ export default function MappingRelation({
                         ),
                         fieldsItem,
                       ]);
-                      // editFields = [
-                      //   ...editFields.filter(
-                      //     (i) => i.index !== fieldsItem.index
-                      //   ),
-                      //   fieldsItem,
-                      // ];
                     } else {
                       fields = [
                         ...fields.filter((i) => i.index !== fieldsItem.index),

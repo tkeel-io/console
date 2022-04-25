@@ -62,7 +62,9 @@ export default function Index(): JSX.Element {
         }}
       />
       {isLoading ? (
-        <Loading styles={{ wrapper: { height: '100%' } }} />
+        <Loading
+          styles={{ wrapper: { flex: 1, backgroundColor: 'gray.50' } }}
+        />
       ) : (
         <Flex
           flexDirection="column"

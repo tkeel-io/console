@@ -24,6 +24,7 @@ type Props = {
     highlightGutterLine?: boolean;
     showFoldWidgets?: boolean;
   };
+  style?: React.CSSProperties;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onChange?: (value: string, event?: any) => void;
 };
@@ -38,6 +39,7 @@ export default function AceEditor({
   highlightActiveLine,
   showPrintMargin = false,
   options,
+  style,
   onChange,
 }: Props) {
   return (
@@ -50,6 +52,7 @@ export default function AceEditor({
       height={height}
       value={value}
       readOnly={readOnly}
+      style={style}
       highlightActiveLine={highlightActiveLine || !readOnly}
       showPrintMargin={showPrintMargin}
       setOptions={{

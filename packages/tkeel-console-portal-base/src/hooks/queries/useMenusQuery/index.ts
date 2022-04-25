@@ -31,7 +31,7 @@ const defaultProps = {
 export function getMockMenus() {
   let mockMenus: Menu[] = [];
 
-  const localMockMenus = sessionStorage.getItem('mockMenus');
+  const localMockMenus = localStorage.getItem('mockMenus');
   const { showDevTools } = GLOBAL_PORTAL_CONFIG?.client || {};
   try {
     if (showDevTools && localMockMenus) {
@@ -39,7 +39,7 @@ export function getMockMenus() {
     } else {
       mockMenus = (GLOBAL_PORTAL_CONFIG?.mock?.menus ?? []) as Menu[];
       if (showDevTools) {
-        sessionStorage.setItem('mockMenus', JSON.stringify(mockMenus, null, 2));
+        localStorage.setItem('mockMenus', JSON.stringify(mockMenus, null, 2));
       }
     }
   } catch {

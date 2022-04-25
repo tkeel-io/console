@@ -363,7 +363,7 @@ export default function OperateDeviceModal({
                 )}
               <Button
                 colorScheme={
-                  getButtonText() === BUTTON_TEXT.SKIP ? 'gray' : 'primary'
+                  getButtonText() === BUTTON_TEXT.SKIP ? 'gray' : 'brand'
                 }
                 fontSize="14px"
                 px="30px"

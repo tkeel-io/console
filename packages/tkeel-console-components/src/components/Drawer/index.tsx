@@ -1,21 +1,13 @@
 import {
   Drawer as ChakraDrawer,
   DrawerBody,
-  DrawerCloseButton as ChakraDrawerCloseButton,
+  DrawerCloseButton,
   DrawerContent,
   DrawerHeader,
   DrawerOverlay,
   DrawerProps,
 } from '@chakra-ui/react';
-import styled from '@emotion/styled';
 import { ReactNode } from 'react';
-
-const DrawerCloseButton = styled(ChakraDrawerCloseButton)`
-  svg {
-    width: 9px;
-    height: 9px;
-  }
-`;
 
 type Props = {
   title: string;
@@ -54,6 +46,12 @@ function Drawer({
           backgroundColor="gray.700"
           _hover={{ backgroundColor: 'gray.800' }}
           _focus={{ outline: 'none' }}
+          css={`
+            svg: {
+              width: '9px',
+              height: '9px',
+            },
+          `}
         />
         <DrawerHeader
           color="gray.800"

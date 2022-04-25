@@ -1,6 +1,4 @@
-import BaseSubscriptionModal, {
-  FormValues,
-} from '@/tkeel-console-plugin-tenant-data-subscription/pages/Index/components/BaseSubscriptionModal';
+import BaseSubscriptionModal, { FormValues } from '../BaseSubscriptionModal';
 
 type Props = {
   isOpen: boolean;
@@ -9,7 +7,7 @@ type Props = {
   onConfirm: (formValues: FormValues) => unknown;
 };
 
-export default function CreateUserModal({
+export default function CreateSubscriptionModal({
   isOpen,
   isConfirmButtonLoading,
   onClose,
