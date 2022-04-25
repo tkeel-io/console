@@ -33,7 +33,7 @@ export default function Header({ menus, userActionMenusComponent }: Props) {
       height="48px"
       padding="0 20px"
     >
-      <Flex color="grayAlternatives.300" fontSize="12px">
+      <Flex color="grayAlternatives.500" fontSize="12px">
         {breadcrumbs.map((crumb, i) => (
           <Flex key={String(i + 1)} alignItems="center">
             <Text key="crumb" cursor="default">

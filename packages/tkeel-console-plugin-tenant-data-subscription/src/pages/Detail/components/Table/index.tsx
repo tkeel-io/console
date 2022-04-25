@@ -10,19 +10,15 @@ import {
   Table,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
-import {
-  CaretDownFilledIcon,
-  CaretUpFilledIcon,
-  SmartObjectTwoToneIcon,
-} from '@tkeel/console-icons';
+import { SmartObjectTwoToneIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import useListSubscribeEntitiesQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useListSubscribeEntitiesQuery';
-import CreateDeviceButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/CreateDeviceButton';
-import DeleteDeviceButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/DeleteDeviceButton';
-import MoveSubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/MoveSubscriptionButton';
 
+import CreateDeviceButton from '../CreateDeviceButton';
+import DeleteDeviceButton from '../DeleteDeviceButton';
 import Empty from '../Empty';
+import MoveSubscriptionButton from '../MoveSubscriptionButton';
 
 type Data = {
   ID: string;
@@ -33,9 +29,14 @@ type Data = {
   updated_at: string;
 };
 
-function Index({ id, title }: { id: string; title: string }) {
+type Props = {
+  id: string;
+  title: string;
+  refetchSubscribeInfo: () => unknown;
+};
+
+export default function Index({ id, title, refetchSubscribeInfo }: Props) {
   const [keywords, setKeyWords] = useState('');
-  const [checkBoxIcon, setCheckBoxIcon] = useState<boolean>(false);
 
   const [rowIds, setRowIds] = useState<string[]>([]);
   const [rowNames, setRowNames] = useState<string[]>([]);
@@ -43,22 +44,11 @@ function Index({ id, title }: { id: string; title: string }) {
   const pagination = usePagination();
   const { pageNum, pageSize, setTotalSize } = pagination;
 
-  let params = {
-    page_num: pageNum,
-    page_size: pageSize,
-    order_by: 'created_at',
-    is_descending: true,
-    key_words: '',
-    id: '',
-  };
-  params = { ...params, id };
-
-  if (keywords) {
-    params = { ...params, key_words: keywords };
-  }
-
   const { entities, isLoading, refetch } = useListSubscribeEntitiesQuery({
-    params,
+    id: id || '',
+    pageNum,
+    pageSize,
+    keywords,
     onSuccess(res) {
       const total = res?.data?.total ?? 0;
       setTotalSize(total);
@@ -80,6 +70,14 @@ function Index({ id, title }: { id: string; title: string }) {
     },
     [setRowIds, setRowNames]
   );
+
+  const handleRefetch = () => {
+    // TODO 添加或移除设备后有延迟，临时处理方案
+    setTimeout(() => {
+      refetch();
+      refetchSubscribeInfo();
+    }, 700);
+  };
 
   const columns: ReadonlyArray<Column<Data>> = [
     {
@@ -145,7 +143,6 @@ function Index({ id, title }: { id: string; title: string }) {
           [value]
         ),
     },
-
     {
       Header: '操作',
       width: 80,
@@ -159,18 +156,14 @@ function Index({ id, title }: { id: string; title: string }) {
                 <MoveSubscriptionButton
                   selected_ids={[original.ID]}
                   key="modify"
-                  onSuccess={() => {
-                    refetch();
-                  }}
+                  onSuccess={() => handleRefetch()}
                 />,
                 <DeleteDeviceButton
                   onSuccess={() => {}}
                   name={[original.name]}
                   key="delete"
                   selected_ids={[original.ID]}
-                  refetchData={() => {
-                    refetch();
-                  }}
+                  refetchData={() => handleRefetch()}
                 />,
               ]}
             />
@@ -180,50 +173,26 @@ function Index({ id, title }: { id: string; title: string }) {
   ];
 
   const noData = pageNum === 1 && !keywords && entities.length === 0;
+
   return (
     <Flex flexDirection="column" height="100%" margin="0 20px">
       <PageHeaderToolbar
         name={
           rowNames.length > 0 ? (
             <MoreAction
-              element={
-                <Box
-                  display="flex"
-                  backgroundColor="gray.800"
-                  borderRadius="35px"
-                  color="white"
-                  onClick={() => {
-                    setCheckBoxIcon(!checkBoxIcon);
-                  }}
-                  width="86px"
-                  alignItems="center"
-                  pl="12px"
-                  fontSize="12px"
-                >
-                  更多操作
-                  {checkBoxIcon ? (
-                    <CaretUpFilledIcon key="up" color="white" />
-                  ) : (
-                    <CaretDownFilledIcon key="down" color="white" />
-                  )}
-                </Box>
-              }
+              type="text"
               buttons={[
                 <MoveSubscriptionButton
                   selected_ids={rowIds}
                   key="modify"
-                  onSuccess={() => {
-                    refetch();
-                  }}
+                  onSuccess={() => handleRefetch()}
                 />,
                 <DeleteDeviceButton
                   onSuccess={() => {}}
                   name={rowNames}
                   key="delete"
                   selected_ids={rowIds}
-                  refetchData={() => {
-                    refetch();
-                  }}
+                  refetchData={() => handleRefetch()}
                 />,
               ]}
             />
@@ -243,9 +212,7 @@ function Index({ id, title }: { id: string; title: string }) {
             : [
                 <CreateDeviceButton
                   key="create"
-                  refetchData={() => {
-                    refetch();
-                  }}
+                  refetchData={() => handleRefetch()}
                 />,
               ]
         }
@@ -279,12 +246,10 @@ function Index({ id, title }: { id: string; title: string }) {
               }}
             />
           ) : (
-            <Empty title={title} refetchData={() => refetch()} />
+            <Empty title={title} refetchData={() => handleRefetch()} />
           )
         }
       />
     </Flex>
   );
 }
-
-export default Index;

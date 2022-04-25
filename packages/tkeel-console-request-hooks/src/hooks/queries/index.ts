@@ -9,6 +9,7 @@ export { default as usePortalTenantConfigQuery } from './usePortalTenantConfigQu
 export { default as useRolesQuery } from './useRolesQuery';
 export * from './useRolesQuery';
 export { default as useSubscribeListQuery } from './useSubscribeListQuery';
+export * from './useSubscribeListQuery';
 export { default as useTemplatesQuery } from './useTemplatesQuery';
 export * from './useTemplatesQuery';
 export { default as useTenantQuery } from './useTenantQuery';

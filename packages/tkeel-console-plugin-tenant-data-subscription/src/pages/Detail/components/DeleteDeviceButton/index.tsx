@@ -5,7 +5,8 @@ import { TrashFilledIcon } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
 import useDeleteSubscriptionDeviceMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useDeleteSubscriptionDeviceMutation';
-import DeleteDeviceModal from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/DeleteDeviceModal';
+
+import DeleteDeviceModal from '../DeleteDeviceModal';
 
 type Props = {
   selected_ids: string[];
@@ -28,10 +29,7 @@ function DeleteDeviceButton({
       onSuccess();
       onClose();
       toast('移除设备成功', { status: 'success' });
-      // TODO 移除设备后有延迟，临时解决方案
-      setTimeout(() => {
-        refetchData();
-      }, 800);
+      refetchData();
     },
   });
 

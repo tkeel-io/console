@@ -134,7 +134,6 @@ export default function RepublishInfoCard({
       </Flex>
       <Text
         flex="1"
-        // marginLeft="200px"
         color="grayAlternatives.700"
         fontSize="14px"
         isTruncated
@@ -145,28 +144,30 @@ export default function RepublishInfoCard({
           : `数据库地址：${target.host}`}
       </Text>
       <HStack display="none" spacing="20px">
-        {!status && (
-          <PencilFilledIcon
-            size={20}
-            color="grayAlternatives.300"
-            style={{ cursor: 'pointer' }}
-            onClick={() => {
-              const type = target.sink_type;
-              setPublishType(type);
-              onModalOpen();
-            }}
-          />
+        {status !== 1 && (
+          <>
+            <PencilFilledIcon
+              size={20}
+              color="grayAlternatives.300"
+              style={{ cursor: 'pointer' }}
+              onClick={() => {
+                const type = target.sink_type;
+                setPublishType(type);
+                onModalOpen();
+              }}
+            />
+            <TrashFilledIcon
+              size={20}
+              color="grayAlternatives.300"
+              style={{ cursor: 'pointer' }}
+              onClick={() => {
+                const type = target.sink_type;
+                setPublishType(type);
+                onAlertOpen();
+              }}
+            />
+          </>
         )}
-        <TrashFilledIcon
-          size={20}
-          color="grayAlternatives.300"
-          style={{ cursor: 'pointer' }}
-          onClick={() => {
-            const type = target.sink_type;
-            setPublishType(type);
-            onAlertOpen();
-          }}
-        />
       </HStack>
       {publishType === 'kafka' && (
         <RepublishToKafkaModal

@@ -4,7 +4,7 @@ import { useIsMutating } from 'react-query';
 import { CreateButton } from '@tkeel/console-components';
 import { plugin } from '@tkeel/console-utils';
 
-import CreateDeviceModal from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/CreateDeviceModal';
+import CreateDeviceModal from '../CreateDeviceModal';
 
 type Props = {
   refetchData: () => unknown;
