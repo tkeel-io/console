@@ -44,6 +44,9 @@ export default function Detail() {
   const dateRangeLength = 5;
   const intervalTime = (endTime - startTime) / dateRangeLength;
 
+  const startDate = dayjs(startTime * 1000).toDate();
+  const endDate = dayjs(endTime * 1000).toDate();
+
   const [rangeIndex, setRangeIndex] = useState(0);
 
   const [isRangeSearch] = useState(false);
@@ -100,39 +103,24 @@ export default function Detail() {
     isLoading: isTelemetryDataLoading,
   } = useTelemetryDataMutation();
 
-  const getRequestTimeByTimeType = (timeTypeValue: TimeType) => {
-    if (timeTypeValue === TimeType.Custom) {
-      return {
-        requestStartTime: startTime,
-        requestEndTime: endTime,
-      };
+  const getRequestStartTime = (timeTypeValue: TimeType) => {
+    switch (timeTypeValue) {
+      case TimeType.FiveMinutes:
+        return getRecentTimestamp(5);
+      case TimeType.ThirtyMinutes:
+        return getRecentTimestamp(30);
+      case TimeType.OneHour:
+        return getRecentTimestamp(1, 'hour');
+      default:
+        return getRecentTimestamp(3, 'day');
     }
-
-    let requestStartTime = getRecentTimestamp(3, 'day');
-    const requestEndTime = dayjs().unix();
-    if (timeTypeValue === TimeType.FiveMinutes) {
-      requestStartTime = getRecentTimestamp(5);
-    }
-
-    if (timeTypeValue === TimeType.ThirtyMinutes) {
-      requestStartTime = getRecentTimestamp(30);
-    }
-
-    if (timeTypeValue === TimeType.OneHour) {
-      requestStartTime = getRecentTimestamp(1, 'hour');
-    }
-
-    return {
-      requestStartTime,
-      requestEndTime,
-    };
   };
 
-  const handleTelemetryDataMutate = () => {
+  const handleTelemetryDataMutate = (timeTypeValue?: TimeType) => {
     setIsTelemetryDataRequested(true);
 
-    const { requestStartTime, requestEndTime } =
-      getRequestTimeByTimeType(timeType);
+    const requestStartTime = getRequestStartTime(timeTypeValue || timeType);
+    const requestEndTime = dayjs().unix();
 
     mutate({
       url: `core/v1/ts/${id}`,
@@ -214,7 +202,7 @@ export default function Detail() {
           isDeviceDetailLoading={isDeviceDetailLoading}
           isTelemetryDataLoading={isTelemetryDataLoading}
           onSearch={handleSearch}
-          onConfirm={handleTelemetryDataMutate}
+          onConfirm={() => handleTelemetryDataMutate()}
         />
       </Flex>
       <Flex
@@ -242,12 +230,9 @@ export default function Detail() {
                   />
                   {timeType === TimeType.Custom && (
                     <DateRangePicker
-                      startTime={dayjs(startTime * 1000).toDate()}
-                      endTime={dayjs(endTime * 1000).toDate()}
-                      defaultValue={[
-                        new Date(startTime * 1000),
-                        new Date(endTime * 1000),
-                      ]}
+                      startTime={startDate}
+                      endTime={endDate}
+                      defaultValue={[startDate, endDate]}
                       disabledDate={(date: Date) => {
                         return (
                           dayjs(date).isBefore(

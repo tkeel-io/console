@@ -17,7 +17,7 @@ type Props = {
   setTimeType: Dispatch<SetStateAction<TimeType>>;
   setStartTime: Dispatch<SetStateAction<number>>;
   setEndTime: Dispatch<SetStateAction<number>>;
-  handleTelemetryDataMutate: () => unknown;
+  handleTelemetryDataMutate: (timeTypeValue?: TimeType) => unknown;
 };
 
 export function getRecentTimestamp(num: number, unit = 'minute') {
@@ -78,7 +78,7 @@ export default function DateSelect({
         setEndTime(requestEndTime);
 
         if (hasIdentifiers) {
-          handleTelemetryDataMutate();
+          handleTelemetryDataMutate(timeTypeValue);
         }
       }}
       value={timeType}
