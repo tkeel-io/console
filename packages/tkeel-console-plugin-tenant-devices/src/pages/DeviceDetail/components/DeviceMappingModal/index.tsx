@@ -1,6 +1,7 @@
 import {
   Box,
   Flex,
+  HStack,
   TabList,
   TabPanel,
   TabPanels,
@@ -13,6 +14,7 @@ import CustomTab from '@tkeel/console-business-components/src/components/AddDevi
 import DeviceGroupTree from '@tkeel/console-business-components/src/components/AddDevicesModal/DeviceGroupTree';
 import DeviceTemplates from '@tkeel/console-business-components/src/components/AddDevicesModal/DeviceTemplates';
 import { Modal, SearchInput } from '@tkeel/console-components';
+import { BroomFilledIcon } from '@tkeel/console-icons';
 import {
   DeviceItem,
   RequestDataCondition,
@@ -23,9 +25,13 @@ import {
 } from '@tkeel/console-request-hooks';
 import { getTreeNodeData, TreeNodeData } from '@tkeel/console-utils';
 
+import useDeviceDetailQuery from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
+
+import DeviceConfigList from './DeviceConfigList';
 import DeviceList from './DeviceList';
 
 interface Props {
+  type?: 'auto' | 'telemetry' | 'attribute';
   uid: string;
   isOpen: boolean;
   onClose: () => void;
@@ -53,6 +59,7 @@ const contentStyle = {
 };
 
 export default function DeviceMappingModal({
+  type = 'auto',
   uid,
   isOpen,
   onClose,
@@ -155,6 +162,12 @@ export default function DeviceMappingModal({
     },
   });
 
+  const { isLoading: isDeviceDetailFetching, deviceObject } =
+    useDeviceDetailQuery({
+      id: selectedDevice?.id ?? '',
+      enabled: type !== 'auto' && !!selectedDevice?.id,
+    });
+
   const handleSelectDevice = (device: DeviceItem) => {
     setSelectedDevice(device);
   };
@@ -190,6 +203,7 @@ export default function DeviceMappingModal({
   return (
     <Modal
       height="694px"
+      width={type === 'auto' ? '600px' : '900px'}
       onConfirm={handleSubmit}
       title="自动映射"
       isOpen={isOpen}
@@ -197,81 +211,108 @@ export default function DeviceMappingModal({
       modalBodyStyle={{ padding: '20px' }}
       isConfirmButtonDisabled={!selectedDevice}
     >
-      <Flex flexDirection="column" width="540px">
-        <Tabs display="flex" flexDirection="column" flex="1">
-          <TabList display="flex" borderBottom="none">
-            <CustomTab onClick={() => setTabType('group')}>
-              <Text {...titleStyle}>设备组</Text>
-            </CustomTab>
-            <CustomTab marginLeft="30px" onClick={() => setTabType('template')}>
-              <Text {...titleStyle}>设备模板</Text>
-            </CustomTab>
-          </TabList>
-          <TabPanels flex="1">
-            <TabPanel height="100%" padding="0">
-              <SearchInput
-                placeholder="支持搜索设备分组名称"
-                value={deviceGroupKeywords}
-                onChange={(value) => {
-                  setDeviceGroupKeywords(value);
-                }}
-                onSearch={handleDeviceGroupSearch}
-                inputGroupStyle={inputGroupStyle}
-              />
-              <Flex justifyContent="space-between">
-                <Box {...contentStyle}>
-                  <DeviceGroupTree
-                    isLoading={isDeviceGroupFetching}
-                    treeNodeData={treeNodeData}
-                    groupId={groupId}
-                    keywords={deviceGroupKeywords}
-                    setGroupId={(key: string) => setGroupId(key)}
-                  />
-                </Box>
-                <Flex marginLeft="20px" {...contentStyle}>
-                  <DeviceList
-                    uid={uid}
-                    isLoading={isDeviceListLoading}
-                    selectedDevice={selectedDevice}
-                    deviceList={deviceList}
-                    handleSelectDevice={handleSelectDevice}
-                  />
+      <Flex justifyContent="space-between">
+        <Flex flexDirection="column" width="540px" mr="20px">
+          <Tabs display="flex" flexDirection="column" flex="1">
+            <TabList display="flex" borderBottom="none">
+              <CustomTab onClick={() => setTabType('group')}>
+                <Text {...titleStyle}>设备组</Text>
+              </CustomTab>
+              <CustomTab
+                marginLeft="30px"
+                onClick={() => setTabType('template')}
+              >
+                <Text {...titleStyle}>设备模板</Text>
+              </CustomTab>
+            </TabList>
+            <TabPanels flex="1">
+              <TabPanel height="100%" padding="0">
+                <SearchInput
+                  placeholder="支持搜索设备分组名称"
+                  value={deviceGroupKeywords}
+                  onChange={(value) => {
+                    setDeviceGroupKeywords(value);
+                  }}
+                  onSearch={handleDeviceGroupSearch}
+                  inputGroupStyle={inputGroupStyle}
+                />
+                <Flex justifyContent="space-between">
+                  <Box {...contentStyle}>
+                    <DeviceGroupTree
+                      isLoading={isDeviceGroupFetching}
+                      treeNodeData={treeNodeData}
+                      groupId={groupId}
+                      keywords={deviceGroupKeywords}
+                      setGroupId={(key: string) => setGroupId(key)}
+                    />
+                  </Box>
+                  <Flex marginLeft="20px" {...contentStyle}>
+                    <DeviceList
+                      uid={uid}
+                      isLoading={isDeviceListLoading}
+                      selectedDevice={selectedDevice}
+                      deviceList={deviceList}
+                      handleSelectDevice={handleSelectDevice}
+                    />
+                  </Flex>
                 </Flex>
-              </Flex>
-            </TabPanel>
-            <TabPanel height="100%" padding="0">
-              <SearchInput
-                placeholder="支持搜索模板名称"
-                value={deviceTemplateKeywords}
-                onChange={(value) => {
-                  setDeviceTemplateKeywords(value);
-                }}
-                onSearch={handleDeviceTemplateSearch}
-                inputGroupStyle={inputGroupStyle}
-              />
-              <Flex justifyContent="space-between">
-                <Box {...contentStyle} overflowY="auto">
-                  <DeviceTemplates
-                    isLoading={isDeviceTemplateFetching}
-                    templates={templates}
-                    templateId={templateId}
-                    keywords={deviceTemplateKeywords}
-                    onTemplateClick={(id) => setTemplateId(id)}
-                  />
-                </Box>
-                <Flex ml="20px" {...contentStyle}>
-                  <DeviceList
-                    uid={uid}
-                    isLoading={isDeviceListLoading}
-                    selectedDevice={selectedDevice}
-                    deviceList={deviceList}
-                    handleSelectDevice={handleSelectDevice}
-                  />
+              </TabPanel>
+              <TabPanel height="100%" padding="0">
+                <SearchInput
+                  placeholder="支持搜索模板名称"
+                  value={deviceTemplateKeywords}
+                  onChange={(value) => {
+                    setDeviceTemplateKeywords(value);
+                  }}
+                  onSearch={handleDeviceTemplateSearch}
+                  inputGroupStyle={inputGroupStyle}
+                />
+                <Flex justifyContent="space-between">
+                  <Box {...contentStyle} overflowY="auto">
+                    <DeviceTemplates
+                      isLoading={isDeviceTemplateFetching}
+                      templates={templates}
+                      templateId={templateId}
+                      keywords={deviceTemplateKeywords}
+                      onTemplateClick={(id) => setTemplateId(id)}
+                    />
+                  </Box>
+                  <Flex ml="20px" {...contentStyle}>
+                    <DeviceList
+                      uid={uid}
+                      isLoading={isDeviceListLoading}
+                      selectedDevice={selectedDevice}
+                      deviceList={deviceList}
+                      handleSelectDevice={handleSelectDevice}
+                    />
+                  </Flex>
                 </Flex>
-              </Flex>
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
+        </Flex>
+        {type !== 'auto' && (
+          <Flex width="300px" flexDirection="column">
+            <Flex justifyContent="space-between" alignItems="center">
+              <Text {...titleStyle}>
+                {type === 'telemetry' ? '遥测关系' : '属性关系'}
+              </Text>
+              <HStack spacing="4px" cursor="pointer">
+                <BroomFilledIcon size="14px" color="grayAlternatives.300" />
+                <Text color="gray.700" fontSize="12px" lineHeight="18px">
+                  清空
+                </Text>
+              </HStack>
+            </Flex>
+            <Flex {...contentStyle}>
+              <DeviceConfigList
+                type={type}
+                deviceObject={deviceObject}
+                isLoading={isDeviceDetailFetching}
+              />
+            </Flex>
+          </Flex>
+        )}
       </Flex>
     </Modal>
   );

@@ -61,9 +61,11 @@ export interface SysField {
 export interface DeviceObject {
   id: string;
   configs: {
-    attributes?: { define?: { fields?: AttributeItem } };
-    telemetry?: { define?: { fields?: TelemetryItem } };
-    commands?: { define?: { fields?: CommandItem } };
+    attributes?: {
+      define?: { fields?: { [propName: string]: AttributeItem } };
+    };
+    telemetry?: { define?: { fields?: { [propName: string]: TelemetryItem } } };
+    commands?: { define?: { fields?: { [propName: string]: CommandItem } } };
   };
   properties: {
     basicInfo: BasicInfo;

@@ -12,7 +12,6 @@ export default function AutoMappingButton() {
   return (
     <>
       <IconButton
-        colorScheme="primary"
         style={{ padding: '0 12px' }}
         icon={<DevopsFilledIcon size="18px" color="white" />}
         onClick={onOpen}
