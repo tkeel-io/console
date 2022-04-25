@@ -1,11 +1,14 @@
 import { useDisclosure } from '@chakra-ui/react';
+import { useParams } from 'react-router-dom';
 
 import { MoreActionButton } from '@tkeel/console-components';
 import { PencilFilledIcon } from '@tkeel/console-icons';
+import { useSubscribeListQuery } from '@tkeel/console-request-hooks';
+import { plugin } from '@tkeel/console-utils';
 
 import useMoveSubscriptionMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useMoveSubscriptionMutation';
-import useListSubscribeQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useListSubscribeQuery';
-import MoveSubscriptionModal from '@/tkeel-console-plugin-tenant-data-subscription/pages/Detail/components/MoveSubscriptionModal';
+
+import MoveSubscriptionModal from '../MoveSubscriptionModal';
 
 type Props = {
   onSuccess: () => void;
@@ -18,12 +21,18 @@ export default function MoveSubscriptionButton({
 }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { data: listSubscribeData } = useListSubscribeQuery();
+  const { subscribeList } = useSubscribeListQuery();
+  const { id } = useParams();
+  const newSubscribeList = subscribeList.filter(
+    (subscribe) => subscribe.id !== id
+  );
 
+  const toast = plugin.getPortalToast();
   const { mutate, isLoading } = useMoveSubscriptionMutation({
     onSuccess() {
       onSuccess();
       onClose();
+      toast('移动订阅成功', { status: 'success' });
     },
   });
 
@@ -38,7 +47,7 @@ export default function MoveSubscriptionButton({
       />
       {isOpen && (
         <MoveSubscriptionModal
-          data={listSubscribeData}
+          subscribeList={newSubscribeList}
           isOpen={isOpen}
           isConfirmButtonLoading={isLoading}
           onClose={onClose}

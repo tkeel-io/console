@@ -6,16 +6,16 @@ import {
   // BookOpenedFilledIcon,
   MessageWarningTwoToneIcon,
 } from '@tkeel/console-icons';
+import { useSubscribeListQuery } from '@tkeel/console-request-hooks';
 import { plugin } from '@tkeel/console-utils';
 
 import DeleteSubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/components/DeleteSubscriptionButton';
 import ModifySubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscription/components/ModifySubscriptionButton';
-import useListSubscribeQuery from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useListSubscribeQuery';
 
 import CreateSubscriptionButton from './components/CreateSubscriptionButton';
 
 function SubscriptionCard() {
-  const { isLoading, data, refetch } = useListSubscribeQuery();
+  const { isLoading, subscribeList, refetch } = useSubscribeListQuery();
   return (
     <Box
       flex="1"
@@ -39,7 +39,7 @@ function SubscriptionCard() {
         <Loading styles={{ wrapper: { height: '100%' } }} />
       ) : (
         <Flex justifyContent="space-between" flexWrap="wrap">
-          {data.map((item) => {
+          {subscribeList.map((item) => {
             return (
               <TemplateCard
                 key={item.id}
@@ -85,10 +85,8 @@ function SubscriptionCard() {
 function Index(): JSX.Element {
   const toast = plugin.getPortalToast();
 
-  const { data, refetch } = useListSubscribeQuery();
-  const defaultInfo = data.find((item) => {
-    return item.is_default;
-  });
+  const { subscribeList, refetch } = useSubscribeListQuery();
+  const defaultInfo = subscribeList.find((item) => item.is_default);
 
   const documents = plugin.getPortalDocuments();
 
@@ -107,24 +105,6 @@ function Index(): JSX.Element {
           />,
         ]}
       />
-      {/* <Flex height="30px" alignItems="center" justifyContent="space-between">
-        <Flex
-          fontWeight="600"
-          fontSize="14px"
-          color="grayAlternatives.700"
-          alignItems="center"
-          lineHeight="20px"
-        >
-          数据订阅 <BookOpenedFilledIcon style={{ marginLeft: '4px' }} />
-        </Flex>
-        <CreateSubscriptionButton
-          key="create"
-          onSuccess={() => {
-            toast('创建订阅成功', { status: 'success' });
-            refetch();
-          }}
-        />
-      </Flex> */}
       <Box
         border="1px solid"
         borderColor="grayAlternatives.50"
@@ -148,7 +128,7 @@ function Index(): JSX.Element {
             ml="12px"
             fontSize="12px"
           >
-            {defaultInfo?.description}
+            {defaultInfo?.description ?? ''}
           </Text>
         </Flex>
         <Flex
@@ -159,19 +139,13 @@ function Index(): JSX.Element {
           fontSize="12px"
           background="gray.50"
         >
-          {/* <Box color="gray.700">
-            订阅设备：
-            <Text display="inline" color="primary">
-              1098
-            </Text>
-          </Box> */}
           <Box>
             订阅ID：
-            <Text display="inline">{defaultInfo?.id}</Text>
+            <Text display="inline">{defaultInfo?.id ?? ''}</Text>
           </Box>
           <Box ml="40px">
             订阅地址：
-            <Text display="inline">{defaultInfo?.endpoint}</Text>
+            <Text display="inline">{defaultInfo?.endpoint ?? ''}</Text>
           </Box>
         </Flex>
       </Box>

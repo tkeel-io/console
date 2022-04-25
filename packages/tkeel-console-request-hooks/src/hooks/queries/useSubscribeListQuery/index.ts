@@ -1,7 +1,9 @@
 import { useQuery } from '@tkeel/console-hooks';
 
 const method = 'POST';
-export type Data = {
+const url = '/core-broker/v1/subscribe/list';
+
+export type SubscribeInfo = {
   description: string;
   endpoint: string;
   id: string;
@@ -9,25 +11,38 @@ export type Data = {
   is_default: boolean;
 };
 
-export interface ApiData {
+interface ApiData {
   '@type': string;
-  data: Data[];
+  data: SubscribeInfo[];
 }
+
 type RequestData = {
   page_num: number;
   page_size: number;
   key_words: string;
 };
 
-export default function useSubscribeListQuery() {
-  const url = `/core-broker/v1/subscribe/list`;
+const defaultProps = {
+  pageNum: 1,
+  pageSize: 20,
+  keywords: '',
+};
+
+type Props = {
+  pageNum?: number;
+  pageSize?: number;
+  keywords?: string;
+};
+
+export default function useSubscribeListQuery(props?: Props) {
+  const { pageNum, pageSize, keywords } = { ...defaultProps, ...props };
   const { data, ...rest } = useQuery<ApiData, undefined, RequestData>({
     url,
     method,
     data: {
-      page_num: 1,
-      page_size: 20,
-      key_words: '',
+      page_num: pageNum,
+      page_size: pageSize,
+      key_words: keywords,
     },
   });
 
