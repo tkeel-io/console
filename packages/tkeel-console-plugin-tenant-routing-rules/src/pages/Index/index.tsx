@@ -62,7 +62,9 @@ export default function Index(): JSX.Element {
         }}
       />
       {isLoading ? (
-        <Loading styles={{ wrapper: { height: '100%' } }} />
+        <Loading
+          styles={{ wrapper: { flex: 1, backgroundColor: 'gray.50' } }}
+        />
       ) : (
         <Flex
           flexDirection="column"
@@ -113,6 +115,7 @@ export default function Index(): JSX.Element {
                       targets_status: targetStatus,
                       sub_id: errorOperation,
                       model_id: deviceTemplateId,
+                      model_name: deviceTemplateName,
                     } = rule;
                     const currentStep = [
                       deviceStatus,
@@ -132,6 +135,7 @@ export default function Index(): JSX.Element {
                               desc,
                               type,
                               deviceTemplateId,
+                              deviceTemplateName,
                             }}
                             refetch={() => {
                               refetch();
