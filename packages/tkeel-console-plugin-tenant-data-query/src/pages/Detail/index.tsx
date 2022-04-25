@@ -23,9 +23,13 @@ import DateSelect, {
   TimeType,
 } from './components/DateSelect';
 import DeviceDetailCard from './components/DeviceDetailCard';
-import PropertiesConditions from './components/PropertiesConditions';
+import PropertiesConditions, {
+  DataType,
+} from './components/PropertiesConditions';
+import RawDataTable from './components/RawDataTable';
 
 export default function Detail() {
+  const [dataType, setDataType] = useState<DataType>(DataType.RAW_DATA);
   const [keywords, setKeywords] = useState('');
   const [telemetry, setTelemetry] = useState<TelemetryFields>({});
   const [filteredTelemetry, setFilteredTelemetry] = useState<TelemetryFields>(
@@ -58,7 +62,9 @@ export default function Detail() {
   const rawDataCheckboxKeys = rawDataCheckboxItems.map(({ value }) => value);
   const [rawDataCheckedKeys, setRawDataCheckedKeys] =
     useState<string[]>(rawDataCheckboxKeys);
-  const [checkedKeys, setCheckedKeys] = useState<string[]>([]);
+  const [templateDataCheckedKeys, setTemplateDataCheckedKeys] = useState<
+    string[]
+  >([]);
   const [isTelemetryDataRequested, setIsTelemetryDataRequested] =
     useState(false);
   const [timeType, setTimeType] = useState<TimeType>(TimeType.FiveMinutes);
@@ -91,7 +97,7 @@ export default function Detail() {
     if (telemetryKeyArray.length > 0) {
       telemetryKeys = telemetryKeyArray;
     }
-    setCheckedKeys(telemetryKeys);
+    setTemplateDataCheckedKeys(telemetryKeys);
 
     let checkedStatus = CheckboxStatus.NOT_CHECKED;
     if (telemetryKeys.length > 0) {
@@ -113,7 +119,7 @@ export default function Detail() {
       },
     });
 
-  const identifiers = checkedKeys.filter((key) =>
+  const identifiers = templateDataCheckedKeys.filter((key) =>
     Object.keys(filteredTelemetry).includes(key)
   );
 
@@ -239,18 +245,19 @@ export default function Detail() {
 
   useEffect(() => {
     const { length } = Object.keys(telemetry);
-    const { length: keysLength } = checkedKeys;
+    const { length: keysLength } = templateDataCheckedKeys;
 
     setTemplateCheckboxStatus(
       getCheckBoxStatus({ checkedLength: keysLength, length })
     );
-  }, [telemetry, checkedKeys]);
+  }, [telemetry, templateDataCheckedKeys]);
 
   return (
     <Flex height="100%" justifyContent="space-between">
       <Flex flexDirection="column" width="360px">
         <DeviceDetailCard detailData={deviceObject} />
         <PropertiesConditions
+          setDataType={setDataType}
           identifiers={identifiers}
           telemetry={filteredTelemetry}
           templateCheckboxStatus={templateCheckboxStatus}
@@ -259,8 +266,8 @@ export default function Detail() {
           setRawDataCheckboxStatus={setRawDataCheckboxStatus}
           rawDataCheckboxItems={rawDataCheckboxItems}
           rawDataCheckboxKeys={rawDataCheckboxKeys}
-          checkedKeys={checkedKeys}
-          setCheckedKeys={setCheckedKeys}
+          templateDataCheckedKeys={templateDataCheckedKeys}
+          setTemplateDataCheckedKeys={setTemplateDataCheckedKeys}
           rawDataCheckedKeys={rawDataCheckedKeys}
           setRawDataCheckedKeys={setRawDataCheckedKeys}
           isDeviceDetailLoading={isDeviceDetailLoading}
@@ -348,14 +355,15 @@ export default function Detail() {
                 </CSVLink>
               </Flex>
             </Flex>
-            <Flex
-              marginTop="12px"
-              marginBottom="8px"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Text fontSize="12px">遥测数据</Text>
-              {/* <Flex alignItems="center">
+            {dataType === DataType.TEMPLATE_DATA && (
+              <Flex
+                marginTop="12px"
+                marginBottom="8px"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Text fontSize="12px">遥测数据</Text>
+                {/* <Flex alignItems="center">
                 <Switch
                   size="sm"
                   isChecked={isRangeSearch}
@@ -374,7 +382,8 @@ export default function Detail() {
                   分段查询
                 </Text>
               </Flex> */}
-            </Flex>
+              </Flex>
+            )}
             {isRangeSearch && (
               <DateRangeIndicator
                 startTime={startTime}
@@ -385,17 +394,21 @@ export default function Detail() {
               />
             )}
             <Flex flex="1" marginTop="10px" overflowY="auto">
-              <DataTable
-                originalData={originDataItems}
-                data={tableDataItems}
-                isLoading={isTelemetryDataLoading}
-                telemetry={tableTelemetry}
-                styles={{
-                  wrapper: { width: '100%', height: 'max-content' },
-                  loading: { flex: '1' },
-                  empty: { flex: '1' },
-                }}
-              />
+              {dataType === DataType.TEMPLATE_DATA ? (
+                <DataTable
+                  originalData={originDataItems}
+                  data={tableDataItems}
+                  isLoading={isTelemetryDataLoading}
+                  telemetry={tableTelemetry}
+                  styles={{
+                    wrapper: { width: '100%', height: 'max-content' },
+                    loading: { flex: '1' },
+                    empty: { flex: '1' },
+                  }}
+                />
+              ) : (
+                <RawDataTable />
+              )}
             </Flex>
           </>
         ) : (

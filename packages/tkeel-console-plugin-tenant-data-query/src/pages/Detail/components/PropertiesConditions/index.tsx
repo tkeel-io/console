@@ -18,9 +18,15 @@ import CustomTab from '../CustomTab';
 import RawDataCheckboxes, { CheckBoxItem } from '../RawDataCheckboxes';
 import TemplateDataCheckboxes from '../TemplateDataCheckboxes';
 
+export enum DataType {
+  RAW_DATA = 'rawData',
+  TEMPLATE_DATA = 'templateData',
+}
+
 type CheckboxStatusDispatch = Dispatch<SetStateAction<CheckboxStatus>>;
 type CheckedKeysDispatch = Dispatch<SetStateAction<string[]>>;
 type Props = {
+  setDataType: Dispatch<SetStateAction<DataType>>;
   identifiers: string[];
   telemetry: TelemetryFields;
   templateCheckboxStatus: CheckboxStatus;
@@ -29,8 +35,8 @@ type Props = {
   setRawDataCheckboxStatus: CheckboxStatusDispatch;
   rawDataCheckboxItems: CheckBoxItem[];
   rawDataCheckboxKeys: string[];
-  checkedKeys: string[];
-  setCheckedKeys: CheckedKeysDispatch;
+  templateDataCheckedKeys: string[];
+  setTemplateDataCheckedKeys: CheckedKeysDispatch;
   rawDataCheckedKeys: string[];
   setRawDataCheckedKeys: CheckedKeysDispatch;
   isDeviceDetailLoading: boolean;
@@ -40,6 +46,7 @@ type Props = {
 };
 
 export default function PropertiesConditions({
+  setDataType,
   identifiers,
   telemetry,
   templateCheckboxStatus,
@@ -48,8 +55,8 @@ export default function PropertiesConditions({
   setRawDataCheckboxStatus,
   rawDataCheckboxItems,
   rawDataCheckboxKeys,
-  checkedKeys,
-  setCheckedKeys,
+  templateDataCheckedKeys,
+  setTemplateDataCheckedKeys,
   rawDataCheckedKeys,
   setRawDataCheckedKeys,
   isDeviceDetailLoading,
@@ -77,10 +84,10 @@ export default function PropertiesConditions({
   const handleTemplateDataCheckboxClick = () => {
     if (templateCheckboxStatus === CheckboxStatus.CHECKED) {
       setTemplateCheckboxStatus(CheckboxStatus.NOT_CHECKED);
-      setCheckedKeys([]);
+      setTemplateDataCheckedKeys([]);
     } else {
       setTemplateCheckboxStatus(CheckboxStatus.CHECKED);
-      setCheckedKeys(Object.keys(telemetry));
+      setTemplateDataCheckedKeys(Object.keys(telemetry));
     }
   };
 
@@ -116,7 +123,15 @@ export default function PropertiesConditions({
         placeholder="搜索"
         onSearch={onSearch}
       />
-      <Tabs display="flex" overflowY="auto" flexDirection="column" flex="1">
+      <Tabs
+        display="flex"
+        overflowY="auto"
+        flexDirection="column"
+        flex="1"
+        onChange={(index) =>
+          setDataType(index === 1 ? DataType.TEMPLATE_DATA : DataType.RAW_DATA)
+        }
+      >
         <TabList display="flex" borderBottom="none">
           <CustomTab flex="1">
             <CustomCheckbox
@@ -152,8 +167,8 @@ export default function PropertiesConditions({
             <Flex height="100%" backgroundColor="gray.50">
               <TemplateDataCheckboxes
                 telemetry={telemetry}
-                checkedKeys={checkedKeys}
-                setCheckedKeys={setCheckedKeys}
+                checkedKeys={templateDataCheckedKeys}
+                setCheckedKeys={setTemplateDataCheckedKeys}
                 isDeviceDetailLoading={isDeviceDetailLoading}
               />
             </Flex>
