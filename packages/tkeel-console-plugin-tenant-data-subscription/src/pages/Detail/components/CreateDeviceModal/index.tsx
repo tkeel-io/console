@@ -136,10 +136,7 @@ export default function CreateDeviceModal({
 
   const mutationProps = {
     onSuccess() {
-      // TODO 添加设备后有延迟，临时解决方案
-      setTimeout(() => {
-        onConfirm();
-      }, 800);
+      onConfirm();
     },
     id: id || '',
   };

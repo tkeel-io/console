@@ -31,6 +31,8 @@ export default function TreeStyles({ prefixCls, extras, styles }: Props) {
 
   const globalStyles = css`
     .${treePrefixCls} {
+      ${styles?.tree}
+
       .${treeNodePrefixCls} {
         display: flex;
         align-items: center;
