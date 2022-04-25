@@ -13,20 +13,26 @@ import { SearchInput } from '@tkeel/console-components';
 
 import { TelemetryFields } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceDetailQuery';
 
-import CustomCheckbox, { CheckBoxStatus } from '../CustomCheckbox';
+import CustomCheckbox, { CheckboxStatus } from '../CustomCheckbox';
 import CustomTab from '../CustomTab';
-import RawDataCheckboxes from '../RawDataCheckboxes';
+import RawDataCheckboxes, { CheckBoxItem } from '../RawDataCheckboxes';
 import TemplateDataCheckboxes from '../TemplateDataCheckboxes';
 
+type CheckboxStatusDispatch = Dispatch<SetStateAction<CheckboxStatus>>;
+type CheckedKeysDispatch = Dispatch<SetStateAction<string[]>>;
 type Props = {
   identifiers: string[];
   telemetry: TelemetryFields;
-  templateCheckboxStatus: CheckBoxStatus;
-  setTemplateCheckboxStatus: Dispatch<SetStateAction<CheckBoxStatus>>;
+  templateCheckboxStatus: CheckboxStatus;
+  setTemplateCheckboxStatus: CheckboxStatusDispatch;
+  rawDataCheckboxStatus: CheckboxStatus;
+  setRawDataCheckboxStatus: CheckboxStatusDispatch;
+  rawDataCheckboxItems: CheckBoxItem[];
+  rawDataCheckboxKeys: string[];
   checkedKeys: string[];
-  setCheckedKeys: Dispatch<SetStateAction<string[]>>;
-  checkedRawDataKeys: string[];
-  setCheckedRawDataKeys: Dispatch<SetStateAction<string[]>>;
+  setCheckedKeys: CheckedKeysDispatch;
+  rawDataCheckedKeys: string[];
+  setRawDataCheckedKeys: CheckedKeysDispatch;
   isDeviceDetailLoading: boolean;
   isTelemetryDataLoading: boolean;
   onSearch: (value: string) => unknown;
@@ -38,10 +44,14 @@ export default function PropertiesConditions({
   telemetry,
   templateCheckboxStatus,
   setTemplateCheckboxStatus,
+  rawDataCheckboxStatus,
+  setRawDataCheckboxStatus,
+  rawDataCheckboxItems,
+  rawDataCheckboxKeys,
   checkedKeys,
   setCheckedKeys,
-  checkedRawDataKeys,
-  setCheckedRawDataKeys,
+  rawDataCheckedKeys,
+  setRawDataCheckedKeys,
   isDeviceDetailLoading,
   isTelemetryDataLoading,
   onSearch,
@@ -52,6 +62,26 @@ export default function PropertiesConditions({
     color: 'gray.700',
     fontSize: '12px',
     fontWeight: '400',
+  };
+
+  const handleRawDataCheckboxClick = () => {
+    if (rawDataCheckboxStatus === CheckboxStatus.CHECKED) {
+      setRawDataCheckboxStatus(CheckboxStatus.NOT_CHECKED);
+      setRawDataCheckedKeys([]);
+    } else {
+      setRawDataCheckboxStatus(CheckboxStatus.CHECKED);
+      setRawDataCheckedKeys(rawDataCheckboxKeys);
+    }
+  };
+
+  const handleTemplateDataCheckboxClick = () => {
+    if (templateCheckboxStatus === CheckboxStatus.CHECKED) {
+      setTemplateCheckboxStatus(CheckboxStatus.NOT_CHECKED);
+      setCheckedKeys([]);
+    } else {
+      setTemplateCheckboxStatus(CheckboxStatus.CHECKED);
+      setCheckedKeys(Object.keys(telemetry));
+    }
   };
 
   return (
@@ -89,21 +119,16 @@ export default function PropertiesConditions({
       <Tabs display="flex" overflowY="auto" flexDirection="column" flex="1">
         <TabList display="flex" borderBottom="none">
           <CustomTab flex="1">
-            <CustomCheckbox />
+            <CustomCheckbox
+              checkboxStatus={rawDataCheckboxStatus}
+              onClick={handleRawDataCheckboxClick}
+            />
             <Text {...tabTextStyle}>原始数据</Text>
           </CustomTab>
           <CustomTab flex="1">
             <CustomCheckbox
               checkboxStatus={templateCheckboxStatus}
-              onClick={() => {
-                if (templateCheckboxStatus === CheckBoxStatus.CHECKED) {
-                  setTemplateCheckboxStatus(CheckBoxStatus.NOT_CHECKED);
-                  setCheckedKeys([]);
-                } else {
-                  setTemplateCheckboxStatus(CheckBoxStatus.CHECKED);
-                  setCheckedKeys(Object.keys(telemetry));
-                }
-              }}
+              onClick={handleTemplateDataCheckboxClick}
             />
             <Text {...tabTextStyle}>模板数据</Text>
           </CustomTab>
@@ -117,8 +142,9 @@ export default function PropertiesConditions({
               backgroundColor="gray.50"
             >
               <RawDataCheckboxes
-                checkedRawDataKeys={checkedRawDataKeys}
-                setCheckedRawDataKeys={setCheckedRawDataKeys}
+                rawDataCheckboxItems={rawDataCheckboxItems}
+                rawDataCheckedKeys={rawDataCheckedKeys}
+                setRawDataCheckedKeys={setRawDataCheckedKeys}
               />
             </Flex>
           </TabPanel>
@@ -128,7 +154,6 @@ export default function PropertiesConditions({
                 telemetry={telemetry}
                 checkedKeys={checkedKeys}
                 setCheckedKeys={setCheckedKeys}
-                setTemplateCheckboxStatus={setTemplateCheckboxStatus}
                 isDeviceDetailLoading={isDeviceDetailLoading}
               />
             </Flex>

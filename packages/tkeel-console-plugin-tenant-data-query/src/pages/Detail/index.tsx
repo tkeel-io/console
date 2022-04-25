@@ -1,6 +1,6 @@
 import { Center, Circle, Flex, Text } from '@chakra-ui/react';
 import * as dayjs from 'dayjs';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { CSVLink } from 'react-csv';
 import { useSearchParams } from 'react-router-dom';
 
@@ -14,7 +14,7 @@ import useDeviceDetailQuery, {
   TelemetryFields,
 } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceDetailQuery';
 
-import { CheckBoxStatus } from './components/CustomCheckbox';
+import { CheckboxStatus } from './components/CustomCheckbox';
 import DataResultTitle from './components/DataResultTitle';
 import DataTable from './components/DataTable';
 import DateRangeIndicator from './components/DateRangeIndicator';
@@ -32,9 +32,32 @@ export default function Detail() {
     {}
   );
   const [templateCheckboxStatus, setTemplateCheckboxStatus] = useState(
-    CheckBoxStatus.CHECKED
+    CheckboxStatus.CHECKED
   );
-  const [checkedRawDataKeys, setCheckedRawDataKeys] = useState<string[]>([]);
+  const [rawDataCheckboxStatus, setRawDataCheckboxStatus] = useState(
+    CheckboxStatus.CHECKED
+  );
+  const rawDataCheckboxItems = useMemo(
+    () => [
+      {
+        label: '上行信息',
+        value: 'upstream',
+      },
+      {
+        label: '下行信息',
+        value: 'downstream',
+      },
+      {
+        label: '连接信息',
+        value: 'connecting',
+      },
+    ],
+    []
+  );
+
+  const rawDataCheckboxKeys = rawDataCheckboxItems.map(({ value }) => value);
+  const [rawDataCheckedKeys, setRawDataCheckedKeys] =
+    useState<string[]>(rawDataCheckboxKeys);
   const [checkedKeys, setCheckedKeys] = useState<string[]>([]);
   const [isTelemetryDataRequested, setIsTelemetryDataRequested] =
     useState(false);
@@ -70,12 +93,12 @@ export default function Detail() {
     }
     setCheckedKeys(telemetryKeys);
 
-    let checkedStatus = CheckBoxStatus.NOT_CHECKED;
+    let checkedStatus = CheckboxStatus.NOT_CHECKED;
     if (telemetryKeys.length > 0) {
       checkedStatus =
         telemetryKeys.length === telemetryDataKeys.length
-          ? CheckBoxStatus.CHECKED
-          : CheckBoxStatus.INDETERMINATE;
+          ? CheckboxStatus.CHECKED
+          : CheckboxStatus.INDETERMINATE;
     }
     setTemplateCheckboxStatus(checkedStatus);
   };
@@ -186,6 +209,43 @@ export default function Detail() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keywords]);
 
+  const getCheckBoxStatus = ({
+    checkedLength,
+    length,
+  }: {
+    checkedLength: number;
+    length: number;
+  }) => {
+    let checkboxStatus = CheckboxStatus.NOT_CHECKED;
+
+    if (checkedLength > 0) {
+      if (checkedLength === length) {
+        checkboxStatus = CheckboxStatus.CHECKED;
+      } else if (checkedLength < length) {
+        checkboxStatus = CheckboxStatus.INDETERMINATE;
+      }
+    }
+    return checkboxStatus;
+  };
+
+  useEffect(() => {
+    const { length } = rawDataCheckboxItems;
+    const { length: keysLength } = rawDataCheckedKeys;
+
+    setRawDataCheckboxStatus(
+      getCheckBoxStatus({ checkedLength: keysLength, length })
+    );
+  }, [rawDataCheckboxItems, rawDataCheckedKeys]);
+
+  useEffect(() => {
+    const { length } = Object.keys(telemetry);
+    const { length: keysLength } = checkedKeys;
+
+    setTemplateCheckboxStatus(
+      getCheckBoxStatus({ checkedLength: keysLength, length })
+    );
+  }, [telemetry, checkedKeys]);
+
   return (
     <Flex height="100%" justifyContent="space-between">
       <Flex flexDirection="column" width="360px">
@@ -195,10 +255,14 @@ export default function Detail() {
           telemetry={filteredTelemetry}
           templateCheckboxStatus={templateCheckboxStatus}
           setTemplateCheckboxStatus={setTemplateCheckboxStatus}
+          rawDataCheckboxStatus={rawDataCheckboxStatus}
+          setRawDataCheckboxStatus={setRawDataCheckboxStatus}
+          rawDataCheckboxItems={rawDataCheckboxItems}
+          rawDataCheckboxKeys={rawDataCheckboxKeys}
           checkedKeys={checkedKeys}
           setCheckedKeys={setCheckedKeys}
-          checkedRawDataKeys={checkedRawDataKeys}
-          setCheckedRawDataKeys={setCheckedRawDataKeys}
+          rawDataCheckedKeys={rawDataCheckedKeys}
+          setRawDataCheckedKeys={setRawDataCheckedKeys}
           isDeviceDetailLoading={isDeviceDetailLoading}
           isTelemetryDataLoading={isTelemetryDataLoading}
           onSearch={handleSearch}

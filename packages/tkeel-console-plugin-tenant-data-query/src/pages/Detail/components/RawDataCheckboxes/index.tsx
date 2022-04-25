@@ -1,47 +1,40 @@
 import { Dispatch, SetStateAction } from 'react';
 
-import CustomCheckbox, { CheckBoxStatus } from '../CustomCheckbox';
+import CustomCheckbox, { CheckboxStatus } from '../CustomCheckbox';
+
+export type CheckBoxItem = {
+  label: string;
+  value: string;
+};
 
 type Props = {
-  checkedRawDataKeys: string[];
-  setCheckedRawDataKeys: Dispatch<SetStateAction<string[]>>;
+  rawDataCheckboxItems: CheckBoxItem[];
+  rawDataCheckedKeys: string[];
+  setRawDataCheckedKeys: Dispatch<SetStateAction<string[]>>;
 };
 
 export default function RawDataCheckboxes({
-  checkedRawDataKeys,
-  setCheckedRawDataKeys,
+  rawDataCheckboxItems,
+  rawDataCheckedKeys,
+  setRawDataCheckedKeys,
 }: Props) {
-  const rawDataInfo = [
-    {
-      label: '上行信息',
-      value: 'upMessage',
-    },
-    {
-      label: '下行信息',
-      value: 'downMessage',
-    },
-    {
-      label: '连接信息',
-      value: 'connectMessage',
-    },
-  ];
   return (
     <>
-      {rawDataInfo.map(({ label, value }) => {
-        const checked = checkedRawDataKeys.includes(value);
+      {rawDataCheckboxItems.map(({ label, value }) => {
+        const checked = rawDataCheckedKeys.includes(value);
 
         return (
           <CustomCheckbox
             key={value}
             checkboxStatus={
-              checked ? CheckBoxStatus.CHECKED : CheckBoxStatus.NOT_CHECKED
+              checked ? CheckboxStatus.CHECKED : CheckboxStatus.NOT_CHECKED
             }
             onClick={() => {
               let newCheckedRawDataKeys = [];
               newCheckedRawDataKeys = checked
-                ? checkedRawDataKeys.filter((key) => key !== value)
-                : [...checkedRawDataKeys, value];
-              setCheckedRawDataKeys(newCheckedRawDataKeys);
+                ? rawDataCheckedKeys.filter((key) => key !== value)
+                : [...rawDataCheckedKeys, value];
+              setRawDataCheckedKeys(newCheckedRawDataKeys);
             }}
             styles={{
               wrapper: { marginBottom: '4px', height: '24px' },

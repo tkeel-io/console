@@ -6,13 +6,10 @@ import { Loading, Tree } from '@tkeel/console-components';
 import propertiesEmpty from '@/tkeel-console-plugin-tenant-data-query/assets/images/properties-empty.svg';
 import { TelemetryFields } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceDetailQuery';
 
-import { CheckBoxStatus } from '../CustomCheckbox';
-
 type Props = {
   telemetry: TelemetryFields;
   checkedKeys: string[];
   setCheckedKeys: Dispatch<SetStateAction<string[]>>;
-  setTemplateCheckboxStatus: Dispatch<SetStateAction<CheckBoxStatus>>;
   isDeviceDetailLoading: boolean;
 };
 
@@ -20,7 +17,6 @@ export default function TemplateDataCheckboxes({
   telemetry,
   checkedKeys,
   setCheckedKeys,
-  setTemplateCheckboxStatus,
   isDeviceDetailLoading,
 }: Props) {
   const telemetryKeys = Object.keys(telemetry);
@@ -65,17 +61,6 @@ export default function TemplateDataCheckboxes({
             (key) => key !== 'telemetryData'
           );
           setCheckedKeys(checkedNodeKeys);
-          let checkboxStatus = CheckBoxStatus.NOT_CHECKED;
-          const { length } = telemetryKeys;
-          const { length: keysLength } = checkedNodeKeys;
-          if (keysLength > 0) {
-            if (keysLength === length) {
-              checkboxStatus = CheckBoxStatus.CHECKED;
-            } else if (keysLength < length) {
-              checkboxStatus = CheckBoxStatus.INDETERMINATE;
-            }
-          }
-          setTemplateCheckboxStatus(checkboxStatus);
         }}
       />
     </Box>

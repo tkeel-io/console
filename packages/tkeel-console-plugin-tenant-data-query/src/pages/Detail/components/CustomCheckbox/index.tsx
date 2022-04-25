@@ -4,14 +4,14 @@ import iconCheckbox from '@/tkeel-console-plugin-tenant-data-query/assets/images
 import iconCheckboxChecked from '@/tkeel-console-plugin-tenant-data-query/assets/images/checkbox-checked.svg';
 import iconCheckboxIndeterminate from '@/tkeel-console-plugin-tenant-data-query/assets/images/checkbox-indeterminate.svg';
 
-export enum CheckBoxStatus {
+export enum CheckboxStatus {
   NOT_CHECKED = 'not-checked',
   CHECKED = 'checked',
   INDETERMINATE = 'indeterminate',
 }
 
 type Props = {
-  checkboxStatus?: CheckBoxStatus;
+  checkboxStatus?: CheckboxStatus;
   onClick?: () => unknown;
   children?: string;
   styles?: {
@@ -20,18 +20,18 @@ type Props = {
 };
 
 export default function CustomCheckbox({
-  checkboxStatus = CheckBoxStatus.NOT_CHECKED,
+  checkboxStatus = CheckboxStatus.NOT_CHECKED,
   onClick,
   children,
   styles,
 }: Props) {
   let checkboxImage = iconCheckbox;
   const checkboxBackgroundSize =
-    checkboxStatus === CheckBoxStatus.NOT_CHECKED ? '12px 12px' : '16px 16px';
+    checkboxStatus === CheckboxStatus.NOT_CHECKED ? '12px 12px' : '16px 16px';
 
-  if (checkboxStatus === CheckBoxStatus.CHECKED) {
+  if (checkboxStatus === CheckboxStatus.CHECKED) {
     checkboxImage = iconCheckboxChecked;
-  } else if (checkboxStatus === CheckBoxStatus.INDETERMINATE) {
+  } else if (checkboxStatus === CheckboxStatus.INDETERMINATE) {
     checkboxImage = iconCheckboxIndeterminate;
   }
   return (
