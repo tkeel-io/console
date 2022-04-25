@@ -1,11 +1,9 @@
-import { Center, Circle, Flex, Text } from '@chakra-ui/react';
+import { Center, Flex, HStack, Text } from '@chakra-ui/react';
 import * as dayjs from 'dayjs';
 import { useEffect, useMemo, useState } from 'react';
-import { CSVLink } from 'react-csv';
 import { useSearchParams } from 'react-router-dom';
 
-import { DateRangePicker, IconButton } from '@tkeel/console-components';
-import { DownloadFilledIcon, RefreshFilledIcon } from '@tkeel/console-icons';
+import { DateRangePicker } from '@tkeel/console-components';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import SearchEmpty from '@/tkeel-console-plugin-tenant-data-query/components/SearchEmpty';
@@ -14,6 +12,7 @@ import useDeviceDetailQuery, {
   TelemetryFields,
 } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceDetailQuery';
 
+import { ExportButton, RefreshButton } from './components/Buttons';
 import { CheckboxStatus } from './components/CustomCheckbox';
 import DataResultTitle from './components/DataResultTitle';
 import DataTable from './components/DataTable';
@@ -325,35 +324,16 @@ export default function Detail() {
                   )}
                 </Flex>
               </Flex>
-              <Flex alignItems="center">
-                <Circle
-                  size="32px"
-                  marginRight="5px"
-                  backgroundColor="gray.100"
-                  cursor={hasIdentifiers ? 'pointer' : 'not-allowed'}
-                  onClick={() => {
-                    if (hasIdentifiers) {
-                      handleTelemetryDataMutate();
-                    }
-                  }}
-                >
-                  <RefreshFilledIcon color="grayAlternatives.300" />
-                </Circle>
-                <CSVLink
-                  data={exportData}
-                  filename={`data-${dayjs().valueOf()}.csv`}
-                >
-                  <IconButton
-                    paddingLeft="6px"
-                    paddingRight="16px"
-                    icon={<DownloadFilledIcon size={14} />}
-                    isShowCircle
-                    disabled={!isTelemetryDataSuccess}
-                  >
-                    数据导出
-                  </IconButton>
-                </CSVLink>
-              </Flex>
+              <HStack spacing="12px">
+                <RefreshButton
+                  onClick={handleTelemetryDataMutate}
+                  disabled={!hasIdentifiers}
+                />
+                <ExportButton
+                  exportData={exportData}
+                  disabled={!isTelemetryDataSuccess}
+                />
+              </HStack>
             </Flex>
             {dataType === DataType.TEMPLATE_DATA && (
               <Flex
@@ -363,25 +343,10 @@ export default function Detail() {
                 alignItems="center"
               >
                 <Text fontSize="12px">遥测数据</Text>
-                {/* <Flex alignItems="center">
-                <Switch
-                  size="sm"
-                  isChecked={isRangeSearch}
-                  colorScheme="brand"
-                  __css={{ 'span:focus': { boxShadow: 'none !important' } }}
-                  onChange={(e) => {
-                    setIsRangeSearch(e.target.checked);
-                  }}
-                />
-                <Text
-                  marginLeft="4px"
-                  color="gray.700"
-                  fontSize="12px"
-                  lineHeight="24px"
-                >
-                  分段查询
-                </Text>
-              </Flex> */}
+                {/* <RangeSearchButton
+                  isRangeSearch={isRangeSearch}
+                  setIsRangeSearch={setIsRangeSearch}
+                /> */}
               </Flex>
             )}
             {isRangeSearch && (

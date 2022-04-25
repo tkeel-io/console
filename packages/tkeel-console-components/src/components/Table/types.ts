@@ -7,14 +7,14 @@ import { UsePaginationReturnType } from '@tkeel/console-types';
 type OnSelectProps<D extends object> = {
   isAllRowsSelected: boolean;
   selectedRowIds: Record<IdType<D>, boolean>;
-  // selectedFlatRows: Row<D>[];
   selectedFlatRows: D[];
 };
 
 export interface Props<D extends object> extends UseTableOptions<D> {
-  // defaultPageSize?: number;
   hasPagination?: boolean;
-  paginationProps?: UsePaginationReturnType;
+  paginationProps?: UsePaginationReturnType & {
+    showBoxShadow?: boolean;
+  };
   paginationStyle?: StyleProps;
   scroll?: {
     y: string;

@@ -45,7 +45,7 @@ export default function RawDataTable() {
       data={rawDataList}
       isShowStripe
       scroll={{ y: '100%' }}
-      paginationProps={{ ...pagination }}
+      paginationProps={{ ...pagination, showBoxShadow: true }}
     />
   );
 }
