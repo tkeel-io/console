@@ -43,6 +43,7 @@ export default function Detail() {
   const status = ruleDetail?.status ?? 0;
   const desc = ruleDetail?.desc || '暂无描述';
   const deviceTemplateId = ruleDetail?.model_id ?? '';
+  const deviceTemplateName = ruleDetail?.model_name ?? '';
 
   return (
     <Flex
@@ -106,6 +107,7 @@ export default function Detail() {
                 desc,
                 type,
                 deviceTemplateId,
+                deviceTemplateName,
               }}
               refetch={() => {
                 refetch();

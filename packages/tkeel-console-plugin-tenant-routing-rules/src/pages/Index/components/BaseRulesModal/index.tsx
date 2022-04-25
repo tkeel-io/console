@@ -2,12 +2,7 @@ import { HStack, useRadioGroup } from '@chakra-ui/react';
 import { ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import {
-  FormControl,
-  FormField,
-  Loading,
-  Modal,
-} from '@tkeel/console-components';
+import { FormControl, FormField, Modal } from '@tkeel/console-components';
 // import { schemas } from '@tkeel/console-utils';
 import { RoutesMsgIcon, RoutesTimeIcon } from '@tkeel/console-icons';
 import { TemplateItem, useTemplatesQuery } from '@tkeel/console-request-hooks';
@@ -50,10 +45,20 @@ export default function BaseRulesModal({
   const [routeType, setRouteType] = useState(routeVal);
   const typeIndex = routeTypeArr.indexOf(routeType) + 1;
 
-  const { templates } = useTemplatesQuery({ enabled: routeType === 'time' });
-  const templateOptions = templates.map((val: TemplateItem) => {
+  const { templates } = useTemplatesQuery({
+    enabled: routeType === 'time' && buttonType === 'createButton',
+  });
+  const requestOptions = templates.map((val: TemplateItem) => {
     return { value: val.id, label: val.properties.basicInfo.name };
   });
+  const defaultValuesOptions = [
+    {
+      value: defaultValues?.deviceTemplateId,
+      label: defaultValues?.deviceTemplateName,
+    },
+  ];
+  const templateOptions =
+    buttonType === 'editButton' ? defaultValuesOptions : requestOptions;
   const {
     register,
     formState: { errors },
@@ -117,7 +122,6 @@ export default function BaseRulesModal({
   const group = getRootProps();
   return (
     <Modal
-      height="600px"
       title={title}
       isOpen={isOpen}
       isConfirmButtonLoading={isConfirmButtonLoading}
@@ -127,74 +131,66 @@ export default function BaseRulesModal({
       }}
       onConfirm={handleConfirm}
     >
-      {routeType === 'time' &&
-      buttonType === 'editButton' &&
-      templateOptions?.length <= 0 ? (
-        <Loading styles={{ wrapper: { height: '100%' } }} />
-      ) : (
-        <>
-          <TextField
-            id="name"
-            label="规则名称"
-            placeholder="请输入"
-            error={errors.name}
-            registerReturn={register('name', {
-              required: { value: true, message: '规则名称为空' },
-            })}
-          />
-          <FormControl label="路由类型" id="form-routes">
-            <HStack {...group}>
-              {options.map((item) => {
-                const { keyOpt, titleOpt, iconOpt: CustomIcon } = item;
-                const radio = getRadioProps({
-                  value: keyOpt,
-                });
-                return (
-                  <RadioCard
-                    isDisabled={buttonType === 'editButton'}
-                    {...radio}
-                    key={keyOpt}
-                    label={titleOpt}
-                    icon={
-                      <CustomIcon
-                        {...attribute}
-                        {...(radio.isChecked ? activeAttribute : {})}
-                      />
-                    }
+      <TextField
+        id="name"
+        label="规则名称"
+        placeholder="请输入"
+        error={errors.name}
+        registerReturn={register('name', {
+          required: { value: true, message: '规则名称为空' },
+        })}
+      />
+      <FormControl label="路由类型" id="form-routes">
+        <HStack {...group}>
+          {options.map((item) => {
+            const { keyOpt, titleOpt, iconOpt: CustomIcon } = item;
+            const radio = getRadioProps({
+              value: keyOpt,
+            });
+            return (
+              <RadioCard
+                isDisabled={buttonType === 'editButton'}
+                {...radio}
+                key={keyOpt}
+                label={titleOpt}
+                icon={
+                  <CustomIcon
+                    {...attribute}
+                    {...(radio.isChecked ? activeAttribute : {})}
                   />
-                );
-              })}
-            </HStack>
-          </FormControl>
-          <Tip
-            title="数据传输第二层为时序路由，传输模板约束后的结构化数据"
-            styles={{ wrapper: { mb: '20px' } }}
-          />
-          {routeType === 'time' && (
-            <SelectField<FormValues>
-              id="deviceTemplate"
-              name="deviceTemplate"
-              label="使用设备模版"
-              placeholder="请选择"
-              disabled={buttonType === 'editButton'}
-              options={templateOptions}
-              defaultValue={defaultValues?.deviceTemplateId}
-              error={errors.deviceTemplate}
-              control={control}
-              rules={{
-                required: { value: true, message: '设备模版为空' },
-              }}
-            />
-          )}
-          <TextareaField
-            id="desc"
-            label="描述"
-            placeholder="请输入"
-            error={errors.desc}
-            registerReturn={register('desc')}
-          />
-        </>
+                }
+              />
+            );
+          })}
+        </HStack>
+      </FormControl>
+      <Tip
+        title="数据传输第二层为时序路由，传输模板约束后的结构化数据"
+        styles={{ wrapper: { mb: '20px' } }}
+      />
+      {routeType === 'time' && (
+        <SelectField<FormValues>
+          id="deviceTemplate"
+          name="deviceTemplate"
+          label="使用设备模版"
+          placeholder="请选择"
+          disabled={buttonType === 'editButton'}
+          options={templateOptions}
+          defaultValue={defaultValues?.deviceTemplateId}
+          error={errors.deviceTemplate}
+          control={control}
+          rules={{
+            required: { value: true, message: '设备模版为空' },
+          }}
+        />
       )}
+      <TextareaField
+        id="desc"
+        label="描述"
+        placeholder="请输入"
+        error={errors.desc}
+        registerReturn={register('desc')}
+      />
     </Modal>
   );
 }
