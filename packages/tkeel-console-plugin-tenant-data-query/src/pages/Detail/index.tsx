@@ -7,6 +7,7 @@ import { DateRangePicker } from '@tkeel/console-components';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import SearchEmpty from '@/tkeel-console-plugin-tenant-data-query/components/SearchEmpty';
+import useRawDataMutation from '@/tkeel-console-plugin-tenant-data-query/hooks/mutations/useRawDataMutation';
 import useTelemetryDataMutation from '@/tkeel-console-plugin-tenant-data-query/hooks/mutations/useTelemetryDataMutation';
 import useDeviceDetailQuery, {
   TelemetryFields,
@@ -64,8 +65,7 @@ export default function Detail() {
   const [templateDataCheckedKeys, setTemplateDataCheckedKeys] = useState<
     string[]
   >([]);
-  const [isTelemetryDataRequested, setIsTelemetryDataRequested] =
-    useState(false);
+  const [isDataRequested, setIsDataRequested] = useState(false);
   const [timeType, setTimeType] = useState<TimeType>(TimeType.FiveMinutes);
   const [startTime, setStartTime] = useState(getRecentTimestamp(5));
   const [endTime, setEndTime] = useState(dayjs().unix());
@@ -126,12 +126,24 @@ export default function Detail() {
   const hasRawDataKeys = rawDataCheckedKeys.length > 0;
   const canRequest = isTemplateData ? hasIdentifiers : hasRawDataKeys;
 
+  const { mutate: rawDataMutate, data: rawData } = useRawDataMutation({
+    onSuccess() {
+      setIsDataRequested(true);
+    },
+  });
+  // eslint-disable-next-line no-console
+  console.log('Detail ~ rawData', rawData);
+
   const {
-    mutate,
-    data,
+    mutate: telemetryDataMutate,
+    data: telemetryData,
     isSuccess: isTelemetryDataSuccess,
     isLoading: isTelemetryDataLoading,
-  } = useTelemetryDataMutation();
+  } = useTelemetryDataMutation({
+    onSuccess() {
+      setIsDataRequested(true);
+    },
+  });
 
   const getRequestStartTime = (timeTypeValue: TimeType) => {
     switch (timeTypeValue) {
@@ -146,27 +158,36 @@ export default function Detail() {
     }
   };
 
+  const getBaseRequestData = (timeTypeValue?: TimeType) => {
+    return {
+      start_time: getRequestStartTime(timeTypeValue || timeType),
+      end_time: dayjs().unix(),
+      page_size: 1_000_000,
+      page_num: 1,
+    };
+  };
+
   const handleTelemetryDataMutate = (timeTypeValue?: TimeType) => {
-    setIsTelemetryDataRequested(true);
-
-    const requestStartTime = getRequestStartTime(timeTypeValue || timeType);
-    const requestEndTime = dayjs().unix();
-
-    mutate({
+    telemetryDataMutate({
       url: `core/v1/ts/${id}`,
       data: {
-        start_time: requestStartTime,
-        end_time: requestEndTime,
+        ...getBaseRequestData(timeTypeValue),
         identifiers: identifiers.join(','),
-        page_size: 1_000_000,
-        page_num: 1,
       },
     });
   };
 
   const handleRawDataMutate = (timeTypeValue?: TimeType) => {
-    // eslint-disable-next-line no-console
-    console.log('handleRawDataMutate ~ timeTypeValue', timeTypeValue);
+    // TODO id 替换为真实的设备id
+    rawDataMutate({
+      url: 'core/v1/rawdata/iotd-3cab8729-de42-4e9c-9165-1382de4a43b2',
+      data: {
+        ...getBaseRequestData(timeTypeValue),
+        is_descending: true,
+        path: 'rawData',
+        filters: { mark: rawDataCheckedKeys.join(',') },
+      },
+    });
   };
 
   const handleRequestData = (timeTypeValue?: TimeType) => {
@@ -181,7 +202,7 @@ export default function Detail() {
     setKeywords(value);
   };
 
-  const originDataItems = data?.items ?? [];
+  const originDataItems = telemetryData?.items ?? [];
   const rangeStartTime = startTime + rangeIndex * intervalTime;
   const rangeEndTime = rangeStartTime + intervalTime;
   const tableDataItems = isRangeSearch
@@ -295,13 +316,16 @@ export default function Detail() {
         flex="1"
         overflow="hidden"
         flexDirection="column"
-        padding="12px 20px"
         borderRadius="4px"
         backgroundColor="white"
       >
-        {isTelemetryDataRequested ? (
+        {isDataRequested ? (
           <>
-            <Flex justifyContent="space-between" alignItems="center">
+            <Flex
+              justifyContent="space-between"
+              alignItems="center"
+              padding="12px 20px 0"
+            >
               <Flex alignItems="center">
                 <DataResultTitle />
                 <Flex>
@@ -352,8 +376,7 @@ export default function Detail() {
             </Flex>
             {isTemplateData && (
               <Flex
-                marginTop="12px"
-                marginBottom="8px"
+                padding="12px 20px 8px"
                 justifyContent="space-between"
                 alignItems="center"
               >
@@ -373,7 +396,7 @@ export default function Detail() {
                 setRangeIndex={setRangeIndex}
               />
             )}
-            <Flex flex="1" marginTop="10px" overflowY="auto">
+            <Flex flex="1" padding="10px 20px" overflowY="auto">
               {isTemplateData ? (
                 <DataTable
                   originalData={originDataItems}
@@ -393,7 +416,7 @@ export default function Detail() {
           </>
         ) : (
           <>
-            <DataResultTitle />
+            <DataResultTitle padding="12px 20px 0" />
             <Center flex="1">
               <SearchEmpty
                 title="请选择查询条件后，点击确定按钮"

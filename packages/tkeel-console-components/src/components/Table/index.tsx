@@ -115,6 +115,7 @@ function Table<D extends object>({
           overflow="hidden"
           display="flex"
           flexDirection="column"
+          {...styles?.table}
         >
           <Head
             headerGroups={headerGroups}

@@ -2,10 +2,11 @@ import { useMutation } from '@tkeel/console-hooks';
 import { RequestResult } from '@tkeel/console-utils';
 
 export interface DataItem {
-  time: string;
-  value: {
-    [propName: string]: unknown;
-  };
+  timestamp: number;
+  id: string;
+  entity_id: string;
+  path: 'rawData';
+  values: string;
 }
 
 export interface ApiData {
@@ -21,9 +22,11 @@ const method = 'POST';
 type RequestData = {
   start_time: number;
   end_time: number;
-  identifiers: string;
   page_size: number;
   page_num: number;
+  is_descending: boolean;
+  path: 'rawData';
+  filters: { mark: string };
 };
 
 type Props = {
@@ -34,7 +37,7 @@ type Props = {
   ) => void | Promise<unknown>;
 };
 
-export default function useTelemetryDataMutation(props?: Props) {
+export default function useRawDataMutation(props?: Props) {
   const { onSuccess } = props || {};
   const reactQueryOptions = onSuccess
     ? {

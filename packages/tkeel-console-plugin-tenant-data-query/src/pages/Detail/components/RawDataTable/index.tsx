@@ -40,9 +40,14 @@ export default function RawDataTable() {
 
   return (
     <Table
-      styles={{ wrapper: { flex: 1, overflow: 'hidden' } }}
+      styles={{
+        wrapper: { flex: 1, overflow: 'hidden' },
+        table: { padding: '0 20px' },
+        pagination: { padding: '0 20px' },
+      }}
       columns={columns}
       data={rawDataList}
+      isShowStripe
       scroll={{ y: '100%' }}
       paginationProps={{ ...pagination, showBoxShadow: true }}
     />

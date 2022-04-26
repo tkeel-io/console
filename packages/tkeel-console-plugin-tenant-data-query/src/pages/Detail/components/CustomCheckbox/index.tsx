@@ -38,6 +38,7 @@ export default function CustomCheckbox({
     <Flex
       alignItems="center"
       cursor="pointer"
+      width="max-content"
       {...styles?.wrapper}
       onClick={onClick}
     >
