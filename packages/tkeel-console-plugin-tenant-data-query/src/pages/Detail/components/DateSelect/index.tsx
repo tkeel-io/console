@@ -11,13 +11,14 @@ export enum TimeType {
   Custom = 'custom',
 }
 
+type TimeDispatch = Dispatch<SetStateAction<number>>;
 type Props = {
   timeType: TimeType;
-  hasIdentifiers: boolean;
+  canRequest: boolean;
   setTimeType: Dispatch<SetStateAction<TimeType>>;
-  setStartTime: Dispatch<SetStateAction<number>>;
-  setEndTime: Dispatch<SetStateAction<number>>;
-  handleTelemetryDataMutate: (timeTypeValue?: TimeType) => unknown;
+  setStartTime: TimeDispatch;
+  setEndTime: TimeDispatch;
+  handleRequestData: (timeTypeValue?: TimeType) => unknown;
 };
 
 export function getRecentTimestamp(num: number, unit = 'minute') {
@@ -26,11 +27,11 @@ export function getRecentTimestamp(num: number, unit = 'minute') {
 
 export default function DateSelect({
   timeType,
-  hasIdentifiers,
+  canRequest,
   setTimeType,
   setStartTime,
   setEndTime,
-  handleTelemetryDataMutate,
+  handleRequestData,
 }: Props) {
   const selectOptions = [
     {
@@ -77,8 +78,8 @@ export default function DateSelect({
         setStartTime(requestStartTime);
         setEndTime(requestEndTime);
 
-        if (hasIdentifiers) {
-          handleTelemetryDataMutate(timeTypeValue);
+        if (canRequest) {
+          handleRequestData(timeTypeValue);
         }
       }}
       value={timeType}

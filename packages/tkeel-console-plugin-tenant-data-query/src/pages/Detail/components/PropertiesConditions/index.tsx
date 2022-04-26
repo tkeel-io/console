@@ -27,8 +27,8 @@ type CheckboxStatusDispatch = Dispatch<SetStateAction<CheckboxStatus>>;
 type CheckedKeysDispatch = Dispatch<SetStateAction<string[]>>;
 type Props = {
   setDataType: Dispatch<SetStateAction<DataType>>;
-  identifiers: string[];
   telemetry: TelemetryFields;
+  canRequest: boolean;
   templateCheckboxStatus: CheckboxStatus;
   setTemplateCheckboxStatus: CheckboxStatusDispatch;
   rawDataCheckboxStatus: CheckboxStatus;
@@ -47,8 +47,8 @@ type Props = {
 
 export default function PropertiesConditions({
   setDataType,
-  identifiers,
   telemetry,
+  canRequest,
   templateCheckboxStatus,
   setTemplateCheckboxStatus,
   rawDataCheckboxStatus,
@@ -179,7 +179,7 @@ export default function PropertiesConditions({
         colorScheme="brand"
         margin="12px 20px"
         flexShrink={0}
-        disabled={identifiers.length === 0}
+        disabled={!canRequest}
         isLoading={isTelemetryDataLoading}
         onClick={onConfirm}
       >

@@ -43,7 +43,6 @@ export default function RawDataTable() {
       styles={{ wrapper: { flex: 1, overflow: 'hidden' } }}
       columns={columns}
       data={rawDataList}
-      isShowStripe
       scroll={{ y: '100%' }}
       paginationProps={{ ...pagination, showBoxShadow: true }}
     />

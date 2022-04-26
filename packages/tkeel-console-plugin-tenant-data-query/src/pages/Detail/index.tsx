@@ -29,6 +29,7 @@ import RawDataTable from './components/RawDataTable';
 
 export default function Detail() {
   const [dataType, setDataType] = useState<DataType>(DataType.RAW_DATA);
+  const isTemplateData = dataType === DataType.TEMPLATE_DATA;
   const [keywords, setKeywords] = useState('');
   const [telemetry, setTelemetry] = useState<TelemetryFields>({});
   const [filteredTelemetry, setFilteredTelemetry] = useState<TelemetryFields>(
@@ -57,7 +58,6 @@ export default function Detail() {
     ],
     []
   );
-
   const rawDataCheckboxKeys = rawDataCheckboxItems.map(({ value }) => value);
   const [rawDataCheckedKeys, setRawDataCheckedKeys] =
     useState<string[]>(rawDataCheckboxKeys);
@@ -123,6 +123,8 @@ export default function Detail() {
   );
 
   const hasIdentifiers = identifiers.length > 0;
+  const hasRawDataKeys = rawDataCheckedKeys.length > 0;
+  const canRequest = isTemplateData ? hasIdentifiers : hasRawDataKeys;
 
   const {
     mutate,
@@ -160,6 +162,19 @@ export default function Detail() {
         page_num: 1,
       },
     });
+  };
+
+  const handleRawDataMutate = (timeTypeValue?: TimeType) => {
+    // eslint-disable-next-line no-console
+    console.log('handleRawDataMutate ~ timeTypeValue', timeTypeValue);
+  };
+
+  const handleRequestData = (timeTypeValue?: TimeType) => {
+    if (isTemplateData) {
+      handleTelemetryDataMutate(timeTypeValue);
+    } else {
+      handleRawDataMutate(timeTypeValue);
+    }
   };
 
   const handleSearch = (value: string) => {
@@ -256,8 +271,8 @@ export default function Detail() {
       <Flex flexDirection="column" width="360px">
         <DeviceDetailCard detailData={deviceObject} />
         <PropertiesConditions
+          canRequest={canRequest}
           setDataType={setDataType}
-          identifiers={identifiers}
           telemetry={filteredTelemetry}
           templateCheckboxStatus={templateCheckboxStatus}
           setTemplateCheckboxStatus={setTemplateCheckboxStatus}
@@ -272,7 +287,7 @@ export default function Detail() {
           isDeviceDetailLoading={isDeviceDetailLoading}
           isTelemetryDataLoading={isTelemetryDataLoading}
           onSearch={handleSearch}
-          onConfirm={() => handleTelemetryDataMutate()}
+          onConfirm={() => handleRequestData()}
         />
       </Flex>
       <Flex
@@ -292,11 +307,11 @@ export default function Detail() {
                 <Flex>
                   <DateSelect
                     timeType={timeType}
-                    hasIdentifiers={hasIdentifiers}
+                    canRequest={canRequest}
                     setTimeType={setTimeType}
                     setStartTime={setStartTime}
                     setEndTime={setEndTime}
-                    handleTelemetryDataMutate={handleTelemetryDataMutate}
+                    handleRequestData={handleRequestData}
                   />
                   {timeType === TimeType.Custom && (
                     <DateRangePicker
@@ -317,7 +332,7 @@ export default function Detail() {
                         setStartTime(requestStartTime);
                         setEndTime(requestEndTime);
                         if (hasIdentifiers) {
-                          handleTelemetryDataMutate();
+                          handleRequestData();
                         }
                       }}
                     />
@@ -326,7 +341,7 @@ export default function Detail() {
               </Flex>
               <HStack spacing="12px">
                 <RefreshButton
-                  onClick={handleTelemetryDataMutate}
+                  onClick={() => handleRequestData()}
                   disabled={!hasIdentifiers}
                 />
                 <ExportButton
@@ -335,7 +350,7 @@ export default function Detail() {
                 />
               </HStack>
             </Flex>
-            {dataType === DataType.TEMPLATE_DATA && (
+            {isTemplateData && (
               <Flex
                 marginTop="12px"
                 marginBottom="8px"
@@ -359,7 +374,7 @@ export default function Detail() {
               />
             )}
             <Flex flex="1" marginTop="10px" overflowY="auto">
-              {dataType === DataType.TEMPLATE_DATA ? (
+              {isTemplateData ? (
                 <DataTable
                   originalData={originDataItems}
                   data={tableDataItems}
@@ -381,7 +396,7 @@ export default function Detail() {
             <DataResultTitle />
             <Center flex="1">
               <SearchEmpty
-                title="请选择查询条件后，点击确定按钮 "
+                title="请选择查询条件后，点击确定按钮"
                 styles={{ image: { marginBottom: '8px', width: '104px' } }}
               />
             </Center>
