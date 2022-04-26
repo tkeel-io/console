@@ -1,5 +1,6 @@
-import { Box, Button, Flex, Text, useTheme } from '@chakra-ui/react';
+import { Box, Button, Flex, HStack, Text, useTheme } from '@chakra-ui/react';
 import { Base64 } from 'js-base64';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 // import { useParams } from 'react-router-dom';
@@ -14,7 +15,16 @@ import useAuthIdProviderQuery from '@/tkeel-console-plugin-admin-tenants/hooks/q
 
 // import ConfigModal from './ConfigModal';
 
+const buttonStyleProps = {
+  borderRadius: '2px',
+  height: '32px',
+  fontWeight: '400',
+  fontSize: '12px',
+  lineHeight: '24px',
+};
+
 export default function Config() {
+  const [currentMode, setCurrentMode] = useState<'view' | 'edit'>('view');
   const { colors }: Theme = useTheme();
   const { tenantId = '' } = useParams();
   const { data } = useAuthIdProviderQuery({ tenantId });
@@ -52,7 +62,8 @@ export default function Config() {
           >
             协议配置
           </Text>
-          <Flex alignItems="center" paddingLeft="12px">
+          {/* TODO: temp */}
+          {/* <Flex alignItems="center" paddingLeft="12px">
             <Text
               paddingRight="4px"
               fontSize="12px"
@@ -71,19 +82,23 @@ export default function Config() {
             >
               复制模版代码
             </Button>
-          </Flex>
+          </Flex> */}
         </Flex>
         <Box paddingTop="12px">
           <AceEditor
             theme="light"
             value={yaml}
             language="yaml"
-            readOnly
+            readOnly={currentMode === 'view'}
             height="316px"
           />
         </Box>
       </Box>
-      <Flex justifyContent="flex-end" paddingTop="12px">
+      <Flex
+        justifyContent="flex-end"
+        paddingTop="12px"
+        visibility={currentMode === 'view' ? 'visible' : 'hidden'}
+      >
         <InformationFilledIcon size="16px" color={colors.primary} />
         <Text
           padding="0 4px"
@@ -94,18 +109,36 @@ export default function Config() {
           如需编辑配置文件，请点击下方编辑按钮
         </Text>
       </Flex>
-      <Flex padding="16px 0 24px">
-        <Button
-          borderRadius="2px"
-          height="32px"
-          fontWeight="400"
-          fontSize="12px"
-          lineHeight="24px"
-          colorScheme="brand"
-        >
-          编辑
-        </Button>
-      </Flex>
+      <HStack padding="16px 0 24px" spacing="8px">
+        {currentMode === 'view' && (
+          <Button
+            {...buttonStyleProps}
+            colorScheme="brand"
+            onClick={() => {
+              setCurrentMode('edit');
+            }}
+          >
+            编辑
+          </Button>
+        )}
+        {currentMode === 'edit' && (
+          <>
+            <Button {...buttonStyleProps} colorScheme="brand">
+              保存
+            </Button>
+            <Button
+              {...buttonStyleProps}
+              colorScheme="gray"
+              backgroundColor="gray.800"
+              onClick={() => {
+                setCurrentMode('view');
+              }}
+            >
+              取消
+            </Button>
+          </>
+        )}
+      </HStack>
     </Box>
   );
 }
