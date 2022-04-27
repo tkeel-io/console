@@ -42,9 +42,6 @@ export default function AutoRelationButton({
       targetName: device.properties?.basicInfo?.name ?? '',
     };
     mutate({ data: params });
-
-    // eslint-disable-next-line no-console
-    console.log(params);
   };
   return (
     <>
