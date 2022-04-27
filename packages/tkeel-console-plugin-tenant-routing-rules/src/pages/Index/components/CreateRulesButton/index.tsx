@@ -20,6 +20,7 @@ interface Props {
     status: number;
     type: number;
     deviceTemplateId: string;
+    deviceTemplateName: string;
   };
   type: 'createButton' | 'createText' | 'editButton';
   onSuccess: () => void;
