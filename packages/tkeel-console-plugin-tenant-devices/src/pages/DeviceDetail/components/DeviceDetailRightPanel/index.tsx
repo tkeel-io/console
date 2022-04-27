@@ -132,7 +132,7 @@ function DeviceDetailRightPanel({
       ),
     },
   ];
-  const [tabIndex, setTabIndex] = useState(5);
+  const [tabIndex, setTabIndex] = useState(0);
   const handleTabChange = (index: number) => {
     setTabIndex(index);
   };
