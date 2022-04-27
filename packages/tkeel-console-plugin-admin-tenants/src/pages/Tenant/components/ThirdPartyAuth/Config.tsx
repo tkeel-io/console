@@ -22,16 +22,18 @@ const buttonStyleProps = {
 
 export default function Config() {
   const [currentMode, setCurrentMode] = useState<'view' | 'edit'>('view');
-  const [type, setType] = useState<IdProviderType>();
   const [config, setConfig] = useState<string>('');
   const { colors }: Theme = useTheme();
   const { tenantId = '' } = useParams();
 
-  const { isLoading: isQueryLoading, refetch } = useAuthIdProviderQuery({
+  const {
+    isLoading: isQueryLoading,
+    data: currentData,
+    refetch,
+  } = useAuthIdProviderQuery({
     tenantId,
     onSuccess: ({ data }) => {
       const configByServer = Base64.decode(data?.config ?? '');
-      setType(data?.type);
       setConfig(configByServer);
     },
   });
@@ -54,10 +56,15 @@ export default function Config() {
   const handleSubmit = () => {
     mutate({
       data: {
-        type: type as IdProviderType,
+        type: currentData?.type as IdProviderType,
         config: Base64.encode(config),
       },
     });
+  };
+
+  const handleCancel = () => {
+    setConfig(Base64.decode(currentData?.config ?? ''));
+    setCurrentMode('view');
   };
 
   return (
@@ -152,9 +159,7 @@ export default function Config() {
               {...buttonStyleProps}
               colorScheme="gray"
               backgroundColor="gray.800"
-              onClick={() => {
-                setCurrentMode('view');
-              }}
+              onClick={handleCancel}
             >
               取消
             </Button>
