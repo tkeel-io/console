@@ -96,6 +96,13 @@ export default function Login() {
     },
   });
 
+  const { mutate: mutateSSO } = useTokenMutation({
+    tenantId,
+    onSuccess({ data }) {
+      window.location.href = data?.redirect_url ?? '';
+    },
+  });
+
   if (!tenantId) {
     jumpToTenantAuthTenantPage({
       isReplace: true,
@@ -152,7 +159,7 @@ export default function Login() {
         </Heading>
       </Box>
       <Center flexDirection="column" width="42vw">
-        <Form margin="0" onSubmit={handleSubmit(onSubmit)}>
+        <Box width="350px">
           <Heading
             height="52px"
             paddingBottom="12px"
@@ -163,37 +170,57 @@ export default function Login() {
           >
             {tenantTitle}
           </Heading>
-          <TextField
-            id="username"
-            type="text"
-            label="账号"
-            defaultValue={initialUsername || mockData.username}
-            placeholder="请输入您的账号"
-            error={errors.username}
-            formControlStyle={{ marginBottom: '20px', width: '350px' }}
-            formLabelStyle={formLabelStyle}
-            inputStyle={inputStyle}
-            registerReturn={register(
-              'username',
-              schemas.username.registerOptions
-            )}
-          />
-          <TextField
-            id="password"
-            type="password"
-            label="密码"
-            defaultValue={mockData.password}
-            placeholder="请输入您的密码"
-            error={errors.password}
-            formControlStyle={{ width: '350px' }}
-            formLabelStyle={formLabelStyle}
-            inputStyle={inputStyle}
-            registerReturn={register(
-              'password',
-              schemas.password.registerOptions
-            )}
-          />
-          <Box paddingTop="40px">
+          <Form margin="0" onSubmit={handleSubmit(onSubmit)}>
+            <TextField
+              id="username"
+              type="text"
+              label="账号"
+              defaultValue={initialUsername || mockData.username}
+              placeholder="请输入您的账号"
+              error={errors.username}
+              formControlStyle={{ marginBottom: '20px' }}
+              formLabelStyle={formLabelStyle}
+              inputStyle={inputStyle}
+              registerReturn={register(
+                'username',
+                schemas.username.registerOptions
+              )}
+            />
+            <TextField
+              id="password"
+              type="password"
+              label="密码"
+              defaultValue={mockData.password}
+              placeholder="请输入您的密码"
+              error={errors.password}
+              formLabelStyle={formLabelStyle}
+              inputStyle={inputStyle}
+              registerReturn={register(
+                'password',
+                schemas.password.registerOptions
+              )}
+            />
+            <Box paddingTop="40px">
+              <Button
+                type="submit"
+                colorScheme="brand"
+                isFullWidth
+                height="45px"
+                borderRadius="4px"
+                shadow="none"
+                isLoading={isLoading}
+              >
+                登录
+              </Button>
+            </Box>
+          </Form>
+          <Form
+            margin="20px 0"
+            onSubmit={(event) => {
+              mutateSSO({});
+              event.preventDefault();
+            }}
+          >
             <Button
               type="submit"
               colorScheme="brand"
@@ -201,27 +228,28 @@ export default function Login() {
               height="45px"
               borderRadius="4px"
               shadow="none"
-              isLoading={isLoading}
+              // isLoading={isLoading}
             >
-              登录
+              单点登录
             </Button>
-            <Button
-              type="button"
-              variant="outline"
-              isFullWidth
-              marginTop="12px"
-              height="45px"
-              borderRadius="4px"
-              border="0"
-              shadow="none"
-              color="gray.600"
-              backgroundColor="gray.100"
-              onClick={() => logoutTenant()}
-            >
-              切换空间
-            </Button>
-          </Box>
-        </Form>
+          </Form>
+
+          <Button
+            type="button"
+            variant="outline"
+            isFullWidth
+            marginTop="12px"
+            height="45px"
+            borderRadius="4px"
+            border="0"
+            shadow="none"
+            color="gray.600"
+            backgroundColor="gray.100"
+            onClick={() => logoutTenant()}
+          >
+            切换空间
+          </Button>
+        </Box>
       </Center>
     </Flex>
   );
