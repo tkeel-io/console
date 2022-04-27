@@ -11,7 +11,7 @@ export interface ApiData {
   expires_in: string;
   refresh_token: string;
   token_type: string;
-  redirect_url?: string;
+  redirect_url: string;
 }
 
 const method = 'GET';
