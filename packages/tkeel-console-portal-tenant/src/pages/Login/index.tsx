@@ -99,7 +99,7 @@ export default function Login() {
   const { mutate: mutateSSO } = useTokenMutation({
     tenantId,
     onSuccess({ data }) {
-      window.location.href = data?.redirect_url ?? '';
+      window.location.href = data.redirect_url;
     },
   });
 
