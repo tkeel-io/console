@@ -1,20 +1,19 @@
 import {
   Box,
   Flex,
-  HStack,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
   Text,
 } from '@chakra-ui/react';
+import { values } from 'lodash';
 import { useEffect, useState } from 'react';
 
 import CustomTab from '@tkeel/console-business-components/src/components/AddDevicesModal/CustomTab';
 import DeviceGroupTree from '@tkeel/console-business-components/src/components/AddDevicesModal/DeviceGroupTree';
 import DeviceTemplates from '@tkeel/console-business-components/src/components/AddDevicesModal/DeviceTemplates';
 import { Modal, SearchInput } from '@tkeel/console-components';
-import { BroomFilledIcon } from '@tkeel/console-icons';
 import {
   DeviceItem,
   RequestDataCondition,
@@ -23,6 +22,7 @@ import {
   useDeviceListQuery,
   useTemplatesQuery,
 } from '@tkeel/console-request-hooks';
+import { AttributeItem, TelemetryItem } from '@tkeel/console-types';
 import { getTreeNodeData, TreeNodeData } from '@tkeel/console-utils';
 
 import useDeviceDetailQuery from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
@@ -30,12 +30,33 @@ import useDeviceDetailQuery from '@/tkeel-console-plugin-tenant-devices/hooks/qu
 import DeviceConfigList from './DeviceConfigList';
 import DeviceList from './DeviceList';
 
+type DefaultValues = {
+  parentType: string;
+  parentId: string;
+  deviceId: string;
+  configId: string;
+};
+const DEFAULT_VALUES = {
+  parentType: '',
+  parentId: '',
+  deviceId: '',
+  configId: '',
+};
 interface Props {
   type?: 'auto' | 'telemetry' | 'attribute';
+  operateType?: 'create' | 'edit';
   uid: string;
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: (device: DeviceItem) => void;
+  onConfirm: ({
+    device,
+    configItem,
+  }: {
+    device: DeviceItem;
+    configItem: AttributeItem | TelemetryItem | null;
+  }) => void;
+  isConfirmButtonLoading: boolean;
+  defaultValues?: DefaultValues;
 }
 const titleStyle = {
   color: 'gray.800',
@@ -58,21 +79,33 @@ const contentStyle = {
   backgroundColor: 'gray.50',
 };
 
-export default function DeviceMappingModal({
+export default function DeviceRelationModal({
   type = 'auto',
   uid,
   isOpen,
   onClose,
   onConfirm,
+  isConfirmButtonLoading,
+  defaultValues = DEFAULT_VALUES,
+  operateType = 'create',
 }: Props) {
+  const [selectedDevice, setSelectedDevice] = useState<DeviceItem | null>(null);
   const [deviceGroupKeywords, setDeviceGroupKeywords] = useState('');
+  const [configKeywords, setConfigKeywords] = useState('');
+  const [configItem, setConfigItem] = useState<
+    AttributeItem | TelemetryItem | null
+  >(null);
+
+  const [configList, setConfigList] = useState<
+    AttributeItem[] | TelemetryItem[]
+  >([]);
   const [deviceTemplateKeywords, setDeviceTemplateKeywords] = useState('');
   const [groupId, setGroupId] = useState('');
   const [treeNodeData, setTreeNodeData] = useState<TreeNodeData[]>([]);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [templateId, setTemplateId] = useState('');
   const [templates, setTemplates] = useState<TemplateItem[]>([]);
-  const [selectedDevice, setSelectedDevice] = useState<DeviceItem | null>(null);
+
   const [tabType, setTabType] = useState<'group' | 'template'>('group');
   const [deviceGroupConditions, setDeviceGroupConditions] = useState<
     RequestDataCondition[]
@@ -81,6 +114,12 @@ export default function DeviceMappingModal({
     RequestDataCondition[]
   >([]);
   const [deviceList, setDeviceList] = useState<DeviceItem[]>([]);
+
+  const { isLoading: isDeviceDetailFetching, deviceObject } =
+    useDeviceDetailQuery({
+      id: selectedDevice?.id ?? '',
+      enabled: type !== 'auto' && !!selectedDevice?.id,
+    });
   const handleDeviceGroupSearch = (keywords: string) => {
     setDeviceGroupKeywords(keywords);
     if (keywords) {
@@ -162,17 +201,14 @@ export default function DeviceMappingModal({
     },
   });
 
-  const { isLoading: isDeviceDetailFetching, deviceObject } =
-    useDeviceDetailQuery({
-      id: selectedDevice?.id ?? '',
-      enabled: type !== 'auto' && !!selectedDevice?.id,
-    });
-
   const handleSelectDevice = (device: DeviceItem) => {
     setSelectedDevice(device);
   };
+
+  // eslint-disable-next-line unicorn/consistent-function-scoping
+  const handleConfigSearch = () => {};
   const handleSubmit = () => {
-    onConfirm(selectedDevice as DeviceItem);
+    onConfirm({ device: selectedDevice as DeviceItem, configItem });
   };
 
   const clearState = () => {
@@ -182,15 +218,44 @@ export default function DeviceMappingModal({
     setDeviceTemplateKeywords('');
     setDeviceGroupConditions([]);
     setDeviceTemplateConditions([]);
+    setConfigList([]);
     setDeviceList([]);
     setSelectedDevice(null);
   };
+  useEffect(() => {
+    if (deviceObject) {
+      const telemetryList =
+        values(deviceObject?.configs?.telemetry?.define?.fields) || [];
+      const attributesList =
+        values(deviceObject?.configs?.attributes?.define?.fields) || [];
+      const defaultConfigList =
+        type === 'telemetry' ? telemetryList : attributesList;
+      setConfigList(defaultConfigList);
+      setConfigItem(
+        defaultConfigList.find((v) => v.id === defaultValues.configId) || null
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deviceObject, type]);
+  useEffect(() => {
+    setSelectedDevice(
+      deviceList.find((v) => v.id === defaultValues.deviceId) || null
+    );
+  }, [defaultValues.deviceId, deviceList]);
 
   useEffect(() => {
     if (!isOpen) {
       clearState();
+    } else if (operateType === 'edit') {
+      const { parentId, parentType } = defaultValues;
+      if (parentType === 'group') {
+        setGroupId(parentId);
+      } else {
+        setTemplateId(parentId);
+      }
     }
-  }, [isOpen]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [defaultValues, isOpen, operateType]);
 
   useEffect(() => {
     setSelectedDevice(null);
@@ -199,6 +264,10 @@ export default function DeviceMappingModal({
     setDeviceTemplateKeywords('');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tabType]);
+
+  const isConfirmButtonDisabled =
+    (type === 'auto' && !selectedDevice) ||
+    (type !== 'auto' && Object.is(null, configItem));
 
   return (
     <Modal
@@ -209,7 +278,8 @@ export default function DeviceMappingModal({
       isOpen={isOpen}
       onClose={onClose}
       modalBodyStyle={{ padding: '20px' }}
-      isConfirmButtonDisabled={!selectedDevice}
+      isConfirmButtonLoading={isConfirmButtonLoading}
+      isConfirmButtonDisabled={isConfirmButtonDisabled}
     >
       <Flex justifyContent="space-between">
         <Flex flexDirection="column" width="540px" mr="20px">
@@ -297,17 +367,28 @@ export default function DeviceMappingModal({
               <Text {...titleStyle}>
                 {type === 'telemetry' ? '遥测关系' : '属性关系'}
               </Text>
-              <HStack spacing="4px" cursor="pointer">
-                <BroomFilledIcon size="14px" color="grayAlternatives.300" />
-                <Text color="gray.700" fontSize="12px" lineHeight="18px">
-                  清空
-                </Text>
-              </HStack>
             </Flex>
+            <SearchInput
+              placeholder={`支持搜索${
+                type === 'telemetry' ? '遥测' : '属性'
+              }名称`}
+              value={configKeywords}
+              onChange={(value) => {
+                setConfigKeywords(value);
+              }}
+              onSearch={handleConfigSearch}
+              inputGroupStyle={inputGroupStyle}
+            />
             <Flex {...contentStyle}>
               <DeviceConfigList
+                selectedConfig={configItem}
+                handleSelectConfig={(item) => {
+                  setConfigItem(item);
+                }}
+                configKeywords={configKeywords}
                 type={type}
-                deviceObject={deviceObject}
+                configList={configList}
+                // deviceObject={deviceObject}
                 isLoading={isDeviceDetailFetching}
               />
             </Flex>

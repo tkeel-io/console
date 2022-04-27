@@ -1,11 +1,12 @@
-import { Button, useDisclosure } from '@chakra-ui/react';
+import { useDisclosure } from '@chakra-ui/react';
 
-import { AddFilledIcon } from '@tkeel/console-icons';
+import { MoreActionButton } from '@tkeel/console-components';
+import { PencilFilledIcon } from '@tkeel/console-icons';
 import { DeviceItem } from '@tkeel/console-request-hooks';
 import { AttributeItem, TelemetryItem } from '@tkeel/console-types';
 import { plugin } from '@tkeel/console-utils';
 
-import useCreateDeviceRelationMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceRelationMutation';
+import useUpdateDeviceRelation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useUpdateDeviceRelation';
 import { DeviceObject } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 import {
   AttributeRelationItem,
@@ -15,21 +16,22 @@ import {
 import DeviceRelationModal from '../DeviceRelationModal';
 
 interface Props {
-  type: 'telemetry' | 'attribute';
   deviceObject: DeviceObject;
+  type: 'telemetry' | 'attribute';
+  uid: string;
   configInfo: TelemetryRelationItem | AttributeRelationItem;
   refetch?: () => void;
 }
-export default function AddRelationButton({
+export default function UpdateRelationButton({
   type,
-  deviceObject,
+  uid,
   configInfo,
   refetch = () => {},
+  deviceObject,
 }: Props) {
-  const { isOpen, onClose, onOpen } = useDisclosure();
-  const { id: uid } = deviceObject;
+  const { onOpen, isOpen, onClose } = useDisclosure();
   const toast = plugin.getPortalToast();
-  const { mutate, isLoading } = useCreateDeviceRelationMutation({
+  const { mutate, isLoading } = useUpdateDeviceRelation({
     uid,
     onSuccess: () => {
       toast.success('操作成功');
@@ -56,32 +58,33 @@ export default function AddRelationButton({
     };
     mutate({ data: { expressions: [expressionItem] } });
   };
+  const basicInfo = deviceObject.properties?.basicInfo;
+  const parentType = basicInfo?.parentName ? 'group' : 'template';
+  const parentId =
+    parentType === 'group' ? basicInfo?.parentId : basicInfo?.templateId;
+  const defaultValues = {
+    parentType,
+    parentId,
+    deviceId: configInfo?.deviceId ?? '',
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    configId: configInfo[`${type}Id`],
+  };
   return (
     <>
-      <Button
-        padding="4px 8px"
-        height="28px"
-        boxShadow="none"
-        bg="gray.50"
-        fontSize="12px"
-        borderRadius="4px"
-        color="grayAlternatives.300"
-        leftIcon={<AddFilledIcon color="grayAlternatives.300" />}
-        border="1px solid"
-        borderColor="grayAlternatives.50"
-        _hover={{ background: 'white' }}
-        _active={{ background: 'white' }}
+      <MoreActionButton
+        title="编辑关系"
         onClick={onOpen}
-      >
-        绑定关系
-      </Button>
+        icon={<PencilFilledIcon size="12px" color="grayAlternatives.300" />}
+      />
       <DeviceRelationModal
-        type={type}
+        operateType="edit"
         isOpen={isOpen}
         onClose={onClose}
+        type={type}
         uid={uid}
         onConfirm={handleConfirm}
         isConfirmButtonLoading={isLoading}
+        defaultValues={defaultValues}
       />
     </>
   );

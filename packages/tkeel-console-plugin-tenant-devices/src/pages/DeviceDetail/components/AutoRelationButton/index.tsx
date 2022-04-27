@@ -8,25 +8,30 @@ import { plugin } from '@tkeel/console-utils';
 import useCreateRelationAutoMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateRelationAutoMutation';
 import { DeviceObject } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 
-import DeviceMappingModal from '../DeviceMappingModal';
+import DeviceRelationModal from '../DeviceRelationModal';
 
 interface Props {
   deviceObject: DeviceObject;
+  refetch?: () => void;
 }
 
-export default function AutoMappingButton({ deviceObject }: Props) {
+export default function AutoRelationButton({
+  deviceObject,
+  refetch = () => {},
+}: Props) {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const { id: uid, properties } = deviceObject;
   const toast = plugin.getPortalToast();
-  const { mutate } = useCreateRelationAutoMutation({
+  const { mutate, isLoading } = useCreateRelationAutoMutation({
     id: uid,
     onSuccess: () => {
       toast.success('操作成功');
       onClose();
+      refetch();
     },
   });
   // eslint-disable-next-line unicorn/consistent-function-scoping
-  const handleConfirm = (device: DeviceItem) => {
+  const handleConfirm = ({ device }: { device: DeviceItem }) => {
     const curName = properties?.basicInfo?.name ?? '';
     const params = {
       curName,
@@ -50,12 +55,15 @@ export default function AutoMappingButton({ deviceObject }: Props) {
       >
         自动映射
       </IconButton>
-      <DeviceMappingModal
-        uid={uid}
-        isOpen={isOpen}
-        onClose={onClose}
-        onConfirm={handleConfirm}
-      />
+      {isOpen && (
+        <DeviceRelationModal
+          uid={uid}
+          isOpen={isOpen}
+          onClose={onClose}
+          onConfirm={handleConfirm}
+          isConfirmButtonLoading={isLoading}
+        />
+      )}
     </>
   );
 }

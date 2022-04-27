@@ -8,8 +8,8 @@ import { CommandItem } from '@tkeel/console-types';
 import { DeviceObject } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 import AttributesData from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/AttributesData';
 import ConnectionInfo from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/ConnectionInfo';
-import MappingData from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/MappingData';
 import RawData from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/RawData';
+import RelationData from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/RelationData';
 import ServiceCommand from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/ServiceCommand';
 import TelemetryData from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/TelemetryData';
 
@@ -115,10 +115,10 @@ function DeviceDetailRightPanel({
     },
     {
       label: '关系映射',
-      key: 'mapping',
+      key: 'relation',
       isVisible: !!basicInfo?.templateId || basicInfo?.selfLearn,
       component: (
-        <MappingData
+        <RelationData
           deviceObject={deviceObject}
           /* basicInfo={basicInfo}
           deviceId={id}

@@ -17,6 +17,7 @@ export { default as BrushTwoToneIcon } from './components/BrushTwoToneIcon';
 export { default as CaretDownFilledIcon } from './components/CaretDownFilledIcon';
 export { default as CaretRightFilledIcon } from './components/CaretRightFilledIcon';
 export { default as CaretUpFilledIcon } from './components/CaretUpFilledIcon';
+export { default as ChainFilledIcon } from './components/ChainFilledIcon';
 export { default as CheckFilledIcon } from './components/CheckFilledIcon';
 export { default as ChevronDownFilledIcon } from './components/ChevronDownFilledIcon';
 export { default as ChevronLeftFilledIcon } from './components/ChevronLeftFilledIcon';

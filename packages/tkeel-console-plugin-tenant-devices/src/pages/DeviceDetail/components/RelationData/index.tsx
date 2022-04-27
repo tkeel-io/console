@@ -1,4 +1,4 @@
-import { Flex, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
+import { Flex, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { useState } from 'react';
 
 import {
@@ -8,32 +8,54 @@ import {
 } from '@tkeel/console-components';
 
 import { DeviceObject } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
+import useDeviceRelationListQuery from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceRelationListQuery';
 
-import AutoButton from '../AutoButton';
-import AutoMappingButton from '../AutoMappingButton';
+import AutoRelationButton from '../AutoRelationButton';
+import AttributeRelationTable from './AttributeRelationTable';
 import TelemetryRelationTable from './TelemetryRelationTable';
 
 interface Props {
   deviceObject: DeviceObject;
 }
 
-export default function MappingData({ deviceObject }: Props) {
+export default function RelationData({ deviceObject }: Props) {
   const [keywords, setKeywords] = useState('');
+  const { id } = deviceObject;
+  const { expressionList, refetch: refetchDeviceRelation } =
+    useDeviceRelationListQuery({
+      id,
+    });
   const handleSearch = (value: string) => {
     setKeywords(value.trim());
-    // eslint-disable-next-line no-console
-    console.log(keywords);
   };
+  const telemetryRelationList =
+    expressionList?.filter((v) => v.path.includes('telemetry')) ?? [];
+  const attributeRelationList =
+    expressionList?.filter((v) => v.path.includes('attribute')) ?? [];
   const mapTabs = [
     {
       label: '遥测关系',
       key: 'telemetry',
-      component: <TelemetryRelationTable deviceObject={deviceObject} />,
+      component: (
+        <TelemetryRelationTable
+          deviceObject={deviceObject}
+          telemetryRelationList={telemetryRelationList}
+          refetch={refetchDeviceRelation}
+          keywords={keywords}
+        />
+      ),
     },
     {
       label: '属性关系',
       key: 'attribute',
-      component: <Text>属性关系</Text>,
+      component: (
+        <AttributeRelationTable
+          keywords={keywords}
+          deviceObject={deviceObject}
+          attributeRelationList={attributeRelationList}
+          refetch={refetchDeviceRelation}
+        />
+      ),
     },
   ];
   return (
@@ -44,6 +66,9 @@ export default function MappingData({ deviceObject }: Props) {
         display="flex"
         flexDirection="column"
         overflow="hidden"
+        onChange={() => {
+          setKeywords('');
+        }}
       >
         <PageHeaderToolbar
           styles={{
@@ -61,10 +86,18 @@ export default function MappingData({ deviceObject }: Props) {
           hasSearchInput
           searchInputProps={{
             onSearch: handleSearch,
+            onChange(value) {
+              setKeywords(value);
+            },
+            inputStyle: { background: 'gray.50' },
+            value: keywords,
           }}
           buttons={[
-            <AutoMappingButton key="add" deviceObject={deviceObject} />,
-            <AutoButton key="demo" />,
+            <AutoRelationButton
+              key="add"
+              deviceObject={deviceObject}
+              refetch={refetchDeviceRelation}
+            />,
           ]}
         />
         <TabPanels flex="1" overflow="hidden" bg="gray.50">
