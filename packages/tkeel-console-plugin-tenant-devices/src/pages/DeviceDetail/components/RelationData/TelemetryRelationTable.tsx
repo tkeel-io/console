@@ -1,10 +1,14 @@
-import { Flex, Text, useClipboard } from '@chakra-ui/react';
+import { Flex, HStack, Text, useClipboard } from '@chakra-ui/react';
 import { values } from 'lodash';
 import { useCallback, useEffect, useState } from 'react';
 import { Cell, Column } from 'react-table';
 
 import { MoreAction, Table } from '@tkeel/console-components';
-import { ChainFilledIcon, DuotoneTwoToneIcon } from '@tkeel/console-icons';
+import {
+  ChainFilledIcon,
+  DuotoneTwoToneIcon,
+  SmartObjectTwoToneIcon,
+} from '@tkeel/console-icons';
 
 import { DeviceObject } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 import {
@@ -161,7 +165,12 @@ export default function TelemetryRelationTable({
           const { original } = row;
           const { deviceName } = original;
           if (deviceName) {
-            return deviceName;
+            return (
+              <HStack spacing="6px">
+                <SmartObjectTwoToneIcon size="16px" />
+                <Text>{deviceName}</Text>
+              </HStack>
+            );
           }
           return (
             <AddRelationButton
@@ -209,6 +218,18 @@ export default function TelemetryRelationTable({
       Header: '关联遥测名称',
       accessor: 'telemetryName',
       width: 120,
+      Cell: useCallback(
+        ({ value }) =>
+          value ? (
+            <HStack spacing="6px">
+              <DuotoneTwoToneIcon size="16px" />
+              <Text>{value}</Text>
+            </HStack>
+          ) : (
+            ''
+          ),
+        []
+      ),
     },
     {
       Header: '关联遥测ID',
