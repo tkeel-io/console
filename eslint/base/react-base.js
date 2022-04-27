@@ -4,7 +4,10 @@ module.exports = {
   },
   extends: ['airbnb', 'airbnb/hooks'],
   rules: {
-    'no-console': process.env.NODE_ENV === 'development' ? 'warn' : 'error',
+    'no-console':
+      process.env.NODE_ENV === 'development'
+        ? ['warn', { allow: ['warn', 'error'] }]
+        : ['error', { allow: ['warn', 'error'] }],
     'no-param-reassign': [
       'error',
       {

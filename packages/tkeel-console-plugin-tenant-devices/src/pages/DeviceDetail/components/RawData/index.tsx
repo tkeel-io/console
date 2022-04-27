@@ -9,46 +9,26 @@ import {
   Spacer,
   Text,
 } from '@chakra-ui/react';
-import { Base64 } from 'js-base64';
 import { isEmpty, throttle } from 'lodash';
 import { useEffect, useState } from 'react';
 
-import { AceEditor, Empty } from '@tkeel/console-components';
-import { useColor } from '@tkeel/console-hooks';
-import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
+import { RawDataConnectTypeLabel } from '@tkeel/console-business-components';
+import { AceEditor, Empty, MoreActionSelect } from '@tkeel/console-components';
+import {
+  formatDateTimeByTimestamp,
+  formatRawValue,
+  hasJsonStructure,
+} from '@tkeel/console-utils';
 
 import { RawData } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 import CustomEmpty from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/CustomEmpty';
-import { OPTIONS } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
 
 import CreateUpstreamDataButton from '../CreateDownstreamDataButton';
-import CustomSelect from './components/CustomSelect';
 
 type Props = {
   data: RawData;
   online: boolean;
   deviceId: string;
-};
-
-const handleValues = (value: string, selected: string) => {
-  const item = Base64.decode(value);
-  if (selected === 'text') {
-    if (item.startsWith('{')) {
-      try {
-        return JSON.stringify(JSON.parse(item), null, 2);
-      } catch {
-        return item;
-      }
-    }
-    return item;
-  }
-  let val = '';
-  const { length } = item;
-  if (length === 0) return '';
-  for (let i = 0; i < length; i += 1) {
-    val += item.codePointAt(i)?.toString(16) || '';
-  }
-  return val;
 };
 
 type TRawData = RawData[];
@@ -57,8 +37,6 @@ function RawDataPanel({ data, online, deviceId }: Props) {
   const [rawDataList, setRawDataList] = useState<TRawData>([]);
   const [selected, setSelected] = useState('text');
   const func = throttle(setRawDataList, 10 * 1000);
-
-  const selectColor = useColor('gray.100');
 
   useEffect(() => {
     func((preState) => {
@@ -69,21 +47,27 @@ function RawDataPanel({ data, online, deviceId }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
-  const handleChange = (value: string) => {
-    setSelected(value);
-  };
+  const rawDataTypeOptions = [
+    { label: '文本', value: 'text' },
+    { label: '十六进制', value: 'hex' },
+  ];
 
-  return online ? (
+  if (!online) {
+    return <CustomEmpty />;
+  }
+
+  return (
     <Box>
       <Flex align="center" w="100%" h="32px" lineHeight="32px" mb="12px">
         <Text fontWeight="600" fontSize="14px" mr="16px">
           原始数据
         </Text>
         <Spacer />
-        <CustomSelect
-          onChange={handleChange}
-          color={selectColor}
-          selected={selected}
+        <MoreActionSelect
+          options={rawDataTypeOptions}
+          value={selected}
+          onChange={(value) => setSelected(value)}
+          styles={{ wrapper: { marginRight: '8px' } }}
         />
         <CreateUpstreamDataButton deviceId={deviceId} />
       </Flex>
@@ -95,8 +79,9 @@ function RawDataPanel({ data, online, deviceId }: Props) {
           height="calc(100vh + 10px)"
         >
           {rawDataList.map((r) => {
-            const status = OPTIONS[r?.mark ?? 'upstream'];
-
+            const value = r?.values ?? '';
+            const isJsonStr = selected === 'text' && hasJsonStructure(value);
+            const language = isJsonStr ? 'json' : 'text';
             return (
               !isEmpty(r) && (
                 <AccordionItem
@@ -119,18 +104,7 @@ function RawDataPanel({ data, online, deviceId }: Props) {
                       alignItems="center"
                       justifyContent="space-start"
                     >
-                      <Box
-                        bg={status.bg}
-                        color={status.color}
-                        w="42px"
-                        h="24px"
-                        textAlign="center"
-                        borderRadius="2px"
-                        fontWeight="600"
-                        lineHeight="2"
-                      >
-                        {status.desc}
-                      </Box>
+                      <RawDataConnectTypeLabel connectType={r?.mark ?? ''} />
                       <Text
                         fontWeight="700"
                         m="0 38px 0 22px"
@@ -159,8 +133,11 @@ function RawDataPanel({ data, online, deviceId }: Props) {
                   <AccordionPanel p="12px 0 0 0">
                     <AceEditor
                       theme="light"
-                      value={handleValues(r?.values || '', selected)}
-                      language="json"
+                      value={formatRawValue({
+                        value,
+                        type: selected,
+                      })}
+                      language={language}
                       readOnly
                       width="100%"
                       height="144px"
@@ -175,8 +152,6 @@ function RawDataPanel({ data, online, deviceId }: Props) {
         <Empty title="暂无数据" styles={{ wrapper: { height: '60%' } }} />
       )}
     </Box>
-  ) : (
-    <CustomEmpty />
   );
 }
 

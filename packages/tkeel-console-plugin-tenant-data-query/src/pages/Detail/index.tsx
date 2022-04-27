@@ -3,7 +3,7 @@ import * as dayjs from 'dayjs';
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import { DateRangePicker } from '@tkeel/console-components';
+import { DateRangePicker, MoreActionSelect } from '@tkeel/console-components';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import SearchEmpty from '@/tkeel-console-plugin-tenant-data-query/components/SearchEmpty';
@@ -26,7 +26,13 @@ import DeviceDetailCard from './components/DeviceDetailCard';
 import PropertiesConditions, {
   DataType,
 } from './components/PropertiesConditions';
-import RawDataTable from './components/RawDataTable';
+import RawDataTable, { CONNECT_TYPE } from './components/RawDataTable';
+
+type RawValue = {
+  mark: string;
+  path: string;
+  ts: string;
+};
 
 export default function Detail() {
   const [dataType, setDataType] = useState<DataType>(DataType.RAW_DATA);
@@ -43,20 +49,11 @@ export default function Detail() {
     CheckboxStatus.CHECKED
   );
   const rawDataCheckboxItems = useMemo(
-    () => [
-      {
-        label: '上行信息',
-        value: 'upstream',
-      },
-      {
-        label: '下行信息',
-        value: 'downstream',
-      },
-      {
-        label: '连接信息',
-        value: 'connecting',
-      },
-    ],
+    () =>
+      Object.entries(CONNECT_TYPE).map(([key, value]) => ({
+        label: `${value.label}信息`,
+        value: key,
+      })),
     []
   );
   const rawDataCheckboxKeys = rawDataCheckboxItems.map(({ value }) => value);
@@ -66,7 +63,8 @@ export default function Detail() {
     string[]
   >([]);
   const [isDataRequested, setIsDataRequested] = useState(false);
-  const [timeType, setTimeType] = useState<TimeType>(TimeType.FiveMinutes);
+  // TODO 默认的 dataType 需要改为 TimeType.FiveMinutes
+  const [timeType, setTimeType] = useState<TimeType>(TimeType.Custom);
   const [startTime, setStartTime] = useState(getRecentTimestamp(5));
   const [endTime, setEndTime] = useState(dayjs().unix());
   const dateRangeLength = 5;
@@ -75,8 +73,9 @@ export default function Detail() {
   const startDate = dayjs(startTime * 1000).toDate();
   const endDate = dayjs(endTime * 1000).toDate();
 
-  const [rangeIndex, setRangeIndex] = useState(0);
+  const [rawDataType, setRawDataType] = useState('text');
 
+  const [rangeIndex, setRangeIndex] = useState(0);
   const [isRangeSearch] = useState(false);
 
   const [searchParams] = useSearchParams();
@@ -126,13 +125,26 @@ export default function Detail() {
   const hasRawDataKeys = rawDataCheckedKeys.length > 0;
   const canRequest = isTemplateData ? hasIdentifiers : hasRawDataKeys;
 
-  const { mutate: rawDataMutate, data: rawData } = useRawDataMutation({
+  const { mutate: rawDataMutate, data: responseRawData } = useRawDataMutation({
     onSuccess() {
       setIsDataRequested(true);
     },
   });
-  // eslint-disable-next-line no-console
-  console.log('Detail ~ rawData', rawData);
+
+  const rawDataList = responseRawData?.items?.map((item) => {
+    let rawValue: RawValue | null = null;
+    try {
+      rawValue = JSON.parse(item.values) as RawValue;
+    } catch (error) {
+      console.error(error);
+    }
+
+    return {
+      mark: rawValue?.mark ?? '',
+      topic: rawValue?.path ?? '',
+      timestamp: rawValue?.ts ?? '',
+    };
+  });
 
   const {
     mutate: telemetryDataMutate,
@@ -364,6 +376,14 @@ export default function Detail() {
                 </Flex>
               </Flex>
               <HStack spacing="12px">
+                <MoreActionSelect
+                  options={[
+                    { label: '文本', value: 'text' },
+                    { label: '十六进制', value: 'hex' },
+                  ]}
+                  value={rawDataType}
+                  onChange={(value) => setRawDataType(value)}
+                />
                 <RefreshButton
                   onClick={() => handleRequestData()}
                   disabled={!hasIdentifiers}
@@ -396,7 +416,7 @@ export default function Detail() {
                 setRangeIndex={setRangeIndex}
               />
             )}
-            <Flex flex="1" padding="10px 20px" overflowY="auto">
+            <Flex flex="1" marginTop="10px" overflowY="auto">
               {isTemplateData ? (
                 <DataTable
                   originalData={originDataItems}
@@ -404,13 +424,17 @@ export default function Detail() {
                   isLoading={isTelemetryDataLoading}
                   telemetry={tableTelemetry}
                   styles={{
-                    wrapper: { width: '100%', height: 'max-content' },
+                    wrapper: {
+                      width: '100%',
+                      height: 'max-content',
+                      padding: '0 20px 10px',
+                    },
                     loading: { flex: '1' },
                     empty: { flex: '1' },
                   }}
                 />
               ) : (
-                <RawDataTable />
+                <RawDataTable rawDataList={rawDataList || []} />
               )}
             </Flex>
           </>
