@@ -3,17 +3,14 @@ import { Base64 } from 'js-base64';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-// import { useParams } from 'react-router-dom';
 import { AceEditor } from '@tkeel/console-components';
 import { InformationFilledIcon } from '@tkeel/console-icons';
 import { Theme } from '@tkeel/console-themes';
+import { IdProviderType } from '@tkeel/console-types';
+import { plugin } from '@tkeel/console-utils';
 
-// import { plugin } from '@tkeel/console-utils';
-// import useAuthIdProviderRegisterMutation from '@/tkeel-console-plugin-admin-tenants/hooks/mutations/useAuthIdProviderRegisterMutation';
-// import useAuthIdProviderTemplateQuery from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useAuthIdProviderTemplateQuery';
+import useAuthIdProviderRegisterMutation from '@/tkeel-console-plugin-admin-tenants/hooks/mutations/useAuthIdProviderRegisterMutation';
 import useAuthIdProviderQuery from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useAuthIdProviderQuery';
-
-// import ConfigModal from './ConfigModal';
 
 const buttonStyleProps = {
   borderRadius: '2px',
@@ -25,25 +22,43 @@ const buttonStyleProps = {
 
 export default function Config() {
   const [currentMode, setCurrentMode] = useState<'view' | 'edit'>('view');
+  const [type, setType] = useState<IdProviderType>();
+  const [config, setConfig] = useState<string>('');
   const { colors }: Theme = useTheme();
   const { tenantId = '' } = useParams();
-  const { data } = useAuthIdProviderQuery({ tenantId });
-  /* const { data } = useAuthIdProviderTemplateQuery({
-    params: { type: 'OIDC' },
-  }); */
-  const config = data?.config ?? '';
-  const yaml = Base64.decode(config);
 
-  // const { tenantId = '' } = useParams();
-  /* const { isLoading, mutate } = useAuthIdProviderRegisterMutation({
+  const { isLoading: isQueryLoading, refetch } = useAuthIdProviderQuery({
     tenantId,
-    onSuccess: () => {
-      const toast = plugin.getPortalToast();
-      toast.success('设置成功');
-      onModalClose();
-      refetch();
+    onSuccess: ({ data }) => {
+      const configByServer = Base64.decode(data?.config ?? '');
+      setType(data?.type);
+      setConfig(configByServer);
     },
-  }); */
+  });
+
+  const handleChange = (value: string) => {
+    setConfig(value);
+  };
+
+  const { isLoading: isMutationLoading, mutate } =
+    useAuthIdProviderRegisterMutation({
+      tenantId,
+      onSuccess: () => {
+        const toast = plugin.getPortalToast();
+        toast.success('设置成功');
+        setCurrentMode('view');
+        refetch();
+      },
+    });
+
+  const handleSubmit = () => {
+    mutate({
+      data: {
+        type: type as IdProviderType,
+        config: Base64.encode(config),
+      },
+    });
+  };
 
   return (
     <Box marginTop="16px">
@@ -87,10 +102,11 @@ export default function Config() {
         <Box paddingTop="12px">
           <AceEditor
             theme="light"
-            value={yaml}
+            value={config}
             language="yaml"
             readOnly={currentMode === 'view'}
             height="316px"
+            onChange={handleChange}
           />
         </Box>
       </Box>
@@ -114,6 +130,7 @@ export default function Config() {
           <Button
             {...buttonStyleProps}
             colorScheme="brand"
+            isDisabled={isQueryLoading}
             onClick={() => {
               setCurrentMode('edit');
             }}
@@ -123,7 +140,12 @@ export default function Config() {
         )}
         {currentMode === 'edit' && (
           <>
-            <Button {...buttonStyleProps} colorScheme="brand">
+            <Button
+              {...buttonStyleProps}
+              colorScheme="brand"
+              isLoading={isMutationLoading}
+              onClick={handleSubmit}
+            >
               保存
             </Button>
             <Button

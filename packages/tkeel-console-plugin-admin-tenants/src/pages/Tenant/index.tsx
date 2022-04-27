@@ -22,7 +22,7 @@ export default function Tenant() {
       <Tabs display="flex" flexDirection="column" marginLeft="20px" flex="1">
         <CustomTabList>
           <CustomTab>客户列表</CustomTab>
-          {isExternal && <CustomTab>第三方认证</CustomTab>}
+          {isExternal && <CustomTab>单点登录</CustomTab>}
         </CustomTabList>
         <TabPanels
           flex="1"

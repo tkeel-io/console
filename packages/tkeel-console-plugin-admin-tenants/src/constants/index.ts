@@ -5,9 +5,9 @@ export const AUTH_TYPE_MAP = {
       '用户的管理在平台侧，管理员可在 tkeel 租户平台注册、管理用户。',
   },
   external: {
-    label: '第三方',
+    label: '单点登录',
     description:
-      '用户的管理在第三方，用户登录 tkeel 平台需要跳转至第三方登录。',
+      '用户的管理在第三方，平台支持 OIDC / LDAP / SAML 三种单点登录认证协议。',
   },
 } as const;
 
