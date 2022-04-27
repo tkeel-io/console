@@ -4,7 +4,6 @@ import {
   Colors,
   Flex,
   StyleProps,
-  Text,
   useTheme,
 } from '@chakra-ui/react';
 import { noop } from 'lodash';
@@ -57,7 +56,7 @@ function PageHeaderToolbar({
     <Flex alignItems="center" width="100%" height="48px" {...styles?.wrapper}>
       {name && (
         <Flex paddingRight="30px">
-          <Text
+          <Center
             fontSize="18px"
             fontWeight="600"
             lineHeight="26px"
@@ -65,7 +64,7 @@ function PageHeaderToolbar({
             {...styles?.title}
           >
             {name}
-          </Text>
+          </Center>
           {documentsPath && (
             <Center paddingLeft="4px">
               <Circle
