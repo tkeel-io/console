@@ -1,35 +1,11 @@
-import { Box, Button, Center, Flex, Heading, Text } from '@chakra-ui/react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { Box, Button, Center, Flex, Heading } from '@chakra-ui/react';
+import { useNavigate, useParams } from 'react-router-dom';
 
-import { LoginBrand } from '@tkeel/console-business-components';
-import { Form, FormField } from '@tkeel/console-components';
-import { useRedirectParams } from '@tkeel/console-hooks';
 import { usePortalTenantConfigQuery } from '@tkeel/console-request-hooks';
-import {
-  env,
-  jumpToPage,
-  jumpToTenantAuthTenantPage,
-  schemas,
-  setLocalTokenInfo,
-} from '@tkeel/console-utils';
+import { jumpToTenantAuthTenantPage } from '@tkeel/console-utils';
 
-import useTokenMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useTokenMutation';
-import useTenantExactQuery from '@/tkeel-console-portal-tenant/hooks/queries/useTenantExactQuery';
-
-const mockData = env.isEnvDevelopment()
-  ? {
-      username: String(GLOBAL_PORTAL_CONFIG?.mock?.username ?? ''),
-      password: String(GLOBAL_PORTAL_CONFIG?.mock?.password ?? ''),
-    }
-  : { username: '', password: '' };
-
-const { TextField } = FormField;
-
-type FormValues = {
-  username: string;
-  password: string;
-};
+import PasswordForm from './components/PasswordForm';
+import ThirdPartyAuthForm from './components/ThirdPartyAuthForm';
 
 const logoutTenant = () => {
   jumpToTenantAuthTenantPage({
@@ -40,69 +16,14 @@ const logoutTenant = () => {
 };
 
 export default function Login() {
-  const formLabelStyle = {
-    marginBottom: '5px',
-    fontSize: '14px',
-    lineHeight: '20px',
-    color: 'gray.700',
-  };
-
-  const inputStyle = {
-    height: '50px',
-    padding: '16px 20px',
-    borderWidth: '1px',
-    borderStyle: 'solid',
-    borderColor: 'grayAlternatives.50',
-    borderRadius: '4px',
-    backgroundColor: 'white',
-    fontSize: '14px',
-    lineHeight: '20px',
-  };
-
   const { config } = usePortalTenantConfigQuery();
   const clientConfig = config?.client;
   const pageConfig = clientConfig?.pages?.Login;
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormValues>();
 
   const pathParams = useParams();
   const { tenantId = '' } = pathParams;
 
   const navigate = useNavigate();
-
-  const [searchParams] = useSearchParams();
-  const initialUsername = searchParams.get('username') || '';
-
-  const redirect = useRedirectParams();
-
-  const { data: tenantInfo } = useTenantExactQuery({
-    enabled: !!tenantId,
-    params: { tenant_id: tenantId },
-  });
-  const tenantTitle = tenantInfo?.title ?? '';
-
-  const { mutate, isLoading } = useTokenMutation({
-    tenantId,
-    onSuccess({ data }) {
-      if (!data) {
-        return;
-      }
-
-      setLocalTokenInfo(data);
-      jumpToPage({ path: redirect, isReplace: true });
-    },
-  });
-
-  const { mutate: mutateSSO } = useTokenMutation({
-    tenantId,
-    onSuccess({ data }) {
-      window.location.href = data.redirect_url;
-    },
-  });
 
   if (!tenantId) {
     jumpToTenantAuthTenantPage({
@@ -112,17 +33,6 @@ export default function Login() {
 
     return null;
   }
-
-  const onSubmit: SubmitHandler<FormValues> = (formValues) => {
-    const { username, password } = formValues;
-    const params = {
-      grant_type: 'password' as const,
-      username,
-      password,
-    };
-
-    mutate({ params });
-  };
 
   return (
     <Flex height="100vh" backgroundColor="white">
@@ -161,87 +71,8 @@ export default function Login() {
       </Box>
       <Center flexDirection="column" width="42vw">
         <Box width="350px">
-          <LoginBrand
-            logo={clientConfig?.logoMark ?? ''}
-            title={
-              <>
-                您好，欢迎进入
-                <Text display="inline" color="primary">
-                  {tenantTitle}
-                </Text>
-                ！
-              </>
-            }
-            slogan={clientConfig?.slogan ?? ''}
-          />
-          <Form
-            marginBottom="0"
-            paddingTop="24px"
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            <TextField
-              id="username"
-              type="text"
-              label="账号"
-              defaultValue={initialUsername || mockData.username}
-              placeholder="请输入您的账号"
-              error={errors.username}
-              formControlStyle={{ marginBottom: '20px' }}
-              formLabelStyle={formLabelStyle}
-              inputStyle={inputStyle}
-              registerReturn={register(
-                'username',
-                schemas.username.registerOptions
-              )}
-            />
-            <TextField
-              id="password"
-              type="password"
-              label="密码"
-              defaultValue={mockData.password}
-              placeholder="请输入您的密码"
-              error={errors.password}
-              formLabelStyle={formLabelStyle}
-              inputStyle={inputStyle}
-              registerReturn={register(
-                'password',
-                schemas.password.registerOptions
-              )}
-            />
-            <Box paddingTop="40px">
-              <Button
-                type="submit"
-                colorScheme="brand"
-                isFullWidth
-                height="45px"
-                borderRadius="4px"
-                shadow="none"
-                isLoading={isLoading}
-              >
-                登录
-              </Button>
-            </Box>
-          </Form>
-          <Form
-            margin="20px 0"
-            onSubmit={(event) => {
-              mutateSSO({});
-              event.preventDefault();
-            }}
-          >
-            <Button
-              type="submit"
-              colorScheme="brand"
-              isFullWidth
-              height="45px"
-              borderRadius="4px"
-              shadow="none"
-              // isLoading={isLoading}
-            >
-              单点登录
-            </Button>
-          </Form>
-
+          <PasswordForm />
+          <ThirdPartyAuthForm />
           <Button
             type="button"
             variant="outline"
