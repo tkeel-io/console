@@ -14,6 +14,7 @@ type Props<D extends object> = {
       }
     | undefined;
   isShowStripe: boolean;
+  expandRow?: (data: D) => ReactNode;
   styles?: {
     body?: StyleProps;
     tr?: StyleProps;
@@ -32,6 +33,7 @@ function Body<D extends object>({
   prepareRow,
   scroll,
   isShowStripe,
+  expandRow,
   styles,
 }: Props<D>) {
   const bodyStyle = {};
@@ -56,6 +58,7 @@ function Body<D extends object>({
         }
 
         const { id, getRowProps, cells, isExpanded, original } = row;
+
         return (
           <Fragment key={id}>
             <Tr
@@ -93,8 +96,13 @@ function Body<D extends object>({
                 );
               })}
             </Tr>
-            {isExpanded &&
-              (original as { expandElement: ReactNode }).expandElement}
+            {!!expandRow && isExpanded && (
+              <Tr>
+                <Td padding="0" border="none">
+                  {expandRow(original)}
+                </Td>
+              </Tr>
+            )}
           </Fragment>
         );
       })}

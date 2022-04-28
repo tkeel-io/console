@@ -1,4 +1,9 @@
-import { Box, Flex, StyleProps, Table as ChakraTable } from '@chakra-ui/react';
+import {
+  Center,
+  Flex,
+  StyleProps,
+  Table as ChakraTable,
+} from '@chakra-ui/react';
 import { ReactNode, useCallback, useEffect, useMemo } from 'react';
 import {
   Column,
@@ -63,7 +68,7 @@ interface Props<D extends object> {
     bodyTd?: StyleProps;
     pagination?: StyleProps;
   };
-  canExpandRow?: boolean;
+  expandRow?: (data: D) => ReactNode;
   onSelect?: ({
     isAllRowsSelected,
     selectedRowIds,
@@ -83,19 +88,25 @@ function Table<D extends object>({
   empty,
   onSelect,
   onSort,
-  canExpandRow = false,
+  expandRow,
   styles,
 }: Props<D>) {
+  const canExpandRow = !!expandRow;
   const expandCell = useCallback(
     ({ row }: { row: Row<D> }) =>
       canExpandRow ? (
-        <Box {...row.getToggleRowExpandedProps()} cursor="pointer">
+        <Center
+          width="24px"
+          height="24px"
+          {...row.getToggleRowExpandedProps()}
+          cursor="pointer"
+        >
           {row.isExpanded ? (
-            <ChevronDownFilledIcon />
+            <ChevronDownFilledIcon color="primary" />
           ) : (
             <ChevronRightFilledIcon />
           )}
-        </Box>
+        </Center>
       ) : null,
     [canExpandRow]
   );
@@ -204,8 +215,8 @@ function Table<D extends object>({
         >
           <Head
             headerGroups={headerGroups}
-            fixHead={Boolean(scroll?.y)}
-            canSort={Boolean(onSort)}
+            fixHead={!!scroll?.y}
+            canSort={!!onSort}
             isShowStripe={isShowStripe}
             styles={{ head: styles?.head, tr: styles?.headTr }}
           />
@@ -215,6 +226,7 @@ function Table<D extends object>({
             prepareRow={prepareRow}
             scroll={scroll}
             isShowStripe={isShowStripe}
+            expandRow={expandRow}
             styles={{
               body: styles?.body,
               tr: styles?.bodyTr,
