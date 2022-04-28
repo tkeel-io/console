@@ -11,7 +11,7 @@ const textStyle = {
 };
 
 interface Props {
-  type: 'telemetry' | 'attribute';
+  type: 'telemetry' | 'attributes';
   selectedConfig: AttributeItem | TelemetryItem | null;
   handleSelectConfig: (item: AttributeItem | TelemetryItem) => void;
   isLoading?: boolean;
@@ -64,7 +64,7 @@ export default function DeviceConfigList({
           type="component"
           title={
             <Flex flexDirection="column" alignItems="center">
-              <Text>该设备暂无{type === 'attribute' ? '属性' : '遥测'}</Text>
+              <Text>该设备暂无{type === 'attributes' ? '属性' : '遥测'}</Text>
               <Text>请重新选择</Text>
             </Flex>
           }

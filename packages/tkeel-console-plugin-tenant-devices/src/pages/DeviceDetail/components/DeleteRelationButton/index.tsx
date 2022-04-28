@@ -9,7 +9,7 @@ import useDeleteDeviceRelationMutation from '@/tkeel-console-plugin-tenant-devic
 interface Props {
   uid: string;
   path: string;
-  type: 'telemetry' | 'attribute';
+  type: 'telemetry' | 'attributes';
   refetch?: () => void;
 }
 
