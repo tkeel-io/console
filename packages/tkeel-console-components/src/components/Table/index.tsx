@@ -165,6 +165,7 @@ function Table<D extends object>({
       columns: newColumns,
       data,
       manualSortBy: true,
+      autoResetExpanded: false,
     } as TableOptions<D>,
     useFlexLayout,
     ...plugins
