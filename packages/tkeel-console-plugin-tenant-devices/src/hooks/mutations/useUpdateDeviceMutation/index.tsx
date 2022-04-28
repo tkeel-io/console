@@ -6,9 +6,9 @@ export interface ApiData {
   '@type': string;
 }
 export interface RequestData {
-  description: string;
-  directConnection: boolean;
-  ext: { [propName: string]: unknown };
+  description?: string;
+  directConnection?: boolean;
+  ext: { [propName: string]: string };
   name: string;
   selfLearn: boolean;
   parentId: string;

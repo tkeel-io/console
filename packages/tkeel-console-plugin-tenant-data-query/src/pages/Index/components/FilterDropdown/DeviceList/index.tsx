@@ -18,7 +18,7 @@ export default function DeviceList({ data }: Props) {
   const navigate = useNavigate();
 
   if (data.length === 0) {
-    return <NoData />;
+    return <NoData style={{ height: '100%' }} />;
   }
 
   return (
@@ -30,6 +30,7 @@ export default function DeviceList({ data }: Props) {
         // eslint-disable-next-line no-underscore-dangle
         const isOnline = connectInfo?._online ?? false;
 
+        const templateName = basicInfo?.templateName || '-';
         return (
           <Flex
             key={id}
@@ -41,7 +42,7 @@ export default function DeviceList({ data }: Props) {
               flex="1"
               cursor="pointer"
               onClick={() => {
-                navigate(`/detail?id=${id}`);
+                navigate(`/detail?id=${id}&menu-collapsed=true`);
               }}
             >
               <SmartObjectTwoToneIcon size={24} />
@@ -59,13 +60,14 @@ export default function DeviceList({ data }: Props) {
             </Text>
             <Text
               marginLeft="18px"
-              width="80px"
-              textAlign="right"
+              width="120px"
+              textAlign={templateName === '-' ? 'center' : 'right'}
               isTruncated
               color="gray.800"
               fontSize="12px"
+              title={templateName}
             >
-              {basicInfo?.templateName ?? ''}
+              {templateName}
             </Text>
             <Flex marginLeft="50px" alignItems="center">
               <SelfLearnIcon

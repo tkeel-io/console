@@ -45,6 +45,8 @@ import { BasicInfo } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/u
 import JsonInfoButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/JsonInfoButton';
 import SaveAsSelfTemplateButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/SaveAsSelfTemplateButton';
 
+import SetSelfLearnButton from '../SetSelfLearnButton';
+
 const TOOLTIP_OPTIONS = [
   { label: '数据类型', key: 'type' },
   { label: '读写类型', key: 'rw' },
@@ -58,6 +60,7 @@ type Props = {
   deviceId: string;
   refetch?: () => void;
 };
+
 const FILTER_COLUMNS = ['name', 'id'];
 function getFilterList({
   list,
@@ -74,6 +77,24 @@ function getFilterList({
     });
   }
   return list;
+}
+
+function formatType(type: string) {
+  let result = '';
+  switch (type) {
+    case 'number':
+      result = 'float';
+      break;
+    case 'boolean':
+      result = 'bool';
+      break;
+    case 'object':
+      result = 'struct';
+      break;
+    default:
+      result = 'string';
+  }
+  return result;
 }
 
 function renderTooltip(info: { type: string; rw: ReadWriteType }) {
@@ -93,7 +114,7 @@ function renderTooltip(info: { type: string; rw: ReadWriteType }) {
     </SimpleGrid>
   );
 }
-function AttributesPanel({
+function AttributesData({
   deviceId,
   basicInfo,
   attributeFields,
@@ -105,17 +126,43 @@ function AttributesPanel({
   const [renderAttributeValue, setRenderAttributeValue] = useState(
     attributeDefaultValues
   );
+
   useEffect(() => {
     if (wsReadyState === 1 && !isEmpty(attributeValues)) {
       setRenderAttributeValue(attributeValues);
     }
   }, [wsReadyState, attributeValues]);
+  const attributeFieldsExtra = !basicInfo?.selfLearn
+    ? []
+    : Object.entries(attributeValues)
+        .filter((val) => !attributeFields.some((v) => v.id === val[0]))
+        .map((item) => {
+          const id = item[0];
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          const value = item[1];
+          const existItem = attributeFields.find((v) => v.id === id);
+          if (existItem) {
+            return existItem;
+          }
+          const type = typeof value;
+          return {
+            id,
+            type: formatType(type),
+            name: id,
+            define: {
+              default_value: '',
+              rw: 'rw' as ReadWriteType,
+            },
+            description: '',
+            last_time: Date.now(),
+          };
+        });
   const [currentId, setCurrentId] = useState('');
   const [focusId, setFocusId] = useState('');
   const toast = plugin.getPortalToast();
   const [keywords, setKeywords] = useState('');
   const defaultFormValue = fromPairs(
-    attributeFields.map((v) => [v.id, v.define.default_value])
+    attributeFields.map((v) => [v.id, v.define?.default_value ?? ''])
   );
   const handleSearch = (value: string) => {
     setKeywords(value.trim());
@@ -164,7 +211,7 @@ function AttributesPanel({
 
   return (
     <Flex flex="1" direction="column" height="100%">
-      {isEmpty(attributeFields) ? (
+      {isEmpty(attributeFields) && !basicInfo?.selfLearn ? (
         <Empty
           description={
             <Box>
@@ -194,7 +241,14 @@ function AttributesPanel({
               wrapper: { height: '32px', marginBottom: '12px' },
               title: { fontSize: '14px' },
             }}
-            name="属性数据"
+            name={
+              <Flex align="center">
+                <Text mr="12px">属性数据</Text>
+                {basicInfo?.directConnection && (
+                  <SetSelfLearnButton deviceId={deviceId} />
+                )}
+              </Flex>
+            }
             hasSearchInput
             searchInputProps={{
               onSearch: handleSearch,
@@ -210,10 +264,11 @@ function AttributesPanel({
                   styles={{ actionList: { width: '110px' } }}
                   element={
                     <IconButton
+                      style={{ padding: '0 12px' }}
                       colorScheme="gray"
                       icon={<SmcFilledIcon size="14px" color="white" />}
                     >
-                      同步模版
+                      同步模板
                     </IconButton>
                   }
                   key="more"
@@ -232,171 +287,183 @@ function AttributesPanel({
             ]}
           />
           <Box flex="1" overflowY="scroll" pb="30px">
+            {getFilterList({
+              list: [...attributeFields, ...attributeFieldsExtra],
+              keywords,
+            }).length === 0 && (
+              <Empty
+                title="暂无数据"
+                styles={{
+                  wrapper: { height: '100%' },
+                }}
+              />
+            )}
             <SimpleGrid columns={2} spacingX="20px" spacingY="12px">
-              {getFilterList({ list: attributeFields, keywords }).map(
-                (item: AttributeItem) => {
-                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                  const { defaultValue, name, type, id, define, rw } =
-                    getFormValue(item);
-                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                  const defaultValueCopy =
-                    renderAttributeValue[item.id] || // websocket
-                    defaultFormValue[item.id] || // properties
-                    defaultValue; // configs
-                  const editFormValues = { name, id, type, define };
-                  return (
-                    <Box
-                      w="100%"
-                      borderRadius="4px"
-                      border="1px solid"
-                      borderColor="gray.100"
-                      bg="gray.50"
-                      key={item.id}
-                      p="4px 20px"
-                    >
-                      <FormControl id={item.id}>
-                        <Box mr="0px" mb="8px">
-                          <Flex alignItems="center">
-                            <HStack h="24px" lineHeight="24px">
-                              <Text
-                                color="gray.700"
-                                fontSize="14px"
-                                fontWeight={500}
-                              >
-                                {name}
-                              </Text>
-                              <Text
-                                color="grayAlternatives.300"
-                                fontSize="12px"
-                              >
-                                {id}
-                              </Text>
-                            </HStack>
-                            <Spacer />
-                            <Tooltip
-                              bg="white"
-                              hasArrow
-                              p="8px 12px"
-                              label={renderTooltip({ type, rw })}
-                              boxShadow="base"
+              {getFilterList({
+                list: [...attributeFields, ...attributeFieldsExtra],
+                keywords,
+              }).map((item: AttributeItem) => {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                const { defaultValue, name, type, id, define, rw } =
+                  getFormValue(item);
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                const defaultValueCopy = [
+                  renderAttributeValue[item.id],
+                  defaultValue,
+                  defaultFormValue[item.id],
+                ].find((v) => !Object.is(undefined, v));
+                const editFormValues = { name, id, type, define };
+                return (
+                  <Box
+                    w="100%"
+                    borderRadius="4px"
+                    border="1px solid"
+                    borderColor="gray.100"
+                    bg="gray.50"
+                    key={item.id}
+                    p="4px 20px"
+                  >
+                    <FormControl id={item.id}>
+                      <Box mr="0px" mb="8px">
+                        <Flex alignItems="center">
+                          <HStack h="24px" lineHeight="24px">
+                            <Text
+                              color="gray.700"
+                              fontSize="14px"
+                              fontWeight={500}
                             >
-                              <Center h="24px" w="24px">
-                                <QuestionFilledIcon
+                              {name}
+                            </Text>
+                            <Text color="grayAlternatives.300" fontSize="12px">
+                              {id}
+                            </Text>
+                          </HStack>
+                          <Spacer />
+                          <Tooltip
+                            bg="white"
+                            hasArrow
+                            p="8px 12px"
+                            label={renderTooltip({ type, rw })}
+                            boxShadow="base"
+                          >
+                            <Center h="24px" w="24px">
+                              <QuestionFilledIcon
+                                size="16px"
+                                color="grayAlternatives.300"
+                              />
+                            </Center>
+                          </Tooltip>
+                          <MoreAction
+                            styles={{
+                              wrapper: {
+                                marginLeft: '4px',
+                                cursor: 'pointer',
+                              },
+                            }}
+                            element={
+                              <Center h="100%">
+                                <MoreVerticalFilledIcon
                                   size="16px"
                                   color="grayAlternatives.300"
                                 />
                               </Center>
-                            </Tooltip>
-                            <MoreAction
-                              styles={{
-                                wrapper: {
-                                  marginLeft: '4px',
-                                  cursor: 'pointer',
-                                },
-                              }}
-                              element={
-                                <Center h="100%">
-                                  <MoreVerticalFilledIcon
-                                    size="16px"
-                                    color="grayAlternatives.300"
-                                  />
-                                </Center>
-                              }
-                              buttons={[
-                                <DeleteAttributeButton
-                                  key="delete"
-                                  defaultValues={editFormValues}
-                                  uid={deviceId}
-                                  refetch={refetchDeviceDetail}
-                                />,
-                                <UpdateAttributeButton
-                                  key="edit"
-                                  uid={deviceId}
-                                  defaultValues={editFormValues}
-                                  refetch={refetchDeviceDetail}
-                                />,
-                              ]}
-                            />
-                          </Flex>
-                        </Box>
-                        {['int', 'float', 'double', 'string'].includes(
-                          item.type
-                        ) && (
-                          <Input
-                            id={item.id}
-                            bg="white"
-                            defaultValue={defaultValueCopy as number | string}
+                            }
+                            buttons={[
+                              <DeleteAttributeButton
+                                key="delete"
+                                defaultValues={editFormValues}
+                                uid={deviceId}
+                                refetch={refetchDeviceDetail}
+                              />,
+                              <UpdateAttributeButton
+                                key="edit"
+                                uid={deviceId}
+                                defaultValues={editFormValues}
+                                refetch={refetchDeviceDetail}
+                              />,
+                            ]}
+                          />
+                        </Flex>
+                      </Box>
+                      {['int', 'float', 'double', 'string'].includes(
+                        item.type
+                      ) && (
+                        <Input
+                          id={item.id}
+                          bg="white"
+                          defaultValue={defaultValueCopy as number | string}
+                          isDisabled={isLoading && currentId === item.id}
+                          borderColor="gray.200"
+                          fontSize="14px"
+                          boxShadow="none!important"
+                          _placeholder={{ color: 'blackAlpha.500' }}
+                          _focus={getFocusStyle(!!errors[item.id])}
+                          {...register(
+                            focusId === item.id
+                              ? `default_edit_${item.id}`
+                              : item.id
+                          )}
+                          onFocus={() => {
+                            setValue(`default_edit_${item.id}`, defaultValue);
+                            setFocusId(item.id);
+                          }}
+                          onBlur={(e) => {
+                            const { value } = e.target;
+                            setValue(item.id, value.trim());
+                            setCurrentId(item.id);
+                            if (value !== defaultValue) {
+                              setAttributeData({
+                                id: item.id,
+                                value: value.trim(),
+                              });
+                            }
+                          }}
+                        />
+                      )}
+                      {item.type === 'bool' && (
+                        <Flex
+                          h="40px"
+                          flexDir="row"
+                          align="center"
+                          justify="flex-start"
+                        >
+                          <Switch
                             isDisabled={isLoading && currentId === item.id}
-                            borderColor="gray.200"
-                            fontSize="14px"
-                            boxShadow="none!important"
-                            _placeholder={{ color: 'blackAlpha.500' }}
-                            _focus={getFocusStyle(!!errors[item.id])}
-                            {...register(
-                              focusId === item.id
-                                ? `default_edit_${item.id}`
-                                : item.id
-                            )}
-                            onFocus={() => {
-                              setValue(`default_edit_${item.id}`, defaultValue);
-                              setFocusId(item.id);
-                            }}
-                            onBlur={(e) => {
-                              const { value } = e.target;
-                              setValue(item.id, value.trim());
-                              setCurrentId(item.id);
-                              if (value !== defaultValue) {
-                                setAttributeData({
-                                  id: item.id,
-                                  value: value.trim(),
-                                });
-                              }
-                            }}
-                          />
-                        )}
-                        {item.type === 'bool' && (
-                          <Flex
-                            h="40px"
-                            flexDir="row"
-                            align="center"
-                            justify="flex-start"
-                          >
-                            <Switch
-                              isDisabled={isLoading && currentId === item.id}
-                              colorScheme="primary"
-                              size="sm"
-                              isChecked={defaultValueCopy as boolean}
-                              onChange={(e) => {
-                                setFocusId(item.id);
-                                setCurrentId(item.id);
-                                setAttributeData({
-                                  id: item.id,
-                                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                                  value: e?.target?.checked ?? false,
-                                });
-                              }}
-                            />
-                            <Text color="gray.700" fontSize="14px" ml="10px">
-                              {defaultValueCopy ? 'true' : 'false'}
-                            </Text>
-                          </Flex>
-                        )}
-                        {['array', 'struct'].includes(item.type) && (
-                          <JsonInfoButton
-                            handleSetId={() => {
+                            colorScheme="brand"
+                            size="sm"
+                            isChecked={defaultValueCopy as boolean}
+                            onChange={(e) => {
+                              const checked = e?.target?.checked ?? false;
                               setFocusId(item.id);
                               setCurrentId(item.id);
+                              setAttributeData({
+                                id: item.id,
+                                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                                value: checked,
+                              });
+                              // setValue(item.id, checked);
                             }}
-                            deviceId={deviceId}
-                            id={item.id}
-                            defaultValue={defaultValueCopy as string}
                           />
-                        )}
-                      </FormControl>
-                    </Box>
-                  );
-                }
-              )}
+                          <Text color="gray.700" fontSize="14px" ml="10px">
+                            {defaultValueCopy ? 'true' : 'false'}
+                          </Text>
+                        </Flex>
+                      )}
+                      {['array', 'struct'].includes(item.type) && (
+                        <JsonInfoButton
+                          handleSetId={() => {
+                            setFocusId(item.id);
+                            setCurrentId(item.id);
+                          }}
+                          deviceId={deviceId}
+                          id={item.id}
+                          defaultValue={defaultValueCopy as string}
+                        />
+                      )}
+                    </FormControl>
+                  </Box>
+                );
+              })}
             </SimpleGrid>
           </Box>
         </>
@@ -405,4 +472,4 @@ function AttributesPanel({
   );
 }
 
-export default AttributesPanel;
+export default AttributesData;

@@ -24,6 +24,17 @@ type Props = {
   isOpen: boolean;
   onClose: () => void;
 };
+const defineType = {
+  default_value: '默认值',
+  rw: '读写',
+  max: '最大值',
+  min: '最小值',
+  '0': '0',
+  '1': '1',
+  length: '长度',
+  step: '步长',
+  unit: '单位',
+};
 
 function getDetailData(data: TelemetryTableItem) {
   return [
@@ -34,6 +45,17 @@ function getDetailData(data: TelemetryTableItem) {
       value: formatDateTimeByTimestamp({ timestamp: data.last_time }),
     },
     { label: '数据类型', value: data.type },
+    ...Object.entries(defineType)
+      .filter((v) => !Object.is(undefined, data.define[v[0]]))
+      .map((item) => {
+        const key = item[0];
+        const label = item[1];
+        return {
+          label,
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          value: data.define[key],
+        };
+      }),
   ];
 }
 function getJsonString(data: unknown) {
@@ -86,7 +108,7 @@ export default function TelemetryDetailDrawer({
           <HStack>
             <Switch
               size="sm"
-              colorScheme="primary"
+              colorScheme="brand"
               isChecked={isJson}
               onChange={(e) => {
                 setIsJson(e.target.checked);

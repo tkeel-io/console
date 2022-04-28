@@ -1,2 +1,2 @@
 # console-plugin-tenant-data-subscription
-用户管理的前端插件
+前端租户平台的「数据订阅」插件

@@ -1,10 +1,16 @@
+import { ColorHues, Colors as ChakraColors } from '@chakra-ui/react';
+
 import type { BaseTheme } from './base-extension';
 
+export type Colors = ChakraColors & {
+  primary: string;
+  whiteAlpha: ColorHues;
+  blackAlias: string;
+  whiteAlias: string;
+  brand: ColorHues;
+  grayAlternatives: ColorHues;
+};
+
 export type Theme = BaseTheme & {
-  colors: {
-    primary: string;
-    primarySub1: string;
-    primarySub2: string;
-    primarySub3: string;
-  };
+  colors: Colors;
 };

@@ -1,3 +1,5 @@
+import { QueryKey } from 'react-query';
+
 import { useQuery } from '@tkeel/console-hooks';
 
 export interface RouteItemData {
@@ -11,6 +13,8 @@ export interface RouteItemData {
   devices_status: number;
   targets_status: number;
   sub_id: number | unknown;
+  model_id: string;
+  model_name: string;
 }
 
 export interface ApiData {
@@ -27,30 +31,32 @@ const method = 'GET';
 type Props = {
   pageNum: number;
   pageSize: number;
-  // keyWords: string;
+  queryKey?: QueryKey;
+  type?: number;
 };
 
 type TRequestParams = {
   page_num: number;
   page_size: number;
-  key_words: string;
+  type: number;
 };
 
 export default function useRouteRulesQuery({
   pageNum,
   pageSize,
-}: // keyWords,
-Props) {
+  type,
+  queryKey,
+}: Props) {
   const { data, ...rest } = useQuery<ApiData, TRequestParams>({
     url,
     method,
     params: {
       page_num: pageNum,
       page_size: pageSize,
-      key_words: '',
+      type: type ?? 0,
     },
     reactQueryOptions: {
-      queryKey: 'routeRules',
+      queryKey,
     },
   });
   const routeRulesData = data?.data || [];

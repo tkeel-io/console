@@ -1,9 +1,13 @@
+import { WithCSSVar } from '@chakra-ui/react';
 import { FrameworkLifeCycles, registerMicroApps, start } from 'qiankun';
 import { NavigateFunction } from 'react-router-dom';
 
 import { toast } from '@tkeel/console-components';
-import themes, { DEFAULT_THEME_NAME } from '@tkeel/console-themes';
-import { GlobalPluginPropsPortalProps, Menu } from '@tkeel/console-types';
+import {
+  GlobalPluginPropsPortalProps,
+  Menu,
+  UserDocumentsReturns,
+} from '@tkeel/console-types';
 import { getLocalTenantInfo, getLocalTokenInfo } from '@tkeel/console-utils';
 
 import { App, MenuInfo } from './types';
@@ -12,7 +16,9 @@ import { App, MenuInfo } from './types';
 export type LifeCycles = FrameworkLifeCycles<Record<string, any>>;
 
 export interface InitOptions {
+  theme: WithCSSVar<unknown>;
   menus: Menu[];
+  documents: UserDocumentsReturns;
   navigate: NavigateFunction;
   lifeCycles?: LifeCycles;
   refetchMenus: () => void;
@@ -40,22 +46,23 @@ function getTotalMenus(menus: Menu[]): MenuInfo[] {
 }
 
 export function menusToApps({
+  theme,
   menus,
+  documents,
   navigate,
   refetchMenus,
 }: InitOptions): App[] {
-  const themeName = GLOBAL_PORTAL_CONFIG.client.themeName || DEFAULT_THEME_NAME;
   const totalMenus: MenuInfo[] = getTotalMenus(menus);
   const tokenInfo = getLocalTokenInfo();
   const tenantInfo = getLocalTenantInfo();
   const portalProps: GlobalPluginPropsPortalProps = {
     portalName: GLOBAL_PORTAL_CONFIG.portalName,
     client: {
-      themeName,
-      theme: themes[themeName],
+      theme,
       tenantInfo,
       tokenInfo,
       toast,
+      documents,
       navigate,
       refetchMenus,
     },
@@ -82,12 +89,14 @@ function register({
 }
 
 export function init({
+  theme,
   menus,
+  documents,
   navigate,
   lifeCycles,
   refetchMenus,
 }: InitOptions) {
-  const apps = menusToApps({ menus, navigate, refetchMenus });
+  const apps = menusToApps({ theme, menus, documents, navigate, refetchMenus });
   register({ apps, lifeCycles });
   start({ sandbox: true });
 }

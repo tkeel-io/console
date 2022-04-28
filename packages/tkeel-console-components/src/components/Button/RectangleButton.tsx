@@ -23,8 +23,9 @@ function RectangleButton({
       padding="0 12px 0 8px"
       height="28px"
       boxShadow="none"
-      backgroundColor={canHover ? 'primarySub' : 'primary'}
+      backgroundColor={canHover ? 'brand.50' : 'primary'}
       borderRadius="4px"
+      colorScheme="brand"
       color={canHover ? 'primary' : 'white'}
       fontSize="12px"
       _hover={

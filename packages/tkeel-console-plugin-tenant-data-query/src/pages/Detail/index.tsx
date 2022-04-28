@@ -300,10 +300,9 @@ export default function Detail() {
                     styles={{
                       selector: `padding: 0; line-height: 34px; border-color: ${borderGrayColor};`,
                       selectionSearch: 'padding: 0; line-height: 34px;',
-                      selectionItem: 'top: 0; left: 10px;',
+                      selectionItem: 'top: 0; left: 10px; line-height: 34px;',
                       arrow: 'top: 10px; right: 10px',
                       dropdown: 'padding: 5px; min-height: 42px;',
-                      selectItem: 'line-height: 22px;',
                       itemOptionState: 'display: none',
                     }}
                   />
@@ -377,7 +376,7 @@ export default function Detail() {
                 <Switch
                   size="sm"
                   isChecked={isRangeSearch}
-                  colorScheme="primary"
+                  colorScheme="brand"
                   __css={{ 'span:focus': { boxShadow: 'none !important' } }}
                   onChange={(e) => {
                     setIsRangeSearch(e.target.checked);

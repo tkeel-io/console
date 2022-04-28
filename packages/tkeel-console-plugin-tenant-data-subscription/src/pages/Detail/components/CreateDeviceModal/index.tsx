@@ -21,11 +21,8 @@ import {
   Tree,
 } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
-import {
-  BroomFilledIcon,
-  FolderCloseTwoToneIcon,
-  FolderOpenTwoToneIcon,
-} from '@tkeel/console-icons';
+import { BroomFilledIcon, FolderOpenTwoToneIcon } from '@tkeel/console-icons';
+import { getTreeIcon } from '@tkeel/console-utils';
 
 import useCreateSubscribeEntitiesDeviceMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useCreateSubscribeEntitiesDeviceMutation';
 import useCreateSubscribeEntitiesTemplateMutation from '@/tkeel-console-plugin-tenant-data-subscription/hooks/mutations/useCreateSubscribeEntitiesTemplateMutation';
@@ -58,69 +55,40 @@ function assemblePath(nodes: TreeNodeData[], defaultPath: string) {
   });
 }
 
+function getTreeNodeData(data: TreeNodeType): TreeNodeData[] {
+  return values(data).map((item) => {
+    const { nodeInfo, subNode } = item;
+    const { id, properties } = nodeInfo;
+    return {
+      title: properties?.group?.name ?? '暂无数据',
+      id,
+      children: getTreeNodeData(subNode),
+      originData: item,
+      key: id,
+      icon: ({ expanded }: { expanded: boolean }) => getTreeIcon({ expanded }),
+    };
+  });
+}
+
+function getTemplateTreeNodeData(
+  data: TemplateTreeNodeType
+): TemplateTreeNodeDataType[] {
+  return values(data).map((item) => {
+    return {
+      title: item?.properties?.basicInfo?.name,
+      id: item?.id,
+      key: item?.id,
+      icon: ({ expanded }: { expanded: boolean }) => getTreeIcon({ expanded }),
+    };
+  });
+}
+
 export default function CreateDeviceModal({
   isOpen,
   isConfirmButtonLoading,
   onClose,
   onConfirm,
 }: Props) {
-  const selectedColor = useColor('primary');
-  const selectedTwoTone = useColor('primarySub2');
-  const unselectedColor = useColor('gray.700');
-  const unselectedTwoTone = useColor('gray.300');
-
-  function getTreeIcon(props: { selected: boolean; expanded: boolean }) {
-    const { selected, expanded } = props;
-
-    const color = selected ? selectedColor : unselectedColor;
-    const twoToneColor = selected ? selectedTwoTone : unselectedTwoTone;
-    return expanded ? (
-      <FolderOpenTwoToneIcon color={color} twoToneColor={twoToneColor} />
-    ) : (
-      <FolderCloseTwoToneIcon color={color} twoToneColor={twoToneColor} />
-    );
-  }
-
-  function getTreeNodeData(data: TreeNodeType): TreeNodeData[] {
-    return values(data).map((item) => {
-      const { nodeInfo, subNode } = item;
-      const { id, properties } = nodeInfo;
-      return {
-        title: properties?.group?.name ?? '暂无数据',
-        id,
-        children: getTreeNodeData(subNode),
-        originData: item,
-        key: id,
-        icon: ({
-          expanded,
-          selected,
-        }: {
-          expanded: boolean;
-          selected: boolean;
-        }) => getTreeIcon({ expanded, selected }),
-      };
-    });
-  }
-
-  function getTemplateTreeNodeData(
-    data: TemplateTreeNodeType
-  ): TemplateTreeNodeDataType[] {
-    return values(data).map((item) => {
-      return {
-        title: item?.properties?.basicInfo?.name,
-        id: item?.id,
-        key: item?.id,
-        icon: ({
-          expanded,
-          selected,
-        }: {
-          expanded: boolean;
-          selected: boolean;
-        }) => getTreeIcon({ expanded, selected }),
-      };
-    });
-  }
-
   const defaultParams = {
     page_num: 1,
     page_size: 1000,
@@ -168,10 +136,7 @@ export default function CreateDeviceModal({
 
   const mutationProps = {
     onSuccess() {
-      // TODO 添加设备后有延迟，临时解决方案
-      setTimeout(() => {
-        onConfirm();
-      }, 800);
+      onConfirm();
     },
     id: id || '',
   };
@@ -251,6 +216,7 @@ export default function CreateDeviceModal({
         style={{ marginTop: '16px' }}
         icon={FolderOpenTwoToneIcon}
         checkable
+        selectable={false}
         treeData={treeNodeData}
         checkedKeys={selectedKeys}
         onCheck={(keys, el) => {

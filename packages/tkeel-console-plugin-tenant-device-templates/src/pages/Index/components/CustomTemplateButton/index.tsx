@@ -55,7 +55,7 @@ export default function CustomTemplateButton({ onSuccess }: Props) {
         h="24px"
         lineHeight="24px"
         align="center"
-        bg="primarySub"
+        bg="brand.50"
         color="primary"
         fontSize="12px"
         fontWeight="600"
@@ -66,7 +66,7 @@ export default function CustomTemplateButton({ onSuccess }: Props) {
       <DocumentPencilTowToneIcon size="28px" />
       <Flex flexDirection="column" ml="16px" flexBasis="316px">
         <Text color="black" fontSize="14px" fontWeight="600">
-          创建自定义模版
+          创建自定义模板
         </Text>
         <Text color="gray.500" isTruncated maxWidth="284px" fontSize="12px">
           模型说明一句话描述模型说明一句话描述模型

@@ -61,12 +61,19 @@ function Detail(): JSX.Element {
           }}
         />
       </Box>
-      <Tabs flex="1" display="flex" flexDirection="column" borderRadius="4px">
+      <Tabs
+        flex="1"
+        overflowY="hidden"
+        display="flex"
+        flexDirection="column"
+        borderRadius="4px"
+      >
         <CustomTabList>
           <CustomTab borderTopLeftRadius="4px">订阅设备</CustomTab>
         </CustomTabList>
         <TabPanels
           flex="1"
+          overflowY="auto"
           boxShadow="0px 10px 15px -3px rgba(113, 128, 150, 0.1), 0px 4px 6px -2px rgba(113, 128, 150, 0.05)"
         >
           <TabPanel
@@ -76,7 +83,11 @@ function Detail(): JSX.Element {
             borderBottomRightRadius="4px"
             backgroundColor="white"
           >
-            <Table id={subscribeId} title={data?.title ?? ''} />
+            <Table
+              id={subscribeId}
+              title={data?.title ?? ''}
+              refetchSubscribeInfo={() => refetch()}
+            />
           </TabPanel>
         </TabPanels>
       </Tabs>

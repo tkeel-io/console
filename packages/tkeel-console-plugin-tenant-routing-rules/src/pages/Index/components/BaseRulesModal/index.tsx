@@ -5,19 +5,25 @@ import { useForm } from 'react-hook-form';
 import { FormControl, FormField, Modal } from '@tkeel/console-components';
 // import { schemas } from '@tkeel/console-utils';
 import { RoutesMsgIcon, RoutesTimeIcon } from '@tkeel/console-icons';
+import { TemplateItem, useTemplatesQuery } from '@tkeel/console-request-hooks';
 
+import Tip from '@/tkeel-console-plugin-tenant-routing-rules/components/Tip';
 import RadioCard from '@/tkeel-console-plugin-tenant-routing-rules/pages/Index/components/RadioCard';
 
-const { TextField, TextareaField } = FormField;
+const { TextField, TextareaField, SelectField } = FormField;
 
 export interface FormValues {
   name: string;
   type: number;
   desc?: string;
+  deviceTemplate?: string;
+  deviceTemplateId?: string;
+  deviceTemplateName?: string;
 }
 
 type Props = {
   title: ReactNode;
+  buttonType: string;
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
   defaultValues?: FormValues;
@@ -27,6 +33,7 @@ type Props = {
 
 export default function BaseRulesModal({
   title,
+  buttonType,
   isOpen,
   isConfirmButtonLoading,
   defaultValues,
@@ -37,12 +44,28 @@ export default function BaseRulesModal({
   const routeVal = routeTypeArr[(defaultValues?.type ?? 1) - 1];
   const [routeType, setRouteType] = useState(routeVal);
   const typeIndex = routeTypeArr.indexOf(routeType) + 1;
+
+  const { templates } = useTemplatesQuery({
+    enabled: routeType === 'time' && buttonType === 'createButton',
+  });
+  const requestOptions = templates.map((val: TemplateItem) => {
+    return { value: val.id, label: val.properties.basicInfo.name };
+  });
+  const defaultValuesOptions = [
+    {
+      value: defaultValues?.deviceTemplateId,
+      label: defaultValues?.deviceTemplateName,
+    },
+  ];
+  const templateOptions =
+    buttonType === 'editButton' ? defaultValuesOptions : requestOptions;
   const {
     register,
     formState: { errors },
     trigger,
     getValues,
     reset,
+    control,
   } = useForm<FormValues>({
     defaultValues,
   });
@@ -50,7 +73,16 @@ export default function BaseRulesModal({
   const handleConfirm = async () => {
     const result = await trigger();
     if (result) {
-      const formValues = { ...getValues(), type: typeIndex };
+      const template = templateOptions.filter(
+        (i) => i.value === getValues().deviceTemplate
+      );
+      const condition = template.length > 0 && routeType === 'time';
+      const formValues = {
+        ...getValues(),
+        deviceTemplateId: condition ? template[0]?.value : '',
+        deviceTemplateName: condition ? template[0]?.label : '',
+        type: typeIndex,
+      };
       onConfirm(formValues);
       reset();
     }
@@ -59,13 +91,11 @@ export default function BaseRulesModal({
   const attribute = {
     size: '24px',
     style: { marginRight: '10px' },
-    twoToneColor: 'gray.400', // 二期删掉
-    color: 'gray.400', // 二期删掉
   };
 
   const activeAttribute = {
     twoToneColor: 'green.100',
-    color: 'green.300',
+    color: 'primary',
   };
 
   const options = [
@@ -107,7 +137,7 @@ export default function BaseRulesModal({
         placeholder="请输入"
         error={errors.name}
         registerReturn={register('name', {
-          required: { value: true, message: '请输入规则名称' },
+          required: { value: true, message: '规则名称为空' },
         })}
       />
       <FormControl label="路由类型" id="form-routes">
@@ -119,7 +149,7 @@ export default function BaseRulesModal({
             });
             return (
               <RadioCard
-                isDisabled // 二期删掉
+                isDisabled={buttonType === 'editButton'}
                 {...radio}
                 key={keyOpt}
                 label={titleOpt}
@@ -134,6 +164,26 @@ export default function BaseRulesModal({
           })}
         </HStack>
       </FormControl>
+      <Tip
+        title="数据传输第二层为时序路由，传输模板约束后的结构化数据"
+        styles={{ wrapper: { mb: '20px' } }}
+      />
+      {routeType === 'time' && (
+        <SelectField<FormValues>
+          id="deviceTemplate"
+          name="deviceTemplate"
+          label="使用设备模板"
+          placeholder="请选择"
+          disabled={buttonType === 'editButton'}
+          options={templateOptions}
+          defaultValue={defaultValues?.deviceTemplateId}
+          error={errors.deviceTemplate}
+          control={control}
+          rules={{
+            required: { value: true, message: '设备模版为空' },
+          }}
+        />
+      )}
       <TextareaField
         id="desc"
         label="描述"

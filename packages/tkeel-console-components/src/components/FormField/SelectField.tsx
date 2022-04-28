@@ -1,5 +1,5 @@
 import { Center } from '@chakra-ui/react';
-import { CSSProperties, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import {
   Control,
   Controller,
@@ -17,14 +17,13 @@ import FormControl, {
 } from '@/tkeel-console-components/components/FormControl';
 
 import { Select } from '../Select';
+import { SelectStyles } from '../Select/types';
 import { fieldDefaultProps } from './default-props';
-
-type Value = string | number;
 
 type Props<TFieldValues> = FormControlProps & {
   id: string;
   name: FieldPath<TFieldValues>;
-  options: { value: Value; label: string | ReactNode }[];
+  options?: { label: ReactNode; value?: string | number; disabled?: boolean }[];
   mode?: 'combobox' | 'multiple' | 'tags';
   showArrow?: boolean;
   allowClear?: boolean;
@@ -38,7 +37,8 @@ type Props<TFieldValues> = FormControlProps & {
     'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'
   >;
   control: Control<TFieldValues>;
-  selectStyle?: CSSProperties;
+  selectStyles?: SelectStyles;
+  disabled?: boolean;
 };
 
 const defaultProps = {
@@ -46,7 +46,7 @@ const defaultProps = {
   placeholder: '请选择',
 };
 
-export default function CustomFormControl<TFieldValues>({
+export default function SelectField<TFieldValues>({
   id,
   name,
   options,
@@ -58,7 +58,8 @@ export default function CustomFormControl<TFieldValues>({
   defaultValue,
   rules,
   control,
-  selectStyle,
+  selectStyles,
+  disabled = false,
   ...rest
 }: Props<TFieldValues>) {
   return (
@@ -69,6 +70,7 @@ export default function CustomFormControl<TFieldValues>({
         rules={rules}
         render={({ field: { onChange, value } }) => (
           <Select
+            disabled={disabled}
             mode={mode}
             placeholder={placeholder}
             showArrow={showArrow}
@@ -78,13 +80,12 @@ export default function CustomFormControl<TFieldValues>({
             options={options}
             onChange={onChange}
             value={value}
-            // defaultValue={defaultValue}
             menuItemSelectedIcon={
-              <Center width="30px" height="36px">
+              <Center width="30px" height="32px">
                 <CheckFilledIcon color="primary" />
               </Center>
             }
-            style={{ width: '100%', ...selectStyle }}
+            styles={{ select: 'width: 100%;', ...selectStyles }}
           />
         )}
         defaultValue={defaultValue}
@@ -93,4 +94,4 @@ export default function CustomFormControl<TFieldValues>({
   );
 }
 
-CustomFormControl.defaultProps = defaultProps;
+SelectField.defaultProps = defaultProps;

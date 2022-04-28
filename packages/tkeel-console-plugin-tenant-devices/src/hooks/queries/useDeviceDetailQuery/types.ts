@@ -1,6 +1,8 @@
 import {
   AttributeItem,
   AttributeValue,
+  CommandItem,
+  CommandValue,
   TelemetryItem,
   TelemetryValue,
 } from '@tkeel/console-types';
@@ -16,9 +18,7 @@ export interface BasicInfo {
   parentName: string;
   name: string;
   type: string;
-  ext: {
-    [propName: string]: string;
-  };
+  ext: { [propName: string]: string };
   parentId: string;
   selfLearn: boolean;
   description?: string;
@@ -61,8 +61,11 @@ export interface SysField {
 export interface DeviceObject {
   id: string;
   configs: {
-    attributes?: { define?: { fields?: AttributeItem } };
-    telemetry?: { define?: { fields?: TelemetryItem } };
+    attributes?: {
+      define?: { fields?: { [propName: string]: AttributeItem } };
+    };
+    telemetry?: { define?: { fields?: { [propName: string]: TelemetryItem } } };
+    commands?: { define?: { fields?: { [propName: string]: CommandItem } } };
   };
   properties: {
     basicInfo: BasicInfo;
@@ -71,6 +74,7 @@ export interface DeviceObject {
     telemetry: TelemetryValue;
     attributes: AttributeValue;
     connectInfo: ConnectInfo;
+    commands: CommandValue;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [propName: string]: any;
   };

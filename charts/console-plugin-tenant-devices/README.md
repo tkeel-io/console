@@ -1,2 +1,2 @@
 # console-plugin-tenant-devices
-用户管理的前端插件
+前端租户平台的「设备列表」插件

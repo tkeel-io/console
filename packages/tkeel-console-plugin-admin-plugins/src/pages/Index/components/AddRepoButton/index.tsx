@@ -65,7 +65,7 @@ function AddRepoButton({ refetchRepos }: Props) {
             <Button onClick={onClose}>取消</Button>
             <Button
               marginLeft="12px"
-              colorScheme="primary"
+              colorScheme="brand"
               onClick={handleConfirm}
             >
               确定
@@ -92,7 +92,7 @@ function AddRepoButton({ refetchRepos }: Props) {
               required: { value: true, message: '请输入仓库源地址' },
               pattern: {
                 value: /^(http|https)?:\/\//,
-                message: '请提供合法的仓库源地址',
+                message: '请提供正确的仓库源地址',
               },
             })}
             formControlStyle={{ marginTop: '16px' }}

@@ -116,8 +116,8 @@ function Index({ id, title }: { id: string; title: string }) {
           },
         }}
         styles={{
+          wrapper: { height: '32px', marginBottom: '12px' },
           title: { fontSize: '14px' },
-          wrapper: { height: '48px', margin: '4px 0' },
         }}
         // eslint-disable-next-line react/no-unstable-nested-components
         buttons={useMemo(() => {
@@ -144,7 +144,7 @@ function Index({ id, title }: { id: string; title: string }) {
             description={
               <Box>
                 <Box display="inline" color="gray.600" fontWeight="500">
-                  [{title}]
+                  「{title}」
                 </Box>
                 暂无数据
               </Box>

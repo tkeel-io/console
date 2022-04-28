@@ -16,7 +16,7 @@ import { BoxTwoToneIcon } from '@tkeel/console-icons';
 import {
   KeyDataType,
   TemplateItem,
-  useTemplateQuery,
+  useTemplatesQuery,
 } from '@tkeel/console-request-hooks';
 import { formatDateTimeByTimestamp, plugin } from '@tkeel/console-utils';
 
@@ -28,31 +28,16 @@ function Index() {
   const navigate = useNavigate();
   const toast = plugin.getPortalToast();
   const [keyWord, setKeyWord] = useState('');
+  const documents = plugin.getPortalDocuments();
 
   const pagination = usePagination();
   const { pageNum, pageSize, setTotalSize, ...rest } = pagination;
 
-  let defaultParams = {
-    page_num: 1,
-    page_size: 1000,
-    order_by: 'name',
-    is_descending: false,
-    query: '',
-    condition: [
-      {
-        field: 'type',
-        operator: '$eq',
-        value: 'template',
-      },
-    ],
-  };
-  if (keyWord) {
-    defaultParams = { ...defaultParams, query: keyWord };
-  }
+  const { templates, total, refetch } = useTemplatesQuery({
+    requestData: { query: keyWord, page_num: pageNum, page_size: pageSize },
+  });
 
-  const { items, refetch } = useTemplateQuery({ params: defaultParams });
-
-  const keyData: KeyDataType[] = items.map((val: TemplateItem) => {
+  const keyData: KeyDataType[] = templates.map((val: TemplateItem) => {
     return {
       title: val.properties.basicInfo.name,
       description: val.properties.basicInfo.description,
@@ -64,11 +49,14 @@ function Index() {
       }),
     };
   });
-  setTotalSize(keyData.length);
+  setTotalSize(total);
 
-  const handleCreateSuccess = (id: string) => {
+  const handleCreateSuccess = (id?: string) => {
     toast('创建模板成功', { status: 'success' });
-    navigate(`/detail/${id}?menu-collapsed=true`);
+    refetch();
+    if (id) {
+      navigate(`/detail/${id}?menu-collapsed=true`);
+    }
   };
 
   // eslint-disable-next-line react/no-unstable-nested-components
@@ -141,6 +129,7 @@ function Index() {
       <PageHeaderToolbar
         name="设备模板"
         hasSearchInput
+        documentsPath={documents.config.paths.tenantGuide.deviceTemplate}
         searchInputProps={{
           onSearch(value) {
             setKeyWord(value.trim());

@@ -166,23 +166,25 @@ export default function FilterDropdown({
     );
 
     const { value: statusValue } = deviceStatus;
+    const isAllStatus = statusValue === 'all';
+    const isOnlineStatus = statusValue === 'online';
     if (statusQueryCondition) {
-      if (statusValue === 'all') {
+      if (isAllStatus) {
         newDeviceListQueryConditions = newDeviceListQueryConditions.filter(
           (queryCondition) => queryCondition.field !== statusQueryField
         );
         setDeviceListQueryConditions(newDeviceListQueryConditions);
       } else {
-        statusQueryCondition.value = statusValue;
+        statusQueryCondition.value = isOnlineStatus;
         setDeviceListQueryConditions(newDeviceListQueryConditions);
       }
-    } else if (statusValue !== 'all') {
+    } else if (!isAllStatus) {
       setDeviceListQueryConditions([
         ...newDeviceListQueryConditions,
         {
           field: statusQueryField,
           operator: '$eq',
-          value: statusValue === 'online',
+          value: isOnlineStatus,
         },
       ]);
     }
@@ -305,6 +307,16 @@ export default function FilterDropdown({
     setTemplateConditions,
     defaultTemplateConditions,
   ]);
+
+  useEffect(() => {
+    if (!groupIdFilterCondition) {
+      const newDeviceListQueryConditions = deviceListQueryConditions.filter(
+        (condition) => condition.field !== deviceGroupIdQueryField
+      );
+      setDeviceListQueryConditions(newDeviceListQueryConditions);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [groupIdFilterCondition]);
 
   useEffect(() => {
     const newDeviceListQueryConditions = deviceListQueryConditions.filter(

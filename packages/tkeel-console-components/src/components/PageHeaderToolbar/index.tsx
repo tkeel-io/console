@@ -4,13 +4,13 @@ import {
   Colors,
   Flex,
   StyleProps,
-  Text,
   useTheme,
 } from '@chakra-ui/react';
 import { noop } from 'lodash';
 import { ReactNode } from 'react';
 
 import { BookOpenedFilledIcon } from '@tkeel/console-icons';
+import { plugin } from '@tkeel/console-utils';
 
 import SearchInput, {
   Props as SearchInputProps,
@@ -20,10 +20,10 @@ import { ButtonWrapper } from './index.styled';
 
 type Props = {
   name: ReactNode;
+  documentsPath?: string;
   hasSearchInput?: boolean;
   searchInputProps?: SearchInputProps;
   buttons?: ReactNode[];
-  hasIcon?: boolean;
   styles?: {
     wrapper?: StyleProps;
     title?: StyleProps;
@@ -42,12 +42,13 @@ const defaultSearchInputProps = {
 
 function PageHeaderToolbar({
   name,
+  documentsPath = '',
   hasSearchInput = false,
   searchInputProps = defaultSearchInputProps,
   buttons = [],
-  hasIcon = false,
   styles = {},
 }: Props) {
+  const documents = plugin.getPortalDocuments();
   const siProps = { ...defaultSearchInputProps, ...searchInputProps };
   const { colors }: { colors: CustomColor } = useTheme();
 
@@ -55,7 +56,7 @@ function PageHeaderToolbar({
     <Flex alignItems="center" width="100%" height="48px" {...styles?.wrapper}>
       {name && (
         <Flex paddingRight="30px">
-          <Text
+          <Center
             fontSize="18px"
             fontWeight="600"
             lineHeight="26px"
@@ -63,8 +64,8 @@ function PageHeaderToolbar({
             {...styles?.title}
           >
             {name}
-          </Text>
-          {hasIcon && (
+          </Center>
+          {documentsPath && (
             <Center paddingLeft="4px">
               <Circle
                 size="26px"
@@ -76,6 +77,7 @@ function PageHeaderToolbar({
                     fill: `${colors.primary} !important`,
                   },
                 }}
+                onClick={() => documents.open(documentsPath)}
               >
                 <BookOpenedFilledIcon color="grayAlternatives.300" />
               </Circle>

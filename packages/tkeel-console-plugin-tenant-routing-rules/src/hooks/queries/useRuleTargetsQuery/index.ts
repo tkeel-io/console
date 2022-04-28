@@ -1,5 +1,16 @@
 import { useQuery } from '@tkeel/console-hooks';
 
+export type PublishedFields = {
+  t_field: {
+    name: string;
+    type: string;
+  };
+  m_field: {
+    name: string;
+    type: string;
+  };
+};
+
 type RequestParams = {
   page_num: number;
   page_size: number;
@@ -12,6 +23,10 @@ export interface Target {
   host: string;
   value: string;
   ext: string;
+  sink_type: string;
+  fields: PublishedFields[] | [];
+  database: string;
+  table_name: string;
 }
 
 export interface ApiData {

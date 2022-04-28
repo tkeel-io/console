@@ -6,12 +6,15 @@ import { useColor } from '@tkeel/console-hooks';
 import {
   CollapseFilledIcon,
   ExpandFilledIcon,
+  GearTwoToneIcon,
   // MoonCircleFilledIcon,
   // SunFilledIcon,
 } from '@tkeel/console-icons';
 import { ThemeNames } from '@tkeel/console-themes';
 import { Logo } from '@tkeel/console-types';
+import { env } from '@tkeel/console-utils';
 
+import { Menu } from '@/tkeel-console-portal-base/hooks/queries/useMenusQuery';
 import {
   getLocalMenuTheme,
   isDarkMenuTheme,
@@ -20,12 +23,14 @@ import {
 
 import CollapsedMenus from './CollapsedMenus';
 import ExpandMenus from './ExpandMenus';
+import MenuSetting from './MenuSetting';
 
 type Props = {
   logo: Logo;
+  menus: Menu[];
 };
 
-function Menus({ logo }: Props) {
+function Menus({ logo, menus }: Props) {
   const [searchParams] = useSearchParams();
   const menuCollapsed = searchParams?.get('menu-collapsed') === 'true' || false;
   const [collapsed, setCollapsed] = useState(menuCollapsed);
@@ -35,6 +40,8 @@ function Menus({ logo }: Props) {
   const defaultMenuTheme = isQingCloudTheme ? 'dark' : 'light';
   const [menuTheme] = useState(localMenuTheme || defaultMenuTheme);
   const isDarkMenu = isDarkMenuTheme(menuTheme);
+  const [isShowMenuSetting, setIsShowMenuSetting] = useState(false);
+  const [mockMenus, setMockMenus] = useState(JSON.stringify(menus, null, 2));
 
   const iconColor = 'grayAlternatives.300';
   const whiteColor = `${useColor('white')} !important`;
@@ -77,8 +84,12 @@ function Menus({ logo }: Props) {
       }
     : {};
 
+  const isDevelopment = env.isEnvDevelopment();
+  const isShowDevTools = GLOBAL_PORTAL_CONFIG.client.showDevTools ?? false;
+
   return (
     <Box
+      position="relative"
       paddingBottom="90px"
       height="100%"
       background="white"
@@ -128,6 +139,24 @@ function Menus({ logo }: Props) {
           </Flex>
         )}
       </Flex>
+      {isDevelopment && isShowDevTools && (
+        <GearTwoToneIcon
+          style={{
+            position: 'absolute',
+            right: '22px',
+            bottom: collapsed ? '50px' : '20px',
+            cursor: 'pointer',
+          }}
+          onClick={() => setIsShowMenuSetting(true)}
+        />
+      )}
+      {isShowMenuSetting && (
+        <MenuSetting
+          mockMenus={mockMenus}
+          setMockMenus={(value) => setMockMenus(value)}
+          onClose={() => setIsShowMenuSetting(false)}
+        />
+      )}
     </Box>
   );
 }

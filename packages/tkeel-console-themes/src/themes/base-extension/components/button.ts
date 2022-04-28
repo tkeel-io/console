@@ -25,10 +25,10 @@ const baseStyle: SystemStyleObject = {
   },
 };
 
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 const variantGhost: SystemStyleFunction = (props) => {
   const { colorScheme: c, theme } = props;
   if (c === 'gray') {
-    /* eslint-disable @typescript-eslint/no-unsafe-assignment */
     return {
       color: mode(`inherit`, `whiteAlpha.900`)(props),
       _hover: {
@@ -90,7 +90,6 @@ const variantSolid: SystemStyleFunction = (props) => {
   const { colorScheme: c, theme } = props;
 
   const padding = '0 22px';
-  const boxShadow = `0 4px 12px ${transparentize('primary', 0.2)(theme)}`;
 
   if (c === 'gray') {
     const bg = mode(`gray.900`, `whiteAlpha.200`)(props);
@@ -99,7 +98,7 @@ const variantSolid: SystemStyleFunction = (props) => {
       padding,
       color: 'white',
       bg,
-      boxShadow,
+      boxShadow: `0 4px 12px ${transparentize('gray.800', 0.2)(theme)}`,
       _hover: {
         bg: mode(`gray.700`, `whiteAlpha.300`)(props),
         _disabled: {
@@ -110,21 +109,27 @@ const variantSolid: SystemStyleFunction = (props) => {
     };
   }
 
-  if (c === 'primary') {
+  if (c === 'brand') {
     const bg = mode(`primary`, `whiteAlpha.200`)(props);
 
     return {
       padding,
       color: 'white',
       bg,
-      boxShadow,
+      boxShadow: `0 4px 12px ${transparentize('primary', 0.2)(theme)}`,
       _hover: {
-        bg: mode(`primarySub3`, `whiteAlpha.300`)(props),
+        bg: mode(`primary`, `whiteAlpha.300`)(props),
         _disabled: {
           bg,
         },
       },
-      _active: { bg: mode(`primarySub3`, `whiteAlpha.400`)(props) },
+      _active: {
+        color: 'white',
+        svg: {
+          fill: 'white !important',
+        },
+        bg: mode(`primary`, `whiteAlpha.400`)(props),
+      },
     };
   }
 
@@ -137,10 +142,11 @@ const variantSolid: SystemStyleFunction = (props) => {
 
   const background = mode(bg, `${c}.200`)(props);
 
+  const boxShadowColor = transparentize(`${c}.800`, 0.2)(theme);
   return {
     padding,
     bg: background,
-    boxShadow,
+    boxShadow: `0 4px 12px ${boxShadowColor}`,
     color: mode(color, `gray.800`)(props),
     _hover: {
       bg: mode(hoverBg, `${c}.300`)(props),

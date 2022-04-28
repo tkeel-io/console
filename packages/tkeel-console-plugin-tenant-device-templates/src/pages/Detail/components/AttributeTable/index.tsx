@@ -65,7 +65,13 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
       Cell: ({ row }: Cell<AttributeItem>) =>
         useMemo(() => {
           const { original } = row;
-          return <Box>{original?.define?.default_value}</Box>;
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          const defaultValue = original?.define?.default_value;
+          return (
+            <Box>
+              {typeof defaultValue === 'object' ? 'JSON' : defaultValue}
+            </Box>
+          );
         }, [row]),
     },
     {
@@ -119,8 +125,8 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
           },
         }}
         styles={{
+          wrapper: { height: '32px', marginBottom: '12px' },
           title: { fontSize: '14px' },
-          wrapper: { height: '48px', margin: '4px 0' },
         }}
         buttons={[
           <CreateAttributeButton uid={id} refetch={refetch} key="add" />,
@@ -146,7 +152,7 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
             description={
               <Box>
                 <Box display="inline" color="gray.600" fontWeight="500">
-                  [{title}]
+                  「{title}」
                 </Box>
                 暂无数据
               </Box>

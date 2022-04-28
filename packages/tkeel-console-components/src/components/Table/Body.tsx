@@ -17,6 +17,7 @@ type Props<D extends object> = {
   styles?: {
     body?: StyleProps;
     tr?: StyleProps;
+    td?: StyleProps;
   };
 };
 
@@ -79,6 +80,7 @@ function Body<D extends object>({
                     fontSize="12px"
                     border="none"
                     {...cell.getCellProps()}
+                    {...styles?.td}
                   >
                     {funcName === 'defaultRenderer' ? (
                       <Text title={String(cell.value)} isTruncated>

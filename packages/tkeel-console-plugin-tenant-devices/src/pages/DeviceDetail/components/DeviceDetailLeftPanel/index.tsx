@@ -94,7 +94,9 @@ function DeviceDetailLeftPanel({ deviceObject, refetch }: Props): JSX.Element {
           as={basicInfo?.templateName ? 'u' : 'p'}
           cursor={basicInfo?.templateId ? 'pointer' : 'default'}
           onClick={() => {
-            handleNavigateTemplate({ templateId: basicInfo.templateId });
+            if (basicInfo?.templateId) {
+              handleNavigateTemplate({ templateId: basicInfo.templateId });
+            }
           }}
         >
           {basicInfo?.templateName || '暂无模板'}

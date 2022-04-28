@@ -25,12 +25,14 @@ export default function ProductTab({
       alignItems="center"
       width="200px"
       height="44px"
-      border="1px"
+      borderWidth="1px"
+      borderStyle="solid"
       borderColor="gray.200"
       borderRadius="4px"
       backgroundColor="white"
       opacity={disable ? '0.5' : '1'}
       cursor={disable ? 'not-allowed' : 'pointer'}
+      _hover={{ backgroundColor: 'brand.50', borderColor: 'primary' }}
       onClick={() => {
         if (!disable && onClick) {
           onClick();

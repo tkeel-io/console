@@ -1,4 +1,4 @@
-import { useQuery } from '@tkeel/console-hooks';
+import { useQuery, UseQueryOptionsExtended } from '@tkeel/console-hooks';
 import { RequestResult } from '@tkeel/console-utils';
 
 const url = '/tkeel-device/v1/groups/tree';
@@ -46,11 +46,12 @@ type RequestData = {
   order_by?: string;
   is_descending?: boolean;
   query?: string;
-  condition: RequestDataCondition[];
+  condition?: RequestDataCondition[];
 };
 
 type Props = {
   requestData: RequestData;
+  enabled?: boolean;
   onSuccess?: (data: RequestResult<ApiData, undefined, RequestData>) => void;
 };
 
@@ -64,6 +65,7 @@ const defaultRequestData = {
 
 export default function useDeviceGroupQuery(props?: Props) {
   const requestData: RequestData | undefined = props?.requestData;
+  const enabled = props?.enabled ?? true;
   const onSuccess = props?.onSuccess;
   let requestConditions = requestData?.condition || [];
   requestConditions = requestConditions.filter(
@@ -82,7 +84,14 @@ export default function useDeviceGroupQuery(props?: Props) {
     ],
   };
 
-  const reactQueryOptions = onSuccess ? { onSuccess } : {};
+  const reactQueryOptions: UseQueryOptionsExtended<
+    ApiData,
+    undefined,
+    RequestData
+  > = { enabled };
+  if (onSuccess) {
+    reactQueryOptions.onSuccess = onSuccess;
+  }
   const { data, ...rest } = useQuery<ApiData, undefined, RequestData>({
     url,
     method,

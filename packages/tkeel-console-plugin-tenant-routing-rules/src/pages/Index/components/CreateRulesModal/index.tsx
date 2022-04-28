@@ -1,4 +1,4 @@
-import BaseUserModal, {
+import BaseRulesModal, {
   FormValues,
 } from '@/tkeel-console-plugin-tenant-routing-rules/pages/Index/components/BaseRulesModal';
 
@@ -26,8 +26,9 @@ export default function CreateRulesModal({
   onConfirm,
 }: Props) {
   return (
-    <BaseUserModal
+    <BaseRulesModal
       title={type === 'editButton' ? '编辑规则' : '创建规则'}
+      buttonType={type}
       defaultValues={cruxData}
       isOpen={isOpen}
       isConfirmButtonLoading={isConfirmButtonLoading}

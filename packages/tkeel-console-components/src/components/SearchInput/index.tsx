@@ -1,4 +1,5 @@
 import {
+  Center,
   Input,
   InputGroup,
   InputLeftElement,
@@ -10,10 +11,12 @@ import {
   KeyboardEvent,
   KeyboardEventHandler,
   ReactNode,
+  useEffect,
   useRef,
+  useState,
 } from 'react';
 
-import { MagnifierFilledIcon } from '@tkeel/console-icons';
+import { CloseFilledIcon, MagnifierFilledIcon } from '@tkeel/console-icons';
 
 export interface Props {
   width?: string;
@@ -42,6 +45,7 @@ function SearchInput({
   onChange,
   onSearch,
 }: Props) {
+  const [showCloseButton, setShowCloseButton] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const controlInputValue = !!onChange;
@@ -55,6 +59,7 @@ function SearchInput({
         ? value
         : inputRef.current.value.trim();
       onSearch(keywords);
+      setShowCloseButton(!!keywords);
     }
   };
 
@@ -73,6 +78,17 @@ function SearchInput({
     };
   }
 
+  const timer: number | null = null;
+
+  useEffect(() => {
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <InputGroup width={width} height={height} {...inputGroupStyle}>
       <InputLeftElement height="100%" pointerEvents="none">
@@ -83,6 +99,7 @@ function SearchInput({
       <Input
         ref={inputRef}
         height="100%"
+        paddingInlineEnd="30px"
         borderColor="gray.200"
         borderRadius="20px"
         color="gray.600"
@@ -94,6 +111,20 @@ function SearchInput({
         {...valueProps}
         onKeyDown={handleKeyDown}
       />
+      {showCloseButton && (
+        <Center position="absolute" right="10px" top="0" height={height}>
+          <CloseFilledIcon
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              setShowCloseButton(false);
+              if (!controlInputValue && inputRef.current) {
+                inputRef.current.value = '';
+              }
+              onSearch('');
+            }}
+          />
+        </Center>
+      )}
     </InputGroup>
   );
 }

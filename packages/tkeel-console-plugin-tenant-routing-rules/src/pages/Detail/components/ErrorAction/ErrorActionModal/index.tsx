@@ -41,6 +41,7 @@ export default function ErrorActionModal({
     const result = await trigger('subscribeId');
     if (result) {
       const subscribeId = getValues('subscribeId');
+
       if (handleSubmit) {
         handleSubmit(subscribeId);
       }
@@ -77,7 +78,8 @@ export default function ErrorActionModal({
         height="32px"
         lineHeight="32px"
         paddingLeft="12px"
-        border="1px"
+        borderWidth="1px"
+        borderStyle="solid"
         borderColor="blue.300"
         color="blue.300"
         fontSize="12px"

@@ -2,7 +2,7 @@ import { Box, Flex, ModalCloseButton } from '@chakra-ui/react';
 import { noop } from 'lodash';
 import { ReactNode } from 'react';
 
-import Modal from '@/tkeel-console-components/components/Modal';
+import { Modal } from '@/tkeel-console-components/components/Modal';
 import * as StatusIcon from '@/tkeel-console-components/components/StatusIcon';
 
 import { ICON_SIZE } from './constants';

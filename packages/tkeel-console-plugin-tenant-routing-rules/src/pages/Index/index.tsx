@@ -1,7 +1,7 @@
 import { Flex, Grid, Text } from '@chakra-ui/react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// import { useState } from 'react';
 import {
   Loading,
   PageHeaderToolbar,
@@ -12,25 +12,27 @@ import { EmptyFileIcon } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
 import MoreActionButton from '@/tkeel-console-plugin-tenant-routing-rules/components/MoreActionButton';
-import RouteLabel from '@/tkeel-console-plugin-tenant-routing-rules/components/RouteLabel';
+import RouteLabel, {
+  RouteType,
+} from '@/tkeel-console-plugin-tenant-routing-rules/components/RouteLabel';
 import useRouteRulesQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRouteRulesQuery';
 import CreateRulesButton from '@/tkeel-console-plugin-tenant-routing-rules/pages/Index/components/CreateRulesButton';
 import RouteRulesCard from '@/tkeel-console-plugin-tenant-routing-rules/pages/Index/components/RouteRulesCard';
 import Step from '@/tkeel-console-plugin-tenant-routing-rules/pages/Index/components/Step';
-// import Tabs from '@/tkeel-console-plugin-tenant-routing-rules/pages/Index/components/Tabs';
+import Tabs from '@/tkeel-console-plugin-tenant-routing-rules/pages/Index/components/Tabs';
 
 export default function Index(): JSX.Element {
   const navigate = useNavigate();
   const pagination = usePagination();
   const { pageNum, pageSize, setTotalSize } = pagination;
-  // const [keyWords, setKeyWords] = useState('');
+  const [keyWords, setKeyWords] = useState(0);
   const toast = plugin.getPortalToast();
-  const routeTypeArr = ['msg', 'time'];
+  const routeTypeArr: RouteType[] = ['msg', 'time'];
   const { routeRulesData, data, isSuccess, isLoading, refetch } =
     useRouteRulesQuery({
       pageNum,
       pageSize,
-      // keyWords,
+      type: keyWords,
     });
   const totalNum = data?.total ?? 0;
   if (isSuccess) {
@@ -43,10 +45,9 @@ export default function Index(): JSX.Element {
   };
 
   return (
-    <Flex flexDirection="column" h="100%">
+    <Flex flexDirection="column" h="100%" padding="8px 20px 20px">
       <PageHeaderToolbar
         name="数据路由规则"
-        hasIcon
         buttons={[
           <CreateRulesButton
             key="create"
@@ -55,13 +56,15 @@ export default function Index(): JSX.Element {
           />,
         ]}
       />
-      {/* <Tabs 二期放开
-        onClick={(e: string) => {
+      <Tabs
+        onClick={(e: number) => {
           setKeyWords(e);
         }}
-      /> */}
+      />
       {isLoading ? (
-        <Loading styles={{ wrapper: { height: '100%' } }} />
+        <Loading
+          styles={{ wrapper: { flex: 1, backgroundColor: 'gray.50' } }}
+        />
       ) : (
         <Flex
           flexDirection="column"
@@ -111,6 +114,8 @@ export default function Index(): JSX.Element {
                       devices_status: deviceStatus,
                       targets_status: targetStatus,
                       sub_id: errorOperation,
+                      model_id: deviceTemplateId,
+                      model_name: deviceTemplateName,
                     } = rule;
                     const currentStep = [
                       deviceStatus,
@@ -123,7 +128,15 @@ export default function Index(): JSX.Element {
                         briefInfo={{ name, desc, status }}
                         operatorButton={
                           <MoreActionButton
-                            cruxData={{ id, name, status, desc, type }}
+                            cruxData={{
+                              id,
+                              name,
+                              status,
+                              desc,
+                              type,
+                              deviceTemplateId,
+                              deviceTemplateName,
+                            }}
                             refetch={() => {
                               refetch();
                             }}
@@ -135,7 +148,9 @@ export default function Index(): JSX.Element {
                             <Step currentStep={currentStep} />
                           </Flex>
                         }
-                        onClick={() => navigate(`/detail/${id}`)}
+                        onClick={() =>
+                          navigate(`/detail/${id}?menu-collapsed=true`)
+                        }
                       />
                     );
                   })}

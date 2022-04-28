@@ -15,8 +15,12 @@ interface Props extends TreeExtrasProps {
 type CustomTheme = Theme & {
   colors: {
     primary: string;
-    primarySub: string;
-    primarySub2: string;
+    brand: {
+      200: string;
+    };
+    grayAlternatives: {
+      50: string;
+    };
   };
 };
 
@@ -27,12 +31,15 @@ export default function TreeStyles({ prefixCls, extras, styles }: Props) {
 
   const globalStyles = css`
     .${treePrefixCls} {
+      ${styles?.tree}
+
       .${treeNodePrefixCls} {
         display: flex;
         align-items: center;
         min-height: 24px;
         padding: 0 4px;
-        border-radius: 4px;
+
+        /* border-radius: 4px; */
 
         .${treePrefixCls}-node-content-wrapper {
           display: flex;
@@ -86,6 +93,7 @@ export default function TreeStyles({ prefixCls, extras, styles }: Props) {
           }
 
           &.${treePrefixCls}-title {
+            margin-left: 6px;
             color: ${colors.gray[800]};
             font-size: 12px;
             line-height: 24px;
@@ -95,11 +103,13 @@ export default function TreeStyles({ prefixCls, extras, styles }: Props) {
         }
 
         &-selected {
-          & > .${treePrefixCls}-switcher {
+          background-color: ${colors.grayAlternatives[50]};
+
+          /* & > .${treePrefixCls}-switcher {
             & > svg {
               fill: ${colors.primary} !important;
             }
-          }
+          } */
 
           & > .${treePrefixCls}-node-selected {
             background-color: transparent;
@@ -107,20 +117,20 @@ export default function TreeStyles({ prefixCls, extras, styles }: Props) {
             opacity: 1;
 
             span.${treePrefixCls}-title {
-              color: ${colors.primary};
-              font-weight: 500;
+              color: ${colors.gray[800]};
+              font-weight: 600;
             }
           }
         }
 
         &:not(:last-of-type) {
-          margin-bottom: 8px;
+          margin-bottom: 1px;
         }
 
         &:hover {
-          background-color: ${colors.primarySub};
+          background-color: ${colors.grayAlternatives[50]};
 
-          & > .${treePrefixCls}-switcher {
+          /* & > .${treePrefixCls}-switcher {
             & > svg {
               fill: ${colors.primary} !important;
             }
@@ -132,9 +142,9 @@ export default function TreeStyles({ prefixCls, extras, styles }: Props) {
             }
             &.${treePrefixCls}-icon__customize svg {
               fill: ${colors.primary} !important;
-              color: ${colors.primarySub2} !important;
+              color: ${colors.brand[200]} !important;
             }
-          }
+          } */
         }
       }
     }

@@ -1,2 +1,2 @@
 # console-plugin-tenant-users
-用户管理的前端插件
+前端租户平台的「用户管理」插件

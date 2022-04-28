@@ -58,6 +58,7 @@ interface Props<D extends object> {
     headTr?: StyleProps;
     body?: StyleProps;
     bodyTr?: StyleProps;
+    bodyTd?: StyleProps;
     pagination?: StyleProps;
   };
   canExpandRow?: boolean;
@@ -211,7 +212,11 @@ function Table<D extends object>({
             prepareRow={prepareRow}
             scroll={scroll}
             isShowStripe={isShowStripe}
-            styles={{ body: styles?.body, tr: styles?.bodyTr }}
+            styles={{
+              body: styles?.body,
+              tr: styles?.bodyTr,
+              td: styles?.bodyTd,
+            }}
           />
         </ChakraTable>
         {hasPagination && (
