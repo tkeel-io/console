@@ -2,7 +2,7 @@ import { Flex, Heading, Image, Text } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 type Props = {
-  alignItems?: 'center';
+  align?: 'center';
   logo: string;
   title: ReactNode;
   slogan: ReactNode;
@@ -14,8 +14,12 @@ const defaultStyles = {
     height: '80px',
     marginBottom: '16px',
   },
-  slogan: {
-    paddingTop: '4px',
+  title: {
+    paddingBottom: '4px',
+    fontWeight: '600',
+    fontSize: '20px',
+    lineHeight: '40px',
+    color: 'gray.800',
   },
 };
 
@@ -25,19 +29,32 @@ const centerStyles = {
     height: '96px',
     marginBottom: '28px',
   },
-  slogan: {
-    paddingTop: '12px',
+  title: {
+    paddingBottom: '12px',
+    fontWeight: '500',
+    fontSize: '20px',
+    lineHeight: '28px',
+    color: 'gray.900',
   },
 };
 
-export default function LoginBrand({ alignItems, logo, title, slogan }: Props) {
-  const styles = alignItems === 'center' ? centerStyles : defaultStyles;
+export default function LoginBrand({ align, logo, title, slogan }: Props) {
+  const styles = align === 'center' ? centerStyles : defaultStyles;
 
   return (
-    <Flex direction="column" alignItems={alignItems}>
-      <Image {...styles.logo} src={logo} />
-      <Heading>{title}</Heading>
-      <Text {...styles.slogan}>{slogan}</Text>
+    <Flex direction="column" alignItems={align}>
+      {logo && <Image {...styles.logo} src={logo} />}
+      {title && <Heading {...styles.title}>{title}</Heading>}
+      {slogan && (
+        <Text
+          fontSize="14px"
+          lineHeight="20px"
+          color="gray.500"
+          textAlign={align}
+        >
+          {slogan}
+        </Text>
+      )}
     </Flex>
   );
 }

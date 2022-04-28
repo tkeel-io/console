@@ -1,4 +1,4 @@
-import { Box, Button, Center, Flex, Heading } from '@chakra-ui/react';
+import { Box, Button, Center, Flex, Heading, Text } from '@chakra-ui/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
@@ -162,22 +162,23 @@ export default function Login() {
       <Center flexDirection="column" width="42vw">
         <Box width="350px">
           <LoginBrand
-            alignItems="center"
             logo={clientConfig?.logoMark ?? ''}
-            title="欢迎使用物联网平台"
-            slogan="QingCloud IoT 物联网平台，颠覆传统物联网应用开发的新一代核心架构"
+            title={
+              <>
+                您好，欢迎进入
+                <Text display="inline" color="primary">
+                  {tenantTitle}
+                </Text>
+                ！
+              </>
+            }
+            slogan={clientConfig?.slogan ?? ''}
           />
-          <Heading
-            height="52px"
-            paddingBottom="12px"
-            fontSize="24px"
-            fontWeight="600"
-            lineHeight="40px"
-            color="gray.800"
+          <Form
+            marginBottom="0"
+            paddingTop="24px"
+            onSubmit={handleSubmit(onSubmit)}
           >
-            {tenantTitle}
-          </Heading>
-          <Form margin="0" onSubmit={handleSubmit(onSubmit)}>
             <TextField
               id="username"
               type="text"

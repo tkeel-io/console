@@ -4460,6 +4460,7 @@ __metadata:
     "@tkeel/console-icons": "workspace:^"
     "@tkeel/console-portal-base": "workspace:^"
     "@tkeel/console-request-hooks": "workspace:^"
+    "@tkeel/console-types": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
     lodash: ^4.17.21
     qs: ^6.10.3
