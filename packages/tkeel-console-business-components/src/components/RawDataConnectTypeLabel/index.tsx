@@ -18,20 +18,18 @@ export const CONNECT_TYPE_INFO_MAP = {
   },
 };
 
-type ConnectTypeInfo = {
-  title: string;
-  bg: string;
-  color: string;
-};
-
-export type ConnectType = 'upstream' | 'downstream' | 'connecting';
+export type RawDataConnectType = 'upstream' | 'downstream' | 'connecting';
 
 type Props = {
-  connectType: ConnectType;
+  connectType: RawDataConnectType;
 };
 
+export function getConnectTypeTitle(connectType: RawDataConnectType) {
+  return CONNECT_TYPE_INFO_MAP[connectType]?.title;
+}
+
 export default function RawDataConnectTypeLabel({ connectType }: Props) {
-  const connectTypeInfo = CONNECT_TYPE_INFO_MAP[connectType] as ConnectTypeInfo;
+  const connectTypeInfo = CONNECT_TYPE_INFO_MAP[connectType];
   return (
     <Box
       bg={connectTypeInfo?.bg}

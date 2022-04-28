@@ -1,11 +1,20 @@
 import { Center, Flex, HStack, Text } from '@chakra-ui/react';
 import * as dayjs from 'dayjs';
+import { Base64 } from 'js-base64';
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import { CONNECT_TYPE_INFO_MAP } from '@tkeel/console-business-components';
+import {
+  CONNECT_TYPE_INFO_MAP,
+  getConnectTypeTitle,
+  RawDataConnectType,
+} from '@tkeel/console-business-components';
 import { DateRangePicker, MoreActionSelect } from '@tkeel/console-components';
-import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
+import { usePagination } from '@tkeel/console-hooks';
+import {
+  formatDateTimeByTimestamp,
+  formatRawValue,
+} from '@tkeel/console-utils';
 
 import SearchEmpty from '@/tkeel-console-plugin-tenant-data-query/components/SearchEmpty';
 import useRawDataMutation from '@/tkeel-console-plugin-tenant-data-query/hooks/mutations/useRawDataMutation';
@@ -33,8 +42,11 @@ type RawValue = {
   mark: string;
   path: string;
   ts: string;
+  values: string;
 };
 
+// TODO eslint 提示待解决
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export default function Detail() {
   const [dataType, setDataType] = useState<DataType>(DataType.RAW_DATA);
   const isTemplateData = dataType === DataType.TEMPLATE_DATA;
@@ -67,7 +79,7 @@ export default function Detail() {
   const [isRawDataRequested, setIsRawDataRequested] = useState(false);
   const [isTemplateDataRequested, setIsTemplateDataRequested] = useState(false);
   // TODO 默认的 dataType 需要改为 TimeType.FiveMinutes
-  const [timeType, setTimeType] = useState<TimeType>(TimeType.Custom);
+  const [timeType, setTimeType] = useState<TimeType>(TimeType.FiveMinutes);
   const [startTime, setStartTime] = useState(getRecentTimestamp(5));
   const [endTime, setEndTime] = useState(dayjs().unix());
   const dateRangeLength = 5;
@@ -128,10 +140,18 @@ export default function Detail() {
   const hasRawDataKeys = rawDataCheckedKeys.length > 0;
   const canRequest = isTemplateData ? hasIdentifiers : hasRawDataKeys;
 
-  const { mutate: rawDataMutate, data: responseRawData } = useRawDataMutation({
-    onSuccess() {
+  const pagination = usePagination();
+  const { pageNum, pageSize, setTotalSize } = pagination;
+  const {
+    mutate: rawDataMutate,
+    data: responseRawData,
+    isLoading: isRawDataLoading,
+    isSuccess: isRawDataSuccess,
+  } = useRawDataMutation({
+    onSuccess(data) {
       setIsRawDataRequested(true);
       setIsTemplateDataRequested(false);
+      setTotalSize(data?.data?.total ?? 0);
     },
   });
 
@@ -146,7 +166,13 @@ export default function Detail() {
     return {
       mark: rawValue?.mark ?? '',
       topic: rawValue?.path ?? '',
-      timestamp: rawValue?.ts ?? '',
+      timestamp: rawValue?.ts
+        ? formatDateTimeByTimestamp({ timestamp: rawValue?.ts })
+        : '',
+      values: formatRawValue({
+        value: Base64.decode(rawValue?.values ?? ''),
+        type: rawDataType,
+      }),
     };
   });
 
@@ -179,9 +205,21 @@ export default function Detail() {
     return {
       start_time: getRequestStartTime(timeTypeValue || timeType),
       end_time: dayjs().unix(),
-      page_size: 1_000_000,
-      page_num: 1,
     };
+  };
+
+  const handleRawDataMutate = (timeTypeValue?: TimeType) => {
+    rawDataMutate({
+      url: `core/v1/rawdata/${id}`,
+      data: {
+        ...getBaseRequestData(timeTypeValue),
+        page_size: pageSize,
+        page_num: pageNum,
+        is_descending: true,
+        path: 'rawData',
+        filters: { mark: rawDataCheckedKeys.join(',') },
+      },
+    });
   };
 
   const handleTelemetryDataMutate = (timeTypeValue?: TimeType) => {
@@ -189,20 +227,9 @@ export default function Detail() {
       url: `core/v1/ts/${id}`,
       data: {
         ...getBaseRequestData(timeTypeValue),
+        page_size: 100_000,
+        page_num: 1,
         identifiers: identifiers.join(','),
-      },
-    });
-  };
-
-  const handleRawDataMutate = (timeTypeValue?: TimeType) => {
-    // TODO id 替换为真实的设备id
-    rawDataMutate({
-      url: 'core/v1/rawdata/iotd-3cab8729-de42-4e9c-9165-1382de4a43b2',
-      data: {
-        ...getBaseRequestData(timeTypeValue),
-        is_descending: true,
-        path: 'rawData',
-        filters: { mark: rawDataCheckedKeys.join(',') },
       },
     });
   };
@@ -230,25 +257,41 @@ export default function Detail() {
       )
     : originDataItems;
 
-  const exportData = originDataItems.map((dataItem) => {
-    const valueObj = {};
-    identifiers.forEach((key) => {
-      const nameKey = telemetry[key].name ?? '';
-      valueObj[nameKey] = dataItem.value[key];
+  let exportData: {
+    [key: string]: unknown;
+  }[] = [];
 
-      if (!valueObj[nameKey]) {
-        valueObj[nameKey] = '-';
-      }
+  if (isRawDataRequested) {
+    exportData =
+      rawDataList?.map((rawData) => {
+        return {
+          连接方式: getConnectTypeTitle(rawData.mark as RawDataConnectType),
+          TOPIC: rawData.topic,
+          时间: rawData.timestamp,
+          values: rawData.values,
+        };
+      }) || [];
+  } else if (isTemplateDataRequested) {
+    exportData = originDataItems.map((dataItem) => {
+      const valueObj = {};
+      identifiers.forEach((key) => {
+        const nameKey = telemetry[key].name ?? '';
+        valueObj[nameKey] = dataItem.value[key];
+
+        if (!valueObj[nameKey]) {
+          valueObj[nameKey] = '-';
+        }
+      });
+
+      return {
+        time: formatDateTimeByTimestamp({
+          timestamp: dataItem.time,
+          template: 'YYYY/MM/DD HH:mm:ss',
+        }),
+        ...valueObj,
+      };
     });
-
-    return {
-      time: formatDateTimeByTimestamp({
-        timestamp: dataItem.time,
-        template: 'YYYY/MM/DD HH:mm:ss',
-      }),
-      ...valueObj,
-    };
-  });
+  }
 
   const tableTelemetry = {};
   identifiers.forEach((key) => {
@@ -304,10 +347,21 @@ export default function Detail() {
     );
   }, [telemetry, templateDataCheckedKeys]);
 
+  useEffect(() => {
+    if (isRawDataRequested) {
+      handleRawDataMutate();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageSize, pageNum]);
+
   const rawDataTypeOptions = [
     { label: '文本', value: 'text' },
     { label: '十六进制', value: 'hex' },
   ];
+
+  const isExportButtonDisabled =
+    (isRawDataRequested && !isRawDataSuccess) ||
+    (isTemplateDataRequested && !isTelemetryDataSuccess);
   return (
     <Flex height="100%" justifyContent="space-between">
       <Flex flexDirection="column" width="360px">
@@ -392,11 +446,11 @@ export default function Detail() {
                 />
                 <RefreshButton
                   onClick={() => handleRequestData()}
-                  disabled={!hasIdentifiers}
+                  disabled={!canRequest}
                 />
                 <ExportButton
                   exportData={exportData}
-                  disabled={!isTelemetryDataSuccess}
+                  disabled={isExportButtonDisabled}
                 />
               </HStack>
             </Flex>
@@ -440,7 +494,12 @@ export default function Detail() {
                   }}
                 />
               ) : (
-                <RawDataTable rawDataList={rawDataList || []} />
+                <RawDataTable
+                  rawDataType={rawDataType}
+                  rawDataList={rawDataList || []}
+                  pagination={pagination}
+                  isLoading={isRawDataLoading}
+                />
               )}
             </Flex>
           </>

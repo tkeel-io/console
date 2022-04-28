@@ -9,6 +9,7 @@ import {
   Spacer,
   Text,
 } from '@chakra-ui/react';
+import { Base64 } from 'js-base64';
 import { isEmpty, throttle } from 'lodash';
 import { useEffect, useState } from 'react';
 
@@ -79,7 +80,7 @@ function RawDataPanel({ data, online, deviceId }: Props) {
           height="calc(100vh + 10px)"
         >
           {rawDataList.map((r) => {
-            const value = r?.values ?? '';
+            const value = Base64.decode(r?.values ?? '');
             const isJsonStr = selected === 'text' && hasJsonStructure(value);
             const language = isJsonStr ? 'json' : 'text';
             return (

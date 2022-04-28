@@ -6,7 +6,6 @@ import { DownloadFilledIcon } from '@tkeel/console-icons';
 
 type Props = {
   exportData: {
-    time: string;
     [key: string]: unknown;
   }[];
   disabled: boolean;

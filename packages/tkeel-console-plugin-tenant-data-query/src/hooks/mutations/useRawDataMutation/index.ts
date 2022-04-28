@@ -2,7 +2,7 @@ import { useMutation } from '@tkeel/console-hooks';
 import { RequestResult } from '@tkeel/console-utils';
 
 export interface DataItem {
-  timestamp: number;
+  timestamp: string;
   id: string;
   entity_id: string;
   path: 'rawData';

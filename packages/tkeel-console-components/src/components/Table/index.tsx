@@ -189,51 +189,59 @@ function Table<D extends object>({
   }, [sortBy, onSort]);
 
   const render = () => {
-    if (isLoading) {
-      return (
-        <Loading styles={{ wrapper: { height: '100%', ...styles?.loading } }} />
-      );
-    }
-
-    if (data?.length === 0) {
-      return (
-        empty || (
-          <Empty styles={{ wrapper: { height: '100%', ...styles?.empty } }} />
-        )
-      );
-    }
-
     return (
       <>
-        <ChakraTable
-          {...getTableProps()}
-          flex="1"
-          overflow="hidden"
-          display="flex"
-          flexDirection="column"
-          {...styles?.table}
-        >
-          <Head
-            headerGroups={headerGroups}
-            fixHead={!!scroll?.y}
-            canSort={!!onSort}
-            isShowStripe={isShowStripe}
-            styles={{ head: styles?.head, tr: styles?.headTr }}
-          />
-          <Body
-            page={rows}
-            getTableBodyProps={getTableBodyProps}
-            prepareRow={prepareRow}
-            scroll={scroll}
-            isShowStripe={isShowStripe}
-            expandRow={expandRow}
-            styles={{
-              body: styles?.body,
-              tr: styles?.bodyTr,
-              td: styles?.bodyTd,
-            }}
-          />
-        </ChakraTable>
+        {(() => {
+          if (isLoading) {
+            return (
+              <Loading
+                styles={{ wrapper: { height: '100%', ...styles?.loading } }}
+              />
+            );
+          }
+
+          if (data?.length === 0) {
+            return (
+              empty || (
+                <Empty
+                  styles={{ wrapper: { height: '100%', ...styles?.empty } }}
+                />
+              )
+            );
+          }
+
+          return (
+            <ChakraTable
+              {...getTableProps()}
+              flex="1"
+              overflow="hidden"
+              display="flex"
+              flexDirection="column"
+              {...styles?.table}
+            >
+              <Head
+                headerGroups={headerGroups}
+                fixHead={!!scroll?.y}
+                canSort={!!onSort}
+                isShowStripe={isShowStripe}
+                styles={{ head: styles?.head, tr: styles?.headTr }}
+              />
+              <Body
+                page={rows}
+                getTableBodyProps={getTableBodyProps}
+                prepareRow={prepareRow}
+                scroll={scroll}
+                isShowStripe={isShowStripe}
+                expandRow={expandRow}
+                styles={{
+                  body: styles?.body,
+                  tr: styles?.bodyTr,
+                  td: styles?.bodyTd,
+                }}
+              />
+            </ChakraTable>
+          );
+        })()}
         {hasPagination && (
           <Pagination
             {...paginationProps}

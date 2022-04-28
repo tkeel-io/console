@@ -1,5 +1,3 @@
-import { Base64 } from 'js-base64';
-
 export function hasJsonStructure(str: string) {
   try {
     const result = JSON.parse(str) as string;
@@ -18,27 +16,26 @@ export const formatRawValue = ({
   value: string;
   type: string;
 }) => {
-  const rawValue = Base64.decode(value);
   if (type === 'text') {
-    if (hasJsonStructure(rawValue)) {
+    if (hasJsonStructure(value)) {
       try {
-        return JSON.stringify(JSON.parse(rawValue), null, 2);
+        return JSON.stringify(JSON.parse(value), null, 2);
       } catch {
-        return rawValue;
+        return value;
       }
     }
-    return rawValue;
+    return value;
   }
 
   if (type === 'hex') {
     let val = '';
-    const { length } = rawValue;
+    const { length } = value;
     if (length === 0) return '';
     for (let i = 0; i < length; i += 1) {
-      val += rawValue.codePointAt(i)?.toString(16) ?? '';
+      val += value.codePointAt(i)?.toString(16) ?? '';
     }
     return val;
   }
 
-  return rawValue;
+  return value;
 };
