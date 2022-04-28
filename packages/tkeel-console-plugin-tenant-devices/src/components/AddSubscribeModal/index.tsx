@@ -71,8 +71,6 @@ function AddSubscribeModal({
       'subscribe_ids',
       defaultSelectValue.map((v) => v.value)
     );
-    // eslint-disable-next-line no-console
-    console.log('defaultSelectValue', defaultSelectValue);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultSelectValue]);
 
