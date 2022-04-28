@@ -1,5 +1,6 @@
 import { Button } from '@chakra-ui/react';
-import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
 
 import { Form } from '@tkeel/console-components';
 
@@ -8,6 +9,9 @@ import useTokenMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useT
 import Brand from '../Brand';
 
 export default function ThirdPartyAuthForm() {
+  const { state } = useLocation();
+  const isAutoLogin = (state as { isAutoLogin: boolean })?.isAutoLogin ?? false;
+
   const pathParams = useParams();
   const { tenantId = '' } = pathParams;
 
@@ -18,9 +22,14 @@ export default function ThirdPartyAuthForm() {
     },
   });
 
+  useEffect(() => {
+    if (isAutoLogin) {
+      mutate({});
+    }
+  }, [isAutoLogin, mutate]);
+
   return (
     <Form
-      marginBottom="0"
       onSubmit={(event) => {
         mutate({});
         event.preventDefault();

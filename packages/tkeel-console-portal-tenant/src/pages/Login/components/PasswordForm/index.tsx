@@ -99,7 +99,7 @@ export default function PasswordForm() {
   };
 
   return (
-    <Form marginBottom="0" onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <Brand styles={{ root: { paddingBottom: '24px' } }} />
       <TextField
         id="username"
