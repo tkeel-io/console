@@ -1,5 +1,5 @@
-import { Box, StyleProps, Tbody, Td, Text, Tr } from '@chakra-ui/react';
-import { ReactNode } from 'react';
+import { StyleProps, Tbody, Td, Text, Tr } from '@chakra-ui/react';
+import { Fragment, ReactNode } from 'react';
 import { Row, TableBodyPropGetter, TableBodyProps } from 'react-table';
 
 type Props<D extends object> = {
@@ -57,7 +57,7 @@ function Body<D extends object>({
 
         const { id, getRowProps, cells, isExpanded, original } = row;
         return (
-          <Box role="row" key={id}>
+          <Fragment key={id}>
             <Tr
               backgroundColor={backgroundColor}
               _hover={isShowStripe ? {} : { backgroundColor: 'gray.50' }}
@@ -95,7 +95,7 @@ function Body<D extends object>({
             </Tr>
             {isExpanded &&
               (original as { expandElement: ReactNode }).expandElement}
-          </Box>
+          </Fragment>
         );
       })}
     </Tbody>
