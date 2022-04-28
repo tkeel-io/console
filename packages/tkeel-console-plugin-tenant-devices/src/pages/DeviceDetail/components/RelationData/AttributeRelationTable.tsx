@@ -20,15 +20,24 @@ import AddRelationButton from '../AddRelationButton';
 import DeleteRelationButton from '../DeleteRelationButton';
 import UpdateRelationButton from '../UpdateRelationButton';
 
-function getNameByDescription({ description }: { description: string }) {
+function getNameByDescription({
+  description,
+  expression,
+}: {
+  description: string;
+  expression: string;
+}) {
   if (description) {
     const [device, attribute] = description.split(',');
-    const [deviceId, deviceName] = device.split('=');
-    const [attributeId, attributeName] = attribute.split('=');
+    const [deviceId, deviceName] = (device && device.split('=')) || [];
+    const [attributeId, attributeName] =
+      (attribute && attribute.split('=')) || [];
+    const defaultAttributeId =
+      (expression && expression.split('attributes.')[1]) || '';
     return {
       deviceId,
       deviceName,
-      attributeId,
+      attributeId: attributeId || defaultAttributeId,
       attributeName,
     };
   }
@@ -57,13 +66,12 @@ export default function AttributeRelationTable({
     .map((item) => {
       const { id, name } = item;
       const relationItem = attributeRelationList.find(
-        (v) => v.path === `attribute.${id}`
+        (v) => v.path === `attributes.${id}`
       );
-      // const expression = relationItem?.expression ?? '';
+      const expression = relationItem?.expression ?? '';
       const description = relationItem?.description ?? '';
       const { deviceId, deviceName, attributeId, attributeName } =
-        getNameByDescription({ description });
-
+        getNameByDescription({ description, expression });
       return {
         id,
         name,
@@ -99,15 +107,15 @@ export default function AttributeRelationTable({
         <MoreAction
           buttons={[
             <UpdateRelationButton
-              type="attribute"
+              type="attributes"
               key="update"
               uid={uid}
-              deviceObject={deviceObject}
+              // deviceObject={deviceObject}
               configInfo={original}
               refetch={refetch}
             />,
             <DeleteRelationButton
-              type="attribute"
+              type="attributes"
               key="delete"
               uid={uid}
               path={original?.id}
@@ -175,7 +183,7 @@ export default function AttributeRelationTable({
           }
           return (
             <AddRelationButton
-              type="attribute"
+              type="attributes"
               deviceObject={deviceObject}
               configInfo={original}
               refetch={refetch}
