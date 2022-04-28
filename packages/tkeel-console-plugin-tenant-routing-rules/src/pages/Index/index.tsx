@@ -148,7 +148,9 @@ export default function Index(): JSX.Element {
                             <Step currentStep={currentStep} />
                           </Flex>
                         }
-                        onClick={() => navigate(`/detail/${id}`)}
+                        onClick={() =>
+                          navigate(`/detail/${id}?menu-collapsed=true`)
+                        }
                       />
                     );
                   })}

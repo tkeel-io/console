@@ -75,7 +75,7 @@ function PluginList({
                   briefPluginInfo={briefPluginInfo}
                   onClick={() => {
                     navigate(
-                      `/detail?repo=${repo}&name=${name}&version=${version}`
+                      `/detail?repo=${repo}&name=${name}&version=${version}&menu-collapsed=true`
                     );
                   }}
                   operatorButton={

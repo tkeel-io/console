@@ -178,7 +178,7 @@ export default function TelemetryData({
                       colorScheme="gray"
                       icon={<SmcFilledIcon size="14px" color="white" />}
                     >
-                      同步模版
+                      同步模板
                     </IconButton>
                   }
                   key="more"

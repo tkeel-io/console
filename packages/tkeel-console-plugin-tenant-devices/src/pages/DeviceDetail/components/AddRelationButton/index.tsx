@@ -15,7 +15,7 @@ import {
 import DeviceRelationModal from '../DeviceRelationModal';
 
 interface Props {
-  type: 'telemetry' | 'attribute';
+  type: 'telemetry' | 'attributes';
   deviceObject: DeviceObject;
   configInfo: TelemetryRelationItem | AttributeRelationItem;
   refetch?: () => void;

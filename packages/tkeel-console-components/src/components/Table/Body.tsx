@@ -1,4 +1,5 @@
 import { StyleProps, Tbody, Td, Text, Tr } from '@chakra-ui/react';
+import { Fragment, ReactNode } from 'react';
 import { Row, TableBodyPropGetter, TableBodyProps } from 'react-table';
 
 type Props<D extends object> = {
@@ -13,6 +14,7 @@ type Props<D extends object> = {
       }
     | undefined;
   isShowStripe: boolean;
+  expandRow?: (data: D) => ReactNode;
   styles?: {
     body?: StyleProps;
     tr?: StyleProps;
@@ -31,6 +33,7 @@ function Body<D extends object>({
   prepareRow,
   scroll,
   isShowStripe,
+  expandRow,
   styles,
 }: Props<D>) {
   const bodyStyle = {};
@@ -53,43 +56,54 @@ function Body<D extends object>({
             borderColor = defaultBorderColor;
           }
         }
+
+        const { id, getRowProps, cells, isExpanded, original } = row;
+
         return (
-          // eslint-disable-next-line react/jsx-key
-          <Tr
-            backgroundColor={backgroundColor}
-            _hover={isShowStripe ? {} : { backgroundColor: 'gray.50' }}
-            borderBottom="1px"
-            borderColor={borderColor}
-            {...row.getRowProps()}
-            {...styles?.tr}
-          >
-            {row.cells.map((cell) => {
-              const columnCell = cell.column.Cell as { name: string };
-              const funcName = columnCell.name;
-              return (
-                // eslint-disable-next-line react/jsx-key
-                <Td
-                  display="flex"
-                  alignItems="center"
-                  height="40px"
-                  padding="0 20px"
-                  color="gray.700"
-                  fontSize="12px"
-                  border="none"
-                  {...styles?.td}
-                  {...cell.getCellProps()}
-                >
-                  {funcName === 'defaultRenderer' ? (
-                    <Text title={String(cell.value)} isTruncated>
-                      {cell.value}
-                    </Text>
-                  ) : (
-                    cell.render('Cell')
-                  )}
+          <Fragment key={id}>
+            <Tr
+              backgroundColor={backgroundColor}
+              _hover={isShowStripe ? {} : { backgroundColor: 'gray.50' }}
+              borderBottom="1px"
+              borderColor={borderColor}
+              {...getRowProps()}
+              {...styles?.tr}
+            >
+              {cells.map((cell) => {
+                const columnCell = cell.column.Cell as { name: string };
+                const funcName = columnCell.name;
+                return (
+                  // eslint-disable-next-line react/jsx-key
+                  <Td
+                    display="flex"
+                    alignItems="center"
+                    height="40px"
+                    padding="0 20px"
+                    color="gray.700"
+                    fontSize="12px"
+                    border="none"
+                    {...cell.getCellProps()}
+                    {...styles?.td}
+                  >
+                    {funcName === 'defaultRenderer' ? (
+                      <Text title={String(cell.value)} isTruncated>
+                        {cell.value}
+                      </Text>
+                    ) : (
+                      cell.render('Cell')
+                    )}
+                  </Td>
+                );
+              })}
+            </Tr>
+            {!!expandRow && isExpanded && (
+              <Tr>
+                <Td padding="0" border="none">
+                  {expandRow(original)}
                 </Td>
-              );
-            })}
-          </Tr>
+              </Tr>
+            )}
+          </Fragment>
         );
       })}
     </Tbody>

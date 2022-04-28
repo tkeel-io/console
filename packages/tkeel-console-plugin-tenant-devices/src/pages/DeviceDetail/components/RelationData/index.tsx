@@ -31,7 +31,7 @@ export default function RelationData({ deviceObject }: Props) {
   const telemetryRelationList =
     expressionList?.filter((v) => v.path.includes('telemetry')) ?? [];
   const attributeRelationList =
-    expressionList?.filter((v) => v.path.includes('attribute')) ?? [];
+    expressionList?.filter((v) => v.path.includes('attributes')) ?? [];
   const mapTabs = [
     {
       label: '遥测关系',
