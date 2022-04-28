@@ -82,7 +82,7 @@ export default function AddTemplateDevicesModal({
           fontWeight="600"
           lineHeight="24px"
         >
-          设备模版：{templateName}
+          设备模板：{templateName}
         </Text>
         <SearchInput
           onSearch={(value: string) => setKeywords(value)}
