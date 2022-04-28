@@ -3,11 +3,13 @@ import { mapValues, values } from 'lodash';
 import { useState } from 'react';
 
 import { CustomTab, CustomTabList } from '@tkeel/console-components';
+import { CommandItem } from '@tkeel/console-types';
 
 import { DeviceObject } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 import AttributesData from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/AttributesData';
 import ConnectionInfo from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/ConnectionInfo';
 import RawData from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/RawData';
+import RelationData from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/RelationData';
 import ServiceCommand from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/ServiceCommand';
 import TelemetryData from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/TelemetryData';
 
@@ -102,11 +104,30 @@ function DeviceDetailRightPanel({
           // eslint-disable-next-line no-underscore-dangle
           online={connectInfo?._online ?? false}
           commandFields={values(
-            mapValues(commandFields, (val: object, key) => {
+            mapValues(commandFields, (val: CommandItem, key) => {
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-return
               return { ...val, id: key };
             })
           )}
           commandValues={commandValues}
+        />
+      ),
+    },
+    {
+      label: '关系映射',
+      key: 'relation',
+      isVisible: !!basicInfo?.templateId || basicInfo?.selfLearn,
+      component: (
+        <RelationData
+          deviceObject={deviceObject}
+          /* basicInfo={basicInfo}
+          deviceId={id}
+          refetch={refetch}
+          commandFields={values(
+            mapValues(commandFields, (val: object, key) => {
+              return { ...val, id: key };
+            })
+          )} */
         />
       ),
     },

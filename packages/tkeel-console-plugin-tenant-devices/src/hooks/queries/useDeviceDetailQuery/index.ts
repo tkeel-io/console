@@ -8,11 +8,22 @@ interface ApiData {
   deviceObject?: DeviceObject;
 }
 
-export default function useDeviceDetailQuery({ id }: { id: string }) {
+interface RequestData {
+  id: string;
+  enabled?: boolean;
+}
+
+export default function useDeviceDetailQuery({
+  id,
+  enabled = true,
+}: RequestData) {
   const url = `/tkeel-device/v1/devices/${id}`;
   const { data, ...rest } = useQuery<ApiData>({
     url,
     method,
+    reactQueryOptions: {
+      enabled,
+    },
   });
   const deviceObject = data?.deviceObject;
 
