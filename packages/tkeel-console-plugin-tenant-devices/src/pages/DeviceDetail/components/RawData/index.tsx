@@ -124,9 +124,11 @@ function RawDataPanel({ data, online, deviceId }: Props) {
                         flex="1"
                         textAlign="right"
                       >
-                        {formatDateTimeByTimestamp({
-                          timestamp: `${Math.floor((r?.ts || 0) / 1e6)}`,
-                        })}
+                        {r?.ts
+                          ? formatDateTimeByTimestamp({
+                              timestamp: r?.ts,
+                            })
+                          : ''}
                       </Text>
                     </Flex>
                     <AccordionIcon />
