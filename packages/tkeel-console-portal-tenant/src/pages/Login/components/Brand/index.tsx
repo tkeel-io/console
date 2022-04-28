@@ -1,4 +1,4 @@
-import { Text } from '@chakra-ui/react';
+import { StyleProps, Text } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 
 import { LoginBrand } from '@tkeel/console-business-components';
@@ -8,9 +8,12 @@ import useTenantExactQuery from '@/tkeel-console-portal-tenant/hooks/queries/use
 
 type Props = {
   align?: 'center';
+  styles?: {
+    root?: StyleProps;
+  };
 };
 
-export default function Brand({ align }: Props) {
+export default function Brand({ align, styles }: Props) {
   const { config } = usePortalTenantConfigQuery();
   const clientConfig = config?.client;
 
@@ -37,6 +40,7 @@ export default function Brand({ align }: Props) {
         </>
       }
       slogan={clientConfig?.slogan ?? ''}
+      styles={styles}
     />
   );
 }

@@ -30,26 +30,26 @@ type FormValues = {
   password: string;
 };
 
+const formLabelStyle = {
+  marginBottom: '5px',
+  fontSize: '14px',
+  lineHeight: '20px',
+  color: 'gray.700',
+};
+
+const inputStyle = {
+  height: '50px',
+  padding: '16px 20px',
+  borderWidth: '1px',
+  borderStyle: 'solid',
+  borderColor: 'grayAlternatives.50',
+  borderRadius: '4px',
+  backgroundColor: 'white',
+  fontSize: '14px',
+  lineHeight: '20px',
+};
+
 export default function PasswordForm() {
-  const formLabelStyle = {
-    marginBottom: '5px',
-    fontSize: '14px',
-    lineHeight: '20px',
-    color: 'gray.700',
-  };
-
-  const inputStyle = {
-    height: '50px',
-    padding: '16px 20px',
-    borderWidth: '1px',
-    borderStyle: 'solid',
-    borderColor: 'grayAlternatives.50',
-    borderRadius: '4px',
-    backgroundColor: 'white',
-    fontSize: '14px',
-    lineHeight: '20px',
-  };
-
   const {
     register,
     handleSubmit,
@@ -100,7 +100,7 @@ export default function PasswordForm() {
 
   return (
     <Form marginBottom="0" onSubmit={handleSubmit(onSubmit)}>
-      <Brand />
+      <Brand styles={{ root: { paddingBottom: '24px' } }} />
       <TextField
         id="username"
         type="text"
@@ -108,7 +108,7 @@ export default function PasswordForm() {
         defaultValue={initialUsername || mockData.username}
         placeholder="请输入您的账号"
         error={errors.username}
-        formControlStyle={{ marginTop: '24px', marginBottom: '20px' }}
+        formControlStyle={{ marginBottom: '20px' }}
         formLabelStyle={formLabelStyle}
         inputStyle={inputStyle}
         registerReturn={register('username', schemas.username.registerOptions)}

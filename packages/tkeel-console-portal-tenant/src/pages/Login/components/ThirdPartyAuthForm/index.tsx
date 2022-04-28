@@ -26,7 +26,7 @@ export default function ThirdPartyAuthForm() {
         event.preventDefault();
       }}
     >
-      <Brand align="center" />
+      <Brand align="center" styles={{ root: { paddingBottom: '32px' } }} />
       <Button
         type="submit"
         colorScheme="brand"

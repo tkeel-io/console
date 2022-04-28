@@ -1,4 +1,4 @@
-import { Flex, Heading, Image, Text } from '@chakra-ui/react';
+import { Flex, Heading, Image, StyleProps, Text } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 type Props = {
@@ -6,6 +6,9 @@ type Props = {
   logo: string;
   title: ReactNode;
   slogan: ReactNode;
+  styles?: {
+    root?: StyleProps;
+  };
 };
 
 const defaultStyles = {
@@ -38,13 +41,19 @@ const centerStyles = {
   },
 };
 
-export default function LoginBrand({ align, logo, title, slogan }: Props) {
-  const styles = align === 'center' ? centerStyles : defaultStyles;
+export default function LoginBrand({
+  align,
+  logo,
+  title,
+  slogan,
+  styles,
+}: Props) {
+  const presetStyles = align === 'center' ? centerStyles : defaultStyles;
 
   return (
-    <Flex direction="column" alignItems={align}>
-      {logo && <Image {...styles.logo} src={logo} />}
-      {title && <Heading {...styles.title}>{title}</Heading>}
+    <Flex direction="column" alignItems={align} {...styles?.root}>
+      {logo && <Image {...presetStyles.logo} src={logo} />}
+      {title && <Heading {...presetStyles.title}>{title}</Heading>}
       {slogan && (
         <Text
           fontSize="14px"

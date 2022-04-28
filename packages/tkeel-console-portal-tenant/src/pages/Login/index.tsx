@@ -4,6 +4,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { usePortalTenantConfigQuery } from '@tkeel/console-request-hooks';
 import { jumpToTenantAuthTenantPage } from '@tkeel/console-utils';
 
+import useTenantExactQuery from '@/tkeel-console-portal-tenant/hooks/queries/useTenantExactQuery';
+
 import PasswordForm from './components/PasswordForm';
 import ThirdPartyAuthForm from './components/ThirdPartyAuthForm';
 
@@ -22,6 +24,10 @@ export default function Login() {
 
   const pathParams = useParams();
   const { tenantId = '' } = pathParams;
+  const { data: tenantInfo } = useTenantExactQuery({
+    enabled: !!tenantId,
+    params: { tenant_id: tenantId },
+  });
 
   const navigate = useNavigate();
 
@@ -71,8 +77,11 @@ export default function Login() {
       </Box>
       <Center flexDirection="column" width="42vw">
         <Box width="350px">
-          <PasswordForm />
-          <ThirdPartyAuthForm />
+          {tenantInfo?.auth_type === 'internal' ? (
+            <PasswordForm />
+          ) : (
+            <ThirdPartyAuthForm />
+          )}
           <Button
             type="button"
             variant="outline"
