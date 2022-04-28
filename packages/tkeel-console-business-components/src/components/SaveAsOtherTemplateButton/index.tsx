@@ -27,7 +27,7 @@ export default function SaveAsOtherTemplateButton({
     onSuccess: () => {
       onClose();
       refetch();
-      toast.success('另存为模版成功');
+      toast.success('另存为模板成功');
     },
   });
   const handleConfirm = (formValues: TemplateBasicField) => {
@@ -41,20 +41,20 @@ export default function SaveAsOtherTemplateButton({
           colorScheme="gray"
           onClick={onOpen}
         >
-          保存为模版
+          保存为模板
         </IconButton>
       ) : (
         <MoreActionButton
           icon={
             <FloppyDiskFilledIcon size="12px" color="grayAlternatives.300" />
           }
-          title="另存为模版"
+          title="另存为模板"
           onClick={onOpen}
         />
       )}
       <CreateTemplateBasicModal
         isOpen={isOpen}
-        title="另存为模版"
+        title="另存为模板"
         isConfirmButtonLoading={isLoading}
         onClose={onClose}
         onConfirm={handleConfirm}

@@ -17,7 +17,7 @@ export default function SaveAsSelfTemplateButton({ id }: Props) {
     id,
     onSuccess: () => {
       onClose();
-      toast.success('同步模版成功');
+      toast.success('同步模板成功');
     },
   });
   const handleConfirm = () => {
@@ -27,14 +27,14 @@ export default function SaveAsSelfTemplateButton({ id }: Props) {
     <>
       <MoreActionButton
         icon={<ResourceFilledIcon size="12px" color="grayAlternatives.300" />}
-        title="同步到模版"
+        title="同步到模板"
         onClick={onOpen}
       />
       <Alert
         isOpen={isOpen}
         icon="warning"
         iconPosition="left"
-        title="您确定要同步到模版吗？"
+        title="您确定要同步到模板吗？"
         isConfirmButtonLoading={isLoading}
         onClose={onClose}
         onConfirm={handleConfirm}
