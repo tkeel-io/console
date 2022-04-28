@@ -7,7 +7,8 @@ import { AttributeItem, TelemetryItem } from '@tkeel/console-types';
 import { plugin } from '@tkeel/console-utils';
 
 import useUpdateDeviceRelation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useUpdateDeviceRelation';
-import { DeviceObject } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
+import useDeviceDetailQuery from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery';
+// import { DeviceObject } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 import {
   AttributeRelationItem,
   TelemetryRelationItem,
@@ -16,8 +17,8 @@ import {
 import DeviceRelationModal from '../DeviceRelationModal';
 
 interface Props {
-  deviceObject: DeviceObject;
-  type: 'telemetry' | 'attribute';
+  // deviceObject: DeviceObject;
+  type: 'telemetry' | 'attributes';
   uid: string;
   configInfo: TelemetryRelationItem | AttributeRelationItem;
   refetch?: () => void;
@@ -27,8 +28,8 @@ export default function UpdateRelationButton({
   uid,
   configInfo,
   refetch = () => {},
-  deviceObject,
-}: Props) {
+}: // deviceObject,
+Props) {
   const { onOpen, isOpen, onClose } = useDisclosure();
   const toast = plugin.getPortalToast();
   const { mutate, isLoading } = useUpdateDeviceRelation({
@@ -58,16 +59,21 @@ export default function UpdateRelationButton({
     };
     mutate({ data: { expressions: [expressionItem] } });
   };
-  const basicInfo = deviceObject.properties?.basicInfo;
+  const deviceId = configInfo?.deviceId ?? '';
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const configId = configInfo[`${type}Id`];
+  const { deviceObject } = useDeviceDetailQuery({ id: deviceId });
+  const basicInfo = deviceObject?.properties?.basicInfo;
   const parentType = basicInfo?.parentName ? 'group' : 'template';
   const parentId =
-    parentType === 'group' ? basicInfo?.parentId : basicInfo?.templateId;
+    (parentType === 'group' ? basicInfo?.parentId : basicInfo?.templateId) ||
+    '';
   const defaultValues = {
     parentType,
     parentId,
-    deviceId: configInfo?.deviceId ?? '',
+    deviceId,
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    configId: configInfo[`${type}Id`],
+    configId,
   };
   return (
     <>
