@@ -14,6 +14,7 @@ export interface RouteItemData {
   targets_status: number;
   sub_id: number | unknown;
   model_id: string;
+  model_name: string;
 }
 
 export interface ApiData {

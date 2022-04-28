@@ -45,11 +45,20 @@ export default function BaseRulesModal({
   const [routeType, setRouteType] = useState(routeVal);
   const typeIndex = routeTypeArr.indexOf(routeType) + 1;
 
-  const { templates } = useTemplatesQuery({ enabled: routeType === 'time' });
-  const templateOptions = templates.map((val: TemplateItem) => {
+  const { templates } = useTemplatesQuery({
+    enabled: routeType === 'time' && buttonType === 'createButton',
+  });
+  const requestOptions = templates.map((val: TemplateItem) => {
     return { value: val.id, label: val.properties.basicInfo.name };
   });
-
+  const defaultValuesOptions = [
+    {
+      value: defaultValues?.deviceTemplateId,
+      label: defaultValues?.deviceTemplateName,
+    },
+  ];
+  const templateOptions =
+    buttonType === 'editButton' ? defaultValuesOptions : requestOptions;
   const {
     register,
     formState: { errors },
@@ -163,12 +172,13 @@ export default function BaseRulesModal({
         <SelectField<FormValues>
           id="deviceTemplate"
           name="deviceTemplate"
-          label="使用设备模版"
+          label="使用设备模板"
+          placeholder="请选择"
           disabled={buttonType === 'editButton'}
-          defaultValue={defaultValues?.deviceTemplateId}
           options={templateOptions}
-          control={control}
+          defaultValue={defaultValues?.deviceTemplateId}
           error={errors.deviceTemplate}
+          control={control}
           rules={{
             required: { value: true, message: '设备模版为空' },
           }}

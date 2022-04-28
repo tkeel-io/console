@@ -115,6 +115,7 @@ export default function Index(): JSX.Element {
                       targets_status: targetStatus,
                       sub_id: errorOperation,
                       model_id: deviceTemplateId,
+                      model_name: deviceTemplateName,
                     } = rule;
                     const currentStep = [
                       deviceStatus,
@@ -134,6 +135,7 @@ export default function Index(): JSX.Element {
                               desc,
                               type,
                               deviceTemplateId,
+                              deviceTemplateName,
                             }}
                             refetch={() => {
                               refetch();
@@ -146,7 +148,9 @@ export default function Index(): JSX.Element {
                             <Step currentStep={currentStep} />
                           </Flex>
                         }
-                        onClick={() => navigate(`/detail/${id}`)}
+                        onClick={() =>
+                          navigate(`/detail/${id}?menu-collapsed=true`)
+                        }
                       />
                     );
                   })}

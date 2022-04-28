@@ -13,7 +13,7 @@ type Props = {
 
 export default function SearchEmpty({
   styles = {},
-  title = '支持关键字搜索，支持设备分组、设备模版搜索',
+  title = '支持关键字搜索，支持设备分组、设备模板搜索',
 }: Props) {
   return (
     <Flex

@@ -19,7 +19,7 @@ const IndeterminateCheckbox = forwardRef(
     useEffect(() => {
       (
         resolvedRef as MutableRefObject<HTMLInputElement>
-      ).current.indeterminate = Boolean(indeterminate);
+      ).current.indeterminate = !!indeterminate;
     }, [resolvedRef, indeterminate]);
 
     return (
