@@ -3,6 +3,7 @@ import * as dayjs from 'dayjs';
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
+import { CONNECT_TYPE_INFO_MAP } from '@tkeel/console-business-components';
 import { DateRangePicker, MoreActionSelect } from '@tkeel/console-components';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
@@ -26,7 +27,7 @@ import DeviceDetailCard from './components/DeviceDetailCard';
 import PropertiesConditions, {
   DataType,
 } from './components/PropertiesConditions';
-import RawDataTable, { CONNECT_TYPE } from './components/RawDataTable';
+import RawDataTable from './components/RawDataTable';
 
 type RawValue = {
   mark: string;
@@ -48,10 +49,11 @@ export default function Detail() {
   const [rawDataCheckboxStatus, setRawDataCheckboxStatus] = useState(
     CheckboxStatus.CHECKED
   );
+
   const rawDataCheckboxItems = useMemo(
     () =>
-      Object.entries(CONNECT_TYPE).map(([key, value]) => ({
-        label: `${value.label}信息`,
+      Object.entries(CONNECT_TYPE_INFO_MAP).map(([key, value]) => ({
+        label: `${value.title}信息`,
         value: key,
       })),
     []
@@ -62,7 +64,8 @@ export default function Detail() {
   const [templateDataCheckedKeys, setTemplateDataCheckedKeys] = useState<
     string[]
   >([]);
-  const [isDataRequested, setIsDataRequested] = useState(false);
+  const [isRawDataRequested, setIsRawDataRequested] = useState(false);
+  const [isTemplateDataRequested, setIsTemplateDataRequested] = useState(false);
   // TODO 默认的 dataType 需要改为 TimeType.FiveMinutes
   const [timeType, setTimeType] = useState<TimeType>(TimeType.Custom);
   const [startTime, setStartTime] = useState(getRecentTimestamp(5));
@@ -127,7 +130,8 @@ export default function Detail() {
 
   const { mutate: rawDataMutate, data: responseRawData } = useRawDataMutation({
     onSuccess() {
-      setIsDataRequested(true);
+      setIsRawDataRequested(true);
+      setIsTemplateDataRequested(false);
     },
   });
 
@@ -153,7 +157,8 @@ export default function Detail() {
     isLoading: isTelemetryDataLoading,
   } = useTelemetryDataMutation({
     onSuccess() {
-      setIsDataRequested(true);
+      setIsTemplateDataRequested(true);
+      setIsRawDataRequested(false);
     },
   });
 
@@ -299,6 +304,10 @@ export default function Detail() {
     );
   }, [telemetry, templateDataCheckedKeys]);
 
+  const rawDataTypeOptions = [
+    { label: '文本', value: 'text' },
+    { label: '十六进制', value: 'hex' },
+  ];
   return (
     <Flex height="100%" justifyContent="space-between">
       <Flex flexDirection="column" width="360px">
@@ -331,7 +340,7 @@ export default function Detail() {
         borderRadius="4px"
         backgroundColor="white"
       >
-        {isDataRequested ? (
+        {isRawDataRequested || isTemplateDataRequested ? (
           <>
             <Flex
               justifyContent="space-between"
@@ -377,10 +386,7 @@ export default function Detail() {
               </Flex>
               <HStack spacing="12px">
                 <MoreActionSelect
-                  options={[
-                    { label: '文本', value: 'text' },
-                    { label: '十六进制', value: 'hex' },
-                  ]}
+                  options={rawDataTypeOptions}
                   value={rawDataType}
                   onChange={(value) => setRawDataType(value)}
                 />
@@ -394,7 +400,7 @@ export default function Detail() {
                 />
               </HStack>
             </Flex>
-            {isTemplateData && (
+            {isTemplateDataRequested && (
               <Flex
                 padding="12px 20px 8px"
                 justifyContent="space-between"
@@ -417,7 +423,7 @@ export default function Detail() {
               />
             )}
             <Flex flex="1" marginTop="10px" overflowY="auto">
-              {isTemplateData ? (
+              {isTemplateDataRequested ? (
                 <DataTable
                   originalData={originDataItems}
                   data={tableDataItems}

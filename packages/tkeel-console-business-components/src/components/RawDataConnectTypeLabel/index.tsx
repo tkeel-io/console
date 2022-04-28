@@ -1,29 +1,37 @@
 import { Box } from '@chakra-ui/react';
 
-const CONNECT_TYPE_INFO_MAP = {
+export const CONNECT_TYPE_INFO_MAP = {
   upstream: {
-    desc: '上行',
+    title: '上行',
     bg: 'purple.50',
     color: 'purple.600',
   },
   downstream: {
-    desc: '下行',
+    title: '下行',
     bg: 'orange.50',
     color: 'orange.400',
   },
   connecting: {
-    desc: '连接',
+    title: '连接',
     bg: 'blue.50',
     color: 'blue.300',
   },
 };
 
+type ConnectTypeInfo = {
+  title: string;
+  bg: string;
+  color: string;
+};
+
+export type ConnectType = 'upstream' | 'downstream' | 'connecting';
+
 type Props = {
-  connectType: 'upstream' | 'downstream' | 'connecting';
+  connectType: ConnectType;
 };
 
 export default function RawDataConnectTypeLabel({ connectType }: Props) {
-  const connectTypeInfo = CONNECT_TYPE_INFO_MAP[connectType];
+  const connectTypeInfo = CONNECT_TYPE_INFO_MAP[connectType] as ConnectTypeInfo;
   return (
     <Box
       bg={connectTypeInfo?.bg}
@@ -35,7 +43,7 @@ export default function RawDataConnectTypeLabel({ connectType }: Props) {
       fontWeight="600"
       lineHeight="2"
     >
-      {connectTypeInfo?.desc ?? ''}
+      {connectTypeInfo?.title ?? ''}
     </Box>
   );
 }

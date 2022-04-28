@@ -1,6 +1,11 @@
 // import { Text } from '@chakra-ui/react';
+import { useMemo } from 'react';
 import { Column } from 'react-table';
 
+import {
+  ConnectType,
+  RawDataConnectTypeLabel,
+} from '@tkeel/console-business-components';
 import { Table } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
 
@@ -14,48 +19,18 @@ type Props = {
   rawDataList: RawData[];
 };
 
-export const CONNECT_TYPE = {
-  upstream: {
-    label: '上行',
-    color: 'purple.50',
-  },
-  downstream: {
-    label: '下行',
-    color: 'orange.50',
-  },
-  connecting: {
-    label: '连接',
-    color: 'blue.50',
-  },
-};
-
 export default function RawDataTable({ rawDataList }: Props) {
   const pagination = usePagination();
-
-  // const rawDataList = [
-  //   {
-  //     mark: 'upstream',
-  //     topic: 'v1/devices/me/tele1',
-  //     timestamp: '1650787597000',
-  //   },
-  // ];
 
   const columns: ReadonlyArray<Column<RawData>> = [
     {
       Header: '连接方式',
       accessor: 'mark',
-      disableSortBy: true,
-      // Cell({ row }) {
-      //   const { original } = row;
-      //   const { mark } = original;
-      //   const backgroundColor = CONNECT_TYPE[mark]
-      //     ? (CONNECT_TYPE[mark] as ConnectTypeInfo).color
-      //     : 'white';
-      //   return <Text backgroundColor={backgroundColor}>mark</Text>;
-      // },
-      Cell({ value }) {
-        return value;
-      },
+      Cell: ({ value }) =>
+        useMemo(
+          () => <RawDataConnectTypeLabel connectType={value as ConnectType} />,
+          [value]
+        ),
     },
     {
       Header: 'topic',

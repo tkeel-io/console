@@ -22,6 +22,7 @@ export * as PluginBase from './components/PluginBase';
 export { default as PluginCard } from './components/PluginCard';
 export { default as PluginNum } from './components/PluginNum';
 export { default as RawDataConnectTypeLabel } from './components/RawDataConnectTypeLabel';
+export * from './components/RawDataConnectTypeLabel';
 export { default as SaveAsOtherTemplateButton } from './components/SaveAsOtherTemplateButton';
 export { default as SetPasswordModal } from './components/SetPasswordModal';
 export { default as TelemetryDetailButton } from './components/TelemetryDetailButton';
