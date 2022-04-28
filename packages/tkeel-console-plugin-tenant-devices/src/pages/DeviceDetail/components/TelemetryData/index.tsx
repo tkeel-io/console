@@ -174,6 +174,7 @@ export default function TelemetryData({
                   styles={{ actionList: { width: '110px' } }}
                   element={
                     <IconButton
+                      style={{ padding: '0 12px' }}
                       colorScheme="gray"
                       icon={<SmcFilledIcon size="14px" color="white" />}
                     >
