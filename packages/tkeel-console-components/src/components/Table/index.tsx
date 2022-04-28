@@ -41,7 +41,9 @@ interface Props<D extends object> {
   columns: ReadonlyArray<Column<D>>;
   data: readonly D[];
   hasPagination?: boolean;
-  paginationProps?: UsePaginationReturnType;
+  paginationProps?: UsePaginationReturnType & {
+    showBoxShadow?: boolean;
+  };
   paginationStyle?: StyleProps;
   scroll?: {
     y: string;
