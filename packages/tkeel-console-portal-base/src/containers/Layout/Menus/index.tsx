@@ -143,8 +143,8 @@ function Menus({ logo, menus }: Props) {
         <GearTwoToneIcon
           style={{
             position: 'absolute',
-            right: '30px',
-            bottom: '20px',
+            right: '22px',
+            bottom: collapsed ? '50px' : '20px',
             cursor: 'pointer',
           }}
           onClick={() => setIsShowMenuSetting(true)}
