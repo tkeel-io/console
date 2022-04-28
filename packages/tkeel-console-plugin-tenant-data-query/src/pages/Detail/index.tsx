@@ -73,6 +73,8 @@ export default function Detail() {
   const rawDataCheckboxKeys = rawDataCheckboxItems.map(({ value }) => value);
   const [rawDataCheckedKeys, setRawDataCheckedKeys] =
     useState<string[]>(rawDataCheckboxKeys);
+  const [filteredRawDataCheckboxItems, setFilteredRawDataCheckboxItems] =
+    useState<{ label: string; value: string }[]>(rawDataCheckboxItems);
   const [templateDataCheckedKeys, setTemplateDataCheckedKeys] = useState<
     string[]
   >([]);
@@ -136,8 +138,12 @@ export default function Detail() {
     Object.keys(filteredTelemetry).includes(key)
   );
 
+  const filteredRawDataCheckedKeys = rawDataCheckedKeys.filter((key) =>
+    filteredRawDataCheckboxItems.some((item) => item.value === key)
+  );
+
   const hasIdentifiers = identifiers.length > 0;
-  const hasRawDataKeys = rawDataCheckedKeys.length > 0;
+  const hasRawDataKeys = filteredRawDataCheckedKeys.length > 0;
   const canRequest = isTemplateData ? hasIdentifiers : hasRawDataKeys;
 
   const pagination = usePagination();
@@ -217,7 +223,7 @@ export default function Detail() {
         page_num: pageNum,
         is_descending: true,
         path: 'rawData',
-        filters: { mark: rawDataCheckedKeys.join(',') },
+        filters: { mark: filteredRawDataCheckedKeys.join(',') },
       },
     });
   };
@@ -299,16 +305,23 @@ export default function Detail() {
   });
 
   useEffect(() => {
-    const newFilteredTelemetry = {};
-    Object.keys(telemetry).forEach((key) => {
-      const name = telemetry[key]?.name ?? '';
-      if (name.includes(keywords)) {
-        newFilteredTelemetry[key] = telemetry[key];
-      }
-    });
-    setFilteredTelemetry(newFilteredTelemetry);
+    if (isTemplateData) {
+      const newFilteredTelemetry = {};
+      Object.keys(telemetry).forEach((key) => {
+        const name = telemetry[key]?.name ?? '';
+        if (name.includes(keywords)) {
+          newFilteredTelemetry[key] = telemetry[key];
+        }
+      });
+      setFilteredTelemetry(newFilteredTelemetry);
+    } else {
+      const newFilteredRawDataCheckboxItems = rawDataCheckboxItems.filter(
+        (item) => item.label.includes(keywords)
+      );
+      setFilteredRawDataCheckboxItems(newFilteredRawDataCheckboxItems);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [keywords]);
+  }, [keywords, isTemplateData]);
 
   const getCheckBoxStatus = ({
     checkedLength,
@@ -330,22 +343,22 @@ export default function Detail() {
   };
 
   useEffect(() => {
-    const { length } = rawDataCheckboxItems;
-    const { length: keysLength } = rawDataCheckedKeys;
+    const { length } = filteredRawDataCheckboxItems;
+    const { length: keysLength } = filteredRawDataCheckedKeys;
 
     setRawDataCheckboxStatus(
       getCheckBoxStatus({ checkedLength: keysLength, length })
     );
-  }, [rawDataCheckboxItems, rawDataCheckedKeys]);
+  }, [filteredRawDataCheckboxItems, filteredRawDataCheckedKeys]);
 
   useEffect(() => {
     const { length } = Object.keys(telemetry);
-    const { length: keysLength } = templateDataCheckedKeys;
+    const { length: keysLength } = identifiers;
 
     setTemplateCheckboxStatus(
       getCheckBoxStatus({ checkedLength: keysLength, length })
     );
-  }, [telemetry, templateDataCheckedKeys]);
+  }, [telemetry, identifiers]);
 
   useEffect(() => {
     if (isRawDataRequested) {
@@ -374,11 +387,11 @@ export default function Detail() {
           setTemplateCheckboxStatus={setTemplateCheckboxStatus}
           rawDataCheckboxStatus={rawDataCheckboxStatus}
           setRawDataCheckboxStatus={setRawDataCheckboxStatus}
-          rawDataCheckboxItems={rawDataCheckboxItems}
+          rawDataCheckboxItems={filteredRawDataCheckboxItems}
           rawDataCheckboxKeys={rawDataCheckboxKeys}
           templateDataCheckedKeys={templateDataCheckedKeys}
           setTemplateDataCheckedKeys={setTemplateDataCheckedKeys}
-          rawDataCheckedKeys={rawDataCheckedKeys}
+          rawDataCheckedKeys={filteredRawDataCheckedKeys}
           setRawDataCheckedKeys={setRawDataCheckedKeys}
           isDeviceDetailLoading={isDeviceDetailLoading}
           isTelemetryDataLoading={isTelemetryDataLoading}
