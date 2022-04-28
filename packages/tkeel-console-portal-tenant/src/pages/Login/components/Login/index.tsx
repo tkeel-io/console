@@ -1,10 +1,12 @@
 import { Box, Button, Center, Flex, Heading } from '@chakra-ui/react';
-import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
 
 import { Loading } from '@tkeel/console-components';
 import { usePortalTenantConfigQuery } from '@tkeel/console-request-hooks';
-import { jumpToTenantAuthTenantPage } from '@tkeel/console-utils';
+import { jumpToPage, jumpToTenantAuthTenantPage } from '@tkeel/console-utils';
 
+import useTokenMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useTokenMutation';
 import useTenantExactQuery from '@/tkeel-console-portal-tenant/hooks/queries/useTenantExactQuery';
 
 import PasswordForm from '../PasswordForm';
@@ -25,12 +27,36 @@ export default function Login() {
 
   const pathParams = useParams();
   const { tenantId = '' } = pathParams;
-  const { data: tenantInfo, isLoading } = useTenantExactQuery({
-    enabled: !!tenantId,
-    params: { tenant_id: tenantId },
+  const { data: tenantInfo, isLoading: isTenantExactQueryLoading } =
+    useTenantExactQuery({
+      enabled: !!tenantId,
+      params: { tenant_id: tenantId },
+    });
+
+  const { state } = useLocation();
+  const isAutoLogin = (state as { isAutoLogin: boolean })?.isAutoLogin ?? false;
+  const { mutate, isError } = useTokenMutation({
+    tenantId,
+    onSuccess({ data }) {
+      jumpToPage({ path: data.redirect_url, isReplace: true });
+    },
   });
 
-  if (isLoading) {
+  useEffect(() => {
+    if (isAutoLogin && tenantInfo?.auth_type === 'external') {
+      mutate({});
+    }
+  }, [isAutoLogin, tenantInfo?.auth_type, mutate]);
+
+  if (isTenantExactQueryLoading) {
+    return (
+      <Center height="100vh">
+        <Loading />
+      </Center>
+    );
+  }
+
+  if (isAutoLogin && tenantInfo?.auth_type === 'external' && !isError) {
     return (
       <Center height="100vh">
         <Loading />
