@@ -61,7 +61,7 @@ export default function CreateTemplateBasicModal({
         label="模板名称"
         error={errors.name}
         registerReturn={register('name', {
-          required: { value: true, message: '请输入模版名称' },
+          required: { value: true, message: '请输入模板名称' },
         })}
       />
       <Box>
