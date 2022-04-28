@@ -119,6 +119,7 @@ export default function AttributeRelationTable({
               key="delete"
               uid={uid}
               path={original?.id}
+              refetch={refetch}
             />,
           ]}
         />
