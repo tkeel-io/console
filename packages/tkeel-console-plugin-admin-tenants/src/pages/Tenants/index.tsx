@@ -16,6 +16,10 @@ import { formatDateTimeByTimestamp, plugin } from '@tkeel/console-utils';
 
 import DeleteTenantButton from '@/tkeel-console-plugin-admin-tenants/components/DeleteTenantButton';
 import ModifyTenantButton from '@/tkeel-console-plugin-admin-tenants/components/ModifyTenantButton';
+import {
+  AUTH_TYPE_MAP,
+  DEFAULT_AUTH_TYPE_VALUE,
+} from '@/tkeel-console-plugin-admin-tenants/constants';
 import useTenantsQuery, {
   Admin,
   Tenant,
@@ -83,6 +87,13 @@ export default function Tenants() {
           ),
           [row?.original?.tenant_id, value]
         ),
+    },
+    {
+      Header: '认证方式',
+      accessor: 'auth_type',
+      Cell: ({ value }) =>
+        AUTH_TYPE_MAP[value].label ??
+        AUTH_TYPE_MAP[DEFAULT_AUTH_TYPE_VALUE].label,
     },
     { Header: '租户 ID', accessor: 'tenant_id' },
     {

@@ -70,6 +70,7 @@ module.exports = {
     'Tele',
     'proxied',
     'struct',
+    'OIDC',
     'clickhouse',
     'tfield_name',
     'mysqlrequest',
