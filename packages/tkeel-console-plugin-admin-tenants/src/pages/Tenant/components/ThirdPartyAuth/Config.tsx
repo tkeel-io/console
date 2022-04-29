@@ -92,7 +92,7 @@ export default function Config() {
               lineHeight="24px"
               color="gray.500"
             >
-              请使用模版，在这里
+              请使用模板，在这里
             </Text>
             <Button
               variant="link"
@@ -102,7 +102,7 @@ export default function Config() {
               _hover={{ opacity: 0.7 }}
               onClick={() => {}}
             >
-              复制模版代码
+              复制模板代码
             </Button>
           </Flex> */}
         </Flex>
