@@ -6,6 +6,7 @@ type ApiData = {
     documentTitle: string;
     subTitle1: string;
     subTitle2: string;
+    slogan: string;
     favicon: string;
     logoMark: string;
     logoTypeLight: string;

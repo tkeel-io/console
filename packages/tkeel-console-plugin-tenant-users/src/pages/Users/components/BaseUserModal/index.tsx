@@ -92,6 +92,8 @@ export default function BaseUserModal({
       <TextField
         id="nick_name"
         label="用户名称"
+        placeholder={formFields?.nick_name?.disabled ? '' : '请输入'}
+        isDisabled={formFields?.nick_name?.disabled}
         error={errors.nick_name}
         registerReturn={register('nick_name')}
       />
