@@ -1,3 +1,4 @@
+import { RawDataConnectType } from '@tkeel/console-business-components';
 import {
   AttributeItem,
   AttributeValue,
@@ -26,7 +27,7 @@ export interface BasicInfo {
 
 export interface RawData {
   id: string;
-  mark: 'upstream' | 'downstream' | 'connecting';
+  mark: RawDataConnectType;
   key?: string;
   path: string;
   ts: number;

@@ -1,13 +1,14 @@
-import { Text } from '@chakra-ui/react';
+import { Text, TextProps } from '@chakra-ui/react';
 
-export default function DataResultTitle() {
+export default function DataResultTitle(props: TextProps) {
   return (
     <Text
       marginRight="12px"
       color="gray.700"
       fontSize="14px"
       fontWeight="600"
-      lineHeight="32px"
+      lineHeight="36px"
+      {...props}
     >
       数据结果
     </Text>

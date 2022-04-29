@@ -75,6 +75,7 @@ module.exports = {
     'tfield_name',
     'mysqlrequest',
     'tinycolor',
+    'rawdata',
   ],
   ignorePaths: [
     '**/.idea/**',

@@ -97,8 +97,8 @@ function Body<D extends object>({
               })}
             </Tr>
             {!!expandRow && isExpanded && (
-              <Tr>
-                <Td padding="0" border="none">
+              <Tr display="flex">
+                <Td flex="1" padding="0" border="none">
                   {expandRow(original)}
                 </Td>
               </Tr>
