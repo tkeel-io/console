@@ -1,5 +1,6 @@
 import 'ace-builds/src-noconflict/ace';
 import 'ace-builds/src-noconflict/mode-json';
+import 'ace-builds/src-noconflict/mode-text';
 import 'ace-builds/src-noconflict/mode-yaml';
 import 'ace-builds/src-noconflict/mode-sql';
 import 'ace-builds/src-noconflict/theme-dracula';
@@ -11,7 +12,7 @@ import 'ace-builds/webpack-resolver';
 import Ace from 'react-ace';
 
 type Props = {
-  language?: 'json' | 'yaml' | 'sql';
+  language?: 'text' | 'json' | 'yaml' | 'sql';
   theme?: 'dark' | 'light';
   width?: string;
   height?: string;
