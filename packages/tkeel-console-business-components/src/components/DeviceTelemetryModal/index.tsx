@@ -162,6 +162,7 @@ export default function DeviceTelemetryModal({
   });
 
   const required = { value: false, message: '请输入' };
+  // TODO DEVICES 数据显示的方式和编辑时默认的值
   const selectRadioCardObj = {
     // int
     最大值: register('define.max', {

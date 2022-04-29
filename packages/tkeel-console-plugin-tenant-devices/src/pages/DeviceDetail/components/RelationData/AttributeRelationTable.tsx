@@ -126,7 +126,7 @@ export default function AttributeRelationTable({
       );
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [refetch, uid]
+    [uid]
   );
   const columns: ReadonlyArray<Column<AttributeRelationItem>> = [
     {
@@ -192,7 +192,7 @@ export default function AttributeRelationTable({
           );
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [deviceObject]
+        []
       ),
     },
     {
