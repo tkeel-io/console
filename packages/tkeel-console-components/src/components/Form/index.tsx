@@ -8,7 +8,7 @@ type Props = BoxProps & {
 function Form({ onSubmit, children, ...boxProps }: Props) {
   return (
     // @ts-ignore
-    <Box {...boxProps} as="form" onSubmit={onSubmit}>
+    <Box as="form" margin="0" {...boxProps} onSubmit={onSubmit}>
       {children}
     </Box>
   );

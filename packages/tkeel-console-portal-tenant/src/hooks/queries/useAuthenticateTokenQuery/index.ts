@@ -1,8 +1,10 @@
 import { useQuery } from '@tkeel/console-hooks';
+import { AuthType } from '@tkeel/console-types';
 import { RequestExtras } from '@tkeel/console-utils';
 
 export interface ApiData {
   '@type': string;
+  auth_type: AuthType;
   expires_in: string;
   user_id: string;
   username: string;

@@ -1,4 +1,5 @@
 import { useQuery } from '@tkeel/console-hooks';
+import { AuthType } from '@tkeel/console-types';
 
 const url = '/security/v1/tenants';
 const method = 'GET';
@@ -19,6 +20,7 @@ export interface Admin {
 export interface Tenant {
   tenant_id: string;
   title: string;
+  auth_type: AuthType;
   admins: Admin[];
   remark: string;
 

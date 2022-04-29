@@ -20,15 +20,24 @@ import AddRelationButton from '../AddRelationButton';
 import DeleteRelationButton from '../DeleteRelationButton';
 import UpdateRelationButton from '../UpdateRelationButton';
 
-function getNameByDescription({ description }: { description: string }) {
+function getNameByDescription({
+  description,
+  expression,
+}: {
+  description: string;
+  expression: string;
+}) {
   if (description) {
     const [device, telemetry] = description.split(',');
-    const [deviceId, deviceName] = device.split('=');
-    const [telemetryId, telemetryName] = telemetry.split('=');
+    const [deviceId, deviceName] = (device && device.split('=')) || [];
+    const [telemetryId, telemetryName] =
+      (telemetry && telemetry.split('=')) || [];
+    const defaultTelemetryId =
+      (expression && expression.split('telemetry.')[1]) || '';
     return {
       deviceId,
       deviceName,
-      telemetryId,
+      telemetryId: telemetryId || defaultTelemetryId,
       telemetryName,
     };
   }
@@ -59,10 +68,10 @@ export default function TelemetryRelationTable({
       const relationItem = telemetryRelationList.find(
         (v) => v.path === `telemetry.${id}`
       );
-      // const expression = relationItem?.expression ?? '';
+      const expression = relationItem?.expression ?? '';
       const description = relationItem?.description ?? '';
       const { deviceId, deviceName, telemetryId, telemetryName } =
-        getNameByDescription({ description });
+        getNameByDescription({ description, expression });
       return {
         id,
         name,
@@ -87,7 +96,7 @@ export default function TelemetryRelationTable({
               key="update"
               uid={uid}
               configInfo={original}
-              deviceObject={deviceObject}
+              // deviceObject={deviceObject}
               refetch={refetch}
             />,
             <DeleteRelationButton
