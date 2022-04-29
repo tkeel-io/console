@@ -1,4 +1,12 @@
-import { Box, Button, Center, Flex, Heading, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Center,
+  Flex,
+  Heading,
+  StyleProps,
+  Text,
+} from '@chakra-ui/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { LoginBrand } from '@tkeel/console-business-components';
@@ -25,26 +33,26 @@ type FormValues = {
   password: string;
 };
 
+const formLabelStyle: StyleProps = {
+  marginBottom: '5px',
+  fontSize: '14px',
+  lineHeight: '20px',
+  color: 'gray.700',
+};
+
+const inputStyle: StyleProps = {
+  height: '50px',
+  padding: '16px 20px',
+  borderWidth: '1px',
+  borderStyle: 'solid',
+  borderColor: 'grayAlternatives.50',
+  borderRadius: '4px',
+  backgroundColor: 'white',
+  fontSize: '14px',
+  lineHeight: '20px',
+};
+
 export default function Login() {
-  const formLabelStyle = {
-    marginBottom: '5px',
-    fontSize: '14px',
-    lineHeight: '20px',
-    color: 'gray.700',
-  };
-
-  const inputStyle = {
-    height: '50px',
-    padding: '16px 20px',
-    borderWidth: '1px',
-    borderStyle: 'solid',
-    borderColor: 'grayAlternatives.50',
-    borderRadius: '4px',
-    backgroundColor: 'white',
-    fontSize: '14px',
-    lineHeight: '20px',
-  };
-
   const { config } = usePortalAdminConfigQuery();
   const clientConfig = config?.client;
   const pageConfig = clientConfig?.pages.Login;
