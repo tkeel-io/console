@@ -33,6 +33,7 @@ function DeviceDetail(): JSX.Element {
     });
   const connectData = connectInfo || originConnectInfo;
 
+  // TODO DEVICES 优化数据结构
   const deviceInfo = {
     id: id as string,
     configs,
