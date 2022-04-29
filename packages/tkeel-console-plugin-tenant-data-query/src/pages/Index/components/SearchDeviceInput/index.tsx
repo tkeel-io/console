@@ -237,41 +237,28 @@ export default function SearchDeviceInput({
   };
 
   const handleResultSearch = () => {
-    const groupFilterCondition = filterConditions.find(
-      (condition) => condition.id === DEVICE_GROUP_ID
-    );
-    const templateFilterCondition = filterConditions.find(
-      (condition) => condition.id === DEVICE_TEMPLATES_ID
-    );
-    const keywordsFilterCondition = filterConditions.find(
-      (condition) => condition.id === KEYWORDS
-    );
-
-    if (!keywordsFilterCondition) {
+    if (!keywordsCondition) {
       searchParams.delete(KEYWORDS);
     }
 
-    if (groupFilterCondition) {
+    if (groupCondition) {
       searchParams.set(GROUP_ID, deviceGroupId);
-      searchParams.set(GROUP_NAME, Base64.encode(groupFilterCondition.value));
+      searchParams.set(GROUP_NAME, Base64.encode(groupCondition.value));
     } else {
       searchParams.delete(GROUP_ID);
       searchParams.delete(GROUP_NAME);
     }
 
-    if (templateFilterCondition) {
+    if (templateCondition) {
       searchParams.set(TEMPLATE_ID, templateId);
-      searchParams.set(
-        TEMPLATE_NAME,
-        Base64.encode(templateFilterCondition.value)
-      );
+      searchParams.set(TEMPLATE_NAME, Base64.encode(templateCondition.value));
     } else {
       searchParams.delete(TEMPLATE_ID);
       searchParams.delete(TEMPLATE_NAME);
     }
 
-    if (keywordsFilterCondition) {
-      searchParams.set(KEYWORDS, keywordsFilterCondition.value);
+    if (keywordsCondition) {
+      searchParams.set(KEYWORDS, keywordsCondition.value);
     } else {
       searchParams.delete(KEYWORDS);
     }
