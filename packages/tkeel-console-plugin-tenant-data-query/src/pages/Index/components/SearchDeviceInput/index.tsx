@@ -67,17 +67,15 @@ export default function SearchDeviceInput({
     inputMarginRight = type === 'index' ? '130px' : '160px';
   }
 
-  const groupCondition = filterConditions.find(
-    (condition) => condition.id === DEVICE_GROUP_ID
-  );
+  const getConditionById = (id: string) => {
+    return filterConditions.find((condition) => condition.id === id);
+  };
 
-  const templateCondition = filterConditions.find(
-    (condition) => condition.id === DEVICE_TEMPLATES_ID
-  );
+  const groupCondition = getConditionById(DEVICE_GROUP_ID);
 
-  const keywordsCondition = filterConditions.find(
-    (condition) => condition.id === KEYWORDS
-  );
+  const templateCondition = getConditionById(DEVICE_TEMPLATES_ID);
+
+  const keywordsCondition = getConditionById(KEYWORDS);
 
   const inputDisabled = Boolean(
     (groupCondition?.value && !deviceGroupId) ||
