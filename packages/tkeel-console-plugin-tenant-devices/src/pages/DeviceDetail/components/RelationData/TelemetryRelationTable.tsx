@@ -111,7 +111,7 @@ export default function TelemetryRelationTable({
       );
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [refetch, uid]
+    [uid]
   );
   useEffect(() => {
     if (copiedValue) {
@@ -191,7 +191,7 @@ export default function TelemetryRelationTable({
           );
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [deviceObject]
+        []
       ),
     },
     {
@@ -220,7 +220,8 @@ export default function TelemetryRelationTable({
             </Text>
           );
         },
-        [copiedId, copiedValue, handleCopy, hasCopied]
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [copiedId, copiedValue, hasCopied]
       ),
     },
     {
@@ -266,7 +267,8 @@ export default function TelemetryRelationTable({
             </Text>
           );
         },
-        [copiedId, copiedValue, handleCopy, hasCopied]
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [copiedId, copiedValue, hasCopied]
       ),
     },
     {
