@@ -43,6 +43,8 @@ export default function DeviceInfoCard({ device, style }: Props) {
       borderRadius="4px"
       backgroundColor="white"
       cursor="pointer"
+      _hover={{ borderColor: 'gray.700' }}
+      boxShadow="0px 10px 15px -3px rgba(113, 128, 150, 0.1), 0px 4px 6px -2px rgba(113, 128, 150, 0.05)"
       {...style}
       onClick={() =>
         navigate(
@@ -60,6 +62,8 @@ export default function DeviceInfoCard({ device, style }: Props) {
         flexDirection="column"
         justifyContent="center"
         height="104px"
+        borderBottomLeftRadius="4px"
+        borderBottomRightRadius="4px"
         backgroundColor="gray.50"
       >
         {infos.map((info) => (

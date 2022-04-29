@@ -2,6 +2,7 @@ import {
   Button,
   Modal as ChakraModal,
   ModalBody,
+  ModalCloseButton,
   ModalContent,
   ModalFooter,
   ModalHeader,
@@ -12,8 +13,6 @@ import { noop } from 'lodash';
 import { ReactNode } from 'react';
 
 import ButtonsHStack from '@/tkeel-console-components/components/ButtonsHStack';
-
-import ModalCloseButton from './ModalCloseButton';
 
 type Props = {
   isOpen: boolean;
@@ -122,7 +121,13 @@ export default function Modal({
             {title}
           </ModalHeader>
         )}
-        {hasCloseButton && <ModalCloseButton top="9px" right="20px" />}
+        {hasCloseButton && (
+          <ModalCloseButton
+            top="9px"
+            right="20px"
+            _focus={{ boxShadow: 'none' }}
+          />
+        )}
         <ModalBody padding="20px 40px" {...modalBodyStyle}>
           {children}
         </ModalBody>

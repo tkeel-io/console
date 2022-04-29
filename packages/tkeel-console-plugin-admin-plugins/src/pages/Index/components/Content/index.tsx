@@ -94,7 +94,7 @@ function Content({ isInstalledPlugins = false, repo }: Props) {
       height="100%"
       paddingTop="17px"
       borderRadius="4px"
-      backgroundColor="gray.50"
+      backgroundColor="gray.100"
     >
       <Flex margin="0 24px" alignItems="center" justifyContent="space-between">
         <PluginNum data={pluginNumData} />
