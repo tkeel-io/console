@@ -25,8 +25,7 @@ export default function CreateUserButton({ onSuccess }: Props) {
       onSuccessModalOpen();
     },
   });
-  // TODO: SetPasswordModal url delete later
-  // const url = `${window.location.origin}/auth/set-password`;
+
   const setPasswordModalData = {
     reset_key: data?.reset_key ?? '',
   };
