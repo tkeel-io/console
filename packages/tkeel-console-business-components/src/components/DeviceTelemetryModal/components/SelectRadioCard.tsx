@@ -24,7 +24,11 @@ function SelectRadioCard({ options, onChange, defaultValue }: Props) {
       {options.map((value) => {
         const radio = getRadioProps({ value });
         return (
-          <RadioCard key={value} {...radio}>
+          <RadioCard
+            key={value}
+            style={{ width: 'auto', height: '28px', padding: '0 20px' }}
+            {...radio}
+          >
             {value}
           </RadioCard>
         );

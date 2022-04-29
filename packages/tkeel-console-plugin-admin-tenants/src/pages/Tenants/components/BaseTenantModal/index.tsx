@@ -1,16 +1,24 @@
-import { Box, FormControl, FormLabel, Grid, GridItem } from '@chakra-ui/react';
-import { ReactNode, useState } from 'react';
+import { Box, FormControl, FormLabel } from '@chakra-ui/react';
+import { omit } from 'lodash';
+import { ReactNode } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { FormField, Modal } from '@tkeel/console-components';
+import { AuthType, IdProviderType } from '@tkeel/console-types';
 import { schemas } from '@tkeel/console-utils';
 
-import AuthTypeOption from './AuthTypeOption';
+import { ID_PROVIDER_TYPES } from '@/tkeel-console-plugin-admin-tenants/constants';
 
-const { TextField, TextareaField } = FormField;
+import AuthTypeRadioGroup from './AuthTypeRadioGroup';
+
+const { TextField, TextareaField, SelectField } = FormField;
 
 export interface FormFields {
   title?: {
+    isHide?: boolean;
+    disabled?: boolean;
+  };
+  auth_type?: {
     isHide?: boolean;
     disabled?: boolean;
   };
@@ -28,6 +36,10 @@ export interface FormFields {
       disabled?: boolean;
     };
   };
+  id_provider_type?: {
+    isHide?: boolean;
+    disabled?: boolean;
+  };
   remark?: {
     isHide?: boolean;
     disabled?: boolean;
@@ -36,11 +48,13 @@ export interface FormFields {
 
 export interface FormValues {
   title: string;
-  admin: {
+  auth_type: AuthType;
+  admin?: {
     username: string;
     password?: string;
     nick_name?: string;
   };
+  id_provider_type?: IdProviderType;
   remark?: string;
 }
 
@@ -54,49 +68,37 @@ type Props = {
   onConfirm: (formValues: FormValues) => unknown;
 };
 
-const AUTH_TYPES = [
-  {
-    title: '平台默认',
-    key: 'default',
-    description:
-      '用户的管理在平台侧，管理员可在 tkeel 租户平台注册、管理用户。',
-  },
-  {
-    title: '第三方',
-    key: 'thirdParty',
-    description:
-      '用户的管理在第三方，用户登录 tkeel 平台需要跳转至第三方登录。',
-  },
-];
-
 export default function BaseTenantModal({
   title,
   isOpen,
   isConfirmButtonLoading,
   formFields,
-  defaultValues,
+  defaultValues = { title: '', auth_type: 'internal' },
   onClose,
   onConfirm,
 }: Props) {
   const {
     register,
+    control,
     formState: { errors },
     trigger,
     getValues,
+    setValue,
+    watch,
   } = useForm<FormValues>({
     defaultValues,
   });
-
-  const [selectedAuthType, setSelectedAuthType] = useState<string>('default');
-  const handleSelectAuth = (key: string) => () => {
-    setSelectedAuthType(key);
-  };
 
   const handleConfirm = async () => {
     const result = await trigger();
     if (result) {
       const formValues = getValues();
-      onConfirm(formValues);
+
+      if (formValues.auth_type === 'internal') {
+        onConfirm(omit(formValues, 'id_provider_type'));
+      } else if (formValues.auth_type === 'external') {
+        onConfirm(omit(formValues, 'admin'));
+      }
     }
   };
 
@@ -120,46 +122,51 @@ export default function BaseTenantModal({
           )}
         />
 
-        <FormControl display="none" marginBottom="16px">
+        <FormControl marginBottom="16px">
           <FormLabel fontSize="14px" lineHeight="24px" color="gray.600">
-            平台选择
+            认证方式
           </FormLabel>
-          <Grid templateColumns="repeat(2, 1fr)" gap={4}>
-            {AUTH_TYPES.map((item) => {
-              return (
-                <GridItem
-                  colSpan={1}
-                  key={item.key}
-                  onClick={handleSelectAuth(item.key)}
-                >
-                  <AuthTypeOption
-                    {...item}
-                    isSelected={selectedAuthType === item.key}
-                  />
-                </GridItem>
-              );
-            })}
-          </Grid>
+          <AuthTypeRadioGroup
+            onChange={(value) => {
+              setValue('auth_type', value);
+            }}
+          />
         </FormControl>
-
-        <TextField
-          id="admin"
-          label="管理员账号"
-          isDisabled={formFields?.admin?.username?.disabled}
-          help={schemas.username.help}
-          error={errors.admin?.username}
-          registerReturn={register(
-            'admin.username',
-            schemas.username.registerOptions
-          )}
-        />
-        <TextField
-          id="nickName"
-          label="管理员名称"
-          isDisabled={formFields?.admin?.nick_name?.disabled}
-          error={errors.admin?.nick_name}
-          registerReturn={register('admin.nick_name')}
-        />
+        {watch('auth_type') === 'internal' && (
+          <>
+            <TextField
+              id="admin"
+              label="管理员账号"
+              isDisabled={formFields?.admin?.username?.disabled}
+              help={schemas.username.help}
+              error={errors.admin?.username}
+              registerReturn={register(
+                'admin.username',
+                schemas.username.registerOptions
+              )}
+            />
+            <TextField
+              id="nickName"
+              label="管理员名称"
+              isDisabled={formFields?.admin?.nick_name?.disabled}
+              error={errors.admin?.nick_name}
+              registerReturn={register('admin.nick_name')}
+            />
+          </>
+        )}
+        {watch('auth_type') === 'external' && (
+          <SelectField<FormValues>
+            id="id_provider_type"
+            name="id_provider_type"
+            label="认证协议"
+            options={ID_PROVIDER_TYPES}
+            control={control}
+            rules={{
+              required: { value: true, message: '认证协议为空' },
+            }}
+            error={errors.id_provider_type}
+          />
+        )}
         <TextareaField
           id="remark"
           label="备注"
