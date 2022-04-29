@@ -1,4 +1,5 @@
 import { useMutation } from '@tkeel/console-hooks';
+import { AuthType } from '@tkeel/console-types';
 
 export interface RequestParams {
   tenant_id?: string;
@@ -7,6 +8,7 @@ export interface RequestParams {
 
 type ApiData = {
   '@type': string;
+  auth_type: AuthType;
   tenant_id: string;
   title: string;
 };

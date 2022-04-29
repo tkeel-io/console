@@ -1,6 +1,7 @@
 import { Box, Button, Center, Flex, Heading, Text } from '@chakra-ui/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
+import { LoginBrand } from '@tkeel/console-business-components';
 import { Form, FormField } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
 import { usePortalAdminConfigQuery } from '@tkeel/console-request-hooks';
@@ -115,16 +116,13 @@ export default function Login() {
         </Heading>
       </Box>
       <Center flexDirection="column" width="42vw">
-        <Form margin="0" onSubmit={handleSubmit(onSubmit)}>
-          <Heading
-            paddingBottom="12px"
-            fontSize="24px"
-            fontWeight="600"
-            lineHeight="40px"
-            color="gray.800"
-          >
-            您好管理员，欢迎使用！
-          </Heading>
+        <Form width="350px" onSubmit={handleSubmit(onSubmit)}>
+          <LoginBrand
+            logo={clientConfig?.logoMark ?? ''}
+            title="您好管理员，欢迎使用！"
+            slogan={clientConfig?.slogan ?? ''}
+            styles={{ root: { paddingBottom: '24px' } }}
+          />
           <TextField
             type="password"
             id="password"

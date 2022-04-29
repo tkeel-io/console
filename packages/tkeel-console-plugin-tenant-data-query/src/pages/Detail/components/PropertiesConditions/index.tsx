@@ -1,9 +1,6 @@
 import {
-  Box,
   Button,
-  Center,
   Flex,
-  Image,
   TabList,
   TabPanel,
   TabPanels,
@@ -12,27 +9,36 @@ import {
 } from '@chakra-ui/react';
 import { Dispatch, SetStateAction } from 'react';
 
-import { Loading, SearchInput, Tooltip, Tree } from '@tkeel/console-components';
+import { SearchInput } from '@tkeel/console-components';
 
-import propertiesEmpty from '@/tkeel-console-plugin-tenant-data-query/assets/images/properties-empty.svg';
 import { TelemetryFields } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceDetailQuery';
 
-import CustomCheckbox from '../CustomCheckbox';
+import CustomCheckbox, { CheckboxStatus } from '../CustomCheckbox';
 import CustomTab from '../CustomTab';
+import RawDataCheckboxes, { CheckBoxItem } from '../RawDataCheckboxes';
+import TemplateDataCheckboxes from '../TemplateDataCheckboxes';
 
-export enum CheckBoxStatus {
-  NOT_CHECKED = 'not-checked',
-  CHECKED = 'checked',
-  INDETERMINATE = 'indeterminate',
+export enum DataType {
+  RAW_DATA = 'rawData',
+  TEMPLATE_DATA = 'templateData',
 }
 
+type CheckboxStatusDispatch = Dispatch<SetStateAction<CheckboxStatus>>;
+type CheckedKeysDispatch = Dispatch<SetStateAction<string[]>>;
 type Props = {
-  identifiers: string[];
+  setDataType: Dispatch<SetStateAction<DataType>>;
   telemetry: TelemetryFields;
-  templateCheckboxStatus: CheckBoxStatus;
-  setTemplateCheckboxStatus: Dispatch<SetStateAction<CheckBoxStatus>>;
-  checkedKeys: string[];
-  setCheckedKeys: Dispatch<SetStateAction<string[]>>;
+  canRequest: boolean;
+  templateCheckboxStatus: CheckboxStatus;
+  setTemplateCheckboxStatus: CheckboxStatusDispatch;
+  rawDataCheckboxStatus: CheckboxStatus;
+  setRawDataCheckboxStatus: CheckboxStatusDispatch;
+  rawDataCheckboxItems: CheckBoxItem[];
+  rawDataCheckboxKeys: string[];
+  templateDataCheckedKeys: string[];
+  setTemplateDataCheckedKeys: CheckedKeysDispatch;
+  rawDataCheckedKeys: string[];
+  setRawDataCheckedKeys: CheckedKeysDispatch;
   isDeviceDetailLoading: boolean;
   isTelemetryDataLoading: boolean;
   onSearch: (value: string) => unknown;
@@ -40,39 +46,49 @@ type Props = {
 };
 
 export default function PropertiesConditions({
-  identifiers,
+  setDataType,
   telemetry,
+  canRequest,
   templateCheckboxStatus,
   setTemplateCheckboxStatus,
-  checkedKeys,
-  setCheckedKeys,
+  rawDataCheckboxStatus,
+  setRawDataCheckboxStatus,
+  rawDataCheckboxItems,
+  rawDataCheckboxKeys,
+  templateDataCheckedKeys,
+  setTemplateDataCheckedKeys,
+  rawDataCheckedKeys,
+  setRawDataCheckedKeys,
   isDeviceDetailLoading,
   isTelemetryDataLoading,
   onSearch,
   onConfirm,
 }: Props) {
-  const telemetryKeys = Object.keys(telemetry);
-
-  const children = telemetryKeys.map((key) => ({
-    title: telemetry[key].name,
-    id: key,
-    key,
-  }));
-
-  const treeData = [
-    {
-      title: '遥测数据',
-      id: 'telemetryData',
-      key: 'telemetryData',
-      children,
-    },
-  ];
-
   const tabTextStyle = {
     marginLeft: '8px',
     color: 'gray.700',
     fontSize: '12px',
     fontWeight: '400',
+  };
+
+  const handleRawDataCheckboxClick = () => {
+    if (rawDataCheckboxStatus === CheckboxStatus.CHECKED) {
+      setRawDataCheckboxStatus(CheckboxStatus.NOT_CHECKED);
+      setRawDataCheckedKeys([]);
+    } else {
+      setRawDataCheckboxStatus(CheckboxStatus.CHECKED);
+      setRawDataCheckedKeys(rawDataCheckboxKeys);
+    }
+  };
+
+  const handleTemplateDataCheckboxClick = () => {
+    if (templateCheckboxStatus === CheckboxStatus.CHECKED) {
+      setTemplateCheckboxStatus(CheckboxStatus.NOT_CHECKED);
+      setTemplateDataCheckedKeys([]);
+    } else {
+      setTemplateCheckboxStatus(CheckboxStatus.CHECKED);
+      setTemplateDataCheckedKeys(Object.keys(telemetry));
+    }
   };
 
   return (
@@ -108,85 +124,53 @@ export default function PropertiesConditions({
         onSearch={onSearch}
       />
       <Tabs
-        index={1}
         display="flex"
         overflowY="auto"
         flexDirection="column"
         flex="1"
+        onChange={(index) =>
+          setDataType(index === 1 ? DataType.TEMPLATE_DATA : DataType.RAW_DATA)
+        }
       >
         <TabList display="flex" borderBottom="none">
-          <CustomTab flex="1" isDisabled>
-            <CustomCheckbox />
-            <Tooltip label="敬请期待">
-              <Text {...tabTextStyle}>原始数据</Text>
-            </Tooltip>
+          <CustomTab flex="1">
+            <CustomCheckbox
+              checkboxStatus={rawDataCheckboxStatus}
+              onClick={handleRawDataCheckboxClick}
+            />
+            <Text {...tabTextStyle}>原始数据</Text>
           </CustomTab>
           <CustomTab flex="1">
-            <Flex alignItems="center">
-              <CustomCheckbox
-                checkboxStatus={templateCheckboxStatus}
-                onClick={() => {
-                  if (templateCheckboxStatus === CheckBoxStatus.CHECKED) {
-                    setTemplateCheckboxStatus(CheckBoxStatus.NOT_CHECKED);
-                    setCheckedKeys([]);
-                  } else {
-                    setTemplateCheckboxStatus(CheckBoxStatus.CHECKED);
-                    setCheckedKeys(telemetryKeys);
-                  }
-                }}
-              />
-              <Text {...tabTextStyle}>模板数据</Text>
-            </Flex>
+            <CustomCheckbox
+              checkboxStatus={templateCheckboxStatus}
+              onClick={handleTemplateDataCheckboxClick}
+            />
+            <Text {...tabTextStyle}>模板数据</Text>
           </CustomTab>
         </TabList>
         <TabPanels flex="1">
           <TabPanel height="100%" padding="0">
-            <Flex height="100%" backgroundColor="gray.50" />
+            <Flex
+              flexDirection="column"
+              height="100%"
+              padding="8px 20px"
+              backgroundColor="gray.50"
+            >
+              <RawDataCheckboxes
+                rawDataCheckboxItems={rawDataCheckboxItems}
+                rawDataCheckedKeys={rawDataCheckedKeys}
+                setRawDataCheckedKeys={setRawDataCheckedKeys}
+              />
+            </Flex>
           </TabPanel>
           <TabPanel height="100%" padding="0">
             <Flex height="100%" backgroundColor="gray.50">
-              {(() => {
-                if (isDeviceDetailLoading) {
-                  return <Loading styles={{ wrapper: { flex: '1' } }} />;
-                }
-
-                if (children.length === 0) {
-                  return (
-                    <Center flex="1">
-                      <Image src={propertiesEmpty} />
-                    </Center>
-                  );
-                }
-
-                return (
-                  <Box flex="1" padding="10px 20px">
-                    <Tree
-                      treeData={treeData}
-                      checkable
-                      defaultExpandAll
-                      checkedKeys={checkedKeys}
-                      selectable={false}
-                      onCheck={(keys) => {
-                        const checkedNodeKeys = (keys as string[]).filter(
-                          (key) => key !== 'telemetryData'
-                        );
-                        setCheckedKeys(checkedNodeKeys);
-                        let checkboxStatus = CheckBoxStatus.NOT_CHECKED;
-                        const { length } = telemetryKeys;
-                        const { length: keysLength } = checkedNodeKeys;
-                        if (keysLength > 0) {
-                          if (keysLength === length) {
-                            checkboxStatus = CheckBoxStatus.CHECKED;
-                          } else if (keysLength < length) {
-                            checkboxStatus = CheckBoxStatus.INDETERMINATE;
-                          }
-                        }
-                        setTemplateCheckboxStatus(checkboxStatus);
-                      }}
-                    />
-                  </Box>
-                );
-              })()}
+              <TemplateDataCheckboxes
+                telemetry={telemetry}
+                checkedKeys={templateDataCheckedKeys}
+                setCheckedKeys={setTemplateDataCheckedKeys}
+                isDeviceDetailLoading={isDeviceDetailLoading}
+              />
             </Flex>
           </TabPanel>
         </TabPanels>
@@ -195,7 +179,7 @@ export default function PropertiesConditions({
         colorScheme="brand"
         margin="12px 20px"
         flexShrink={0}
-        disabled={identifiers.length === 0}
+        disabled={!canRequest}
         isLoading={isTelemetryDataLoading}
         onClick={onConfirm}
       >

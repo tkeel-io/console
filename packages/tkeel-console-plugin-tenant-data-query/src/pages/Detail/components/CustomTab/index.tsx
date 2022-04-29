@@ -21,6 +21,7 @@ function CustomTab({ children, ...rest }: Props) {
       borderBottomColor="transparent"
       _focus={{ boxShadow: 'none', outline: 'none' }}
       _selected={{ borderBottomColor: 'primary' }}
+      _active={{ backgroundColor: 'transparent' }}
       {...rest}
     >
       {children}

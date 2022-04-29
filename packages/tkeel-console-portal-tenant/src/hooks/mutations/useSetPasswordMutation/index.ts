@@ -12,7 +12,7 @@ type ApiData = {
   username: string;
 };
 
-export default function useOAuthResetPasswordMutation({
+export default function useSetPasswordMutation({
   onSuccess,
 }: {
   onSuccess: () => void;

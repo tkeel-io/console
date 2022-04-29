@@ -1,41 +1,57 @@
-import { Box } from '@chakra-ui/react';
+import { Box, Flex, StyleProps, Text } from '@chakra-ui/react';
 
 import iconCheckbox from '@/tkeel-console-plugin-tenant-data-query/assets/images/checkbox.svg';
 import iconCheckboxChecked from '@/tkeel-console-plugin-tenant-data-query/assets/images/checkbox-checked.svg';
 import iconCheckboxIndeterminate from '@/tkeel-console-plugin-tenant-data-query/assets/images/checkbox-indeterminate.svg';
 
-enum CheckBoxStatus {
+export enum CheckboxStatus {
   NOT_CHECKED = 'not-checked',
   CHECKED = 'checked',
   INDETERMINATE = 'indeterminate',
 }
 
 type Props = {
-  checkboxStatus?: CheckBoxStatus;
+  checkboxStatus?: CheckboxStatus;
   onClick?: () => unknown;
+  children?: string;
+  styles?: {
+    wrapper?: StyleProps;
+  };
 };
 
 export default function CustomCheckbox({
-  checkboxStatus = CheckBoxStatus.NOT_CHECKED,
+  checkboxStatus = CheckboxStatus.NOT_CHECKED,
   onClick,
+  children,
+  styles,
 }: Props) {
   let checkboxImage = iconCheckbox;
   const checkboxBackgroundSize =
-    checkboxStatus === CheckBoxStatus.NOT_CHECKED ? '12px 12px' : '16px 16px';
+    checkboxStatus === CheckboxStatus.NOT_CHECKED ? '12px 12px' : '16px 16px';
 
-  if (checkboxStatus === CheckBoxStatus.CHECKED) {
+  if (checkboxStatus === CheckboxStatus.CHECKED) {
     checkboxImage = iconCheckboxChecked;
-  } else if (checkboxStatus === CheckBoxStatus.INDETERMINATE) {
+  } else if (checkboxStatus === CheckboxStatus.INDETERMINATE) {
     checkboxImage = iconCheckboxIndeterminate;
   }
   return (
-    <Box
-      width="12px"
-      height="12px"
-      backgroundImage={`url(${checkboxImage})`}
-      backgroundPosition="center"
-      backgroundSize={checkboxBackgroundSize}
+    <Flex
+      alignItems="center"
+      cursor="pointer"
+      width="max-content"
+      {...styles?.wrapper}
       onClick={onClick}
-    />
+    >
+      <Box
+        width="12px"
+        height="12px"
+        backgroundImage={`url(${checkboxImage})`}
+        backgroundPosition="center"
+        backgroundSize={checkboxBackgroundSize}
+      />
+      <Text marginLeft="8px" color="gray.700" fontSize="12px">
+        {children}
+      </Text>
+    </Flex>
   );
 }

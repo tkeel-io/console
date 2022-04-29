@@ -19,7 +19,16 @@ export default function UserActionMenus() {
   const primarySub2 = useColor('brand.200');
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { userInfo } = useAuthenticateTokenQuery();
+  const authType = userInfo?.auth_type;
   const username = userInfo?.username;
+  const buttons = [
+    <LogoutUserButton key="logout-user" />,
+    <LogoutTenantButton key="logout-tenant" />,
+  ];
+
+  if (authType === 'internal') {
+    buttons.unshift(<ModifyPasswordButton key="modify-password" />);
+  }
 
   return (
     <MoreAction
@@ -63,11 +72,7 @@ export default function UserActionMenus() {
           )}
         </Flex>
       }
-      buttons={[
-        <ModifyPasswordButton key="modify-password" />,
-        <LogoutUserButton key="logout-user" />,
-        <LogoutTenantButton key="logout-tenant" />,
-      ]}
+      buttons={buttons}
       onActionListOpen={onOpen}
       onActionListClose={onClose}
     />
