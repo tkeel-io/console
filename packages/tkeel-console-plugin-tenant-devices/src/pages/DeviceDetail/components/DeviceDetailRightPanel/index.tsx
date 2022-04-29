@@ -117,19 +117,7 @@ function DeviceDetailRightPanel({
       label: '关系映射',
       key: 'relation',
       isVisible: !!basicInfo?.templateId || basicInfo?.selfLearn,
-      component: (
-        <RelationData
-          deviceObject={deviceObject}
-          /* basicInfo={basicInfo}
-          deviceId={id}
-          refetch={refetch}
-          commandFields={values(
-            mapValues(commandFields, (val: object, key) => {
-              return { ...val, id: key };
-            })
-          )} */
-        />
-      ),
+      component: <RelationData deviceObject={deviceObject} />,
     },
   ];
   const [tabIndex, setTabIndex] = useState(0);
