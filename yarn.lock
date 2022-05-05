@@ -4132,6 +4132,7 @@ __metadata:
     react: ^17.0.2
     react-colorful: ^5.5.1
     react-dom: ^17.0.2
+    react-hook-form: ^7.30.0
     react-query: ^3.34.16
     react-router-dom: ^6.2.2
   languageName: unknown
@@ -15066,6 +15067,15 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17
   checksum: 176e653f3c5c1882125b6d51d3b2258c7120202227b91edbf74708eb3f0d455b3c827f1b6c236cdf208de82871b14e86d9aeacbd44c418bcf591b2346721156f
+  languageName: node
+  linkType: hard
+
+"react-hook-form@npm:^7.30.0":
+  version: 7.30.0
+  resolution: "react-hook-form@npm:7.30.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17 || ^18
+  checksum: 7af442c80e1d8e04b6345f4f46177974d82488e81cc12b165d6ff1c69ba0f6234bd2ef0f7b51dda34f77b36fe74464815bbb0f4c77dc2cd9793f8e89d528ae25
   languageName: node
   linkType: hard
 
