@@ -1,6 +1,7 @@
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
+import { useColor } from '@tkeel/console-hooks';
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
 
 type Props = {
@@ -23,6 +24,8 @@ function PluginCard({
   const name = briefPluginInfo?.name ?? '';
   const desc = briefPluginInfo?.desc ?? '';
 
+  const borderColor = useColor('gray.700');
+
   return (
     <Flex
       position="relative"
@@ -32,12 +35,14 @@ function PluginCard({
       height="108px"
       borderWidth="1px"
       borderStyle="solid"
-      borderColor="gray.200"
+      borderColor="grayAlternatives.100"
       borderRadius="4px"
       backgroundColor="white"
       cursor="pointer"
       _hover={{
-        boxShadow: '0px 4px 8px rgba(113, 128, 150, 0.1)',
+        border: `1px solid ${borderColor}`,
+        boxShadow:
+          '0px 10px 15px -3px rgba(113, 128, 150, 0.1), 0px 4px 6px -2px rgba(113, 128, 150, 0.05)',
       }}
       onClick={onClick}
     >

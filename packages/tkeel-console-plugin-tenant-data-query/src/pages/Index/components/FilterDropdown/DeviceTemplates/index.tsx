@@ -25,11 +25,16 @@ export interface OnTemplateClick {
 }
 
 type Props = {
+  isShowSpreadButton: boolean;
   templates: Template[];
   onTemplateClick: OnTemplateClick;
 };
 
-export default function DeviceTemplates({ templates, onTemplateClick }: Props) {
+export default function DeviceTemplates({
+  isShowSpreadButton,
+  templates,
+  onTemplateClick,
+}: Props) {
   if (templates.length === 0) {
     return <NoData title="暂无设备模板,请重新选择" />;
   }
@@ -60,7 +65,7 @@ export default function DeviceTemplates({ templates, onTemplateClick }: Props) {
               {template.properties?.basicInfo?.name ?? ''}
             </Text>
           </Flex>
-          <SpreadButton style={{ display: 'none' }} />
+          {isShowSpreadButton && <SpreadButton style={{ display: 'none' }} />}
         </TitleWrapper>
       ))}
     </Box>

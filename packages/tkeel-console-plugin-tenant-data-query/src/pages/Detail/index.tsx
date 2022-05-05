@@ -152,7 +152,6 @@ export default function Detail() {
     mutate: rawDataMutate,
     data: responseRawData,
     isLoading: isRawDataLoading,
-    isSuccess: isRawDataSuccess,
   } = useRawDataMutation({
     onSuccess(data) {
       setIsRawDataRequested(true);
@@ -161,31 +160,31 @@ export default function Detail() {
     },
   });
 
-  const rawDataList = responseRawData?.items?.map((item) => {
-    let rawValue: RawValue | null = null;
-    try {
-      rawValue = JSON.parse(item.values) as RawValue;
-    } catch (error) {
-      console.error(error);
-    }
+  const rawDataList =
+    responseRawData?.items?.map((item) => {
+      let rawValue: RawValue | null = null;
+      try {
+        rawValue = JSON.parse(item.values) as RawValue;
+      } catch (error) {
+        console.error(error);
+      }
 
-    return {
-      mark: rawValue?.mark ?? '',
-      topic: rawValue?.path ?? '',
-      timestamp: rawValue?.ts
-        ? formatDateTimeByTimestamp({ timestamp: rawValue?.ts })
-        : '',
-      values: formatRawValue({
-        value: Base64.decode(rawValue?.values ?? ''),
-        type: rawDataType,
-      }),
-    };
-  });
+      return {
+        mark: rawValue?.mark ?? '',
+        topic: rawValue?.path ?? '',
+        timestamp: rawValue?.ts
+          ? formatDateTimeByTimestamp({ timestamp: rawValue?.ts })
+          : '',
+        values: formatRawValue({
+          value: Base64.decode(rawValue?.values ?? ''),
+          type: rawDataType,
+        }),
+      };
+    }) || [];
 
   const {
     mutate: telemetryDataMutate,
     data: telemetryData,
-    isSuccess: isTelemetryDataSuccess,
     isLoading: isTelemetryDataLoading,
   } = useTelemetryDataMutation({
     onSuccess() {
@@ -269,7 +268,7 @@ export default function Detail() {
 
   if (isRawDataRequested) {
     exportData =
-      rawDataList?.map((rawData) => {
+      rawDataList.map((rawData) => {
         return {
           连接方式: getConnectTypeTitle(rawData.mark as RawDataConnectType),
           TOPIC: rawData.topic,
@@ -373,8 +372,7 @@ export default function Detail() {
   ];
 
   const isExportButtonDisabled =
-    (isRawDataRequested && !isRawDataSuccess) ||
-    (isTemplateDataRequested && !isTelemetryDataSuccess);
+    rawDataList.length === 0 || originDataItems.length === 0;
   return (
     <Flex height="100%" justifyContent="space-between">
       <Flex flexDirection="column" width="360px">
@@ -509,7 +507,7 @@ export default function Detail() {
               ) : (
                 <RawDataTable
                   rawDataType={rawDataType}
-                  rawDataList={rawDataList || []}
+                  rawDataList={rawDataList}
                   pagination={pagination}
                   isLoading={isRawDataLoading}
                 />
