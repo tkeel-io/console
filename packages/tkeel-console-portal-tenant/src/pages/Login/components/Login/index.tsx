@@ -101,10 +101,10 @@ export default function Login() {
       </Box>
       <Center flexDirection="column" width="42vw">
         <Box width="350px">
-          {tenantInfo?.auth_type === 'internal' ? (
-            <PasswordForm />
-          ) : (
+          {tenantInfo?.auth_type === 'external' ? (
             <ThirdPartyAuthForm />
+          ) : (
+            <PasswordForm />
           )}
           <Button
             type="button"

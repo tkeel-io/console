@@ -12,6 +12,7 @@ import Label from '../Label';
 import ListWrapper from '../ListWrapper';
 
 type Props = StatusSelectProps & {
+  type: 'index' | 'searchResult';
   showDeviceGroup: boolean;
   isDeviceGroupLoading: boolean;
   deviceGroupTree: TreeNodeType;
@@ -36,6 +37,7 @@ type Props = StatusSelectProps & {
 };
 
 function ResultContent({
+  type,
   status,
   onStatusChange,
   showDeviceGroup,
@@ -54,6 +56,7 @@ function ResultContent({
   isDeviceTemplatesLoading,
   onDeviceGroupTitleClick,
 }: Props) {
+  const isShowSpreadButton = type === 'index';
   if (showDeviceList) {
     return (
       <>
@@ -80,6 +83,7 @@ function ResultContent({
           loading={isDeviceGroupLoading}
           content={
             <DeviceGroup
+              isShowSpreadButton={isShowSpreadButton}
               deviceGroupTree={deviceGroupTree}
               onNodeTitleClick={onDeviceGroupTitleClick}
             />
@@ -97,6 +101,7 @@ function ResultContent({
           loading={isDeviceTemplatesLoading}
           content={
             <DeviceTemplates
+              isShowSpreadButton={isShowSpreadButton}
               templates={templates}
               onTemplateClick={onTemplateClick}
             />

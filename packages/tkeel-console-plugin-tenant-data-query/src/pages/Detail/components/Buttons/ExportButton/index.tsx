@@ -13,7 +13,11 @@ type Props = {
 
 export default function ExportButton({ exportData, disabled }: Props) {
   return (
-    <CSVLink data={exportData} filename={`data-${dayjs().valueOf()}.csv`}>
+    <CSVLink
+      data={exportData}
+      filename={`data-${dayjs().valueOf()}.csv`}
+      onClick={() => !disabled}
+    >
       <IconButton
         paddingLeft="6px"
         paddingRight="16px"

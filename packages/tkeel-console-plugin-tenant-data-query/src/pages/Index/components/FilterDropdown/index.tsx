@@ -362,6 +362,7 @@ export default function FilterDropdown({
         handleConditionClick={handleConditionClick}
       />
       <ResultContent
+        type={type}
         status={status}
         onStatusChange={handleStatusChange}
         isDeviceGroupLoading={isDeviceGroupLoading}
