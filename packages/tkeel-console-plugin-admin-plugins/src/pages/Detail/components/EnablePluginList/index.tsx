@@ -36,7 +36,6 @@ function EnablePluginList({ pluginName, installed }: Props) {
       Header: '启用时间',
       accessor: 'enable_timestamp',
       width: 200,
-      disableSortBy: true,
       Cell({ value }) {
         return value
           ? formatDateTimeByTimestamp({ timestamp: `${value}000` })

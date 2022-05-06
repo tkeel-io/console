@@ -1,7 +1,9 @@
 import { useDisclosure } from '@chakra-ui/react';
+import { useState } from 'react';
 
 import { SetPasswordModal } from '@tkeel/console-business-components';
 import { CreateButton } from '@tkeel/console-components';
+import { AuthType } from '@tkeel/console-types';
 
 import useCreateTenantMutation from '@/tkeel-console-plugin-admin-tenants/hooks/mutations/useCreateTenantMutation';
 import { FormValues } from '@/tkeel-console-plugin-admin-tenants/pages/Tenants/components/BaseTenantModal';
@@ -13,6 +15,7 @@ type Props = {
 
 export default function CreateTenantButton({ onSuccess }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [authType, setAuthType] = useState<AuthType>();
   const {
     isOpen: isSuccessModalOpen,
     onOpen: onSuccessModalOpen,
@@ -26,14 +29,12 @@ export default function CreateTenantButton({ onSuccess }: Props) {
     },
   });
 
-  // TODO: SetPasswordModal url delete later
-  // const { protocol, host } = window.location;
-  // const url = `${protocol}//${host.replace(/^admin\./, '')}/auth/set-password`;
   const setPasswordModalData = {
     reset_key: data?.reset_key ?? '',
   };
 
   const handleConfirm = (formValues: FormValues) => {
+    setAuthType(formValues.auth_type);
     mutate({ data: formValues });
   };
 
@@ -49,11 +50,10 @@ export default function CreateTenantButton({ onSuccess }: Props) {
           onConfirm={handleConfirm}
         />
       )}
-      {isSuccessModalOpen && (
+      {isSuccessModalOpen && authType === 'internal' && (
         <SetPasswordModal
           isOpen={isSuccessModalOpen}
           title="创建成功"
-          // url={url}
           data={setPasswordModalData}
           onClose={onSuccessModalClose}
         />

@@ -5,4 +5,5 @@ export * from './types/logo';
 export * from './types/menu';
 export * from './types/pagination';
 export * from './types/plugin';
+export * from './types/tenant';
 export * from './types/toast';

@@ -1,6 +1,15 @@
-import { Box, Button, Center, Flex, Heading, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Center,
+  Flex,
+  Heading,
+  StyleProps,
+  Text,
+} from '@chakra-ui/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
+import { LoginBrand } from '@tkeel/console-business-components';
 import { Form, FormField } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
 import { usePortalAdminConfigQuery } from '@tkeel/console-request-hooks';
@@ -24,26 +33,26 @@ type FormValues = {
   password: string;
 };
 
+const formLabelStyle: StyleProps = {
+  marginBottom: '5px',
+  fontSize: '14px',
+  lineHeight: '20px',
+  color: 'gray.700',
+};
+
+const inputStyle: StyleProps = {
+  height: '50px',
+  padding: '16px 20px',
+  borderWidth: '1px',
+  borderStyle: 'solid',
+  borderColor: 'grayAlternatives.50',
+  borderRadius: '4px',
+  backgroundColor: 'white',
+  fontSize: '14px',
+  lineHeight: '20px',
+};
+
 export default function Login() {
-  const formLabelStyle = {
-    marginBottom: '5px',
-    fontSize: '14px',
-    lineHeight: '20px',
-    color: 'gray.700',
-  };
-
-  const inputStyle = {
-    height: '50px',
-    padding: '16px 20px',
-    borderWidth: '1px',
-    borderStyle: 'solid',
-    borderColor: 'grayAlternatives.50',
-    borderRadius: '4px',
-    backgroundColor: 'white',
-    fontSize: '14px',
-    lineHeight: '20px',
-  };
-
   const { config } = usePortalAdminConfigQuery();
   const clientConfig = config?.client;
   const pageConfig = clientConfig?.pages.Login;
@@ -115,16 +124,13 @@ export default function Login() {
         </Heading>
       </Box>
       <Center flexDirection="column" width="42vw">
-        <Form margin="0" onSubmit={handleSubmit(onSubmit)}>
-          <Heading
-            paddingBottom="12px"
-            fontSize="24px"
-            fontWeight="600"
-            lineHeight="40px"
-            color="gray.800"
-          >
-            您好管理员，欢迎使用！
-          </Heading>
+        <Form width="350px" onSubmit={handleSubmit(onSubmit)}>
+          <LoginBrand
+            logo={clientConfig?.logoMark ?? ''}
+            title="您好管理员，欢迎使用！"
+            slogan={clientConfig?.slogan ?? ''}
+            styles={{ root: { paddingBottom: '24px' } }}
+          />
           <TextField
             type="password"
             id="password"

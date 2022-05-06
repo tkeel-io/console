@@ -10,15 +10,19 @@ type JumpToPageOptions = {
   path?: string;
   isReplace?: boolean;
   navigate?: NavigateFunction;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  state?: any;
 };
 
 export function jumpToPage({
   path = '/',
   isReplace,
   navigate,
+  state,
 }: JumpToPageOptions) {
   if (typeof navigate === 'function') {
-    navigate(path, { replace: isReplace });
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    navigate(path, { replace: isReplace, state });
   } else if (isReplace) {
     window.location.replace(path);
   } else {
@@ -61,6 +65,8 @@ type JumpToAuthLoginPageOptions<TSearchParams = Record<string, any>> = {
   isRemoveLocalTokenInfo?: boolean;
   isReplace?: boolean;
   navigate?: NavigateFunction;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  state?: any;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -72,6 +78,7 @@ export function jumpToAuthLoginPage<TSearchParams = Record<string, any>>({
   isRemoveLocalTokenInfo = false,
   isReplace = false,
   navigate,
+  state,
 }: JumpToAuthLoginPageOptions<TSearchParams>) {
   let loginPath = '';
 
@@ -90,7 +97,8 @@ export function jumpToAuthLoginPage<TSearchParams = Record<string, any>>({
     removeLocalTokenInfo();
   }
 
-  jumpToPage({ path: loginPath, isReplace, navigate });
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  jumpToPage({ path: loginPath, isReplace, navigate, state });
 }
 
 type GetNoAuthRedirectPathOptions = {

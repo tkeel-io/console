@@ -15,6 +15,7 @@ const TitleWrapper = styled(Flex)`
 `;
 
 type Props = {
+  isShowSpreadButton: boolean;
   deviceGroupTree: TreeNodeType;
   onNodeTitleClick: ({
     groupId,
@@ -26,6 +27,7 @@ type Props = {
 };
 
 export default function DeviceGroup({
+  isShowSpreadButton,
   deviceGroupTree,
   onNodeTitleClick,
 }: Props) {
@@ -49,7 +51,7 @@ export default function DeviceGroup({
             <Text marginLeft="4px" color="gray.800">
               {node.title}
             </Text>
-            <SpreadButton style={{ display: 'none' }} />
+            {isShowSpreadButton && <SpreadButton style={{ display: 'none' }} />}
           </TitleWrapper>
         );
       }}
