@@ -12,9 +12,10 @@ type Props = {
 export default function Header({ menus, userActionMenusComponent }: Props) {
   const { pathname } = useLocation();
   let breadcrumbs: string[] = [];
+
   menus.forEach((menu) => {
     const { name, path, children } = menu;
-    if (children) {
+    if (Array.isArray(children) && children.length > 0) {
       const menuItem = children.find((item) =>
         pathname.includes(item.path as string)
       );
