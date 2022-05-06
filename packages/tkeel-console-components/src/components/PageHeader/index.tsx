@@ -21,15 +21,19 @@ function PageHeader({ icon, name, desc = '', documentsPath = '' }: Props) {
       width="100%"
       height="100px"
       borderRadius="4px"
-      backgroundColor="white"
-      boxShadow="0px 10px 15px -3px rgba(113, 128, 150, 0.1),
-    0px 4px 6px -2px rgba(113, 128, 150, 0.05)"
+      backgroundColor="gray.50"
     >
       <Center
         width="60px"
         height="60px"
         borderRadius="14px"
         backgroundColor="gray.100"
+        css={`
+          svg {
+            width: 40px;
+            height: 40px;
+          }
+        `}
       >
         {icon}
       </Center>
@@ -39,12 +43,17 @@ function PageHeader({ icon, name, desc = '', documentsPath = '' }: Props) {
         justifyContent="center"
         color="gray.700"
       >
-        <Text fontSize="14px" fontWeight="600" lineHeight="22PX">
+        <Text
+          fontSize="18px"
+          color="gray.800"
+          fontWeight="600"
+          lineHeight="22PX"
+        >
           {name}
         </Text>
         <Text
           marginTop="5px"
-          color="grayAlternatives.300"
+          color="gray.500"
           fontSize="12px"
           lineHeight="17px"
         >

@@ -48,8 +48,8 @@ function Detail() {
         boxShadow="0px 10px 15px -3px rgba(113, 128, 150, 0.1), 0px 4px 6px -2px rgba(113, 128, 150, 0.05);"
       >
         <CustomTabList>
-          <CustomTab borderTopLeftRadius="4px">说明</CustomTab>
-          <CustomTab>参数</CustomTab>
+          <CustomTab borderTopLeftRadius="4px">参数</CustomTab>
+          <CustomTab>说明</CustomTab>
           <CustomTab>启用列表</CustomTab>
         </CustomTabList>
         <TabPanels
@@ -58,6 +58,12 @@ function Detail() {
           borderBottomLeftRadius="4px"
           borderBottomRightRadius="4px"
         >
+          <TabPanel height="100%" padding="24px" backgroundColor="white">
+            <AceEditor
+              language="yaml"
+              value={atob(pluginDetail?.metadata?.configuration ?? '')}
+            />
+          </TabPanel>
           <TabPanel padding="0" height="100%" backgroundColor="white">
             {readme ? (
               <MarkdownWrapper
@@ -72,12 +78,6 @@ function Detail() {
                 styles={{ wrapper: { height: '100%' } }}
               />
             )}
-          </TabPanel>
-          <TabPanel height="100%" padding="24px" backgroundColor="white">
-            <AceEditor
-              language="yaml"
-              value={atob(pluginDetail?.metadata?.configuration ?? '')}
-            />
           </TabPanel>
           <TabPanel padding="0" height="100%">
             <EnablePluginList pluginName={name || ''} installed={installed} />

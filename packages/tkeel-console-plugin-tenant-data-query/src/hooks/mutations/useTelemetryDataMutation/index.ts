@@ -1,4 +1,5 @@
 import { useMutation } from '@tkeel/console-hooks';
+import { RequestResult } from '@tkeel/console-utils';
 
 export interface DataItem {
   time: string;
@@ -25,8 +26,23 @@ type RequestData = {
   page_num: number;
 };
 
-export default function useTelemetryDataMutation() {
+type Props = {
+  onSuccess: (
+    data: RequestResult<ApiData, undefined, RequestData>,
+    variables: unknown,
+    context: unknown
+  ) => void | Promise<unknown>;
+};
+
+export default function useTelemetryDataMutation(props?: Props) {
+  const { onSuccess } = props || {};
+  const reactQueryOptions = onSuccess
+    ? {
+        onSuccess,
+      }
+    : {};
   return useMutation<ApiData, undefined, RequestData>({
     method,
+    reactQueryOptions,
   });
 }

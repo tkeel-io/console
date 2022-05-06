@@ -27,6 +27,7 @@ export default function DateRangeIndicator({
       flexDirection="column"
       justifyContent="flex-end"
       height="41px"
+      padding="0 20px"
       border="1px solid"
       borderColor="grayAlternatives.50"
       borderRadius="4px"

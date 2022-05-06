@@ -100,9 +100,9 @@ function SearchInput({
         ref={inputRef}
         height="100%"
         paddingInlineEnd="30px"
-        borderColor="gray.200"
+        borderColor="grayAlternatives.100"
         borderRadius="20px"
-        color="gray.600"
+        color="gray.500"
         fontSize="12px"
         {...inputStyle}
         _focus={{ borderColor: 'gray.400' }}

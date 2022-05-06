@@ -43,7 +43,7 @@ const DEFAULT_VALUES = {
   configId: '',
 };
 interface Props {
-  type?: 'auto' | 'telemetry' | 'attribute';
+  type?: 'auto' | 'telemetry' | 'attributes';
   operateType?: 'create' | 'edit';
   uid: string;
   isOpen: boolean;
@@ -114,7 +114,7 @@ export default function DeviceRelationModal({
     RequestDataCondition[]
   >([]);
   const [deviceList, setDeviceList] = useState<DeviceItem[]>([]);
-
+  const [initState, setInitState] = useState<boolean>(true);
   const { isLoading: isDeviceDetailFetching, deviceObject } =
     useDeviceDetailQuery({
       id: selectedDevice?.id ?? '',
@@ -160,7 +160,7 @@ export default function DeviceRelationModal({
       const groupTreeNodeData = getTreeNodeData({ data: groupTree });
       setTreeNodeData(groupTreeNodeData);
       const key = groupTreeNodeData[0]?.key;
-      if (key) {
+      if (operateType !== 'edit' && key) {
         setGroupId(key);
       }
     },
@@ -173,7 +173,7 @@ export default function DeviceRelationModal({
       const items = data?.data?.listDeviceObject.items ?? [];
       setTemplates(items);
       const id = items[0]?.id;
-      if (id) {
+      if (operateType !== 'edit' && id) {
         setTemplateId(id);
       }
     },
@@ -198,6 +198,11 @@ export default function DeviceRelationModal({
     onSuccess(data) {
       const items = data?.data?.listDeviceObject?.items ?? [];
       setDeviceList(items);
+      if (initState) {
+        setSelectedDevice(
+          items.find((v) => v.id === defaultValues?.deviceId) || null
+        );
+      }
     },
   });
 
@@ -220,7 +225,7 @@ export default function DeviceRelationModal({
     setDeviceTemplateConditions([]);
     setConfigList([]);
     setDeviceList([]);
-    setSelectedDevice(null);
+    setConfigItem(null);
   };
   useEffect(() => {
     if (deviceObject) {
@@ -231,17 +236,16 @@ export default function DeviceRelationModal({
       const defaultConfigList =
         type === 'telemetry' ? telemetryList : attributesList;
       setConfigList(defaultConfigList);
-      setConfigItem(
-        defaultConfigList.find((v) => v.id === defaultValues.configId) || null
-      );
+      if (initState) {
+        setConfigItem(
+          defaultConfigList.find((v) => v.id === defaultValues?.configId) ||
+            null
+        );
+        setInitState(false);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deviceObject, type]);
-  useEffect(() => {
-    setSelectedDevice(
-      deviceList.find((v) => v.id === defaultValues.deviceId) || null
-    );
-  }, [defaultValues.deviceId, deviceList]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -255,11 +259,13 @@ export default function DeviceRelationModal({
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [defaultValues, isOpen, operateType]);
+  }, [isOpen]);
 
   useEffect(() => {
     setSelectedDevice(null);
     setDeviceList([]);
+    setGroupId('');
+    setTemplateId('');
     setDeviceGroupKeywords('');
     setDeviceTemplateKeywords('');
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -3,11 +3,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { BasicInfo } from '@tkeel/console-business-components';
 import { MoreAction } from '@tkeel/console-components';
+import { useTenantQuery } from '@tkeel/console-request-hooks';
 import { formatDateTimeByTimestamp, plugin } from '@tkeel/console-utils';
 
 import DeleteTenantButton from '@/tkeel-console-plugin-admin-tenants/components/DeleteTenantButton';
 import ModifyTenantButton from '@/tkeel-console-plugin-admin-tenants/components/ModifyTenantButton';
-import useTenantQuery from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useTenantQuery';
 
 export default function BasicInfoCard() {
   const toast = plugin.getPortalToast();

@@ -7,7 +7,6 @@ import RsuiteDateRangePicker, {
   DateRangePickerProps,
 } from 'rsuite/DateRangePicker';
 
-// import './style.scss';
 import DateRangePickerStyles from './DateRangePickerStyles';
 
 // type DateRange = [Date, Date];
@@ -55,7 +54,6 @@ export default function DateRangePicker({
 
   return (
     <>
-      <DateRangePickerStyles />
       <RsuiteDateRangePicker
         format={format}
         placeholder="请选择时间范围"
@@ -74,6 +72,7 @@ export default function DateRangePicker({
         }}
         {...rest}
       />
+      <DateRangePickerStyles />
     </>
   );
 }

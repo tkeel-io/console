@@ -183,7 +183,7 @@ export default function BaseRulesModal({
           error={errors.deviceTemplate}
           control={control}
           rules={{
-            required: { value: true, message: '设备模版为空' },
+            required: { value: true, message: '设备模板为空' },
           }}
         />
       )}
