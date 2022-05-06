@@ -15,18 +15,20 @@ type ApiData = {
 
 type Options = {
   enabled?: boolean;
+  retryOnMount?: boolean;
   params: RequestParams;
 };
 
 export default function useTenantExactQuery({
   enabled = true,
+  retryOnMount,
   params,
 }: Options) {
   return useQuery<ApiData, RequestParams>({
     url: '/security/v1/tenants/exact',
     method: 'GET',
     params,
-    reactQueryOptions: { enabled },
+    reactQueryOptions: { enabled, retryOnMount },
     extras: {
       handleNoAuth: false,
     },
