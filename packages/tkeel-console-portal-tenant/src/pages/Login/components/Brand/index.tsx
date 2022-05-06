@@ -22,6 +22,7 @@ export default function Brand({ align, styles }: Props) {
 
   const { data: tenantInfo } = useTenantExactQuery({
     enabled: !!tenantId,
+    retryOnMount: false,
     params: { tenant_id: tenantId },
   });
   const tenantTitle = tenantInfo?.title ?? '';
