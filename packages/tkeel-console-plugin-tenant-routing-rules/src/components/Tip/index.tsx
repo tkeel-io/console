@@ -15,8 +15,8 @@ type Props = {
 export default function Tip({ icon, title, styles }: Props) {
   return (
     <Flex alignItems="center" {...styles?.wrapper}>
-      {icon || <TipIcon size={14} />}
-      <Text ml="8px" color="gray.400" fontSize="12px" {...styles?.text}>
+      {icon || <TipIcon size={14} color="gray.500" />}
+      <Text ml="8px" color="gray.500" fontSize="12px" {...styles?.text}>
         {title}
       </Text>
     </Flex>
