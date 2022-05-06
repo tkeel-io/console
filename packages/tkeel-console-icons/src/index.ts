@@ -26,6 +26,7 @@ export { default as ChevronUpFilledIcon } from './components/ChevronUpFilledIcon
 export { default as ClickHouseFilledIcon } from './components/ClickHouseFilledIcon';
 export { default as CloseFilledIcon } from './components/CloseFilledIcon';
 export { default as CollapseFilledIcon } from './components/CollapseFilledIcon';
+export { default as CommandWindowFilledIcon } from './components/CommandWindowFilledIcon';
 export { default as CopyFilledIcon } from './components/CopyFilledIcon';
 export { default as CreateFinishedIcon } from './components/CreateFinishedIcon';
 export { default as DevopsFilledIcon } from './components/DevopsFilledIcon';
@@ -68,6 +69,7 @@ export { default as MgmtNodeTwoToneIcon } from './components/MgmtNodeTwoToneIcon
 export { default as MoonCircleFilledIcon } from './components/MoonCircleFilledIcon';
 export { default as MoreVerticalFilledIcon } from './components/MoreVerticalFilledIcon';
 export { default as MySqlFilledIcon } from './components/MySqlFilledIcon';
+export { default as NetworkIcon } from './components/NetworkIcon';
 export { default as NotePencilFilledIcon } from './components/NotePencilFilledIcon';
 export { default as ObjectStorageFilledIcon } from './components/ObjectStorageFilledIcon';
 export { default as OfficialFilledIcon } from './components/OfficialFilledIcon';

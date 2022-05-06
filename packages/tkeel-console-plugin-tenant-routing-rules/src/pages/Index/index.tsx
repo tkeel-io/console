@@ -39,7 +39,7 @@ export default function Index(): JSX.Element {
     setTotalSize(totalNum);
   }
 
-  const handleCreateUserSuccess = () => {
+  const handleCreateRulesSuccess = () => {
     toast('创建成功', { status: 'success' });
     refetch();
   };
@@ -52,7 +52,7 @@ export default function Index(): JSX.Element {
           <CreateRulesButton
             key="create"
             type="createButton"
-            onSuccess={handleCreateUserSuccess}
+            onSuccess={handleCreateRulesSuccess}
           />,
         ]}
       />
@@ -86,7 +86,7 @@ export default function Index(): JSX.Element {
                 <CreateRulesButton
                   key="create"
                   type="createText"
-                  onSuccess={handleCreateUserSuccess}
+                  onSuccess={handleCreateRulesSuccess}
                 />
                 数据路由规则
               </Text>
