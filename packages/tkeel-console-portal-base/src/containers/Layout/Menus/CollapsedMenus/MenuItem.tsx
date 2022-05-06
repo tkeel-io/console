@@ -31,7 +31,7 @@ function MenuItem({ icon, active }: Props) {
       }
       cursor="pointer"
     >
-      <Center width="40px" height="40px">
+      <Center width="36px" height="36px">
         <MenuIcon icon={icon} active={active} />
       </Center>
     </Box>

@@ -76,7 +76,7 @@ export function getLinkStyle(active: boolean) {
   return {
     display: 'flex',
     alignItems: 'center',
-    height: '40px',
+    height: '36px',
     color,
     backgroundColor: active ? 'primary' : 'transparent',
     _hover: hoverStyle,

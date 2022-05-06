@@ -15,7 +15,7 @@ function MenuItem({ active, name, leftIcon, rightIcon = null }: Props) {
     <Flex
       alignItems="center"
       justifyContent="space-between"
-      height="40px"
+      height="36px"
       paddingLeft="34px"
       fontWeight={active ? '600' : 'normal'}
       cursor="pointer"
