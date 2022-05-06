@@ -92,8 +92,7 @@ export default function Tenants() {
       Header: '认证方式',
       accessor: 'auth_type',
       Cell: ({ value }) =>
-        AUTH_TYPE_MAP[value].label ??
-        AUTH_TYPE_MAP[DEFAULT_AUTH_TYPE_VALUE].label,
+        (AUTH_TYPE_MAP[value] ?? AUTH_TYPE_MAP[DEFAULT_AUTH_TYPE_VALUE]).label,
     },
     { Header: '租户 ID', accessor: 'tenant_id' },
     {
