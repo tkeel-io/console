@@ -1,4 +1,4 @@
-import { Box, Button } from '@chakra-ui/react';
+import { Box, Button, StyleProps } from '@chakra-ui/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
@@ -30,14 +30,14 @@ type FormValues = {
   password: string;
 };
 
-const formLabelStyle = {
+const formLabelStyle: StyleProps = {
   marginBottom: '5px',
   fontSize: '14px',
   lineHeight: '20px',
   color: 'gray.700',
 };
 
-const inputStyle = {
+const inputStyle: StyleProps = {
   height: '50px',
   padding: '16px 20px',
   borderWidth: '1px',
