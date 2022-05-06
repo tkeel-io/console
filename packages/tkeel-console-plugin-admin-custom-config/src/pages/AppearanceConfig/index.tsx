@@ -55,7 +55,7 @@ export default function AppearanceConfig() {
           <Flex alignItems="center">
             <AppsTwoToneIcon size={19} />
             <Text
-              marginLeft="10px"
+              marginLeft="8px"
               color="gray.700"
               fontSize="14px"
               fontWeight="600"

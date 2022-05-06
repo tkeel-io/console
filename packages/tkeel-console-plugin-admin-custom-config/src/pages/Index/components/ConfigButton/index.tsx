@@ -1,15 +1,22 @@
 import { Flex, Text } from '@chakra-ui/react';
+import { MouseEventHandler } from 'react';
 
 import { Tooltip } from '@tkeel/console-components';
 import { RightFilledIcon } from '@tkeel/console-icons';
 
 type Props = {
   title: string;
+  disable?: boolean;
+  onClick?: MouseEventHandler<HTMLDivElement>;
 };
 
-export default function ConfigButton({ title }: Props) {
+export default function ConfigButton({
+  title,
+  disable = false,
+  onClick,
+}: Props) {
   return (
-    <Tooltip label="敬请期待">
+    <Tooltip label={disable ? '敬请期待' : ''}>
       <Flex
         justifyContent="center"
         alignItems="center"
@@ -17,7 +24,8 @@ export default function ConfigButton({ title }: Props) {
         height="40px"
         borderRadius="4px"
         backgroundColor="gray.50"
-        cursor="not-allowed"
+        cursor={disable ? 'not-allowed' : 'pointer'}
+        onClick={disable ? undefined : onClick}
       >
         <Text color="grayAlternatives.200" fontSize="12px">
           {title}
