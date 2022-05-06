@@ -18,7 +18,7 @@ function SubMenuLink({ path, name }: Props) {
       <Rectangle style={{ display: 'none' }} />
       <Text
         className="menu-name"
-        paddingLeft="58px"
+        paddingLeft="60px"
         color={color}
         fontWeight={active ? '600' : 'normal'}
       >
