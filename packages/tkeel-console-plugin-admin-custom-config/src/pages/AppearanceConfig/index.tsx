@@ -1,32 +1,22 @@
-import { Flex, Input, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
-import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-
-import { BasicInfoBg } from '@tkeel/console-business-components';
 import {
-  BackButton,
-  CustomTab,
+  Flex,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Text,
+} from '@chakra-ui/react';
+
+import {
+  CustomTab as CustomDetailTab,
   CustomTabList,
-  FormField,
 } from '@tkeel/console-components';
-import { AppsTwoToneIcon } from '@tkeel/console-icons';
 
-import ConfigItem from './components/ConfigItem';
-
-const { TextField, TextareaField } = FormField;
-
-type ConfigField = {
-  companyName: string;
-  slogan: string;
-};
+import BasicInfo from './components/BasicInfo';
+import CommonConfig from './components/CommonConfig';
+import CustomTab from './components/CustomTab';
 
 export default function AppearanceConfig() {
-  const navigate = useNavigate();
-  const {
-    register,
-    formState: { errors },
-  } = useForm<ConfigField>();
-
   const tabPanelStyle = {
     height: '100%',
     padding: '12px 20px',
@@ -41,62 +31,35 @@ export default function AppearanceConfig() {
 
   return (
     <Flex>
-      <Flex flexDirection="column" width="360px" backgroundColor="white">
-        <Flex
-          position="relative"
-          flexDirection="column"
-          justifyContent="space-between"
-          padding="16px 22px 22px"
-          width="100%"
-          height="108px"
-          backgroundColor="gray.50"
-        >
-          <BackButton marginLeft="-8px" onClick={() => navigate('/')} />
-          <Flex alignItems="center">
-            <AppsTwoToneIcon size={19} />
-            <Text
-              marginLeft="8px"
-              color="gray.700"
-              fontSize="14px"
-              fontWeight="600"
+      <Flex flexDirection="column" width="360px">
+        <BasicInfo />
+        <Flex marginTop="12px" flexDirection="column" backgroundColor="white">
+          <Tabs
+            variant="unstyled"
+            display="flex"
+            overflowY="auto"
+            flexDirection="column"
+            flex="1"
+          >
+            <TabList
+              display="flex"
+              height="48px"
+              paddingLeft="24px"
+              borderBottom="none"
+              backgroundColor="gray.50"
             >
-              外观配置
-            </Text>
-          </Flex>
-          <BasicInfoBg />
-        </Flex>
-        <Flex flexDirection="column" padding="20px 24px">
-          <ConfigItem
-            title="公司简称"
-            desc="建议不超过 8 个字节，公司简称将用在登录欢迎页、左侧导航等。"
-            formField={
-              <TextField
-                id="companyName"
-                error={errors.companyName}
-                registerReturn={register('companyName', {
-                  required: { value: true, message: '请输入公司名称' },
-                })}
-              />
-            }
-          />
-          <ConfigItem
-            title="Slogan"
-            desc="Slogan 将用在一些登录欢迎页。"
-            formField={
-              <TextareaField
-                id="companyName"
-                error={errors.slogan}
-                registerReturn={register('companyName', {
-                  required: { value: true, message: '请输入 Slogan' },
-                })}
-              />
-            }
-          />
-          <ConfigItem
-            title="Logo"
-            desc="建议上传 1M 以内的 jpg/jpeg/gif/png/svg 作为您公司的Logo ，图片大小建议为 96px*96px 。"
-            formField={<Input type="file" />}
-          />
+              <CustomTab>通用配置</CustomTab>
+              <CustomTab>平台级配置</CustomTab>
+            </TabList>
+            <TabPanels flex="1" padding="20px 24px">
+              <TabPanel height="100%" padding="0">
+                <CommonConfig />
+              </TabPanel>
+              <TabPanel height="100%" padding="0">
+                2
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
         </Flex>
       </Flex>
       <Tabs
@@ -107,8 +70,10 @@ export default function AppearanceConfig() {
         boxShadow="0px 10px 15px -3px rgba(113, 128, 150, 0.1), 0px 4px 6px -2px rgba(113, 128, 150, 0.05);"
       >
         <CustomTabList>
-          <CustomTab borderTopLeftRadius="4px">登录欢迎页</CustomTab>
-          <CustomTab>左侧导航</CustomTab>
+          <CustomDetailTab borderTopLeftRadius="4px">
+            登录欢迎页
+          </CustomDetailTab>
+          <CustomDetailTab>左侧导航</CustomDetailTab>
         </CustomTabList>
         <TabPanels
           flex="1"

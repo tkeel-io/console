@@ -15,6 +15,7 @@ export default function ConfigButton({
   disable = false,
   onClick,
 }: Props) {
+  const textColor = disable ? 'grayAlternatives.200' : 'primary';
   return (
     <Tooltip label={disable ? '敬请期待' : ''}>
       <Flex
@@ -23,17 +24,14 @@ export default function ConfigButton({
         width="124px"
         height="40px"
         borderRadius="4px"
-        backgroundColor="gray.50"
+        backgroundColor={disable ? 'gray.50' : 'brand.50'}
         cursor={disable ? 'not-allowed' : 'pointer'}
         onClick={disable ? undefined : onClick}
       >
-        <Text color="grayAlternatives.200" fontSize="12px">
+        <Text color={textColor} fontSize="12px">
           {title}
         </Text>
-        <RightFilledIcon
-          color="grayAlternatives.200"
-          style={{ marginLeft: '8px' }}
-        />
+        <RightFilledIcon color={textColor} style={{ marginLeft: '8px' }} />
       </Flex>
     </Tooltip>
   );
