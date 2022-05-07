@@ -4,8 +4,8 @@ import type { PortalTenantConfig } from '@tkeel/console-request-hooks';
 import { AuthType } from '@tkeel/console-types';
 import { jumpToTenantAuthTenantPage } from '@tkeel/console-utils';
 
-import PasswordForm from '../PasswordForm';
-import ThirdPartyAuthForm from '../ThirdPartyAuthForm';
+import PasswordForm from './PasswordForm';
+import ThirdPartyAuthForm from './ThirdPartyAuthForm';
 
 const logoutTenant = () => {
   jumpToTenantAuthTenantPage({
@@ -23,7 +23,7 @@ interface Props {
   config?: PortalTenantConfig;
 }
 
-export default function Login({ tenantInfo, config }: Props) {
+export default function TenantLogin({ tenantInfo, config }: Props) {
   const clientConfig = config?.client;
   const pageConfig = clientConfig?.pages?.Login;
 

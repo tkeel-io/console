@@ -13,7 +13,7 @@ import {
 
 import useTokenMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useTokenMutation';
 
-import Brand from '../Brand';
+import Brand from './Brand';
 
 const mockData = env.isEnvDevelopment()
   ? {

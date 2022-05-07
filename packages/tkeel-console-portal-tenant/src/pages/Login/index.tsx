@@ -9,7 +9,7 @@ import { jumpToPage, jumpToTenantAuthTenantPage } from '@tkeel/console-utils';
 import useTokenMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useTokenMutation';
 import useTenantExactQuery from '@/tkeel-console-portal-tenant/hooks/queries/useTenantExactQuery';
 
-import BaseLogin from './components/Login';
+import TenantLogin from './components/TenantLogin';
 
 export default function Login() {
   const { tenantId = '' } = useParams();
@@ -69,5 +69,5 @@ export default function Login() {
     );
   }
 
-  return <BaseLogin tenantInfo={tenantInfo} config={config} />;
+  return <TenantLogin tenantInfo={tenantInfo} config={config} />;
 }

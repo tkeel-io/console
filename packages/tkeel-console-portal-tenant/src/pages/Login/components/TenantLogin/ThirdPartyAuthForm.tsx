@@ -6,7 +6,7 @@ import { jumpToPage } from '@tkeel/console-utils';
 
 import useTokenMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useTokenMutation';
 
-import Brand from '../Brand';
+import Brand from './Brand';
 
 export default function ThirdPartyAuthForm() {
   const pathParams = useParams();
