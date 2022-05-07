@@ -1,13 +1,8 @@
 import { Box, Button, Center, Flex, Heading } from '@chakra-ui/react';
-import { useEffect } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
 
-import { Loading } from '@tkeel/console-components';
-import { usePortalTenantConfigQuery } from '@tkeel/console-request-hooks';
-import { jumpToPage, jumpToTenantAuthTenantPage } from '@tkeel/console-utils';
-
-import useTokenMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useTokenMutation';
-import useTenantExactQuery from '@/tkeel-console-portal-tenant/hooks/queries/useTenantExactQuery';
+import type { PortalTenantConfig } from '@tkeel/console-request-hooks';
+import { AuthType } from '@tkeel/console-types';
+import { jumpToTenantAuthTenantPage } from '@tkeel/console-utils';
 
 import PasswordForm from '../PasswordForm';
 import ThirdPartyAuthForm from '../ThirdPartyAuthForm';
@@ -20,49 +15,17 @@ const logoutTenant = () => {
   });
 };
 
-export default function Login() {
-  const { config } = usePortalTenantConfigQuery();
+interface Props {
+  tenantInfo?: {
+    auth_type: AuthType;
+    title: string;
+  };
+  config?: PortalTenantConfig;
+}
+
+export default function Login({ tenantInfo, config }: Props) {
   const clientConfig = config?.client;
   const pageConfig = clientConfig?.pages?.Login;
-
-  const pathParams = useParams();
-  const { tenantId = '' } = pathParams;
-  const { data: tenantInfo, isLoading: isTenantExactQueryLoading } =
-    useTenantExactQuery({
-      enabled: !!tenantId,
-      params: { tenant_id: tenantId },
-    });
-
-  const { state } = useLocation();
-  const isAutoLogin = (state as { isAutoLogin: boolean })?.isAutoLogin ?? false;
-  const { mutate, isError } = useTokenMutation({
-    tenantId,
-    onSuccess({ data }) {
-      jumpToPage({ path: data.redirect_url, isReplace: true });
-    },
-  });
-
-  useEffect(() => {
-    if (isAutoLogin && tenantInfo?.auth_type === 'external') {
-      mutate({});
-    }
-  }, [isAutoLogin, tenantInfo?.auth_type, mutate]);
-
-  if (isTenantExactQueryLoading) {
-    return (
-      <Center height="100vh">
-        <Loading />
-      </Center>
-    );
-  }
-
-  if (isAutoLogin && tenantInfo?.auth_type === 'external' && !isError) {
-    return (
-      <Center height="100vh">
-        <Loading />
-      </Center>
-    );
-  }
 
   return (
     <Flex height="100vh" backgroundColor="white">

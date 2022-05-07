@@ -1,13 +1,12 @@
 import { Box, Button, StyleProps } from '@chakra-ui/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 
 import { Form, FormField } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
 import {
   env,
   jumpToPage,
-  jumpToTenantAuthTenantPage,
   schemas,
   setLocalTokenInfo,
 } from '@tkeel/console-utils';
@@ -59,8 +58,6 @@ export default function PasswordForm() {
   const pathParams = useParams();
   const { tenantId = '' } = pathParams;
 
-  const navigate = useNavigate();
-
   const [searchParams] = useSearchParams();
   const initialUsername = searchParams.get('username') || '';
 
@@ -77,15 +74,6 @@ export default function PasswordForm() {
       jumpToPage({ path: redirect, isReplace: true });
     },
   });
-
-  if (!tenantId) {
-    jumpToTenantAuthTenantPage({
-      isReplace: true,
-      navigate,
-    });
-
-    return null;
-  }
 
   const onSubmit: SubmitHandler<FormValues> = (formValues) => {
     const { username, password } = formValues;
