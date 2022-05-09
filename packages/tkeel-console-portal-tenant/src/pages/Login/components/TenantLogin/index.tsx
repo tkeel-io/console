@@ -1,11 +1,10 @@
 import { Box, Button, Center, Flex, Heading } from '@chakra-ui/react';
 
-import type { PortalTenantConfig } from '@tkeel/console-request-hooks';
-import { AuthType } from '@tkeel/console-types';
 import { jumpToTenantAuthTenantPage } from '@tkeel/console-utils';
 
 import PasswordForm from './PasswordForm';
 import ThirdPartyAuthForm from './ThirdPartyAuthForm';
+import { TenantLoginProps } from './types';
 
 const logoutTenant = () => {
   jumpToTenantAuthTenantPage({
@@ -15,15 +14,8 @@ const logoutTenant = () => {
   });
 };
 
-interface Props {
-  tenantInfo?: {
-    auth_type: AuthType;
-    title: string;
-  };
-  config?: PortalTenantConfig;
-}
-
-export default function TenantLogin({ tenantInfo, config }: Props) {
+export default function TenantLogin(props: TenantLoginProps) {
+  const { tenantInfo, config, isPreview } = props;
   const clientConfig = config?.client;
   const pageConfig = clientConfig?.pages?.Login;
 
@@ -65,9 +57,9 @@ export default function TenantLogin({ tenantInfo, config }: Props) {
       <Center flexDirection="column" width="42vw">
         <Box width="350px">
           {tenantInfo?.auth_type === 'external' ? (
-            <ThirdPartyAuthForm />
+            <ThirdPartyAuthForm {...props} />
           ) : (
-            <PasswordForm />
+            <PasswordForm {...props} />
           )}
           <Button
             type="button"
@@ -84,7 +76,13 @@ export default function TenantLogin({ tenantInfo, config }: Props) {
             _hover={{
               backgroundColor: 'gray.50',
             }}
-            onClick={() => logoutTenant()}
+            onClick={() => {
+              if (isPreview) {
+                return;
+              }
+
+              logoutTenant();
+            }}
           >
             切换空间
           </Button>

@@ -7,8 +7,12 @@ import { jumpToPage } from '@tkeel/console-utils';
 import useTokenMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useTokenMutation';
 
 import Brand from './Brand';
+import { ThirdPartyAuthFormProps } from './types';
 
-export default function ThirdPartyAuthForm() {
+export default function ThirdPartyAuthForm({
+  isPreview,
+  ...rest
+}: ThirdPartyAuthFormProps) {
   const pathParams = useParams();
   const { tenantId = '' } = pathParams;
 
@@ -22,11 +26,20 @@ export default function ThirdPartyAuthForm() {
   return (
     <Form
       onSubmit={(event) => {
-        mutate({});
         event.preventDefault();
+
+        if (isPreview) {
+          return;
+        }
+
+        mutate({});
       }}
     >
-      <Brand align="center" styles={{ root: { paddingBottom: '32px' } }} />
+      <Brand
+        {...rest}
+        align="center"
+        styles={{ root: { paddingBottom: '32px' } }}
+      />
       <Button
         type="submit"
         colorScheme="brand"

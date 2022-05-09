@@ -14,6 +14,7 @@ import {
 import useTokenMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useTokenMutation';
 
 import Brand from './Brand';
+import { PasswordFormProps } from './types';
 
 const mockData = env.isEnvDevelopment()
   ? {
@@ -48,7 +49,10 @@ const inputStyle: StyleProps = {
   lineHeight: '20px',
 };
 
-export default function PasswordForm() {
+export default function PasswordForm({
+  isPreview,
+  ...rest
+}: PasswordFormProps) {
   const {
     register,
     handleSubmit,
@@ -76,6 +80,10 @@ export default function PasswordForm() {
   });
 
   const onSubmit: SubmitHandler<FormValues> = (formValues) => {
+    if (isPreview) {
+      return;
+    }
+
     const { username, password } = formValues;
     const params = {
       grant_type: 'password' as const,
@@ -88,7 +96,7 @@ export default function PasswordForm() {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <Brand styles={{ root: { paddingBottom: '24px' } }} />
+      <Brand {...rest} styles={{ root: { paddingBottom: '24px' } }} />
       <TextField
         id="username"
         type="text"
