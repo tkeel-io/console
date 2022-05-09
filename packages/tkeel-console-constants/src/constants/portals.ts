@@ -25,10 +25,10 @@ export const DEFAULT_PORTAL_NAME = PortalNames.TENANT;
 export const DEFAULT_PORTAL_ADMIN_CONFIG = {
   client: {
     documentTitle: 'QingCloud IoT 物联网运维管理平台',
+    // eslint-disable-next-line sonarjs/no-duplicate-string
     subTitle1: '构建和管理物联网解决方案的数字平台',
     subTitle2: '100% Cloud Native, Any language, Everything is plugin, Simply',
-    slogan:
-      'QingCloud IoT 物联网平台，颠覆传统物联网应用开发的新一代核心架构。',
+    slogan: '构建和管理物联网解决方案的数字平台',
     favicon: logoMark,
     logoMark,
     logoTypeLight: logoTypeAdminLight,
@@ -48,8 +48,7 @@ export const DEFAULT_PORTAL_TENANT_CONFIG = {
     documentTitle: 'QingCloud IoT 物联网平台',
     subTitle1: '构建和管理物联网解决方案的数字平台',
     subTitle2: '100% Cloud Native, Any language, Everything is plugin, Simply',
-    slogan:
-      'QingCloud IoT 物联网平台，颠覆传统物联网应用开发的新一代核心架构。',
+    slogan: '构建和管理物联网解决方案的数字平台',
     favicon: logoMark,
     logoMark,
     logoTypeLight: logoTypeTenantLight,
