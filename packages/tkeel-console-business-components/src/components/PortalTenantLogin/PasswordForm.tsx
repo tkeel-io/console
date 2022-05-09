@@ -1,20 +1,12 @@
 import { Box, Button, StyleProps } from '@chakra-ui/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 import { Form, FormField } from '@tkeel/console-components';
-import { useRedirectParams } from '@tkeel/console-hooks';
-import {
-  env,
-  jumpToPage,
-  schemas,
-  setLocalTokenInfo,
-} from '@tkeel/console-utils';
-
-import useTokenMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useTokenMutation';
+import { env, schemas } from '@tkeel/console-utils';
 
 import Brand from './Brand';
-import { PasswordFormProps } from './types';
+import type { PasswordFormProps } from './types';
 
 const mockData = env.isEnvDevelopment()
   ? {
@@ -50,7 +42,8 @@ const inputStyle: StyleProps = {
 };
 
 export default function PasswordForm({
-  isPreview,
+  isLoading,
+  onSubmit,
   ...rest
 }: PasswordFormProps) {
   const {
@@ -59,43 +52,15 @@ export default function PasswordForm({
     formState: { errors },
   } = useForm<FormValues>();
 
-  const pathParams = useParams();
-  const { tenantId = '' } = pathParams;
-
   const [searchParams] = useSearchParams();
   const initialUsername = searchParams.get('username') || '';
 
-  const redirect = useRedirectParams();
-
-  const { mutate, isLoading } = useTokenMutation({
-    tenantId,
-    onSuccess({ data }) {
-      if (!data) {
-        return;
-      }
-
-      setLocalTokenInfo(data);
-      jumpToPage({ path: redirect, isReplace: true });
-    },
-  });
-
-  const onSubmit: SubmitHandler<FormValues> = (formValues) => {
-    if (isPreview) {
-      return;
-    }
-
-    const { username, password } = formValues;
-    const params = {
-      grant_type: 'password' as const,
-      username,
-      password,
-    };
-
-    mutate({ params });
+  const submitHandler: SubmitHandler<FormValues> = (formValues) => {
+    onSubmit(formValues);
   };
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={handleSubmit(submitHandler)}>
       <Brand {...rest} styles={{ root: { paddingBottom: '24px' } }} />
       <TextField
         id="username"

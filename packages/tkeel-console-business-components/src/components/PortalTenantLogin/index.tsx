@@ -1,21 +1,19 @@
 import { Box, Button, Center, Flex, Heading } from '@chakra-ui/react';
-
-import { jumpToTenantAuthTenantPage } from '@tkeel/console-utils';
+import { noop } from 'lodash';
 
 import PasswordForm from './PasswordForm';
 import ThirdPartyAuthForm from './ThirdPartyAuthForm';
-import { TenantLoginProps } from './types';
+import type { TenantLoginProps } from './types';
 
-const logoutTenant = () => {
-  jumpToTenantAuthTenantPage({
-    isRemoveLocalTenantInfo: true,
-    isRemoveLocalTokenInfo: true,
-    isReplace: true,
-  });
-};
-
-export default function TenantLogin(props: TenantLoginProps) {
-  const { tenantInfo, config, isPreview } = props;
+export default function PortalTenantLogin({
+  tenantInfo,
+  config,
+  isPasswordFormLoading,
+  isThirdPartyAuthFormLoading,
+  onLogoutTenantClick = noop,
+  onPasswordFormSubmit = noop,
+  onThirdPartyAuthFormSubmit = noop,
+}: TenantLoginProps) {
   const clientConfig = config?.client;
   const pageConfig = clientConfig?.pages?.Login;
 
@@ -57,9 +55,19 @@ export default function TenantLogin(props: TenantLoginProps) {
       <Center flexDirection="column" width="42vw">
         <Box width="350px">
           {tenantInfo?.auth_type === 'external' ? (
-            <ThirdPartyAuthForm {...props} />
+            <ThirdPartyAuthForm
+              tenantInfo={tenantInfo}
+              config={config}
+              isLoading={isThirdPartyAuthFormLoading}
+              onSubmit={onThirdPartyAuthFormSubmit}
+            />
           ) : (
-            <PasswordForm {...props} />
+            <PasswordForm
+              tenantInfo={tenantInfo}
+              config={config}
+              isLoading={isPasswordFormLoading}
+              onSubmit={onPasswordFormSubmit}
+            />
           )}
           <Button
             type="button"
@@ -76,13 +84,7 @@ export default function TenantLogin(props: TenantLoginProps) {
             _hover={{
               backgroundColor: 'gray.50',
             }}
-            onClick={() => {
-              if (isPreview) {
-                return;
-              }
-
-              logoutTenant();
-            }}
+            onClick={onLogoutTenantClick}
           >
             切换空间
           </Button>

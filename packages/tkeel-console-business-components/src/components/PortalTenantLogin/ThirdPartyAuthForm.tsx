@@ -1,38 +1,20 @@
 import { Button } from '@chakra-ui/react';
-import { useParams } from 'react-router-dom';
 
 import { Form } from '@tkeel/console-components';
-import { jumpToPage } from '@tkeel/console-utils';
-
-import useTokenMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useTokenMutation';
 
 import Brand from './Brand';
-import { ThirdPartyAuthFormProps } from './types';
+import type { ThirdPartyAuthFormProps } from './types';
 
 export default function ThirdPartyAuthForm({
-  isPreview,
+  isLoading,
+  onSubmit,
   ...rest
 }: ThirdPartyAuthFormProps) {
-  const pathParams = useParams();
-  const { tenantId = '' } = pathParams;
-
-  const { mutate, isLoading } = useTokenMutation({
-    tenantId,
-    onSuccess({ data }) {
-      jumpToPage({ path: data.redirect_url, isReplace: true });
-    },
-  });
-
   return (
     <Form
       onSubmit={(event) => {
         event.preventDefault();
-
-        if (isPreview) {
-          return;
-        }
-
-        mutate({});
+        onSubmit();
       }}
     >
       <Brand

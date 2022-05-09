@@ -1,8 +1,7 @@
 import { Text } from '@chakra-ui/react';
 
-import { LoginBrand } from '@tkeel/console-business-components';
-
-import { BrandProps } from './types';
+import LoginBrand from '../LoginBrand';
+import type { BrandProps } from './types';
 
 export default function Brand({
   tenantInfo,

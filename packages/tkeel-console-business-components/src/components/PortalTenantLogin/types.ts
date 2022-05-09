@@ -11,16 +11,26 @@ interface BaseProps {
   config?: PortalTenantConfig;
 }
 
+interface OnPasswordFormSubmit {
+  (formValues: { username: string; password: string }): void;
+}
+
 interface TenantLoginProps extends BaseProps {
-  isPreview?: boolean;
+  isPasswordFormLoading?: boolean;
+  isThirdPartyAuthFormLoading?: boolean;
+  onLogoutTenantClick?: () => void;
+  onPasswordFormSubmit?: OnPasswordFormSubmit;
+  onThirdPartyAuthFormSubmit?: () => void;
 }
 
 interface PasswordFormProps extends BaseProps {
-  isPreview?: boolean;
+  isLoading?: boolean;
+  onSubmit: OnPasswordFormSubmit;
 }
 
 interface ThirdPartyAuthFormProps extends BaseProps {
-  isPreview?: boolean;
+  isLoading?: boolean;
+  onSubmit: () => void;
 }
 
 interface BrandProps extends BaseProps {
