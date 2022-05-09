@@ -7,6 +7,7 @@ import { Loading } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
 import { usePortalTenantConfigQuery } from '@tkeel/console-request-hooks';
 import {
+  env,
   jumpToPage,
   jumpToTenantAuthTenantPage,
   setLocalTokenInfo,
@@ -14,6 +15,13 @@ import {
 
 import useTokenMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useTokenMutation';
 import useTenantExactQuery from '@/tkeel-console-portal-tenant/hooks/queries/useTenantExactQuery';
+
+const mockData = env.isEnvDevelopment()
+  ? {
+      username: String(GLOBAL_PORTAL_CONFIG?.mock?.username ?? ''),
+      password: String(GLOBAL_PORTAL_CONFIG?.mock?.password ?? ''),
+    }
+  : { username: '', password: '' };
 
 const handleLogoutTenantClick = () => {
   jumpToTenantAuthTenantPage({
@@ -113,6 +121,7 @@ export default function Login() {
       onLogoutTenantClick={handleLogoutTenantClick}
       onPasswordFormSubmit={handlePasswordFormSubmit}
       onThirdPartyAuthFormSubmit={handleThirdPartyAuthFormSubmit}
+      mockData={mockData}
     />
   );
 }

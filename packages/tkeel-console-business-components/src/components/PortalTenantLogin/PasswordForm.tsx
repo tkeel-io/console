@@ -3,17 +3,10 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useSearchParams } from 'react-router-dom';
 
 import { Form, FormField } from '@tkeel/console-components';
-import { env, schemas } from '@tkeel/console-utils';
+import { schemas } from '@tkeel/console-utils';
 
 import Brand from './Brand';
 import type { PasswordFormProps } from './types';
-
-const mockData = env.isEnvDevelopment()
-  ? {
-      username: String(GLOBAL_PORTAL_CONFIG?.mock?.username ?? ''),
-      password: String(GLOBAL_PORTAL_CONFIG?.mock?.password ?? ''),
-    }
-  : { username: '', password: '' };
 
 const { TextField } = FormField;
 
@@ -44,6 +37,7 @@ const inputStyle: StyleProps = {
 export default function PasswordForm({
   isLoading,
   onSubmit,
+  mockData,
   ...rest
 }: PasswordFormProps) {
   const {
@@ -66,7 +60,7 @@ export default function PasswordForm({
         id="username"
         type="text"
         label="账号"
-        defaultValue={initialUsername || mockData.username}
+        defaultValue={initialUsername || mockData?.username}
         placeholder="请输入您的账号"
         error={errors.username}
         formControlStyle={{ marginBottom: '20px' }}
@@ -78,7 +72,7 @@ export default function PasswordForm({
         id="password"
         type="password"
         label="密码"
-        defaultValue={mockData.password}
+        defaultValue={mockData?.password}
         placeholder="请输入您的密码"
         error={errors.password}
         formLabelStyle={formLabelStyle}

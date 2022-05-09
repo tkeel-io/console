@@ -13,6 +13,7 @@ export default function PortalTenantLogin({
   onLogoutTenantClick = noop,
   onPasswordFormSubmit = noop,
   onThirdPartyAuthFormSubmit = noop,
+  mockData,
 }: TenantLoginProps) {
   const clientConfig = config?.client;
   const pageConfig = clientConfig?.pages?.Login;
@@ -67,6 +68,7 @@ export default function PortalTenantLogin({
               config={config}
               isLoading={isPasswordFormLoading}
               onSubmit={onPasswordFormSubmit}
+              mockData={mockData}
             />
           )}
           <Button

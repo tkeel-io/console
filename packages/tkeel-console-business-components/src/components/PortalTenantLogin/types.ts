@@ -21,11 +21,20 @@ interface TenantLoginProps extends BaseProps {
   onLogoutTenantClick?: () => void;
   onPasswordFormSubmit?: OnPasswordFormSubmit;
   onThirdPartyAuthFormSubmit?: () => void;
+
+  mockData?: {
+    username: string;
+    password: string;
+  };
 }
 
 interface PasswordFormProps extends BaseProps {
   isLoading?: boolean;
   onSubmit: OnPasswordFormSubmit;
+  mockData?: {
+    username: string;
+    password: string;
+  };
 }
 
 interface ThirdPartyAuthFormProps extends BaseProps {
