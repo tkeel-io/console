@@ -14,5 +14,7 @@ export interface TreeExtrasProps {
 }
 
 export interface TreeProps
-  extends Omit<RCTreeProps, 'prefixCls'>,
-    TreeExtrasProps {}
+  extends Omit<RCTreeProps, 'prefixCls' | 'expandAction'>,
+    TreeExtrasProps {
+  expandAction?: false | 'click' | 'doubleClick';
+}

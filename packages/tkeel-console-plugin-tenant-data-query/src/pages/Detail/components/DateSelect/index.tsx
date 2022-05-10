@@ -1,3 +1,4 @@
+import type { ManipulateType } from 'dayjs';
 import * as dayjs from 'dayjs';
 import { Dispatch, SetStateAction } from 'react';
 
@@ -21,7 +22,10 @@ type Props = {
   handleRequestData: (timeTypeValue?: TimeType) => unknown;
 };
 
-export function getRecentTimestamp(num: number, unit = 'minute') {
+export function getRecentTimestamp(
+  num: number,
+  unit: ManipulateType = 'minute'
+) {
   return dayjs().subtract(num, unit).unix();
 }
 
