@@ -10,6 +10,7 @@ export const DEFAULT_PREFIX_CLS = 'rc-tree';
 export const DEFAULT_PROPS: Partial<TreeProps> = {
   showLine: false,
   showIcon: false,
+  expandAction: 'click',
   extras: {
     isTreeTitleFullWidth: true,
   },
