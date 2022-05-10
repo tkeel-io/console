@@ -1,5 +1,3 @@
-import './index.scss';
-
 import { Flex, Select, StyleProps, Text } from '@chakra-ui/react';
 import RCPagination from 'rc-pagination';
 
@@ -7,6 +5,8 @@ import {
   ChevronLeftFilledIcon,
   ChevronRightFilledIcon,
 } from '@tkeel/console-icons';
+
+import PaginationStyles from './PaginationStyles';
 
 type Props = {
   pageNum?: number;
@@ -102,6 +102,7 @@ function Pagination({
           }}
         />
       </Flex>
+      <PaginationStyles />
     </Flex>
   );
 }

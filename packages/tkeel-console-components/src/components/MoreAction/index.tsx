@@ -16,6 +16,11 @@ import {
 import { Theme } from '@tkeel/console-themes';
 
 type Placement = 'bottom' | 'top';
+export type MoreActionStyles = {
+  wrapper?: StyleProps;
+  actionList?: StyleProps;
+};
+
 type Props = {
   type?: 'icon' | 'text';
   element?: ReactNode;
@@ -25,10 +30,8 @@ type Props = {
   isActionListOpen?: boolean;
   onActionListOpen?: () => unknown;
   onActionListClose?: () => unknown;
-  styles?: {
-    wrapper?: StyleProps;
-    actionList?: StyleProps;
-  };
+  onActionListToggle?: (show: boolean) => unknown;
+  styles?: MoreActionStyles;
 };
 
 function getScrollParent(node: Element | null): Element | null {
@@ -52,6 +55,7 @@ export default function MoreAction({
   isActionListOpen = false,
   onActionListOpen,
   onActionListClose,
+  onActionListToggle,
   buttonProps = {},
   styles = {},
 }: Props) {
@@ -69,6 +73,10 @@ export default function MoreAction({
 
     if (!show && onActionListClose) {
       onActionListClose();
+    }
+
+    if (onActionListToggle) {
+      onActionListToggle(show);
     }
   };
 

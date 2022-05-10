@@ -11,6 +11,7 @@ export interface ApiData {
   expires_in: string;
   refresh_token: string;
   token_type: string;
+  redirect_url: string;
 }
 
 const method = 'GET';
@@ -20,13 +21,10 @@ type Options = {
   onSuccess: ({ data }: { data: ApiData }) => void;
 };
 
-export default function useOAuthTokenMutation({
-  tenantId,
-  onSuccess,
-}: Options) {
+export default function useTokenMutation({ tenantId, onSuccess }: Options) {
   const url = `/security/v1/oauth/${tenantId}/token`;
 
-  return useMutation<ApiData, RequestParams>({
+  return useMutation<ApiData, RequestParams | undefined>({
     url,
     method,
     reactQueryOptions: {

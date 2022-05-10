@@ -1,17 +1,19 @@
 import 'ace-builds/src-noconflict/ace';
 import 'ace-builds/src-noconflict/mode-json';
+import 'ace-builds/src-noconflict/mode-text';
 import 'ace-builds/src-noconflict/mode-yaml';
 import 'ace-builds/src-noconflict/mode-sql';
 import 'ace-builds/src-noconflict/theme-dracula';
 import 'ace-builds/src-noconflict/theme-github';
 import 'ace-builds/src-noconflict/ext-language_tools';
-import './index.scss';
 import 'ace-builds/webpack-resolver';
 
 import Ace from 'react-ace';
 
+import AceEditorStyles from './AceEditorStyles';
+
 type Props = {
-  language?: 'json' | 'yaml' | 'sql';
+  language?: 'text' | 'json' | 'yaml' | 'sql';
   theme?: 'dark' | 'light';
   width?: string;
   height?: string;
@@ -43,24 +45,27 @@ export default function AceEditor({
   onChange,
 }: Props) {
   return (
-    <Ace
-      mode={language}
-      theme={theme === 'dark' ? 'dracula' : 'github'}
-      className="ace-editor"
-      name="ace-editor"
-      width={width}
-      height={height}
-      value={value}
-      readOnly={readOnly}
-      style={style}
-      highlightActiveLine={highlightActiveLine || !readOnly}
-      showPrintMargin={showPrintMargin}
-      setOptions={{
-        highlightGutterLine: options?.highlightGutterLine ?? !readOnly,
-        showFoldWidgets: options?.showFoldWidgets ?? !readOnly,
-      }}
-      onChange={onChange}
-      editorProps={{ $blockScrolling: true }}
-    />
+    <>
+      <Ace
+        mode={language}
+        theme={theme === 'dark' ? 'dracula' : 'github'}
+        className="ace-editor"
+        name="ace-editor"
+        width={width}
+        height={height}
+        value={value}
+        readOnly={readOnly}
+        style={style}
+        highlightActiveLine={highlightActiveLine || !readOnly}
+        showPrintMargin={showPrintMargin}
+        setOptions={{
+          highlightGutterLine: options?.highlightGutterLine ?? !readOnly,
+          showFoldWidgets: options?.showFoldWidgets ?? !readOnly,
+        }}
+        onChange={onChange}
+        editorProps={{ $blockScrolling: true }}
+      />
+      <AceEditorStyles />
+    </>
   );
 }

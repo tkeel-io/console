@@ -12,9 +12,10 @@ type Props = {
 export default function Header({ menus, userActionMenusComponent }: Props) {
   const { pathname } = useLocation();
   let breadcrumbs: string[] = [];
+
   menus.forEach((menu) => {
     const { name, path, children } = menu;
-    if (children) {
+    if (Array.isArray(children) && children.length > 0) {
       const menuItem = children.find((item) =>
         pathname.includes(item.path as string)
       );
@@ -26,6 +27,12 @@ export default function Header({ menus, userActionMenusComponent }: Props) {
     }
   });
 
+  const textStyle = {
+    color: 'grayAlternatives.500',
+    fontSize: '12px',
+    fontWeight: '500',
+  };
+
   return (
     <Flex
       justifyContent="space-between"
@@ -33,13 +40,17 @@ export default function Header({ menus, userActionMenusComponent }: Props) {
       height="48px"
       padding="0 20px"
     >
-      <Flex color="grayAlternatives.500" fontSize="12px">
+      <Flex>
         {breadcrumbs.map((crumb, i) => (
           <Flex key={String(i + 1)} alignItems="center">
-            <Text key="crumb" cursor="default">
+            <Text key="crumb" {...textStyle}>
               {crumb}
             </Text>
-            {i < breadcrumbs.length - 1 && <Text margin="0">/</Text>}
+            {i < breadcrumbs.length - 1 && (
+              <Text margin="0" {...textStyle}>
+                /
+              </Text>
+            )}
           </Flex>
         ))}
       </Flex>

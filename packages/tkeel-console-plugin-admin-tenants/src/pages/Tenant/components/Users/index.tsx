@@ -9,7 +9,11 @@ import {
   Table,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
-import { User, useUsersQuery } from '@tkeel/console-request-hooks';
+import {
+  User,
+  useTenantQuery,
+  useUsersQuery,
+} from '@tkeel/console-request-hooks';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import ResetPasswordButton from '../ResetPasswordButton';
@@ -19,6 +23,9 @@ export default function Users() {
   const [keyWords, setKeyWords] = useState('');
   const pagination = usePagination();
   const { pageNum, pageSize, setPageNum, setTotalSize } = pagination;
+  const { data: tenant } = useTenantQuery({ tenantId });
+  const authType = tenant?.auth_type;
+  const isInternal = authType === 'internal';
 
   let params = {
     page_num: pageNum,
@@ -39,7 +46,7 @@ export default function Users() {
     },
   });
 
-  const columns: ReadonlyArray<Column<User>> = [
+  const baseColumns: ReadonlyArray<Column<User>> = [
     {
       Header: '用户账号',
       accessor: 'username',
@@ -71,20 +78,28 @@ export default function Users() {
         return value.map(({ name }) => name).join('，');
       },
     },
-    {
-      Header: '操作',
-      Cell: ({ row }: Cell<User>) =>
-        useMemo(() => {
-          const { original } = row;
-
-          return (
-            <ButtonsHStack>
-              <ResetPasswordButton data={original} />
-            </ButtonsHStack>
-          );
-        }, [row]),
-    },
   ];
+
+  let columns = [...baseColumns];
+
+  if (isInternal) {
+    columns = [
+      ...columns,
+      {
+        Header: '操作',
+        Cell: ({ row }: Cell<User>) =>
+          useMemo(() => {
+            const { original } = row;
+
+            return (
+              <ButtonsHStack>
+                <ResetPasswordButton data={original} />
+              </ButtonsHStack>
+            );
+          }, [row]),
+      },
+    ];
+  }
 
   return (
     <Flex flexDirection="column" height="100%">

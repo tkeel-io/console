@@ -1,13 +1,11 @@
-import { Button, ButtonProps, Colors, useTheme } from '@chakra-ui/react';
+import { Button, ButtonProps } from '@chakra-ui/react';
 import { ReactNode } from 'react';
+
+import { useColor } from '@tkeel/console-hooks';
 
 interface Props extends ButtonProps {
   children: ReactNode;
   canHover?: boolean;
-}
-
-interface CustomColor extends Colors {
-  white: string;
 }
 
 function RectangleButton({
@@ -16,8 +14,7 @@ function RectangleButton({
   canHover = false,
   ...rest
 }: Props) {
-  const { colors }: { colors: CustomColor } = useTheme();
-
+  const whiteColor = useColor('white');
   return (
     <Button
       padding="0 12px 0 8px"
@@ -34,7 +31,7 @@ function RectangleButton({
               color: 'white',
               backgroundColor: 'primary',
               svg: {
-                fill: `${colors.white} !important`,
+                fill: `${whiteColor} !important`,
               },
             }
           : {}

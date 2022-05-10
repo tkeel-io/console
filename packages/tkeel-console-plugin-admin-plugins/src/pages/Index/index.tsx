@@ -19,7 +19,7 @@ function Index(): JSX.Element {
   return (
     <Flex paddingTop="16px" flexDirection="column" height="100%">
       <PageHeader
-        icon={<PuzzleTwoToneIcon size={26} />}
+        icon={<PuzzleTwoToneIcon />}
         name="插件管理"
         documentsPath={documents.config.paths.adminGuide.plugins}
         desc="展示平台安装完成后静默注册的核心插件。"

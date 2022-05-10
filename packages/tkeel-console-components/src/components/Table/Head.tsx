@@ -57,8 +57,10 @@ function Head<D extends object>({
                   border="none"
                   {...headerProps}
                 >
-                  {column.render('Header')}
-                  {canSort && <Box>{sortIcon}</Box>}
+                  <>
+                    {column.render('Header')}
+                    {canSort && <Box>{sortIcon}</Box>}
+                  </>
                 </Th>
               );
             })}

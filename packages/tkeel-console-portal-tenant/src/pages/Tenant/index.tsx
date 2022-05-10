@@ -56,7 +56,14 @@ export default function Tenant() {
 
   const { isLoading, mutate } = useTenantExactMutation({
     onSuccess: ({ data }) => {
-      const { tenant_id: tenantId } = data;
+      const { auth_type: authType, tenant_id: tenantId } = data;
+      const isAutoLogin = authType === 'external';
+      const state = isAutoLogin
+        ? {
+            isAutoLogin,
+          }
+        : null;
+
       setLocalTenantInfo({ tenant_id: tenantId });
       jumpToAuthLoginPage({
         portalName: 'tenant',
@@ -64,6 +71,7 @@ export default function Tenant() {
         isRemoveLocalTokenInfo: false,
         isReplace: true,
         navigate,
+        state,
       });
     },
   });

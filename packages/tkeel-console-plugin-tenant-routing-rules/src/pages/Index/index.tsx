@@ -2,13 +2,9 @@ import { Flex, Grid, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import {
-  Loading,
-  PageHeaderToolbar,
-  Pagination,
-} from '@tkeel/console-components';
+import { Loading, PageHeader, Pagination } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
-import { EmptyFileIcon } from '@tkeel/console-icons';
+import { EmptyFileIcon, MethodIcon } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
 import MoreActionButton from '@/tkeel-console-plugin-tenant-routing-rules/components/MoreActionButton';
@@ -39,28 +35,31 @@ export default function Index(): JSX.Element {
     setTotalSize(totalNum);
   }
 
-  const handleCreateRulesSuccess = () => {
+  const handleCreateRuleSuccess = () => {
     toast('创建成功', { status: 'success' });
     refetch();
   };
 
   return (
     <Flex flexDirection="column" h="100%" padding="8px 20px 20px">
-      <PageHeaderToolbar
+      <PageHeader
+        icon={<MethodIcon size={40} />}
         name="数据路由规则"
-        buttons={[
-          <CreateRulesButton
-            key="create"
-            type="createButton"
-            onSuccess={handleCreateRulesSuccess}
-          />,
-        ]}
+        // documentsPath={documents.config.paths.adminGuide.plugins}
+        desc="平台接入的设备数据可以通过自定义的路由规则进行数据的简单处理并流转向其它服务。"
       />
-      <Tabs
-        onClick={(e: number) => {
-          setKeyWords(e);
-        }}
-      />
+      <Flex justifyContent="space-between" m="14px 0 22px">
+        <Tabs
+          onClick={(e: number) => {
+            setKeyWords(e);
+          }}
+        />
+        <CreateRulesButton
+          key="create"
+          type="createButton"
+          onSuccess={handleCreateRuleSuccess}
+        />
+      </Flex>
       {isLoading ? (
         <Loading
           styles={{ wrapper: { flex: 1, backgroundColor: 'gray.50' } }}
@@ -86,7 +85,7 @@ export default function Index(): JSX.Element {
                 <CreateRulesButton
                   key="create"
                   type="createText"
-                  onSuccess={handleCreateRulesSuccess}
+                  onSuccess={handleCreateRuleSuccess}
                 />
                 数据路由规则
               </Text>

@@ -13,6 +13,6 @@
   "types": "index.d.ts",
   "dependencies": {
     "@types/react": "^17.0.43",
-    "@types/react-table": "^7.7.10"
+    "@types/react-table": "^7.7.11"
   }
 }

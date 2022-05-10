@@ -8,7 +8,11 @@ import {
   Table,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
-import { User, useUsersQuery } from '@tkeel/console-request-hooks';
+import {
+  User,
+  useTenantQuery,
+  useUsersQuery,
+} from '@tkeel/console-request-hooks';
 import {
   formatDateTimeByTimestamp,
   getLocalTenantInfo,
@@ -29,6 +33,10 @@ export default function Users() {
   const [keyWords, setKeyWords] = useState('');
   const pagination = usePagination();
   const { pageNum, pageSize, setPageNum, setTotalSize } = pagination;
+
+  const { data: tenantInfo } = useTenantQuery({ tenantId });
+  const authType = tenantInfo?.auth_type ?? 'external';
+  const isInternal = authType === 'internal';
 
   let params = {
     page_num: pageNum,
@@ -105,10 +113,11 @@ export default function Users() {
           return (
             <ButtonsHStack>
               <ModifyUserButton
+                authType={authType}
                 data={original}
                 onSuccess={handleModifyUserSuccess}
               />
-              <ResetPasswordButton data={original} />
+              {isInternal && <ResetPasswordButton data={original} />}
               <DeleteUserButton
                 data={original}
                 onSuccess={handleDeleteUserSuccess}
@@ -133,7 +142,12 @@ export default function Users() {
           },
         }}
         buttons={[
-          <CreateUserButton key="create" onSuccess={handleCreateUserSuccess} />,
+          isInternal && (
+            <CreateUserButton
+              key="create"
+              onSuccess={handleCreateUserSuccess}
+            />
+          ),
         ]}
       />
       <Table
