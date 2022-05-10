@@ -7,47 +7,42 @@ import {
 } from '@tkeel/console-components';
 import { PencilFilledIcon } from '@tkeel/console-icons';
 
-import useCreateNetworkMutation from '@/tkeel-console-plugin-tenant-networks/hooks/mutations/useCreateNetworkMutation';
-import useModifyNetworkMutation from '@/tkeel-console-plugin-tenant-networks/hooks/mutations/useModifyNetworkMutation';
+import useCreateProxyMutation from '@/tkeel-console-plugin-tenant-networks/hooks/mutations/useCreateProxyMutation';
+import useModifyProxyMutation from '@/tkeel-console-plugin-tenant-networks/hooks/mutations/useModifyProxyMutation';
 
-import { FormValues } from '../BaseNetworkModal';
-import CopyCommandModal from '../CopyCommandModal';
-import CreateNetworkModal from '../CreateNetworkModal';
+import { FormValues } from '../BaseProxyModal';
+import CreateProxyModal from '../CreateProxyModal';
 
 interface Props {
-  networkName?: string;
+  proxyCruxData?: FormValues;
   type: 'createButton' | 'createText' | 'editButton';
   onSuccess: () => void;
 }
 
-export default function CreateNetworkButton({
-  networkName,
+export default function CreateProxyButton({
   type,
+  proxyCruxData,
   onSuccess,
 }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const {
-    isOpen: isSuccessModalOpen,
-    onOpen: onSuccessModalOpen,
-    onClose: onSuccessModalClose,
-  } = useDisclosure();
   const useOperationMutation =
-    type === 'editButton' ? useModifyNetworkMutation : useCreateNetworkMutation;
+    type === 'editButton' ? useModifyProxyMutation : useCreateProxyMutation;
   const { isLoading, mutate } = useOperationMutation({
     id: '',
     onSuccess() {
       onSuccess();
       onClose();
-      onSuccessModalOpen();
     },
   });
-
-  // const isLoading = false;
 
   const handleConfirm = (formValues: FormValues) => {
     mutate({
       data: {
-        name: formValues?.networkName,
+        name: formValues?.proxyName,
+        ip: formValues?.proxyIp,
+        port: formValues?.proxyPort,
+        agree: formValues?.proxyAgree,
+        remark: formValues?.proxyRemark,
       },
     });
   };
@@ -55,7 +50,7 @@ export default function CreateNetworkButton({
   return (
     <>
       {type === 'createButton' && (
-        <CreateButton onClick={onOpen}>创建代理网关</CreateButton>
+        <CreateButton onClick={onOpen}>创建代理服务</CreateButton>
       )}
       {type === 'createText' && (
         <LinkButton onClick={onOpen} fontSize="14px" lineHeight="24px">
@@ -65,26 +60,18 @@ export default function CreateNetworkButton({
       {type === 'editButton' && (
         <MoreActionButton
           icon={<PencilFilledIcon />}
-          title="编辑代理网关"
+          title="编辑代理服务"
           onClick={onOpen}
         />
       )}
       {isOpen && (
-        <CreateNetworkModal
-          networkName={networkName ?? ''}
+        <CreateProxyModal
           type={type}
           isOpen={isOpen}
+          proxyCruxData={proxyCruxData}
           isConfirmButtonLoading={isLoading}
           onClose={onClose}
           onConfirm={handleConfirm}
-        />
-      )}
-      {isSuccessModalOpen && (
-        <CopyCommandModal
-          isOpen={isSuccessModalOpen}
-          title="创建代理网关"
-          copyData="传递的复制的内容"
-          onClose={onSuccessModalClose}
         />
       )}
     </>

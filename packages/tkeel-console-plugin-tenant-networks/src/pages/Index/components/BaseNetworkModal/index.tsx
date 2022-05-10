@@ -46,6 +46,7 @@ export default function BaseNetworkModal({
 
   return (
     <Modal
+      height="366px"
       title={title}
       isOpen={isOpen}
       isConfirmButtonLoading={isConfirmButtonLoading}
@@ -60,7 +61,7 @@ export default function BaseNetworkModal({
         id="networkName"
         error={errors.networkName}
         registerReturn={register('networkName', {
-          required: { value: true, message: '请填写属性名称' },
+          required: { value: true, message: '代理网关名称为空' },
         })}
       />
     </Modal>

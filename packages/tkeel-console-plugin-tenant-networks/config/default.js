@@ -13,8 +13,7 @@ module.exports = {
       entries: [
         {
           id: 'console-plugin-tenant-networks',
-          name: '',
-          icon: '',
+          name: '网络服务',
           path: '/tenant-networks',
           entry: '/static/console-plugin-tenant-networks/',
           portal: 1,

@@ -3,11 +3,16 @@ import { useNavigate } from 'react-router-dom';
 
 import {
   Loading,
-  PageHeaderToolbar,
+  PageHeader,
   Pagination,
+  // SearchInput,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
-import { ArrowRightFilledIcon, EmptyFileIcon } from '@tkeel/console-icons';
+import {
+  ArrowRightFilledIcon,
+  EmptyFileIcon,
+  NetworkIcon,
+} from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
 import BaseMessage from '@/tkeel-console-plugin-tenant-networks/components/BaseMessage';
@@ -65,20 +70,37 @@ export default function Index() {
 
   return (
     <Flex flexDirection="column" h="100%" padding="8px 20px 20px">
-      <PageHeaderToolbar
-        name="网络服务"
-        buttons={[
+      <PageHeader
+        icon={<NetworkIcon size={40} />}
+        name="网络设备管理"
+        desc="为各种云到设备通信方案创建安全的双向 TCP 隧道。"
+      />
+      <Flex
+        m="16px 0"
+        w="100%"
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        {/* <SearchInput
+          placeholder="支持搜索代理网关名称、客户端地址"
+          onSearch={(value) => {
+            // setKeywords(value);
+            console.log(value);
+          }}
+          width="100%"
+          inputStyle={{ bgColor: 'white' }}
+        /> */}
+        <Flex w="262px" justifyContent="space-between" alignItems="center">
+          <Box m="0 12px 0 16px">操作</Box>
           <CreateNetworkButton
             key="create"
             type="createButton"
             onSuccess={handleCreateNetworkSuccess}
-          />,
-        ]}
-      />
+          />
+        </Flex>
+      </Flex>
       {isLoading ? (
-        <Loading
-          styles={{ wrapper: { flex: 1, backgroundColor: 'gray.50' } }}
-        />
+        <Loading styles={{ wrapper: { flex: 1, bgColor: 'gray.50' } }} />
       ) : (
         <Flex
           flexDirection="column"
@@ -86,6 +108,8 @@ export default function Index() {
           overflow="hidden"
           paddingTop="14px"
           backgroundColor="gray.50"
+          boxShadow="0px 8px 8px rgba(152, 163, 180, 0.1)"
+          borderRadius="4px"
         >
           {netWorkData.length === 0 ? (
             <Flex

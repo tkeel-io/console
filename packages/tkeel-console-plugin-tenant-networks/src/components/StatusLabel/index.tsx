@@ -48,7 +48,7 @@ function StatusLabel({ styles, status }: Props) {
     >
       <Flex alignItems="center">
         {statusInfo[status]?.icon}
-        <Text fontSize="12px" ml="2px">
+        <Text fontSize="12px" ml="2px" color="gray.600">
           {statusInfo[status]?.label}
         </Text>
       </Flex>

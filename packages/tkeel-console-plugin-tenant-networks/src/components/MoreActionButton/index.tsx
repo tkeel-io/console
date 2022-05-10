@@ -39,10 +39,9 @@ function MoreActionButton({ cruxData, refetch, onDeleteSuccess }: Props) {
       refetch={handleRefetch}
     />,
     <InstallButton
-      key="delete"
-      cruxData={cruxData}
-      refetch={handleRefetch}
-      onDeleteSuccess={onDeleteSuccess}
+      key="install"
+      // refetch={handleRefetch}
+      // onDeleteSuccess={onDeleteSuccess}
     />,
     <CreateNetworkButton
       key="edit"

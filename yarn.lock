@@ -4315,10 +4315,12 @@ __metadata:
     "@tkeel/console-icons": "workspace:^"
     "@tkeel/console-types": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
+    "@types/react-table": ^7.7.11
     framer-motion: ^6.2.8
     lodash: ^4.17.21
     react: ^17.0.2
     react-dom: ^17.0.2
+    react-hook-form: ^7.30.0
     react-query: ^3.34.16
     react-router-dom: ^6.2.2
   languageName: unknown
@@ -5000,6 +5002,15 @@ __metadata:
   dependencies:
     "@types/react": "*"
   checksum: 840f845c226c37c3f13f023974c37b4e941b7588c42dc5fcd5165463fd25005a9504a2c0d48df3325c0a63c2dc99c60fe1dfee4654b501b781ec2df3a4abfa64
+  languageName: node
+  linkType: hard
+
+"@types/react-table@npm:^7.7.11":
+  version: 7.7.11
+  resolution: "@types/react-table@npm:7.7.11"
+  dependencies:
+    "@types/react": "*"
+  checksum: d0f1399480e9779d011b9b7d3608c267640a42453d29116a7c0200fca91a5e1d4940e2dec4337a35007ba5d35d4580dd4d875fdbfabf2597886aefaf723fccc0
   languageName: node
   linkType: hard
 
@@ -15083,6 +15094,15 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17
   checksum: 176e653f3c5c1882125b6d51d3b2258c7120202227b91edbf74708eb3f0d455b3c827f1b6c236cdf208de82871b14e86d9aeacbd44c418bcf591b2346721156f
+  languageName: node
+  linkType: hard
+
+"react-hook-form@npm:^7.30.0":
+  version: 7.30.0
+  resolution: "react-hook-form@npm:7.30.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17 || ^18
+  checksum: 7af442c80e1d8e04b6345f4f46177974d82488e81cc12b165d6ff1c69ba0f6234bd2ef0f7b51dda34f77b36fe74464815bbb0f4c77dc2cd9793f8e89d528ae25
   languageName: node
   linkType: hard
 
