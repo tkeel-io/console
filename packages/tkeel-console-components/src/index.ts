@@ -21,6 +21,7 @@ export { default as PageHeader } from './components/PageHeader';
 export { default as PageHeaderToolbar } from './components/PageHeaderToolbar';
 export { default as Pagination } from './components/Pagination';
 export * from './components/RadioCard';
+export * from './components/RndModal';
 export { default as SearchEmpty } from './components/SearchEmpty';
 export { default as SearchInput } from './components/SearchInput';
 export * from './components/SegmentedControlTab';

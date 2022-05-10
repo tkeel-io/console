@@ -30,6 +30,7 @@ module.exports = {
     'unicorn/no-array-for-each': 'off',
     'unicorn/no-null': 'off',
     'unicorn/prevent-abbreviations': 'off',
+
     'import/no-duplicates': ['error', { considerQueryString: true }],
     'import/order': [
       'error',
@@ -50,5 +51,6 @@ module.exports = {
         warnOnUnassignedImports: true,
       },
     ],
+    'import/prefer-default-export': 'off',
   },
 };
