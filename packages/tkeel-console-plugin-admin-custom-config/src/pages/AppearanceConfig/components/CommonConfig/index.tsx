@@ -1,53 +1,102 @@
-import { Box, Input } from '@chakra-ui/react';
-import { useState } from 'react';
+import { Box } from '@chakra-ui/react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { FormField } from '@tkeel/console-components';
 
-import ConfigItem from '../ConfigItem';
+import ButtonStack from '@/tkeel-console-plugin-admin-custom-config/components/ButtonStack';
+
+import CommonConfigItem from '../CommonConfigItem';
 import UploadInput from '../UploadInput';
 
 const { TextareaField } = FormField;
 
-type ConfigField = {
-  companyName: string;
+interface ConfigField {
   slogan: string;
+}
+
+const handleReset = () => {
+  // eslint-disable-next-line no-console
+  console.log('reset');
 };
 
-export default function CommonConfig() {
-  const [logo, setLogo] = useState<string | null>(null);
+interface Config {
+  logoMark: string;
+  slogan: string;
+  backgroundImage: string;
+}
+
+interface Props {
+  config: Config;
+  setConfig: Dispatch<SetStateAction<Config>>;
+}
+
+export default function CommonConfig({ config, setConfig }: Props) {
+  const [logoMark, setLogoMark] = useState<string>(config.logoMark);
+  const [backgroundImage, setBackgroundImage] = useState<string>(
+    config.backgroundImage
+  );
 
   const {
     register,
     formState: { errors },
-  } = useForm<ConfigField>();
+    trigger,
+    getValues,
+  } = useForm<ConfigField>({
+    defaultValues: {
+      slogan: config.slogan,
+    },
+  });
+
+  const handleConfirm = async () => {
+    const result = await trigger();
+    if (result) {
+      const { slogan } = getValues();
+      setConfig({
+        logoMark,
+        slogan,
+        backgroundImage,
+      });
+    }
+  };
+
   return (
     <Box>
-      <ConfigItem
+      <CommonConfigItem
         title="Logo-品牌图标"
         desc="大小不能超过 100K，格式最佳为 png 同样支持 jpg/jpeg/gif/svg ，尺寸比例为正方形，最佳为 96px*96px 。"
         formField={
-          <UploadInput src={logo || ''} setSrc={(src) => setLogo(src)} />
+          <UploadInput src={logoMark} setSrc={(src) => setLogoMark(src)} />
         }
       />
-      <ConfigItem
-        title="Slogan"
+      <CommonConfigItem
+        title="Slogan-品牌标语（非必填）"
         desc="Slogan 将用在一些登录欢迎页。"
         formField={
           <TextareaField
-            id="companyName"
+            id="slogan"
             error={errors.slogan}
-            registerReturn={register('companyName', {
+            registerReturn={register('slogan', {
               required: { value: true, message: '请输入 Slogan' },
             })}
           />
         }
         styles={{ wrapper: { marginTop: '24px' } }}
       />
-      <ConfigItem
-        title="Logo"
-        desc="建议上传 1M 以内的 jpg/jpeg/gif/png/svg 作为您公司的Logo ，图片大小建议为 96px*96px 。"
-        formField={<Input type="file" />}
+      <CommonConfigItem
+        title="背景图片"
+        desc="大小不能超过 1M，格式最佳为 JPG 同样支持 jpeg/gif/png/svg ，尺寸比例为长方形，最佳为 800px*900px。"
+        formField={
+          <UploadInput
+            src={backgroundImage}
+            setSrc={(src) => setBackgroundImage(src)}
+          />
+        }
+      />
+      <ButtonStack
+        onConfirm={handleConfirm}
+        onReset={handleReset}
+        styles={{ wrapper: { marginTop: '26px' } }}
       />
     </Box>
   );

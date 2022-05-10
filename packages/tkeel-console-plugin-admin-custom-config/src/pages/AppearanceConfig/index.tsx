@@ -1,11 +1,5 @@
-import {
-  Flex,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-  Text,
-} from '@chakra-ui/react';
+import { Flex, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { useState } from 'react';
 
 import {
   CustomTab as CustomDetailTab,
@@ -15,19 +9,33 @@ import {
 import BasicInfo from './components/BasicInfo';
 import CommonConfig from './components/CommonConfig';
 import CustomTab from './components/CustomTab';
+import PlatformConfig from './components/PlatformConfig';
+import PreviewPanel from './components/PreviewPanel';
 
 export default function AppearanceConfig() {
+  const [commonConfig, setCommonConfig] = useState({
+    logoMark: '',
+    slogan: '',
+    backgroundImage: '',
+  });
+  const [platformConfig, setPlatformConfig] = useState({
+    tenantPlatformName: '',
+    tenantLightLogo: '',
+    tenantDarkLogo: '',
+    adminPlatformName: '',
+    adminLightLogo: '',
+    adminDarkLogo: '',
+  });
+  // eslint-disable-next-line no-console
+  console.log('AppearanceConfig ~ commonConfig', commonConfig);
+  // eslint-disable-next-line no-console
+  console.log('AppearanceConfig ~ platformConfig', platformConfig);
+
   const tabPanelStyle = {
     height: '100%',
     padding: '12px 20px',
     backgroundColor: 'white',
   };
-
-  const TabPanelTitle = (
-    <Text color="gray.800" fontSize="14px" fontWeight="600" lineHeight="32px">
-      效果预览
-    </Text>
-  );
 
   return (
     <Flex>
@@ -53,10 +61,16 @@ export default function AppearanceConfig() {
             </TabList>
             <TabPanels flex="1" padding="20px 24px">
               <TabPanel height="100%" padding="0">
-                <CommonConfig />
+                <CommonConfig
+                  config={commonConfig}
+                  setConfig={setCommonConfig}
+                />
               </TabPanel>
               <TabPanel height="100%" padding="0">
-                2
+                <PlatformConfig
+                  config={platformConfig}
+                  setConfig={setPlatformConfig}
+                />
               </TabPanel>
             </TabPanels>
           </Tabs>
@@ -81,8 +95,12 @@ export default function AppearanceConfig() {
           borderBottomLeftRadius="4px"
           borderBottomRightRadius="4px"
         >
-          <TabPanel {...tabPanelStyle}>{TabPanelTitle}1</TabPanel>
-          <TabPanel {...tabPanelStyle}>{TabPanelTitle}2</TabPanel>
+          <TabPanel {...tabPanelStyle}>
+            <PreviewPanel>登录页</PreviewPanel>
+          </TabPanel>
+          <TabPanel {...tabPanelStyle}>
+            <PreviewPanel>菜单</PreviewPanel>
+          </TabPanel>
         </TabPanels>
       </Tabs>
     </Flex>

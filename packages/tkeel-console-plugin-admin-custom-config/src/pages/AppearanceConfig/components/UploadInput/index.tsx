@@ -2,10 +2,11 @@ import { Box, Center, Image, Input, Text } from '@chakra-ui/react';
 
 import { AddFilledIcon } from '@tkeel/console-icons';
 
-type Props = {
+interface Props {
+  type?: 'square' | 'rectangle';
   src: string;
   setSrc: (src: string) => unknown;
-};
+}
 
 function transformFileToBase64(file: File | null) {
   return new Promise<string>((resolve) => {
@@ -22,12 +23,25 @@ function transformFileToBase64(file: File | null) {
   });
 }
 
-export default function UploadInput({ src, setSrc }: Props) {
+export default function UploadInput({ type = 'square', src, setSrc }: Props) {
+  let width = '96px';
+  let height = width;
+  let imageWidth = 'auto';
+  let imageHeight = 'auto';
+  let uploadTextMarginTop = '6px';
+  if (type === 'rectangle') {
+    width = '200px';
+    height = '56px';
+    imageWidth = '100%';
+    imageHeight = '100%';
+    uploadTextMarginTop = '0';
+  }
+
   return (
     <Center
       position="relative"
-      width="96px"
-      height="96px"
+      width={width}
+      height={height}
       borderRadius="4px"
       backgroundColor="gray.100"
       _hover={{
@@ -36,7 +50,14 @@ export default function UploadInput({ src, setSrc }: Props) {
         },
       }}
     >
-      {src && <Image src={src} />}
+      {src && (
+        <Image
+          src={src}
+          width={imageWidth}
+          height={imageHeight}
+          borderRadius="4px"
+        />
+      )}
       <Box
         display="none"
         position="absolute"
@@ -55,7 +76,12 @@ export default function UploadInput({ src, setSrc }: Props) {
           borderRadius="4px"
         >
           <AddFilledIcon color="white" size={18} />
-          <Text marginTop="6px" color="white" fontSize="14px" fontWeight="500">
+          <Text
+            marginTop={uploadTextMarginTop}
+            color="white"
+            fontSize="14px"
+            fontWeight="500"
+          >
             上传图片
           </Text>
         </Center>

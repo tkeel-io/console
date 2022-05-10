@@ -1,10 +1,8 @@
 import {
   Box,
-  Button,
   ColorHues,
   Colors,
   Flex,
-  HStack,
   Input,
   Text,
   useTheme,
@@ -16,6 +14,7 @@ import { HexColorPicker } from 'react-colorful';
 
 import { useConfigQuery } from '@tkeel/console-request-hooks';
 
+import ButtonStack from '@/tkeel-console-plugin-admin-custom-config/components/ButtonStack';
 import useUpdateConfigMutation from '@/tkeel-console-plugin-admin-custom-config/hooks/mutations/useUpdateConfigMutation';
 
 // import ColorsBlock from './ColorsBlock';
@@ -193,23 +192,11 @@ function Index(): JSX.Element {
           />
         )}
       </Flex>
-      <HStack marginLeft="10px" spacing="8px">
-        <Button
-          colorScheme="brand"
-          borderRadius="6px"
-          boxShadow="none"
-          onClick={onConfirm}
-        >
-          确定
-        </Button>
-        <Button
-          borderRadius="6px"
-          boxShadow="none"
-          onClick={() => handleUpdateThemeColors({})}
-        >
-          重置
-        </Button>
-      </HStack>
+      <ButtonStack
+        onConfirm={onConfirm}
+        onReset={() => handleUpdateThemeColors({})}
+        styles={{ wrapper: { marginLeft: '10px' } }}
+      />
       {/* {brand && <ColorsBlock brand={brand} primary={colors[5]} />}
       {brand && <ColorsCoordinate brand={brand} />} */}
     </Flex>
