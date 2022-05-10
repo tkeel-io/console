@@ -39,7 +39,12 @@ function parseArgs(arg1: ToastFunctionArg1, arg2?: ToastFunctionArg2) {
     );
     options = { ...rest };
   } else {
-    content = <StyledToastContent>{arg1}</StyledToastContent>;
+    content =
+      typeof arg1 === 'function' ? (
+        arg1
+      ) : (
+        <StyledToastContent>{arg1}</StyledToastContent>
+      );
     options = arg2;
   }
 
