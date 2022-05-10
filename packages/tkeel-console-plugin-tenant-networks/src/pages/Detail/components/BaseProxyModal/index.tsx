@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 
-import { FormField, Modal } from '@tkeel/console-components';
+import { FormControl, FormField, Modal } from '@tkeel/console-components';
 
 const { TextField, TextareaField } = FormField;
 
@@ -111,6 +111,9 @@ export default function BaseProxyModal({
           required: { value: true, message: '代理服务协议类型' },
         }}
       /> */}
+      <FormControl label="绑定设备" id="form-routes">
+        dfs
+      </FormControl>
       <TextareaField
         id="proxyRemark"
         label="备注"
