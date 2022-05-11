@@ -13,8 +13,8 @@ module.exports = {
       entries: [
         {
           id: 'console-plugin-admin-service-monitoring',
-          name: '',
-          icon: '',
+          name: '服务监控',
+          icon: 'MonitorTwoToneIcon',
           path: '/admin-service-monitoring',
           entry: '/static/console-plugin-admin-service-monitoring/',
           portal: 0,
