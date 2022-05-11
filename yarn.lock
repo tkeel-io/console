@@ -2125,7 +2125,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chakra-ui/react@npm:^1.8.6, @chakra-ui/react@npm:^1.8.8":
+"@chakra-ui/react@npm:^1.8.8":
   version: 1.8.8
   resolution: "@chakra-ui/react@npm:1.8.8"
   dependencies:
@@ -3245,7 +3245,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/react@npm:^11.8.2, @emotion/react@npm:^11.9.0":
+"@emotion/react@npm:^11.9.0":
   version: 11.9.0
   resolution: "@emotion/react@npm:11.9.0"
   dependencies:
@@ -3962,27 +3962,6 @@ __metadata:
     react-query: ^3.39.0
     react-router-dom: ^6.3.0
     react-use: ^17.3.2
-  languageName: unknown
-  linkType: soft
-
-"@tkeel/console-plugin-admin-service-monitoring@workspace:packages/tkeel-console-plugin-admin-service-monitoring":
-  version: 0.0.0-use.local
-  resolution: "@tkeel/console-plugin-admin-service-monitoring@workspace:packages/tkeel-console-plugin-admin-service-monitoring"
-  dependencies:
-    "@chakra-ui/react": ^1.8.6
-    "@emotion/react": ^11.8.2
-    "@emotion/styled": ^11.8.1
-    "@tkeel/console-business-components": "workspace:^"
-    "@tkeel/console-components": "workspace:^"
-    "@tkeel/console-hooks": "workspace:^"
-    "@tkeel/console-types": "workspace:^"
-    "@tkeel/console-utils": "workspace:^"
-    framer-motion: ^6.2.8
-    lodash: ^4.17.21
-    react: ^17.0.2
-    react-dom: ^17.0.2
-    react-query: ^3.34.16
-    react-router-dom: ^6.2.2
   languageName: unknown
   linkType: soft
 
@@ -9541,7 +9520,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"framer-motion@npm:^6.2.8, framer-motion@npm:^6.3.3":
+"framer-motion@npm:^6.3.3":
   version: 6.3.3
   resolution: "framer-motion@npm:6.3.3"
   dependencies:
@@ -15070,7 +15049,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-query@npm:^3.34.16, react-query@npm:^3.39.0":
+"react-query@npm:^3.39.0":
   version: 3.39.0
   resolution: "react-query@npm:3.39.0"
   dependencies:
@@ -15144,7 +15123,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router-dom@npm:^6.2.2, react-router-dom@npm:^6.3.0":
+"react-router-dom@npm:^6.3.0":
   version: 6.3.0
   resolution: "react-router-dom@npm:6.3.0"
   dependencies:

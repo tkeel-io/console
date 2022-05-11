@@ -41,9 +41,6 @@
       "@/tkeel-console-plugin-admin-plugins/*": [
         "./packages/tkeel-console-plugin-admin-plugins/src/*"
       ],
-      "@/tkeel-console-plugin-admin-service-monitoring/*": [
-        "./packages/tkeel-console-plugin-admin-service-monitoring/src/*"
-      ],
       "@/tkeel-console-plugin-admin-tenants/*": [
         "./packages/tkeel-console-plugin-admin-tenants/src/*"
       ],
@@ -102,7 +99,6 @@
     { "path": "./packages/tkeel-console-icons/" },
     { "path": "./packages/tkeel-console-plugin-admin-custom-config/" },
     { "path": "./packages/tkeel-console-plugin-admin-plugins/" },
-    { "path": "./packages/tkeel-console-plugin-admin-service-monitoring/" },
     { "path": "./packages/tkeel-console-plugin-admin-tenants/" },
     { "path": "./packages/tkeel-console-plugin-example/" },
     { "path": "./packages/tkeel-console-plugin-tenant-data-query/" },
