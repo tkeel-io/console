@@ -40,7 +40,7 @@ function MenuIcon({ icon, active, style = {} }: Props) {
   return (
     <Icon
       color={active ? activeColor : defaultColor}
-      size={20}
+      size={16}
       style={style}
       {...iconProps}
     />

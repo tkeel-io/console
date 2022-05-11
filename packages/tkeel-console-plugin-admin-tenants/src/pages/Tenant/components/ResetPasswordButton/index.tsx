@@ -40,10 +40,6 @@ export default function ResetPasswordButton({ data }: Props) {
     mutate({});
   };
 
-  // TODO: SetPasswordModal url delete later
-  // const { protocol, host } = window.location;
-  // const url = `${protocol}//${host.replace(/^admin\./, '')}/auth/set-password`;
-
   return (
     <>
       <LinkButton onClick={onAlertOpen}>重置密码</LinkButton>

@@ -30,20 +30,27 @@ export default function Tabs({ onClick }: Props) {
 
   return (
     <Flex
-      w="376px"
-      m="8px 0 20px"
+      w="240px"
+      p="2px"
       alignItems="center"
+      justifyContent="space-between"
       bg="white"
       borderRadius="70px"
+      borderWidth="1px"
+      borderStyle="solid"
+      borderColor="grayAlternatives.100"
     >
       {tabArr.map((item, index) => {
         const { key, name, keyWords, active } = item;
         return (
           <Box
             key={key}
-            padding="6px 36px"
+            w="76px"
+            p="6px 0"
             borderRadius="70px"
             cursor="pointer"
+            fontSize="12px"
+            textAlign="center"
             bg={active ? 'gray.700' : 'white'}
             color={active ? 'white' : 'gray.600'}
             onClick={() => {
