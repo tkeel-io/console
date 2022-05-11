@@ -1,7 +1,7 @@
 import { Flex, HStack, Text, useClipboard } from '@chakra-ui/react';
 import { values } from 'lodash';
 import { useCallback, useEffect, useState } from 'react';
-import { Cell, Column } from 'react-table';
+import { CellProps, Column } from 'react-table';
 
 import { MoreAction, Table } from '@tkeel/console-components';
 import {
@@ -98,10 +98,10 @@ export default function AttributeRelationTable({
   );
 
   const OperateCell = useCallback(
-    ({ row }: Cell<AttributeRelationItem>) => {
+    ({ row }: CellProps<AttributeRelationItem>) => {
       const { original } = row;
       if (!original.deviceId) {
-        return '';
+        return null;
       }
       return (
         <MoreAction
@@ -134,7 +134,7 @@ export default function AttributeRelationTable({
       accessor: 'name',
       width: 160,
       Cell: useCallback(
-        ({ value }) => (
+        ({ value }: CellProps<AttributeRelationItem, string>) => (
           <Flex alignItems="center" justifyContent="space-between">
             <DuotoneTwoToneIcon />
             <Text
@@ -159,19 +159,22 @@ export default function AttributeRelationTable({
       Header: '',
       width: 60,
       accessor: 'icon',
-      Cell: useCallback(({ value }) => {
-        if (value) {
-          return <ChainFilledIcon size="16px" />;
-        }
-        return '';
-      }, []),
+      Cell: useCallback(
+        ({ value }: CellProps<AttributeRelationItem, boolean>) => {
+          if (value) {
+            return <ChainFilledIcon size="16px" />;
+          }
+          return null;
+        },
+        []
+      ),
     },
     {
       Header: '关联设备',
       accessor: 'deviceName',
       width: 120,
       Cell: useCallback(
-        ({ row }: Cell<AttributeRelationItem>) => {
+        ({ row }: CellProps<AttributeRelationItem>) => {
           const { original } = row;
           const { deviceName } = original;
           if (deviceName) {
@@ -200,7 +203,7 @@ export default function AttributeRelationTable({
       // accessor: 'deviceId',
       width: 100,
       Cell: useCallback(
-        ({ row }: Cell<AttributeRelationItem>) => {
+        ({ row }: CellProps<AttributeRelationItem>) => {
           const { original, id } = row;
           const value = original.deviceId ?? '';
           if (hasCopied && id === copiedId && value === copiedValue) {
@@ -229,15 +232,13 @@ export default function AttributeRelationTable({
       accessor: 'attributeName',
       width: 120,
       Cell: useCallback(
-        ({ value }) =>
+        ({ value }: CellProps<AttributeRelationItem, string | undefined>) =>
           value ? (
             <HStack spacing="6px">
               <DuotoneTwoToneIcon size="16px" />
               <Text>{value}</Text>
             </HStack>
-          ) : (
-            ''
-          ),
+          ) : null,
         []
       ),
     },
@@ -246,7 +247,7 @@ export default function AttributeRelationTable({
       // accessor: 'attributeId',
       width: 100,
       Cell: useCallback(
-        ({ row }: Cell<AttributeRelationItem>) => {
+        ({ row }: CellProps<AttributeRelationItem>) => {
           const { original, id } = row;
           const value = original.attributeId ?? '';
           if (hasCopied && id === copiedId && value === copiedValue) {

@@ -1,7 +1,7 @@
 import { Box, Button, Flex, Text, Theme, useTheme } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Cell, Column } from 'react-table';
+import { CellProps, Column } from 'react-table';
 
 import {
   ButtonsHStack,
@@ -73,7 +73,7 @@ export default function Tenants() {
     {
       Header: '租户空间',
       accessor: 'title',
-      Cell: ({ value, row }: Cell<Tenant>) =>
+      Cell: ({ value, row }: CellProps<Tenant>) =>
         useMemo(
           () => (
             <Button
@@ -92,7 +92,17 @@ export default function Tenants() {
       Header: '认证方式',
       accessor: 'auth_type',
       Cell: ({ value }) =>
-        (AUTH_TYPE_MAP[value] ?? AUTH_TYPE_MAP[DEFAULT_AUTH_TYPE_VALUE]).label,
+        useMemo(
+          () => (
+            <Text>
+              {
+                (AUTH_TYPE_MAP[value] ?? AUTH_TYPE_MAP[DEFAULT_AUTH_TYPE_VALUE])
+                  .label
+              }
+            </Text>
+          ),
+          [value]
+        ),
     },
     { Header: '租户 ID', accessor: 'tenant_id' },
     {
@@ -109,15 +119,18 @@ export default function Tenants() {
     {
       Header: '创建时间',
       accessor: 'created_at',
-      Cell({ value }) {
-        return value ? formatDateTimeByTimestamp({ timestamp: value }) : '';
-      },
+      Cell: ({ value }) =>
+        useMemo(() => {
+          return value ? (
+            <Text>{formatDateTimeByTimestamp({ timestamp: value })}</Text>
+          ) : null;
+        }, [value]),
     },
     { Header: '备注', accessor: 'remark' },
     { Header: '用户数', accessor: 'num_user' },
     {
       Header: '操作',
-      Cell: ({ row }: Cell<Tenant>) =>
+      Cell: ({ row }: CellProps<Tenant>) =>
         useMemo(() => {
           const { original } = row;
 
