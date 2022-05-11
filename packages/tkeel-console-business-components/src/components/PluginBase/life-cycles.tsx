@@ -16,7 +16,7 @@ export function mount(props: GlobalPluginProps, App: () => JSX.Element) {
     : document.querySelector('#root');
 
   plugin.initGlobalPluginProps(props);
-  root = createRoot(rootContainer!);
+  root = createRoot(rootContainer as Element);
   root.render(<App />);
 }
 
