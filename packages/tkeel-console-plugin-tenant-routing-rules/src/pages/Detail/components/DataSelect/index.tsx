@@ -1,7 +1,7 @@
 import { Center, Flex, HStack, Text } from '@chakra-ui/react';
 import { useCallback, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Cell, Column } from 'react-table';
+import { CellProps, Column } from 'react-table';
 
 import { DeviceStatusIcon } from '@tkeel/console-business-components';
 import {
@@ -66,7 +66,7 @@ export default function DataSelect({ routeType }: Props) {
   const columns: ReadonlyArray<Column<DeviceColumnData>> = [
     {
       Header: '设备名称',
-      Cell: ({ row }: Cell<DeviceColumnData>) =>
+      Cell: ({ row }: CellProps<DeviceColumnData>) =>
         useMemo(() => {
           const { name } = row.original;
           const deviceName = name || '';
@@ -99,7 +99,7 @@ export default function DataSelect({ routeType }: Props) {
     {
       Header: '设备状态',
       width: 100,
-      Cell: ({ row }: Cell<DeviceColumnData>) =>
+      Cell: ({ row }: CellProps<DeviceColumnData>) =>
         useMemo(() => {
           const { status } = row.original;
           return <DeviceStatusIcon isOnline={status === 'online'} />;
@@ -148,7 +148,7 @@ export default function DataSelect({ routeType }: Props) {
     {
       Header: '操作',
       width: 60,
-      Cell: ({ row }: Cell<DeviceColumnData>) =>
+      Cell: ({ row }: CellProps<DeviceColumnData>) =>
         useMemo(() => {
           const { id, name } = row.original;
           const buttons = [

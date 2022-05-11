@@ -1,6 +1,6 @@
 import { Flex, Text } from '@chakra-ui/react';
 import { useCallback, useMemo } from 'react';
-import { Cell, Column } from 'react-table';
+import { CellProps, Column } from 'react-table';
 
 import {
   DeleteTelemetryButton,
@@ -30,7 +30,7 @@ export default function TelemetryDataTable({
   telemetryValues,
 }: Props) {
   const operateCell = useCallback(
-    ({ row }: Cell<TelemetryItem>) => {
+    ({ row }: CellProps<TelemetryItem>) => {
       const { original } = row;
       return (
         <MoreAction
@@ -63,7 +63,7 @@ export default function TelemetryDataTable({
       accessor: 'name',
       width: 160,
       Cell: useCallback(
-        ({ value }) => (
+        ({ value }: CellProps<TelemetryTableItem, string>) => (
           <Flex alignItems="center" justifyContent="space-between">
             <DuotoneTwoToneIcon />
             <Text
@@ -98,7 +98,7 @@ export default function TelemetryDataTable({
       Header: '更新时间',
       accessor: 'last_time',
       width: 140,
-      Cell: ({ value }: { value: string }) =>
+      Cell: ({ value }: CellProps<TelemetryTableItem, number>) =>
         useMemo(
           () => (
             <Text fontSize="12px">
