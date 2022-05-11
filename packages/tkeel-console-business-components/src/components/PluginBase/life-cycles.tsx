@@ -8,6 +8,7 @@ export function bootstrap() {
 }
 
 let root: Root | null = null;
+
 export function mount(props: GlobalPluginProps, App: () => JSX.Element) {
   const { container } = props;
   const rootContainer = container
