@@ -450,11 +450,13 @@ export default function Detail() {
                 </Flex>
               </Flex>
               <HStack spacing="12px">
-                <MoreActionSelect
-                  options={rawDataTypeOptions}
-                  value={rawDataType}
-                  onChange={(value) => setRawDataType(value)}
-                />
+                {isRawDataRequested && (
+                  <MoreActionSelect
+                    options={rawDataTypeOptions}
+                    value={rawDataType}
+                    onChange={(value) => setRawDataType(value)}
+                  />
+                )}
                 <RefreshButton
                   onClick={() => handleRequestData()}
                   disabled={!canRequest}

@@ -103,11 +103,14 @@ export default function BaseRulesModal({
       keyOpt: 'msg',
       titleOpt: '消息路由',
       iconOpt: RoutesMsgIcon,
+      tipTitle: '数据路由的第一层为消息路由，传输原始信息，不约束数据的格式',
     },
     {
       keyOpt: 'time',
       titleOpt: '时序路由',
       iconOpt: RoutesTimeIcon,
+      tipTitle:
+        '数据路由的第二层为时序路由，传输模板约束后的结构化数据，并进行数据映射',
     },
   ];
 
@@ -165,7 +168,7 @@ export default function BaseRulesModal({
         </HStack>
       </FormControl>
       <Tip
-        title="数据传输第二层为时序路由，传输模板约束后的结构化数据"
+        title={routeType === 'time' ? options[1].tipTitle : options[0].tipTitle}
         styles={{ wrapper: { mb: '20px' } }}
       />
       {routeType === 'time' && (

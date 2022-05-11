@@ -1,6 +1,5 @@
 import { getPortalProps } from '../plugin';
 
-// eslint-disable-next-line import/prefer-default-export
 export function getGlobalPortalConfigCrossEnv() {
   const portalProps = getPortalProps();
 

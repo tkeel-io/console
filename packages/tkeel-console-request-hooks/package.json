@@ -20,6 +20,6 @@
     "js-base64": "^3.7.2",
     "lodash": "^4.17.21",
     "react": "^17.0.2",
-    "react-router-dom": "^6.2.2"
+    "react-router-dom": "^6.3.0"
   }
 }
