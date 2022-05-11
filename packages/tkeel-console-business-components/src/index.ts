@@ -22,6 +22,7 @@ export { default as NotFound } from './components/NotFound';
 export * as PluginBase from './components/PluginBase';
 export { default as PluginCard } from './components/PluginCard';
 export { default as PluginNum } from './components/PluginNum';
+export { default as PortalTenantLogin } from './components/PortalTenantLogin';
 export { default as RawDataConnectTypeLabel } from './components/RawDataConnectTypeLabel';
 export * from './components/RawDataConnectTypeLabel';
 export { default as SaveAsOtherTemplateButton } from './components/SaveAsOtherTemplateButton';

@@ -24,7 +24,7 @@ type Options = {
 export default function useTokenMutation({ tenantId, onSuccess }: Options) {
   const url = `/security/v1/oauth/${tenantId}/token`;
 
-  return useMutation<ApiData, RequestParams>({
+  return useMutation<ApiData, RequestParams | undefined>({
     url,
     method,
     reactQueryOptions: {

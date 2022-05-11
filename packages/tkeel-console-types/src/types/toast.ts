@@ -1,4 +1,4 @@
-import { ReactNode, ReactText } from 'react';
+import { ReactNode } from 'react';
 import {
   ToastContent as ToastifyToastContent,
   ToastOptions as ToastifyToastOptions,
@@ -18,8 +18,8 @@ export type ToastFunctionArg1 = ToastOptions | ToastContent;
 export type ToastFunctionArg2 = Omit<ToastOptions, 'title' | 'description'>;
 
 interface ToastBaseFunction {
-  (options: ToastOptions): ReactText;
-  (content: ToastContent, options?: ToastFunctionArg2): ReactText;
+  (options: ToastOptions): string | number;
+  (content: ToastContent, options?: ToastFunctionArg2): string | number;
 }
 
 export interface ToastFunction extends ToastBaseFunction {
