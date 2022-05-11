@@ -5,7 +5,6 @@ import { Theme } from '@tkeel/console-themes';
 
 type StyledTabProps = Pick<Theme, 'colors'>;
 
-// eslint-disable-next-line import/prefer-default-export
 export const StyledTab = styled(Tab)<StyledTabProps>`
   border: 0;
   border-color: none;
