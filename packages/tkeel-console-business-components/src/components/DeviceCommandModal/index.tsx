@@ -142,7 +142,8 @@ export default function DeviceCommandModal({
         reset(defaultValues);
       }
     }
-  }, [isOpen, isEdit, reset, defaultValues]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, isEdit, reset]);
 
   return (
     <Modal
