@@ -6,7 +6,7 @@ annotations:
   tkeel.io/version: v0.4.0
 apiVersion: v2
 appVersion: 0.4.0-alpha.2
-description: 定制化配置
+description: 服务监控
 maintainers:
   - email: caoyue@yunify.com
     name: caoyue
