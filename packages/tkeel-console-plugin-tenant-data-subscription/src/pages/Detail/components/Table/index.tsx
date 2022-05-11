@@ -1,6 +1,6 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { useCallback, useMemo, useState } from 'react';
-import { Cell, Column } from 'react-table';
+import { CellProps, Column } from 'react-table';
 
 import { DeviceStatusIcon } from '@tkeel/console-business-components';
 import {
@@ -146,7 +146,7 @@ export default function Index({ id, title, refetchSubscribeInfo }: Props) {
     {
       Header: '操作',
       width: 80,
-      Cell: ({ row }: Cell<Data>) =>
+      Cell: ({ row }: CellProps<Data>) =>
         useMemo(() => {
           const { original } = row;
 
