@@ -42,7 +42,7 @@ export default function BasicInfoCard() {
       ),
     },
     {
-      label: '客户数',
+      label: '用户数',
       value: userCount,
     },
   ];
