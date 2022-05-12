@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/prefer-default-export
 export const paths = {
   adminGuide: {
     tenantIntro: '/admin-guide/tenant-mgt/tenant_intro',

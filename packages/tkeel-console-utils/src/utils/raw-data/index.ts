@@ -8,7 +8,6 @@ export function hasJsonStructure(str: string) {
   }
 }
 
-// eslint-disable-next-line import/prefer-default-export
 export const formatRawValue = ({
   value,
   type,

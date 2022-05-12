@@ -27,7 +27,12 @@ export default function Header({ menus, userActionMenusComponent }: Props) {
     }
   });
 
-  const crumbColor = 'grayAlternatives.500';
+  const textStyle = {
+    color: 'grayAlternatives.500',
+    fontSize: '12px',
+    fontWeight: '500',
+  };
+
   return (
     <Flex
       justifyContent="space-between"
@@ -35,14 +40,14 @@ export default function Header({ menus, userActionMenusComponent }: Props) {
       height="48px"
       padding="0 20px"
     >
-      <Flex fontSize="12px">
+      <Flex>
         {breadcrumbs.map((crumb, i) => (
           <Flex key={String(i + 1)} alignItems="center">
-            <Text key="crumb" cursor="default" color={crumbColor}>
+            <Text key="crumb" {...textStyle}>
               {crumb}
             </Text>
             {i < breadcrumbs.length - 1 && (
-              <Text margin="0" color={crumbColor}>
+              <Text margin="0" {...textStyle}>
                 /
               </Text>
             )}
