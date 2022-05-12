@@ -1,5 +1,5 @@
 import { Flex, Text } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Column } from 'react-table';
 
 import { SearchInput, Table } from '@tkeel/console-components';
@@ -36,11 +36,14 @@ function EnablePluginList({ pluginName, installed }: Props) {
       Header: '启用时间',
       accessor: 'enable_timestamp',
       width: 200,
-      Cell({ value }) {
-        return value
-          ? formatDateTimeByTimestamp({ timestamp: `${value}000` })
-          : '';
-      },
+      Cell: ({ value }) =>
+        useMemo(() => {
+          return value ? (
+            <Text>
+              {formatDateTimeByTimestamp({ timestamp: `${value}000` })}
+            </Text>
+          ) : null;
+        }, [value]),
     },
     {
       Header: '租户空间',

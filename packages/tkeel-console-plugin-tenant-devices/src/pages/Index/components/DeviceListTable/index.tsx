@@ -1,7 +1,7 @@
 import { HStack, Text } from '@chakra-ui/react';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Cell, Column } from 'react-table';
+import { CellProps, Column } from 'react-table';
 
 import {
   DeviceStatusIcon,
@@ -123,7 +123,7 @@ function DeviceListTable({
   const columns: ReadonlyArray<Column<DeviceItem>> = [
     {
       Header: '设备名称',
-      Cell: ({ row }: Cell<DeviceItem>) =>
+      Cell: ({ row }: CellProps<DeviceItem>) =>
         useMemo(() => {
           const { original } = row;
           const { id } = original;
@@ -147,7 +147,7 @@ function DeviceListTable({
     {
       Header: '连接方式',
       accessor: 'directConnection',
-      Cell: ({ value }: { value: boolean }) =>
+      Cell: ({ value }: CellProps<DeviceItem, boolean>) =>
         useMemo(() => {
           return (
             <Tooltip label={value ? '直连' : '非直连'}>
@@ -165,13 +165,13 @@ function DeviceListTable({
     {
       Header: '设备模板',
       accessor: 'templateName',
-      Cell: ({ value }: { value: string }) =>
+      Cell: ({ value }: CellProps<DeviceItem, string>) =>
         useMemo(() => <Text color="gray.700">{value || '-'}</Text>, [value]),
     },
     {
       Header: '设备状态',
       accessor: 'status',
-      Cell: ({ row }: Cell<DeviceItem>) =>
+      Cell: ({ row }: CellProps<DeviceItem>) =>
         useMemo(() => {
           const originData = row.original?.originData as DeviceApiItem;
           // return <Box pos="relative">{renderDeviceStatus({ original })}</Box>;
@@ -181,7 +181,7 @@ function DeviceListTable({
     {
       Header: '创建时间',
       accessor: 'createTime',
-      Cell: ({ value }: { value: number }) =>
+      Cell: ({ value }: CellProps<DeviceItem, number>) =>
         useMemo(
           () => (
             <Text minWidth="180px" fontSize="12px" color="gray.700">
@@ -194,7 +194,7 @@ function DeviceListTable({
     {
       Header: '操作',
       width: 80,
-      Cell: ({ row }: Cell<DeviceItem>) =>
+      Cell: ({ row }: CellProps<DeviceItem>) =>
         useMemo(() => {
           const originData = row.original.originData as DeviceApiItem;
           const id = originData?.id ?? '';

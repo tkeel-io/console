@@ -29,9 +29,9 @@
     "@types/lodash": "^4.14.182",
     "@types/react-table": "^7.7.11",
     "framer-motion": "^6.3.3",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-hook-form": "^7.30.0",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "react-hook-form": "^7.31.1",
     "react-query": "^3.39.0",
     "react-router-dom": "^6.3.0"
   }

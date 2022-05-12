@@ -1,6 +1,6 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { useCallback, useMemo, useState } from 'react';
-import { Cell, Column } from 'react-table';
+import { CellProps, Column } from 'react-table';
 
 import {
   CreateCommandButton,
@@ -52,7 +52,7 @@ export default function CommandTable({ id, title }: Props) {
     onSuccess() {},
   });
   const operateCell = useCallback(
-    ({ row }: Cell<CommandItem>) => {
+    ({ row }: CellProps<CommandItem>) => {
       const { original } = row;
       return (
         <MoreAction

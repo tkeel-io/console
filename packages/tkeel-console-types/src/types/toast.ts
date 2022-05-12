@@ -1,11 +1,9 @@
 import { ReactNode } from 'react';
 import {
-  ToastContent as ToastifyToastContent,
+  ToastContent,
   ToastOptions as ToastifyToastOptions,
   TypeOptions,
 } from 'react-toastify';
-
-export type ToastContent = Exclude<ToastifyToastContent, Record<string, never>>;
 
 export interface ToastOptions extends Omit<ToastifyToastOptions, 'type'> {
   title: ReactNode;
