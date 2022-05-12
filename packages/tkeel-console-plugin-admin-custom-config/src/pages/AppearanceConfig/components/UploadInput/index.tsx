@@ -1,11 +1,17 @@
-import { Box, Center, Image, Input, Text } from '@chakra-ui/react';
+import { Box, Center, Image, Input, StyleProps, Text } from '@chakra-ui/react';
 
 import { AddFilledIcon } from '@tkeel/console-icons';
+
+export interface Styles {
+  wrapper?: StyleProps;
+  image?: StyleProps;
+}
 
 interface Props {
   type?: 'square' | 'rectangle';
   src: string;
   setSrc: (src: string) => unknown;
+  styles?: Styles;
 }
 
 function transformFileToBase64(file: File | null) {
@@ -23,7 +29,12 @@ function transformFileToBase64(file: File | null) {
   });
 }
 
-export default function UploadInput({ type = 'square', src, setSrc }: Props) {
+export default function UploadInput({
+  type = 'square',
+  src,
+  setSrc,
+  styles,
+}: Props) {
   let width = '96px';
   let height = width;
   let imageWidth = 'auto';
@@ -49,6 +60,7 @@ export default function UploadInput({ type = 'square', src, setSrc }: Props) {
           display: 'block',
         },
       }}
+      {...styles?.wrapper}
     >
       {src && (
         <Image
@@ -56,6 +68,7 @@ export default function UploadInput({ type = 'square', src, setSrc }: Props) {
           width={imageWidth}
           height={imageHeight}
           borderRadius="4px"
+          {...styles?.image}
         />
       )}
       <Box

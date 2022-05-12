@@ -7,8 +7,8 @@ import {
   CollapseFilledIcon,
   ExpandFilledIcon,
   GearTwoToneIcon,
-  // MoonCircleFilledIcon,
-  // SunFilledIcon,
+  MoonCircleFilledIcon,
+  SunFilledIcon,
 } from '@tkeel/console-icons';
 import { ThemeNames } from '@tkeel/console-themes';
 import { Logo } from '@tkeel/console-types';
@@ -38,7 +38,9 @@ function Menus({ logo, menus }: Props) {
   const isQingCloudTheme =
     GLOBAL_PORTAL_CONFIG.client.themeName === ThemeNames.QingcloudLight;
   const defaultMenuTheme = isQingCloudTheme ? 'dark' : 'light';
-  const [menuTheme] = useState(localMenuTheme || defaultMenuTheme);
+  const [menuTheme, setMenuTheme] = useState(
+    localMenuTheme || defaultMenuTheme
+  );
   const isDarkMenu = isDarkMenuTheme(menuTheme);
   const [isShowMenuSetting, setIsShowMenuSetting] = useState(false);
   const [mockMenus, setMockMenus] = useState(JSON.stringify(menus, null, 2));
@@ -55,19 +57,19 @@ function Menus({ logo, menus }: Props) {
     setCollapsed(menuCollapsed);
   }, [menuCollapsed]);
 
-  // const getChangeThemeIconProps = (theme: 'dark' | 'light') => {
-  //   return {
-  //     color: iconColor,
-  //     style: { marginBottom: '20px' },
-  //     _hover: {
-  //       color: whiteColor,
-  //     },
-  //     onClick() {
-  //       setLocalMenuTheme(theme);
-  //       window.location.reload();
-  //     },
-  //   };
-  // };
+  const getChangeThemeIconProps = (theme: 'dark' | 'light') => {
+    return {
+      color: iconColor,
+      style: { marginBottom: '20px' },
+      _hover: {
+        color: whiteColor,
+      },
+      onClick() {
+        setLocalMenuTheme(theme);
+        setMenuTheme(theme);
+      },
+    };
+  };
 
   const iconHoverStyle = {
     '& > svg': {
@@ -108,13 +110,13 @@ function Menus({ logo, menus }: Props) {
         bottom="20px"
         cursor="pointer"
       >
-        {/* {isDarkMenu ? (
+        {isDarkMenu ? (
           <Box _hover={iconHoverStyle}>
             <SunFilledIcon {...getChangeThemeIconProps('light')} />
           </Box>
         ) : (
           <MoonCircleFilledIcon {...getChangeThemeIconProps('dark')} />
-        )} */}
+        )}
         {collapsed ? (
           <Box _hover={iconHoverStyle}>
             <ExpandFilledIcon

@@ -25,7 +25,7 @@ export default function Index() {
       children: (
         <ConfigButton
           title="更改外观配置"
-          onClick={() => navigate('/appearance-config')}
+          onClick={() => navigate('/appearance-config?menu-collapsed=true')}
         />
       ),
     },

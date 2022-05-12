@@ -5,31 +5,87 @@ import {
   CustomTab as CustomDetailTab,
   CustomTabList,
 } from '@tkeel/console-components';
+import type {
+  CommonConfig as CommonConfigType,
+  PlatformConfig as PlatformConfigType,
+} from '@tkeel/console-constants';
+import { APPEARANCE } from '@tkeel/console-constants';
+import {
+  usePortalConfigQuery,
+  useUpdatePortalConfigMutation,
+} from '@tkeel/console-request-hooks';
 
 import BasicInfo from './components/BasicInfo';
 import CommonConfig from './components/CommonConfig';
 import CustomTab from './components/CustomTab';
+import MenuPreview from './components/MenuPreview';
 import PlatformConfig from './components/PlatformConfig';
 import PreviewPanel from './components/PreviewPanel';
 
 export default function AppearanceConfig() {
-  const [commonConfig, setCommonConfig] = useState({
+  const [commonConfig, setCommonConfig] = useState<CommonConfigType>({
     logoMark: '',
     slogan: '',
     backgroundImage: '',
   });
-  const [platformConfig, setPlatformConfig] = useState({
-    tenantPlatformName: '',
-    tenantLightLogo: '',
-    tenantDarkLogo: '',
-    adminPlatformName: '',
-    adminLightLogo: '',
-    adminDarkLogo: '',
+
+  const defaultPlatformConfig = {
+    platformName: '',
+    logoTypeLight: '',
+    logoTypeDark: '',
+  };
+
+  const [platformConfig, setPlatformConfig] = useState<PlatformConfigType>({
+    admin: defaultPlatformConfig,
+    tenant: defaultPlatformConfig,
   });
-  // eslint-disable-next-line no-console
-  console.log('AppearanceConfig ~ commonConfig', commonConfig);
-  // eslint-disable-next-line no-console
-  console.log('AppearanceConfig ~ platformConfig', platformConfig);
+
+  const { admin: adminConfig, tenant: tenantConfig } = platformConfig;
+
+  usePortalConfigQuery<CommonConfigType>({
+    path: 'config.COMMON_CONFIG',
+    onSuccess(data) {
+      const COMMON_CONFIG = data?.data?.value || APPEARANCE.COMMON_CONFIG;
+      if (COMMON_CONFIG) {
+        setCommonConfig(COMMON_CONFIG);
+      }
+    },
+  });
+
+  usePortalConfigQuery<PlatformConfigType>({
+    path: 'config.PLATFORM_CONFIG',
+    defaultConfig: APPEARANCE.PLATFORM_CONFIG,
+    onSuccess(data) {
+      const PLATFORM_CONFIG = data?.data?.value || APPEARANCE.PLATFORM_CONFIG;
+      if (PLATFORM_CONFIG) {
+        setPlatformConfig(PLATFORM_CONFIG);
+      }
+    },
+  });
+
+  const { mutate: commonConfigMutate } =
+    useUpdatePortalConfigMutation<CommonConfigType>({
+      path: 'config.COMMON_CONFIG',
+    });
+
+  const { mutate: platformConfigMutate } =
+    useUpdatePortalConfigMutation<PlatformConfigType>({
+      path: 'config.PLATFORM_CONFIG',
+    });
+
+  const handleUpdateCommonConfig = (config: CommonConfigType) => {
+    setCommonConfig(config);
+    commonConfigMutate({
+      data: config,
+    });
+  };
+
+  const handleUpdatePlatformConfig = (config: PlatformConfigType) => {
+    setPlatformConfig(config);
+    platformConfigMutate({
+      data: config,
+    });
+  };
 
   const tabPanelStyle = {
     height: '100%',
@@ -39,7 +95,7 @@ export default function AppearanceConfig() {
 
   return (
     <Flex>
-      <Flex flexDirection="column" width="360px">
+      <Flex flexDirection="column" width="360px" flexShrink={0}>
         <BasicInfo />
         <Flex marginTop="12px" flexDirection="column" backgroundColor="white">
           <Tabs
@@ -63,13 +119,13 @@ export default function AppearanceConfig() {
               <TabPanel height="100%" padding="0">
                 <CommonConfig
                   config={commonConfig}
-                  setConfig={setCommonConfig}
+                  updateConfig={handleUpdateCommonConfig}
                 />
               </TabPanel>
               <TabPanel height="100%" padding="0">
                 <PlatformConfig
                   config={platformConfig}
-                  setConfig={setPlatformConfig}
+                  updateConfig={handleUpdatePlatformConfig}
                 />
               </TabPanel>
             </TabPanels>
@@ -82,12 +138,13 @@ export default function AppearanceConfig() {
         marginLeft="20px"
         flex="1"
         boxShadow="0px 10px 15px -3px rgba(113, 128, 150, 0.1), 0px 4px 6px -2px rgba(113, 128, 150, 0.05);"
+        index={1}
       >
         <CustomTabList>
           <CustomDetailTab borderTopLeftRadius="4px">
             登录欢迎页
           </CustomDetailTab>
-          <CustomDetailTab>左侧导航</CustomDetailTab>
+          <CustomDetailTab>平台级配置</CustomDetailTab>
         </CustomTabList>
         <TabPanels
           flex="1"
@@ -99,7 +156,32 @@ export default function AppearanceConfig() {
             <PreviewPanel>登录页</PreviewPanel>
           </TabPanel>
           <TabPanel {...tabPanelStyle}>
-            <PreviewPanel>菜单</PreviewPanel>
+            <PreviewPanel>
+              <Flex
+                flex="1"
+                justifyContent="space-between"
+                padding="12px 32px 0"
+              >
+                <MenuPreview
+                  title="浅色/管理平台"
+                  logo={adminConfig.logoTypeDark}
+                  type="light"
+                />
+                <MenuPreview
+                  title="浅色/租户平台"
+                  logo={tenantConfig.logoTypeDark}
+                  type="light"
+                />
+                <MenuPreview
+                  title="深色/管理平台"
+                  logo={adminConfig.logoTypeLight}
+                />
+                <MenuPreview
+                  title="深色/租户平台"
+                  logo={tenantConfig.logoTypeLight}
+                />
+              </Flex>
+            </PreviewPanel>
           </TabPanel>
         </TabPanels>
       </Tabs>

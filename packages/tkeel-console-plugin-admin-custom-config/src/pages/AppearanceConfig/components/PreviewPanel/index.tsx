@@ -14,7 +14,7 @@ export default function PreviewPanel({ children }: Props) {
       <Flex
         marginTop="12px"
         width="100%"
-        height="468px"
+        height="100%"
         backgroundColor="gray.100"
       >
         {children}

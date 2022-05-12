@@ -1,5 +1,5 @@
 import { Box } from '@chakra-ui/react';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { FormField } from '@tkeel/console-components';
@@ -20,7 +20,7 @@ const handleReset = () => {
   console.log('reset');
 };
 
-interface Config {
+export interface Config {
   logoMark: string;
   slogan: string;
   backgroundImage: string;
@@ -28,31 +28,26 @@ interface Config {
 
 interface Props {
   config: Config;
-  setConfig: Dispatch<SetStateAction<Config>>;
+  updateConfig: (config: Config) => unknown;
 }
 
-export default function CommonConfig({ config, setConfig }: Props) {
-  const [logoMark, setLogoMark] = useState<string>(config.logoMark);
-  const [backgroundImage, setBackgroundImage] = useState<string>(
-    config.backgroundImage
-  );
+export default function CommonConfig({ config, updateConfig }: Props) {
+  const [logoMark, setLogoMark] = useState('');
+  const [backgroundImage, setBackgroundImage] = useState<string>('');
 
   const {
     register,
     formState: { errors },
     trigger,
     getValues,
-  } = useForm<ConfigField>({
-    defaultValues: {
-      slogan: config.slogan,
-    },
-  });
+    setValue,
+  } = useForm<ConfigField>();
 
   const handleConfirm = async () => {
     const result = await trigger();
     if (result) {
       const { slogan } = getValues();
-      setConfig({
+      updateConfig({
         logoMark,
         slogan,
         backgroundImage,
@@ -60,13 +55,23 @@ export default function CommonConfig({ config, setConfig }: Props) {
     }
   };
 
+  useEffect(() => {
+    setLogoMark(config.logoMark);
+    setBackgroundImage(config.backgroundImage);
+    setValue('slogan', config.slogan);
+  }, [config, setValue]);
+
   return (
     <Box>
       <CommonConfigItem
         title="Logo-品牌图标"
         desc="大小不能超过 100K，格式最佳为 png 同样支持 jpg/jpeg/gif/svg ，尺寸比例为正方形，最佳为 96px*96px 。"
         formField={
-          <UploadInput src={logoMark} setSrc={(src) => setLogoMark(src)} />
+          <UploadInput
+            src={logoMark}
+            setSrc={(src) => setLogoMark(src)}
+            styles={{ image: { width: '54px' } }}
+          />
         }
       />
       <CommonConfigItem
