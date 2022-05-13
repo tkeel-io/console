@@ -1,16 +1,20 @@
 import { useQuery } from '@tkeel/console-hooks';
 
+import type { PluginStatus } from '@/tkeel-console-plugin-admin-service-monitoring/types';
+
 interface RequestParams {
   page_num?: number;
   page_size?: number;
   order_by?: string;
   is_descending?: boolean;
   name?: string;
-  status?: 'running' | 'stopped' | 'updating';
+  status?: PluginStatus;
 }
 
 interface Item {
-  metadata: Record<string, unknown>;
+  metadata: {
+    uid: string;
+  };
   spec: Record<string, unknown>;
   status: Record<string, unknown>;
 }

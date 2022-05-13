@@ -1,3 +1,5 @@
 type PluginStatus = 'running' | 'updating' | 'stopped';
 
-export { PluginStatus };
+type PodStatus = 'Running' | 'Pending' | 'Succeeded' | 'Failed' | 'Unknown';
+
+export { PluginStatus, PodStatus };
