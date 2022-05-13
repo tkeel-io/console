@@ -1,8 +1,10 @@
 import { Box } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { FormField } from '@tkeel/console-components';
+import type { CommonConfig as CommonConfigType } from '@tkeel/console-constants';
+import { useDeletePortalConfigMutation } from '@tkeel/console-request-hooks';
 
 import ButtonStack from '@/tkeel-console-plugin-admin-custom-config/components/ButtonStack';
 
@@ -15,11 +17,6 @@ interface ConfigField {
   slogan: string;
 }
 
-const handleReset = () => {
-  // eslint-disable-next-line no-console
-  console.log('reset');
-};
-
 export interface Config {
   logoMark: string;
   slogan: string;
@@ -28,36 +25,33 @@ export interface Config {
 
 interface Props {
   config: Config;
-  updateConfig: (config: Config) => unknown;
+  setConfig: Dispatch<SetStateAction<CommonConfigType>>;
+  onConfirm: () => unknown;
 }
 
-export default function CommonConfig({ config, updateConfig }: Props) {
-  const [logoMark, setLogoMark] = useState('');
-  const [backgroundImage, setBackgroundImage] = useState<string>('');
+export default function CommonConfig({ config, setConfig, onConfirm }: Props) {
+  const { mutate } = useDeletePortalConfigMutation({
+    path: 'config.common',
+    onSuccess() {
+      window.location.reload();
+    },
+  });
 
   const {
     register,
     formState: { errors },
     trigger,
-    getValues,
     setValue,
   } = useForm<ConfigField>();
 
   const handleConfirm = async () => {
     const result = await trigger();
     if (result) {
-      const { slogan } = getValues();
-      updateConfig({
-        logoMark,
-        slogan,
-        backgroundImage,
-      });
+      onConfirm();
     }
   };
 
   useEffect(() => {
-    setLogoMark(config.logoMark);
-    setBackgroundImage(config.backgroundImage);
     setValue('slogan', config.slogan);
   }, [config, setValue]);
 
@@ -68,9 +62,8 @@ export default function CommonConfig({ config, updateConfig }: Props) {
         desc="大小不能超过 100K，格式最佳为 png 同样支持 jpg/jpeg/gif/svg ，尺寸比例为正方形，最佳为 96px*96px 。"
         formField={
           <UploadInput
-            src={logoMark}
-            setSrc={(src) => setLogoMark(src)}
-            styles={{ image: { width: '54px' } }}
+            src={config.logoMark}
+            setSrc={(src) => setConfig({ ...config, logoMark: src })}
           />
         }
       />
@@ -90,17 +83,17 @@ export default function CommonConfig({ config, updateConfig }: Props) {
       />
       <CommonConfigItem
         title="背景图片"
-        desc="大小不能超过 1M，格式最佳为 JPG 同样支持 jpeg/gif/png/svg ，尺寸比例为长方形，最佳为 800px*900px。"
+        desc="大小不能超过 1M，格式最佳为 jpg 同样支持 jpeg/gif/png/svg ，尺寸比例为正方形，最佳为 900px*900px。"
         formField={
           <UploadInput
-            src={backgroundImage}
-            setSrc={(src) => setBackgroundImage(src)}
+            src={config.backgroundImage}
+            setSrc={(src) => setConfig({ ...config, backgroundImage: src })}
           />
         }
       />
       <ButtonStack
         onConfirm={handleConfirm}
-        onReset={handleReset}
+        onReset={() => mutate({})}
         styles={{ wrapper: { marginTop: '26px' } }}
       />
     </Box>

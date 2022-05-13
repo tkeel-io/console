@@ -11,16 +11,15 @@ interface Props<RequestData> {
   ) => void | Promise<unknown>;
 }
 
-const url = '/rudder/v1/config/platform';
-
 export default function useUpdatePortalConfigMutation<RequestData>({
   key = 'appearance',
   path,
   onSuccess,
 }: Props<RequestData>) {
   const reactQueryOptions = onSuccess ? { onSuccess } : {};
+  const url = `/rudder/v1/config/platform/update?key=${key}&path=${path}`;
   return useMutation<unknown, undefined, RequestData>({
-    url: `${url}?key=${key}&path=${path}`,
+    url,
     method: 'POST',
     reactQueryOptions,
   });

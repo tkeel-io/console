@@ -1,4 +1,11 @@
-import { Flex, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import {
+  Flex,
+  StyleProps,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+} from '@chakra-ui/react';
 import { useState } from 'react';
 
 import {
@@ -43,7 +50,7 @@ export default function AppearanceConfig() {
   const { admin: adminConfig, tenant: tenantConfig } = platformConfig;
 
   usePortalConfigQuery<CommonConfigType>({
-    path: 'config.COMMON_CONFIG',
+    path: 'config.common',
     onSuccess(data) {
       const COMMON_CONFIG = data?.data?.value || APPEARANCE.COMMON_CONFIG;
       if (COMMON_CONFIG) {
@@ -53,7 +60,7 @@ export default function AppearanceConfig() {
   });
 
   usePortalConfigQuery<PlatformConfigType>({
-    path: 'config.PLATFORM_CONFIG',
+    path: 'config.platform',
     defaultConfig: APPEARANCE.PLATFORM_CONFIG,
     onSuccess(data) {
       const PLATFORM_CONFIG = data?.data?.value || APPEARANCE.PLATFORM_CONFIG;
@@ -65,29 +72,23 @@ export default function AppearanceConfig() {
 
   const { mutate: commonConfigMutate } =
     useUpdatePortalConfigMutation<CommonConfigType>({
-      path: 'config.COMMON_CONFIG',
+      path: 'config.common',
+      onSuccess() {
+        window.location.reload();
+      },
     });
 
   const { mutate: platformConfigMutate } =
     useUpdatePortalConfigMutation<PlatformConfigType>({
-      path: 'config.PLATFORM_CONFIG',
+      path: 'config.platform',
+      onSuccess() {
+        window.location.reload();
+      },
     });
 
-  const handleUpdateCommonConfig = (config: CommonConfigType) => {
-    setCommonConfig(config);
-    commonConfigMutate({
-      data: config,
-    });
-  };
-
-  const handleUpdatePlatformConfig = (config: PlatformConfigType) => {
-    setPlatformConfig(config);
-    platformConfigMutate({
-      data: config,
-    });
-  };
-
-  const tabPanelStyle = {
+  const tabPanelStyle: StyleProps = {
+    display: 'flex',
+    flexDirection: 'column',
     height: '100%',
     padding: '12px 20px',
     backgroundColor: 'white',
@@ -119,13 +120,23 @@ export default function AppearanceConfig() {
               <TabPanel height="100%" padding="0">
                 <CommonConfig
                   config={commonConfig}
-                  updateConfig={handleUpdateCommonConfig}
+                  setConfig={setCommonConfig}
+                  onConfirm={() => {
+                    commonConfigMutate({
+                      data: commonConfig,
+                    });
+                  }}
                 />
               </TabPanel>
               <TabPanel height="100%" padding="0">
                 <PlatformConfig
                   config={platformConfig}
-                  updateConfig={handleUpdatePlatformConfig}
+                  setConfig={setPlatformConfig}
+                  onConfirm={() => {
+                    platformConfigMutate({
+                      data: platformConfig,
+                    });
+                  }}
                 />
               </TabPanel>
             </TabPanels>
@@ -157,11 +168,7 @@ export default function AppearanceConfig() {
           </TabPanel>
           <TabPanel {...tabPanelStyle}>
             <PreviewPanel>
-              <Flex
-                flex="1"
-                justifyContent="space-between"
-                padding="12px 32px 0"
-              >
+              <Flex flex="1" justifyContent="space-between" padding="12px 32px">
                 <MenuPreview
                   title="浅色/管理平台"
                   logo={adminConfig.logoTypeDark}

@@ -1,15 +1,10 @@
 import { Flex, StyleProps, Text } from '@chakra-ui/react';
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
 import { FieldError, useForm } from 'react-hook-form';
 
 import { FormField } from '@tkeel/console-components';
 import type { PlatformConfig as PlatformConfigType } from '@tkeel/console-constants';
+import { useDeletePortalConfigMutation } from '@tkeel/console-request-hooks';
 
 import ButtonStack from '@/tkeel-console-plugin-admin-custom-config/components/ButtonStack';
 
@@ -26,37 +21,43 @@ interface PlatformConfigField {
   adminPlatformName: string;
 }
 
-const handleReset = () => {};
-
 interface PlatformNameItemProps {
   title: string;
   id: keyof PlatformConfigField;
 }
 
 interface LogoConfigItemProps {
+  platform: 'admin' | 'tenant';
+  logoName: string;
   title: string;
   logo: string;
-  setLogo: Dispatch<SetStateAction<string>>;
   styles?: PlatformConfigItemStyles;
   uploadInputStyles?: UploadStyles;
 }
 
 interface Props {
   config: PlatformConfigType;
-  updateConfig: (config: PlatformConfigType) => unknown;
+  setConfig: Dispatch<SetStateAction<PlatformConfigType>>;
+  onConfirm: () => unknown;
 }
 
-export default function PlatformConfig({ config, updateConfig }: Props) {
-  const [tenantLightLogo, setTenantLightLogo] = useState('');
-  const [tenantDarkLogo, setTenantDarkLogo] = useState('');
+export default function PlatformConfig({
+  config,
+  setConfig,
+  onConfirm,
+}: Props) {
+  const { admin, tenant } = config;
 
-  const [adminLightLogo, setAdminLightLogo] = useState('');
-  const [adminDarkLogo, setAdminDarkLogo] = useState('');
+  const { mutate } = useDeletePortalConfigMutation({
+    path: 'config.platform',
+    onSuccess() {
+      window.location.reload();
+    },
+  });
 
   const {
     register,
     trigger,
-    getValues,
     setValue,
     formState: { errors },
   } = useForm<PlatformConfigField>();
@@ -72,19 +73,7 @@ export default function PlatformConfig({ config, updateConfig }: Props) {
   const handleConfirm = async () => {
     const result = await trigger();
     if (result) {
-      const { tenantPlatformName, adminPlatformName } = getValues();
-      updateConfig({
-        admin: {
-          platformName: adminPlatformName,
-          logoTypeLight: adminLightLogo,
-          logoTypeDark: adminDarkLogo,
-        },
-        tenant: {
-          platformName: tenantPlatformName,
-          logoTypeLight: tenantLightLogo,
-          logoTypeDark: tenantDarkLogo,
-        },
-      });
+      onConfirm();
     }
   };
 
@@ -109,11 +98,46 @@ export default function PlatformConfig({ config, updateConfig }: Props) {
     [errors, register]
   );
 
+  const updatePlatformConfig = useCallback(
+    ({
+      platform,
+      key,
+      value,
+    }: {
+      platform: 'admin' | 'tenant';
+      key: string;
+      value: string;
+    }) => {
+      if (platform === 'admin') {
+        setConfig({
+          tenant,
+          admin: {
+            ...admin,
+            [key]: value,
+          },
+        });
+      }
+
+      if (platform === 'tenant') {
+        setConfig({
+          admin,
+          tenant: {
+            ...tenant,
+            [key]: value,
+          },
+        });
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [admin, tenant]
+  );
+
   const LogoConfigItem = useCallback(
     ({
+      platform,
+      logoName,
       title,
       logo,
-      setLogo,
       styles,
       uploadInputStyles,
     }: LogoConfigItemProps) => {
@@ -124,7 +148,13 @@ export default function PlatformConfig({ config, updateConfig }: Props) {
             <UploadInput
               type="rectangle"
               src={logo}
-              setSrc={setLogo}
+              setSrc={(src) =>
+                updatePlatformConfig({
+                  platform,
+                  key: logoName,
+                  value: src,
+                })
+              }
               styles={uploadInputStyles}
             />
           }
@@ -132,33 +162,30 @@ export default function PlatformConfig({ config, updateConfig }: Props) {
         />
       );
     },
-    []
+    [updatePlatformConfig]
   );
 
   useEffect(() => {
-    const { admin, tenant } = config;
-    setAdminDarkLogo(admin.logoTypeDark);
-    setAdminLightLogo(admin.logoTypeLight);
-    setTenantDarkLogo(tenant.logoTypeDark);
-    setTenantLightLogo(tenant.logoTypeLight);
     setValue('adminPlatformName', admin.platformName);
     setValue('tenantPlatformName', tenant.platformName);
-  }, [config, setValue]);
+  }, [admin, tenant, setValue]);
 
   return (
     <Flex flexDirection="column">
       <Text {...titleStyle}>租户平台配置</Text>
       <PlatformNameConfigItem title="租户平台名称" id="tenantPlatformName" />
       <LogoConfigItem
+        platform="tenant"
+        logoName="logoTypeDark"
         title="租户平台 Logo - 浅色版"
-        logo={tenantDarkLogo}
-        setLogo={setTenantDarkLogo}
+        logo={tenant.logoTypeDark}
         styles={{ wrapper: { marginBottom: '16px' } }}
       />
       <LogoConfigItem
+        platform="tenant"
+        logoName="logoTypeLight"
         title="租户平台 Logo - 深色版"
-        logo={tenantLightLogo}
-        setLogo={setTenantLightLogo}
+        logo={tenant.logoTypeLight}
         uploadInputStyles={{ wrapper: { backgroundColor: 'gray.800' } }}
       />
       <Text {...titleStyle} marginTop="24px">
@@ -166,20 +193,22 @@ export default function PlatformConfig({ config, updateConfig }: Props) {
       </Text>
       <PlatformNameConfigItem title="管理平台名称" id="adminPlatformName" />
       <LogoConfigItem
+        platform="admin"
+        logoName="logoTypeDark"
         title="管理平台 Logo - 浅色版"
-        logo={adminDarkLogo}
-        setLogo={setAdminDarkLogo}
+        logo={admin.logoTypeDark}
         styles={{ wrapper: { marginBottom: '16px' } }}
       />
       <LogoConfigItem
+        platform="admin"
+        logoName="logoTypeLight"
         title="管理平台 Logo - 深色版"
-        logo={adminLightLogo}
-        setLogo={setAdminLightLogo}
+        logo={admin.logoTypeLight}
         uploadInputStyles={{ wrapper: { backgroundColor: 'gray.800' } }}
       />
       <ButtonStack
         onConfirm={handleConfirm}
-        onReset={handleReset}
+        onReset={() => mutate({})}
         styles={{ wrapper: { marginTop: '34px' } }}
       />
     </Flex>

@@ -1,7 +1,10 @@
 import { Box, Center, Flex, Image } from '@chakra-ui/react';
 import { useState } from 'react';
 
-import { Logo, Menu } from '@tkeel/console-types';
+import type { PlatformConfig } from '@tkeel/console-constants';
+import { APPEARANCE } from '@tkeel/console-constants';
+import { usePortalConfigQuery } from '@tkeel/console-request-hooks';
+import { Menu } from '@tkeel/console-types';
 import { env } from '@tkeel/console-utils';
 
 import emptyMenu from '@/tkeel-console-portal-base/assets/images/empty-menu.svg';
@@ -19,15 +22,19 @@ import SubMenuTitle from './SubMenuTitle';
 type Props = {
   // handleSearch: () => void;
   isDarkMenu: boolean;
-  logo: Logo;
 };
 
 function isActive(path: string) {
   return window.location.pathname.includes(path);
 }
 
-export default function ExpandMenus({ isDarkMenu, logo }: Props) {
+export default function ExpandMenus({ isDarkMenu }: Props) {
   const [spreadMenuId, setSpreadMenuId] = useState('');
+  const { config } = usePortalConfigQuery<PlatformConfig>({
+    path: 'config.platform',
+    defaultConfig: APPEARANCE.PLATFORM_CONFIG,
+  });
+  const { admin, tenant } = config || {};
 
   const { menus, isLoading } = useMenusQuery({
     onSuccess(data) {
@@ -57,6 +64,12 @@ export default function ExpandMenus({ isDarkMenu, logo }: Props) {
     setSpreadMenuId(spreadMenuId === id ? '' : id);
   };
 
+  const isAdminPlatform = GLOBAL_PORTAL_CONFIG.portalName === 'admin';
+  const configInfo = isAdminPlatform ? admin : tenant;
+  const logo = isDarkMenu
+    ? configInfo?.logoTypeLight
+    : configInfo?.logoTypeDark;
+
   return (
     <Flex
       flexDirection="column"
@@ -65,7 +78,7 @@ export default function ExpandMenus({ isDarkMenu, logo }: Props) {
       height="100%"
     >
       <Flex paddingTop="17px" height="80px" paddingLeft="20px">
-        {isDarkMenu ? logo.typeLight : logo.typeDark}
+        <Image src={logo} height="52px" />
       </Flex>
       <Image src={logoBottomLineImg} marginLeft="20px" width="200px" />
       {/* <SearchInput

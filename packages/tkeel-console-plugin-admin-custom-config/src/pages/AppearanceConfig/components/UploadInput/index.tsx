@@ -37,14 +37,11 @@ export default function UploadInput({
 }: Props) {
   let width = '96px';
   let height = width;
-  let imageWidth = 'auto';
-  let imageHeight = 'auto';
   let uploadTextMarginTop = '6px';
+
   if (type === 'rectangle') {
     width = '200px';
     height = '56px';
-    imageWidth = '100%';
-    imageHeight = '100%';
     uploadTextMarginTop = '0';
   }
 
@@ -65,8 +62,8 @@ export default function UploadInput({
       {src && (
         <Image
           src={src}
-          width={imageWidth}
-          height={imageHeight}
+          width="100%"
+          height="100%"
           borderRadius="4px"
           {...styles?.image}
         />

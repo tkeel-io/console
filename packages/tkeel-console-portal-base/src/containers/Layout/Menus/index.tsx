@@ -11,7 +11,6 @@ import {
   SunFilledIcon,
 } from '@tkeel/console-icons';
 import { ThemeNames } from '@tkeel/console-themes';
-import { Logo } from '@tkeel/console-types';
 import { env } from '@tkeel/console-utils';
 
 import { Menu } from '@/tkeel-console-portal-base/hooks/queries/useMenusQuery';
@@ -26,11 +25,10 @@ import ExpandMenus from './ExpandMenus';
 import MenuSetting from './MenuSetting';
 
 type Props = {
-  logo: Logo;
   menus: Menu[];
 };
 
-function Menus({ logo, menus }: Props) {
+function Menus({ menus }: Props) {
   const [searchParams] = useSearchParams();
   const menuCollapsed = searchParams?.get('menu-collapsed') === 'true' || false;
   const [collapsed, setCollapsed] = useState(menuCollapsed);
@@ -97,11 +95,7 @@ function Menus({ logo, menus }: Props) {
       background="white"
       backgroundColor={isDarkMenu ? 'grayAlternatives.800' : 'gray.50'}
     >
-      {collapsed ? (
-        <CollapsedMenus logo={logo} />
-      ) : (
-        <ExpandMenus isDarkMenu={isDarkMenu} logo={logo} />
-      )}
+      {collapsed ? <CollapsedMenus /> : <ExpandMenus isDarkMenu={isDarkMenu} />}
       <Flex
         flexDirection="column"
         alignItems="flex-start"
@@ -146,7 +140,7 @@ function Menus({ logo, menus }: Props) {
           style={{
             position: 'absolute',
             right: '22px',
-            bottom: collapsed ? '50px' : '20px',
+            bottom: collapsed ? '90px' : '20px',
             cursor: 'pointer',
           }}
           onClick={() => setIsShowMenuSetting(true)}

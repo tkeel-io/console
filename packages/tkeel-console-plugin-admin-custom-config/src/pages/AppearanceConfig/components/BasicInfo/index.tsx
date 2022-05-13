@@ -43,9 +43,9 @@ export default function BasicInfo() {
         fontSize="12px"
       >
         <Text color="grayAlternatives.300">更改通用与平台级外观配置。</Text>
-        <Text color="primary" cursor="pointer">
+        {/* <Text color="primary" cursor="pointer">
           查看文档
-        </Text>
+        </Text> */}
       </Flex>
     </Box>
   );

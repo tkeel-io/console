@@ -1,34 +1,31 @@
-import { APPEARANCE } from '@tkeel/console-constants';
+import { isEmpty } from 'lodash';
+
 import { useQuery } from '@tkeel/console-hooks';
 import { RequestResult } from '@tkeel/console-utils';
 
-interface ApiData<DefaultConfig> {
+interface ApiData<Config> {
   '@type': string;
-  value: DefaultConfig;
+  value: Config;
 }
 
-interface Props<DefaultConfig> {
+interface Props<Config> {
   key?: string;
-  path?: string;
-  defaultConfig?: DefaultConfig;
-  onSuccess: (
-    data: RequestResult<ApiData<DefaultConfig>, undefined, undefined>
+  path: string;
+  defaultConfig?: Config;
+  onSuccess?: (
+    data: RequestResult<ApiData<Config>, undefined, undefined>
   ) => void;
 }
 
-const defaultProps = {
-  key: 'appearance',
-  path: 'config',
-  defaultConfig: APPEARANCE,
-};
-
-export default function usePortalConfigQuery<DefaultConfig>(
-  props?: Props<DefaultConfig>
-) {
-  const { key, path, defaultConfig, onSuccess } = { ...defaultProps, ...props };
+export default function usePortalConfigQuery<Config>({
+  key = 'appearance',
+  path,
+  defaultConfig,
+  onSuccess,
+}: Props<Config>) {
   const reactQueryOptions = onSuccess ? { onSuccess } : {};
   const url = `/rudder/v1/config/platform?key=${key}&path=${path}`;
-  const result = useQuery<ApiData<DefaultConfig>>({
+  const result = useQuery<ApiData<Config>>({
     url,
     method: 'GET',
     reactQueryOptions,
@@ -36,9 +33,12 @@ export default function usePortalConfigQuery<DefaultConfig>(
       isWithToken: false,
     },
   });
-  const { data } = result;
+  const { data, isSuccess } = result;
 
-  const config = data?.value || defaultConfig;
+  let config;
+  if (isSuccess) {
+    config = isEmpty(data?.value) ? defaultConfig : data?.value;
+  }
 
   return { ...result, config };
 }
