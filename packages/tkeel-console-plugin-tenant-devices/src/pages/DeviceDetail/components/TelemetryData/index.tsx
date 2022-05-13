@@ -1,5 +1,5 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { isEmpty } from 'lodash';
+import { isEmpty, throttle } from 'lodash';
 import { useEffect, useState } from 'react';
 
 import {
@@ -87,12 +87,26 @@ export default function TelemetryData({
   const [renderTelemetryValue, setRenderTelemetryValue] = useState(
     telemetryDefaultValues
   );
+  const [telemetryValuesHistory, setTelemetryValuesHistory] =
+    useState<TelemetryValue>(telemetryValues);
+  const func = throttle(setTelemetryValuesHistory, 10 * 1000);
 
   useEffect(() => {
-    if (wsReadyState === 1 && !isEmpty(telemetryValues)) {
-      setRenderTelemetryValue(telemetryValues);
+    func((preState) => {
+      if (isEmpty(telemetryValues)) return preState;
+      return { ...preState, ...telemetryValues };
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [telemetryValues]);
+
+  useEffect(() => {
+    if (wsReadyState === 1 && !isEmpty(telemetryValuesHistory)) {
+      setRenderTelemetryValue({
+        ...telemetryDefaultValues,
+        ...telemetryValuesHistory,
+      });
     }
-  }, [wsReadyState, telemetryValues]);
+  }, [wsReadyState, telemetryValuesHistory, telemetryDefaultValues]);
   const telemetryFieldsExtra = !basicInfo?.selfLearn
     ? []
     : Object.entries(telemetryValues)
