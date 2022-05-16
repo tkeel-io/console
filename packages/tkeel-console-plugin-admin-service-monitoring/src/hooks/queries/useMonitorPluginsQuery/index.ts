@@ -11,9 +11,10 @@ interface RequestParams {
   status?: PluginStatus;
 }
 
-interface Item {
+interface Plugin {
   metadata: {
     uid: string;
+    name: string;
   };
   spec: Record<string, unknown>;
   status: Record<string, unknown>;
@@ -21,12 +22,15 @@ interface Item {
 
 interface AipData {
   '@type': string;
-  items: Item[];
+  items: Plugin[];
+  totalItems: number;
 }
 
 interface Options {
   params?: RequestParams;
 }
+
+export type { Plugin, RequestParams };
 
 export default function useMonitorPluginsQuery(options?: Options) {
   const params = options?.params;
@@ -36,7 +40,8 @@ export default function useMonitorPluginsQuery(options?: Options) {
     method: 'GET',
     params,
   });
+  const total = result.data?.totalItems ?? 0;
   const plugins = result.data?.items ?? [];
 
-  return { plugins, ...result };
+  return { total, plugins, ...result };
 }
