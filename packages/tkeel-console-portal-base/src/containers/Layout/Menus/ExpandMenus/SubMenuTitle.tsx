@@ -31,27 +31,28 @@ export default function SubMenuTitle({
 
   const isDarkMenu = isDarkMenuTheme();
   const defaultColor = isDarkMenu ? 'gray.400' : 'gray.600';
+  const activeColor = isDarkMenu ? 'white' : 'gray.600';
 
-  const iconColor = active ? 'white' : 'grayAlternatives.300';
+  const iconActiveColor = isDarkMenu ? 'white' : 'grayAlternatives.300';
+  const iconColor = active ? iconActiveColor : 'grayAlternatives.300';
 
-  const color = isDarkMenu ? 'white' : 'primary';
   const hoverStyle = {
-    color,
+    color: activeColor,
     '.menu-name': {
       fontWeight: '600',
     },
     svg: {
-      color: `${color} !important`,
+      color: `${activeColor} !important`,
     },
     '.up-icon, .down-icon': {
-      fill: `${color} !important`,
+      fill: `${activeColor} !important`,
     },
   };
 
   return (
     <Box
       paddingRight="18px"
-      color={active ? 'white' : defaultColor}
+      color={active ? activeColor : defaultColor}
       borderRadius="4px"
       _hover={hoverStyle}
       onClick={() => handleMenuClick(id)}

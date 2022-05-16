@@ -45,6 +45,7 @@ export const DEFAULT_PORTAL_ADMIN_CONFIG = {
 
 export const DEFAULT_PORTAL_TENANT_CONFIG = {
   client: {
+    // eslint-disable-next-line sonarjs/no-duplicate-string
     documentTitle: 'QingCloud IoT 物联网平台',
     subTitle1: '构建和管理物联网解决方案的数字平台',
     subTitle2: '100% Cloud Native, Any language, Everything is plugin, Simply',
@@ -62,6 +63,51 @@ export const DEFAULT_PORTAL_TENANT_CONFIG = {
         backgroundImage: background02,
         logo: logoTypeTenantLight,
       },
+    },
+  },
+};
+
+export interface CommonConfig {
+  slogan: string;
+  logoMark: string;
+  backgroundImage: string;
+}
+
+export interface PlatformConfig {
+  admin: {
+    platformName: string;
+    logoTypeLight: string;
+    logoTypeDark: string;
+  };
+  tenant: {
+    platformName: string;
+    logoTypeLight: string;
+    logoTypeDark: string;
+  };
+}
+
+export interface Appearance {
+  COMMON_CONFIG: CommonConfig;
+  PLATFORM_CONFIG: PlatformConfig;
+}
+
+export const APPEARANCE = {
+  COMMON_CONFIG: {
+    slogan:
+      'QingCloud IoT 物联网平台，颠覆传统物联网应用开发的新一代核心架构。',
+    logoMark,
+    backgroundImage: background01,
+  },
+  PLATFORM_CONFIG: {
+    admin: {
+      platformName: 'QingCloud IoT 物联网运维管理平台',
+      logoTypeLight: logoTypeAdminLight,
+      logoTypeDark: logoTypeAdminDark,
+    },
+    tenant: {
+      platformName: 'QingCloud IoT 物联网平台',
+      logoTypeLight: logoTypeTenantLight,
+      logoTypeDark: logoTypeTenantDark,
     },
   },
 };

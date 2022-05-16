@@ -1,6 +1,8 @@
 import { Flex, Text } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
+import { useColor } from '@tkeel/console-hooks';
+
 type Props = {
   icon?: ReactNode;
   title: string;
@@ -8,6 +10,8 @@ type Props = {
 };
 
 export default function MoreActionButton({ icon, title, onClick }: Props) {
+  const whiteColor = `${useColor('white')} !important`;
+
   return (
     <Flex
       alignItems="center"
@@ -20,10 +24,10 @@ export default function MoreActionButton({ icon, title, onClick }: Props) {
       _hover={{
         backgroundColor: 'primary',
         '& > svg': {
-          fill: 'white !important',
+          fill: whiteColor,
         },
         '& > p': {
-          color: 'white',
+          color: whiteColor,
         },
       }}
       onClick={onClick}

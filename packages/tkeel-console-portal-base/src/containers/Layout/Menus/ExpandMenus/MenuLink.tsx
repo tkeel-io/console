@@ -51,14 +51,16 @@ export function getHoverStyle(active: boolean) {
   const isDarkTheme = isDarkMenuTheme();
 
   const color = isDarkTheme ? 'white' : 'primary';
+  const backgroundColor = isDarkTheme ? 'grayAlternatives.700' : 'brand.50';
+  const menuNameColor = isDarkTheme ? 'white' : 'gray.600';
   return active
     ? {}
     : {
         color,
-        backgroundColor: isDarkTheme ? 'grayAlternatives.700' : 'transparent',
+        backgroundColor,
         '.menu-name': {
           fontWeight: '600',
-          color: 'white',
+          color: menuNameColor,
         },
         '.rectangle': {
           display: 'block',
