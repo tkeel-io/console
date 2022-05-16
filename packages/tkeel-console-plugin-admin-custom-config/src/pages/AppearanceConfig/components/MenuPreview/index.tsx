@@ -34,7 +34,7 @@ export default function MenuPreview({
       >
         <Flex flexDirection="column">
           <Flex paddingTop="17px" height="80px">
-            <Image src={logo} height="52px" />
+            {logo && <Image src={logo} height="52px" />}
           </Flex>
           <LogoBottomLine theme={theme} />
         </Flex>
