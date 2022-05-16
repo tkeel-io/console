@@ -1,4 +1,4 @@
-import { Box, Center, Flex, Text, useTheme } from '@chakra-ui/react';
+import { Accordion, Box, Center, Flex, Text, useTheme } from '@chakra-ui/react';
 import { useState } from 'react';
 
 import {
@@ -68,14 +68,16 @@ export default function Plugins() {
 
     return (
       <Box padding="0 20px">
-        {plugins.map((data) => {
-          const { uid } = data.metadata;
-          return (
-            <Box key={uid} paddingBottom="12px">
-              <Plugin data={data} />
-            </Box>
-          );
-        })}
+        <Accordion allowToggle>
+          {plugins.map((data) => {
+            const { uid } = data.metadata;
+            return (
+              <Box key={uid} paddingBottom="12px">
+                <Plugin data={data} />
+              </Box>
+            );
+          })}
+        </Accordion>
       </Box>
     );
   };
@@ -119,7 +121,14 @@ export default function Plugins() {
       <Box flex="1" overflowY="auto">
         {renderPlugins()}
       </Box>
-      <Pagination {...pagination} />
+      <Pagination
+        {...pagination}
+        styles={{
+          wrapper: {
+            backgroundColor: 'gray.50',
+          },
+        }}
+      />
     </Flex>
   );
 }
