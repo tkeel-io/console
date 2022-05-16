@@ -21,6 +21,7 @@
     "@chakra-ui/react": "^1.8.8",
     "@tkeel/console-business-components": "workspace:^",
     "@tkeel/console-components": "workspace:^",
+    "@tkeel/console-constants": "workspace:^",
     "@tkeel/console-hooks": "workspace:^",
     "@tkeel/console-icons": "workspace:^",
     "@tkeel/console-portal-base": "workspace:^",

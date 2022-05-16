@@ -91,7 +91,7 @@ export interface Appearance {
   PLATFORM_CONFIG: PlatformConfig;
 }
 
-export const APPEARANCE = {
+export const APPEARANCE: Appearance = {
   COMMON_CONFIG: {
     slogan:
       'QingCloud IoT 物联网平台，颠覆传统物联网应用开发的新一代核心架构。',

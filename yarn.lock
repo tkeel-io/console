@@ -3939,6 +3939,7 @@ __metadata:
     "@chakra-ui/react": ^1.8.8
     "@tkeel/console-business-components": "workspace:^"
     "@tkeel/console-components": "workspace:^"
+    "@tkeel/console-constants": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
     "@tkeel/console-icons": "workspace:^"
     "@tkeel/console-portal-base": "workspace:^"
@@ -14674,21 +14675,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:^7.31.1":
-  version: 7.31.1
-  resolution: "react-hook-form@npm:7.31.1"
-  peerDependencies:
-    react: ^16.8.0 || ^17 || ^18
-  checksum: c387f81f0a740b610a601e06e148fce1abd466d353c9a5fd05253644d47270b69c8a0278cdc0f28a3adf5bef2c510adb4bcf37269892dc596750af8e8d062fb1
-  languageName: node
-  linkType: hard
-
 "react-hook-form@npm:^7.30.0":
   version: 7.30.0
   resolution: "react-hook-form@npm:7.30.0"
   peerDependencies:
     react: ^16.8.0 || ^17 || ^18
   checksum: 7af442c80e1d8e04b6345f4f46177974d82488e81cc12b165d6ff1c69ba0f6234bd2ef0f7b51dda34f77b36fe74464815bbb0f4c77dc2cd9793f8e89d528ae25
+  languageName: node
+  linkType: hard
+
+"react-hook-form@npm:^7.31.1":
+  version: 7.31.1
+  resolution: "react-hook-form@npm:7.31.1"
+  peerDependencies:
+    react: ^16.8.0 || ^17 || ^18
+  checksum: c387f81f0a740b610a601e06e148fce1abd466d353c9a5fd05253644d47270b69c8a0278cdc0f28a3adf5bef2c510adb4bcf37269892dc596750af8e8d062fb1
   languageName: node
   linkType: hard
 

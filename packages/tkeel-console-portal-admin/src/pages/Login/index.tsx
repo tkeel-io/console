@@ -11,8 +11,12 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { LoginBrand } from '@tkeel/console-business-components';
 import { Form, FormField } from '@tkeel/console-components';
+import { APPEARANCE } from '@tkeel/console-constants';
 import { useRedirectParams } from '@tkeel/console-hooks';
-import { usePortalAdminConfigQuery } from '@tkeel/console-request-hooks';
+import {
+  usePortalAdminConfigQuery,
+  usePortalConfigQuery,
+} from '@tkeel/console-request-hooks';
 import {
   env,
   jumpToPage,
@@ -53,6 +57,14 @@ const inputStyle: StyleProps = {
 };
 
 export default function Login() {
+  const { config: c } = usePortalConfigQuery({
+    key: 'appearance',
+    path: 'config',
+    defaultConfig: APPEARANCE,
+  });
+  // eslint-disable-next-line no-console
+  console.log(c);
+
   const { config } = usePortalAdminConfigQuery();
   const clientConfig = config?.client;
   const pageConfig = clientConfig?.pages.Login;
