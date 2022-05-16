@@ -1,7 +1,7 @@
 import { DEFAULT_PORTAL_TENANT_CONFIG } from '@tkeel/console-constants';
 import { useQuery } from '@tkeel/console-hooks';
 
-type ApiData = {
+interface ApiData {
   client: {
     documentTitle: string;
     subTitle1: string;
@@ -22,9 +22,10 @@ type ApiData = {
       };
     };
   };
-};
+}
 
-export default function usePortalAdminConfigQuery() {
+export type { ApiData as PortalTenantConfig };
+export default function usePortalTenantConfigQuery() {
   let config;
   const result = useQuery<ApiData>({
     url: '/config/v1/portal-tenant',

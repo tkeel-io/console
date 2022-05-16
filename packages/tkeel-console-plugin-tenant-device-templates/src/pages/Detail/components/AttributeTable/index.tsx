@@ -1,6 +1,6 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
-import { Cell, Column } from 'react-table';
+import { CellProps, Column } from 'react-table';
 
 import {
   CreateAttributeButton,
@@ -62,7 +62,7 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
     {
       Header: '默认值',
       width: 110,
-      Cell: ({ row }: Cell<AttributeItem>) =>
+      Cell: ({ row }: CellProps<AttributeItem>) =>
         useMemo(() => {
           const { original } = row;
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -77,7 +77,7 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
     {
       Header: '读写类型',
       width: 110,
-      Cell: ({ row }: Cell<AttributeItem>) =>
+      Cell: ({ row }: CellProps<AttributeItem>) =>
         useMemo(() => {
           const { original } = row;
           const map = new Map(Object.entries(RW_LABELS));
@@ -88,7 +88,7 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
     {
       Header: '操作',
       width: 80,
-      Cell: ({ row }: Cell<AttributeItem>) =>
+      Cell: ({ row }: CellProps<AttributeItem>) =>
         useMemo(() => {
           const { original } = row;
 

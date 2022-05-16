@@ -1,8 +1,11 @@
 import { isPlainObject, merge, omit } from 'lodash';
-import { toast as toastifyToast, TypeOptions } from 'react-toastify';
+import {
+  toast as toastifyToast,
+  ToastContent,
+  TypeOptions,
+} from 'react-toastify';
 
 import {
-  ToastContent,
   ToastFunction,
   ToastFunctionArg1,
   ToastFunctionArg2,
@@ -39,7 +42,12 @@ function parseArgs(arg1: ToastFunctionArg1, arg2?: ToastFunctionArg2) {
     );
     options = { ...rest };
   } else {
-    content = <StyledToastContent>{arg1}</StyledToastContent>;
+    content =
+      typeof arg1 === 'function' ? (
+        arg1
+      ) : (
+        <StyledToastContent>{arg1}</StyledToastContent>
+      );
     options = arg2;
   }
 

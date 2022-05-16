@@ -21,7 +21,7 @@ export default function Tenant() {
       </Box>
       <Tabs display="flex" flexDirection="column" marginLeft="20px" flex="1">
         <CustomTabList>
-          <CustomTab>客户列表</CustomTab>
+          <CustomTab>用户列表</CustomTab>
           {isExternal && <CustomTab>单点登录</CustomTab>}
         </CustomTabList>
         <TabPanels

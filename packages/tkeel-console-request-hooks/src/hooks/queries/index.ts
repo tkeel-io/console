@@ -6,6 +6,7 @@ export { default as useDeviceListQuery } from './useDeviceListQuery';
 export * from './useDeviceListQuery';
 export { default as usePortalAdminConfigQuery } from './usePortalAdminConfigQuery';
 export { default as usePortalConfigQuery } from './usePortalConfigQuery';
+export type { PortalTenantConfig } from './usePortalTenantConfigQuery';
 export { default as usePortalTenantConfigQuery } from './usePortalTenantConfigQuery';
 export { default as useRolesQuery } from './useRolesQuery';
 export * from './useRolesQuery';
