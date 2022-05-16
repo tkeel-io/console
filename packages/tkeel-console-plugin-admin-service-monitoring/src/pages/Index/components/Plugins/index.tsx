@@ -35,6 +35,7 @@ export default function Plugins() {
   let params: RequestParams = {
     page_num: pageNum,
     page_size: pageSize,
+    order_by: 'updateTime',
   };
   if (keywords) {
     params = { ...params, name: keywords };

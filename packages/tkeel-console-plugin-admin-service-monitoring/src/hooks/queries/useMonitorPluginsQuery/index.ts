@@ -17,7 +17,10 @@ interface Plugin {
     name: string;
   };
   spec: Record<string, unknown>;
-  status: Record<string, unknown>;
+  status: {
+    availableReplicas: number;
+    replicas: number;
+  };
 }
 
 interface AipData {

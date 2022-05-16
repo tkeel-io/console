@@ -37,6 +37,8 @@ export default function Plugin({ data, isExpanded }: Props) {
   // eslint-disable-next-line no-console
   console.log(isExpanded);
 
+  const { metadata, status } = data;
+
   return (
     <AccordionItem border="0">
       <AccordionButton
@@ -63,7 +65,7 @@ export default function Plugin({ data, isExpanded }: Props) {
       >
         <AppsTwoToneIcon4 size="32px" />
         <Box flex="1" padding="16px">
-          <Text {...styles.value}>{data.metadata.name}</Text>
+          <Text {...styles.value}>{metadata.name}</Text>
           <Text {...styles.label} fontSize="14px">
             名称
           </Text>
@@ -71,16 +73,18 @@ export default function Plugin({ data, isExpanded }: Props) {
         <Box width="180px" paddingRight="16px">
           <Flex alignItems="center">
             <Circle marginRight="4px" size="6px" backgroundColor="red.500" />
-            <Text {...styles.value}>{data.metadata.name}</Text>
+            <Text {...styles.value}>{metadata.name}</Text>
           </Flex>
           <Text {...styles.label}>状态</Text>
         </Box>
         <Box width="150px" paddingRight="16px">
-          <Text {...styles.value}>{data.metadata.name}</Text>
+          <Text {...styles.value}>
+            {status.availableReplicas}/{status.replicas}
+          </Text>
           <Text {...styles.label}>副本数量</Text>
         </Box>
         <Box width="220px" paddingRight="16px">
-          <Text {...styles.value}>{data.metadata.name}</Text>
+          <Text {...styles.value}>{metadata.name}</Text>
           <Text {...styles.label}>运行时间</Text>
         </Box>
         <AccordionIcon />
