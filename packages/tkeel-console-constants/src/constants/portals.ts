@@ -1,4 +1,4 @@
-import background01 from '../assets/images/background-01.png';
+import background01 from '../assets/images/background-01.webp';
 import background02 from '../assets/images/background-02.png';
 import logoMark from '../assets/images/logo-mark.svg';
 import logoTypeAdminDark from '../assets/images/logo-type-admin-dark.svg';
@@ -87,18 +87,17 @@ export interface PlatformConfig {
 }
 
 export interface Appearance {
-  COMMON_CONFIG: CommonConfig;
-  PLATFORM_CONFIG: PlatformConfig;
+  common: CommonConfig;
+  platform: PlatformConfig;
 }
 
 export const APPEARANCE: Appearance = {
-  COMMON_CONFIG: {
-    slogan:
-      'QingCloud IoT 物联网平台，颠覆传统物联网应用开发的新一代核心架构。',
+  common: {
+    slogan: '构建和管理物联网解决方案的数字平台', // 100% Cloud Native, Any language, Everything is plugin, Simply
     logoMark,
     backgroundImage: background01,
   },
-  PLATFORM_CONFIG: {
+  platform: {
     admin: {
       platformName: 'QingCloud IoT 物联网运维管理平台',
       logoTypeLight: logoTypeAdminLight,

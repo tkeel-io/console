@@ -1,20 +1,14 @@
-import {
-  Box,
-  Button,
-  Center,
-  Flex,
-  Heading,
-  StyleProps,
-  Text,
-} from '@chakra-ui/react';
+import { Box, Button, Center, Flex, StyleProps } from '@chakra-ui/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { LoginBrand } from '@tkeel/console-business-components';
 import { Form, FormField } from '@tkeel/console-components';
+import type { Appearance } from '@tkeel/console-constants';
 import { APPEARANCE } from '@tkeel/console-constants';
 import { useRedirectParams } from '@tkeel/console-hooks';
 import {
-  usePortalAdminConfigQuery,
+  // TODO: delete
+  // usePortalAdminConfigQuery,
   usePortalConfigQuery,
 } from '@tkeel/console-request-hooks';
 import {
@@ -57,17 +51,16 @@ const inputStyle: StyleProps = {
 };
 
 export default function Login() {
-  const { config: c } = usePortalConfigQuery({
+  let config: Appearance | null = null;
+  const { isSuccess, config: serverConfig } = usePortalConfigQuery<
+    Partial<Appearance>
+  >({
     key: 'appearance',
     path: 'config',
-    defaultConfig: APPEARANCE,
   });
-  // eslint-disable-next-line no-console
-  console.log(c);
-
-  const { config } = usePortalAdminConfigQuery();
-  const clientConfig = config?.client;
-  const pageConfig = clientConfig?.pages.Login;
+  if (isSuccess) {
+    config = { ...APPEARANCE, ...serverConfig };
+  }
 
   const {
     register,
@@ -102,45 +95,25 @@ export default function Login() {
     <Flex height="100vh" backgroundColor="white">
       <Box
         flex="1"
-        paddingLeft="80px"
-        backgroundImage={pageConfig?.backgroundImage}
+        paddingTop="20px"
+        paddingLeft="20px"
         backgroundRepeat="no-repeat"
         backgroundSize="cover"
+        backgroundImage={config?.common.backgroundImage}
       >
-        <Heading
-          display="flex"
-          marginTop="80px"
-          fontWeight="600"
-          fontSize="30px"
-          color="gray.100"
-          lineHeight="42px"
-        >
-          <Text>{pageConfig?.title}</Text>
-          <Text>{pageConfig?.additionalTitle}</Text>
-        </Heading>
-        <Heading
-          marginTop="12px"
-          fontSize="18px"
-          lineHeight="24px"
-          color="gray.100"
-        >
-          {clientConfig?.subTitle1}
-        </Heading>
-        <Heading
-          marginTop="12px"
-          fontSize="18px"
-          lineHeight="24px"
-          color="gray.100"
-        >
-          {clientConfig?.subTitle2}
-        </Heading>
+        <Box
+          height="60px"
+          backgroundRepeat="no-repeat"
+          backgroundSize="auto 60px"
+          backgroundImage={config?.platform.admin.logoTypeLight}
+        />
       </Box>
       <Center flexDirection="column" width="42vw">
         <Form width="350px" onSubmit={handleSubmit(onSubmit)}>
           <LoginBrand
-            logo={clientConfig?.logoMark ?? ''}
+            logo={config?.common.logoMark ?? ''}
             title="您好管理员，欢迎使用！"
-            slogan={clientConfig?.slogan ?? ''}
+            slogan={config?.common.slogan}
             styles={{ root: { paddingBottom: '24px' } }}
           />
           <TextField

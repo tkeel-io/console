@@ -15,7 +15,7 @@ function CollapsedMenus() {
   const { menus } = useMenusQuery();
   const { config } = usePortalConfigQuery<CommonConfig>({
     path: 'config.common',
-    defaultConfig: APPEARANCE.COMMON_CONFIG,
+    defaultConfig: APPEARANCE.common,
   });
 
   const logoMark = config?.logoMark ?? '';

@@ -57,20 +57,20 @@ export default function AppearanceConfig() {
   usePortalConfigQuery<CommonConfigType>({
     path: 'config.common',
     onSuccess(data) {
-      const COMMON_CONFIG = data?.data?.value || APPEARANCE.COMMON_CONFIG;
-      if (COMMON_CONFIG) {
-        setCommonConfig(COMMON_CONFIG);
+      const common = data?.data?.value || APPEARANCE.common;
+      if (common) {
+        setCommonConfig(common);
       }
     },
   });
 
   usePortalConfigQuery<PlatformConfigType>({
     path: 'config.platform',
-    defaultConfig: APPEARANCE.PLATFORM_CONFIG,
+    defaultConfig: APPEARANCE.platform,
     onSuccess(data) {
-      const PLATFORM_CONFIG = data?.data?.value || APPEARANCE.PLATFORM_CONFIG;
-      if (PLATFORM_CONFIG) {
-        setPlatformConfig(PLATFORM_CONFIG);
+      const platform = data?.data?.value || APPEARANCE.platform;
+      if (platform) {
+        setPlatformConfig(platform);
       }
     },
   });

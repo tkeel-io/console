@@ -14,7 +14,7 @@
       "logoTypeDark": "/portal-tenant/config/images/logo-type-dark.svg",
       "pages": {
         "Login": {
-          "backgroundImage": "/portal-tenant/config/images/background-01.png",
+          "backgroundImage": "/portal-tenant/config/images/background-01.webp",
           "title": "QingCloud IoT 物联网平台"
         },
         "SetPassword": {

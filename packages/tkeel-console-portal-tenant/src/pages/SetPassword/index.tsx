@@ -3,7 +3,7 @@ import {
   Button,
   Center,
   Heading,
-  Image,
+  // Image,
   // Text,
   useDisclosure,
 } from '@chakra-ui/react';
@@ -11,7 +11,13 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useSearchParams } from 'react-router-dom';
 
 import { Alert, Form, FormField, toast } from '@tkeel/console-components';
-import { usePortalTenantConfigQuery } from '@tkeel/console-request-hooks';
+import type { Appearance } from '@tkeel/console-constants';
+import { APPEARANCE } from '@tkeel/console-constants';
+import {
+  // TODO: delete
+  // usePortalAdminConfigQuery,
+  usePortalConfigQuery,
+} from '@tkeel/console-request-hooks';
 import { jumpToAuthLoginPage, schemas } from '@tkeel/console-utils';
 
 import useSetPasswordMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useSetPasswordMutation';
@@ -24,29 +30,35 @@ type FormValues = {
   confirmPassword: string;
 };
 
+const formLabelStyle = {
+  marginBottom: '7px',
+  fontSize: '14px',
+  lineHeight: '24px',
+  color: 'gray.700',
+};
+
+const inputStyle = {
+  height: '40px',
+  padding: '8px 12px',
+  borderWidth: '1px',
+  borderStyle: 'solid',
+  borderColor: 'grayAlternatives.50',
+  borderRadius: '4px',
+  backgroundColor: 'white',
+  fontSize: '14px',
+  lineHeight: '24px',
+};
+
 export default function SetPassword() {
-  const formLabelStyle = {
-    marginBottom: '7px',
-    fontSize: '14px',
-    lineHeight: '24px',
-    color: 'gray.700',
-  };
-
-  const inputStyle = {
-    height: '40px',
-    padding: '8px 12px',
-    borderWidth: '1px',
-    borderStyle: 'solid',
-    borderColor: 'grayAlternatives.50',
-    borderRadius: '4px',
-    backgroundColor: 'white',
-    fontSize: '14px',
-    lineHeight: '24px',
-  };
-
-  const { config } = usePortalTenantConfigQuery();
-  const clientConfig = config?.client;
-  const pageConfig = clientConfig?.pages?.SetPassword;
+  let config: Appearance | null = null;
+  const { isSuccess: isPortalCConfigQuerySuccess, config: serverConfig } =
+    usePortalConfigQuery<Partial<Appearance>>({
+      key: 'appearance',
+      path: 'config',
+    });
+  if (isPortalCConfigQuerySuccess) {
+    config = { ...APPEARANCE, ...serverConfig };
+  }
 
   const {
     register,
@@ -103,15 +115,33 @@ export default function SetPassword() {
 
   return (
     <>
-      <Center
-        position="relative"
-        height="100vh"
-        backgroundImage={pageConfig?.backgroundImage}
-        backgroundRepeat="no-repeat"
-        backgroundSize="100% 40%"
-      >
-        <Box position="absolute" top="24px" left="20px">
-          <Image src={pageConfig?.logo} width="auto" height="52px" />
+      <Center position="relative" height="100%">
+        <Box
+          position="absolute"
+          top="0"
+          right="0"
+          left="0"
+          zIndex="-1"
+          height="40%"
+          backgroundRepeat="no-repeat"
+          backgroundSize="cover"
+          backgroundImage={config?.common.backgroundImage}
+        />
+        <Box
+          position="absolute"
+          top="20px"
+          left="20px"
+          width="200px"
+          height="200px"
+          backgroundRepeat="no-repeat"
+          backgroundSize="auto 60px"
+          backgroundImage={config?.platform.tenant.logoTypeLight}
+        >
+          {/* <Image
+            src={config?.platform.tenant.logoTypeLight}
+            width="auto"
+            height="52px"
+          /> */}
         </Box>
         <Box
           padding="40px 46px 70px"
@@ -122,25 +152,6 @@ export default function SetPassword() {
           <Heading color="gray.800" fontSize="24px" lineHeight="40px">
             设置密码
           </Heading>
-          {/* <Heading fontSize="18px" lineHeight="28px" color="gray.900">
-            欢迎您{username ? `，${username}！` : '！'}
-          </Heading>
-          <Text
-            paddingTop="8px"
-            fontSize="14px"
-            lineHeight="20px"
-            color="gray.500"
-          >
-            {clientConfig?.subTitle1}
-          </Text>
-          <Text
-            paddingTop="8px"
-            fontSize="14px"
-            lineHeight="20px"
-            color="gray.500"
-          >
-            {clientConfig?.subTitle2}
-          </Text> */}
           <Form paddingTop="40px" onSubmit={handleSubmit(onSubmit)}>
             <TextField
               type="password"

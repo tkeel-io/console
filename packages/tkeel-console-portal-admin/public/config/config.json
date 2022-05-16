@@ -13,7 +13,7 @@
       "logoTypeDark": "/portal-admin/config/images/logo-type-dark.svg",
       "pages": {
         "Login": {
-          "backgroundImage": "/portal-admin/config/images/background-01.png",
+          "backgroundImage": "/portal-admin/config/images/background-01.webp",
           "title": "QingCloud IoT 物联网",
           "additionalTitle": "运维管理平台"
         }
