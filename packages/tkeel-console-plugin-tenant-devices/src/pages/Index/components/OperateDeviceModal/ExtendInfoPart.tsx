@@ -14,7 +14,11 @@ import { useState } from 'react';
 import { UseFieldArrayReturn, UseFormReturn } from 'react-hook-form';
 
 import { FormField } from '@tkeel/console-components/';
-import { PencilFilledIcon, TrashFilledIcon } from '@tkeel/console-icons';
+import {
+  AddFilledIcon,
+  PencilFilledIcon,
+  TrashFilledIcon,
+} from '@tkeel/console-icons';
 
 import { DeviceFormFields } from '@/tkeel-console-plugin-tenant-devices/pages/Index/types';
 
@@ -99,26 +103,26 @@ export default function ExtendInfoPart({
   };
   return (
     <Flex pos="relative" flexDirection="column" h="100%">
-      <Button
-        pos="absolute"
-        top="-24px"
-        right="0"
-        variant="link"
-        size="xs"
-        color="grayAlternatives.300"
-        _hover={{
-          color: 'primary',
-        }}
-        onClick={() => {
-          append({
-            label: `属性名称${fieldCount || ''}`,
-            value: '',
-          });
-          setFieldCount(fieldCount + 1);
-        }}
-      >
-        添加
-      </Button>
+      <Flex pos="absolute" top="-24px" right="0">
+        <AddFilledIcon color="grayAlternatives.300" />
+        <Button
+          variant="link"
+          size="xs"
+          color="grayAlternatives.300"
+          _hover={{
+            color: 'primary',
+          }}
+          onClick={() => {
+            append({
+              label: `属性名称${fieldCount || ''}`,
+              value: '',
+            });
+            setFieldCount(fieldCount + 1);
+          }}
+        >
+          添加
+        </Button>
+      </Flex>
       <Text fontSize="12px" color="gray.300" mb="12px">
         支持用户自定义扩展信息
       </Text>
