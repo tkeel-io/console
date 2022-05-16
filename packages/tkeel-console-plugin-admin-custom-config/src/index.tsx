@@ -15,6 +15,6 @@ export async function mount(props: GlobalPluginProps) {
   lifeCycles.mount(props, App);
 }
 
-export async function unmount(props: GlobalPluginProps) {
-  lifeCycles.unmount(props);
+export async function unmount() {
+  lifeCycles.unmount();
 }

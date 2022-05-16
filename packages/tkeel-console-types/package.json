@@ -13,7 +13,7 @@
   "main": "./src/index.ts",
   "dependencies": {
     "@tkeel/console-constants": "workspace:^",
-    "react": "^17.0.2",
+    "react": "^18.1.0",
     "react-router-dom": "^6.3.0",
     "react-toastify": "^9.0.1"
   }

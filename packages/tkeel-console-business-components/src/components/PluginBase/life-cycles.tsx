@@ -1,4 +1,4 @@
-import { render, unmountComponentAtNode } from 'react-dom';
+import { createRoot, Root } from 'react-dom/client';
 
 import { GlobalPluginProps } from '@tkeel/console-types';
 import { plugin } from '@tkeel/console-utils';
@@ -7,6 +7,8 @@ export function bootstrap() {
   //
 }
 
+let root: Root | null = null;
+
 export function mount(props: GlobalPluginProps, App: () => JSX.Element) {
   const { container } = props;
   const rootContainer = container
@@ -14,17 +16,12 @@ export function mount(props: GlobalPluginProps, App: () => JSX.Element) {
     : document.querySelector('#root');
 
   plugin.initGlobalPluginProps(props);
-
-  render(<App />, rootContainer);
+  root = createRoot(rootContainer as Element);
+  root.render(<App />);
 }
 
-export function unmount(props: GlobalPluginProps) {
-  const { container } = props;
-  const rootContainer = (
-    container
-      ? container.querySelector('#root')
-      : document.querySelector('#root')
-  ) as Element;
-
-  unmountComponentAtNode(rootContainer);
+export function unmount() {
+  if (root) {
+    root.unmount();
+  }
 }
