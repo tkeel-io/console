@@ -49,6 +49,8 @@ export default function Plugins() {
     setTotalSize(total);
   }
 
+  const [expandedIndex, setExpandedIndex] = useState<number>(-1);
+
   const renderPlugins = () => {
     if (isLoading) {
       return (
@@ -68,12 +70,21 @@ export default function Plugins() {
 
     return (
       <Box padding="0 20px">
-        <Accordion allowToggle>
-          {plugins.map((data) => {
+        <Accordion
+          allowToggle
+          onChange={(value) => {
+            if (typeof value === 'number') {
+              setExpandedIndex(value);
+            }
+          }}
+        >
+          {plugins.map((data, index) => {
             const { uid } = data.metadata;
+            const isExpanded = index === expandedIndex;
+
             return (
               <Box key={uid} paddingBottom="12px">
-                <Plugin data={data} />
+                <Plugin data={data} isExpanded={isExpanded} />
               </Box>
             );
           })}

@@ -1,20 +1,42 @@
 import {
-  // Accordion,
   AccordionButton,
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
-  // Flex,
+  Box,
+  Circle,
+  Flex,
+  StyleProps,
   Text,
 } from '@chakra-ui/react';
+
+import { AppsTwoToneIcon4 } from '@tkeel/console-icons';
 
 import type { Plugin as PluginData } from '@/tkeel-console-plugin-admin-service-monitoring/hooks/queries/useMonitorPluginsQuery';
 
 interface Props {
   data: PluginData;
+  isExpanded: boolean;
 }
 
-export default function Plugin({ data }: Props) {
+const styles: { label: StyleProps; value: StyleProps } = {
+  value: {
+    fontWeight: '500',
+    fontSize: '12px',
+    lineHeight: '20px',
+    color: 'gray.800',
+  },
+  label: {
+    fontSize: '12px',
+    lineHeight: '20px',
+    color: 'grayAlternatives.300',
+  },
+};
+
+export default function Plugin({ data, isExpanded }: Props) {
+  // eslint-disable-next-line no-console
+  console.log(isExpanded);
+
   return (
     <AccordionItem border="0">
       <AccordionButton
@@ -23,6 +45,7 @@ export default function Plugin({ data }: Props) {
         borderRadius="4px"
         padding="16px 24px"
         backgroundColor="white"
+        textAlign="left"
         _hover={{
           '&': {
             borderColor: 'gray.700',
@@ -38,9 +61,28 @@ export default function Plugin({ data }: Props) {
           },
         }}
       >
-        <Text flex="1" textAlign="left">
-          {data.metadata.name}
-        </Text>
+        <AppsTwoToneIcon4 size="32px" />
+        <Box flex="1" padding="16px">
+          <Text {...styles.value}>{data.metadata.name}</Text>
+          <Text {...styles.label} fontSize="14px">
+            名称
+          </Text>
+        </Box>
+        <Box width="180px" paddingRight="16px">
+          <Flex alignItems="center">
+            <Circle marginRight="4px" size="6px" backgroundColor="red.500" />
+            <Text {...styles.value}>{data.metadata.name}</Text>
+          </Flex>
+          <Text {...styles.label}>状态</Text>
+        </Box>
+        <Box width="150px" paddingRight="16px">
+          <Text {...styles.value}>{data.metadata.name}</Text>
+          <Text {...styles.label}>副本数量</Text>
+        </Box>
+        <Box width="220px" paddingRight="16px">
+          <Text {...styles.value}>{data.metadata.name}</Text>
+          <Text {...styles.label}>运行时间</Text>
+        </Box>
         <AccordionIcon />
       </AccordionButton>
       <AccordionPanel
