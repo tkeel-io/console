@@ -22,6 +22,11 @@ import {
   useUpdatePortalConfigMutation,
 } from '@tkeel/console-request-hooks';
 
+import adminMenuDark from '@/tkeel-console-plugin-admin-custom-config/assets/images/admin-menu-dark.svg';
+import adminMenuLight from '@/tkeel-console-plugin-admin-custom-config/assets/images/admin-menu-light.svg';
+import tenantMenuDark from '@/tkeel-console-plugin-admin-custom-config/assets/images/tenant-menu-dark.svg';
+import tenantMenuLight from '@/tkeel-console-plugin-admin-custom-config/assets/images/tenant-menu-light.svg';
+
 import BasicInfo from './components/BasicInfo';
 import CommonConfig from './components/CommonConfig';
 import CustomTab from './components/CustomTab';
@@ -172,20 +177,24 @@ export default function AppearanceConfig() {
                 <MenuPreview
                   title="浅色/管理平台"
                   logo={adminConfig.logoTypeDark}
-                  type="light"
+                  theme="light"
+                  menu={adminMenuLight}
                 />
                 <MenuPreview
                   title="浅色/租户平台"
                   logo={tenantConfig.logoTypeDark}
-                  type="light"
+                  theme="light"
+                  menu={tenantMenuLight}
                 />
                 <MenuPreview
                   title="深色/管理平台"
                   logo={adminConfig.logoTypeLight}
+                  menu={adminMenuDark}
                 />
                 <MenuPreview
                   title="深色/租户平台"
                   logo={tenantConfig.logoTypeLight}
+                  menu={tenantMenuDark}
                 />
               </Flex>
             </PreviewPanel>

@@ -1,14 +1,24 @@
-import { Flex, Image, Text } from '@chakra-ui/react';
+import { Box, Flex, Image, StyleProps, Text } from '@chakra-ui/react';
 
-import logoBottomLineImg from '@/tkeel-console-plugin-admin-custom-config/assets/images/logo-bottom-line.svg';
+import { LogoBottomLine } from '@tkeel/console-business-components';
 
 interface Props {
   title: string;
   logo: string;
-  type?: 'dark' | 'light';
+  theme?: 'dark' | 'light';
+  menu: string;
+  styles?: {
+    menu?: StyleProps;
+  };
 }
 
-export default function MenuPreview({ title, logo, type = 'dark' }: Props) {
+export default function MenuPreview({
+  title,
+  logo,
+  theme = 'dark',
+  menu,
+  styles,
+}: Props) {
   return (
     <Flex flexDirection="column">
       <Text color="gray.400" fontSize="12px">
@@ -16,16 +26,21 @@ export default function MenuPreview({ title, logo, type = 'dark' }: Props) {
       </Text>
       <Flex
         marginTop="12px"
+        flexDirection="column"
         flex="1"
+        padding="0 20px"
         width="240px"
-        backgroundColor={type === 'dark' ? 'grayAlternatives.800' : 'gray.50'}
+        backgroundColor={theme === 'dark' ? 'grayAlternatives.800' : 'gray.50'}
       >
         <Flex flexDirection="column">
-          <Flex paddingTop="17px" height="80px" paddingLeft="20px">
+          <Flex paddingTop="17px" height="80px">
             <Image src={logo} height="52px" />
           </Flex>
-          <Image src={logoBottomLineImg} marginLeft="20px" width="200px" />
+          <LogoBottomLine theme={theme} />
         </Flex>
+        <Box paddingTop="20px" flex="1" width="100%">
+          <Image src={menu} width="100%" {...styles?.menu} />
+        </Box>
       </Flex>
     </Flex>
   );

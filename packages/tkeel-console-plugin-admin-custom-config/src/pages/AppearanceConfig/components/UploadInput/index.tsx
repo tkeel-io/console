@@ -1,6 +1,7 @@
 import { Box, Center, Image, Input, StyleProps, Text } from '@chakra-ui/react';
 
 import { AddFilledIcon } from '@tkeel/console-icons';
+import { plugin } from '@tkeel/console-utils';
 
 export interface Styles {
   wrapper?: StyleProps;
@@ -11,6 +12,7 @@ interface Props {
   type?: 'square' | 'rectangle';
   src: string;
   setSrc: (src: string) => unknown;
+  maxSize?: number;
   styles?: Styles;
 }
 
@@ -33,8 +35,10 @@ export default function UploadInput({
   type = 'square',
   src,
   setSrc,
+  maxSize = 100,
   styles,
 }: Props) {
+  const toast = plugin.getPortalToast();
   let width = '96px';
   let height = width;
   let uploadTextMarginTop = '6px';
@@ -99,13 +103,23 @@ export default function UploadInput({
           height="100%"
           opacity="0"
           type="file"
+          accept="image/*"
           cursor="pointer"
-          onChange={(e) => {
-            const { files } = e.target;
+          onChange={(event) => {
+            const { files } = event.target;
             if (files && files[0]) {
-              transformFileToBase64(files[0])
-                .then((res: string) => setSrc(res))
-                .catch((error) => console.error(error));
+              const { size } = files[0];
+              if (size / 1024 > maxSize) {
+                const newMaxSize =
+                  maxSize >= 1024
+                    ? `${Number.parseInt(String(maxSize / 1024), 10)}M`
+                    : `${maxSize}K`;
+                toast.error(`上传图片大小超过${newMaxSize}`);
+              } else {
+                transformFileToBase64(files[0])
+                  .then((res: string) => setSrc(res))
+                  .catch((error) => console.error(error));
+              }
             }
           }}
         />

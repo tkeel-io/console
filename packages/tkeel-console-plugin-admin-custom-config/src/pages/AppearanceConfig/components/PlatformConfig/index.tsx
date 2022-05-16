@@ -8,11 +8,8 @@ import { useDeletePortalConfigMutation } from '@tkeel/console-request-hooks';
 
 import ButtonStack from '@/tkeel-console-plugin-admin-custom-config/components/ButtonStack';
 
-import PlatformConfigItem, {
-  Styles as PlatformConfigItemStyles,
-} from '../PlatformConfigItem';
-import type { Styles as UploadStyles } from '../UploadInput';
-import UploadInput from '../UploadInput';
+import LogoConfigItem from '../LogoConfigItem';
+import PlatformConfigItem from '../PlatformConfigItem';
 
 const { TextField } = FormField;
 
@@ -21,18 +18,15 @@ interface PlatformConfigField {
   adminPlatformName: string;
 }
 
-interface PlatformNameItemProps {
+interface PlatformNameConfigProps {
   title: string;
   id: keyof PlatformConfigField;
 }
 
-interface LogoConfigItemProps {
+interface UpdatePlatformConfigProps {
   platform: 'admin' | 'tenant';
-  logoName: string;
-  title: string;
-  logo: string;
-  styles?: PlatformConfigItemStyles;
-  uploadInputStyles?: UploadStyles;
+  key: string;
+  value: string;
 }
 
 interface Props {
@@ -78,7 +72,7 @@ export default function PlatformConfig({
   };
 
   const PlatformNameConfigItem = useCallback(
-    ({ title, id }: PlatformNameItemProps) => {
+    ({ title, id }: PlatformNameConfigProps) => {
       return (
         <PlatformConfigItem
           title={title}
@@ -99,70 +93,17 @@ export default function PlatformConfig({
   );
 
   const updatePlatformConfig = useCallback(
-    ({
-      platform,
-      key,
-      value,
-    }: {
-      platform: 'admin' | 'tenant';
-      key: string;
-      value: string;
-    }) => {
-      if (platform === 'admin') {
-        setConfig({
-          tenant,
-          admin: {
-            ...admin,
-            [key]: value,
-          },
-        });
-      }
-
-      if (platform === 'tenant') {
-        setConfig({
-          admin,
-          tenant: {
-            ...tenant,
-            [key]: value,
-          },
-        });
-      }
+    ({ platform, key, value }: UpdatePlatformConfigProps) => {
+      setConfig({
+        ...config,
+        [platform]: {
+          ...config[platform],
+          [key]: value,
+        },
+      });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [admin, tenant]
-  );
-
-  const LogoConfigItem = useCallback(
-    ({
-      platform,
-      logoName,
-      title,
-      logo,
-      styles,
-      uploadInputStyles,
-    }: LogoConfigItemProps) => {
-      return (
-        <PlatformConfigItem
-          title={title}
-          formField={
-            <UploadInput
-              type="rectangle"
-              src={logo}
-              setSrc={(src) =>
-                updatePlatformConfig({
-                  platform,
-                  key: logoName,
-                  value: src,
-                })
-              }
-              styles={uploadInputStyles}
-            />
-          }
-          styles={styles}
-        />
-      );
-    },
-    [updatePlatformConfig]
   );
 
   useEffect(() => {
@@ -175,17 +116,27 @@ export default function PlatformConfig({
       <Text {...titleStyle}>租户平台配置</Text>
       <PlatformNameConfigItem title="租户平台名称" id="tenantPlatformName" />
       <LogoConfigItem
-        platform="tenant"
-        logoName="logoTypeDark"
         title="租户平台 Logo - 浅色版"
         logo={tenant.logoTypeDark}
+        updateLogo={(src) => {
+          updatePlatformConfig({
+            platform: 'tenant',
+            key: 'logoTypeDark',
+            value: src,
+          });
+        }}
         styles={{ wrapper: { marginBottom: '16px' } }}
       />
       <LogoConfigItem
-        platform="tenant"
-        logoName="logoTypeLight"
         title="租户平台 Logo - 深色版"
         logo={tenant.logoTypeLight}
+        updateLogo={(src) => {
+          updatePlatformConfig({
+            platform: 'tenant',
+            key: 'logoTypeLight',
+            value: src,
+          });
+        }}
         uploadInputStyles={{ wrapper: { backgroundColor: 'gray.800' } }}
       />
       <Text {...titleStyle} marginTop="24px">
@@ -193,17 +144,27 @@ export default function PlatformConfig({
       </Text>
       <PlatformNameConfigItem title="管理平台名称" id="adminPlatformName" />
       <LogoConfigItem
-        platform="admin"
-        logoName="logoTypeDark"
         title="管理平台 Logo - 浅色版"
         logo={admin.logoTypeDark}
+        updateLogo={(src) => {
+          updatePlatformConfig({
+            platform: 'admin',
+            key: 'logoTypeDark',
+            value: src,
+          });
+        }}
         styles={{ wrapper: { marginBottom: '16px' } }}
       />
       <LogoConfigItem
-        platform="admin"
-        logoName="logoTypeLight"
         title="管理平台 Logo - 深色版"
         logo={admin.logoTypeLight}
+        updateLogo={(src) => {
+          updatePlatformConfig({
+            platform: 'admin',
+            key: 'logoTypeLight',
+            value: src,
+          });
+        }}
         uploadInputStyles={{ wrapper: { backgroundColor: 'gray.800' } }}
       />
       <ButtonStack

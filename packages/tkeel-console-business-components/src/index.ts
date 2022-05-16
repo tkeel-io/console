@@ -19,6 +19,7 @@ export { default as DeviceTelemetryModal } from './components/DeviceTelemetryMod
 export { default as Documents } from './components/Documents';
 export * from './components/GlobalPortalProvider';
 export { default as LoginBrand } from './components/LoginBrand';
+export { default as LogoBottomLine } from './components/LogoBottomLine';
 export { default as NotFound } from './components/NotFound';
 export * as PluginBase from './components/PluginBase';
 export { default as PluginCard } from './components/PluginCard';

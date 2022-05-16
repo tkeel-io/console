@@ -88,6 +88,7 @@ export default function CommonConfig({ config, setConfig, onConfirm }: Props) {
           <UploadInput
             src={config.backgroundImage}
             setSrc={(src) => setConfig({ ...config, backgroundImage: src })}
+            maxSize={1024}
           />
         }
       />
