@@ -1,7 +1,7 @@
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Cell, Column } from 'react-table';
+import { CellProps, Column } from 'react-table';
 
 import {
   FormControl,
@@ -187,7 +187,7 @@ export default function MappingRelation({
     }
   };
 
-  const columns: ReadonlyArray<Column> = [
+  const columns: ReadonlyArray<Column<Fields>> = [
     {
       Header: '数据表字段名称',
       accessor: 'name',
@@ -221,7 +221,7 @@ export default function MappingRelation({
     {
       Header: '设备消息字段',
       accessor: 'id',
-      Cell: ({ row }: Cell<Fields>) =>
+      Cell: ({ row }: CellProps<Fields>) =>
         useMemo(() => {
           const { original, index } = row;
           return (

@@ -1,6 +1,6 @@
 import { Flex, Text, Tooltip } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
-import { Cell, Column } from 'react-table';
+import { CellProps, Column } from 'react-table';
 
 import {
   ButtonsHStack,
@@ -95,7 +95,7 @@ export default function Roles() {
     },
     {
       Header: '操作',
-      Cell({ row }: Cell<Role>) {
+      Cell({ row }: CellProps<Role>) {
         const { original } = row;
         const {
           id,
