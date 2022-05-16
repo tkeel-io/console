@@ -34,6 +34,30 @@ import MenuPreview from './components/MenuPreview';
 import PlatformConfig from './components/PlatformConfig';
 import PreviewPanel from './components/PreviewPanel';
 
+function imageToBase64(src: string) {
+  return new Promise<string>((resolve) => {
+    if (src.startsWith('data:image/')) {
+      resolve(src);
+    }
+    const img = new Image();
+    img.src = src;
+    img.crossOrigin = 'anonymous';
+    img.addEventListener('load', () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        ctx.drawImage(img, 0, 0, img.width, img.height);
+        const dataURL = canvas.toDataURL('image/png');
+        resolve(dataURL);
+      } else {
+        resolve('');
+      }
+    });
+  });
+}
+
 export default function AppearanceConfig() {
   const [commonConfig, setCommonConfig] = useState<CommonConfigType>({
     logoMark: '',
@@ -99,6 +123,23 @@ export default function AppearanceConfig() {
     backgroundColor: 'white',
   };
 
+  const handleCommonConfigConfirm = () => {
+    const { logoMark, slogan, backgroundImage } = commonConfig;
+    Promise.all([imageToBase64(logoMark), imageToBase64(backgroundImage)])
+      .then((res) => {
+        return commonConfigMutate({
+          data: {
+            logoMark: res[0],
+            slogan,
+            backgroundImage: res[1],
+          },
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   return (
     <Flex>
       <Flex flexDirection="column" width="360px" flexShrink={0}>
@@ -126,11 +167,7 @@ export default function AppearanceConfig() {
                 <CommonConfig
                   config={commonConfig}
                   setConfig={setCommonConfig}
-                  onConfirm={() => {
-                    commonConfigMutate({
-                      data: commonConfig,
-                    });
-                  }}
+                  onConfirm={handleCommonConfigConfirm}
                 />
               </TabPanel>
               <TabPanel height="100%" padding="0">
