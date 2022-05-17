@@ -1,34 +1,15 @@
-import {
-  Box,
-  Button,
-  Center,
-  Heading,
-  // Image,
-  // Text,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { Box, Button, Center, Heading, useDisclosure } from '@chakra-ui/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useSearchParams } from 'react-router-dom';
 
 import { Alert, Form, FormField, toast } from '@tkeel/console-components';
-import type { Appearance } from '@tkeel/console-constants';
-import { APPEARANCE } from '@tkeel/console-constants';
-import {
-  // TODO: delete
-  // usePortalAdminConfigQuery,
-  usePortalConfigQuery,
-} from '@tkeel/console-request-hooks';
+import { usePortalConfigAppearanceQuery } from '@tkeel/console-request-hooks';
 import { jumpToAuthLoginPage, schemas } from '@tkeel/console-utils';
 
 import useSetPasswordMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useSetPasswordMutation';
 import useResetPasswordKeyInfoQuery from '@/tkeel-console-portal-tenant/hooks/queries/useResetPasswordKeyInfoQuery';
 
 const { TextField } = FormField;
-
-type FormValues = {
-  newPassword: string;
-  confirmPassword: string;
-};
 
 const formLabelStyle = {
   marginBottom: '7px',
@@ -49,16 +30,13 @@ const inputStyle = {
   lineHeight: '24px',
 };
 
+type FormValues = {
+  newPassword: string;
+  confirmPassword: string;
+};
+
 export default function SetPassword() {
-  let config: Appearance | null = null;
-  const { isSuccess: isPortalCConfigQuerySuccess, config: serverConfig } =
-    usePortalConfigQuery<Partial<Appearance>>({
-      key: 'appearance',
-      path: 'config',
-    });
-  if (isPortalCConfigQuerySuccess) {
-    config = { ...APPEARANCE, ...serverConfig };
-  }
+  const { config } = usePortalConfigAppearanceQuery();
 
   const {
     register,
@@ -134,15 +112,9 @@ export default function SetPassword() {
           width="200px"
           height="200px"
           backgroundRepeat="no-repeat"
-          backgroundSize="auto 60px"
+          backgroundSize="auto"
           backgroundImage={config?.platform.tenant.logoTypeLight}
-        >
-          {/* <Image
-            src={config?.platform.tenant.logoTypeLight}
-            width="auto"
-            height="52px"
-          /> */}
-        </Box>
+        />
         <Box
           padding="40px 46px 70px"
           marginBottom="100px"

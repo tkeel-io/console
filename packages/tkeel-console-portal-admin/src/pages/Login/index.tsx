@@ -3,14 +3,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { LoginBrand } from '@tkeel/console-business-components';
 import { Form, FormField } from '@tkeel/console-components';
-import type { Appearance } from '@tkeel/console-constants';
-import { APPEARANCE } from '@tkeel/console-constants';
 import { useRedirectParams } from '@tkeel/console-hooks';
-import {
-  // TODO: delete
-  // usePortalAdminConfigQuery,
-  usePortalConfigQuery,
-} from '@tkeel/console-request-hooks';
+import { usePortalConfigAppearanceQuery } from '@tkeel/console-request-hooks';
 import {
   env,
   jumpToPage,
@@ -51,16 +45,7 @@ const inputStyle: StyleProps = {
 };
 
 export default function Login() {
-  let config: Appearance | null = null;
-  const { isSuccess, config: serverConfig } = usePortalConfigQuery<
-    Partial<Appearance>
-  >({
-    key: 'appearance',
-    path: 'config',
-  });
-  if (isSuccess) {
-    config = { ...APPEARANCE, ...serverConfig };
-  }
+  const { config } = usePortalConfigAppearanceQuery();
 
   const {
     register,
@@ -102,9 +87,10 @@ export default function Login() {
         backgroundImage={config?.common.backgroundImage}
       >
         <Box
-          height="60px"
+          width="200px"
+          height="200px"
           backgroundRepeat="no-repeat"
-          backgroundSize="auto 60px"
+          backgroundSize="auto"
           backgroundImage={config?.platform.admin.logoTypeLight}
         />
       </Box>
