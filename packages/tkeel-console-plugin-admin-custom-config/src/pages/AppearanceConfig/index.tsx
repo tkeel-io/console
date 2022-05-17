@@ -7,6 +7,7 @@ import {
   TabPanels,
   Tabs,
 } from '@chakra-ui/react';
+import { throttle } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
 
 import { PortalTenantLogin } from '@tkeel/console-business-components';
@@ -87,14 +88,16 @@ export default function AppearanceConfig() {
 
   useEffect(() => {
     if (isSuccess) {
-      if (appearanceConfig?.common) {
-        setCommonConfig(appearanceConfig?.common);
+      const { common, platform } = appearanceConfig || {};
+      if (common) {
+        setCommonConfig(common);
       }
-      if (appearanceConfig?.platform) {
-        setPlatformConfig(appearanceConfig?.platform);
+      if (platform) {
+        setPlatformConfig(platform);
       }
     }
-  }, [isSuccess, appearanceConfig]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSuccess]);
 
   const { mutate: commonConfigMutate } =
     useUpdatePortalConfigMutation<CommonConfigType>({
@@ -137,11 +140,24 @@ export default function AppearanceConfig() {
       });
   };
 
-  useEffect(() => {
+  const handleWindowResize = throttle(() => {
     if (loginPreviewWrapperRef.current) {
       setLoginWrapperWidth(loginPreviewWrapperRef.current.clientWidth);
     }
+  }, 200);
+
+  useEffect(() => {
+    window.addEventListener('resize', handleWindowResize);
+    setTimeout(() => {
+      handleWindowResize();
+    }, 200);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <Flex>
       <Flex flexDirection="column" width="360px" flexShrink={0}>
@@ -222,6 +238,7 @@ export default function AppearanceConfig() {
                     styles={{
                       wrapper: {
                         width: `${loginWrapperWidth}px`,
+                        minHeight: '550px',
                         height: `${(loginWrapperWidth / 1.77).toFixed(2)}px`,
                         transform: 'scale(.9)',
                       },

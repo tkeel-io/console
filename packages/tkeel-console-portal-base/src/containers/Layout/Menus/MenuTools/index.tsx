@@ -52,6 +52,7 @@ export default function MenuTools({
       setMenuTheme(theme);
     },
   });
+
   return (
     <Flex
       flexDirection="column"
