@@ -8,11 +8,13 @@ import {
   Flex,
   StyleProps,
   Text,
+  Tooltip,
 } from '@chakra-ui/react';
 
 import { AppsTwoToneIcon4 } from '@tkeel/console-icons';
 
 import type { Plugin as PluginData } from '@/tkeel-console-plugin-admin-service-monitoring/hooks/queries/useMonitorPluginsQuery';
+import usePluginStatusInfo from '@/tkeel-console-plugin-admin-service-monitoring/hooks/usePluginStatusInfo';
 
 interface Props {
   data: PluginData;
@@ -39,6 +41,8 @@ export default function Plugin({ data, isExpanded }: Props) {
 
   const { metadata, status } = data;
 
+  const statusInfo = usePluginStatusInfo({ status: status.status });
+
   return (
     <AccordionItem border="0">
       <AccordionButton
@@ -64,16 +68,22 @@ export default function Plugin({ data, isExpanded }: Props) {
         }}
       >
         <AppsTwoToneIcon4 size="32px" />
-        <Box flex="1" padding="16px">
-          <Text {...styles.value}>{metadata.name}</Text>
+        <Box flex="1" padding="0 16px">
+          <Text {...styles.value} noOfLines={1}>
+            <Tooltip label={metadata.name}>{metadata.name}</Tooltip>
+          </Text>
           <Text {...styles.label} fontSize="14px">
             名称
           </Text>
         </Box>
         <Box width="180px" paddingRight="16px">
           <Flex alignItems="center">
-            <Circle marginRight="4px" size="6px" backgroundColor="red.500" />
-            <Text {...styles.value}>{metadata.name}</Text>
+            <Circle
+              marginRight="4px"
+              size="6px"
+              backgroundColor={statusInfo.color}
+            />
+            <Text {...styles.value}>{statusInfo.label}</Text>
           </Flex>
           <Text {...styles.label}>状态</Text>
         </Box>

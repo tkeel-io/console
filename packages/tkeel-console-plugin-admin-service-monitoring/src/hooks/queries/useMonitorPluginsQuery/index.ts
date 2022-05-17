@@ -20,6 +20,7 @@ interface Plugin {
   status: {
     availableReplicas: number;
     replicas: number;
+    status: PluginStatus;
   };
 }
 
