@@ -36,7 +36,7 @@ interface Options {
 
 export type { Plugin, RequestParams };
 
-export default function useMonitorPluginsQuery(options?: Options) {
+export default function useMonitoringPluginsQuery(options?: Options) {
   const params = options?.params;
 
   const result = useQuery<AipData, RequestParams>({

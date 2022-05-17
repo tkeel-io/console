@@ -3,7 +3,7 @@ import { Flex } from '@chakra-ui/react';
 import { PageHeader } from '@tkeel/console-components';
 import { MonitorTwoToneIcon } from '@tkeel/console-icons';
 
-import Plugins from './components/Plugins';
+import Table from './components/Table';
 
 export default function Index() {
   // TODO: docs
@@ -21,7 +21,7 @@ export default function Index() {
         overflowY="hidden"
         paddingTop="16px"
       >
-        <Plugins />
+        <Table />
       </Flex>
     </Flex>
   );

@@ -1,146 +1,74 @@
-import { Accordion, Box, Center, Flex, Text, useTheme } from '@chakra-ui/react';
-import { useState } from 'react';
+import { Accordion, Center, VStack } from '@chakra-ui/react';
+import { useMemo, useState } from 'react';
 
-import {
-  Empty,
-  Loading,
-  MoreActionSelect,
-  Pagination,
-  SearchInput,
-} from '@tkeel/console-components';
-import { usePagination } from '@tkeel/console-hooks';
-import type { Theme } from '@tkeel/console-themes';
+import { Empty, Loading } from '@tkeel/console-components';
 
-import { getPluginStatusInfos } from '@/tkeel-console-plugin-admin-service-monitoring/constants/plugins';
-import type { RequestParams } from '@/tkeel-console-plugin-admin-service-monitoring/hooks/queries/useMonitorPluginsQuery';
-import useMonitorPluginsQuery from '@/tkeel-console-plugin-admin-service-monitoring/hooks/queries/useMonitorPluginsQuery';
-import type { PluginStatus } from '@/tkeel-console-plugin-admin-service-monitoring/types';
+import type { Plugin as PluginData } from '@/tkeel-console-plugin-admin-service-monitoring/hooks/queries/useMonitoringPluginsQuery';
 
 import Plugin from '../Plugin';
 
-type PluginStatusWithAll = 'ALL' | PluginStatus;
+function MemoizedPlugin({
+  data,
+  isExpanded,
+}: {
+  data: PluginData;
+  isExpanded: boolean;
+}) {
+  return useMemo(
+    () => (
+      <Plugin
+        data={data}
+        isExpanded={isExpanded}
+        styles={{ root: { width: '100%' } }}
+      />
+    ),
+    [data, isExpanded]
+  );
+}
 
-const ALL_STATUS = 'ALL';
+interface Props {
+  isLoading: boolean;
+  data: PluginData[];
+}
 
-export default function Plugins() {
-  const { colors } = useTheme<Theme>();
-  const statusInfos = getPluginStatusInfos({ colors });
-
-  const [keywords, setKeywords] = useState('');
-  const [status, setStatus] = useState<PluginStatusWithAll>(ALL_STATUS);
-
-  const pagination = usePagination();
-  const { pageNum, pageSize, setTotalSize, setPageNum } = pagination;
-
-  let params: RequestParams = {
-    page_num: pageNum,
-    page_size: pageSize,
-    order_by: 'updateTime',
-  };
-  if (keywords) {
-    params = { ...params, name: keywords };
-  }
-  if (status !== ALL_STATUS) {
-    params = { ...params, status };
-  }
-  const { isLoading, isSuccess, total, plugins } = useMonitorPluginsQuery({
-    params,
-  });
-  if (isSuccess) {
-    setTotalSize(total);
-  }
-
+export default function Plugins({ isLoading, data: plugins }: Props) {
   const [expandedIndex, setExpandedIndex] = useState<number>(-1);
 
-  const renderPlugins = () => {
-    if (isLoading) {
-      return (
-        <Center height="100%">
-          <Loading />
-        </Center>
-      );
-    }
-
-    if (!(plugins?.length > 0)) {
-      return (
-        <Center height="100%">
-          <Empty />
-        </Center>
-      );
-    }
-
+  if (isLoading) {
     return (
-      <Box padding="0 20px">
-        <Accordion
-          allowToggle
-          onChange={(value) => {
-            if (typeof value === 'number') {
-              setExpandedIndex(value);
-            }
-          }}
-        >
-          {plugins.map((data, index) => {
-            const { uid } = data.metadata;
-            const isExpanded = index === expandedIndex;
-
-            return (
-              <Box key={uid} paddingBottom="12px">
-                <Plugin data={data} isExpanded={isExpanded} />
-              </Box>
-            );
-          })}
-        </Accordion>
-      </Box>
+      <Center height="100%">
+        <Loading />
+      </Center>
     );
-  };
+  }
+
+  if (!(plugins?.length > 0)) {
+    return (
+      <Center height="100%">
+        <Empty />
+      </Center>
+    );
+  }
 
   return (
-    <Flex
-      flexDirection="column"
-      flex="1"
-      overflowY="hidden"
-      backgroundColor="gray.100"
-      boxShadow="0px 8px 8px rgba(152, 163, 180, 0.1);"
-      borderRadius="4px"
+    <Accordion
+      allowToggle
+      onChange={(value) => {
+        if (typeof value === 'number') {
+          setExpandedIndex(value);
+        }
+      }}
     >
-      <Flex margin="16px 20px">
-        <Flex paddingRight="16px">
-          <Center>
-            <Text whiteSpace="nowrap" fontSize="12px">
-              状态：
-            </Text>
-          </Center>
-          <MoreActionSelect
-            options={[{ value: 'ALL', label: '全部' }, ...statusInfos]}
-            value={status}
-            onChange={(value) => {
-              setStatus(value as PluginStatusWithAll);
-              setPageNum(1);
-            }}
-            styles={{ element: { width: '75px', backgroundColor: 'gray.50' } }}
-          />
-        </Flex>
-        <SearchInput
-          width="100%"
-          placeholder="支持搜索插件名称"
-          inputStyle={{ backgroundColor: 'gray.50' }}
-          onSearch={(value) => {
-            setKeywords(value);
-            setPageNum(1);
-          }}
-        />
-      </Flex>
-      <Box flex="1" overflowY="auto">
-        {renderPlugins()}
-      </Box>
-      <Pagination
-        {...pagination}
-        styles={{
-          wrapper: {
-            backgroundColor: 'gray.50',
-          },
-        }}
-      />
-    </Flex>
+      <VStack padding="0 20px 20px" spacing="12px">
+        {plugins.map((data, index) => {
+          const { uid } = data.metadata;
+          const isExpanded = index === expandedIndex;
+
+          return (
+            <MemoizedPlugin key={uid} data={data} isExpanded={isExpanded} />
+          );
+        })}
+      </VStack>
+    </Accordion>
   );
 }

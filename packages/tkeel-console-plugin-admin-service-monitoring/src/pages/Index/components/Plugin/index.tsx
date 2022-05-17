@@ -13,15 +13,20 @@ import {
 
 import { AppsTwoToneIcon4 } from '@tkeel/console-icons';
 
-import type { Plugin as PluginData } from '@/tkeel-console-plugin-admin-service-monitoring/hooks/queries/useMonitorPluginsQuery';
+import type { Plugin as PluginData } from '@/tkeel-console-plugin-admin-service-monitoring/hooks/queries/useMonitoringPluginsQuery';
 import usePluginStatusInfo from '@/tkeel-console-plugin-admin-service-monitoring/hooks/usePluginStatusInfo';
+
+import Pods from '../Pods';
 
 interface Props {
   data: PluginData;
   isExpanded: boolean;
+  styles?: {
+    root?: StyleProps;
+  };
 }
 
-const styles: { label: StyleProps; value: StyleProps } = {
+const defaultStyles: { label: StyleProps; value: StyleProps } = {
   value: {
     fontWeight: '500',
     fontSize: '12px',
@@ -35,16 +40,13 @@ const styles: { label: StyleProps; value: StyleProps } = {
   },
 };
 
-export default function Plugin({ data, isExpanded }: Props) {
-  // eslint-disable-next-line no-console
-  console.log(isExpanded);
-
+export default function Plugin({ data, isExpanded, styles }: Props) {
   const { metadata, status } = data;
 
   const statusInfo = usePluginStatusInfo({ status: status.status });
 
   return (
-    <AccordionItem border="0">
+    <AccordionItem border="0" {...styles?.root}>
       <AccordionButton
         border="1px solid"
         borderColor="grayAlternatives.100"
@@ -69,10 +71,10 @@ export default function Plugin({ data, isExpanded }: Props) {
       >
         <AppsTwoToneIcon4 size="32px" />
         <Box flex="1" padding="0 16px">
-          <Text {...styles.value} noOfLines={1}>
+          <Text {...defaultStyles.value} noOfLines={1}>
             <Tooltip label={metadata.name}>{metadata.name}</Tooltip>
           </Text>
-          <Text {...styles.label} fontSize="14px">
+          <Text {...defaultStyles.label} fontSize="14px">
             名称
           </Text>
         </Box>
@@ -83,19 +85,19 @@ export default function Plugin({ data, isExpanded }: Props) {
               size="6px"
               backgroundColor={statusInfo.color}
             />
-            <Text {...styles.value}>{statusInfo.label}</Text>
+            <Text {...defaultStyles.value}>{statusInfo.label}</Text>
           </Flex>
-          <Text {...styles.label}>状态</Text>
+          <Text {...defaultStyles.label}>状态</Text>
         </Box>
         <Box width="150px" paddingRight="16px">
-          <Text {...styles.value}>
+          <Text {...defaultStyles.value}>
             {status.availableReplicas}/{status.replicas}
           </Text>
-          <Text {...styles.label}>副本数量</Text>
+          <Text {...defaultStyles.label}>副本数量</Text>
         </Box>
         <Box width="220px" paddingRight="16px">
-          <Text {...styles.value}>{metadata.name}</Text>
-          <Text {...styles.label}>运行时间</Text>
+          <Text {...defaultStyles.value}>100</Text>
+          <Text {...defaultStyles.label}>运行时间</Text>
         </Box>
         <AccordionIcon />
       </AccordionButton>
@@ -107,7 +109,7 @@ export default function Plugin({ data, isExpanded }: Props) {
         borderRadius="4px"
         backgroundColor="gary.50"
       >
-        content
+        {isExpanded && <Pods pluginData={data} />}
       </AccordionPanel>
     </AccordionItem>
   );
