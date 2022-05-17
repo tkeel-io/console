@@ -2,9 +2,7 @@ import { Box, Center, Flex, Image } from '@chakra-ui/react';
 import { useState } from 'react';
 
 import { LogoBottomLine } from '@tkeel/console-business-components';
-import type { PlatformConfig } from '@tkeel/console-constants';
-import { APPEARANCE } from '@tkeel/console-constants';
-import { usePortalConfigQuery } from '@tkeel/console-request-hooks';
+import { usePortalConfigAppearanceQuery } from '@tkeel/console-request-hooks';
 import { Menu } from '@tkeel/console-types';
 import { env } from '@tkeel/console-utils';
 
@@ -30,11 +28,8 @@ function isActive(path: string) {
 
 export default function ExpandMenus({ isDarkMenu }: Props) {
   const [spreadMenuId, setSpreadMenuId] = useState('');
-  const { config } = usePortalConfigQuery<PlatformConfig>({
-    path: 'config.platform',
-    defaultConfig: APPEARANCE.platform,
-  });
-  const { admin, tenant } = config || {};
+  const { config } = usePortalConfigAppearanceQuery();
+  const { admin, tenant } = config?.platform || {};
 
   const { menus, isLoading } = useMenusQuery({
     onSuccess(data) {

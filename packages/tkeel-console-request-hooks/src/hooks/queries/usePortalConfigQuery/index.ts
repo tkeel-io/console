@@ -9,7 +9,7 @@ interface ApiData<Config> {
 }
 
 interface Props<Config> {
-  key?: string;
+  key: string;
   path: string;
   defaultConfig?: Config;
   onSuccess?: (
@@ -18,7 +18,7 @@ interface Props<Config> {
 }
 
 export default function usePortalConfigQuery<Config>({
-  key = 'appearance',
+  key,
   path,
   defaultConfig,
   onSuccess,

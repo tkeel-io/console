@@ -18,9 +18,8 @@ import type {
   CommonConfig as CommonConfigType,
   PlatformConfig as PlatformConfigType,
 } from '@tkeel/console-constants';
-import { APPEARANCE } from '@tkeel/console-constants';
 import {
-  usePortalConfigQuery,
+  usePortalConfigAppearanceQuery,
   useUpdatePortalConfigMutation,
 } from '@tkeel/console-request-hooks';
 
@@ -83,25 +82,19 @@ export default function AppearanceConfig() {
 
   const { admin: adminConfig, tenant: tenantConfig } = platformConfig;
 
-  usePortalConfigQuery<CommonConfigType>({
-    path: 'config.common',
-    onSuccess(data) {
-      const COMMON_CONFIG = data?.data?.value || APPEARANCE.common;
-      if (COMMON_CONFIG) {
-        setCommonConfig(COMMON_CONFIG);
-      }
-    },
-  });
+  const { config: appearanceConfig, isSuccess } =
+    usePortalConfigAppearanceQuery();
 
-  usePortalConfigQuery<PlatformConfigType>({
-    path: 'config.platform',
-    onSuccess(data) {
-      const PLATFORM_CONFIG = data?.data?.value || APPEARANCE.platform;
-      if (PLATFORM_CONFIG) {
-        setPlatformConfig(PLATFORM_CONFIG);
+  useEffect(() => {
+    if (isSuccess) {
+      if (appearanceConfig?.common) {
+        setCommonConfig(appearanceConfig?.common);
       }
-    },
-  });
+      if (appearanceConfig?.platform) {
+        setPlatformConfig(appearanceConfig?.platform);
+      }
+    }
+  }, [isSuccess, appearanceConfig]);
 
   const { mutate: commonConfigMutate } =
     useUpdatePortalConfigMutation<CommonConfigType>({
