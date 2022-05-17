@@ -1,5 +1,4 @@
-import background01 from '../assets/images/background-01.png';
-import background02 from '../assets/images/background-02.png';
+import background01 from '../assets/images/background.webp';
 import logoMark from '../assets/images/logo-mark.svg';
 import logoTypeAdminDark from '../assets/images/logo-type-admin-dark.svg';
 import logoTypeAdminLight from '../assets/images/logo-type-admin-light.svg';
@@ -22,51 +21,6 @@ export const PORTAL_INFOS = {
 
 export const DEFAULT_PORTAL_NAME = PortalNames.TENANT;
 
-export const DEFAULT_PORTAL_ADMIN_CONFIG = {
-  client: {
-    documentTitle: 'QingCloud IoT 物联网运维管理平台',
-    // eslint-disable-next-line sonarjs/no-duplicate-string
-    subTitle1: '构建和管理物联网解决方案的数字平台',
-    subTitle2: '100% Cloud Native, Any language, Everything is plugin, Simply',
-    slogan: '构建和管理物联网解决方案的数字平台',
-    favicon: logoMark,
-    logoMark,
-    logoTypeLight: logoTypeAdminLight,
-    logoTypeDark: logoTypeAdminDark,
-    pages: {
-      Login: {
-        backgroundImage: background01,
-        title: 'QingCloud IoT 物联网',
-        additionalTitle: '运维管理平台',
-      },
-    },
-  },
-};
-
-export const DEFAULT_PORTAL_TENANT_CONFIG = {
-  client: {
-    // eslint-disable-next-line sonarjs/no-duplicate-string
-    documentTitle: 'QingCloud IoT 物联网平台',
-    subTitle1: '构建和管理物联网解决方案的数字平台',
-    subTitle2: '100% Cloud Native, Any language, Everything is plugin, Simply',
-    slogan: '构建和管理物联网解决方案的数字平台',
-    favicon: logoMark,
-    logoMark,
-    logoTypeLight: logoTypeTenantLight,
-    logoTypeDark: logoTypeTenantDark,
-    pages: {
-      Login: {
-        backgroundImage: background01,
-        title: 'QingCloud IoT 物联网平台',
-      },
-      SetPassword: {
-        backgroundImage: background02,
-        logo: logoTypeTenantLight,
-      },
-    },
-  },
-};
-
 export interface CommonConfig {
   slogan: string;
   logoMark: string;
@@ -87,18 +41,17 @@ export interface PlatformConfig {
 }
 
 export interface Appearance {
-  COMMON_CONFIG: CommonConfig;
-  PLATFORM_CONFIG: PlatformConfig;
+  common: CommonConfig;
+  platform: PlatformConfig;
 }
 
-export const APPEARANCE = {
-  COMMON_CONFIG: {
-    slogan:
-      'QingCloud IoT 物联网平台，颠覆传统物联网应用开发的新一代核心架构。',
+export const APPEARANCE: Appearance = {
+  common: {
+    slogan: '构建和管理物联网解决方案的数字平台', // 100% Cloud Native, Any language, Everything is plugin, Simply
     logoMark,
     backgroundImage: background01,
   },
-  PLATFORM_CONFIG: {
+  platform: {
     admin: {
       platformName: 'QingCloud IoT 物联网运维管理平台',
       logoTypeLight: logoTypeAdminLight,

@@ -32,7 +32,7 @@ export default function ExpandMenus({ isDarkMenu }: Props) {
   const [spreadMenuId, setSpreadMenuId] = useState('');
   const { config } = usePortalConfigQuery<PlatformConfig>({
     path: 'config.platform',
-    defaultConfig: APPEARANCE.PLATFORM_CONFIG,
+    defaultConfig: APPEARANCE.platform,
   });
   const { admin, tenant } = config || {};
 

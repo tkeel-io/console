@@ -1,4 +1,4 @@
-import { Box, Button, Center, Flex, Heading } from '@chakra-ui/react';
+import { Box, Button, Center, Flex } from '@chakra-ui/react';
 import { noop } from 'lodash';
 
 import PasswordForm from './PasswordForm';
@@ -15,43 +15,23 @@ export default function PortalTenantLogin({
   onThirdPartyAuthFormSubmit = noop,
   mockData,
 }: TenantLoginProps) {
-  const clientConfig = config?.client;
-  const pageConfig = clientConfig?.pages?.Login;
-
   return (
     <Flex height="100vh" backgroundColor="white">
       <Box
         flex="1"
-        paddingLeft="80px"
-        backgroundImage={pageConfig?.backgroundImage}
+        paddingTop="20px"
+        paddingLeft="20px"
         backgroundRepeat="no-repeat"
         backgroundSize="cover"
+        backgroundImage={config?.common.backgroundImage}
       >
-        <Heading
-          marginTop="80px"
-          fontWeight="600"
-          fontSize="30px"
-          lineHeight="42px"
-          color="gray.100"
-        >
-          {pageConfig?.title}
-        </Heading>
-        <Heading
-          marginTop="12px"
-          fontSize="18px"
-          lineHeight="24px"
-          color="gray.100"
-        >
-          {clientConfig?.subTitle1}
-        </Heading>
-        <Heading
-          marginTop="12px"
-          fontSize="18px"
-          lineHeight="24px"
-          color="gray.100"
-        >
-          {clientConfig?.subTitle2}
-        </Heading>
+        <Box
+          width="200px"
+          height="200px"
+          backgroundRepeat="no-repeat"
+          backgroundSize="auto"
+          backgroundImage={config?.platform.tenant.logoTypeLight}
+        />
       </Box>
       <Center flexDirection="column" width="42vw">
         <Box width="350px">
