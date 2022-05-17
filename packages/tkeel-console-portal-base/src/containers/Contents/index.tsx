@@ -47,11 +47,11 @@ export default function Contents({
 }: Props) {
   usePortalConfigQuery<CommonConfig>({
     path: 'config.common',
-    defaultConfig: APPEARANCE.COMMON_CONFIG,
+    defaultConfig: APPEARANCE.common,
   });
   usePortalConfigQuery<PlatformConfig>({
     path: 'config.platform',
-    defaultConfig: APPEARANCE.PLATFORM_CONFIG,
+    defaultConfig: APPEARANCE.platform,
   });
   const [isOpenDocuments, setIsOpenDocuments] = useState(false);
   const [documentsPath, setDocumentsPath] = useState('');

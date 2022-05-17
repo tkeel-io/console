@@ -69,7 +69,7 @@ export default function CommonConfig({ config, setConfig, onConfirm }: Props) {
           <TextareaField
             id="slogan"
             registerReturn={register('slogan', {
-              onBlur(e: ChangeEvent<HTMLTextAreaElement>) {
+              onChange(e: ChangeEvent<HTMLTextAreaElement>) {
                 setConfig({ ...config, slogan: e.target.value });
               },
             })}

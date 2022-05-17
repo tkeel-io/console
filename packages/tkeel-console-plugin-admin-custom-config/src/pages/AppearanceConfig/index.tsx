@@ -1,4 +1,5 @@
 import {
+  Box,
   Flex,
   StyleProps,
   TabList,
@@ -6,8 +7,9 @@ import {
   TabPanels,
   Tabs,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
+import { PortalTenantLogin } from '@tkeel/console-business-components';
 import {
   CustomTab as CustomDetailTab,
   CustomTabList,
@@ -76,12 +78,15 @@ export default function AppearanceConfig() {
     tenant: defaultPlatformConfig,
   });
 
+  const [loginWrapperWidth, setLoginWrapperWidth] = useState(0);
+  const loginPreviewWrapperRef = useRef<HTMLDivElement>(null);
+
   const { admin: adminConfig, tenant: tenantConfig } = platformConfig;
 
   usePortalConfigQuery<CommonConfigType>({
     path: 'config.common',
     onSuccess(data) {
-      const COMMON_CONFIG = data?.data?.value || APPEARANCE.COMMON_CONFIG;
+      const COMMON_CONFIG = data?.data?.value || APPEARANCE.common;
       if (COMMON_CONFIG) {
         setCommonConfig(COMMON_CONFIG);
       }
@@ -90,9 +95,8 @@ export default function AppearanceConfig() {
 
   usePortalConfigQuery<PlatformConfigType>({
     path: 'config.platform',
-    defaultConfig: APPEARANCE.PLATFORM_CONFIG,
     onSuccess(data) {
-      const PLATFORM_CONFIG = data?.data?.value || APPEARANCE.PLATFORM_CONFIG;
+      const PLATFORM_CONFIG = data?.data?.value || APPEARANCE.platform;
       if (PLATFORM_CONFIG) {
         setPlatformConfig(PLATFORM_CONFIG);
       }
@@ -140,6 +144,11 @@ export default function AppearanceConfig() {
       });
   };
 
+  useEffect(() => {
+    if (loginPreviewWrapperRef.current) {
+      setLoginWrapperWidth(loginPreviewWrapperRef.current.clientWidth);
+    }
+  }, []);
   return (
     <Flex>
       <Flex flexDirection="column" width="360px" flexShrink={0}>
@@ -191,7 +200,6 @@ export default function AppearanceConfig() {
         marginLeft="20px"
         flex="1"
         boxShadow="0px 10px 15px -3px rgba(113, 128, 150, 0.1), 0px 4px 6px -2px rgba(113, 128, 150, 0.05);"
-        index={1}
       >
         <CustomTabList>
           <CustomDetailTab borderTopLeftRadius="4px">
@@ -206,7 +214,29 @@ export default function AppearanceConfig() {
           borderBottomRightRadius="4px"
         >
           <TabPanel {...tabPanelStyle}>
-            <PreviewPanel>登录页</PreviewPanel>
+            <PreviewPanel>
+              <Box width="100%" ref={loginPreviewWrapperRef}>
+                {loginWrapperWidth !== 0 && (
+                  <PortalTenantLogin
+                    tenantInfo={{
+                      auth_type: 'internal',
+                      title: '空间名称',
+                    }}
+                    config={{
+                      common: commonConfig,
+                      platform: platformConfig,
+                    }}
+                    styles={{
+                      wrapper: {
+                        width: `${loginWrapperWidth}px`,
+                        height: `${(loginWrapperWidth / 1.77).toFixed(2)}px`,
+                        transform: 'scale(.9)',
+                      },
+                    }}
+                  />
+                )}
+              </Box>
+            </PreviewPanel>
           </TabPanel>
           <TabPanel {...tabPanelStyle}>
             <PreviewPanel>

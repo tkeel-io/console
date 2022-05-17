@@ -5,9 +5,11 @@ import usePortalConfigQuery from '../usePortalConfigQuery';
 
 export default function usePortalConfigAppearanceQuery() {
   let config: Appearance | undefined;
-  const { isSuccess, config: configByServer } = usePortalConfigQuery<
-    Partial<Appearance>
-  >({
+  const {
+    isSuccess,
+    config: configByServer,
+    ...rest
+  } = usePortalConfigQuery<Partial<Appearance>>({
     key: 'appearance',
     path: 'config',
   });
@@ -15,5 +17,5 @@ export default function usePortalConfigAppearanceQuery() {
     config = { ...APPEARANCE, ...configByServer };
   }
 
-  return { isSuccess, configByServer, config };
+  return { ...rest, isSuccess, configByServer, config };
 }

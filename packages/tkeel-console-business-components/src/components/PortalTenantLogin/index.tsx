@@ -14,9 +14,10 @@ export default function PortalTenantLogin({
   onPasswordFormSubmit = noop,
   onThirdPartyAuthFormSubmit = noop,
   mockData,
+  styles,
 }: TenantLoginProps) {
   return (
-    <Flex height="100vh" backgroundColor="white">
+    <Flex height="100vh" backgroundColor="white" {...styles?.wrapper}>
       <Box
         flex="1"
         paddingTop="20px"
@@ -33,7 +34,7 @@ export default function PortalTenantLogin({
           backgroundImage={config?.platform.tenant.logoTypeLight}
         />
       </Box>
-      <Center flexDirection="column" width="42vw">
+      <Center flexDirection="column" width="42%">
         <Box width="350px">
           {tenantInfo?.auth_type === 'external' ? (
             <ThirdPartyAuthForm

@@ -26,6 +26,10 @@ interface TenantLoginProps extends BaseProps {
     username: string;
     password: string;
   };
+
+  styles?: {
+    wrapper?: StyleProps;
+  };
 }
 
 interface PasswordFormProps extends BaseProps {
