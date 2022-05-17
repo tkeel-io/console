@@ -1,5 +1,11 @@
 import { Flex, StyleProps, Text } from '@chakra-ui/react';
-import { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
+import {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+} from 'react';
 import { FieldError, useForm } from 'react-hook-form';
 
 import { FormField } from '@tkeel/console-components';
@@ -18,13 +24,15 @@ interface PlatformConfigField {
   adminPlatformName: string;
 }
 
+type Platform = 'admin' | 'tenant';
 interface PlatformNameConfigProps {
+  platform: Platform;
   title: string;
   id: keyof PlatformConfigField;
 }
 
 interface UpdatePlatformConfigProps {
-  platform: 'admin' | 'tenant';
+  platform: Platform;
   key: string;
   value: string;
 }
@@ -71,27 +79,6 @@ export default function PlatformConfig({
     }
   };
 
-  const PlatformNameConfigItem = useCallback(
-    ({ title, id }: PlatformNameConfigProps) => {
-      return (
-        <PlatformConfigItem
-          title={title}
-          showInformationIcon={false}
-          formField={
-            <TextField
-              id={id}
-              error={errors[id] as FieldError}
-              registerReturn={register(id, {
-                required: { value: true, message: `请输入${title}` },
-              })}
-            />
-          }
-        />
-      );
-    },
-    [errors, register]
-  );
-
   const updatePlatformConfig = useCallback(
     ({ platform, key, value }: UpdatePlatformConfigProps) => {
       setConfig({
@@ -106,6 +93,34 @@ export default function PlatformConfig({
     [admin, tenant]
   );
 
+  const PlatformNameConfigItem = useCallback(
+    ({ platform, title, id }: PlatformNameConfigProps) => {
+      return (
+        <PlatformConfigItem
+          title={title}
+          showInformationIcon={false}
+          formField={
+            <TextField
+              id={id}
+              error={errors[id] as FieldError}
+              registerReturn={register(id, {
+                required: { value: true, message: `请输入${title}` },
+                onBlur(e: ChangeEvent<HTMLInputElement>) {
+                  updatePlatformConfig({
+                    platform,
+                    key: 'platformName',
+                    value: e.target.value,
+                  });
+                },
+              })}
+            />
+          }
+        />
+      );
+    },
+    [errors, register, updatePlatformConfig]
+  );
+
   useEffect(() => {
     setValue('adminPlatformName', admin.platformName);
     setValue('tenantPlatformName', tenant.platformName);
@@ -114,7 +129,11 @@ export default function PlatformConfig({
   return (
     <Flex flexDirection="column">
       <Text {...titleStyle}>租户平台配置</Text>
-      <PlatformNameConfigItem title="租户平台名称" id="tenantPlatformName" />
+      <PlatformNameConfigItem
+        platform="tenant"
+        title="租户平台名称"
+        id="tenantPlatformName"
+      />
       <LogoConfigItem
         title="租户平台 Logo - 浅色版"
         logo={tenant.logoTypeDark}
@@ -142,7 +161,11 @@ export default function PlatformConfig({
       <Text {...titleStyle} marginTop="24px">
         管理平台配置
       </Text>
-      <PlatformNameConfigItem title="管理平台名称" id="adminPlatformName" />
+      <PlatformNameConfigItem
+        platform="admin"
+        title="管理平台名称"
+        id="adminPlatformName"
+      />
       <LogoConfigItem
         title="管理平台 Logo - 浅色版"
         logo={admin.logoTypeDark}

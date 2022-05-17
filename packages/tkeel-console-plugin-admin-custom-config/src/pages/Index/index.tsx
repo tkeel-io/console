@@ -16,12 +16,12 @@ export default function Index() {
   const configNodeInfos = [
     {
       title: '主题色配置',
-      desc: '设定系统主题色，根据颜色插件化配置功能实现一件换肤',
+      desc: '设定系统主题色，根据颜色插件化配置功能实现一键换肤',
       children: <ThemeColorConfig />,
     },
     {
       title: '外观配置',
-      desc: '更改公司简称、 logo 和 Slogan',
+      desc: '更改通用与平台级外观配置',
       children: (
         <ConfigButton
           title="更改外观配置"

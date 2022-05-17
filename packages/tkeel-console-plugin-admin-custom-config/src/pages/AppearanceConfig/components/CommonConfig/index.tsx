@@ -1,5 +1,5 @@
 import { Box } from '@chakra-ui/react';
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { FormField } from '@tkeel/console-components';
@@ -37,12 +37,7 @@ export default function CommonConfig({ config, setConfig, onConfirm }: Props) {
     },
   });
 
-  const {
-    register,
-    formState: { errors },
-    trigger,
-    setValue,
-  } = useForm<ConfigField>();
+  const { register, trigger, setValue } = useForm<ConfigField>();
 
   const handleConfirm = async () => {
     const result = await trigger();
@@ -73,9 +68,10 @@ export default function CommonConfig({ config, setConfig, onConfirm }: Props) {
         formField={
           <TextareaField
             id="slogan"
-            error={errors.slogan}
             registerReturn={register('slogan', {
-              required: { value: true, message: '请输入 Slogan' },
+              onBlur(e: ChangeEvent<HTMLTextAreaElement>) {
+                setConfig({ ...config, slogan: e.target.value });
+              },
             })}
           />
         }
