@@ -16,11 +16,11 @@ interface Plugin {
     uid: string;
     name: string;
   };
-  spec: Record<string, unknown>;
   status: {
     availableReplicas: number;
     replicas: number;
     status: PluginStatus;
+    updateTime: number;
   };
 }
 

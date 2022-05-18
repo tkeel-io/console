@@ -11,6 +11,9 @@ interface Pod {
     uid: string;
     name: string;
   };
+  spec: {
+    nodeName: string;
+  };
   status: {
     hostIP: string;
     phase: PodStatus;

@@ -12,11 +12,13 @@ import {
 } from '@chakra-ui/react';
 
 import { AppsTwoToneIcon4 } from '@tkeel/console-icons';
+import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import type { Plugin as PluginData } from '@/tkeel-console-plugin-admin-service-monitoring/hooks/queries/useMonitoringPluginsQuery';
 import usePluginStatusInfo from '@/tkeel-console-plugin-admin-service-monitoring/hooks/usePluginStatusInfo';
 
 import Pods from '../Pods';
+import * as defaultStyles from './styles';
 
 interface Props {
   data: PluginData;
@@ -25,20 +27,6 @@ interface Props {
     root?: StyleProps;
   };
 }
-
-const defaultStyles: { label: StyleProps; value: StyleProps } = {
-  value: {
-    fontWeight: '500',
-    fontSize: '12px',
-    lineHeight: '20px',
-    color: 'gray.800',
-  },
-  label: {
-    fontSize: '12px',
-    lineHeight: '20px',
-    color: 'grayAlternatives.300',
-  },
-};
 
 export default function Plugin({ data, isExpanded, styles }: Props) {
   const { metadata, status } = data;
@@ -70,7 +58,7 @@ export default function Plugin({ data, isExpanded, styles }: Props) {
         }}
       >
         <AppsTwoToneIcon4 size="32px" />
-        <Box flex="1" padding="0 16px">
+        <Box flex="1" margin="0 120px 0 16px">
           <Text {...defaultStyles.value} noOfLines={1}>
             <Tooltip label={metadata.name}>{metadata.name}</Tooltip>
           </Text>
@@ -78,7 +66,7 @@ export default function Plugin({ data, isExpanded, styles }: Props) {
             名称
           </Text>
         </Box>
-        <Box width="180px" paddingRight="16px">
+        <Box marginRight="120px">
           <Flex alignItems="center">
             <Circle
               marginRight="4px"
@@ -89,15 +77,17 @@ export default function Plugin({ data, isExpanded, styles }: Props) {
           </Flex>
           <Text {...defaultStyles.label}>状态</Text>
         </Box>
-        <Box width="150px" paddingRight="16px">
+        <Box marginRight="120px">
           <Text {...defaultStyles.value}>
             {status.availableReplicas}/{status.replicas}
           </Text>
           <Text {...defaultStyles.label}>副本数量</Text>
         </Box>
-        <Box width="220px" paddingRight="16px">
-          <Text {...defaultStyles.value}>100</Text>
-          <Text {...defaultStyles.label}>运行时间</Text>
+        <Box marginRight="120px">
+          <Text {...defaultStyles.value}>
+            {formatDateTimeByTimestamp({ timestamp: status.updateTime })}
+          </Text>
+          <Text {...defaultStyles.label}>更新时间</Text>
         </Box>
         <AccordionIcon />
       </AccordionButton>
