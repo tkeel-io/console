@@ -54,7 +54,7 @@ export default function CommonConfig({ config, setConfig, onConfirm }: Props) {
     <Box>
       <CommonConfigItem
         title="Logo-品牌图标"
-        desc="大小不能超过 100K，格式最佳为 png 同样支持 jpg/jpeg/gif/svg ，尺寸比例为正方形，最佳为 96px*96px 。"
+        desc="大小不能超过 100K，格式最佳为 png 同样支持 jpg/jpeg/gif/svg，尺寸比例为正方形，最佳为 96px*96px。"
         formField={
           <UploadInput
             src={config.logoMark}

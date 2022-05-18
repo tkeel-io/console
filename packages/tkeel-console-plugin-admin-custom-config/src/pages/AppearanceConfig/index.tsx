@@ -28,6 +28,7 @@ import adminMenuDark from '@/tkeel-console-plugin-admin-custom-config/assets/ima
 import adminMenuLight from '@/tkeel-console-plugin-admin-custom-config/assets/images/admin-menu-light.svg';
 import tenantMenuDark from '@/tkeel-console-plugin-admin-custom-config/assets/images/tenant-menu-dark.svg';
 import tenantMenuLight from '@/tkeel-console-plugin-admin-custom-config/assets/images/tenant-menu-light.svg';
+import { imageToBase64 } from '@/tkeel-console-plugin-admin-custom-config/utils';
 
 import BasicInfo from './components/BasicInfo';
 import CommonConfig from './components/CommonConfig';
@@ -35,30 +36,6 @@ import CustomTab from './components/CustomTab';
 import MenuPreview from './components/MenuPreview';
 import PlatformConfig from './components/PlatformConfig';
 import PreviewPanel from './components/PreviewPanel';
-
-function imageToBase64(src: string) {
-  return new Promise<string>((resolve) => {
-    if (src.startsWith('data:image/')) {
-      resolve(src);
-    }
-    const img = new Image();
-    img.src = src;
-    img.crossOrigin = 'anonymous';
-    img.addEventListener('load', () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = img.width;
-      canvas.height = img.height;
-      const ctx = canvas.getContext('2d');
-      if (ctx) {
-        ctx.drawImage(img, 0, 0, img.width, img.height);
-        const dataURL = canvas.toDataURL('image/png');
-        resolve(dataURL);
-      } else {
-        resolve('');
-      }
-    });
-  });
-}
 
 export default function AppearanceConfig() {
   const [commonConfig, setCommonConfig] = useState<CommonConfigType>({
@@ -84,19 +61,6 @@ export default function AppearanceConfig() {
   const { admin: adminConfig, tenant: tenantConfig } = platformConfig;
 
   const { config: appearanceConfig, isSuccess } = useConfigAppearanceQuery();
-
-  useEffect(() => {
-    if (isSuccess) {
-      const { common, platform } = appearanceConfig || {};
-      if (common) {
-        setCommonConfig(common);
-      }
-      if (platform) {
-        setPlatformConfig(platform);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSuccess]);
 
   const { mutate: commonConfigMutate } =
     useUpdatePortalConfigMutation<CommonConfigType>({
@@ -124,13 +88,13 @@ export default function AppearanceConfig() {
 
   const handleCommonConfigConfirm = () => {
     const { logoMark, slogan, backgroundImage } = commonConfig;
-    Promise.all([imageToBase64(logoMark), imageToBase64(backgroundImage)])
+    imageToBase64(backgroundImage)
       .then((res) => {
         return commonConfigMutate({
           data: {
-            logoMark: res[0],
+            logoMark,
             slogan,
-            backgroundImage: res[1],
+            backgroundImage: res,
           },
         });
       })
@@ -156,6 +120,19 @@ export default function AppearanceConfig() {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (isSuccess) {
+      const { common, platform } = appearanceConfig || {};
+      if (common) {
+        setCommonConfig(common);
+      }
+      if (platform) {
+        setPlatformConfig(platform);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSuccess]);
 
   return (
     <Flex>
@@ -222,7 +199,9 @@ export default function AppearanceConfig() {
           borderBottomRightRadius="4px"
         >
           <TabPanel {...tabPanelStyle}>
-            <PreviewPanel>
+            <PreviewPanel
+              styles={{ wrapper: { display: 'flex', alignItems: 'center' } }}
+            >
               <Box width="100%" ref={loginPreviewWrapperRef}>
                 {loginWrapperWidth !== 0 && (
                   <PortalTenantLogin

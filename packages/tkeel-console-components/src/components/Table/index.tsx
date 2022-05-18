@@ -137,7 +137,6 @@ function Table<D extends object>({
             Header: SelectHeader,
             Cell: SelectCell,
             width: 50,
-
             meta,
           },
           ...allColumns,

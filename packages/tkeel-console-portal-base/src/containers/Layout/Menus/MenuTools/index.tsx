@@ -11,10 +11,11 @@ import {
 
 import { setLocalMenuTheme } from '@/tkeel-console-portal-base/utils';
 
+type MenuTheme = 'dark' | 'light';
 interface Props {
   isDarkMenu: boolean;
   collapsed: boolean;
-  setMenuTheme: Dispatch<SetStateAction<'dark' | 'light'>>;
+  setMenuTheme: Dispatch<SetStateAction<MenuTheme>>;
   setCollapsed: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -41,15 +42,15 @@ export default function MenuTools({
     },
   };
 
-  const getChangeThemeIconProps = (theme: 'dark' | 'light') => ({
+  const getChangeThemeIconProps = (menuTheme: MenuTheme) => ({
     color: iconColor,
     style: { marginBottom: '20px' },
     _hover: {
       color: whiteColor,
     },
     onClick() {
-      setLocalMenuTheme(theme);
-      setMenuTheme(theme);
+      setLocalMenuTheme(menuTheme);
+      setMenuTheme(menuTheme);
     },
   });
 
