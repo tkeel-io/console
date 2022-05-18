@@ -4,7 +4,6 @@ import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 
 import { NotFound } from '@tkeel/console-business-components';
 import { useDocuments } from '@tkeel/console-hooks';
-import { Logo } from '@tkeel/console-types';
 import { env } from '@tkeel/console-utils';
 
 import noPlugins from '@/tkeel-console-portal-base/assets/images/no-plugins.svg';
@@ -20,10 +19,9 @@ function getElementIdByContainer(container: string): string {
 
 type Props = {
   userActionMenusComponent: ReactNode;
-  logo: Logo;
 };
 
-export default function Layout({ userActionMenusComponent, logo }: Props) {
+export default function Layout({ userActionMenusComponent }: Props) {
   const navigate = useNavigate();
   const documents = useDocuments();
   const theme = useTheme();
@@ -71,7 +69,7 @@ export default function Layout({ userActionMenusComponent, logo }: Props) {
 
   return (
     <Flex height="100%" overflowX="auto">
-      <Menus logo={logo} menus={menus} />
+      <Menus menus={menus} />
       <Flex
         flex="1"
         overflow="hidden"

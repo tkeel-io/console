@@ -1,4 +1,5 @@
 import { Flex, Image, Text } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 
 import { PageHeader } from '@tkeel/console-components';
 import { BrushTwoToneIcon } from '@tkeel/console-icons';
@@ -11,21 +12,27 @@ import ConfigCard from './components/ConfigCard';
 import ThemeColorConfig from './components/ThemeColorConfig';
 
 export default function Index() {
+  const navigate = useNavigate();
   const configNodeInfos = [
     {
       title: '主题色配置',
-      desc: '设定系统主题色，根据颜色插件化配置功能实现一件换肤',
+      desc: '设定系统主题色，根据颜色插件化配置功能实现一键换肤',
       children: <ThemeColorConfig />,
     },
     {
       title: '外观配置',
-      desc: '更改公司简称、 logo 和 Slogan',
-      children: <ConfigButton title="更改外观配置" />,
+      desc: '更改通用与平台级外观配置',
+      children: (
+        <ConfigButton
+          title="更改外观配置"
+          onClick={() => navigate('/appearance-config?menu-collapsed=true')}
+        />
+      ),
     },
     {
       title: '功能菜单配置',
       desc: '对已安装的插件进行排序，租户下菜单根据排序和启用情况展示',
-      children: <ConfigButton title="更改菜单配置" />,
+      children: <ConfigButton title="更改菜单配置" disable />,
     },
   ];
 

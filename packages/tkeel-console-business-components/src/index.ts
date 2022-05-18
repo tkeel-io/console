@@ -2,6 +2,7 @@ export { default as AddDevicesModal } from './components/AddDevicesModal';
 export * from './components/AddDevicesModal/CheckDeviceList';
 export { default as CheckDeviceList } from './components/AddDevicesModal/CheckDeviceList';
 export { default as BasicInfo } from './components/BasicInfo';
+export * from './components/BasicInfo';
 export { default as CreateAttributeButton } from './components/CreateAttributeButton';
 export { default as CreateCommandButton } from './components/CreateCommandButton';
 export { default as CreateTelemetryButton } from './components/CreateTelemetryButton';
@@ -18,6 +19,7 @@ export { default as DeviceTelemetryModal } from './components/DeviceTelemetryMod
 export { default as Documents } from './components/Documents';
 export * from './components/GlobalPortalProvider';
 export { default as LoginBrand } from './components/LoginBrand';
+export { default as LogoBottomLine } from './components/LogoBottomLine';
 export { default as NotFound } from './components/NotFound';
 export * as PluginBase from './components/PluginBase';
 export { default as PluginCard } from './components/PluginCard';
