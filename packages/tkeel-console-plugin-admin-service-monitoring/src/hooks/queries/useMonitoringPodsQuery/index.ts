@@ -37,7 +37,7 @@ export type { Pod };
 
 export default function useMonitoringPodsQuery({
   params,
-  refetchInterval,
+  refetchInterval = false,
 }: Options) {
   const result = useQuery<AipData, RequestParams>({
     url: '/tkeel-monitor/v1/monitoring/plugins/pods',

@@ -7,11 +7,13 @@ import {
   Tooltip,
   useClipboard,
 } from '@chakra-ui/react';
+import { ResponsiveLine } from '@nivo/line';
 
 import { CopyButton } from '@tkeel/console-components';
 import { PodTwoToneIcon } from '@tkeel/console-icons';
-import { plugin } from '@tkeel/console-utils';
+import { /* formatDateTimeByTimestamp, */ plugin } from '@tkeel/console-utils';
 
+import type { MetricData } from '@/tkeel-console-plugin-admin-service-monitoring/hooks/queries/useMonitoringPodsMetricsQuery';
 import type { Pod as PodData } from '@/tkeel-console-plugin-admin-service-monitoring/hooks/queries/useMonitoringPodsQuery';
 import usePodStatusInfo from '@/tkeel-console-plugin-admin-service-monitoring/hooks/usePodStatusInfo';
 
@@ -19,12 +21,16 @@ import * as defaultStyles from '../Plugin/styles';
 
 interface Props {
   data: PodData;
+  metrics: {
+    cpu: MetricData;
+    memory: MetricData;
+  };
   styles?: {
     root?: StyleProps;
   };
 }
 
-export default function Pod({ data, styles }: Props) {
+export default function Pod({ data, metrics, styles }: Props) {
   const toast = plugin.getPortalToast();
   const { metadata, spec, status } = data;
   const nodeText = `${spec.nodeName}（${status.hostIP}）`;
@@ -35,6 +41,28 @@ export default function Pod({ data, styles }: Props) {
   if (hasCopied) {
     toast('复制成功', { status: 'success' });
   }
+
+  const { cpu, memory } = metrics;
+  const { values: cpuValues } = cpu;
+  const { values: memoryValues } = memory;
+  const cpuData = [
+    {
+      id: 'cpu',
+      data: cpuValues.map(([timestamp, value]) => ({
+        x: timestamp,
+        y: value,
+      })),
+    },
+  ];
+  const memoryData = [
+    {
+      id: 'cpu',
+      data: memoryValues.map(([timestamp, value]) => ({
+        x: timestamp,
+        y: value,
+      })),
+    },
+  ];
 
   return (
     <Flex
@@ -93,10 +121,50 @@ export default function Pod({ data, styles }: Props) {
         <Text {...defaultStyles.label}>容器组 IP</Text>
       </Box>
       <Box marginRight="40px" width="140px">
-        1
+        <Flex>
+          <Text
+            fontWeight="600"
+            fontSize="12px"
+            lineHeight="20px"
+            color="grayAlternatives.300"
+          >
+            CPU
+          </Text>
+          <Text
+            paddingLeft="4px"
+            fontWeight="600"
+            fontSize="12px"
+            lineHeight="20px"
+          >
+            123
+          </Text>
+        </Flex>
+        <Box height="20px">
+          <ResponsiveLine data={cpuData} />
+        </Box>
       </Box>
       <Box marginRight="40px" width="140px">
-        1
+        <Flex>
+          <Text
+            fontWeight="600"
+            fontSize="12px"
+            lineHeight="20px"
+            color="grayAlternatives.300"
+          >
+            内存
+          </Text>
+          <Text
+            paddingLeft="4px"
+            fontWeight="600"
+            fontSize="12px"
+            lineHeight="20px"
+          >
+            123
+          </Text>
+        </Flex>
+        <Box height="20px">
+          <ResponsiveLine data={memoryData} />
+        </Box>
       </Box>
     </Flex>
   );
