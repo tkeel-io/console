@@ -33,6 +33,7 @@ module.exports = {
     'sonarjs',
     'sourcemap',
     'stylelint',
+    'nivo',
     'stylelintignore',
     'stylelintrc',
     'svgr',
