@@ -140,7 +140,7 @@ export default function Pod({ data, metrics, styles }: Props) {
           </Text>
         </Flex>
         <Box height="20px" paddingTop="2px">
-          <ResponsiveLine data={cpuData} />
+          <ResponsiveLine data={cpuData} enableArea />
         </Box>
       </Box>
       <Box marginRight="40px" width="140px">
@@ -163,7 +163,13 @@ export default function Pod({ data, metrics, styles }: Props) {
           </Text>
         </Flex>
         <Box height="20px" paddingTop="2px">
-          <ResponsiveLine data={memoryData} />
+          <ResponsiveLine
+            data={memoryData}
+            enableArea
+            enablePoints={false}
+            enableGridX={false}
+            enableGridY={false}
+          />
         </Box>
       </Box>
     </Flex>
