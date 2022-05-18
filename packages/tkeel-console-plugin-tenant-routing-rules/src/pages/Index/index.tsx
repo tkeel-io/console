@@ -139,6 +139,9 @@ export default function Index(): JSX.Element {
                             refetch={() => {
                               refetch();
                             }}
+                            onDeleteSuccess={() => {
+                              refetch();
+                            }}
                           />
                         }
                         bottomInfo={
