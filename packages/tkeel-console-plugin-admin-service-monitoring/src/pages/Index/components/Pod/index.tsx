@@ -139,7 +139,7 @@ export default function Pod({ data, metrics, styles }: Props) {
             123
           </Text>
         </Flex>
-        <Box height="20px">
+        <Box height="20px" paddingTop="2px">
           <ResponsiveLine data={cpuData} />
         </Box>
       </Box>
@@ -162,7 +162,7 @@ export default function Pod({ data, metrics, styles }: Props) {
             123
           </Text>
         </Flex>
-        <Box height="20px">
+        <Box height="20px" paddingTop="2px">
           <ResponsiveLine data={memoryData} />
         </Box>
       </Box>
