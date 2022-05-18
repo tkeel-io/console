@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^1.8.6",
-    "@emotion/react": "^11.8.2",
+    "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@nivo/core": "^0.79.0",
     "@nivo/line": "^0.79.1",
@@ -28,12 +28,12 @@
     "@tkeel/console-themes": "workspace:^",
     "@tkeel/console-types": "workspace:^",
     "@tkeel/console-utils": "workspace:^",
-    "framer-motion": "^6.2.8",
+    "framer-motion": "^6.3.3",
     "lodash": "^4.17.21",
     "numeral": "^2.0.6",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-query": "^3.34.16",
-    "react-router-dom": "^6.2.2"
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "react-query": "^3.39.0",
+    "react-router-dom": "^6.3.0"
   }
 }
