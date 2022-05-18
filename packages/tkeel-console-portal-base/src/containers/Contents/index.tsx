@@ -5,10 +5,10 @@ import { GlobalPortalProvider } from '@tkeel/console-business-components';
 import { ToastContainer } from '@tkeel/console-components';
 import { useLocationChange } from '@tkeel/console-hooks';
 import {
+  useConfigAppearanceQuery,
+  useConfigThemeColorsQuery,
   useDeploymentConfigQuery,
-  usePortalConfigAppearanceQuery,
 } from '@tkeel/console-request-hooks';
-import useConfigQuery from '@tkeel/console-request-hooks/src/hooks/queries/useConfigQuery';
 import { Colors } from '@tkeel/console-themes';
 
 import Routes from '@/tkeel-console-portal-base/routes';
@@ -43,14 +43,14 @@ export default function Contents({
   notRequireAuthRoutes,
   userActionMenusComponent,
 }: Props) {
-  usePortalConfigAppearanceQuery();
+  useConfigAppearanceQuery();
   const [isOpenDocuments, setIsOpenDocuments] = useState(false);
   const [documentsPath, setDocumentsPath] = useState('');
 
   const { config } = useDeploymentConfigQuery();
   const docsBaseURL = config?.docsURL ?? '';
 
-  const { extra, isFetched } = useConfigQuery();
+  const { colors, isFetched } = useConfigThemeColorsQuery();
 
   useLocationChange({
     onChange: () => {
@@ -65,7 +65,7 @@ export default function Contents({
     ...theme,
     colors: {
       ...theme.colors,
-      ...extra?.theme?.colors,
+      ...colors,
     } as Colors,
   };
 

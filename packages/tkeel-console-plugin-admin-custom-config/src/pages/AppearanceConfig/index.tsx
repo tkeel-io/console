@@ -20,7 +20,7 @@ import type {
   PlatformConfig as PlatformConfigType,
 } from '@tkeel/console-constants';
 import {
-  usePortalConfigAppearanceQuery,
+  useConfigAppearanceQuery,
   useUpdatePortalConfigMutation,
 } from '@tkeel/console-request-hooks';
 
@@ -83,8 +83,7 @@ export default function AppearanceConfig() {
 
   const { admin: adminConfig, tenant: tenantConfig } = platformConfig;
 
-  const { config: appearanceConfig, isSuccess } =
-    usePortalConfigAppearanceQuery();
+  const { config: appearanceConfig, isSuccess } = useConfigAppearanceQuery();
 
   useEffect(() => {
     if (isSuccess) {

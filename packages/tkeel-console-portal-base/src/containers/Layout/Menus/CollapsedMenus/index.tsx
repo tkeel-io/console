@@ -1,6 +1,6 @@
 import { Box, Center, Flex, Image } from '@chakra-ui/react';
 
-import { usePortalConfigAppearanceQuery } from '@tkeel/console-request-hooks';
+import { useConfigAppearanceQuery } from '@tkeel/console-request-hooks';
 
 // import tkeelLogo from '@/tkeel-console-portal-base/assets/images/tkeel-logo.svg';
 import useMenusQuery from '@/tkeel-console-portal-base/hooks/queries/useMenusQuery';
@@ -12,7 +12,7 @@ import SubMenus from './SubMenus';
 function CollapsedMenus() {
   const { menus } = useMenusQuery();
 
-  const { config } = usePortalConfigAppearanceQuery();
+  const { config } = useConfigAppearanceQuery();
 
   const logoMark = config?.common.logoMark ?? '';
   return (

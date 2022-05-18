@@ -10,21 +10,24 @@ interface ApiData<Config> {
 
 interface Props<Config> {
   key: string;
-  path: string;
+  path?: string;
   defaultConfig?: Config;
   onSuccess?: (
     data: RequestResult<ApiData<Config>, undefined, undefined>
   ) => void;
 }
 
-export default function usePortalConfigQuery<Config>({
+export default function useConfigQuery<Config>({
   key,
   path,
   defaultConfig,
   onSuccess,
 }: Props<Config>) {
   const reactQueryOptions = onSuccess ? { onSuccess } : {};
-  const url = `/rudder/v1/config/platform?key=${key}&path=${path}`;
+  let url = `/rudder/v1/config/platform?key=${key}`;
+  if (path) {
+    url += `&path=${path}`;
+  }
   const result = useQuery<ApiData<Config>>({
     url,
     method: 'GET',

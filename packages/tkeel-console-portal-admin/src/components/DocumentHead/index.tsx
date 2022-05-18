@@ -1,9 +1,9 @@
 import { useFavicon, useTitle } from 'react-use';
 
-import { usePortalConfigAppearanceQuery } from '@tkeel/console-request-hooks';
+import { useConfigAppearanceQuery } from '@tkeel/console-request-hooks';
 
 export default function DocumentHead() {
-  const { config } = usePortalConfigAppearanceQuery();
+  const { config } = useConfigAppearanceQuery();
   const documentTitle = config?.platform?.admin?.platformName ?? '';
   const favicon = config?.common?.logoMark ?? '';
 

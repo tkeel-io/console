@@ -4012,6 +4012,7 @@ __metadata:
     "@chakra-ui/react": ^1.8.8
     "@tkeel/console-constants": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
+    "@tkeel/console-themes": "workspace:^"
     "@tkeel/console-types": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
     js-base64: ^3.7.2
