@@ -16,22 +16,31 @@ import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import type { Plugin as PluginData } from '@/tkeel-console-plugin-admin-service-monitoring/hooks/queries/useMonitoringPluginsQuery';
 import usePluginStatusInfo from '@/tkeel-console-plugin-admin-service-monitoring/hooks/usePluginStatusInfo';
+import type { PluginStatus } from '@/tkeel-console-plugin-admin-service-monitoring/types';
 
 import Pods from '../Pods';
 import * as defaultStyles from './styles';
 
 interface Props {
   data: PluginData;
+  statusValue: PluginStatus | undefined;
   isExpanded: boolean;
   styles?: {
     root?: StyleProps;
   };
 }
 
-export default function Plugin({ data, isExpanded, styles }: Props) {
+export default function Plugin({
+  data,
+  statusValue,
+  isExpanded,
+  styles,
+}: Props) {
   const { metadata, status } = data;
 
-  const statusInfo = usePluginStatusInfo({ status: status.status });
+  const statusInfo = usePluginStatusInfo({
+    status: statusValue as PluginStatus,
+  });
 
   return (
     <AccordionItem border="0" {...styles?.root}>

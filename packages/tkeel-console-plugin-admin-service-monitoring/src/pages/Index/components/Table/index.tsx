@@ -11,6 +11,7 @@ import { usePagination } from '@tkeel/console-hooks';
 import { getPluginStatusInfos } from '@/tkeel-console-plugin-admin-service-monitoring/constants/plugins';
 import type { RequestParams } from '@/tkeel-console-plugin-admin-service-monitoring/hooks/queries/useMonitoringPluginsQuery';
 import useMonitoringPluginsQuery from '@/tkeel-console-plugin-admin-service-monitoring/hooks/queries/useMonitoringPluginsQuery';
+import useMonitoringPluginsStatusQuery from '@/tkeel-console-plugin-admin-service-monitoring/hooks/queries/useMonitoringPluginsStatusQuery';
 import type { PluginStatus } from '@/tkeel-console-plugin-admin-service-monitoring/types';
 
 import Plugins from '../Plugins';
@@ -45,6 +46,10 @@ export default function Table() {
   if (isSuccess) {
     setTotalSize(total);
   }
+
+  const { statusItems } = useMonitoringPluginsStatusQuery({
+    refetchInterval: 5000,
+  });
 
   return (
     <Flex
@@ -83,7 +88,11 @@ export default function Table() {
         />
       </Flex>
       <Box flex="1" overflowY="auto">
-        <Plugins isLoading={isLoading} data={plugins} />
+        <Plugins
+          isLoading={isLoading}
+          data={plugins}
+          statusItems={statusItems}
+        />
       </Box>
       <Pagination
         {...pagination}
