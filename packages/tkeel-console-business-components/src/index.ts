@@ -18,6 +18,8 @@ export * from './components/DeviceIcons';
 export { default as DeviceTelemetryModal } from './components/DeviceTelemetryModal';
 export { default as Documents } from './components/Documents';
 export * from './components/GlobalPortalProvider';
+export { default as LoginBackground } from './components/LoginBackground';
+export { default as LoginBackgroundLogo } from './components/LoginBackgroundLogo';
 export { default as LoginBrand } from './components/LoginBrand';
 export { default as LogoBottomLine } from './components/LogoBottomLine';
 export { default as NotFound } from './components/NotFound';
