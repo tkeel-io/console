@@ -106,16 +106,14 @@ export default function SetPassword() {
           left="0"
           zIndex="-1"
           height="40%"
+          paddingTop="20px"
+          paddingLeft="20px"
           backgroundRepeat="no-repeat"
           backgroundSize="cover"
           backgroundImage={config?.common.backgroundImage}
-        />
-        {logo && (
-          <LoginBackgroundLogo
-            src={logo}
-            sx={{ position: 'absolute', top: '20px', left: '20px' }}
-          />
-        )}
+        >
+          {logo && <LoginBackgroundLogo src={logo} />}
+        </Box>
         <Box
           padding="40px 46px 70px"
           marginBottom="100px"
