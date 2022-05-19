@@ -1,9 +1,12 @@
-import { Box } from '@chakra-ui/react';
+import { Box, Radio, RadioGroup } from '@chakra-ui/react';
 import { ChangeEvent, Dispatch, SetStateAction, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { FormField } from '@tkeel/console-components';
-import type { CommonConfig as CommonConfigType } from '@tkeel/console-constants';
+import type {
+  BackgroundImageLogo,
+  CommonConfig as CommonConfigType,
+} from '@tkeel/console-constants';
 import { useDeletePortalConfigMutation } from '@tkeel/console-request-hooks';
 
 import ButtonStack from '@/tkeel-console-plugin-admin-custom-config/components/ButtonStack';
@@ -82,6 +85,37 @@ export default function CommonConfig({ config, setConfig, onConfirm }: Props) {
           />
         }
       />
+      <RadioGroup
+        onChange={(value: BackgroundImageLogo) => {
+          setConfig({
+            ...config,
+            backgroundImageLogo: value,
+          });
+        }}
+        value={config.backgroundImageLogo}
+      >
+        {/* <Stack direction="row"> */}
+        <Radio value="logoTypeLight">深色版 Logo</Radio>
+        <Radio
+          value="logoTypeDark"
+          colorScheme="brand"
+          css={`
+            > span.chakra-radio__label: {
+              color: 'gray.500',
+              fontSize: '12px',
+            },
+          `}
+          _focus={{
+            '>span[data-focus]': {
+              boxShadow: 'none',
+            },
+          }}
+        >
+          浅色版 Logo
+        </Radio>
+        <Radio value="noLogo">不启用 Logo</Radio>
+        {/* </Stack> */}
+      </RadioGroup>
       <ButtonStack
         onConfirm={handleConfirm}
         onReset={() => mutate({})}
