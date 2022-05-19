@@ -2,6 +2,7 @@ import { Box, Button, Center, Flex, Heading } from '@chakra-ui/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
+import { LoginBackground } from '@tkeel/console-business-components';
 import { Form, FormField } from '@tkeel/console-components';
 import { useConfigAppearanceQuery } from '@tkeel/console-request-hooks';
 import {
@@ -88,22 +89,15 @@ export default function Tenant() {
 
   return (
     <Flex height="100vh" backgroundColor="white">
-      <Box
-        flex="1"
-        paddingTop="20px"
-        paddingLeft="20px"
-        backgroundRepeat="no-repeat"
-        backgroundSize="cover"
+      <LoginBackground
         backgroundImage={config?.common.backgroundImage}
-      >
-        <Box
-          width="200px"
-          height="200px"
-          backgroundRepeat="no-repeat"
-          backgroundSize="auto"
-          backgroundImage={config?.platform.tenant.logoTypeLight}
-        />
-      </Box>
+        logo={
+          config?.platform.tenant[config?.common.backgroundImageLogo] as
+            | string
+            | undefined
+        }
+        sx={{ flex: 1 }}
+      />
       <Center flexDirection="column" width="42vw">
         <Form margin="0" onSubmit={handleSubmit(onSubmit)}>
           <Heading

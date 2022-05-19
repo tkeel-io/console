@@ -1,7 +1,10 @@
 import { Box, Button, Center, Flex, StyleProps } from '@chakra-ui/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import { LoginBrand } from '@tkeel/console-business-components';
+import {
+  LoginBackground,
+  LoginBrand,
+} from '@tkeel/console-business-components';
 import { Form, FormField } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
 import { useConfigAppearanceQuery } from '@tkeel/console-request-hooks';
@@ -78,22 +81,15 @@ export default function Login() {
 
   return (
     <Flex height="100vh" backgroundColor="white">
-      <Box
-        flex="1"
-        paddingTop="20px"
-        paddingLeft="20px"
-        backgroundRepeat="no-repeat"
-        backgroundSize="cover"
+      <LoginBackground
         backgroundImage={config?.common.backgroundImage}
-      >
-        <Box
-          width="200px"
-          height="200px"
-          backgroundRepeat="no-repeat"
-          backgroundSize="auto"
-          backgroundImage={config?.platform.admin.logoTypeLight}
-        />
-      </Box>
+        logo={
+          config?.platform.admin[config?.common.backgroundImageLogo] as
+            | string
+            | undefined
+        }
+        sx={{ flex: 1 }}
+      />
       <Center flexDirection="column" width="42vw">
         <Form width="350px" onSubmit={handleSubmit(onSubmit)}>
           <LoginBrand

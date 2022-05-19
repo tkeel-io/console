@@ -1,6 +1,7 @@
 import { Box, Button, Center, Flex } from '@chakra-ui/react';
 import { noop } from 'lodash';
 
+import LoginBackground from '../LoginBackground';
 import PasswordForm from './PasswordForm';
 import ThirdPartyAuthForm from './ThirdPartyAuthForm';
 import type { TenantLoginProps } from './types';
@@ -18,22 +19,15 @@ export default function PortalTenantLogin({
 }: TenantLoginProps) {
   return (
     <Flex height="100vh" backgroundColor="white" {...styles?.wrapper}>
-      <Box
-        flex="1"
-        paddingTop="20px"
-        paddingLeft="20px"
-        backgroundRepeat="no-repeat"
-        backgroundSize="cover"
+      <LoginBackground
         backgroundImage={config?.common.backgroundImage}
-      >
-        <Box
-          width="200px"
-          height="200px"
-          backgroundRepeat="no-repeat"
-          backgroundSize="auto"
-          backgroundImage={config?.platform.tenant.logoTypeDark}
-        />
-      </Box>
+        logo={
+          config?.platform.tenant[config?.common.backgroundImageLogo] as
+            | string
+            | undefined
+        }
+        sx={{ flex: 1 }}
+      />
       <Center flexDirection="column" width="42%" minWidth="370px">
         <Box width="350px">
           {tenantInfo?.auth_type === 'external' ? (
