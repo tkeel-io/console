@@ -6,7 +6,7 @@ import { MonitorTwoToneIcon } from '@tkeel/console-icons';
 import Table from './components/Table';
 
 export default function Index() {
-  // TODO: docs
+  // TODO: need docs
 
   return (
     <Flex flexDirection="column" flex="1" overflowY="hidden">
