@@ -38,6 +38,9 @@ type FormValues = {
 
 export default function SetPassword() {
   const { config } = useConfigAppearanceQuery();
+  const logo = config?.platform.tenant[config?.common.backgroundImageLogo] as
+    | string
+    | undefined;
 
   const {
     register,
@@ -91,10 +94,6 @@ export default function SetPassword() {
       isReplace: true,
     });
   };
-
-  const logo = config?.platform.tenant[config?.common.backgroundImageLogo] as
-    | string
-    | undefined;
 
   return (
     <>
