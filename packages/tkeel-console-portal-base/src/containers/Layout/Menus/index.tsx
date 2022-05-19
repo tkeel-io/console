@@ -26,6 +26,7 @@ function Menus({ menus }: Props) {
   const [searchParams] = useSearchParams();
   const menuCollapsed = searchParams?.get('menu-collapsed') === 'true' || false;
   const [collapsed, setCollapsed] = useState(menuCollapsed);
+
   const localMenuTheme = getLocalMenuTheme();
   const isQingCloudTheme =
     GLOBAL_PORTAL_CONFIG.client.themeName === ThemeNames.QingcloudLight;
@@ -34,6 +35,7 @@ function Menus({ menus }: Props) {
     localMenuTheme || defaultMenuTheme
   );
   const isDarkMenu = isDarkMenuTheme(menuTheme);
+
   const [isShowMenuSetting, setIsShowMenuSetting] = useState(false);
   const [mockMenus, setMockMenus] = useState(JSON.stringify(menus, null, 2));
 

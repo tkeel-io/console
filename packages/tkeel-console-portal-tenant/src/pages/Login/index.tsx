@@ -5,7 +5,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { PortalTenantLogin } from '@tkeel/console-business-components';
 import { Loading } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
-import { usePortalConfigAppearanceQuery } from '@tkeel/console-request-hooks';
+import { useConfigAppearanceQuery } from '@tkeel/console-request-hooks';
 import {
   env,
   jumpToPage,
@@ -41,7 +41,7 @@ export default function Login() {
       params: { tenant_id: tenantId },
     });
 
-  const { config } = usePortalConfigAppearanceQuery();
+  const { config } = useConfigAppearanceQuery();
 
   const { state } = useLocation();
   const isAutoLogin = (state as { isAutoLogin: boolean })?.isAutoLogin ?? false;

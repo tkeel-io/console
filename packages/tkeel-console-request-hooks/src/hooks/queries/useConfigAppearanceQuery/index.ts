@@ -1,13 +1,15 @@
 import type { Appearance } from '@tkeel/console-constants';
 import { APPEARANCE } from '@tkeel/console-constants';
 
-import usePortalConfigQuery from '../usePortalConfigQuery';
+import useConfigQuery from '../useConfigQuery';
 
-export default function usePortalConfigAppearanceQuery() {
+export default function useConfigAppearanceQuery() {
   let config: Appearance | undefined;
-  const { isSuccess, config: configByServer } = usePortalConfigQuery<
-    Partial<Appearance>
-  >({
+  const {
+    isSuccess,
+    config: configByServer,
+    ...rest
+  } = useConfigQuery<Partial<Appearance>>({
     key: 'appearance',
     path: 'config',
   });
@@ -15,5 +17,5 @@ export default function usePortalConfigAppearanceQuery() {
     config = { ...APPEARANCE, ...configByServer };
   }
 
-  return { isSuccess, configByServer, config };
+  return { ...rest, isSuccess, configByServer, config };
 }

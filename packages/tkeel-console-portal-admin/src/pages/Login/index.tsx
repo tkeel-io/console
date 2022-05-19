@@ -4,7 +4,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { LoginBrand } from '@tkeel/console-business-components';
 import { Form, FormField } from '@tkeel/console-components';
 import { useRedirectParams } from '@tkeel/console-hooks';
-import { usePortalConfigAppearanceQuery } from '@tkeel/console-request-hooks';
+import { useConfigAppearanceQuery } from '@tkeel/console-request-hooks';
 import {
   env,
   jumpToPage,
@@ -45,7 +45,7 @@ const inputStyle: StyleProps = {
 };
 
 export default function Login() {
-  const { config } = usePortalConfigAppearanceQuery();
+  const { config } = useConfigAppearanceQuery();
 
   const {
     register,

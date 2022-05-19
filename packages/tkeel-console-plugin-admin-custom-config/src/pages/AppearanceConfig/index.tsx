@@ -1,4 +1,5 @@
 import {
+  Box,
   Flex,
   StyleProps,
   TabList,
@@ -6,9 +7,12 @@ import {
   TabPanels,
   Tabs,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { throttle } from 'lodash';
+import { useEffect, useRef, useState } from 'react';
 
+import { PortalTenantLogin } from '@tkeel/console-business-components';
 import {
+  Checkbox,
   CustomTab as CustomDetailTab,
   CustomTabList,
 } from '@tkeel/console-components';
@@ -16,9 +20,8 @@ import type {
   CommonConfig as CommonConfigType,
   PlatformConfig as PlatformConfigType,
 } from '@tkeel/console-constants';
-import { APPEARANCE } from '@tkeel/console-constants';
 import {
-  usePortalConfigQuery,
+  useConfigAppearanceQuery,
   useUpdatePortalConfigMutation,
 } from '@tkeel/console-request-hooks';
 
@@ -26,43 +29,20 @@ import adminMenuDark from '@/tkeel-console-plugin-admin-custom-config/assets/ima
 import adminMenuLight from '@/tkeel-console-plugin-admin-custom-config/assets/images/admin-menu-light.svg';
 import tenantMenuDark from '@/tkeel-console-plugin-admin-custom-config/assets/images/tenant-menu-dark.svg';
 import tenantMenuLight from '@/tkeel-console-plugin-admin-custom-config/assets/images/tenant-menu-light.svg';
+import { imageToBase64 } from '@/tkeel-console-plugin-admin-custom-config/utils';
 
 import BasicInfo from './components/BasicInfo';
 import CommonConfig from './components/CommonConfig';
 import CustomTab from './components/CustomTab';
 import MenuPreview from './components/MenuPreview';
 import PlatformConfig from './components/PlatformConfig';
-import PreviewPanel from './components/PreviewPanel';
-
-function imageToBase64(src: string) {
-  return new Promise<string>((resolve) => {
-    if (src.startsWith('data:image/')) {
-      resolve(src);
-    }
-    const img = new Image();
-    img.src = src;
-    img.crossOrigin = 'anonymous';
-    img.addEventListener('load', () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = img.width;
-      canvas.height = img.height;
-      const ctx = canvas.getContext('2d');
-      if (ctx) {
-        ctx.drawImage(img, 0, 0, img.width, img.height);
-        const dataURL = canvas.toDataURL('image/png');
-        resolve(dataURL);
-      } else {
-        resolve('');
-      }
-    });
-  });
-}
 
 export default function AppearanceConfig() {
   const [commonConfig, setCommonConfig] = useState<CommonConfigType>({
     logoMark: '',
     slogan: '',
     backgroundImage: '',
+    backgroundImageLogo: 'logoTypeLight',
   });
 
   const defaultPlatformConfig = {
@@ -76,28 +56,12 @@ export default function AppearanceConfig() {
     tenant: defaultPlatformConfig,
   });
 
+  const [loginWrapperWidth, setLoginWrapperWidth] = useState(0);
+  const loginPreviewWrapperRef = useRef<HTMLDivElement>(null);
+
   const { admin: adminConfig, tenant: tenantConfig } = platformConfig;
 
-  usePortalConfigQuery<CommonConfigType>({
-    path: 'config.common',
-    onSuccess(data) {
-      const COMMON_CONFIG = data?.data?.value || APPEARANCE.COMMON_CONFIG;
-      if (COMMON_CONFIG) {
-        setCommonConfig(COMMON_CONFIG);
-      }
-    },
-  });
-
-  usePortalConfigQuery<PlatformConfigType>({
-    path: 'config.platform',
-    defaultConfig: APPEARANCE.PLATFORM_CONFIG,
-    onSuccess(data) {
-      const PLATFORM_CONFIG = data?.data?.value || APPEARANCE.PLATFORM_CONFIG;
-      if (PLATFORM_CONFIG) {
-        setPlatformConfig(PLATFORM_CONFIG);
-      }
-    },
-  });
+  const { config: appearanceConfig, isSuccess } = useConfigAppearanceQuery();
 
   const { mutate: commonConfigMutate } =
     useUpdatePortalConfigMutation<CommonConfigType>({
@@ -124,20 +88,62 @@ export default function AppearanceConfig() {
   };
 
   const handleCommonConfigConfirm = () => {
-    const { logoMark, slogan, backgroundImage } = commonConfig;
-    Promise.all([imageToBase64(logoMark), imageToBase64(backgroundImage)])
+    const { logoMark, slogan, backgroundImage, backgroundImageLogo } =
+      commonConfig;
+    imageToBase64(backgroundImage)
       .then((res) => {
         return commonConfigMutate({
           data: {
-            logoMark: res[0],
+            logoMark,
             slogan,
-            backgroundImage: res[1],
+            backgroundImage: res,
+            backgroundImageLogo,
           },
         });
       })
       .catch((error) => {
         console.error(error);
       });
+  };
+
+  const handleWindowResize = throttle(() => {
+    if (loginPreviewWrapperRef.current) {
+      setLoginWrapperWidth(loginPreviewWrapperRef.current.clientWidth);
+    }
+  }, 200);
+
+  useEffect(() => {
+    window.addEventListener('resize', handleWindowResize);
+    setTimeout(() => {
+      handleWindowResize();
+    }, 200);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (isSuccess) {
+      const { common, platform } = appearanceConfig || {};
+      if (common) {
+        setCommonConfig(common);
+      }
+      if (platform) {
+        setPlatformConfig(platform);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSuccess]);
+
+  const previewPanelStyle: StyleProps = {
+    marginTop: '12px',
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'gray.100',
   };
 
   return (
@@ -160,7 +166,7 @@ export default function AppearanceConfig() {
               backgroundColor="gray.50"
             >
               <CustomTab>通用配置</CustomTab>
-              <CustomTab>平台级配置</CustomTab>
+              <CustomTab>平台配置</CustomTab>
             </TabList>
             <TabPanels flex="1" padding="20px 24px">
               <TabPanel height="100%" padding="0">
@@ -191,13 +197,12 @@ export default function AppearanceConfig() {
         marginLeft="20px"
         flex="1"
         boxShadow="0px 10px 15px -3px rgba(113, 128, 150, 0.1), 0px 4px 6px -2px rgba(113, 128, 150, 0.05);"
-        index={1}
       >
         <CustomTabList>
-          <CustomDetailTab borderTopLeftRadius="4px">
-            登录欢迎页
+          <CustomDetailTab borderTopLeftRadius="4px" width="110px">
+            通用配置预览
           </CustomDetailTab>
-          <CustomDetailTab>平台级配置</CustomDetailTab>
+          <CustomDetailTab width="110px">平台配置预览</CustomDetailTab>
         </CustomTabList>
         <TabPanels
           flex="1"
@@ -206,10 +211,47 @@ export default function AppearanceConfig() {
           borderBottomRightRadius="4px"
         >
           <TabPanel {...tabPanelStyle}>
-            <PreviewPanel>登录页</PreviewPanel>
+            <Flex {...previewPanelStyle}>
+              <Box width="100%" ref={loginPreviewWrapperRef}>
+                {loginWrapperWidth !== 0 && (
+                  <PortalTenantLogin
+                    tenantInfo={{
+                      auth_type: 'internal',
+                      title: '管理平台',
+                    }}
+                    config={{
+                      common: commonConfig,
+                      platform: platformConfig,
+                    }}
+                    styles={{
+                      wrapper: {
+                        width: '100%',
+                        minHeight: '550px',
+                        height: `${(loginWrapperWidth / 1.77).toFixed(2)}px`,
+                        transform: 'scale(.9)',
+                      },
+                    }}
+                  />
+                )}
+              </Box>
+            </Flex>
+            <Checkbox
+              marginTop="10px"
+              isChecked={commonConfig.backgroundImageLogo === 'logoTypeDark'}
+              onChange={(e) => {
+                setCommonConfig({
+                  ...commonConfig,
+                  backgroundImageLogo: e.target.checked
+                    ? 'logoTypeDark'
+                    : 'logoTypeLight',
+                });
+              }}
+            >
+              使用平台配置浅色版 LOGO
+            </Checkbox>
           </TabPanel>
           <TabPanel {...tabPanelStyle}>
-            <PreviewPanel>
+            <Flex {...previewPanelStyle}>
               <Flex flex="1" justifyContent="space-between" padding="12px 32px">
                 <MenuPreview
                   title="浅色/管理平台"
@@ -234,7 +276,7 @@ export default function AppearanceConfig() {
                   menu={tenantMenuDark}
                 />
               </Flex>
-            </PreviewPanel>
+            </Flex>
           </TabPanel>
         </TabPanels>
       </Tabs>

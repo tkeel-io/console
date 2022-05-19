@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useSearchParams } from 'react-router-dom';
 
 import { Alert, Form, FormField, toast } from '@tkeel/console-components';
-import { usePortalConfigAppearanceQuery } from '@tkeel/console-request-hooks';
+import { useConfigAppearanceQuery } from '@tkeel/console-request-hooks';
 import { jumpToAuthLoginPage, schemas } from '@tkeel/console-utils';
 
 import useSetPasswordMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useSetPasswordMutation';
@@ -36,7 +36,7 @@ type FormValues = {
 };
 
 export default function SetPassword() {
-  const { config } = usePortalConfigAppearanceQuery();
+  const { config } = useConfigAppearanceQuery();
 
   const {
     register,

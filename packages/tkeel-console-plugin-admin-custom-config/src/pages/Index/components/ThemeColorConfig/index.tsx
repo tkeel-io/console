@@ -8,14 +8,12 @@ import {
   useTheme,
 } from '@chakra-ui/react';
 import { TinyColor } from '@ctrl/tinycolor';
-import { Base64 } from 'js-base64';
 import { useEffect, useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
 
-import { useConfigQuery } from '@tkeel/console-request-hooks';
+import { useUpdatePortalConfigMutation } from '@tkeel/console-request-hooks';
 
 import ButtonStack from '@/tkeel-console-plugin-admin-custom-config/components/ButtonStack';
-import useUpdateConfigMutation from '@/tkeel-console-plugin-admin-custom-config/hooks/mutations/useUpdateConfigMutation';
 
 // import ColorsBlock from './ColorsBlock';
 // import ColorsCoordinate from './ColorsCoordinate';
@@ -62,7 +60,7 @@ interface CustomColor extends Colors {
   primary: string;
 }
 
-function Index(): JSX.Element {
+export default function ThemeColorConfig(): JSX.Element {
   const { colors: themeColors }: { colors: CustomColor } = useTheme();
   const defaultColor = themeColors.primary;
   const [color, setColor] = useState(defaultColor);
@@ -72,9 +70,9 @@ function Index(): JSX.Element {
   const defaultColors = getThemeColors(defaultColor);
   const [colors, setColors] = useState(defaultColors);
 
-  const { extra } = useConfigQuery();
-
-  const { mutate } = useUpdateConfigMutation({
+  const { mutate: mutatePortalConfig } = useUpdatePortalConfigMutation({
+    key: 'theme',
+    path: 'colors',
     onSuccess() {
       window.location.reload();
     },
@@ -85,15 +83,9 @@ function Index(): JSX.Element {
   };
 
   const handleUpdateThemeColors = (extraThemeColors: ExtraThemeColors) => {
-    const extraData = {
-      ...extra,
-      theme: {
-        colors: extraThemeColors,
-      },
-    };
-    mutate({
+    mutatePortalConfig({
       data: {
-        extra: Base64.encode(JSON.stringify(extraData)),
+        ...extraThemeColors,
       },
     });
   };
@@ -131,7 +123,6 @@ function Index(): JSX.Element {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // const brand = extra?.theme?.colors?.brand;
   return (
     <Flex alignItems="center">
       <Flex
@@ -202,5 +193,3 @@ function Index(): JSX.Element {
     </Flex>
   );
 }
-
-export default Index;

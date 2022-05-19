@@ -17,14 +17,8 @@ interface ConfigField {
   slogan: string;
 }
 
-export interface Config {
-  logoMark: string;
-  slogan: string;
-  backgroundImage: string;
-}
-
 interface Props {
-  config: Config;
+  config: CommonConfigType;
   setConfig: Dispatch<SetStateAction<CommonConfigType>>;
   onConfirm: () => unknown;
 }
@@ -54,7 +48,7 @@ export default function CommonConfig({ config, setConfig, onConfirm }: Props) {
     <Box>
       <CommonConfigItem
         title="Logo-品牌图标"
-        desc="大小不能超过 100K，格式最佳为 png 同样支持 jpg/jpeg/gif/svg ，尺寸比例为正方形，最佳为 96px*96px 。"
+        desc="格式支持 png/jpg/jpeg/gif/svg/webp，大小不能超过 100K，尺寸比例为正方形，最佳为 96px*96px。"
         formField={
           <UploadInput
             src={config.logoMark}
@@ -69,7 +63,7 @@ export default function CommonConfig({ config, setConfig, onConfirm }: Props) {
           <TextareaField
             id="slogan"
             registerReturn={register('slogan', {
-              onBlur(e: ChangeEvent<HTMLTextAreaElement>) {
+              onChange(e: ChangeEvent<HTMLTextAreaElement>) {
                 setConfig({ ...config, slogan: e.target.value });
               },
             })}
@@ -79,7 +73,7 @@ export default function CommonConfig({ config, setConfig, onConfirm }: Props) {
       />
       <CommonConfigItem
         title="背景图片"
-        desc="大小不能超过 1M，格式最佳为 jpg 同样支持 jpeg/gif/png/svg ，尺寸比例为正方形，最佳为 900px*900px。"
+        desc="格式支持 png/jpg/jpeg/gif/svg/webp，大小不能超过 1M，尺寸比例为正方形，最佳为 900px*900px。"
         formField={
           <UploadInput
             src={config.backgroundImage}

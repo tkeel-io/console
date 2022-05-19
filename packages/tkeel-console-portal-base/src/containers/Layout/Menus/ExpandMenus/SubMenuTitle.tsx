@@ -59,6 +59,7 @@ export default function SubMenuTitle({
     >
       <MenuItem
         active={active}
+        menuIconActive={isDarkMenu && active}
         name={name}
         leftIcon={icon as string}
         rightIcon={
