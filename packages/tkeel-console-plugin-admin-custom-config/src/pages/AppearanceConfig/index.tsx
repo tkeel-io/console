@@ -35,7 +35,6 @@ import CommonConfig from './components/CommonConfig';
 import CustomTab from './components/CustomTab';
 import MenuPreview from './components/MenuPreview';
 import PlatformConfig from './components/PlatformConfig';
-import PreviewPanel from './components/PreviewPanel';
 
 export default function AppearanceConfig() {
   const [commonConfig, setCommonConfig] = useState<CommonConfigType>({
@@ -134,6 +133,15 @@ export default function AppearanceConfig() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess]);
 
+  const previewPanelStyle: StyleProps = {
+    marginTop: '12px',
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'gray.100',
+  };
+
   return (
     <Flex>
       <Flex flexDirection="column" width="360px" flexShrink={0}>
@@ -154,7 +162,7 @@ export default function AppearanceConfig() {
               backgroundColor="gray.50"
             >
               <CustomTab>通用配置</CustomTab>
-              <CustomTab>平台级配置</CustomTab>
+              <CustomTab>平台配置</CustomTab>
             </TabList>
             <TabPanels flex="1" padding="20px 24px">
               <TabPanel height="100%" padding="0">
@@ -188,9 +196,9 @@ export default function AppearanceConfig() {
       >
         <CustomTabList>
           <CustomDetailTab borderTopLeftRadius="4px">
-            登录欢迎页
+            通用配置预览
           </CustomDetailTab>
-          <CustomDetailTab>平台级配置</CustomDetailTab>
+          <CustomDetailTab>平台配置预览</CustomDetailTab>
         </CustomTabList>
         <TabPanels
           flex="1"
@@ -199,9 +207,7 @@ export default function AppearanceConfig() {
           borderBottomRightRadius="4px"
         >
           <TabPanel {...tabPanelStyle}>
-            <PreviewPanel
-              styles={{ wrapper: { display: 'flex', alignItems: 'center' } }}
-            >
+            <Flex {...previewPanelStyle}>
               <Box width="100%" ref={loginPreviewWrapperRef}>
                 {loginWrapperWidth !== 0 && (
                   <PortalTenantLogin
@@ -224,10 +230,10 @@ export default function AppearanceConfig() {
                   />
                 )}
               </Box>
-            </PreviewPanel>
+            </Flex>
           </TabPanel>
           <TabPanel {...tabPanelStyle}>
-            <PreviewPanel>
+            <Flex {...previewPanelStyle}>
               <Flex flex="1" justifyContent="space-between" padding="12px 32px">
                 <MenuPreview
                   title="浅色/管理平台"
@@ -252,7 +258,7 @@ export default function AppearanceConfig() {
                   menu={tenantMenuDark}
                 />
               </Flex>
-            </PreviewPanel>
+            </Flex>
           </TabPanel>
         </TabPanels>
       </Tabs>
