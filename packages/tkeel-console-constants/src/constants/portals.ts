@@ -21,7 +21,7 @@ export const PORTAL_INFOS = {
 
 export const DEFAULT_PORTAL_NAME = PortalNames.TENANT;
 
-export type BackgroundImageLogo = 'logoTypeDark' | 'logoTypeLight' | 'noLogo';
+export type BackgroundImageLogo = 'logoTypeDark' | 'logoTypeLight' | '';
 
 export interface CommonConfig {
   slogan: string;

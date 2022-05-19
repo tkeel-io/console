@@ -1,12 +1,9 @@
-import { Box, Radio, RadioGroup } from '@chakra-ui/react';
+import { Box, Flex, RadioGroup, Text } from '@chakra-ui/react';
 import { ChangeEvent, Dispatch, SetStateAction, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { FormField } from '@tkeel/console-components';
-import type {
-  BackgroundImageLogo,
-  CommonConfig as CommonConfigType,
-} from '@tkeel/console-constants';
+import { FormField, Radio } from '@tkeel/console-components';
+import type { CommonConfig as CommonConfigType } from '@tkeel/console-constants';
 import { useDeletePortalConfigMutation } from '@tkeel/console-request-hooks';
 
 import ButtonStack from '@/tkeel-console-plugin-admin-custom-config/components/ButtonStack';
@@ -85,36 +82,24 @@ export default function CommonConfig({ config, setConfig, onConfirm }: Props) {
           />
         }
       />
+      <Text marginTop="16px" color="gray.700" fontSize="12px" lineHeight="20px">
+        选择背景 Logo
+      </Text>
       <RadioGroup
-        onChange={(value: BackgroundImageLogo) => {
+        marginTop="6px"
+        onChange={(value: 'logoTypeLight' | 'logoTypeDark' | 'noLogo') => {
           setConfig({
             ...config,
-            backgroundImageLogo: value,
+            backgroundImageLogo: value === 'noLogo' ? '' : value,
           });
         }}
-        value={config.backgroundImageLogo}
+        value={config.backgroundImageLogo || 'noLogo'}
       >
-        {/* <Stack direction="row"> */}
-        <Radio value="logoTypeLight">深色版 Logo</Radio>
-        <Radio
-          value="logoTypeDark"
-          colorScheme="brand"
-          css={`
-            > span.chakra-radio__label: {
-              color: 'gray.500',
-              fontSize: '12px',
-            },
-          `}
-          _focus={{
-            '>span[data-focus]': {
-              boxShadow: 'none',
-            },
-          }}
-        >
-          浅色版 Logo
-        </Radio>
-        <Radio value="noLogo">不启用 Logo</Radio>
-        {/* </Stack> */}
+        <Flex justifyContent="space-between">
+          <Radio value="logoTypeLight">深色版 Logo</Radio>
+          <Radio value="logoTypeDark">浅色版 Logo</Radio>
+          <Radio value="noLogo">不启用 Logo</Radio>
+        </Flex>
       </RadioGroup>
       <ButtonStack
         onConfirm={handleConfirm}
