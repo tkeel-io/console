@@ -82,25 +82,34 @@ export default function CommonConfig({ config, setConfig, onConfirm }: Props) {
           />
         }
       />
-      <Text marginTop="16px" color="gray.700" fontSize="12px" lineHeight="20px">
-        选择背景 Logo
-      </Text>
-      <RadioGroup
-        marginTop="6px"
-        onChange={(value: 'logoTypeLight' | 'logoTypeDark' | 'noLogo') => {
-          setConfig({
-            ...config,
-            backgroundImageLogo: value === 'noLogo' ? '' : value,
-          });
-        }}
-        value={config.backgroundImageLogo || 'noLogo'}
-      >
-        <Flex justifyContent="space-between">
-          <Radio value="logoTypeLight">深色版 Logo</Radio>
-          <Radio value="logoTypeDark">浅色版 Logo</Radio>
-          <Radio value="noLogo">不启用 Logo</Radio>
-        </Flex>
-      </RadioGroup>
+      {config.backgroundImageLogo && (
+        <>
+          <Text
+            marginTop="16px"
+            color="gray.700"
+            fontSize="12px"
+            lineHeight="20px"
+          >
+            选择背景 Logo
+          </Text>
+          <RadioGroup
+            marginTop="6px"
+            onChange={(value: 'logoTypeLight' | 'logoTypeDark' | 'noLogo') => {
+              setConfig({
+                ...config,
+                backgroundImageLogo: value,
+              });
+            }}
+            value={config.backgroundImageLogo}
+          >
+            <Flex justifyContent="space-between">
+              <Radio value="logoTypeLight">深色版 Logo</Radio>
+              <Radio value="logoTypeDark">浅色版 Logo</Radio>
+              <Radio value="noLogo">不启用 Logo</Radio>
+            </Flex>
+          </RadioGroup>
+        </>
+      )}
       <ButtonStack
         onConfirm={handleConfirm}
         onReset={() => mutate({})}

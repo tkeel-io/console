@@ -42,7 +42,7 @@ export default function AppearanceConfig() {
     logoMark: '',
     slogan: '',
     backgroundImage: '',
-    backgroundImageLogo: 'logoTypeLight',
+    backgroundImageLogo: '',
   });
 
   const defaultPlatformConfig = {
