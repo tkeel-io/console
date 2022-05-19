@@ -12,7 +12,6 @@ import { useEffect, useRef, useState } from 'react';
 
 import { PortalTenantLogin } from '@tkeel/console-business-components';
 import {
-  Checkbox,
   CustomTab as CustomDetailTab,
   CustomTabList,
 } from '@tkeel/console-components';
@@ -235,20 +234,6 @@ export default function AppearanceConfig() {
                 )}
               </Box>
             </Flex>
-            <Checkbox
-              marginTop="10px"
-              isChecked={commonConfig.backgroundImageLogo === 'logoTypeDark'}
-              onChange={(e) => {
-                setCommonConfig({
-                  ...commonConfig,
-                  backgroundImageLogo: e.target.checked
-                    ? 'logoTypeDark'
-                    : 'logoTypeLight',
-                });
-              }}
-            >
-              使用平台配置浅色版 LOGO
-            </Checkbox>
           </TabPanel>
           <TabPanel {...tabPanelStyle}>
             <Flex {...previewPanelStyle}>
