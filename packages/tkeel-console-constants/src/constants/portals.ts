@@ -25,6 +25,7 @@ export interface CommonConfig {
   slogan: string;
   logoMark: string;
   backgroundImage: string;
+  backgroundImageLogo: 'logoTypeDark' | 'logoTypeLight' | '';
 }
 
 export interface PlatformConfig {
@@ -50,6 +51,7 @@ export const APPEARANCE: Appearance = {
     slogan: '构建和管理物联网解决方案的数字平台', // 100% Cloud Native, Any language, Everything is plugin, Simply
     logoMark,
     backgroundImage: background01,
+    backgroundImageLogo: 'logoTypeLight',
   },
   platform: {
     admin: {

@@ -31,10 +31,10 @@ export default function PortalTenantLogin({
           height="200px"
           backgroundRepeat="no-repeat"
           backgroundSize="auto"
-          backgroundImage={config?.platform.tenant.logoTypeLight}
+          backgroundImage={config?.platform.tenant.logoTypeDark}
         />
       </Box>
-      <Center flexDirection="column" width="42%">
+      <Center flexDirection="column" width="42%" minWidth="370px">
         <Box width="350px">
           {tenantInfo?.auth_type === 'external' ? (
             <ThirdPartyAuthForm

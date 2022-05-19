@@ -12,6 +12,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { PortalTenantLogin } from '@tkeel/console-business-components';
 import {
+  Checkbox,
   CustomTab as CustomDetailTab,
   CustomTabList,
 } from '@tkeel/console-components';
@@ -41,6 +42,7 @@ export default function AppearanceConfig() {
     logoMark: '',
     slogan: '',
     backgroundImage: '',
+    backgroundImageLogo: 'logoTypeLight',
   });
 
   const defaultPlatformConfig = {
@@ -86,7 +88,8 @@ export default function AppearanceConfig() {
   };
 
   const handleCommonConfigConfirm = () => {
-    const { logoMark, slogan, backgroundImage } = commonConfig;
+    const { logoMark, slogan, backgroundImage, backgroundImageLogo } =
+      commonConfig;
     imageToBase64(backgroundImage)
       .then((res) => {
         return commonConfigMutate({
@@ -94,6 +97,7 @@ export default function AppearanceConfig() {
             logoMark,
             slogan,
             backgroundImage: res,
+            backgroundImageLogo,
           },
         });
       })
@@ -195,10 +199,10 @@ export default function AppearanceConfig() {
         boxShadow="0px 10px 15px -3px rgba(113, 128, 150, 0.1), 0px 4px 6px -2px rgba(113, 128, 150, 0.05);"
       >
         <CustomTabList>
-          <CustomDetailTab borderTopLeftRadius="4px">
+          <CustomDetailTab borderTopLeftRadius="4px" width="110px">
             通用配置预览
           </CustomDetailTab>
-          <CustomDetailTab>平台配置预览</CustomDetailTab>
+          <CustomDetailTab width="110px">平台配置预览</CustomDetailTab>
         </CustomTabList>
         <TabPanels
           flex="1"
@@ -213,7 +217,7 @@ export default function AppearanceConfig() {
                   <PortalTenantLogin
                     tenantInfo={{
                       auth_type: 'internal',
-                      title: '空间名称',
+                      title: '管理平台',
                     }}
                     config={{
                       common: commonConfig,
@@ -221,7 +225,7 @@ export default function AppearanceConfig() {
                     }}
                     styles={{
                       wrapper: {
-                        width: `${loginWrapperWidth}px`,
+                        width: '100%',
                         minHeight: '550px',
                         height: `${(loginWrapperWidth / 1.77).toFixed(2)}px`,
                         transform: 'scale(.9)',
@@ -231,6 +235,20 @@ export default function AppearanceConfig() {
                 )}
               </Box>
             </Flex>
+            <Checkbox
+              marginTop="10px"
+              isChecked={commonConfig.backgroundImageLogo === 'logoTypeDark'}
+              onChange={(e) => {
+                setCommonConfig({
+                  ...commonConfig,
+                  backgroundImageLogo: e.target.checked
+                    ? 'logoTypeDark'
+                    : 'logoTypeLight',
+                });
+              }}
+            >
+              使用平台配置浅色版 LOGO
+            </Checkbox>
           </TabPanel>
           <TabPanel {...tabPanelStyle}>
             <Flex {...previewPanelStyle}>
