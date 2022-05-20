@@ -30,10 +30,18 @@ function formatX(value: number) {
 }
 
 function formatCPUValue(value: string) {
+  if (!value) {
+    return '';
+  }
+
   return `${Number(value) * 1000} m`;
 }
 
 function formatMemoryValue(value: string) {
+  if (!value) {
+    return '';
+  }
+
   return numeral(value).format('0.00 ib');
 }
 
@@ -44,11 +52,13 @@ function getData(values: [number, string][]) {
   }));
 }
 
+const NO_DATA_MESSAGE = '未发现监控数据';
+
 interface Props {
   data: PodData;
   metrics: {
-    cpu: MetricData;
-    memory: MetricData;
+    cpu?: MetricData;
+    memory?: MetricData;
   };
   styles?: {
     root?: StyleProps;
@@ -69,8 +79,11 @@ export default function Pod({ data, metrics, styles }: Props) {
   }
 
   const { cpu, memory } = metrics;
-  const { values: cpuValues } = cpu;
-  const { values: memoryValues } = memory;
+  const cpuValues = cpu?.values ?? [];
+  const memoryValues = memory?.values ?? [];
+  const { length: cpuValuesCount } = cpuValues;
+  const { length: memoryValuesCount } = memoryValues;
+
   const cpuData = [
     {
       id: 'cpu',
@@ -85,8 +98,10 @@ export default function Pod({ data, metrics, styles }: Props) {
       data: getData(memoryValues),
     },
   ];
-  const latestCpuValue = cpuValues[cpuValues.length - 1][1];
-  const latestMemoryValue = memoryValues[memoryValues.length - 1][1];
+  const latestCpuValue =
+    cpuValuesCount > 0 ? cpuValues[cpuValuesCount - 1][1] : '';
+  const latestMemoryValue =
+    memoryValuesCount > 0 ? memoryValues[memoryValuesCount - 1][1] : '';
 
   return (
     <Flex
@@ -140,66 +155,71 @@ export default function Pod({ data, metrics, styles }: Props) {
         </Text>
         <Text {...defaultStyles.label}>节点</Text>
       </Box>
-      <Box marginRight="40px">
+      <Box marginRight="60px" width="140px">
         <Text {...defaultStyles.value}>{status.podIP}</Text>
         <Text {...defaultStyles.label}>容器组 IP</Text>
       </Box>
-      <Box marginRight="40px" width="140px">
-        <Flex>
-          <Text
-            fontWeight="600"
-            fontSize="12px"
-            lineHeight="20px"
-            color="grayAlternatives.300"
-          >
-            CPU
-          </Text>
-          <Text
-            paddingLeft="4px"
-            fontWeight="600"
-            fontSize="12px"
-            lineHeight="20px"
-          >
-            {formatCPUValue(latestCpuValue)}
-          </Text>
-        </Flex>
-        <Box height="20px">
-          <LineChart
-            data={cpuData}
-            xFormat={(value) => formatX(value as number)}
-            yFormat={(value) => formatCPUValue(value as string)}
-            margin={{ top: 2 }}
-          />
+      {[
+        {
+          key: 'cpu',
+          label: 'CPU',
+          formattedLatestValue: formatCPUValue(latestCpuValue),
+          valuesCount: cpuValuesCount,
+          chart: (
+            <LineChart
+              data={cpuData}
+              xFormat={(value) => formatX(value as number)}
+              yFormat={(value) => formatCPUValue(value as string)}
+              margin={{ top: 2 }}
+            />
+          ),
+        },
+        {
+          key: 'memory',
+          label: '内存',
+          formattedLatestValue: formatMemoryValue(latestMemoryValue),
+          valuesCount: memoryValuesCount,
+          chart: (
+            <LineChart
+              data={memoryData}
+              xFormat={(value) => formatX(value as number)}
+              yFormat={(value) => formatMemoryValue(value as string)}
+              margin={{ top: 2 }}
+            />
+          ),
+        },
+      ].map(({ key, label, formattedLatestValue, valuesCount, chart }) => (
+        <Box key={key} marginRight="60px" width="140px">
+          <Flex>
+            <Text
+              fontWeight="600"
+              fontSize="12px"
+              lineHeight="20px"
+              color="grayAlternatives.300"
+            >
+              {label}
+            </Text>
+            <Text
+              paddingLeft="4px"
+              fontWeight="600"
+              fontSize="12px"
+              lineHeight="20px"
+              color="gray.700"
+            >
+              {formattedLatestValue}
+            </Text>
+          </Flex>
+          <Box height="20px">
+            {valuesCount > 0 ? (
+              chart
+            ) : (
+              <Text fontSize="12px" lineHeight="20px" color="gray.500">
+                {NO_DATA_MESSAGE}
+              </Text>
+            )}
+          </Box>
         </Box>
-      </Box>
-      <Box marginRight="40px" width="140px">
-        <Flex>
-          <Text
-            fontWeight="600"
-            fontSize="12px"
-            lineHeight="20px"
-            color="grayAlternatives.300"
-          >
-            内存
-          </Text>
-          <Text
-            paddingLeft="4px"
-            fontWeight="600"
-            fontSize="12px"
-            lineHeight="20px"
-          >
-            {formatMemoryValue(latestMemoryValue)}
-          </Text>
-        </Flex>
-        <Box height="20px">
-          <LineChart
-            data={memoryData}
-            xFormat={(value) => formatX(value as number)}
-            yFormat={(value) => formatMemoryValue(value as string)}
-            margin={{ top: 2 }}
-          />
-        </Box>
-      </Box>
+      ))}
     </Flex>
   );
 }

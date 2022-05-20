@@ -22,6 +22,7 @@ export default function Pods({ pluginData }: Props) {
     params: { plugin: pluginName },
     refetchInterval: REFETCH_INTERVAL,
   });
+
   const { results } = useMonitoringPodsMetricsQuery({
     params: {
       plugin: pluginName,
@@ -52,10 +53,6 @@ export default function Pods({ pluginData }: Props) {
         const memory = find(memoryData?.data.result, {
           metric: { pod: data.metadata.name },
         });
-
-        if (!cpu || !memory) {
-          return null;
-        }
 
         const metrics = {
           cpu,
