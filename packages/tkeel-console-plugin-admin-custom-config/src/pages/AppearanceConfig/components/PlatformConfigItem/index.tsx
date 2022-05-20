@@ -19,7 +19,7 @@ interface Props {
 
 export default function PlatformConfigItem({
   title,
-  tooltipLabel = '格式支持 png/jpg/jpeg/gif/svg/webp，大小不能超过 100K，尺寸比例为长方形，最佳为 200px*63px。',
+  tooltipLabel = '格式支持 png/jpg/jpeg/gif/svg/webp，大小不能超过 100K，尺寸比例为长方形，最佳为 200px*56px。',
   showInformationIcon = true,
   formField,
   styles,

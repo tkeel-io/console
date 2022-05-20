@@ -58,7 +58,7 @@ export default function CommonConfig({ config, setConfig, onConfirm }: Props) {
       />
       <CommonConfigItem
         title="Slogan-品牌标语（非必填）"
-        desc="Slogan 将用在一些登录欢迎页。"
+        desc="Slogan 用于平台登录页面。"
         formField={
           <TextareaField
             id="slogan"
@@ -96,8 +96,8 @@ export default function CommonConfig({ config, setConfig, onConfirm }: Props) {
         value={config.backgroundImageLogo}
       >
         <Flex justifyContent="space-between">
-          <Radio value="logoTypeLight">深色版 Logo</Radio>
-          <Radio value="logoTypeDark">浅色版 Logo</Radio>
+          <Radio value="logoTypeLight">浅色版 Logo</Radio>
+          <Radio value="logoTypeDark">深色版 Logo</Radio>
           <Radio value="noLogo">不启用 Logo</Radio>
         </Flex>
       </RadioGroup>

@@ -6,5 +6,5 @@ type Props = {
 };
 
 export default function LoginBackgroundLogo({ src, sx }: Props) {
-  return <Image width="auto" maxHeight="63px" src={src} {...sx} />;
+  return <Image width="auto" maxHeight="56px" src={src} {...sx} />;
 }

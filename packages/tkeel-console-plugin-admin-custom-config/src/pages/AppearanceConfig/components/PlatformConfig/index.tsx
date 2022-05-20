@@ -80,42 +80,7 @@ export default function PlatformConfig({
 
   return (
     <Flex flexDirection="column">
-      <Text {...titleStyle}>租户平台配置</Text>
-      <PlatformNameConfigItem
-        platform="tenant"
-        title="租户平台名称"
-        id="tenantPlatformName"
-        error={errors.tenantPlatformName as FieldError}
-        register={register}
-        updatePlatformConfig={updatePlatformConfig}
-      />
-      <LogoConfigItem
-        title="租户平台 Logo - 浅色版"
-        logo={tenant.logoTypeDark}
-        updateLogo={(src) => {
-          updatePlatformConfig({
-            platform: 'tenant',
-            key: 'logoTypeDark',
-            value: src,
-          });
-        }}
-        styles={{ wrapper: { marginBottom: '16px' } }}
-      />
-      <LogoConfigItem
-        title="租户平台 Logo - 深色版"
-        logo={tenant.logoTypeLight}
-        updateLogo={(src) => {
-          updatePlatformConfig({
-            platform: 'tenant',
-            key: 'logoTypeLight',
-            value: src,
-          });
-        }}
-        uploadInputStyles={{ wrapper: { backgroundColor: 'gray.800' } }}
-      />
-      <Text {...titleStyle} marginTop="24px">
-        管理平台配置
-      </Text>
+      <Text {...titleStyle}>管理平台配置</Text>
       <PlatformNameConfigItem
         platform="admin"
         title="管理平台名称"
@@ -125,7 +90,7 @@ export default function PlatformConfig({
         updatePlatformConfig={updatePlatformConfig}
       />
       <LogoConfigItem
-        title="管理平台 Logo - 浅色版"
+        title="管理平台 Logo - 深色版"
         logo={admin.logoTypeDark}
         updateLogo={(src) => {
           updatePlatformConfig({
@@ -137,11 +102,46 @@ export default function PlatformConfig({
         styles={{ wrapper: { marginBottom: '16px' } }}
       />
       <LogoConfigItem
-        title="管理平台 Logo - 深色版"
+        title="管理平台 Logo - 浅色版"
         logo={admin.logoTypeLight}
         updateLogo={(src) => {
           updatePlatformConfig({
             platform: 'admin',
+            key: 'logoTypeLight',
+            value: src,
+          });
+        }}
+        uploadInputStyles={{ wrapper: { backgroundColor: 'gray.800' } }}
+      />
+      <Text {...titleStyle} marginTop="24px">
+        租户平台配置
+      </Text>
+      <PlatformNameConfigItem
+        platform="tenant"
+        title="租户平台名称"
+        id="tenantPlatformName"
+        error={errors.tenantPlatformName as FieldError}
+        register={register}
+        updatePlatformConfig={updatePlatformConfig}
+      />
+      <LogoConfigItem
+        title="租户平台 Logo - 深色版"
+        logo={tenant.logoTypeDark}
+        updateLogo={(src) => {
+          updatePlatformConfig({
+            platform: 'tenant',
+            key: 'logoTypeDark',
+            value: src,
+          });
+        }}
+        styles={{ wrapper: { marginBottom: '16px' } }}
+      />
+      <LogoConfigItem
+        title="租户平台 Logo - 浅色版"
+        logo={tenant.logoTypeLight}
+        updateLogo={(src) => {
+          updatePlatformConfig({
+            platform: 'tenant',
             key: 'logoTypeLight',
             value: src,
           });
