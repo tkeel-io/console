@@ -2,6 +2,7 @@ import { Box, Button, Center, Heading, useDisclosure } from '@chakra-ui/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useSearchParams } from 'react-router-dom';
 
+import { LoginBackgroundLogo } from '@tkeel/console-business-components';
 import { Alert, Form, FormField, toast } from '@tkeel/console-components';
 import { useConfigAppearanceQuery } from '@tkeel/console-request-hooks';
 import { jumpToAuthLoginPage, schemas } from '@tkeel/console-utils';
@@ -37,6 +38,9 @@ type FormValues = {
 
 export default function SetPassword() {
   const { config } = useConfigAppearanceQuery();
+  const logo = config?.platform.tenant[config?.common.backgroundImageLogo] as
+    | string
+    | undefined;
 
   const {
     register,
@@ -101,20 +105,14 @@ export default function SetPassword() {
           left="0"
           zIndex="-1"
           height="40%"
+          paddingTop="20px"
+          paddingLeft="20px"
           backgroundRepeat="no-repeat"
           backgroundSize="cover"
           backgroundImage={config?.common.backgroundImage}
-        />
-        <Box
-          position="absolute"
-          top="20px"
-          left="20px"
-          width="200px"
-          height="200px"
-          backgroundRepeat="no-repeat"
-          backgroundSize="auto"
-          backgroundImage={config?.platform.tenant.logoTypeLight}
-        />
+        >
+          {logo && <LoginBackgroundLogo src={logo} />}
+        </Box>
         <Box
           padding="40px 46px 70px"
           marginBottom="100px"

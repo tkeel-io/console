@@ -1,8 +1,8 @@
-import { Box } from '@chakra-ui/react';
+import { Box, Flex, RadioGroup, Text } from '@chakra-ui/react';
 import { ChangeEvent, Dispatch, SetStateAction, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { FormField } from '@tkeel/console-components';
+import { FormField, Radio } from '@tkeel/console-components';
 import type { CommonConfig as CommonConfigType } from '@tkeel/console-constants';
 import { useDeletePortalConfigMutation } from '@tkeel/console-request-hooks';
 
@@ -17,14 +17,8 @@ interface ConfigField {
   slogan: string;
 }
 
-export interface Config {
-  logoMark: string;
-  slogan: string;
-  backgroundImage: string;
-}
-
 interface Props {
-  config: Config;
+  config: CommonConfigType;
   setConfig: Dispatch<SetStateAction<CommonConfigType>>;
   onConfirm: () => unknown;
 }
@@ -54,7 +48,7 @@ export default function CommonConfig({ config, setConfig, onConfirm }: Props) {
     <Box>
       <CommonConfigItem
         title="Logo-品牌图标"
-        desc="大小不能超过 100K，格式最佳为 png 同样支持 jpg/jpeg/gif/svg，尺寸比例为正方形，最佳为 96px*96px。"
+        desc="格式支持 png/jpg/jpeg/gif/svg/webp，大小不能超过 100K，尺寸比例为正方形，最佳为 96px*96px。"
         formField={
           <UploadInput
             src={config.logoMark}
@@ -64,7 +58,7 @@ export default function CommonConfig({ config, setConfig, onConfirm }: Props) {
       />
       <CommonConfigItem
         title="Slogan-品牌标语（非必填）"
-        desc="Slogan 将用在一些登录欢迎页。"
+        desc="Slogan 用于平台登录页面。"
         formField={
           <TextareaField
             id="slogan"
@@ -79,7 +73,7 @@ export default function CommonConfig({ config, setConfig, onConfirm }: Props) {
       />
       <CommonConfigItem
         title="背景图片"
-        desc="大小不能超过 1M，格式最佳为 jpg 同样支持 jpeg/gif/png/svg ，尺寸比例为正方形，最佳为 900px*900px。"
+        desc="格式支持 png/jpg/jpeg/gif/svg/webp，大小不能超过 1M，尺寸比例为正方形，最佳为 900px*900px。"
         formField={
           <UploadInput
             src={config.backgroundImage}
@@ -88,6 +82,25 @@ export default function CommonConfig({ config, setConfig, onConfirm }: Props) {
           />
         }
       />
+      <Text marginTop="16px" color="gray.700" fontSize="12px" lineHeight="20px">
+        选择背景 Logo
+      </Text>
+      <RadioGroup
+        marginTop="6px"
+        onChange={(value: 'logoTypeLight' | 'logoTypeDark' | 'noLogo') => {
+          setConfig({
+            ...config,
+            backgroundImageLogo: value,
+          });
+        }}
+        value={config.backgroundImageLogo}
+      >
+        <Flex justifyContent="space-between">
+          <Radio value="logoTypeLight">浅色版 Logo</Radio>
+          <Radio value="logoTypeDark">深色版 Logo</Radio>
+          <Radio value="noLogo">不启用 Logo</Radio>
+        </Flex>
+      </RadioGroup>
       <ButtonStack
         onConfirm={handleConfirm}
         onReset={() => mutate({})}

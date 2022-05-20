@@ -16,7 +16,7 @@ export default function Index() {
   const configNodeInfos = [
     {
       title: '主题色配置',
-      desc: '设定系统主题色，根据颜色插件化配置功能实现一键换肤',
+      desc: '设定系统主题色，采用定制化配置插件实现一键换肤',
       children: <ThemeColorConfig />,
     },
     {

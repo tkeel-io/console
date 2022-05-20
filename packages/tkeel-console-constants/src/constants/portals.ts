@@ -21,10 +21,17 @@ export const PORTAL_INFOS = {
 
 export const DEFAULT_PORTAL_NAME = PortalNames.TENANT;
 
+export type BackgroundImageLogo =
+  | 'logoTypeDark'
+  | 'logoTypeLight'
+  | 'noLogo'
+  | '';
+
 export interface CommonConfig {
   slogan: string;
   logoMark: string;
   backgroundImage: string;
+  backgroundImageLogo: BackgroundImageLogo;
 }
 
 export interface PlatformConfig {
@@ -50,6 +57,7 @@ export const APPEARANCE: Appearance = {
     slogan: '构建和管理物联网解决方案的数字平台', // 100% Cloud Native, Any language, Everything is plugin, Simply
     logoMark,
     backgroundImage: background01,
+    backgroundImageLogo: 'logoTypeLight',
   },
   platform: {
     admin: {
