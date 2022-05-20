@@ -24,7 +24,7 @@ module.exports = {
       plugins: ['react-refresh/babel'],
     },
     production: {
-      plugins: ['lodash'],
+      plugins: ['lodash', 'recharts'],
     },
   },
 };

@@ -19,6 +19,7 @@ import type { MetricData } from '@/tkeel-console-plugin-admin-service-monitoring
 import type { Pod as PodData } from '@/tkeel-console-plugin-admin-service-monitoring/hooks/queries/useMonitoringPodsQuery';
 import usePodStatusInfo from '@/tkeel-console-plugin-admin-service-monitoring/hooks/usePodStatusInfo';
 
+import AreaChart from '../AreaChart';
 import LineChart from '../LineChart';
 import * as defaultStyles from '../Plugin/styles';
 
@@ -91,13 +92,13 @@ export default function Pod({ data, metrics, styles }: Props) {
       data: getData(cpuValues),
     },
   ];
-  const memoryData = [
+  /* const memoryData = [
     {
       id: 'memory',
       color: colors.primary,
       data: getData(memoryValues),
     },
-  ];
+  ]; */
   const latestCpuValue =
     cpuValuesCount > 0 ? cpuValues[cpuValuesCount - 1][1] : '';
   const latestMemoryValue =
@@ -179,14 +180,15 @@ export default function Pod({ data, metrics, styles }: Props) {
           label: '内存',
           formattedLatestValue: formatMemoryValue(latestMemoryValue),
           valuesCount: memoryValuesCount,
-          chart: (
+          /* chart: (
             <LineChart
               data={memoryData}
               xFormat={(value) => formatX(value as number)}
               yFormat={(value) => formatMemoryValue(value as string)}
               margin={{ top: 2 }}
             />
-          ),
+          ), */
+          chart: <AreaChart data={getData(memoryValues)} />,
         },
       ].map(({ key, label, formattedLatestValue, valuesCount, chart }) => (
         <Box key={key} marginRight="60px" width="140px">
