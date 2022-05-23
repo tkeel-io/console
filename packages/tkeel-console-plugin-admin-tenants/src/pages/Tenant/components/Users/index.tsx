@@ -1,7 +1,7 @@
 import { Flex, Text } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Cell, Column } from 'react-table';
+import { CellProps, Column } from 'react-table';
 
 import {
   ButtonsHStack,
@@ -67,16 +67,20 @@ export default function Users() {
     {
       Header: '创建时间',
       accessor: 'created_at',
-      Cell({ value }) {
-        return value ? formatDateTimeByTimestamp({ timestamp: value }) : '';
-      },
+      Cell: ({ value }) =>
+        useMemo(() => {
+          return value ? (
+            <Text>{formatDateTimeByTimestamp({ timestamp: value })}</Text>
+          ) : null;
+        }, [value]),
     },
     {
       Header: '用户角色',
       accessor: 'roles',
-      Cell({ value = [] }) {
-        return value.map(({ name }) => name).join('，');
-      },
+      Cell: ({ value = [] }) =>
+        useMemo(() => {
+          return <Text>{value.map(({ name }) => name).join('，')}</Text>;
+        }, [value]),
     },
   ];
 
@@ -87,7 +91,7 @@ export default function Users() {
       ...columns,
       {
         Header: '操作',
-        Cell: ({ row }: Cell<User>) =>
+        Cell: ({ row }: CellProps<User>) =>
           useMemo(() => {
             const { original } = row;
 

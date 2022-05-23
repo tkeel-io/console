@@ -41,7 +41,7 @@ function RawDataPanel({ data, online, deviceId }: Props) {
 
   useEffect(() => {
     func((preState) => {
-      if (isEmpty(data)) return [];
+      if (isEmpty(data)) return preState;
       const newData = { key: Math.random().toFixed(9), ...data };
       return [newData, ...preState].slice(0, 20);
     });

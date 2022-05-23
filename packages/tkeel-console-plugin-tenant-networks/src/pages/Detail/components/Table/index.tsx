@@ -6,12 +6,12 @@ import {
   PopoverArrow,
   PopoverBody,
   PopoverContent,
-  PopoverTrigger,
+  PopoverTrigger as OrigPopoverTrigger,
   Text,
   Tooltip,
 } from '@chakra-ui/react';
-import { ReactNode, useMemo, useState } from 'react';
-import { Cell, Column } from 'react-table';
+import { FC, ReactNode, useMemo, useState } from 'react';
+import { CellProps, Column } from 'react-table';
 
 import {
   Empty,
@@ -40,6 +40,8 @@ import useNetworkListQuery from '@/tkeel-console-plugin-tenant-networks/hooks/qu
 import CreateProxyButton from '../CreateProxyButton';
 import DeleteButton from '../DeleteButton';
 import SwitchButton from '../SwitchButton';
+
+const PopoverTrigger: FC<{ children: React.ReactNode }> = OrigPopoverTrigger;
 
 interface ProxyListItemData {
   id: string;
@@ -187,7 +189,7 @@ export default function Index({ id }: Props) {
     {
       Header: 'IP地址：端口',
       accessor: 'port',
-      Cell: ({ row }: Cell<ProxyListItemData>) => {
+      Cell: ({ row }: CellProps<ProxyListItemData>) => {
         const { original } = row;
         const { host, port } = original;
         return useMemo(
@@ -209,11 +211,11 @@ export default function Index({ id }: Props) {
       Header: 'URL',
       accessor: 'url',
       width: 50,
-      Cell: ({ row }: Cell<ProxyListItemData>) => {
+      Cell: ({ row }: CellProps<ProxyListItemData>) => {
         const { original } = row;
         const { protocol, url } = original;
         const protocolArr = ['HTTP', 'HTTPS', 'TCP', 'SSH'];
-        let protocolIcon: string | ReactNode = '';
+        let protocolIcon: ReactNode = '';
         let protocolUrl = '';
         if (protocolArr.includes(protocol)) {
           const { icon, urlProtocol } = agree[protocol] as Variable;
@@ -264,7 +266,7 @@ export default function Index({ id }: Props) {
     {
       Header: '关联设备',
       accessor: 'device_name',
-      Cell: ({ row }: Cell<ProxyListItemData>) => {
+      Cell: ({ row }: CellProps<ProxyListItemData>) => {
         const { original } = row;
         return useMemo(
           () => (
@@ -322,7 +324,7 @@ export default function Index({ id }: Props) {
     {
       Header: '操作',
       width: 80,
-      Cell: ({ row }: Cell<ProxyListItemData>) =>
+      Cell: ({ row }: CellProps<ProxyListItemData>) =>
         useMemo(() => {
           const { original } = row;
           const proxyCruxData = {

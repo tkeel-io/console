@@ -23,7 +23,7 @@ function CustomEmpty() {
         />
       }
       title="设备处于离线状态"
-      description="详情为空,请重试链接"
+      description="详情为空,请重试连接"
       styles={{
         title: {
           mt: '12px',
