@@ -27,6 +27,7 @@
       "@/tkeel-console-business-components/*": [
         "./packages/tkeel-console-business-components/src/*"
       ],
+      "@/tkeel-console-charts/*": ["./packages/tkeel-console-charts/src/*"],
       "@/tkeel-console-components/*": [
         "./packages/tkeel-console-components/src/*"
       ],
@@ -96,6 +97,7 @@
   "exclude": ["**/node_modules/", "**/dist/", "**/scripts/"],
   "references": [
     { "path": "./packages/tkeel-console-business-components/" },
+    { "path": "./packages/tkeel-console-charts/" },
     { "path": "./packages/tkeel-console-components/" },
     { "path": "./packages/tkeel-console-constants/" },
     { "path": "./packages/tkeel-console-hooks/" },

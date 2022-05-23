@@ -6,50 +6,32 @@ import {
   Text,
   Tooltip,
   useClipboard,
-  useTheme,
 } from '@chakra-ui/react';
 import numeral from 'numeral';
 
 import { CopyButton } from '@tkeel/console-components';
 import { PodTwoToneIcon } from '@tkeel/console-icons';
-import { Theme } from '@tkeel/console-themes';
-import { formatDateTimeByTimestamp, plugin } from '@tkeel/console-utils';
+import { plugin } from '@tkeel/console-utils';
 
 import type { MetricData } from '@/tkeel-console-plugin-admin-service-monitoring/hooks/queries/useMonitoringPodsMetricsQuery';
 import type { Pod as PodData } from '@/tkeel-console-plugin-admin-service-monitoring/hooks/queries/useMonitoringPodsQuery';
 import usePodStatusInfo from '@/tkeel-console-plugin-admin-service-monitoring/hooks/usePodStatusInfo';
 
 import AreaChart from '../AreaChart';
-import LineChart from '../LineChart';
 import * as defaultStyles from '../Plugin/styles';
 
-function formatX(value: number) {
-  return formatDateTimeByTimestamp({
-    timestamp: value * 1000,
-    template: 'HH:mm:ss',
-  });
-}
-
-function formatCPUValue(value: string) {
-  if (!value) {
-    return '';
-  }
-
+function formatCPUValue(value: number | string) {
   return `${Number(value) * 1000} m`;
 }
 
-function formatMemoryValue(value: string) {
-  if (!value) {
-    return '';
-  }
-
+function formatMemoryValue(value: number | string) {
   return numeral(value).format('0.00 ib');
 }
 
 function getData(values: [number, string][]) {
   return values.map(([timestamp, value]) => ({
     x: timestamp,
-    y: value,
+    y: Number(value),
   }));
 }
 
@@ -67,7 +49,7 @@ interface Props {
 }
 
 export default function Pod({ data, metrics, styles }: Props) {
-  const { colors }: Theme = useTheme();
+  // const { colors }: Theme = useTheme();
   const toast = plugin.getPortalToast();
   const { metadata, spec, status } = data;
   const nodeText = `${spec.nodeName}（${status.hostIP}）`;
@@ -85,20 +67,8 @@ export default function Pod({ data, metrics, styles }: Props) {
   const { length: cpuValuesCount } = cpuValues;
   const { length: memoryValuesCount } = memoryValues;
 
-  const cpuData = [
-    {
-      id: 'cpu',
-      color: colors.primary,
-      data: getData(cpuValues),
-    },
-  ];
-  /* const memoryData = [
-    {
-      id: 'memory',
-      color: colors.primary,
-      data: getData(memoryValues),
-    },
-  ]; */
+  const cpuData = getData(cpuValues);
+  const memoryData = getData(memoryValues);
   const latestCpuValue =
     cpuValuesCount > 0 ? cpuValues[cpuValuesCount - 1][1] : '';
   const latestMemoryValue =
@@ -166,29 +136,14 @@ export default function Pod({ data, metrics, styles }: Props) {
           label: 'CPU',
           formattedLatestValue: formatCPUValue(latestCpuValue),
           valuesCount: cpuValuesCount,
-          chart: (
-            <LineChart
-              data={cpuData}
-              xFormat={(value) => formatX(value as number)}
-              yFormat={(value) => formatCPUValue(value as string)}
-              margin={{ top: 2 }}
-            />
-          ),
+          chart: <AreaChart data={cpuData} yFormatter={formatCPUValue} />,
         },
         {
           key: 'memory',
           label: '内存',
           formattedLatestValue: formatMemoryValue(latestMemoryValue),
           valuesCount: memoryValuesCount,
-          /* chart: (
-            <LineChart
-              data={memoryData}
-              xFormat={(value) => formatX(value as number)}
-              yFormat={(value) => formatMemoryValue(value as string)}
-              margin={{ top: 2 }}
-            />
-          ), */
-          chart: <AreaChart data={getData(memoryValues)} />,
+          chart: <AreaChart data={memoryData} yFormatter={formatMemoryValue} />,
         },
       ].map(({ key, label, formattedLatestValue, valuesCount, chart }) => (
         <Box key={key} marginRight="60px" width="140px">

@@ -3792,6 +3792,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@tkeel/console-charts@workspace:^, @tkeel/console-charts@workspace:packages/tkeel-console-charts":
+  version: 0.0.0-use.local
+  resolution: "@tkeel/console-charts@workspace:packages/tkeel-console-charts"
+  dependencies:
+    "@chakra-ui/react": ^1.8.8
+    "@emotion/react": ^11.9.0
+    "@emotion/styled": ^11.8.1
+    "@tkeel/console-themes": "workspace:^"
+    framer-motion: ^6.3.3
+    react: ^18.1.0
+    react-dom: ^18.1.0
+    react-transition-group: ^4.4.2
+    recharts: ^2.1.10
+  languageName: unknown
+  linkType: soft
+
 "@tkeel/console-components@workspace:^, @tkeel/console-components@workspace:packages/tkeel-console-components":
   version: 0.0.0-use.local
   resolution: "@tkeel/console-components@workspace:packages/tkeel-console-components"
@@ -3933,6 +3949,7 @@ __metadata:
     "@nivo/core": ^0.79.0
     "@nivo/line": ^0.79.1
     "@tkeel/console-business-components": "workspace:^"
+    "@tkeel/console-charts": "workspace:^"
     "@tkeel/console-components": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
     "@tkeel/console-icons": "workspace:^"

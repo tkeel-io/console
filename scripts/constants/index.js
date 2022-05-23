@@ -40,6 +40,7 @@ const PORTAL_PACKAGES = {
 
 const SHARED_PACKAGE_SIMPLE_NAMES = [
   'business-components',
+  'charts',
   'components',
   'constants',
   'hooks',
