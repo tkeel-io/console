@@ -24,7 +24,7 @@ export default function AreaChart({ data, yFormatter }: Props) {
         data={data}
         margin={{ top: 2, right: 0, bottom: 0, left: 0 }}
       >
-        <Area dataKey="y" stroke={colors.primary} fill={colors.brand[200]} />
+        <Area dataKey="y" stroke={colors.primary} fill={colors.brand[50]} />
         <XAxis hide dataKey="x" type="number" domain={['dataMin', 'dataMax']} />
         <Tooltip
           labelFormatter={(label: number) =>
