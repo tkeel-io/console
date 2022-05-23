@@ -1,11 +1,21 @@
 import { useMutation } from '@tkeel/console-hooks';
 
-export interface RequestData {
-  name: string;
+interface RequestData {
+  name?: string;
+  client?: {
+    name?: string;
+    status?: string;
+  };
 }
 
-export interface ApiData {
+interface Client {
+  command: string;
+  id: string;
+}
+
+interface ApiData {
   '@type': string;
+  client: Client;
 }
 
 const method = 'POST';
@@ -13,9 +23,9 @@ const method = 'POST';
 export default function useCreateNetworkMutation({
   onSuccess,
 }: {
-  onSuccess?: () => void;
-} = {}) {
-  const url = `/rule-manager/v1/rules`;
+  onSuccess: () => void;
+}) {
+  const url = `/fluxswitch/v1/client`;
 
   return useMutation<ApiData, undefined, RequestData>({
     url,

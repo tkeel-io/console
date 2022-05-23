@@ -4,7 +4,7 @@ import { Alert, MoreActionButton } from '@tkeel/console-components';
 import { TrashFilledIcon } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
-import useDeleteNetworkMutation from '@/tkeel-console-plugin-tenant-networks/hooks/mutations/useDeleteNetworkMutation';
+import useDeleteProxyMutation from '@/tkeel-console-plugin-tenant-networks/hooks/mutations/useDeleteProxyMutation';
 
 interface Props {
   cruxData: {
@@ -12,20 +12,18 @@ interface Props {
     name: string;
   };
   refetch?: () => void;
-  onDeleteSuccess?: () => unknown;
 }
 
-function DeleteButton({ cruxData, refetch, onDeleteSuccess }: Props) {
+function DeleteButton({ cruxData, refetch }: Props) {
   const { id, name } = cruxData;
   const toast = plugin.getPortalToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { mutate, isLoading } = useDeleteNetworkMutation({
+  const { mutate, isLoading } = useDeleteProxyMutation({
     id,
     onSuccess() {
       toast('删除成功', { status: 'success' });
       onClose();
       if (refetch) refetch();
-      if (onDeleteSuccess) onDeleteSuccess();
     },
   });
 
@@ -37,7 +35,7 @@ function DeleteButton({ cruxData, refetch, onDeleteSuccess }: Props) {
     <>
       <MoreActionButton
         icon={<TrashFilledIcon />}
-        title="删除代理网关"
+        title="删除代理服务"
         onClick={onOpen}
       />
       {isOpen && (

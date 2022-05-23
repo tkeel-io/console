@@ -12,29 +12,22 @@ import Table from '@/tkeel-console-plugin-tenant-networks/pages/Detail/component
 function Detail(): JSX.Element {
   const { id } = useParams();
   const networkId = id || '';
-  // const { data, refetch } = useNetworkInfoQuery(networkId);
-  const { refetch } = useNetworkInfoQuery(networkId);
-  const data = {
-    id: '1',
-    name: '格锐芬边缘计算网关',
-    status: 1,
-    ip: '127.0.0.1:56091',
-    token: 'sd',
-    time: '2022-05-07',
-  };
-  const createTime = data?.time ?? '';
-  const createTimeStamp = createTime
-    ? formatDateTimeByTimestamp({ timestamp: `${createTime}000` })
+  const { data, refetch } = useNetworkInfoQuery(networkId, true);
+  const ip = data?.client?.client_address ?? '';
+  const time = data?.client?.create_at ?? '';
+  const token = data?.client?.token ?? '';
+  const createTimeStamp = time
+    ? formatDateTimeByTimestamp({ timestamp: `${time}` })
     : '';
 
   const networkBasicInfo = [
     {
       label: '客户端地址',
-      value: data?.ip ?? '',
+      value: ip,
     },
     {
       label: '认证 TOKEN',
-      value: data?.token ?? '',
+      value: `${token.slice(0, 4)}********${token.slice(-4, token.length)}`,
     },
     {
       label: '创建时间',
@@ -45,7 +38,10 @@ function Detail(): JSX.Element {
   return (
     <Flex height="100%">
       <Box width="360px" mr="20px">
-        <BasicInfoCard data={data} refetchData={() => refetch()} />
+        <BasicInfoCard
+          data={{ ...data?.client, ip, time }}
+          refetchData={() => refetch()}
+        />
         <InfoCard
           title="基本信息"
           data={networkBasicInfo}
@@ -64,7 +60,7 @@ function Detail(): JSX.Element {
           borderRadius="4px"
           boxShadow="0px 10px 15px -3px rgba(113, 128, 150, 0.1), 0px 4px 6px -2px rgba(113, 128, 150, 0.05)"
         >
-          <CopyInstallCommand copyData="乱写的" />
+          <CopyInstallCommand copyData={data?.command ?? ''} token={token} />
         </Box>
       </Box>
       <Tabs

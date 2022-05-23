@@ -1,13 +1,13 @@
 import BaseNetworkModal, { FormValues } from '../BaseNetworkModal';
 
-type Props = {
+interface Props {
   networkName?: string;
   type: 'createButton' | 'createText' | 'editButton';
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
   onClose: () => unknown;
   onConfirm: (formValues: FormValues) => unknown;
-};
+}
 
 export default function CreateNetworkModal({
   networkName,

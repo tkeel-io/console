@@ -14,6 +14,7 @@ import { FormValues } from '../BaseProxyModal';
 import CreateProxyModal from '../CreateProxyModal';
 
 interface Props {
+  clientId: string;
   proxyCruxData?: FormValues;
   type: 'createButton' | 'createText' | 'editButton';
   onSuccess: () => void;
@@ -21,6 +22,7 @@ interface Props {
 
 export default function CreateProxyButton({
   type,
+  clientId,
   proxyCruxData,
   onSuccess,
 }: Props) {
@@ -28,7 +30,7 @@ export default function CreateProxyButton({
   const useOperationMutation =
     type === 'editButton' ? useModifyProxyMutation : useCreateProxyMutation;
   const { isLoading, mutate } = useOperationMutation({
-    id: '',
+    id: proxyCruxData?.proxyId || '',
     onSuccess() {
       onSuccess();
       onClose();
@@ -38,11 +40,14 @@ export default function CreateProxyButton({
   const handleConfirm = (formValues: FormValues) => {
     mutate({
       data: {
+        client_id: Number(clientId),
         name: formValues?.proxyName,
-        ip: formValues?.proxyIp,
+        host: formValues?.proxyIp,
         port: formValues?.proxyPort,
-        agree: formValues?.proxyAgree,
+        protocol: formValues?.proxyAgree,
         remark: formValues?.proxyRemark,
+        device_id: formValues?.proxyDeviceId,
+        device_name: formValues?.proxyDeviceName,
       },
     });
   };

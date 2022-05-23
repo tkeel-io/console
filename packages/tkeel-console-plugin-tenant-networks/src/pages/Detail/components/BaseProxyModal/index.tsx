@@ -1,25 +1,33 @@
+import { Box, Flex, Text } from '@chakra-ui/react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { FormControl, FormField, Modal } from '@tkeel/console-components';
+import { SmartObjectTwoToneIcon, TrashFilledIcon } from '@tkeel/console-icons';
 
-const { TextField, TextareaField } = FormField;
+import BindDeviceButton from '../BindDeviceButton';
+
+const { TextField, TextareaField, SelectField } = FormField;
 
 export interface FormValues {
+  proxyId?: string;
   proxyName: string;
   proxyIp: string;
   proxyPort: string;
   proxyAgree: string;
   proxyRemark: string;
+  proxyDeviceId: string;
+  proxyDeviceName: string;
 }
 
-type Props = {
+interface Props {
   title: string;
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
   defaultValues?: FormValues;
   onClose: () => unknown;
   onConfirm: (formValues: FormValues) => unknown;
-};
+}
 
 export default function BaseProxyModal({
   title,
@@ -29,12 +37,18 @@ export default function BaseProxyModal({
   onClose,
   onConfirm,
 }: Props) {
-  // const options = [
-  //   { value: 'HTTP', label: 'HTTP' },
-  //   { value: 'HTTPS', label: 'HTTPS' },
-  //   { value: 'TCP', label: 'TCP' },
-  //   { value: 'SSH', label: 'SSH' },
-  // ];
+  const options = [
+    { value: 'HTTP', label: 'HTTP' },
+    { value: 'HTTPS', label: 'HTTPS' },
+    // { value: 'TCP', label: 'TCP' },
+    // { value: 'SSH', label: 'SSH' },
+  ];
+  const [proxyDeviceId, setProxyDeviceId] = useState(
+    defaultValues?.proxyDeviceId ?? ''
+  );
+  const [proxyDeviceName, setProxyDeviceName] = useState(
+    defaultValues?.proxyDeviceName ?? ''
+  );
 
   const {
     register,
@@ -42,14 +56,14 @@ export default function BaseProxyModal({
     trigger,
     getValues,
     reset,
-    // control,
+    control,
   } = useForm<FormValues>({
     defaultValues,
   });
   const handleConfirm = async () => {
     const result = await trigger();
     if (result) {
-      const formValues = getValues();
+      const formValues = { ...getValues(), proxyDeviceId, proxyDeviceName };
       onConfirm(formValues);
       reset();
     }
@@ -90,15 +104,7 @@ export default function BaseProxyModal({
           required: { value: true, message: '代理服务端口为空' },
         })}
       />
-      <TextField
-        label="代理服务端口"
-        id="proxyAgree"
-        error={errors.proxyAgree}
-        registerReturn={register('proxyAgree', {
-          required: { value: true, message: '代理网关名称为空' },
-        })}
-      />
-      {/* <SelectField<FormValues>
+      <SelectField<FormValues>
         id="proxyAgree"
         name="proxyAgree"
         label="代理服务协议类型"
@@ -110,9 +116,45 @@ export default function BaseProxyModal({
         rules={{
           required: { value: true, message: '代理服务协议类型' },
         }}
-      /> */}
-      <FormControl label="绑定设备" id="form-routes">
-        dfs
+      />
+      <FormControl label="绑定设备" id="proxyDevice">
+        {proxyDeviceName === '' ? (
+          <BindDeviceButton
+            deviceMsg={(device: { deviceId: string; deviceName: string }) => {
+              const { deviceId, deviceName } = device;
+              setProxyDeviceId(deviceId);
+              setProxyDeviceName(deviceName);
+            }}
+          />
+        ) : (
+          <Flex
+            justifyContent="space-between"
+            alignItems="center"
+            h="45px"
+            bg="gray.100"
+            p="0 22px"
+          >
+            <Flex justifyContent="space-between" alignItems="center">
+              <SmartObjectTwoToneIcon
+                size="17px"
+                color="grayAlternatives.300"
+              />
+              <Text color="gray.800" fontSize="12px" ml="10px">
+                {proxyDeviceName}
+              </Text>
+            </Flex>
+            <Box cursor="pointer">
+              <TrashFilledIcon
+                size="14px"
+                color="gray.700"
+                onClick={() => {
+                  setProxyDeviceName('');
+                  setProxyDeviceId('');
+                }}
+              />
+            </Box>
+          </Flex>
+        )}
       </FormControl>
       <TextareaField
         id="proxyRemark"

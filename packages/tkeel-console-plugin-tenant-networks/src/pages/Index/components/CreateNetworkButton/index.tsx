@@ -15,13 +15,17 @@ import CopyCommandModal from '../CopyCommandModal';
 import CreateNetworkModal from '../CreateNetworkModal';
 
 interface Props {
+  id?: string;
   networkName?: string;
+  token?: string;
   type: 'createButton' | 'createText' | 'editButton';
   onSuccess: () => void;
 }
 
 export default function CreateNetworkButton({
+  id,
   networkName,
+  token,
   type,
   onSuccess,
 }: Props) {
@@ -33,22 +37,27 @@ export default function CreateNetworkButton({
   } = useDisclosure();
   const useOperationMutation =
     type === 'editButton' ? useModifyNetworkMutation : useCreateNetworkMutation;
-  const { isLoading, mutate } = useOperationMutation({
-    id: '',
+  const { isLoading, mutate, data } = useOperationMutation({
+    id: id ?? '',
     onSuccess() {
       onSuccess();
       onClose();
       onSuccessModalOpen();
     },
   });
-
-  // const isLoading = false;
-
+  const commandData = data?.client?.command ?? '';
+  const commandId = data?.client?.id ?? '';
   const handleConfirm = (formValues: FormValues) => {
-    mutate({
-      data: {
+    const createData = {
+      name: formValues?.networkName,
+    };
+    const editData = {
+      client: {
         name: formValues?.networkName,
       },
+    };
+    mutate({
+      data: type === 'editButton' ? editData : createData,
     });
   };
 
@@ -82,8 +91,10 @@ export default function CreateNetworkButton({
       {isSuccessModalOpen && (
         <CopyCommandModal
           isOpen={isSuccessModalOpen}
-          title="创建代理网关"
-          copyData="传递的复制的内容"
+          title={type === 'editButton' ? '编辑代理网关' : '创建代理网关'}
+          copyData={commandData}
+          token={token ?? ''}
+          id={commandId}
           onClose={onSuccessModalClose}
         />
       )}

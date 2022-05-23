@@ -2,7 +2,7 @@ import { MoreActionButton } from '@tkeel/console-components';
 import { CaretRightFilledIcon, PauseFilledIcon } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
-import useModifyNetworkMutation from '@/tkeel-console-plugin-tenant-networks/hooks/mutations/useModifyNetworkMutation';
+import useModifyProxyMutation from '@/tkeel-console-plugin-tenant-networks/hooks/mutations/useModifyProxyMutation';
 
 interface Props {
   status: string;
@@ -12,13 +12,13 @@ interface Props {
 
 function SwitchButton({ status, id, refetch }: Props) {
   const toast = plugin.getPortalToast();
-  const { mutate } = useModifyNetworkMutation({
+  const { mutate } = useModifyProxyMutation({
     id,
     onSuccess({ data }) {
       toast(
-        data?.client?.status === 'disabled'
-          ? '禁用代理网关成功'
-          : '启用代理网关成功',
+        data?.proxy?.status === 'disabled'
+          ? '禁用代理服务成功'
+          : '启用代理服务成功',
         {
           status: 'success',
         }
@@ -32,14 +32,10 @@ function SwitchButton({ status, id, refetch }: Props) {
       icon={
         status === 'disabled' ? <CaretRightFilledIcon /> : <PauseFilledIcon />
       }
-      title={status === 'disabled' ? '启用代理网关' : '禁用代理网关'}
+      title={status === 'disabled' ? '启用代理服务' : '禁用代理服务'}
       onClick={() => {
         mutate({
-          data: {
-            client: {
-              status: status === 'enabled' ? 'disabled' : 'enabled',
-            },
-          },
+          data: { status: status === 'enabled' ? 'disabled' : 'enabled' },
         });
       }}
     />

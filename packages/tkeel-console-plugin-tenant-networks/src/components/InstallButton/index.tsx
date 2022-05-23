@@ -1,33 +1,31 @@
 import {
+  Box,
   Button,
   Center,
   Flex,
-  Input,
-  InputGroup,
   useClipboard,
   useDisclosure,
 } from '@chakra-ui/react';
 
-import { Alert, MoreActionButton } from '@tkeel/console-components';
+import { Alert, Loading, MoreActionButton } from '@tkeel/console-components';
 import { CommandWindowFilledIcon } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
-// type Props = {
-//   cruxData: {
-//     id: string;
-//     name: string;
-//   };
-//   refetch?: () => void;
-//   onDeleteSuccess?: () => unknown;
-// };
+import useNetworkInfoQuery from '@/tkeel-console-plugin-tenant-networks/hooks/queries/useNetworkInfoQuery';
 
-function InstallButton() {
-  // const { id, name } = cruxData;
+interface Props {
+  id: string;
+}
+
+function InstallButton({ id }: Props) {
   const toast = plugin.getPortalToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const isLoading = false;
-  const text = 'stringify({ addQueryPrefix: true })';
-  const { hasCopied, onCopy } = useClipboard(text);
+  const { data, isLoading } = useNetworkInfoQuery(id, isOpen);
+  const token = data?.client?.token ?? '';
+  const command = data?.command ?? '';
+  const tokenCenter = token.slice(4, -4);
+  const secretCopyData = command.replace(tokenCenter, '********');
+  const { hasCopied, onCopy } = useClipboard(command);
   if (hasCopied) {
     toast('复制成功', { status: 'success' });
   }
@@ -50,60 +48,52 @@ function InstallButton() {
           isOpen={isOpen}
           onClose={onClose}
         >
-          <InputGroup
-            width="320px"
-            height="68px"
-            marginTop="20px"
-            borderRadius="4px"
-            bgColor="gray.700"
-          >
-            <Input
-              type="text"
-              value="复制的内容"
-              variant="filled"
-              isReadOnly
-              height="100%"
-              paddingRight="32px"
-              paddingLeft="12px"
-              border="0"
-              color="grayAlternatives.50"
-              bgColor="gray.700"
-              fontSize="12px"
-              lineHeight="140%"
-              _hover={{
-                bgColor: 'gray.700',
-              }}
-            />
-          </InputGroup>
-          <Flex paddingTop="40px" flexDirection="column">
-            <Button
-              type="button"
-              variant="outline"
-              isFullWidth
-              height="32px"
-              borderRadius="4px"
-              backgroundColor="green.300"
-              color="white"
-              mb="16px"
-              _hover={{ bgColor: 'green.300' }}
-              isLoading={isLoading}
-              onClick={onCopy}
-            >
-              复制命令
-            </Button>
-            <Button
-              onClick={onClose}
-              type="button"
-              variant="outline"
-              isFullWidth
-              backgroundColor="white"
-              color="gray.600"
-              border="none"
-              _hover={{ bgColor: 'white' }}
-            >
-              完成
-            </Button>
-          </Flex>
+          {isLoading ? (
+            <Loading styles={{ wrapper: { height: '100%' } }} />
+          ) : (
+            <>
+              <Box
+                width="320px"
+                mt="24px"
+                p="4px 8px"
+                fontSize="12px"
+                color="grayAlternatives.50"
+                lineHeight="20px"
+                bgColor="gray.700"
+                borderRadius="4px"
+              >
+                {secretCopyData}
+              </Box>
+              <Flex paddingTop="40px" flexDirection="column">
+                <Button
+                  type="button"
+                  variant="outline"
+                  isFullWidth
+                  height="32px"
+                  borderRadius="4px"
+                  backgroundColor="green.300"
+                  color="white"
+                  mb="16px"
+                  _hover={{ bgColor: 'green.300' }}
+                  onClick={onCopy}
+                >
+                  复制命令
+                </Button>
+                <Button
+                  onClick={onClose}
+                  type="button"
+                  variant="outline"
+                  isFullWidth
+                  backgroundColor="white"
+                  color="gray.600"
+                  border="none"
+                  _hover={{ bgColor: 'white' }}
+                >
+                  完成
+                </Button>
+              </Flex>
+            </>
+          )}
         </Alert>
       )}
     </>

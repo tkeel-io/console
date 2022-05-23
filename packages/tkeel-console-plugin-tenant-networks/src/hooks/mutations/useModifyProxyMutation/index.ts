@@ -1,31 +1,36 @@
 import { useMutation } from '@tkeel/console-hooks';
-import { RequestResult } from '@tkeel/console-utils';
 
 export interface RequestData {
-  name: string;
-  ip: string;
-  port: string;
-  agree: string;
-  remark: string;
+  name?: string;
+  host?: string;
+  port?: string;
+  protocol?: string;
+  remark?: string;
+  client_id?: number;
+  device_id?: string;
+  device_name?: string;
+  status?: string;
+}
+
+interface Proxy {
+  status: string;
 }
 
 export interface ApiData {
   '@type': string;
+  proxy: Proxy;
 }
 
 const method = 'PUT';
 
-type Props = {
+export default function useModifyProxyMutation({
+  id,
+  onSuccess,
+}: {
   id: string;
-  onSuccess: (
-    data: RequestResult<ApiData, undefined, RequestData>,
-    variables: unknown,
-    context: unknown
-  ) => void | Promise<unknown>;
-};
-
-export default function useModifyProxyMutation({ id, onSuccess }: Props) {
-  const url = `/rule-manager/v1/rules/${id}`;
+  onSuccess: ({ data }: { data: ApiData }) => void;
+}) {
+  const url = `/fluxswitch/v1/proxy/${id}`;
   return useMutation<ApiData, undefined, RequestData>({
     url,
     method,

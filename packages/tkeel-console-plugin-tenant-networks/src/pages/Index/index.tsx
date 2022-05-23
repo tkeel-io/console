@@ -1,72 +1,56 @@
 import { Box, Flex, Grid, Text } from '@chakra-ui/react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import {
+  Empty,
+  IconButton,
   Loading,
+  MoreAction,
   PageHeader,
   Pagination,
-  // SearchInput,
+  SearchEmpty,
+  SearchInput,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
 import {
   ArrowRightFilledIcon,
-  EmptyFileIcon,
+  LightningFilledIcon,
   NetworkIcon,
 } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
 import BaseMessage from '@/tkeel-console-plugin-tenant-networks/components/BaseMessage';
+import MoreActionButton from '@/tkeel-console-plugin-tenant-networks/components/MoreActionButton';
+import useNetworksQuery from '@/tkeel-console-plugin-tenant-networks/hooks/queries/useNetworksQuery';
 
-import MoreActionButton from '../../components/MoreActionButton';
 import CreateNetworkButton from './components/CreateNetworkButton';
+import ExportButton from './components/ExportButton';
+import ImportButton from './components/ImportButton';
 import NetWorkCard from './components/NetWorkCard';
 
 export default function Index() {
+  const [keywords, setKeywords] = useState('');
   const navigate = useNavigate();
   const pagination = usePagination();
-  // const { pageNum, pageSize } = pagination;
-  // console.log(pageNum, pageSize);
+  const { pageNum, pageSize, setTotalSize } = pagination;
   const toast = plugin.getPortalToast();
+  const { netWorkData, data, isSuccess, isLoading, refetch } = useNetworksQuery(
+    {
+      pageNum,
+      pageSize,
+      query: keywords,
+    }
+  );
+  const totalNum = data?.total ?? 0;
+  if (isSuccess) {
+    setTotalSize(totalNum);
+  }
 
   const handleCreateNetworkSuccess = () => {
     toast('创建成功', { status: 'success' });
+    refetch();
   };
-
-  const isLoading = false;
-  const netWorkData = [
-    {
-      id: '1',
-      name: '格锐芬边缘计算网关',
-      status: 1,
-      ip: '127.0.0.1:56091',
-      token: 'sd',
-      time: 'sd',
-    },
-    {
-      id: '2',
-      name: '格锐芬边缘计算网关',
-      status: 0,
-      ip: '127.0.0.1:56095',
-      token: 'sd',
-      time: 'sd',
-    },
-    {
-      id: '3',
-      name: '三马边缘计算网关',
-      status: 0,
-      ip: '127.0.0.1:56092',
-      token: 'sd',
-      time: 'sd',
-    },
-    {
-      id: '4',
-      name: '格锐芬边缘计算网关',
-      status: 1,
-      ip: '127.0.0.1:56092',
-      token: 'sd',
-      time: 'sd',
-    },
-  ];
 
   return (
     <Flex flexDirection="column" h="100%" padding="8px 20px 20px">
@@ -81,17 +65,40 @@ export default function Index() {
         justifyContent="space-between"
         alignItems="center"
       >
-        {/* <SearchInput
+        <SearchInput
           placeholder="支持搜索代理网关名称、客户端地址"
           onSearch={(value) => {
-            // setKeywords(value);
-            console.log(value);
+            setKeywords(value);
           }}
           width="100%"
           inputStyle={{ bgColor: 'white' }}
-        /> */}
+        />
         <Flex w="262px" justifyContent="space-between" alignItems="center">
-          <Box m="0 12px 0 16px">操作</Box>
+          <MoreAction
+            styles={{
+              wrapper: { m: '0 12px' },
+              actionList: { width: '110px' },
+            }}
+            element={
+              <IconButton
+                style={{ padding: '0 12px' }}
+                colorScheme="gray"
+                icon={<LightningFilledIcon size="14px" color="white" />}
+              >
+                批量操作
+              </IconButton>
+            }
+            key="more"
+            buttons={[
+              <ExportButton key="export" />,
+              <ImportButton
+                key="import"
+                refetch={() => {
+                  refetch();
+                }}
+              />,
+            ]}
+          />
           <CreateNetworkButton
             key="create"
             type="createButton"
@@ -118,16 +125,34 @@ export default function Index() {
               alignItems="center"
               justifyContent="center"
             >
-              <EmptyFileIcon size={80} />
-              <Text fontSize="14px" lineHeight="24px" color="gray.700">
-                请
-                <CreateNetworkButton
-                  key="create"
-                  type="createText"
-                  onSuccess={handleCreateNetworkSuccess}
+              {keywords ? (
+                <SearchEmpty
+                  title="没有符合条件的代理网关"
+                  styles={{
+                    wrapper: { height: '100%' },
+                    image: { width: '80px' },
+                    text: { color: 'gray.500', fontSize: '14px' },
+                  }}
                 />
-                代理网关
-              </Text>
+              ) : (
+                <Empty
+                  type="component"
+                  title={
+                    <Text fontSize="14px" lineHeight="24px" color="gray.700">
+                      请
+                      <CreateNetworkButton
+                        key="create"
+                        type="createText"
+                        onSuccess={handleCreateNetworkSuccess}
+                      />
+                      代理网关
+                    </Text>
+                  }
+                  styles={{
+                    wrapper: { width: '100%', height: '100%' },
+                  }}
+                />
+              )}
             </Flex>
           ) : (
             <Flex flexDirection="column" flex="1" overflow="hidden">
@@ -143,21 +168,30 @@ export default function Index() {
                   padding="12px 20px"
                 >
                   {netWorkData.map((netWork) => {
-                    const { id, name, status, ip, token, time } = netWork;
+                    const {
+                      id,
+                      name,
+                      status,
+                      online,
+                      client_address: ip,
+                      token,
+                      create_at: time,
+                    } = netWork;
                     return (
                       <NetWorkCard
                         key={id}
-                        briefInfo={{ name, status }}
+                        briefInfo={{ name, status, online }}
                         operatorButton={
                           <MoreActionButton
                             cruxData={{
                               id,
                               name,
                               status,
+                              token,
                             }}
-                            // refetch={() => {
-                            //   refetch();
-                            // }}
+                            refetch={() => {
+                              refetch();
+                            }}
                           />
                         }
                         bottomInfo={
@@ -177,7 +211,9 @@ export default function Index() {
                               color="green.300"
                               mt="12px"
                             >
-                              {status === 1 ? '添加代理服务' : '在线安装命令'}
+                              {online === 'online'
+                                ? '添加代理服务'
+                                : '在线安装命令'}
                               <ArrowRightFilledIcon
                                 size={13}
                                 color="green.300"

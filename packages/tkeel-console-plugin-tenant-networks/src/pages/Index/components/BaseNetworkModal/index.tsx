@@ -8,14 +8,14 @@ export interface FormValues {
   networkName: string;
 }
 
-type Props = {
+interface Props {
   title: string;
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
   defaultValues?: FormValues;
   onClose: () => unknown;
   onConfirm: (formValues: FormValues) => unknown;
-};
+}
 
 export default function BaseNetworkModal({
   title,

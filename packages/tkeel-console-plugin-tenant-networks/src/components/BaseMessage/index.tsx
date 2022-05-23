@@ -1,6 +1,8 @@
 import { Box, Flex, StyleProps } from '@chakra-ui/react';
 
-type Props = {
+import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
+
+interface Props {
   baseMsg: {
     ip: string;
     token: string;
@@ -10,14 +12,22 @@ type Props = {
     wrapper?: StyleProps;
     name?: StyleProps;
   };
-};
+}
 
 function BaseMessage({ baseMsg, styles }: Props) {
   const { ip, token, time } = baseMsg;
   const baseKeyValue = [
     { name: '客户端地址', value: ip },
-    { name: '认证 TOKEN', value: token },
-    { name: '创建时间', value: time },
+    {
+      name: '认证 TOKEN',
+      value: `${token.slice(0, 4)}********${token.slice(-4, token.length)}`,
+    },
+    {
+      name: '创建时间',
+      value: formatDateTimeByTimestamp({
+        timestamp: `${time}`,
+      }),
+    },
   ];
   return (
     <Box>

@@ -3,17 +3,18 @@ import { ReactNode } from 'react';
 
 import { NetworkIcon } from '@tkeel/console-icons';
 
-import StatusLabel from '../../../../components/StatusLabel';
+import StatusLabel from '@/tkeel-console-plugin-tenant-networks/components/StatusLabel';
 
-type Props = {
+interface Props {
   briefInfo: {
     name: string;
-    status: number;
+    status: string;
+    online: string;
   };
   operatorButton: ReactNode;
   bottomInfo: ReactNode;
   onClick: () => unknown;
-};
+}
 
 function NetWorkCard({
   briefInfo,
@@ -66,6 +67,7 @@ function NetWorkCard({
           <StatusLabel
             styles={{ wrapper: { ml: '10px' } }}
             status={briefInfo.status}
+            online={briefInfo.online}
           />
           {operatorButton}
         </Flex>

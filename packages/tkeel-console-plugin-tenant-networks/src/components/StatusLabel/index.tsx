@@ -9,36 +9,65 @@ import {
 } from '@tkeel/console-icons';
 
 interface Props extends SpinnerProps {
-  status: number;
+  status: string;
+  online: string;
   styles?: {
     wrapper?: StyleProps;
   };
 }
 
-type StatusItem = {
+interface StatusItem {
   label: string;
   icon: ReactNode;
+}
+
+interface OnlineItem {
   wifiColor: string;
   wifiIcon: ReactNode;
-};
+}
 
-type StatusInfo = StatusItem[];
+interface StatusInfo {
+  enabled: StatusItem;
+  disabled: StatusItem;
+  offline: StatusItem;
+  online: StatusItem;
+}
+interface OnlineInfo {
+  offline: OnlineItem;
+  online: OnlineItem;
+}
 
-function StatusLabel({ styles, status }: Props) {
-  const statusInfo: StatusInfo = [
-    {
+function StatusLabel({ styles, status, online }: Props) {
+  const statusInfo: StatusInfo = {
+    disabled: {
       label: '已禁用',
       icon: <WarningFilledIcon size={14} color="gray.500" />,
+    },
+    enabled: {
+      label: '已启用',
+      icon: <SuccessFilledIcon size={14} color="green.300" />,
+    },
+    offline: {
+      label: '已启用1',
+      icon: <SuccessFilledIcon size={14} color="green.300" />,
+    },
+    online: {
+      label: '已启用1',
+      icon: <SuccessFilledIcon size={14} color="green.300" />,
+    },
+  };
+  const onlineInfo: OnlineInfo = {
+    offline: {
       wifiColor: 'gray.100',
       wifiIcon: <WifiOffFilledIcon size={14} color="gray.500" />,
     },
-    {
-      label: '已启用',
-      icon: <SuccessFilledIcon size={14} color="green.300" />,
+    online: {
       wifiColor: 'brand.50',
       wifiIcon: <WifiFilledIcon size={14} color="green.300" />,
     },
-  ];
+  };
+  const statusObj = statusInfo[status as 'enabled' | 'disabled'];
+  const onlineObj = onlineInfo[online as 'online' | 'offline'];
   return (
     <Flex
       flex="1"
@@ -47,20 +76,20 @@ function StatusLabel({ styles, status }: Props) {
       {...styles?.wrapper}
     >
       <Flex alignItems="center">
-        {statusInfo[status]?.icon}
+        {statusObj?.icon ?? ''}
         <Text fontSize="12px" ml="2px" color="gray.600">
-          {statusInfo[status]?.label}
+          {statusObj?.label ?? ''}
         </Text>
       </Flex>
       <Flex
-        bgColor={statusInfo[status]?.wifiColor}
+        bgColor={onlineObj?.wifiColor ?? ''}
         w="24px"
         h="24px"
         borderRadius="4px"
         alignItems="center"
         justifyContent="center"
       >
-        {statusInfo[status]?.wifiIcon}
+        {onlineObj?.wifiIcon ?? ''}
       </Flex>
     </Flex>
   );

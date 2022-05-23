@@ -1,4 +1,5 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
+import { useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
 import { BackButton } from '@tkeel/console-components';
@@ -7,32 +8,24 @@ import { NetworkIcon, OfficialFilledIcon } from '@tkeel/console-icons';
 import MoreActionButton from '@/tkeel-console-plugin-tenant-networks/components/MoreActionButton';
 import StatusLabel from '@/tkeel-console-plugin-tenant-networks/components/StatusLabel';
 
-// import { ApiData as SubscribeInfo } from '@/tkeel-console-plugin-tenant-data-subscription/hooks/queries/useSubscribeInfoQuery';
-type NetWorkInfo = {
+interface NetWorkInfo {
   id: string;
   name: string;
-  status: number;
+  status: string;
   ip: string;
   token: string;
   time: string;
-};
-type Props = {
+  online: string;
+}
+interface Props {
   data: NetWorkInfo;
   refetchData: () => unknown;
-};
+}
 
 export default function BasicInfoCard({ data, refetchData }: Props) {
-  const { id, name, status } = data;
+  const { id, name, status, token, online } = data;
   const navigate = useNavigate();
-  // const endpoint = data?.endpoint ?? '';
-  // const defaultValues = {
-  //   description: data?.description ?? '',
-  //   endpoint,
-  //   id: data?.id ?? '',
-  //   title: data?.title ?? '',
-  //   is_default: data?.is_default,
-  // };
-
+  const queryClient = useQueryClient();
   return (
     <Box
       borderTopLeftRadius="4px"
@@ -68,9 +61,14 @@ export default function BasicInfoCard({ data, refetchData }: Props) {
               id,
               name,
               status,
+              token,
             }}
             refetch={() => {
               refetchData();
+            }}
+            onDeleteSuccess={() => {
+              queryClient.invalidateQueries('networks');
+              navigate('/');
             }}
           />
         </Flex>
@@ -88,6 +86,7 @@ export default function BasicInfoCard({ data, refetchData }: Props) {
           <StatusLabel
             styles={{ wrapper: { ml: '10px', pt: '2px' } }}
             status={status}
+            online={online}
           />
         </Flex>
       </Box>

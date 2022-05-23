@@ -1,31 +1,32 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Input,
-  InputGroup,
-  Text,
-  useClipboard,
-} from '@chakra-ui/react';
+import { Box, Button, Flex, Text, useClipboard } from '@chakra-ui/react';
 
 import { CopyFilledIcon } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
-type Props = {
+interface Props {
   copyData: string;
-};
+  token: string;
+}
 
-export default function CopyInstallCommand({ copyData }: Props) {
+export default function CopyInstallCommand({ copyData, token }: Props) {
   const toast = plugin.getPortalToast();
   const isLoading = false;
   const { hasCopied, onCopy } = useClipboard(copyData);
+  const tokenCenter = token.slice(4, -4);
+  const secretCopyData = copyData.replace(tokenCenter, '********');
 
   if (hasCopied) {
     toast('复制成功', { status: 'success' });
   }
 
   return (
-    <Box>
+    <Box
+      _hover={{
+        '.chakra-button': {
+          opacity: 1,
+        },
+      }}
+    >
       <Flex justifyContent="space-between">
         <Text fontSize="14px" fontWeight="600">
           安装命令
@@ -35,35 +36,26 @@ export default function CopyInstallCommand({ copyData }: Props) {
           isLoading={isLoading}
           padding="0"
           borderRadius="0"
+          opacity={0}
           onClick={onCopy}
         >
           <CopyFilledIcon size="16px" color="grayAlternatives.300" />
         </Button>
       </Flex>
-      <InputGroup
+      <Box
         width="100%"
-        height="94px"
-        borderRadius="4px"
+        minHeight="68px"
+        mt="6px"
+        p="4px 8px"
+        fontSize="12px"
+        color="grayAlternatives.50"
+        lineHeight="20px"
         bgColor="gray.700"
+        borderRadius="4px"
       >
-        <Input
-          type="text"
-          value={copyData}
-          variant="filled"
-          isReadOnly
-          height="100%"
-          paddingRight="32px"
-          paddingLeft="12px"
-          border="0"
-          color="grayAlternatives.50"
-          bgColor="gray.700"
-          fontSize="12px"
-          lineHeight="140%"
-          _hover={{
-            bgColor: 'gray.700',
-          }}
-        />
-      </InputGroup>
+        {secretCopyData}
+      </Box>
     </Box>
   );
 }
+//

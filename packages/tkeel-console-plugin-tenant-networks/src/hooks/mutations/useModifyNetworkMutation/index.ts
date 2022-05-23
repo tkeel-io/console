@@ -1,27 +1,33 @@
 import { useMutation } from '@tkeel/console-hooks';
-import { RequestResult } from '@tkeel/console-utils';
 
-export interface RequestData {
-  name: string;
+interface RequestData {
+  name?: string;
+  client?: {
+    name?: string;
+    status?: string;
+  };
 }
 
+interface Client {
+  command: string;
+  id: string;
+  status: string;
+}
 export interface ApiData {
   '@type': string;
+  client: Client;
 }
 
 const method = 'PUT';
 
-type Props = {
+export default function useModifyNetworkMutation({
+  id,
+  onSuccess,
+}: {
   id: string;
-  onSuccess: (
-    data: RequestResult<ApiData, undefined, RequestData>,
-    variables: unknown,
-    context: unknown
-  ) => void | Promise<unknown>;
-};
-
-export default function useModifyNetworkMutation({ id, onSuccess }: Props) {
-  const url = `/rule-manager/v1/rules/${id}`;
+  onSuccess: ({ data }: { data: ApiData }) => void;
+}) {
+  const url = `/fluxswitch/v1/client/${id}`;
   return useMutation<ApiData, undefined, RequestData>({
     url,
     method,

@@ -6,14 +6,14 @@ export interface ApiData {
 
 const method = 'DELETE';
 
-export default function useDeleteNetworkMutation({
+export default function useDeleteProxyMutation({
   id,
   onSuccess,
 }: {
   id: string;
   onSuccess: () => void;
 }) {
-  const url = `/fluxswitch/v1/client/${id}`;
+  const url = `/fluxswitch/v1/proxy/${id}`;
 
   return useMutation<ApiData, undefined, undefined>({
     url,

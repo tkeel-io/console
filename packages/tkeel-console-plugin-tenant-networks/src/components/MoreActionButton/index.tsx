@@ -6,18 +6,19 @@ import InstallButton from '@/tkeel-console-plugin-tenant-networks/components/Ins
 import SwitchButton from '@/tkeel-console-plugin-tenant-networks/components/SwitchButton';
 import CreateNetworkButton from '@/tkeel-console-plugin-tenant-networks/pages/Index/components/CreateNetworkButton';
 
-type Props = {
+interface Props {
   cruxData: {
     id: string;
     name: string;
-    status: number;
+    status: string;
+    token: string;
   };
   refetch?: () => void;
   onDeleteSuccess?: () => unknown;
-};
+}
 
 function MoreActionButton({ cruxData, refetch, onDeleteSuccess }: Props) {
-  const { id, name, status } = cruxData;
+  const { id, name, status, token } = cruxData;
   const toast = plugin.getPortalToast();
 
   const handleRefetch = () => {
@@ -38,15 +39,13 @@ function MoreActionButton({ cruxData, refetch, onDeleteSuccess }: Props) {
       id={id}
       refetch={handleRefetch}
     />,
-    <InstallButton
-      key="install"
-      // refetch={handleRefetch}
-      // onDeleteSuccess={onDeleteSuccess}
-    />,
+    <InstallButton key="install" id={id} />,
     <CreateNetworkButton
       key="edit"
       type="editButton"
+      id={id}
       networkName={name}
+      token={token}
       onSuccess={handleEditSuccess}
     />,
     <DeleteButton
