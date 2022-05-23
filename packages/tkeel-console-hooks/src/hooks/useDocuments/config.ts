@@ -9,6 +9,7 @@ export const paths = {
     plugins: '/tenant-guide/plugin-mgt/plugin_intro',
     dataQuery: '/tenant-guide/data-mgt/data_mgt_query',
     dataSubscribe: '/tenant-guide/data-mgt/data-subscribe/data_subscribe_intro',
+    routingRules: '/tenant-guide/data-mgt/data-route/data_route_intro',
     deviceList: '/tenant-guide/device-mgt/device_mgt_list',
     deviceTemplate:
       '/tenant-guide/device-mgt/device_template/device_template_intro',
