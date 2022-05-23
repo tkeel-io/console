@@ -92,5 +92,6 @@ module.exports = {
     '**/dist/**',
     './docker/',
     './charts/',
+    './devops/',
   ],
 };
