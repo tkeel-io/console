@@ -345,7 +345,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/parser@npm:^7.13.10, @babel/parser@npm:^7.16.7, @babel/parser@npm:^7.18.0":
+"@babel/parser@npm:^7.16.7, @babel/parser@npm:^7.18.0":
   version: 7.18.0
   resolution: "@babel/parser@npm:7.18.0"
   bin:
@@ -1383,7 +1383,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/types@npm:^7.0.0-beta.49, @babel/types@npm:^7.13.0, @babel/types@npm:^7.15.6, @babel/types@npm:^7.16.0, @babel/types@npm:^7.16.7, @babel/types@npm:^7.16.8, @babel/types@npm:^7.17.0, @babel/types@npm:^7.17.12, @babel/types@npm:^7.18.0, @babel/types@npm:^7.4.4, @babel/types@npm:^7.8.3":
+"@babel/types@npm:^7.0.0-beta.49, @babel/types@npm:^7.15.6, @babel/types@npm:^7.16.0, @babel/types@npm:^7.16.7, @babel/types@npm:^7.16.8, @babel/types@npm:^7.17.0, @babel/types@npm:^7.17.12, @babel/types@npm:^7.18.0, @babel/types@npm:^7.4.4, @babel/types@npm:^7.8.3":
   version: 7.18.0
   resolution: "@babel/types@npm:7.18.0"
   dependencies:
@@ -4176,7 +4176,6 @@ __metadata:
     "@typescript-eslint/parser": ^5.25.0
     babel-loader: ^8.2.5
     babel-plugin-lodash: ^3.3.4
-    babel-plugin-recharts: ^2.0.0
     chalk: ^4.1.2
     clean-webpack-plugin: ^4.0.0
     commitizen: ^4.2.4
@@ -5738,17 +5737,6 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.0.0-0
   checksum: f1473df7b700d6795ca41301b1e65a0aff15ce6c1463fc0ce2cf0c821114b0330920f59d4cebf52976363ee817ba29ad2758544a4661a724b08191080b9fe1da
-  languageName: node
-  linkType: hard
-
-"babel-plugin-recharts@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "babel-plugin-recharts@npm:2.0.0"
-  dependencies:
-    "@babel/parser": ^7.13.10
-    "@babel/traverse": ^7.13.0
-    "@babel/types": ^7.13.0
-  checksum: f3084db0fc3be95ca40e648757887a4a5b3032909d3005d15077f394d34453fcc62474a22d870ce60400d548c41930c8dde96b11a8deec5f3845ad97624bbe40
   languageName: node
   linkType: hard
 
