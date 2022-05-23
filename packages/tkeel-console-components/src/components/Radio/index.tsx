@@ -11,7 +11,7 @@ export default function Radio({ children, ...rest }: Props) {
       colorScheme="brand"
       color="red.500"
       _focus={{
-        '>span[data-focus]': {
+        '> span[data-focus]': {
           boxShadow: 'none',
         },
       }}

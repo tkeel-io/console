@@ -1,8 +1,8 @@
 import { Button, HStack, StyleProps } from '@chakra-ui/react';
 
 interface Props {
-  onConfirm: () => unknown;
-  onReset: () => unknown;
+  onConfirm: () => void;
+  onReset: () => void;
   styles?: {
     wrapper?: StyleProps;
   };
