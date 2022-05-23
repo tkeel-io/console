@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { PageHeader } from '@tkeel/console-components';
 import { BrushTwoToneIcon } from '@tkeel/console-icons';
+import { plugin } from '@tkeel/console-utils';
 
 import configBlockImg from '@/tkeel-console-plugin-admin-custom-config/assets/images/config-block.png';
 import curlyBracesImg from '@/tkeel-console-plugin-admin-custom-config/assets/images/curly-braces.svg';
@@ -13,6 +14,7 @@ import ThemeColorConfig from './components/ThemeColorConfig';
 
 export default function Index() {
   const navigate = useNavigate();
+  const documents = plugin.getPortalDocuments();
   const configNodeInfos = [
     {
       title: '主题色配置',
@@ -48,6 +50,7 @@ export default function Index() {
         }
         name="定制化配置"
         desc="对平台进行主题色、外观与功能菜单配置"
+        documentsPath={documents.config.paths.adminGuide.customConfig}
       />
       <Flex
         flex="1"

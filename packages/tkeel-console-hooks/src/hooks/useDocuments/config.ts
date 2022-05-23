@@ -2,6 +2,7 @@ export const paths = {
   adminGuide: {
     tenantIntro: '/admin-guide/tenant-mgt/tenant_intro',
     plugins: '/admin-guide/plugin-mgt/plugin_intro',
+    customConfig: '/admin-guide/platform-config/config_intro',
   },
   tenantGuide: {
     users: '/tenant-guide/user-mgt/user_mgt',
