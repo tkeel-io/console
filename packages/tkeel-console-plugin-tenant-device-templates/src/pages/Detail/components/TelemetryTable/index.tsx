@@ -1,6 +1,6 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
-import { Cell, Column } from 'react-table';
+import { CellProps, Column } from 'react-table';
 
 import {
   CreateTelemetryButton,
@@ -58,7 +58,7 @@ function Index({ id, title }: { id: string; title: string }) {
       Header: '时间戳',
       accessor: 'last_time',
       width: 200,
-      Cell: ({ value }: { value: string }) =>
+      Cell: ({ value }: CellProps<TelemetryItem, number>) =>
         useMemo(
           () => (
             <Box>
@@ -79,7 +79,7 @@ function Index({ id, title }: { id: string; title: string }) {
     {
       Header: '操作',
       width: 80,
-      Cell: ({ row }: Cell<TelemetryItem>) =>
+      Cell: ({ row }: CellProps<TelemetryItem>) =>
         useMemo(() => {
           const { original } = row;
           return (

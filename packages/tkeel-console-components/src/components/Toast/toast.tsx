@@ -1,8 +1,11 @@
 import { isPlainObject, merge, omit } from 'lodash';
-import { toast as toastifyToast, TypeOptions } from 'react-toastify';
+import {
+  toast as toastifyToast,
+  ToastContent,
+  TypeOptions,
+} from 'react-toastify';
 
 import {
-  ToastContent,
   ToastFunction,
   ToastFunctionArg1,
   ToastFunctionArg2,

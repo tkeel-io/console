@@ -13,17 +13,6 @@ type RequestParams = {
   condition: { field: string; operator: string; value: string }[];
 };
 
-export interface DeviceItem {
-  id: string;
-  name: string;
-  directConnection: boolean;
-  templateId?: string;
-  createTime: number;
-  status: boolean | string;
-  selfLearn?: boolean;
-  [propName: string]: unknown;
-}
-
 export interface DeviceApiItem {
   id: string;
   properties: {
@@ -54,6 +43,18 @@ export interface DeviceApiItem {
       _userName?: string;
     };
   };
+}
+
+export interface DeviceItem {
+  id: string;
+  name: string;
+  directConnection: boolean;
+  templateId?: string;
+  templateName: string;
+  createTime: number;
+  status: boolean | string;
+  selfLearn?: boolean;
+  originData?: DeviceApiItem;
 }
 
 interface ApiData {

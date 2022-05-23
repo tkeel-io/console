@@ -10,6 +10,7 @@ import {
   ColumnInstance,
   Hooks,
   IdType,
+  MetaBase,
   PluginHook,
   Row,
   SortingRule,
@@ -128,15 +129,20 @@ function Table<D extends object>({
 
   let plugins: PluginHook<D>[] = [];
   const pushSelectionColumn = (hooks: Hooks<D>) => {
-    hooks.visibleColumns.push((allColumns: ColumnInstance<D>[]) => [
-      {
-        id: 'selection',
-        Header: SelectHeader,
-        Cell: SelectCell,
-        width: 50,
-      },
-      ...allColumns,
-    ]);
+    hooks.visibleColumns.push(
+      (allColumns: ColumnInstance<D>[], meta: MetaBase<D>) =>
+        [
+          {
+            id: 'selection',
+            Header: SelectHeader,
+            Cell: SelectCell,
+            width: 50,
+
+            meta,
+          },
+          ...allColumns,
+        ] as ColumnInstance<D>[]
+    );
   };
 
   if (onSelect) {

@@ -147,7 +147,12 @@ function Index() {
         ]}
       />
 
-      <Box flex="1" overflowY="hidden">
+      <Box
+        flex="1"
+        overflowY="hidden"
+        marginTop="8px"
+        backgroundColor="gray.50"
+      >
         {keyData.length > 0 ? (
           <Card />
         ) : (

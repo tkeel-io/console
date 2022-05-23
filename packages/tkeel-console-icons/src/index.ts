@@ -65,6 +65,7 @@ export { default as MessageWarningFilledIcon } from './components/MessageWarning
 export { default as MessageWarningTwoToneIcon } from './components/MessageWarningTwoToneIcon';
 export { default as MethodIcon } from './components/MethodIcon';
 export { default as MgmtNodeTwoToneIcon } from './components/MgmtNodeTwoToneIcon';
+export { default as MonitorTwoToneIcon } from './components/MonitorTwoToneIcon';
 export { default as MoonCircleFilledIcon } from './components/MoonCircleFilledIcon';
 export { default as MoreVerticalFilledIcon } from './components/MoreVerticalFilledIcon';
 export { default as MySqlFilledIcon } from './components/MySqlFilledIcon';

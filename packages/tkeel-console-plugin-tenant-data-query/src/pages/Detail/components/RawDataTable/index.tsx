@@ -1,6 +1,6 @@
 import { Flex } from '@chakra-ui/react';
 import { useCallback, useMemo } from 'react';
-import { Column } from 'react-table';
+import { CellProps, Column } from 'react-table';
 
 import {
   RawDataConnectType,
@@ -31,7 +31,7 @@ export default function RawDataTable({
   isLoading,
 }: Props) {
   const connectCell = useCallback(
-    ({ value }) => (
+    ({ value }: CellProps<RawData>) => (
       <RawDataConnectTypeLabel connectType={value as RawDataConnectType} />
     ),
     []

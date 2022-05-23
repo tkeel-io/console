@@ -1,7 +1,7 @@
 import { Flex, HStack, Text, useClipboard } from '@chakra-ui/react';
 import { values } from 'lodash';
 import { useCallback, useEffect, useState } from 'react';
-import { Cell, Column } from 'react-table';
+import { CellProps, Column } from 'react-table';
 
 import { MoreAction, Table } from '@tkeel/console-components';
 import {
@@ -83,10 +83,10 @@ export default function TelemetryRelationTable({
       };
     });
   const OperateCell = useCallback(
-    ({ row }: Cell<TelemetryRelationItem>) => {
+    ({ row }: CellProps<TelemetryRelationItem>) => {
       const { original } = row;
       if (!original.deviceId) {
-        return '';
+        return null;
       }
       return (
         <MoreAction
@@ -133,7 +133,7 @@ export default function TelemetryRelationTable({
       accessor: 'name',
       width: 160,
       Cell: useCallback(
-        ({ value }) => (
+        ({ value }: CellProps<TelemetryRelationItem, string>) => (
           <Flex alignItems="center" justifyContent="space-between">
             <DuotoneTwoToneIcon />
             <Text
@@ -158,19 +158,22 @@ export default function TelemetryRelationTable({
       Header: '',
       width: 60,
       accessor: 'icon',
-      Cell: useCallback(({ value }) => {
-        if (value) {
-          return <ChainFilledIcon size="16px" />;
-        }
-        return '';
-      }, []),
+      Cell: useCallback(
+        ({ value }: CellProps<TelemetryRelationItem, boolean>) => {
+          if (value) {
+            return <ChainFilledIcon size="16px" />;
+          }
+          return null;
+        },
+        []
+      ),
     },
     {
       Header: '关联设备',
       // accessor: 'deviceName',
       width: 120,
       Cell: useCallback(
-        ({ row }: Cell<TelemetryRelationItem>) => {
+        ({ row }: CellProps<TelemetryRelationItem>) => {
           const { original } = row;
           const { deviceName } = original;
           if (deviceName) {
@@ -199,7 +202,7 @@ export default function TelemetryRelationTable({
       // accessor: 'deviceId',
       width: 100,
       Cell: useCallback(
-        ({ row }: Cell<TelemetryRelationItem>) => {
+        ({ row }: CellProps<TelemetryRelationItem>) => {
           const { original, id } = row;
           const value = original.deviceId ?? '';
           if (hasCopied && id === copiedId && value === copiedValue) {
@@ -229,15 +232,13 @@ export default function TelemetryRelationTable({
       accessor: 'telemetryName',
       width: 120,
       Cell: useCallback(
-        ({ value }) =>
+        ({ value }: CellProps<TelemetryRelationItem, string | undefined>) =>
           value ? (
             <HStack spacing="6px">
               <DuotoneTwoToneIcon size="16px" />
               <Text>{value}</Text>
             </HStack>
-          ) : (
-            ''
-          ),
+          ) : null,
         []
       ),
     },
@@ -246,7 +247,7 @@ export default function TelemetryRelationTable({
       // accessor: 'telemetryId',
       width: 100,
       Cell: useCallback(
-        ({ row }: Cell<TelemetryRelationItem>) => {
+        ({ row }: CellProps<TelemetryRelationItem>) => {
           const { original, id } = row;
           const value = original.telemetryId ?? '';
           if (hasCopied && id === copiedId && value === copiedValue) {
