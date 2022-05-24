@@ -52,18 +52,14 @@ export default function Plugin({
         backgroundColor="white"
         textAlign="left"
         _hover={{
-          '&': {
-            borderColor: 'gray.700',
-            backgroundColor: 'gray.50',
-          },
+          borderColor: 'gray.700',
+          backgroundColor: 'gray.50',
         }}
-        _focus={{ '&': { boxShadow: 'none' } }}
+        _focus={{ boxShadow: 'none' }}
         _expanded={{
-          '&': {
-            borderColor: 'gray.700',
-            boxShadow:
-              '0px 10px 15px -3px rgba(113, 128, 150, 0.1), 0px 4px 6px -2px rgba(113, 128, 150, 0.05)',
-          },
+          borderColor: 'gray.700',
+          boxShadow:
+            '0px 10px 15px -3px rgba(113, 128, 150, 0.1), 0px 4px 6px -2px rgba(113, 128, 150, 0.05)',
         }}
       >
         <AppsTwoToneIcon4 size="32px" />
