@@ -23,7 +23,7 @@ import {
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
 import {
-  CommandWindowFilledIcon,
+  CodeFilledIcon,
   NetworkIcon,
   ProtocolHttpFilledIcon,
   ProtocolSshFilledIcon,
@@ -61,7 +61,7 @@ interface ProxyListItemData {
 interface Variable {
   name: string;
   urlProtocol?: string;
-  icon: ReactNode | string;
+  icon: ReactNode;
 }
 
 interface Props {
@@ -69,6 +69,8 @@ interface Props {
 }
 
 export default function Index({ id }: Props) {
+  const boxShadow =
+    '0px 10px 15px rgba(113, 128, 150, 0.1), 0px 4px 6px rgba(113, 128, 150, 0.2)';
   const { navigate } = plugin.getPortalProps().client;
   const [keywords, setKeyWords] = useState('');
   const toast = plugin.getPortalToast();
@@ -93,25 +95,27 @@ export default function Index({ id }: Props) {
     refetch();
   };
 
-  const agree = {
-    HTTP: {
-      name: 'HTTP',
-      urlProtocol: 'http',
-      icon: <ProtocolHttpFilledIcon color="grayAlternatives.300" />,
-    },
-    HTTPS: {
-      name: 'HTTPS',
-      urlProtocol: 'https',
-      icon: <ProtocolHttpFilledIcon color="grayAlternatives.300" />,
-    },
-    TCP: {
-      name: 'TCP',
-      icon: <CommandWindowFilledIcon color="grayAlternatives.300" />,
-    },
-    SSH: {
-      name: 'SSH',
-      icon: <ProtocolSshFilledIcon color="grayAlternatives.300" />,
-    },
+  const agreeFn = (color: string) => {
+    return {
+      HTTP: {
+        name: 'HTTP',
+        urlProtocol: 'http',
+        icon: <ProtocolHttpFilledIcon color={color} />,
+      },
+      HTTPS: {
+        name: 'HTTPS',
+        urlProtocol: 'https',
+        icon: <ProtocolHttpFilledIcon color={color} />,
+      },
+      TCP: {
+        name: 'TCP',
+        icon: <CodeFilledIcon color={color} />,
+      },
+      SSH: {
+        name: 'SSH',
+        icon: <ProtocolSshFilledIcon color={color} />,
+      },
+    };
   };
 
   const statusVariable = {
@@ -213,53 +217,57 @@ export default function Index({ id }: Props) {
       width: 50,
       Cell: ({ row }: CellProps<ProxyListItemData>) => {
         const { original } = row;
-        const { protocol, url } = original;
+        const { protocol, url, online } = original;
         const protocolArr = ['HTTP', 'HTTPS', 'TCP', 'SSH'];
         let protocolIcon: ReactNode = '';
         let protocolUrl = '';
         if (protocolArr.includes(protocol)) {
-          const { icon, urlProtocol } = agree[protocol] as Variable;
+          const { icon, urlProtocol } = agreeFn(
+            online === 'online' ? 'grayAlternatives.300' : 'gray.400'
+          )[protocol] as Variable;
           protocolIcon = icon;
           protocolUrl = `${urlProtocol ?? ''}://${url}`;
         }
         return useMemo(
           () => (
-            <Popover placement="top">
-              <PopoverTrigger>
-                <Box cursor="pointer">{protocolIcon}</Box>
-              </PopoverTrigger>
-              <PopoverContent
-                bgColor="white"
-                color="gray.700"
-                lineHeight="24px"
-                fontSize="12px"
-                p="8px 12px"
-                borderRadius="4px"
-                border="none"
-                boxShadow="0px 10px 15px rgba(113, 128, 150, 0.1), 0px 4px 6px rgba(113, 128, 150, 0.2)"
-                _focus={{
-                  boxShadow:
-                    '0px 10px 15px rgba(113, 128, 150, 0.1), 0px 4px 6px rgba(113, 128, 150, 0.2)',
-                }}
-              >
-                <PopoverArrow
-                  border="none"
-                  box-shadow=" 0px 10px 15px rgba(113, 128, 150, 0.1), 0px 4px 6px rgba(113, 128, 150, 0.2)"
-                />
-                <PopoverBody
-                  cursor="pointer"
-                  textDecoration="underline"
-                  onClick={() => {
-                    const w = window.open('about:blank') as Window;
-                    w.location.href = protocolUrl;
-                  }}
-                >
-                  {protocolUrl}
-                </PopoverBody>
-              </PopoverContent>
-            </Popover>
+            <Box>
+              {online === 'online' ? (
+                <Popover placement="top">
+                  <PopoverTrigger>
+                    <Box cursor="pointer">{protocolIcon}</Box>
+                  </PopoverTrigger>
+                  <PopoverContent
+                    bgColor="white"
+                    color="gray.700"
+                    lineHeight="24px"
+                    fontSize="12px"
+                    p="8px 12px"
+                    borderRadius="4px"
+                    border="none"
+                    boxShadow={boxShadow}
+                    _focus={{
+                      boxShadow,
+                    }}
+                  >
+                    <PopoverArrow border="none" boxShadow={boxShadow} />
+                    <PopoverBody
+                      cursor="pointer"
+                      textDecoration="underline"
+                      onClick={() => {
+                        const w = window.open('about:blank') as Window;
+                        w.location.href = protocolUrl;
+                      }}
+                    >
+                      {protocolUrl}
+                    </PopoverBody>
+                  </PopoverContent>
+                </Popover>
+              ) : (
+                <Box cursor="not-allowed">{protocolIcon}</Box>
+              )}
+            </Box>
           ),
-          [protocolIcon, protocolUrl]
+          [protocolIcon, protocolUrl, online]
         );
       },
     },
@@ -306,7 +314,7 @@ export default function Index({ id }: Props) {
               fontSize="12px"
               p="8px 12px"
               borderRadius="4px"
-              boxShadow="0px 10px 15px rgba(113, 128, 150, 0.1), 0px 4px 6px rgba(113, 128, 150, 0.2);"
+              boxShadow={boxShadow}
             >
               <Text
                 whiteSpace="nowrap"
