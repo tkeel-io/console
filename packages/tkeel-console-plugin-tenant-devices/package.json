@@ -29,7 +29,7 @@
     "@types/lodash": "^4.14.182",
     "@types/react-sortable-tree": "^0.3.15",
     "@types/react-sortable-tree-theme-file-explorer": "^0.0.0",
-    "@types/react-table": "^7.7.11",
+    "@types/react-table": "^7.7.12",
     "@types/sortablejs": "^1.13.0",
     "framer-motion": "^6.3.3",
     "js-base64": "3.7.2",

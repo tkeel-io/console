@@ -9,13 +9,12 @@ export default function Brand({
   align,
   styles,
 }: BrandProps) {
-  const clientConfig = config?.client;
   const tenantTitle = tenantInfo?.title ?? '';
 
   return (
     <LoginBrand
       align={align}
-      logo={clientConfig?.logoMark ?? ''}
+      logo={config?.common.logoMark ?? ''}
       title={
         <>
           您好，欢迎进入
@@ -25,7 +24,7 @@ export default function Brand({
           ！
         </>
       }
-      slogan={clientConfig?.slogan ?? ''}
+      slogan={config?.common.slogan}
       styles={styles}
     />
   );

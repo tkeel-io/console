@@ -2,8 +2,9 @@ import { Box, Button, Center, Flex, Heading } from '@chakra-ui/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
+import { LoginBackground } from '@tkeel/console-business-components';
 import { Form, FormField } from '@tkeel/console-components';
-import { usePortalTenantConfigQuery } from '@tkeel/console-request-hooks';
+import { useConfigAppearanceQuery } from '@tkeel/console-request-hooks';
 import {
   env,
   jumpToAuthLoginPage,
@@ -19,34 +20,33 @@ const mockData = env.isEnvDevelopment()
 
 const { TextField } = FormField;
 
+const formLabelStyle = {
+  marginBottom: '5px',
+  fontSize: '14px',
+  lineHeight: '20px',
+  color: 'gray.700',
+};
+
+const inputStyle = {
+  height: '50px',
+  padding: '16px 20px',
+  borderWidth: '1px',
+  borderStyle: 'solid',
+  borderColor: 'grayAlternatives.50',
+  borderRadius: '4px',
+  backgroundColor: 'white',
+  fontSize: '14px',
+  lineHeight: '20px',
+};
+
 type FormValues = {
   tenantId: string;
 };
 
 export default function Tenant() {
-  const formLabelStyle = {
-    marginBottom: '5px',
-    fontSize: '14px',
-    lineHeight: '20px',
-    color: 'gray.700',
-  };
-
-  const inputStyle = {
-    height: '50px',
-    padding: '16px 20px',
-    borderWidth: '1px',
-    borderStyle: 'solid',
-    borderColor: 'grayAlternatives.50',
-    borderRadius: '4px',
-    backgroundColor: 'white',
-    fontSize: '14px',
-    lineHeight: '20px',
-  };
-
   const navigate = useNavigate();
-  const { config } = usePortalTenantConfigQuery();
-  const clientConfig = config?.client;
-  const pageConfig = clientConfig?.pages?.Login;
+
+  const { config } = useConfigAppearanceQuery();
 
   const {
     register,
@@ -89,39 +89,15 @@ export default function Tenant() {
 
   return (
     <Flex height="100vh" backgroundColor="white">
-      <Box
-        flex="1"
-        paddingLeft="80px"
-        backgroundImage={pageConfig?.backgroundImage}
-        backgroundRepeat="no-repeat"
-        backgroundSize="cover"
-      >
-        <Heading
-          marginTop="80px"
-          fontWeight="600"
-          fontSize="30px"
-          lineHeight="42px"
-          color="primary"
-        >
-          {pageConfig?.title}
-        </Heading>
-        <Heading
-          marginTop="12px"
-          fontSize="18px"
-          lineHeight="24px"
-          color="gray.100"
-        >
-          {clientConfig?.subTitle1}
-        </Heading>
-        <Heading
-          marginTop="12px"
-          fontSize="18px"
-          lineHeight="24px"
-          color="gray.100"
-        >
-          {clientConfig?.subTitle2}
-        </Heading>
-      </Box>
+      <LoginBackground
+        backgroundImage={config?.common.backgroundImage}
+        logo={
+          config?.platform.tenant[config?.common.backgroundImageLogo] as
+            | string
+            | undefined
+        }
+        sx={{ flex: 1 }}
+      />
       <Center flexDirection="column" width="42vw">
         <Form margin="0" onSubmit={handleSubmit(onSubmit)}>
           <Heading

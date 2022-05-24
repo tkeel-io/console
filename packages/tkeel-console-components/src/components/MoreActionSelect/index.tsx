@@ -1,4 +1,4 @@
-import { Flex, Text } from '@chakra-ui/react';
+import { Flex, StyleProps, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 
 import {
@@ -18,7 +18,7 @@ type Props = {
   options: Option[];
   value: string;
   onChange: (value: string) => unknown;
-  styles?: MoreActionStyles;
+  styles?: MoreActionStyles & { element?: StyleProps };
 };
 
 export default function MoreActionSelect({
@@ -27,6 +27,7 @@ export default function MoreActionSelect({
   onChange,
   styles,
 }: Props) {
+  const { element: elementStyle, ...restStyles } = styles || {};
   const [isActionListOpen, setIsActionListOpen] = useState(false);
 
   const buttons = options.map((option) => (
@@ -43,6 +44,7 @@ export default function MoreActionSelect({
     <MoreAction
       element={
         <Flex
+          justifyContent="space-between"
           alignItems="center"
           width="max-content"
           height="32px"
@@ -50,6 +52,7 @@ export default function MoreActionSelect({
           borderRadius="16px"
           backgroundColor="gray.100"
           cursor="pointer"
+          {...elementStyle}
         >
           <Text marginRight="3px" fontSize="12px" color="grayAlternatives.700">
             {selectedOption?.label ?? ''}
@@ -64,7 +67,7 @@ export default function MoreActionSelect({
       onActionListToggle={(show) => setIsActionListOpen(show)}
       type="text"
       buttons={buttons}
-      styles={{ actionList: { width: '86px' }, ...styles }}
+      styles={{ actionList: { width: '86px' }, ...restStyles }}
     />
   );
 }

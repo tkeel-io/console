@@ -118,10 +118,10 @@ module.exports = {
         use: getStyleLoaders({ type: 'less' }),
       },
       {
-        test: /\.(png|jpg|jpeg|gif)$/i,
+        test: /\.(png|jpg|jpeg|gif|webp)$/i,
         type: 'asset',
         generator: {
-          filename: `${staticDirectory}images/[name].${
+          filename: `${staticDirectory}images/[name]${
             isEnvProduction ? contenthash : ''
           }[ext][query]`,
         },

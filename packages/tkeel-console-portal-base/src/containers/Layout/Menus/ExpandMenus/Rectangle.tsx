@@ -9,7 +9,7 @@ export default function Rectangle({ style }: Props) {
     <Box
       className="rectangle"
       position="absolute"
-      top="10px"
+      top="8px"
       width="4px"
       height="20px"
       backgroundColor="primary"
