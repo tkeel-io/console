@@ -1,8 +1,16 @@
+import { Flex, Text } from '@chakra-ui/react';
+import type { ReactNode } from 'react';
+
+import {
+  DatabaseCacheTwoToneIcon,
+  DataWarehouseTwoToneIcon,
+} from '@tkeel/console-icons';
+
 import { Permission } from '@/tkeel-console-plugin-tenant-roles/hooks/queries/usePermissionsQuery';
 
 interface TreeNodeData extends Permission {
   key: string;
-  title: string;
+  title: ReactNode;
   children?: TreeNodeData[];
 }
 
@@ -14,15 +22,25 @@ export function getTreeData(
 ): TreeData {
   return data.map(({ id, name, children = [], ...rest }) => {
     const key = parentKey ? `${parentKey}/${id}` : id;
+    const hasChildren = children.length > 0;
+    const Icon = hasChildren
+      ? DatabaseCacheTwoToneIcon
+      : DataWarehouseTwoToneIcon;
+
     const treeData = {
       key,
-      title: name,
+      title: (
+        <Flex alignItems="center" flex="1">
+          <Icon size="16px" />
+          <Text paddingLeft="4px">{name}</Text>
+        </Flex>
+      ),
       name,
       id,
       ...rest,
     };
 
-    if (children.length > 0) {
+    if (hasChildren) {
       return { ...treeData, children: getTreeData(children, key) };
     }
 
