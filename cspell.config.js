@@ -76,6 +76,7 @@ module.exports = {
     'mysqlrequest',
     'tinycolor',
     'rawdata',
+    'fluxswitch',
   ],
   ignorePaths: [
     '**/.idea/**',

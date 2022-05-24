@@ -41,6 +41,8 @@ type Props = {
   isLoading: boolean;
   hasSelectedDeviceIds?: string[];
   onConfirm: (devices: DeviceItemExtended[]) => unknown;
+  title?: string;
+  isMultipleChoice?: boolean;
 };
 
 export default function AddDevicesModal({
@@ -50,6 +52,8 @@ export default function AddDevicesModal({
   isLoading,
   hasSelectedDeviceIds = [],
   onConfirm,
+  title = '添加设备',
+  isMultipleChoice = true,
 }: Props) {
   const [tabType, setTabType] = useState<'group' | 'template'>(
     type === 'template' ? 'template' : 'group'
@@ -189,7 +193,6 @@ export default function AddDevicesModal({
       (device.properties?.basicInfo?.name || '').includes(keywords)
     );
   };
-
   const handleDeviceSearch = (keywords: string) => {
     setDeviceKeywords(keywords);
     setSelectedDeviceKeywords(keywords);
@@ -241,8 +244,8 @@ export default function AddDevicesModal({
 
   return (
     <Modal
-      title="添加设备"
-      width="900px"
+      title={title}
+      width={isMultipleChoice ? '900px' : '580px'}
       isOpen={isOpen}
       onClose={onClose}
       onConfirm={() =>
@@ -304,6 +307,7 @@ export default function AddDevicesModal({
                     </Box>
                     <Flex marginLeft="20px" {...contentStyle}>
                       <CheckDeviceList
+                        isMultipleChoice={isMultipleChoice}
                         isLoading={isDeviceListLoading}
                         empty={
                           groupId ? (
@@ -354,6 +358,7 @@ export default function AddDevicesModal({
                   </Box>
                   <Flex marginLeft="20px" {...contentStyle}>
                     <CheckDeviceList
+                      isMultipleChoice={isMultipleChoice}
                       isLoading={isDeviceListLoading}
                       empty={
                         templateId ? (
@@ -381,55 +386,57 @@ export default function AddDevicesModal({
             </TabPanels>
           </Tabs>
         </Flex>
-        <Flex flexDirection="column" width="300px">
-          <Flex justifyContent="space-between" alignItems="center">
-            <Text {...titleStyle}>已选择（{selectedDevices.length}）</Text>
-            <Flex
-              alignItems="center"
-              cursor="pointer"
-              onClick={() => {
-                handleSetSelectedDevices([]);
-                setDeviceKeywords('');
-              }}
-            >
-              <BroomFilledIcon size="14px" color="grayAlternatives.300" />
-              <Text
-                marginLeft="5px"
-                color="gray.700"
-                fontSize="12px"
-                lineHeight="18px"
+        {isMultipleChoice && (
+          <Flex flexDirection="column" width="300px">
+            <Flex justifyContent="space-between" alignItems="center">
+              <Text {...titleStyle}>已选择（{selectedDevices.length}）</Text>
+              <Flex
+                alignItems="center"
+                cursor="pointer"
+                onClick={() => {
+                  handleSetSelectedDevices([]);
+                  setDeviceKeywords('');
+                }}
               >
-                清空
-              </Text>
+                <BroomFilledIcon size="14px" color="grayAlternatives.300" />
+                <Text
+                  marginLeft="5px"
+                  color="gray.700"
+                  fontSize="12px"
+                  lineHeight="18px"
+                >
+                  清空
+                </Text>
+              </Flex>
             </Flex>
-          </Flex>
-          <SearchInput
-            placeholder="支持搜索设备名称"
-            value={deviceKeywords}
-            onChange={(value) => {
-              setDeviceKeywords(value);
-            }}
-            onSearch={handleDeviceSearch}
-            inputGroupStyle={inputGroupStyle}
-          />
-          <Box {...contentStyle}>
-            <SelectedDevices
-              type={tabType}
-              hasSelectedGroupOrTemplate={
-                (tabTypeIsGroup && !!groupId) ||
-                (tabTypeIsTemplate && !!templateId)
-              }
-              keywords={selectedDeviceKeywords}
-              devices={filteredSelectedDevices}
-              removeDevice={(deviceId) => {
-                handleSetSelectedDevices(
-                  selectedDevices.filter((device) => device.id !== deviceId)
-                );
+            <SearchInput
+              placeholder="支持搜索设备名称"
+              value={deviceKeywords}
+              onChange={(value) => {
+                setDeviceKeywords(value);
               }}
-              styles={{ wrapper: { height: '439px' } }}
+              onSearch={handleDeviceSearch}
+              inputGroupStyle={inputGroupStyle}
             />
-          </Box>
-        </Flex>
+            <Box {...contentStyle}>
+              <SelectedDevices
+                type={tabType}
+                hasSelectedGroupOrTemplate={
+                  (tabTypeIsGroup && !!groupId) ||
+                  (tabTypeIsTemplate && !!templateId)
+                }
+                keywords={selectedDeviceKeywords}
+                devices={filteredSelectedDevices}
+                removeDevice={(deviceId) => {
+                  handleSetSelectedDevices(
+                    selectedDevices.filter((device) => device.id !== deviceId)
+                  );
+                }}
+                styles={{ wrapper: { height: '439px' } }}
+              />
+            </Box>
+          </Flex>
+        )}
       </Flex>
     </Modal>
   );
