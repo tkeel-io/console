@@ -23,6 +23,8 @@ export default function Index(): JSX.Element {
   const { pageNum, pageSize, setTotalSize } = pagination;
   const [keyWords, setKeyWords] = useState(0);
   const toast = plugin.getPortalToast();
+  const documents = plugin.getPortalDocuments();
+
   const routeTypeArr: RouteType[] = ['msg', 'time'];
   const { routeRulesData, data, isSuccess, isLoading, refetch } =
     useRouteRulesQuery({
@@ -45,7 +47,7 @@ export default function Index(): JSX.Element {
       <PageHeader
         icon={<MethodIcon size={40} />}
         name="数据路由规则"
-        // documentsPath={documents.config.paths.adminGuide.plugins}
+        documentsPath={documents.config.paths.tenantGuide.routingRules}
         desc="平台接入的设备数据可以通过自定义的路由规则进行数据的简单处理并流转向其它服务。"
       />
       <Flex justifyContent="space-between" m="14px 0 22px">
@@ -137,6 +139,9 @@ export default function Index(): JSX.Element {
                               deviceTemplateName,
                             }}
                             refetch={() => {
+                              refetch();
+                            }}
+                            onDeleteSuccess={() => {
                               refetch();
                             }}
                           />

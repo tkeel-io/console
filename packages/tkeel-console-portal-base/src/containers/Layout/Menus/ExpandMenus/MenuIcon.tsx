@@ -15,23 +15,22 @@ function MenuIcon({ icon, active, style = {} }: Props) {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const Icon = icons[iconName];
   const isTwoTone = iconName.includes('TwoTone');
-  let defaultColor = 'gray.700';
 
   const isDarkMenu = isDarkMenuTheme();
+
+  let defaultColor = 'gray.700';
+  let defaultTwoToneColor = 'gray.300';
+  const activeColor = isTwoTone ? 'whiteAlpha.700' : 'white';
+  const twoToneColor = active ? 'white' : defaultTwoToneColor;
+
   if (isDarkMenu) {
     defaultColor = isTwoTone ? 'whiteAlpha.500' : 'whiteAlpha.800';
-  }
-
-  let defaultTwoToneColor = 'gray.300';
-  if (isDarkMenu) {
     defaultTwoToneColor = isTwoTone ? 'whiteAlpha.800' : 'whiteAlpha.500';
   }
 
-  const activeColor = isTwoTone ? 'whiteAlpha.700' : 'white';
-
   const iconProps = isTwoTone
     ? {
-        twoToneColor: active ? 'white' : defaultTwoToneColor,
+        twoToneColor,
       }
     : {};
 

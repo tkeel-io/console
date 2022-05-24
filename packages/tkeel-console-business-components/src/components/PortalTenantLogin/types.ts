@@ -1,6 +1,6 @@
 import { StyleProps } from '@chakra-ui/react';
 
-import type { PortalTenantConfig } from '@tkeel/console-request-hooks';
+import type { Appearance } from '@tkeel/console-constants';
 import type { AuthType } from '@tkeel/console-types';
 
 interface BaseProps {
@@ -8,7 +8,7 @@ interface BaseProps {
     auth_type: AuthType;
     title: string;
   };
-  config?: PortalTenantConfig;
+  config?: Appearance;
 }
 
 interface OnPasswordFormSubmit {
@@ -25,6 +25,10 @@ interface TenantLoginProps extends BaseProps {
   mockData?: {
     username: string;
     password: string;
+  };
+
+  styles?: {
+    wrapper?: StyleProps;
   };
 }
 

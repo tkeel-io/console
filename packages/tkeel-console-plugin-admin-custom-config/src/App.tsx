@@ -4,7 +4,7 @@ import Routes from './routes';
 
 export default function App() {
   return (
-    <PluginBase.App>
+    <PluginBase.App style={{ overflowY: 'auto' }}>
       <Routes />
     </PluginBase.App>
   );

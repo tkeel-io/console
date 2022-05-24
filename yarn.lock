@@ -3628,6 +3628,7 @@ __metadata:
     "@emotion/styled": ^11.8.1
     "@tkeel/console-business-components": "workspace:^"
     "@tkeel/console-components": "workspace:^"
+    "@tkeel/console-constants": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
     "@tkeel/console-icons": "workspace:^"
     "@tkeel/console-request-hooks": "workspace:^"
@@ -3639,6 +3640,7 @@ __metadata:
     react: ^18.1.0
     react-colorful: ^5.5.1
     react-dom: ^18.1.0
+    react-hook-form: ^7.30.0
     react-query: ^3.39.0
     react-router-dom: ^6.3.0
   languageName: unknown
@@ -3961,6 +3963,7 @@ __metadata:
     "@emotion/styled": ^11.8.1
     "@tkeel/console-business-components": "workspace:^"
     "@tkeel/console-components": "workspace:^"
+    "@tkeel/console-constants": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
     "@tkeel/console-icons": "workspace:^"
     "@tkeel/console-request-hooks": "workspace:^"
@@ -4009,6 +4012,7 @@ __metadata:
     "@chakra-ui/react": ^1.8.8
     "@tkeel/console-constants": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
+    "@tkeel/console-themes": "workspace:^"
     "@tkeel/console-types": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
     js-base64: ^3.7.2
@@ -14668,6 +14672,15 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17.0.0
   checksum: 520b12a4496be21b3228bbf938657f6c33f868e486a0cd355d8bec918129d2c1bf7aabecb20aecdb446a1fbdb61b16f680b5d15b998f544f1b5c0dc5c8914c40
+  languageName: node
+  linkType: hard
+
+"react-hook-form@npm:^7.30.0":
+  version: 7.30.0
+  resolution: "react-hook-form@npm:7.30.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17 || ^18
+  checksum: 7af442c80e1d8e04b6345f4f46177974d82488e81cc12b165d6ff1c69ba0f6234bd2ef0f7b51dda34f77b36fe74464815bbb0f4c77dc2cd9793f8e89d528ae25
   languageName: node
   linkType: hard
 

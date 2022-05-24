@@ -7,6 +7,18 @@ import * as icons from '@tkeel/console-icons';
 
 import basicInfoBg from '@/tkeel-console-business-components/assets/images/basic-info-bg.svg';
 
+export function BasicInfoBg() {
+  return (
+    <Image
+      position="absolute"
+      right="0"
+      top="0"
+      height="100%"
+      src={basicInfoBg}
+    />
+  );
+}
+
 type Props = {
   backUrl?: string;
   rightTopButton: ReactNode;
@@ -19,7 +31,7 @@ type Props = {
   }[];
 };
 
-function BasicInfo({
+export default function BasicInfo({
   backUrl = '/',
   rightTopButton,
   icon = '',
@@ -80,13 +92,7 @@ function BasicInfo({
             </Text>
           </Box>
         </Flex>
-        <Image
-          position="absolute"
-          right="0"
-          top="0"
-          height="100%"
-          src={basicInfoBg}
-        />
+        <BasicInfoBg />
       </Box>
       <InfoCard
         data={basicInfoList}
@@ -95,5 +101,3 @@ function BasicInfo({
     </Box>
   );
 }
-
-export default BasicInfo;
