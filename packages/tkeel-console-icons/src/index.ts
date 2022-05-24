@@ -40,6 +40,7 @@ export { default as ErrorFilledIcon } from './components/ErrorFilledIcon';
 export { default as ErrorTwoToneIcon } from './components/ErrorTwoToneIcon';
 export { default as ExpandFilledIcon } from './components/ExpandFilledIcon';
 export { default as EyeFilledIcon } from './components/EyeFilledIcon';
+export { default as EyeOffFilledIcon } from './components/EyeOffFilledIcon';
 export { default as FileBoxTwoToneIcon } from './components/FileBoxTwoToneIcon';
 export { default as FloppyDiskFilledIcon } from './components/FloppyDiskFilledIcon';
 export { default as FolderCloseTwoToneIcon } from './components/FolderCloseTwoToneIcon';
