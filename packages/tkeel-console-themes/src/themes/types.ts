@@ -1,16 +1,16 @@
-import { ColorHues, Colors as ChakraColors } from '@chakra-ui/react';
+import { ColorHues } from '@chakra-ui/react';
 
 import type { BaseTheme } from './base-extension';
 
-export type Colors = ChakraColors & {
-  primary: string;
-  whiteAlpha: ColorHues;
-  blackAlias: string;
-  whiteAlias: string;
-  brand: ColorHues;
-  grayAlternatives: ColorHues;
-};
+type BaseColors = BaseTheme['colors'];
 
-export type Theme = BaseTheme & {
+interface Colors extends Readonly<BaseColors> {
+  primary: string;
+  brand: ColorHues;
+}
+
+interface Theme extends BaseTheme {
   colors: Colors;
-};
+}
+
+export type { Colors, Theme };

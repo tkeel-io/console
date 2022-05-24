@@ -22,6 +22,7 @@
     "@emotion/styled": "^11.8.1",
     "@tkeel/console-business-components": "workspace:^",
     "@tkeel/console-components": "workspace:^",
+    "@tkeel/console-constants": "workspace:^",
     "@tkeel/console-hooks": "workspace:^",
     "@tkeel/console-icons": "workspace:^",
     "@tkeel/console-request-hooks": "workspace:^",
@@ -33,6 +34,7 @@
     "react": "^18.1.0",
     "react-colorful": "^5.5.1",
     "react-dom": "^18.1.0",
+    "react-hook-form": "^7.30.0",
     "react-query": "^3.39.0",
     "react-router-dom": "^6.3.0"
   }

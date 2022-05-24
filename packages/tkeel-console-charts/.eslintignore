@@ -1,0 +1,8 @@
+.yarn/
+**/node_modules/
+**/dist/
+
+
+src/components/Editor/basic-languages/sql.ts
+src/components/Editor/basic-languages/yaml.ts
+src/components/Editor/registerCompletion.ts

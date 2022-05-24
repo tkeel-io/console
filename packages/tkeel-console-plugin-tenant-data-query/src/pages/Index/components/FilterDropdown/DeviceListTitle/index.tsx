@@ -38,7 +38,13 @@ export default function DeviceListTitle({
               },
             }}
             cursor="pointer"
-            onClick={onBackBtnClick}
+            onClick={() => {
+              onBackBtnClick();
+              onStatusChange({
+                label: '全部状态',
+                value: 'all',
+              });
+            }}
           >
             <GoBackFilledIcon />
           </Box>

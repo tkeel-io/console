@@ -5,12 +5,19 @@ import MenuIcon from './MenuIcon';
 
 type Props = {
   active: boolean;
+  menuIconActive?: boolean;
   name: string;
   leftIcon: string;
   rightIcon?: ReactNode;
 };
 
-function MenuItem({ active, name, leftIcon, rightIcon = null }: Props) {
+function MenuItem({
+  active,
+  menuIconActive,
+  name,
+  leftIcon,
+  rightIcon = null,
+}: Props) {
   return (
     <Flex
       alignItems="center"
@@ -24,7 +31,7 @@ function MenuItem({ active, name, leftIcon, rightIcon = null }: Props) {
       <Flex alignItems="center">
         <MenuIcon
           icon={leftIcon}
-          active={active}
+          active={menuIconActive ?? active}
           style={{ marginRight: '10px' }}
         />
         <Text className="menu-name">{name}</Text>

@@ -118,7 +118,7 @@ const variantSolid: SystemStyleFunction = (props) => {
       bg,
       boxShadow: `0 4px 12px ${transparentize('primary', 0.2)(theme)}`,
       _hover: {
-        bg: mode(`primary`, `whiteAlpha.300`)(props),
+        bg: mode(`brand.700`, `whiteAlpha.300`)(props),
         _disabled: {
           bg,
         },
@@ -128,7 +128,7 @@ const variantSolid: SystemStyleFunction = (props) => {
         svg: {
           fill: 'white !important',
         },
-        bg: mode(`primary`, `whiteAlpha.400`)(props),
+        bg: mode(`brand.700`, `whiteAlpha.400`)(props),
       },
     };
   }

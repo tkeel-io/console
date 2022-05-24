@@ -1,9 +1,9 @@
 import { Box, Flex, StyleProps, Text } from '@chakra-ui/react';
 import { ReactElement, ReactNode } from 'react';
-// import { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { MoreAction } from '@tkeel/console-components';
+import { useColor } from '@tkeel/console-hooks';
 
 type Props = {
   icon: ReactNode;
@@ -27,6 +27,7 @@ function TemplateCard({
   styles,
 }: Props) {
   const navigate = useNavigate();
+  const borderColor = useColor('gray.700');
 
   return (
     <Box
@@ -38,6 +39,9 @@ function TemplateCard({
       height="118px"
       bg="white"
       cursor="pointer"
+      _hover={{
+        border: `1px solid ${borderColor}`,
+      }}
       {...styles?.wrapper}
       onClick={() => {
         navigate(navigateUrl);
