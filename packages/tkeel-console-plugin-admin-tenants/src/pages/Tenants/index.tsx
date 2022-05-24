@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Text, Theme, useTheme } from '@chakra-ui/react';
+import { Button, Flex, Text, Theme, useTheme } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CellProps, Column } from 'react-table';
@@ -7,7 +7,7 @@ import {
   ButtonsHStack,
   Empty,
   PageHeader,
-  SearchInput,
+  PageHeaderToolbar,
   Table,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
@@ -29,6 +29,7 @@ import CreateTenantButton from './components/CreateTenantButton';
 
 export default function Tenants() {
   const toast = plugin.getPortalToast();
+  const documents = plugin.getPortalDocuments();
   const { colors }: Theme = useTheme();
   const navigate = useNavigate();
   const [keyWords, setKeyWords] = useState('');
@@ -153,11 +154,12 @@ export default function Tenants() {
   ];
 
   return (
-    <Flex paddingTop="16px" flexDirection="column" height="100%">
+    <Flex paddingTop="12px" flexDirection="column" height="100%">
       <PageHeader
-        icon={<GroupTwoToneIcon size="26px" />}
+        icon={<GroupTwoToneIcon />}
         name="租户管理"
         desc="管理租户空间，管理租户空间用户。"
+        documentsPath={documents.config.paths.adminGuide.tenantIntro}
       />
       <Flex
         flexDirection="column"
@@ -166,26 +168,32 @@ export default function Tenants() {
         backgroundColor="white"
         boxShadow="xl"
         overflow="hidden"
+        borderTopLeftRadius="4px"
+        borderTopRightRadius="4px"
       >
-        <Flex
-          alignItems="center"
-          height="56px"
-          padding="0 20px"
-          backgroundColor="gray.100"
-        >
-          <Box flex="1" marginRight="16px">
-            <SearchInput
-              width="100%"
-              placeholder="搜索"
-              inputStyle={{ backgroundColor: colors.gray[50] }}
-              onSearch={(value) => {
-                setPageNum(1);
-                setKeyWords(value.trim());
-              }}
-            />
-          </Box>
-          <CreateTenantButton onSuccess={handleCreateTenantSuccess} />
-        </Flex>
+        <PageHeaderToolbar
+          hasSearchInput
+          searchInputProps={{
+            inputGroupStyle: { flex: 1 },
+            inputStyle: { backgroundColor: colors.white },
+            onSearch(value) {
+              setPageNum(1);
+              setKeyWords(value.trim());
+            },
+          }}
+          buttons={[
+            <CreateTenantButton
+              key="create"
+              onSuccess={handleCreateTenantSuccess}
+            />,
+          ]}
+          styles={{
+            wrapper: {
+              padding: '0 20px',
+              backgroundColor: 'gray.100',
+            },
+          }}
+        />
         <Table
           columns={columns}
           data={tenants}
@@ -211,6 +219,7 @@ export default function Tenants() {
             },
             pagination: {
               padding: '0 20px',
+              backgroundColor: 'gray.50',
             },
           }}
         />

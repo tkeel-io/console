@@ -102,7 +102,7 @@ function SearchInput({
         paddingInlineEnd="30px"
         borderColor="grayAlternatives.100"
         borderRadius="20px"
-        color="gray.500"
+        color="gray.700"
         fontSize="12px"
         {...inputStyle}
         _focus={{ borderColor: 'gray.400' }}

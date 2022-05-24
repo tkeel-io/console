@@ -19,7 +19,7 @@ import SearchInput, {
 import { ButtonWrapper } from './index.styled';
 
 type Props = {
-  name: ReactNode;
+  name?: ReactNode;
   documentsPath?: string;
   hasSearchInput?: boolean;
   searchInputProps?: SearchInputProps;
@@ -89,7 +89,7 @@ function PageHeaderToolbar({
         {hasSearchInput && <SearchInput {...siProps} />}
       </Flex>
       {buttons.length > 0 && (
-        <Flex paddingLeft="8px">
+        <Flex paddingLeft="12px">
           {buttons.map((button, index) => (
             <ButtonWrapper key={String(index + 1)}>{button}</ButtonWrapper>
           ))}

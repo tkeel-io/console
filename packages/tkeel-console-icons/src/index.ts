@@ -28,6 +28,7 @@ export { default as CloseFilledIcon } from './components/CloseFilledIcon';
 export { default as CollapseFilledIcon } from './components/CollapseFilledIcon';
 export { default as CopyFilledIcon } from './components/CopyFilledIcon';
 export { default as CreateFinishedIcon } from './components/CreateFinishedIcon';
+export { default as CrowdTwoToneIcon } from './components/CrowdTwoToneIcon';
 export { default as DevopsFilledIcon } from './components/DevopsFilledIcon';
 export { default as DocumentPencilTowToneIcon } from './components/DocumentPencilTowToneIcon';
 export { default as DotLineFilledIcon } from './components/DotLineFilledIcon';

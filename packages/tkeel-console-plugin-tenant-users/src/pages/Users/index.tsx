@@ -4,10 +4,12 @@ import { CellProps, Column } from 'react-table';
 
 import {
   ButtonsHStack,
+  PageHeader,
   PageHeaderToolbar,
   Table,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
+import { CrowdTwoToneIcon } from '@tkeel/console-icons';
 import {
   User,
   useTenantQuery,
@@ -134,12 +136,17 @@ export default function Users() {
   ];
 
   return (
-    <Flex flexDirection="column" height="100%">
-      <PageHeaderToolbar
+    <Flex paddingTop="12px" flexDirection="column" height="100%">
+      <PageHeader
+        icon={<CrowdTwoToneIcon />}
         name="用户管理"
+        desc="管理用户包括新增和删除用户，查看平台用户账号、基本信息和状态，编辑角色权限和密码重置"
         documentsPath={documents.config.paths.tenantGuide.users}
+      />
+      <PageHeaderToolbar
         hasSearchInput
         searchInputProps={{
+          inputGroupStyle: { flex: 1 },
           inputStyle: { backgroundColor: colors.white },
           onSearch(value) {
             setPageNum(1);
@@ -154,6 +161,15 @@ export default function Users() {
             />
           ),
         ]}
+        styles={{
+          wrapper: {
+            marginTop: '16px',
+            padding: '0 20px',
+            borderTopLeftRadius: '4px',
+            borderTopRightRadius: '4px',
+            backgroundColor: 'gray.100',
+          },
+        }}
       />
       <Table
         columns={columns}
@@ -161,13 +177,19 @@ export default function Users() {
         paginationProps={pagination}
         scroll={{ y: '100%' }}
         isLoading={isLoading}
-        isShowStripe
         styles={{
           wrapper: {
             flex: 1,
             overflow: 'hidden',
-            padding: '12px 20px 0',
             backgroundColor: 'whiteAlias',
+          },
+          headTr: {
+            height: '40px',
+            backgroundColor: 'gray.50',
+          },
+          pagination: {
+            padding: '0 20px',
+            backgroundColor: 'gray.50',
           },
         }}
       />
