@@ -53,6 +53,12 @@ export default [
         entry:
           'http://127.0.0.1:3007/static/console-plugin-tenant-device-templates/',
       },
+      {
+        id: 'console-plugin-tenant-networks',
+        name: '网络服务',
+        path: '/tenant-networks',
+        entry: 'http://127.0.0.1:3013/static/console-plugin-tenant-networks/',
+      },
     ],
   },
   {

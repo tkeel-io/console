@@ -41,6 +41,7 @@ function Pagination({
       alignItems="center"
       flexShrink={0}
       height="56px"
+      padding="0 20px"
       backgroundColor="white"
       boxShadow={
         showBoxShadow ? '0px -4px 8px rgba(239, 244, 249, 0.8)' : 'none'

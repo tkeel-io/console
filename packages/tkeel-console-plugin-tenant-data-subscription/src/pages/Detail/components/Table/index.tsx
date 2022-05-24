@@ -72,7 +72,7 @@ export default function Index({ id, title, refetchSubscribeInfo }: Props) {
   );
 
   const handleRefetch = () => {
-    // TODO 添加或移除设备后有延迟，临时处理方案
+    // TODO: 添加或移除设备后有延迟，临时处理方案
     setTimeout(() => {
       refetch();
       refetchSubscribeInfo();

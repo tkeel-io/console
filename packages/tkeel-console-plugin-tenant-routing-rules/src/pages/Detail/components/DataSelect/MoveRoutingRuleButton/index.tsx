@@ -51,7 +51,7 @@ export default function MoveRoutingRuleButton({
     useDeleteDevicesMutation({
       ruleId: id || '',
       onSuccess() {
-        // TODO 移除设备后有延迟，临时处理方案
+        // TODO: 移除设备后有延迟，临时处理方案
         setTimeout(() => {
           refetchData();
         }, 500);

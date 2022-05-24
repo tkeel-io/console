@@ -137,7 +137,6 @@ function Table<D extends object>({
             Header: SelectHeader,
             Cell: SelectCell,
             width: 50,
-
             meta,
           },
           ...allColumns,
@@ -252,7 +251,7 @@ function Table<D extends object>({
         {hasPagination && (
           <Pagination
             {...paginationProps}
-            styles={{ wrapper: styles?.pagination }}
+            styles={{ wrapper: { padding: 0, ...styles?.pagination } }}
           />
         )}
       </>
