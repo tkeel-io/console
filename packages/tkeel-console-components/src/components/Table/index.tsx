@@ -251,7 +251,7 @@ function Table<D extends object>({
         {hasPagination && (
           <Pagination
             {...paginationProps}
-            styles={{ wrapper: styles?.pagination }}
+            styles={{ wrapper: { padding: 0, ...styles?.pagination } }}
           />
         )}
       </>
