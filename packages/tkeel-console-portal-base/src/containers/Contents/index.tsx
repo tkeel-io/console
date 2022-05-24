@@ -12,6 +12,7 @@ import {
 import { Colors } from '@tkeel/console-themes';
 
 import Routes from '@/tkeel-console-portal-base/routes';
+import GlobalStyles from '@/tkeel-console-portal-base/styles/GlobalStyles';
 import themes, {
   DEFAULT_THEME,
   DEFAULT_THEME_NAME,
@@ -71,6 +72,7 @@ export default function Contents({
 
   return (
     <ChakraProvider theme={newTheme}>
+      <GlobalStyles />
       <GlobalPortalProvider
         value={{
           documents: {

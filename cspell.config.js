@@ -78,6 +78,11 @@ module.exports = {
     'mysqlrequest',
     'tinycolor',
     'rawdata',
+    // fonts
+    'truetype',
+    'Roboto',
+    'Noto',
+    'WenQuanYi',
   ],
   ignorePaths: [
     '**/.idea/**',
