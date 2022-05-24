@@ -41,23 +41,33 @@ function CustomFormControl({
       {...formControlStyle}
       isInvalid={!!error}
     >
-      <FormLabel
-        htmlFor={id}
-        color="gray.600"
-        fontSize="14px"
-        lineHeight="24px"
-        {...formLabelStyle}
-      >
-        {label}
-      </FormLabel>
-      {children}
-      {error ? (
-        <FormErrorMessage {...formHelperStyle} {...formErrorMessageStyle}>
-          {error?.message}
-        </FormErrorMessage>
-      ) : (
-        <FormHelperText {...formHelperStyle}>{help}</FormHelperText>
+      {label && (
+        <FormLabel
+          htmlFor={id}
+          color="gray.600"
+          fontSize="14px"
+          lineHeight="24px"
+          {...formLabelStyle}
+        >
+          {label}
+        </FormLabel>
       )}
+      {children}
+      {(() => {
+        if (error?.message) {
+          return (
+            <FormErrorMessage {...formHelperStyle} {...formErrorMessageStyle}>
+              {error?.message}
+            </FormErrorMessage>
+          );
+        }
+
+        if (help) {
+          return <FormHelperText {...formHelperStyle}>{help}</FormHelperText>;
+        }
+
+        return null;
+      })()}
     </FormControl>
   );
 }

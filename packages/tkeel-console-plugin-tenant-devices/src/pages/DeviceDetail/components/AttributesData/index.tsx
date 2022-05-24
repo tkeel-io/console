@@ -114,7 +114,7 @@ function renderTooltip(info: { type: string; rw: ReadWriteType }) {
     </SimpleGrid>
   );
 }
-// TODO DEVICES 优化：不同类型的数据上报/数据修改表单校验
+// TODO: DEVICES 优化：不同类型的数据上报/数据修改表单校验
 function AttributesData({
   deviceId,
   basicInfo,
