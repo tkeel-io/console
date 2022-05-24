@@ -19,7 +19,6 @@ function DeviceBasicInfoCard({ basic }: Props) {
         wrapper: {
           bg: 'white',
           w: '100%',
-          minHeight: '108px',
         },
       }}
     />

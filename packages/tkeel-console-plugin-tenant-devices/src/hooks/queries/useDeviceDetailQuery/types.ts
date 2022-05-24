@@ -8,6 +8,25 @@ import {
   TelemetryValue,
 } from '@tkeel/console-types';
 
+export interface ExtBusinessBaseValue {
+  title: string;
+  type: string;
+  icon: string;
+  description: string;
+  value: string;
+}
+export type FluxSwitchValue = ExtBusinessBaseValue;
+
+export interface ExtBusinessExtendValue extends ExtBusinessBaseValue {
+  [propName: string]: unknown;
+}
+
+export interface ExtBusinessItem {
+  title: string;
+  type: string;
+  value: ExtBusinessBaseValue[];
+}
+
 export interface BasicInfo {
   configs?: object;
   mappers?: object;
@@ -20,6 +39,13 @@ export interface BasicInfo {
   name: string;
   type: string;
   ext: { [propName: string]: string };
+  extBusiness: {
+    [propName: string]: {
+      title: string;
+      type: string;
+      value: ExtBusinessExtendValue[];
+    };
+  };
   parentId: string;
   selfLearn: boolean;
   description?: string;
