@@ -163,12 +163,16 @@ export default function Tenants() {
         flexDirection="column"
         flex="1"
         marginTop="16px"
-        padding="0 20px"
         backgroundColor="white"
         boxShadow="xl"
         overflow="hidden"
       >
-        <Flex alignItems="center" height="40px" margin="16px 0">
+        <Flex
+          alignItems="center"
+          height="56px"
+          padding="0 20px"
+          backgroundColor="gray.100"
+        >
           <Box flex="1" marginRight="16px">
             <SearchInput
               width="100%"
@@ -200,6 +204,13 @@ export default function Tenants() {
               flex: 1,
               overflow: 'hidden',
               backgroundColor: 'whiteAlias',
+            },
+            headTr: {
+              height: '40px',
+              backgroundColor: 'gray.50',
+            },
+            pagination: {
+              padding: '0 20px',
             },
           }}
         />
