@@ -4,10 +4,12 @@ import { CellProps, Column } from 'react-table';
 
 import {
   ButtonsHStack,
+  PageHeader,
   PageHeaderToolbar,
   Table,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
+import { RoleTwoToneIcon } from '@tkeel/console-icons';
 import { Role, useRolesQuery } from '@tkeel/console-request-hooks';
 import { plugin } from '@tkeel/console-utils';
 
@@ -135,11 +137,16 @@ export default function Roles() {
 
   return (
     <Flex flexDirection="column" height="100%">
-      <PageHeaderToolbar
+      <PageHeader
+        icon={<RoleTwoToneIcon />}
         name="角色管理"
+        desc="角色管理包括权限策略管理和授权"
         documentsPath={documents.config.paths.tenantGuide.roles}
+      />
+      <PageHeaderToolbar
         hasSearchInput
         searchInputProps={{
+          inputGroupStyle: { flex: 1 },
           inputStyle: {
             backgroundColor: 'gray.50',
           },
@@ -151,6 +158,15 @@ export default function Roles() {
         buttons={[
           <CreateRoleButton key="create" onSuccess={handleCreateRoleSuccess} />,
         ]}
+        styles={{
+          wrapper: {
+            marginTop: '16px',
+            padding: '0 20px',
+            borderTopLeftRadius: '4px',
+            borderTopRightRadius: '4px',
+            backgroundColor: 'gray.100',
+          },
+        }}
       />
       <Table
         columns={columns}
@@ -158,13 +174,19 @@ export default function Roles() {
         paginationProps={pagination}
         scroll={{ y: '100%' }}
         isLoading={isLoading}
-        isShowStripe
         styles={{
           wrapper: {
             flex: 1,
             overflow: 'hidden',
-            padding: '12px 20px 0',
             backgroundColor: 'whiteAlias',
+          },
+          headTr: {
+            height: '40px',
+            backgroundColor: 'gray.50',
+          },
+          pagination: {
+            padding: '0 20px',
+            backgroundColor: 'gray.50',
           },
         }}
       />

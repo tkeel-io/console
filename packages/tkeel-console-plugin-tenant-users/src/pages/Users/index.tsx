@@ -1,4 +1,4 @@
-import { Flex, Text, Theme, useTheme } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
 import { CellProps, Column } from 'react-table';
 
@@ -30,7 +30,6 @@ export default function Users() {
   const toast = plugin.getPortalToast();
   const documents = plugin.getPortalDocuments();
 
-  const { colors }: Theme = useTheme();
   const { tenant_id: tenantId } = getLocalTenantInfo();
   const [keyWords, setKeyWords] = useState('');
   const pagination = usePagination();
@@ -147,7 +146,7 @@ export default function Users() {
         hasSearchInput
         searchInputProps={{
           inputGroupStyle: { flex: 1 },
-          inputStyle: { backgroundColor: colors.white },
+          inputStyle: { backgroundColor: 'gray.50' },
           onSearch(value) {
             setPageNum(1);
             setKeyWords(value.trim());
