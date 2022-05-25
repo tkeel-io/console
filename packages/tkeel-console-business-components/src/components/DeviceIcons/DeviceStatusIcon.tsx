@@ -9,6 +9,7 @@ import IconWrapper from './IconWrapper';
 type Props = {
   isOnline: boolean;
   isShowTooltip?: boolean;
+  size?: number;
   styles?: {
     wrapper?: StyleProps;
   };
@@ -17,6 +18,7 @@ type Props = {
 export default function StatusIcon({
   isOnline,
   isShowTooltip = true,
+  size = 20,
   styles,
 }: Props) {
   let label: ReactNode = '';
@@ -37,9 +39,9 @@ export default function StatusIcon({
       <Tooltip label={label}>
         <IconWrapper bg={isOnline ? 'green.50' : 'gray.100'}>
           {isOnline ? (
-            <WifiFilledIcon color="green.300" size={20} />
+            <WifiFilledIcon color="green.300" size={size} />
           ) : (
-            <WifiOffFilledIcon color="gray.500" size={20} />
+            <WifiOffFilledIcon color="gray.500" size={size} />
           )}
         </IconWrapper>
       </Tooltip>

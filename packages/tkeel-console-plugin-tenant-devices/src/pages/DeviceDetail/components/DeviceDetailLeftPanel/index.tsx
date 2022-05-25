@@ -6,11 +6,15 @@ import { useColor } from '@tkeel/console-hooks';
 import { BranchTowToneIcon, DotLineFilledIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp, plugin } from '@tkeel/console-utils';
 
-import { DeviceObject } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
+import {
+  DeviceObject,
+  ExtBusinessItem,
+} from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 import DeviceBasicInfoCard, {
   Basic,
 } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/DeviceBasicInfoCard';
 import DeviceInfoCard from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/DeviceInfoCard';
+import DeviceNetProxyInfoCard from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/DeviceNetProxyInfoCard';
 
 type Props = {
   deviceObject: DeviceObject;
@@ -124,6 +128,15 @@ function DeviceDetailLeftPanel({ deviceObject, refetch }: Props): JSX.Element {
     },
   ];
   const ext = basicInfo?.ext ?? {};
+  const extBusiness = basicInfo?.extBusiness ?? {};
+
+  let netProxy: ExtBusinessItem = { title: '', type: '', value: [] };
+  Object.keys(extBusiness).forEach((key) => {
+    if (extBusiness[key].type === 'fluxswitch') {
+      netProxy = extBusiness[key];
+    }
+  });
+
   const keys = Object.keys(ext);
   const extInfo = keys.map((r) => {
     return {
@@ -132,7 +145,7 @@ function DeviceDetailLeftPanel({ deviceObject, refetch }: Props): JSX.Element {
     };
   });
   return (
-    <VStack spacing="12px" width="360px" mr="20px">
+    <VStack spacing="12px" width="360px" mr="20px" overflow="auto">
       <DeviceInfoCard deviceObject={deviceObject} refetch={refetch} />
       <DeviceBasicInfoCard basic={basic} />
       <InfoCard
@@ -145,7 +158,9 @@ function DeviceDetailLeftPanel({ deviceObject, refetch }: Props): JSX.Element {
           },
         }}
       />
-      )
+      {netProxy?.value.length > 0 && (
+        <DeviceNetProxyInfoCard proxyInfo={netProxy.value} />
+      )}
     </VStack>
   );
 }
