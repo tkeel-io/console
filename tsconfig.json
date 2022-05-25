@@ -27,6 +27,7 @@
       "@/tkeel-console-business-components/*": [
         "./packages/tkeel-console-business-components/src/*"
       ],
+      "@/tkeel-console-charts/*": ["./packages/tkeel-console-charts/src/*"],
       "@/tkeel-console-components/*": [
         "./packages/tkeel-console-components/src/*"
       ],
@@ -40,6 +41,9 @@
       ],
       "@/tkeel-console-plugin-admin-plugins/*": [
         "./packages/tkeel-console-plugin-admin-plugins/src/*"
+      ],
+      "@/tkeel-console-plugin-admin-service-monitoring/*": [
+        "./packages/tkeel-console-plugin-admin-service-monitoring/src/*"
       ],
       "@/tkeel-console-plugin-admin-tenants/*": [
         "./packages/tkeel-console-plugin-admin-tenants/src/*"
@@ -58,6 +62,9 @@
       ],
       "@/tkeel-console-plugin-tenant-devices/*": [
         "./packages/tkeel-console-plugin-tenant-devices/src/*"
+      ],
+      "@/tkeel-console-plugin-tenant-networks/*": [
+        "./packages/tkeel-console-plugin-tenant-networks/src/*"
       ],
       "@/tkeel-console-plugin-tenant-plugins/*": [
         "./packages/tkeel-console-plugin-tenant-plugins/src/*"
@@ -93,18 +100,21 @@
   "exclude": ["**/node_modules/", "**/dist/", "**/scripts/"],
   "references": [
     { "path": "./packages/tkeel-console-business-components/" },
+    { "path": "./packages/tkeel-console-charts/" },
     { "path": "./packages/tkeel-console-components/" },
     { "path": "./packages/tkeel-console-constants/" },
     { "path": "./packages/tkeel-console-hooks/" },
     { "path": "./packages/tkeel-console-icons/" },
     { "path": "./packages/tkeel-console-plugin-admin-custom-config/" },
     { "path": "./packages/tkeel-console-plugin-admin-plugins/" },
+    { "path": "./packages/tkeel-console-plugin-admin-service-monitoring/" },
     { "path": "./packages/tkeel-console-plugin-admin-tenants/" },
     { "path": "./packages/tkeel-console-plugin-example/" },
     { "path": "./packages/tkeel-console-plugin-tenant-data-query/" },
     { "path": "./packages/tkeel-console-plugin-tenant-data-subscription/" },
     { "path": "./packages/tkeel-console-plugin-tenant-device-templates/" },
     { "path": "./packages/tkeel-console-plugin-tenant-devices/" },
+    { "path": "./packages/tkeel-console-plugin-tenant-networks/" },
     { "path": "./packages/tkeel-console-plugin-tenant-plugins/" },
     { "path": "./packages/tkeel-console-plugin-tenant-roles/" },
     { "path": "./packages/tkeel-console-plugin-tenant-routing-rules/" },
