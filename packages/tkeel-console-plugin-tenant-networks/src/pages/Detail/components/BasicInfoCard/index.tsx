@@ -3,6 +3,7 @@ import { useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
 import { BackButton } from '@tkeel/console-components';
+import { useColor } from '@tkeel/console-hooks';
 import { NetworkIcon, OfficialFilledIcon } from '@tkeel/console-icons';
 
 import MoreOperationButton from '@/tkeel-console-plugin-tenant-networks/components/MoreOperationButton';
@@ -26,6 +27,9 @@ export default function BasicInfoCard({ data, refetchData }: Props) {
   const { id, name, status, token, online } = data;
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const whiteColor = useColor('white');
+  const grayColor = useColor('gray.50');
+
   return (
     <Box
       borderTopLeftRadius="4px"
@@ -35,7 +39,7 @@ export default function BasicInfoCard({ data, refetchData }: Props) {
       <Box
         position="relative"
         height="108px"
-        background="linear-gradient(180deg, white 0%, gray.50 100%)"
+        background={`linear-gradient(180deg, ${whiteColor} 0%, ${grayColor} 100%)`}
       >
         <OfficialFilledIcon
           style={{
