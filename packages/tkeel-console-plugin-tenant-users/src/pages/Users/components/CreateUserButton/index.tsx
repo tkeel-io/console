@@ -40,7 +40,11 @@ export default function CreateUserButton({ onSuccess }: Props) {
       data: { reset_key: data?.reset_key ?? '' },
     });
 
-  const { refreshToken, mutate: logoutMutate } = useLogoutMutation({
+  const {
+    refreshToken,
+    isLoading: isLogoutLoading,
+    mutate: logoutMutate,
+  } = useLogoutMutation({
     onSuccess() {
       jumpToPage({ path: setPasswordUrl });
     },
@@ -75,7 +79,7 @@ export default function CreateUserButton({ onSuccess }: Props) {
             <Text>
               可
               <LinkButton
-                isLoading
+                isLoading={isLogoutLoading}
                 onClick={() =>
                   logoutMutate({
                     data: {
