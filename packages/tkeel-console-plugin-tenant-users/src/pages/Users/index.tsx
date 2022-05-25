@@ -124,10 +124,7 @@ export default function Users() {
                 onSuccess={handleModifyUserSuccess}
               />
               {isInternal && <ResetPasswordButton data={original} />}
-              <LoginUserButton
-                data={original}
-                onSuccess={handleDeleteUserSuccess}
-              />
+              <LoginUserButton data={original} />
               <DeleteUserButton
                 data={original}
                 onSuccess={handleDeleteUserSuccess}

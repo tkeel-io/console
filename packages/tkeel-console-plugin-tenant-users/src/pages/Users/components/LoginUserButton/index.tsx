@@ -9,16 +9,14 @@ import LoginUserModal from '@/tkeel-console-plugin-tenant-users/pages/Users/comp
 
 type Props = {
   data: User;
-  onSuccess: () => void;
 };
 
-export default function LoginUserButton({ data, onSuccess }: Props) {
+export default function LoginUserButton({ data }: Props) {
   const { tenant_id: tenantId, username } = data;
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { refreshToken, isLoading, mutate } = useLogoutMutation({
     onSuccess() {
-      onSuccess();
       jumpToAuthLoginPage({
         portalName: 'tenant',
         tenantId,
