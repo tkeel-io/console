@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 
 import { useWebSocket } from '@tkeel/console-hooks';
 import {
@@ -40,9 +40,22 @@ function useDeviceDetailSocket({ id }: Props) {
       url: '',
       ...options,
     });
+
+  let timer: NodeJS.Timeout | undefined;
+  const heartbeat = useCallback(() => {
+    if (readyState !== 1) return;
+    sendJsonMessage({ type: 'ping' });
+    if (timer) {
+      clearTimeout(timer);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    timer = setTimeout(heartbeat, 20 * 1000);
+  }, [readyState, sendJsonMessage]);
+
   useEffect(() => {
     sendJsonMessage({ id });
-  }, [sendJsonMessage, id, readyState]);
+    heartbeat();
+  }, [sendJsonMessage, id, readyState, heartbeat]);
 
   const rawData = lastJsonMessage?.rawData || {};
   const connectInfo = lastJsonMessage?.connectInfo;

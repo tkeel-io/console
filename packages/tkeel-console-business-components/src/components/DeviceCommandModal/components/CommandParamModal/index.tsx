@@ -3,7 +3,7 @@ import { useFieldArray, useForm } from 'react-hook-form';
 
 import { FormField, Modal } from '@tkeel/console-components';
 
-import DataType from './DataType';
+import DeviceDataType from '../../../DeviceDataType';
 import { CommandParamFormField, ParamType } from './types';
 
 interface Props {
@@ -86,9 +86,10 @@ export default function CommandParamModal({
           required: { value: true, message: '请填写参数ID' },
         })}
       />
-      <DataType
+      <DeviceDataType
         formHandler={formHandler}
         fieldArrayHandler={fieldArrayHandler}
+        dataTypeConfig={['int', 'float', 'double', 'bool', 'string', 'struct']}
       />
     </Modal>
   );

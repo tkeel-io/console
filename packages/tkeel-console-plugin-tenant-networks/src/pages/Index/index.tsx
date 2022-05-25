@@ -187,7 +187,6 @@ export default function Index() {
                               id,
                               name,
                               status,
-                              token,
                             }}
                             refetch={() => {
                               refetch();

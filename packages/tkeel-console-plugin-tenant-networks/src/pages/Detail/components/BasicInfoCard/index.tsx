@@ -14,7 +14,6 @@ interface NetWorkInfo {
   name: string;
   status: 'enabled' | 'disabled';
   ip: string;
-  token: string;
   time: string;
   online: string;
 }
@@ -24,7 +23,7 @@ interface Props {
 }
 
 export default function BasicInfoCard({ data, refetchData }: Props) {
-  const { id, name, status, token, online } = data;
+  const { id, name, status, online } = data;
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const whiteColor = useColor('white');
@@ -65,7 +64,6 @@ export default function BasicInfoCard({ data, refetchData }: Props) {
               id,
               name,
               status,
-              token,
             }}
             refetch={() => {
               refetchData();

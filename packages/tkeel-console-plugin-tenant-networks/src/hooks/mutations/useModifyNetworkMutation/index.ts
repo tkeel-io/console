@@ -9,13 +9,14 @@ interface RequestData {
 }
 
 interface Client {
-  command: string;
   id: string;
   status: 'enabled' | 'disabled';
+  token: string;
 }
 export interface ApiData {
   '@type': string;
   client: Client;
+  command: string;
 }
 
 const method = 'PUT';
