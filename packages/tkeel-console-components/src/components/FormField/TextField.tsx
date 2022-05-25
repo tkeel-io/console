@@ -73,14 +73,14 @@ export default function TextField({
           <Flex
             position="absolute"
             top="0"
-            right="0"
+            right="6px"
             bottom="0"
             alignItems="center"
           >
             <Button
-              width="44px"
-              height="44px"
-              padding="12px"
+              width="32px"
+              height="32px"
+              padding="0"
               colorScheme="brand"
               variant="ghost"
               onClick={toggleType}
