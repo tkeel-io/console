@@ -7,9 +7,9 @@ import { jumpToAuthLoginPage } from '@tkeel/console-utils';
 import useLogoutMutation from '@/tkeel-console-plugin-tenant-users/hooks/mutations/useLogoutMutation';
 import LoginUserModal from '@/tkeel-console-plugin-tenant-users/pages/Users/components/LoginUserModal';
 
-type Props = {
+interface Props {
   data: User;
-};
+}
 
 export default function LoginUserButton({ data }: Props) {
   const { tenant_id: tenantId, username } = data;

@@ -38,13 +38,15 @@ type JumpToTenantAuthTenantPageOptions = {
   isRemoveLocalTokenInfo?: boolean;
   isRemoveLocalTenantInfo?: boolean;
   isReplace?: boolean;
+  isNewWindow?: boolean;
   navigate?: NavigateFunction;
 };
 
 export function jumpToTenantAuthTenantPage({
-  isRemoveLocalTokenInfo = false,
-  isRemoveLocalTenantInfo = false,
-  isReplace = false,
+  isRemoveLocalTokenInfo,
+  isRemoveLocalTenantInfo,
+  isReplace,
+  isNewWindow,
   navigate,
 }: JumpToTenantAuthTenantPageOptions) {
   const path = '/auth/tenant';
@@ -57,7 +59,7 @@ export function jumpToTenantAuthTenantPage({
     removeLocalTenantInfo();
   }
 
-  jumpToPage({ path, isReplace, navigate });
+  jumpToPage({ path, isReplace, isNewWindow, navigate });
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -68,6 +70,7 @@ type JumpToAuthLoginPageOptions<TSearchParams = Record<string, any>> = {
   path?: string;
   isRemoveLocalTokenInfo?: boolean;
   isReplace?: boolean;
+  isNewWindow?: boolean;
   navigate?: NavigateFunction;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   state?: any;
@@ -79,8 +82,9 @@ export function jumpToAuthLoginPage<TSearchParams = Record<string, any>>({
   tenantId = '',
   searchParams,
   path,
-  isRemoveLocalTokenInfo = false,
-  isReplace = false,
+  isRemoveLocalTokenInfo,
+  isReplace,
+  isNewWindow,
   navigate,
   state,
 }: JumpToAuthLoginPageOptions<TSearchParams>) {
@@ -102,7 +106,7 @@ export function jumpToAuthLoginPage<TSearchParams = Record<string, any>>({
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  jumpToPage({ path: loginPath, isReplace, navigate, state });
+  jumpToPage({ path: loginPath, isReplace, isNewWindow, navigate, state });
 }
 
 type GetNoAuthRedirectPathOptions = {
