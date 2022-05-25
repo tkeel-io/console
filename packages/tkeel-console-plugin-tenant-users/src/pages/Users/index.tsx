@@ -21,6 +21,7 @@ import {
 
 import CreateUserButton from './components/CreateUserButton';
 import DeleteUserButton from './components/DeleteUserButton';
+import LoginUserButton from './components/LoginUserButton';
 import ModifyUserButton from './components/ModifyUserButton';
 import ResetPasswordButton from './components/ResetPasswordButton';
 
@@ -123,6 +124,10 @@ export default function Users() {
                 onSuccess={handleModifyUserSuccess}
               />
               {isInternal && <ResetPasswordButton data={original} />}
+              <LoginUserButton
+                data={original}
+                onSuccess={handleDeleteUserSuccess}
+              />
               <DeleteUserButton
                 data={original}
                 onSuccess={handleDeleteUserSuccess}

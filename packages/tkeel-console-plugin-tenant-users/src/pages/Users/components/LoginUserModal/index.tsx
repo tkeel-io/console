@@ -7,8 +7,8 @@ type Props = {
   data: User;
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
-  onClose: () => unknown;
-  onConfirm: () => unknown;
+  onClose: () => void;
+  onConfirm: () => void;
 };
 
 export default function LoginUserModal({
@@ -27,13 +27,12 @@ export default function LoginUserModal({
       title={
         <>
           确认&nbsp;
-          <Text as="span" color="red.300">
-            删除
+          <Text as="span" color="primary">
+            登录
           </Text>
           &nbsp;用户「{username}」？
         </>
       }
-      description="删除后不可恢复，请谨慎操作。"
       isOpen={isOpen}
       isConfirmButtonLoading={isConfirmButtonLoading}
       onClose={onClose}
