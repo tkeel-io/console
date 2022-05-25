@@ -9,6 +9,7 @@ import {
   useGetResetPasswordKeyMutation,
   User,
 } from '@tkeel/console-request-hooks';
+import { jumpToPage } from '@tkeel/console-utils';
 
 type Props = {
   data: User;
@@ -76,7 +77,17 @@ export default function ResetPasswordButton({ data }: Props) {
           title="重置密码请求成功"
           description={
             <Text>
-              可<LinkButton>「立即重置」</LinkButton>
+              可
+              <LinkButton
+                onClick={() =>
+                  jumpToPage({
+                    path: setPasswordUrl,
+                    isNewWindow: true,
+                  })
+                }
+              >
+                「立即重置」
+              </LinkButton>
               该用户密码；或复制下方链接，邀请您的同事完成重置。
             </Text>
           }

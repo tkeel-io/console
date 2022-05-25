@@ -9,6 +9,7 @@ import { removeLocalTokenInfo } from './local-token-info';
 type JumpToPageOptions = {
   path?: string;
   isReplace?: boolean;
+  isNewWindow?: boolean;
   navigate?: NavigateFunction;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   state?: any;
@@ -17,6 +18,7 @@ type JumpToPageOptions = {
 export function jumpToPage({
   path = '/',
   isReplace,
+  isNewWindow,
   navigate,
   state,
 }: JumpToPageOptions) {
@@ -25,6 +27,8 @@ export function jumpToPage({
     navigate(path, { replace: isReplace, state });
   } else if (isReplace) {
     window.location.replace(path);
+  } else if (isNewWindow) {
+    window.open(path, '_blank');
   } else {
     window.location.assign(path);
   }

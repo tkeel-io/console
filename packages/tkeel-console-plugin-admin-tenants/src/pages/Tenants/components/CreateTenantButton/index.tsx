@@ -7,6 +7,7 @@ import {
 } from '@tkeel/console-business-components';
 import { CreateButton, LinkButton } from '@tkeel/console-components';
 import { AuthType } from '@tkeel/console-types';
+import { jumpToPage } from '@tkeel/console-utils';
 
 import useCreateTenantMutation from '@/tkeel-console-plugin-admin-tenants/hooks/mutations/useCreateTenantMutation';
 import { FormValues } from '@/tkeel-console-plugin-admin-tenants/pages/Tenants/components/BaseTenantModal';
@@ -64,7 +65,17 @@ export default function CreateTenantButton({ onSuccess }: Props) {
           title="创建租户空间成功"
           description={
             <Text>
-              可<LinkButton>「立即设置」</LinkButton>
+              可
+              <LinkButton
+                onClick={() =>
+                  jumpToPage({
+                    path: setPasswordUrl,
+                    isNewWindow: true,
+                  })
+                }
+              >
+                「立即设置」
+              </LinkButton>
               该空间管理员密码；或复制下方链接，邀请您的同事完成设置。
             </Text>
           }

@@ -2,16 +2,15 @@ import { useDisclosure } from '@chakra-ui/react';
 
 import { Alert, MoreActionButton } from '@tkeel/console-components';
 import { LeftRightFilledIcon } from '@tkeel/console-icons';
+import { useRevokePortalTenantTokenMutation } from '@tkeel/console-request-hooks';
 import {
   getLocalTokenInfo,
   jumpToTenantAuthTenantPage,
 } from '@tkeel/console-utils';
 
-import useRevokeTokenMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useRevokeTokenMutation';
-
 export default function LogoutTenantButton() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { isLoading, mutate } = useRevokeTokenMutation({
+  const { isLoading, mutate } = useRevokePortalTenantTokenMutation({
     onSuccess() {
       jumpToTenantAuthTenantPage({
         isRemoveLocalTenantInfo: true,
