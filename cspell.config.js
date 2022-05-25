@@ -33,6 +33,7 @@ module.exports = {
     'sonarjs',
     'sourcemap',
     'stylelint',
+    'nivo',
     'stylelintignore',
     'stylelintrc',
     'svgr',
@@ -77,6 +78,7 @@ module.exports = {
     'mysqlrequest',
     'tinycolor',
     'rawdata',
+    'fluxswitch',
   ],
   ignorePaths: [
     '**/.idea/**',
