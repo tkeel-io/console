@@ -52,7 +52,7 @@ export default function UpdateTelemetryButton({
         onClick={onOpen}
       />
       <DeviceTelemetryModal
-        title="编辑遥测"
+        isEdit
         isOpen={isOpen}
         defaultValues={defaultValues}
         isConfirmButtonLoading={isLoading}

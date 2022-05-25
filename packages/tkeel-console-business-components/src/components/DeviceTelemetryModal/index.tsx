@@ -1,463 +1,176 @@
-import {
-  Box,
-  Center,
-  Flex,
-  IconButton,
-  Input,
-  Radio,
-  RadioGroup,
-  Stack,
-  Text,
-} from '@chakra-ui/react';
-import { isObject, keyBy, mapValues, merge } from 'lodash';
-import { ReactNode, useCallback, useEffect, useState } from 'react';
+import { Box, Text } from '@chakra-ui/react';
+import { isObject, keyBy, keys, mapValues, merge, pick } from 'lodash';
+import { useEffect, useMemo } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 
-import {
-  FormControl,
-  FormField,
-  Modal,
-  Select,
-} from '@tkeel/console-components';
-import {
-  AddFilledIcon,
-  PencilFilledIcon,
-  TrashFilledIcon,
-} from '@tkeel/console-icons';
+import { FormField, Modal } from '@tkeel/console-components';
 import { TelemetryFormFields } from '@tkeel/console-request-hooks';
 
-import SelectRadioCard from './components/SelectRadioCard';
+import DeviceDataType from '../DeviceDataType';
+import { DATA_TYPE_CONFIG } from '../DeviceDataType/constants';
 
-const { TextField, TextareaField } = FormField;
+const { TextareaField } = FormField;
 
-let typeConfig: string[] = [];
-
-const ELEMENT_LABELS = {
-  int32: 'int32',
-  float: 'float',
-  double: 'double',
-  string: 'string',
-  struct: 'struct',
-};
-
-const configData = [
-  {
-    value: 'int',
-    label: 'int32(整型)',
-    config: ['最大值', '最小值', '步长', '单位'],
-  },
-  {
-    value: 'float',
-    label: 'float(浮点型)',
-    config: ['最大值', '最小值', '步长', '单位'],
-  },
-  {
-    value: 'double',
-    label: 'double(双精度浮点型)',
-    config: ['最大值', '最小值', '步长', '单位'],
-  },
-  // {
-  //   value: 'array',
-  //   label: 'array(数组)',
-  //   config: ['元素个数', '元素类型'],
-  // },
-  {
-    value: 'bool',
-    label: 'bool(布尔)',
-    config: ['布尔值'],
-  },
-  {
-    value: 'string',
-    label: 'string(字符串)',
-    config: ['数据最大长度'],
-  },
-  // {
-  //   value: 'data',
-  //   label: 'data(时间型)',
-  //   config: ['时间格式'],
-  // },
-];
-
-const KV = new Map([
-  ['max', '最大值'],
-  ['min', '最小值'],
-  ['step', '步长'],
-  ['unit', '单位'],
-  // ['length', '元素个数'],
-  ['elem_type', '元素类型'],
-  ['elem_type', '元素类型'],
-  ['0', '布尔值'],
-  ['1', '布尔值'],
-]);
-
-const inputType = new Set([
-  '最大值',
-  '最小值',
-  '步长',
-  '单位',
-  '元素个数',
-  '数据最大长度',
-]);
-const selectType = new Set(['元素类型']);
-
-// const boolType = ['布尔值'];
-
-type Props = {
-  title: ReactNode;
-  isOpen: boolean;
-  isConfirmButtonLoading: boolean;
-  defaultValues?: TelemetryFormFields;
-  onClose: () => unknown;
-  onConfirm: (formValues: TelemetryFormFields) => unknown;
-};
-function handleConfigData(
-  // eslint-disable-next-line  @typescript-eslint/no-shadow
-  configData: { value: string; config: string[] }[],
-  selectVal: string
-): string[] {
-  // eslint-disable-next-line  no-restricted-syntax
-  for (const items of configData) {
-    if (items.value === selectVal) {
-      return items.config;
-    }
-  }
-  return [];
+interface Field {
+  key: string;
+  label: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  value: any;
+  type: string;
 }
-// eslint-disable-next-line sonarjs/no-duplicate-string
-// const EXTEND_INFO = 'define.extendInfo';
 
+interface TelemetryFormField extends TelemetryFormFields {
+  fields: Field[];
+  extendInfo: { label: string; value: string }[];
+}
+
+interface Props {
+  isEdit?: boolean;
+  isOpen: boolean;
+  defaultValues?: TelemetryFormFields;
+  isConfirmButtonLoading?: boolean;
+  onClose: () => void;
+  onConfirm: (formValues: TelemetryFormFields) => unknown;
+}
+
+const { TextField } = FormField;
 export default function DeviceTelemetryModal({
-  title,
+  isEdit = false,
   isOpen,
   isConfirmButtonLoading,
   defaultValues,
   onClose,
   onConfirm,
 }: Props) {
-  const [selectOptions, setSelectOptions] = useState<string[]>([]);
-  const [selectRadioCardItem, setSelectRadioCardItem] = useState<string>();
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const defaultExt = defaultValues?.define?.ext ?? {};
-  const extendInfo = isObject(defaultExt)
-    ? // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      Object.keys(defaultExt).map((k) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
-        return { label: k, value: defaultExt[k] };
-      })
-    : [];
-  const {
-    register,
-    // unregister,
-    formState: { errors },
-    trigger,
-    getValues,
-    setValue,
-    reset,
-    control,
-    setFocus,
-  } = useForm<TelemetryFormFields>({
-    defaultValues: merge({}, defaultValues, {
-      define: { extendInfo },
+  const extendInfo = useMemo(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const defaultExt = defaultValues?.define?.ext ?? {};
+    return isObject(defaultExt)
+      ? // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        Object.keys(defaultExt).map((k) => {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
+          return { label: k, value: defaultExt[k] };
+        })
+      : [];
+  }, [defaultValues]);
+
+  const fields: Field[] = useMemo(() => {
+    const fieldsTemp: Field[] = [];
+    const fieldsObject = pick(defaultValues?.define, keys(DATA_TYPE_CONFIG));
+    Object.keys(fieldsObject).forEach((key) => {
+      fieldsTemp.push({
+        key,
+        label: '',
+        type: '',
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        value: fieldsObject[key],
+      });
+    });
+    return fieldsTemp;
+  }, [defaultValues]);
+
+  const formHandler = useForm<TelemetryFormField>({
+    defaultValues: merge(defaultValues, {
+      extendInfo,
+      fields,
     }),
   });
+  const {
+    register,
+    formState: { errors },
+    trigger,
+    reset,
+    setValue,
+    getValues,
+    control,
+  } = formHandler;
 
-  const required = { value: false, message: '请输入' };
-  // TODO: DEVICES 数据显示的方式和编辑时默认的值
-  const selectRadioCardObj = {
-    // int
-    最大值: register('define.max', {
-      required,
-    }),
-    最小值: register('define.min', {
-      required,
-    }),
-    步长: register('define.step', {
-      required,
-    }),
-    单位: register('define.unit', {
-      required,
-    }),
-    // array
-    // 元素个数: register('define.length', {
-    //   required,
-    // }),
-    // eslint-disable-next-line  sonarjs/no-duplicate-string
-    元素类型: register('define.elem_type', {
-      required,
-    }),
-    '0': register('define.0', {
-      required,
-    }),
-    '1': register('define.1', {
-      required,
-    }),
-  };
+  const fieldArrayHandler = useFieldArray({
+    control,
+    name: `fields`,
+  });
 
-  const resetAll = () => {
-    reset();
-    setSelectOptions([]);
-    setSelectRadioCardItem('');
-  };
-  useEffect(() => {
-    if (isOpen) {
-      resetAll();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen]);
+  const extendedArrayHandler = useFieldArray({
+    control,
+    name: 'extendInfo',
+  });
+
   const handleConfirm = async () => {
-    const result = await trigger();
+    if (isEdit) {
+      setValue('id', defaultValues?.id ?? '');
+    }
 
+    const result = await trigger();
     if (result) {
-      const formValues = getValues();
-      const define = formValues?.define;
-      const defineCopy = { ...define };
-      delete defineCopy.extendInfo;
-      const ext = mapValues(keyBy(define?.extendInfo ?? [], 'label'), 'value');
-      const formValuesCopy = { ...formValues, define: { ...defineCopy, ext } };
+      const formValues = getValues() as TelemetryFormField;
+      const defineAtt = {};
+      (formValues?.fields ?? []).forEach((item) => {
+        defineAtt[item.key] = item.value as string;
+      });
+      const ext = mapValues(
+        keyBy(formValues?.extendInfo ?? [], 'label'),
+        'value'
+      );
+      const formValuesCopy = {
+        ...formValues,
+        define: { ext, ...defineAtt },
+        extendInfo: null,
+        fields: null,
+      };
+
       onConfirm(formValuesCopy);
     }
   };
 
-  const handleDataType = useCallback(
-    (el: string) => {
-      setValue('type', el);
-      const config = handleConfigData(configData, el);
-      if (
-        !(
-          config.length === typeConfig.length &&
-          config.every((v, i) => {
-            return v === typeConfig[i];
-          })
-        )
-      ) {
-        typeConfig = config;
-        setSelectRadioCardItem('');
-      }
-      setSelectOptions(config as []);
-    },
-    [setValue, setSelectOptions]
-  );
-  const fieldArrayHandler = useFieldArray({
-    control,
-    name: 'define.extendInfo',
-  });
-  const { fields, append, remove } = fieldArrayHandler;
-
-  const handleSelectRadioCardDefaultValue = useCallback(() => {
-    if (defaultValues) {
-      const arr = Object.keys(defaultValues?.define as object).find((item) => {
-        return item !== 'ext';
-      });
-      return KV.get(arr as string) as string;
-    }
-    return ' ';
-  }, [defaultValues]);
-
-  // eslint-disable-next-line react/no-unstable-nested-components
-  function Extend() {
-    const [labelId, setLabelId] = useState<string>('');
-
-    const renderLabel = (params: {
-      field: Record<'id', string>;
-      index: number;
-    }) => {
-      const fontColor = 'grayAlternatives.300';
-      const { field, index } = params;
-      return (
-        <Flex justify="space-between">
-          <Input
-            color="gray.700"
-            border="none"
-            m="1px"
-            size="xs"
-            placeholder="请修改扩展属性标题"
-            fontSize="14px"
-            fontWeight="500"
-            pl="2px"
-            isReadOnly={labelId !== field.id}
-            {...register(`define.extendInfo.${index}.label`, {
-              required: { value: false, message: 'required' },
-            })}
-            focusBorderColor="primary"
-            onBlur={() => {
-              setLabelId('');
-            }}
-          />
-          <Center>
-            <IconButton
-              variant="link"
-              size="sm"
-              aria-label="edit"
-              icon={<PencilFilledIcon color={fontColor} />}
-              onClick={() => {
-                setLabelId(field.id);
-                setFocus(`define.extendInfo.${index}.label` as const);
-              }}
-            />
-            <IconButton
-              lineHeight="24px"
-              variant="link"
-              size="sm"
-              aria-label="delete"
-              icon={<TrashFilledIcon color={fontColor} />}
-              onClick={() => {
-                remove(index);
-              }}
-            />
-          </Center>
-        </Flex>
-      );
-    };
-
-    return (
-      <Box overflowY="scroll">
-        {fields.map((field, index) => {
-          return (
-            <TextField
-              key={field.id}
-              label={renderLabel({ field, index })}
-              id={field.id}
-              registerReturn={register(
-                `define.extendInfo.${index}.value` as const,
-                {
-                  required: { value: false, message: 'required' },
-                }
-              )}
-            />
-          );
-        })}
-      </Box>
-    );
-  }
-
   useEffect(() => {
-    if (defaultValues) {
-      handleDataType(defaultValues.type);
-      setSelectRadioCardItem(handleSelectRadioCardDefaultValue());
+    if (isOpen) {
+      if (!isEdit) {
+        reset();
+      } else {
+        reset(
+          merge(defaultValues, {
+            extendInfo,
+            fields,
+          })
+        );
+      }
     }
-  }, [defaultValues, handleDataType, handleSelectRadioCardDefaultValue]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, isEdit, reset]);
 
   return (
     <Modal
-      title={title}
       isOpen={isOpen}
+      onClose={onClose}
       isConfirmButtonLoading={isConfirmButtonLoading}
-      onClose={() => {
-        resetAll();
-        onClose();
-      }}
+      title={`${isEdit ? '编辑' : '新建'}遥测`}
+      width="480px"
       onConfirm={handleConfirm}
     >
       <TextField
-        id="name"
         label="遥测名称"
+        id="name"
         error={errors.name}
         registerReturn={register('name', {
-          required: { value: true, message: 'required' },
+          required: { value: true, message: '请填写遥测名称' },
         })}
       />
       <TextField
-        id="id"
         label="遥测ID"
+        id="id"
+        isDisabled={isEdit}
         error={errors.id}
         registerReturn={register('id', {
-          required: { value: true, message: 'required' },
+          required: { value: true, message: '请填写遥测ID' },
         })}
       />
-      <Box color="gray.600" fontWeight="500" fontSize="14px">
-        数据类型
-      </Box>
-      <Select
-        defaultValue={getValues('type')}
-        placeholder="请选择"
-        options={configData}
-        {...register('type', {
-          required: { value: true, message: '请选择数据类型' },
-        })}
-        onChange={handleDataType}
-        style={{ width: '100%', marginBottom: '14px', marginTop: '8px' }}
+      <DeviceDataType
+        formHandler={formHandler}
+        fieldArrayHandler={fieldArrayHandler}
+        supportExtendedConfig
+        extendedArrayHandler={extendedArrayHandler}
+        dataTypeConfig={['int', 'float', 'double', 'bool', 'enum']}
       />
-      <Flex justifyContent="space-between" mb="10px" alignItems="center">
-        <Box>
-          <SelectRadioCard
-            defaultValue={handleSelectRadioCardDefaultValue()}
-            options={selectOptions}
-            onChange={(el) => {
-              setSelectRadioCardItem(el);
-            }}
-          />
-        </Box>
-        <Flex
-          width="86px"
-          alignItems="center"
-          justifyContent="space-between"
-          color="grayAlternatives.300"
-          cursor="pointer"
-          onClick={() => {
-            append({
-              label: `请修改扩展属性标题`,
-              value: '',
-            });
-          }}
-        >
-          <AddFilledIcon color="grayAlternatives.300" /> <Box>扩展配置</Box>
-        </Flex>
-      </Flex>
-      {selectRadioCardItem && (
-        <>
-          {inputType.has(selectRadioCardItem) && (
-            <TextField
-              id={selectRadioCardItem}
-              label={selectRadioCardItem}
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-              error={errors.name}
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-              registerReturn={selectRadioCardObj[selectRadioCardItem]}
-            />
-          )}
-          {selectType.has(selectRadioCardItem) && (
-            <FormControl id="elem_type" label="元素类型">
-              <RadioGroup
-                {...register('define.elem_type', {
-                  required: { value: true, message: '元素类型' },
-                })}
-                onChange={(value) => {
-                  setValue('define.elem_type', value);
-                }}
-              >
-                <Stack direction="row" spacing="12px">
-                  {Object.entries(ELEMENT_LABELS).map((item) => (
-                    <Radio
-                      key={item[0]}
-                      size="sm"
-                      colorScheme="brand"
-                      value={item[0]}
-                    >
-                      {item[1]}
-                    </Radio>
-                  ))}
-                </Stack>
-              </RadioGroup>
-            </FormControl>
-          )}
-
-          {selectRadioCardItem === '布尔值' && (
-            <>
-              <TextField
-                id="0"
-                label="0"
-                registerReturn={selectRadioCardObj['0']}
-              />
-              <TextField
-                id="1"
-                label="1"
-                registerReturn={selectRadioCardObj['1']}
-              />
-            </>
-          )}
-        </>
-      )}
-      <Extend />
       <Box>
         <Text color="gray.600" fontSize="14px" mb="4px">
           描述
