@@ -1,6 +1,9 @@
 import { useDisclosure } from '@chakra-ui/react';
 
-import { SetPasswordModal } from '@tkeel/console-business-components';
+import {
+  SetPasswordModal,
+  useSetPasswordUrl,
+} from '@tkeel/console-business-components';
 import { CreateButton } from '@tkeel/console-components';
 
 import useCreateUserMutation from '@/tkeel-console-plugin-tenant-users/hooks/mutations/useCreateUserMutation';
@@ -18,7 +21,11 @@ export default function CreateUserButton({ onSuccess }: Props) {
     onOpen: onSuccessModalOpen,
     onClose: onSuccessModalClose,
   } = useDisclosure();
-  const { isLoading, mutate, data } = useCreateUserMutation({
+  const {
+    isLoading: isCreateUserLoading,
+    mutate,
+    data,
+  } = useCreateUserMutation({
     onSuccess() {
       onSuccess();
       onClose();
@@ -26,9 +33,10 @@ export default function CreateUserButton({ onSuccess }: Props) {
     },
   });
 
-  const setPasswordModalData = {
-    reset_key: data?.reset_key ?? '',
-  };
+  const { isLoading: isSetPasswordUrlLoading, setPasswordUrl } =
+    useSetPasswordUrl({
+      data: { reset_key: data?.reset_key ?? '' },
+    });
 
   const handleConfirm = (formValues: FormValues) => {
     mutate({
@@ -46,7 +54,7 @@ export default function CreateUserButton({ onSuccess }: Props) {
       {isOpen && (
         <CreateUserModal
           isOpen={isOpen}
-          isConfirmButtonLoading={isLoading}
+          isConfirmButtonLoading={isCreateUserLoading}
           onClose={onClose}
           onConfirm={handleConfirm}
         />
@@ -54,9 +62,10 @@ export default function CreateUserButton({ onSuccess }: Props) {
       {isSuccessModalOpen && (
         <SetPasswordModal
           isOpen={isSuccessModalOpen}
-          title="创建成功"
-          // url={url}
-          data={setPasswordModalData}
+          title="创建用户成功"
+          description="123"
+          url={setPasswordUrl}
+          isLoading={isSetPasswordUrlLoading}
           onClose={onSuccessModalClose}
         />
       )}

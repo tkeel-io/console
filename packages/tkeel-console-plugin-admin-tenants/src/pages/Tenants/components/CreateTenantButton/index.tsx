@@ -1,7 +1,10 @@
 import { useDisclosure } from '@chakra-ui/react';
 import { useState } from 'react';
 
-import { SetPasswordModal } from '@tkeel/console-business-components';
+import {
+  SetPasswordModal,
+  useSetPasswordUrl,
+} from '@tkeel/console-business-components';
 import { CreateButton } from '@tkeel/console-components';
 import { AuthType } from '@tkeel/console-types';
 
@@ -21,7 +24,11 @@ export default function CreateTenantButton({ onSuccess }: Props) {
     onOpen: onSuccessModalOpen,
     onClose: onSuccessModalClose,
   } = useDisclosure();
-  const { isLoading, mutate, data } = useCreateTenantMutation({
+  const {
+    isLoading: isCreateTenantLoading,
+    mutate,
+    data,
+  } = useCreateTenantMutation({
     onSuccess: () => {
       onSuccess();
       onClose();
@@ -29,9 +36,10 @@ export default function CreateTenantButton({ onSuccess }: Props) {
     },
   });
 
-  const setPasswordModalData = {
-    reset_key: data?.reset_key ?? '',
-  };
+  const { isLoading: isSetPasswordUrlLoading, setPasswordUrl } =
+    useSetPasswordUrl({
+      data: { reset_key: data?.reset_key ?? '' },
+    });
 
   const handleConfirm = (formValues: FormValues) => {
     setAuthType(formValues.auth_type);
@@ -44,7 +52,7 @@ export default function CreateTenantButton({ onSuccess }: Props) {
       {isOpen && (
         <CreateTenantModal
           isOpen={isOpen}
-          isConfirmButtonLoading={isLoading}
+          isConfirmButtonLoading={isCreateTenantLoading}
           formFields={{}}
           onClose={onClose}
           onConfirm={handleConfirm}
@@ -53,8 +61,10 @@ export default function CreateTenantButton({ onSuccess }: Props) {
       {isSuccessModalOpen && authType === 'internal' && (
         <SetPasswordModal
           isOpen={isSuccessModalOpen}
-          title="创建成功"
-          data={setPasswordModalData}
+          title="创建租户空间成功"
+          description="123"
+          url={setPasswordUrl}
+          isLoading={isSetPasswordUrlLoading}
           onClose={onSuccessModalClose}
         />
       )}

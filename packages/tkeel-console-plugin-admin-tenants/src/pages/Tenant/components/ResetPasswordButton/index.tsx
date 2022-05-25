@@ -1,6 +1,9 @@
 import { Text, useDisclosure } from '@chakra-ui/react';
 
-import { SetPasswordModal } from '@tkeel/console-business-components';
+import {
+  SetPasswordModal,
+  useSetPasswordUrl,
+} from '@tkeel/console-business-components';
 import { Alert, LinkButton } from '@tkeel/console-components';
 import {
   useGetResetPasswordKeyMutation,
@@ -26,7 +29,7 @@ export default function ResetPasswordButton({ data }: Props) {
   const {
     data: resetData,
     mutate,
-    isLoading,
+    isLoading: isGetResetPasswordKeyLoading,
   } = useGetResetPasswordKeyMutation({
     tenantId,
     userId,
@@ -35,6 +38,11 @@ export default function ResetPasswordButton({ data }: Props) {
       onSetPasswordModalOpen();
     },
   });
+
+  const { isLoading: isSetPasswordUrlLoading, setPasswordUrl } =
+    useSetPasswordUrl({
+      data: { reset_key: resetData?.reset_key ?? '' },
+    });
 
   const handleConfirm = () => {
     mutate({});
@@ -57,7 +65,7 @@ export default function ResetPasswordButton({ data }: Props) {
             </>
           }
           isOpen={isAlertOpen}
-          isConfirmButtonLoading={isLoading}
+          isConfirmButtonLoading={isGetResetPasswordKeyLoading}
           onClose={onAlertClose}
           onConfirm={handleConfirm}
         />
@@ -65,9 +73,10 @@ export default function ResetPasswordButton({ data }: Props) {
       {isSetPasswordModalOpen && (
         <SetPasswordModal
           isOpen={isSetPasswordModalOpen}
-          // url={url}
-          data={{ reset_key: resetData?.reset_key ?? '' }}
-          title="操作成功"
+          title="重置密码请求成功"
+          description="123"
+          url={setPasswordUrl}
+          isLoading={isSetPasswordUrlLoading}
           onClose={onSetPasswordModalClose}
         />
       )}
