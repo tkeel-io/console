@@ -11,14 +11,13 @@ interface Props {
     id: string;
     name: string;
     status: 'enabled' | 'disabled';
-    token: string;
   };
   refetch?: () => void;
   onDeleteSuccess?: () => void;
 }
 
 function MoreOperationButton({ cruxData, refetch, onDeleteSuccess }: Props) {
-  const { id, name, status, token } = cruxData;
+  const { id, name, status } = cruxData;
   const toast = plugin.getPortalToast();
 
   const handleRefetch = () => {
@@ -45,7 +44,6 @@ function MoreOperationButton({ cruxData, refetch, onDeleteSuccess }: Props) {
       type="editButton"
       id={id}
       networkName={name}
-      token={token}
       onSuccess={handleEditSuccess}
     />,
     <DeleteButton

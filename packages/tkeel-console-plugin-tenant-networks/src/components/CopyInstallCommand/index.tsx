@@ -14,7 +14,6 @@ export default function CopyInstallCommand({ copyData, token }: Props) {
   const { hasCopied, onCopy } = useClipboard(copyData);
   const tokenCenter = token.slice(4, -4);
   const secretCopyData = copyData.replace(tokenCenter, '********');
-
   if (hasCopied) {
     toast('复制成功', { status: 'success' });
   }

@@ -17,7 +17,6 @@ import CreateNetworkModal from '../CreateNetworkModal';
 interface Props {
   id?: string;
   networkName?: string;
-  token?: string;
   type: 'createButton' | 'createText' | 'editButton';
   onSuccess: () => void;
 }
@@ -25,7 +24,6 @@ interface Props {
 export default function CreateNetworkButton({
   id,
   networkName,
-  token,
   type,
   onSuccess,
 }: Props) {
@@ -47,7 +45,7 @@ export default function CreateNetworkButton({
       onSuccessModalOpen();
     },
   });
-  const commandData = data?.client?.command ?? '';
+  const commandData = data?.command ?? '';
   const commandId = data?.client?.id ?? '';
   const handleConfirm = (formValues: FormValues) => {
     const createData = {
@@ -90,12 +88,12 @@ export default function CreateNetworkButton({
           onConfirm={handleConfirm}
         />
       )}
-      {isSuccessModalOpen && (
+      {isSuccessModalOpen && !isEdit && (
         <CopyCommandModal
           isOpen={isSuccessModalOpen}
-          title={isEdit ? '编辑代理网关' : '创建代理网关'}
+          title="创建代理网关"
           copyData={commandData}
-          token={token ?? ''}
+          token={data?.client?.token ?? ''}
           id={commandId}
           onClose={onSuccessModalClose}
         />
