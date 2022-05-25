@@ -39,7 +39,7 @@ export default function CreateTelemetryButton({
     <>
       <CreateButton onClick={onOpen}>添加遥测</CreateButton>
       <DeviceTelemetryModal
-        title="新建遥测"
+        isEdit={false}
         isOpen={isOpen}
         isConfirmButtonLoading={isLoading}
         onClose={onClose}
