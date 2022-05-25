@@ -1,4 +1,4 @@
-import { Box, Flex, ModalCloseButton } from '@chakra-ui/react';
+import { Box, Flex, ModalCloseButton, StyleProps } from '@chakra-ui/react';
 import { noop } from 'lodash';
 import { ReactNode } from 'react';
 
@@ -20,6 +20,10 @@ type Props = {
   hasConfirmButton?: boolean;
   isConfirmButtonDisabled?: boolean;
   isConfirmButtonLoading?: boolean;
+  styles?: {
+    title?: StyleProps;
+    description?: StyleProps;
+  };
   onClose: () => unknown;
   onCancel?: () => unknown;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -54,7 +58,7 @@ export default function Alert(props: Props) {
     properties = { ...defaultProps, ...defaultPropsIconLeft, ...props };
   }
 
-  const { iconPosition, icon, title, description, children, ...rest } =
+  const { iconPosition, icon, title, description, children, styles, ...rest } =
     properties;
 
   const renderIcon = () => {
@@ -139,6 +143,7 @@ export default function Alert(props: Props) {
             lineHeight="32px"
             color="gray.800"
             textAlign={iconPosition === 'top' ? 'center' : 'left'}
+            {...styles?.title}
           >
             {title}
           </Box>
@@ -149,6 +154,7 @@ export default function Alert(props: Props) {
               lineHeight="24px"
               color="grayAlternatives.300"
               textAlign={iconPosition === 'top' ? 'center' : 'left'}
+              {...styles?.description}
             >
               {description}
             </Box>

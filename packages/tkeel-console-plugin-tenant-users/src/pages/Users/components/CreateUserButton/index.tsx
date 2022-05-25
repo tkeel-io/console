@@ -1,10 +1,10 @@
-import { useDisclosure } from '@chakra-ui/react';
+import { Text, useDisclosure } from '@chakra-ui/react';
 
 import {
   SetPasswordModal,
   useSetPasswordUrl,
 } from '@tkeel/console-business-components';
-import { CreateButton } from '@tkeel/console-components';
+import { CreateButton, LinkButton } from '@tkeel/console-components';
 
 import useCreateUserMutation from '@/tkeel-console-plugin-tenant-users/hooks/mutations/useCreateUserMutation';
 import { FormValues } from '@/tkeel-console-plugin-tenant-users/pages/Users/components/BaseUserModal';
@@ -63,7 +63,12 @@ export default function CreateUserButton({ onSuccess }: Props) {
         <SetPasswordModal
           isOpen={isSuccessModalOpen}
           title="创建用户成功"
-          description="123"
+          description={
+            <Text>
+              可<LinkButton>「立即设置」</LinkButton>
+              该用户密码；或复制下方链接，邀请您的同事完成设置。
+            </Text>
+          }
           url={setPasswordUrl}
           isLoading={isSetPasswordUrlLoading}
           onClose={onSuccessModalClose}

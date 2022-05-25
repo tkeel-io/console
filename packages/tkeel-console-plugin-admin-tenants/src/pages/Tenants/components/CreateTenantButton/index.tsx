@@ -1,11 +1,11 @@
-import { useDisclosure } from '@chakra-ui/react';
+import { Text, useDisclosure } from '@chakra-ui/react';
 import { useState } from 'react';
 
 import {
   SetPasswordModal,
   useSetPasswordUrl,
 } from '@tkeel/console-business-components';
-import { CreateButton } from '@tkeel/console-components';
+import { CreateButton, LinkButton } from '@tkeel/console-components';
 import { AuthType } from '@tkeel/console-types';
 
 import useCreateTenantMutation from '@/tkeel-console-plugin-admin-tenants/hooks/mutations/useCreateTenantMutation';
@@ -62,7 +62,12 @@ export default function CreateTenantButton({ onSuccess }: Props) {
         <SetPasswordModal
           isOpen={isSuccessModalOpen}
           title="创建租户空间成功"
-          description="123"
+          description={
+            <Text>
+              可<LinkButton>「立即设置」</LinkButton>
+              该空间管理员密码；或复制下方链接，邀请您的同事完成设置。
+            </Text>
+          }
           url={setPasswordUrl}
           isLoading={isSetPasswordUrlLoading}
           onClose={onSuccessModalClose}

@@ -39,15 +39,17 @@ export default function SetPasswordModal({
   return (
     <Alert
       icon="success"
+      width="600px"
       title={title}
       description={description}
       isOpen={isOpen}
+      styles={{ description: { paddingTop: '20px', textAlign: 'left' } }}
       onClose={onClose}
     >
       <InputGroup
-        width="320px"
+        width="520px"
         height="36px"
-        marginTop="12px"
+        marginTop="8px"
         backgroundColor="gray.100"
         borderRadius="2px"
       >
@@ -76,9 +78,16 @@ export default function SetPasswordModal({
           </Button>
         </InputRightElement>
       </InputGroup>
-      <Center paddingTop="40px">
-        <Button colorScheme="brand" isLoading={isLoading} onClick={onCopy}>
-          复制链接
+      <Center paddingTop="32px">
+        <Button
+          colorScheme="brand"
+          isLoading={isLoading}
+          onClick={() => {
+            onCopy();
+            setTimeout(onClose, 300);
+          }}
+        >
+          复制链接并关闭
         </Button>
       </Center>
     </Alert>
