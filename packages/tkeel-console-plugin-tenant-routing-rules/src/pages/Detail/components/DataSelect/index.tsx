@@ -329,7 +329,6 @@ export default function DataSelect({ routeType }: Props) {
                         border: 'none',
                         backgroundColor: 'white',
                       },
-                      pagination: { padding: '0 20px' },
                     }}
                   />
                 </Flex>

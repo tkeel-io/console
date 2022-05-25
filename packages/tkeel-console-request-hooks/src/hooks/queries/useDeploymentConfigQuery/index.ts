@@ -23,17 +23,17 @@ export default function useDeploymentConfigQuery() {
   const portalAdminURL = getURL(adminHost, port);
   const portalTenantURL = getURL(tenantHost, port);
   const docsURL = data?.docs_addr ?? '';
-  const config = merge({}, data, {
+  const config = {
     portalAdminURL: addProtocol(portalAdminURL),
     portalTenantURL: addProtocol(portalTenantURL),
     docsURL: addProtocol(docsURL),
-  });
+  };
 
   if (process.env.NODE_ENV === 'development') {
     try {
       const mockDocsBaseURL =
-        GLOBAL_PORTAL_CONFIG.mock?.documents?.baseURL || config.docs_addr;
-      const mockConfig = merge({}, config, { docs_addr: mockDocsBaseURL });
+        GLOBAL_PORTAL_CONFIG.mock?.documents?.baseURL || config.docsURL;
+      const mockConfig = merge({}, config, { docsURL: mockDocsBaseURL });
 
       return { config: mockConfig, ...result };
     } catch (error) {

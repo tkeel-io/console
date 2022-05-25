@@ -32,7 +32,7 @@ export default function AddDeviceButton({
     onSuccess() {
       onClose();
       toast('添加设备成功', { status: 'success' });
-      // TODO 添加设备后有延迟，临时处理方案
+      // TODO: 添加设备后有延迟，临时处理方案
       setTimeout(() => {
         refetchData();
       }, 800);

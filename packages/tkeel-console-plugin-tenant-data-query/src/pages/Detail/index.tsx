@@ -45,7 +45,7 @@ type RawValue = {
   values: string;
 };
 
-// TODO eslint 提示待解决
+// TODO: eslint 提示待解决
 // eslint-disable-next-line sonarjs/cognitive-complexity
 export default function Detail() {
   const [dataType, setDataType] = useState<DataType>(DataType.RAW_DATA);
@@ -80,7 +80,6 @@ export default function Detail() {
   >([]);
   const [isRawDataRequested, setIsRawDataRequested] = useState(false);
   const [isTemplateDataRequested, setIsTemplateDataRequested] = useState(false);
-  // TODO 默认的 dataType 需要改为 TimeType.FiveMinutes
   const [timeType, setTimeType] = useState<TimeType>(TimeType.FiveMinutes);
   const [startTime, setStartTime] = useState(getRecentTimestamp(5));
   const [endTime, setEndTime] = useState(dayjs().unix());

@@ -1,0 +1,178 @@
+pipeline {
+  agent {
+    node {
+      label 'python'
+    }
+  }
+    parameters {
+        string(
+            name:'MANUAL_DEPLOY',
+            defaultValue: 'no',
+            description:'yes or no')
+
+        string(
+            name: 'PLUGINS',
+            defaultValue: 'console-plugin-admin-custom-config,console-plugin-admin-plugins,console-plugin-admin-service-monitoring,console-plugin-admin-tenants,console-plugin-tenant-data-query,console-plugin-tenant-data-subscription,console-plugin-tenant-device-templates,console-plugin-tenant-devices,console-plugin-tenant-networks,console-plugin-tenant-plugins,console-plugin-tenant-roles,console-plugin-tenant-routing-rules,console-plugin-tenant-users,console-portal-admin,console-portal-tenant',
+            description: 'whice ones ?',
+        )
+
+        string(
+            name:'REGISTRY',
+            defaultValue: 'harbor.wuxs.vip:30003',
+            description:'REGISTRY')
+
+        string(
+            name:'REPOSITORY',
+            defaultValue: 'tkeel-io-dev',
+            description:'REPOSITORY')
+
+        string(
+            name:'DOCKER_IMAGE_TAG',
+            defaultValue: '0.1.0',
+            description:'docker image tag')
+
+        string(
+            name:'HELM_CHART_VERSION',
+            defaultValue: '0.1.0',
+            description:'plugin version')
+    }
+
+    environment {    
+        /*
+        CREDENTIAL
+        */
+        PRIVATE_REPO_CREDENTIAL_ID = 'harbor'
+        KUBECONFIG_CREDENTIAL_ID = 'kubeconfig'
+
+        /*
+        config form CREDENTIAL
+        */
+        PRIVATE_REPO_CONFIG = 'private-repo'
+        PLUGIN_CONFIG = 'tkeel-plugin-config'
+    }
+
+    stages {
+        stage ('checkout scm') {
+            steps {
+                checkout(scm)
+            }
+        }
+
+        stage('get config'){
+            /*
+            get form CREDENTIAL
+            */
+            steps {
+                container ('python'){
+                    withCredentials([usernamePassword(credentialsId: "$PRIVATE_REPO_CONFIG", usernameVariable: 'registry',passwordVariable: 'repository')]) {
+                        script {
+                            env.REGISTRY = registry
+                            env.REPOSITORY = repository
+                            }
+                        }
+
+                    withCredentials([usernamePassword(credentialsId: "$PRIVATE_REPO_CREDENTIAL_ID", usernameVariable: 'username',passwordVariable: 'password')]) {
+                        script {
+                            env.USERNAME = username
+                            env.PASSWORD = password
+                            }
+                        }
+
+                    withCredentials([usernamePassword(credentialsId: "$PLUGIN_CONFIG", usernameVariable: 'enable_config',passwordVariable: 'config')]) {
+                        script {
+                            env.TKEEL_PLUGIN_ENABLE_UPGRADE = enable_config
+                            env.TKEEL_PLUGIN_CONFIG = config
+                            }
+                        }
+                    }
+                }
+            }
+
+        stage('build & push') {
+            environment {
+                /*
+                helm env
+                */
+                HELM_EXPERIMENTAL_OCI=1
+                COMMIT_ID = "${sh(script:'git rev-parse --short HEAD',returnStdout:true)}"
+                TIMESTAMP = "${sh(script:'date -d "+8 hour" "+%m.%d.%H%M%S"',returnStdout:true)}"
+            }
+            steps {
+                container ('python') {
+                    withCredentials([kubeconfigFile(credentialsId: env.KUBECONFIG_CREDENTIAL_ID,variable: 'KUBECONFIG')]) {
+                        script{
+                            /*
+                            init 
+                            */
+                            sh 'yarn install'
+                            sh 'helm3 registry login -u $USERNAME -p $PASSWORD $REGISTRY'
+                            sh 'docker login -u $USERNAME -p $PASSWORD https://$REGISTRY'
+                            sh 'tkeel admin login -p changeme'
+                            sh 'mv devops/config/$TKEEL_PLUGIN_CONFIG ~/.tkeel/config.yaml'
+
+                            for (plugin in params.PLUGINS.tokenize(',')) {
+                                /*
+                                overwrite tips
+                                */
+                                env.APP_NAME = plugin
+                                env.DOCKERFILE_PATH = 'Dcokerfile'
+                                env.CHART_PATH = "charts/${env.APP_NAME}"
+
+                                if (params.MANUAL_DEPLOY == "yes"){
+                                    /*
+                                    overwrite REGISTRY & REPOSITORY
+                                    */
+                                    env.REGISTRY = params.REGISTRY
+                                    env.REPOSITORY = params.REPOSITORY
+
+                                    /*
+                                    new Docker tag & chart version
+                                    */
+                                    env.DOCKER_IMAGE_TAG = params.DOCKER_IMAGE_TAG
+                                    env.DOCKER = "${env.REGISTRY}/${env.REPOSITORY}/${env.APP_NAME}:${env.DOCKER_IMAGE_TAG}"
+                                    env.CHART = params.HELM_CHART_VERSION
+                                }else{
+                                    /*
+                                    Docker tag & chart version
+                                    */
+                                    env.DOCKER_IMAGE_TAG = env.COMMIT_ID
+                                    env.DOCKER = "${env.REGISTRY}/${env.REPOSITORY}/${env.APP_NAME}:${env.DOCKER_IMAGE_TAG}"
+                                    env.CHART = "${env.TIMESTAMP.trim()}-${env.BRANCH_NAME}"
+                                }
+
+                                /*
+                                edit chart values
+                                */
+                                env.values = env.REGISTRY + "/" + env.REPOSITORY + "/" + env.APP_NAME
+                                sh 'python3 devops/scripts/kotb.py write $CHART_PATH/values.yaml $CHART_PATH/values.yaml $values'
+
+                                /*
+                                helm chart
+                                */
+                                sh 'helm3 package $CHART_PATH --version=$CHART --app-version=$DOCKER_IMAGE_TAG' 
+                                sh 'helm3 cm-push $APP_NAME-*.tgz https://$REGISTRY/chartrepo/$REPOSITORY --username=$USERNAME --password=$PASSWORD'
+
+                                /*
+                                docker image
+                                */
+                                sh 'yarn build:production-and-docker:build --package-names=@tkeel/$APP_NAME --docker-image-tag=cache --docker-image-push=false'
+                                sh 'docker tag tkeelio/$APP_NAME:cache $DOCKER'
+                                sh 'docker push $DOCKER'
+
+
+                                /*
+                                install or upgrade plugin
+                                */
+                                if (env.TKEEL_PLUGIN_ENABLE_UPGRADE == 'yes'){
+                                    sh 'tkeel plugin upgrade $REPOSITORY/$APP_NAME@$CHART $APP_NAME'
+                                }else{
+                                    sh 'echo do not install or upgrade'
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -84,27 +84,6 @@ export default function Config() {
           >
             协议配置
           </Text>
-          {/* TODO: temp */}
-          {/* <Flex alignItems="center" paddingLeft="12px">
-            <Text
-              paddingRight="4px"
-              fontSize="12px"
-              lineHeight="24px"
-              color="gray.500"
-            >
-              请使用模板，在这里
-            </Text>
-            <Button
-              variant="link"
-              fontSize="12px"
-              lineHeight="24px"
-              color="primary"
-              _hover={{ opacity: 0.7 }}
-              onClick={() => {}}
-            >
-              复制模板代码
-            </Button>
-          </Flex> */}
         </Flex>
         <Box paddingTop="12px">
           <AceEditor

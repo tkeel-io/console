@@ -1,6 +1,6 @@
-import { Box, Center, Flex } from '@chakra-ui/react';
+import { Box, Center, Flex, Image } from '@chakra-ui/react';
 
-import { Logo } from '@tkeel/console-types';
+import { useConfigAppearanceQuery } from '@tkeel/console-request-hooks';
 
 // import tkeelLogo from '@/tkeel-console-portal-base/assets/images/tkeel-logo.svg';
 import useMenusQuery from '@/tkeel-console-portal-base/hooks/queries/useMenusQuery';
@@ -9,22 +9,16 @@ import useMenusQuery from '@/tkeel-console-portal-base/hooks/queries/useMenusQue
 import MenuLink from './MenuLink';
 import SubMenus from './SubMenus';
 
-type Props = {
-  logo: Logo;
-};
-
-function CollapsedMenus({ logo }: Props) {
+function CollapsedMenus() {
   const { menus } = useMenusQuery();
 
+  const { config } = useConfigAppearanceQuery();
+
+  const logoMark = config?.common.logoMark ?? '';
   return (
     <Box position="relative" width="60px" height="100%">
       <Center height="96px">
-        {/* <Image
-          htmlWidth={isQingCloudTheme ? '32px' : '46px'}
-          src={isQingCloudTheme ? qingcloudLogo : tkeelLogo}
-          alt=""
-        /> */}
-        {logo.mark}
+        {logoMark && <Image htmlWidth="32px" src={logoMark} alt="" />}
       </Center>
       <Flex flexDirection="column" alignItems="center">
         {/* <Box>

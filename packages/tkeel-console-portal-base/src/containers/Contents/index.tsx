@@ -4,10 +4,12 @@ import { ReactNode, useState } from 'react';
 import { GlobalPortalProvider } from '@tkeel/console-business-components';
 import { ToastContainer } from '@tkeel/console-components';
 import { useLocationChange } from '@tkeel/console-hooks';
-import { useDeploymentConfigQuery } from '@tkeel/console-request-hooks';
-import useConfigQuery from '@tkeel/console-request-hooks/src/hooks/queries/useConfigQuery';
+import {
+  useConfigAppearanceQuery,
+  useConfigThemeColorsQuery,
+  useDeploymentConfigQuery,
+} from '@tkeel/console-request-hooks';
 import { Colors } from '@tkeel/console-themes';
-import { Logo } from '@tkeel/console-types';
 
 import Routes from '@/tkeel-console-portal-base/routes';
 import themes, {
@@ -25,7 +27,6 @@ interface Props {
   requireNoAuthRoutes: ReactNode;
   notRequireAuthRoutes?: ReactNode;
   userActionMenusComponent: ReactNode;
-  logo: Logo;
 }
 
 const themeName =
@@ -41,15 +42,15 @@ export default function Contents({
   requireNoAuthRoutes,
   notRequireAuthRoutes,
   userActionMenusComponent,
-  logo,
 }: Props) {
+  useConfigAppearanceQuery();
   const [isOpenDocuments, setIsOpenDocuments] = useState(false);
   const [documentsPath, setDocumentsPath] = useState('');
 
   const { config } = useDeploymentConfigQuery();
   const docsBaseURL = config?.docsURL ?? '';
 
-  const { extra, isFetched } = useConfigQuery();
+  const { colors, isFetched } = useConfigThemeColorsQuery();
 
   useLocationChange({
     onChange: () => {
@@ -64,7 +65,7 @@ export default function Contents({
     ...theme,
     colors: {
       ...theme.colors,
-      ...extra?.theme?.colors,
+      ...colors,
     } as Colors,
   };
 
@@ -88,7 +89,6 @@ export default function Contents({
           requireNoAuthRoutes={requireNoAuthRoutes}
           notRequireAuthRoutes={notRequireAuthRoutes}
           userActionMenusComponent={userActionMenusComponent}
-          logo={logo}
         />
         <DocumentsContainer />
         <ToastContainer />
