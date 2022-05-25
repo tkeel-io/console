@@ -9,6 +9,7 @@ import {
   InfoCard,
   MoreAction,
 } from '@tkeel/console-components';
+import { useColor } from '@tkeel/console-hooks';
 import { BoxTwoToneIcon, OfficialFilledIcon } from '@tkeel/console-icons';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
@@ -53,12 +54,16 @@ function Detail(): JSX.Element {
     },
   ];
 
+  const whiteColor = useColor('white');
+  const grayColor = useColor('gray.50');
+  const backgroundColor = `linear-gradient(180deg, ${whiteColor} 0%, ${grayColor} 100%)`;
+
   return (
     <Flex h="100%">
       <Box width="360px" mr="20px">
         <Box
           height="108px"
-          background="linear-gradient(180deg, #FFFFFF 0%, #F9FBFD 100%)"
+          backgroundColor={backgroundColor}
           borderRadius="4px"
           position="relative"
         >
@@ -123,7 +128,7 @@ function Detail(): JSX.Element {
             </Text>
           </Flex>
         </Box>
-        <Box background="linear-gradient(180deg, #FFFFFF 0%, #F9FBFD 100%)">
+        <Box backgroundColor={backgroundColor}>
           <InfoCard
             title=" "
             data={[
@@ -152,11 +157,7 @@ function Detail(): JSX.Element {
           <Box display="inline">批量导入</Box>
         </Box> */}
       </Box>
-      <Box
-        flex="1"
-        borderRadius="4px"
-        background="linear-gradient(180deg, #FFFFFF 0%, #F9FBFD 100%)"
-      >
+      <Box flex="1" borderRadius="4px" backgroundColor={backgroundColor}>
         <Tabs display="flex" flexDirection="column" h="100%">
           <CustomTabList>
             {tabs.map((item) => (

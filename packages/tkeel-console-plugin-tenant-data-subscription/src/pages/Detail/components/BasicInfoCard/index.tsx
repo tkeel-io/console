@@ -2,6 +2,7 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
 import { BackButton, Clipboard, MoreAction } from '@tkeel/console-components';
+import { useColor } from '@tkeel/console-hooks';
 import {
   MessageWarningTwoToneIcon,
   OfficialFilledIcon,
@@ -27,6 +28,9 @@ export default function BasicInfoCard({ data, refetchData }: Props) {
     is_default: data?.is_default,
   };
 
+  const whiteColor = useColor('white');
+  const grayColor = useColor('gray.50');
+
   return (
     <Box
       borderTopLeftRadius="4px"
@@ -36,7 +40,7 @@ export default function BasicInfoCard({ data, refetchData }: Props) {
       <Box
         position="relative"
         height="108px"
-        background="linear-gradient(180deg, #FFFFFF 0%, #F9FBFD 100%)"
+        background={`linear-gradient(180deg, ${whiteColor} 0%, ${grayColor} 100%)`}
       >
         <OfficialFilledIcon
           style={{

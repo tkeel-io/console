@@ -1,5 +1,6 @@
 import { Flex, Text } from '@chakra-ui/react';
 import styled from '@emotion/styled';
+import { ReactNode } from 'react';
 
 import { Tree } from '@tkeel/console-components';
 import { TreeNodeType } from '@tkeel/console-request-hooks';
@@ -49,7 +50,7 @@ export default function DeviceGroup({
             }}
           >
             <Text marginLeft="4px" color="gray.800">
-              {node.title}
+              {node.title as ReactNode}
             </Text>
             {isShowSpreadButton && <SpreadButton style={{ display: 'none' }} />}
           </TitleWrapper>
