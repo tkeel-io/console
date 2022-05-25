@@ -69,7 +69,7 @@ function UploadButton({
         getSuccessUpload(true);
         toast.success('导入成功！');
       }
-    } else if (code !== successCode) {
+    } else {
       toast.error('部分或全部导入失败！');
     }
   };
