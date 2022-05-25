@@ -9,13 +9,14 @@ interface RequestData {
 }
 
 interface Client {
-  command: string;
   id: string;
+  token: string;
 }
 
 interface ApiData {
   '@type': string;
   client: Client;
+  command: string;
 }
 
 const method = 'POST';
