@@ -29,14 +29,16 @@ export default function CreateNetworkButton({
   type,
   onSuccess,
 }: Props) {
+  const isEdit = type === 'editButton';
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     isOpen: isSuccessModalOpen,
     onOpen: onSuccessModalOpen,
     onClose: onSuccessModalClose,
   } = useDisclosure();
-  const useOperationMutation =
-    type === 'editButton' ? useModifyNetworkMutation : useCreateNetworkMutation;
+  const useOperationMutation = isEdit
+    ? useModifyNetworkMutation
+    : useCreateNetworkMutation;
   const { isLoading, mutate, data } = useOperationMutation({
     id: id ?? '',
     onSuccess() {
@@ -57,7 +59,7 @@ export default function CreateNetworkButton({
       },
     };
     mutate({
-      data: type === 'editButton' ? editData : createData,
+      data: isEdit ? editData : createData,
     });
   };
 
@@ -71,7 +73,7 @@ export default function CreateNetworkButton({
           创建
         </LinkButton>
       )}
-      {type === 'editButton' && (
+      {isEdit && (
         <MoreActionButton
           icon={<PencilFilledIcon />}
           title="编辑代理网关"
@@ -91,7 +93,7 @@ export default function CreateNetworkButton({
       {isSuccessModalOpen && (
         <CopyCommandModal
           isOpen={isSuccessModalOpen}
-          title={type === 'editButton' ? '编辑代理网关' : '创建代理网关'}
+          title={isEdit ? '编辑代理网关' : '创建代理网关'}
           copyData={commandData}
           token={token ?? ''}
           id={commandId}

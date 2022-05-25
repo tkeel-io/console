@@ -9,7 +9,7 @@ export interface ApiData {
     id: string;
     name: string;
     online: string;
-    status: string;
+    status: 'enabled' | 'disabled';
     token: string;
   };
   command: string;

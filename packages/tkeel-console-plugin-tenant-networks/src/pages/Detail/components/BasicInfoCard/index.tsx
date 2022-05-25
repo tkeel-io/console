@@ -5,13 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import { BackButton } from '@tkeel/console-components';
 import { NetworkIcon, OfficialFilledIcon } from '@tkeel/console-icons';
 
-import MoreActionButton from '@/tkeel-console-plugin-tenant-networks/components/MoreActionButton';
+import MoreOperationButton from '@/tkeel-console-plugin-tenant-networks/components/MoreOperationButton';
 import StatusLabel from '@/tkeel-console-plugin-tenant-networks/components/StatusLabel';
 
 interface NetWorkInfo {
   id: string;
   name: string;
-  status: string;
+  status: 'enabled' | 'disabled';
   ip: string;
   token: string;
   time: string;
@@ -19,7 +19,7 @@ interface NetWorkInfo {
 }
 interface Props {
   data: NetWorkInfo;
-  refetchData: () => unknown;
+  refetchData: () => void;
 }
 
 export default function BasicInfoCard({ data, refetchData }: Props) {
@@ -35,7 +35,7 @@ export default function BasicInfoCard({ data, refetchData }: Props) {
       <Box
         position="relative"
         height="108px"
-        background="linear-gradient(180deg, #FFFFFF 0%, #F9FBFD 100%)"
+        background="linear-gradient(180deg, white 0%, gray.50 100%)"
       >
         <OfficialFilledIcon
           style={{
@@ -56,7 +56,7 @@ export default function BasicInfoCard({ data, refetchData }: Props) {
               navigate('/');
             }}
           />
-          <MoreActionButton
+          <MoreOperationButton
             cruxData={{
               id,
               name,
@@ -86,7 +86,7 @@ export default function BasicInfoCard({ data, refetchData }: Props) {
           <StatusLabel
             styles={{ wrapper: { ml: '10px', pt: '2px' } }}
             status={status}
-            online={online}
+            online={online === 'online'}
           />
         </Flex>
       </Box>

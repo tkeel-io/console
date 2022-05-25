@@ -16,7 +16,7 @@ interface Props {
   copyData: string;
   token: string;
   isOpen: boolean;
-  onClose: () => unknown;
+  onClose: () => void;
 }
 
 export default function CopyCommandModal({

@@ -13,6 +13,7 @@ import {
 import { FC, ReactNode, useMemo, useState } from 'react';
 import { CellProps, Column } from 'react-table';
 
+import { DeviceStatusIcon } from '@tkeel/console-business-components';
 import {
   Empty,
   LinkButton,
@@ -30,8 +31,6 @@ import {
   SmartObjectTwoToneIcon,
   SuccessFilledIcon,
   WarningFilledIcon,
-  WifiFilledIcon,
-  WifiOffFilledIcon,
 } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
@@ -39,7 +38,7 @@ import useNetworkListQuery from '@/tkeel-console-plugin-tenant-networks/hooks/qu
 
 import CreateProxyButton from '../CreateProxyButton';
 import DeleteButton from '../DeleteButton';
-import SwitchButton from '../SwitchButton';
+import SwitchProxyButton from '../SwitchProxyButton';
 
 const PopoverTrigger: FC<{ children: React.ReactNode }> = OrigPopoverTrigger;
 
@@ -47,7 +46,7 @@ interface ProxyListItemData {
   id: string;
   name: string;
   port: string;
-  status: string;
+  status: 'enabled' | 'disabled';
   online: string;
   token: string;
   protocol: string;
@@ -171,22 +170,7 @@ export default function Index({ id }: Props) {
       width: 80,
       Cell: ({ value }: { value: string }) =>
         useMemo(
-          () => (
-            <Flex
-              bgColor={value === 'online' ? 'brand.50' : 'gray.100'}
-              w="24px"
-              h="24px"
-              borderRadius="4px"
-              alignItems="center"
-              justifyContent="center"
-            >
-              {value === '1' ? (
-                <WifiFilledIcon size={14} color="green.300" />
-              ) : (
-                <WifiOffFilledIcon size={14} color="gray.500" />
-              )}
-            </Flex>
-          ),
+          () => <DeviceStatusIcon isOnline={value === 'online'} size={16} />,
           [value]
         ),
     },
@@ -349,7 +333,7 @@ export default function Index({ id }: Props) {
             <MoreAction
               styles={{ actionList: { width: '124px' } }}
               buttons={[
-                <SwitchButton
+                <SwitchProxyButton
                   key="switch"
                   status={original?.status}
                   id={original?.id}

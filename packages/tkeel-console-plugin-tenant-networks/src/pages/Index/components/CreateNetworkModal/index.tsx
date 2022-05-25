@@ -5,8 +5,8 @@ interface Props {
   type: 'createButton' | 'createText' | 'editButton';
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
-  onClose: () => unknown;
-  onConfirm: (formValues: FormValues) => unknown;
+  onClose: () => void;
+  onConfirm: (formValues: FormValues) => void;
 }
 
 export default function CreateNetworkModal({

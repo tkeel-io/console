@@ -13,8 +13,8 @@ interface Props {
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
   defaultValues?: FormValues;
-  onClose: () => unknown;
-  onConfirm: (formValues: FormValues) => unknown;
+  onClose: () => void;
+  onConfirm: (formValues: FormValues) => void;
 }
 
 export default function BaseNetworkModal({

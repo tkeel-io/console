@@ -10,14 +10,14 @@ interface Props {
   cruxData: {
     id: string;
     name: string;
-    status: string;
+    status: 'enabled' | 'disabled';
     token: string;
   };
   refetch?: () => void;
-  onDeleteSuccess?: () => unknown;
+  onDeleteSuccess?: () => void;
 }
 
-function MoreActionButton({ cruxData, refetch, onDeleteSuccess }: Props) {
+function MoreOperationButton({ cruxData, refetch, onDeleteSuccess }: Props) {
   const { id, name, status, token } = cruxData;
   const toast = plugin.getPortalToast();
 
@@ -61,4 +61,4 @@ function MoreActionButton({ cruxData, refetch, onDeleteSuccess }: Props) {
   );
 }
 
-export default MoreActionButton;
+export default MoreOperationButton;

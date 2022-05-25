@@ -10,9 +10,9 @@ interface Props {
   action: string;
   accept: string;
   fileSize: number;
-  getStartUpload: (e: boolean) => unknown;
-  getProgressUpload: (e: number) => unknown;
-  getSuccessUpload: (e: boolean) => unknown;
+  getStartUpload: (e: boolean) => void;
+  getProgressUpload: (e: number) => void;
+  getSuccessUpload: (e: boolean) => void;
 }
 
 function UploadButton({
@@ -64,13 +64,12 @@ function UploadButton({
     if (code === successCode) {
       const percent = Math.floor(100 / startSum) * successSum;
       getProgressUpload(percent);
-    }
-    if (code === successCode && startSum === successSum) {
-      getProgressUpload(100);
-      getSuccessUpload(true);
-      toast.success('导入成功！');
-    }
-    if (code !== successCode) {
+      if (startSum === successSum) {
+        getProgressUpload(100);
+        getSuccessUpload(true);
+        toast.success('导入成功！');
+      }
+    } else if (code !== successCode) {
       toast.error('部分或全部导入失败！');
     }
   };

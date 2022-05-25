@@ -5,7 +5,7 @@ import { AddFilledIcon } from '@tkeel/console-icons';
 import { DeviceItem } from '@tkeel/console-request-hooks';
 
 interface Props {
-  deviceMsg: (device: { deviceId: string; deviceName: string }) => unknown;
+  deviceMsg: (device: { deviceId: string; deviceName: string }) => void;
 }
 
 export default function BindDeviceButton({ deviceMsg }: Props) {

@@ -4,7 +4,7 @@ export interface ProxyListItemData {
   id: string;
   name: string;
   port: string;
-  status: string;
+  status: 'enabled' | 'disabled';
   online: string;
   token: string;
   protocol: string;

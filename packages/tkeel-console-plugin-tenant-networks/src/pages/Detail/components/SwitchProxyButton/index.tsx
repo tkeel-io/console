@@ -5,12 +5,12 @@ import { plugin } from '@tkeel/console-utils';
 import useModifyProxyMutation from '@/tkeel-console-plugin-tenant-networks/hooks/mutations/useModifyProxyMutation';
 
 interface Props {
-  status: string;
+  status: 'enabled' | 'disabled';
   id: string;
   refetch?: () => void;
 }
 
-function SwitchButton({ status, id, refetch }: Props) {
+function SwitchProxyButton({ status, id, refetch }: Props) {
   const toast = plugin.getPortalToast();
   const { mutate } = useModifyProxyMutation({
     id,
@@ -42,4 +42,4 @@ function SwitchButton({ status, id, refetch }: Props) {
   );
 }
 
-export default SwitchButton;
+export default SwitchProxyButton;

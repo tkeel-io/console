@@ -56,8 +56,6 @@ export default function CheckDeviceList({
   const hasDevices = totalLength > 0;
   const isAllChecked = hasDevices && totalLength === deviceList.length;
   const isIndeterminate = hasDevices && totalLength < deviceList.length;
-  // const [isRadioId, setIsRadioId] = useState('');
-  // console.log(isRadioId)
   const textStyle = {
     color: 'gray.800',
     fontSize: '14px',

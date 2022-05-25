@@ -1,3 +1,5 @@
+const { tkeel } = require('../../../config/default');
+
 module.exports = {
   portalName: 'tenant',
   publicPath: '/static/console-plugin-tenant-networks/',
@@ -12,14 +14,22 @@ module.exports = {
       plugin_id: 'console-plugin-tenant-networks',
       entries: [
         {
-          id: 'console-plugin-tenant-networks',
-          name: '网络服务',
-          path: '/tenant-networks',
-          entry: '/static/console-plugin-tenant-networks/',
-          portal: 1,
+          id: 'devices',
+          name: '设备管理',
+          icon: 'MgmtNodeTwoToneIcon',
+          children: [
+            {
+              key: 'networks',
+              id: 'console-plugin-tenant-networks',
+              name: '网络服务',
+              path: '/tenant-networks',
+              entry: '/static/console-plugin-tenant-networks/',
+              portal: 1,
+            },
+          ],
         },
       ],
-      dependence: [],
+      dependence: [{ id: 'tkeel-device', version: tkeel.version }],
     },
   },
 };

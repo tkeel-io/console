@@ -8,12 +8,12 @@ import StatusLabel from '@/tkeel-console-plugin-tenant-networks/components/Statu
 interface Props {
   briefInfo: {
     name: string;
-    status: string;
+    status: 'enabled' | 'disabled';
     online: string;
   };
   operatorButton: ReactNode;
   bottomInfo: ReactNode;
-  onClick: () => unknown;
+  onClick: () => void;
 }
 
 function NetWorkCard({
@@ -67,7 +67,7 @@ function NetWorkCard({
           <StatusLabel
             styles={{ wrapper: { ml: '10px' } }}
             status={briefInfo.status}
-            online={briefInfo.online}
+            online={briefInfo.online === 'online'}
           />
           {operatorButton}
         </Flex>

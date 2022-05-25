@@ -5,7 +5,7 @@ import { plugin } from '@tkeel/console-utils';
 import useModifyNetworkMutation from '@/tkeel-console-plugin-tenant-networks/hooks/mutations/useModifyNetworkMutation';
 
 interface Props {
-  status: string;
+  status: 'enabled' | 'disabled';
   id: string;
   refetch?: () => void;
 }

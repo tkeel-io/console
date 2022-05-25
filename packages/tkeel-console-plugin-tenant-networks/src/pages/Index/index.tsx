@@ -21,7 +21,7 @@ import {
 import { plugin } from '@tkeel/console-utils';
 
 import BaseMessage from '@/tkeel-console-plugin-tenant-networks/components/BaseMessage';
-import MoreActionButton from '@/tkeel-console-plugin-tenant-networks/components/MoreActionButton';
+import MoreOperationButton from '@/tkeel-console-plugin-tenant-networks/components/MoreOperationButton';
 import useNetworksQuery from '@/tkeel-console-plugin-tenant-networks/hooks/queries/useNetworksQuery';
 
 import CreateNetworkButton from './components/CreateNetworkButton';
@@ -182,7 +182,7 @@ export default function Index() {
                         key={id}
                         briefInfo={{ name, status, online }}
                         operatorButton={
-                          <MoreActionButton
+                          <MoreOperationButton
                             cruxData={{
                               id,
                               name,

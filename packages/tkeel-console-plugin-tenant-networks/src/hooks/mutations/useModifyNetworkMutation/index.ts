@@ -11,7 +11,7 @@ interface RequestData {
 interface Client {
   command: string;
   id: string;
-  status: string;
+  status: 'enabled' | 'disabled';
 }
 export interface ApiData {
   '@type': string;

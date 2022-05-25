@@ -4,7 +4,7 @@ export interface NetworkItemData {
   id: string;
   name: string;
   client_address: string;
-  status: string;
+  status: 'enabled' | 'disabled';
   create_at: string;
   online: string;
   token: string;

@@ -13,7 +13,7 @@ export interface RequestData {
 }
 
 interface Proxy {
-  status: string;
+  status: 'enabled' | 'disabled';
 }
 
 export interface ApiData {

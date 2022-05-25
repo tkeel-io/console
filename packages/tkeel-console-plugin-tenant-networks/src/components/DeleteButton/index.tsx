@@ -12,7 +12,7 @@ interface Props {
     name: string;
   };
   refetch?: () => void;
-  onDeleteSuccess?: () => unknown;
+  onDeleteSuccess?: () => void;
 }
 
 function DeleteButton({ cruxData, refetch, onDeleteSuccess }: Props) {
