@@ -19,7 +19,6 @@ module.exports = {
           icon: 'MgmtNodeTwoToneIcon',
           children: [
             {
-              key: 'networks',
               id: 'console-plugin-tenant-networks',
               name: '网络服务',
               path: '/tenant-networks',
