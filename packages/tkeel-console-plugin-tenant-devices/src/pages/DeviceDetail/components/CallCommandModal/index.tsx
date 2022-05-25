@@ -12,7 +12,7 @@ import { isEmpty, merge } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { DATA_TYPE_CONFIG } from '@tkeel/console-business-components/src/components/DeviceCommandModal/components/CommandParamModal/DataType';
+import { DATA_TYPE_CONFIG } from '@tkeel/console-business-components/src/components/DeviceDataType/constants';
 import {
   AceEditor,
   FormControl,

@@ -14,6 +14,7 @@ export { default as DeveloperInfo } from './components/DeveloperInfo';
 export { default as DeviceAttributeModal } from './components/DeviceAttributeModal';
 export { default as DeviceCommandModal } from './components/DeviceCommandModal';
 export { default as CommandParamModal } from './components/DeviceCommandModal/components/CommandParamModal';
+export { default as DeviceDataType } from './components/DeviceDataType';
 export * from './components/DeviceIcons';
 export { default as DeviceTelemetryModal } from './components/DeviceTelemetryModal';
 export { default as Documents } from './components/Documents';
