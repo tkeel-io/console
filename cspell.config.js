@@ -78,6 +78,7 @@ module.exports = {
     'mysqlrequest',
     'tinycolor',
     'rawdata',
+    'fluxswitch',
     // fonts
     'truetype',
     'Roboto',

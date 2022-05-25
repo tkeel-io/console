@@ -15,6 +15,7 @@ type Props = {
   keywords?: string;
   selectedDevices: DeviceItemExtended[];
   handleSetSelectedDevices: (selectedDevices: DeviceItemExtended[]) => unknown;
+  isMultipleChoice?: boolean;
 };
 
 const getNewDevices = ({
@@ -38,6 +39,7 @@ export default function CheckDeviceList({
   keywords = '',
   selectedDevices,
   handleSetSelectedDevices,
+  isMultipleChoice,
 }: Props) {
   const checkedDevices = selectedDevices.filter(
     ({ id, hasSelected }) =>
@@ -54,7 +56,6 @@ export default function CheckDeviceList({
   const hasDevices = totalLength > 0;
   const isAllChecked = hasDevices && totalLength === deviceList.length;
   const isIndeterminate = hasDevices && totalLength < deviceList.length;
-
   const textStyle = {
     color: 'gray.800',
     fontSize: '14px',
@@ -95,6 +96,12 @@ export default function CheckDeviceList({
     );
   };
 
+  const handleRadioChange = (device: DeviceItemExtended) => {
+    // const { id } = device;
+    // setIsRadioId(id);
+    handleSetSelectedDevices([device]);
+  };
+
   if (isLoading) {
     return <Loading styles={{ wrapper: { flex: '1' } }} />;
   }
@@ -113,20 +120,22 @@ export default function CheckDeviceList({
 
   return (
     <Flex flexDirection="column" width="100%">
-      <Checkbox
-        isChecked={isAllChecked}
-        isIndeterminate={isIndeterminate}
-        onChange={(e) => {
-          if (!selectAllDisabled) {
-            handleAllCheckBoxChange(e.target.checked);
-          }
-        }}
-        marginLeft="20px"
-        cursor={selectAllDisabled ? 'not-allowed' : 'pointer'}
-        opacity={selectAllDisabled ? '.5' : '1'}
-      >
-        <Text {...textStyle}>全选</Text>
-      </Checkbox>
+      {isMultipleChoice && (
+        <Checkbox
+          isChecked={isAllChecked}
+          isIndeterminate={isIndeterminate}
+          onChange={(e) => {
+            if (!selectAllDisabled) {
+              handleAllCheckBoxChange(e.target.checked);
+            }
+          }}
+          marginLeft="20px"
+          cursor={selectAllDisabled ? 'not-allowed' : 'pointer'}
+          opacity={selectAllDisabled ? '.5' : '1'}
+        >
+          <Text {...textStyle}>全选</Text>
+        </Checkbox>
+      )}
       <Box flex={1} overflowY="auto">
         {filteredDeviceList.map((device) => {
           const { id, properties, hasSelected } = device;
@@ -134,7 +143,6 @@ export default function CheckDeviceList({
             <Flex
               key={id}
               height="32px"
-              paddingLeft="20px"
               alignItems="center"
               _hover={{
                 backgroundColor: hasSelected
@@ -142,29 +150,52 @@ export default function CheckDeviceList({
                   : 'grayAlternatives.50',
               }}
             >
-              <Checkbox
-                isChecked={
-                  checkedDevices.some((item) => item.id === id) || hasSelected
-                }
-                onChange={(e) => {
-                  if (!hasSelected) {
-                    handleItemCheckBoxChange({
-                      checked: e.target.checked,
-                      device,
-                    });
+              {isMultipleChoice ? (
+                <Checkbox
+                  paddingLeft="20px"
+                  isChecked={
+                    checkedDevices.some((item) => item.id === id) || hasSelected
                   }
-                }}
-                width="100%"
-                cursor={hasSelected ? 'not-allowed' : 'pointer'}
-                opacity={hasSelected ? '.5' : '1'}
-              >
-                <Flex alignItems="center">
+                  onChange={(e) => {
+                    if (!hasSelected) {
+                      handleItemCheckBoxChange({
+                        checked: e.target.checked,
+                        device,
+                      });
+                    }
+                  }}
+                  width="100%"
+                  cursor={hasSelected ? 'not-allowed' : 'pointer'}
+                  opacity={hasSelected ? '.5' : '1'}
+                >
+                  <Flex alignItems="center">
+                    <SmartObjectTwoToneIcon size={20} />
+                    <Text marginLeft="6px" {...textStyle}>
+                      {properties?.basicInfo?.name ?? ''}
+                    </Text>
+                  </Flex>
+                </Checkbox>
+              ) : (
+                <Flex
+                  alignItems="center"
+                  paddingLeft="20px"
+                  width="100%"
+                  cursor="pointer"
+                  bgColor={
+                    selectedDevices[0]?.id === id
+                      ? 'grayAlternatives.50'
+                      : 'opacity'
+                  }
+                  onClick={() => {
+                    handleRadioChange(device);
+                  }}
+                >
                   <SmartObjectTwoToneIcon size={20} />
                   <Text marginLeft="6px" {...textStyle}>
                     {properties?.basicInfo?.name ?? ''}
                   </Text>
                 </Flex>
-              </Checkbox>
+              )}
             </Flex>
           );
         })}
