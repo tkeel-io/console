@@ -99,6 +99,7 @@ export { default as RightFilledIcon } from './components/RightFilledIcon';
 export { default as RoleTwoToneIcon } from './components/RoleTwoToneIcon';
 export { default as RoutesMsgIcon } from './components/RoutesMsgIcon';
 export { default as RoutesTimeIcon } from './components/RoutesTimeIcon';
+export { default as ServerNodeTwoToneIcon } from './components/ServerNodeTwoToneIcon';
 export { default as ShutdownFilledIcon } from './components/ShutdownFilledIcon';
 export { default as SmartObjectTwoToneIcon } from './components/SmartObjectTwoToneIcon';
 export { default as SmcFilledIcon } from './components/SmcFilledIcon';
