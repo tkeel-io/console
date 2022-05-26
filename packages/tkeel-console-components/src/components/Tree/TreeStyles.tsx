@@ -93,7 +93,7 @@ export default function TreeStyles({ prefixCls, extras, styles }: Props) {
           }
 
           &.${treePrefixCls}-title {
-            margin-left: 6px;
+            margin-left: 4px;
             color: ${colors.gray[800]};
             font-size: 12px;
             line-height: 24px;

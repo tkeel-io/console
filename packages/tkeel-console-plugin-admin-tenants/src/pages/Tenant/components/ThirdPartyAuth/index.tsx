@@ -52,19 +52,18 @@ export default function ThirdPartyAuth() {
             lineHeight="150%"
             color="gray.500"
           >
-            平台支持多种认证协议，协议选择后不可修改，您可以在下方配置认证协议
-            {/* ，详细说明请参见文档 */}
+            平台支持多种认证协议，协议选择后不可修改，您可以在下方配置认证协议，详细说明请参见
           </Text>
           <Button
-            display="none"
             variant="link"
             fontSize="12px"
             lineHeight="150%"
             color="primary"
             _hover={{ opacity: 0.7 }}
             onClick={() => {
-              // TODO: need docs
-              documents.open('');
+              documents.open(
+                documents.config.paths.adminGuide.tenantThirdPartyAuthConfig
+              );
             }}
           >
             文档
