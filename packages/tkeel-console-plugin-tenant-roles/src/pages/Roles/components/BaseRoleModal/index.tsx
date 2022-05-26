@@ -1,4 +1,5 @@
 import { Box, Divider, Text } from '@chakra-ui/react';
+import { css } from '@emotion/react';
 import { union, without } from 'lodash';
 import { ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -19,6 +20,10 @@ import usePermissionsQuery from '@/tkeel-console-plugin-tenant-roles/hooks/queri
 import { getChildKeys, getParentKeys, getTreeData, TreeData } from './tree';
 
 const { TextField, TextareaField } = FormField;
+
+const treeTitleStyle = css`
+  margin-left: 0;
+`;
 
 export interface FormValues {
   roleName: string;
@@ -93,10 +98,10 @@ export default function BaseRoleModal({
     return (
       <Tree
         treeData={treeData}
-        showIcon={false}
         selectable
         multiple
         selectedKeys={permissionPaths}
+        styles={{ treeTitle: treeTitleStyle.styles }}
         extras={{ isTreeTitleFullWidth: true }}
         onSelect={(_selectedKeys, info) => {
           const { selected, node } = info;
@@ -165,40 +170,6 @@ export default function BaseRoleModal({
             <Divider backgroundColor="gray.200" />
             <Box overflow="auto" maxHeight="300px" paddingY="12px">
               {renderTree()}
-              {/* {isLoading ? (
-                <Loading styles={{ wrapper: { paddingTop: '12px' } }} />
-              ) : (
-                <Tree
-                  treeData={treeData}
-                  showIcon={false}
-                  selectable
-                  multiple
-                  selectedKeys={permissionPaths}
-                  extras={{ isTreeTitleFullWidth: true }}
-                  onSelect={(_selectedKeys, info) => {
-                    const { selected, node } = info;
-                    const key = node.key as string;
-                    const children = (node.children as TreeData) ?? [];
-                    let newPermissionPaths = [];
-
-                    if (selected) {
-                      const parentKeys = getParentKeys({ keyValue: key });
-                      newPermissionPaths = union(permissionPaths, parentKeys, [
-                        key,
-                      ]);
-                    } else {
-                      const childKeys = getChildKeys(children);
-                      newPermissionPaths = without(
-                        permissionPaths,
-                        ...childKeys,
-                        key
-                      );
-                    }
-
-                    setValue('permissionPaths', newPermissionPaths);
-                  }}
-                />
-              )} */}
             </Box>
           </Box>
         </Box>
