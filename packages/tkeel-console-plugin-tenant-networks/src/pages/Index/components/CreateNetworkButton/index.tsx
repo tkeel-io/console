@@ -9,6 +9,7 @@ import { PencilFilledIcon } from '@tkeel/console-icons';
 
 import useCreateNetworkMutation from '@/tkeel-console-plugin-tenant-networks/hooks/mutations/useCreateNetworkMutation';
 import useModifyNetworkMutation from '@/tkeel-console-plugin-tenant-networks/hooks/mutations/useModifyNetworkMutation';
+import useNetworkInfoQuery from '@/tkeel-console-plugin-tenant-networks/hooks/queries/useNetworkInfoQuery';
 
 import { FormValues } from '../BaseNetworkModal';
 import CopyCommandModal from '../CopyCommandModal';
@@ -34,6 +35,7 @@ export default function CreateNetworkButton({
     onOpen: onSuccessModalOpen,
     onClose: onSuccessModalClose,
   } = useDisclosure();
+  const { data: detailData } = useNetworkInfoQuery(id ?? '', isOpen && isEdit);
   const useOperationMutation = isEdit
     ? useModifyNetworkMutation
     : useCreateNetworkMutation;
@@ -45,7 +47,7 @@ export default function CreateNetworkButton({
       onSuccessModalOpen();
     },
   });
-  const commandData = data?.command ?? '';
+  const commandData = isEdit ? detailData?.command ?? '' : data?.command ?? '';
   const commandId = data?.client?.id ?? '';
   const handleConfirm = (formValues: FormValues) => {
     const createData = {
@@ -88,7 +90,7 @@ export default function CreateNetworkButton({
           onConfirm={handleConfirm}
         />
       )}
-      {isSuccessModalOpen && !isEdit && (
+      {isSuccessModalOpen && (
         <CopyCommandModal
           isOpen={isSuccessModalOpen}
           title="创建代理网关"
