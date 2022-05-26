@@ -1,6 +1,5 @@
 import { Flex, Text } from '@chakra-ui/react';
 import styled from '@emotion/styled';
-import { ReactNode } from 'react';
 
 import { Tree } from '@tkeel/console-components';
 import { TreeNodeType } from '@tkeel/console-request-hooks';
@@ -41,16 +40,16 @@ export default function DeviceGroup({
     <Tree
       // eslint-disable-next-line react/no-unstable-nested-components
       titleRender={(node) => {
-        const { id: groupId } = node as TreeNodeData;
+        const { id: groupId, title } = node as TreeNodeData;
         return (
           <TitleWrapper
             justifyContent="space-between"
             onClick={() => {
-              onNodeTitleClick({ groupId, title: node.title as string });
+              onNodeTitleClick({ groupId, title });
             }}
           >
             <Text marginLeft="4px" color="gray.800">
-              {node.title as ReactNode}
+              {title}
             </Text>
             {isShowSpreadButton && <SpreadButton style={{ display: 'none' }} />}
           </TitleWrapper>
