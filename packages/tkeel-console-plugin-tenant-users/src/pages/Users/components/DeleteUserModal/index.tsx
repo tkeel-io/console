@@ -11,7 +11,7 @@ type Props = {
   onConfirm: () => unknown;
 };
 
-export default function DeleteUserModal({
+export default function LoginUserModal({
   data,
   isOpen,
   isConfirmButtonLoading,

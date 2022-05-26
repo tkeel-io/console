@@ -9,6 +9,7 @@ import { removeLocalTokenInfo } from './local-token-info';
 type JumpToPageOptions = {
   path?: string;
   isReplace?: boolean;
+  isNewWindow?: boolean;
   navigate?: NavigateFunction;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   state?: any;
@@ -17,6 +18,7 @@ type JumpToPageOptions = {
 export function jumpToPage({
   path = '/',
   isReplace,
+  isNewWindow,
   navigate,
   state,
 }: JumpToPageOptions) {
@@ -25,6 +27,8 @@ export function jumpToPage({
     navigate(path, { replace: isReplace, state });
   } else if (isReplace) {
     window.location.replace(path);
+  } else if (isNewWindow) {
+    window.open(path, '_blank');
   } else {
     window.location.assign(path);
   }
@@ -34,13 +38,15 @@ type JumpToTenantAuthTenantPageOptions = {
   isRemoveLocalTokenInfo?: boolean;
   isRemoveLocalTenantInfo?: boolean;
   isReplace?: boolean;
+  isNewWindow?: boolean;
   navigate?: NavigateFunction;
 };
 
 export function jumpToTenantAuthTenantPage({
-  isRemoveLocalTokenInfo = false,
-  isRemoveLocalTenantInfo = false,
-  isReplace = false,
+  isRemoveLocalTokenInfo,
+  isRemoveLocalTenantInfo,
+  isReplace,
+  isNewWindow,
   navigate,
 }: JumpToTenantAuthTenantPageOptions) {
   const path = '/auth/tenant';
@@ -53,7 +59,7 @@ export function jumpToTenantAuthTenantPage({
     removeLocalTenantInfo();
   }
 
-  jumpToPage({ path, isReplace, navigate });
+  jumpToPage({ path, isReplace, isNewWindow, navigate });
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -64,6 +70,7 @@ type JumpToAuthLoginPageOptions<TSearchParams = Record<string, any>> = {
   path?: string;
   isRemoveLocalTokenInfo?: boolean;
   isReplace?: boolean;
+  isNewWindow?: boolean;
   navigate?: NavigateFunction;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   state?: any;
@@ -75,8 +82,9 @@ export function jumpToAuthLoginPage<TSearchParams = Record<string, any>>({
   tenantId = '',
   searchParams,
   path,
-  isRemoveLocalTokenInfo = false,
-  isReplace = false,
+  isRemoveLocalTokenInfo,
+  isReplace,
+  isNewWindow,
   navigate,
   state,
 }: JumpToAuthLoginPageOptions<TSearchParams>) {
@@ -98,7 +106,7 @@ export function jumpToAuthLoginPage<TSearchParams = Record<string, any>>({
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  jumpToPage({ path: loginPath, isReplace, navigate, state });
+  jumpToPage({ path: loginPath, isReplace, isNewWindow, navigate, state });
 }
 
 type GetNoAuthRedirectPathOptions = {

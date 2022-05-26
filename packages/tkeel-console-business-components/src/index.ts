@@ -31,7 +31,7 @@ export { default as PortalTenantLogin } from './components/PortalTenantLogin';
 export { default as RawDataConnectTypeLabel } from './components/RawDataConnectTypeLabel';
 export * from './components/RawDataConnectTypeLabel';
 export { default as SaveAsOtherTemplateButton } from './components/SaveAsOtherTemplateButton';
-export { default as SetPasswordModal } from './components/SetPasswordModal';
+export * from './components/SetPasswordModal';
 export { default as TelemetryDetailButton } from './components/TelemetryDetailButton';
 export { default as TelemetryDrawer } from './components/TelemetryDrawer';
 export { default as TemplateCard } from './components/TemplateCard';

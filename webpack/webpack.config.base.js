@@ -154,7 +154,7 @@ module.exports = {
           {
             type: 'asset/inline',
             // generator: {
-            //   dataUrl: `${staticDirectory}images/[name].${
+            //   dataUrl: `${staticDirectory}images/[name]${
             //     isEnvProduction ? contenthash : ''
             //   }[ext][query]`,
             // },
@@ -166,7 +166,7 @@ module.exports = {
         type: 'asset/resource',
         include: /\/fonts\//,
         generator: {
-          filename: `${staticDirectory}fonts/[name].${
+          filename: `${staticDirectory}fonts/[name]${
             isEnvProduction ? contenthash : ''
           }[ext][query]`,
         },
