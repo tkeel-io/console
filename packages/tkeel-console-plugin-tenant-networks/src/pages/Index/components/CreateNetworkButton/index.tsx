@@ -47,7 +47,8 @@ export default function CreateNetworkButton({
       onSuccessModalOpen();
     },
   });
-  const commandData = isEdit ? detailData?.command ?? '' : data?.command ?? '';
+  const newData = isEdit ? detailData : data;
+  const commandData = newData?.command ?? '';
   const commandId = data?.client?.id ?? '';
   const handleConfirm = (formValues: FormValues) => {
     const createData = {
