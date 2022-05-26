@@ -22,6 +22,7 @@ interface Props {
   sx?: StyleProps;
   styles?: {
     root?: StyleProps;
+    option?: StyleProps;
     label?: StyleProps;
     labelActive?: StyleProps;
     labelDisabled?: StyleProps;
@@ -41,7 +42,7 @@ function transformOptions(options: Option[] | string[] | number[]): Option[] {
   });
 }
 
-export default function SegmentedControlTab({
+export default function SegmentedControl({
   name,
   options,
   value,
@@ -70,9 +71,10 @@ export default function SegmentedControlTab({
             {...radioProps}
             sx={customStyles?.label}
             styles={{
-              root: customStyles?.label,
-              active: customStyles?.labelActive,
-              disabled: customStyles?.labelDisabled,
+              root: customStyles?.option,
+              label: customStyles?.label,
+              labelActive: customStyles?.labelActive,
+              labelDisabled: customStyles?.labelDisabled,
             }}
           />
         );
