@@ -63,7 +63,9 @@ function Body<D extends object>({
           <Fragment key={id}>
             <Tr
               backgroundColor={backgroundColor}
-              _hover={isShowStripe ? {} : { backgroundColor: 'gray.50' }}
+              _hover={
+                isShowStripe ? {} : { backgroundColor: 'grayAlternatives.50' }
+              }
               borderBottom="1px"
               borderColor={borderColor}
               {...getRowProps()}

@@ -17,15 +17,16 @@ function PageHeader({ icon, name, desc = '', documentsPath = '' }: Props) {
   return (
     <Flex
       position="relative"
-      padding="20px 24px"
+      alignItems="center"
+      padding="0 24px"
       width="100%"
-      height="100px"
+      height="84px"
       borderRadius="4px"
       backgroundColor="gray.50"
     >
       <Center
-        width="60px"
-        height="60px"
+        width="56px"
+        height="56px"
         borderRadius="14px"
         backgroundColor="gray.100"
         css={`
@@ -64,7 +65,7 @@ function PageHeader({ icon, name, desc = '', documentsPath = '' }: Props) {
         <Flex
           position="absolute"
           right="32px"
-          bottom="24px"
+          bottom="14px"
           alignItems="center"
           cursor="pointer"
           onClick={() => documents.open(documentsPath)}

@@ -7,6 +7,7 @@ export { default as useDeleteCommandMutation } from './useDeleteCommandMutation'
 export { default as useDeletePortalConfigMutation } from './useDeletePortalConfigMutation';
 export { default as useDeleteTelemetryMutation } from './useDeleteTelemetryMutation';
 export { default as useGetResetPasswordKeyMutation } from './useGetResetPasswordKeyMutation';
+export { default as useRevokePortalTenantTokenMutation } from './useRevokePortalTenantTokenMutation';
 export { default as useSaveAsOtherTemplateMutation } from './useSaveAsOtherTemplateMutation';
 export { default as useUpdateAttributeMutation } from './useUpdateAttributeMutation';
 export { default as useUpdateCommandMutation } from './useUpdateCommandMutation';
