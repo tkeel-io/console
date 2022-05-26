@@ -17,7 +17,7 @@ export default function Select(props: SelectProps) {
       <SelectStyles prefixCls={DEFAULT_PREFIX_CLS} styles={styles} />
       <RCSelect
         menuItemSelectedIcon={
-          <Center width="30px" height="36px">
+          <Center width="30px" height="32px">
             <CheckFilledIcon color="primary" />
           </Center>
         }
