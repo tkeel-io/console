@@ -84,7 +84,7 @@ export default function Detail() {
               fontSize="18px"
               fontWeight="600"
               lineHeight="24px"
-              isTruncated
+              noOfLines={1}
               title={name}
             >
               {name}

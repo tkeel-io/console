@@ -12,7 +12,7 @@
   "license": "Apache-2.0",
   "main": "./src/index.ts",
   "dependencies": {
-    "@chakra-ui/react": "^1.8.8",
+    "@chakra-ui/react": "^2.1.2",
     "@tkeel/console-components": "workspace:^",
     "@tkeel/console-constants": "workspace:^",
     "@tkeel/console-icons": "workspace:^",

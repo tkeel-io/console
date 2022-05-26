@@ -23,7 +23,7 @@ export default function TextWrapper({ label, value, styles }: Props) {
       <Text
         marginLeft="4px"
         color="gray.800"
-        isTruncated
+        noOfLines={1}
         title={value}
         {...styles?.text}
       >

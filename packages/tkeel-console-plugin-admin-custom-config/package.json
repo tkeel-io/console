@@ -16,7 +16,7 @@
     "dev": "cross-env NODE_ENV=development webpack serve --config ../../webpack/webpack.config.plugins"
   },
   "dependencies": {
-    "@chakra-ui/react": "^1.8.8",
+    "@chakra-ui/react": "^2.1.2",
     "@ctrl/tinycolor": "^3.4.1",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",

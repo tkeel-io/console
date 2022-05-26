@@ -120,7 +120,7 @@ export default function ErrorActionInfoCard({
         marginLeft="97px"
         color="grayAlternatives.700"
         fontSize="14px"
-        isTruncated
+        noOfLines={1}
         title={errorAction.title}
       >
         {errorAction.title}：{errorAction.endpoint}

@@ -100,7 +100,7 @@ function TelemetryDrawer({ usefulData, isOpen, onClose }: Props) {
               color="grayAlternatives.300"
               fontSize="12px"
               lineHeight="24px"
-              isTruncated
+              noOfLines={1}
             >
               {usefulData?.description}
             </Text>

@@ -155,7 +155,7 @@ function Index(): JSX.Element {
                               fontSize="12px"
                               maxWidth="49%"
                             >
-                              <Text isTruncated title={value}>
+                              <Text noOfLines={1} title={value}>
                                 {item.label}：{value}
                               </Text>
                             </Flex>
