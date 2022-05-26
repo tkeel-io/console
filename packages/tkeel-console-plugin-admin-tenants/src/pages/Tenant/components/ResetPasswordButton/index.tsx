@@ -1,11 +1,15 @@
 import { Text, useDisclosure } from '@chakra-ui/react';
 
-import { SetPasswordModal } from '@tkeel/console-business-components';
+import {
+  SetPasswordModal,
+  useSetPasswordUrl,
+} from '@tkeel/console-business-components';
 import { Alert, LinkButton } from '@tkeel/console-components';
 import {
   useGetResetPasswordKeyMutation,
   User,
 } from '@tkeel/console-request-hooks';
+import { jumpToPage } from '@tkeel/console-utils';
 
 type Props = {
   data: User;
@@ -26,7 +30,7 @@ export default function ResetPasswordButton({ data }: Props) {
   const {
     data: resetData,
     mutate,
-    isLoading,
+    isLoading: isGetResetPasswordKeyLoading,
   } = useGetResetPasswordKeyMutation({
     tenantId,
     userId,
@@ -35,6 +39,11 @@ export default function ResetPasswordButton({ data }: Props) {
       onSetPasswordModalOpen();
     },
   });
+
+  const { isLoading: isSetPasswordUrlLoading, setPasswordUrl } =
+    useSetPasswordUrl({
+      data: { reset_key: resetData?.reset_key ?? '' },
+    });
 
   const handleConfirm = () => {
     mutate({});
@@ -57,7 +66,7 @@ export default function ResetPasswordButton({ data }: Props) {
             </>
           }
           isOpen={isAlertOpen}
-          isConfirmButtonLoading={isLoading}
+          isConfirmButtonLoading={isGetResetPasswordKeyLoading}
           onClose={onAlertClose}
           onConfirm={handleConfirm}
         />
@@ -65,9 +74,25 @@ export default function ResetPasswordButton({ data }: Props) {
       {isSetPasswordModalOpen && (
         <SetPasswordModal
           isOpen={isSetPasswordModalOpen}
-          // url={url}
-          data={{ reset_key: resetData?.reset_key ?? '' }}
-          title="操作成功"
+          title="重置密码请求成功"
+          description={
+            <Text>
+              可
+              <LinkButton
+                onClick={() =>
+                  jumpToPage({
+                    path: setPasswordUrl,
+                    isNewWindow: true,
+                  })
+                }
+              >
+                「立即重置」
+              </LinkButton>
+              该用户密码；或复制下方链接，邀请您的同事完成重置。
+            </Text>
+          }
+          url={setPasswordUrl}
+          isLoading={isSetPasswordUrlLoading}
           onClose={onSetPasswordModalClose}
         />
       )}
