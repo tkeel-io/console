@@ -25,6 +25,7 @@ export * from './components/RadioCard';
 export * from './components/RndModal';
 export { default as SearchEmpty } from './components/SearchEmpty';
 export { default as SearchInput } from './components/SearchInput';
+export * from './components/SegmentedControl';
 export * from './components/SegmentedControlTab';
 export * from './components/Select';
 export * as StatusIcon from './components/StatusIcon';

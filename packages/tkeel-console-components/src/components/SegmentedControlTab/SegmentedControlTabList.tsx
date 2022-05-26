@@ -1,18 +1,26 @@
+import type { StyleProps } from '@chakra-ui/react';
 import { TabList, TabListProps } from '@chakra-ui/react';
 
-export default function SegmentedControlTabList(props: TabListProps) {
+import * as styles from '../SegmentedControl/styles';
+
+interface Props extends TabListProps {
+  sx?: StyleProps;
+  styles?: {
+    root?: StyleProps;
+  };
+}
+
+export default function SegmentedControlTabList({
+  sx,
+  styles: customStyles,
+  ...tabListProps
+}: Props) {
   return (
     <TabList
-      display="inline-flex"
-      borderRadius="16px"
-      border="1px solid"
-      borderTopColor="gray.200"
-      borderRightColor="gray.200"
-      borderBottomColor="gray.200"
-      borderLeftColor="gray.200"
-      padding="2px"
-      backgroundColor="gray.50"
-      {...props}
+      {...tabListProps}
+      {...styles.root}
+      {...sx}
+      {...customStyles?.root}
     />
   );
 }
