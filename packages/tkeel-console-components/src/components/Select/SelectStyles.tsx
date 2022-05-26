@@ -190,7 +190,6 @@ export default function SelectStyles({ prefixCls, styles }: Props) {
       }
 
       &-item {
-        margin-bottom: 4px;
         padding: 0 5px;
         font-size: 14px;
         line-height: 32px;
