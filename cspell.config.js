@@ -79,6 +79,11 @@ module.exports = {
     'tinycolor',
     'rawdata',
     'fluxswitch',
+    // fonts
+    'truetype',
+    'Roboto',
+    'Noto',
+    'WenQuanYi',
   ],
   ignorePaths: [
     '**/.idea/**',
