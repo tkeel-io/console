@@ -52,7 +52,7 @@ const TypeOptions = [
   { type: 'float', label: '单精度浮点型' },
   { type: 'double', label: '双精度浮点型' },
   { type: 'string', label: '字符串' },
-  { type: 'array', label: '数组' },
+  // { type: 'array', label: '数组' },
   { type: 'struct', label: '结构体' },
 ];
 const DEFAULT_VALUES = {
