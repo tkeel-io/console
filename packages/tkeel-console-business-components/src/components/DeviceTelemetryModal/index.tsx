@@ -169,7 +169,7 @@ export default function DeviceTelemetryModal({
         fieldArrayHandler={fieldArrayHandler}
         supportExtendedConfig
         extendedArrayHandler={extendedArrayHandler}
-        dataTypeConfig={['int', 'float', 'double', 'bool', 'enum']}
+        dataTypeConfig={['int', 'float', 'double', 'bool']}
       />
       <Box>
         <Text color="gray.600" fontSize="14px" mb="4px">
