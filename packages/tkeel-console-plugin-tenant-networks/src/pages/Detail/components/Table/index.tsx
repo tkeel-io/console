@@ -87,8 +87,8 @@ export default function Index({ id }: Props) {
     setTotalSize(totalNum);
   }
 
-  const handleCreatProxySuccess = () => {
-    toast('创建成功', {
+  const handleCreatProxySuccess = (e: string) => {
+    toast(e === 'edit' ? '修改成功' : '创建成功', {
       status: 'success',
     });
     refetch();
@@ -344,7 +344,7 @@ export default function Index({ id }: Props) {
                   type="editButton"
                   clientId={id}
                   proxyCruxData={proxyCruxData}
-                  onSuccess={handleCreatProxySuccess}
+                  onSuccess={() => handleCreatProxySuccess('edit')}
                 />,
                 <DeleteButton
                   key="delete"
@@ -373,7 +373,7 @@ export default function Index({ id }: Props) {
             key="create"
             type="createButton"
             clientId={id}
-            onSuccess={handleCreatProxySuccess}
+            onSuccess={() => handleCreatProxySuccess('create')}
           />,
         ]}
         styles={{ title: { fontSize: '14px' } }}
@@ -415,7 +415,7 @@ export default function Index({ id }: Props) {
                     key="create"
                     type="createText"
                     clientId={id}
-                    onSuccess={handleCreatProxySuccess}
+                    onSuccess={() => handleCreatProxySuccess('create')}
                   />
                   代理服务
                 </Text>
