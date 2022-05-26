@@ -16,7 +16,7 @@
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@tkeel/console-themes": "workspace:^",
-    "framer-motion": "^6.3.3",
+    "framer-motion": "^6.3.4",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-transition-group": "^4.4.2",
