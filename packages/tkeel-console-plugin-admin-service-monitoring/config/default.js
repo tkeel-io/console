@@ -7,7 +7,7 @@ module.exports = {
     basePath: '/admin-service-monitoring',
   },
   server: {
-    port: '3013',
+    port: '3014',
   },
   plugin: {
     identify: {
