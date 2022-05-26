@@ -19,10 +19,9 @@ interface NetWorkInfo {
 }
 interface Props {
   data: NetWorkInfo;
-  refetchData: () => void;
 }
 
-export default function BasicInfoCard({ data, refetchData }: Props) {
+export default function BasicInfoCard({ data }: Props) {
   const { id, name, status, online } = data;
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -64,9 +63,6 @@ export default function BasicInfoCard({ data, refetchData }: Props) {
               id,
               name,
               status,
-            }}
-            refetch={() => {
-              refetchData();
             }}
             onDeleteSuccess={() => {
               queryClient.invalidateQueries('networks');

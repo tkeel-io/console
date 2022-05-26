@@ -12,7 +12,7 @@ import Table from '@/tkeel-console-plugin-tenant-networks/pages/Detail/component
 function Detail(): JSX.Element {
   const { id } = useParams();
   const networkId = id || '';
-  const { data, refetch } = useNetworkInfoQuery(networkId, true);
+  const { data } = useNetworkInfoQuery(networkId, true);
   const ip = data?.client?.client_address ?? '';
   const time = data?.client?.create_at ?? '';
   const token = data?.client?.token ?? '';
@@ -38,10 +38,7 @@ function Detail(): JSX.Element {
   return (
     <Flex height="100%">
       <Box width="360px" mr="20px">
-        <BasicInfoCard
-          data={{ ...data?.client, ip, time }}
-          refetchData={() => refetch()}
-        />
+        <BasicInfoCard data={{ ...data?.client, ip, time }} />
         <InfoCard
           title="基本信息"
           data={networkBasicInfo}
