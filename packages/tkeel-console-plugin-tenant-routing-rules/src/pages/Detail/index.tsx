@@ -61,7 +61,7 @@ export default function Detail() {
         top="0"
         width="calc(100% + 40px)"
         height="200px"
-        backgroundColor="grayAlternatives.50"
+        backgroundColor="gray.100"
       />
       <BackButton
         position="absolute"

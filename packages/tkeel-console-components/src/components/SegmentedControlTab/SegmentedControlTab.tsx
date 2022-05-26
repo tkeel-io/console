@@ -1,11 +1,31 @@
-import { TabProps, useTheme } from '@chakra-ui/react';
+import type { StyleProps, TabProps } from '@chakra-ui/react';
+import { Tab } from '@chakra-ui/react';
 
-import { Theme } from '@tkeel/console-themes';
+import * as styles from '../SegmentedControl/styles';
 
-import { StyledTab } from './SegmentedControlTab.styled';
+interface Props extends TabProps {
+  sx?: StyleProps;
+  styles?: {
+    root?: StyleProps;
+    active?: StyleProps;
+    disabled?: StyleProps;
+  };
+}
 
-export default function SegmentedControlTab(props: TabProps) {
-  const { colors } = useTheme<Theme>();
-
-  return <StyledTab colors={colors} {...props} />;
+export default function SegmentedControlTab({
+  sx,
+  styles: customStyles,
+  ...tabProps
+}: Props) {
+  return (
+    <Tab
+      {...tabProps}
+      {...styles.label}
+      {...customStyles?.root}
+      {...sx}
+      _focus={{ boxShadow: 'none' }}
+      _selected={{ ...styles.labelActive, ...customStyles?.active }}
+      _disabled={{ ...styles.labelDisabled, ...customStyles?.disabled }}
+    />
+  );
 }

@@ -2691,9 +2691,9 @@ __metadata:
   linkType: hard
 
 "@cspell/dict-python@npm:^3.0.5":
-  version: 3.0.5
-  resolution: "@cspell/dict-python@npm:3.0.5"
-  checksum: cdcadff21ada32c1c9c29f9cb7ae2d10bca79ddf6026a244d28b034e939b2c0e8712a945683d318aac647dfb07821c8c17bab225b78895bca5bf49c7015685ae
+  version: 3.0.6
+  resolution: "@cspell/dict-python@npm:3.0.6"
+  checksum: 3597d65927dfc41f517e3c6dbf196b1c91932e1051dd20b9a8af26ad17a0a3720de9032405d54ab8cb39d27a5a23c95100fdad90b33c2823e0b692d31024d817
   languageName: node
   linkType: hard
 
