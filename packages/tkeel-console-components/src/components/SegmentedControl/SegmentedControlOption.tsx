@@ -9,8 +9,9 @@ interface Props extends UseRadioProps {
   sx?: StyleProps;
   styles?: {
     root?: StyleProps;
-    active?: StyleProps;
-    disabled?: StyleProps;
+    label?: StyleProps;
+    labelActive?: StyleProps;
+    labelDisabled?: StyleProps;
   };
 }
 
@@ -27,15 +28,20 @@ export default function Radio({
   const inputProps = getInputProps({});
 
   return (
-    <chakra.label {...htmlProps} cursor="pointer">
+    <chakra.label
+      {...htmlProps}
+      flex="1"
+      cursor="pointer"
+      {...customStyles?.root}
+      {...sx}
+    >
       <input {...inputProps} hidden />
       <Center
         {...getCheckboxProps()}
         {...styles.label}
-        {...customStyles?.root}
-        {...sx}
-        _checked={{ ...styles.labelActive, ...customStyles?.active }}
-        _disabled={{ ...styles.labelDisabled, ...customStyles?.disabled }}
+        {...customStyles?.label}
+        _checked={{ ...styles.labelActive, ...customStyles?.labelActive }}
+        _disabled={{ ...styles.labelDisabled, ...customStyles?.labelDisabled }}
       >
         {label}
       </Center>
