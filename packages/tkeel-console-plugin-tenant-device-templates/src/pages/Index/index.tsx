@@ -64,11 +64,11 @@ function Index() {
   function Card() {
     return (
       <Flex
-        bg="gray.50"
         boxShadow="0px 8px 8px rgba(152, 163, 180, 0.1)"
-        borderRadius="4px"
         height="100%"
         flexDir="column"
+        borderBottomLeftRadius="4px"
+        borderBottomRightRadius="4px"
       >
         <Box flex="1" overflowY="scroll">
           <SimpleGrid
