@@ -27,6 +27,14 @@ export interface ExtBusinessItem {
   value: ExtBusinessBaseValue[];
 }
 
+export interface ExtBusiness {
+  [propName: string]: {
+    title: string;
+    type: string;
+    value: ExtBusinessExtendValue[];
+  };
+}
+
 export interface BasicInfo {
   configs?: object;
   mappers?: object;
@@ -39,13 +47,7 @@ export interface BasicInfo {
   name: string;
   type: string;
   ext: { [propName: string]: string };
-  extBusiness: {
-    [propName: string]: {
-      title: string;
-      type: string;
-      value: ExtBusinessExtendValue[];
-    };
-  };
+  extBusiness: ExtBusiness;
   parentId: string;
   selfLearn: boolean;
   description?: string;

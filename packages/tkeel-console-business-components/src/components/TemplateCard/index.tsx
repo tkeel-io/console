@@ -41,6 +41,8 @@ function TemplateCard({
       cursor="pointer"
       _hover={{
         border: `1px solid ${borderColor}`,
+        boxShadow:
+          '0px 10px 15px -3px rgba(113, 128, 150, 0.1), 0px 4px 6px -2px rgba(113, 128, 150, 0.05)',
       }}
       {...styles?.wrapper}
       onClick={() => {
