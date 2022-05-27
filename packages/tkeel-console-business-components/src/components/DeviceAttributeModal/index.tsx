@@ -307,7 +307,7 @@ function DeviceAttributeModal({
         </>
       </FormControl>
 
-      <FormControl id="rw" label="读写类型">
+      <FormControl id="rw" label="属性类型">
         <RadioGroup
           defaultValue="rw"
           onChange={(value: ReadWriteType) => {

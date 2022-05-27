@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 
+import { ExtBusiness } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 import {
   NodeInfo,
   TreeNodeType,
@@ -45,6 +46,7 @@ export interface DeviceDefaultInfoType {
   ext?: {
     [propName: string]: string;
   };
+  extBusiness?: ExtBusiness;
   selfLearn?: boolean;
   parentId?: string;
   parentName?: string;

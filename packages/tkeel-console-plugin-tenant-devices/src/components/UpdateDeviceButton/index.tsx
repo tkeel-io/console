@@ -69,6 +69,7 @@ function UpdateDeviceButton({ defaultFormValues, refetch, groupTree }: Props) {
         ? templateName
         : '',
       ext: mapValues(keyBy(extendInfo, 'label'), 'value'),
+      extBusiness: defaultFormValues.extBusiness,
       parentId: parentId || '',
       parentName: parentName || '',
     };
