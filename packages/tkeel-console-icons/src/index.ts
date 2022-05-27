@@ -86,6 +86,7 @@ export { default as PencilFilledIcon } from './components/PencilFilledIcon';
 export { default as PencilTwoToneIcon } from './components/PencilTwoToneIcon';
 export { default as PersonGroupTwoToneIcon } from './components/PersonGroupTwoToneIcon';
 export { default as PingTwoToneIcon } from './components/PingTwoToneIcon';
+export { default as PlateCreatedTwoToneIcon } from './components/PlateCreatedTwoToneIcon';
 export { default as PodTwoToneIcon } from './components/PodTwoToneIcon';
 export { default as ProtocolHttpFilledIcon } from './components/ProtocolHttpFilledIcon';
 export { default as ProtocolSshFilledIcon } from './components/ProtocolSshFilledIcon';
