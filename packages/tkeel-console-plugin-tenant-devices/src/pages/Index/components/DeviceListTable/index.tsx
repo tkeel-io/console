@@ -1,4 +1,4 @@
-import { HStack, Text } from '@chakra-ui/react';
+import { Box, HStack, Text } from '@chakra-ui/react';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CellProps, Column } from 'react-table';
@@ -136,9 +136,22 @@ function DeviceListTable({
               fontWeight="600"
               _hover={{ color: 'primary' }}
             >
-              <HStack>
-                <SmartObjectTwoToneIcon size="24px" />
-                <Text fontSize="12px">{original.name}</Text>
+              <HStack width="100%">
+                <Box flexShrink={0}>
+                  <SmartObjectTwoToneIcon size="24px" />
+                </Box>
+                <Box overflow="hidden">
+                  <Tooltip label={original.name}>
+                    <Text
+                      fontSize="12px"
+                      overflow="hidden"
+                      whiteSpace="nowrap"
+                      textOverflow="ellipsis"
+                    >
+                      {original.name}
+                    </Text>
+                  </Tooltip>
+                </Box>
               </HStack>
             </LinkButton>
           );
