@@ -142,12 +142,7 @@ function DeviceListTable({
                 </Box>
                 <Box overflow="hidden">
                   <Tooltip label={original.name}>
-                    <Text
-                      fontSize="12px"
-                      overflow="hidden"
-                      whiteSpace="nowrap"
-                      textOverflow="ellipsis"
-                    >
+                    <Text fontSize="12px" noOfLines={1}>
                       {original.name}
                     </Text>
                   </Tooltip>
