@@ -122,7 +122,9 @@ function Index() {
           pageNum={pageNum}
           pageSize={pageSize}
           {...rest}
-          styles={{ wrapper: { padding: '0 20px' } }}
+          styles={{
+            wrapper: { padding: '0 20px', backgroundColor: 'gray.50' },
+          }}
         />
       </Flex>
     );
