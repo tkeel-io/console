@@ -9,7 +9,7 @@ export const root: StyleProps = {
   borderBottomColor: 'gray.200',
   borderLeftColor: 'gray.200',
   padding: '2px',
-  backgroundColor: 'gray.50',
+  backgroundColor: 'gray.100',
 };
 
 export const label: StyleProps = {

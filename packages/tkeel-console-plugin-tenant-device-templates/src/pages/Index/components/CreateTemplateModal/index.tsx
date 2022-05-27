@@ -71,7 +71,7 @@ export default function CreateTemplateModal({
                 </Text>
                 <Text
                   fontSize="12px"
-                  isTruncated
+                  noOfLines={1}
                   maxWidth="280px"
                   lineHeight="1.4"
                 >

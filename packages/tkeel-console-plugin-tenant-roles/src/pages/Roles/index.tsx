@@ -84,7 +84,7 @@ export default function Roles() {
         return useMemo(
           () => (
             <Tooltip label={names}>
-              <Text isTruncated>{names}</Text>
+              <Text noOfLines={1}>{names}</Text>
             </Tooltip>
           ),
           [names]

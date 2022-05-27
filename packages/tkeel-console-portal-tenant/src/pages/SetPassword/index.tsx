@@ -157,7 +157,7 @@ export default function SetPassword() {
               marginTop="36px"
               type="submit"
               colorScheme="brand"
-              isFullWidth
+              width="full"
               height="45px"
               borderRadius="4px"
               shadow="none"

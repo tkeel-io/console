@@ -52,7 +52,7 @@ const TypeOptions = [
   { type: 'float', label: '单精度浮点型' },
   { type: 'double', label: '双精度浮点型' },
   { type: 'string', label: '字符串' },
-  { type: 'array', label: '数组' },
+  // { type: 'array', label: '数组' },
   { type: 'struct', label: '结构体' },
 ];
 const DEFAULT_VALUES = {
@@ -189,6 +189,7 @@ function DeviceAttributeModal({
       <TextField
         label="属性ID"
         id="id"
+        isDisabled={isEdit}
         error={errors.id}
         registerReturn={register('id', {
           required: { value: true, message: '请填写属性ID' },

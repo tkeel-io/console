@@ -75,7 +75,7 @@ export default function DataTable({
               color="gray.700"
               fontSize="12px"
               fontWeight="600"
-              isTruncated
+              noOfLines={1}
               title={i === 0 ? '' : telemetryName}
               backgroundColor={getRowBackgroundColor(i)}
             >
@@ -113,7 +113,7 @@ export default function DataTable({
                   paddingLeft="12px"
                   height={rowHeight}
                   lineHeight={rowHeight}
-                  isTruncated
+                  noOfLines={1}
                   title={String(item.value[key])}
                   backgroundColor={getRowBackgroundColor(i - 1)}
                 >

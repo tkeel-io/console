@@ -34,7 +34,7 @@ export default function BasicInfoCard() {
       value: (
         <Box flex="1" overflowX="hidden">
           {admins.map(({ username }) => (
-            <Text key={username} isTruncated width="100%">
+            <Text key={username} noOfLines={1} width="100%">
               {username}
             </Text>
           ))}

@@ -2,7 +2,7 @@ import { Box, Button, Flex, Input, StyleProps } from '@chakra-ui/react';
 import { HTMLInputTypeAttribute, useState } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
-import { EyeFilledIcon, EyeOffFilledIcon } from '@tkeel/console-icons';
+import { EyeOffTwoToneIcon, EyeTwoToneIcon } from '@tkeel/console-icons';
 
 import FormControl, {
   FormControlProps,
@@ -86,9 +86,9 @@ export default function TextField({
               onClick={toggleType}
             >
               {isPasswordType ? (
-                <EyeOffFilledIcon size="20px" />
+                <EyeOffTwoToneIcon size="20px" />
               ) : (
-                <EyeFilledIcon size="20px" />
+                <EyeTwoToneIcon size="20px" />
               )}
             </Button>
           </Flex>

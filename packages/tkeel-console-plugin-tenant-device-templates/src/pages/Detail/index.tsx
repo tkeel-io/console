@@ -121,7 +121,7 @@ function Detail(): JSX.Element {
               color="gray.700"
               fontWeight="600"
               fontSize="14px"
-              isTruncated
+              noOfLines={1}
             >
               {defaultValues?.title}
             </Text>
