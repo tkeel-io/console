@@ -59,7 +59,6 @@ interface ProxyListItemData {
 
 interface Variable {
   name: string;
-  urlProtocol?: string;
   icon: ReactNode;
 }
 
@@ -101,12 +100,10 @@ export default function Index({ id }: Props) {
     return {
       HTTP: {
         name: 'HTTP',
-        urlProtocol: 'http',
         icon: <ProtocolHttpFilledIcon color={color} />,
       },
       HTTPS: {
         name: 'HTTPS',
-        urlProtocol: 'https',
         icon: <ProtocolHttpFilledIcon color={color} />,
       },
       TCP: {
@@ -205,15 +202,13 @@ export default function Index({ id }: Props) {
       Cell: ({ row }: CellProps<ProxyListItemData>) => {
         const { original } = row;
         const { protocol, url, online } = original;
-        const protocolArr = ['HTTP', 'HTTPS', 'TCP', 'SSH'];
+        const protocolArr = ['HTTP'];
         let protocolIcon: ReactNode = '';
-        let protocolUrl = '';
         if (protocolArr.includes(protocol)) {
-          const { icon, urlProtocol } = agreeFn(
+          const { icon } = agreeFn(
             online === 'online' ? 'grayAlternatives.300' : 'gray.400'
           )[protocol] as Variable;
           protocolIcon = icon;
-          protocolUrl = `${urlProtocol ?? ''}://${url}`;
         }
         return useMemo(
           () => (
@@ -242,10 +237,10 @@ export default function Index({ id }: Props) {
                       textDecoration="underline"
                       onClick={() => {
                         const w = window.open('about:blank') as Window;
-                        w.location.href = protocolUrl;
+                        w.location.href = url;
                       }}
                     >
-                      {protocolUrl}
+                      {url}
                     </PopoverBody>
                   </PopoverContent>
                 </Popover>
@@ -254,7 +249,7 @@ export default function Index({ id }: Props) {
               )}
             </Box>
           ),
-          [protocolIcon, protocolUrl, online]
+          [protocolIcon, url, online]
         );
       },
     },
@@ -265,21 +260,25 @@ export default function Index({ id }: Props) {
         const { original } = row;
         return useMemo(
           () => (
-            <LinkButton
-              onClick={() => {
-                navigate(
-                  `tenant-devices/detail?id=${original?.device_id}&menu-collapsed=true`
-                );
-              }}
-              color="gray.600"
-              fontWeight="600"
-              _hover={{ color: 'primary' }}
-            >
-              <HStack>
-                <SmartObjectTwoToneIcon size="16px" />
-                <Text ml="8px">{original?.device_name}</Text>
-              </HStack>
-            </LinkButton>
+            <Box>
+              {original?.device_name && (
+                <LinkButton
+                  onClick={() => {
+                    navigate(
+                      `tenant-devices/detail?id=${original?.device_id}&menu-collapsed=true`
+                    );
+                  }}
+                  color="gray.600"
+                  fontWeight="600"
+                  _hover={{ color: 'primary' }}
+                >
+                  <HStack>
+                    <SmartObjectTwoToneIcon size="16px" />
+                    <Text ml="8px">{original?.device_name}</Text>
+                  </HStack>
+                </LinkButton>
+              )}
+            </Box>
           ),
           [original]
         );
