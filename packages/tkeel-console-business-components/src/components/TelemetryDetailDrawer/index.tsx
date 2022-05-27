@@ -46,7 +46,7 @@ function getDetailData(data: TelemetryTableItem) {
     },
     { label: '数据类型', value: data.type },
     ...Object.entries(defineType)
-      .filter((v) => !Object.is(undefined, data.define[v[0]]))
+      .filter((v) => !Object.is(undefined, data?.define?.[v[0]]))
       .map((item) => {
         const key = item[0];
         const label = item[1];
