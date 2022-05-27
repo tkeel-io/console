@@ -136,7 +136,7 @@ export default function RepublishInfoCard({
         flex="1"
         color="grayAlternatives.700"
         fontSize="14px"
-        isTruncated
+        noOfLines={1}
         title={target.value}
       >
         {imgType[target.sink_type] === 'kafka'

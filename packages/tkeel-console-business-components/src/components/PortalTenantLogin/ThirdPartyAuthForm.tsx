@@ -25,7 +25,7 @@ export default function ThirdPartyAuthForm({
       <Button
         type="submit"
         colorScheme="brand"
-        isFullWidth
+        width="full"
         height="45px"
         borderRadius="4px"
         shadow="none"

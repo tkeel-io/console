@@ -68,7 +68,7 @@ export default function CustomTemplateButton({ onSuccess }: Props) {
         <Text color="black" fontSize="14px" fontWeight="600">
           创建自定义模板
         </Text>
-        <Text color="gray.500" isTruncated maxWidth="284px" fontSize="12px">
+        <Text color="gray.500" noOfLines={1} maxWidth="284px" fontSize="12px">
           模型说明一句话描述模型说明一句话描述模型
         </Text>
       </Flex>

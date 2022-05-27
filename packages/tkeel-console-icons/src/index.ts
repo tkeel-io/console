@@ -47,6 +47,8 @@ export { default as ErrorTwoToneIcon } from './components/ErrorTwoToneIcon';
 export { default as ExpandFilledIcon } from './components/ExpandFilledIcon';
 export { default as EyeFilledIcon } from './components/EyeFilledIcon';
 export { default as EyeOffFilledIcon } from './components/EyeOffFilledIcon';
+export { default as EyeOffTwoToneIcon } from './components/EyeOffTwoToneIcon';
+export { default as EyeTwoToneIcon } from './components/EyeTwoToneIcon';
 export { default as FileBoxTwoToneIcon } from './components/FileBoxTwoToneIcon';
 export { default as FloppyDiskFilledIcon } from './components/FloppyDiskFilledIcon';
 export { default as FolderCloseTwoToneIcon } from './components/FolderCloseTwoToneIcon';

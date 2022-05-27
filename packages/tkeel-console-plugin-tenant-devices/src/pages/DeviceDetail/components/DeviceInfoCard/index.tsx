@@ -162,7 +162,7 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
                   h="24px"
                   lineHeight="24px"
                   fontWeight="400"
-                  isTruncated
+                  noOfLines={1}
                   width="160px"
                 >
                   {r.addr}
