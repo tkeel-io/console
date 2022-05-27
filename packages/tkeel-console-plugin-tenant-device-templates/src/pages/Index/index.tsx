@@ -8,11 +8,12 @@ import {
 } from '@tkeel/console-business-components';
 import {
   Empty,
+  PageHeader,
   PageHeaderToolbar,
   Pagination,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
-import { BoxTwoToneIcon } from '@tkeel/console-icons';
+import { BoxTwoToneIcon, PlateCreatedTwoToneIcon } from '@tkeel/console-icons';
 import {
   KeyDataType,
   TemplateItem,
@@ -63,15 +64,19 @@ function Index() {
   function Card() {
     return (
       <Flex
-        bg="gray.50"
         boxShadow="0px 8px 8px rgba(152, 163, 180, 0.1)"
-        borderRadius="4px"
-        py="20px"
         height="100%"
         flexDir="column"
+        borderBottomLeftRadius="4px"
+        borderBottomRightRadius="4px"
       >
-        <Box flex="1" overflowY="scroll" px="20px">
-          <SimpleGrid spacingX="20px" spacingY="12px" columns={2}>
+        <Box flex="1" overflowY="scroll">
+          <SimpleGrid
+            padding="20px"
+            spacingX="20px"
+            spacingY="12px"
+            columns={2}
+          >
             {keyData.map((item: KeyDataType) => {
               return (
                 <TemplateCard
@@ -113,27 +118,33 @@ function Index() {
             })}
           </SimpleGrid>
         </Box>
-
         <Pagination
           pageNum={pageNum}
           pageSize={pageSize}
           {...rest}
-          styles={{ wrapper: { padding: '0 20px' } }}
+          styles={{
+            wrapper: { padding: '0 20px', backgroundColor: 'gray.50' },
+          }}
         />
       </Flex>
     );
   }
 
   return (
-    <Flex flexDirection="column" height="100%">
-      <PageHeaderToolbar
+    <Flex paddingTop="12px" flexDirection="column" height="100%">
+      <PageHeader
+        icon={<PlateCreatedTwoToneIcon />}
         name="设备模板"
-        hasSearchInput
+        desc="设备模板是对接入设备数据做统一格式化的标准定义，主要包括属性、遥测及服务三种类型。"
         documentsPath={documents.config.paths.tenantGuide.deviceTemplate}
+      />
+      <PageHeaderToolbar
+        hasSearchInput
         searchInputProps={{
           onSearch(value) {
             setKeyWord(value.trim());
           },
+          inputGroupStyle: { flex: 1 },
           inputStyle: {
             backgroundColor: 'gray.50',
           },
@@ -145,13 +156,22 @@ function Index() {
             onSuccess={handleCreateSuccess}
           />,
         ]}
+        styles={{
+          wrapper: {
+            marginTop: '16px',
+            height: '56px',
+            padding: '0 20px',
+            borderTopLeftRadius: '4px',
+            borderTopRightRadius: '4px',
+            backgroundColor: 'gray.50',
+          },
+        }}
       />
-
       <Box
         flex="1"
         overflowY="hidden"
-        marginTop="8px"
-        backgroundColor="gray.50"
+        borderRadius="4px"
+        backgroundColor="gray.100"
       >
         {keyData.length > 0 ? (
           <Card />
