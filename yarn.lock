@@ -3746,15 +3746,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tkeel/console-plugin-admin-usage-statistics@workspace:packages/tkeel-console-plugin-admin-usage-statistics"
   dependencies:
-    "@chakra-ui/react": ^1.8.8
+    "@chakra-ui/react": ^2.1.2
     "@emotion/react": ^11.9.0
     "@emotion/styled": ^11.8.1
     "@tkeel/console-business-components": "workspace:^"
     "@tkeel/console-components": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
+    "@tkeel/console-icons": "workspace:^"
     "@tkeel/console-types": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
-    framer-motion: ^6.3.3
+    framer-motion: ^6.3.4
     lodash: ^4.17.21
     react: ^18.1.0
     react-dom: ^18.1.0
