@@ -156,7 +156,12 @@ function Index() {
         ]}
         styles={{
           wrapper: {
-            height: '64px',
+            marginTop: '16px',
+            height: '56px',
+            padding: '0 20px',
+            borderTopLeftRadius: '4px',
+            borderTopRightRadius: '4px',
+            backgroundColor: 'gray.50',
           },
         }}
       />
@@ -164,7 +169,7 @@ function Index() {
         flex="1"
         overflowY="hidden"
         borderRadius="4px"
-        backgroundColor="gray.50"
+        backgroundColor="gray.100"
       >
         {keyData.length > 0 ? (
           <Card />

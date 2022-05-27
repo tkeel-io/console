@@ -161,6 +161,7 @@ export default function Roles() {
         styles={{
           wrapper: {
             marginTop: '16px',
+            height: '56px',
             padding: '0 20px',
             borderTopLeftRadius: '4px',
             borderTopRightRadius: '4px',
