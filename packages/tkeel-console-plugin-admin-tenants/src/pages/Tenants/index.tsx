@@ -189,6 +189,7 @@ export default function Tenants() {
           ]}
           styles={{
             wrapper: {
+              height: '56px',
               padding: '0 20px',
               backgroundColor: 'gray.100',
             },
