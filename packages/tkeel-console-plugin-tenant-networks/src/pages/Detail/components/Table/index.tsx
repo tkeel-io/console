@@ -10,7 +10,7 @@ import {
   Text,
   Tooltip,
 } from '@chakra-ui/react';
-import { FC, ReactNode, useMemo, useState } from 'react';
+import { FC, ReactNode, useCallback, useMemo, useState } from 'react';
 import { CellProps, Column } from 'react-table';
 
 import { DeviceStatusIcon } from '@tkeel/console-business-components';
@@ -87,12 +87,15 @@ export default function Index({ id }: Props) {
     setTotalSize(totalNum);
   }
 
-  const handleCreatProxySuccess = (e: string) => {
-    toast(e === 'edit' ? '修改成功' : '创建成功', {
-      status: 'success',
-    });
-    refetch();
-  };
+  const handleCreatProxySuccess = useCallback(
+    (e: string) => {
+      toast(e === 'edit' ? '修改成功' : '创建成功', {
+        status: 'success',
+      });
+      refetch();
+    },
+    [toast, refetch]
+  );
 
   const agreeFn = (color: string) => {
     return {
@@ -316,8 +319,8 @@ export default function Index({ id }: Props) {
     {
       Header: '操作',
       width: 80,
-      Cell: ({ row }: CellProps<ProxyListItemData>) =>
-        useMemo(() => {
+      Cell: useCallback(
+        ({ row }: CellProps<ProxyListItemData>) => {
           const { original } = row;
           const proxyCruxData = {
             proxyId: original?.id,
@@ -354,7 +357,9 @@ export default function Index({ id }: Props) {
               ]}
             />
           );
-        }, [row]),
+        },
+        [id, refetch, handleCreatProxySuccess]
+      ),
     },
   ];
 
