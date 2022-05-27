@@ -16,7 +16,7 @@
     "dev": "cross-env NODE_ENV=development webpack serve --config ../../webpack/webpack.config.plugins"
   },
   "dependencies": {
-    "@chakra-ui/react": "^1.8.8",
+    "@chakra-ui/react": "^2.1.2",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@tkeel/console-business-components": "workspace:^",
@@ -31,12 +31,12 @@
     "@types/react-sortable-tree-theme-file-explorer": "^0.0.0",
     "@types/react-table": "^7.7.12",
     "@types/sortablejs": "^1.13.0",
-    "framer-motion": "^6.3.3",
+    "framer-motion": "^6.3.4",
     "js-base64": "3.7.2",
     "qs": "6.10.3",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
-    "react-hook-form": "^7.31.1",
+    "react-hook-form": "^7.31.2",
     "react-query": "^3.39.0",
     "react-router-dom": "^6.3.0",
     "sortablejs": "^1.15.0"

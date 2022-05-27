@@ -51,7 +51,7 @@ function TemplateCard({
         <Flex alignItems="center" justifyContent="space-between">
           <Flex alignItems="center" style={{ cursor: 'pointer' }}>
             {icon}
-            <Text lineHeight="50px" ml="12px" isTruncated width="30vw">
+            <Text lineHeight="50px" ml="12px" noOfLines={1} width="30vw">
               {title}
             </Text>
           </Flex>
@@ -67,7 +67,7 @@ function TemplateCard({
           </Flex>
         </Flex>
 
-        <Text color="grayAlternatives.300" fontSize="12px" isTruncated>
+        <Text color="grayAlternatives.300" fontSize="12px" noOfLines={1}>
           {description}
         </Text>
       </Flex>

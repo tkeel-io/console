@@ -68,7 +68,7 @@ function InstallButton({ id }: Props) {
                 <Button
                   type="button"
                   variant="outline"
-                  isFullWidth
+                  width="full"
                   height="32px"
                   borderRadius="4px"
                   backgroundColor="green.300"
@@ -83,7 +83,7 @@ function InstallButton({ id }: Props) {
                   onClick={onClose}
                   type="button"
                   variant="outline"
-                  isFullWidth
+                  width="full"
                   backgroundColor="white"
                   color="gray.600"
                   border="none"

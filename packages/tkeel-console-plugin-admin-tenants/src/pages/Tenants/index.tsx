@@ -112,7 +112,7 @@ export default function Tenants() {
       Cell: ({ value = [] }: { value: Admin[] }) => {
         const usernames = value.map(({ username }) => username);
         return useMemo(
-          () => <Text isTruncated>{usernames.join('，')}</Text>,
+          () => <Text noOfLines={1}>{usernames.join('，')}</Text>,
           [usernames]
         );
       },

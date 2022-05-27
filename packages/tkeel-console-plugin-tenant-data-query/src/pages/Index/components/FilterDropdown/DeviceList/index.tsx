@@ -62,7 +62,7 @@ export default function DeviceList({ data }: Props) {
               marginLeft="18px"
               width="120px"
               textAlign={templateName === '-' ? 'center' : 'right'}
-              isTruncated
+              noOfLines={1}
               color="gray.800"
               fontSize="12px"
               title={templateName}
