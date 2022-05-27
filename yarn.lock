@@ -3586,7 +3586,7 @@ __metadata:
     react-table: ^7.8.0
     react-toastify: ^9.0.1
     react-use: ^17.4.0
-    rsuite: ^5.13.0
+    rsuite: ^5.13.1
   languageName: unknown
   linkType: soft
 
@@ -6166,9 +6166,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30001109, caniuse-lite@npm:^1.0.30001332, caniuse-lite@npm:^1.0.30001335":
-  version: 1.0.30001343
-  resolution: "caniuse-lite@npm:1.0.30001343"
-  checksum: b8770c0be83e8f1bf52b26d2c9564796195c268bda995ccebc5e67bcb5540cbed9fb03a33500c954628fa99735cddb9c69c54c2af15c37da487cebbdba1f5c60
+  version: 1.0.30001344
+  resolution: "caniuse-lite@npm:1.0.30001344"
+  checksum: 9dba66f796dc98632dced4c5d487d0fad219e137a27c634eec68520f2e598a613e3371b9207e15a078689a629128eca898793e37fc98841821ab481bddad51b9
   languageName: node
   linkType: hard
 
@@ -15847,9 +15847,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rsuite@npm:^5.13.0":
-  version: 5.13.0
-  resolution: "rsuite@npm:5.13.0"
+"rsuite@npm:^5.13.1":
+  version: 5.13.1
+  resolution: "rsuite@npm:5.13.1"
   dependencies:
     "@babel/runtime": ^7.8.4
     "@juggle/resize-observer": ^3.3.1
@@ -15869,7 +15869,7 @@ __metadata:
   peerDependencies:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: 3ca57a8dc67bde4f98e10681a232f33a88dbe3db76606277117c178866087c3a632bb68092cf35dc8db43a6045ff86f94542d23004c556ab7b023652110be377
+  checksum: 043ca4aee183f04f60799c6d65d793b3f1e966e51d5cb2f1030841a4c7a3f517e703be7e14711c20985bdb2262cdd55fe61e520f71a33992b85bbfdbd39b3eae
   languageName: node
   linkType: hard
 
