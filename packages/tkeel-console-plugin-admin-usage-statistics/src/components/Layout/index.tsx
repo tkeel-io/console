@@ -32,7 +32,14 @@ export default function Layout() {
           }
         />
       </Box>
-      <Box flex="1" overflowY="auto">
+      <Box
+        flex="1"
+        overflowY="auto"
+        borderRadius="4px"
+        backgroundColor="gray.100"
+        boxShadow="0px 8px 8px rgba(152, 163, 180, 0.1)"
+        padding="12px 20px"
+      >
         <Outlet />
       </Box>
     </Flex>
