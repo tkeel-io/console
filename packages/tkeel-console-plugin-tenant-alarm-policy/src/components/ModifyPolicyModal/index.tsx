@@ -1,4 +1,4 @@
-import BasePolicyModal from '../BasePolicyModal';
+import BasePolicyModal from '../../pages/Index/components/BasePolicyModal';
 
 type Props = {
   isOpen: boolean;
@@ -7,7 +7,7 @@ type Props = {
   onConfirm: () => void;
 };
 
-export default function CreatePolicyModal({
+export default function ModifyPolicyModal({
   isOpen,
   isConfirmButtonLoading,
   onClose,
@@ -15,7 +15,7 @@ export default function CreatePolicyModal({
 }: Props) {
   return (
     <BasePolicyModal
-      title="创建策略配置"
+      title="修改策略配置"
       isOpen={isOpen}
       isConfirmButtonLoading={isConfirmButtonLoading}
       onClose={onClose}
