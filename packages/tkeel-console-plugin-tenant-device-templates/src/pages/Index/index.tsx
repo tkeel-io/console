@@ -131,7 +131,7 @@ function Index() {
   }
 
   return (
-    <Flex paddingTop="12px" flexDirection="column" height="100%">
+    <Flex paddingTop="8px" flexDirection="column" height="100%">
       <PageHeader
         icon={<PlateCreatedTwoToneIcon />}
         name="设备模板"
