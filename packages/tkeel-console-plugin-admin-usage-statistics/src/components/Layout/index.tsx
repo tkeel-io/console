@@ -1,10 +1,13 @@
 import { Box, Flex } from '@chakra-ui/react';
+import { useState } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 import { PageHeader, SegmentedControl } from '@tkeel/console-components';
 import { ServerNodeTwoToneIcon } from '@tkeel/console-icons';
 
 import { ROUTES } from '@/tkeel-console-plugin-admin-usage-statistics/constants/routes';
+
+import TenantSelector, { ALL_TENANTS_OPTION } from '../TenantSelector';
 
 export default function Layout() {
   const navigate = useNavigate();
@@ -13,6 +16,8 @@ export default function Layout() {
   const lastSlashIndex = pathname.lastIndexOf('/');
   const defaultValue =
     pathname.slice(Math.max(0, lastSlashIndex + 1)) || ROUTES[0].value;
+
+  const [tenantId, setTenantId] = useState(ALL_TENANTS_OPTION.value);
 
   // TODO: need docs
 
@@ -23,7 +28,11 @@ export default function Layout() {
         name="用量统计"
         desc="了解资源使用情况，查询实时性能指标"
       />
-      <Box padding="12px 0 14px">
+      <Flex
+        justifyContent="space-between"
+        alignItems="center"
+        padding="12px 0 14px"
+      >
         <SegmentedControl
           options={ROUTES}
           defaultValue={defaultValue}
@@ -31,7 +40,8 @@ export default function Layout() {
             navigate(nextValue as string, { replace: true })
           }
         />
-      </Box>
+        <TenantSelector value={tenantId} onChange={setTenantId} />
+      </Flex>
       <Box
         flex="1"
         overflowY="auto"

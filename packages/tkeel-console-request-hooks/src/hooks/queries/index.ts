@@ -13,5 +13,10 @@ export * from './useSubscribeListQuery';
 export { default as useTemplatesQuery } from './useTemplatesQuery';
 export * from './useTemplatesQuery';
 export { default as useTenantQuery } from './useTenantQuery';
+export {
+  type Tenant,
+  type TenantAdmin,
+  default as useTenantsQuery,
+} from './useTenantsQuery';
 export { default as useUsersQuery } from './useUsersQuery';
 export * from './useUsersQuery';
