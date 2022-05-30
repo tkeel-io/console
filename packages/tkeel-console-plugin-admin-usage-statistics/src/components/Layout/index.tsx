@@ -19,14 +19,13 @@ export default function Layout() {
 
   const [tenantId, setTenantId] = useState(ALL_TENANTS_OPTION.value);
 
-  // TODO: need docs
-
   return (
     <Flex flexDirection="column" flex="1" overflowY="hidden">
       <PageHeader
         icon={<ServerNodeTwoToneIcon />}
         name="用量统计"
         desc="了解资源使用情况，查询实时性能指标"
+        // TODO: need docs
       />
       <Flex
         justifyContent="space-between"
@@ -40,7 +39,9 @@ export default function Layout() {
             navigate(nextValue as string, { replace: true })
           }
         />
-        <TenantSelector value={tenantId} onChange={setTenantId} />
+        <Box paddingLeft="24px">
+          <TenantSelector value={tenantId} onChange={setTenantId} />
+        </Box>
       </Flex>
       <Box
         flex="1"
