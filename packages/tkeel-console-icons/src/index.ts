@@ -9,6 +9,7 @@ export { default as ArrowRightFilledIcon } from './components/ArrowRightFilledIc
 export { default as ArrowUpFilledIcon } from './components/ArrowUpFilledIcon';
 export { default as AutoFilledIcon } from './components/AutoFilledIcon';
 export { default as BellFilledIcon } from './components/BellFilledIcon';
+export { default as BellGearTwoToneIcon } from './components/BellGearTwoToneIcon';
 export { default as BellTwoToneIcon } from './components/BellTwoToneIcon';
 export { default as BookOpenedFilledIcon } from './components/BookOpenedFilledIcon';
 export { default as BoxTwoToneIcon } from './components/BoxTwoToneIcon';
