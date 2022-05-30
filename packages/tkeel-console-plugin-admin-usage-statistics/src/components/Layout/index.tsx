@@ -51,7 +51,7 @@ export default function Layout() {
         boxShadow="0px 8px 8px rgba(152, 163, 180, 0.1)"
         padding="12px 20px"
       >
-        <Outlet />
+        <Outlet context={{ tenantId }} />
       </Box>
     </Flex>
   );
