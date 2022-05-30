@@ -54,6 +54,7 @@ export default function useInstalledPluginsQuery(props?: Props) {
     },
   });
   const plugins = data?.brief_installers || [];
+  const total = data?.total || 0;
 
-  return { plugins, data, ...rest };
+  return { plugins, total, data, ...rest };
 }
