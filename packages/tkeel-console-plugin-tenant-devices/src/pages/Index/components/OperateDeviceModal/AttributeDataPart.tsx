@@ -24,7 +24,7 @@ const { TextField } = FormField;
 const TOOLTIP_OPTIONS = [
   { label: '数据类型', key: 'type' },
   { label: '默认值', key: 'default_value' },
-  { label: '读写类型', key: 'rw' },
+  { label: '属性类型', key: 'rw' },
 ];
 
 function renderTooltip(info: {

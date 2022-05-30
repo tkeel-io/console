@@ -75,7 +75,7 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
         }, [row]),
     },
     {
-      Header: '读写类型',
+      Header: '属性类型',
       width: 110,
       Cell: ({ row }: CellProps<AttributeItem>) =>
         useMemo(() => {
