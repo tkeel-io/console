@@ -10,7 +10,7 @@ interface Props {
 }
 
 export const ALL_TENANTS_OPTION = {
-  value: 'ALL_TENANTS',
+  value: '',
   label: '全部空间',
 };
 
