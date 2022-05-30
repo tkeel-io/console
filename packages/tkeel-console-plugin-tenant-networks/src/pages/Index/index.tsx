@@ -66,7 +66,7 @@ export default function Index() {
         alignItems="center"
       >
         <SearchInput
-          placeholder="支持搜索代理网关名称、客户端地址"
+          placeholder="支持搜索代理网关名称"
           onSearch={(value) => {
             setKeywords(value);
           }}
