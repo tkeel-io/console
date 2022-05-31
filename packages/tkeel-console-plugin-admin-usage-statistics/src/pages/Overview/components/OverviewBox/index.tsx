@@ -10,7 +10,14 @@ interface Props {
 
 export default function OverviewBox({ children }: Props) {
   return (
-    <BaseBox sx={{ position: 'relative', flex: '1', height: '108px' }}>
+    <BaseBox
+      sx={{
+        position: 'relative',
+        flex: '1',
+        height: '108px',
+        padding: '28px 32px 20px 32px',
+      }}
+    >
       <Background
         width="100px"
         height="80px"
