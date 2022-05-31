@@ -14,7 +14,7 @@ interface Props {
   options: Option[];
   labelPrefix?: ReactNode;
   defaultLabel?: string;
-  onChange?(value: string | number): void;
+  onChange?: (value: string | number) => unknown;
   styles?: {
     wrapper?: StyleProps;
     selector?: StyleProps;
