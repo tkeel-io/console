@@ -5,10 +5,10 @@ import { useForm } from 'react-hook-form';
 
 import {
   AceEditor,
+  DeprecatedSelect,
   FormControl,
   FormField,
   Modal,
-  Select,
 } from '@tkeel/console-components';
 
 export type ReadWriteType = 'rw' | 'r' | 'w';
@@ -196,7 +196,7 @@ function DeviceAttributeModal({
         })}
       />
       <FormControl id="type" label="数据类型">
-        <Select
+        <DeprecatedSelect
           placeholder="请选择数据类型"
           id="type"
           defaultValue={getValues('type') || ''}
@@ -213,12 +213,12 @@ function DeviceAttributeModal({
         >
           {TypeOptions.map((val) => {
             return (
-              <Select.Option key={val.type} value={val.type}>
+              <DeprecatedSelect.Option key={val.type} value={val.type}>
                 {`${val.type} (${val.label})`}
-              </Select.Option>
+              </DeprecatedSelect.Option>
             );
           })}
-        </Select>
+        </DeprecatedSelect>
         {errors.type && (
           <Text color="red.500" fontSize="sm" mt="8px">
             请选择数据类型

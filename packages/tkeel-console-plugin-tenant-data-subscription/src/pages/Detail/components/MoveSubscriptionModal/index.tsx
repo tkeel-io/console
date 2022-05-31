@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Modal, Select } from '@tkeel/console-components';
+import { DeprecatedSelect, Modal } from '@tkeel/console-components';
 import { SubscribeInfo } from '@tkeel/console-request-hooks';
 
 type Props = {
@@ -37,7 +37,7 @@ export default function ModifySubscriptionModal({
         }
       }}
     >
-      <Select
+      <DeprecatedSelect
         defaultValue={defaultTargetId}
         onChange={(value) => setTargetId(value as string)}
         options={options}

@@ -3,7 +3,7 @@ import 'rc-tree-select/assets/index.less';
 import { merge } from 'lodash';
 import RCTreeSelect from 'rc-tree-select';
 
-import SelectStyles from '../Select/SelectStyles';
+import SelectStyles from '../DeprecatedSelect/SelectStyles';
 import TreeStyles from '../Tree/TreeStyles';
 import {
   DEFAULT_PROPS,

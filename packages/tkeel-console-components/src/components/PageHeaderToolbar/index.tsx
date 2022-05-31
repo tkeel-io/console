@@ -9,7 +9,7 @@ import {
 import { noop } from 'lodash';
 import { ReactNode } from 'react';
 
-import { BookOpenedFilledIcon } from '@tkeel/console-icons';
+import { BookOpenedFilledIcon, RefreshFilledIcon } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
 import SearchInput, {
@@ -22,7 +22,9 @@ type Props = {
   name?: ReactNode;
   documentsPath?: string;
   hasSearchInput?: boolean;
+  hasRefreshIcon?: boolean;
   searchInputProps?: SearchInputProps;
+  onRefresh?: () => unknown;
   buttons?: ReactNode[];
   styles?: {
     wrapper?: StyleProps;
@@ -44,7 +46,9 @@ function PageHeaderToolbar({
   name,
   documentsPath = '',
   hasSearchInput = false,
+  hasRefreshIcon = false,
   searchInputProps = defaultSearchInputProps,
+  onRefresh,
   buttons = [],
   styles = {},
 }: Props) {
@@ -88,6 +92,13 @@ function PageHeaderToolbar({
       <Flex flex="1" justifyContent="flex-end">
         {hasSearchInput && <SearchInput {...siProps} />}
       </Flex>
+      {hasRefreshIcon && (
+        <RefreshFilledIcon
+          color="grayAlternatives.300"
+          style={{ marginLeft: '12px', cursor: 'pointer' }}
+          onClick={() => onRefresh && onRefresh()}
+        />
+      )}
       {buttons.length > 0 && (
         <Flex paddingLeft="12px">
           {buttons.map((button, index) => (

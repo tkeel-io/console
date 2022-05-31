@@ -1,7 +1,7 @@
 import { Flex } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
-import { Select } from '@tkeel/console-components';
+import { DeprecatedSelect } from '@tkeel/console-components';
 
 const selectOptions = [
   {
@@ -53,7 +53,7 @@ export default function CustomSelect({ onChange, color, selected }: Props) {
   `;
   return (
     <Wrapper mr="10px">
-      <Select
+      <DeprecatedSelect
         defaultValue="text"
         value={selected}
         showArrow
