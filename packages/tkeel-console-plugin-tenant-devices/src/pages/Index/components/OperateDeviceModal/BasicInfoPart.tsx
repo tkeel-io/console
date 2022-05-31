@@ -6,9 +6,9 @@ import { UseFormReturn } from 'react-hook-form';
 import {
   Checkbox,
   CheckboxGroup,
+  DeprecatedSelect,
   FormControl,
   FormField,
-  Select,
   TreeSelect,
 } from '@tkeel/console-components';
 
@@ -79,7 +79,7 @@ export default function BasicInfoPart({
       {type === ModalType.DEVICE && (
         <>
           <FormControl id="connectOption" label="设备连接方式">
-            <Select
+            <DeprecatedSelect
               placeholder="请选择设备连接方式"
               id="directConnection"
               value={watchFields.connectType}
@@ -101,11 +101,11 @@ export default function BasicInfoPart({
               {map(ConnectOption, (value) => {
                 return { label: value, value };
               }).map((item) => (
-                <Select.Option key={item.value} value={item.value}>
+                <DeprecatedSelect.Option key={item.value} value={item.value}>
                   {item.label}
-                </Select.Option>
+                </DeprecatedSelect.Option>
               ))}
-            </Select>
+            </DeprecatedSelect>
             {errors.connectType && (
               <Text color="red.500" fontSize="sm" mt="8px">
                 请选择连接方式
@@ -138,7 +138,7 @@ export default function BasicInfoPart({
                     ConnectInfoType.useTemplate
                   ) && (
                     <>
-                      <Select
+                      <DeprecatedSelect
                         placeholder="请选择设备模版"
                         id="templateId"
                         value={watchFields.templateId}
@@ -160,11 +160,11 @@ export default function BasicInfoPart({
                         }}
                       >
                         {templateOptions.map((val) => (
-                          <Select.Option value={val.id} key={val.id}>
+                          <DeprecatedSelect.Option value={val.id} key={val.id}>
                             {val.label}
-                          </Select.Option>
+                          </DeprecatedSelect.Option>
                         ))}
-                      </Select>
+                      </DeprecatedSelect>
                       {errors.templateId && (
                         <Text color="red.500" fontSize="sm">
                           请选择设备模版
