@@ -13,6 +13,7 @@ export default function OverviewBox({ children }: Props) {
     <BaseBox
       sx={{
         position: 'relative',
+        display: 'flex',
         flex: '1',
         height: '108px',
         padding: '28px 32px 20px 32px',
