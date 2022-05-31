@@ -5,6 +5,7 @@ import { CellProps, Column } from 'react-table';
 import {
   MoreAction,
   PageHeaderToolbar,
+  SelectPicker,
   Table,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
@@ -30,6 +31,9 @@ import mockPolicyData from './mockPolicyData';
 
 export default function PolicyTable() {
   const [keywords, setKeywords] = useState('');
+  const [alarmLevel, setAlarmLevel] = useState('');
+  // eslint-disable-next-line no-console
+  console.log('PolicyTable ~ alarmLevel', alarmLevel);
   // eslint-disable-next-line no-console
   console.log('PolicyTable ~ keywords', keywords);
   const pagination = usePagination();
@@ -122,10 +126,27 @@ export default function PolicyTable() {
     },
   ];
 
+  const options = [
+    {
+      label: '紧急',
+      value: 1,
+    },
+    { label: '重要', value: 2 },
+    { label: '次要', value: 3 },
+    { label: '提示', value: 3 },
+  ];
   return (
     <Flex height="100%" flexDirection="column">
       <PageHeaderToolbar
-        name={<Flex>选择框</Flex>}
+        name={
+          <Flex>
+            <SelectPicker
+              options={options}
+              labelPrefix="级别："
+              onChange={(value: string) => setAlarmLevel(value)}
+            />
+          </Flex>
+        }
         hasSearchInput
         searchInputProps={{
           placeholder: '支持搜索告警策略名称',
@@ -143,6 +164,7 @@ export default function PolicyTable() {
         buttons={[<CreatePolicyButton key="create" />]}
         styles={{
           wrapper: {
+            zIndex: 1,
             padding: '0 20px',
             backgroundColor: 'gray.100',
           },

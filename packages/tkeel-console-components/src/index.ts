@@ -28,6 +28,7 @@ export { default as SearchInput } from './components/SearchInput';
 export * from './components/SegmentedControl';
 export * from './components/SegmentedControlTab';
 export * from './components/Select';
+export { default as SelectPicker } from './components/SelectPicker';
 export * as StatusIcon from './components/StatusIcon';
 export { default as Table } from './components/Table';
 export * from './components/Toast';
