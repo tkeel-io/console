@@ -12,6 +12,7 @@
     "@/tkeel-console-plugin-admin-service-monitoring": "${workspaceFolder}/packages/tkeel-console-plugin-admin-service-monitoring/src",
     "@/tkeel-console-plugin-admin-tenants": "${workspaceFolder}/packages/tkeel-console-plugin-admin-tenants/src",
     "@/tkeel-console-plugin-example": "${workspaceFolder}/packages/tkeel-console-plugin-example/src",
+    "@/tkeel-console-plugin-tenant-alarms": "${workspaceFolder}/packages/tkeel-console-plugin-tenant-alarms/src",
     "@/tkeel-console-plugin-tenant-data-query": "${workspaceFolder}/packages/tkeel-console-plugin-tenant-data-query/src",
     "@/tkeel-console-plugin-tenant-data-subscription": "${workspaceFolder}/packages/tkeel-console-plugin-tenant-data-subscription/src",
     "@/tkeel-console-plugin-tenant-device-templates": "${workspaceFolder}/packages/tkeel-console-plugin-tenant-device-templates/src",

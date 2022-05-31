@@ -3806,6 +3806,31 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@tkeel/console-plugin-tenant-alarms@workspace:packages/tkeel-console-plugin-tenant-alarms":
+  version: 0.0.0-use.local
+  resolution: "@tkeel/console-plugin-tenant-alarms@workspace:packages/tkeel-console-plugin-tenant-alarms"
+  dependencies:
+    "@chakra-ui/react": ^1.8.6
+    "@emotion/react": ^11.8.2
+    "@emotion/styled": ^11.8.1
+    "@tkeel/console-business-components": "workspace:^"
+    "@tkeel/console-components": "workspace:^"
+    "@tkeel/console-hooks": "workspace:^"
+    "@tkeel/console-icons": "workspace:^"
+    "@tkeel/console-types": "workspace:^"
+    "@tkeel/console-utils": "workspace:^"
+    "@types/react-table": ^7.7.12
+    dayjs: ^1.11.2
+    framer-motion: ^6.2.8
+    lodash: ^4.17.21
+    react: ^17.0.2
+    react-dom: ^17.0.2
+    react-hook-form: ^7.31.3
+    react-query: ^3.34.16
+    react-router-dom: ^6.2.2
+  languageName: unknown
+  linkType: soft
+
 "@tkeel/console-plugin-tenant-data-query@workspace:packages/tkeel-console-plugin-tenant-data-query":
   version: 0.0.0-use.local
   resolution: "@tkeel/console-plugin-tenant-data-query@workspace:packages/tkeel-console-plugin-tenant-data-query"
@@ -9411,6 +9436,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"framer-motion@npm:^6.2.8":
+  version: 6.3.4
+  resolution: "framer-motion@npm:6.3.4"
+  dependencies:
+    "@emotion/is-prop-valid": ^0.8.2
+    framesync: 6.0.1
+    hey-listen: ^1.0.8
+    popmotion: 11.0.3
+    style-value-types: 5.0.0
+    tslib: ^2.1.0
+  peerDependencies:
+    react: ">=16.8 || ^17.0.0 || ^18.0.0"
+    react-dom: ">=16.8 || ^17.0.0 || ^18.0.0"
+  dependenciesMeta:
+    "@emotion/is-prop-valid":
+      optional: true
+  checksum: ea4ea22059f6723804f3890327e4f22c3ead564cbd54dc1df66ff6b010835202e42de0fe325f956074033359904206af72714f01c26859cb80279583908ae3e9
+  languageName: node
+  linkType: hard
+
 "framer-motion@npm:^6.3.3":
   version: 6.3.3
   resolution: "framer-motion@npm:6.3.3"
@@ -14893,6 +14938,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-dom@npm:^17.0.2":
+  version: 17.0.2
+  resolution: "react-dom@npm:17.0.2"
+  dependencies:
+    loose-envify: ^1.1.0
+    object-assign: ^4.1.1
+    scheduler: ^0.20.2
+  peerDependencies:
+    react: 17.0.2
+  checksum: 1c1eaa3bca7c7228d24b70932e3d7c99e70d1d04e13bb0843bbf321582bc25d7961d6b8a6978a58a598af2af496d1cedcfb1bf65f6b0960a0a8161cb8dab743c
+  languageName: node
+  linkType: hard
+
 "react-dom@npm:^18.1.0":
   version: 18.1.0
   resolution: "react-dom@npm:18.1.0"
@@ -14950,6 +15008,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-hook-form@npm:^7.31.3":
+  version: 7.31.3
+  resolution: "react-hook-form@npm:7.31.3"
+  peerDependencies:
+    react: ^16.8.0 || ^17 || ^18
+  checksum: 01601c904c39dea8f617d0fc35ff62ab6e8c4968b2007990ce88952f1c24063c025eb169703edcf596dc38439669268175b9f5fb7a5d553e46fdc8bb7523ed63
+  languageName: node
+  linkType: hard
+
 "react-is@npm:^16.10.2, react-is@npm:^16.12.0, react-is@npm:^16.13.1, react-is@npm:^16.7.0":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
@@ -14971,7 +15038,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-query@npm:^3.39.0":
+"react-query@npm:^3.34.16, react-query@npm:^3.39.0":
   version: 3.39.0
   resolution: "react-query@npm:3.39.0"
   dependencies:
@@ -15059,7 +15126,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router-dom@npm:^6.3.0":
+"react-router-dom@npm:^6.2.2, react-router-dom@npm:^6.3.0":
   version: 6.3.0
   resolution: "react-router-dom@npm:6.3.0"
   dependencies:
@@ -15225,6 +15292,16 @@ __metadata:
     react: ^15.3.0 || ^16.0.0-alpha
     react-dom: ^15.3.0 || ^16.0.0-alpha
   checksum: 5e3b566592293bc0057bc6be4f6ee29c58c8931421d2882a3ef45ca9b24c6f3ea78bbc5a182c2916af6520845e5a90f569b3a63c9b5e89428720913e6d6239cc
+  languageName: node
+  linkType: hard
+
+"react@npm:^17.0.2":
+  version: 17.0.2
+  resolution: "react@npm:17.0.2"
+  dependencies:
+    loose-envify: ^1.1.0
+    object-assign: ^4.1.1
+  checksum: b254cc17ce3011788330f7bbf383ab653c6848902d7936a87b09d835d091e3f295f7e9dd1597c6daac5dc80f90e778c8230218ba8ad599f74adcc11e33b9d61b
   languageName: node
   linkType: hard
 
@@ -16029,6 +16106,16 @@ __metadata:
   version: 1.2.4
   resolution: "sax@npm:1.2.4"
   checksum: d3df7d32b897a2c2f28e941f732c71ba90e27c24f62ee918bd4d9a8cfb3553f2f81e5493c7f0be94a11c1911b643a9108f231dd6f60df3fa9586b5d2e3e9e1fe
+  languageName: node
+  linkType: hard
+
+"scheduler@npm:^0.20.2":
+  version: 0.20.2
+  resolution: "scheduler@npm:0.20.2"
+  dependencies:
+    loose-envify: ^1.1.0
+    object-assign: ^4.1.1
+  checksum: c4b35cf967c8f0d3e65753252d0f260271f81a81e427241295c5a7b783abf4ea9e905f22f815ab66676f5313be0a25f47be582254db8f9241b259213e999b8fc
   languageName: node
   linkType: hard
 
