@@ -7,9 +7,15 @@ interface Props {
   sx?: StyleProps;
 }
 
-export default function OverviewBoxLabel({ children, sx }: Props) {
+export default function OverviewLabel({ children, sx }: Props) {
   return (
-    <Text fontSize="14px" lineHeight="16px" color="gray.500" {...sx}>
+    <Text
+      paddingBottom="8px"
+      fontSize="14px"
+      lineHeight="16px"
+      color="gray.500"
+      {...sx}
+    >
       {children}
     </Text>
   );
