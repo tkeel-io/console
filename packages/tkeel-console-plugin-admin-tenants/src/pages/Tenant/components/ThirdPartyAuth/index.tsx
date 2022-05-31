@@ -1,7 +1,7 @@
 import { Button, Flex, Text, useTheme } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 
-import { PageHeaderToolbar, Select } from '@tkeel/console-components';
+import { DeprecatedSelect, PageHeaderToolbar } from '@tkeel/console-components';
 import { InformationFilledIcon } from '@tkeel/console-icons';
 import { Theme } from '@tkeel/console-themes';
 import { plugin } from '@tkeel/console-utils';
@@ -37,7 +37,7 @@ export default function ThirdPartyAuth() {
           >
             认证协议：
           </Text>
-          <Select
+          <DeprecatedSelect
             id="id_provider_type"
             options={ID_PROVIDER_TYPES}
             value={type}
