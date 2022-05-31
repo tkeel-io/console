@@ -6,11 +6,11 @@ import {
   PopoverArrow,
   PopoverBody,
   PopoverContent,
-  PopoverTrigger as OrigPopoverTrigger,
+  PopoverTrigger,
   Text,
   Tooltip,
 } from '@chakra-ui/react';
-import { FC, ReactNode, useCallback, useMemo, useState } from 'react';
+import { ReactNode, useCallback, useMemo, useState } from 'react';
 import { CellProps, Column } from 'react-table';
 
 import { DeviceStatusIcon } from '@tkeel/console-business-components';
@@ -39,8 +39,6 @@ import useNetworkListQuery from '@/tkeel-console-plugin-tenant-networks/hooks/qu
 import CreateProxyButton from '../CreateProxyButton';
 import DeleteButton from '../DeleteButton';
 import SwitchProxyButton from '../SwitchProxyButton';
-
-const PopoverTrigger: FC<{ children: React.ReactNode }> = OrigPopoverTrigger;
 
 interface ProxyListItemData {
   id: string;
