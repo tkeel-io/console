@@ -26,6 +26,7 @@ export { default as ChevronRightFilledIcon } from './components/ChevronRightFill
 export { default as ChevronUpFilledIcon } from './components/ChevronUpFilledIcon';
 export { default as ClickHouseFilledIcon } from './components/ClickHouseFilledIcon';
 export { default as CloseFilledIcon } from './components/CloseFilledIcon';
+export { default as ClusterTwoToneIcon } from './components/ClusterTwoToneIcon';
 export { default as CodeFilledIcon } from './components/CodeFilledIcon';
 export { default as CollapseFilledIcon } from './components/CollapseFilledIcon';
 export { default as CommandWindowFilledIcon } from './components/CommandWindowFilledIcon';
