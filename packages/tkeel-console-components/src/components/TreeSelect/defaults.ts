@@ -1,6 +1,6 @@
 import { merge } from 'lodash';
 
-import { DEFAULT_PROPS as DEFAULT_SELECT_PROPS } from '../Select/defaults';
+import { DEFAULT_PROPS as DEFAULT_SELECT_PROPS } from '../DeprecatedSelect/defaults';
 import { DEFAULT_PROPS as DEFAULT_TREE_PROPS } from '../Tree/defaults';
 
 export const DEFAULT_SELECT_PREFIX_CLS = 'rc-tree-select';
