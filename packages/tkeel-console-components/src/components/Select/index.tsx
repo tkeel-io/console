@@ -6,15 +6,18 @@ import { CaretDownFilledIcon, CaretUpFilledIcon } from '@tkeel/console-icons';
 
 interface Option {
   label: ReactNode;
-  value: string | number;
+  value: string;
 }
 
 interface Props {
   variant?: 'solid' | 'outline';
   options: Option[];
   labelPrefix?: ReactNode;
-  defaultLabel?: string;
-  onChange?: (value: string | number) => unknown;
+  showDefaultOption?: boolean;
+  defaultOption?: Option;
+  defaultValue?: string;
+  value?: string;
+  onChange?: (value: string) => unknown;
   styles?: {
     wrapper?: StyleProps;
     selector?: StyleProps;
@@ -27,10 +30,28 @@ export default function SelectPicker({
   variant = 'outline',
   options,
   labelPrefix,
-  defaultLabel = '全部',
+  showDefaultOption = true,
+  defaultOption = {
+    label: '全部',
+    value: '',
+  },
+  defaultValue = '',
+  value,
   onChange,
   styles,
 }: Props) {
+  const newOptions = [...options];
+  if (showDefaultOption) {
+    newOptions.unshift(defaultOption);
+  }
+
+  const getSelectedLabelByValue = (selectedValue: string) => {
+    const selectedOption = newOptions.find(
+      (option) => option.value === selectedValue
+    );
+    return selectedOption?.label ?? '';
+  };
+
   return (
     <Downshift<Option>
       onChange={(selection) => {
@@ -38,6 +59,7 @@ export default function SelectPicker({
           onChange(selection.value);
         }
       }}
+      itemToString={(item) => String(item?.value ?? '')}
     >
       {({
         getItemProps,
@@ -62,6 +84,13 @@ export default function SelectPicker({
                 borderRadius: '4px',
               };
 
+        let selectedLabel: ReactNode = selectedItem?.label ?? '';
+        if (value !== undefined) {
+          selectedLabel = getSelectedLabelByValue(value);
+        } else if (selectedItem === null) {
+          selectedLabel = getSelectedLabelByValue(defaultValue);
+        }
+
         return (
           <Box width="118px" position="relative" {...styles?.wrapper}>
             <Flex
@@ -80,7 +109,7 @@ export default function SelectPicker({
             >
               <Flex alignItems="center">
                 {labelPrefix}
-                {selectedItem?.label ?? defaultLabel}
+                {selectedLabel}
               </Flex>
               {isOpen ? <CaretUpFilledIcon /> : <CaretDownFilledIcon />}
             </Flex>
@@ -100,7 +129,7 @@ export default function SelectPicker({
                 boxShadow="0px 10px 15px rgba(113, 128, 150, 0.1), 0px 4px 6px rgba(113, 128, 150, 0.2)"
                 {...styles?.selectDropdown}
               >
-                {options.map((item, index) => (
+                {newOptions.map((item, index) => (
                   // eslint-disable-next-line react/jsx-key
                   <Box
                     {...getItemProps({
