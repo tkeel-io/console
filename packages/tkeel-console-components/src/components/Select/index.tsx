@@ -9,7 +9,7 @@ interface Option {
   value: string;
 }
 
-interface Props {
+export interface SelectProps {
   variant?: 'solid' | 'outline';
   options: Option[];
   labelPrefix?: ReactNode;
@@ -26,7 +26,7 @@ interface Props {
   };
 }
 
-export default function SelectPicker({
+export default function Select({
   variant = 'outline',
   options,
   labelPrefix,
@@ -39,7 +39,7 @@ export default function SelectPicker({
   value,
   onChange,
   styles,
-}: Props) {
+}: SelectProps) {
   const newOptions = [...options];
   if (showDefaultOption) {
     newOptions.unshift(defaultOption);

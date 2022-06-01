@@ -3,9 +3,12 @@ import { useCallback, useState } from 'react';
 import { CellProps, Column } from 'react-table';
 
 import {
+  AlarmLevelSelect,
+  AlarmLevelTag,
+} from '@tkeel/console-business-components';
+import {
   MoreAction,
   PageHeaderToolbar,
-  SelectPicker,
   Table,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
@@ -13,7 +16,6 @@ import { usePagination } from '@tkeel/console-hooks';
 import DeletePolicyButton from '@/tkeel-console-plugin-tenant-alarm-policy/components/DeletePolicyButton';
 import ModifyPolicyButton from '@/tkeel-console-plugin-tenant-alarm-policy/components/ModifyPolicyButton';
 import {
-  ALARM_LEVEL_MAP,
   ALARM_RULE_TYPE_MAP,
   ALARM_TYPE_MAP,
   RULE_STATUS_MAP,
@@ -31,7 +33,7 @@ import mockPolicyData from './mockPolicyData';
 
 export default function PolicyTable() {
   const [keywords, setKeywords] = useState('');
-  const [alarmLevel, setAlarmLevel] = useState('');
+  const [alarmLevel, setAlarmLevel] = useState<number>();
   // eslint-disable-next-line no-console
   console.log('PolicyTable ~ alarmLevel', alarmLevel);
   // eslint-disable-next-line no-console
@@ -44,7 +46,7 @@ export default function PolicyTable() {
       accessor: 'alarmLevel',
       Cell: useCallback(
         ({ value }: CellProps<Policy, AlarmLevel>) => (
-          <Box>{ALARM_LEVEL_MAP[value] || ''}</Box>
+          <AlarmLevelTag level={value} />
         ),
         []
       ),
@@ -126,25 +128,12 @@ export default function PolicyTable() {
     },
   ];
 
-  const options = [
-    {
-      label: '紧急',
-      value: 1,
-    },
-    { label: '重要', value: 2 },
-    { label: '次要', value: 3 },
-    { label: '提示', value: 3 },
-  ];
   return (
     <Flex height="100%" flexDirection="column">
       <PageHeaderToolbar
         name={
           <Flex>
-            <SelectPicker
-              options={options}
-              labelPrefix="级别："
-              onChange={(value: string) => setAlarmLevel(value)}
-            />
+            <AlarmLevelSelect onChange={setAlarmLevel} />
           </Flex>
         }
         hasSearchInput

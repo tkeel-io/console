@@ -2984,7 +2984,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/react@npm:^11.9.0":
+"@emotion/react@npm:^11.8.2, @emotion/react@npm:^11.9.0":
   version: 11.9.0
   resolution: "@emotion/react@npm:11.9.0"
   dependencies:
@@ -3791,7 +3791,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tkeel/console-plugin-tenant-alarms@workspace:packages/tkeel-console-plugin-tenant-alarms"
   dependencies:
-    "@chakra-ui/react": ^1.8.6
+    "@chakra-ui/react": ^2.1.2
     "@emotion/react": ^11.8.2
     "@emotion/styled": ^11.8.1
     "@tkeel/console-business-components": "workspace:^"
@@ -3802,7 +3802,7 @@ __metadata:
     "@tkeel/console-utils": "workspace:^"
     "@types/react-table": ^7.7.12
     dayjs: ^1.11.2
-    framer-motion: ^6.2.8
+    framer-motion: ^6.3.5
     lodash: ^4.17.21
     react: ^17.0.2
     react-dom: ^17.0.2
@@ -9442,6 +9442,26 @@ __metadata:
     "@emotion/is-prop-valid":
       optional: true
   checksum: ea4ea22059f6723804f3890327e4f22c3ead564cbd54dc1df66ff6b010835202e42de0fe325f956074033359904206af72714f01c26859cb80279583908ae3e9
+  languageName: node
+  linkType: hard
+
+"framer-motion@npm:^6.3.5":
+  version: 6.3.5
+  resolution: "framer-motion@npm:6.3.5"
+  dependencies:
+    "@emotion/is-prop-valid": ^0.8.2
+    framesync: 6.0.1
+    hey-listen: ^1.0.8
+    popmotion: 11.0.3
+    style-value-types: 5.0.0
+    tslib: ^2.1.0
+  peerDependencies:
+    react: ">=16.8 || ^17.0.0 || ^18.0.0"
+    react-dom: ">=16.8 || ^17.0.0 || ^18.0.0"
+  dependenciesMeta:
+    "@emotion/is-prop-valid":
+      optional: true
+  checksum: 56ce084d6f6b329dcdde0c47e6dbe49756435c796d8bda7163f2f10d294fd74beaa1ca4e4fbcf1a488f7e7aa578609bc3d560b184515ca62ede59711e66053b1
   languageName: node
   linkType: hard
 
