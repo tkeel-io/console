@@ -88,7 +88,7 @@ function Body<D extends object>({
                     {...styles?.td}
                   >
                     {funcName === 'defaultRenderer' ? (
-                      <Text title={String(cell.value)} isTruncated>
+                      <Text title={String(cell.value)} noOfLines={1}>
                         {cell.value}
                       </Text>
                     ) : (

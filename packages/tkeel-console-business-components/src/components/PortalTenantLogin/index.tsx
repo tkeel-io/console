@@ -49,7 +49,7 @@ export default function PortalTenantLogin({
           <Button
             type="button"
             variant="outline"
-            isFullWidth
+            width="full"
             marginTop="12px"
             height="45px"
             borderRadius="4px"

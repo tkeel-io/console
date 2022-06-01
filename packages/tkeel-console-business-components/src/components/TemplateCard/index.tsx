@@ -41,6 +41,8 @@ function TemplateCard({
       cursor="pointer"
       _hover={{
         border: `1px solid ${borderColor}`,
+        boxShadow:
+          '0px 10px 15px -3px rgba(113, 128, 150, 0.1), 0px 4px 6px -2px rgba(113, 128, 150, 0.05)',
       }}
       {...styles?.wrapper}
       onClick={() => {
@@ -51,7 +53,7 @@ function TemplateCard({
         <Flex alignItems="center" justifyContent="space-between">
           <Flex alignItems="center" style={{ cursor: 'pointer' }}>
             {icon}
-            <Text lineHeight="50px" ml="12px" isTruncated width="30vw">
+            <Text lineHeight="50px" ml="12px" noOfLines={1} width="30vw">
               {title}
             </Text>
           </Flex>
@@ -67,7 +69,7 @@ function TemplateCard({
           </Flex>
         </Flex>
 
-        <Text color="grayAlternatives.300" fontSize="12px" isTruncated>
+        <Text color="grayAlternatives.300" fontSize="12px" noOfLines={1}>
           {description}
         </Text>
       </Flex>

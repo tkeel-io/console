@@ -54,6 +54,7 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
     templateName,
     selfLearn,
     ext,
+    extBusiness,
   } = basicInfo || {};
   const defaultFormValues = {
     id,
@@ -64,6 +65,7 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
     directConnection,
     name,
     ext,
+    extBusiness,
     parentId,
   };
 
@@ -162,7 +164,7 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
                   h="24px"
                   lineHeight="24px"
                   fontWeight="400"
-                  isTruncated
+                  noOfLines={1}
                   width="160px"
                 >
                   {r.addr}

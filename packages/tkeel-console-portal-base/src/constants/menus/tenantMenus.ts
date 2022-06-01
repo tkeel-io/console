@@ -80,4 +80,18 @@ export default [
       },
     ],
   },
+  {
+    name: '监控告警',
+    icon: 'MgmtNodeTwoToneIcon', // TODO: 需修改
+    id: 'tenant-monitoring-alarms',
+    children: [
+      {
+        id: 'tenant-alarm-policy',
+        name: '告警策略',
+        path: '/tenant-alarm-policy',
+        entry:
+          'http://127.0.0.1:3016/static/console-plugin-tenant-alarm-policy/',
+      },
+    ],
+  },
 ];

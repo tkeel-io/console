@@ -16,7 +16,7 @@ export default function Tooltip({ label, children, ...rest }: Props) {
       color="gray.700"
       lineHeight="24px"
       fontSize="12px"
-      p="4px 8px"
+      p="8px"
       {...rest}
     >
       <Box>{children}</Box>

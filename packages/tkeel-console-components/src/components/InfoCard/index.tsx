@@ -59,7 +59,7 @@ function InfoCard({ title, data, styles }: Props) {
               {['string', 'number'].includes(typeof info.value) ? (
                 <Text
                   maxWidth="240px"
-                  isTruncated={!!info.isTruncated}
+                  noOfLines={info.isTruncated ? 1 : 0}
                   title={String(info.value)}
                   {...styles?.value}
                 >

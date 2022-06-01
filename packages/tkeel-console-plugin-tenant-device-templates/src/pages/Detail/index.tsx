@@ -56,14 +56,13 @@ function Detail(): JSX.Element {
 
   const whiteColor = useColor('white');
   const grayColor = useColor('gray.50');
-  const backgroundColor = `linear-gradient(180deg, ${whiteColor} 0%, ${grayColor} 100%)`;
 
   return (
     <Flex h="100%">
       <Box width="360px" mr="20px">
         <Box
           height="108px"
-          backgroundColor={backgroundColor}
+          background={`linear-gradient(180deg, ${whiteColor} 0%, ${grayColor} 100%)`}
           borderRadius="4px"
           position="relative"
         >
@@ -122,13 +121,13 @@ function Detail(): JSX.Element {
               color="gray.700"
               fontWeight="600"
               fontSize="14px"
-              isTruncated
+              noOfLines={1}
             >
               {defaultValues?.title}
             </Text>
           </Flex>
         </Box>
-        <Box backgroundColor={backgroundColor}>
+        <Box backgroundColor="white">
           <InfoCard
             title=" "
             data={[
@@ -157,14 +156,13 @@ function Detail(): JSX.Element {
           <Box display="inline">批量导入</Box>
         </Box> */}
       </Box>
-      <Box flex="1" borderRadius="4px" backgroundColor={backgroundColor}>
+      <Box flex="1" borderRadius="4px" backgroundColor="white">
         <Tabs display="flex" flexDirection="column" h="100%">
           <CustomTabList>
             {tabs.map((item) => (
               <CustomTab key={item.key}>{item.label}</CustomTab>
             ))}
           </CustomTabList>
-
           <TabPanels
             flex="1"
             overflow="hidden"

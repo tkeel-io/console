@@ -74,7 +74,7 @@ export default function SelectedDevices({
                 color="gray.800"
                 fontSize="14px"
                 lineHeight="24px"
-                isTruncated
+                noOfLines={1}
                 title={deviceName}
               >
                 {deviceName}

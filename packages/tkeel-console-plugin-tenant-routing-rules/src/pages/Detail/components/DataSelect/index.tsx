@@ -86,7 +86,7 @@ export default function DataSelect({ routeType }: Props) {
                 color="gray.600"
                 fontSize="12px"
                 fontWeight="500"
-                isTruncated
+                noOfLines={1}
                 title={deviceName}
               >
                 {deviceName}
@@ -115,7 +115,7 @@ export default function DataSelect({ routeType }: Props) {
             <Text
               color="gray.700"
               maxWidth="150px"
-              isTruncated
+              noOfLines={1}
               title={templateName}
             >
               {templateName}
@@ -135,7 +135,7 @@ export default function DataSelect({ routeType }: Props) {
             <Text
               color="gray.700"
               maxWidth="180px"
-              isTruncated
+              noOfLines={1}
               title={parentName}
             >
               {parentName}
