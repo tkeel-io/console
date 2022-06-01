@@ -5,6 +5,7 @@ export { default as AlarmInfoCard } from './components/AlarmInfoCard';
 export * from './components/AlarmLevel';
 export { default as AlarmRuleTypeTag } from './components/AlarmRuleTypeTag';
 export { default as AlarmTypeSelect } from './components/AlarmTypeSelect';
+export * from './components/AlarmTypeSelect';
 export { default as BasicInfo } from './components/BasicInfo';
 export * from './components/BasicInfo';
 export { default as CreateAttributeButton } from './components/CreateAttributeButton';

@@ -7,6 +7,7 @@ import { CaretDownFilledIcon, CaretUpFilledIcon } from '@tkeel/console-icons';
 interface Option {
   label: ReactNode;
   value: string;
+  disabled?: boolean;
 }
 
 export interface SelectProps {
