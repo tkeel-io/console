@@ -1,9 +1,10 @@
-import { Flex, Switch, Text } from '@chakra-ui/react';
+import { Flex, StyleProps, Switch, Text } from '@chakra-ui/react';
 
 import {
   AlarmInfoCard,
   AlarmLevelTag,
   AlarmRuleTypeTag,
+  NotificationObjectsInfoCard,
 } from '@tkeel/console-business-components';
 import { Drawer, MoreAction } from '@tkeel/console-components';
 
@@ -50,6 +51,13 @@ export default function PolicyDetailDrawer({ policy, isOpen, onClose }: Props) {
     },
   ];
 
+  const titleStyle: StyleProps = {
+    color: 'gray.800',
+    fontSize: '14px',
+    fontWeight: '500',
+    lineHeight: '24px',
+  };
+
   return (
     <Drawer
       title="告警策略详情"
@@ -59,7 +67,7 @@ export default function PolicyDetailDrawer({ policy, isOpen, onClose }: Props) {
     >
       <Flex flexDirection="column" padding="16px 32px">
         <Flex justifyContent="space-between">
-          <Text>告警信息</Text>
+          <Text {...titleStyle}>告警信息</Text>
           <Flex alignItems="center">
             <Text>状态：</Text>
             <Switch size="sm" marginRight="10px" />
@@ -77,6 +85,10 @@ export default function PolicyDetailDrawer({ policy, isOpen, onClose }: Props) {
           </Flex>
         </Flex>
         <AlarmInfoCard info={alarmInfoArr} />
+        <Text marginBottom="8px" {...titleStyle} marginTop="20px">
+          通知对象
+        </Text>
+        <NotificationObjectsInfoCard />
       </Flex>
     </Drawer>
   );

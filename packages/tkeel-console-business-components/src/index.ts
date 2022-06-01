@@ -28,6 +28,7 @@ export { default as LoginBackgroundLogo } from './components/LoginBackgroundLogo
 export { default as LoginBrand } from './components/LoginBrand';
 export { default as LogoBottomLine } from './components/LogoBottomLine';
 export { default as NotFound } from './components/NotFound';
+export { default as NotificationObjectsInfoCard } from './components/NotificationObjectsInfoCard';
 export * as PluginBase from './components/PluginBase';
 export { default as PluginCard } from './components/PluginCard';
 export { default as PluginNum } from './components/PluginNum';

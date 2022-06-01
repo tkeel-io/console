@@ -79,6 +79,7 @@ module.exports = {
     'tinycolor',
     'rawdata',
     'fluxswitch',
+    'dingding',
     // fonts
     'truetype',
     'Roboto',
