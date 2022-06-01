@@ -5,6 +5,7 @@ import { CellProps, Column } from 'react-table';
 import {
   AlarmLevelSelect,
   AlarmLevelTag,
+  AlarmLevelTips,
 } from '@tkeel/console-business-components';
 import {
   MoreAction,
@@ -42,7 +43,12 @@ export default function PolicyTable() {
 
   const columns: ReadonlyArray<Column<Policy>> = [
     {
-      Header: '级别',
+      Header: (
+        <Flex>
+          <Text marginRight="2px">级别</Text>
+          <AlarmLevelTips />
+        </Flex>
+      ),
       accessor: 'alarmLevel',
       Cell: useCallback(
         ({ value }: CellProps<Policy, AlarmLevel>) => (

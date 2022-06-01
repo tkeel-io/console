@@ -8,9 +8,10 @@ import Tooltip from '../Tooltip';
 
 interface Props {
   tooltipLabel: ReactNode;
+  iconColor?: string;
 }
 
-export default function Tips({ tooltipLabel }: Props) {
+export default function Tips({ tooltipLabel, iconColor = 'gray.300' }: Props) {
   const primaryColor = useColor('primary');
 
   return (
@@ -27,7 +28,7 @@ export default function Tips({ tooltipLabel }: Props) {
         borderStyle="solid"
         borderColor="gray.100"
       >
-        <InformationFilledIcon color="gray.300" />
+        <InformationFilledIcon color={iconColor} />
       </Tooltip>
     </Box>
   );
