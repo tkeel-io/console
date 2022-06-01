@@ -6,6 +6,7 @@ import {
   AlarmLevelSelect,
   AlarmLevelTag,
   AlarmLevelTips,
+  AlarmTypeSelect,
 } from '@tkeel/console-business-components';
 import {
   MoreAction,
@@ -35,6 +36,9 @@ import mockPolicyData from './mockPolicyData';
 export default function PolicyTable() {
   const [keywords, setKeywords] = useState('');
   const [alarmLevel, setAlarmLevel] = useState<number>();
+  const [alarmType, setAlarmType] = useState<number>();
+  // eslint-disable-next-line no-console
+  console.log('PolicyTable ~ alarmType', alarmType);
   // eslint-disable-next-line no-console
   console.log('PolicyTable ~ alarmLevel', alarmLevel);
   // eslint-disable-next-line no-console
@@ -140,6 +144,10 @@ export default function PolicyTable() {
         name={
           <Flex>
             <AlarmLevelSelect onChange={setAlarmLevel} />
+            <AlarmTypeSelect
+              onChange={setAlarmType}
+              styles={{ wrapper: { marginLeft: '12px' } }}
+            />
           </Flex>
         }
         hasSearchInput
