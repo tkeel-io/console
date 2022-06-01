@@ -5,7 +5,7 @@ interface Props extends Omit<SelectProps, 'options' | 'onChange'> {
 }
 
 export default function AlarmTypeSelect(props: Props) {
-  const { onChange, ...restProps } = props;
+  const { onChange, styles, ...restProps } = props;
 
   const options = [
     {
@@ -23,6 +23,13 @@ export default function AlarmTypeSelect(props: Props) {
       labelPrefix="告警类型："
       options={options}
       onChange={(value) => onChange(Number(value))}
+      styles={{
+        ...styles,
+        wrapper: {
+          width: '150px',
+          ...styles?.wrapper,
+        },
+      }}
       {...restProps}
     />
   );
