@@ -9,7 +9,8 @@ import {
   ALARM_TYPE_OPTIONS,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/constants';
 
-import FormCard from './FormCard';
+import DeviceSelectField from '../DeviceSelectField';
+import FormCard from '../FormCard';
 
 const { TextField, SelectField } = FormField;
 
@@ -119,6 +120,7 @@ export default function BasePolicyModal({
               required: { value: false, message: '告警源对象' },
             }}
           />
+          <DeviceSelectField styles={{ wrapper: { marginTop: '32px' } }} />
         </FormCard>
         <FormCard title="规则描述">规则描述</FormCard>
       </Flex>

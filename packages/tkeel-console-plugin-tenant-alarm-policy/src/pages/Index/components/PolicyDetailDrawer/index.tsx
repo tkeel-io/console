@@ -69,7 +69,9 @@ export default function PolicyDetailDrawer({ policy, isOpen, onClose }: Props) {
         <Flex justifyContent="space-between">
           <Text {...titleStyle}>告警信息</Text>
           <Flex alignItems="center">
-            <Text>状态：</Text>
+            <Text color="gray.700" fontSize="12px" fontWeight="500">
+              状态：
+            </Text>
             <Switch size="sm" marginRight="10px" />
             <MoreAction
               styles={{ actionList: { width: '124px' } }}
