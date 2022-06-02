@@ -1,13 +1,14 @@
 import { Center, Flex, StyleProps, Text } from '@chakra-ui/react';
+import { ReactNode } from 'react';
 
-import { Loading, NoData, SpreadButton } from '@tkeel/console-components';
+import { Empty, Loading, SpreadButton } from '@tkeel/console-components';
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
 import { TemplateItem } from '@tkeel/console-request-hooks';
 
 type Props = {
   isLoading?: boolean;
-  isShowSpreadButton: boolean;
-  noDataTitle?: string;
+  isShowSpreadButton?: boolean;
+  emptyTitle?: ReactNode;
   templates: TemplateItem[];
   onClick: ({ id, name }: { id: string; name: string }) => unknown;
   styles?: {
@@ -17,14 +18,14 @@ type Props = {
 
 export default function DeviceTemplateList({
   isLoading,
-  isShowSpreadButton,
-  noDataTitle = '暂无设备模板,请重新选择',
+  isShowSpreadButton = true,
+  emptyTitle = '暂无设备模板,请重新选择',
   templates,
   onClick,
   styles,
 }: Props) {
   return (
-    <Flex height="100%" {...styles?.wrapper}>
+    <Flex width="100%" height="100%" {...styles?.wrapper}>
       {(() => {
         if (isLoading) {
           return (
@@ -34,11 +35,15 @@ export default function DeviceTemplateList({
           );
         }
 
-        if (templates.length === 0) {
+        if (templates.length > 0) {
           return (
-            <Center flex="1">
-              <NoData title={noDataTitle} />
-            </Center>
+            <Empty
+              type="component"
+              title={emptyTitle}
+              styles={{
+                wrapper: { flex: '1' },
+              }}
+            />
           );
         }
 

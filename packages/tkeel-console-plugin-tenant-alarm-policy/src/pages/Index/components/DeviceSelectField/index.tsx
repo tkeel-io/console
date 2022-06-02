@@ -1,8 +1,9 @@
 import { Flex, StyleProps } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 
+import { DeviceTemplateList } from '@tkeel/console-business-components';
 import { ChevronDownFilledIcon } from '@tkeel/console-icons';
-// import { useTemplatesQuery } from '@tkeel/console-request-hooks';
+import { useTemplatesQuery } from '@tkeel/console-request-hooks';
 
 interface Props {
   styles?: {
@@ -13,7 +14,7 @@ interface Props {
 export default function DeviceSelectField({ styles }: Props) {
   const [isShowDropdown, setIsShowDropdown] = useState(false);
 
-  // const { templates, isLoading } = useTemplatesQuery();
+  const { templates, isLoading } = useTemplatesQuery();
 
   const handleDocumentClick = () => {
     setIsShowDropdown(false);
@@ -73,7 +74,14 @@ export default function DeviceSelectField({ styles }: Props) {
           borderRadius="4px"
           backgroundColor="white"
         >
-          下拉框
+          <DeviceTemplateList
+            isLoading={isLoading}
+            templates={templates}
+            onClick={({ id }) => {
+              // eslint-disable-next-line no-console
+              console.log('id', id);
+            }}
+          />
         </Flex>
       )}
     </Flex>
