@@ -29,7 +29,7 @@ export interface SelectProps {
   };
 }
 
-function isText(value) {
+function isText(value: ReactNode) {
   return ['string', 'number'].includes(typeof value);
 }
 
