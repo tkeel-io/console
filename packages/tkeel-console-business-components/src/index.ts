@@ -22,6 +22,7 @@ export { default as CommandParamModal } from './components/DeviceCommandModal/co
 export { default as DeviceDataType } from './components/DeviceDataType';
 export * from './components/DeviceIcons';
 export { default as DeviceTelemetryModal } from './components/DeviceTelemetryModal';
+export { default as DeviceTemplateList } from './components/DeviceTemplateList';
 export { default as Documents } from './components/Documents';
 export * from './components/GlobalPortalProvider';
 export { default as LoginBackground } from './components/LoginBackground';
