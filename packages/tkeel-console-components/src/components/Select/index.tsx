@@ -29,6 +29,10 @@ export interface SelectProps {
   };
 }
 
+function isText(value) {
+  return ['string', 'number'].includes(typeof value);
+}
+
 export default function Select({
   variant = 'outline',
   options,
@@ -111,8 +115,20 @@ export default function Select({
               {...getToggleButtonProps()}
             >
               <Flex alignItems="center">
-                <Text {...styles?.labelPrefix}>{labelPrefix}</Text>
-                <Text {...styles?.label}>{selectedLabel}</Text>
+                {isText(labelPrefix) ? (
+                  <Text fontWeight="500" {...styles?.labelPrefix}>
+                    {labelPrefix}
+                  </Text>
+                ) : (
+                  labelPrefix
+                )}
+                {isText(selectedLabel) ? (
+                  <Text fontWeight="normal" {...styles?.label}>
+                    {selectedLabel}
+                  </Text>
+                ) : (
+                  selectedLabel
+                )}
               </Flex>
               {isOpen ? <CaretUpFilledIcon /> : <CaretDownFilledIcon />}
             </Flex>
