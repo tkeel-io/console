@@ -39,19 +39,7 @@ function Drawer({
         <DrawerCloseButton
           top="11px"
           right="20px"
-          width="32px"
-          height="32px"
-          borderRadius="4px"
-          color="white"
-          backgroundColor="gray.700"
-          _hover={{ backgroundColor: 'gray.800' }}
           _focus={{ outline: 'none' }}
-          css={`
-            svg: {
-              width: '9px',
-              height: '9px',
-            },
-          `}
         />
         <DrawerHeader
           color="gray.800"

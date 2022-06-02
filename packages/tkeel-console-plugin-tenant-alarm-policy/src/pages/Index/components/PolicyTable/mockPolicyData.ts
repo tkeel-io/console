@@ -4,7 +4,7 @@ const PolicyData: Policy[] = [
   {
     ruleId: 1,
     alarmLevel: 1,
-    alarmRuleType: 1,
+    alarmRuleType: 0,
     ruleName: '设备在线次数告警',
     alarmSourceObject: '平台',
     ruleDesc: '上报次数>5',

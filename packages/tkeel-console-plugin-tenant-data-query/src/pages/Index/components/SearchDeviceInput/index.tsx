@@ -9,6 +9,10 @@ import {
 } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
+import {
+  FilterConditionInfo,
+  FilterConditionTag,
+} from '@tkeel/console-components';
 import { BroomFilledIcon, RefreshFilledIcon } from '@tkeel/console-icons';
 
 import FilterDropdown, {
@@ -16,8 +20,7 @@ import FilterDropdown, {
 } from '@/tkeel-console-plugin-tenant-data-query/pages/Index/components/FilterDropdown';
 import { FilterConditionIds } from '@/tkeel-console-plugin-tenant-data-query/pages/Index/constants';
 
-import FilterCondition, { FilterConditionInfo } from './FilterCondition';
-import SearchButton from './SearchButton';
+import SearchButton from '../SearchButton';
 
 const { DEVICE_GROUP_ID, DEVICE_TEMPLATES_ID, KEYWORDS } = FilterConditionIds;
 
@@ -316,7 +319,7 @@ export default function SearchDeviceInput({
         {hasFilterConditions && (
           <Flex paddingLeft="20px">
             {filterConditions.map((condition) => (
-              <FilterCondition
+              <FilterConditionTag
                 key={condition.id}
                 condition={condition}
                 style={{ marginRight: '10px' }}

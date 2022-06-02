@@ -23,6 +23,7 @@
     "@tkeel/console-components": "workspace:^",
     "@tkeel/console-hooks": "workspace:^",
     "@tkeel/console-icons": "workspace:^",
+    "@tkeel/console-request-hooks": "workspace:^",
     "@tkeel/console-types": "workspace:^",
     "@tkeel/console-utils": "workspace:^",
     "@types/react-table": "^7.7.12",
@@ -30,6 +31,7 @@
     "lodash": "^4.17.21",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "react-hook-form": "^7.31.3",
     "react-query": "^3.39.0",
     "react-router-dom": "^6.3.0"
   }

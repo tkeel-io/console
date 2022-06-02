@@ -14,7 +14,7 @@ type Props = {
   removeCondition: (conditionId: string) => unknown;
 };
 
-export default function FilterCondition({
+export default function FilterConditionTag({
   condition,
   style,
   removeCondition,

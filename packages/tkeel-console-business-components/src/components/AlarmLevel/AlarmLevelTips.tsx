@@ -9,7 +9,7 @@ export default function AlarmLevelTips() {
   return (
     <Tips
       iconColor="grayAlternatives.300"
-      tooltipLabel={
+      label={
         <Flex flexDirection="column">
           <Text color="gray.700" fontSize="12px" lineHeight="24px">
             告警级别从高到低分为：
