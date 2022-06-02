@@ -61,7 +61,7 @@ export default function Device() {
               label={
                 <Flex alignItems="center">
                   <Text paddingRight="4px">规则执行次数</Text>
-                  <Tips tooltipLabel="24 小时内规则执行次数" />
+                  <Tips label="24 小时内规则执行次数" />
                 </Flex>
               }
               value="64"
