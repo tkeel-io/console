@@ -15,4 +15,6 @@ export interface SelectExtrasProps {
   styles?: SelectStyles;
 }
 
-export interface SelectProps extends RCSelectProps, SelectExtrasProps {}
+export interface DeprecatedSelectProps
+  extends RCSelectProps,
+    SelectExtrasProps {}
