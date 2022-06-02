@@ -35,7 +35,7 @@ export default function DeviceTemplateList({
           );
         }
 
-        if (templates.length > 0) {
+        if (templates.length === 0) {
           return (
             <Empty
               type="component"

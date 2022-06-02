@@ -1,4 +1,4 @@
-import { Flex, StyleProps } from '@chakra-ui/react';
+import { Flex, StyleProps, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 
 import { DeviceTemplateList } from '@tkeel/console-business-components';
@@ -77,6 +77,12 @@ export default function DeviceSelectField({ styles }: Props) {
           <DeviceTemplateList
             isLoading={isLoading}
             templates={templates}
+            emptyTitle={
+              <Flex flexDirection="column" alignItems="center">
+                <Text>暂无模板，请前往</Text>
+                <Text>设备模板添加</Text>
+              </Flex>
+            }
             onClick={({ id }) => {
               // eslint-disable-next-line no-console
               console.log('id', id);
