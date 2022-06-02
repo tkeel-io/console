@@ -25,7 +25,7 @@ import {
 import { usePagination } from '@tkeel/console-hooks';
 import {
   CodeFilledIcon,
-  NetworkIcon,
+  DnsAliasesTowToneIcon,
   ProtocolHttpFilledIcon,
   ProtocolSshFilledIcon,
   SmartObjectTwoToneIcon,
@@ -134,7 +134,7 @@ export default function Index({ id }: Props) {
         useMemo(
           () => (
             <Flex alignItems="center" justifyContent="space-between">
-              <NetworkIcon size={20} />
+              <DnsAliasesTowToneIcon size={20} />
               <Text color="gray.800" fontWeight="600" marginLeft="8px">
                 {value}
               </Text>
