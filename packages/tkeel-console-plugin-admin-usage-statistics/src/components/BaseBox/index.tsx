@@ -13,6 +13,7 @@ export default function BaseBox({ children, sx, onClick }: Props) {
 
   return (
     <Box
+      overflow="hidden"
       backgroundColor="white"
       borderRadius="4px"
       border="1px solid"
