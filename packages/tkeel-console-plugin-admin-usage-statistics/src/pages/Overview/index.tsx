@@ -3,9 +3,9 @@ import { Box, VStack } from '@chakra-ui/react';
 // import BaseBox from '@/tkeel-console-plugin-admin-usage-statistics/components/BaseBox';
 import ContentHeader from '@/tkeel-console-plugin-admin-usage-statistics/components/ContentHeader';
 
-import MessageSubscription from './components/MessageSubscription';
 // import useTenantId from '@/tkeel-console-plugin-admin-usage-statistics/hooks/useTenantId';
-import OverviewModule from './components/OverviewModule';
+import Device from './components/Device';
+import MessageSubscription from './components/MessageSubscription';
 
 export default function Overview() {
   // const tenantId = useTenantId();
@@ -14,7 +14,7 @@ export default function Overview() {
     <Box>
       <ContentHeader title="概览" />
       <VStack width="full" spacing="24px">
-        <OverviewModule />
+        <Device />
         <MessageSubscription />
       </VStack>
     </Box>

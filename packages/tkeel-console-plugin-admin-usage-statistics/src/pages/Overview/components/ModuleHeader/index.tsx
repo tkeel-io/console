@@ -17,7 +17,7 @@ export default function ModuleHeader({ title, description, link }: Props) {
           fontWeight="600"
           fontSize="14px"
           lineHeight="24px"
-          color="gray.500"
+          color="gray.700"
         >
           {title}
         </Text>

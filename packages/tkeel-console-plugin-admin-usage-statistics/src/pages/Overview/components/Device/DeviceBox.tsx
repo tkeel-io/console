@@ -9,7 +9,7 @@ interface Props {
   onClick?: () => void;
 }
 
-export default function OverviewBox({ children, onClick }: Props) {
+export default function DeviceBox({ children, onClick }: Props) {
   return (
     <BaseBox
       sx={{

@@ -9,7 +9,7 @@ interface Props {
   sx?: StyleProps;
 }
 
-export default function OverviewItem({ label, value, subValue, sx }: Props) {
+export default function DeviceItem({ label, value, subValue, sx }: Props) {
   return (
     <Box {...sx}>
       <Text

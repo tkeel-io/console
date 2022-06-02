@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, HStack } from '@chakra-ui/react';
 
 import ModuleHeader from '../ModuleHeader';
 
@@ -10,6 +10,7 @@ export default function MessageSubscription() {
         description="平台消息吞吐"
         link="../message"
       />
+      <HStack spacing="8px">1</HStack>
     </Box>
   );
 }
