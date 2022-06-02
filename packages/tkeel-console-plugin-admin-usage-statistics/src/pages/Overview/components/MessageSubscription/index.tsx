@@ -3,7 +3,7 @@ import { Box, HStack } from '@chakra-ui/react';
 import ModuleHeader from '../ModuleHeader';
 import MessageSubscriptionBox from './MessageSubscriptionBox';
 
-export default function MessageStorage() {
+export default function MessageSubscription() {
   return (
     <Box width="100%">
       <ModuleHeader
