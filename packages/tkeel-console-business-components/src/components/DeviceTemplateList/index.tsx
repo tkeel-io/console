@@ -56,10 +56,9 @@ export default function DeviceTemplateList({
               width="100%"
               marginBottom={i === templates.length - 1 ? '0' : '4px'}
               paddingLeft="10px"
-              paddingRight="4px"
+              paddingRight="6px"
               height="32px"
               cursor="pointer"
-              borderRadius="4px"
               _hover={{
                 backgroundColor: 'gray.100',
                 '.spread-wrapper': {
