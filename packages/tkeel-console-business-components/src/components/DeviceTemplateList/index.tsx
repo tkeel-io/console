@@ -48,9 +48,11 @@ export default function DeviceTemplateList({
         }
 
         return templates.map((template, i) => {
+          const { id, properties } = template;
+          const name = properties?.basicInfo?.name ?? '';
           return (
             <Flex
-              key={template.id || i}
+              key={id || i}
               justifyContent="space-between"
               alignItems="center"
               width="100%"
@@ -60,22 +62,22 @@ export default function DeviceTemplateList({
               height="32px"
               cursor="pointer"
               _hover={{
-                backgroundColor: 'gray.100',
+                backgroundColor: 'grayAlternatives.50',
                 '.spread-wrapper': {
                   display: 'flex',
                 },
               }}
               onClick={() =>
                 onClick({
-                  id: template.id,
-                  name: template?.properties?.basicInfo?.name,
+                  id,
+                  name,
                 })
               }
             >
               <Flex alignItems="center">
                 <BoxTwoToneIcon size={20} />
                 <Text marginLeft="10px" color="gray.700" fontSize="14px">
-                  {template.properties?.basicInfo?.name ?? ''}
+                  {name}
                 </Text>
               </Flex>
               {isShowSpreadButton && (
