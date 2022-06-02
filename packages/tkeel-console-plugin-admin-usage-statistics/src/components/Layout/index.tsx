@@ -14,7 +14,7 @@ export default function Layout() {
   const { pathname } = useLocation();
 
   const lastSlashIndex = pathname.lastIndexOf('/');
-  const defaultValue =
+  const value =
     pathname.slice(Math.max(0, lastSlashIndex + 1)) || ROUTES[0].value;
 
   const [tenantId, setTenantId] = useState(ALL_TENANTS_OPTION.value);
@@ -34,7 +34,7 @@ export default function Layout() {
       >
         <SegmentedControl
           options={ROUTES}
-          defaultValue={defaultValue}
+          value={value}
           onChange={(nextValue) =>
             navigate(nextValue as string, { replace: true })
           }

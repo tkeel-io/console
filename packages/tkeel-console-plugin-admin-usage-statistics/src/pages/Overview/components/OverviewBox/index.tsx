@@ -6,9 +6,10 @@ import Background from './background.svg?svgr';
 
 interface Props {
   children: ReactNode;
+  onClick?: () => void;
 }
 
-export default function OverviewBox({ children }: Props) {
+export default function OverviewBox({ children, onClick }: Props) {
   return (
     <BaseBox
       sx={{
@@ -18,6 +19,7 @@ export default function OverviewBox({ children }: Props) {
         height: '108px',
         padding: '28px 32px 20px 32px',
       }}
+      onClick={onClick}
     >
       <Background
         width="100px"
