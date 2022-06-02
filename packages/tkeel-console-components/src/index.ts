@@ -20,7 +20,6 @@ export { default as Loading } from './components/Loading';
 export * from './components/Modal';
 export { default as MoreAction } from './components/MoreAction';
 export { default as MoreActionSelect } from './components/MoreActionSelect';
-export { default as NoData } from './components/NoData';
 export { default as PageHeader } from './components/PageHeader';
 export { default as PageHeaderToolbar } from './components/PageHeaderToolbar';
 export { default as Pagination } from './components/Pagination';
