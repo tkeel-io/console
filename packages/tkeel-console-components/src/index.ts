@@ -10,6 +10,8 @@ export { default as DateRangePicker } from './components/DateRangePicker';
 export * from './components/DeprecatedSelect';
 export { default as Drawer } from './components/Drawer';
 export { default as Empty } from './components/Empty';
+export { default as FilterConditionTag } from './components/FilterConditionTag';
+export * from './components/FilterConditionTag';
 export { default as Form } from './components/Form';
 export { default as FormControl } from './components/FormControl';
 export { default as FormField } from './components/FormField';
