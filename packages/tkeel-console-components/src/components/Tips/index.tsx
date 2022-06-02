@@ -7,11 +7,16 @@ import { InformationFilledIcon } from '@tkeel/console-icons';
 import Tooltip from '../Tooltip';
 
 interface Props {
-  tooltipLabel: ReactNode;
+  label: ReactNode;
+  iconSize?: string | number;
   iconColor?: string;
 }
 
-export default function Tips({ tooltipLabel, iconColor = 'gray.300' }: Props) {
+export default function Tips({
+  label,
+  iconSize = 16,
+  iconColor = 'gray.300',
+}: Props) {
   const primaryColor = useColor('primary');
 
   return (
@@ -23,12 +28,12 @@ export default function Tips({ tooltipLabel, iconColor = 'gray.300' }: Props) {
       }}
     >
       <Tooltip
-        label={tooltipLabel}
+        label={label}
         borderWidth="1px"
         borderStyle="solid"
         borderColor="gray.100"
       >
-        <InformationFilledIcon color={iconColor} />
+        <InformationFilledIcon size={iconSize} color={iconColor} />
       </Tooltip>
     </Box>
   );
