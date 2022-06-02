@@ -12,7 +12,7 @@ interface Props {
 
 export default function MessageStorageItem({ title, children, sx }: Props) {
   return (
-    <Box {...sx}>
+    <Box flex="1" height="140px" {...sx}>
       <Flex alignItems="center" paddingBottom="16px">
         <ChainFilledIcon size="16px" color="primary" />
         <Text paddingLeft="8px">{title}</Text>
