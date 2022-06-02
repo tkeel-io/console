@@ -33,7 +33,9 @@ export default function PlatformConfigItem({
         >
           {title}
         </Text>
-        {showInformationIcon && <Tips tooltipLabel={tooltipLabel} />}
+        {showInformationIcon && (
+          <Tips label={tooltipLabel} iconColor="gray.300" />
+        )}
       </Flex>
       {formField}
     </Flex>
