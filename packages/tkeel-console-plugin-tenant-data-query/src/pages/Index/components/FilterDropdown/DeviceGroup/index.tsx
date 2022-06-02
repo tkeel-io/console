@@ -1,9 +1,11 @@
 import { Flex, Text } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
-import { NoData, SpreadButton, Tree } from '@tkeel/console-components';
+import { SpreadButton, Tree } from '@tkeel/console-components';
 import { TreeNodeType } from '@tkeel/console-request-hooks';
 import { getTreeNodeData, TreeNodeData } from '@tkeel/console-utils';
+
+import NoData from '../NoData';
 
 const TitleWrapper = styled(Flex)`
   &:hover .spread-wrapper {

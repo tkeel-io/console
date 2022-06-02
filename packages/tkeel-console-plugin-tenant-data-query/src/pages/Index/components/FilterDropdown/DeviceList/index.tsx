@@ -5,9 +5,10 @@ import {
   DeviceStatusIcon,
   SelfLearnIcon,
 } from '@tkeel/console-business-components';
-import { NoData } from '@tkeel/console-components';
 import { SmartObjectTwoToneIcon } from '@tkeel/console-icons';
 import { DeviceItem } from '@tkeel/console-request-hooks';
+
+import NoData from '../NoData';
 
 type Props = {
   data: DeviceItem[];
