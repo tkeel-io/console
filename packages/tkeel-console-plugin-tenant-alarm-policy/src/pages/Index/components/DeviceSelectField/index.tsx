@@ -1,9 +1,14 @@
 import { Flex, StyleProps, Text } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { DeviceTemplateList } from '@tkeel/console-business-components';
 import { ChevronDownFilledIcon } from '@tkeel/console-icons';
-import { useTemplatesQuery } from '@tkeel/console-request-hooks';
+import {
+  useDeviceListQuery,
+  useTemplatesQuery,
+} from '@tkeel/console-request-hooks';
+
+import TemplateDeviceList from '../TemplateDeviceList';
 
 interface Props {
   styles?: {
@@ -13,28 +18,33 @@ interface Props {
 
 export default function DeviceSelectField({ styles }: Props) {
   const [isShowDropdown, setIsShowDropdown] = useState(false);
+  const [templateId, setTemplateId] = useState('');
+  const { templates, isLoading: isTemplatesLoading } = useTemplatesQuery();
+  const { deviceList, isLoading: isDeviceListLoading } = useDeviceListQuery({
+    requestData: {
+      condition: [
+        {
+          field: 'basicInfo.templateId',
+          operator: '$wildcard',
+          value: templateId,
+        },
+      ],
+    },
+    enabled: !!templateId,
+  });
 
-  const { templates, isLoading } = useTemplatesQuery();
+  // const handleDocumentClick = () => {
+  //   setIsShowDropdown(false);
+  // };
 
-  const handleDocumentClick = () => {
-    setIsShowDropdown(false);
-  };
+  // useEffect(() => {
+  //   window.addEventListener('click', handleDocumentClick);
 
-  useEffect(() => {
-    const modalContainer = document.querySelector(
-      '.chakra-modal__content-container'
-    );
-    if (modalContainer) {
-      modalContainer.addEventListener('click', handleDocumentClick);
-    }
-
-    return () => {
-      if (modalContainer) {
-        modalContainer.removeEventListener('click', handleDocumentClick);
-      }
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  //   return () => {
+  //     window.removeEventListener('click', handleDocumentClick);
+  //   };
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   return (
     <Flex
@@ -66,28 +76,43 @@ export default function DeviceSelectField({ styles }: Props) {
           position="absolute"
           left="0"
           top="48px"
+          zIndex="1"
           width="100%"
+          height="200px"
+          overflowY="auto"
           padding="16px"
           borderWidth="1px"
           borderStyle="solid"
           borderColor="gray.200"
           borderRadius="4px"
           backgroundColor="white"
+          onClick={(e) => e.stopPropagation()}
         >
-          <DeviceTemplateList
-            isLoading={isLoading}
-            templates={templates}
-            emptyTitle={
-              <Flex flexDirection="column" alignItems="center">
-                <Text>暂无模板，请前往</Text>
-                <Text>设备模板添加</Text>
-              </Flex>
-            }
-            onClick={({ id }) => {
-              // eslint-disable-next-line no-console
-              console.log('id', id);
-            }}
-          />
+          {templateId ? (
+            <TemplateDeviceList
+              isLoading={isDeviceListLoading}
+              devices={deviceList}
+              onBackBtnClick={() => setTemplateId('')}
+              onClick={({ id }) => {
+                // eslint-disable-next-line no-console
+                console.log('device id', id);
+              }}
+            />
+          ) : (
+            <DeviceTemplateList
+              isLoading={isTemplatesLoading}
+              templates={templates}
+              emptyTitle={
+                <Flex flexDirection="column" alignItems="center">
+                  <Text>暂无模板，请前往</Text>
+                  <Text>设备模板添加</Text>
+                </Flex>
+              }
+              onClick={({ id }) => {
+                setTemplateId(id);
+              }}
+            />
+          )}
         </Flex>
       )}
     </Flex>

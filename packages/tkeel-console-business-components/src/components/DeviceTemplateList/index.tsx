@@ -41,7 +41,7 @@ export default function DeviceTemplateList({
               type="component"
               title={emptyTitle}
               styles={{
-                wrapper: { flex: '1' },
+                wrapper: { flex: 1 },
               }}
             />
           );
