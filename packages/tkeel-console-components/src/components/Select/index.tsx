@@ -29,6 +29,10 @@ export interface SelectProps {
   };
 }
 
+function isText(value: ReactNode) {
+  return ['string', 'number'].includes(typeof value);
+}
+
 export default function Select({
   variant = 'outline',
   options,
@@ -111,10 +115,14 @@ export default function Select({
               {...getToggleButtonProps()}
             >
               <Flex alignItems="center">
-                <Text fontWeight="500" {...styles?.labelPrefix}>
-                  {labelPrefix}
-                </Text>
-                {typeof selectedLabel === 'string' ? (
+                {isText(labelPrefix) ? (
+                  <Text fontWeight="500" {...styles?.labelPrefix}>
+                    {labelPrefix}
+                  </Text>
+                ) : (
+                  labelPrefix
+                )}
+                {isText(selectedLabel) ? (
                   <Text fontWeight="normal" {...styles?.label}>
                     {selectedLabel}
                   </Text>
