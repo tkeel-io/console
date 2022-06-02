@@ -1,5 +1,3 @@
-// import { Box, HStack } from '@chakra-ui/react';
-
 import BaseBox from '@/tkeel-console-plugin-admin-usage-statistics/components/BaseBox';
 
 export default function MessageSubscription() {

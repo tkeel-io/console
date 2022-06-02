@@ -3,14 +3,12 @@ import { useNavigate } from 'react-router-dom';
 
 import { Tips } from '@tkeel/console-components';
 
-// import useTenantId from '@/tkeel-console-plugin-admin-usage-statistics/hooks/useTenantId';
 import DeviceBox from './DeviceBox';
 import DeviceItem from './DeviceItem';
 import Progress from './Progress';
 
 export default function Device() {
   const navigate = useNavigate();
-  // const tenantId = useTenantId();
 
   return (
     <HStack width="full" spacing="8px">
