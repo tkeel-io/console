@@ -1,5 +1,5 @@
 import { Flex, StyleProps } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   ChevronDownFilledIcon,
@@ -14,6 +14,19 @@ interface Props {
 
 export default function DeviceSelectField({ styles }: Props) {
   const [isShowDropdown, setIsShowDropdown] = useState(false);
+
+  const handleDocumentClick = () => {
+    setIsShowDropdown(false);
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', handleDocumentClick);
+
+    return () => {
+      document.removeEventListener('click', handleDocumentClick);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Flex

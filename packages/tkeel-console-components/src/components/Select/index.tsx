@@ -111,8 +111,16 @@ export default function Select({
               {...getToggleButtonProps()}
             >
               <Flex alignItems="center">
-                <Text {...styles?.labelPrefix}>{labelPrefix}</Text>
-                <Text {...styles?.label}>{selectedLabel}</Text>
+                <Text fontWeight="500" {...styles?.labelPrefix}>
+                  {labelPrefix}
+                </Text>
+                {typeof selectedLabel === 'string' ? (
+                  <Text fontWeight="normal" {...styles?.label}>
+                    {selectedLabel}
+                  </Text>
+                ) : (
+                  selectedLabel
+                )}
               </Flex>
               {isOpen ? <CaretUpFilledIcon /> : <CaretDownFilledIcon />}
             </Flex>
