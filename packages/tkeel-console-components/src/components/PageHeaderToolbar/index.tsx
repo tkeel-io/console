@@ -20,6 +20,7 @@ import { ButtonWrapper } from './index.styled';
 
 type Props = {
   name?: ReactNode;
+  selectElements?: ReactNode;
   documentsPath?: string;
   hasSearchInput?: boolean;
   hasRefreshIcon?: boolean;
@@ -44,6 +45,7 @@ const defaultSearchInputProps = {
 
 function PageHeaderToolbar({
   name,
+  selectElements,
   documentsPath = '',
   hasSearchInput = false,
   hasRefreshIcon = false,
@@ -89,6 +91,7 @@ function PageHeaderToolbar({
           )}
         </Flex>
       )}
+      {selectElements}
       <Flex flex="1" justifyContent="flex-end">
         {hasSearchInput && <SearchInput {...siProps} />}
       </Flex>

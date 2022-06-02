@@ -1,4 +1,4 @@
-import { Box, Flex, StyleProps } from '@chakra-ui/react';
+import { Box, Flex, StyleProps, Text } from '@chakra-ui/react';
 import Downshift from 'downshift';
 import { ReactNode } from 'react';
 
@@ -7,6 +7,7 @@ import { CaretDownFilledIcon, CaretUpFilledIcon } from '@tkeel/console-icons';
 interface Option {
   label: ReactNode;
   value: string;
+  disabled?: boolean;
 }
 
 export interface SelectProps {
@@ -21,6 +22,8 @@ export interface SelectProps {
   styles?: {
     wrapper?: StyleProps;
     selector?: StyleProps;
+    labelPrefix?: StyleProps;
+    label?: StyleProps;
     selectDropdown?: StyleProps;
     selectItem?: StyleProps;
   };
@@ -108,8 +111,8 @@ export default function Select({
               {...getToggleButtonProps()}
             >
               <Flex alignItems="center">
-                {labelPrefix}
-                {selectedLabel}
+                <Text {...styles?.labelPrefix}>{labelPrefix}</Text>
+                <Text {...styles?.label}>{selectedLabel}</Text>
               </Flex>
               {isOpen ? <CaretUpFilledIcon /> : <CaretDownFilledIcon />}
             </Flex>
@@ -117,9 +120,12 @@ export default function Select({
               <Box
                 {...getMenuProps()}
                 position="absolute"
+                zIndex="10"
                 left="0"
                 top="38px"
                 width="100%"
+                maxHeight="178"
+                overflowY="auto"
                 padding="8px"
                 borderWidth="1px"
                 borderStyle="solid"
@@ -129,31 +135,36 @@ export default function Select({
                 boxShadow="0px 10px 15px rgba(113, 128, 150, 0.1), 0px 4px 6px rgba(113, 128, 150, 0.2)"
                 {...styles?.selectDropdown}
               >
-                {newOptions.map((item, index) => (
-                  // eslint-disable-next-line react/jsx-key
-                  <Box
-                    {...getItemProps({
-                      key: item.value,
-                      index,
-                      item,
-                    })}
-                    /* eslint-enable */
-                    display="flex"
-                    alignItems="center"
-                    height="32px"
-                    paddingLeft="10px"
-                    cursor="pointer"
-                    color="gray.700"
-                    fontSize="12px"
-                    _hover={{
-                      fontWeight: '600',
-                      backgroundColor: 'grayAlternatives.50',
-                    }}
-                    {...styles?.selectItem}
-                  >
-                    {item.label}
-                  </Box>
-                ))}
+                {newOptions.map((item, index) => {
+                  const { label, value: key, disabled } = item;
+                  return (
+                    // eslint-disable-next-line react/jsx-key
+                    <Box
+                      {...getItemProps({
+                        key,
+                        index,
+                        item,
+                        disabled,
+                      })}
+                      /* eslint-enable */
+                      display="flex"
+                      alignItems="center"
+                      height="32px"
+                      paddingLeft="10px"
+                      color="gray.700"
+                      fontSize="12px"
+                      opacity={disabled ? 0.5 : 1}
+                      cursor={disabled ? 'not-allowed' : 'pointer'}
+                      _hover={{
+                        fontWeight: '600',
+                        backgroundColor: 'grayAlternatives.50',
+                      }}
+                      {...styles?.selectItem}
+                    >
+                      {label}
+                    </Box>
+                  );
+                })}
               </Box>
             )}
           </Box>

@@ -15,7 +15,7 @@ interface Props {
 export default function Tips({
   label,
   iconSize = 16,
-  iconColor = 'gray.300',
+  iconColor = 'grayAlternatives.300',
 }: Props) {
   const primaryColor = useColor('primary');
 
