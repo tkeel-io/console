@@ -15,7 +15,7 @@ interface Props {
   onChange?: (nextValue: string | number) => void;
 }
 
-export default function RadioGroup({ onChange = noop }: Props) {
+export default function RadioGroup({ sx, onChange = noop }: Props) {
   const { getRootProps, getRadioProps } = useRadioGroup({
     defaultValue: OPTIONS[0].value,
     onChange,
@@ -24,7 +24,7 @@ export default function RadioGroup({ onChange = noop }: Props) {
   const rootProps = getRootProps();
 
   return (
-    <VStack spacing="10px" {...rootProps}>
+    <VStack spacing="10px" {...sx} {...rootProps}>
       {OPTIONS.map((option) => {
         const radioProps = getRadioProps(option) as SegmentedControlOptionProps;
         return <Radio key={option.value} {...radioProps} />;
