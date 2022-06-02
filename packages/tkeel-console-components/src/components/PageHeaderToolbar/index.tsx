@@ -3,6 +3,7 @@ import {
   Circle,
   Colors,
   Flex,
+  HStack,
   StyleProps,
   useTheme,
 } from '@chakra-ui/react';
@@ -20,7 +21,7 @@ import { ButtonWrapper } from './index.styled';
 
 type Props = {
   name?: ReactNode;
-  selectElements?: ReactNode;
+  selectElements?: ReactNode[];
   documentsPath?: string;
   hasSearchInput?: boolean;
   hasRefreshIcon?: boolean;
@@ -45,7 +46,7 @@ const defaultSearchInputProps = {
 
 function PageHeaderToolbar({
   name,
-  selectElements,
+  selectElements = [],
   documentsPath = '',
   hasSearchInput = false,
   hasRefreshIcon = false,
@@ -91,7 +92,11 @@ function PageHeaderToolbar({
           )}
         </Flex>
       )}
-      {selectElements}
+      {selectElements && selectElements.length > 0 && (
+        <HStack paddingRight="12px" spacing="12px">
+          {selectElements}
+        </HStack>
+      )}
       <Flex flex="1" justifyContent="flex-end">
         {hasSearchInput && <SearchInput {...siProps} />}
       </Flex>
