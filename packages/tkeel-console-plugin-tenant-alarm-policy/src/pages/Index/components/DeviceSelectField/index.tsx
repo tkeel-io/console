@@ -1,10 +1,8 @@
 import { Flex, StyleProps } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 
-import {
-  ChevronDownFilledIcon,
-  ChevronUpFilledIcon,
-} from '@tkeel/console-icons';
+import { ChevronDownFilledIcon } from '@tkeel/console-icons';
+// import { useTemplatesQuery } from '@tkeel/console-request-hooks';
 
 interface Props {
   styles?: {
@@ -15,15 +13,24 @@ interface Props {
 export default function DeviceSelectField({ styles }: Props) {
   const [isShowDropdown, setIsShowDropdown] = useState(false);
 
+  // const { templates, isLoading } = useTemplatesQuery();
+
   const handleDocumentClick = () => {
     setIsShowDropdown(false);
   };
 
   useEffect(() => {
-    document.addEventListener('click', handleDocumentClick);
+    const modalContainer = document.querySelector(
+      '.chakra-modal__content-container'
+    );
+    if (modalContainer) {
+      modalContainer.addEventListener('click', handleDocumentClick);
+    }
 
     return () => {
-      document.removeEventListener('click', handleDocumentClick);
+      if (modalContainer) {
+        modalContainer.removeEventListener('click', handleDocumentClick);
+      }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -43,12 +50,15 @@ export default function DeviceSelectField({ styles }: Props) {
         height="40px"
         borderWidth="1px"
         borderStyle="solid"
-        borderColor="grayAlternatives"
+        borderColor={isShowDropdown ? 'primary' : 'grayAlternatives.50'}
         borderRadius="4px"
         cursor="pointer"
-        onClick={() => setIsShowDropdown(!isShowDropdown)}
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsShowDropdown(!isShowDropdown);
+        }}
       >
-        {isShowDropdown ? <ChevronUpFilledIcon /> : <ChevronDownFilledIcon />}
+        <ChevronDownFilledIcon />
       </Flex>
       {isShowDropdown && (
         <Flex
