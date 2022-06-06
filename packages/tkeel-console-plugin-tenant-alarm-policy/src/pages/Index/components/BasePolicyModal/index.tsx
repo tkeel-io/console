@@ -1,8 +1,8 @@
 import { Flex } from '@chakra-ui/react';
 import { ReactNode } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
 
-import { FormField, Modal } from '@tkeel/console-components';
+import { FormControl, FormField, Modal } from '@tkeel/console-components';
 
 import {
   ALARM_LEVEL_OPTIONS,
@@ -11,6 +11,7 @@ import {
 
 import DeviceSelectField from '../DeviceSelectField';
 import FormCard from '../FormCard';
+import RuleDescriptionCard from '../RuleDescriptionCard';
 
 const { TextField, SelectField } = FormField;
 
@@ -22,11 +23,23 @@ type Props = {
   onConfirm: () => void;
 };
 
-interface PolicyField {
+interface Condition {
+  attribute: string | null;
+  duration?: 0 | 1 | 3 | 5 | null; // minute
+  calculate?: 'avg' | 'max' | 'min' | null;
+  numberOperator?: string | null;
+  enumOperator?: string | null;
+  numberValue?: string | null;
+}
+
+interface FormValues {
   name: string;
   alarmType: string;
   alarmLevel: string;
   alarmSourceObject: string;
+  deviceId: string;
+  conditionsOperator: 'or' | 'and';
+  conditions: Condition[];
 }
 
 export default function BasePolicyModal({
@@ -36,13 +49,33 @@ export default function BasePolicyModal({
   onClose,
   onConfirm,
 }: Props) {
+  const defaultCondition: Condition = {
+    attribute: null,
+    duration: 1,
+    calculate: 'avg',
+    numberOperator: 'gt',
+    numberValue: null,
+  };
+
   const {
     register,
     formState: { errors },
     control,
     trigger,
     getValues,
-  } = useForm<PolicyField>();
+    watch,
+  } = useForm<FormValues>({
+    defaultValues: {
+      conditionsOperator: 'or',
+      conditions: [defaultCondition],
+    },
+  });
+
+  const fieldArrayReturn = useFieldArray({
+    control,
+    name: 'conditions',
+  });
+  const { append } = fieldArrayReturn;
 
   const handleConfirm = async () => {
     const result = await trigger();
@@ -54,6 +87,16 @@ export default function BasePolicyModal({
     onConfirm();
   };
 
+  const alarmSourceObjectOptions = [
+    {
+      label: '设备',
+      value: 'device',
+    },
+    {
+      label: '平台',
+      value: 'platform',
+    },
+  ];
   return (
     <Modal
       width="800px"
@@ -79,7 +122,7 @@ export default function BasePolicyModal({
               required: { value: false, message: '请输入告警策略名称' },
             })}
           />
-          <SelectField<PolicyField>
+          <SelectField<FormValues>
             id="alarmType"
             name="alarmType"
             label="告警类型"
@@ -89,10 +132,10 @@ export default function BasePolicyModal({
             // defaultValue={defaultValues?.alarmType}
             error={errors.alarmType}
             rules={{
-              required: { value: true, message: '告警类型' },
+              required: { value: false, message: '请输入告警类型' },
             }}
           />
-          <SelectField<PolicyField>
+          <SelectField<FormValues>
             id="alarmLevel"
             name="alarmLevel"
             label="告警级别"
@@ -102,27 +145,57 @@ export default function BasePolicyModal({
             // defaultValue={defaultValues?.alarmLevel}
             error={errors.alarmLevel}
             rules={{
-              required: { value: false, message: '告警级别' },
+              required: { value: false, message: '请输入告警级别' },
             }}
           />
         </FormCard>
         <FormCard title="告警资源">
-          <SelectField<PolicyField>
+          <SelectField<FormValues>
             id="alarmSourceObject"
             name="alarmSourceObject"
             label="告警源对象"
             placeholder="请选择"
-            options={[]}
+            options={alarmSourceObjectOptions}
             control={control}
             // defaultValue={defaultValues?.alarmSourceObject}
             error={errors.alarmSourceObject}
             rules={{
-              required: { value: false, message: '告警源对象' },
+              required: { value: false, message: '请输入告警源对象' },
             }}
           />
-          <DeviceSelectField styles={{ wrapper: { marginTop: '32px' } }} />
+          {watch('alarmSourceObject') === 'device' && (
+            <FormControl id="deviceId" error={errors.deviceId}>
+              <Controller
+                name="deviceId"
+                control={control}
+                rules={{ required: { value: false, message: '请选择设备' } }}
+                render={({ field: { onChange } }) => (
+                  <DeviceSelectField
+                    onChange={onChange}
+                    styles={{ wrapper: { marginTop: '32px' } }}
+                  />
+                )}
+              />
+            </FormControl>
+          )}
         </FormCard>
-        <FormCard title="规则描述">规则描述</FormCard>
+        <FormCard
+          title="规则描述"
+          styles={{
+            wrapper: {
+              display: 'flex',
+            },
+          }}
+        >
+          <RuleDescriptionCard<FormValues>
+            register={register}
+            control={control}
+            append={() => {
+              append(defaultCondition);
+            }}
+            fieldArrayReturn={fieldArrayReturn}
+          />
+        </FormCard>
       </Flex>
     </Modal>
   );

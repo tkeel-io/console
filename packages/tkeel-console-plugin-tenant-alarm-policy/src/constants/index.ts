@@ -30,3 +30,70 @@ export const RULE_STATUS_MAP = {
   0: '停用',
   1: '启用',
 };
+
+export const durationOptions = [
+  {
+    label: '即时',
+    value: 0,
+  },
+  {
+    label: '1分钟',
+    value: 1,
+  },
+  {
+    label: '3分钟',
+    value: 3,
+  },
+  {
+    label: '5分钟',
+    value: 5,
+  },
+];
+
+export const calculateOptions = [
+  {
+    label: '平均值',
+    value: 'avg',
+  },
+  {
+    label: '最大值',
+    value: 'max',
+  },
+  {
+    label: '最小值',
+    value: 'min',
+  },
+];
+
+const eqOption = {
+  label: '= 等于',
+  value: 'eq',
+};
+
+const neOption = {
+  label: '≠ 不等于',
+  value: 'ne',
+};
+
+export const enumOperatorOptions = [eqOption, neOption];
+
+export const numberOperatorOptions = [
+  {
+    label: '> 大于',
+    value: 'gt',
+  },
+  {
+    label: '< 小于',
+    value: 'lt',
+  },
+  eqOption,
+  {
+    label: '≥ 大于等于',
+    value: 'ge',
+  },
+  {
+    label: '≤ 小于等于',
+    value: 'le',
+  },
+  neOption,
+];
