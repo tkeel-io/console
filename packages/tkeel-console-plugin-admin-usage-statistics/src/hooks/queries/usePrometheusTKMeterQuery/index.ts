@@ -18,7 +18,7 @@ interface Options {
 
 export default function usePrometheusTKMeterQuery({ params }: Options) {
   return useQuery<ApiData, RequestParams>({
-    url: '/tkeel-monitor/v1/prometheus/query',
+    url: '/tkeel-monitor/v1/prometheus/tkmeter',
     method: 'GET',
     params,
   });
