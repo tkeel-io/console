@@ -21,7 +21,7 @@ export default function MessageStorage() {
           <MessageStorageItem title="历史存储" sx={{ paddingBottom: '28px' }}>
             <HStack spacing="12px">
               <Block label="历史消息存储 (天)" value="7" />
-              <Block label="历史消息存储 (天)" value="7" />
+              <Block label="日存储量 (条)" value="7" />
             </HStack>
           </MessageStorageItem>
           <MessageStorageItem
