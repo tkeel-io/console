@@ -80,6 +80,7 @@ module.exports = {
     'rawdata',
     'fluxswitch',
     'tkmeter',
+    'tkapi',
     // fonts
     'truetype',
     'Roboto',

@@ -19,6 +19,7 @@ interface Options {
   params: Params;
 }
 
+// TODO: DELETE ?
 export default function usePrometheusBatchQuery({ params }: Options) {
   const { queries, ...rest } = params;
   const query = queries.join('|');
