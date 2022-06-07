@@ -10,7 +10,7 @@ import {
 
 import { FormControl, FormField, Radio } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
-import { AddFilledIcon } from '@tkeel/console-icons';
+import { AddFilledIcon, TrashFilledIcon } from '@tkeel/console-icons';
 
 import {
   calculateOptions,
@@ -35,8 +35,7 @@ export default function RuleDescriptionCard<FormValues>({
   append,
   fieldArrayReturn,
 }: Props<FormValues>) {
-  const { fields } = fieldArrayReturn;
-  // const [conditionsOperator, setConditionsOperator] = useState<Operator>('or');
+  const { fields, remove } = fieldArrayReturn;
 
   const output = useWatch({
     name: 'conditions' as Path<FormValues>,
@@ -127,7 +126,7 @@ export default function RuleDescriptionCard<FormValues>({
           </Text>
         </Flex>
       </Flex>
-      <Flex marginTop="20px">
+      <Flex flexDirection="column" marginTop="20px">
         {fields.map((item, i) => {
           /* eslint-disable @typescript-eslint/no-unsafe-member-access */
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -135,6 +134,7 @@ export default function RuleDescriptionCard<FormValues>({
           /* eslint-enable */
           const attributeIsNumber = !attribute || attribute === 'number';
           const attributeIsEnum = attribute === 'enum';
+          const attributeIsBoolean = attribute === 'boolean';
 
           const attributeId = `conditions.${i}.attribute` as Path<FormValues>;
           return (
@@ -165,7 +165,7 @@ export default function RuleDescriptionCard<FormValues>({
                 formControlStyle={{
                   marginBottom: '0',
                   flexShrink: 0,
-                  width: '180px',
+                  width: '156px',
                 }}
               />
               {attributeIsNumber && (
@@ -198,21 +198,72 @@ export default function RuleDescriptionCard<FormValues>({
                 />
               )}
               {attributeIsEnum && (
-                <SelectField<FormValues>
-                  id={getFieldId(i, 'enumOperator')}
-                  name={getFieldId(i, 'enumOperator')}
-                  placeholder="运算符"
-                  options={enumOperatorOptions}
-                  {...selectProps}
-                />
+                <>
+                  <SelectField<FormValues>
+                    id={getFieldId(i, 'enumOperator')}
+                    name={getFieldId(i, 'enumOperator')}
+                    placeholder="运算符"
+                    options={enumOperatorOptions}
+                    {...selectProps}
+                  />
+                  <SelectField<FormValues>
+                    id={getFieldId(i, 'enumItem')}
+                    name={getFieldId(i, 'enumItem')}
+                    placeholder="请选择"
+                    options={[
+                      {
+                        label: 'enum1',
+                        value: '枚举项1',
+                      },
+                      {
+                        label: 'enum2',
+                        value: '枚举项3',
+                      },
+                    ]}
+                    {...selectProps}
+                  />
+                </>
+              )}
+              {attributeIsBoolean && (
+                <>
+                  <SelectField<FormValues>
+                    id={getFieldId(i, 'booleanOperator')}
+                    name={getFieldId(i, 'booleanOperator')}
+                    placeholder="运算符"
+                    options={enumOperatorOptions}
+                    {...selectProps}
+                  />
+                  <SelectField<FormValues>
+                    id={getFieldId(i, 'booleanItem')}
+                    name={getFieldId(i, 'booleanItem')}
+                    placeholder="请选择"
+                    options={[
+                      {
+                        label: 'true',
+                        value: '1',
+                      },
+                      {
+                        label: 'false',
+                        value: '0',
+                      },
+                    ]}
+                    {...selectProps}
+                  />
+                </>
               )}
               {attributeIsNumber && (
                 <TextField
                   id={getFieldId(i, 'numberValue')}
                   registerReturn={register(getFieldId(i, 'numberValue'))}
+                  type="number"
                   formControlStyle={{ marginBottom: '0' }}
                 />
               )}
+              <TrashFilledIcon
+                color="grayAlternatives.300"
+                style={{ flexShrink: 0, cursor: 'pointer' }}
+                onClick={() => remove(i)}
+              />
             </HStack>
           );
         })}

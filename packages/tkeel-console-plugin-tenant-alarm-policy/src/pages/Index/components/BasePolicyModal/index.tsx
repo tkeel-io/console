@@ -29,6 +29,9 @@ interface Condition {
   calculate?: 'avg' | 'max' | 'min' | null;
   numberOperator?: string | null;
   enumOperator?: string | null;
+  enumItem?: string | null;
+  booleanOperator?: string | null;
+  booleanItem?: string | null;
   numberValue?: string | null;
 }
 

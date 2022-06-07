@@ -60,7 +60,7 @@ export default function TextField({
           _placeholder={{ color: 'blackAlpha.500' }}
           _focus={getFocusStyle(!!rest.error)}
           id={id}
-          type={isPasswordType ? 'password' : 'text'}
+          type={isPasswordType ? 'password' : type}
           defaultValue={defaultValue}
           value={value}
           placeholder={placeholder}
