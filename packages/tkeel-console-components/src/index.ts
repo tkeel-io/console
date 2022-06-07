@@ -24,6 +24,7 @@ export { default as PageHeader } from './components/PageHeader';
 export { default as PageHeaderToolbar } from './components/PageHeaderToolbar';
 export { default as Pagination } from './components/Pagination';
 export { default as Radio } from './components/Radio';
+export { default as RadioButton } from './components/RadioButton';
 export * from './components/RadioCard';
 export * from './components/RndModal';
 export { default as SearchEmpty } from './components/SearchEmpty';

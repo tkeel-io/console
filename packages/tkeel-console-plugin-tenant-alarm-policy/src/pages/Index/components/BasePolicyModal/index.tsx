@@ -2,16 +2,26 @@ import { Flex } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 
-import { FormControl, FormField, Modal } from '@tkeel/console-components';
+import {
+  FormControl,
+  FormField,
+  Modal,
+  RadioButton,
+} from '@tkeel/console-components';
 
 import {
   ALARM_LEVEL_OPTIONS,
+  ALARM_RULE_TYPE_MAP_OPTIONS,
   ALARM_TYPE_OPTIONS,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/constants';
 
+import type { DeviceCondition } from '../DeviceRuleDescriptionCard';
+import DeviceRuleDescriptionCard, {
+  defaultDeviceCondition,
+} from '../DeviceRuleDescriptionCard';
 import DeviceSelectField from '../DeviceSelectField';
 import FormCard from '../FormCard';
-import RuleDescriptionCard from '../RuleDescriptionCard';
+import PlatformRuleDescriptionCard from '../PlatformRuleDescriptionCard';
 
 const { TextField, SelectField } = FormField;
 
@@ -23,26 +33,15 @@ type Props = {
   onConfirm: () => void;
 };
 
-interface Condition {
-  attribute: string | null;
-  duration?: 0 | 1 | 3 | 5 | null; // minute
-  calculate?: 'avg' | 'max' | 'min' | null;
-  numberOperator?: string | null;
-  enumOperator?: string | null;
-  enumItem?: string | null;
-  booleanOperator?: string | null;
-  booleanItem?: string | null;
-  numberValue?: string | null;
-}
-
 interface FormValues {
   name: string;
   alarmType: string;
+  alarmRuleType: string;
   alarmLevel: string;
-  alarmSourceObject: string;
+  alarmSourceObject: 'device' | 'platform';
   deviceId: string;
   conditionsOperator: 'or' | 'and';
-  conditions: Condition[];
+  deviceConditions: DeviceCondition[];
 }
 
 export default function BasePolicyModal({
@@ -52,14 +51,6 @@ export default function BasePolicyModal({
   onClose,
   onConfirm,
 }: Props) {
-  const defaultCondition: Condition = {
-    attribute: null,
-    duration: 1,
-    calculate: 'avg',
-    numberOperator: 'gt',
-    numberValue: null,
-  };
-
   const {
     register,
     formState: { errors },
@@ -69,15 +60,18 @@ export default function BasePolicyModal({
     watch,
   } = useForm<FormValues>({
     defaultValues: {
+      alarmRuleType: '0',
+      alarmSourceObject: 'platform',
       conditionsOperator: 'or',
-      conditions: [defaultCondition],
+      deviceConditions: [defaultDeviceCondition],
     },
   });
 
   const fieldArrayReturn = useFieldArray({
     control,
-    name: 'conditions',
+    name: 'deviceConditions',
   });
+
   const { append } = fieldArrayReturn;
 
   const handleConfirm = async () => {
@@ -138,6 +132,19 @@ export default function BasePolicyModal({
               required: { value: false, message: '请输入告警类型' },
             }}
           />
+          <FormControl id="alarmRuleType" label="告警策略类型">
+            <Controller
+              name="alarmRuleType"
+              control={control}
+              render={({ field: { value, onChange } }) => (
+                <RadioButton
+                  options={ALARM_RULE_TYPE_MAP_OPTIONS}
+                  value={value}
+                  onChange={onChange}
+                />
+              )}
+            />
+          </FormControl>
           <SelectField<FormValues>
             id="alarmLevel"
             name="alarmLevel"
@@ -190,14 +197,29 @@ export default function BasePolicyModal({
             },
           }}
         >
-          <RuleDescriptionCard<FormValues>
-            register={register}
-            control={control}
-            append={() => {
-              append(defaultCondition);
-            }}
-            fieldArrayReturn={fieldArrayReturn}
-          />
+          <Flex
+            width="100%"
+            padding="16px"
+            borderWidth="1px"
+            borderStyle="solid"
+            borderColor="grayAlternatives.100"
+            borderRadius="4px"
+            backgroundColor="gray.100"
+          >
+            {watch('alarmSourceObject') === 'device' && (
+              <DeviceRuleDescriptionCard<FormValues>
+                register={register}
+                control={control}
+                append={() => {
+                  append(defaultDeviceCondition);
+                }}
+                fieldArrayReturn={fieldArrayReturn}
+              />
+            )}
+            {watch('alarmSourceObject') === 'platform' && (
+              <PlatformRuleDescriptionCard value={[]} onChange={() => {}} />
+            )}
+          </Flex>
         </FormCard>
       </Flex>
     </Modal>

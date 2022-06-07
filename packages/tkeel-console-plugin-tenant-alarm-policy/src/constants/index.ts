@@ -21,6 +21,13 @@ export const ALARM_RULE_TYPE_MAP = {
   1: '系统告警',
 };
 
+export const ALARM_RULE_TYPE_MAP_OPTIONS = Object.entries(
+  ALARM_RULE_TYPE_MAP
+).map(([key, value]) => ({
+  label: value,
+  value: key,
+}));
+
 export const ALARM_TYPE_MAP = {
   0: '基础告警',
   1: '持续告警',

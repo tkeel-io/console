@@ -21,6 +21,26 @@ import {
 
 const { TextField, SelectField } = FormField;
 
+export interface DeviceCondition {
+  attribute: string | null;
+  duration?: 0 | 1 | 3 | 5 | null; // minute
+  calculate?: 'avg' | 'max' | 'min' | null;
+  numberOperator?: string | null;
+  enumOperator?: string | null;
+  enumItem?: string | null;
+  booleanOperator?: string | null;
+  booleanItem?: string | null;
+  numberValue?: string | null;
+}
+
+export const defaultDeviceCondition: DeviceCondition = {
+  attribute: null,
+  duration: 1,
+  calculate: 'avg',
+  numberOperator: 'gt',
+  numberValue: null,
+};
+
 interface Props<FormValues> {
   register: UseFormRegister<FormValues>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -29,7 +49,7 @@ interface Props<FormValues> {
   fieldArrayReturn: UseFieldArrayReturn<FormValues>;
 }
 
-export default function RuleDescriptionCard<FormValues>({
+export default function DeviceRuleDescriptionCard<FormValues>({
   register,
   control,
   append,
@@ -38,7 +58,7 @@ export default function RuleDescriptionCard<FormValues>({
   const { fields, remove } = fieldArrayReturn;
 
   const output = useWatch({
-    name: 'conditions' as Path<FormValues>,
+    name: 'deviceConditions' as Path<FormValues>,
     control,
   });
 
@@ -65,20 +85,11 @@ export default function RuleDescriptionCard<FormValues>({
   };
 
   const getFieldId = (i: number, id: string) => {
-    return `conditions.${i}.${id}` as Path<FormValues>;
+    return `deviceConditions.${i}.${id}` as Path<FormValues>;
   };
 
   return (
-    <Flex
-      width="100%"
-      flexDirection="column"
-      padding="16px"
-      borderWidth="1px"
-      borderStyle="solid"
-      borderColor="grayAlternatives.100"
-      borderRadius="4px"
-      backgroundColor="gray.100"
-    >
+    <Flex flexDirection="column">
       <Flex justifyContent="space-between">
         <Flex alignItems="center" color="gray.700" fontSize="14px">
           <Text>满足</Text>
@@ -136,7 +147,8 @@ export default function RuleDescriptionCard<FormValues>({
           const attributeIsEnum = attribute === 'enum';
           const attributeIsBoolean = attribute === 'boolean';
 
-          const attributeId = `conditions.${i}.attribute` as Path<FormValues>;
+          const attributeId =
+            `deviceConditions.${i}.attribute` as Path<FormValues>;
           return (
             <HStack
               key={item.id}
