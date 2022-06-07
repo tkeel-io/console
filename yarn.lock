@@ -3758,6 +3758,7 @@ __metadata:
     "@tkeel/console-request-hooks": "workspace:^"
     "@tkeel/console-types": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
+    dayjs: ^1.11.2
     framer-motion: ^6.3.4
     lodash: ^4.17.21
     numeral: ^2.0.6

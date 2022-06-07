@@ -6,9 +6,9 @@ interface ApiData {
 
 interface RequestParams {
   query: string;
-  st?: number;
   et?: number;
-  step?: number;
+  st?: number;
+  step?: string;
 }
 
 interface Params extends Omit<RequestParams, 'query'> {

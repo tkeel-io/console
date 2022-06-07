@@ -6,9 +6,9 @@ interface ApiData {
 
 interface RequestParams {
   meters: string;
-  st?: number;
   et?: number;
-  step?: number;
+  st?: number;
+  step?: string;
   tenant_id?: string;
 }
 

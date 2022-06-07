@@ -12,8 +12,8 @@ export default function MessageStorage() {
   return (
     <Box width="100%">
       <ModuleHeader
-        title="消息订阅"
-        description="平台消息吞吐"
+        title="消息存储"
+        description="平台消息存储"
         link="../message"
       />
       <BaseBox sx={{ padding: '24px 32px 0 32px' }}>
