@@ -19,12 +19,12 @@ export default function Index() {
     {
       label: '阈值告警',
       key: 'threshold',
-      component: <Flex>threshold</Flex>,
+      component: <PolicyTable />,
     },
     {
       label: '系统告警',
       key: 'system',
-      component: <Flex>system</Flex>,
+      component: <PolicyTable />,
     },
   ];
 

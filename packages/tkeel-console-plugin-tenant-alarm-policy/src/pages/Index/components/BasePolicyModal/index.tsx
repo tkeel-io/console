@@ -1,5 +1,5 @@
 import { Flex } from '@chakra-ui/react';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 
 import {
@@ -21,6 +21,7 @@ import DeviceRuleDescriptionCard, {
 } from '../DeviceRuleDescriptionCard';
 import DeviceSelectField from '../DeviceSelectField';
 import FormCard from '../FormCard';
+import type { PlatformCondition } from '../PlatformRuleDescriptionCard';
 import PlatformRuleDescriptionCard from '../PlatformRuleDescriptionCard';
 
 const { TextField, SelectField } = FormField;
@@ -51,6 +52,9 @@ export default function BasePolicyModal({
   onClose,
   onConfirm,
 }: Props) {
+  const [platformConditions, setPlatformConditions] = useState<
+    PlatformCondition[]
+  >([]);
   const {
     register,
     formState: { errors },
@@ -80,6 +84,8 @@ export default function BasePolicyModal({
       const values = getValues();
       // eslint-disable-next-line no-console
       console.log('values', values);
+      // eslint-disable-next-line no-console
+      console.log('platformConditions', platformConditions);
     }
     onConfirm();
   };
@@ -116,7 +122,7 @@ export default function BasePolicyModal({
             label="告警策略名称"
             error={errors.name}
             registerReturn={register('name', {
-              required: { value: false, message: '请输入告警策略名称' },
+              required: { value: true, message: '请输入告警策略名称' },
             })}
           />
           <SelectField<FormValues>
@@ -129,7 +135,7 @@ export default function BasePolicyModal({
             // defaultValue={defaultValues?.alarmType}
             error={errors.alarmType}
             rules={{
-              required: { value: false, message: '请输入告警类型' },
+              required: { value: true, message: '请输入告警类型' },
             }}
           />
           <FormControl id="alarmRuleType" label="告警策略类型">
@@ -155,7 +161,7 @@ export default function BasePolicyModal({
             // defaultValue={defaultValues?.alarmLevel}
             error={errors.alarmLevel}
             rules={{
-              required: { value: false, message: '请输入告警级别' },
+              required: { value: true, message: '请输入告警级别' },
             }}
           />
         </FormCard>
@@ -170,7 +176,7 @@ export default function BasePolicyModal({
             // defaultValue={defaultValues?.alarmSourceObject}
             error={errors.alarmSourceObject}
             rules={{
-              required: { value: false, message: '请输入告警源对象' },
+              required: { value: true, message: '请输入告警源对象' },
             }}
           />
           {watch('alarmSourceObject') === 'device' && (
@@ -178,7 +184,7 @@ export default function BasePolicyModal({
               <Controller
                 name="deviceId"
                 control={control}
-                rules={{ required: { value: false, message: '请选择设备' } }}
+                rules={{ required: { value: true, message: '请选择设备' } }}
                 render={({ field: { onChange } }) => (
                   <DeviceSelectField
                     onChange={onChange}
@@ -217,7 +223,10 @@ export default function BasePolicyModal({
               />
             )}
             {watch('alarmSourceObject') === 'platform' && (
-              <PlatformRuleDescriptionCard value={[]} onChange={() => {}} />
+              <PlatformRuleDescriptionCard
+                conditions={platformConditions}
+                onChange={setPlatformConditions}
+              />
             )}
           </Flex>
         </FormCard>
