@@ -1,7 +1,8 @@
 import { Select, SelectProps } from '@tkeel/console-components';
+import { AlarmType, AlarmTypeSelectValue } from '@tkeel/console-types';
 
 interface Props extends Omit<SelectProps, 'options' | 'onChange'> {
-  onChange: (level: number) => void;
+  onChange: (level: AlarmTypeSelectValue) => void;
 }
 
 export const ALARM_TYPE_OPTIONS = [
@@ -19,16 +20,19 @@ export const ALARM_TYPE_OPTIONS = [
 export default function AlarmTypeSelect(props: Props) {
   const { onChange, styles, ...restProps } = props;
 
-  const options = ALARM_TYPE_OPTIONS.map(({ label, value }) => ({
+  const options = ALARM_TYPE_OPTIONS.map(({ label, value, disabled }) => ({
     label,
     value: String(value),
+    disabled,
   }));
 
   return (
     <Select
       labelPrefix="告警类型："
       options={options}
-      onChange={(value) => onChange(Number(value))}
+      onChange={(value) =>
+        onChange(value === '' ? -1 : (Number(value) as AlarmType))
+      }
       styles={{
         ...styles,
         wrapper: {

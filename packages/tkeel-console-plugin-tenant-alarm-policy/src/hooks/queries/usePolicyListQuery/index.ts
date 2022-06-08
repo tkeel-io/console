@@ -1,20 +1,14 @@
 import { useQuery } from '@tkeel/console-hooks';
-
-interface ApiData {
-  '@type': string;
-}
-
-export type AlarmLevel = 1 | 2 | 3 | 4;
-
-export type AlarmRuleType = 0 | 1;
-
-export type AlarmType = 0 | 1;
-
-export type RuleStatus = 0 | 1;
+import {
+  AlarmLevel,
+  AlarmRuleType,
+  AlarmType,
+  RuleStatus,
+} from '@tkeel/console-types';
 
 export interface Policy {
   ruleId: number;
-  alarmLevel: AlarmLevel; // 告警级别，1,2,3,4; 1级最高，4级最低
+  alarmLevel: AlarmLevel; // 告警级别：1 2 3 4; 1级最高，4级最低
   alarmRuleType: AlarmRuleType; // 0：阈值告警；1：系统告警
   ruleName: string;
   alarmSourceObject: string;
@@ -26,11 +20,40 @@ export interface Policy {
   enable: RuleStatus; // 0：停用；1：启用
 }
 
-export default function usePolicyListQuery() {
-  const { data, ...rest } = useQuery<ApiData>({
-    url: '',
-    method: 'GET',
-  });
+interface ApiData {
+  '@type': string;
+  total: number;
+  list: Policy[];
+}
 
-  return { ...rest };
+export interface Props {
+  alarmRuleType?: AlarmRuleType;
+  alarmLevel?: AlarmLevel;
+  alarmType?: AlarmType;
+  pageNum: number;
+  pageSize: number;
+}
+
+export default function usePolicyListQuery({
+  alarmLevel,
+  alarmRuleType,
+  alarmType,
+  pageNum,
+  pageSize,
+}: Props) {
+  const { data, ...rest } = useQuery<ApiData, Props>({
+    url: '/tkeel-alarm/v1/rule/query',
+    method: 'GET',
+    params: {
+      alarmLevel,
+      alarmRuleType,
+      alarmType,
+      pageNum,
+      pageSize,
+    },
+  });
+  const policyList = data?.list || [];
+  const total = data?.total || 0;
+
+  return { policyList, total, ...rest };
 }

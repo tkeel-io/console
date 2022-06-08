@@ -14,6 +14,11 @@ import {
   Table,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
+import type {
+  AlarmLevel,
+  AlarmRuleType,
+  AlarmType,
+} from '@tkeel/console-types';
 
 import DeletePolicyButton from '@/tkeel-console-plugin-tenant-alarm-policy/components/DeletePolicyButton';
 import ModifyPolicyButton from '@/tkeel-console-plugin-tenant-alarm-policy/components/ModifyPolicyButton';
@@ -23,20 +28,23 @@ import {
   RULE_STATUS_MAP,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/constants';
 import type {
-  AlarmLevel,
-  AlarmRuleType,
-  AlarmType,
   Policy,
+  Props as usePolicyListQueryProps,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
+import usePolicyListQuery from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
 
 import CreatePolicyButton from '../CreatePolicyButton';
 import ViewPolicyDetailButton from '../ViewPolicyDetailButton';
 import mockPolicyData from './mockPolicyData';
 
-export default function PolicyTable() {
+interface Props {
+  alarmRuleType?: AlarmRuleType;
+}
+
+export default function PolicyTable({ alarmRuleType }: Props) {
   const [keywords, setKeywords] = useState('');
-  const [alarmLevel, setAlarmLevel] = useState<number>();
-  const [alarmType, setAlarmType] = useState<number>();
+  const [alarmLevel, setAlarmLevel] = useState<AlarmLevel>();
+  const [alarmType, setAlarmType] = useState<AlarmType>();
   // eslint-disable-next-line no-console
   console.log('PolicyTable ~ alarmType', alarmType);
   // eslint-disable-next-line no-console
@@ -44,6 +52,21 @@ export default function PolicyTable() {
   // eslint-disable-next-line no-console
   console.log('PolicyTable ~ keywords', keywords);
   const pagination = usePagination();
+  const { pageNum, pageSize, setTotalSize } = pagination;
+  const params: usePolicyListQueryProps = {
+    alarmRuleType,
+    alarmLevel,
+    alarmType,
+    pageNum,
+    pageSize,
+  };
+
+  const { policyList, total, isSuccess } = usePolicyListQuery(params);
+  if (isSuccess) {
+    setTotalSize(total);
+  }
+  // eslint-disable-next-line no-console
+  console.log('PolicyTable ~ policyList', policyList);
 
   const columns: ReadonlyArray<Column<Policy>> = [
     {
@@ -143,9 +166,15 @@ export default function PolicyTable() {
       <PageHeaderToolbar
         name={
           <Flex>
-            <AlarmLevelSelect onChange={setAlarmLevel} />
+            <AlarmLevelSelect
+              onChange={(level) => {
+                setAlarmLevel(level === -1 ? undefined : level);
+              }}
+            />
             <AlarmTypeSelect
-              onChange={setAlarmType}
+              onChange={(type) => {
+                setAlarmType(type === -1 ? undefined : type);
+              }}
               styles={{ wrapper: { marginLeft: '12px' } }}
             />
           </Flex>
