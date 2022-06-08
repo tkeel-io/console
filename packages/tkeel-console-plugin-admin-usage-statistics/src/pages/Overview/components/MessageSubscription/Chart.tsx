@@ -23,7 +23,7 @@ export default function Chart({ data, barColor }: Props) {
           top: 20,
           right: 32,
           bottom: 16,
-          left: 26,
+          left: 0,
         }}
         barCategoryGap="80%"
       >
