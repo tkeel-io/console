@@ -15,4 +15,4 @@ interface QueryItem {
   result_type: string;
 }
 
-export type { QueryItem };
+export type { QueryItem, ValueItem };

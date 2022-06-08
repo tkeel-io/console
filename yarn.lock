@@ -3546,6 +3546,7 @@ __metadata:
     "@chakra-ui/react": ^2.1.2
     "@emotion/react": ^11.9.0
     "@emotion/styled": ^11.8.1
+    "@tkeel/console-hooks": "workspace:^"
     "@tkeel/console-themes": "workspace:^"
     framer-motion: ^6.3.4
     react: ^18.1.0
@@ -3751,6 +3752,7 @@ __metadata:
     "@emotion/react": ^11.9.0
     "@emotion/styled": ^11.8.1
     "@tkeel/console-business-components": "workspace:^"
+    "@tkeel/console-charts": "workspace:^"
     "@tkeel/console-components": "workspace:^"
     "@tkeel/console-constants": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
@@ -3761,11 +3763,11 @@ __metadata:
     dayjs: ^1.11.2
     framer-motion: ^6.3.4
     lodash: ^4.17.21
-    numeral: ^2.0.6
     react: ^18.1.0
     react-dom: ^18.1.0
     react-query: ^3.39.0
     react-router-dom: ^6.3.0
+    recharts: ^2.1.10
   languageName: unknown
   linkType: soft
 
@@ -4157,12 +4159,12 @@ __metadata:
     axios: ^0.27.2
     dayjs: ^1.11.2
     js-base64: ^3.7.2
+    numeral: ^2.0.6
     qs: ^6.10.3
     react: ^18.1.0
     react-hook-form: ^7.31.2
     react-router-dom: ^6.3.0
     store2: ^2.13.2
-    yarn: ^1.22.18
   languageName: unknown
   linkType: soft
 
@@ -18881,16 +18883,6 @@ __metadata:
     y18n: ^5.0.5
     yargs-parser: ^21.0.0
   checksum: 00d58a2c052937fa044834313f07910fd0a115dec5ee35919e857eeee3736b21a4eafa8264535800ba8bac312991ce785ecb8a51f4d2cc8c4676d865af1cfbde
-  languageName: node
-  linkType: hard
-
-"yarn@npm:^1.22.18":
-  version: 1.22.18
-  resolution: "yarn@npm:1.22.18"
-  bin:
-    yarn: bin/yarn.js
-    yarnpkg: bin/yarn.js
-  checksum: ffd9a4872caa5fce83e914592dd6a40bb978bf992d3dca839bc3853b9e6de951d7596f7e8c4a88bec3af3a049e46097f9139a51740d9074582fd923af8762f7a
   languageName: node
   linkType: hard
 

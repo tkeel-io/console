@@ -1,6 +1,6 @@
 import { useTheme } from '@chakra-ui/react';
 import type { TooltipProps } from 'recharts';
-import { Tooltip as RechartsTooltip } from 'recharts';
+import { Tooltip } from 'recharts';
 
 import type { Theme } from '@tkeel/console-themes';
 
@@ -8,14 +8,14 @@ type ValueType = number | string | Array<number | string>;
 
 type NameType = number | string;
 
-export default function Tooltip<
+export default function CustomTooltip<
   TValue extends ValueType,
   TName extends NameType
 >(props: TooltipProps<TValue, TName>) {
   const { colors }: Theme = useTheme();
 
   return (
-    <RechartsTooltip
+    <Tooltip
       contentStyle={{
         borderRadius: '4px',
         boxShadow:

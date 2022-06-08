@@ -1,11 +1,13 @@
 import { Box, HStack } from '@chakra-ui/react';
 import * as dayjs from 'dayjs';
 
+import { useColor } from '@tkeel/console-hooks';
 import { getTimestamp } from '@tkeel/console-utils';
 
 import usePrometheusTKMeterQuery from '@/tkeel-console-plugin-admin-usage-statistics/hooks/queries/usePrometheusTKMeterQuery';
 
 import ModuleHeader from '../ModuleHeader';
+import Chart from './Chart';
 import MessageSubscriptionBox from './MessageSubscriptionBox';
 
 const et = getTimestamp();
@@ -19,6 +21,8 @@ export default function MessageSubscription() {
     params: { ...params, meter: 'upstream_msg' },
   });
 
+  const color = useColor('green.300');
+
   return (
     <Box width="100%">
       <ModuleHeader
@@ -28,8 +32,7 @@ export default function MessageSubscription() {
       />
       <HStack spacing="12px">
         <MessageSubscriptionBox title="上行消息 (条)">
-          14
-          {JSON.stringify(item)}
+          <Chart data={item?.result[0].values ?? []} barColor={color} />
         </MessageSubscriptionBox>
         <MessageSubscriptionBox title="下行消息 (条)">
           15
