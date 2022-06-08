@@ -12,6 +12,10 @@ import {
 import { DateRangePicker, MoreActionSelect } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
 import {
+  TelemetryFields,
+  useDeviceDetailQuery,
+} from '@tkeel/console-request-hooks';
+import {
   formatDateTimeByTimestamp,
   formatRawValue,
 } from '@tkeel/console-utils';
@@ -19,9 +23,6 @@ import {
 import SearchEmpty from '@/tkeel-console-plugin-tenant-data-query/components/SearchEmpty';
 import useRawDataMutation from '@/tkeel-console-plugin-tenant-data-query/hooks/mutations/useRawDataMutation';
 import useTelemetryDataMutation from '@/tkeel-console-plugin-tenant-data-query/hooks/mutations/useTelemetryDataMutation';
-import useDeviceDetailQuery, {
-  TelemetryFields,
-} from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceDetailQuery';
 
 import { ExportButton, RefreshButton } from './components/Buttons';
 import { CheckboxStatus } from './components/CustomCheckbox';

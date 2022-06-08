@@ -2,10 +2,10 @@ import { Flex, StyleProps, Text } from '@chakra-ui/react';
 
 import { Empty, Loading } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
+import { TelemetryFields } from '@tkeel/console-request-hooks';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import { DataItem } from '@/tkeel-console-plugin-tenant-data-query/hooks/mutations/useTelemetryDataMutation';
-import { TelemetryFields } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceDetailQuery';
 
 type Props = {
   originalData: DataItem[];

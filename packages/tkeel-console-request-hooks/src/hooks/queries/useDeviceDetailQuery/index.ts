@@ -1,7 +1,6 @@
 import { useQuery } from '@tkeel/console-hooks';
 import { RequestResult } from '@tkeel/console-utils';
 
-const method = 'GET';
 export interface BasicInfo {
   configs?: object;
   mappers?: object;
@@ -33,6 +32,7 @@ export interface RawData {
   type: string;
   values: string;
 }
+
 export interface ConnectInfo {
   _clientId: string;
   _online: boolean;
@@ -43,6 +43,7 @@ export interface ConnectInfo {
   _sockPort: string;
   _userName: string;
 }
+
 export interface SysField {
   _createdAt: number;
   _updatedAt: number;
@@ -81,7 +82,7 @@ export interface DeviceObject {
   properties: Properties;
 }
 
-export interface ApiData {
+interface ApiData {
   '@type': string;
   deviceObject?: DeviceObject;
 }
@@ -95,7 +96,7 @@ export default function useDeviceDetailQuery({ id, onSuccess }: Props) {
   const url = `/tkeel-device/v1/devices/${id}`;
   const { data, ...rest } = useQuery<ApiData>({
     url,
-    method,
+    method: 'GET',
     reactQueryOptions: {
       enabled: !!id,
       onSuccess,
