@@ -64,10 +64,20 @@ export interface Properties {
   connectInfo?: ConnectInfo;
 }
 
+interface TelemetryField {
+  define: Record<string, unknown>;
+  description: string;
+  enabled: boolean;
+  enabled_search: boolean;
+  enabled_time_series: boolean;
+  id: string;
+  last_time: number;
+  name: string;
+  type: 'int' | 'bool' | 'float' | 'double';
+}
+
 export interface TelemetryFields {
-  [propName: string]: {
-    name: string;
-  };
+  [key: string]: TelemetryField;
 }
 
 export interface DeviceObject {
@@ -89,7 +99,7 @@ interface ApiData {
 
 type Props = {
   id: string;
-  onSuccess: (data: RequestResult<ApiData, undefined, undefined>) => void;
+  onSuccess?: (data: RequestResult<ApiData, undefined, undefined>) => void;
 };
 
 export default function useDeviceDetailQuery({ id, onSuccess }: Props) {
