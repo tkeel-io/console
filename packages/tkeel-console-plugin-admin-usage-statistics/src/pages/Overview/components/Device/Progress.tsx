@@ -2,7 +2,7 @@ import type { BoxProps } from '@chakra-ui/react';
 import { Box, HStack } from '@chakra-ui/react';
 
 interface Props extends BoxProps {
-  total: number;
+  total?: number;
   value?: number;
 
   valueColor?: string;
@@ -12,7 +12,7 @@ interface Props extends BoxProps {
 }
 
 export default function Progress({
-  total,
+  total = 100,
   value = 0,
   valueColor = 'green.300',
   restColor = 'gray.400',

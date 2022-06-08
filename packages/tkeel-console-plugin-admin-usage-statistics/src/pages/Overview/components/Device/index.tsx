@@ -1,86 +1,116 @@
-import { Box, Flex, HStack, Text } from '@chakra-ui/react';
+import { Box, Flex, HStack, Skeleton, Text } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
 import { Tips } from '@tkeel/console-components';
 
 import usePrometheusTKMeterBatchQuery from '@/tkeel-console-plugin-admin-usage-statistics/hooks/queries/usePrometheusTKMeterBatchQuery';
-import { findQueryItem } from '@/tkeel-console-plugin-admin-usage-statistics/utils/query';
+import { findValue } from '@/tkeel-console-plugin-admin-usage-statistics/utils/query';
 
-import DeviceBox from './DeviceBox';
+import DeviceBox, { sx } from './DeviceBox';
 import DeviceItem from './DeviceItem';
 import Progress from './Progress';
 
+function CustomSkeleton() {
+  return <Skeleton {...sx} />;
+}
+
+const METERS = [
+  'sum_device_num',
+  'rate_online',
+  'sum_template_num',
+  'subscribe_num',
+  'subscribe_entities_num',
+  'rule_num',
+  'rule_execute_num_24h',
+  'rate_rule_failure_24h',
+];
+
 export default function Device() {
   const navigate = useNavigate();
-  const { items } = usePrometheusTKMeterBatchQuery({
-    params: { meters: ['sum_device_num', 'rate_online', 'sum_template_num'] },
+  const { isLoading, items } = usePrometheusTKMeterBatchQuery({
+    params: { meters: METERS },
   });
-
-  const s = findQueryItem({ data: items, query: 'sum_device_num' });
-  // eslint-disable-next-line no-console
-  console.log(s);
+  const [
+    sumDeviceNum,
+    rateOnline,
+    sumTemplateNum,
+    subscribeNum,
+    subscribeEntitiesNum,
+    ruleNum,
+    ruleExecuteNum24h,
+    rateRuleFailure24h,
+  ] = METERS.map((query) => findValue({ data: items, query }));
 
   return (
     <HStack width="full" spacing="8px">
-      <DeviceBox>
-        <Box flex="1" paddingRight="70px">
-          <Flex justifyContent="space-between" paddingBottom="8px">
+      {isLoading ? (
+        <>
+          <CustomSkeleton />
+          <CustomSkeleton />
+          <CustomSkeleton />
+        </>
+      ) : (
+        <>
+          <DeviceBox>
+            <Box flex="1" paddingRight="70px">
+              <Flex justifyContent="space-between" paddingBottom="8px">
+                <DeviceItem
+                  label="设备 (台)"
+                  value={sumDeviceNum}
+                  sx={{ paddingRight: '48px' }}
+                />
+                <DeviceItem label="在线率" value={rateOnline} subValue="%" />
+              </Flex>
+              <Progress value={rateOnline} />
+            </Box>
             <DeviceItem
-              label="设备 (台)"
-              value="8"
-              subValue="/20"
-              sx={{ paddingRight: '48px' }}
+              label="模版 (个)"
+              value={sumTemplateNum}
+              sx={{ flex: '1' }}
             />
-            <DeviceItem label="在线率" value="64" subValue="%" />
-          </Flex>
-          <Progress total={100} value={30} />
-        </Box>
-        <DeviceItem
-          label="模版 (个)"
-          value="12"
-          subValue="/50"
-          sx={{ flex: '1' }}
-        />
-      </DeviceBox>
+          </DeviceBox>
 
-      <DeviceBox onClick={() => navigate('../usage')}>
-        <DeviceItem
-          label="订阅数 (个)"
-          value="3"
-          subValue="/5"
-          sx={{ flex: '1', paddingRight: '48px' }}
-        />
-        <DeviceItem
-          label="被订阅的设备数 (台)"
-          value="4"
-          subValue="/20"
-          sx={{ flex: '1' }}
-        />
-      </DeviceBox>
-
-      <DeviceBox onClick={() => navigate('../usage')}>
-        <DeviceItem
-          label="路由数 (个)"
-          value="8"
-          subValue="/20"
-          sx={{ width: '40%', paddingRight: '48px' }}
-        />
-        <Box flex="1" marginRight="8px">
-          <Flex justifyContent="space-between" paddingBottom="8px">
+          <DeviceBox onClick={() => navigate('../usage')}>
             <DeviceItem
-              label={
-                <Flex alignItems="center">
-                  <Text paddingRight="4px">规则执行次数</Text>
-                  <Tips label="24 小时内规则执行次数" />
-                </Flex>
-              }
-              value="64"
+              label="订阅数 (个)"
+              value={subscribeNum}
+              sx={{ flex: '1', paddingRight: '48px' }}
             />
-            <DeviceItem label="失败率" value="12" subValue="%" />
-          </Flex>
-          <Progress total={100} value={30} restColor="red.300" />
-        </Box>
-      </DeviceBox>
+            <DeviceItem
+              label="被订阅的设备数 (台)"
+              value={subscribeEntitiesNum}
+              sx={{ flex: '1' }}
+            />
+          </DeviceBox>
+
+          <DeviceBox onClick={() => navigate('../usage')}>
+            <DeviceItem
+              label="路由数 (个)"
+              value={ruleNum}
+              sx={{ width: '40%', paddingRight: '48px' }}
+            />
+            <Box flex="1" marginRight="8px">
+              <Flex justifyContent="space-between" paddingBottom="8px">
+                <DeviceItem
+                  label={
+                    <Flex alignItems="center">
+                      <Text paddingRight="4px">规则执行次数</Text>
+                      <Tips label="24 小时内规则执行次数" />
+                    </Flex>
+                  }
+                  value={ruleExecuteNum24h}
+                />
+                <DeviceItem
+                  label="失败率"
+                  value={rateRuleFailure24h}
+                  subValue="%"
+                />
+              </Flex>
+              <Progress value={100 - rateRuleFailure24h} restColor="red.300" />
+            </Box>
+          </DeviceBox>
+        </>
+      )}
     </HStack>
   );
 }

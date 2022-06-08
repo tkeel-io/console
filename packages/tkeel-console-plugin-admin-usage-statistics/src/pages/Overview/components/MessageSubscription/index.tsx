@@ -18,8 +18,6 @@ export default function MessageSubscription() {
   const { item } = usePrometheusTKMeterQuery({
     params: { ...params, meter: 'upstream_msg' },
   });
-  // eslint-disable-next-line no-console
-  console.log(item);
 
   return (
     <Box width="100%">
@@ -29,7 +27,9 @@ export default function MessageSubscription() {
         link="../message"
       />
       <HStack spacing="12px">
-        <MessageSubscriptionBox title="上行消息 (条)">1</MessageSubscriptionBox>
+        <MessageSubscriptionBox title="上行消息 (条)">
+          {JSON.stringify(item)}
+        </MessageSubscriptionBox>
         <MessageSubscriptionBox title="下行消息 (条)">2</MessageSubscriptionBox>
         <MessageSubscriptionBox title="订阅消息 (条)">3</MessageSubscriptionBox>
       </HStack>
