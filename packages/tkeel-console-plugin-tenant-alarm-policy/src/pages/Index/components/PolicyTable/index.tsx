@@ -18,6 +18,7 @@ import type {
   AlarmLevel,
   AlarmRuleType,
   AlarmType,
+  RuleStatus,
 } from '@tkeel/console-types';
 
 import DeletePolicyButton from '@/tkeel-console-plugin-tenant-alarm-policy/components/DeletePolicyButton';
@@ -121,7 +122,7 @@ export default function PolicyTable({ alarmRuleType }: Props) {
       Header: '状态',
       accessor: 'enable',
       Cell: useCallback(
-        ({ value }: CellProps<Policy, AlarmRuleType>) => (
+        ({ value }: CellProps<Policy, RuleStatus>) => (
           <Flex alignItems="center">
             <Switch size="sm" />
             <Text marginLeft="8px" color="gray.700" fontSize="12px">

@@ -6,8 +6,7 @@ import {
   LightningFilledIcon,
   WarningFilledIcon,
 } from '@tkeel/console-icons';
-
-export type AlarmLevel = 1 | 2 | 3 | 4;
+import type { AlarmLevel } from '@tkeel/console-types';
 
 export const ALARM_LEVEL_MAP = {
   CRITICAL: 1,

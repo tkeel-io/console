@@ -1,15 +1,32 @@
-export type AlarmLevel = 1 | 2 | 3 | 4;
+export enum AlarmLevel {
+  Critical = 1,
+  Major,
+  Minor,
+  Warning,
+} // 1：紧急 2：重要；3：次要；4：提示
 
 export type AlarmLevelSelectValue = -1 | AlarmLevel;
 
-type BaseType = 0 | 1;
+export enum AlarmRuleType {
+  Threshold,
+  System,
+} // 0：阈值告警；1：系统告警
 
-export type AlarmRuleType = BaseType;
+export type AlarmRuleTypeSelectValue = -1 | AlarmRuleType;
 
-export type AlarmRuleTypeSelectValue = -1 | BaseType;
+export enum AlarmType {
+  Base,
+  Continuous,
+} // 0：基础告警；1：持续告警
 
-export type AlarmType = BaseType;
+export type AlarmTypeSelectValue = -1 | AlarmType;
 
-export type AlarmTypeSelectValue = -1 | BaseType;
+export enum RuleStatus {
+  Disable,
+  Enable,
+} // 0：停用；1：启用
 
-export type RuleStatus = BaseType;
+export enum AlarmSourceObject {
+  Platform,
+  Device,
+} // 0：平台；1：设备

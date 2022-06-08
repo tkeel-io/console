@@ -2,6 +2,7 @@ import { useQuery } from '@tkeel/console-hooks';
 import {
   AlarmLevel,
   AlarmRuleType,
+  AlarmSourceObject,
   AlarmType,
   RuleStatus,
 } from '@tkeel/console-types';
@@ -11,7 +12,7 @@ export interface Policy {
   alarmLevel: AlarmLevel; // 告警级别：1 2 3 4; 1级最高，4级最低
   alarmRuleType: AlarmRuleType; // 0：阈值告警；1：系统告警
   ruleName: string;
-  alarmSourceObject: string;
+  alarmSourceObject: AlarmSourceObject; // 告警源对象 0：平台；1：设备
   ruleDesc: string;
   alarmType: AlarmType; // 0：基础告警；1：持续告警
   deviceId?: string;
