@@ -10,7 +10,7 @@ export interface FilterConditionInfo {
 
 type Props = {
   condition: FilterConditionInfo;
-  style: StyleProps;
+  style?: StyleProps;
   removeCondition: (conditionId: string) => unknown;
 };
 
@@ -46,9 +46,11 @@ export default function FilterConditionTag({
         backgroundColor="primary"
         opacity="0.15"
       />
-      <Text color="primary" fontWeight="500">
-        {label}：
-      </Text>
+      {label && (
+        <Text color="primary" fontWeight="500">
+          {label}：
+        </Text>
+      )}
       {value && (
         <>
           <Text margin="0 8px 0 3px" color="gray.600">
