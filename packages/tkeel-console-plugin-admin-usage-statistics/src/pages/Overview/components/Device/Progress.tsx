@@ -14,7 +14,7 @@ interface Props extends BoxProps {
 export default function Progress({
   total,
   value = 0,
-  valueColor = 'primary',
+  valueColor = 'green.300',
   restColor = 'gray.400',
   height = '4px',
 }: Props) {

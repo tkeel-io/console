@@ -4,7 +4,6 @@ import * as dayjs from 'dayjs';
 import { getTimestamp } from '@tkeel/console-utils';
 
 import usePrometheusTKMeterQuery from '@/tkeel-console-plugin-admin-usage-statistics/hooks/queries/usePrometheusTKMeterQuery';
-import useTenantId from '@/tkeel-console-plugin-admin-usage-statistics/hooks/useTenantId';
 
 import ModuleHeader from '../ModuleHeader';
 import MessageSubscriptionBox from './MessageSubscriptionBox';
@@ -14,14 +13,13 @@ const st = dayjs(et).subtract(6, 'day').startOf('day').valueOf();
 const step = '1h';
 
 export default function MessageSubscription() {
-  const tenantId = useTenantId();
-  const params = { et, st, step, tenant_id: tenantId };
+  const params = { et, st, step };
 
-  const r = usePrometheusTKMeterQuery({
+  const { item } = usePrometheusTKMeterQuery({
     params: { ...params, meter: 'upstream_msg' },
   });
   // eslint-disable-next-line no-console
-  console.log(r);
+  console.log(item);
 
   return (
     <Box width="100%">

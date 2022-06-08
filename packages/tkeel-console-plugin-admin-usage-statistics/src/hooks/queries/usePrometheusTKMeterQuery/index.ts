@@ -1,7 +1,11 @@
 import { useQuery } from '@tkeel/console-hooks';
 
+import useTenantId from '@/tkeel-console-plugin-admin-usage-statistics/hooks/useTenantId';
+import type { QueryItem } from '@/tkeel-console-plugin-admin-usage-statistics/types/query';
+
 interface ApiData {
   '@type': string;
+  result: QueryItem;
 }
 
 interface RequestParams {
@@ -14,12 +18,22 @@ interface RequestParams {
 
 interface Options {
   params: RequestParams;
+  isWithTenantId?: boolean;
 }
 
-export default function usePrometheusTKMeterQuery({ params }: Options) {
-  return useQuery<ApiData, RequestParams>({
+export default function usePrometheusTKMeterQuery({
+  params,
+  isWithTenantId = true,
+}: Options) {
+  const tenantId = useTenantId();
+  const newParams =
+    isWithTenantId && tenantId ? { tenant_id: tenantId, ...params } : params;
+  const res = useQuery<ApiData, RequestParams>({
     url: '/tkeel-monitor/v1/prometheus/tkmeter',
     method: 'GET',
-    params,
+    params: newParams,
   });
+  const item = res.data?.result;
+
+  return { ...res, item };
 }

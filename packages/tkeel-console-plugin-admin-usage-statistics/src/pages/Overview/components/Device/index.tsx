@@ -3,12 +3,22 @@ import { useNavigate } from 'react-router-dom';
 
 import { Tips } from '@tkeel/console-components';
 
+import usePrometheusTKMeterBatchQuery from '@/tkeel-console-plugin-admin-usage-statistics/hooks/queries/usePrometheusTKMeterBatchQuery';
+import { findQueryItem } from '@/tkeel-console-plugin-admin-usage-statistics/utils/query';
+
 import DeviceBox from './DeviceBox';
 import DeviceItem from './DeviceItem';
 import Progress from './Progress';
 
 export default function Device() {
   const navigate = useNavigate();
+  const { items } = usePrometheusTKMeterBatchQuery({
+    params: { meters: ['sum_device_num', 'rate_online', 'sum_template_num'] },
+  });
+
+  const s = findQueryItem({ data: items, query: 'sum_device_num' });
+  // eslint-disable-next-line no-console
+  console.log(s);
 
   return (
     <HStack width="full" spacing="8px">
