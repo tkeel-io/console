@@ -92,11 +92,14 @@ export default function BasePolicyModal({
     onConfirm();
   };
 
-  const alarmSourceObjectOptions = [
+  const thresholdAlarmSourceObjectOptions = [
     {
       label: '设备',
       value: 'device',
     },
+  ];
+
+  const systemAlarmSourceObjectOptions = [
     {
       label: '平台',
       value: 'platform',
@@ -177,7 +180,7 @@ export default function BasePolicyModal({
               name="systemAlarmSourceObject"
               label="告警源对象"
               placeholder="请选择"
-              options={[alarmSourceObjectOptions[1]]}
+              options={systemAlarmSourceObjectOptions}
               control={control}
             />
           ) : (
@@ -187,7 +190,7 @@ export default function BasePolicyModal({
                 name="thresholdAlarmSourceObject"
                 label="告警源对象"
                 placeholder="请选择"
-                options={[alarmSourceObjectOptions[0]]}
+                options={thresholdAlarmSourceObjectOptions}
                 control={control}
               />
               <FormControl id="deviceId" error={errors.deviceId}>
@@ -230,6 +233,7 @@ export default function BasePolicyModal({
               />
             ) : (
               <DeviceRuleDescriptionCard<FormValues>
+                deviceId={watch('deviceId')}
                 register={register}
                 control={control}
                 append={() => {

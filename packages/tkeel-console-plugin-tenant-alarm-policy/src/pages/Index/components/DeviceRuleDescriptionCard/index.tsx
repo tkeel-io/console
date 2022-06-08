@@ -1,4 +1,4 @@
-import { Flex, HStack, RadioGroup, Text } from '@chakra-ui/react';
+import { Box, Flex, HStack, RadioGroup, Text } from '@chakra-ui/react';
 import {
   Control,
   Controller,
@@ -11,6 +11,7 @@ import {
 import { FormControl, FormField, Radio } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 import { AddFilledIcon, TrashFilledIcon } from '@tkeel/console-icons';
+import { useDeviceDetailQuery } from '@tkeel/console-request-hooks';
 
 import {
   calculateOptions,
@@ -42,6 +43,7 @@ export const defaultDeviceCondition: DeviceCondition = {
 };
 
 interface Props<FormValues> {
+  deviceId: string;
   register: UseFormRegister<FormValues>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<FormValues, any>;
@@ -50,11 +52,22 @@ interface Props<FormValues> {
 }
 
 export default function DeviceRuleDescriptionCard<FormValues>({
+  deviceId,
   register,
   control,
   append,
   fieldArrayReturn,
 }: Props<FormValues>) {
+  const { deviceObject } = useDeviceDetailQuery({ id: deviceId });
+  const telemetryFields =
+    deviceObject?.configs?.telemetry?.define?.fields || {};
+  const telemetryOptions = Object.entries(telemetryFields).map(
+    ([key, value]) => ({
+      label: value.name,
+      value: key,
+    })
+  );
+
   const { fields, remove } = fieldArrayReturn;
 
   const output = useWatch({
@@ -63,21 +76,6 @@ export default function DeviceRuleDescriptionCard<FormValues>({
   });
 
   const primaryColor = useColor('primary');
-
-  const telemetryOptions = [
-    {
-      label: 'enum',
-      value: 'enum',
-    },
-    {
-      label: 'boolean',
-      value: 'boolean',
-    },
-    {
-      label: 'number',
-      value: 'number',
-    },
-  ];
 
   const selectProps = {
     control,
@@ -89,7 +87,7 @@ export default function DeviceRuleDescriptionCard<FormValues>({
   };
 
   return (
-    <Flex flexDirection="column">
+    <Flex flex="1" flexDirection="column">
       <Flex justifyContent="space-between">
         <Flex alignItems="center" color="gray.700" fontSize="14px">
           <Text>满足</Text>
@@ -143,9 +141,22 @@ export default function DeviceRuleDescriptionCard<FormValues>({
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           const { attribute, duration } = output[i] || {};
           /* eslint-enable */
-          const attributeIsNumber = !attribute || attribute === 'number';
-          const attributeIsEnum = attribute === 'enum';
-          const attributeIsBoolean = attribute === 'boolean';
+          const { type, define } = telemetryFields[attribute as string] || {};
+          const typeIsNumber = ['int', 'float', 'double'].includes(
+            type as string
+          );
+          const attributeIsNumber = !attribute || typeIsNumber;
+
+          // TODO: 遥测属性暂时不支持添加枚举类型值，支持后需要做处理
+          const attributeIsEnum = false;
+          const attributeIsBoolean = type === 'bool';
+
+          const booleanAttributeOptions = Object.entries(define || {})
+            .map(([key, value]) => ({
+              label: value as string,
+              value: key,
+            }))
+            .filter(({ value }) => value !== 'ext');
 
           const attributeId =
             `deviceConditions.${i}.attribute` as Path<FormValues>;
@@ -159,6 +170,11 @@ export default function DeviceRuleDescriptionCard<FormValues>({
               height="64px"
               borderRadius="4px"
               backgroundColor="white"
+              _hover={{
+                '> div:last-child > svg': {
+                  display: 'block !important',
+                },
+              }}
             >
               <Text
                 marginRight="10px"
@@ -249,16 +265,7 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                     id={getFieldId(i, 'booleanItem')}
                     name={getFieldId(i, 'booleanItem')}
                     placeholder="请选择"
-                    options={[
-                      {
-                        label: 'true',
-                        value: '1',
-                      },
-                      {
-                        label: 'false',
-                        value: '0',
-                      },
-                    ]}
+                    options={booleanAttributeOptions}
                     {...selectProps}
                   />
                 </>
@@ -271,11 +278,19 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                   formControlStyle={{ marginBottom: '0' }}
                 />
               )}
-              <TrashFilledIcon
-                color="grayAlternatives.300"
-                style={{ flexShrink: 0, cursor: 'pointer' }}
-                onClick={() => remove(i)}
-              />
+              <Box width="16px" flexShrink={0}>
+                {fields.length > 1 && (
+                  <TrashFilledIcon
+                    color="grayAlternatives.300"
+                    style={{
+                      display: 'none',
+                      flexShrink: 0,
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => remove(i)}
+                  />
+                )}
+              </Box>
             </HStack>
           );
         })}
