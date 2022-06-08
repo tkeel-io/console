@@ -14,10 +14,9 @@ export function format({ input, formatter = '0,0' }: FormatOptions) {
 export function isValidFormat(input: any) {
   const type = typeof input;
 
-  const isUndefined = input === undefined;
-  const isNull = input === null;
   const isNumber = type === 'number';
-  const isNumberString = type === 'string' && !Number.isNaN(Number(input));
+  const isNumberString =
+    type === 'string' && input !== '' && !Number.isNaN(Number(input));
 
-  return isUndefined || isNull || isNumber || isNumberString;
+  return isNumber || isNumberString;
 }

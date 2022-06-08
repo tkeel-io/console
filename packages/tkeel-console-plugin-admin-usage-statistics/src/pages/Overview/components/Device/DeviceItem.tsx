@@ -42,7 +42,7 @@ export default function DeviceItem({ label, value, subValue, sx }: Props) {
           >
             {numeral.isValidFormat(subValue)
               ? numeral.format({ input: subValue })
-              : value}
+              : subValue}
           </Text>
         )}
       </Flex>
