@@ -30,6 +30,7 @@ export interface Props {
   alarmRuleType?: AlarmRuleType;
   alarmLevel?: AlarmLevel;
   alarmType?: AlarmType;
+  ruleName?: string;
   pageNum: number;
   pageSize: number;
 }

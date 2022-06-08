@@ -35,7 +35,7 @@ export default function Index() {
         name="告警策略"
         desc="告警策略配置"
       />
-      <Tabs flex="1" display="flex" flexDirection="column">
+      <Tabs flex="1" overflow="hidden" display="flex" flexDirection="column">
         <SegmentedControlTabList
           sx={{ margin: '10px 0', width: 'max-content' }}
         >

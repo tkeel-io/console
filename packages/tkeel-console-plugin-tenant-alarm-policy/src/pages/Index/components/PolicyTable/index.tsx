@@ -35,7 +35,6 @@ import usePolicyListQuery from '@/tkeel-console-plugin-tenant-alarm-policy/hooks
 
 import CreatePolicyButton from '../CreatePolicyButton';
 import ViewPolicyDetailButton from '../ViewPolicyDetailButton';
-import mockPolicyData from './mockPolicyData';
 
 interface Props {
   alarmRuleType?: AlarmRuleType;
@@ -45,28 +44,24 @@ export default function PolicyTable({ alarmRuleType }: Props) {
   const [keywords, setKeywords] = useState('');
   const [alarmLevel, setAlarmLevel] = useState<AlarmLevel>();
   const [alarmType, setAlarmType] = useState<AlarmType>();
-  // eslint-disable-next-line no-console
-  console.log('PolicyTable ~ alarmType', alarmType);
-  // eslint-disable-next-line no-console
-  console.log('PolicyTable ~ alarmLevel', alarmLevel);
-  // eslint-disable-next-line no-console
-  console.log('PolicyTable ~ keywords', keywords);
+
   const pagination = usePagination();
   const { pageNum, pageSize, setTotalSize } = pagination;
+
   const params: usePolicyListQueryProps = {
     alarmRuleType,
     alarmLevel,
     alarmType,
+    ruleName: keywords,
     pageNum,
     pageSize,
   };
 
-  const { policyList, total, isSuccess } = usePolicyListQuery(params);
+  const { policyList, total, isLoading, isSuccess } =
+    usePolicyListQuery(params);
   if (isSuccess) {
     setTotalSize(total);
   }
-  // eslint-disable-next-line no-console
-  console.log('PolicyTable ~ policyList', policyList);
 
   const columns: ReadonlyArray<Column<Policy>> = [
     {
@@ -204,10 +199,10 @@ export default function PolicyTable({ alarmRuleType }: Props) {
       />
       <Table
         columns={columns}
-        data={mockPolicyData}
+        data={policyList}
         paginationProps={pagination}
         scroll={{ y: '100%' }}
-        isLoading={false}
+        isLoading={isLoading}
         styles={{
           wrapper: {
             flex: 1,

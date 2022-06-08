@@ -39,7 +39,8 @@ interface FormValues {
   alarmType: string;
   alarmRuleType: string;
   alarmLevel: string;
-  alarmSourceObject: 'device' | 'platform';
+  thresholdAlarmSourceObject: 'device';
+  systemAlarmSourceObject: 'platform';
   deviceId: string;
   conditionsOperator: 'or' | 'and';
   deviceConditions: DeviceCondition[];
@@ -65,7 +66,8 @@ export default function BasePolicyModal({
   } = useForm<FormValues>({
     defaultValues: {
       alarmRuleType: '0',
-      alarmSourceObject: 'platform',
+      thresholdAlarmSourceObject: 'device',
+      systemAlarmSourceObject: 'platform',
       conditionsOperator: 'or',
       deviceConditions: [defaultDeviceCondition],
     },
@@ -100,6 +102,9 @@ export default function BasePolicyModal({
       value: 'platform',
     },
   ];
+
+  const isSystemAlarm = watch('alarmRuleType') === '1';
+
   return (
     <Modal
       width="800px"
@@ -166,33 +171,39 @@ export default function BasePolicyModal({
           />
         </FormCard>
         <FormCard title="告警资源">
-          <SelectField<FormValues>
-            id="alarmSourceObject"
-            name="alarmSourceObject"
-            label="告警源对象"
-            placeholder="请选择"
-            options={alarmSourceObjectOptions}
-            control={control}
-            // defaultValue={defaultValues?.alarmSourceObject}
-            error={errors.alarmSourceObject}
-            rules={{
-              required: { value: true, message: '请输入告警源对象' },
-            }}
-          />
-          {watch('alarmSourceObject') === 'device' && (
-            <FormControl id="deviceId" error={errors.deviceId}>
-              <Controller
-                name="deviceId"
+          {isSystemAlarm ? (
+            <SelectField<FormValues>
+              id="systemAlarmSourceObject"
+              name="systemAlarmSourceObject"
+              label="告警源对象"
+              placeholder="请选择"
+              options={[alarmSourceObjectOptions[1]]}
+              control={control}
+            />
+          ) : (
+            <>
+              <SelectField<FormValues>
+                id="thresholdAlarmSourceObject"
+                name="thresholdAlarmSourceObject"
+                label="告警源对象"
+                placeholder="请选择"
+                options={[alarmSourceObjectOptions[0]]}
                 control={control}
-                rules={{ required: { value: true, message: '请选择设备' } }}
-                render={({ field: { onChange } }) => (
-                  <DeviceSelectField
-                    onChange={onChange}
-                    styles={{ wrapper: { marginTop: '32px' } }}
-                  />
-                )}
               />
-            </FormControl>
+              <FormControl id="deviceId" error={errors.deviceId}>
+                <Controller
+                  name="deviceId"
+                  control={control}
+                  rules={{ required: { value: true, message: '请选择设备' } }}
+                  render={({ field: { onChange } }) => (
+                    <DeviceSelectField
+                      onChange={onChange}
+                      styles={{ wrapper: { marginTop: '32px' } }}
+                    />
+                  )}
+                />
+              </FormControl>
+            </>
           )}
         </FormCard>
         <FormCard
@@ -212,7 +223,12 @@ export default function BasePolicyModal({
             borderRadius="4px"
             backgroundColor="gray.100"
           >
-            {watch('alarmSourceObject') === 'device' && (
+            {isSystemAlarm ? (
+              <PlatformRuleDescriptionCard
+                conditions={platformConditions}
+                onChange={setPlatformConditions}
+              />
+            ) : (
               <DeviceRuleDescriptionCard<FormValues>
                 register={register}
                 control={control}
@@ -220,12 +236,6 @@ export default function BasePolicyModal({
                   append(defaultDeviceCondition);
                 }}
                 fieldArrayReturn={fieldArrayReturn}
-              />
-            )}
-            {watch('alarmSourceObject') === 'platform' && (
-              <PlatformRuleDescriptionCard
-                conditions={platformConditions}
-                onChange={setPlatformConditions}
               />
             )}
           </Flex>
