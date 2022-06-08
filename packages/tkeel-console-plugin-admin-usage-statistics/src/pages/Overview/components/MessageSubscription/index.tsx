@@ -10,7 +10,7 @@ import MessageSubscriptionBox from './MessageSubscriptionBox';
 
 const et = getTimestamp();
 const st = dayjs(et).subtract(6, 'day').startOf('day').valueOf();
-const step = '1h';
+const step = '24h';
 
 export default function MessageSubscription() {
   const params = { et, st, step };
@@ -28,10 +28,15 @@ export default function MessageSubscription() {
       />
       <HStack spacing="12px">
         <MessageSubscriptionBox title="上行消息 (条)">
+          14
           {JSON.stringify(item)}
         </MessageSubscriptionBox>
-        <MessageSubscriptionBox title="下行消息 (条)">2</MessageSubscriptionBox>
-        <MessageSubscriptionBox title="订阅消息 (条)">3</MessageSubscriptionBox>
+        <MessageSubscriptionBox title="下行消息 (条)">
+          15
+        </MessageSubscriptionBox>
+        <MessageSubscriptionBox title="订阅消息 (条)">
+          16
+        </MessageSubscriptionBox>
       </HStack>
     </Box>
   );
