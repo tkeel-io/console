@@ -10,13 +10,17 @@ export interface FilterConditionInfo {
 
 type Props = {
   condition: FilterConditionInfo;
-  style?: StyleProps;
+  styles?: {
+    wrapper?: StyleProps;
+    label?: StyleProps;
+    value?: StyleProps;
+  };
   removeCondition: (conditionId: string) => unknown;
 };
 
 export default function FilterConditionTag({
   condition,
-  style,
+  styles,
   removeCondition,
 }: Props) {
   const { id, label, value } = condition;
@@ -32,7 +36,7 @@ export default function FilterConditionTag({
       alignItems="center"
       fontSize="12px"
       lineHeight="24px"
-      {...style}
+      {...styles?.wrapper}
     >
       <Box
         position="absolute"
@@ -47,13 +51,13 @@ export default function FilterConditionTag({
         opacity="0.15"
       />
       {label && (
-        <Text color="primary" fontWeight="500">
+        <Text color="primary" fontWeight="500" {...styles?.label}>
           {label}：
         </Text>
       )}
       {value && (
         <>
-          <Text margin="0 8px 0 3px" color="gray.600">
+          <Text margin="0 8px 0 3px" color="gray.600" {...styles?.value}>
             {value}
           </Text>
           <CloseFilledIcon
