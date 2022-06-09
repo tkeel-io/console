@@ -3901,6 +3901,29 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@tkeel/console-plugin-admin-notification-configs@workspace:packages/tkeel-console-plugin-admin-notification-configs":
+  version: 0.0.0-use.local
+  resolution: "@tkeel/console-plugin-admin-notification-configs@workspace:packages/tkeel-console-plugin-admin-notification-configs"
+  dependencies:
+    "@chakra-ui/react": ^2.1.2
+    "@emotion/react": ^11.9.0
+    "@emotion/styled": ^11.8.1
+    "@tkeel/console-business-components": "workspace:^"
+    "@tkeel/console-components": "workspace:^"
+    "@tkeel/console-hooks": "workspace:^"
+    "@tkeel/console-icons": "workspace:^"
+    "@tkeel/console-types": "workspace:^"
+    "@tkeel/console-utils": "workspace:^"
+    framer-motion: ^6.3.4
+    lodash: ^4.17.21
+    react: ^18.1.0
+    react-dom: ^18.1.0
+    react-hook-form: ^7.31.2
+    react-query: ^3.39.0
+    react-router-dom: ^6.3.0
+  languageName: unknown
+  linkType: soft
+
 "@tkeel/console-plugin-tenant-plugins@workspace:packages/tkeel-console-plugin-tenant-plugins":
   version: 0.0.0-use.local
   resolution: "@tkeel/console-plugin-tenant-plugins@workspace:packages/tkeel-console-plugin-tenant-plugins"
