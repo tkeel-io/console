@@ -1,23 +1,20 @@
 import { Box, HStack } from '@chakra-ui/react';
-import * as dayjs from 'dayjs';
 
 import { useColor } from '@tkeel/console-hooks';
-import { getTimestamp } from '@tkeel/console-utils';
 
 import usePrometheusTKMeterBatchQuery from '@/tkeel-console-plugin-admin-usage-statistics/hooks/queries/usePrometheusTKMeterBatchQuery';
-import { findValues } from '@/tkeel-console-plugin-admin-usage-statistics/utils/query';
+import {
+  findValues,
+  getQueryParamsLast7Days,
+} from '@/tkeel-console-plugin-admin-usage-statistics/utils/query';
 
 import ModuleHeader from '../ModuleHeader';
 import Chart from './Chart';
 import MessageSubscriptionBox from './MessageSubscriptionBox';
 
-const et = getTimestamp();
-const st = dayjs(et).subtract(6, 'day').startOf('day').valueOf();
-const step = '24h';
+const params = getQueryParamsLast7Days();
 
 export default function MessageSubscription() {
-  const params = { et, st, step };
-
   const upstreamMsgColor = useColor('green.300');
   const downstreamMsgColor = useColor('blue.300');
   const subscribeMsgColor = useColor('orange.300');

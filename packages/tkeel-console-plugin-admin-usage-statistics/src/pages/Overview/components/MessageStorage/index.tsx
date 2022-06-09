@@ -1,6 +1,7 @@
 import { Box, Flex, HStack, Text } from '@chakra-ui/react';
 
 import { Tips } from '@tkeel/console-components';
+import { getTimestamp } from '@tkeel/console-utils';
 
 import BaseBox from '@/tkeel-console-plugin-admin-usage-statistics/components/BaseBox';
 import usePrometheusTKMeterBatchQuery from '@/tkeel-console-plugin-admin-usage-statistics/hooks/queries/usePrometheusTKMeterBatchQuery';
@@ -8,8 +9,10 @@ import { findValue } from '@/tkeel-console-plugin-admin-usage-statistics/utils/q
 
 import ModuleHeader from '../ModuleHeader';
 import Block from './Block';
+import Chart from './Chart';
 import MessageStorageItem from './MessageStorageItem';
 
+const END_TIME = getTimestamp();
 const METERS = [
   'msg_storage_days',
   'core_msg_days',
@@ -19,7 +22,7 @@ const METERS = [
 
 export default function MessageStorage() {
   const { isLoading, items } = usePrometheusTKMeterBatchQuery({
-    params: { meters: METERS },
+    params: { et: END_TIME, meters: METERS },
     isWithTenantId: false,
   });
 
@@ -88,7 +91,9 @@ export default function MessageStorage() {
             </HStack>
           </MessageStorageItem>
           <MessageStorageItem title="时序数据库使用统计">
-            <Box>21</Box>
+            <Box height="92px">
+              <Chart />
+            </Box>
           </MessageStorageItem>
         </HStack>
       </BaseBox>

@@ -1,9 +1,19 @@
+import * as dayjs from 'dayjs';
 import { find } from 'lodash';
+
+import { getTimestamp } from '@tkeel/console-utils';
 
 import type {
   QueryItem,
   ValueItem,
 } from '@/tkeel-console-plugin-admin-usage-statistics/types/query';
+
+export function getQueryParamsLast7Days() {
+  const et = getTimestamp();
+  const st = dayjs(et).subtract(6, 'day').startOf('day').valueOf();
+  const step = '24h';
+  return { et, st, step };
+}
 
 interface FindQueryOptions {
   data: QueryItem[];
