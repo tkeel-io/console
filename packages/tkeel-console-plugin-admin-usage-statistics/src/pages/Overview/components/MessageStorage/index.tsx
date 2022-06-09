@@ -58,7 +58,7 @@ export default function MessageStorage() {
                 isLoading={isLoading}
               />
               <Block
-                label="日存储量 (条)"
+                label="24 小时存储量 (条)"
                 value={coreMSgDays}
                 isLoading={isLoading}
               />
