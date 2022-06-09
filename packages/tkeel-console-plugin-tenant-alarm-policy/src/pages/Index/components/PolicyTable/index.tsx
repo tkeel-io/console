@@ -14,6 +14,12 @@ import {
   Table,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
+import type {
+  AlarmLevel,
+  AlarmRuleType,
+  AlarmType,
+  RuleStatus,
+} from '@tkeel/console-types';
 
 import DeletePolicyButton from '@/tkeel-console-plugin-tenant-alarm-policy/components/DeletePolicyButton';
 import ModifyPolicyButton from '@/tkeel-console-plugin-tenant-alarm-policy/components/ModifyPolicyButton';
@@ -23,27 +29,40 @@ import {
   RULE_STATUS_MAP,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/constants';
 import type {
-  AlarmLevel,
-  AlarmRuleType,
-  AlarmType,
   Policy,
+  Props as usePolicyListQueryProps,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
+import usePolicyListQuery from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
 
 import CreatePolicyButton from '../CreatePolicyButton';
 import ViewPolicyDetailButton from '../ViewPolicyDetailButton';
-import mockPolicyData from './mockPolicyData';
 
-export default function PolicyTable() {
+interface Props {
+  alarmRuleType?: AlarmRuleType;
+}
+
+export default function PolicyTable({ alarmRuleType }: Props) {
   const [keywords, setKeywords] = useState('');
-  const [alarmLevel, setAlarmLevel] = useState<number>();
-  const [alarmType, setAlarmType] = useState<number>();
-  // eslint-disable-next-line no-console
-  console.log('PolicyTable ~ alarmType', alarmType);
-  // eslint-disable-next-line no-console
-  console.log('PolicyTable ~ alarmLevel', alarmLevel);
-  // eslint-disable-next-line no-console
-  console.log('PolicyTable ~ keywords', keywords);
+  const [alarmLevel, setAlarmLevel] = useState<AlarmLevel>();
+  const [alarmType, setAlarmType] = useState<AlarmType>();
+
   const pagination = usePagination();
+  const { pageNum, pageSize, setTotalSize } = pagination;
+
+  const params: usePolicyListQueryProps = {
+    alarmRuleType,
+    alarmLevel,
+    alarmType,
+    ruleName: keywords,
+    pageNum,
+    pageSize,
+  };
+
+  const { policyList, total, isLoading, isSuccess } =
+    usePolicyListQuery(params);
+  if (isSuccess) {
+    setTotalSize(total);
+  }
 
   const columns: ReadonlyArray<Column<Policy>> = [
     {
@@ -103,7 +122,7 @@ export default function PolicyTable() {
       Header: '状态',
       accessor: 'enable',
       Cell: useCallback(
-        ({ value }: CellProps<Policy, AlarmRuleType>) => (
+        ({ value }: CellProps<Policy, RuleStatus>) => (
           <Flex alignItems="center">
             <Switch size="sm" />
             <Text marginLeft="8px" color="gray.700" fontSize="12px">
@@ -143,9 +162,15 @@ export default function PolicyTable() {
       <PageHeaderToolbar
         name={
           <Flex>
-            <AlarmLevelSelect onChange={setAlarmLevel} />
+            <AlarmLevelSelect
+              onChange={(level) => {
+                setAlarmLevel(level === -1 ? undefined : level);
+              }}
+            />
             <AlarmTypeSelect
-              onChange={setAlarmType}
+              onChange={(type) => {
+                setAlarmType(type === -1 ? undefined : type);
+              }}
               styles={{ wrapper: { marginLeft: '12px' } }}
             />
           </Flex>
@@ -175,10 +200,10 @@ export default function PolicyTable() {
       />
       <Table
         columns={columns}
-        data={mockPolicyData}
+        data={policyList}
         paginationProps={pagination}
         scroll={{ y: '100%' }}
-        isLoading={false}
+        isLoading={isLoading}
         styles={{
           wrapper: {
             flex: 1,

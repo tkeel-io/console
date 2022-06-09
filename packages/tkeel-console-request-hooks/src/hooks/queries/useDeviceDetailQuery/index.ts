@@ -1,7 +1,6 @@
 import { useQuery } from '@tkeel/console-hooks';
 import { RequestResult } from '@tkeel/console-utils';
 
-const method = 'GET';
 export interface BasicInfo {
   configs?: object;
   mappers?: object;
@@ -33,6 +32,7 @@ export interface RawData {
   type: string;
   values: string;
 }
+
 export interface ConnectInfo {
   _clientId: string;
   _online: boolean;
@@ -43,6 +43,7 @@ export interface ConnectInfo {
   _sockPort: string;
   _userName: string;
 }
+
 export interface SysField {
   _createdAt: number;
   _updatedAt: number;
@@ -63,10 +64,20 @@ export interface Properties {
   connectInfo?: ConnectInfo;
 }
 
+interface TelemetryField {
+  define: Record<string, unknown>;
+  description: string;
+  enabled: boolean;
+  enabled_search: boolean;
+  enabled_time_series: boolean;
+  id: string;
+  last_time: number;
+  name: string;
+  type: 'int' | 'bool' | 'float' | 'double';
+}
+
 export interface TelemetryFields {
-  [propName: string]: {
-    name: string;
-  };
+  [key: string]: TelemetryField;
 }
 
 export interface DeviceObject {
@@ -81,21 +92,21 @@ export interface DeviceObject {
   properties: Properties;
 }
 
-export interface ApiData {
+interface ApiData {
   '@type': string;
   deviceObject?: DeviceObject;
 }
 
 type Props = {
   id: string;
-  onSuccess: (data: RequestResult<ApiData, undefined, undefined>) => void;
+  onSuccess?: (data: RequestResult<ApiData, undefined, undefined>) => void;
 };
 
 export default function useDeviceDetailQuery({ id, onSuccess }: Props) {
   const url = `/tkeel-device/v1/devices/${id}`;
   const { data, ...rest } = useQuery<ApiData>({
     url,
-    method,
+    method: 'GET',
     reactQueryOptions: {
       enabled: !!id,
       onSuccess,

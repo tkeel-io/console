@@ -1,12 +1,21 @@
-import { Flex, Grid, Text } from '@chakra-ui/react';
+import { Box, Flex, StyleProps, Text } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 interface Props {
   title: ReactNode;
   children: ReactNode;
+  styles?: {
+    wrapper?: StyleProps;
+  };
 }
 
-export default function FormCard({ title, children }: Props) {
+export default function FormCard({ title, children, styles }: Props) {
+  const wrapperStyle = styles?.wrapper ?? {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+    gap: '12px',
+  };
+
   return (
     <Flex
       marginBottom="12px"
@@ -28,9 +37,7 @@ export default function FormCard({ title, children }: Props) {
       ) : (
         title
       )}
-      <Grid templateColumns="repeat(2, minmax(0, 1fr))" gap="12px">
-        {children}
-      </Grid>
+      <Box {...wrapperStyle}>{children}</Box>
     </Flex>
   );
 }

@@ -1,6 +1,7 @@
 import { StyleProps, Tag, TagLabel, TagProps } from '@chakra-ui/react';
 
-import type { AlarmLevel } from './constants';
+import type { AlarmLevel } from '@tkeel/console-types';
+
 import { ALARM_LEVEL_INFO_MAP } from './constants';
 
 interface Props extends TagProps {

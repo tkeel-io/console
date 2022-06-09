@@ -46,6 +46,7 @@ export default function TextField({
   const [isPasswordType, setIsPasswordType] = useState(type === 'password');
 
   const hasTogglePasswordButton = type === 'password' && isTogglePassword;
+  const defaultType = hasTogglePasswordButton ? 'text' : type;
 
   const toggleType = () => setIsPasswordType(!isPasswordType);
 
@@ -60,7 +61,7 @@ export default function TextField({
           _placeholder={{ color: 'blackAlpha.500' }}
           _focus={getFocusStyle(!!rest.error)}
           id={id}
-          type={isPasswordType ? 'password' : 'text'}
+          type={isPasswordType ? 'password' : defaultType}
           defaultValue={defaultValue}
           value={value}
           placeholder={placeholder}

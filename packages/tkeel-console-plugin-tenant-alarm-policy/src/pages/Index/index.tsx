@@ -19,12 +19,12 @@ export default function Index() {
     {
       label: '阈值告警',
       key: 'threshold',
-      component: <Flex>threshold</Flex>,
+      component: <PolicyTable alarmRuleType={0} />,
     },
     {
       label: '系统告警',
       key: 'system',
-      component: <Flex>system</Flex>,
+      component: <PolicyTable alarmRuleType={1} />,
     },
   ];
 
@@ -35,7 +35,7 @@ export default function Index() {
         name="告警策略"
         desc="告警策略配置"
       />
-      <Tabs flex="1" display="flex" flexDirection="column">
+      <Tabs flex="1" overflow="hidden" display="flex" flexDirection="column">
         <SegmentedControlTabList
           sx={{ margin: '10px 0', width: 'max-content' }}
         >

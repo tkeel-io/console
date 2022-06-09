@@ -1,10 +1,11 @@
 import { Select, SelectProps } from '@tkeel/console-components';
+import { AlarmLevel, AlarmLevelSelectValue } from '@tkeel/console-types';
 
 import AlarmLevelTag from './AlarmLevelTag';
 import { ALARM_LEVEL_MAP } from './constants';
 
 interface Props extends Omit<SelectProps, 'options' | 'onChange'> {
-  onChange: (level: number) => void;
+  onChange: (level: AlarmLevelSelectValue) => void;
 }
 
 export default function AlarmLevelSelect(props: Props) {
@@ -19,7 +20,9 @@ export default function AlarmLevelSelect(props: Props) {
     <Select
       labelPrefix="级别："
       options={options}
-      onChange={(value) => onChange(Number(value))}
+      onChange={(value) =>
+        onChange(value === '' ? -1 : (Number(value) as AlarmLevel))
+      }
       {...restProps}
     />
   );

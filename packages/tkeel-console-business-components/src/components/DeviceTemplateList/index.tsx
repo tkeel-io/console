@@ -1,13 +1,14 @@
 import { Center, Flex, StyleProps, Text } from '@chakra-ui/react';
+import { ReactNode } from 'react';
 
-import { Loading, NoData, SpreadButton } from '@tkeel/console-components';
+import { Empty, Loading, SpreadButton } from '@tkeel/console-components';
 import { BoxTwoToneIcon } from '@tkeel/console-icons';
 import { TemplateItem } from '@tkeel/console-request-hooks';
 
 type Props = {
   isLoading?: boolean;
-  isShowSpreadButton: boolean;
-  noDataTitle?: string;
+  isShowSpreadButton?: boolean;
+  emptyTitle?: ReactNode;
   templates: TemplateItem[];
   onClick: ({ id, name }: { id: string; name: string }) => unknown;
   styles?: {
@@ -17,14 +18,14 @@ type Props = {
 
 export default function DeviceTemplateList({
   isLoading,
-  isShowSpreadButton,
-  noDataTitle = '暂无设备模板,请重新选择',
+  isShowSpreadButton = true,
+  emptyTitle = '暂无设备模板,请重新选择',
   templates,
   onClick,
   styles,
 }: Props) {
   return (
-    <Flex height="100%" {...styles?.wrapper}>
+    <Flex width="100%" height="100%" {...styles?.wrapper}>
       {(() => {
         if (isLoading) {
           return (
@@ -36,42 +37,47 @@ export default function DeviceTemplateList({
 
         if (templates.length === 0) {
           return (
-            <Center flex="1">
-              <NoData title={noDataTitle} />
-            </Center>
+            <Empty
+              type="component"
+              title={emptyTitle}
+              styles={{
+                wrapper: { flex: 1 },
+              }}
+            />
           );
         }
 
         return templates.map((template, i) => {
+          const { id, properties } = template;
+          const name = properties?.basicInfo?.name ?? '';
           return (
             <Flex
-              key={template.id || i}
+              key={id || i}
               justifyContent="space-between"
               alignItems="center"
               width="100%"
               marginBottom={i === templates.length - 1 ? '0' : '4px'}
               paddingLeft="10px"
-              paddingRight="4px"
+              paddingRight="6px"
               height="32px"
               cursor="pointer"
-              borderRadius="4px"
               _hover={{
-                backgroundColor: 'gray.100',
+                backgroundColor: 'grayAlternatives.50',
                 '.spread-wrapper': {
                   display: 'flex',
                 },
               }}
               onClick={() =>
                 onClick({
-                  id: template.id,
-                  name: template?.properties?.basicInfo?.name,
+                  id,
+                  name,
                 })
               }
             >
               <Flex alignItems="center">
                 <BoxTwoToneIcon size={20} />
                 <Text marginLeft="10px" color="gray.700" fontSize="14px">
-                  {template.properties?.basicInfo?.name ?? ''}
+                  {name}
                 </Text>
               </Flex>
               {isShowSpreadButton && (
