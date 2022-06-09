@@ -3,13 +3,14 @@ import {
   Circle,
   Colors,
   Flex,
+  HStack,
   StyleProps,
   useTheme,
 } from '@chakra-ui/react';
 import { noop } from 'lodash';
 import { ReactNode } from 'react';
 
-import { BookOpenedFilledIcon } from '@tkeel/console-icons';
+import { BookOpenedFilledIcon, RefreshFilledIcon } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
 import SearchInput, {
@@ -20,9 +21,12 @@ import { ButtonWrapper } from './index.styled';
 
 type Props = {
   name?: ReactNode;
+  selectElements?: ReactNode[];
   documentsPath?: string;
   hasSearchInput?: boolean;
+  hasRefreshIcon?: boolean;
   searchInputProps?: SearchInputProps;
+  onRefresh?: () => unknown;
   buttons?: ReactNode[];
   styles?: {
     wrapper?: StyleProps;
@@ -42,9 +46,12 @@ const defaultSearchInputProps = {
 
 function PageHeaderToolbar({
   name,
+  selectElements = [],
   documentsPath = '',
   hasSearchInput = false,
+  hasRefreshIcon = false,
   searchInputProps = defaultSearchInputProps,
+  onRefresh,
   buttons = [],
   styles = {},
 }: Props) {
@@ -85,9 +92,21 @@ function PageHeaderToolbar({
           )}
         </Flex>
       )}
+      {selectElements && selectElements.length > 0 && (
+        <HStack paddingRight="12px" spacing="12px">
+          {selectElements}
+        </HStack>
+      )}
       <Flex flex="1" justifyContent="flex-end">
         {hasSearchInput && <SearchInput {...siProps} />}
       </Flex>
+      {hasRefreshIcon && (
+        <RefreshFilledIcon
+          color="grayAlternatives.300"
+          style={{ marginLeft: '12px', cursor: 'pointer' }}
+          onClick={() => onRefresh && onRefresh()}
+        />
+      )}
       {buttons.length > 0 && (
         <Flex paddingLeft="12px">
           {buttons.map((button, index) => (

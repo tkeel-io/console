@@ -1,9 +1,7 @@
-import { Box, Flex, StyleProps, Text } from '@chakra-ui/react';
+import { Flex, StyleProps, Text } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
-import { Tooltip } from '@tkeel/console-components';
-import { useColor } from '@tkeel/console-hooks';
-import { InformationFilledIcon } from '@tkeel/console-icons';
+import { Tips } from '@tkeel/console-components';
 
 export interface Styles {
   wrapper?: StyleProps;
@@ -24,8 +22,6 @@ export default function PlatformConfigItem({
   formField,
   styles,
 }: Props) {
-  const primaryColor = useColor('primary');
-
   return (
     <Flex flexDirection="column" {...styles?.wrapper}>
       <Flex marginBottom="8px" alignItems="center">
@@ -38,22 +34,7 @@ export default function PlatformConfigItem({
           {title}
         </Text>
         {showInformationIcon && (
-          <Box
-            _hover={{
-              svg: {
-                fill: `${primaryColor} !important`,
-              },
-            }}
-          >
-            <Tooltip
-              label={tooltipLabel}
-              borderWidth="1px"
-              borderStyle="solid"
-              borderColor="gray.100"
-            >
-              <InformationFilledIcon color="gray.300" />
-            </Tooltip>
-          </Box>
+          <Tips label={tooltipLabel} iconColor="gray.300" />
         )}
       </Flex>
       {formField}

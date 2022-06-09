@@ -15,8 +15,8 @@ import {
 import { usePagination } from '@tkeel/console-hooks';
 import {
   ArrowRightFilledIcon,
+  DnsAliasesTowToneIcon,
   LightningFilledIcon,
-  NetworkIcon,
 } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
@@ -55,7 +55,7 @@ export default function Index() {
   return (
     <Flex flexDirection="column" h="100%" padding="8px 20px 20px">
       <PageHeader
-        icon={<NetworkIcon size={40} />}
+        icon={<DnsAliasesTowToneIcon size={40} />}
         name="设备网络管理"
         desc="为物联网设备和物联网平台之间建立一个安全的双向TCP隧道。"
       />

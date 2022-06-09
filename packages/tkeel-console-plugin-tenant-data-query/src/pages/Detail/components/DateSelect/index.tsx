@@ -2,7 +2,7 @@ import type { ManipulateType } from 'dayjs';
 import * as dayjs from 'dayjs';
 import { Dispatch, SetStateAction } from 'react';
 
-import { Select } from '@tkeel/console-components';
+import { DeprecatedSelect } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 
 export enum TimeType {
@@ -58,7 +58,7 @@ export default function DateSelect({
   const borderGrayColor = useColor('gray.200');
 
   return (
-    <Select
+    <DeprecatedSelect
       options={selectOptions}
       onChange={(value) => {
         const timeTypeValue = value as TimeType;

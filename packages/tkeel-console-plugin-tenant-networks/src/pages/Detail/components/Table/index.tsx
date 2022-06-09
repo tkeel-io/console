@@ -6,11 +6,11 @@ import {
   PopoverArrow,
   PopoverBody,
   PopoverContent,
-  PopoverTrigger as OrigPopoverTrigger,
+  PopoverTrigger,
   Text,
   Tooltip,
 } from '@chakra-ui/react';
-import { FC, ReactNode, useCallback, useMemo, useState } from 'react';
+import { ReactNode, useCallback, useMemo, useState } from 'react';
 import { CellProps, Column } from 'react-table';
 
 import { DeviceStatusIcon } from '@tkeel/console-business-components';
@@ -25,7 +25,7 @@ import {
 import { usePagination } from '@tkeel/console-hooks';
 import {
   CodeFilledIcon,
-  NetworkIcon,
+  DnsAliasesTowToneIcon,
   ProtocolHttpFilledIcon,
   ProtocolSshFilledIcon,
   SmartObjectTwoToneIcon,
@@ -39,8 +39,6 @@ import useNetworkListQuery from '@/tkeel-console-plugin-tenant-networks/hooks/qu
 import CreateProxyButton from '../CreateProxyButton';
 import DeleteButton from '../DeleteButton';
 import SwitchProxyButton from '../SwitchProxyButton';
-
-const PopoverTrigger: FC<{ children: React.ReactNode }> = OrigPopoverTrigger;
 
 interface ProxyListItemData {
   id: string;
@@ -136,7 +134,7 @@ export default function Index({ id }: Props) {
         useMemo(
           () => (
             <Flex alignItems="center" justifyContent="space-between">
-              <NetworkIcon size={20} />
+              <DnsAliasesTowToneIcon size={20} />
               <Text color="gray.800" fontWeight="600" marginLeft="8px">
                 {value}
               </Text>
