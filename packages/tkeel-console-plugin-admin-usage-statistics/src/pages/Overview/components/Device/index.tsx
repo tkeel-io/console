@@ -59,7 +59,12 @@ export default function Device() {
                   value={sumDeviceNum}
                   sx={{ paddingRight: '48px' }}
                 />
-                <DeviceItem label="在线率" value={rateOnline} subValue="%" />
+                <DeviceItem
+                  label="在线率"
+                  value={rateOnline}
+                  subValue="%"
+                  subValueFormatter={false}
+                />
               </Flex>
               <Progress value={rateOnline} />
             </Box>
@@ -104,6 +109,7 @@ export default function Device() {
                   label="失败率"
                   value={rateRuleFailure24h}
                   subValue="%"
+                  subValueFormatter={false}
                 />
               </Flex>
               <Progress value={100 - rateRuleFailure24h} restColor="red.300" />

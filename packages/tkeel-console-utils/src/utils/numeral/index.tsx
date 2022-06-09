@@ -1,4 +1,5 @@
 import numeral from 'numeral';
+import type { ReactNode } from 'react';
 
 interface FormatOptions {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -6,17 +7,26 @@ interface FormatOptions {
   formatter?: string;
 }
 
-export function format({ input, formatter = '0,0' }: FormatOptions) {
+export function format({ input, formatter }: FormatOptions) {
   return numeral(input).format(formatter);
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function isValidFormat(input: any) {
-  const type = typeof input;
+interface FormatReactNodeOptions {
+  input: ReactNode;
+  formatter?: boolean | string;
+}
 
-  const isNumber = type === 'number';
-  const isNumberString =
-    type === 'string' && input !== '' && !Number.isNaN(Number(input));
+export function formatReactNode({
+  input,
+  formatter = true,
+}: FormatReactNodeOptions) {
+  if (formatter === false) {
+    return input;
+  }
 
-  return isNumber || isNumberString;
+  if (formatter === true) {
+    return format({ input });
+  }
+
+  return format({ input, formatter });
 }

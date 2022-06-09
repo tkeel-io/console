@@ -8,10 +8,19 @@ interface Props {
   label: ReactNode;
   value: ReactNode;
   subValue?: ReactNode;
+  valueFormatter?: boolean | string;
+  subValueFormatter?: boolean | string;
   sx?: StyleProps;
 }
 
-export default function DeviceItem({ label, value, subValue, sx }: Props) {
+export default function DeviceItem({
+  label,
+  value,
+  subValue,
+  valueFormatter = true,
+  subValueFormatter = true,
+  sx,
+}: Props) {
   return (
     <Box {...sx}>
       <Text
@@ -29,9 +38,7 @@ export default function DeviceItem({ label, value, subValue, sx }: Props) {
           lineHeight="24px"
           color="gray.700"
         >
-          {numeral.isValidFormat(value)
-            ? numeral.format({ input: value })
-            : value}
+          {numeral.formatReactNode({ input: value, formatter: valueFormatter })}
         </Text>
         {subValue && (
           <Text
@@ -40,9 +47,10 @@ export default function DeviceItem({ label, value, subValue, sx }: Props) {
             lineHeight="20px"
             color="gray.500"
           >
-            {numeral.isValidFormat(subValue)
-              ? numeral.format({ input: subValue })
-              : subValue}
+            {numeral.formatReactNode({
+              input: subValue,
+              formatter: subValueFormatter,
+            })}
           </Text>
         )}
       </Flex>

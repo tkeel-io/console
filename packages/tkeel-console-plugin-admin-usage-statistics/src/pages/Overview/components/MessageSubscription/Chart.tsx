@@ -1,7 +1,7 @@
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 
-import { Tooltip, useAxisTick } from '@tkeel/console-charts';
-import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
+import { Tooltip, useAxisProps } from '@tkeel/console-charts';
+import { formatDateTimeByTimestamp, numeral } from '@tkeel/console-utils';
 
 import type { ValueItem } from '@/tkeel-console-plugin-admin-usage-statistics/types/query';
 import { fillDataLast7Days } from '@/tkeel-console-plugin-admin-usage-statistics/utils/data';
@@ -13,7 +13,7 @@ interface Props {
 
 export default function Chart({ data, barColor }: Props) {
   const newData = fillDataLast7Days({ data });
-  const axisTick = useAxisTick();
+  const defaultAxisProps = useAxisProps();
 
   return (
     <ResponsiveContainer width="100%" height="100%">
@@ -28,9 +28,9 @@ export default function Chart({ data, barColor }: Props) {
         barCategoryGap="80%"
       >
         <XAxis
+          {...defaultAxisProps}
           dataKey="timestamp"
           tickLine={false}
-          tick={axisTick}
           tickFormatter={(value) =>
             formatDateTimeByTimestamp({
               timestamp: value as number,
@@ -39,10 +39,11 @@ export default function Chart({ data, barColor }: Props) {
           }
         />
         <YAxis
+          {...defaultAxisProps}
           dataKey="value"
           axisLine={false}
           tickLine={false}
-          tick={axisTick}
+          tickFormatter={(value) => numeral.format({ input: value as number })}
         />
         <Bar dataKey="value" fill={barColor} />
         <Tooltip
@@ -54,7 +55,10 @@ export default function Chart({ data, barColor }: Props) {
             })
           }
           formatter={(value: number) => {
-            return [`${value} 条`, '上行消息'];
+            const res = numeral.format({
+              input: value,
+            });
+            return [`${res} 条`, '上行消息'];
           }}
         />
       </BarChart>
