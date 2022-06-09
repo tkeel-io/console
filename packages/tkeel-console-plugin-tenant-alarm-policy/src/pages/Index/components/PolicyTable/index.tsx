@@ -123,7 +123,12 @@ export default function PolicyTable({ alarmRuleType }: Props) {
     {
       Header: '通知配置',
       Cell: useCallback(() => {
-        return <MailFilledIcon color="primary" />;
+        return (
+          <MailFilledIcon
+            color="primary"
+            style={{ marginLeft: '10px', cursor: 'pointer' }}
+          />
+        );
       }, []),
     },
     {

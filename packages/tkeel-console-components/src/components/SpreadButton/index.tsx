@@ -15,8 +15,8 @@ export default function SpreadButton({ sx, styles }: Props) {
       alignItems="center"
       color="primary"
       fontSize="12px"
-      {...sx}
       {...styles?.root}
+      {...sx}
     >
       <Text marginRight="4px">展开</Text>
       <RightFilledIcon color="primary" />
