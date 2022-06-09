@@ -63,11 +63,11 @@ export default function SegmentedControl({
 
   return (
     <Box
+      width="max-content"
       {...rootProps}
       {...styles.root}
       {...customStyles?.root}
       {...sx}
-      width="max-content"
     >
       {data.map((option) => {
         const radioProps = getRadioProps(option) as SegmentedControlOptionProps;
