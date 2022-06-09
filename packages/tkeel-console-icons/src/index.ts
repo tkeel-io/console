@@ -1,5 +1,6 @@
 export { default as AddFilledIcon } from './components/AddFilledIcon';
 export { default as AlarmLampFilledIcon } from './components/AlarmLampFilledIcon';
+export { default as AlarmLampTwoToneIcon } from './components/AlarmLampTwoToneIcon';
 export { default as AppsAddFilledIcon } from './components/AppsAddFilledIcon';
 export { default as AppsTwoToneIcon } from './components/AppsTwoToneIcon';
 export { default as AppsTwoToneIcon4 } from './components/AppsTwoToneIcon4';
@@ -8,6 +9,7 @@ export { default as ArrowLeftFilledIcon } from './components/ArrowLeftFilledIcon
 export { default as ArrowRightFilledIcon } from './components/ArrowRightFilledIcon';
 export { default as ArrowUpFilledIcon } from './components/ArrowUpFilledIcon';
 export { default as AutoFilledIcon } from './components/AutoFilledIcon';
+export { default as Bell2TwoToneIcon } from './components/Bell2TwoToneIcon';
 export { default as BellFilledIcon } from './components/BellFilledIcon';
 export { default as BellGearTwoToneIcon } from './components/BellGearTwoToneIcon';
 export { default as BellTwoToneIcon } from './components/BellTwoToneIcon';
