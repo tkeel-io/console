@@ -71,7 +71,7 @@ export default function MessageStorage() {
               <Block
                 label="时序可用存储空间"
                 value={msgStorageSpaceUnusedBytes}
-                valueFormatter="0 b"
+                valueFormatter="0.00 b"
                 isLoading={isLoading}
               />
               <Block
