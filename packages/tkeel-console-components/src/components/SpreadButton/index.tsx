@@ -7,20 +7,14 @@ type Props = {
   styles?: {
     root?: StyleProps;
   };
-  className?: string;
 };
 
-export default function SpreadButton({
-  sx,
-  styles,
-  className = 'spread-wrapper',
-}: Props) {
+export default function SpreadButton({ sx, styles }: Props) {
   return (
     <Flex
       alignItems="center"
       color="primary"
       fontSize="12px"
-      className={className}
       {...sx}
       {...styles?.root}
     >
