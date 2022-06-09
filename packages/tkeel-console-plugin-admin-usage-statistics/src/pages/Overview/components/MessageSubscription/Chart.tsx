@@ -39,7 +39,7 @@ export default function Chart({ data, isLoading, barColor }: Props) {
           tickLine={false}
           tickFormatter={(value) =>
             formatDateTimeByTimestamp({
-              timestamp: value as number,
+              timestamp: value - 1,
               template: 'MM-DD',
             })
           }
@@ -56,7 +56,7 @@ export default function Chart({ data, isLoading, barColor }: Props) {
           label="上行消息 (条)"
           labelFormatter={(label: number) =>
             formatDateTimeByTimestamp({
-              timestamp: label,
+              timestamp: label - 1,
               template: 'YYYY-MM-DD',
             })
           }

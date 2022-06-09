@@ -9,10 +9,12 @@ import type {
 } from '@/tkeel-console-plugin-admin-usage-statistics/types/query';
 
 export function getQueryParamsLast7Days() {
-  const et = getTimestamp();
-  const st = dayjs(et).subtract(6, 'day').startOf('day').valueOf();
+  const current = getTimestamp();
+  const et = dayjs(current).startOf('day').valueOf();
+  const st = dayjs(et).subtract(7, 'day').valueOf();
   const step = '24h';
-  return { et, st, step };
+
+  return { st, step };
 }
 
 interface FindQueryOptions {

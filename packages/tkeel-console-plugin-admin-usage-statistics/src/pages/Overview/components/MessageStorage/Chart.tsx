@@ -28,23 +28,14 @@ export default function Chart() {
 
   return (
     <ResponsiveContainer>
-      <BarChart
-        data={newData}
-        margin={{
-          top: 0,
-          right: 0,
-          bottom: 0,
-          left: 0,
-        }}
-        barCategoryGap="80%"
-      >
+      <BarChart data={newData} barCategoryGap="80%">
         <XAxis
           {...defaultAxisProps}
           dataKey="timestamp"
           tickLine={false}
           tickFormatter={(value) =>
             formatDateTimeByTimestamp({
-              timestamp: value as number,
+              timestamp: value - 1,
               template: 'MM-DD',
             })
           }
@@ -60,7 +51,7 @@ export default function Chart() {
           label="消息量 (条)"
           labelFormatter={(label: number) =>
             formatDateTimeByTimestamp({
-              timestamp: label,
+              timestamp: label - 1,
               template: 'YYYY-MM-DD',
             })
           }
