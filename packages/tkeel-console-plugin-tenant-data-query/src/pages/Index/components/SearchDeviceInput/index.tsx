@@ -322,7 +322,11 @@ export default function SearchDeviceInput({
               <FilterConditionTag
                 key={condition.id}
                 condition={condition}
-                style={{ marginRight: '10px' }}
+                styles={{
+                  wrapper: {
+                    marginRight: '10px',
+                  },
+                }}
                 removeCondition={(conditionId) =>
                   handleUpdateCondition({ removeConditionId: conditionId })
                 }
