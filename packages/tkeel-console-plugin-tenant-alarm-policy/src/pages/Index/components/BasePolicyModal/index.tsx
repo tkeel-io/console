@@ -64,6 +64,42 @@ const getDeviceInfo = (deviceInfo: string) => {
   };
 };
 
+const getRequestDeviceConditions = (deviceConditions: DeviceCondition[]) => {
+  return deviceConditions.map((item) => {
+    const {
+      telemetry,
+      time,
+      polymerize,
+      numberOperator,
+      booleanOperator,
+      booleanItem,
+      numberValue,
+    } = item;
+
+    const {
+      id: telemetryId,
+      name: telemetryName,
+      type: telemetryType,
+    } = getTelemetryInfo(telemetry || '{}');
+    // TODO: 遥测属性暂时不支持添加枚举类型值，支持后需要做处理
+    const isBoolean = telemetryType === TelemetryType.Bool;
+    const operator = isBoolean ? booleanOperator : numberOperator;
+    const value = isBoolean ? booleanItem : numberValue;
+
+    return {
+      telemetryId,
+      telemetryName,
+      telemetryType: isBoolean
+        ? RequestTelemetryType.Bool
+        : RequestTelemetryType.Common,
+      time: time as Time,
+      polymerize: polymerize as Polymerize,
+      operator: operator as Operator,
+      value,
+    };
+  });
+};
+
 export default function BasePolicyModal({
   title,
   isOpen,
@@ -98,13 +134,10 @@ export default function BasePolicyModal({
 
   const { append } = fieldArrayReturn;
 
-  // eslint-disable-next-line sonarjs/cognitive-complexity
   const handleConfirm = async () => {
     const result = await trigger();
     if (result) {
       const values = getValues();
-      // eslint-disable-next-line no-console
-      console.log('platformConditions', platformConditions);
       const {
         ruleName,
         alarmType,
@@ -115,39 +148,8 @@ export default function BasePolicyModal({
         deviceConditions,
       } = values;
 
-      const requestDeviceConditions = deviceConditions.map((item) => {
-        const {
-          telemetry,
-          time,
-          polymerize,
-          numberOperator,
-          booleanOperator,
-          booleanItem,
-          numberValue,
-        } = item;
-
-        const {
-          id: telemetryId,
-          name: telemetryName,
-          type: telemetryType,
-        } = getTelemetryInfo(telemetry || '{}');
-        // TODO: 遥测属性暂时不支持添加枚举类型值，支持后需要做处理
-        const isBoolean = telemetryType === TelemetryType.Bool;
-        const operator = isBoolean ? booleanOperator : numberOperator;
-        const value = isBoolean ? booleanItem : numberValue;
-
-        return {
-          telemetryId,
-          telemetryName,
-          telemetryType: isBoolean
-            ? RequestTelemetryType.Bool
-            : RequestTelemetryType.Common,
-          time: time as Time,
-          polymerize: polymerize as Polymerize,
-          operator: operator as Operator,
-          value,
-        };
-      });
+      const requestDeviceConditions =
+        getRequestDeviceConditions(deviceConditions);
 
       let data: RequestData = {
         ruleName,
