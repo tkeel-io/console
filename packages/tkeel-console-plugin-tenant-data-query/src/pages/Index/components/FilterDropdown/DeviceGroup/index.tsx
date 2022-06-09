@@ -50,7 +50,7 @@ export default function DeviceGroup({
             <Text marginLeft="4px" color="gray.800">
               {title}
             </Text>
-            {isShowSpreadButton && <SpreadButton style={{ display: 'none' }} />}
+            {isShowSpreadButton && <SpreadButton sx={{ display: 'none' }} />}
           </TitleWrapper>
         );
       }}
