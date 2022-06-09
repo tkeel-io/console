@@ -20,6 +20,7 @@ const METERS = [
 export default function MessageStorage() {
   const { isLoading, items } = usePrometheusTKMeterBatchQuery({
     params: { meters: METERS },
+    isWithTenantId: false,
   });
 
   const msgStorageDays = findValue({
