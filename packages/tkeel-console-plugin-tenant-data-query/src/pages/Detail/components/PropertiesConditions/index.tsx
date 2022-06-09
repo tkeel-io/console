@@ -10,8 +10,7 @@ import {
 import { Dispatch, SetStateAction } from 'react';
 
 import { SearchInput } from '@tkeel/console-components';
-
-import { TelemetryFields } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceDetailQuery';
+import { TelemetryFields } from '@tkeel/console-request-hooks';
 
 import CustomCheckbox, { CheckboxStatus } from '../CustomCheckbox';
 import CustomTab from '../CustomTab';

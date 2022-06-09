@@ -1,6 +1,6 @@
 import { Flex, Image, StyleProps, Text } from '@chakra-ui/react';
 
-import noDataSvg from '@/tkeel-console-plugin-tenant-data-query/assets/images/no-data.svg';
+import noDataSvg from '@/tkeel-console-components/assets/images/no-data.svg';
 
 type Props = {
   title?: string;
