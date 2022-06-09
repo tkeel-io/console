@@ -11,6 +11,7 @@ import {
 import { FormControl, FormField, Radio } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 import { AddFilledIcon, TrashFilledIcon } from '@tkeel/console-icons';
+import type { TelemetryType } from '@tkeel/console-request-hooks';
 import { useDeviceDetailQuery } from '@tkeel/console-request-hooks';
 
 import {
@@ -19,27 +20,34 @@ import {
   enumOperatorOptions,
   numberOperatorOptions,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/constants';
+import {
+  Operator,
+  Polymerize,
+  Time,
+} from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/mutations/useCreatePolicyMutation';
 
 const { TextField, SelectField } = FormField;
 
+type BooleanOperator = Operator.Eq | Operator.Ne;
+
 export interface DeviceCondition {
-  attribute: string | null;
-  duration?: 0 | 1 | 3 | 5 | null; // minute
-  calculate?: 'avg' | 'max' | 'min' | null;
-  numberOperator?: string | null;
-  enumOperator?: string | null;
+  telemetry: string | null;
+  time?: Time | null;
+  polymerize?: Polymerize | null;
+  numberOperator?: Operator | null;
+  enumOperator?: BooleanOperator | null;
   enumItem?: string | null;
-  booleanOperator?: string | null;
-  booleanItem?: string | null;
-  numberValue?: string | null;
+  booleanOperator?: BooleanOperator | null;
+  booleanItem?: string;
+  numberValue?: string;
 }
 
 export const defaultDeviceCondition: DeviceCondition = {
-  attribute: null,
-  duration: 1,
-  calculate: 'avg',
-  numberOperator: 'gt',
-  numberValue: null,
+  telemetry: null,
+  time: Time.OneMinute,
+  polymerize: Polymerize.Avg,
+  numberOperator: Operator.Gt,
+  numberValue: '',
 };
 
 interface Props<FormValues> {
@@ -49,6 +57,16 @@ interface Props<FormValues> {
   control: Control<FormValues, any>;
   append: () => void;
   fieldArrayReturn: UseFieldArrayReturn<FormValues>;
+}
+
+interface TelemetryInfo {
+  id: string;
+  name: string;
+  type: TelemetryType;
+}
+
+export function getTelemetryInfo(telemetry: string) {
+  return JSON.parse(telemetry) as TelemetryInfo;
 }
 
 export default function DeviceRuleDescriptionCard<FormValues>({
@@ -64,7 +82,7 @@ export default function DeviceRuleDescriptionCard<FormValues>({
   const telemetryOptions = Object.entries(telemetryFields).map(
     ([key, value]) => ({
       label: value.name,
-      value: key,
+      value: JSON.stringify({ id: key, name: value.name, type: value.type }),
     })
   );
 
@@ -92,11 +110,11 @@ export default function DeviceRuleDescriptionCard<FormValues>({
         <Flex alignItems="center" color="gray.700" fontSize="14px">
           <Text>满足</Text>
           <FormControl
-            id="conditionsOperator"
+            id="condition"
             formControlStyle={{ marginBottom: '0', width: 'auto' }}
           >
             <Controller
-              name={'conditionsOperator' as Path<FormValues>}
+              name={'condition' as Path<FormValues>}
               control={control}
               render={({ field: { onChange, value } }) => (
                 <RadioGroup
@@ -139,13 +157,17 @@ export default function DeviceRuleDescriptionCard<FormValues>({
         {fields.map((item, i) => {
           /* eslint-disable @typescript-eslint/no-unsafe-member-access */
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          const { attribute, duration } = output[i] || {};
+          const { telemetry, time } = output[i] || {};
+
+          const { id: telemetryId } = getTelemetryInfo(
+            (telemetry as string) || '{}'
+          );
           /* eslint-enable */
-          const { type, define } = telemetryFields[attribute as string] || {};
+          const { type, define } = telemetryFields[telemetryId] || {};
           const typeIsNumber = ['int', 'float', 'double'].includes(
             type as string
           );
-          const attributeIsNumber = !attribute || typeIsNumber;
+          const attributeIsNumber = !telemetryId || typeIsNumber;
 
           // TODO: 遥测属性暂时不支持添加枚举类型值，支持后需要做处理
           const attributeIsEnum = false;
@@ -159,7 +181,7 @@ export default function DeviceRuleDescriptionCard<FormValues>({
             .filter(({ value }) => value !== 'ext');
 
           const attributeId =
-            `deviceConditions.${i}.attribute` as Path<FormValues>;
+            `deviceConditions.${i}.telemetry` as Path<FormValues>;
           return (
             <HStack
               key={item.id}
@@ -193,22 +215,22 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                 formControlStyle={{
                   marginBottom: '0',
                   flexShrink: 0,
-                  width: '156px',
+                  width: '140px',
                 }}
               />
               {attributeIsNumber && (
                 <>
                   <SelectField<FormValues>
-                    id={getFieldId(i, 'duration')}
-                    name={getFieldId(i, 'duration')}
+                    id={getFieldId(i, 'time')}
+                    name={getFieldId(i, 'time')}
                     placeholder="请选择"
                     options={durationOptions}
                     {...selectProps}
                   />
-                  {duration !== 0 && (
+                  {time !== Time.Immediate && (
                     <SelectField<FormValues>
-                      id={getFieldId(i, 'calculate')}
-                      name={getFieldId(i, 'calculate')}
+                      id={getFieldId(i, 'polymerize')}
+                      name={getFieldId(i, 'polymerize')}
                       placeholder="请选择"
                       options={calculateOptions}
                       {...selectProps}
@@ -223,6 +245,10 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                   placeholder="运算符"
                   options={numberOperatorOptions}
                   {...selectProps}
+                  formControlStyle={{
+                    flexShrink: 0,
+                    width: '122px',
+                  }}
                 />
               )}
               {attributeIsEnum && (

@@ -8,16 +8,26 @@ import {
   Modal,
   RadioButton,
 } from '@tkeel/console-components';
+import { TelemetryType } from '@tkeel/console-request-hooks';
+import { AlarmSourceObject } from '@tkeel/console-types';
 
 import {
   ALARM_LEVEL_OPTIONS,
   ALARM_RULE_TYPE_MAP_OPTIONS,
   ALARM_TYPE_OPTIONS,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/constants';
+import {
+  Condition,
+  Operator,
+  Polymerize,
+  RequestData,
+  Time,
+} from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/mutations/useCreatePolicyMutation';
 
 import type { DeviceCondition } from '../DeviceRuleDescriptionCard';
 import DeviceRuleDescriptionCard, {
   defaultDeviceCondition,
+  getTelemetryInfo,
 } from '../DeviceRuleDescriptionCard';
 import DeviceSelectField from '../DeviceSelectField';
 import FormCard from '../FormCard';
@@ -31,18 +41,21 @@ type Props = {
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm: (data: RequestData) => void;
 };
 
 interface FormValues {
-  name: string;
+  ruleName: string;
   alarmType: string;
   alarmRuleType: string;
   alarmLevel: string;
   thresholdAlarmSourceObject: 'device';
   systemAlarmSourceObject: 'platform';
-  deviceId: string;
-  conditionsOperator: 'or' | 'and';
+  deviceInfo: {
+    id: string;
+    name: string;
+  };
+  condition: Condition;
   deviceConditions: DeviceCondition[];
 }
 
@@ -68,7 +81,7 @@ export default function BasePolicyModal({
       alarmRuleType: '0',
       thresholdAlarmSourceObject: 'device',
       systemAlarmSourceObject: 'platform',
-      conditionsOperator: 'or',
+      condition: Condition.Or,
       deviceConditions: [defaultDeviceCondition],
     },
   });
@@ -88,8 +101,63 @@ export default function BasePolicyModal({
       console.log('values', values);
       // eslint-disable-next-line no-console
       console.log('platformConditions', platformConditions);
+      const {
+        ruleName,
+        alarmType,
+        alarmRuleType,
+        alarmLevel,
+        deviceInfo,
+        condition,
+        deviceConditions,
+      } = values;
+
+      const requestDeviceConditions = deviceConditions.map((item) => {
+        const {
+          telemetry,
+          time,
+          polymerize,
+          numberOperator,
+          booleanOperator,
+          booleanItem,
+          numberValue,
+        } = item;
+
+        const {
+          id: telemetryId,
+          name: telemetryName,
+          type: telemetryType,
+        } = getTelemetryInfo(telemetry || '{}');
+        // TODO: 遥测属性暂时不支持添加枚举类型值，支持后需要做处理
+        const isBoolean = telemetryType === TelemetryType.Bool;
+        const operator = isBoolean ? booleanOperator : numberOperator;
+        const value = isBoolean ? booleanItem : numberValue;
+
+        return {
+          telemetryId,
+          telemetryName,
+          time: time as Time,
+          polymerize: polymerize as Polymerize,
+          operator: operator as Operator,
+          value,
+        };
+      });
+
+      onConfirm({
+        ruleName,
+        alarmType: Number(alarmType),
+        alarmRuleType: Number(alarmRuleType),
+        alarmLevel: Number(alarmLevel),
+        alarmSourceObject:
+          alarmRuleType === '0'
+            ? AlarmSourceObject.Device
+            : AlarmSourceObject.Platform,
+        deviceId: deviceInfo.id,
+        deviceName: deviceInfo.name,
+        // platformAlarmRule:,
+        deviceCondition: requestDeviceConditions,
+        condition,
+      });
     }
-    onConfirm();
   };
 
   const thresholdAlarmSourceObjectOptions = [
@@ -126,10 +194,10 @@ export default function BasePolicyModal({
       >
         <FormCard title="告警信息">
           <TextField
-            id="name"
+            id="ruleName"
             label="告警策略名称"
-            error={errors.name}
-            registerReturn={register('name', {
+            error={errors.ruleName}
+            registerReturn={register('ruleName', {
               required: { value: true, message: '请输入告警策略名称' },
             })}
           />
@@ -193,9 +261,9 @@ export default function BasePolicyModal({
                 options={thresholdAlarmSourceObjectOptions}
                 control={control}
               />
-              <FormControl id="deviceId" error={errors.deviceId}>
+              <FormControl id="deviceInfo" error={errors.deviceInfo?.id}>
                 <Controller
-                  name="deviceId"
+                  name="deviceInfo"
                   control={control}
                   rules={{ required: { value: true, message: '请选择设备' } }}
                   render={({ field: { onChange } }) => (
@@ -233,7 +301,7 @@ export default function BasePolicyModal({
               />
             ) : (
               <DeviceRuleDescriptionCard<FormValues>
-                deviceId={watch('deviceId')}
+                deviceId={watch('deviceInfo')?.id}
                 register={register}
                 control={control}
                 append={() => {

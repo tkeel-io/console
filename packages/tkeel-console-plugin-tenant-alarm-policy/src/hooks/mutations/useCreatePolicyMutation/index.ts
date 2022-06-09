@@ -14,8 +14,43 @@ export interface ApiData {
 
 const method = 'POST';
 
-type RequestData = {
-  ruleId: string;
+export enum Time {
+  Immediate,
+  OneMinute,
+  ThreeMinutes,
+  FiveMinutes,
+}
+
+export enum Polymerize {
+  Avg = 'avg',
+  Max = 'max',
+  Min = 'min',
+}
+
+export enum Operator {
+  Eq = 'eq',
+  Ne = 'ne',
+  Gt = 'gt',
+  Lt = 'lt',
+  Ge = 'ge',
+  Le = 'le',
+}
+
+interface DeviceConditionItem {
+  telemetryId: string;
+  telemetryName: string;
+  time?: Time;
+  polymerize?: Polymerize;
+  operator: Operator;
+  value?: string;
+}
+
+export enum Condition {
+  Or = 'or',
+  And = 'and',
+}
+
+export interface RequestData {
   ruleName: string;
   alarmType: AlarmType;
   alarmRuleType: AlarmRuleType;
@@ -23,23 +58,22 @@ type RequestData = {
   alarmSourceObject: AlarmSourceObject;
   deviceId: string;
   deviceName: string;
-  telemetryId: string;
-  // platformAlarmRule;
-  // deviceCondition;
-  condition: 'or' | 'and'; // 条件 or | and
-  telemetryType: 0 | 1 | 2; // 0：枚举；1：布尔；2：普通
-};
+  platformAlarmRule?: Record<string, string>;
+  deviceCondition?: DeviceConditionItem[];
+  condition: Condition;
+}
 
-type Props = {
+interface Props {
   onSuccess: (
     data: RequestResult<ApiData, undefined, RequestData>,
     variables: unknown,
     context: unknown
   ) => void | Promise<unknown>;
-};
+}
 
 export default function useCreatePolicyMutation({ onSuccess }: Props) {
   return useMutation<ApiData, undefined, RequestData>({
+    url: '/tkeel-alarm/v1/rule/create',
     method,
     reactQueryOptions: {
       onSuccess,

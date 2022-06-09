@@ -64,6 +64,13 @@ export interface Properties {
   connectInfo?: ConnectInfo;
 }
 
+export enum TelemetryType {
+  Int = 'int',
+  Bool = 'bool',
+  Float = 'float',
+  Double = 'double',
+}
+
 interface TelemetryField {
   define: Record<string, unknown>;
   description: string;
@@ -73,7 +80,7 @@ interface TelemetryField {
   id: string;
   last_time: number;
   name: string;
-  type: 'int' | 'bool' | 'float' | 'double';
+  type: TelemetryType;
 }
 
 export interface TelemetryFields {

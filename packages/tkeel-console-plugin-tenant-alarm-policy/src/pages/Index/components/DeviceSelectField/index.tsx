@@ -13,7 +13,7 @@ import {
 import TemplateDeviceList from '../TemplateDeviceList';
 
 interface Props {
-  onChange: (id: string) => void;
+  onChange: ({ id, name }: { id: string; name: string }) => void;
   styles?: {
     wrapper?: StyleProps;
   };
@@ -136,7 +136,7 @@ export default function DeviceSelectField({ onChange, styles }: Props) {
               devices={deviceList}
               onBackBtnClick={() => setTemplateId('')}
               onClick={({ id, name }) => {
-                onChange(id);
+                onChange({ id, name });
                 setDeviceCondition({
                   id,
                   label: '',
