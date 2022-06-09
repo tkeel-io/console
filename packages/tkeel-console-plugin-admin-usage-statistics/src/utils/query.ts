@@ -1,6 +1,9 @@
 import { find } from 'lodash';
 
-import type { QueryItem } from '@/tkeel-console-plugin-admin-usage-statistics/types/query';
+import type {
+  QueryItem,
+  ValueItem,
+} from '@/tkeel-console-plugin-admin-usage-statistics/types/query';
 
 interface FindQueryOptions {
   data: QueryItem[];
@@ -12,8 +15,6 @@ export function findQueryItem({ data, query }: FindQueryOptions) {
 }
 
 interface FindValueOptions extends FindQueryOptions {
-  data: QueryItem[];
-  query: string;
   defaultValue?: number;
 }
 
@@ -21,4 +22,18 @@ export function findValue({ data, query, defaultValue = 0 }: FindValueOptions) {
   const item = findQueryItem({ data, query });
 
   return item?.result[0]?.value?.value ?? defaultValue;
+}
+
+interface FindValuesOptions extends FindQueryOptions {
+  defaultValue?: ValueItem[];
+}
+
+export function findValues({
+  data,
+  query,
+  defaultValue = [],
+}: FindValuesOptions) {
+  const item = findQueryItem({ data, query });
+
+  return item?.result[0]?.values ?? defaultValue;
 }

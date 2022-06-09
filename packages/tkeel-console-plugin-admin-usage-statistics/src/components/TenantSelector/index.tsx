@@ -25,7 +25,7 @@ export default function TenantSelector({ value, onChange }: Props) {
       options={options}
       value={value}
       labelPrefix="租户空间："
-      styles={{ wrapper: { width: '200px' } }}
+      styles={{ wrapper: { width: '200px', backgroundColor: 'white' } }}
       onChange={onChange}
     />
   );

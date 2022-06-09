@@ -1,3 +1,4 @@
+import { Skeleton } from '@chakra-ui/react';
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 
 import { Tooltip, useAxisProps } from '@tkeel/console-charts';
@@ -8,21 +9,26 @@ import { fillDataLast7Days } from '@/tkeel-console-plugin-admin-usage-statistics
 
 interface Props {
   data: ValueItem[];
+  isLoading?: boolean;
   barColor: string;
 }
 
-export default function Chart({ data, barColor }: Props) {
+export default function Chart({ data, isLoading, barColor }: Props) {
   const newData = fillDataLast7Days({ data });
   const defaultAxisProps = useAxisProps();
 
+  if (isLoading) {
+    return <Skeleton height="100%" />;
+  }
+
   return (
-    <ResponsiveContainer width="100%" height="100%">
+    <ResponsiveContainer>
       <BarChart
         data={newData}
         margin={{
           top: 20,
           right: 32,
-          bottom: 16,
+          bottom: 0,
           left: 0,
         }}
         barCategoryGap="80%"
