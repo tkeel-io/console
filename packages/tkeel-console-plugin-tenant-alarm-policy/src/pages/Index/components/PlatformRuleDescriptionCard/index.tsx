@@ -4,6 +4,8 @@ import { ChangeEvent } from 'react';
 import { Checkbox } from '@tkeel/console-components';
 import { CheckFilledIcon } from '@tkeel/console-icons';
 
+import usePlatformRulesQuery from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePlatformRulesQuery';
+
 export interface PlatformCondition {
   label: string;
   value: string;
@@ -18,20 +20,17 @@ export default function PlatformRuleDescriptionCard({
   conditions,
   onChange,
 }: Props) {
+  const { platformRules } = usePlatformRulesQuery();
+  // eslint-disable-next-line no-console
+  console.log('platformRules', platformRules);
+
   const data = [
-    {
-      label: '当前账号每秒发送设备的请求达到上限',
-      value: '当前账号每秒发送设备的请求达到上限',
-    },
-    {
-      label: '边端应用升级失败',
-      value: '边端应用升级失败',
-    },
-    {
-      label: '驱动安装失败',
-      value: '驱动安装失败',
-    },
-  ];
+    { id: 1001, alarmDesc: '登录异常', promQl: "xxx_1111{'sss'=222}" },
+    { id: 1002, alarmDesc: '每秒上报次数', promQl: "xxx_3333{'sss'=333}" },
+  ].map(({ alarmDesc, promQl }) => ({
+    label: alarmDesc,
+    value: promQl,
+  }));
 
   const handleConditionClick = (condition: PlatformCondition) => {
     const { value } = condition;

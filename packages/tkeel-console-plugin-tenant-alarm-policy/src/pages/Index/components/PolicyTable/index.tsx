@@ -14,9 +14,11 @@ import {
   Table,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
+import { MailFilledIcon } from '@tkeel/console-icons';
 import type {
   AlarmLevel,
   AlarmRuleType,
+  AlarmSourceObject,
   AlarmType,
   RuleStatus,
 } from '@tkeel/console-types';
@@ -97,6 +99,12 @@ export default function PolicyTable({ alarmRuleType }: Props) {
     {
       Header: '告警源对象',
       accessor: 'alarmSourceObject',
+      Cell: useCallback(
+        ({ value }: CellProps<Policy, AlarmSourceObject>) => (
+          <Box>{value === 0 ? '平台' : '设备'}</Box>
+        ),
+        []
+      ),
     },
     {
       Header: '规则描述',
@@ -115,7 +123,7 @@ export default function PolicyTable({ alarmRuleType }: Props) {
     {
       Header: '通知配置',
       Cell: useCallback(() => {
-        return <Flex>通知配置 icon</Flex>;
+        return <MailFilledIcon color="primary" />;
       }, []),
     },
     {

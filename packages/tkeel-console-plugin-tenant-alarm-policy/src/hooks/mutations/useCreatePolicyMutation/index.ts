@@ -36,9 +36,16 @@ export enum Operator {
   Le = 'le',
 }
 
+export enum TelemetryType {
+  Enum,
+  Bool,
+  Common,
+}
+
 interface DeviceConditionItem {
   telemetryId: string;
   telemetryName: string;
+  telemetryType: TelemetryType;
   time?: Time;
   polymerize?: Polymerize;
   operator: Operator;
@@ -56,8 +63,8 @@ export interface RequestData {
   alarmRuleType: AlarmRuleType;
   alarmLevel: AlarmLevel;
   alarmSourceObject: AlarmSourceObject;
-  deviceId: string;
-  deviceName: string;
+  deviceId?: string;
+  deviceName?: string;
   platformAlarmRule?: Record<string, string>;
   deviceCondition?: DeviceConditionItem[];
   condition: Condition;

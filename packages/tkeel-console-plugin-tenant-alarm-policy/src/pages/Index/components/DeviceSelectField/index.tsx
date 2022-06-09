@@ -13,7 +13,7 @@ import {
 import TemplateDeviceList from '../TemplateDeviceList';
 
 interface Props {
-  onChange: ({ id, name }: { id: string; name: string }) => void;
+  onChange: (deviceInfo: string) => void;
   styles?: {
     wrapper?: StyleProps;
   };
@@ -67,6 +67,13 @@ export default function DeviceSelectField({ onChange, styles }: Props) {
     }
   };
 
+  const filterConditionTagStyles = {
+    value: {
+      maxWidth: '70px',
+      noOfLines: 1,
+    },
+  };
+
   return (
     <Flex
       height="40px"
@@ -98,7 +105,9 @@ export default function DeviceSelectField({ onChange, styles }: Props) {
               removeCondition={() => {
                 setTemplateId('');
                 setTemplateCondition(null);
+                onChange('{}');
               }}
+              styles={filterConditionTagStyles}
             />
           )}
           {deviceCondition && (
@@ -107,6 +116,7 @@ export default function DeviceSelectField({ onChange, styles }: Props) {
               removeCondition={() => {
                 setDeviceCondition(null);
               }}
+              styles={filterConditionTagStyles}
             />
           )}
         </Flex>
@@ -136,7 +146,7 @@ export default function DeviceSelectField({ onChange, styles }: Props) {
               devices={deviceList}
               onBackBtnClick={() => setTemplateId('')}
               onClick={({ id, name }) => {
-                onChange({ id, name });
+                onChange(JSON.stringify({ id, name }));
                 setDeviceCondition({
                   id,
                   label: '',

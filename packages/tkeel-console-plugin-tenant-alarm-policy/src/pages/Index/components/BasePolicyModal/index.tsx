@@ -9,7 +9,7 @@ import {
   RadioButton,
 } from '@tkeel/console-components';
 import { TelemetryType } from '@tkeel/console-request-hooks';
-import { AlarmSourceObject } from '@tkeel/console-types';
+import { AlarmRuleType, AlarmSourceObject } from '@tkeel/console-types';
 
 import {
   ALARM_LEVEL_OPTIONS,
@@ -21,6 +21,7 @@ import {
   Operator,
   Polymerize,
   RequestData,
+  TelemetryType as RequestTelemetryType,
   Time,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/mutations/useCreatePolicyMutation';
 
@@ -51,13 +52,17 @@ interface FormValues {
   alarmLevel: string;
   thresholdAlarmSourceObject: 'device';
   systemAlarmSourceObject: 'platform';
-  deviceInfo: {
-    id: string;
-    name: string;
-  };
+  deviceInfo: string;
   condition: Condition;
   deviceConditions: DeviceCondition[];
 }
+
+const getDeviceInfo = (deviceInfo: string) => {
+  return (deviceInfo ? JSON.parse(deviceInfo) : { id: '', name: '' }) as {
+    id: string;
+    name: string;
+  };
+};
 
 export default function BasePolicyModal({
   title,
@@ -93,12 +98,11 @@ export default function BasePolicyModal({
 
   const { append } = fieldArrayReturn;
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   const handleConfirm = async () => {
     const result = await trigger();
     if (result) {
       const values = getValues();
-      // eslint-disable-next-line no-console
-      console.log('values', values);
       // eslint-disable-next-line no-console
       console.log('platformConditions', platformConditions);
       const {
@@ -135,6 +139,9 @@ export default function BasePolicyModal({
         return {
           telemetryId,
           telemetryName,
+          telemetryType: isBoolean
+            ? RequestTelemetryType.Bool
+            : RequestTelemetryType.Common,
           time: time as Time,
           polymerize: polymerize as Polymerize,
           operator: operator as Operator,
@@ -142,7 +149,7 @@ export default function BasePolicyModal({
         };
       });
 
-      onConfirm({
+      let data: RequestData = {
         ruleName,
         alarmType: Number(alarmType),
         alarmRuleType: Number(alarmRuleType),
@@ -151,12 +158,31 @@ export default function BasePolicyModal({
           alarmRuleType === '0'
             ? AlarmSourceObject.Device
             : AlarmSourceObject.Platform,
-        deviceId: deviceInfo.id,
-        deviceName: deviceInfo.name,
-        // platformAlarmRule:,
-        deviceCondition: requestDeviceConditions,
         condition,
-      });
+      };
+
+      if (Number(alarmRuleType) === AlarmRuleType.System) {
+        const platformAlarmRule: Record<string, string> = {};
+
+        platformConditions.forEach(({ label, value }) => {
+          platformAlarmRule[label] = value;
+        });
+
+        data = {
+          ...data,
+          platformAlarmRule,
+        };
+      } else {
+        const { id: deviceId, name: deviceName } = getDeviceInfo(deviceInfo);
+        data = {
+          ...data,
+          deviceId,
+          deviceName,
+          deviceCondition: requestDeviceConditions,
+        };
+      }
+
+      onConfirm(data);
     }
   };
 
@@ -261,7 +287,7 @@ export default function BasePolicyModal({
                 options={thresholdAlarmSourceObjectOptions}
                 control={control}
               />
-              <FormControl id="deviceInfo" error={errors.deviceInfo?.id}>
+              <FormControl id="deviceInfo" error={errors.deviceInfo}>
                 <Controller
                   name="deviceInfo"
                   control={control}
@@ -301,7 +327,7 @@ export default function BasePolicyModal({
               />
             ) : (
               <DeviceRuleDescriptionCard<FormValues>
-                deviceId={watch('deviceInfo')?.id}
+                deviceId={getDeviceInfo(watch('deviceInfo'))?.id}
                 register={register}
                 control={control}
                 append={() => {

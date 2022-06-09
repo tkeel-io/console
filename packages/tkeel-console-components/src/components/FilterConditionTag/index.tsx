@@ -49,6 +49,7 @@ export default function FilterConditionTag({
         borderRadius="4px"
         backgroundColor="primary"
         opacity="0.15"
+        title={value}
       />
       {label && (
         <Text color="primary" fontWeight="500" {...styles?.label}>
