@@ -25,9 +25,7 @@ export default function MessageSubscriptionBox({ title, children }: Props) {
           {title}
         </Text>
       </Flex>
-      <Box height="184px" padding="18px 30px 10px 0">
-        {children}
-      </Box>
+      <Box height="184px">{children}</Box>
     </BaseBox>
   );
 }

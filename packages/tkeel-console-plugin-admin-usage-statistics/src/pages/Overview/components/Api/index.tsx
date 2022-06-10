@@ -3,20 +3,30 @@ import { useState } from 'react';
 
 import BaseBox from '@/tkeel-console-plugin-admin-usage-statistics/components/BaseBox';
 import usePrometheusTKMeterBatchQuery from '@/tkeel-console-plugin-admin-usage-statistics/hooks/queries/usePrometheusTKMeterBatchQuery';
+import { findValueInResults } from '@/tkeel-console-plugin-admin-usage-statistics/utils/query';
 
 import ModuleHeader from '../ModuleHeader';
-import { DEFAULT_VALUE } from './constants';
+import { DEFAULT_VALUE, OPTIONS } from './constants';
 import FrequencyChart from './FrequencyChart';
 import RadioGroup from './RadioGroup';
 import TimeChart from './TimeChart';
 
-const METERS = ['sum_tkapi_request_7d', 'avg_tkapi_request_latency_7d'];
+const METERS = OPTIONS.map(({ value }) => value);
 
 export default function Api() {
   const [value, setValue] = useState(DEFAULT_VALUE);
-  usePrometheusTKMeterBatchQuery({
+  const { isLoading, results } = usePrometheusTKMeterBatchQuery({
     params: { meters: METERS },
-    isWithTenantId: false,
+  });
+  const options = OPTIONS.map((option) => {
+    const { value: query } = option;
+    const content = findValueInResults({
+      data: results,
+      query,
+      defaults: 0,
+    });
+
+    return { ...option, content };
   });
 
   return (
@@ -28,7 +38,9 @@ export default function Api() {
       />
       <BaseBox sx={{ display: 'flex' }}>
         <RadioGroup
+          options={options}
           defaultValue={DEFAULT_VALUE}
+          isLoading={isLoading}
           sx={{ padding: '28px 32px' }}
           onChange={(val) => setValue(val as string)}
         />

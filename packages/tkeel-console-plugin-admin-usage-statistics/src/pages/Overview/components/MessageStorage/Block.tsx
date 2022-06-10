@@ -1,5 +1,5 @@
 import type { StyleProps } from '@chakra-ui/react';
-import { Box, Flex, Skeleton, Text } from '@chakra-ui/react';
+import { Box, Flex, Skeleton } from '@chakra-ui/react';
 import type { ReactNode } from 'react';
 
 import { numeral } from '@tkeel/console-utils';
@@ -36,22 +36,22 @@ export default function Block({
       {...sx}
     >
       <Box>
-        <Text
+        <Box
           paddingBottom="4px"
           fontSize="12px"
           lineHeight="16px"
           color="gray.500"
         >
           {label}
-        </Text>
-        <Text
+        </Box>
+        <Box
           fontWeight="500"
           fontSize="20px"
           lineHeight="24px"
           color="gray.700"
         >
           {numeral.formatReactNode({ input: value, formatter: valueFormatter })}
-        </Text>
+        </Box>
       </Box>
     </Flex>
   );
