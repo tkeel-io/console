@@ -45,8 +45,7 @@ export default function Chart() {
           {...defaultXAxisProps}
           xAxisId={123}
           orientation="top"
-          height={0}
-          // axisLine={false}
+          height={1}
           tickLine={false}
           tick={false}
         />
@@ -56,6 +55,14 @@ export default function Chart() {
           allowDecimals={false}
           tickLine={false}
           tickFormatter={(value) => numeral.format({ input: value as number })}
+        />
+        <YAxis
+          {...defaultYAxisProps}
+          yAxisId={123}
+          orientation="right"
+          width={1}
+          tickLine={false}
+          tick={false}
         />
         <Bar dataKey="value" fill={fill} />
         <Tooltip
