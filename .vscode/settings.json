@@ -18,6 +18,7 @@
     "@/tkeel-console-plugin-tenant-device-templates": "${workspaceFolder}/packages/tkeel-console-plugin-tenant-device-templates/src",
     "@/tkeel-console-plugin-tenant-devices": "${workspaceFolder}/packages/tkeel-console-plugin-tenant-devices/src",
     "@/tkeel-console-plugin-tenant-networks": "${workspaceFolder}/packages/tkeel-console-plugin-tenant-networks/src",
+    "@/tkeel-console-plugin-admin-notification-configs": "${workspaceFolder}/packages/tkeel-console-plugin-admin-notification-configs/src",
     "@/tkeel-console-plugin-tenant-plugins": "${workspaceFolder}/packages/tkeel-console-plugin-tenant-plugins/src",
     "@/tkeel-console-plugin-tenant-roles": "${workspaceFolder}/packages/tkeel-console-plugin-tenant-roles/src",
     "@/tkeel-console-plugin-tenant-routing-rules": "${workspaceFolder}/packages/tkeel-console-plugin-tenant-routing-rules/src",

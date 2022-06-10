@@ -1,13 +1,16 @@
-import { DeviceItem, TreeNodeType } from '@tkeel/console-request-hooks';
+import { DeviceTemplateList } from '@tkeel/console-business-components';
+import {
+  DeviceItem,
+  TemplateItem,
+  TreeNodeType,
+} from '@tkeel/console-request-hooks';
 
 import SearchEmpty from '@/tkeel-console-plugin-tenant-data-query/components/SearchEmpty';
 import { StatusSelectProps } from '@/tkeel-console-plugin-tenant-data-query/components/StatusSelect';
-import { Template } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceTemplatesQuery';
 
 import DeviceGroup from '../DeviceGroup';
 import DeviceList from '../DeviceList';
 import DeviceListTitle from '../DeviceListTitle';
-import DeviceTemplates, { OnTemplateClick } from '../DeviceTemplates';
 import Label from '../Label';
 import ListWrapper from '../ListWrapper';
 
@@ -23,9 +26,9 @@ type Props = StatusSelectProps & {
   isDeviceListLoading: boolean;
   deviceList: DeviceItem[];
   onDeviceListBackBtnClick: () => unknown;
-  onTemplateClick: OnTemplateClick;
+  onTemplateClick: ({ id, name }: { id: string; name: string }) => unknown;
   showDeviceTemplates: boolean;
-  templates: Template[];
+  templates: TemplateItem[];
   isDeviceTemplatesLoading: boolean;
   onDeviceGroupTitleClick: ({
     groupId,
@@ -100,10 +103,10 @@ function ResultContent({
         <ListWrapper
           loading={isDeviceTemplatesLoading}
           content={
-            <DeviceTemplates
+            <DeviceTemplateList
               isShowSpreadButton={isShowSpreadButton}
               templates={templates}
-              onTemplateClick={onTemplateClick}
+              onClick={onTemplateClick}
             />
           }
         />

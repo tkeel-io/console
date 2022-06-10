@@ -3,12 +3,16 @@ import { Flex, StyleProps, Text } from '@chakra-ui/react';
 import { RightFilledIcon } from '@tkeel/console-icons';
 
 type Props = {
-  style?: StyleProps;
+  sx?: StyleProps;
+  styles?: {
+    root?: StyleProps;
+  };
   className?: string;
 };
 
 export default function SpreadButton({
-  style,
+  sx,
+  styles,
   className = 'spread-wrapper',
 }: Props) {
   return (
@@ -17,7 +21,8 @@ export default function SpreadButton({
       color="primary"
       fontSize="12px"
       className={className}
-      {...style}
+      {...sx}
+      {...styles?.root}
     >
       <Text marginRight="4px">展开</Text>
       <RightFilledIcon color="primary" />

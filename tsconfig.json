@@ -69,6 +69,9 @@
       "@/tkeel-console-plugin-tenant-networks/*": [
         "./packages/tkeel-console-plugin-tenant-networks/src/*"
       ],
+      "@/tkeel-console-plugin-admin-notification-configs/*": [
+        "./packages/tkeel-console-plugin-admin-notification-configs/src/*"
+      ],
       "@/tkeel-console-plugin-tenant-plugins/*": [
         "./packages/tkeel-console-plugin-tenant-plugins/src/*"
       ],
@@ -119,6 +122,7 @@
     { "path": "./packages/tkeel-console-plugin-tenant-device-templates/" },
     { "path": "./packages/tkeel-console-plugin-tenant-devices/" },
     { "path": "./packages/tkeel-console-plugin-tenant-networks/" },
+    { "path": "./packages/tkeel-console-plugin-admin-notification-configs/" },
     { "path": "./packages/tkeel-console-plugin-tenant-plugins/" },
     { "path": "./packages/tkeel-console-plugin-tenant-roles/" },
     { "path": "./packages/tkeel-console-plugin-tenant-routing-rules/" },
