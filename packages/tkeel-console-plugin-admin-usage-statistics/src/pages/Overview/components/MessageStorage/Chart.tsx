@@ -43,6 +43,7 @@ export default function Chart() {
         <YAxis
           {...defaultAxisProps}
           dataKey="value"
+          allowDecimals={false}
           tickLine={false}
           tickFormatter={(value) => numeral.format({ input: value as number })}
         />
