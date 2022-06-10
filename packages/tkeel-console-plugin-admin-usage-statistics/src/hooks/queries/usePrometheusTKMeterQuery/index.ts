@@ -33,7 +33,9 @@ export default function usePrometheusTKMeterQuery({
     method: 'GET',
     params: newParams,
   });
-  const item = res.data?.result;
+  const queryItem = res.data?.result;
+  const valueItem = queryItem?.result[0]?.value;
+  const valueItems = queryItem?.result[0]?.values ?? [];
 
-  return { ...res, item };
+  return { ...res, valueItem, valueItems };
 }

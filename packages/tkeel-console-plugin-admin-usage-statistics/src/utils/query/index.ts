@@ -4,9 +4,11 @@ import { find } from 'lodash';
 import { getTimestamp } from '@tkeel/console-utils';
 
 import type {
-  QueryItem,
-  ValueItem,
-} from '@/tkeel-console-plugin-admin-usage-statistics/types/query';
+  FindQueryItemInQueryItemsOptions,
+  FindValueInQueryItemsOptions,
+  FindValueItemInQueryItemsOptions,
+  FindValueItemsInQueryItemsOptions,
+} from './types';
 
 export function getQueryParamsLast7Days() {
   const current = getTimestamp();
@@ -17,21 +19,11 @@ export function getQueryParamsLast7Days() {
   return { st, step };
 }
 
-interface FindQueryItemInQueryItemsOptions {
-  data: QueryItem[];
-  query: string;
-}
-
-export function findQueryItemInQueryItems({
+function findQueryItemInQueryItems({
   data,
   query,
 }: FindQueryItemInQueryItemsOptions) {
   return find(data, { query });
-}
-
-interface FindValueItemsInQueryItemsOptions
-  extends FindQueryItemInQueryItemsOptions {
-  defaults?: ValueItem[];
 }
 
 export function findValueItemsInQueryItems({
@@ -44,11 +36,6 @@ export function findValueItemsInQueryItems({
   return item?.result[0]?.values ?? defaults;
 }
 
-interface FindValueItemInQueryItemsOptions
-  extends FindQueryItemInQueryItemsOptions {
-  defaults?: ValueItem;
-}
-
 export function findValueItemInQueryItems({
   data,
   query,
@@ -57,11 +44,6 @@ export function findValueItemInQueryItems({
   const item = findQueryItemInQueryItems({ data, query });
 
   return item?.result[0]?.value ?? defaults;
-}
-
-interface FindValueInQueryItemsOptions
-  extends FindQueryItemInQueryItemsOptions {
-  defaults?: number;
 }
 
 export function findValueInQueryItems({

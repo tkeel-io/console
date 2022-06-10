@@ -24,16 +24,7 @@ export default function Chart({ data, isLoading, barColor }: Props) {
 
   return (
     <ResponsiveContainer>
-      <BarChart
-        data={newData}
-        margin={{
-          top: 20,
-          right: 32,
-          bottom: 0,
-          left: 0,
-        }}
-        barCategoryGap="80%"
-      >
+      <BarChart data={newData} barCategoryGap="80%">
         <XAxis
           {...defaultXAxisProps}
           dataKey="timestamp"
@@ -48,6 +39,7 @@ export default function Chart({ data, isLoading, barColor }: Props) {
         <YAxis
           {...defaultYAxisProps}
           dataKey="value"
+          tickCount={7}
           allowDecimals={false}
           axisLine={false}
           tickLine={false}

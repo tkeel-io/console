@@ -26,12 +26,10 @@ const params = getQueryParamsLast7Days();
 export default function Chart() {
   const fill = useColor('green.300');
 
-  const { isLoading, item } = usePrometheusTKMeterQuery({
+  const { isLoading, valueItems } = usePrometheusTKMeterQuery({
     params: { ...params, meter: 'core_msg_days' },
   });
-  const data = item?.result[0]?.values ?? [];
-
-  const newData = fillDataLast7Days({ data });
+  const data = fillDataLast7Days({ data: valueItems });
   const defaultXAxisProps = useXAxisProps();
   const defaultYAxisProps = useYAxisProps();
   const defaultCartesianGridProps = useCartesianGridProps();
@@ -42,7 +40,7 @@ export default function Chart() {
 
   return (
     <ResponsiveContainer>
-      <BarChart data={newData} barCategoryGap="80%">
+      <BarChart data={data} barCategoryGap="80%">
         <XAxis
           {...defaultXAxisProps}
           dataKey="timestamp"
@@ -65,6 +63,7 @@ export default function Chart() {
         <YAxis
           {...defaultYAxisProps}
           dataKey="value"
+          tickCount={3}
           allowDecimals={false}
           tickLine={false}
           tickFormatter={(value) => numeral.format({ input: value as number })}

@@ -1,5 +1,5 @@
-const HEIGHT = 20;
+import type { XAxisProps } from 'recharts';
 
-export const DEFAULT_PROPS = {
-  height: HEIGHT,
+export const DEFAULT_PROPS: XAxisProps = {
+  height: 20,
 };
