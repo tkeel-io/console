@@ -1,7 +1,19 @@
 import { Skeleton } from '@chakra-ui/react';
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  XAxis,
+  YAxis,
+} from 'recharts';
 
-import { Tooltip, useXAxisProps, useYAxisProps } from '@tkeel/console-charts';
+import {
+  Tooltip,
+  useCartesianGridProps,
+  useXAxisProps,
+  useYAxisProps,
+} from '@tkeel/console-charts';
 import { useColor } from '@tkeel/console-hooks';
 import { formatDateTimeByTimestamp, numeral } from '@tkeel/console-utils';
 
@@ -22,6 +34,7 @@ export default function Chart() {
   const newData = fillDataLast7Days({ data });
   const defaultXAxisProps = useXAxisProps();
   const defaultYAxisProps = useYAxisProps();
+  const defaultCartesianGridProps = useCartesianGridProps();
 
   if (isLoading) {
     return <Skeleton height="100%" />;
@@ -64,6 +77,7 @@ export default function Chart() {
           tickLine={false}
           tick={false}
         />
+        <CartesianGrid {...defaultCartesianGridProps} />
         <Bar dataKey="value" fill={fill} />
         <Tooltip
           label="消息量 (条)"
