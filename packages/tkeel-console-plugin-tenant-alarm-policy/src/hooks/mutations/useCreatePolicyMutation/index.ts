@@ -71,7 +71,7 @@ export interface RequestData {
 }
 
 interface Props {
-  onSuccess: (
+  onSuccess?: (
     data: RequestResult<ApiData, undefined, RequestData>,
     variables: unknown,
     context: unknown

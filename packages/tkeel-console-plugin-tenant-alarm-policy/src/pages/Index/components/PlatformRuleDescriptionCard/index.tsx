@@ -7,6 +7,7 @@ import { CheckFilledIcon } from '@tkeel/console-icons';
 import usePlatformRulesQuery from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePlatformRulesQuery';
 
 export interface PlatformCondition {
+  id: number;
   label: string;
   value: string;
 }
@@ -22,7 +23,8 @@ export default function PlatformRuleDescriptionCard({
 }: Props) {
   const { platformRules } = usePlatformRulesQuery();
 
-  const data = platformRules.map(({ alarmDesc, promQl }) => ({
+  const data = platformRules.map(({ id, alarmDesc, promQl }) => ({
+    id,
     label: alarmDesc,
     value: promQl,
   }));

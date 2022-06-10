@@ -161,11 +161,12 @@ export default function PolicyTable({ alarmRuleType }: Props) {
               <DeletePolicyButton
                 key="delete"
                 policy={original}
-                onSuccess={() => {}}
+                onSuccess={() => refetch()}
               />,
             ]}
           />
         );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []),
     },
   ];
