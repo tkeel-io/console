@@ -17,35 +17,59 @@ export function getQueryParamsLast7Days() {
   return { st, step };
 }
 
-interface FindQueryOptions {
+interface FindQueryItemInQueryItemsOptions {
   data: QueryItem[];
   query: string;
 }
 
-export function findQueryItem({ data, query }: FindQueryOptions) {
+export function findQueryItemInQueryItems({
+  data,
+  query,
+}: FindQueryItemInQueryItemsOptions) {
   return find(data, { query });
 }
 
-interface FindValueOptions extends FindQueryOptions {
-  defaultValue?: number;
+interface FindValueItemsInQueryItemsOptions
+  extends FindQueryItemInQueryItemsOptions {
+  defaults?: ValueItem[];
 }
 
-export function findValue({ data, query, defaultValue = 0 }: FindValueOptions) {
-  const item = findQueryItem({ data, query });
-
-  return item?.result[0]?.value?.value ?? defaultValue;
-}
-
-interface FindValuesOptions extends FindQueryOptions {
-  defaultValue?: ValueItem[];
-}
-
-export function findValues({
+export function findValueItemsInQueryItems({
   data,
   query,
-  defaultValue = [],
-}: FindValuesOptions) {
-  const item = findQueryItem({ data, query });
+  defaults = [],
+}: FindValueItemsInQueryItemsOptions) {
+  const item = findQueryItemInQueryItems({ data, query });
 
-  return item?.result[0]?.values ?? defaultValue;
+  return item?.result[0]?.values ?? defaults;
+}
+
+interface FindValueItemInQueryItemsOptions
+  extends FindQueryItemInQueryItemsOptions {
+  defaults?: ValueItem;
+}
+
+export function findValueItemInQueryItems({
+  data,
+  query,
+  defaults,
+}: FindValueItemInQueryItemsOptions) {
+  const item = findQueryItemInQueryItems({ data, query });
+
+  return item?.result[0]?.value ?? defaults;
+}
+
+interface FindValueInQueryItemsOptions
+  extends FindQueryItemInQueryItemsOptions {
+  defaults?: number;
+}
+
+export function findValueInQueryItems({
+  data,
+  query,
+  defaults = 0,
+}: FindValueInQueryItemsOptions) {
+  const item = findValueItemInQueryItems({ data, query });
+
+  return item?.value ?? defaults;
 }

@@ -4,7 +4,7 @@ import { Tips } from '@tkeel/console-components';
 
 import BaseBox from '@/tkeel-console-plugin-admin-usage-statistics/components/BaseBox';
 import usePrometheusTKMeterBatchQuery from '@/tkeel-console-plugin-admin-usage-statistics/hooks/queries/usePrometheusTKMeterBatchQuery';
-import { findValue } from '@/tkeel-console-plugin-admin-usage-statistics/utils/query';
+import { findValueInQueryItems } from '@/tkeel-console-plugin-admin-usage-statistics/utils/query';
 
 import ModuleHeader from '../ModuleHeader';
 import Block from './Block';
@@ -19,27 +19,17 @@ const METERS = [
 ];
 
 export default function MessageStorage() {
-  const { isLoading, items } = usePrometheusTKMeterBatchQuery({
+  const { isLoading, queryItems } = usePrometheusTKMeterBatchQuery({
     params: { meters: METERS },
     isWithTenantId: false,
   });
 
-  const msgStorageDays = findValue({
-    data: items,
-    query: METERS[0],
-  });
-  const coreMSgDays = findValue({
-    data: items,
-    query: METERS[1],
-  });
-  const msgStorageSpaceUnusedBytes = findValue({
-    data: items,
-    query: METERS[2],
-  });
-  const msgStorageSpaceUsagePercentage = findValue({
-    data: items,
-    query: METERS[3],
-  });
+  const [
+    msgStorageDays,
+    coreMSgDays,
+    msgStorageSpaceUnusedBytes,
+    msgStorageSpaceUsagePercentage,
+  ] = METERS.map((query) => findValueInQueryItems({ data: queryItems, query }));
 
   return (
     <Box width="100%">

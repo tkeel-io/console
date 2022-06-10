@@ -15,4 +15,12 @@ interface QueryItem {
   result_type: string;
 }
 
-export type { QueryItem, ValueItem };
+interface ValueItemMap {
+  [name: string]: ValueItem | undefined;
+}
+
+interface ValueItemsMap {
+  [name: string]: ValueItem[];
+}
+
+export type { QueryItem, ValueItem, ValueItemMap, ValueItemsMap };

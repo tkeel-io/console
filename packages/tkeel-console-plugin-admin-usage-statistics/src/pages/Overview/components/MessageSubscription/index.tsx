@@ -3,10 +3,7 @@ import { Box, HStack } from '@chakra-ui/react';
 import { useColor } from '@tkeel/console-hooks';
 
 import usePrometheusTKMeterBatchQuery from '@/tkeel-console-plugin-admin-usage-statistics/hooks/queries/usePrometheusTKMeterBatchQuery';
-import {
-  findValues,
-  getQueryParamsLast7Days,
-} from '@/tkeel-console-plugin-admin-usage-statistics/utils/query';
+import { getQueryParamsLast7Days } from '@/tkeel-console-plugin-admin-usage-statistics/utils/query';
 
 import ModuleHeader from '../ModuleHeader';
 import Chart from './Chart';
@@ -29,7 +26,7 @@ export default function MessageSubscription() {
     { key: 'subscribe_num', title: '订阅消息 (条)', color: subscribeMsgColor },
   ];
 
-  const { isLoading, items } = usePrometheusTKMeterBatchQuery({
+  const { isLoading, valueItemsMap } = usePrometheusTKMeterBatchQuery({
     params: {
       ...params,
       meters: charts.map(({ key }) => key),
@@ -45,7 +42,7 @@ export default function MessageSubscription() {
       />
       <HStack spacing="12px">
         {charts.map(({ key, title, color }) => {
-          const data = findValues({ data: items, query: key });
+          const data = valueItemsMap[key] ?? [];
 
           return (
             <MessageSubscriptionBox key={key} title={title}>
