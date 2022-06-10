@@ -72,7 +72,7 @@ function PluginCard({
         color="gray.500"
         fontSize="12px"
         height="20px"
-        isTruncated
+        noOfLines={1}
         title={desc}
       >
         {desc}

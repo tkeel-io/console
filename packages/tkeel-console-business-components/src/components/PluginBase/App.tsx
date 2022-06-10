@@ -17,9 +17,18 @@ export default function App({ children, style }: Props) {
   const portalProps = plugin.getPortalProps();
   const { theme } = portalProps.client;
 
+  const newTheme = {
+    ...theme,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    config: {
+      ...(theme.config as object),
+      disableTransitionOnChange: false,
+    },
+  };
+
   return (
     <QueryClientProvider client={queryClient}>
-      <ChakraProvider theme={theme}>
+      <ChakraProvider theme={newTheme}>
         <Router basename={plugin.getRouterBasename()}>
           <Flex
             flexDirection="column"

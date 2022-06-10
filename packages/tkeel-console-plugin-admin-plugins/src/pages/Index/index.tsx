@@ -13,7 +13,7 @@ import CustomTab from './components/CustomTab';
 
 function Index(): JSX.Element {
   const { repos, refetch, isLoading } = useReposQuery();
-  const { plugins: installedPlugins } = useInstalledPluginsQuery();
+  const { total } = useInstalledPluginsQuery();
   const documents = plugin.getPortalDocuments();
 
   return (
@@ -53,9 +53,7 @@ function Index(): JSX.Element {
               {repo.name}
             </CustomTab>
           ))}
-          {!isLoading && (
-            <CustomTab num={installedPlugins.length}>已安装</CustomTab>
-          )}
+          {!isLoading && <CustomTab num={total}>已安装</CustomTab>}
         </TabList>
         <TabPanels flex="1" overflow="hidden" marginTop="16px">
           {repos.map((repo) => (

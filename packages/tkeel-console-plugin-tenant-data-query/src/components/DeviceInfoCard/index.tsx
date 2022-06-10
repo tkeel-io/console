@@ -76,7 +76,7 @@ export default function DeviceInfoCard({ device, style }: Props) {
             <Text flexBasis="48px" color="grayAlternatives.300">
               {info.label}：
             </Text>
-            <Text color="gray.700" isTruncated title={info.value}>
+            <Text color="gray.700" noOfLines={1} title={info.value}>
               {info.value}
             </Text>
           </Flex>

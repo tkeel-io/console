@@ -96,7 +96,7 @@ export default function BasicInfoCard({ data, refetchData }: Props) {
             color="gray.700"
             fontWeight="600"
             fontSize="14px"
-            isTruncated
+            noOfLines={1}
           >
             {data?.title}
           </Text>
@@ -118,7 +118,7 @@ export default function BasicInfoCard({ data, refetchData }: Props) {
               color="gray.800"
               ml="26px"
               maxWidth="200px"
-              isTruncated
+              noOfLines={1}
               title={endpoint}
             >
               {endpoint}

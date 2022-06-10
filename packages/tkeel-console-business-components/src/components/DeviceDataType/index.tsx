@@ -2,7 +2,7 @@ import { Box } from '@chakra-ui/react';
 import { indexOf } from 'lodash';
 import { UseFieldArrayReturn, UseFormReturn } from 'react-hook-form';
 
-import { FormControl, Select } from '@tkeel/console-components';
+import { DeprecatedSelect, FormControl } from '@tkeel/console-components';
 
 import { CommandParamFormField } from '../DeviceCommandModal/components/CommandParamModal/types';
 import { DataTypeConfigs, ExtendedConfig } from './components';
@@ -36,7 +36,7 @@ export default function DeviceDataType({
   return (
     <>
       <FormControl id="type" label="数据类型">
-        <Select
+        <DeprecatedSelect
           style={{ width: '100%' }}
           placeholder="请选择"
           defaultValue={watchFields.type}
@@ -46,11 +46,11 @@ export default function DeviceDataType({
           }}
         >
           {showDataType.map((item) => (
-            <Select.Option key={item.value} value={item.value}>
+            <DeprecatedSelect.Option key={item.value} value={item.value}>
               {item.label}
-            </Select.Option>
+            </DeprecatedSelect.Option>
           ))}
-        </Select>
+        </DeprecatedSelect>
       </FormControl>
       <Box>
         <DataTypeConfigs

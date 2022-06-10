@@ -84,7 +84,7 @@ function Detail({ pluginName }: Props) {
             color="grayAlternatives.300"
             fontSize="12px"
             lineHeight="24px"
-            isTruncated
+            noOfLines={1}
             title={desc}
           >
             {desc}

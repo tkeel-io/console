@@ -1,7 +1,7 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
-import { NetworkIcon } from '@tkeel/console-icons';
+import { DnsAliasesTowToneIcon } from '@tkeel/console-icons';
 
 import StatusLabel from '@/tkeel-console-plugin-tenant-networks/components/StatusLabel';
 
@@ -48,7 +48,7 @@ function NetWorkCard({
         <Flex alignItems="center" justifyContent="space-between">
           <Flex alignItems="center">
             <Box flexShrink={0}>
-              <NetworkIcon size={26} />
+              <DnsAliasesTowToneIcon size={26} />
             </Box>
             <Text
               marginLeft="10px"

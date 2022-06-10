@@ -2,7 +2,7 @@ import { HStack, Text } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
-import { Modal, Select } from '@tkeel/console-components';
+import { DeprecatedSelect, Modal } from '@tkeel/console-components';
 
 import useListSubscribeQuery, {
   Data,
@@ -106,7 +106,7 @@ function AddSubscribeModal({
         control={control}
         rules={{ required: { value: true, message: '请选择订阅通道' } }}
         render={({ field: { onChange } }) => (
-          <Select
+          <DeprecatedSelect
             style={{ width: '100%' }}
             mode="multiple"
             showArrow

@@ -112,7 +112,7 @@ export default function Tenants() {
       Cell: ({ value = [] }: { value: Admin[] }) => {
         const usernames = value.map(({ username }) => username);
         return useMemo(
-          () => <Text isTruncated>{usernames.join('，')}</Text>,
+          () => <Text noOfLines={1}>{usernames.join('，')}</Text>,
           [usernames]
         );
       },
@@ -154,7 +154,7 @@ export default function Tenants() {
   ];
 
   return (
-    <Flex paddingTop="12px" flexDirection="column" height="100%">
+    <Flex paddingTop="8px" flexDirection="column" height="100%">
       <PageHeader
         icon={<GroupTwoToneIcon />}
         name="租户管理"
@@ -189,6 +189,7 @@ export default function Tenants() {
           ]}
           styles={{
             wrapper: {
+              height: '56px',
               padding: '0 20px',
               backgroundColor: 'gray.100',
             },

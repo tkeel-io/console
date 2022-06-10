@@ -137,7 +137,7 @@ export default function Users() {
   ];
 
   return (
-    <Flex paddingTop="12px" flexDirection="column" height="100%">
+    <Flex paddingTop="8px" flexDirection="column" height="100%">
       <PageHeader
         icon={<CrowdTwoToneIcon />}
         name="用户管理"
@@ -165,6 +165,7 @@ export default function Users() {
         styles={{
           wrapper: {
             marginTop: '16px',
+            height: '56px',
             padding: '0 20px',
             borderTopLeftRadius: '4px',
             borderTopRightRadius: '4px',

@@ -2,6 +2,8 @@ export { default as useConfigAppearanceQuery } from './useConfigAppearanceQuery'
 export { default as useConfigQuery } from './useConfigQuery';
 export { default as useConfigThemeColorsQuery } from './useConfigThemeColorsQuery';
 export { default as useDeploymentConfigQuery } from './useDeploymentConfigQuery';
+export { default as useDeviceDetailQuery } from './useDeviceDetailQuery';
+export * from './useDeviceDetailQuery';
 export { default as useDeviceGroupQuery } from './useDeviceGroupQuery';
 export * from './useDeviceGroupQuery';
 export { default as useDeviceListQuery } from './useDeviceListQuery';

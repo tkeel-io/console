@@ -64,20 +64,23 @@ export default function CreateTenantButton({ onSuccess }: Props) {
           isOpen={isSuccessModalOpen}
           title="创建租户空间成功"
           description={
-            <Text>
-              可
-              <LinkButton
-                onClick={() =>
-                  jumpToPage({
-                    path: setPasswordUrl,
-                    isNewWindow: true,
-                  })
-                }
-              >
-                「立即设置」
-              </LinkButton>
-              该空间管理员密码；或复制下方链接，邀请您的同事完成设置。
-            </Text>
+            <>
+              <Text display="none">
+                可
+                <LinkButton
+                  onClick={() =>
+                    jumpToPage({
+                      path: setPasswordUrl,
+                      isNewWindow: true,
+                    })
+                  }
+                >
+                  「立即设置」
+                </LinkButton>
+                该空间管理员密码；或复制下方链接，邀请您的同事完成设置。
+              </Text>
+              复制下方链接，邀请您的同事完成设置
+            </>
           }
           url={setPasswordUrl}
           isLoading={isSetPasswordUrlLoading}

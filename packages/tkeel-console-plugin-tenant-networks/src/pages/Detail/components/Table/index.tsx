@@ -6,11 +6,11 @@ import {
   PopoverArrow,
   PopoverBody,
   PopoverContent,
-  PopoverTrigger as OrigPopoverTrigger,
+  PopoverTrigger,
   Text,
   Tooltip,
 } from '@chakra-ui/react';
-import { FC, ReactNode, useMemo, useState } from 'react';
+import { ReactNode, useCallback, useMemo, useState } from 'react';
 import { CellProps, Column } from 'react-table';
 
 import { DeviceStatusIcon } from '@tkeel/console-business-components';
@@ -25,7 +25,7 @@ import {
 import { usePagination } from '@tkeel/console-hooks';
 import {
   CodeFilledIcon,
-  NetworkIcon,
+  DnsAliasesTowToneIcon,
   ProtocolHttpFilledIcon,
   ProtocolSshFilledIcon,
   SmartObjectTwoToneIcon,
@@ -39,8 +39,6 @@ import useNetworkListQuery from '@/tkeel-console-plugin-tenant-networks/hooks/qu
 import CreateProxyButton from '../CreateProxyButton';
 import DeleteButton from '../DeleteButton';
 import SwitchProxyButton from '../SwitchProxyButton';
-
-const PopoverTrigger: FC<{ children: React.ReactNode }> = OrigPopoverTrigger;
 
 interface ProxyListItemData {
   id: string;
@@ -59,7 +57,6 @@ interface ProxyListItemData {
 
 interface Variable {
   name: string;
-  urlProtocol?: string;
   icon: ReactNode;
 }
 
@@ -87,23 +84,24 @@ export default function Index({ id }: Props) {
     setTotalSize(totalNum);
   }
 
-  const handleCreatProxySuccess = (e: string) => {
-    toast(e === 'edit' ? '修改成功' : '创建成功', {
-      status: 'success',
-    });
-    refetch();
-  };
+  const handleCreatProxySuccess = useCallback(
+    (e: string) => {
+      toast(e === 'edit' ? '修改成功' : '创建成功', {
+        status: 'success',
+      });
+      refetch();
+    },
+    [toast, refetch]
+  );
 
   const agreeFn = (color: string) => {
     return {
       HTTP: {
         name: 'HTTP',
-        urlProtocol: 'http',
         icon: <ProtocolHttpFilledIcon color={color} />,
       },
       HTTPS: {
         name: 'HTTPS',
-        urlProtocol: 'https',
         icon: <ProtocolHttpFilledIcon color={color} />,
       },
       TCP: {
@@ -136,7 +134,7 @@ export default function Index({ id }: Props) {
         useMemo(
           () => (
             <Flex alignItems="center" justifyContent="space-between">
-              <NetworkIcon size={20} />
+              <DnsAliasesTowToneIcon size={20} />
               <Text color="gray.800" fontWeight="600" marginLeft="8px">
                 {value}
               </Text>
@@ -202,15 +200,13 @@ export default function Index({ id }: Props) {
       Cell: ({ row }: CellProps<ProxyListItemData>) => {
         const { original } = row;
         const { protocol, url, online } = original;
-        const protocolArr = ['HTTP', 'HTTPS', 'TCP', 'SSH'];
+        const protocolArr = ['HTTP'];
         let protocolIcon: ReactNode = '';
-        let protocolUrl = '';
         if (protocolArr.includes(protocol)) {
-          const { icon, urlProtocol } = agreeFn(
+          const { icon } = agreeFn(
             online === 'online' ? 'grayAlternatives.300' : 'gray.400'
           )[protocol] as Variable;
           protocolIcon = icon;
-          protocolUrl = `${urlProtocol ?? ''}://${url}`;
         }
         return useMemo(
           () => (
@@ -239,10 +235,10 @@ export default function Index({ id }: Props) {
                       textDecoration="underline"
                       onClick={() => {
                         const w = window.open('about:blank') as Window;
-                        w.location.href = protocolUrl;
+                        w.location.href = url;
                       }}
                     >
-                      {protocolUrl}
+                      {url}
                     </PopoverBody>
                   </PopoverContent>
                 </Popover>
@@ -251,7 +247,7 @@ export default function Index({ id }: Props) {
               )}
             </Box>
           ),
-          [protocolIcon, protocolUrl, online]
+          [protocolIcon, url, online]
         );
       },
     },
@@ -262,21 +258,25 @@ export default function Index({ id }: Props) {
         const { original } = row;
         return useMemo(
           () => (
-            <LinkButton
-              onClick={() => {
-                navigate(
-                  `tenant-devices/detail?id=${original?.device_id}&menu-collapsed=true`
-                );
-              }}
-              color="gray.600"
-              fontWeight="600"
-              _hover={{ color: 'primary' }}
-            >
-              <HStack>
-                <SmartObjectTwoToneIcon size="16px" />
-                <Text ml="8px">{original?.device_name}</Text>
-              </HStack>
-            </LinkButton>
+            <Box>
+              {original?.device_name && (
+                <LinkButton
+                  onClick={() => {
+                    navigate(
+                      `tenant-devices/detail?id=${original?.device_id}&menu-collapsed=true`
+                    );
+                  }}
+                  color="gray.600"
+                  fontWeight="600"
+                  _hover={{ color: 'primary' }}
+                >
+                  <HStack>
+                    <SmartObjectTwoToneIcon size="16px" />
+                    <Text ml="8px">{original?.device_name}</Text>
+                  </HStack>
+                </LinkButton>
+              )}
+            </Box>
           ),
           [original]
         );
@@ -316,8 +316,8 @@ export default function Index({ id }: Props) {
     {
       Header: '操作',
       width: 80,
-      Cell: ({ row }: CellProps<ProxyListItemData>) =>
-        useMemo(() => {
+      Cell: useCallback(
+        ({ row }: CellProps<ProxyListItemData>) => {
           const { original } = row;
           const proxyCruxData = {
             proxyId: original?.id,
@@ -354,7 +354,9 @@ export default function Index({ id }: Props) {
               ]}
             />
           );
-        }, [row]),
+        },
+        [id, refetch, handleCreatProxySuccess]
+      ),
     },
   ];
 

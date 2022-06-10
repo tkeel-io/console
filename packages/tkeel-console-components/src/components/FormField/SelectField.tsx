@@ -16,8 +16,8 @@ import FormControl, {
   FormControlProps,
 } from '@/tkeel-console-components/components/FormControl';
 
-import { Select } from '../Select';
-import { SelectStyles } from '../Select/types';
+import { DeprecatedSelect } from '../DeprecatedSelect';
+import { SelectStyles } from '../DeprecatedSelect/types';
 import { fieldDefaultProps } from './default-props';
 
 type Props<TFieldValues> = FormControlProps & {
@@ -69,7 +69,7 @@ export default function SelectField<TFieldValues>({
         control={control}
         rules={rules}
         render={({ field: { onChange, value } }) => (
-          <Select
+          <DeprecatedSelect
             disabled={disabled}
             mode={mode}
             placeholder={placeholder}

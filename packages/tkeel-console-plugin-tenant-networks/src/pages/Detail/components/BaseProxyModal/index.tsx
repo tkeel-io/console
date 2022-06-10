@@ -39,7 +39,7 @@ export default function BaseProxyModal({
 }: Props) {
   const options = [
     { value: 'HTTP', label: 'HTTP' },
-    { value: 'HTTPS', label: 'HTTPS' },
+    // { value: 'HTTPS', label: 'HTTPS' },
     // { value: 'TCP', label: 'TCP' },
     // { value: 'SSH', label: 'SSH' },
   ];

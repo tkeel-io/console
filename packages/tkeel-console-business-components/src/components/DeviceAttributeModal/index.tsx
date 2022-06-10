@@ -5,10 +5,10 @@ import { useForm } from 'react-hook-form';
 
 import {
   AceEditor,
+  DeprecatedSelect,
   FormControl,
   FormField,
   Modal,
-  Select,
 } from '@tkeel/console-components';
 
 export type ReadWriteType = 'rw' | 'r' | 'w';
@@ -52,7 +52,7 @@ const TypeOptions = [
   { type: 'float', label: '单精度浮点型' },
   { type: 'double', label: '双精度浮点型' },
   { type: 'string', label: '字符串' },
-  { type: 'array', label: '数组' },
+  // { type: 'array', label: '数组' },
   { type: 'struct', label: '结构体' },
 ];
 const DEFAULT_VALUES = {
@@ -189,13 +189,14 @@ function DeviceAttributeModal({
       <TextField
         label="属性ID"
         id="id"
+        isDisabled={isEdit}
         error={errors.id}
         registerReturn={register('id', {
           required: { value: true, message: '请填写属性ID' },
         })}
       />
       <FormControl id="type" label="数据类型">
-        <Select
+        <DeprecatedSelect
           placeholder="请选择数据类型"
           id="type"
           defaultValue={getValues('type') || ''}
@@ -212,12 +213,12 @@ function DeviceAttributeModal({
         >
           {TypeOptions.map((val) => {
             return (
-              <Select.Option key={val.type} value={val.type}>
+              <DeprecatedSelect.Option key={val.type} value={val.type}>
                 {`${val.type} (${val.label})`}
-              </Select.Option>
+              </DeprecatedSelect.Option>
             );
           })}
-        </Select>
+        </DeprecatedSelect>
         {errors.type && (
           <Text color="red.500" fontSize="sm" mt="8px">
             请选择数据类型
@@ -306,7 +307,7 @@ function DeviceAttributeModal({
         </>
       </FormControl>
 
-      <FormControl id="rw" label="读写类型">
+      <FormControl id="rw" label="属性类型">
         <RadioGroup
           defaultValue="rw"
           onChange={(value: ReadWriteType) => {

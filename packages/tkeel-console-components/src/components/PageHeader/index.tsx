@@ -16,6 +16,7 @@ function PageHeader({ icon, name, desc = '', documentsPath = '' }: Props) {
 
   return (
     <Flex
+      flexShrink={0}
       position="relative"
       alignItems="center"
       padding="0 24px"

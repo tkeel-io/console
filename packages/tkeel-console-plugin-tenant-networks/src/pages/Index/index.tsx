@@ -15,8 +15,8 @@ import {
 import { usePagination } from '@tkeel/console-hooks';
 import {
   ArrowRightFilledIcon,
+  DnsAliasesTowToneIcon,
   LightningFilledIcon,
-  NetworkIcon,
 } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
@@ -55,9 +55,9 @@ export default function Index() {
   return (
     <Flex flexDirection="column" h="100%" padding="8px 20px 20px">
       <PageHeader
-        icon={<NetworkIcon size={40} />}
-        name="网络设备管理"
-        desc="为各种云到设备通信方案创建安全的双向 TCP 隧道。"
+        icon={<DnsAliasesTowToneIcon size={40} />}
+        name="设备网络管理"
+        desc="为物联网设备和物联网平台之间建立一个安全的双向TCP隧道。"
       />
       <Flex
         m="16px 0"
@@ -66,7 +66,7 @@ export default function Index() {
         alignItems="center"
       >
         <SearchInput
-          placeholder="支持搜索代理网关名称、客户端地址"
+          placeholder="支持搜索代理网关名称"
           onSearch={(value) => {
             setKeywords(value);
           }}

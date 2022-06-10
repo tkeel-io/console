@@ -125,13 +125,13 @@ function PluginList({
                         color="gray.500"
                         fontSize="12px"
                       >
-                        <Text maxWidth="50%" isTruncated title={version}>
+                        <Text maxWidth="50%" noOfLines={1} title={version}>
                           版本：{version}
                         </Text>
                         <Text
                           maxWidth="50%"
                           marginLeft="20px"
-                          isTruncated
+                          noOfLines={1}
                           title={repo}
                         >
                           插件源：{repo}

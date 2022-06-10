@@ -4,7 +4,10 @@ import { useNavigate } from 'react-router-dom';
 
 import { BackButton } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
-import { NetworkIcon, OfficialFilledIcon } from '@tkeel/console-icons';
+import {
+  DnsAliasesTowToneIcon,
+  OfficialFilledIcon,
+} from '@tkeel/console-icons';
 
 import MoreOperationButton from '@/tkeel-console-plugin-tenant-networks/components/MoreOperationButton';
 import StatusLabel from '@/tkeel-console-plugin-tenant-networks/components/StatusLabel';
@@ -19,10 +22,9 @@ interface NetWorkInfo {
 }
 interface Props {
   data: NetWorkInfo;
-  refetchData: () => void;
 }
 
-export default function BasicInfoCard({ data, refetchData }: Props) {
+export default function BasicInfoCard({ data }: Props) {
   const { id, name, status, online } = data;
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -65,9 +67,6 @@ export default function BasicInfoCard({ data, refetchData }: Props) {
               name,
               status,
             }}
-            refetch={() => {
-              refetchData();
-            }}
             onDeleteSuccess={() => {
               queryClient.invalidateQueries('networks');
               navigate('/');
@@ -80,7 +79,7 @@ export default function BasicInfoCard({ data, refetchData }: Props) {
           padding="20px 17px 16px"
         >
           <Flex justifyContent="space-between" alignItems="center">
-            <NetworkIcon size={20} />
+            <DnsAliasesTowToneIcon size={20} />
             <Text fontSize="14px" fontWeight="600" color="gray.800" ml="8px">
               {name}
             </Text>

@@ -94,12 +94,6 @@ export default function Modal({
         maxWidth="unset"
         borderRadius="4px"
         boxShadow="0px 4px 8px rgba(36, 46, 66, 0.06)"
-        css={`
-          .chakra-icon {
-            width: 9px;
-            height: 9px;
-          }
-        `}
       >
         {title && (
           <ModalHeader

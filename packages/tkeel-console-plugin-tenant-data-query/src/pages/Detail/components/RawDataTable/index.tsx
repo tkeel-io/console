@@ -82,6 +82,7 @@ export default function RawDataTable({
       styles={{
         wrapper: { flex: 1, overflow: 'hidden' },
         table: { padding: '0 20px' },
+        pagination: { padding: '0 20px' },
       }}
       columns={columns}
       data={rawDataList}

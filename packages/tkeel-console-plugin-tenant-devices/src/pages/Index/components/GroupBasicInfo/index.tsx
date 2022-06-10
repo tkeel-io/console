@@ -12,9 +12,11 @@ const defaultCount = 4;
 function GroupBasicInfo({ groupItem }: Props): JSX.Element {
   const [isExpend, setIsExpend] = useState(false);
   const nodeInfo = groupItem?.originData?.nodeInfo ?? null;
+  const id = nodeInfo?.id ?? null;
   const { description, name, ext } = nodeInfo?.properties?.group ?? {};
   const groupInfoArray = [
     { key: '设备组名称', value: name },
+    { key: '设备组ID', value: id },
     { key: '描述信息', value: description || '暂无描述' },
     ...Object.entries(ext || {}).map(([key, value]) => {
       return { key, value };
@@ -48,7 +50,9 @@ function GroupBasicInfo({ groupItem }: Props): JSX.Element {
               lineHeight="24px"
               fontWeight="500"
             >
-              <Text color="grayAlternatives.300">{item.key}:</Text>
+              <Text color="grayAlternatives.300" flexShrink={0}>
+                {item.key}:
+              </Text>
               <Text color="gray.600">{item.value}</Text>
             </HStack>
           ))}
