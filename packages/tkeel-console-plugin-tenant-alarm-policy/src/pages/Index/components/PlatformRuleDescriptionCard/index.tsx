@@ -21,13 +21,8 @@ export default function PlatformRuleDescriptionCard({
   onChange,
 }: Props) {
   const { platformRules } = usePlatformRulesQuery();
-  // eslint-disable-next-line no-console
-  console.log('platformRules', platformRules);
 
-  const data = [
-    { id: 1001, alarmDesc: '登录异常', promQl: "xxx_1111{'sss'=222}" },
-    { id: 1002, alarmDesc: '每秒上报次数', promQl: "xxx_3333{'sss'=333}" },
-  ].map(({ alarmDesc, promQl }) => ({
+  const data = platformRules.map(({ alarmDesc, promQl }) => ({
     label: alarmDesc,
     value: promQl,
   }));

@@ -76,7 +76,7 @@ export default function PolicyDetailDrawer({ policy, isOpen, onClose }: Props) {
             <MoreAction
               styles={{ actionList: { width: '124px' } }}
               buttons={[
-                <ModifyPolicyButton key="modify" />,
+                <ModifyPolicyButton key="modify" policy={policy} />,
                 <DeletePolicyButton
                   key="delete"
                   policy={policy}

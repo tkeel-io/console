@@ -1,8 +1,11 @@
 import { useQuery } from '@tkeel/console-hooks';
 
 interface ApiData {
-  '@type': string;
-  total: number;
+  list: {
+    id: number;
+    alarmDesc: string;
+    promQl: string;
+  }[];
 }
 
 export default function usePlatformRulesQuery() {
@@ -10,8 +13,7 @@ export default function usePlatformRulesQuery() {
     url: '/tkeel-alarm/v1/rule/platform',
     method: 'GET',
   });
-  const platformRules = data || [];
-  const total = data?.total || 0;
+  const platformRules = data?.list || [];
 
-  return { platformRules, total, ...rest };
+  return { platformRules, ...rest };
 }

@@ -3,10 +3,17 @@ import { useDisclosure } from '@chakra-ui/react';
 import { MoreActionButton } from '@tkeel/console-components';
 import { PencilFilledIcon } from '@tkeel/console-icons';
 
+import type { Policy } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
+
 import ModifyPolicyModal from '../ModifyPolicyModal';
 
 const handleConfirm = () => {};
-export default function ModifyPolicyButton() {
+
+interface Props {
+  policy: Policy;
+}
+
+export default function ModifyPolicyButton({ policy }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -18,6 +25,7 @@ export default function ModifyPolicyButton() {
       />
       {isOpen && (
         <ModifyPolicyModal
+          policy={policy}
           isOpen={isOpen}
           isConfirmButtonLoading={false}
           onClose={onClose}

@@ -17,10 +17,10 @@ import {
 } from '@tkeel/console-request-hooks';
 
 import {
-  calculateOptions,
   durationOptions,
   enumOperatorOptions,
   numberOperatorOptions,
+  polymerizeOptions,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/constants';
 import {
   Operator,
@@ -235,7 +235,7 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                       id={getFieldId(i, 'polymerize')}
                       name={getFieldId(i, 'polymerize')}
                       placeholder="请选择"
-                      options={calculateOptions}
+                      options={polymerizeOptions}
                       {...selectProps}
                     />
                   )}

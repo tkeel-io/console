@@ -1,6 +1,9 @@
+import type { Policy } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
+
 import BasePolicyModal from '../../pages/Index/components/BasePolicyModal';
 
 type Props = {
+  policy: Policy;
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
   onClose: () => void;
@@ -8,6 +11,7 @@ type Props = {
 };
 
 export default function ModifyPolicyModal({
+  policy,
   isOpen,
   isConfirmButtonLoading,
   onClose,
@@ -15,6 +19,7 @@ export default function ModifyPolicyModal({
 }: Props) {
   return (
     <BasePolicyModal
+      policy={policy}
       title="修改策略配置"
       isOpen={isOpen}
       isConfirmButtonLoading={isConfirmButtonLoading}

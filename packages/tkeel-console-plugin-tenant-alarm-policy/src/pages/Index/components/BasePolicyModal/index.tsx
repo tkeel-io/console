@@ -24,6 +24,7 @@ import {
   TelemetryType as RequestTelemetryType,
   Time,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/mutations/useCreatePolicyMutation';
+import type { Policy } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
 
 import type { DeviceCondition } from '../DeviceRuleDescriptionCard';
 import DeviceRuleDescriptionCard, {
@@ -38,6 +39,7 @@ import PlatformRuleDescriptionCard from '../PlatformRuleDescriptionCard';
 const { TextField, SelectField } = FormField;
 
 type Props = {
+  policy?: Policy;
   title: ReactNode;
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
@@ -47,9 +49,9 @@ type Props = {
 
 interface FormValues {
   ruleName: string;
-  alarmType: string;
+  alarmType?: string;
   alarmRuleType: string;
-  alarmLevel: string;
+  alarmLevel?: string;
   thresholdAlarmSourceObject: 'device';
   systemAlarmSourceObject: 'platform';
   deviceInfo: string;
@@ -101,6 +103,7 @@ const getRequestDeviceConditions = (deviceConditions: DeviceCondition[]) => {
 };
 
 export default function BasePolicyModal({
+  policy,
   title,
   isOpen,
   isConfirmButtonLoading,
@@ -110,6 +113,47 @@ export default function BasePolicyModal({
   const [platformConditions, setPlatformConditions] = useState<
     PlatformCondition[]
   >([]);
+
+  const baseValues = {
+    thresholdAlarmSourceObject: 'device',
+    systemAlarmSourceObject: 'platform',
+  } as const;
+
+  const thresholdAlarm = String(AlarmRuleType.Threshold);
+  let defaultValues: FormValues = {
+    ruleName: '',
+    alarmRuleType: thresholdAlarm,
+    ...baseValues,
+    deviceInfo: '{}',
+    condition: Condition.Or,
+    deviceConditions: [defaultDeviceCondition],
+  };
+
+  if (policy) {
+    const {
+      ruleName,
+      alarmType,
+      alarmLevel,
+      deviceId,
+      deviceName,
+      alarmRuleType,
+    } = policy;
+
+    defaultValues = {
+      ruleName,
+      alarmType: String(alarmType),
+      alarmRuleType: String(alarmRuleType),
+      alarmLevel: String(alarmLevel),
+      ...baseValues,
+      deviceInfo: JSON.stringify({
+        id: deviceId || '',
+        name: deviceName || '',
+      }),
+      condition: Condition.Or,
+      deviceConditions: [],
+    };
+  }
+
   const {
     register,
     formState: { errors },
@@ -118,13 +162,7 @@ export default function BasePolicyModal({
     getValues,
     watch,
   } = useForm<FormValues>({
-    defaultValues: {
-      alarmRuleType: '0',
-      thresholdAlarmSourceObject: 'device',
-      systemAlarmSourceObject: 'platform',
-      condition: Condition.Or,
-      deviceConditions: [defaultDeviceCondition],
-    },
+    defaultValues,
   });
 
   const fieldArrayReturn = useFieldArray({
@@ -157,7 +195,7 @@ export default function BasePolicyModal({
         alarmRuleType: Number(alarmRuleType),
         alarmLevel: Number(alarmLevel),
         alarmSourceObject:
-          alarmRuleType === '0'
+          alarmRuleType === thresholdAlarm
             ? AlarmSourceObject.Device
             : AlarmSourceObject.Platform,
         condition,
@@ -202,7 +240,7 @@ export default function BasePolicyModal({
     },
   ];
 
-  const isSystemAlarm = watch('alarmRuleType') === '1';
+  const isSystemAlarm = watch('alarmRuleType') === String(AlarmRuleType.System);
 
   return (
     <Modal
@@ -272,16 +310,19 @@ export default function BasePolicyModal({
         <FormCard title="告警资源">
           {isSystemAlarm ? (
             <SelectField<FormValues>
+              key="systemAlarmSourceObject"
               id="systemAlarmSourceObject"
               name="systemAlarmSourceObject"
               label="告警源对象"
               placeholder="请选择"
+              defaultValue="platform"
               options={systemAlarmSourceObjectOptions}
               control={control}
             />
           ) : (
             <>
               <SelectField<FormValues>
+                key="thresholdAlarmSourceObject"
                 id="thresholdAlarmSourceObject"
                 name="thresholdAlarmSourceObject"
                 label="告警源对象"

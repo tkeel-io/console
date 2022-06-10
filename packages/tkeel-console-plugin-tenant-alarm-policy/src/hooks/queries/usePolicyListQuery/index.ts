@@ -28,8 +28,8 @@ interface ApiData {
 }
 
 export interface Props {
-  alarmRuleType?: AlarmRuleType;
   alarmLevel?: AlarmLevel;
+  alarmRuleType?: AlarmRuleType;
   alarmType?: AlarmType;
   ruleName?: string;
   pageNum: number;
@@ -40,6 +40,7 @@ export default function usePolicyListQuery({
   alarmLevel,
   alarmRuleType,
   alarmType,
+  ruleName,
   pageNum,
   pageSize,
 }: Props) {
@@ -50,6 +51,7 @@ export default function usePolicyListQuery({
       alarmLevel,
       alarmRuleType,
       alarmType,
+      ruleName,
       pageNum,
       pageSize,
     },

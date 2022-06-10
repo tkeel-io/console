@@ -1,37 +1,68 @@
-import { useDisclosure } from '@chakra-ui/react';
+import { Flex, Text, useDisclosure } from '@chakra-ui/react';
+import { useState } from 'react';
 
-import { CreateButton } from '@tkeel/console-components';
-import { plugin } from '@tkeel/console-utils';
+import { Alert, CreateButton } from '@tkeel/console-components';
 
 import useCreatePolicyMutation from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/mutations/useCreatePolicyMutation';
 
+import ConfigureNotificationModal from '../ConfigureNotificationModal';
 import CreateTenantModal from '../CreatePolicyModal';
 
-export default function CreatePolicyButton() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const toast = plugin.getPortalToast();
+interface Props {
+  refetch: () => unknown;
+}
 
-  const { mutate } = useCreatePolicyMutation({
+export default function CreatePolicyButton({ refetch }: Props) {
+  const { isOpen: isModalOpen, onOpen, onClose } = useDisclosure();
+  const [isShowAlert, setIsShowAlert] = useState(false);
+  const [isShowNotificationModal, setIsShowNotificationModal] = useState(false);
+
+  const { mutate, isLoading } = useCreatePolicyMutation({
     onSuccess() {
-      toast.success('添加告警策略成功');
+      setIsShowAlert(true);
+      onClose();
+      refetch();
     },
   });
 
   return (
     <>
       <CreateButton onClick={onOpen}>添加告警策略</CreateButton>
-      {isOpen && (
-        <CreateTenantModal
-          isOpen={isOpen}
-          isConfirmButtonLoading={false}
-          onClose={onClose}
-          onConfirm={(data) => {
-            mutate({
-              data,
-            });
-          }}
-        />
-      )}
+      <CreateTenantModal
+        isOpen={isModalOpen}
+        isConfirmButtonLoading={isLoading}
+        onClose={onClose}
+        onConfirm={(data) => {
+          mutate({
+            data,
+          });
+        }}
+      />
+      <Alert
+        isOpen={isShowAlert}
+        iconPosition="left"
+        icon="success"
+        title={
+          <Flex
+            alignItems="center"
+            color="gray.800"
+            fontSize="14px"
+            fontWeight="600"
+          >
+            <Text>已成功创建策略，可继续为该策略</Text>
+            <Text marginLeft="4px" color="primary">
+              配置通知
+            </Text>
+          </Flex>
+        }
+        description="策略配置通知后，请开启该策略的状态"
+        onClose={() => setIsShowAlert(false)}
+        onConfirm={() => {
+          setIsShowAlert(false);
+          setIsShowNotificationModal(true);
+        }}
+      />
+      {isShowNotificationModal && <ConfigureNotificationModal />}
     </>
   );
 }

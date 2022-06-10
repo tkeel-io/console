@@ -49,7 +49,7 @@ export default function PolicyTable({ alarmRuleType }: Props) {
   const [alarmType, setAlarmType] = useState<AlarmType>();
 
   const pagination = usePagination();
-  const { pageNum, pageSize, setTotalSize } = pagination;
+  const { pageNum, pageSize, setPageNum, setTotalSize } = pagination;
 
   const params: usePolicyListQueryProps = {
     alarmRuleType,
@@ -60,7 +60,7 @@ export default function PolicyTable({ alarmRuleType }: Props) {
     pageSize,
   };
 
-  const { policyList, total, isLoading, isSuccess } =
+  const { policyList, total, isLoading, isSuccess, refetch } =
     usePolicyListQuery(params);
   if (isSuccess) {
     setTotalSize(total);
@@ -156,7 +156,7 @@ export default function PolicyTable({ alarmRuleType }: Props) {
           <MoreAction
             styles={{ actionList: { width: '124px' } }}
             buttons={[
-              <ModifyPolicyButton key="modify" />,
+              <ModifyPolicyButton key="modify" policy={original} />,
               <ViewPolicyDetailButton policy={original} key="viewDetail" />,
               <DeletePolicyButton
                 key="delete"
@@ -198,11 +198,13 @@ export default function PolicyTable({ alarmRuleType }: Props) {
             backgroundColor: 'gray.50',
           },
           onSearch(value) {
-            // setPageNum(1);
+            setPageNum(1);
             setKeywords(value);
           },
         }}
-        buttons={[<CreatePolicyButton key="create" />]}
+        buttons={[
+          <CreatePolicyButton key="create" refetch={() => refetch()} />,
+        ]}
         styles={{
           wrapper: {
             zIndex: 1,

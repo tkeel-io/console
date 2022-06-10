@@ -57,7 +57,7 @@ export const durationOptions = [
   },
 ];
 
-export const calculateOptions = [
+export const polymerizeOptions = [
   {
     label: '平均值',
     value: 'avg',

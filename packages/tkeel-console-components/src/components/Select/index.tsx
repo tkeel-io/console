@@ -19,6 +19,7 @@ export interface SelectProps {
   defaultValue?: string;
   value?: string;
   onChange?: (value: string) => unknown;
+  sx?: StyleProps;
   styles?: {
     wrapper?: StyleProps;
     selector?: StyleProps;
@@ -45,6 +46,7 @@ export default function Select({
   defaultValue = '',
   value,
   onChange,
+  sx,
   styles,
 }: SelectProps) {
   const newOptions = [...options];
@@ -99,7 +101,13 @@ export default function Select({
         }
 
         return (
-          <Box width="118px" position="relative" {...styles?.wrapper}>
+          <Box
+            width="118px"
+            position="relative"
+            backgroundColor="white"
+            {...styles?.wrapper}
+            {...sx}
+          >
             <Flex
               justifyContent="space-between"
               alignItems="center"
