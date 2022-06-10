@@ -77,7 +77,7 @@ export default function Chart() {
           tickLine={false}
           tick={false}
         />
-        <CartesianGrid {...defaultCartesianGridProps} />
+        <CartesianGrid {...defaultCartesianGridProps} horizontal={false} />
         <Bar dataKey="value" fill={fill} />
         <Tooltip
           label="消息量 (条)"
