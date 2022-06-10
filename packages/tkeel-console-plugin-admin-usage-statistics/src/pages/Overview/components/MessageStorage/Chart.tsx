@@ -56,7 +56,7 @@ export default function Chart() {
         />
         <XAxis
           {...defaultXAxisProps}
-          xAxisId={123}
+          xAxisId={1}
           orientation="top"
           height={1}
           tickLine={false}
@@ -71,7 +71,7 @@ export default function Chart() {
         />
         <YAxis
           {...defaultYAxisProps}
-          yAxisId={123}
+          yAxisId={1}
           orientation="right"
           width={1}
           tickLine={false}
