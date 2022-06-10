@@ -1,11 +1,11 @@
 import { useQuery } from '@tkeel/console-hooks';
 
 import useTenantId from '@/tkeel-console-plugin-admin-usage-statistics/hooks/useTenantId';
-import type { QueryItem } from '@/tkeel-console-plugin-admin-usage-statistics/types/query';
+import type { Result } from '@/tkeel-console-plugin-admin-usage-statistics/types/query';
 
 interface ApiData {
   '@type': string;
-  result: QueryItem;
+  result: Result;
 }
 
 interface RequestParams {
@@ -33,9 +33,9 @@ export default function usePrometheusTKMeterQuery({
     method: 'GET',
     params: newParams,
   });
-  const queryItem = res.data?.result;
-  const valueItem = queryItem?.result[0]?.value;
-  const valueItems = queryItem?.result[0]?.values ?? [];
+  const result = res.data?.result;
+  const valueItem = result?.result[0]?.value;
+  const valueItems = result?.result[0]?.values ?? [];
 
   return { ...res, valueItem, valueItems };
 }

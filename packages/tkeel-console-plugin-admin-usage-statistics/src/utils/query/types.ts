@@ -1,31 +1,28 @@
 import type {
-  QueryItem,
+  Result,
   ValueItem,
 } from '@/tkeel-console-plugin-admin-usage-statistics/types/query';
 
-interface FindQueryItemInQueryItemsOptions {
-  data: QueryItem[];
+interface FindQueryItemInResultsOptions {
+  data: Result[];
   query: string;
 }
 
-interface FindValueItemsInQueryItemsOptions
-  extends FindQueryItemInQueryItemsOptions {
+interface FindValueItemsInResultsOptions extends FindQueryItemInResultsOptions {
   defaults?: ValueItem[];
 }
 
-interface FindValueItemInQueryItemsOptions
-  extends FindQueryItemInQueryItemsOptions {
+interface FindValueItemInResultsOptions extends FindQueryItemInResultsOptions {
   defaults?: ValueItem;
 }
 
-interface FindValueInQueryItemsOptions
-  extends FindQueryItemInQueryItemsOptions {
+interface FindValueInResultsOptions extends FindQueryItemInResultsOptions {
   defaults?: number;
 }
 
 export type {
-  FindQueryItemInQueryItemsOptions,
-  FindValueInQueryItemsOptions,
-  FindValueItemInQueryItemsOptions,
-  FindValueItemsInQueryItemsOptions,
+  FindQueryItemInResultsOptions,
+  FindValueInResultsOptions,
+  FindValueItemInResultsOptions,
+  FindValueItemsInResultsOptions,
 };

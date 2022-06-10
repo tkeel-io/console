@@ -4,10 +4,10 @@ import { find } from 'lodash';
 import { getTimestamp } from '@tkeel/console-utils';
 
 import type {
-  FindQueryItemInQueryItemsOptions,
-  FindValueInQueryItemsOptions,
-  FindValueItemInQueryItemsOptions,
-  FindValueItemsInQueryItemsOptions,
+  FindQueryItemInResultsOptions,
+  FindValueInResultsOptions,
+  FindValueItemInResultsOptions,
+  FindValueItemsInResultsOptions,
 } from './types';
 
 export function getQueryParamsLast7Days() {
@@ -19,39 +19,39 @@ export function getQueryParamsLast7Days() {
   return { st, step };
 }
 
-function findQueryItemInQueryItems({
+function findQueryItemInResults({
   data,
   query,
-}: FindQueryItemInQueryItemsOptions) {
+}: FindQueryItemInResultsOptions) {
   return find(data, { query });
 }
 
-export function findValueItemsInQueryItems({
+export function findValueItemsInResults({
   data,
   query,
   defaults = [],
-}: FindValueItemsInQueryItemsOptions) {
-  const item = findQueryItemInQueryItems({ data, query });
+}: FindValueItemsInResultsOptions) {
+  const item = findQueryItemInResults({ data, query });
 
   return item?.result[0]?.values ?? defaults;
 }
 
-export function findValueItemInQueryItems({
+export function findValueItemInResults({
   data,
   query,
   defaults,
-}: FindValueItemInQueryItemsOptions) {
-  const item = findQueryItemInQueryItems({ data, query });
+}: FindValueItemInResultsOptions) {
+  const item = findQueryItemInResults({ data, query });
 
   return item?.result[0]?.value ?? defaults;
 }
 
-export function findValueInQueryItems({
+export function findValueInResults({
   data,
   query,
   defaults = 0,
-}: FindValueInQueryItemsOptions) {
-  const item = findValueItemInQueryItems({ data, query });
+}: FindValueInResultsOptions) {
+  const item = findValueItemInResults({ data, query });
 
   return item?.value ?? defaults;
 }

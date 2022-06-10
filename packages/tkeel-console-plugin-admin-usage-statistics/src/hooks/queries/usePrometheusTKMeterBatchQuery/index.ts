@@ -2,18 +2,18 @@ import { useQuery } from '@tkeel/console-hooks';
 
 import useTenantId from '@/tkeel-console-plugin-admin-usage-statistics/hooks/useTenantId';
 import type {
-  QueryItem,
+  Result,
   ValueItemMap,
   ValueItemsMap,
 } from '@/tkeel-console-plugin-admin-usage-statistics/types/query';
 import {
-  findValueItemInQueryItems,
-  findValueItemsInQueryItems,
+  findValueItemInResults,
+  findValueItemsInResults,
 } from '@/tkeel-console-plugin-admin-usage-statistics/utils/query';
 
 interface ApiData {
   '@type': string;
-  results: QueryItem[];
+  results: Result[];
 }
 
 interface RequestParams {
@@ -45,23 +45,23 @@ export default function usePrometheusTKMeterBatchQuery({
   const newParams =
     isWithTenantId && tenantId ? { tenant_id: tenantId, ...p } : p;
 
-  const result = useQuery<ApiData, RequestParams>({
+  const res = useQuery<ApiData, RequestParams>({
     url: '/tkeel-monitor/v1/prometheus/batch_tkmeter',
     method: 'GET',
     params: newParams,
   });
-  const queryItems = result.data?.results ?? [];
+  const results = res.data?.results ?? [];
 
   const valueItemMap: ValueItemMap = {};
   const valueItemsMap: ValueItemsMap = {};
 
   meterList.forEach((meter) => {
-    const valueItem = findValueItemInQueryItems({
-      data: queryItems,
+    const valueItem = findValueItemInResults({
+      data: results,
       query: meter,
     });
-    const valueItems = findValueItemsInQueryItems({
-      data: queryItems,
+    const valueItems = findValueItemsInResults({
+      data: results,
       query: meter,
     });
 
@@ -69,5 +69,5 @@ export default function usePrometheusTKMeterBatchQuery({
     valueItemsMap[meter] = valueItems;
   });
 
-  return { ...result, queryItems, valueItemMap, valueItemsMap };
+  return { ...res, results, valueItemMap, valueItemsMap };
 }

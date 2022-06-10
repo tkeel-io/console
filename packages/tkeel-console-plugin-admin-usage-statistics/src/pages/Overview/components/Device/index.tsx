@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Tips } from '@tkeel/console-components';
 
 import usePrometheusTKMeterBatchQuery from '@/tkeel-console-plugin-admin-usage-statistics/hooks/queries/usePrometheusTKMeterBatchQuery';
-import { findValueInQueryItems } from '@/tkeel-console-plugin-admin-usage-statistics/utils/query';
+import { findValueInResults } from '@/tkeel-console-plugin-admin-usage-statistics/utils/query';
 
 import DeviceBox, { sx } from './DeviceBox';
 import DeviceItem from './DeviceItem';
@@ -27,7 +27,7 @@ const METERS = [
 
 export default function Device() {
   const navigate = useNavigate();
-  const { isLoading, queryItems } = usePrometheusTKMeterBatchQuery({
+  const { isLoading, results } = usePrometheusTKMeterBatchQuery({
     params: { meters: METERS },
   });
   const [
@@ -39,7 +39,7 @@ export default function Device() {
     ruleNum,
     ruleExecuteNum24h,
     rateRuleFailure24h,
-  ] = METERS.map((query) => findValueInQueryItems({ data: queryItems, query }));
+  ] = METERS.map((query) => findValueInResults({ data: results, query }));
 
   return (
     <HStack width="full" spacing="8px">

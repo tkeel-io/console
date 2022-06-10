@@ -3,15 +3,15 @@ interface ValueItem {
   value: number;
 }
 
-interface ResultItem {
+interface ResItem {
   metric: Record<string, unknown>;
   value: ValueItem | null;
   values: ValueItem[];
 }
 
-interface QueryItem {
+interface Result {
   query: string;
-  result: ResultItem[];
+  result: [ResItem];
   result_type: string;
 }
 
@@ -23,4 +23,4 @@ interface ValueItemsMap {
   [name: string]: ValueItem[];
 }
 
-export type { QueryItem, ValueItem, ValueItemMap, ValueItemsMap };
+export type { Result, ValueItem, ValueItemMap, ValueItemsMap };

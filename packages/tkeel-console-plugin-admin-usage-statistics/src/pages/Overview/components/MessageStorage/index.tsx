@@ -4,7 +4,7 @@ import { Tips } from '@tkeel/console-components';
 
 import BaseBox from '@/tkeel-console-plugin-admin-usage-statistics/components/BaseBox';
 import usePrometheusTKMeterBatchQuery from '@/tkeel-console-plugin-admin-usage-statistics/hooks/queries/usePrometheusTKMeterBatchQuery';
-import { findValueInQueryItems } from '@/tkeel-console-plugin-admin-usage-statistics/utils/query';
+import { findValueInResults } from '@/tkeel-console-plugin-admin-usage-statistics/utils/query';
 
 import ModuleHeader from '../ModuleHeader';
 import Block from './Block';
@@ -19,7 +19,7 @@ const METERS = [
 ];
 
 export default function MessageStorage() {
-  const { isLoading, queryItems } = usePrometheusTKMeterBatchQuery({
+  const { isLoading, results } = usePrometheusTKMeterBatchQuery({
     params: { meters: METERS },
     isWithTenantId: false,
   });
@@ -29,7 +29,7 @@ export default function MessageStorage() {
     coreMSgDays,
     msgStorageSpaceUnusedBytes,
     msgStorageSpaceUsagePercentage,
-  ] = METERS.map((query) => findValueInQueryItems({ data: queryItems, query }));
+  ] = METERS.map((query) => findValueInResults({ data: results, query }));
 
   return (
     <Box width="100%">
