@@ -1,7 +1,15 @@
+import type { ManipulateType } from 'dayjs';
+
 import type {
   Result,
   ValueItem,
 } from '@/tkeel-console-plugin-admin-usage-statistics/types/query';
+
+interface GetQueryParamsLastTimesOptions {
+  unit: ManipulateType;
+  timeValue: number;
+  step: string;
+}
 
 interface FindQueryItemInResultsOptions {
   data: Result[];
@@ -25,4 +33,5 @@ export type {
   FindValueInResultsOptions,
   FindValueItemInResultsOptions,
   FindValueItemsInResultsOptions,
+  GetQueryParamsLastTimesOptions,
 };

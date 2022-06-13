@@ -1,15 +1,5 @@
-import ChartContainer from './ChartContainer';
+import { Box } from '@chakra-ui/react';
 
 export default function TimeChart() {
-  return (
-    <ChartContainer
-      summary={{
-        name: '24 小时内 API 调用最大耗时：',
-        value: 29,
-        unit: '/ms',
-      }}
-    >
-      TimeChart
-    </ChartContainer>
-  );
+  return <Box padding="16px 16px 0">TimeChart</Box>;
 }

@@ -1,10 +1,10 @@
-import { Box, Flex, HStack, Text } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import type { ReactNode } from 'react';
 
-import { numeral } from '@tkeel/console-utils';
+import ChartHeader from './ChartHeader';
 
 interface Props {
-  summary: {
+  header: {
     name: string;
     value: number;
     valueFormatter?: boolean | string;
@@ -13,29 +13,11 @@ interface Props {
   children: ReactNode;
 }
 
-export default function ChartContainer({ summary, children }: Props) {
+export default function ChartContainer({ header, children }: Props) {
   return (
-    <Flex flexDirection="column" padding="16px 16px 0">
-      <HStack alignItems="center" spacing="4px">
-        <Text fontSize="12px" lineHeight="20px" color="gray.700">
-          {summary.name}
-        </Text>
-        <Text
-          fontWeight="500"
-          fontSize="14px"
-          lineHeight="20px"
-          color="gray.700"
-        >
-          {numeral.formatReactNode({
-            input: summary.value,
-            formatter: summary.valueFormatter,
-          })}
-        </Text>
-        <Text fontSize="12px" lineHeight="20px" color="gray.500">
-          {summary.unit}
-        </Text>
-      </HStack>
-      <Box flex="1">{children}</Box>
-    </Flex>
+    <Box position="relative">
+      <ChartHeader {...header} sx={{ position: 'absolute', top: 0, left: 0 }} />
+      {children}
+    </Box>
   );
 }

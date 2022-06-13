@@ -8,15 +8,33 @@ import type {
   FindValueInResultsOptions,
   FindValueItemInResultsOptions,
   FindValueItemsInResultsOptions,
+  GetQueryParamsLastTimesOptions,
 } from './types';
 
-export function getQueryParamsLast7Days() {
+function getQueryParamsLastTimes({
+  unit,
+  timeValue,
+  step,
+}: GetQueryParamsLastTimesOptions) {
   const current = getTimestamp();
-  const et = dayjs(current).startOf('day').valueOf();
-  const st = dayjs(et).subtract(7, 'day').valueOf();
-  const step = '24h';
+  const et = dayjs(current).startOf(unit).valueOf();
+  const st = dayjs(et)
+    .subtract(timeValue - 1, unit)
+    .valueOf();
 
   return { st, step };
+}
+
+export function getQueryParamsLast24Hours() {
+  return getQueryParamsLastTimes({
+    unit: 'hour',
+    timeValue: 24,
+    step: '1h',
+  });
+}
+
+export function getQueryParamsLast7Days() {
+  return getQueryParamsLastTimes({ unit: 'day', timeValue: 7, step: '24h' });
 }
 
 function findQueryItemInResults({
