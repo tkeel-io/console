@@ -99,7 +99,9 @@ export default function TimeChart() {
             tickCount={5}
             // allowDecimals={false}
             tickLine={false}
-            tickFormatter={(value: number) => numeral.format({ input: value })}
+            tickFormatter={(value: number) =>
+              numeral.format({ input: value, formatter: '0,0.00' })
+            }
           />
           <CartesianGrid {...defaultCartesianGridProps} />
           <Legend
@@ -118,6 +120,7 @@ export default function TimeChart() {
             formatter={(value: number) => {
               const res = numeral.format({
                 input: value,
+                formatter: '0,0.00',
               });
               return [`${res} 次`, 'API 调用次数'];
             }}
