@@ -12,6 +12,7 @@ import {
 
 import {
   useCartesianGridProps,
+  useLegendProps,
   useTooltipProps,
   useXAxisProps,
   useYAxisProps,
@@ -48,6 +49,7 @@ export default function FrequencyChart() {
   const defaultXAxisProps = useXAxisProps();
   const defaultYAxisProps = useYAxisProps();
   const defaultCartesianGridProps = useCartesianGridProps();
+  const defaultLegendProps = useLegendProps();
   const defaultTooltipProps = useTooltipProps();
   const fill = useColor('green.300');
 
@@ -83,13 +85,7 @@ export default function FrequencyChart() {
             }
           />
           <CartesianGrid {...defaultCartesianGridProps} />
-          <Legend
-            align="right"
-            verticalAlign="top"
-            iconSize={6}
-            iconType="circle"
-            wrapperStyle={{ top: 0, right: 0 }}
-          />
+          <Legend {...defaultLegendProps} />
           <Bar dataKey="value" fill={fill} />
           <Tooltip
             {...defaultTooltipProps}
