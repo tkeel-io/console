@@ -1,20 +1,21 @@
 import type { SVGProps } from 'react';
 
-const AXIS_LINE: SVGProps<SVGLineElement> = {
-  strokeWidth: '1px',
-};
+interface Props {
+  axisLine: SVGProps<SVGLineElement>;
+  tickLine: SVGProps<SVGTextElement>;
+  tickSize: number;
+  tick: SVGProps<SVGTextElement>;
+}
 
-const TICK_LINE: SVGProps<SVGTextElement> = {
-  strokeWidth: '1px',
-};
-
-const TICK: SVGProps<SVGTextElement> = {
-  fontSize: '12px',
-};
-
-export const DEFAULT_PROPS = {
-  axisLine: AXIS_LINE,
-  tickLine: TICK_LINE,
+export const DEFAULT_PROPS: Props = {
+  axisLine: {
+    strokeWidth: '1px',
+  },
+  tickLine: {
+    strokeWidth: '1px',
+  },
   tickSize: 4,
-  tick: TICK,
+  tick: {
+    fontSize: '12px',
+  },
 };
