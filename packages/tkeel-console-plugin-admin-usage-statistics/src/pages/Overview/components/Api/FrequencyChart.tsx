@@ -5,13 +5,14 @@ import {
   CartesianGrid,
   Legend,
   ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
 } from 'recharts';
 
 import {
-  Tooltip,
   useCartesianGridProps,
+  useTooltipProps,
   useXAxisProps,
   useYAxisProps,
 } from '@tkeel/console-charts';
@@ -26,6 +27,14 @@ import ChartContainer from './ChartContainer';
 
 const params = getQueryParamsLast24Hours();
 
+function getShowTime(timestamp: number) {
+  return dayjs(timestamp - 1)
+    .startOf('hour')
+    .valueOf();
+}
+
+const TEMPLATE = 'HH:mm';
+
 export default function FrequencyChart() {
   const { valueItem } = usePrometheusTKMeterQuery({
     params: { meter: 'sum_tkapi_request_24h' },
@@ -39,6 +48,7 @@ export default function FrequencyChart() {
   const defaultXAxisProps = useXAxisProps();
   const defaultYAxisProps = useYAxisProps();
   const defaultCartesianGridProps = useCartesianGridProps();
+  const defaultTooltipProps = useTooltipProps();
   const fill = useColor('green.300');
 
   return (
@@ -57,10 +67,8 @@ export default function FrequencyChart() {
             tickLine={false}
             tickFormatter={(value: number) =>
               formatDateTimeByTimestamp({
-                timestamp: dayjs(value - 1)
-                  .startOf('hour')
-                  .valueOf(),
-                template: 'HH:mm',
+                timestamp: getShowTime(value),
+                template: TEMPLATE,
               })
             }
           />
@@ -84,12 +92,11 @@ export default function FrequencyChart() {
           />
           <Bar dataKey="value" fill={fill} />
           <Tooltip
+            {...defaultTooltipProps}
             labelFormatter={(label: number) =>
               formatDateTimeByTimestamp({
-                timestamp: dayjs(label - 1)
-                  .startOf('hour')
-                  .valueOf(),
-                template: 'HH:mm',
+                timestamp: getShowTime(label),
+                template: TEMPLATE,
               })
             }
             formatter={(value: number) => {

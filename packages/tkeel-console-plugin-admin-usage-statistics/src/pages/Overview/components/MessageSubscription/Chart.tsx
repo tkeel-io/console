@@ -1,7 +1,18 @@
 import { Skeleton } from '@chakra-ui/react';
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
+import {
+  Bar,
+  BarChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts';
 
-import { Tooltip, useXAxisProps, useYAxisProps } from '@tkeel/console-charts';
+import {
+  useTooltipProps,
+  useXAxisProps,
+  useYAxisProps,
+} from '@tkeel/console-charts';
 import { formatDateTimeByTimestamp, numeral } from '@tkeel/console-utils';
 
 import type { ValueItem } from '@/tkeel-console-plugin-admin-usage-statistics/types/query';
@@ -17,6 +28,7 @@ export default function Chart({ data, isLoading, barColor }: Props) {
   const newData = fillDataLast7Days({ data });
   const defaultXAxisProps = useXAxisProps();
   const defaultYAxisProps = useYAxisProps();
+  const defaultTooltipProps = useTooltipProps();
 
   if (isLoading) {
     return <Skeleton height="100%" />;
@@ -51,7 +63,7 @@ export default function Chart({ data, isLoading, barColor }: Props) {
         />
         <Bar dataKey="value" fill={barColor} />
         <Tooltip
-          label="上行消息 (条)"
+          {...defaultTooltipProps}
           labelFormatter={(label: number) =>
             formatDateTimeByTimestamp({
               timestamp: label - 1,

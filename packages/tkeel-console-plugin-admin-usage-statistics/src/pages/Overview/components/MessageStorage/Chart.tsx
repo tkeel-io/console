@@ -4,13 +4,14 @@ import {
   BarChart,
   CartesianGrid,
   ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
 } from 'recharts';
 
 import {
-  Tooltip,
   useCartesianGridProps,
+  useTooltipProps,
   useXAxisProps,
   useYAxisProps,
 } from '@tkeel/console-charts';
@@ -33,6 +34,7 @@ export default function Chart() {
   const defaultXAxisProps = useXAxisProps();
   const defaultYAxisProps = useYAxisProps();
   const defaultCartesianGridProps = useCartesianGridProps();
+  const defaultTooltipProps = useTooltipProps();
 
   if (isLoading) {
     return <Skeleton height="100%" />;
@@ -79,7 +81,7 @@ export default function Chart() {
         <CartesianGrid {...defaultCartesianGridProps} horizontal={false} />
         <Bar dataKey="value" fill={fill} />
         <Tooltip
-          label="消息量 (条)"
+          {...defaultTooltipProps}
           labelFormatter={(label: number) =>
             formatDateTimeByTimestamp({
               timestamp: label - 1,
