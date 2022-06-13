@@ -97,9 +97,9 @@ export default function TimeChart() {
             {...defaultYAxisProps}
             dataKey="value"
             tickCount={5}
-            allowDecimals={false}
+            // allowDecimals={false}
             tickLine={false}
-            tickFormatter={(value) => numeral.format({ input: value * 1000 })}
+            tickFormatter={(value: number) => numeral.format({ input: value })}
           />
           <CartesianGrid {...defaultCartesianGridProps} />
           <Legend
