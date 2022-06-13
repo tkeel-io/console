@@ -1,3 +1,4 @@
+import { Skeleton } from '@chakra-ui/react';
 import * as dayjs from 'dayjs';
 import {
   Bar,
@@ -36,13 +37,15 @@ function getShowTime(timestamp: number) {
 
 const TEMPLATE = 'HH:mm';
 
+const HEIGHT = '184px';
+
 export default function FrequencyChart() {
-  const { valueItem } = usePrometheusTKMeterQuery({
+  const { isLoading: isSummaryLading, valueItem } = usePrometheusTKMeterQuery({
     params: { meter: 'sum_tkapi_request_24h' },
   });
-  const sum = valueItem?.value ?? 0;
+  const summaryValue = valueItem?.value ?? 0;
 
-  const { valueItems } = usePrometheusTKMeterQuery({
+  const { isLoading: isChartLoading, valueItems } = usePrometheusTKMeterQuery({
     params: { ...params, meter: 'sum_tkapi_request_1h' },
   });
   const data = fillDataLast24Hours({ data: valueItems });
@@ -53,13 +56,18 @@ export default function FrequencyChart() {
   const defaultTooltipProps = useTooltipProps();
   const fill = useColor('green.300');
 
+  if (isSummaryLading || isChartLoading) {
+    return <Skeleton height={HEIGHT} />;
+  }
+
   return (
     <ChartContainer
       header={{
         name: '24 小时内 API 调用总次数：',
-        value: sum,
+        value: summaryValue,
         unit: '次',
       }}
+      sx={{ height: HEIGHT, padding: '16px 16px 0' }}
     >
       <ResponsiveContainer>
         <BarChart data={data} barCategoryGap="80%" margin={{ top: 15 }}>

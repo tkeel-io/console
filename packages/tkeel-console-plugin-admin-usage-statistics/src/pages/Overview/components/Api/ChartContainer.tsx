@@ -1,3 +1,4 @@
+import type { StyleProps } from '@chakra-ui/react';
 import { Box } from '@chakra-ui/react';
 import type { ReactNode } from 'react';
 
@@ -11,13 +12,19 @@ interface Props {
     unit: string;
   };
   children: ReactNode;
+  sx?: StyleProps;
 }
 
-export default function ChartContainer({ header, children }: Props) {
+export default function ChartContainer({ header, children, sx }: Props) {
   return (
-    <Box position="relative">
-      <ChartHeader {...header} sx={{ position: 'absolute', top: 0, left: 0 }} />
-      {children}
+    <Box {...sx}>
+      <Box position="relative">
+        <ChartHeader
+          {...header}
+          sx={{ position: 'absolute', top: 0, left: 0 }}
+        />
+        {children}
+      </Box>
     </Box>
   );
 }

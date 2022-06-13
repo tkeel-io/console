@@ -45,7 +45,7 @@ export default function Api() {
           onChange={(val) => setValue(val as string)}
         />
         <Box flex="1" padding="12px 16px" backgroundColor="gray.50">
-          <Box height="184px" padding="16px 16px 0" backgroundColor="white">
+          <Box backgroundColor="white">
             {value === 'sum_tkapi_request_7d' && <FrequencyChart />}
             {value === 'avg_tkapi_request_latency_7d' && <TimeChart />}
           </Box>
