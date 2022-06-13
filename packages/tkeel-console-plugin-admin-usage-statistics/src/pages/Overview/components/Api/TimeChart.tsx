@@ -44,7 +44,7 @@ export default function TimeChart() {
   const { isLoading: isSummaryLading, valueItem } = usePrometheusTKMeterQuery({
     params: { meter: 'avg_tkapi_request_latency_24h' },
   });
-  const summaryValue = valueItem?.value ?? 0;
+  const summaryValue = (valueItem?.value ?? 0) * 1000;
 
   const { isLoading: isChartLoading, valueItemsMap } =
     usePrometheusTKMeterBatchQuery({
@@ -76,6 +76,7 @@ export default function TimeChart() {
       header={{
         name: '24 小时内 API 调用 平均耗时：',
         value: summaryValue,
+        valueFormatter: '0,0.00',
         unit: '/ms',
       }}
     >
