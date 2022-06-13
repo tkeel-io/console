@@ -85,7 +85,10 @@ export default function FrequencyChart() {
             }
           />
           <CartesianGrid {...defaultCartesianGridProps} />
-          <Legend {...defaultLegendProps} />
+          <Legend
+            {...defaultLegendProps}
+            wrapperStyle={{ top: 0, right: 0, visibility: 'hidden' }}
+          />
           <Bar dataKey="value" fill={fill} />
           <Tooltip
             {...defaultTooltipProps}
