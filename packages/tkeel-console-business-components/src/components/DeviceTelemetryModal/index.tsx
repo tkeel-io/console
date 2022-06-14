@@ -5,6 +5,7 @@ import { useFieldArray, useForm } from 'react-hook-form';
 
 import { FormField, Modal } from '@tkeel/console-components';
 import { TelemetryFormFields } from '@tkeel/console-request-hooks';
+import { plugin } from '@tkeel/console-utils';
 
 import DeviceDataType from '../DeviceDataType';
 import { DATA_TYPE_CONFIG } from '../DeviceDataType/constants';
@@ -42,6 +43,8 @@ export default function DeviceTelemetryModal({
   onClose,
   onConfirm,
 }: Props) {
+  const toast = plugin.getPortalToast();
+
   const extendInfo = useMemo(() => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const defaultExt = defaultValues?.define?.ext ?? {};
@@ -111,11 +114,19 @@ export default function DeviceTelemetryModal({
         keyBy(formValues?.extendInfo ?? [], 'label'),
         'value'
       );
+
+      if (
+        formValues.type === 'enum' &&
+        Object.keys(ext).some((item) => !/^\d+$/.test(item))
+      ) {
+        toast.error(`数据类型为枚举时，key值需为number类型`);
+        return;
+      }
       const formValuesCopy = {
         ...formValues,
         define: { ext, ...defineAtt },
-        extendInfo: null,
-        fields: null,
+        extendInfo: undefined,
+        fields: undefined,
       };
 
       onConfirm(formValuesCopy);
@@ -169,7 +180,7 @@ export default function DeviceTelemetryModal({
         fieldArrayHandler={fieldArrayHandler}
         supportExtendedConfig
         extendedArrayHandler={extendedArrayHandler}
-        dataTypeConfig={['int', 'float', 'double', 'bool']}
+        dataTypeConfig={['int', 'float', 'double', 'bool', 'enum']}
       />
       <Box>
         <Text color="gray.600" fontSize="14px" mb="4px">
