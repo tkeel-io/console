@@ -1,8 +1,11 @@
+// import { keyBy } from 'lodash';
+
 import { useQuery } from '@tkeel/console-hooks';
 
 import useTenantId from '@/tkeel-console-plugin-admin-usage-statistics/hooks/useTenantId';
 import type {
   Result,
+  // ValueItem,
   ValueItemMap,
   ValueItemsMap,
 } from '@/tkeel-console-plugin-admin-usage-statistics/types/query';
@@ -68,6 +71,14 @@ export default function usePrometheusTKMeterBatchQuery({
     valueItemMap[meter] = valueItem;
     valueItemsMap[meter] = valueItems;
   });
+
+  /* const args: { [p: number]: ValueItem }[] = meterList.map((meter) => {
+    const valueItems = valueItemsMap[meter];
+    return keyBy(valueItems, 'timestamp');
+  }) as const;
+  console.log(args); */
+
+  // const c = merge(...args);
 
   return { ...res, results, valueItemMap, valueItemsMap };
 }

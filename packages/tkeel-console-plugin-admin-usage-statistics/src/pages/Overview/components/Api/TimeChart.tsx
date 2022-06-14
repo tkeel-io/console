@@ -1,5 +1,6 @@
 import { Skeleton } from '@chakra-ui/react';
 import * as dayjs from 'dayjs';
+// import { keyBy, merge } from 'lodash';
 import {
   Area,
   AreaChart,
@@ -28,6 +29,10 @@ import { getQueryParamsLast24Hours } from '@/tkeel-console-plugin-admin-usage-st
 
 import ChartContainer from './ChartContainer';
 
+// const a = [{ a: 1 }, { b: 1 }] as const;
+// const r = merge(...a);
+// console.log(r);
+
 const params = getQueryParamsLast24Hours();
 
 function getShowTime(timestamp: number) {
@@ -40,6 +45,12 @@ const TEMPLATE = 'HH:mm';
 
 const HEIGHT = '184px';
 
+const METERS = [
+  'p95_tkapi_request_latency',
+  'p99_tkapi_request_latency',
+  'p999_tkapi_request_latency',
+];
+
 export default function TimeChart() {
   const { isLoading: isSummaryLading, valueItem } = usePrometheusTKMeterQuery({
     params: { meter: 'avg_tkapi_request_latency_24h' },
@@ -50,16 +61,19 @@ export default function TimeChart() {
     usePrometheusTKMeterBatchQuery({
       params: {
         ...params,
-        meters: [
-          'p95_tkapi_request_latency',
-          'p99_tkapi_request_latency',
-          'p999_tkapi_request_latency',
-        ],
+        meters: METERS,
       },
     });
+  // const p95 = keyBy(valueItemsMap[METERS[0]], 'timestamp');
+  // const p99 = keyBy(valueItemsMap[METERS[1]], 'timestamp');
+  // const p999 = keyBy(valueItemsMap[METERS[2]], 'timestamp');
+  // const c = merge({}, p95, p99, p999);
+  // console.log(c);
+
   const data = fillDataLast24Hours({
     data: valueItemsMap.p95_tkapi_request_latency,
   });
+
   const defaultXAxisProps = useXAxisProps();
   const defaultYAxisProps = useYAxisProps();
   const defaultCartesianGridProps = useCartesianGridProps();
@@ -74,11 +88,12 @@ export default function TimeChart() {
   return (
     <ChartContainer
       header={{
-        name: '24 小时内 API 调用 平均耗时：',
+        name: '24 小时内 API 调用平均耗时：',
         value: summaryValue,
         valueFormatter: '0,0.00',
-        unit: '/ms',
+        unit: 'ms',
       }}
+      sx={{ height: HEIGHT, padding: '16px 16px 0' }}
     >
       <ResponsiveContainer>
         <AreaChart data={data} barCategoryGap="80%" margin={{ top: 15 }}>
@@ -122,7 +137,7 @@ export default function TimeChart() {
                 input: value,
                 formatter: '0,0.00',
               });
-              return [`${res} 次`, 'API 调用次数'];
+              return [`${res} ms`, 'API 调用耗时'];
             }}
           />
         </AreaChart>
