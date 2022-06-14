@@ -101,7 +101,7 @@ export default function TimeChart() {
     >
       {data.length > 0 ? (
         <ResponsiveContainer>
-          <AreaChart data={data} barCategoryGap="80%" margin={{ top: 15 }}>
+          <AreaChart data={data} margin={{ top: 15 }}>
             <XAxis
               {...defaultXAxisProps}
               dataKey="timestamp"

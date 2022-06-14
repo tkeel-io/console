@@ -1,3 +1,5 @@
+const { tkeel } = require('../../../config/default');
+
 module.exports = {
   portalName: 'admin',
   publicPath: '/static/console-plugin-admin-usage-statistics/',
@@ -26,7 +28,7 @@ module.exports = {
           ],
         },
       ],
-      dependence: ['tkeel-monitor'],
+      dependence: [{ id: 'tkeel-monitor', version: tkeel.version }],
     },
   },
 };
