@@ -164,6 +164,7 @@ export default function DeviceTelemetryModal({
         error={errors.name}
         registerReturn={register('name', {
           required: { value: true, message: '请填写遥测名称' },
+          maxLength: { value: 32, message: '长度最多32' },
         })}
       />
       <TextField
@@ -173,6 +174,7 @@ export default function DeviceTelemetryModal({
         error={errors.id}
         registerReturn={register('id', {
           required: { value: true, message: '请填写遥测ID' },
+          maxLength: { value: 32, message: '长度最多32' },
         })}
       />
       <DeviceDataType

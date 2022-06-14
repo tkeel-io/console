@@ -35,5 +35,6 @@ export { default as Table } from './components/Table';
 export { default as Tips } from './components/Tips';
 export * from './components/Toast';
 export { default as Tooltip } from './components/Tooltip';
+export { default as TooltipText } from './components/TooltipText';
 export * from './components/Tree';
 export * from './components/TreeSelect';
