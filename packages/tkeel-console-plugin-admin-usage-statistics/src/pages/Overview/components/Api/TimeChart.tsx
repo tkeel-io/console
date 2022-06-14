@@ -1,5 +1,5 @@
 import { Skeleton } from '@chakra-ui/react';
-import * as dayjs from 'dayjs';
+import { find } from 'lodash';
 import {
   Area,
   AreaChart,
@@ -29,12 +29,6 @@ import { getQueryParamsLast24Hours } from '@/tkeel-console-plugin-admin-usage-st
 import ChartContainer from './ChartContainer';
 
 const params = getQueryParamsLast24Hours();
-
-function getShowTime(timestamp: number) {
-  return dayjs(timestamp - 1)
-    .startOf('hour')
-    .valueOf();
-}
 
 const TEMPLATE = 'HH:mm';
 
@@ -112,27 +106,32 @@ export default function TimeChart() {
             tickLine={false}
             tickFormatter={(value: number) =>
               formatDateTimeByTimestamp({
-                timestamp: getShowTime(value),
+                timestamp: value,
                 template: TEMPLATE,
               })
             }
           />
           <YAxis
             {...defaultYAxisProps}
-            tickCount={5}
-            domain={['dataMin - 10', 'dataMax + 10']}
+            // tickCount={5}
             allowDecimals={false}
             tickLine={false}
             tickFormatter={(value: number) => numeral.format({ input: value })}
           />
           <CartesianGrid {...defaultCartesianGridProps} />
-          <Legend {...defaultLegendProps} />
+          <Legend
+            {...defaultLegendProps}
+            formatter={(value: string) => {
+              const area = find(areas, { meter: value });
+              return area?.label ?? '';
+            }}
+          />
           {areas.map(({ meter, fill, stroke }) => (
             <Area
               key={meter}
               dataKey={meter}
               fill={fill}
-              fillOpacity={0.5}
+              fillOpacity={0.3}
               stroke={stroke}
             />
           ))}
@@ -140,16 +139,17 @@ export default function TimeChart() {
             {...defaultTooltipProps}
             labelFormatter={(label: number) =>
               formatDateTimeByTimestamp({
-                timestamp: getShowTime(label),
+                timestamp: label,
                 template: TEMPLATE,
               })
             }
-            formatter={(value: number) => {
+            formatter={(value: number, name: string) => {
+              const area = find(areas, { meter: name });
               const res = numeral.format({
                 input: value,
                 formatter: '0,0.00',
               });
-              return [`${res} ms`, 'API 调用耗时'];
+              return [`${res} ms`, area?.label];
             }}
           />
         </AreaChart>
