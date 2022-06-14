@@ -1,4 +1,4 @@
-import { chain, keyBy, merge } from 'lodash';
+import { keyBy, merge, sortBy, values } from 'lodash';
 
 import { useQuery } from '@tkeel/console-hooks';
 
@@ -80,10 +80,7 @@ export default function usePrometheusTKMeterBatchQuery({
     timestampItemMap = merge({}, timestampItemMap, map);
   });
 
-  const timestampItems = chain(timestampItemMap)
-    .values()
-    .sortBy('timestamp')
-    .value();
+  const timestampItems = sortBy(values(timestampItemMap));
 
   return {
     ...res,
