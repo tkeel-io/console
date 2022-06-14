@@ -1,6 +1,9 @@
 import type { ManipulateType } from 'dayjs';
 
-import type { ValueItem } from '@/tkeel-console-plugin-admin-usage-statistics/types/query';
+import type {
+  TimestampItem,
+  ValueItem,
+} from '@/tkeel-console-plugin-admin-usage-statistics/types/query';
 
 interface FillDataLastTimes {
   data: ValueItem[];
@@ -10,4 +13,19 @@ interface FillDataLastTimes {
 
 type FillDataLastCommonTimes = Omit<FillDataLastTimes, 'unit' | 'timeValue'>;
 
-export type { FillDataLastCommonTimes, FillDataLastTimes };
+interface FormatTimestampItemOptions {
+  data: TimestampItem;
+  formatter: (value: number) => number;
+}
+
+interface FormatTimestampItemsOptions {
+  data: TimestampItem[];
+  formatter: (value: number) => number;
+}
+
+export type {
+  FillDataLastCommonTimes,
+  FillDataLastTimes,
+  FormatTimestampItemOptions,
+  FormatTimestampItemsOptions,
+};

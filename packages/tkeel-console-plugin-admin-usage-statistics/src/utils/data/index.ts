@@ -2,7 +2,14 @@ import * as dayjs from 'dayjs';
 
 import { getTimestamp } from '@tkeel/console-utils';
 
-import type { FillDataLastCommonTimes, FillDataLastTimes } from './types';
+import type { TimestampItem } from '@/tkeel-console-plugin-admin-usage-statistics/types/query';
+
+import type {
+  FillDataLastCommonTimes,
+  FillDataLastTimes,
+  FormatTimestampItemOptions,
+  FormatTimestampItemsOptions,
+} from './types';
 
 function fillDataLastTimes({ data, unit, timeValue }: FillDataLastTimes) {
   const current = getTimestamp();
@@ -31,4 +38,24 @@ export function fillDataLast24Hours({ data }: FillDataLastCommonTimes) {
 
 export function fillDataLast7Days({ data }: FillDataLastCommonTimes) {
   return fillDataLastTimes({ data, unit: 'day', timeValue: 7 });
+}
+
+export function formatTimestampItem({
+  data,
+  formatter,
+}: FormatTimestampItemOptions) {
+  const { timestamp, ...rest } = data;
+  const newData: TimestampItem = { timestamp };
+  Object.entries(rest).forEach(([key, value]) => {
+    newData[key] = formatter(value);
+  });
+
+  return newData;
+}
+
+export function formatTimestampItems({
+  data,
+  formatter,
+}: FormatTimestampItemsOptions) {
+  return data.map((item) => formatTimestampItem({ data: item, formatter }));
 }

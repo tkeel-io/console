@@ -5,7 +5,7 @@ import { useColor } from '@tkeel/console-hooks';
 import TimeAreaChart from '@/tkeel-console-plugin-admin-usage-statistics/components/TimeAreaChart';
 import usePrometheusTKMeterBatchQuery from '@/tkeel-console-plugin-admin-usage-statistics/hooks/queries/usePrometheusTKMeterBatchQuery';
 import usePrometheusTKMeterQuery from '@/tkeel-console-plugin-admin-usage-statistics/hooks/queries/usePrometheusTKMeterQuery';
-import { TimestampItem } from '@/tkeel-console-plugin-admin-usage-statistics/types/query';
+import { formatTimestampItems } from '@/tkeel-console-plugin-admin-usage-statistics/utils/data';
 import { getQueryParamsLast24Hours } from '@/tkeel-console-plugin-admin-usage-statistics/utils/query';
 
 import ChartContainer from './ChartContainer';
@@ -49,13 +49,9 @@ export default function TimeChart() {
         meters: dataKeys.map(({ key }) => key),
       },
     });
-  const data = timestampItems.map(({ timestamp, ...rest }) => {
-    const item: TimestampItem = { timestamp };
-    Object.entries(rest).forEach(([key, value]) => {
-      item[key] = value * 1000;
-    });
-
-    return item;
+  const data = formatTimestampItems({
+    data: timestampItems,
+    formatter: (value) => value * 1000,
   });
   const isLoading = isSummaryLading || isChartLoading;
 
