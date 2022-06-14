@@ -90,8 +90,8 @@ export default function TimeAreaChart(props: Props) {
         <XAxis
           {...defaultXAxisProps}
           dataKey="timestamp"
-          // type="number"
-          // domain={['dataMin', 'dataMax']}
+          type="number"
+          domain={['dataMin', 'dataMax']}
           scale="time"
           tickFormatter={(value: number) =>
             formatDateTimeByTimestamp({
@@ -101,7 +101,7 @@ export default function TimeAreaChart(props: Props) {
           }
           ticks={filterHourTimestamp({
             data: data.map(({ timestamp }) => timestamp),
-          })}
+          }).slice(1)}
         />
         <YAxis
           {...defaultYAxisProps}
