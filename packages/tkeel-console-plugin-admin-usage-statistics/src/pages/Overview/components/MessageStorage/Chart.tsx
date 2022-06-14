@@ -64,7 +64,6 @@ export default function Chart() {
         />
         <YAxis
           {...defaultYAxisProps}
-          dataKey="value"
           tickCount={3}
           allowDecimals={false}
           tickLine={false}

@@ -54,7 +54,6 @@ export default function Chart({ data, isLoading, barColor }: Props) {
         />
         <YAxis
           {...defaultYAxisProps}
-          dataKey="value"
           tickCount={7}
           allowDecimals={false}
           axisLine={false}

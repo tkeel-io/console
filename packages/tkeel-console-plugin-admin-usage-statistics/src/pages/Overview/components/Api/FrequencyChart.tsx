@@ -84,7 +84,6 @@ export default function FrequencyChart() {
           />
           <YAxis
             {...defaultYAxisProps}
-            dataKey="value"
             tickCount={5}
             allowDecimals={false}
             tickLine={false}

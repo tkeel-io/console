@@ -1,11 +1,11 @@
-// import { keyBy } from 'lodash';
+import { chain, keyBy, merge } from 'lodash';
 
 import { useQuery } from '@tkeel/console-hooks';
 
 import useTenantId from '@/tkeel-console-plugin-admin-usage-statistics/hooks/useTenantId';
 import type {
   Result,
-  // ValueItem,
+  TimestampItemMap,
   ValueItemMap,
   ValueItemsMap,
 } from '@/tkeel-console-plugin-admin-usage-statistics/types/query';
@@ -58,6 +58,8 @@ export default function usePrometheusTKMeterBatchQuery({
   const valueItemMap: ValueItemMap = {};
   const valueItemsMap: ValueItemsMap = {};
 
+  let timestampItemMap: TimestampItemMap = {};
+
   meterList.forEach((meter) => {
     const valueItem = findValueItemInResults({
       data: results,
@@ -70,15 +72,25 @@ export default function usePrometheusTKMeterBatchQuery({
 
     valueItemMap[meter] = valueItem;
     valueItemsMap[meter] = valueItems;
+
+    const map = keyBy(
+      valueItems.map(({ timestamp, value }) => ({ timestamp, [meter]: value })),
+      'timestamp'
+    );
+    timestampItemMap = merge({}, timestampItemMap, map);
   });
 
-  /* const args: { [p: number]: ValueItem }[] = meterList.map((meter) => {
-    const valueItems = valueItemsMap[meter];
-    return keyBy(valueItems, 'timestamp');
-  }) as const;
-  console.log(args); */
+  const timestampItems = chain(timestampItemMap)
+    .values()
+    .sortBy('timestamp')
+    .value();
 
-  // const c = merge(...args);
-
-  return { ...res, results, valueItemMap, valueItemsMap };
+  return {
+    ...res,
+    results,
+    valueItemMap,
+    valueItemsMap,
+    timestampItemMap,
+    timestampItems,
+  };
 }

@@ -23,4 +23,20 @@ interface ValueItemsMap {
   [name: string]: ValueItem[];
 }
 
-export type { Result, ValueItem, ValueItemMap, ValueItemsMap };
+interface TimestampItem {
+  timestamp: number;
+  [name: string]: number;
+}
+
+interface TimestampItemMap {
+  [timestamp: number]: TimestampItem;
+}
+
+export type {
+  Result,
+  TimestampItem,
+  TimestampItemMap,
+  ValueItem,
+  ValueItemMap,
+  ValueItemsMap,
+};

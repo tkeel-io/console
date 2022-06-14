@@ -1,6 +1,5 @@
 import { Skeleton } from '@chakra-ui/react';
 import * as dayjs from 'dayjs';
-// import { keyBy, merge } from 'lodash';
 import {
   Area,
   AreaChart,
@@ -24,14 +23,10 @@ import { formatDateTimeByTimestamp, numeral } from '@tkeel/console-utils';
 
 import usePrometheusTKMeterBatchQuery from '@/tkeel-console-plugin-admin-usage-statistics/hooks/queries/usePrometheusTKMeterBatchQuery';
 import usePrometheusTKMeterQuery from '@/tkeel-console-plugin-admin-usage-statistics/hooks/queries/usePrometheusTKMeterQuery';
-import { fillDataLast24Hours } from '@/tkeel-console-plugin-admin-usage-statistics/utils/data';
+import { TimestampItem } from '@/tkeel-console-plugin-admin-usage-statistics/types/query';
 import { getQueryParamsLast24Hours } from '@/tkeel-console-plugin-admin-usage-statistics/utils/query';
 
 import ChartContainer from './ChartContainer';
-
-// const a = [{ a: 1 }, { b: 1 }] as const;
-// const r = merge(...a);
-// console.log(r);
 
 const params = getQueryParamsLast24Hours();
 
@@ -45,41 +40,55 @@ const TEMPLATE = 'HH:mm';
 
 const HEIGHT = '184px';
 
-const METERS = [
-  'p95_tkapi_request_latency',
-  'p99_tkapi_request_latency',
-  'p999_tkapi_request_latency',
-];
-
 export default function TimeChart() {
-  const { isLoading: isSummaryLading, valueItem } = usePrometheusTKMeterQuery({
-    params: { meter: 'avg_tkapi_request_latency_24h' },
-  });
-  const summaryValue = (valueItem?.value ?? 0) * 1000;
-
-  const { isLoading: isChartLoading, valueItemsMap } =
-    usePrometheusTKMeterBatchQuery({
-      params: {
-        ...params,
-        meters: METERS,
-      },
-    });
-  // const p95 = keyBy(valueItemsMap[METERS[0]], 'timestamp');
-  // const p99 = keyBy(valueItemsMap[METERS[1]], 'timestamp');
-  // const p999 = keyBy(valueItemsMap[METERS[2]], 'timestamp');
-  // const c = merge({}, p95, p99, p999);
-  // console.log(c);
-
-  const data = fillDataLast24Hours({
-    data: valueItemsMap.p95_tkapi_request_latency,
-  });
+  const areas = [
+    {
+      meter: 'p95_tkapi_request_latency',
+      fill: useColor('green.50'),
+      stroke: useColor('green.300'),
+      label: 'P95',
+    },
+    {
+      meter: 'p99_tkapi_request_latency',
+      fill: useColor('blue.50'),
+      stroke: useColor('blue.300'),
+      label: 'P99',
+    },
+    {
+      meter: 'p999_tkapi_request_latency',
+      fill: useColor('orange.50'),
+      stroke: useColor('orange.300'),
+      label: 'P99.9',
+    },
+  ];
 
   const defaultXAxisProps = useXAxisProps();
   const defaultYAxisProps = useYAxisProps();
   const defaultCartesianGridProps = useCartesianGridProps();
   const defaultLegendProps = useLegendProps();
   const defaultTooltipProps = useTooltipProps();
-  const fill = useColor('green.300');
+
+  const { isLoading: isSummaryLading, valueItem } = usePrometheusTKMeterQuery({
+    params: { meter: 'avg_tkapi_request_latency_24h' },
+  });
+  const summaryValue = (valueItem?.value ?? 0) * 1000;
+
+  const { isLoading: isChartLoading, timestampItems } =
+    usePrometheusTKMeterBatchQuery({
+      params: {
+        ...params,
+        step: '10m',
+        meters: areas.map(({ meter }) => meter),
+      },
+    });
+  const data = timestampItems.map(({ timestamp, ...rest }) => {
+    const item: TimestampItem = { timestamp };
+    Object.entries(rest).forEach(([key, value]) => {
+      item[key] = value * 1000;
+    });
+
+    return item;
+  });
 
   if (isSummaryLading || isChartLoading) {
     return <Skeleton height={HEIGHT} />;
@@ -110,20 +119,23 @@ export default function TimeChart() {
           />
           <YAxis
             {...defaultYAxisProps}
-            dataKey="value"
             tickCount={5}
-            // allowDecimals={false}
+            domain={['dataMin - 20', 'dataMax + 20']}
+            allowDecimals={false}
             tickLine={false}
-            tickFormatter={(value: number) =>
-              numeral.format({ input: value, formatter: '0,0.00' })
-            }
+            tickFormatter={(value: number) => numeral.format({ input: value })}
           />
           <CartesianGrid {...defaultCartesianGridProps} />
-          <Legend
-            {...defaultLegendProps}
-            wrapperStyle={{ top: 0, right: 0, visibility: 'hidden' }}
-          />
-          <Area dataKey="value" fill={fill} />
+          <Legend {...defaultLegendProps} />
+          {areas.map(({ meter, fill, stroke }) => (
+            <Area
+              key={meter}
+              dataKey={meter}
+              fill={fill}
+              fillOpacity={0.5}
+              stroke={stroke}
+            />
+          ))}
           <Tooltip
             {...defaultTooltipProps}
             labelFormatter={(label: number) =>
