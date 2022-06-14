@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 
 import { FormField, LinkButton, Tooltip } from '@tkeel/console-components';
 import { InformationFilledIcon } from '@tkeel/console-icons';
-import { plugin } from '@tkeel/console-utils';
+import { plugin, schemas } from '@tkeel/console-utils';
 
 import useModifyNotificationMutation from '@/tkeel-console-plugin-tenant-notification-objects/hooks/mutations/useModifyNotificationMutation';
 
@@ -145,14 +145,7 @@ function MailTab({ noticeId, emailAddress, refetch }: Props) {
           placeholder="请输入接收人邮箱"
           id="name"
           error={errors.name}
-          registerReturn={register('name', {
-            required: { value: true, message: '' },
-            pattern: {
-              value:
-                /^((([\d._a-z-]+)@([\d.a-z-]+)\.([.a-z]{2,6},))*(([\d._a-z-]+)@([\d.a-z-]+)\.([.a-z]{2,6})))$/,
-              message: '',
-            },
-          })}
+          registerReturn={register('name', schemas.multiMail.registerOptions)}
           formHelperStyle={{ fontSize: '12px', position: 'absolute' }}
         />
         <Button
@@ -203,13 +196,7 @@ function MailTab({ noticeId, emailAddress, refetch }: Props) {
                 fontSize="14px"
                 defaultValue={mail}
                 isReadOnly={mailKey !== key}
-                {...register(key, {
-                  required: { value: true, message: '' },
-                  pattern: {
-                    value: /^([\d._a-z-]+)@([\d.a-z-]+)\.([.a-z]{2,6})$/,
-                    message: '请输入正确的邮箱格式',
-                  },
-                })}
+                {...register(key, schemas.singleMail.registerOptions)}
                 focusBorderColor={editKey === key ? 'red.500' : 'primary'}
               />
               {editKey === key && (
