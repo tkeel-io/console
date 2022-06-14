@@ -1,3 +1,5 @@
+const { tkeel } = require('../../../config/default');
+
 module.exports = {
   portalName: 'tenant',
   publicPath: '/static/console-plugin-tenant-notification-objects/',
@@ -26,7 +28,7 @@ module.exports = {
           ],
         },
       ],
-      dependence: [],
+      dependence: [{ id: 'tkeel-alarm', version: tkeel.version }],
     },
   },
 };
