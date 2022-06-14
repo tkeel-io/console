@@ -26,7 +26,7 @@ module.exports = {
           ],
         },
       ],
-      dependence: [],
+      dependence: ['tkeel-monitor'],
     },
   },
 };
