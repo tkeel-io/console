@@ -4,38 +4,26 @@ import { ChangeEvent } from 'react';
 import { Checkbox } from '@tkeel/console-components';
 import { CheckFilledIcon } from '@tkeel/console-icons';
 
-import usePlatformRulesQuery from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePlatformRulesQuery';
-
-export interface PlatformCondition {
-  id: number;
-  label: string;
-  value: string;
-}
+import type { PlatformRule } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePlatformRulesQuery';
 
 interface Props {
-  conditions: PlatformCondition[];
-  onChange: (condition: PlatformCondition[]) => void;
+  rules: PlatformRule[];
+  selectedRules: PlatformRule[];
+  onChange: (condition: PlatformRule[]) => void;
 }
 
 export default function PlatformRuleDescriptionCard({
-  conditions,
+  rules,
+  selectedRules,
   onChange,
 }: Props) {
-  const { platformRules } = usePlatformRulesQuery();
-
-  const data = platformRules.map(({ id, alarmDesc, promQl }) => ({
-    id,
-    label: alarmDesc,
-    value: promQl,
-  }));
-
-  const handleConditionClick = (condition: PlatformCondition) => {
-    const { value } = condition;
-    const hasSelected = conditions.some((item) => item.value === value);
+  const handleConditionClick = (condition: PlatformRule) => {
+    const { promQl } = condition;
+    const hasSelected = selectedRules.some((rule) => rule.promQl === promQl);
     if (hasSelected) {
-      onChange(conditions.filter((item) => item.value !== value));
+      onChange(selectedRules.filter((rule) => rule.promQl !== promQl));
     } else {
-      onChange([...conditions, condition]);
+      onChange([...selectedRules, condition]);
     }
   };
 
@@ -48,22 +36,22 @@ export default function PlatformRuleDescriptionCard({
         <Checkbox
           color="gray.700"
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            const newData = e.target.checked ? data : [];
-            onChange(newData);
+            const newPlatformRules = e.target.checked ? rules : [];
+            onChange(newPlatformRules);
           }}
         >
           全选
         </Checkbox>
       </Flex>
       <Flex marginTop="8px" justifyContent="space-between" flexWrap="wrap">
-        {data.map((item) => {
-          const { label, value } = item;
-          const selected = conditions.some(
-            (condition) => condition.value === value
+        {rules.map((rule) => {
+          const { alarmDesc, promQl } = rule;
+          const selected = selectedRules.some(
+            (condition) => condition.promQl === promQl
           );
           return (
             <Flex
-              key={value}
+              key={promQl}
               marginTop="12px"
               paddingX="20px"
               justifyContent="space-between"
@@ -76,16 +64,16 @@ export default function PlatformRuleDescriptionCard({
               borderRadius="4px"
               backgroundColor={selected ? 'brand.50' : 'white'}
               cursor="pointer"
-              onClick={() => handleConditionClick(item)}
+              onClick={() => handleConditionClick(rule)}
             >
               <Text
                 maxWidth="260px"
                 noOfLines={1}
                 color="gray.700"
                 fontSize="14px"
-                title={label}
+                title={alarmDesc}
               >
-                {label}
+                {alarmDesc}
               </Text>
               {selected && <CheckFilledIcon color="primary" />}
             </Flex>

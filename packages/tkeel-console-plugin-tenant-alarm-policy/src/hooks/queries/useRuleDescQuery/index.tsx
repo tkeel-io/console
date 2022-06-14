@@ -5,7 +5,7 @@ import type {
   Time,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/mutations/useCreatePolicyMutation';
 
-interface RuleDesc {
+export interface RuleDesc {
   alarmSourceObject: number | null;
   operator: number | null;
   platRuleId: string | null;

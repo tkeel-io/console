@@ -21,8 +21,6 @@ export default function ModifyPolicyButton({ policy }: Props) {
     ruleId: policy.ruleId,
     enabled: isOpen,
   });
-  // eslint-disable-next-line no-console
-  console.log('ModifyPolicyButton ~ ruleDescList', ruleDescList);
 
   return (
     <>
@@ -36,6 +34,7 @@ export default function ModifyPolicyButton({ policy }: Props) {
       {isOpen && (
         <ModifyPolicyModal
           policy={policy}
+          ruleDescList={ruleDescList}
           isOpen={isOpen}
           isConfirmButtonLoading={false}
           onClose={onClose}

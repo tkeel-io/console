@@ -28,20 +28,23 @@ export default function CreatePolicyButton({ refetch }: Props) {
   return (
     <>
       <CreateButton onClick={onOpen}>添加告警策略</CreateButton>
-      <CreateTenantModal
-        isOpen={isModalOpen}
-        isConfirmButtonLoading={isLoading}
-        onClose={onClose}
-        onConfirm={(data) => {
-          mutate({
-            data,
-          });
-        }}
-      />
+      {isModalOpen && (
+        <CreateTenantModal
+          isOpen={isModalOpen}
+          isConfirmButtonLoading={isLoading}
+          onClose={onClose}
+          onConfirm={(data) => {
+            mutate({
+              data,
+            });
+          }}
+        />
+      )}
       <Alert
         isOpen={isShowAlert}
         iconPosition="left"
         icon="success"
+        hasCancelButton={false}
         title={
           <Flex
             alignItems="center"
@@ -50,7 +53,11 @@ export default function CreatePolicyButton({ refetch }: Props) {
             fontWeight="600"
           >
             <Text>已成功创建策略，可继续为该策略</Text>
-            <Text marginLeft="4px" color="primary">
+            <Text
+              marginLeft="4px"
+              color="primary"
+              onClick={() => setIsShowNotificationModal(true)}
+            >
               配置通知
             </Text>
           </Flex>
@@ -59,7 +66,6 @@ export default function CreatePolicyButton({ refetch }: Props) {
         onClose={() => setIsShowAlert(false)}
         onConfirm={() => {
           setIsShowAlert(false);
-          setIsShowNotificationModal(true);
         }}
       />
       {isShowNotificationModal && <ConfigureNotificationModal />}

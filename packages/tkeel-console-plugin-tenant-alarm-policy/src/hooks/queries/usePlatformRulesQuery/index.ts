@@ -1,11 +1,13 @@
 import { useQuery } from '@tkeel/console-hooks';
 
-interface ApiData {
-  list: {
-    id: number;
-    alarmDesc: string;
-    promQl: string;
-  }[];
+export interface PlatformRule {
+  id: number;
+  alarmDesc: string;
+  promQl: string;
+}
+
+export interface ApiData {
+  list: PlatformRule[];
 }
 
 export default function usePlatformRulesQuery() {

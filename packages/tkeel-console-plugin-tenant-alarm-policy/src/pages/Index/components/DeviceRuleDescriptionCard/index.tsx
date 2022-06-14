@@ -241,17 +241,6 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                   )}
                 </>
               )}
-              <SelectField<FormValues>
-                id={getFieldId(i, 'operator')}
-                name={getFieldId(i, 'operator')}
-                placeholder="运算符"
-                options={numberOperatorOptions}
-                {...selectProps}
-                formControlStyle={{
-                  flexShrink: 0,
-                  width: '122px',
-                }}
-              />
               {telemetryIsNumber && (
                 <SelectField<FormValues>
                   id={getFieldId(i, 'numberOperator')}

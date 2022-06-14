@@ -24,7 +24,10 @@ import {
   TelemetryType as RequestTelemetryType,
   Time,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/mutations/useCreatePolicyMutation';
+import type { PlatformRule } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePlatformRulesQuery';
+import usePlatformRulesQuery from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePlatformRulesQuery';
 import type { Policy } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
+import type { RuleDesc } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/useRuleDescQuery';
 
 import type { DeviceCondition } from '../DeviceRuleDescriptionCard';
 import DeviceRuleDescriptionCard, {
@@ -33,13 +36,13 @@ import DeviceRuleDescriptionCard, {
 } from '../DeviceRuleDescriptionCard';
 import DeviceSelectField from '../DeviceSelectField';
 import FormCard from '../FormCard';
-import type { PlatformCondition } from '../PlatformRuleDescriptionCard';
 import PlatformRuleDescriptionCard from '../PlatformRuleDescriptionCard';
 
 const { TextField, SelectField } = FormField;
 
 type Props = {
   policy?: Policy;
+  ruleDescList?: RuleDesc[];
   title: ReactNode;
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
@@ -103,15 +106,16 @@ const getRequestDeviceConditions = (deviceConditions: DeviceCondition[]) => {
 
 export default function BasePolicyModal({
   policy,
+  ruleDescList,
   title,
   isOpen,
   isConfirmButtonLoading,
   onClose,
   onConfirm,
 }: Props) {
-  const [platformConditions, setPlatformConditions] = useState<
-    PlatformCondition[]
-  >([]);
+  const { platformRules } = usePlatformRulesQuery();
+
+  const [platformRuleList, setPlatformRuleList] = useState<PlatformRule[]>([]);
 
   const thresholdAlarm = String(AlarmRuleType.Threshold);
   let defaultValues: FormValues = {
@@ -197,15 +201,9 @@ export default function BasePolicyModal({
       };
 
       if (Number(alarmRuleType) === AlarmRuleType.System) {
-        const platformAlarmRule: Record<string, string> = {};
-
-        platformConditions.forEach(({ label, value }) => {
-          platformAlarmRule[label] = value;
-        });
-
         data = {
           ...data,
-          platformAlarmRule,
+          platformRuleList,
         };
       } else {
         const { id: deviceId, name: deviceName } = getDeviceInfo(deviceInfo);
@@ -241,6 +239,17 @@ export default function BasePolicyModal({
     setValue('alarmSourceObject', isSystemAlarm ? 'platform' : 'device');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSystemAlarm]);
+
+  useEffect(() => {
+    if (policy?.alarmSourceObject === AlarmSourceObject.Platform) {
+      const platformRuleIdStr = ruleDescList?.[0]?.platRuleId || '';
+      const platformRuleIds = platformRuleIdStr.split(',');
+      const ruleList = platformRules.filter((rule) =>
+        platformRuleIds.includes(String(rule.id))
+      );
+      setPlatformRuleList(ruleList);
+    }
+  }, [ruleDescList, platformRules, policy]);
 
   return (
     <Modal
@@ -353,8 +362,9 @@ export default function BasePolicyModal({
           >
             {isSystemAlarm ? (
               <PlatformRuleDescriptionCard
-                conditions={platformConditions}
-                onChange={setPlatformConditions}
+                rules={platformRules}
+                selectedRules={platformRuleList}
+                onChange={setPlatformRuleList}
               />
             ) : (
               <DeviceRuleDescriptionCard<FormValues>

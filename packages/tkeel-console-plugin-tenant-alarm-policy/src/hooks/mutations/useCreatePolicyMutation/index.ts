@@ -7,6 +7,8 @@ import {
 } from '@tkeel/console-types';
 import { RequestResult } from '@tkeel/console-utils';
 
+import type { PlatformRule } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePlatformRulesQuery';
+
 export interface ApiData {
   '@types': string;
   value: object;
@@ -65,7 +67,7 @@ export interface RequestData {
   alarmSourceObject: AlarmSourceObject;
   deviceId?: string;
   deviceName?: string;
-  platformAlarmRule?: Record<string, string>;
+  platformRuleList?: PlatformRule[];
   deviceCondition?: DeviceConditionItem[];
   condition: Condition;
 }
