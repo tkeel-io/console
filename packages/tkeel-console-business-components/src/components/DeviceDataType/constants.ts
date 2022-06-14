@@ -3,6 +3,7 @@ export const DATA_TYPE_CONFIG = {
   min: { label: '最小值', type: 'number' },
   step: { label: '步长', type: 'number' },
   unit: { label: '单位', type: 'string' },
+  enum: { label: '枚举项', type: 'string' },
   '0': { label: '布尔值 0', type: 'string' },
   '1': { label: '布尔值 1', type: 'string' },
   length: { label: '数据最大长度', type: 'number' },
@@ -39,7 +40,7 @@ export const DATA_TYPE = [
   {
     value: 'enum',
     label: 'enum(枚举项)',
-    configs: ['unit'],
+    configs: ['enum'],
   },
   {
     value: 'struct',

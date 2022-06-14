@@ -84,7 +84,7 @@ export default function Index({ id }: Props) {
     setTotalSize(totalNum);
   }
 
-  const handleCreatProxySuccess = useCallback(
+  const handleCreateProxySuccess = useCallback(
     (e: string) => {
       toast(e === 'edit' ? '修改成功' : '创建成功', {
         status: 'success',
@@ -335,8 +335,8 @@ export default function Index({ id }: Props) {
               buttons={[
                 <SwitchProxyButton
                   key="switch"
-                  status={original?.status}
-                  id={original?.id}
+                  clientId={id}
+                  cruxData={original}
                   refetch={() => refetch()}
                 />,
                 <CreateProxyButton
@@ -344,7 +344,7 @@ export default function Index({ id }: Props) {
                   type="editButton"
                   clientId={id}
                   proxyCruxData={proxyCruxData}
-                  onSuccess={() => handleCreatProxySuccess('edit')}
+                  onSuccess={() => handleCreateProxySuccess('edit')}
                 />,
                 <DeleteButton
                   key="delete"
@@ -355,7 +355,7 @@ export default function Index({ id }: Props) {
             />
           );
         },
-        [id, refetch, handleCreatProxySuccess]
+        [id, refetch, handleCreateProxySuccess]
       ),
     },
   ];
@@ -375,7 +375,7 @@ export default function Index({ id }: Props) {
             key="create"
             type="createButton"
             clientId={id}
-            onSuccess={() => handleCreatProxySuccess('create')}
+            onSuccess={() => handleCreateProxySuccess('create')}
           />,
         ]}
         styles={{ title: { fontSize: '14px' } }}
@@ -417,7 +417,7 @@ export default function Index({ id }: Props) {
                     key="create"
                     type="createText"
                     clientId={id}
-                    onSuccess={() => handleCreatProxySuccess('create')}
+                    onSuccess={() => handleCreateProxySuccess('create')}
                   />
                   代理服务
                 </Text>

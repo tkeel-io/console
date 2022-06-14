@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
 import { indexOf } from 'lodash';
 import { UseFieldArrayReturn, UseFormReturn } from 'react-hook-form';
 
@@ -51,6 +51,11 @@ export default function DeviceDataType({
             </DeprecatedSelect.Option>
           ))}
         </DeprecatedSelect>
+        {watchFields.type === 'enum' && (
+          <Text fontSize="12px" color="gray.500" marginTop="10px">
+            枚举项：0～N 自然数，可通过扩展配置添加
+          </Text>
+        )}
       </FormControl>
       <Box>
         <DataTypeConfigs
