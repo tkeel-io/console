@@ -30,9 +30,9 @@ interface Props {
   data: TimestampItem[];
   dataKeys: {
     key: string;
-    fill: string;
-    stroke: string;
     label: string;
+    fill?: string;
+    stroke?: string;
   }[];
   isLoading?: boolean;
   yAxis?: {
