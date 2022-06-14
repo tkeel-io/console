@@ -18,6 +18,7 @@ import {
   useXAxisProps,
   useYAxisProps,
 } from '@tkeel/console-charts';
+import { Empty } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 import { formatDateTimeByTimestamp, numeral } from '@tkeel/console-utils';
 
@@ -69,51 +70,55 @@ export default function FrequencyChart() {
       }}
       sx={{ height: HEIGHT, padding: '16px 16px 0' }}
     >
-      <ResponsiveContainer>
-        <BarChart data={data} barCategoryGap="80%" margin={{ top: 15 }}>
-          <XAxis
-            {...defaultXAxisProps}
-            dataKey="timestamp"
-            tickLine={false}
-            tickFormatter={(value: number) =>
-              formatDateTimeByTimestamp({
-                timestamp: getShowTime(value),
-                template: TEMPLATE,
-              })
-            }
-          />
-          <YAxis
-            {...defaultYAxisProps}
-            tickCount={5}
-            allowDecimals={false}
-            tickLine={false}
-            tickFormatter={(value) =>
-              numeral.format({ input: value as number })
-            }
-          />
-          <CartesianGrid {...defaultCartesianGridProps} />
-          <Legend
-            {...defaultLegendProps}
-            wrapperStyle={{ top: 0, right: 0, visibility: 'hidden' }}
-          />
-          <Bar dataKey="value" fill={fill} />
-          <Tooltip
-            {...defaultTooltipProps}
-            labelFormatter={(label: number) =>
-              formatDateTimeByTimestamp({
-                timestamp: getShowTime(label),
-                template: TEMPLATE,
-              })
-            }
-            formatter={(value: number) => {
-              const res = numeral.format({
-                input: value,
-              });
-              return [`${res} 次`, 'API 调用次数'];
-            }}
-          />
-        </BarChart>
-      </ResponsiveContainer>
+      {valueItems.length > 0 ? (
+        <ResponsiveContainer>
+          <BarChart data={data} barCategoryGap="80%" margin={{ top: 15 }}>
+            <XAxis
+              {...defaultXAxisProps}
+              dataKey="timestamp"
+              tickLine={false}
+              tickFormatter={(value: number) =>
+                formatDateTimeByTimestamp({
+                  timestamp: getShowTime(value),
+                  template: TEMPLATE,
+                })
+              }
+            />
+            <YAxis
+              {...defaultYAxisProps}
+              tickCount={5}
+              allowDecimals={false}
+              tickLine={false}
+              tickFormatter={(value) =>
+                numeral.format({ input: value as number })
+              }
+            />
+            <CartesianGrid {...defaultCartesianGridProps} />
+            <Legend
+              {...defaultLegendProps}
+              wrapperStyle={{ top: 0, right: 0, visibility: 'hidden' }}
+            />
+            <Bar dataKey="value" fill={fill} />
+            <Tooltip
+              {...defaultTooltipProps}
+              labelFormatter={(label: number) =>
+                formatDateTimeByTimestamp({
+                  timestamp: getShowTime(label),
+                  template: TEMPLATE,
+                })
+              }
+              formatter={(value: number) => {
+                const res = numeral.format({
+                  input: value,
+                });
+                return [`${res} 次`, 'API 调用次数'];
+              }}
+            />
+          </BarChart>
+        </ResponsiveContainer>
+      ) : (
+        <Empty isFullHeight />
+      )}
     </ChartContainer>
   );
 }

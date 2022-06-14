@@ -18,6 +18,7 @@ import {
   useXAxisProps,
   useYAxisProps,
 } from '@tkeel/console-charts';
+import { Empty } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 import { formatDateTimeByTimestamp, numeral } from '@tkeel/console-utils';
 
@@ -98,62 +99,67 @@ export default function TimeChart() {
       }}
       sx={{ height: HEIGHT, padding: '16px 16px 0' }}
     >
-      <ResponsiveContainer>
-        <AreaChart data={data} barCategoryGap="80%" margin={{ top: 15 }}>
-          <XAxis
-            {...defaultXAxisProps}
-            dataKey="timestamp"
-            tickLine={false}
-            tickFormatter={(value: number) =>
-              formatDateTimeByTimestamp({
-                timestamp: value,
-                template: TEMPLATE,
-              })
-            }
-          />
-          <YAxis
-            {...defaultYAxisProps}
-            // tickCount={5}
-            allowDecimals={false}
-            tickLine={false}
-            tickFormatter={(value: number) => numeral.format({ input: value })}
-          />
-          <CartesianGrid {...defaultCartesianGridProps} />
-          <Legend
-            {...defaultLegendProps}
-            formatter={(value: string) => {
-              const area = find(areas, { meter: value });
-              return area?.label ?? '';
-            }}
-          />
-          {areas.map(({ meter, fill, stroke }) => (
-            <Area
-              key={meter}
-              dataKey={meter}
-              fill={fill}
-              fillOpacity={0.3}
-              stroke={stroke}
+      {data.length > 0 ? (
+        <ResponsiveContainer>
+          <AreaChart data={data} barCategoryGap="80%" margin={{ top: 15 }}>
+            <XAxis
+              {...defaultXAxisProps}
+              dataKey="timestamp"
+              tickLine={false}
+              tickFormatter={(value: number) =>
+                formatDateTimeByTimestamp({
+                  timestamp: value,
+                  template: TEMPLATE,
+                })
+              }
             />
-          ))}
-          <Tooltip
-            {...defaultTooltipProps}
-            labelFormatter={(label: number) =>
-              formatDateTimeByTimestamp({
-                timestamp: label,
-                template: TEMPLATE,
-              })
-            }
-            formatter={(value: number, name: string) => {
-              const area = find(areas, { meter: name });
-              const res = numeral.format({
-                input: value,
-                formatter: '0,0.00',
-              });
-              return [`${res} ms`, area?.label];
-            }}
-          />
-        </AreaChart>
-      </ResponsiveContainer>
+            <YAxis
+              {...defaultYAxisProps}
+              allowDecimals={false}
+              tickLine={false}
+              tickFormatter={(value: number) =>
+                numeral.format({ input: value })
+              }
+            />
+            <CartesianGrid {...defaultCartesianGridProps} />
+            <Legend
+              {...defaultLegendProps}
+              formatter={(value: string) => {
+                const area = find(areas, { meter: value });
+                return area?.label ?? '';
+              }}
+            />
+            {areas.map(({ meter, fill, stroke }) => (
+              <Area
+                key={meter}
+                dataKey={meter}
+                fill={fill}
+                fillOpacity={0.3}
+                stroke={stroke}
+              />
+            ))}
+            <Tooltip
+              {...defaultTooltipProps}
+              labelFormatter={(label: number) =>
+                formatDateTimeByTimestamp({
+                  timestamp: label,
+                  template: TEMPLATE,
+                })
+              }
+              formatter={(value: number, name: string) => {
+                const area = find(areas, { meter: name });
+                const res = numeral.format({
+                  input: value,
+                  formatter: '0,0.00',
+                });
+                return [`${res} ms`, area?.label];
+              }}
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      ) : (
+        <Empty isFullHeight />
+      )}
     </ChartContainer>
   );
 }

@@ -13,6 +13,7 @@ import {
   useXAxisProps,
   useYAxisProps,
 } from '@tkeel/console-charts';
+import { Empty } from '@tkeel/console-components';
 import { formatDateTimeByTimestamp, numeral } from '@tkeel/console-utils';
 
 import type { ValueItem } from '@/tkeel-console-plugin-admin-usage-statistics/types/query';
@@ -32,6 +33,10 @@ export default function Chart({ data, isLoading, barColor }: Props) {
 
   if (isLoading) {
     return <Skeleton height="100%" />;
+  }
+
+  if (data.length === 0) {
+    return <Empty isFullHeight />;
   }
 
   return (

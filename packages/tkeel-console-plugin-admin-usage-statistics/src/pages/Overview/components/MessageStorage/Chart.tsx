@@ -15,6 +15,7 @@ import {
   useXAxisProps,
   useYAxisProps,
 } from '@tkeel/console-charts';
+import { Empty } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 import { formatDateTimeByTimestamp, numeral } from '@tkeel/console-utils';
 
@@ -38,6 +39,10 @@ export default function Chart() {
 
   if (isLoading) {
     return <Skeleton height="100%" />;
+  }
+
+  if (valueItems.length === 0) {
+    return <Empty image={null} />;
   }
 
   return (
