@@ -23,9 +23,14 @@ interface FormatTimestampItemsOptions {
   formatter: (value: number) => number;
 }
 
+interface FilterHourTimestampOptions {
+  data: number[];
+}
+
 export type {
   FillDataLastCommonTimes,
   FillDataLastTimes,
+  FilterHourTimestampOptions,
   FormatTimestampItemOptions,
   FormatTimestampItemsOptions,
 };

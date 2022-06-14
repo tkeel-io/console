@@ -7,6 +7,7 @@ import type { TimestampItem } from '@/tkeel-console-plugin-admin-usage-statistic
 import type {
   FillDataLastCommonTimes,
   FillDataLastTimes,
+  FilterHourTimestampOptions,
   FormatTimestampItemOptions,
   FormatTimestampItemsOptions,
 } from './types';
@@ -58,4 +59,14 @@ export function formatTimestampItems({
   formatter,
 }: FormatTimestampItemsOptions) {
   return data.map((item) => formatTimestampItem({ data: item, formatter }));
+}
+
+export function filterHourTimestamp({ data }: FilterHourTimestampOptions) {
+  return data.filter((timestamp) => {
+    const minute = dayjs(timestamp).get('minute');
+    const second = dayjs(timestamp).get('second');
+    const millisecond = dayjs(timestamp).get('millisecond');
+
+    return minute === 0 && second === 0 && millisecond === 0;
+  });
 }

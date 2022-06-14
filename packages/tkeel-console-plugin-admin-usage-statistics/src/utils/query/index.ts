@@ -34,6 +34,18 @@ export function getQueryParamsLast24Hours() {
 }
 
 export function getQueryParamsLast24HoursPer5Mins() {
+  /* const unit = 'hour';
+  const timeValue = 24;
+  const step = '5m';
+
+  const current = getTimestamp();
+  const et = current;
+  const st = dayjs(et)
+    .subtract(timeValue - 1, unit)
+    .valueOf();
+
+  return { st, step }; */
+
   return getQueryParamsLastTimes({
     unit: 'hour',
     timeValue: 24,

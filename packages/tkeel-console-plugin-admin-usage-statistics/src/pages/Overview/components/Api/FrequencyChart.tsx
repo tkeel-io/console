@@ -78,7 +78,6 @@ export default function FrequencyChart() {
             <XAxis
               {...defaultXAxisProps}
               dataKey="timestamp"
-              tickLine={false}
               tickFormatter={(value: number) =>
                 formatDateTimeByTimestamp({
                   timestamp: getShowTime(value),
@@ -90,7 +89,6 @@ export default function FrequencyChart() {
               {...defaultYAxisProps}
               tickCount={5}
               allowDecimals={false}
-              tickLine={false}
               tickFormatter={(value) =>
                 numeral.format({ input: value as number })
               }
