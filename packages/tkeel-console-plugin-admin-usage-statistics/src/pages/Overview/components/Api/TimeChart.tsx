@@ -120,7 +120,7 @@ export default function TimeChart() {
           <YAxis
             {...defaultYAxisProps}
             tickCount={5}
-            domain={['dataMin - 20', 'dataMax + 20']}
+            domain={['dataMin - 10', 'dataMax + 10']}
             allowDecimals={false}
             tickLine={false}
             tickFormatter={(value: number) => numeral.format({ input: value })}
