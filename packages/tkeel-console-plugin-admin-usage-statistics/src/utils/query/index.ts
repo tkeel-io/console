@@ -33,6 +33,14 @@ export function getQueryParamsLast24Hours() {
   });
 }
 
+export function getQueryParamsLast24HoursPer5Mins() {
+  return getQueryParamsLastTimes({
+    unit: 'hour',
+    timeValue: 24,
+    step: '5m',
+  });
+}
+
 export function getQueryParamsLast7Days() {
   return getQueryParamsLastTimes({ unit: 'day', timeValue: 7, step: '24h' });
 }

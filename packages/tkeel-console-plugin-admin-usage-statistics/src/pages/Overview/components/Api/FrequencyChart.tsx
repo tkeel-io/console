@@ -27,6 +27,7 @@ import { fillDataLast24Hours } from '@/tkeel-console-plugin-admin-usage-statisti
 import { getQueryParamsLast24Hours } from '@/tkeel-console-plugin-admin-usage-statistics/utils/query';
 
 import ChartContainer from './ChartContainer';
+import { CHART_CONTAINER_STYLE } from './constants';
 
 const params = getQueryParamsLast24Hours();
 
@@ -38,9 +39,14 @@ function getShowTime(timestamp: number) {
 
 const TEMPLATE = 'HH:mm';
 
-const HEIGHT = '184px';
-
 export default function FrequencyChart() {
+  const defaultXAxisProps = useXAxisProps();
+  const defaultYAxisProps = useYAxisProps();
+  const defaultCartesianGridProps = useCartesianGridProps();
+  const defaultLegendProps = useLegendProps();
+  const defaultTooltipProps = useTooltipProps();
+  const fill = useColor('green.300');
+
   const { isLoading: isSummaryLading, valueItem } = usePrometheusTKMeterQuery({
     params: { meter: 'sum_tkapi_request_24h' },
   });
@@ -50,15 +56,11 @@ export default function FrequencyChart() {
     params: { ...params, meter: 'sum_tkapi_request_1h' },
   });
   const data = fillDataLast24Hours({ data: valueItems });
-  const defaultXAxisProps = useXAxisProps();
-  const defaultYAxisProps = useYAxisProps();
-  const defaultCartesianGridProps = useCartesianGridProps();
-  const defaultLegendProps = useLegendProps();
-  const defaultTooltipProps = useTooltipProps();
-  const fill = useColor('green.300');
 
-  if (isSummaryLading || isChartLoading) {
-    return <Skeleton height={HEIGHT} />;
+  const isLoading = isSummaryLading || isChartLoading;
+
+  if (isLoading) {
+    return <Skeleton height="100%" />;
   }
 
   return (
@@ -68,7 +70,7 @@ export default function FrequencyChart() {
         value: summaryValue,
         unit: '次',
       }}
-      sx={{ height: HEIGHT, padding: '16px 16px 0' }}
+      sx={CHART_CONTAINER_STYLE}
     >
       {valueItems.length > 0 ? (
         <ResponsiveContainer>

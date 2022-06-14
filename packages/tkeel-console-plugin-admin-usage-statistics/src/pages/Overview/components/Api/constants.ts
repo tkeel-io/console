@@ -1,3 +1,5 @@
+import type { StyleProps } from '@chakra-ui/react';
+
 export const OPTIONS = [
   {
     value: 'sum_tkapi_request_7d',
@@ -15,3 +17,8 @@ export const OPTIONS = [
 ];
 
 export const DEFAULT_VALUE = OPTIONS[0].value;
+
+export const CHART_CONTAINER_STYLE: StyleProps = {
+  height: '184px',
+  padding: '16px 16px 0',
+};

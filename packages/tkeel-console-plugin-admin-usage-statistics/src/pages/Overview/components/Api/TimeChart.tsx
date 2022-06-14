@@ -6,13 +6,12 @@ import TimeAreaChart from '@/tkeel-console-plugin-admin-usage-statistics/compone
 import usePrometheusTKMeterBatchQuery from '@/tkeel-console-plugin-admin-usage-statistics/hooks/queries/usePrometheusTKMeterBatchQuery';
 import usePrometheusTKMeterQuery from '@/tkeel-console-plugin-admin-usage-statistics/hooks/queries/usePrometheusTKMeterQuery';
 import { formatTimestampItems } from '@/tkeel-console-plugin-admin-usage-statistics/utils/data';
-import { getQueryParamsLast24Hours } from '@/tkeel-console-plugin-admin-usage-statistics/utils/query';
+import { getQueryParamsLast24HoursPer5Mins } from '@/tkeel-console-plugin-admin-usage-statistics/utils/query';
 
 import ChartContainer from './ChartContainer';
+import { CHART_CONTAINER_STYLE } from './constants';
 
-const params = getQueryParamsLast24Hours();
-
-const HEIGHT = '184px';
+const params = getQueryParamsLast24HoursPer5Mins();
 
 export default function TimeChart() {
   const dataKeys = [
@@ -45,7 +44,6 @@ export default function TimeChart() {
     usePrometheusTKMeterBatchQuery({
       params: {
         ...params,
-        step: '10m',
         meters: dataKeys.map(({ key }) => key),
       },
     });
@@ -56,7 +54,7 @@ export default function TimeChart() {
   const isLoading = isSummaryLading || isChartLoading;
 
   if (isLoading) {
-    return <Skeleton height={HEIGHT} />;
+    return <Skeleton height="100%" />;
   }
 
   return (
@@ -67,7 +65,7 @@ export default function TimeChart() {
         valueFormatter: '0,0.00',
         unit: 'ms',
       }}
-      sx={{ height: HEIGHT, padding: '16px 16px 0' }}
+      sx={CHART_CONTAINER_STYLE}
     >
       <TimeAreaChart
         data={data}
