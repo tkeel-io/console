@@ -36,8 +36,29 @@ export default function DataTypeConfigs({
   >;
   const watchFields = watch();
   const { fields, append, remove } = fieldArrayHandler;
+  const { append: extendedAppend, remove: extendedRemove } =
+    extendedArrayHandler as UseFieldArrayReturn<
+      TelemetryFormField,
+      'extendInfo',
+      'id'
+    >;
 
   const item = DATA_TYPE.find((v) => v.value === dataType);
+
+  const extendedAppendEnum = (key: string) => {
+    if (key === 'enum') {
+      extendedAppend([
+        {
+          label: '1',
+          value: '',
+        },
+        {
+          label: '2',
+          value: '',
+        },
+      ]);
+    }
+  };
 
   if (item) {
     const { configs } = item;
@@ -64,11 +85,15 @@ export default function DataTypeConfigs({
                   onClick={() => {
                     if (!isSelected) {
                       append({ key, value: '' });
+                      extendedAppendEnum(key);
                     } else {
                       const index = watchFields.fields.findIndex(
                         (v) => v.key === key
                       );
                       remove(index);
+                      if (key === 'enum') {
+                        extendedRemove();
+                      }
                     }
                   }}
                 >
@@ -84,7 +109,10 @@ export default function DataTypeConfigs({
         </Flex>
         <Box overflowY="scroll" maxH="390px">
           {fields.map((field, index) => {
-            if (indexOf(keys(DATA_TYPE_CONFIG), field.key) < 0) {
+            if (
+              indexOf(keys(DATA_TYPE_CONFIG), field.key) < 0 ||
+              field.key === 'enum'
+            ) {
               return null;
             }
             const { label, type } = DATA_TYPE_CONFIG[field.key as DataTypeKey];
