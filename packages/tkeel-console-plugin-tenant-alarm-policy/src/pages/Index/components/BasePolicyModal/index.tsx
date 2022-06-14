@@ -1,5 +1,5 @@
 import { Flex } from '@chakra-ui/react';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 
 import {
@@ -52,8 +52,7 @@ interface FormValues {
   alarmType?: string;
   alarmRuleType: string;
   alarmLevel?: string;
-  thresholdAlarmSourceObject: 'device';
-  systemAlarmSourceObject: 'platform';
+  alarmSourceObject: 'device' | 'platform';
   deviceInfo: string;
   condition: Condition;
   deviceConditions: DeviceCondition[];
@@ -74,7 +73,7 @@ const getRequestDeviceConditions = (deviceConditions: DeviceCondition[]) => {
       polymerize,
       numberOperator,
       booleanOperator,
-      booleanItem,
+      booleanValue,
       numberValue,
     } = item;
 
@@ -86,7 +85,7 @@ const getRequestDeviceConditions = (deviceConditions: DeviceCondition[]) => {
     // TODO: 遥测属性暂时不支持添加枚举类型值，支持后需要做处理
     const isBoolean = telemetryType === TelemetryType.Bool;
     const operator = isBoolean ? booleanOperator : numberOperator;
-    const value = isBoolean ? booleanItem : numberValue;
+    const value = isBoolean ? booleanValue : numberValue;
 
     return {
       telemetryId,
@@ -114,16 +113,11 @@ export default function BasePolicyModal({
     PlatformCondition[]
   >([]);
 
-  const baseValues = {
-    thresholdAlarmSourceObject: 'device',
-    systemAlarmSourceObject: 'platform',
-  } as const;
-
   const thresholdAlarm = String(AlarmRuleType.Threshold);
   let defaultValues: FormValues = {
     ruleName: '',
     alarmRuleType: thresholdAlarm,
-    ...baseValues,
+    alarmSourceObject: 'device',
     deviceInfo: '{}',
     condition: Condition.Or,
     deviceConditions: [defaultDeviceCondition],
@@ -144,7 +138,7 @@ export default function BasePolicyModal({
       alarmType: String(alarmType),
       alarmRuleType: String(alarmRuleType),
       alarmLevel: String(alarmLevel),
-      ...baseValues,
+      alarmSourceObject: 'device',
       deviceInfo: JSON.stringify({
         id: deviceId || '',
         name: deviceName || '',
@@ -159,6 +153,7 @@ export default function BasePolicyModal({
     formState: { errors },
     control,
     trigger,
+    setValue,
     getValues,
     watch,
   } = useForm<FormValues>({
@@ -242,6 +237,11 @@ export default function BasePolicyModal({
 
   const isSystemAlarm = watch('alarmRuleType') === String(AlarmRuleType.System);
 
+  useEffect(() => {
+    setValue('alarmSourceObject', isSystemAlarm ? 'platform' : 'device');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSystemAlarm]);
+
   return (
     <Modal
       width="800px"
@@ -274,7 +274,6 @@ export default function BasePolicyModal({
             placeholder="请选择"
             options={ALARM_TYPE_OPTIONS}
             control={control}
-            // defaultValue={defaultValues?.alarmType}
             error={errors.alarmType}
             rules={{
               required: { value: true, message: '请输入告警类型' },
@@ -300,7 +299,6 @@ export default function BasePolicyModal({
             placeholder="请选择"
             options={ALARM_LEVEL_OPTIONS}
             control={control}
-            // defaultValue={defaultValues?.alarmLevel}
             error={errors.alarmLevel}
             rules={{
               required: { value: true, message: '请输入告警级别' },
@@ -308,42 +306,32 @@ export default function BasePolicyModal({
           />
         </FormCard>
         <FormCard title="告警资源">
-          {isSystemAlarm ? (
-            <SelectField<FormValues>
-              key="systemAlarmSourceObject"
-              id="systemAlarmSourceObject"
-              name="systemAlarmSourceObject"
-              label="告警源对象"
-              placeholder="请选择"
-              defaultValue="platform"
-              options={systemAlarmSourceObjectOptions}
-              control={control}
-            />
-          ) : (
-            <>
-              <SelectField<FormValues>
-                key="thresholdAlarmSourceObject"
-                id="thresholdAlarmSourceObject"
-                name="thresholdAlarmSourceObject"
-                label="告警源对象"
-                placeholder="请选择"
-                options={thresholdAlarmSourceObjectOptions}
+          <SelectField<FormValues>
+            id="alarmSourceObject"
+            name="alarmSourceObject"
+            label="告警源对象"
+            placeholder="请选择"
+            options={
+              isSystemAlarm
+                ? systemAlarmSourceObjectOptions
+                : thresholdAlarmSourceObjectOptions
+            }
+            control={control}
+          />
+          {!isSystemAlarm && (
+            <FormControl id="deviceInfo" error={errors.deviceInfo}>
+              <Controller
+                name="deviceInfo"
                 control={control}
+                rules={{ required: { value: true, message: '请选择设备' } }}
+                render={({ field: { onChange } }) => (
+                  <DeviceSelectField
+                    onChange={onChange}
+                    styles={{ wrapper: { marginTop: '32px' } }}
+                  />
+                )}
               />
-              <FormControl id="deviceInfo" error={errors.deviceInfo}>
-                <Controller
-                  name="deviceInfo"
-                  control={control}
-                  rules={{ required: { value: true, message: '请选择设备' } }}
-                  render={({ field: { onChange } }) => (
-                    <DeviceSelectField
-                      onChange={onChange}
-                      styles={{ wrapper: { marginTop: '32px' } }}
-                    />
-                  )}
-                />
-              </FormControl>
-            </>
+            </FormControl>
           )}
         </FormCard>
         <FormCard

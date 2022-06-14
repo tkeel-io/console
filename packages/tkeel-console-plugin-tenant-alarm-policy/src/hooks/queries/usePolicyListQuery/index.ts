@@ -27,7 +27,7 @@ interface ApiData {
   list: Policy[];
 }
 
-export interface Props {
+export interface RequestParams {
   alarmLevel?: AlarmLevel;
   alarmRuleType?: AlarmRuleType;
   alarmType?: AlarmType;
@@ -43,8 +43,8 @@ export default function usePolicyListQuery({
   ruleName,
   pageNum,
   pageSize,
-}: Props) {
-  const { data, ...rest } = useQuery<ApiData, Props>({
+}: RequestParams) {
+  const { data, ...rest } = useQuery<ApiData, RequestParams>({
     url: '/tkeel-alarm/v1/rule/query',
     method: 'GET',
     params: {

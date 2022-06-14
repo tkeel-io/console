@@ -32,7 +32,7 @@ import {
 } from '@/tkeel-console-plugin-tenant-alarm-policy/constants';
 import type {
   Policy,
-  Props as usePolicyListQueryProps,
+  RequestParams as usePolicyListQueryProps,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
 import usePolicyListQuery from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
 

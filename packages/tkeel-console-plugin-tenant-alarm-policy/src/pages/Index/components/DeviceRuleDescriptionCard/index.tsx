@@ -38,9 +38,9 @@ export interface DeviceCondition {
   polymerize?: Polymerize | null;
   numberOperator?: Operator | null;
   enumOperator?: BooleanOperator | null;
-  enumItem?: string | null;
+  enumValue?: string | null;
   booleanOperator?: BooleanOperator | null;
-  booleanItem?: string;
+  booleanValue?: string;
   numberValue?: string;
 }
 
@@ -172,8 +172,8 @@ export default function DeviceRuleDescriptionCard<FormValues>({
           const telemetryIsNumber = !telemetryId || typeIsNumber;
 
           // TODO: 遥测属性暂时不支持添加枚举类型值，支持后需要做处理
-          const attributeIsEnum = false;
-          const attributeIsBoolean = type === TelemetryType.Bool;
+          const telemetryIsEnum = false;
+          const telemetryIsBoolean = type === TelemetryType.Bool;
 
           const booleanAttributeOptions = Object.entries(define || {})
             .map(([key, value]) => ({
@@ -182,7 +182,7 @@ export default function DeviceRuleDescriptionCard<FormValues>({
             }))
             .filter(({ value }) => value !== 'ext');
 
-          const attributeId =
+          const telemetryFieldId =
             `deviceConditions.${i}.telemetry` as Path<FormValues>;
 
           return (
@@ -210,8 +210,8 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                 if
               </Text>
               <SelectField<FormValues>
-                id={attributeId}
-                name={attributeId}
+                id={telemetryFieldId}
+                name={telemetryFieldId}
                 placeholder="请选择"
                 options={telemetryOptions}
                 control={control}
@@ -241,6 +241,17 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                   )}
                 </>
               )}
+              <SelectField<FormValues>
+                id={getFieldId(i, 'operator')}
+                name={getFieldId(i, 'operator')}
+                placeholder="运算符"
+                options={numberOperatorOptions}
+                {...selectProps}
+                formControlStyle={{
+                  flexShrink: 0,
+                  width: '122px',
+                }}
+              />
               {telemetryIsNumber && (
                 <SelectField<FormValues>
                   id={getFieldId(i, 'numberOperator')}
@@ -254,7 +265,7 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                   }}
                 />
               )}
-              {attributeIsEnum && (
+              {telemetryIsEnum && (
                 <>
                   <SelectField<FormValues>
                     id={getFieldId(i, 'enumOperator')}
@@ -264,15 +275,15 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                     {...selectProps}
                   />
                   <SelectField<FormValues>
-                    id={getFieldId(i, 'enumItem')}
-                    name={getFieldId(i, 'enumItem')}
+                    id={getFieldId(i, 'enumValue')}
+                    name={getFieldId(i, 'enumValue')}
                     placeholder="请选择"
                     options={[]}
                     {...selectProps}
                   />
                 </>
               )}
-              {attributeIsBoolean && (
+              {telemetryIsBoolean && (
                 <>
                   <SelectField<FormValues>
                     id={getFieldId(i, 'booleanOperator')}
@@ -282,8 +293,8 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                     {...selectProps}
                   />
                   <SelectField<FormValues>
-                    id={getFieldId(i, 'booleanItem')}
-                    name={getFieldId(i, 'booleanItem')}
+                    id={getFieldId(i, 'booleanValue')}
+                    name={getFieldId(i, 'booleanValue')}
                     placeholder="请选择"
                     options={booleanAttributeOptions}
                     {...selectProps}
