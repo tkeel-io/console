@@ -1,0 +1,15 @@
+annotations:
+  tkeel.io/deployment-name: console-plugin-admin-notification-configs
+  tkeel.io/enable: 'true'
+  tkeel.io/plugin-port: '80'
+  tkeel.io/tag: manager
+  tkeel.io/version: v0.4.0
+apiVersion: v2
+appVersion: 0.4.0-alpha.2
+description: 定制化配置
+maintainers:
+  - email: caoyue@yunify.com
+    name: caoyue
+name: console-plugin-admin-notification-configs
+type: application
+version: 0.4.3

@@ -12,7 +12,7 @@
   "license": "Apache-2.0",
   "main": "./src/index.ts",
   "dependencies": {
-    "@chakra-ui/react": "^2.1.2",
+    "@chakra-ui/react": "^2.2.1",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@tkeel/console-hooks": "workspace:^",
@@ -25,7 +25,7 @@
     "dayjs": "^1.11.2",
     "downshift": "^6.1.7",
     "file-loader": "^6.2.0",
-    "framer-motion": "^6.3.4",
+    "framer-motion": "^6.3.11",
     "lodash": "^4.17.21",
     "rc-pagination": "^3.1.16",
     "rc-select": "^14.1.4",

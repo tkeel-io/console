@@ -6,10 +6,10 @@ import {
   SelfLearnIcon,
 } from '@tkeel/console-business-components';
 import { BackButton } from '@tkeel/console-components';
+import { DeviceObject } from '@tkeel/console-request-hooks';
 import { plugin } from '@tkeel/console-utils';
 
 import { DeviceIconName } from '@/tkeel-console-plugin-tenant-data-query/components';
-import { DeviceObject } from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceDetailQuery';
 
 type Props = {
   detailData: DeviceObject | undefined;

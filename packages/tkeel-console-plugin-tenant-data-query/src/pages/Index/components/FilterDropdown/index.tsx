@@ -5,9 +5,9 @@ import { useSearchParams } from 'react-router-dom';
 import {
   useDeviceGroupQuery,
   useDeviceListQuery,
+  useTemplatesQuery,
 } from '@tkeel/console-request-hooks';
 
-import useDeviceTemplatesQuery from '@/tkeel-console-plugin-tenant-data-query/hooks/queries/useDeviceTemplatesQuery';
 import { FilterConditionIds } from '@/tkeel-console-plugin-tenant-data-query/pages/Index/constants';
 import { RequestDataCondition } from '@/tkeel-console-plugin-tenant-data-query/types/request-data';
 
@@ -144,20 +144,19 @@ export default function FilterDropdown({
     enabled: showDeviceList,
   });
 
-  const { templates, isLoading: isDeviceTemplatesLoading } =
-    useDeviceTemplatesQuery({
-      requestData: {
-        ...baseRequestData,
-        condition: [
-          ...templateConditions,
-          {
-            field: 'basicInfo.name',
-            operator: wildcard,
-            value: showDeviceTemplates ? templateIdFilterCondition.value : '',
-          },
-        ],
-      },
-    });
+  const { templates, isLoading: isDeviceTemplatesLoading } = useTemplatesQuery({
+    requestData: {
+      ...baseRequestData,
+      condition: [
+        ...templateConditions,
+        {
+          field: 'basicInfo.name',
+          operator: wildcard,
+          value: showDeviceTemplates ? templateIdFilterCondition.value : '',
+        },
+      ],
+    },
+  });
 
   const handleStatusChange = (deviceStatus: Status) => {
     let newDeviceListQueryConditions = [...deviceListQueryConditions];
@@ -247,13 +246,7 @@ export default function FilterDropdown({
     }
   };
 
-  const handleTemplateClick = ({
-    templateId: id,
-    templateName,
-  }: {
-    templateId: string;
-    templateName: string;
-  }) => {
+  const handleTemplateClick = ({ id, name }: { id: string; name: string }) => {
     if (isIndex) {
       const newDeviceListQueryConditions = [
         ...deviceListQueryConditions.filter(
@@ -293,7 +286,7 @@ export default function FilterDropdown({
 
     setTemplateId(id);
     handleUpdateCondition({
-      updateCondition: { id: DEVICE_TEMPLATES_ID, value: templateName },
+      updateCondition: { id: DEVICE_TEMPLATES_ID, value: name },
     });
   };
 

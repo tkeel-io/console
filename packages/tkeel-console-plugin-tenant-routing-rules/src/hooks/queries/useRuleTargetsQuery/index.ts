@@ -20,6 +20,7 @@ type RequestParams = {
 export interface Target {
   id: string;
   type: 1 | 2;
+  endpoint: string;
   host: string;
   value: string;
   ext: string;

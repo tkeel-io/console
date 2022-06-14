@@ -39,6 +39,9 @@
       "@/tkeel-console-plugin-admin-custom-config/*": [
         "./packages/tkeel-console-plugin-admin-custom-config/src/*"
       ],
+      "@/tkeel-console-plugin-admin-notification-configs/*": [
+        "./packages/tkeel-console-plugin-admin-notification-configs/src/*"
+      ],
       "@/tkeel-console-plugin-admin-plugins/*": [
         "./packages/tkeel-console-plugin-admin-plugins/src/*"
       ],
@@ -65,6 +68,9 @@
       ],
       "@/tkeel-console-plugin-tenant-networks/*": [
         "./packages/tkeel-console-plugin-tenant-networks/src/*"
+      ],
+      "@/tkeel-console-plugin-tenant-notification-objects/*": [
+        "./packages/tkeel-console-plugin-tenant-notification-objects/src/*"
       ],
       "@/tkeel-console-plugin-tenant-plugins/*": [
         "./packages/tkeel-console-plugin-tenant-plugins/src/*"
@@ -106,6 +112,7 @@
     { "path": "./packages/tkeel-console-hooks/" },
     { "path": "./packages/tkeel-console-icons/" },
     { "path": "./packages/tkeel-console-plugin-admin-custom-config/" },
+    { "path": "./packages/tkeel-console-plugin-admin-notification-configs/" },
     { "path": "./packages/tkeel-console-plugin-admin-plugins/" },
     { "path": "./packages/tkeel-console-plugin-admin-service-monitoring/" },
     { "path": "./packages/tkeel-console-plugin-admin-tenants/" },
@@ -115,6 +122,7 @@
     { "path": "./packages/tkeel-console-plugin-tenant-device-templates/" },
     { "path": "./packages/tkeel-console-plugin-tenant-devices/" },
     { "path": "./packages/tkeel-console-plugin-tenant-networks/" },
+    { "path": "./packages/tkeel-console-plugin-tenant-notification-objects/" },
     { "path": "./packages/tkeel-console-plugin-tenant-plugins/" },
     { "path": "./packages/tkeel-console-plugin-tenant-roles/" },
     { "path": "./packages/tkeel-console-plugin-tenant-routing-rules/" },
