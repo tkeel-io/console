@@ -80,4 +80,18 @@ export default [
       },
     ],
   },
+  {
+    id: 'monitoring-alarms',
+    name: '监控告警',
+    icon: 'TopologyCircleTwoToneIcon',
+    children: [
+      {
+        id: 'console-plugin-tenant-notification-objects',
+        name: '通知对象配置',
+        path: '/tenant-notification-objects',
+        entry:
+          'http://127.0.0.1:3018/static/console-plugin-tenant-notification-objects/',
+      },
+    ],
+  },
 ];
