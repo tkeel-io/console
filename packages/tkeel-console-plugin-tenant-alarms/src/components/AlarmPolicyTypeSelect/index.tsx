@@ -20,7 +20,7 @@ export default function AlarmPolicyTypeSelect(props: Props) {
     <Select
       labelPrefix="告警策略类型："
       options={options}
-      onChange={(value) => onChange(Number(value))}
+      onChange={(value) => onChange(value === '' ? -1 : Number(value))}
       styles={{
         wrapper: {
           width: '170px',
