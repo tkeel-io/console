@@ -27,7 +27,7 @@ import { filterHourTimestamp } from '@/tkeel-console-plugin-admin-usage-statisti
 
 const TEMPLATE = 'HH:mm';
 
-interface Props {
+interface TimeAreaChartProps {
   data: TimestampItem[];
   dataKeys: {
     key: string;
@@ -48,7 +48,7 @@ interface Props {
   };
 }
 
-const DEFAULT_PROPS: Partial<Props> = {
+const DEFAULT_PROPS: Partial<TimeAreaChartProps> = {
   yAxis: {
     tickFormatter: (value: number) =>
       numeral.format({ input: value, formatter: '0 a' }),
@@ -62,7 +62,9 @@ const DEFAULT_PROPS: Partial<Props> = {
   },
 };
 
-export default function TimeAreaChart(props: Props) {
+export type { TimeAreaChartProps };
+
+export default function TimeAreaChart(props: TimeAreaChartProps) {
   const defaultFill = useColor('brand.50');
   const defaultStroke = useColor('primary');
 
