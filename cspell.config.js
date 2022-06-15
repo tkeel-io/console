@@ -81,6 +81,7 @@ module.exports = {
     'fluxswitch',
     'tkmeter',
     'tkapi',
+    'iothub',
     // fonts
     'truetype',
     'Roboto',
