@@ -13,6 +13,7 @@ import {
   MoreAction,
   Table,
   Tooltip,
+  TooltipText,
 } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 import {
@@ -140,13 +141,8 @@ function DeviceListTable({
                 <Box flexShrink={0}>
                   <SmartObjectTwoToneIcon size="24px" />
                 </Box>
-                <Box overflow="hidden">
-                  <Tooltip label={original.name}>
-                    <Text fontSize="12px" noOfLines={1}>
-                      {original.name}
-                    </Text>
-                  </Tooltip>
-                </Box>
+
+                <TooltipText label={original.name} display="block" />
               </HStack>
             </LinkButton>
           );

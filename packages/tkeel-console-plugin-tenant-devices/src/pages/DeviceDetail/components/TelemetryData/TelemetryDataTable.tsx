@@ -1,4 +1,4 @@
-import { Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, Text } from '@chakra-ui/react';
 import { useCallback, useMemo } from 'react';
 import { CellProps, Column } from 'react-table';
 
@@ -7,7 +7,7 @@ import {
   TelemetryDetailButton,
   UpdateTelemetryButton,
 } from '@tkeel/console-business-components';
-import { MoreAction, Table } from '@tkeel/console-components';
+import { MoreAction, Table, TooltipText } from '@tkeel/console-components';
 import { DuotoneTwoToneIcon } from '@tkeel/console-icons';
 import { TelemetryItem, TelemetryValue } from '@tkeel/console-types';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
@@ -64,16 +64,21 @@ export default function TelemetryDataTable({
       width: 160,
       Cell: useCallback(
         ({ value }: CellProps<TelemetryTableItem, string>) => (
-          <Flex alignItems="center" justifyContent="space-between">
-            <DuotoneTwoToneIcon />
-            <Text
+          <Flex
+            alignItems="center"
+            justifyContent="space-between"
+            overflow="hidden"
+          >
+            <Box flexShrink={0}>
+              <DuotoneTwoToneIcon />
+            </Box>
+            <TooltipText
+              label={value}
               color="gray.800"
               fontWeight="600"
               fontSize="12px"
               marginLeft="12px"
-            >
-              {value}
-            </Text>
+            />
           </Flex>
         ),
         []
@@ -83,6 +88,12 @@ export default function TelemetryDataTable({
       Header: '遥测ID',
       width: 100,
       accessor: 'id',
+      Cell: useCallback(
+        ({ value }: CellProps<TelemetryTableItem, string>) => (
+          <TooltipText label={value} />
+        ),
+        []
+      ),
     },
     {
       Header: '数据类型',
@@ -93,6 +104,15 @@ export default function TelemetryDataTable({
       Header: '遥测值',
       width: 100,
       accessor: 'value',
+      Cell: useCallback(
+        ({
+          value,
+        }: CellProps<
+          TelemetryTableItem,
+          string | number | boolean | undefined
+        >) => <TooltipText label={value} />,
+        []
+      ),
     },
     {
       Header: '更新时间',
@@ -114,6 +134,12 @@ export default function TelemetryDataTable({
       Header: '描述',
       width: 110,
       accessor: 'description',
+      Cell: useCallback(
+        ({ value }: CellProps<TelemetryTableItem, string>) => (
+          <TooltipText label={value} />
+        ),
+        []
+      ),
     },
 
     {
