@@ -1,5 +1,4 @@
 import { Text } from '@chakra-ui/react';
-// import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { FormField, Modal } from '@tkeel/console-components';
@@ -7,7 +6,7 @@ import { FormField, Modal } from '@tkeel/console-components';
 const { TextareaField } = FormField;
 
 export interface DisposeAlarmModalForm {
-  processingOpinion: string;
+  handOpinions: string;
 }
 
 export interface Props {
@@ -54,12 +53,12 @@ function DisposeAlarmModal({
         此告警已完成处理或已修复告警？请填写处理意见
       </Text>
       <TextareaField
-        registerReturn={register('processingOpinion', {
+        registerReturn={register('handOpinions', {
           required: { value: true, message: '请填写处理意见' },
         })}
-        error={errors.processingOpinion}
+        error={errors.handOpinions}
         placeholder="请输入"
-        id="processingOpinion"
+        id="handOpinions"
         inputStyle={{ height: '160px' }}
         label=""
       />
