@@ -1,9 +1,9 @@
-import { Flex, HStack, Text, useClipboard } from '@chakra-ui/react';
+import { Box, Flex, HStack, Text, useClipboard } from '@chakra-ui/react';
 import { values } from 'lodash';
 import { useCallback, useEffect, useState } from 'react';
 import { CellProps, Column } from 'react-table';
 
-import { MoreAction, Table } from '@tkeel/console-components';
+import { MoreAction, Table, TooltipText } from '@tkeel/console-components';
 import {
   ChainFilledIcon,
   DuotoneTwoToneIcon,
@@ -134,16 +134,21 @@ export default function TelemetryRelationTable({
       width: 160,
       Cell: useCallback(
         ({ value }: CellProps<TelemetryRelationItem, string>) => (
-          <Flex alignItems="center" justifyContent="space-between">
-            <DuotoneTwoToneIcon />
-            <Text
+          <Flex
+            alignItems="center"
+            justifyContent="space-between"
+            overflow="hidden"
+          >
+            <Box flexShrink={0}>
+              <DuotoneTwoToneIcon />
+            </Box>
+            <TooltipText
+              label={value}
               color="gray.800"
               fontWeight="600"
               fontSize="12px"
               marginLeft="12px"
-            >
-              {value}
-            </Text>
+            />
           </Flex>
         ),
         []
@@ -153,6 +158,12 @@ export default function TelemetryRelationTable({
       Header: '遥测ID',
       accessor: 'id',
       width: 100,
+      Cell: useCallback(
+        ({ value }: CellProps<TelemetryRelationItem, string>) => (
+          <TooltipText label={value} />
+        ),
+        []
+      ),
     },
     {
       Header: '',
@@ -178,9 +189,11 @@ export default function TelemetryRelationTable({
           const { deviceName } = original;
           if (deviceName) {
             return (
-              <HStack spacing="6px">
-                <SmartObjectTwoToneIcon size="16px" />
-                <Text>{deviceName}</Text>
+              <HStack spacing="6px" overflow="hidden">
+                <Box flexShrink={0}>
+                  <SmartObjectTwoToneIcon size="16px" />
+                </Box>
+                <TooltipText label={deviceName} />
               </HStack>
             );
           }
@@ -209,18 +222,13 @@ export default function TelemetryRelationTable({
             return <Text color="primary">已复制</Text>;
           }
           return (
-            <Text
+            <TooltipText
+              label={value}
               cursor="copy"
-              w="100%"
-              overflow="hidden"
-              textOverflow="ellipsis"
-              whiteSpace="nowrap"
               onClick={() => {
                 handleCopy({ value, id });
               }}
-            >
-              {value}
-            </Text>
+            />
           );
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -234,9 +242,11 @@ export default function TelemetryRelationTable({
       Cell: useCallback(
         ({ value }: CellProps<TelemetryRelationItem, string | undefined>) =>
           value ? (
-            <HStack spacing="6px">
-              <DuotoneTwoToneIcon size="16px" />
-              <Text>{value}</Text>
+            <HStack spacing="6px" overflow="hidden">
+              <Box flexShrink={0}>
+                <DuotoneTwoToneIcon size="16px" />
+              </Box>
+              <TooltipText label={value} />
             </HStack>
           ) : null,
         []
@@ -254,18 +264,13 @@ export default function TelemetryRelationTable({
             return <Text color="primary">已复制</Text>;
           }
           return (
-            <Text
+            <TooltipText
+              label={value}
               cursor="copy"
-              w="100%"
-              overflow="hidden"
-              textOverflow="ellipsis"
-              whiteSpace="nowrap"
               onClick={() => {
                 handleCopy({ value, id });
               }}
-            >
-              {value}
-            </Text>
+            />
           );
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps

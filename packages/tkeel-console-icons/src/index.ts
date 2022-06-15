@@ -1,5 +1,6 @@
 export { default as AddFilledIcon } from './components/AddFilledIcon';
 export { default as AlarmLampFilledIcon } from './components/AlarmLampFilledIcon';
+export { default as AlarmLampTwoToneIcon } from './components/AlarmLampTwoToneIcon';
 export { default as AppsAddFilledIcon } from './components/AppsAddFilledIcon';
 export { default as AppsTwoToneIcon } from './components/AppsTwoToneIcon';
 export { default as AppsTwoToneIcon4 } from './components/AppsTwoToneIcon4';
@@ -8,6 +9,7 @@ export { default as ArrowLeftFilledIcon } from './components/ArrowLeftFilledIcon
 export { default as ArrowRightFilledIcon } from './components/ArrowRightFilledIcon';
 export { default as ArrowUpFilledIcon } from './components/ArrowUpFilledIcon';
 export { default as AutoFilledIcon } from './components/AutoFilledIcon';
+export { default as Bell2TwoToneIcon } from './components/Bell2TwoToneIcon';
 export { default as BellFilledIcon } from './components/BellFilledIcon';
 export { default as BellGearTwoToneIcon } from './components/BellGearTwoToneIcon';
 export { default as BellTwoToneIcon } from './components/BellTwoToneIcon';
@@ -61,6 +63,7 @@ export { default as FolderOpenTwoToneIcon } from './components/FolderOpenTwoTone
 export { default as GearTwoToneIcon } from './components/GearTwoToneIcon';
 export { default as GoBackFilledIcon } from './components/GoBackFilledIcon';
 export { default as GroupTwoToneIcon } from './components/GroupTwoToneIcon';
+export { default as HornTwoToneIcon } from './components/HornTwoToneIcon';
 export { default as HumanCircleTwoToneIcon } from './components/HumanCircleTwoToneIcon';
 export { default as HumanFilledIcon } from './components/HumanFilledIcon';
 export { default as HumanGearTwoToneIcon } from './components/HumanGearTwoToneIcon';
@@ -91,6 +94,7 @@ export { default as OfficialFilledIcon } from './components/OfficialFilledIcon';
 export { default as PauseFilledIcon } from './components/PauseFilledIcon';
 export { default as PencilFilledIcon } from './components/PencilFilledIcon';
 export { default as PencilTwoToneIcon } from './components/PencilTwoToneIcon';
+export { default as PeopleTwoToneIcon } from './components/PeopleTwoToneIcon';
 export { default as PersonGroupTwoToneIcon } from './components/PersonGroupTwoToneIcon';
 export { default as PingTwoToneIcon } from './components/PingTwoToneIcon';
 export { default as PlateCreatedTwoToneIcon } from './components/PlateCreatedTwoToneIcon';
@@ -99,6 +103,7 @@ export { default as ProtocolHttpFilledIcon } from './components/ProtocolHttpFill
 export { default as ProtocolSshFilledIcon } from './components/ProtocolSshFilledIcon';
 export { default as PuzzleTwoToneIcon } from './components/PuzzleTwoToneIcon';
 export { default as QuestionFilledIcon } from './components/QuestionFilledIcon';
+export { default as RefreshCircleFilledIcon } from './components/RefreshCircleFilledIcon';
 export { default as RefreshFilledIcon } from './components/RefreshFilledIcon';
 export { default as ReportFilledIcon } from './components/ReportFilledIcon';
 export { default as ResourceFilledIcon } from './components/ResourceFilledIcon';

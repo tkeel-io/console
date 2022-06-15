@@ -11,8 +11,9 @@ type Props = {
   emptyTitle?: ReactNode;
   templates: TemplateItem[];
   onClick: ({ id, name }: { id: string; name: string }) => unknown;
+  sx?: StyleProps;
   styles?: {
-    wrapper?: StyleProps;
+    root?: StyleProps;
   };
 };
 
@@ -22,10 +23,11 @@ export default function DeviceTemplateList({
   emptyTitle = '暂无设备模板,请重新选择',
   templates,
   onClick,
+  sx,
   styles,
 }: Props) {
   return (
-    <Flex width="100%" height="100%" {...styles?.wrapper}>
+    <Flex width="100%" height="100%" {...styles?.root} {...sx}>
       {(() => {
         if (isLoading) {
           return (
@@ -63,7 +65,7 @@ export default function DeviceTemplateList({
               cursor="pointer"
               _hover={{
                 backgroundColor: 'grayAlternatives.50',
-                '.spread-wrapper': {
+                '> div:last-child': {
                   display: 'flex',
                 },
               }}
@@ -80,9 +82,7 @@ export default function DeviceTemplateList({
                   {name}
                 </Text>
               </Flex>
-              {isShowSpreadButton && (
-                <SpreadButton style={{ display: 'none' }} />
-              )}
+              {isShowSpreadButton && <SpreadButton sx={{ display: 'none' }} />}
             </Flex>
           );
         });

@@ -141,7 +141,7 @@ export default function RepublishInfoCard({
       >
         {imgType[target.sink_type] === 'kafka'
           ? `主题 Topic：${target.value}`
-          : `数据库地址：${target.host}`}
+          : `数据库地址：${target.endpoint}`}
       </Text>
       <HStack display="none" spacing="20px">
         {status !== 1 && (

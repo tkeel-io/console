@@ -86,11 +86,24 @@ export default [
     id: 'tenant-monitoring-alarms',
     children: [
       {
+        id: 'tenant-alarms',
+        name: '告警记录',
+        path: '/tenant-alarms',
+        entry: 'http://127.0.0.1:3015/static/console-plugin-tenant-alarms/',
+      },
+      {
         id: 'tenant-alarm-policy',
         name: '告警策略',
         path: '/tenant-alarm-policy',
         entry:
           'http://127.0.0.1:3016/static/console-plugin-tenant-alarm-policy/',
+      },
+      {
+        id: 'console-plugin-tenant-notification-objects',
+        name: '通知对象配置',
+        path: '/tenant-notification-objects',
+        entry:
+          'http://127.0.0.1:3018/static/console-plugin-tenant-notification-objects/',
       },
     ],
   },
