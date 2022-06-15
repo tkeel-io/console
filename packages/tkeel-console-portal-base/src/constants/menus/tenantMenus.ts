@@ -81,10 +81,23 @@ export default [
     ],
   },
   {
-    id: 'monitoring-alarms',
     name: '监控告警',
-    icon: 'TopologyCircleTwoToneIcon',
+    icon: 'MgmtNodeTwoToneIcon', // TODO: 需修改
+    id: 'tenant-monitoring-alarms',
     children: [
+      {
+        id: 'tenant-alarms',
+        name: '告警记录',
+        path: '/tenant-alarms',
+        entry: 'http://127.0.0.1:3015/static/console-plugin-tenant-alarms/',
+      },
+      {
+        id: 'tenant-alarm-policy',
+        name: '告警策略',
+        path: '/tenant-alarm-policy',
+        entry:
+          'http://127.0.0.1:3016/static/console-plugin-tenant-alarm-policy/',
+      },
       {
         id: 'console-plugin-tenant-notification-objects',
         name: '通知对象配置',

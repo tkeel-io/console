@@ -1,3 +1,4 @@
+export * from './types/alarm';
 export * from './types/auth';
 export * from './types/device';
 export * from './types/documents';
