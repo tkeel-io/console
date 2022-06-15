@@ -63,7 +63,9 @@ export default function Chart({ data, isLoading, barColor }: Props) {
           allowDecimals={false}
           axisLine={false}
           tickLine={false}
-          tickFormatter={(value) => numeral.format({ input: value as number })}
+          tickFormatter={(value) =>
+            numeral.format({ input: value as number, formatter: '0 a' })
+          }
         />
         <Bar dataKey="value" fill={barColor} />
         <Tooltip
