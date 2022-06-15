@@ -1,6 +1,7 @@
 import { Skeleton } from '@chakra-ui/react';
 
 import { useColor } from '@tkeel/console-hooks';
+import { numeral } from '@tkeel/console-utils';
 
 import TimeAreaChart from '@/tkeel-console-plugin-admin-usage-statistics/components/TimeAreaChart';
 import usePrometheusTKMeterBatchQuery from '@/tkeel-console-plugin-admin-usage-statistics/hooks/queries/usePrometheusTKMeterBatchQuery';
@@ -70,6 +71,9 @@ export default function TimeChart() {
       <TimeAreaChart
         data={data}
         dataKeys={dataKeys}
+        yAxis={{
+          tickFormatter: (value: number) => numeral.format({ input: value }),
+        }}
         area={{ fillOpacity: '0.4' }}
         tooltip={{ formatterString: '0,0.00' }}
       />

@@ -52,7 +52,7 @@ export default function Chart() {
           {...defaultXAxisProps}
           dataKey="timestamp"
           tickLine={false}
-          tickFormatter={(value) =>
+          tickFormatter={(value: number) =>
             formatDateTimeByTimestamp({
               timestamp: value - 1,
               template: 'MM-DD',
@@ -72,7 +72,9 @@ export default function Chart() {
           tickCount={3}
           allowDecimals={false}
           tickLine={false}
-          tickFormatter={(value) => numeral.format({ input: value as number })}
+          tickFormatter={(value: number) =>
+            numeral.format({ input: value, formatter: '0 a' })
+          }
         />
         <YAxis
           {...defaultYAxisProps}

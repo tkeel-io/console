@@ -89,8 +89,8 @@ export default function FrequencyChart() {
               {...defaultYAxisProps}
               tickCount={5}
               allowDecimals={false}
-              tickFormatter={(value) =>
-                numeral.format({ input: value as number })
+              tickFormatter={(value: number) =>
+                numeral.format({ input: value, formatter: '0 a' })
               }
             />
             <CartesianGrid {...defaultCartesianGridProps} />

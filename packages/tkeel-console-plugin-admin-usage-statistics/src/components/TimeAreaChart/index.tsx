@@ -50,7 +50,8 @@ interface Props {
 
 const DEFAULT_PROPS: Partial<Props> = {
   yAxis: {
-    tickFormatter: (value: number) => numeral.format({ input: value }),
+    tickFormatter: (value: number) =>
+      numeral.format({ input: value, formatter: '0 a' }),
   },
   area: {
     fillOpacity: '0.5',

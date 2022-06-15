@@ -50,7 +50,7 @@ export default function Chart({ data, isLoading, barColor }: Props) {
           {...defaultXAxisProps}
           dataKey="timestamp"
           tickLine={false}
-          tickFormatter={(value) =>
+          tickFormatter={(value: number) =>
             formatDateTimeByTimestamp({
               timestamp: value - 1,
               template: 'MM-DD',
@@ -63,8 +63,8 @@ export default function Chart({ data, isLoading, barColor }: Props) {
           allowDecimals={false}
           axisLine={false}
           tickLine={false}
-          tickFormatter={(value) =>
-            numeral.format({ input: value as number, formatter: '0 a' })
+          tickFormatter={(value: number) =>
+            numeral.format({ input: value, formatter: '0 a' })
           }
         />
         <Bar dataKey="value" fill={barColor} />
