@@ -57,6 +57,7 @@ interface Props<FormValues> {
   register: UseFormRegister<FormValues>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<FormValues, any>;
+  deviceConditionsErrors: number[];
   append: () => void;
   fieldArrayReturn: UseFieldArrayReturn<FormValues>;
 }
@@ -75,6 +76,7 @@ export default function DeviceRuleDescriptionCard<FormValues>({
   deviceId,
   register,
   control,
+  deviceConditionsErrors,
   append,
   fieldArrayReturn,
 }: Props<FormValues>) {
@@ -162,6 +164,7 @@ export default function DeviceRuleDescriptionCard<FormValues>({
           const { telemetry, time } = output[i] || {};
 
           const { id: telemetryId } = getTelemetryInfo(telemetry as string);
+
           /* eslint-enable */
           const { type, define } = telemetryFields[telemetryId] || {};
           const typeIsNumber = [
@@ -186,132 +189,141 @@ export default function DeviceRuleDescriptionCard<FormValues>({
             `deviceConditions.${i}.telemetry` as Path<FormValues>;
 
           return (
-            <HStack
+            <Flex
               key={item.id}
-              alignItems="center"
-              spacing="8px"
+              flexDirection="column"
               _notLast={{ marginBottom: '8px' }}
               padding="0 16px"
-              height="64px"
               borderRadius="4px"
               backgroundColor="white"
-              _hover={{
-                '> div:last-child > svg': {
-                  display: 'block !important',
-                },
-              }}
             >
-              <Text
-                marginRight="10px"
-                color="gray.700"
-                fontSize="14px"
-                fontWeight="500"
-              >
-                if
-              </Text>
-              <SelectField<FormValues>
-                id={telemetryFieldId}
-                name={telemetryFieldId}
-                placeholder="请选择"
-                options={telemetryOptions}
-                control={control}
-                formControlStyle={{
-                  marginBottom: '0',
-                  flexShrink: 0,
-                  width: '140px',
+              <HStack
+                alignItems="center"
+                spacing="8px"
+                height="64px"
+                _hover={{
+                  '> div:last-child > svg': {
+                    display: 'block !important',
+                  },
                 }}
-              />
-              {telemetryIsNumber && (
-                <>
-                  <SelectField<FormValues>
-                    id={getFieldId(i, 'time')}
-                    name={getFieldId(i, 'time')}
-                    placeholder="请选择"
-                    options={durationOptions}
-                    {...selectProps}
-                  />
-                  {time !== Time.Immediate && (
-                    <SelectField<FormValues>
-                      id={getFieldId(i, 'polymerize')}
-                      name={getFieldId(i, 'polymerize')}
-                      placeholder="请选择"
-                      options={polymerizeOptions}
-                      {...selectProps}
-                    />
-                  )}
-                </>
-              )}
-              {telemetryIsNumber && (
+              >
+                <Text
+                  marginRight="10px"
+                  color="gray.700"
+                  fontSize="14px"
+                  fontWeight="500"
+                >
+                  if
+                </Text>
                 <SelectField<FormValues>
-                  id={getFieldId(i, 'numberOperator')}
-                  name={getFieldId(i, 'numberOperator')}
-                  placeholder="运算符"
-                  options={numberOperatorOptions}
-                  {...selectProps}
+                  id={telemetryFieldId}
+                  name={telemetryFieldId}
+                  placeholder="请选择"
+                  options={telemetryOptions}
+                  control={control}
                   formControlStyle={{
+                    marginBottom: '0',
                     flexShrink: 0,
-                    width: '122px',
+                    width: '140px',
                   }}
                 />
-              )}
-              {telemetryIsEnum && (
-                <>
+                {telemetryIsNumber && (
+                  <>
+                    <SelectField<FormValues>
+                      id={getFieldId(i, 'time')}
+                      name={getFieldId(i, 'time')}
+                      placeholder="请选择"
+                      options={durationOptions}
+                      {...selectProps}
+                    />
+                    {time !== Time.Immediate && (
+                      <SelectField<FormValues>
+                        id={getFieldId(i, 'polymerize')}
+                        name={getFieldId(i, 'polymerize')}
+                        placeholder="请选择"
+                        options={polymerizeOptions}
+                        {...selectProps}
+                      />
+                    )}
+                  </>
+                )}
+                {telemetryIsNumber && (
                   <SelectField<FormValues>
-                    id={getFieldId(i, 'enumOperator')}
-                    name={getFieldId(i, 'enumOperator')}
+                    id={getFieldId(i, 'numberOperator')}
+                    name={getFieldId(i, 'numberOperator')}
                     placeholder="运算符"
-                    options={enumOperatorOptions}
+                    options={numberOperatorOptions}
                     {...selectProps}
-                  />
-                  <SelectField<FormValues>
-                    id={getFieldId(i, 'enumValue')}
-                    name={getFieldId(i, 'enumValue')}
-                    placeholder="请选择"
-                    options={[]}
-                    {...selectProps}
-                  />
-                </>
-              )}
-              {telemetryIsBoolean && (
-                <>
-                  <SelectField<FormValues>
-                    id={getFieldId(i, 'booleanOperator')}
-                    name={getFieldId(i, 'booleanOperator')}
-                    placeholder="运算符"
-                    options={enumOperatorOptions}
-                    {...selectProps}
-                  />
-                  <SelectField<FormValues>
-                    id={getFieldId(i, 'booleanValue')}
-                    name={getFieldId(i, 'booleanValue')}
-                    placeholder="请选择"
-                    options={booleanAttributeOptions}
-                    {...selectProps}
-                  />
-                </>
-              )}
-              {telemetryIsNumber && (
-                <TextField
-                  id={getFieldId(i, 'numberValue')}
-                  registerReturn={register(getFieldId(i, 'numberValue'))}
-                  type="number"
-                  formControlStyle={{ marginBottom: '0' }}
-                />
-              )}
-              <Box width="16px" flexShrink={0}>
-                {fields.length > 1 && (
-                  <TrashFilledIcon
-                    color="grayAlternatives.300"
-                    style={{
-                      display: 'none',
+                    formControlStyle={{
                       flexShrink: 0,
-                      cursor: 'pointer',
+                      width: '122px',
                     }}
-                    onClick={() => remove(i)}
                   />
                 )}
-              </Box>
-            </HStack>
+                {telemetryIsEnum && (
+                  <>
+                    <SelectField<FormValues>
+                      id={getFieldId(i, 'enumOperator')}
+                      name={getFieldId(i, 'enumOperator')}
+                      placeholder="运算符"
+                      options={enumOperatorOptions}
+                      {...selectProps}
+                    />
+                    <SelectField<FormValues>
+                      id={getFieldId(i, 'enumValue')}
+                      name={getFieldId(i, 'enumValue')}
+                      placeholder="请选择"
+                      options={[]}
+                      {...selectProps}
+                    />
+                  </>
+                )}
+                {telemetryIsBoolean && (
+                  <>
+                    <SelectField<FormValues>
+                      id={getFieldId(i, 'booleanOperator')}
+                      name={getFieldId(i, 'booleanOperator')}
+                      placeholder="运算符"
+                      options={enumOperatorOptions}
+                      {...selectProps}
+                    />
+                    <SelectField<FormValues>
+                      id={getFieldId(i, 'booleanValue')}
+                      name={getFieldId(i, 'booleanValue')}
+                      placeholder="请选择"
+                      options={booleanAttributeOptions}
+                      {...selectProps}
+                    />
+                  </>
+                )}
+                {telemetryIsNumber && (
+                  <TextField
+                    id={getFieldId(i, 'numberValue')}
+                    registerReturn={register(getFieldId(i, 'numberValue'))}
+                    type="number"
+                    formControlStyle={{ marginBottom: '0' }}
+                  />
+                )}
+                <Box width="16px" flexShrink={0}>
+                  {fields.length > 1 && (
+                    <TrashFilledIcon
+                      color="grayAlternatives.300"
+                      style={{
+                        display: 'none',
+                        flexShrink: 0,
+                        cursor: 'pointer',
+                      }}
+                      onClick={() => remove(i)}
+                    />
+                  )}
+                </Box>
+              </HStack>
+              {deviceConditionsErrors.includes(i) && (
+                <Flex paddingBottom="6px" color="red.500" fontSize="14px">
+                  请将规则填写完整
+                </Flex>
+              )}
+            </Flex>
           );
         })}
       </Flex>

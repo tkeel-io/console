@@ -65,6 +65,8 @@ export interface RequestData {
   alarmRuleType: AlarmRuleType;
   alarmLevel: AlarmLevel;
   alarmSourceObject: AlarmSourceObject;
+  tempId?: string;
+  tempName?: string;
   deviceId?: string;
   deviceName?: string;
   platformRuleList?: PlatformRule[];

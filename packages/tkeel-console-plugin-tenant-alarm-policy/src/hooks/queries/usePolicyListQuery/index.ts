@@ -15,6 +15,8 @@ export interface Policy {
   alarmSourceObject: AlarmSourceObject; // 告警源对象 0：平台；1：设备
   ruleDesc: string;
   alarmType: AlarmType; // 0：基础告警；1：持续告警
+  tempId?: string;
+  tempName?: string;
   deviceId?: string;
   deviceName?: string;
   noticeId: string;

@@ -27,6 +27,8 @@ export default function PlatformRuleDescriptionCard({
     }
   };
 
+  const allChecked = selectedRules.length === rules.length;
+
   return (
     <Flex flex="1" flexDirection="column">
       <Flex justifyContent="space-between">
@@ -35,6 +37,7 @@ export default function PlatformRuleDescriptionCard({
         </Text>
         <Checkbox
           color="gray.700"
+          isChecked={allChecked}
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
             const newPlatformRules = e.target.checked ? rules : [];
             onChange(newPlatformRules);

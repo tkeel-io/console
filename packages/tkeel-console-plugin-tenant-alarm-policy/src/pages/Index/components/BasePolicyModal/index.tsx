@@ -61,11 +61,19 @@ interface FormValues {
   deviceConditions: DeviceCondition[];
 }
 
+interface DeviceInfo {
+  tempId: string;
+  tempName: string;
+  deviceId: string;
+  deviceName: string;
+}
+
 const getDeviceInfo = (deviceInfo: string) => {
-  return (deviceInfo ? JSON.parse(deviceInfo) : { id: '', name: '' }) as {
-    id: string;
-    name: string;
-  };
+  return (
+    deviceInfo
+      ? JSON.parse(deviceInfo)
+      : { tempId: '', tempName: '', deviceId: '', deviceName: '' }
+  ) as DeviceInfo;
 };
 
 const getRequestDeviceConditions = (deviceConditions: DeviceCondition[]) => {
@@ -116,6 +124,9 @@ export default function BasePolicyModal({
   const { platformRules } = usePlatformRulesQuery();
 
   const [platformRuleList, setPlatformRuleList] = useState<PlatformRule[]>([]);
+  const [deviceConditionsErrors, setDeviceConditionsErrors] = useState<
+    number[]
+  >([]);
 
   const thresholdAlarm = String(AlarmRuleType.Threshold);
   let defaultValues: FormValues = {
@@ -132,6 +143,8 @@ export default function BasePolicyModal({
       ruleName,
       alarmType,
       alarmLevel,
+      tempId,
+      tempName,
       deviceId,
       deviceName,
       alarmRuleType,
@@ -144,8 +157,10 @@ export default function BasePolicyModal({
       alarmLevel: String(alarmLevel),
       alarmSourceObject: 'device',
       deviceInfo: JSON.stringify({
-        id: deviceId || '',
-        name: deviceName || '',
+        tempId: tempId || '',
+        tempName: tempName || '',
+        deviceId: deviceId || '',
+        deviceName: deviceName || '',
       }),
       condition: Condition.Or,
       deviceConditions: [],
@@ -171,52 +186,68 @@ export default function BasePolicyModal({
 
   const { append } = fieldArrayReturn;
 
+  const handleSetDeviceConditionsErrors = () => {
+    const { deviceConditions } = getValues();
+
+    const errorIndexArr: number[] = [];
+    getRequestDeviceConditions(deviceConditions).forEach((condition, i) => {
+      const { telemetryId, operator, value } = condition;
+      if (!telemetryId || operator || !value) {
+        errorIndexArr.push(i);
+      }
+    });
+
+    setDeviceConditionsErrors(errorIndexArr);
+
+    return errorIndexArr.length > 0;
+  };
+
   const handleConfirm = async () => {
     const result = await trigger();
-    if (result) {
-      const values = getValues();
-      const {
-        ruleName,
-        alarmType,
-        alarmRuleType,
-        alarmLevel,
-        deviceInfo,
-        condition,
-        deviceConditions,
-      } = values;
-
-      const requestDeviceConditions =
-        getRequestDeviceConditions(deviceConditions);
-
-      let data: RequestData = {
-        ruleName,
-        alarmType: Number(alarmType),
-        alarmRuleType: Number(alarmRuleType),
-        alarmLevel: Number(alarmLevel),
-        alarmSourceObject:
-          alarmRuleType === thresholdAlarm
-            ? AlarmSourceObject.Device
-            : AlarmSourceObject.Platform,
-        condition,
-      };
-
-      if (Number(alarmRuleType) === AlarmRuleType.System) {
-        data = {
-          ...data,
-          platformRuleList,
-        };
-      } else {
-        const { id: deviceId, name: deviceName } = getDeviceInfo(deviceInfo);
-        data = {
-          ...data,
-          deviceId,
-          deviceName,
-          deviceCondition: requestDeviceConditions,
-        };
-      }
-
-      onConfirm(data);
+    if (!result) {
+      return;
     }
+
+    if (handleSetDeviceConditionsErrors()) {
+      return;
+    }
+
+    const values = getValues();
+    const {
+      ruleName,
+      alarmType,
+      alarmRuleType,
+      alarmLevel,
+      deviceInfo,
+      condition,
+      deviceConditions,
+    } = values;
+
+    let data: RequestData = {
+      ruleName,
+      alarmType: Number(alarmType),
+      alarmRuleType: Number(alarmRuleType),
+      alarmLevel: Number(alarmLevel),
+      alarmSourceObject:
+        alarmRuleType === thresholdAlarm
+          ? AlarmSourceObject.Device
+          : AlarmSourceObject.Platform,
+      condition,
+    };
+
+    data =
+      Number(alarmRuleType) === AlarmRuleType.System
+        ? {
+            ...data,
+            platformRuleList,
+          }
+        : {
+            ...data,
+            ...getDeviceInfo(deviceInfo),
+            deviceCondition: getRequestDeviceConditions(deviceConditions),
+          };
+
+    onConfirm(data);
   };
 
   const thresholdAlarmSourceObjectOptions = [
@@ -333,8 +364,9 @@ export default function BasePolicyModal({
                 name="deviceInfo"
                 control={control}
                 rules={{ required: { value: true, message: '请选择设备' } }}
-                render={({ field: { onChange } }) => (
+                render={({ field: { value, onChange } }) => (
                   <DeviceSelectField
+                    value={value}
                     onChange={onChange}
                     styles={{ wrapper: { marginTop: '32px' } }}
                   />
@@ -368,9 +400,10 @@ export default function BasePolicyModal({
               />
             ) : (
               <DeviceRuleDescriptionCard<FormValues>
-                deviceId={getDeviceInfo(watch('deviceInfo'))?.id}
+                deviceId={getDeviceInfo(watch('deviceInfo'))?.deviceId}
                 register={register}
                 control={control}
+                deviceConditionsErrors={deviceConditionsErrors}
                 append={() => {
                   append(defaultDeviceCondition);
                 }}

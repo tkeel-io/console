@@ -13,13 +13,16 @@ import {
 import TemplateDeviceList from '../TemplateDeviceList';
 
 interface Props {
+  value: string;
   onChange: (deviceInfo: string) => void;
   styles?: {
     wrapper?: StyleProps;
   };
 }
 
-export default function DeviceSelectField({ onChange, styles }: Props) {
+export default function DeviceSelectField({ value, onChange, styles }: Props) {
+  // eslint-disable-next-line no-console
+  console.log('DeviceSelectField ~ value', value);
   const [isShowDropdown, setIsShowDropdown] = useState(false);
   const [templateId, setTemplateId] = useState('');
   const [templateCondition, setTemplateCondition] =
@@ -146,7 +149,14 @@ export default function DeviceSelectField({ onChange, styles }: Props) {
               devices={deviceList}
               onBackBtnClick={() => setTemplateId('')}
               onClick={({ id, name }) => {
-                onChange(JSON.stringify({ id, name }));
+                onChange(
+                  JSON.stringify({
+                    tempId: templateCondition?.id ?? '',
+                    tempName: templateCondition?.value ?? '',
+                    deviceId: id,
+                    deviceName: name,
+                  })
+                );
                 setDeviceCondition({
                   id,
                   label: '',
