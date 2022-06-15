@@ -2460,7 +2460,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chakra-ui/react@npm:^2.2.1":
+"@chakra-ui/react@npm:^2.1.2, @chakra-ui/react@npm:^2.2.1":
   version: 2.2.1
   resolution: "@chakra-ui/react@npm:2.2.1"
   dependencies:
@@ -3840,7 +3840,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/react@npm:^11.9.0":
+"@emotion/react@npm:^11.8.2, @emotion/react@npm:^11.9.0":
   version: 11.9.0
   resolution: "@emotion/react@npm:11.9.0"
   dependencies:
@@ -4680,6 +4680,56 @@ __metadata:
     lodash: ^4.17.21
     react: ^18.1.0
     react-dom: ^18.1.0
+    react-query: ^3.39.0
+    react-router-dom: ^6.3.0
+  languageName: unknown
+  linkType: soft
+
+"@tkeel/console-plugin-tenant-alarm-policy@workspace:packages/tkeel-console-plugin-tenant-alarm-policy":
+  version: 0.0.0-use.local
+  resolution: "@tkeel/console-plugin-tenant-alarm-policy@workspace:packages/tkeel-console-plugin-tenant-alarm-policy"
+  dependencies:
+    "@chakra-ui/react": ^2.1.2
+    "@emotion/react": ^11.9.0
+    "@emotion/styled": ^11.8.1
+    "@tkeel/console-business-components": "workspace:^"
+    "@tkeel/console-components": "workspace:^"
+    "@tkeel/console-hooks": "workspace:^"
+    "@tkeel/console-icons": "workspace:^"
+    "@tkeel/console-request-hooks": "workspace:^"
+    "@tkeel/console-types": "workspace:^"
+    "@tkeel/console-utils": "workspace:^"
+    "@types/react-table": ^7.7.12
+    framer-motion: ^6.3.4
+    lodash: ^4.17.21
+    react: ^18.1.0
+    react-dom: ^18.1.0
+    react-hook-form: ^7.31.3
+    react-query: ^3.39.0
+    react-router-dom: ^6.3.0
+  languageName: unknown
+  linkType: soft
+
+"@tkeel/console-plugin-tenant-alarms@workspace:packages/tkeel-console-plugin-tenant-alarms":
+  version: 0.0.0-use.local
+  resolution: "@tkeel/console-plugin-tenant-alarms@workspace:packages/tkeel-console-plugin-tenant-alarms"
+  dependencies:
+    "@chakra-ui/react": ^2.1.2
+    "@emotion/react": ^11.8.2
+    "@emotion/styled": ^11.8.1
+    "@tkeel/console-business-components": "workspace:^"
+    "@tkeel/console-components": "workspace:^"
+    "@tkeel/console-hooks": "workspace:^"
+    "@tkeel/console-icons": "workspace:^"
+    "@tkeel/console-types": "workspace:^"
+    "@tkeel/console-utils": "workspace:^"
+    "@types/react-table": ^7.7.12
+    dayjs: ^1.11.2
+    framer-motion: ^6.3.5
+    lodash: ^4.17.21
+    react: ^18.1.0
+    react-dom: ^18.1.0
+    react-hook-form: ^7.31.3
     react-query: ^3.39.0
     react-router-dom: ^6.3.0
   languageName: unknown
@@ -10351,7 +10401,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"framer-motion@npm:^6.3.11, framer-motion@npm:^6.3.3":
+"framer-motion@npm:^6.3.11, framer-motion@npm:^6.3.3, framer-motion@npm:^6.3.4":
   version: 6.3.11
   resolution: "framer-motion@npm:6.3.11"
   dependencies:
@@ -10368,6 +10418,26 @@ __metadata:
     "@emotion/is-prop-valid":
       optional: true
   checksum: 2333b296a109ec0ef86421453f66a92b63e07930a491102f1007bbe48f40594d8c51a96ca937f8f3f013ba658147049bf1fa9feebc44487b8e7617bb674fb254
+  languageName: node
+  linkType: hard
+
+"framer-motion@npm:^6.3.5":
+  version: 6.3.5
+  resolution: "framer-motion@npm:6.3.5"
+  dependencies:
+    "@emotion/is-prop-valid": ^0.8.2
+    framesync: 6.0.1
+    hey-listen: ^1.0.8
+    popmotion: 11.0.3
+    style-value-types: 5.0.0
+    tslib: ^2.1.0
+  peerDependencies:
+    react: ">=16.8 || ^17.0.0 || ^18.0.0"
+    react-dom: ">=16.8 || ^17.0.0 || ^18.0.0"
+  dependenciesMeta:
+    "@emotion/is-prop-valid":
+      optional: true
+  checksum: 56ce084d6f6b329dcdde0c47e6dbe49756435c796d8bda7163f2f10d294fd74beaa1ca4e4fbcf1a488f7e7aa578609bc3d560b184515ca62ede59711e66053b1
   languageName: node
   linkType: hard
 
