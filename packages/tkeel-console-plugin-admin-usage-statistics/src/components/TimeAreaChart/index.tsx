@@ -31,7 +31,7 @@ interface TimeAreaChartProps {
   data: TimestampItem[];
   dataKeys: {
     key: string;
-    label: string;
+    label?: string;
     fill?: string;
     stroke?: string;
   }[];

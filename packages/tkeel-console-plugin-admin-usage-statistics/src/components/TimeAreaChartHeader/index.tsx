@@ -15,7 +15,7 @@ export default function TimeAreaChartHeader({
 }: TimeAreaChartHeaderProps) {
   return (
     <Flex alignItems="center">
-      <ChainFilledIcon />
+      <ChainFilledIcon size="16px" color="primary" />
       {title && (
         <Text
           paddingLeft="8px"
