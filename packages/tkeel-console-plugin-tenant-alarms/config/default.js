@@ -1,3 +1,5 @@
+const { tkeel } = require('../../../config/default');
+
 module.exports = {
   portalName: 'tenant',
   publicPath: '/static/console-plugin-tenant-alarms/',
@@ -12,15 +14,21 @@ module.exports = {
       plugin_id: 'console-plugin-tenant-alarms',
       entries: [
         {
-          id: 'console-plugin-tenant-alarms',
-          name: '告警记录',
-          icon: '',
-          path: '/tenant-alarms',
-          entry: '/static/console-plugin-tenant-alarms/',
-          portal: 1,
+          id: 'monitoring-alarms',
+          name: '监控告警',
+          icon: 'AlarmLampTwoToneIcon', // TODO: 需修改
+          children: [
+            {
+              id: 'console-plugin-tenant-alarms',
+              name: '告警记录',
+              path: '/tenant-alarms',
+              entry: '/static/console-plugin-tenant-alarms/',
+              portal: 1,
+            },
+          ],
         },
       ],
-      dependence: [],
+      dependence: [{ id: 'tkeel-alarm', version: tkeel.version }],
     },
   },
 };

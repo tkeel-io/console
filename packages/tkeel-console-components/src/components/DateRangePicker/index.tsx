@@ -17,7 +17,7 @@ type Props = DateRangePickerProps & {
   endTime?: Date;
 };
 
-export default function DateRangePicker({
+function DateRangePicker({
   format = 'yyyy-MM-dd HH:mm:ss',
   startTime,
   endTime,
@@ -76,3 +76,7 @@ export default function DateRangePicker({
     </>
   );
 }
+
+DateRangePicker.PickerUtils = RsuiteDateRangePicker;
+
+export default DateRangePicker;

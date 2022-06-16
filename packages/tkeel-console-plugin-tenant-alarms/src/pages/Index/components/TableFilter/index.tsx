@@ -1,81 +1,139 @@
 import { Flex } from '@chakra-ui/react';
-
-// import dayjs from 'dayjs';
-import { DateRangePicker, Select } from '@tkeel/console-components';
+import { css, Global } from '@emotion/react';
+import dayjs from 'dayjs';
+import type {
+  AlarmLevel,
+  AlarmPolicyType,
+  AlarmSource,
+  AlarmType,
+  RequestParams,
+} from 'packages/tkeel-console-plugin-tenant-alarms/src/types';
 
 import {
-  ALARMS_LEVEL_ARR,
-  ALARMS_POLICY,
-  ALARMS_SOURCE,
-  ALARMS_TYPES,
-} from '@/tkeel-console-plugin-tenant-alarms/constants';
+  AlarmLevelSelect,
+  AlarmTypeSelect,
+} from '@tkeel/console-business-components';
+import {
+  DateRangePicker,
+  PageHeaderToolbar,
+  Select,
+} from '@tkeel/console-components';
 
-export default function Filter() {
+import AlarmPolicyTypeSelect from '@/tkeel-console-plugin-tenant-alarms/components/AlarmPolicyTypeSelect';
+import { ALARMS_SOURCE } from '@/tkeel-console-plugin-tenant-alarms/constants';
+
+const { combine, allowedMaxDays, afterToday } = DateRangePicker.PickerUtils;
+export type ValueType = [Date?, Date?];
+
+const selectorStyle = {
+  selector: {
+    backgroundColor: 'white',
+    fontWeight: 'normal',
+  },
+};
+// export interface ParamsType {
+//   alarmLevel?: number;
+//   alarmType?: number;
+//   alarmStrategy?: number;
+//   alarmSource?: number;
+//   startTime?: string;
+//   endTime?: string;
+// }
+
+export interface Props {
+  onChange: (params: Omit<RequestParams, 'pageNum' | 'pageSize'>) => void;
+}
+function Filter({ onChange }: Props) {
+  const dateDisabled =
+    combine && allowedMaxDays && afterToday
+      ? {
+          disabledDate: combine(allowedMaxDays(7), afterToday()),
+        }
+      : {};
   return (
-    <Flex>
-      {/* label="级别：" */}
-      <Select placeholder="请选择级别">
-        {ALARMS_LEVEL_ARR.map((item) => {
-          return (
-            <Select.Option key={item.value} value={item.value}>
-              {item.label}
-            </Select.Option>
-          );
-        })}
-      </Select>
-      {/* label="告警类型：" */}
-      <Select placeholder="请选择告警类型">
-        {ALARMS_POLICY.map((item, index) => {
-          return (
-            <Select.Option key={item.label} value={index}>
-              {item.label}
-            </Select.Option>
-          );
-        })}
-      </Select>
-      {/*  label="告警策略类型：" */}
-      <Select placeholder="请选择告警策略类型">
-        {ALARMS_TYPES.map((item, index) => {
-          return (
-            <Select.Option key={item} value={index}>
-              {item}
-            </Select.Option>
-          );
-        })}
-      </Select>
+    <PageHeaderToolbar
+      name={
+        <Flex gap="12px" className="alarms-page-header-filters">
+          <AlarmLevelSelect
+            styles={selectorStyle}
+            onChange={(alarmLevel) => {
+              onChange({ alarmLevel: alarmLevel as AlarmLevel });
+            }}
+          />
+          <AlarmTypeSelect
+            styles={selectorStyle}
+            onChange={(alarmType) => {
+              onChange({ alarmType: alarmType as AlarmType });
+            }}
+          />
 
-      {/*  label="告警源对象："  */}
-      <Select placeholder="请选择告警源对象">
-        {/*  eslint-disable-next-line sonarjs/no-identical-functions */}
-        {ALARMS_SOURCE.map((item, index) => {
-          return (
-            <Select.Option key={item} value={index}>
-              {item}
-            </Select.Option>
-          );
-        })}
-      </Select>
+          <AlarmPolicyTypeSelect
+            styles={selectorStyle}
+            onChange={(alarmStrategy) => {
+              onChange({ alarmStrategy: alarmStrategy as AlarmPolicyType });
+            }}
+          />
 
-      <DateRangePicker
-      // startTime={startDate}
-      // endTime={endDate}
-      // defaultValue={[startDate, endDate]}
-      // disabledDate={(date: Date) => {
-      //   return (
-      //     dayjs(date).isBefore(dayjs().subtract(3, 'day'), 'day') ||
-      //     dayjs(date).isAfter(dayjs(), 'day')
-      //   );
-      // }}
-      // onOk={(date: [Date, Date]) => {
-      //   const requestStartTime = dayjs(date[0]).unix();
-      //   const requestEndTime = dayjs(date[1]).unix();
-      //   setStartTime(requestStartTime);
-      //   setEndTime(requestEndTime);
-      //   if (hasIdentifiers) {
-      //     handleRequestData();
-      //   }
-      // }}
-      />
-    </Flex>
+          <Select
+            labelPrefix="告警源对象："
+            showDefaultOption
+            options={ALARMS_SOURCE}
+            onChange={(alarmSource) => {
+              onChange({ alarmSource: Number(alarmSource) as AlarmSource });
+            }}
+            styles={{
+              wrapper: {
+                width: '140px',
+              },
+              ...selectorStyle,
+            }}
+          />
+          <DateRangePicker
+            {...dateDisabled}
+            cleanable
+            onOk={([start, end]: ValueType) => {
+              onChange({
+                startTime: dayjs(start).valueOf(),
+                endTime: dayjs(end).valueOf(),
+              });
+            }}
+            onClean={() => {
+              onChange({
+                startTime: -1,
+                endTime: -1,
+              });
+            }}
+          />
+          <Global
+            styles={css`
+              .alarms-page-header-filters {
+                .rs-picker.rs-picker-default .rs-picker-toggle.rs-btn {
+                  padding-top: 5px;
+                  padding-bottom: 5px;
+                }
+
+                .rs-picker .rs-btn-default {
+                  border-radius: 4px;
+                }
+
+                .rs-picker-toggle-caret {
+                  top: 5px !important;
+                }
+              }
+            `}
+          />
+        </Flex>
+      }
+      styles={{
+        wrapper: {
+          zIndex: 1,
+          padding: '0 20px',
+          mt: '16px',
+          backgroundColor: 'gray.100',
+        },
+      }}
+    />
   );
 }
+
+export default Filter;

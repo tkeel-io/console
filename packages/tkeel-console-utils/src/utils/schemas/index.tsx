@@ -50,3 +50,24 @@ export const tenantTitle = {
     required: { value: true, message: '请输入租户空间名称' },
   },
 };
+
+export const multiMail = {
+  registerOptions: {
+    required: { value: true, message: '' },
+    pattern: {
+      value:
+        /^((([\d._a-z-]+)@([\d.a-z-]+)\.([.a-z]{2,6},))*(([\d._a-z-]+)@([\d.a-z-]+)\.([.a-z]{2,6})))$/,
+      message: '',
+    },
+  },
+};
+
+export const singleMail = {
+  registerOptions: {
+    required: { value: true, message: '' },
+    pattern: {
+      value: /^([\d._a-z-]+)@([\d.a-z-]+)\.([.a-z]{2,6})$/,
+      message: '',
+    },
+  },
+};
