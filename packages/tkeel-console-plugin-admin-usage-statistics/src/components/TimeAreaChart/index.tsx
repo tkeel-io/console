@@ -133,7 +133,7 @@ export default function TimeAreaChart(props: TimeAreaChartProps) {
             data: data.map(({ timestamp }) => timestamp),
           }).slice(1)}
         />
-        <YAxis {...defaultYAxisProps} {...yAxis} allowDecimals={false} />
+        <YAxis {...defaultYAxisProps} allowDecimals={false} {...yAxis} />
         <CartesianGrid {...defaultCartesianGridProps} />
         {dataKeys.map(
           ({

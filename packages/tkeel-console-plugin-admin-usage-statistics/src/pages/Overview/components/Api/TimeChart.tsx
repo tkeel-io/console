@@ -75,7 +75,6 @@ export default function TimeChart() {
         yAxis={{
           tickFormatter: (value: number) => numeral.format({ input: value }),
         }}
-        // area={{ fillOpacity: '0.4' }}
         tooltip={{ formatterString: '0,0.00' }}
       />
     </ChartContainer>

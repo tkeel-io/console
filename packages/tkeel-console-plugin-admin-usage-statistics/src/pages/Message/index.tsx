@@ -1,3 +1,5 @@
+import { numeral } from '@tkeel/console-utils';
+
 import ChartsPage from '@/tkeel-console-plugin-admin-usage-statistics/components/ChartsPage';
 import TimeAreaChartWithRequest from '@/tkeel-console-plugin-admin-usage-statistics/components/TimeAreaChartWithRequest';
 import type { ChartItem } from '@/tkeel-console-plugin-admin-usage-statistics/types/chart';
@@ -34,9 +36,16 @@ const CHART_ITEMS: ChartItem[] = [
     key: 3,
     header: {
       title: '时序数据库使用统计',
-      description: '（单位：MB ，间隔：5分钟）',
+      description: '（间隔：5分钟）',
     },
     dataKeys: [{ key: 'core_msg_days', label: '时序数据库使用统计' }],
+    yAxis: {
+      tickFormatter: (value: number) =>
+        numeral.format({ input: value, formatter: '0,0 b' }),
+    },
+    tooltip: {
+      formatterString: '0,0.00 b',
+    },
   },
 ];
 
@@ -45,14 +54,12 @@ const params = getQueryParamsLast24HoursPer5Mins();
 export default function Message() {
   return (
     <ChartsPage title="消息数据统计">
-      {CHART_ITEMS.map(({ key, header, dataKeys, areaChart }) => {
+      {CHART_ITEMS.map(({ key, ...rest }) => {
         return (
           <TimeAreaChartWithRequest
             key={key}
             requestParams={params}
-            header={header}
-            dataKeys={dataKeys}
-            areaChart={areaChart}
+            {...rest}
           />
         );
       })}

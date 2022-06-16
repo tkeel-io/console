@@ -62,14 +62,12 @@ export default function Usage() {
 
   return (
     <ChartsPage title="使用数据统计">
-      {chartItems.map(({ key, header, dataKeys, areaChart }) => {
+      {chartItems.map(({ key, ...rest }) => {
         return (
           <TimeAreaChartWithRequest
-            key={key}
             requestParams={params}
-            header={header}
-            dataKeys={dataKeys}
-            areaChart={areaChart}
+            key={key}
+            {...rest}
           />
         );
       })}
