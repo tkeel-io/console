@@ -140,7 +140,6 @@ export default function TimeAreaChart(props: TimeAreaChartProps) {
           dataKey="timestamp"
           type="number"
           domain={['dataMin', 'dataMax']}
-          scale="time"
           tickFormatter={(value: number) =>
             formatDateTimeByTimestamp({
               timestamp: value,
@@ -150,6 +149,7 @@ export default function TimeAreaChart(props: TimeAreaChartProps) {
           ticks={filterHourTimestamp({
             data: data.map(({ timestamp }) => timestamp),
           }).slice(1)}
+          scale="time"
         />
         <YAxis {...defaultYAxisProps} allowDecimals={false} {...yAxis} />
         <CartesianGrid {...defaultCartesianGridProps} />
