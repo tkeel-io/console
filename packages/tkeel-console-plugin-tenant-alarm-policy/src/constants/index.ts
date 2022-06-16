@@ -1,4 +1,5 @@
 import { ALARM_LEVEL_INFO_MAP } from '@tkeel/console-business-components';
+import { AlarmSourceObject } from '@tkeel/console-types';
 
 export { ALARM_TYPE_OPTIONS } from '@tkeel/console-business-components';
 
@@ -36,6 +37,11 @@ export const ALARM_TYPE_MAP = {
 export const RULE_STATUS_MAP = {
   0: '停用',
   1: '启用',
+};
+
+export const ALARM_SOURCE_OBJECT_MAP = {
+  [AlarmSourceObject.Device]: '设备',
+  [AlarmSourceObject.Platform]: '平台',
 };
 
 export const durationOptions = [
@@ -103,4 +109,18 @@ export const numberOperatorOptions = [
     value: 'le',
   },
   neOption,
+];
+
+export const thresholdAlarmSourceObjectOptions = [
+  {
+    label: '设备',
+    value: 'device',
+  },
+];
+
+export const systemAlarmSourceObjectOptions = [
+  {
+    label: '平台',
+    value: 'platform',
+  },
 ];

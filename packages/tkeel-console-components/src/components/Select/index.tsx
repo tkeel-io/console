@@ -101,13 +101,7 @@ export default function Select({
         }
 
         return (
-          <Box
-            width="118px"
-            position="relative"
-            backgroundColor="white"
-            {...styles?.wrapper}
-            {...sx}
-          >
+          <Box width="118px" position="relative" {...styles?.wrapper} {...sx}>
             <Flex
               justifyContent="space-between"
               alignItems="center"
@@ -116,6 +110,7 @@ export default function Select({
               color="gray.800"
               fontSize="12px"
               cursor="pointer"
+              backgroundColor="white"
               {...selectorStyle}
               {...styles?.selector}
               /* eslint-disable @typescript-eslint/no-unsafe-call */

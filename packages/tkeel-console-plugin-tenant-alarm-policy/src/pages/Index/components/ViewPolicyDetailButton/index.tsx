@@ -9,9 +9,10 @@ import PolicyDetailDrawer from '../PolicyDetailDrawer';
 
 interface Props {
   policy: Policy;
+  refetchData: () => unknown;
 }
 
-export default function ViewPolicyDetailButton({ policy }: Props) {
+export default function ViewPolicyDetailButton({ policy, refetchData }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -22,7 +23,12 @@ export default function ViewPolicyDetailButton({ policy }: Props) {
         onClick={onOpen}
       />
       {isOpen && (
-        <PolicyDetailDrawer policy={policy} isOpen={isOpen} onClose={onClose} />
+        <PolicyDetailDrawer
+          policy={policy}
+          isOpen={isOpen}
+          onClose={onClose}
+          refetchData={refetchData}
+        />
       )}
     </>
   );

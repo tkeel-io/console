@@ -52,6 +52,7 @@ interface DeviceConditionItem {
   polymerize?: Polymerize;
   operator: Operator;
   value?: string;
+  key?: string;
 }
 
 export enum Condition {
@@ -60,6 +61,7 @@ export enum Condition {
 }
 
 export interface RequestData {
+  ruleId?: number;
   ruleName: string;
   alarmType: AlarmType;
   alarmRuleType: AlarmRuleType;

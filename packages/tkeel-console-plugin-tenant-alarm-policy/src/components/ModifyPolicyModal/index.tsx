@@ -1,7 +1,7 @@
+import { RequestData } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/mutations/useCreatePolicyMutation';
 import type { Policy } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
 import type { RuleDesc } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/useRuleDescQuery';
-
-import BasePolicyModal from '../../pages/Index/components/BasePolicyModal';
+import BasePolicyModal from '@/tkeel-console-plugin-tenant-alarm-policy/pages/Index/components/BasePolicyModal';
 
 type Props = {
   policy: Policy;
@@ -9,7 +9,7 @@ type Props = {
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm: (data: RequestData) => void;
 };
 
 export default function ModifyPolicyModal({

@@ -6,6 +6,7 @@ import {
   AlarmLevelSelect,
   AlarmLevelTag,
   AlarmLevelTips,
+  AlarmRuleTypeTag,
   AlarmTypeSelect,
 } from '@tkeel/console-business-components';
 import {
@@ -26,7 +27,7 @@ import type {
 import DeletePolicyButton from '@/tkeel-console-plugin-tenant-alarm-policy/components/DeletePolicyButton';
 import ModifyPolicyButton from '@/tkeel-console-plugin-tenant-alarm-policy/components/ModifyPolicyButton';
 import {
-  ALARM_RULE_TYPE_MAP,
+  ALARM_SOURCE_OBJECT_MAP,
   ALARM_TYPE_MAP,
   RULE_STATUS_MAP,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/constants';
@@ -60,7 +61,7 @@ export default function PolicyTable({ alarmRuleType }: Props) {
     pageSize,
   };
 
-  const { policyList, total, isLoading, isSuccess, refetch } =
+  const { policyList, total, isLoading, isRefetching, isSuccess, refetch } =
     usePolicyListQuery(params);
   if (isSuccess) {
     setTotalSize(total);
@@ -87,7 +88,7 @@ export default function PolicyTable({ alarmRuleType }: Props) {
       accessor: 'alarmRuleType',
       Cell: useCallback(
         ({ value }: CellProps<Policy, AlarmRuleType>) => (
-          <Box>{ALARM_RULE_TYPE_MAP[value] || ''}</Box>
+          <AlarmRuleTypeTag type={value} />
         ),
         []
       ),
@@ -101,7 +102,7 @@ export default function PolicyTable({ alarmRuleType }: Props) {
       accessor: 'alarmSourceObject',
       Cell: useCallback(
         ({ value }: CellProps<Policy, AlarmSourceObject>) => (
-          <Box>{value === 0 ? '平台' : '设备'}</Box>
+          <Box>{ALARM_SOURCE_OBJECT_MAP[value] || ''}</Box>
         ),
         []
       ),
@@ -156,8 +157,16 @@ export default function PolicyTable({ alarmRuleType }: Props) {
           <MoreAction
             styles={{ actionList: { width: '124px' } }}
             buttons={[
-              <ModifyPolicyButton key="modify" policy={original} />,
-              <ViewPolicyDetailButton policy={original} key="viewDetail" />,
+              <ModifyPolicyButton
+                key="modify"
+                policy={original}
+                onSuccess={() => refetch()}
+              />,
+              <ViewPolicyDetailButton
+                policy={original}
+                key="viewDetail"
+                refetchData={() => refetch()}
+              />,
               <DeletePolicyButton
                 key="delete"
                 policy={original}
@@ -203,6 +212,8 @@ export default function PolicyTable({ alarmRuleType }: Props) {
             setKeywords(value);
           },
         }}
+        hasRefreshIcon
+        onRefresh={() => refetch()}
         buttons={[
           <CreatePolicyButton key="create" refetch={() => refetch()} />,
         ]}
@@ -219,7 +230,7 @@ export default function PolicyTable({ alarmRuleType }: Props) {
         data={policyList}
         paginationProps={pagination}
         scroll={{ y: '100%' }}
-        isLoading={isLoading}
+        isLoading={isLoading || isRefetching}
         styles={{
           wrapper: {
             flex: 1,

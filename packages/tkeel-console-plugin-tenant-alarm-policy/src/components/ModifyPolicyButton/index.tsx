@@ -3,23 +3,30 @@ import { useDisclosure } from '@chakra-ui/react';
 import { MoreActionButton } from '@tkeel/console-components';
 import { PencilFilledIcon } from '@tkeel/console-icons';
 
+import useCreatePolicyMutation from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/mutations/useCreatePolicyMutation';
 import type { Policy } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
 import useRuleDescQuery from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/useRuleDescQuery';
 
 import ModifyPolicyModal from '../ModifyPolicyModal';
 
-const handleConfirm = () => {};
-
 interface Props {
   policy: Policy;
+  onSuccess: () => unknown;
 }
 
-export default function ModifyPolicyButton({ policy }: Props) {
+export default function ModifyPolicyButton({ policy, onSuccess }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { ruleDescList } = useRuleDescQuery({
     ruleId: policy.ruleId,
     enabled: isOpen,
+  });
+
+  const { mutate, isLoading } = useCreatePolicyMutation({
+    onSuccess() {
+      onClose();
+      onSuccess();
+    },
   });
 
   return (
@@ -36,9 +43,11 @@ export default function ModifyPolicyButton({ policy }: Props) {
           policy={policy}
           ruleDescList={ruleDescList}
           isOpen={isOpen}
-          isConfirmButtonLoading={false}
+          isConfirmButtonLoading={isLoading}
           onClose={onClose}
-          onConfirm={handleConfirm}
+          onConfirm={(data) => {
+            mutate({ data });
+          }}
         />
       )}
     </>

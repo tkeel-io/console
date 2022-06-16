@@ -8,13 +8,15 @@ import {
   Modal,
   RadioButton,
 } from '@tkeel/console-components';
-import { TelemetryType } from '@tkeel/console-request-hooks';
 import { AlarmRuleType, AlarmSourceObject } from '@tkeel/console-types';
+import { hasJsonStructure } from '@tkeel/console-utils';
 
 import {
   ALARM_LEVEL_OPTIONS,
   ALARM_RULE_TYPE_MAP_OPTIONS,
   ALARM_TYPE_OPTIONS,
+  systemAlarmSourceObjectOptions,
+  thresholdAlarmSourceObjectOptions,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/constants';
 import {
   Condition,
@@ -35,7 +37,7 @@ import type {
 } from '../DeviceRuleDescriptionCard';
 import DeviceRuleDescriptionCard, {
   defaultDeviceCondition,
-  getTelemetryInfo,
+  parseTelemetryInfo,
 } from '../DeviceRuleDescriptionCard';
 import DeviceSelectField, { getDeviceInfo } from '../DeviceSelectField';
 import FormCard from '../FormCard';
@@ -53,15 +55,32 @@ type Props = {
   onConfirm: (data: RequestData) => void;
 };
 
+enum AlarmSourceObjectValue {
+  Device = 'device',
+  Platform = 'platform',
+}
+
 interface FormValues {
   ruleName: string;
   alarmType?: string;
   alarmRuleType: string;
   alarmLevel?: string;
-  alarmSourceObject: 'device' | 'platform';
+  alarmSourceObject:
+    | AlarmSourceObjectValue.Device
+    | AlarmSourceObjectValue.Platform;
   deviceInfo: string;
   condition: Condition;
   deviceConditions: DeviceCondition[];
+}
+
+function parseBooleanEnumValue(value: string | undefined) {
+  if (value && hasJsonStructure(value)) {
+    return JSON.parse(value) as {
+      key: string;
+      value: string;
+    };
+  }
+  return { key: '', value: '' };
 }
 
 const getRequestDeviceConditions = (deviceConditions: DeviceCondition[]) => {
@@ -71,31 +90,51 @@ const getRequestDeviceConditions = (deviceConditions: DeviceCondition[]) => {
       time,
       polymerize,
       numberOperator,
+      numberValue,
       booleanOperator,
       booleanValue,
-      numberValue,
+      enumOperator,
+      enumValue,
     } = item;
 
     const {
       id: telemetryId,
       name: telemetryName,
       type: telemetryType,
-    } = getTelemetryInfo(telemetry || '{}');
+    } = parseTelemetryInfo(telemetry);
+
+    let requestTelemetryType = RequestTelemetryType.Common;
+    let operator = numberOperator;
+    let value = numberValue;
+    let key = '';
+
     // TODO: 遥测属性暂时不支持添加枚举类型值，支持后需要做处理
-    const isBoolean = telemetryType === TelemetryType.Bool;
-    const operator = isBoolean ? booleanOperator : numberOperator;
-    const value = isBoolean ? booleanValue : numberValue;
+    const isBoolean = telemetryType === RequestTelemetryType.Bool;
+    const isEnum = telemetryType === RequestTelemetryType.Enum;
+
+    if (isBoolean) {
+      requestTelemetryType = RequestTelemetryType.Bool;
+      operator = booleanOperator;
+      value = parseBooleanEnumValue(booleanValue).value;
+      key = parseBooleanEnumValue(booleanValue).key;
+    }
+
+    if (isEnum) {
+      requestTelemetryType = RequestTelemetryType.Enum;
+      operator = enumOperator;
+      value = parseBooleanEnumValue(enumValue).value;
+      key = parseBooleanEnumValue(enumValue).key;
+    }
 
     return {
       telemetryId,
       telemetryName,
-      telemetryType: isBoolean
-        ? RequestTelemetryType.Bool
-        : RequestTelemetryType.Common,
+      telemetryType: requestTelemetryType,
       time: time as Time,
       polymerize: polymerize as Polymerize,
       operator: operator as Operator,
       value,
+      key,
     };
   });
 };
@@ -122,7 +161,7 @@ export default function BasePolicyModal({
   let defaultValues: FormValues = {
     ruleName: '',
     alarmRuleType: thresholdAlarm,
-    alarmSourceObject: 'device',
+    alarmSourceObject: AlarmSourceObjectValue.Device,
     deviceInfo: '{}',
     condition: Condition.Or,
     deviceConditions: [defaultDeviceCondition],
@@ -145,7 +184,7 @@ export default function BasePolicyModal({
       alarmType: String(alarmType),
       alarmRuleType: String(alarmRuleType),
       alarmLevel: String(alarmLevel),
-      alarmSourceObject: 'device',
+      alarmSourceObject: AlarmSourceObjectValue.Device, // TODO: 需要处理值为 platform 的情况
       deviceInfo: JSON.stringify({
         tempId: tempId || '',
         tempName: tempName || '',
@@ -222,6 +261,7 @@ export default function BasePolicyModal({
     }
 
     let data: RequestData = {
+      ruleId: policy?.ruleId,
       ruleName,
       alarmType: Number(alarmType),
       alarmRuleType: Number(alarmRuleType),
@@ -247,24 +287,15 @@ export default function BasePolicyModal({
     onConfirm(data);
   };
 
-  const thresholdAlarmSourceObjectOptions = [
-    {
-      label: '设备',
-      value: 'device',
-    },
-  ];
-
-  const systemAlarmSourceObjectOptions = [
-    {
-      label: '平台',
-      value: 'platform',
-    },
-  ];
-
   const isSystemAlarm = watch('alarmRuleType') === String(AlarmRuleType.System);
 
   useEffect(() => {
-    setValue('alarmSourceObject', isSystemAlarm ? 'platform' : 'device');
+    setValue(
+      'alarmSourceObject',
+      isSystemAlarm
+        ? AlarmSourceObjectValue.Platform
+        : AlarmSourceObjectValue.Device
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSystemAlarm]);
 
@@ -291,6 +322,7 @@ export default function BasePolicyModal({
           time,
           polymerize,
         } = ruleDesc;
+
         const telemetry = JSON.stringify({
           id: telemetryId,
           name: telemetryName,
@@ -306,13 +338,13 @@ export default function BasePolicyModal({
         }
 
         // TODO: 需要处理遥测属性为枚举类型的情况
-        // if (telemetryType === RequestTelemetryType.Enum) {
-        //   return {
-        //     telemetry,
-        //     enumOperator: operator as BooleanOperator,
-        //     enumValue: value || '',
-        //   };
-        // }
+        if (telemetryType === RequestTelemetryType.Enum) {
+          return {
+            telemetry,
+            enumOperator: operator as BooleanOperator,
+            enumValue: value || '',
+          };
+        }
 
         return {
           telemetry,

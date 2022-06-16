@@ -9,12 +9,12 @@ import {
 } from 'react-hook-form';
 
 import { FormControl, FormField, Radio } from '@tkeel/console-components';
-import { useColor } from '@tkeel/console-hooks';
-import { AddFilledIcon, TrashFilledIcon } from '@tkeel/console-icons';
+import { TrashFilledIcon } from '@tkeel/console-icons';
 import {
   TelemetryType,
   useDeviceDetailQuery,
 } from '@tkeel/console-request-hooks';
+import { hasJsonStructure } from '@tkeel/console-utils';
 
 import {
   durationOptions,
@@ -29,6 +29,8 @@ import {
   Time,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/mutations/useCreatePolicyMutation';
 
+import AddRuleButton from '../AddRuleButton';
+
 const { TextField, SelectField } = FormField;
 
 export type BooleanOperator = Operator.Eq | Operator.Ne;
@@ -39,7 +41,7 @@ export interface DeviceCondition {
   polymerize?: Polymerize | null;
   numberOperator?: Operator | null;
   enumOperator?: BooleanOperator | null;
-  enumValue?: string | null;
+  enumValue?: string;
   booleanOperator?: BooleanOperator | null;
   booleanValue?: string;
   numberValue?: string;
@@ -68,11 +70,25 @@ interface Props<FormValues> {
 interface TelemetryInfo {
   id: string;
   name: string;
-  type: TelemetryType;
+  type: RequestTelemetryType;
 }
 
-export function getTelemetryInfo(telemetry: string) {
-  return JSON.parse(telemetry || '{}') as TelemetryInfo;
+export function parseTelemetryInfo(telemetry: string | null) {
+  if (telemetry && hasJsonStructure(telemetry)) {
+    return JSON.parse(telemetry) as TelemetryInfo;
+  }
+  return {
+    id: '',
+    name: '',
+    type: RequestTelemetryType.Common,
+  };
+}
+
+function getOptionsByDefine(define: object) {
+  return Object.entries(define || {}).map(([key, value]) => ({
+    label: value as string,
+    value: JSON.stringify({ key, value: value as string }),
+  }));
 }
 
 export default function DeviceRuleDescriptionCard<FormValues>({
@@ -86,16 +102,19 @@ export default function DeviceRuleDescriptionCard<FormValues>({
   const { deviceObject } = useDeviceDetailQuery({ id: deviceId });
   const telemetryFields =
     deviceObject?.configs?.telemetry?.define?.fields || {};
+
   const telemetryOptions = Object.entries(telemetryFields).map(
     ([key, value]) => {
       let type = RequestTelemetryType.Common;
       if (value.type === TelemetryType.Bool) {
         type = RequestTelemetryType.Bool;
       }
-      // TODO: 处理枚举类型值
-      // if (value.type === TelemetryType.Enum) {
 
-      // }
+      // TODO: 处理枚举类型值
+      if (value.type === TelemetryType.Enum) {
+        type = RequestTelemetryType.Enum;
+      }
+
       return {
         label: value.name,
         value: JSON.stringify({ id: key, name: value.name, type }),
@@ -109,8 +128,6 @@ export default function DeviceRuleDescriptionCard<FormValues>({
     name: 'deviceConditions' as Path<FormValues>,
     control,
   });
-
-  const primaryColor = useColor('primary');
 
   const selectProps = {
     control,
@@ -151,31 +168,14 @@ export default function DeviceRuleDescriptionCard<FormValues>({
           </FormControl>
           <Text>条件时，触发告警。</Text>
         </Flex>
-        <Flex
-          alignItems="center"
-          cursor="pointer"
-          _hover={{
-            svg: {
-              fill: `${primaryColor} !important`,
-            },
-            p: {
-              color: primaryColor,
-            },
-          }}
-          onClick={() => append()}
-        >
-          <AddFilledIcon color="grayAlternatives.300" />
-          <Text color="grayAlternatives.300" fontSize="12px" fontWeight="500">
-            添加规则
-          </Text>
-        </Flex>
+        <AddRuleButton onClick={() => append()} />
       </Flex>
       <Flex flexDirection="column" marginTop="20px">
         {fields.map((item, i) => {
           /* eslint-disable @typescript-eslint/no-unsafe-member-access */
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           const { telemetry, time } = output[i] || {};
-          const { id: telemetryId } = getTelemetryInfo(telemetry as string);
+          const { id: telemetryId } = parseTelemetryInfo(telemetry as string);
           /* eslint-enable */
 
           const { type, define } = telemetryFields[telemetryId] || {};
@@ -187,15 +187,16 @@ export default function DeviceRuleDescriptionCard<FormValues>({
           const telemetryIsNumber = !telemetryId || typeIsNumber;
 
           // TODO: 遥测属性暂时不支持添加枚举类型值，支持后需要做处理
-          const telemetryIsEnum = false;
           const telemetryIsBoolean = type === TelemetryType.Bool;
+          const telemetryIsEnum = type === TelemetryType.Enum;
 
-          const booleanAttributeOptions = Object.entries(define || {})
-            .map(([key, value]) => ({
-              label: value as string,
-              value: key,
-            }))
-            .filter(({ value }) => value !== 'ext');
+          if (telemetryIsBoolean) {
+            delete define.ext;
+          }
+
+          const booleanValueOptions = getOptionsByDefine(define);
+
+          const enumValueOptions = getOptionsByDefine(define?.ext as object);
 
           const telemetryFieldId =
             `deviceConditions.${i}.telemetry` as Path<FormValues>;
@@ -285,7 +286,7 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                       id={getFieldId(i, 'enumValue')}
                       name={getFieldId(i, 'enumValue')}
                       placeholder="请选择"
-                      options={[]}
+                      options={enumValueOptions}
                       {...selectProps}
                     />
                   </>
@@ -303,7 +304,7 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                       id={getFieldId(i, 'booleanValue')}
                       name={getFieldId(i, 'booleanValue')}
                       placeholder="请选择"
-                      options={booleanAttributeOptions}
+                      options={booleanValueOptions}
                       {...selectProps}
                     />
                   </>
