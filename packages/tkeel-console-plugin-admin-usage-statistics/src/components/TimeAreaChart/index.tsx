@@ -19,7 +19,7 @@ import {
   useYAxisProps,
 } from '@tkeel/console-charts';
 import { Empty } from '@tkeel/console-components';
-import { useColor } from '@tkeel/console-hooks';
+import { useColors } from '@tkeel/console-hooks';
 import { formatDateTimeByTimestamp, numeral } from '@tkeel/console-utils';
 
 import { TimestampItem } from '@/tkeel-console-plugin-admin-usage-statistics/types/query';
@@ -33,6 +33,7 @@ interface TimeAreaChartProps {
     key: string;
     label?: string;
     fill?: string;
+    fillOpacity?: number | string;
     stroke?: string;
   }[];
   isLoading?: boolean;
@@ -56,16 +57,13 @@ interface TimeAreaChartProps {
   };
 }
 
-const DEFAULT_PROPS: Partial<TimeAreaChartProps> = {
+const DEFAULT_PROPS_BASE: Partial<TimeAreaChartProps> = {
   areaChart: {
-    margin: { top: 15 },
+    margin: { top: 14 },
   },
   yAxis: {
     tickFormatter: (value: number) =>
       numeral.format({ input: value, formatter: '0 a' }),
-  },
-  area: {
-    fillOpacity: '0.5',
   },
   tooltip: {
     formatterString: '0,0',
@@ -73,15 +71,33 @@ const DEFAULT_PROPS: Partial<TimeAreaChartProps> = {
   },
 };
 
+const DEFAULT_PROPS_SINGLE_DATA_KEY: Partial<TimeAreaChartProps> = {
+  area: {
+    fillOpacity: '0.5',
+  },
+};
+
+const DEFAULT_PROPS_MULTI_DATA_KEYS: Partial<TimeAreaChartProps> = {
+  area: {
+    fillOpacity: '0.4',
+  },
+};
+
 export type { TimeAreaChartProps };
 
 export default function TimeAreaChart(props: TimeAreaChartProps) {
-  const defaultFill = useColor('brand.50');
-  const defaultStroke = useColor('primary');
+  const colors = useColors();
+  const defaultFill = colors.brand[50];
+  const defaultStroke = colors.primary;
 
+  const { dataKeys: dks } = props;
+  const dataKeyCount = dks.length;
   const { data, dataKeys, isLoading, areaChart, yAxis, area, tooltip } = merge(
     {},
-    DEFAULT_PROPS,
+    DEFAULT_PROPS_BASE,
+    dataKeyCount > 1
+      ? DEFAULT_PROPS_MULTI_DATA_KEYS
+      : DEFAULT_PROPS_SINGLE_DATA_KEY,
     props
   );
   const defaultXAxisProps = useXAxisProps();
@@ -100,7 +116,7 @@ export default function TimeAreaChart(props: TimeAreaChartProps) {
 
   return (
     <ResponsiveContainer>
-      <AreaChart data={data} margin={areaChart?.margin}>
+      <AreaChart data={data} {...areaChart}>
         <XAxis
           {...defaultXAxisProps}
           dataKey="timestamp"
@@ -117,21 +133,25 @@ export default function TimeAreaChart(props: TimeAreaChartProps) {
             data: data.map(({ timestamp }) => timestamp),
           }).slice(1)}
         />
-        <YAxis
-          {...defaultYAxisProps}
-          allowDecimals={false}
-          tickFormatter={yAxis?.tickFormatter}
-        />
+        <YAxis {...defaultYAxisProps} {...yAxis} allowDecimals={false} />
         <CartesianGrid {...defaultCartesianGridProps} />
-        {dataKeys.map(({ key, fill = defaultFill, stroke = defaultStroke }) => (
-          <Area
-            key={key}
-            dataKey={key}
-            fill={fill}
-            fillOpacity={area?.fillOpacity}
-            stroke={stroke}
-          />
-        ))}
+        {dataKeys.map(
+          ({
+            key,
+            fill = defaultFill,
+            fillOpacity,
+            stroke = defaultStroke,
+          }) => (
+            <Area
+              key={key}
+              {...area}
+              dataKey={key}
+              fill={fill}
+              fillOpacity={fillOpacity ?? area?.fillOpacity}
+              stroke={stroke}
+            />
+          )
+        )}
         <Legend
           {...defaultLegendProps}
           formatter={(value: string) => {
@@ -140,7 +160,7 @@ export default function TimeAreaChart(props: TimeAreaChartProps) {
           }}
           wrapperStyle={{
             ...defaultLegendProps.wrapperStyle,
-            visibility: dataKeys.length > 1 ? 'visible' : 'hidden',
+            visibility: dataKeyCount > 1 ? 'visible' : 'hidden',
           }}
         />
         <Tooltip

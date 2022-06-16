@@ -1,6 +1,6 @@
 import { Skeleton } from '@chakra-ui/react';
 
-import { useColor } from '@tkeel/console-hooks';
+import { useColors } from '@tkeel/console-hooks';
 import { numeral } from '@tkeel/console-utils';
 
 import TimeAreaChart from '@/tkeel-console-plugin-admin-usage-statistics/components/TimeAreaChart';
@@ -15,24 +15,25 @@ import { CHART_CONTAINER_STYLE } from './constants';
 const params = getQueryParamsLast24HoursPer5Mins();
 
 export default function TimeChart() {
+  const colors = useColors();
   const dataKeys = [
     {
       key: 'p95_tkapi_request_latency',
       label: 'P95',
-      fill: useColor('green.50'),
-      stroke: useColor('green.300'),
+      fill: colors.green[50],
+      stroke: colors.green[300],
     },
     {
       key: 'p99_tkapi_request_latency',
       label: 'P99',
-      fill: useColor('blue.50'),
-      stroke: useColor('blue.300'),
+      fill: colors.blue[50],
+      stroke: colors.blue[300],
     },
     {
       key: 'p999_tkapi_request_latency',
       label: 'P99.9',
-      fill: useColor('orange.50'),
-      stroke: useColor('orange.300'),
+      fill: colors.orange[50],
+      stroke: colors.orange[300],
     },
   ];
 
@@ -74,7 +75,7 @@ export default function TimeChart() {
         yAxis={{
           tickFormatter: (value: number) => numeral.format({ input: value }),
         }}
-        area={{ fillOpacity: '0.4' }}
+        // area={{ fillOpacity: '0.4' }}
         tooltip={{ formatterString: '0,0.00' }}
       />
     </ChartContainer>

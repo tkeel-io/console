@@ -1,3 +1,4 @@
+import type { StyleProps } from '@chakra-ui/react';
 import { Flex, Text } from '@chakra-ui/react';
 
 import { ChainFilledIcon } from '@tkeel/console-icons';
@@ -5,6 +6,7 @@ import { ChainFilledIcon } from '@tkeel/console-icons';
 interface TimeAreaChartHeaderProps {
   title: string;
   description?: string;
+  sx?: StyleProps;
 }
 
 export type { TimeAreaChartHeaderProps };
@@ -12,9 +14,10 @@ export type { TimeAreaChartHeaderProps };
 export default function TimeAreaChartHeader({
   title,
   description,
+  sx,
 }: TimeAreaChartHeaderProps) {
   return (
-    <Flex alignItems="center">
+    <Flex alignItems="center" {...sx}>
       <ChainFilledIcon size="16px" color="primary" />
       {title && (
         <Text

@@ -1,6 +1,6 @@
 import { Box, HStack } from '@chakra-ui/react';
 
-import { useColor } from '@tkeel/console-hooks';
+import { useColors } from '@tkeel/console-hooks';
 
 import usePrometheusTKMeterBatchQuery from '@/tkeel-console-plugin-admin-usage-statistics/hooks/queries/usePrometheusTKMeterBatchQuery';
 import { getQueryParamsLast7Days } from '@/tkeel-console-plugin-admin-usage-statistics/utils/query';
@@ -12,9 +12,10 @@ import MessageSubscriptionBox from './MessageSubscriptionBox';
 const params = getQueryParamsLast7Days();
 
 export default function MessageSubscription() {
-  const upstreamMsgColor = useColor('green.300');
-  const downstreamMsgColor = useColor('blue.300');
-  const subscribeMsgColor = useColor('orange.300');
+  const colors = useColors();
+  const upstreamMsgColor = colors.green[300];
+  const downstreamMsgColor = colors.blue[300];
+  const subscribeMsgColor = colors.orange[300];
 
   const charts = [
     {

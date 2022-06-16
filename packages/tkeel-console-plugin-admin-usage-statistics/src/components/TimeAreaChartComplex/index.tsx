@@ -32,12 +32,13 @@ export default function TimeAreaChartComplex({
         padding: '20px 32px 16px 0',
       }}
     >
-      <Box padding="0 24px 8px">
-        <TimeAreaChartHeader {...header} />
+      <Box position="relative" marginLeft="24px">
+        <TimeAreaChartHeader
+          {...header}
+          sx={{ position: 'absolute', top: 0, left: 0 }}
+        />
       </Box>
-      <Box flex="1">
-        <TimeAreaChart {...timeAreaChartProps} />
-      </Box>
+      <TimeAreaChart {...timeAreaChartProps} />
     </BaseBox>
   );
 }
