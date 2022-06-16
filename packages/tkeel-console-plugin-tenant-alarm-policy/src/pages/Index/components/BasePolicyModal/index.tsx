@@ -21,7 +21,7 @@ import {
   Operator,
   Polymerize,
   RequestData,
-  TelemetryType as RequestTelemetryType,
+  RequestTelemetryType,
   Time,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/mutations/useCreatePolicyMutation';
 import type { PlatformRule } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePlatformRulesQuery';
@@ -29,12 +29,15 @@ import usePlatformRulesQuery from '@/tkeel-console-plugin-tenant-alarm-policy/ho
 import type { Policy } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
 import type { RuleDesc } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/useRuleDescQuery';
 
-import type { DeviceCondition } from '../DeviceRuleDescriptionCard';
+import type {
+  BooleanOperator,
+  DeviceCondition,
+} from '../DeviceRuleDescriptionCard';
 import DeviceRuleDescriptionCard, {
   defaultDeviceCondition,
   getTelemetryInfo,
 } from '../DeviceRuleDescriptionCard';
-import DeviceSelectField from '../DeviceSelectField';
+import DeviceSelectField, { getDeviceInfo } from '../DeviceSelectField';
 import FormCard from '../FormCard';
 import PlatformRuleDescriptionCard from '../PlatformRuleDescriptionCard';
 
@@ -60,21 +63,6 @@ interface FormValues {
   condition: Condition;
   deviceConditions: DeviceCondition[];
 }
-
-interface DeviceInfo {
-  tempId: string;
-  tempName: string;
-  deviceId: string;
-  deviceName: string;
-}
-
-const getDeviceInfo = (deviceInfo: string) => {
-  return (
-    deviceInfo
-      ? JSON.parse(deviceInfo)
-      : { tempId: '', tempName: '', deviceId: '', deviceName: '' }
-  ) as DeviceInfo;
-};
 
 const getRequestDeviceConditions = (deviceConditions: DeviceCondition[]) => {
   return deviceConditions.map((item) => {
@@ -127,6 +115,8 @@ export default function BasePolicyModal({
   const [deviceConditionsErrors, setDeviceConditionsErrors] = useState<
     number[]
   >([]);
+  const [isShowPlatformRuleListError, setIsShowPlatformRuleListError] =
+    useState(false);
 
   const thresholdAlarm = String(AlarmRuleType.Threshold);
   let defaultValues: FormValues = {
@@ -192,7 +182,7 @@ export default function BasePolicyModal({
     const errorIndexArr: number[] = [];
     getRequestDeviceConditions(deviceConditions).forEach((condition, i) => {
       const { telemetryId, operator, value } = condition;
-      if (!telemetryId || operator || !value) {
+      if (!telemetryId || !operator || !value) {
         errorIndexArr.push(i);
       }
     });
@@ -208,10 +198,6 @@ export default function BasePolicyModal({
       return;
     }
 
-    if (handleSetDeviceConditionsErrors()) {
-      return;
-    }
-
     const values = getValues();
     const {
       ruleName,
@@ -223,15 +209,26 @@ export default function BasePolicyModal({
       deviceConditions,
     } = values;
 
+    const isThresholdAlarm = alarmRuleType === thresholdAlarm;
+    const isSystemAlarm = alarmRuleType === String(AlarmRuleType.System);
+
+    if (isThresholdAlarm && handleSetDeviceConditionsErrors()) {
+      return;
+    }
+
+    if (isSystemAlarm && platformRuleList.length === 0) {
+      setIsShowPlatformRuleListError(true);
+      return;
+    }
+
     let data: RequestData = {
       ruleName,
       alarmType: Number(alarmType),
       alarmRuleType: Number(alarmRuleType),
       alarmLevel: Number(alarmLevel),
-      alarmSourceObject:
-        alarmRuleType === thresholdAlarm
-          ? AlarmSourceObject.Device
-          : AlarmSourceObject.Platform,
+      alarmSourceObject: isThresholdAlarm
+        ? AlarmSourceObject.Device
+        : AlarmSourceObject.Platform,
       condition,
     };
 
@@ -281,6 +278,53 @@ export default function BasePolicyModal({
       setPlatformRuleList(ruleList);
     }
   }, [ruleDescList, platformRules, policy]);
+
+  useEffect(() => {
+    const deviceConditions =
+      ruleDescList?.map((ruleDesc) => {
+        const {
+          telemetryType,
+          telemetryId,
+          telemetryName,
+          operator,
+          value,
+          time,
+          polymerize,
+        } = ruleDesc;
+        const telemetry = JSON.stringify({
+          id: telemetryId,
+          name: telemetryName,
+          type: telemetryType,
+        });
+
+        if (telemetryType === RequestTelemetryType.Bool) {
+          return {
+            telemetry,
+            booleanOperator: operator as BooleanOperator,
+            booleanValue: value || '',
+          };
+        }
+
+        // TODO: 需要处理遥测属性为枚举类型的情况
+        // if (telemetryType === RequestTelemetryType.Enum) {
+        //   return {
+        //     telemetry,
+        //     enumOperator: operator as BooleanOperator,
+        //     enumValue: value || '',
+        //   };
+        // }
+
+        return {
+          telemetry,
+          time,
+          polymerize,
+          numberOperator: operator,
+          numberValue: value || '',
+        };
+      }) ?? [];
+    setValue('deviceConditions', deviceConditions);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ruleDescList]);
 
   return (
     <Modal
@@ -396,6 +440,7 @@ export default function BasePolicyModal({
               <PlatformRuleDescriptionCard
                 rules={platformRules}
                 selectedRules={platformRuleList}
+                isShowPlatformRuleListError={isShowPlatformRuleListError}
                 onChange={setPlatformRuleList}
               />
             ) : (

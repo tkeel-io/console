@@ -25,12 +25,13 @@ import {
 import {
   Operator,
   Polymerize,
+  RequestTelemetryType,
   Time,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/mutations/useCreatePolicyMutation';
 
 const { TextField, SelectField } = FormField;
 
-type BooleanOperator = Operator.Eq | Operator.Ne;
+export type BooleanOperator = Operator.Eq | Operator.Ne;
 
 export interface DeviceCondition {
   telemetry: string | null;
@@ -50,6 +51,8 @@ export const defaultDeviceCondition: DeviceCondition = {
   polymerize: Polymerize.Avg,
   numberOperator: Operator.Gt,
   numberValue: '',
+  booleanOperator: Operator.Eq,
+  enumOperator: Operator.Eq,
 };
 
 interface Props<FormValues> {
@@ -84,10 +87,20 @@ export default function DeviceRuleDescriptionCard<FormValues>({
   const telemetryFields =
     deviceObject?.configs?.telemetry?.define?.fields || {};
   const telemetryOptions = Object.entries(telemetryFields).map(
-    ([key, value]) => ({
-      label: value.name,
-      value: JSON.stringify({ id: key, name: value.name, type: value.type }),
-    })
+    ([key, value]) => {
+      let type = RequestTelemetryType.Common;
+      if (value.type === TelemetryType.Bool) {
+        type = RequestTelemetryType.Bool;
+      }
+      // TODO: 处理枚举类型值
+      // if (value.type === TelemetryType.Enum) {
+
+      // }
+      return {
+        label: value.name,
+        value: JSON.stringify({ id: key, name: value.name, type }),
+      };
+    }
   );
 
   const { fields, remove } = fieldArrayReturn;
@@ -162,10 +175,9 @@ export default function DeviceRuleDescriptionCard<FormValues>({
           /* eslint-disable @typescript-eslint/no-unsafe-member-access */
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           const { telemetry, time } = output[i] || {};
-
           const { id: telemetryId } = getTelemetryInfo(telemetry as string);
-
           /* eslint-enable */
+
           const { type, define } = telemetryFields[telemetryId] || {};
           const typeIsNumber = [
             TelemetryType.Int,
@@ -319,9 +331,9 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                 </Box>
               </HStack>
               {deviceConditionsErrors.includes(i) && (
-                <Flex paddingBottom="6px" color="red.500" fontSize="14px">
+                <Text marginBottom="6px" color="red.500" fontSize="14px">
                   请将规则填写完整
-                </Flex>
+                </Text>
               )}
             </Flex>
           );

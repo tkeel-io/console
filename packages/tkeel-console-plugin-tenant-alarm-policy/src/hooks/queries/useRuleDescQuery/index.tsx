@@ -1,18 +1,21 @@
 import { useQuery } from '@tkeel/console-hooks';
 
 import type {
+  Operator,
   Polymerize,
+  RequestTelemetryType,
   Time,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/mutations/useCreatePolicyMutation';
 
 export interface RuleDesc {
   alarmSourceObject: number | null;
-  operator: number | null;
+  operator: Operator | null;
   platRuleId: string | null;
   polymerize: Polymerize | null;
   ruleId: number | null;
   telemetryId: string | null;
   telemetryName: string | null;
+  telemetryType: RequestTelemetryType | null;
   time: Time | null;
   value: string | null;
 }

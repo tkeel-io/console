@@ -9,12 +9,14 @@ import type { PlatformRule } from '@/tkeel-console-plugin-tenant-alarm-policy/ho
 interface Props {
   rules: PlatformRule[];
   selectedRules: PlatformRule[];
+  isShowPlatformRuleListError: boolean;
   onChange: (condition: PlatformRule[]) => void;
 }
 
 export default function PlatformRuleDescriptionCard({
   rules,
   selectedRules,
+  isShowPlatformRuleListError,
   onChange,
 }: Props) {
   const handleConditionClick = (condition: PlatformRule) => {
@@ -83,6 +85,11 @@ export default function PlatformRuleDescriptionCard({
           );
         })}
       </Flex>
+      {isShowPlatformRuleListError && (
+        <Text marginTop="6px" color="red.500" fontSize="14px">
+          请选择一条或多条触发告警条件
+        </Text>
+      )}
     </Flex>
   );
 }

@@ -20,15 +20,48 @@ interface Props {
   };
 }
 
+interface DeviceInfo {
+  tempId: string;
+  tempName: string;
+  deviceId: string;
+  deviceName: string;
+}
+
+export const getDeviceInfo = (deviceInfo: string) => {
+  return (
+    deviceInfo
+      ? JSON.parse(deviceInfo)
+      : { tempId: '', tempName: '', deviceId: '', deviceName: '' }
+  ) as DeviceInfo;
+};
+
 export default function DeviceSelectField({ value, onChange, styles }: Props) {
-  // eslint-disable-next-line no-console
-  console.log('DeviceSelectField ~ value', value);
+  const { tempId, tempName, deviceId, deviceName } = getDeviceInfo(value);
   const [isShowDropdown, setIsShowDropdown] = useState(false);
-  const [templateId, setTemplateId] = useState('');
+  const [templateId, setTemplateId] = useState(tempId);
+  const defaultTemplateCondition =
+    tempId && tempName
+      ? {
+          id: tempId,
+          label: '设备模板',
+          value: tempName,
+        }
+      : null;
+
+  const defaultDeviceCondition =
+    deviceId && deviceName
+      ? {
+          id: deviceId,
+          label: '',
+          value: deviceName,
+        }
+      : null;
+
   const [templateCondition, setTemplateCondition] =
-    useState<FilterConditionInfo | null>(null);
+    useState<FilterConditionInfo | null>(defaultTemplateCondition);
   const [deviceCondition, setDeviceCondition] =
-    useState<FilterConditionInfo | null>(null);
+    useState<FilterConditionInfo | null>(defaultDeviceCondition);
+
   const { templates, isLoading: isTemplatesLoading } = useTemplatesQuery();
   const { deviceList, isLoading: isDeviceListLoading } = useDeviceListQuery({
     requestData: {
@@ -109,6 +142,7 @@ export default function DeviceSelectField({ value, onChange, styles }: Props) {
                 setTemplateId('');
                 setTemplateCondition(null);
                 onChange('{}');
+                setDeviceCondition(null);
               }}
               styles={filterConditionTagStyles}
             />
@@ -182,6 +216,9 @@ export default function DeviceSelectField({ value, onChange, styles }: Props) {
                   label: '设备模板',
                   value: name,
                 });
+                if (templateId && id !== templateId) {
+                  setDeviceCondition(null);
+                }
               }}
             />
           )}

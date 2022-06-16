@@ -38,7 +38,7 @@ export enum Operator {
   Le = 'le',
 }
 
-export enum TelemetryType {
+export enum RequestTelemetryType {
   Enum,
   Bool,
   Common,
@@ -47,7 +47,7 @@ export enum TelemetryType {
 interface DeviceConditionItem {
   telemetryId: string;
   telemetryName: string;
-  telemetryType: TelemetryType;
+  telemetryType: RequestTelemetryType;
   time?: Time;
   polymerize?: Polymerize;
   operator: Operator;
