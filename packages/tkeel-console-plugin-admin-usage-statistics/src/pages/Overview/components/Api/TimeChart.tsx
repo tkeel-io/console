@@ -6,6 +6,7 @@ import { numeral } from '@tkeel/console-utils';
 import TimeAreaChart from '@/tkeel-console-plugin-admin-usage-statistics/components/TimeAreaChart';
 import usePrometheusTKMeterBatchQuery from '@/tkeel-console-plugin-admin-usage-statistics/hooks/queries/usePrometheusTKMeterBatchQuery';
 import usePrometheusTKMeterQuery from '@/tkeel-console-plugin-admin-usage-statistics/hooks/queries/usePrometheusTKMeterQuery';
+import { getHourTimestamp } from '@/tkeel-console-plugin-admin-usage-statistics/utils/data';
 import { getQueryParamsLast24HoursPer5Mins } from '@/tkeel-console-plugin-admin-usage-statistics/utils/query';
 
 import ChartContainer from './ChartContainer';
@@ -72,6 +73,12 @@ export default function TimeChart() {
         data={timestampItems}
         dataKeys={dataKeys}
         valueFormatter={valueFormatter}
+        xAxis={{
+          ticks: getHourTimestamp({
+            startTimestamp: params.st,
+            endTimestamp: params.et,
+          }),
+        }}
         yAxis={{
           tickFormatter: (value: number) => numeral.format({ input: value }),
         }}

@@ -23,10 +23,7 @@ import { useColors } from '@tkeel/console-hooks';
 import { formatDateTimeByTimestamp, numeral } from '@tkeel/console-utils';
 
 import { TimestampItem } from '@/tkeel-console-plugin-admin-usage-statistics/types/query';
-import {
-  filterHourTimestamp,
-  formatTimestampItems,
-} from '@/tkeel-console-plugin-admin-usage-statistics/utils/data';
+import { formatTimestampItems } from '@/tkeel-console-plugin-admin-usage-statistics/utils/data';
 
 const TEMPLATE = 'HH:mm';
 
@@ -48,6 +45,9 @@ interface TimeAreaChartProps {
       bottom?: number;
       left?: number;
     };
+  };
+  xAxis?: {
+    ticks?: number[];
   };
   yAxis?: {
     tickFormatter?: (value: number) => string;
@@ -102,6 +102,7 @@ export default function TimeAreaChart(props: TimeAreaChartProps) {
     valueFormatter,
     isLoading,
     areaChart,
+    xAxis,
     yAxis,
     area,
     tooltip,
@@ -146,10 +147,8 @@ export default function TimeAreaChart(props: TimeAreaChartProps) {
               template: TEMPLATE,
             })
           }
-          ticks={filterHourTimestamp({
-            data: data.map(({ timestamp }) => timestamp),
-          }).slice(1)}
           scale="time"
+          {...xAxis}
         />
         <YAxis {...defaultYAxisProps} allowDecimals={false} {...yAxis} />
         <CartesianGrid {...defaultCartesianGridProps} />

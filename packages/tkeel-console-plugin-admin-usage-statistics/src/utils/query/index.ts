@@ -22,7 +22,7 @@ function getQueryParamsLastTimes({
     .subtract(timeValue - 1, unit)
     .valueOf();
 
-  return { st, step };
+  return { st, et: current, step };
 }
 
 export function getQueryParamsLast24Hours() {
