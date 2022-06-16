@@ -1,5 +1,6 @@
-import { Skeleton } from '@chakra-ui/react';
+import { Skeleton, Text } from '@chakra-ui/react';
 import { find, merge } from 'lodash';
+import { useCallback } from 'react';
 import {
   Area,
   AreaChart,
@@ -125,6 +126,18 @@ export default function TimeAreaChart(props: TimeAreaChartProps) {
       ? formatTimestampItems({ data, formatter: valueFormatter })
       : data;
 
+  const legendFormatter = useCallback(
+    (value: string) => {
+      const dataKeyItem = find(dataKeys, { key: value });
+      return (
+        <Text display="inline" lineHeight="20px" fontSize="12px">
+          {dataKeyItem?.label ?? ''}
+        </Text>
+      );
+    },
+    [dataKeys]
+  );
+
   if (isLoading) {
     return <Skeleton height="100%" />;
   }
@@ -171,10 +184,7 @@ export default function TimeAreaChart(props: TimeAreaChartProps) {
         )}
         <Legend
           {...defaultLegendProps}
-          formatter={(value: string) => {
-            const dataKeyItem = find(dataKeys, { key: value });
-            return dataKeyItem?.label ?? '';
-          }}
+          formatter={legendFormatter}
           wrapperStyle={{
             ...defaultLegendProps.wrapperStyle,
             visibility: dataKeyCount > 1 ? 'visible' : 'hidden',
