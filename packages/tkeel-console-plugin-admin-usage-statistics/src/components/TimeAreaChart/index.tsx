@@ -23,7 +23,10 @@ import { useColors } from '@tkeel/console-hooks';
 import { formatDateTimeByTimestamp, numeral } from '@tkeel/console-utils';
 
 import { TimestampItem } from '@/tkeel-console-plugin-admin-usage-statistics/types/query';
-import { filterHourTimestamp } from '@/tkeel-console-plugin-admin-usage-statistics/utils/data';
+import {
+  filterHourTimestamp,
+  formatTimestampItems,
+} from '@/tkeel-console-plugin-admin-usage-statistics/utils/data';
 
 const TEMPLATE = 'HH:mm';
 
@@ -36,6 +39,7 @@ interface TimeAreaChartProps {
     fillOpacity?: number | string;
     stroke?: string;
   }[];
+  valueFormatter?: (value: number) => number;
   isLoading?: boolean;
   areaChart?: {
     margin?: {
@@ -92,7 +96,16 @@ export default function TimeAreaChart(props: TimeAreaChartProps) {
 
   const { dataKeys: dks } = props;
   const dataKeyCount = dks.length;
-  const { data, dataKeys, isLoading, areaChart, yAxis, area, tooltip } = merge(
+  const {
+    data,
+    dataKeys,
+    valueFormatter,
+    isLoading,
+    areaChart,
+    yAxis,
+    area,
+    tooltip,
+  } = merge(
     {},
     DEFAULT_PROPS_BASE,
     dataKeyCount > 1
@@ -106,17 +119,22 @@ export default function TimeAreaChart(props: TimeAreaChartProps) {
   const defaultLegendProps = useLegendProps();
   const defaultTooltipProps = useTooltipProps();
 
+  const formattedData =
+    typeof valueFormatter === 'function'
+      ? formatTimestampItems({ data, formatter: valueFormatter })
+      : data;
+
   if (isLoading) {
     return <Skeleton height="100%" />;
   }
 
-  if (!(data?.length > 0)) {
+  if (!(formattedData?.length > 0)) {
     return <Empty isFullHeight />;
   }
 
   return (
     <ResponsiveContainer>
-      <AreaChart data={data} {...areaChart}>
+      <AreaChart data={formattedData} {...areaChart}>
         <XAxis
           {...defaultXAxisProps}
           dataKey="timestamp"

@@ -52,6 +52,7 @@ export default function Usage() {
         title: '订阅量',
         description: '（单位：条，间隔：5 分钟）',
       },
+      // TODO: wrong dataKey
       dataKeys: [{ key: 'downstream_msg', label: '[南向] 设备' }],
       tooltip: {
         formatterUnit: '条',

@@ -6,13 +6,16 @@ import { numeral } from '@tkeel/console-utils';
 import TimeAreaChart from '@/tkeel-console-plugin-admin-usage-statistics/components/TimeAreaChart';
 import usePrometheusTKMeterBatchQuery from '@/tkeel-console-plugin-admin-usage-statistics/hooks/queries/usePrometheusTKMeterBatchQuery';
 import usePrometheusTKMeterQuery from '@/tkeel-console-plugin-admin-usage-statistics/hooks/queries/usePrometheusTKMeterQuery';
-import { formatTimestampItems } from '@/tkeel-console-plugin-admin-usage-statistics/utils/data';
 import { getQueryParamsLast24HoursPer5Mins } from '@/tkeel-console-plugin-admin-usage-statistics/utils/query';
 
 import ChartContainer from './ChartContainer';
 import { CHART_CONTAINER_STYLE } from './constants';
 
 const params = getQueryParamsLast24HoursPer5Mins();
+
+function valueFormatter(value: number) {
+  return value * 1000;
+}
 
 export default function TimeChart() {
   const colors = useColors();
@@ -40,7 +43,7 @@ export default function TimeChart() {
   const { isLoading: isSummaryLading, valueItem } = usePrometheusTKMeterQuery({
     params: { meter: 'avg_tkapi_request_latency_24h' },
   });
-  const summaryValue = (valueItem?.value ?? 0) * 1000;
+  const summaryValue = valueFormatter(valueItem?.value ?? 0);
 
   const { isLoading: isChartLoading, timestampItems } =
     usePrometheusTKMeterBatchQuery({
@@ -49,10 +52,6 @@ export default function TimeChart() {
         meters: dataKeys.map(({ key }) => key),
       },
     });
-  const data = formatTimestampItems({
-    data: timestampItems,
-    formatter: (value) => value * 1000,
-  });
   const isLoading = isSummaryLading || isChartLoading;
 
   if (isLoading) {
@@ -70,8 +69,9 @@ export default function TimeChart() {
       sx={CHART_CONTAINER_STYLE}
     >
       <TimeAreaChart
-        data={data}
+        data={timestampItems}
         dataKeys={dataKeys}
+        valueFormatter={valueFormatter}
         yAxis={{
           tickFormatter: (value: number) => numeral.format({ input: value }),
         }}
