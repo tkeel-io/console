@@ -35,7 +35,7 @@ export default function Usage() {
           label: '离线',
           fill: colors.gray[50],
           fillOpacity: '0.2',
-          stroke: colors.gray[300],
+          stroke: colors.gray[500],
         },
       ],
       yAxis: {
