@@ -11,6 +11,7 @@ type Props = {
 
 export default function MoreActionButton({ icon, title, onClick }: Props) {
   const whiteColor = `${useColor('white')} !important`;
+  const grayAlternativesColor = useColor('grayAlternatives.300');
 
   return (
     <Flex
@@ -21,6 +22,13 @@ export default function MoreActionButton({ icon, title, onClick }: Props) {
       cursor="pointer"
       color="gray.600"
       borderRadius="4px"
+      css={`
+        svg {
+          width: 12px;
+          height: 12px;
+          fill: ${grayAlternativesColor};
+        }
+      `}
       _hover={{
         backgroundColor: 'primary',
         '& > svg': {

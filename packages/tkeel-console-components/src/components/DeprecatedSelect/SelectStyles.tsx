@@ -48,7 +48,7 @@ export default function SelectStyles({ prefixCls, styles }: Props) {
           ${styles?.selector}
           .${selectPrefix}-selection-search {
             width: 100%;
-            padding: 8px 16px;
+            padding: 6px 16px;
             font-size: 14px;
             line-height: 24px;
             ${styles?.selectionSearch}

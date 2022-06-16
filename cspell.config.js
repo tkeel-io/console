@@ -82,6 +82,7 @@ module.exports = {
     'tkmeter',
     'tkapi',
     'iothub',
+    'dingding',
     // fonts
     'truetype',
     'Roboto',

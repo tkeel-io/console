@@ -33,4 +33,18 @@ export default [
       },
     ],
   },
+  {
+    id: 'monitoring-alarms',
+    name: '监控告警',
+    icon: 'AlarmLampTwoToneIcon',
+    children: [
+      {
+        id: 'console-plugin-admin-notification-configs',
+        name: '通知方式配置',
+        path: '/admin-notification-configs',
+        entry:
+          'http://127.0.0.1:3017/static/console-plugin-admin-notification-configs/',
+      },
+    ],
+  },
 ];
