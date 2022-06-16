@@ -14,14 +14,14 @@ export default function Message() {
     header: TimeAreaChartHeaderProps;
   }[] = [
     {
-      key: 'downstream_msg',
+      key: 'upstream_msg',
       header: {
         title: '[北向] 云端',
         description: DESCRIPTION,
       },
     },
     {
-      key: 'upstream_msg',
+      key: 'downstream_msg',
       header: {
         title: '[南向] 设备',
         description: DESCRIPTION,

@@ -17,9 +17,13 @@ export default function MessageSubscription() {
   const subscribeMsgColor = useColor('orange.300');
 
   const charts = [
-    { key: 'upstream_msg', title: '上行消息 (条)', color: upstreamMsgColor },
     {
-      key: 'downstream_msg',
+      key: 'upstream_msg_24h',
+      title: '上行消息 (条)',
+      color: upstreamMsgColor,
+    },
+    {
+      key: 'downstream_msg_24h',
       title: '下行消息 (条)',
       color: downstreamMsgColor,
     },
