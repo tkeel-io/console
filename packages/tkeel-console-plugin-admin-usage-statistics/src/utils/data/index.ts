@@ -11,6 +11,7 @@ import type {
   FilterHourTimestampOptions,
   FormatTimestampItemOptions,
   FormatTimestampItemsOptions,
+  GetHourTimestampOptions,
 } from './types';
 
 function fillDataLastTimes({ data, unit, timeValue }: FillDataLastTimes) {
@@ -69,4 +70,28 @@ export function filterHourTimestamp({ data }: FilterHourTimestampOptions) {
 
     return minute === 0 && second === 0 && millisecond === 0;
   });
+}
+
+export function getHourTimestamp({
+  startTimestamp,
+  endTimestamp = dayjs().valueOf(),
+}: GetHourTimestampOptions) {
+  const firstHour = dayjs(startTimestamp)
+    .startOf('hour')
+    .add(1, 'hour')
+    .valueOf();
+  const lastHour = dayjs(endTimestamp).startOf('hour').valueOf();
+
+  if (firstHour > lastHour) {
+    return [];
+  }
+
+  const result = [lastHour];
+
+  while (firstHour < result[0]) {
+    const prevHour = dayjs(result[0]).subtract(1, 'hour').valueOf();
+    result.unshift(prevHour);
+  }
+
+  return result;
 }

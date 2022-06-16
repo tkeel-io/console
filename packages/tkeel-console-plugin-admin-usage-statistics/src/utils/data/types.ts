@@ -27,10 +27,16 @@ interface FilterHourTimestampOptions {
   data: number[];
 }
 
+interface GetHourTimestampOptions {
+  startTimestamp: number;
+  endTimestamp?: number;
+}
+
 export type {
   FillDataLastCommonTimes,
   FillDataLastTimes,
   FilterHourTimestampOptions,
   FormatTimestampItemOptions,
   FormatTimestampItemsOptions,
+  GetHourTimestampOptions,
 };
