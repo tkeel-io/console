@@ -5,7 +5,7 @@ import TimeAreaChartWithRequest from '@/tkeel-console-plugin-admin-usage-statist
 import type { ChartItem } from '@/tkeel-console-plugin-admin-usage-statistics/types/chart';
 import { getQueryParamsLast24HoursPer5Mins } from '@/tkeel-console-plugin-admin-usage-statistics/utils/query';
 
-const DESCRIPTION = '（单位：条，间隔：5分钟）';
+const DESCRIPTION = '（单位：条，间隔：5 分钟）';
 
 const CHART_ITEMS: ChartItem[] = [
   {
@@ -36,7 +36,7 @@ const CHART_ITEMS: ChartItem[] = [
     key: 3,
     header: {
       title: '时序数据库使用统计',
-      description: '（间隔：5分钟）',
+      description: '（间隔：5 分钟）',
     },
     dataKeys: [{ key: 'core_msg_days', label: '时序数据库使用统计' }],
     yAxis: {

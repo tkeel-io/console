@@ -14,7 +14,7 @@ export default function Usage() {
       key: 0,
       header: {
         title: '设备状态',
-        description: '（单位：台，间隔：5分钟）',
+        description: '（单位：台，间隔：5 分钟）',
       },
       dataKeys: [
         {
@@ -32,7 +32,7 @@ export default function Usage() {
       key: 1,
       header: {
         title: '订阅量',
-        description: '（单位：条，间隔：5分钟）',
+        description: '（单位：条，间隔：5 分钟）',
       },
       dataKeys: [{ key: 'downstream_msg', label: '[南向] 设备' }],
     },
@@ -40,7 +40,7 @@ export default function Usage() {
       key: 2,
       header: {
         title: '规则执行次数',
-        description: '（单位：次，间隔：5分钟）',
+        description: '（单位：次，间隔：5 分钟）',
       },
       dataKeys: [
         { key: 'sum_iothub_connected', label: '成功' },
@@ -51,7 +51,7 @@ export default function Usage() {
       key: 3,
       header: {
         title: '规则执行速率',
-        description: '（单位：次/秒，间隔：5分钟）',
+        description: '（单位：次/秒，间隔：5 分钟）',
       },
       dataKeys: [
         { key: 'sum_iothub_connected', label: '成功' },
