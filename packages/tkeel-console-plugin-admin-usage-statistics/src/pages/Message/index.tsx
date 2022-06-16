@@ -15,6 +15,9 @@ const CHART_ITEMS: ChartItem[] = [
       description: DESCRIPTION,
     },
     dataKeys: [{ key: 'upstream_msg', label: '[北向] 云端' }],
+    tooltip: {
+      formatterUnit: '条',
+    },
   },
   {
     key: 1,
@@ -23,6 +26,9 @@ const CHART_ITEMS: ChartItem[] = [
       description: DESCRIPTION,
     },
     dataKeys: [{ key: 'downstream_msg', label: '[南向] 设备' }],
+    tooltip: {
+      formatterUnit: '条',
+    },
   },
   {
     key: 2,
@@ -31,6 +37,9 @@ const CHART_ITEMS: ChartItem[] = [
       description: DESCRIPTION,
     },
     dataKeys: [{ key: 'sum_iothub_connected', label: '[IOT Hub] 设备连接数' }],
+    tooltip: {
+      formatterUnit: '条',
+    },
   },
   {
     key: 3,

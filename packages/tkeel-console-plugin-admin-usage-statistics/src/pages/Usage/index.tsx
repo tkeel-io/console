@@ -1,4 +1,5 @@
 import { useColors } from '@tkeel/console-hooks';
+import { numeral } from '@tkeel/console-utils';
 
 import ChartsPage from '@/tkeel-console-plugin-admin-usage-statistics/components/ChartsPage';
 import TimeAreaChartWithRequest from '@/tkeel-console-plugin-admin-usage-statistics/components/TimeAreaChartWithRequest';
@@ -21,12 +22,29 @@ export default function Usage() {
           key: 'sum_device_num',
           label: '总数',
           fill: colors.blue[50],
-          fillOpacity: '0.4',
           stroke: colors.blue[300],
         },
-        { key: 'sum_iothub_connected', label: '在线' },
-        { key: 'sum_device_offline', label: '离线' },
+        {
+          key: 'sum_iothub_connected',
+          label: '在线',
+          fill: colors.green[50],
+          stroke: colors.green[300],
+        },
+        {
+          key: 'sum_device_offline',
+          label: '离线',
+          fill: colors.gray[50],
+          fillOpacity: '0.2',
+          stroke: colors.gray[300],
+        },
       ],
+      yAxis: {
+        tickFormatter: (value: number) =>
+          numeral.format({ input: value, formatter: '0,0' }),
+      },
+      tooltip: {
+        formatterUnit: '台',
+      },
     },
     {
       key: 1,
@@ -35,6 +53,9 @@ export default function Usage() {
         description: '（单位：条，间隔：5 分钟）',
       },
       dataKeys: [{ key: 'downstream_msg', label: '[南向] 设备' }],
+      tooltip: {
+        formatterUnit: '条',
+      },
     },
     {
       key: 2,
@@ -43,9 +64,22 @@ export default function Usage() {
         description: '（单位：次，间隔：5 分钟）',
       },
       dataKeys: [
-        { key: 'sum_iothub_connected', label: '成功' },
-        { key: 'sum_iothub_connected', label: '失败' },
+        {
+          key: 'num_rule_execute_success',
+          label: '成功',
+          fill: colors.green[50],
+          stroke: colors.green[300],
+        },
+        {
+          key: 'num_rule_execute_failure',
+          label: '失败',
+          fill: colors.red[50],
+          stroke: colors.red[300],
+        },
       ],
+      tooltip: {
+        formatterUnit: '次',
+      },
     },
     {
       key: 3,
@@ -54,9 +88,22 @@ export default function Usage() {
         description: '（单位：次/秒，间隔：5 分钟）',
       },
       dataKeys: [
-        { key: 'sum_iothub_connected', label: '成功' },
-        { key: 'sum_iothub_connected', label: '失败' },
+        {
+          key: 'rate_rule_execute_success_5m',
+          label: '成功',
+          fill: colors.green[50],
+          stroke: colors.green[300],
+        },
+        {
+          key: 'rate_rule_execute_failure_5m',
+          label: '失败',
+          fill: colors.red[50],
+          stroke: colors.red[300],
+        },
       ],
+      tooltip: {
+        formatterUnit: '次/秒',
+      },
     },
   ];
 
