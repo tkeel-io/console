@@ -19,7 +19,7 @@ export default function TimeAreaChartComplex({
   ...timeAreaChartProps
 }: Props) {
   if (isLoading) {
-    return <Skeleton height={HEIGHT} />;
+    return <Skeleton width="100%" height={HEIGHT} />;
   }
 
   return (

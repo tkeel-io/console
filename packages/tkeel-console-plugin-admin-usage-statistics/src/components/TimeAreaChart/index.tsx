@@ -36,6 +36,14 @@ interface TimeAreaChartProps {
     stroke?: string;
   }[];
   isLoading?: boolean;
+  areaChart?: {
+    margin?: {
+      top?: number;
+      right?: number;
+      bottom?: number;
+      left?: number;
+    };
+  };
   yAxis?: {
     tickFormatter?: (value: number) => string;
   };
@@ -49,6 +57,9 @@ interface TimeAreaChartProps {
 }
 
 const DEFAULT_PROPS: Partial<TimeAreaChartProps> = {
+  areaChart: {
+    margin: { top: 15 },
+  },
   yAxis: {
     tickFormatter: (value: number) =>
       numeral.format({ input: value, formatter: '0 a' }),
@@ -68,7 +79,7 @@ export default function TimeAreaChart(props: TimeAreaChartProps) {
   const defaultFill = useColor('brand.50');
   const defaultStroke = useColor('primary');
 
-  const { data, dataKeys, isLoading, yAxis, area, tooltip } = merge(
+  const { data, dataKeys, isLoading, areaChart, yAxis, area, tooltip } = merge(
     {},
     DEFAULT_PROPS,
     props
@@ -89,7 +100,7 @@ export default function TimeAreaChart(props: TimeAreaChartProps) {
 
   return (
     <ResponsiveContainer>
-      <AreaChart data={data} margin={{ top: 15 }}>
+      <AreaChart data={data} margin={areaChart?.margin}>
         <XAxis
           {...defaultXAxisProps}
           dataKey="timestamp"
@@ -112,13 +123,6 @@ export default function TimeAreaChart(props: TimeAreaChartProps) {
           tickFormatter={yAxis?.tickFormatter}
         />
         <CartesianGrid {...defaultCartesianGridProps} />
-        <Legend
-          {...defaultLegendProps}
-          formatter={(value: string) => {
-            const dataKeyItem = find(dataKeys, { key: value });
-            return dataKeyItem?.label ?? '';
-          }}
-        />
         {dataKeys.map(({ key, fill = defaultFill, stroke = defaultStroke }) => (
           <Area
             key={key}
@@ -128,6 +132,17 @@ export default function TimeAreaChart(props: TimeAreaChartProps) {
             stroke={stroke}
           />
         ))}
+        <Legend
+          {...defaultLegendProps}
+          formatter={(value: string) => {
+            const dataKeyItem = find(dataKeys, { key: value });
+            return dataKeyItem?.label ?? '';
+          }}
+          wrapperStyle={{
+            ...defaultLegendProps.wrapperStyle,
+            visibility: dataKeys.length > 1 ? 'visible' : 'hidden',
+          }}
+        />
         <Tooltip
           {...defaultTooltipProps}
           labelFormatter={(label: number) =>
