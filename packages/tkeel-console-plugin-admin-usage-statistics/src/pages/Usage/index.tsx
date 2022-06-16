@@ -3,45 +3,53 @@ import TimeAreaChartWithRequest from '@/tkeel-console-plugin-admin-usage-statist
 import type { ChartItem } from '@/tkeel-console-plugin-admin-usage-statistics/types/chart';
 import { getQueryParamsLast24HoursPer5Mins } from '@/tkeel-console-plugin-admin-usage-statistics/utils/query';
 
-const DESCRIPTION = '（单位：条，间隔：5分钟）';
-
 const AREA_CHART = { margin: { top: 0 } };
 
 const CHART_ITEMS: ChartItem[] = [
   {
-    key: 'upstream_msg',
+    key: 0,
     header: {
-      title: '[北向] 云端',
-      description: DESCRIPTION,
+      title: '设备状态',
+      description: '（单位：台，间隔：5分钟）',
     },
-    dataKeys: [{ key: 'upstream_msg', label: '[北向] 云端' }],
+    dataKeys: [
+      { key: 'upstream_msg', label: '总数' },
+      { key: 'upstream_msg', label: '在线' },
+      { key: 'upstream_msg', label: '离线' },
+    ],
     areaChart: AREA_CHART,
   },
   {
-    key: 'downstream_msg',
+    key: 1,
     header: {
-      title: '[南向] 设备',
-      description: DESCRIPTION,
+      title: '订阅量',
+      description: '（单位：条，间隔：5分钟）',
     },
     dataKeys: [{ key: 'downstream_msg', label: '[南向] 设备' }],
     areaChart: AREA_CHART,
   },
   {
-    key: 'sum_iothub_connected',
+    key: 2,
     header: {
-      title: '[IOT Hub] 设备连接数',
-      description: DESCRIPTION,
+      title: '规则执行次数',
+      description: '（单位：次，间隔：5分钟）',
     },
-    dataKeys: [{ key: 'sum_iothub_connected', label: '[IOT Hub] 设备连接数' }],
+    dataKeys: [
+      { key: 'sum_iothub_connected', label: '成功' },
+      { key: 'sum_iothub_connected', label: '失败' },
+    ],
     areaChart: AREA_CHART,
   },
   {
-    key: 'core_msg_days',
+    key: 3,
     header: {
-      title: '时序数据库使用统计',
-      description: '（单位：MB ，间隔：5分钟）',
+      title: '规则执行速率',
+      description: '（单位：次/秒，间隔：5分钟）',
     },
-    dataKeys: [{ key: 'core_msg_days', label: '时序数据库使用统计' }],
+    dataKeys: [
+      { key: 'sum_iothub_connected', label: '成功' },
+      { key: 'sum_iothub_connected', label: '失败' },
+    ],
     areaChart: AREA_CHART,
   },
 ];

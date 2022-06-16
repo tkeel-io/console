@@ -9,7 +9,7 @@ const AREA_CHART = { margin: { top: 0 } };
 
 const CHART_ITEMS: ChartItem[] = [
   {
-    key: 'upstream_msg',
+    key: 0,
     header: {
       title: '[北向] 云端',
       description: DESCRIPTION,
@@ -18,7 +18,7 @@ const CHART_ITEMS: ChartItem[] = [
     areaChart: AREA_CHART,
   },
   {
-    key: 'downstream_msg',
+    key: 1,
     header: {
       title: '[南向] 设备',
       description: DESCRIPTION,
@@ -27,7 +27,7 @@ const CHART_ITEMS: ChartItem[] = [
     areaChart: AREA_CHART,
   },
   {
-    key: 'sum_iothub_connected',
+    key: 2,
     header: {
       title: '[IOT Hub] 设备连接数',
       description: DESCRIPTION,
@@ -36,7 +36,7 @@ const CHART_ITEMS: ChartItem[] = [
     areaChart: AREA_CHART,
   },
   {
-    key: 'core_msg_days',
+    key: 3,
     header: {
       title: '时序数据库使用统计',
       description: '（单位：MB ，间隔：5分钟）',

@@ -2,7 +2,7 @@ import type { TimeAreaChartProps } from '@/tkeel-console-plugin-admin-usage-stat
 import type { TimeAreaChartHeaderProps } from '@/tkeel-console-plugin-admin-usage-statistics/components/TimeAreaChartHeader';
 
 interface ChartItem {
-  key: string;
+  key: number | string;
   header: TimeAreaChartHeaderProps;
   dataKeys: TimeAreaChartProps['dataKeys'];
   areaChart?: TimeAreaChartProps['areaChart'];
