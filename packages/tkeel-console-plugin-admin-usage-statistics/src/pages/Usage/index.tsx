@@ -52,7 +52,7 @@ export default function Usage() {
         title: '订阅量',
         description: '（单位：条，间隔：5 分钟）',
       },
-      dataKeys: [{ key: 'subscribe_num', label: '[南向] 设备' }],
+      dataKeys: [{ key: 'subscribe_num', label: '订阅量' }],
       tooltip: {
         formatterUnit: '条',
       },
