@@ -82,7 +82,7 @@ export default [
   },
   {
     name: '监控告警',
-    icon: 'MgmtNodeTwoToneIcon', // TODO: 需修改
+    icon: 'AlarmLampTwoToneIcon',
     id: 'tenant-monitoring-alarms',
     children: [
       {
@@ -100,7 +100,7 @@ export default [
       },
       {
         id: 'console-plugin-tenant-notification-objects',
-        name: '通知对象配置',
+        name: '通知对象',
         path: '/tenant-notification-objects',
         entry:
           'http://127.0.0.1:3018/static/console-plugin-tenant-notification-objects/',
