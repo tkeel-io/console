@@ -16,7 +16,7 @@ module.exports = {
         {
           id: 'monitoring-alarms',
           name: '监控告警',
-          icon: 'AlarmLampTwoToneIcon', // TODO: 需修改
+          icon: 'AlarmLampTwoToneIcon',
           children: [
             {
               id: 'console-plugin-tenant-alarms',
