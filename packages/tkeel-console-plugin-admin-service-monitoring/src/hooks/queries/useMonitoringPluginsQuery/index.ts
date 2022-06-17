@@ -42,7 +42,7 @@ export default function useMonitoringPluginsQuery(options?: Options) {
   const result = useQuery<AipData, RequestParams>({
     url: '/tkeel-monitor/v1/monitoring/plugins',
     method: 'GET',
-    params,
+    params: { is_descending: true, ...params },
   });
   const total = result.data?.totalItems ?? 0;
   const plugins = result.data?.items ?? [];

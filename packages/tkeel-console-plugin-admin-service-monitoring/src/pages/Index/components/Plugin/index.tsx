@@ -64,9 +64,22 @@ export default function Plugin({
       >
         <AppsTwoToneIcon4 size="32px" />
         <Box flex="1" margin="0 120px 0 16px">
-          <Text {...defaultStyles.value} noOfLines={1}>
-            <Tooltip label={metadata.name}>{metadata.name}</Tooltip>
-          </Text>
+          <Box as={Text} noOfLines={1}>
+            <Tooltip label={metadata.name}>
+              <Text
+                as="a"
+                {...defaultStyles.value}
+                _hover={{ textDecoration: 'underline', color: 'primary' }}
+                onClick={(event) => {
+                  // TODO: temp
+                  window.open('.', '_blank');
+                  event.stopPropagation();
+                }}
+              >
+                {metadata.name}
+              </Text>
+            </Tooltip>
+          </Box>
           <Text {...defaultStyles.label} fontSize="14px">
             名称
           </Text>
