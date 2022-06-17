@@ -34,6 +34,8 @@ export default function Index() {
         icon={<BellGearTwoToneIcon />}
         name="告警策略"
         desc="告警策略配置"
+        // TODO: 加文档
+        // documentsPath={}
       />
       <Tabs flex="1" overflow="hidden" display="flex" flexDirection="column">
         <SegmentedControlTabList

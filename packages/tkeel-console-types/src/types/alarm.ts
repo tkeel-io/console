@@ -22,8 +22,8 @@ export enum AlarmType {
 export type AlarmTypeSelectValue = -1 | AlarmType;
 
 export enum RuleStatus {
-  Disable,
-  Enable,
+  Disabled,
+  Enabled,
 } // 0：停用；1：启用
 
 export enum AlarmSourceObject {

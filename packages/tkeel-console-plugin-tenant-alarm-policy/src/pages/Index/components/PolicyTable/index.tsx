@@ -1,4 +1,4 @@
-import { Box, Flex, Switch, Text } from '@chakra-ui/react';
+import { Box, Flex, Text } from '@chakra-ui/react';
 import { useCallback, useState } from 'react';
 import { CellProps, Column } from 'react-table';
 
@@ -16,7 +16,7 @@ import {
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
 import { MailFilledIcon } from '@tkeel/console-icons';
-import type {
+import {
   AlarmLevel,
   AlarmRuleType,
   AlarmSourceObject,
@@ -38,6 +38,7 @@ import type {
 import usePolicyListQuery from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
 
 import CreatePolicyButton from '../CreatePolicyButton';
+import SwitchStatusButton from '../SwitchStatusButton';
 import ViewPolicyDetailButton from '../ViewPolicyDetailButton';
 
 interface Props {
@@ -61,7 +62,7 @@ export default function PolicyTable({ alarmRuleType }: Props) {
     pageSize,
   };
 
-  const { policyList, total, isLoading, isRefetching, isSuccess, refetch } =
+  const { policyList, total, isLoading, isFetching, isSuccess, refetch } =
     usePolicyListQuery(params);
   if (isSuccess) {
     setTotalSize(total);
@@ -136,14 +137,19 @@ export default function PolicyTable({ alarmRuleType }: Props) {
       Header: '状态',
       accessor: 'enable',
       Cell: useCallback(
-        ({ value }: CellProps<Policy, RuleStatus>) => (
+        ({ value, row }: CellProps<Policy, RuleStatus>) => (
           <Flex alignItems="center">
-            <Switch size="sm" />
+            <SwitchStatusButton
+              status={value}
+              ruleId={row.original.ruleId}
+              onSuccess={() => refetch()}
+            />
             <Text marginLeft="8px" color="gray.700" fontSize="12px">
               {RULE_STATUS_MAP[value] || ''}
             </Text>
           </Flex>
         ),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         []
       ),
     },
@@ -180,6 +186,7 @@ export default function PolicyTable({ alarmRuleType }: Props) {
     },
   ];
 
+  const isShowLoading = keywords ? isFetching : isLoading;
   return (
     <Flex height="100%" flexDirection="column">
       <PageHeaderToolbar
@@ -230,7 +237,7 @@ export default function PolicyTable({ alarmRuleType }: Props) {
         data={policyList}
         paginationProps={pagination}
         scroll={{ y: '100%' }}
-        isLoading={isLoading || isRefetching}
+        isLoading={isShowLoading}
         styles={{
           wrapper: {
             flex: 1,

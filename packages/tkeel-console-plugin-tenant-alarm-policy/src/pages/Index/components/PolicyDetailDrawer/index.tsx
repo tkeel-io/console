@@ -1,4 +1,4 @@
-import { Flex, StyleProps, Switch, Text } from '@chakra-ui/react';
+import { Flex, StyleProps, Text } from '@chakra-ui/react';
 
 import {
   AlarmInfoCard,
@@ -17,6 +17,8 @@ import {
   ALARM_TYPE_MAP,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/constants';
 import type { Policy } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
+
+import SwitchStatusButton from '../SwitchStatusButton';
 
 type Props = {
   policy: Policy;
@@ -101,7 +103,11 @@ export default function PolicyDetailDrawer({
             <Text color="gray.700" fontSize="12px" fontWeight="500">
               状态：
             </Text>
-            <Switch size="sm" marginRight="10px" />
+            <SwitchStatusButton
+              status={policy.enable}
+              ruleId={policy.ruleId}
+              onSuccess={() => refetchData()}
+            />
             <MoreAction
               styles={{ actionList: { width: '124px' } }}
               buttons={[
