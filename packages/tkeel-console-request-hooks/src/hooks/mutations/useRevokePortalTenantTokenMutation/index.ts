@@ -1,5 +1,9 @@
 import { useMutation } from '@tkeel/console-hooks';
-import { crossEnv, removeLocalTokenInfo } from '@tkeel/console-utils';
+import {
+  crossEnv,
+  removeLocalTenantInfo,
+  removeLocalTokenInfo,
+} from '@tkeel/console-utils';
 
 interface RequestData {
   refresh_token: string;
@@ -13,6 +17,7 @@ interface ApiData {
 
 interface Options {
   isRemoveLocalTokenInfo?: boolean;
+  isRemoveLocalTenantInfo?: boolean;
   onSuccess: ({ data }: { data: ApiData }) => void;
 }
 
@@ -20,6 +25,7 @@ export type { RequestData };
 
 export default function useRevokePortalTenantTokenMutation({
   isRemoveLocalTokenInfo = true,
+  isRemoveLocalTenantInfo = false,
   onSuccess,
 }: Options) {
   const tokenInfo = crossEnv.getLocalTokenInfo();
@@ -33,6 +39,11 @@ export default function useRevokePortalTenantTokenMutation({
         if (isRemoveLocalTokenInfo) {
           removeLocalTokenInfo();
         }
+
+        if (isRemoveLocalTenantInfo) {
+          removeLocalTenantInfo();
+        }
+
         onSuccess({ data: data.data });
       },
     },
