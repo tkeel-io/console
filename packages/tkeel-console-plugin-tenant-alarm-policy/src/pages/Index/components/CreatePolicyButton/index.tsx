@@ -9,19 +9,20 @@ import ConfigureNotificationModal from '../ConfigureNotificationModal';
 import CreateTenantModal from '../CreatePolicyModal';
 
 interface Props {
-  refetch: () => unknown;
+  onSuccess: () => unknown;
 }
 
-export default function CreatePolicyButton({ refetch }: Props) {
+export default function CreatePolicyButton({ onSuccess }: Props) {
   const { isOpen: isModalOpen, onOpen, onClose } = useDisclosure();
   const [isShowAlert, setIsShowAlert] = useState(false);
+  const [ruleId, setRuleId] = useState<number>();
   const [isShowNotificationModal, setIsShowNotificationModal] = useState(false);
 
   const { mutate, isLoading } = useCreatePolicyMutation({
     onSuccess() {
       setIsShowAlert(true);
       onClose();
-      refetch();
+      onSuccess();
     },
   });
 
@@ -34,6 +35,7 @@ export default function CreatePolicyButton({ refetch }: Props) {
           isConfirmButtonLoading={isLoading}
           onClose={onClose}
           onConfirm={(data) => {
+            setRuleId(data.ruleId);
             mutate({
               data,
             });
@@ -70,8 +72,10 @@ export default function CreatePolicyButton({ refetch }: Props) {
       />
       {isShowNotificationModal && (
         <ConfigureNotificationModal
+          ruleId={ruleId}
           isOpen={isShowNotificationModal}
           onClose={onClose}
+          onSuccess={onSuccess}
         />
       )}
     </>

@@ -50,6 +50,7 @@ export default function PolicyTable({ alarmRuleType }: Props) {
   const [keywords, setKeywords] = useState('');
   const [alarmLevel, setAlarmLevel] = useState<AlarmLevel>();
   const [alarmType, setAlarmType] = useState<AlarmType>();
+  const [ruleId, setRuleId] = useState<number>();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const pagination = usePagination();
@@ -127,10 +128,13 @@ export default function PolicyTable({ alarmRuleType }: Props) {
     {
       Header: '通知配置',
       accessor: 'noticeId',
-      Cell: useCallback(({ value }: CellProps<Policy, string>) => {
+      Cell: useCallback(({ value, row }: CellProps<Policy, string>) => {
         return (
           <MailFilledIcon
-            onClick={onOpen}
+            onClick={() => {
+              onOpen();
+              setRuleId(row.original.ruleId);
+            }}
             color={value ? 'primary' : 'gray.300'}
             style={{ marginLeft: '10px', cursor: 'pointer' }}
           />
@@ -227,7 +231,7 @@ export default function PolicyTable({ alarmRuleType }: Props) {
         hasRefreshIcon
         onRefresh={() => refetch()}
         buttons={[
-          <CreatePolicyButton key="create" refetch={() => refetch()} />,
+          <CreatePolicyButton key="create" onSuccess={() => refetch()} />,
         ]}
         styles={{
           wrapper: {
@@ -260,7 +264,12 @@ export default function PolicyTable({ alarmRuleType }: Props) {
         }}
       />
       {isOpen && (
-        <ConfigureNotificationModal isOpen={isOpen} onClose={onClose} />
+        <ConfigureNotificationModal
+          ruleId={ruleId}
+          isOpen={isOpen}
+          onClose={onClose}
+          onSuccess={() => refetch()}
+        />
       )}
     </Flex>
   );

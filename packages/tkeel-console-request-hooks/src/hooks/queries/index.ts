@@ -8,6 +8,8 @@ export { default as useDeviceGroupQuery } from './useDeviceGroupQuery';
 export * from './useDeviceGroupQuery';
 export { default as useDeviceListQuery } from './useDeviceListQuery';
 export * from './useDeviceListQuery';
+export { default as useNotificationQuery } from './useNotificationQuery';
+export * from './useNotificationQuery';
 export { default as useRolesQuery } from './useRolesQuery';
 export * from './useRolesQuery';
 export { default as useSubscribeListQuery } from './useSubscribeListQuery';
