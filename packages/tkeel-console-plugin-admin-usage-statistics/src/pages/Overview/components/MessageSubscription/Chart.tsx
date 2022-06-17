@@ -23,9 +23,15 @@ interface Props {
   data: ValueItem[];
   isLoading?: boolean;
   barColor: string;
+  tooltipValueLabel: string;
 }
 
-export default function Chart({ data, isLoading, barColor }: Props) {
+export default function Chart({
+  data,
+  isLoading,
+  barColor,
+  tooltipValueLabel,
+}: Props) {
   const newData = fillDataLast7Days({ data });
   const defaultXAxisProps = useXAxisProps();
   const defaultYAxisProps = useYAxisProps();
@@ -80,7 +86,7 @@ export default function Chart({ data, isLoading, barColor }: Props) {
             const res = numeral.format({
               input: value,
             });
-            return [`${res} 条`, '上行消息'];
+            return [`${res} 条`, tooltipValueLabel];
           }}
         />
       </BarChart>

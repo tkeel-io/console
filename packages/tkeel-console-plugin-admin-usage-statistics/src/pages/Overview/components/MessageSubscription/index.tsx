@@ -22,13 +22,20 @@ export default function MessageSubscription() {
       key: 'upstream_msg_24h',
       title: '上行消息 (条)',
       color: upstreamMsgColor,
+      tooltipValueLabel: '上行消息',
     },
     {
       key: 'downstream_msg_24h',
       title: '下行消息 (条)',
       color: downstreamMsgColor,
+      tooltipValueLabel: '下行消息',
     },
-    { key: 'subscribe_num', title: '订阅消息 (条)', color: subscribeMsgColor },
+    {
+      key: 'subscribe_num',
+      title: '订阅消息 (条)',
+      color: subscribeMsgColor,
+      tooltipValueLabel: '订阅消息',
+    },
   ];
 
   const { isLoading, valueItemsMap } = usePrometheusTKMeterBatchQuery({
@@ -46,12 +53,17 @@ export default function MessageSubscription() {
         link="../message"
       />
       <HStack spacing="12px">
-        {charts.map(({ key, title, color }) => {
+        {charts.map(({ key, title, color, tooltipValueLabel }) => {
           const data = valueItemsMap[key] ?? [];
 
           return (
             <MessageSubscriptionBox key={key} title={title}>
-              <Chart data={data} isLoading={isLoading} barColor={color} />
+              <Chart
+                data={data}
+                isLoading={isLoading}
+                barColor={color}
+                tooltipValueLabel={tooltipValueLabel}
+              />
             </MessageSubscriptionBox>
           );
         })}
