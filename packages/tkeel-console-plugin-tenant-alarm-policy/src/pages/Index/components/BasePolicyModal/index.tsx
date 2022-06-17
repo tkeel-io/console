@@ -9,7 +9,6 @@ import {
   RadioButton,
 } from '@tkeel/console-components';
 import { AlarmRuleType, AlarmSourceObject } from '@tkeel/console-types';
-import { hasJsonStructure } from '@tkeel/console-utils';
 
 import {
   ALARM_LEVEL_OPTIONS,
@@ -20,24 +19,20 @@ import {
 } from '@/tkeel-console-plugin-tenant-alarm-policy/constants';
 import {
   Condition,
-  Operator,
-  Polymerize,
   RequestData,
-  RequestTelemetryType,
-  Time,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/mutations/useCreatePolicyMutation';
 import type { PlatformRule } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePlatformRulesQuery';
 import usePlatformRulesQuery from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePlatformRulesQuery';
 import type { Policy } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
 import type { RuleDesc } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/useRuleDescQuery';
+import {
+  getDeviceConditionsByRuleDesc,
+  getRequestDeviceConditions,
+} from '@/tkeel-console-plugin-tenant-alarm-policy/utils';
 
-import type {
-  BooleanOperator,
-  DeviceCondition,
-} from '../DeviceRuleDescriptionCard';
 import DeviceRuleDescriptionCard, {
   defaultDeviceCondition,
-  parseTelemetryInfo,
+  DeviceCondition,
 } from '../DeviceRuleDescriptionCard';
 import DeviceSelectField, { getDeviceInfo } from '../DeviceSelectField';
 import FormCard from '../FormCard';
@@ -72,79 +67,6 @@ interface FormValues {
   condition: Condition;
   deviceConditions: DeviceCondition[];
 }
-
-function parseBooleanEnumValue(value: string | undefined) {
-  if (value && hasJsonStructure(value)) {
-    return JSON.parse(value) as {
-      label: string;
-      value: string;
-    };
-  }
-  return { label: '', value: '' };
-}
-
-const getRequestDeviceConditions = (deviceConditions: DeviceCondition[]) => {
-  return deviceConditions.map((item) => {
-    const {
-      telemetry,
-      time,
-      polymerize,
-      numberOperator,
-      numberValue,
-      booleanOperator,
-      booleanValue,
-      enumOperator,
-      enumValue,
-    } = item;
-
-    const {
-      id: telemetryId,
-      name: telemetryName,
-      type: telemetryType,
-    } = parseTelemetryInfo(telemetry);
-
-    let requestTelemetryType = RequestTelemetryType.Common;
-    let operator = numberOperator;
-    let value = numberValue;
-    let label = '';
-
-    const isBoolean = telemetryType === RequestTelemetryType.Bool;
-    const isEnum = telemetryType === RequestTelemetryType.Enum;
-
-    if (isBoolean) {
-      requestTelemetryType = RequestTelemetryType.Bool;
-      operator = booleanOperator;
-      value = parseBooleanEnumValue(booleanValue).value;
-      label = parseBooleanEnumValue(booleanValue).label;
-    }
-
-    if (isEnum) {
-      requestTelemetryType = RequestTelemetryType.Enum;
-      operator = enumOperator;
-      value = parseBooleanEnumValue(enumValue).value;
-      label = parseBooleanEnumValue(enumValue).label;
-    }
-
-    const baseDeviceConditions = {
-      telemetryId,
-      telemetryName,
-      telemetryType: requestTelemetryType,
-      operator: operator as Operator,
-      value,
-      label,
-    };
-
-    if (isBoolean || isEnum) {
-      return baseDeviceConditions;
-    }
-
-    return {
-      ...baseDeviceConditions,
-      time: time as Time,
-      polymerize: polymerize as Polymerize,
-    };
-  });
-};
 
 export default function BasePolicyModal({
   policy,
@@ -322,49 +244,7 @@ export default function BasePolicyModal({
   }, [ruleDescList, platformRules, policy]);
 
   useEffect(() => {
-    const deviceConditions =
-      ruleDescList?.map((ruleDesc) => {
-        const {
-          telemetryType,
-          telemetryId,
-          telemetryName,
-          operator,
-          value,
-          label,
-          time,
-          polymerize,
-        } = ruleDesc;
-
-        const telemetry = JSON.stringify({
-          id: telemetryId,
-          name: telemetryName,
-          type: telemetryType,
-        });
-
-        if (telemetryType === RequestTelemetryType.Bool) {
-          return {
-            telemetry,
-            booleanOperator: operator as BooleanOperator,
-            booleanValue: JSON.stringify({ label, value }),
-          };
-        }
-
-        if (telemetryType === RequestTelemetryType.Enum) {
-          return {
-            telemetry,
-            enumOperator: operator as BooleanOperator,
-            enumValue: JSON.stringify({ label, value }),
-          };
-        }
-
-        return {
-          telemetry,
-          time,
-          polymerize,
-          numberOperator: operator,
-          numberValue: value || '',
-        };
-      }) ?? [];
+    const deviceConditions = getDeviceConditionsByRuleDesc(ruleDescList || []);
     setValue('deviceConditions', deviceConditions);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ruleDescList]);

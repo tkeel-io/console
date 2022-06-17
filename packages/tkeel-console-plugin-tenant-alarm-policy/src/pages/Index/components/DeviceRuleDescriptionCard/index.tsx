@@ -14,7 +14,6 @@ import {
   TelemetryType,
   useDeviceDetailQuery,
 } from '@tkeel/console-request-hooks';
-import { hasJsonStructure } from '@tkeel/console-utils';
 
 import {
   durationOptions,
@@ -28,21 +27,22 @@ import {
   RequestTelemetryType,
   Time,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/mutations/useCreatePolicyMutation';
+import { parseTelemetryInfo } from '@/tkeel-console-plugin-tenant-alarm-policy/utils';
 
 import AddRuleButton from '../AddRuleButton';
 
 const { TextField, SelectField } = FormField;
 
-export type BooleanOperator = Operator.Eq | Operator.Ne;
+export type BaseOperator = Operator.Eq | Operator.Ne;
 
 export interface DeviceCondition {
   telemetry: string | null;
   time?: Time | null;
   polymerize?: Polymerize | null;
   numberOperator?: Operator | null;
-  enumOperator?: BooleanOperator | null;
+  enumOperator?: BaseOperator | null;
   enumValue?: string;
-  booleanOperator?: BooleanOperator | null;
+  booleanOperator?: BaseOperator | null;
   booleanValue?: string;
   numberValue?: string;
 }
@@ -65,23 +65,6 @@ interface Props<FormValues> {
   deviceConditionsErrors: number[];
   append: () => void;
   fieldArrayReturn: UseFieldArrayReturn<FormValues>;
-}
-
-interface TelemetryInfo {
-  id: string;
-  name: string;
-  type: RequestTelemetryType;
-}
-
-export function parseTelemetryInfo(telemetry: string | null) {
-  if (telemetry && hasJsonStructure(telemetry)) {
-    return JSON.parse(telemetry) as TelemetryInfo;
-  }
-  return {
-    id: '',
-    name: '',
-    type: RequestTelemetryType.Common,
-  };
 }
 
 function getOptionsByDefine(define: object) {
