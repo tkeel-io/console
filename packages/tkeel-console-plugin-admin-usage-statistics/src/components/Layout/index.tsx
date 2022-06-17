@@ -5,11 +5,13 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { PageHeader, SegmentedControl } from '@tkeel/console-components';
 import { ServerNodeTwoToneIcon } from '@tkeel/console-icons';
 
+// import { plugin } from '@tkeel/console-utils';
 import { ROUTES } from '@/tkeel-console-plugin-admin-usage-statistics/constants/routes';
 
 import TenantSelector, { ALL_TENANTS_OPTION } from '../TenantSelector';
 
 export default function Layout() {
+  // const documents = plugin.getPortalDocuments();
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -26,6 +28,7 @@ export default function Layout() {
         name="用量统计"
         desc="了解资源使用情况，查询实时性能指标"
         // TODO: need docs
+        // documentsPath={documents.config.paths.adminGuide.serviceMonitoring}
       />
       <Flex
         justifyContent="space-between"

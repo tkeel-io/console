@@ -12,6 +12,7 @@ interface RequestParams {
 }
 
 interface Plugin {
+  ks_addr: string;
   metadata: {
     uid: string;
     name: string;
@@ -42,7 +43,7 @@ export default function useMonitoringPluginsQuery(options?: Options) {
   const result = useQuery<AipData, RequestParams>({
     url: '/tkeel-monitor/v1/monitoring/plugins',
     method: 'GET',
-    params: { is_descending: true, ...params },
+    params,
   });
   const total = result.data?.totalItems ?? 0;
   const plugins = result.data?.items ?? [];

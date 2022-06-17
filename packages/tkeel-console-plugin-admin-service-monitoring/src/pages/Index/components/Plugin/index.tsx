@@ -36,7 +36,7 @@ export default function Plugin({
   isExpanded,
   styles,
 }: Props) {
-  const { metadata, status } = data;
+  const { ks_addr: kubeSphereURL, metadata, status } = data;
 
   const statusInfo = usePluginStatusInfo({
     status: statusValue as PluginStatus,
@@ -69,11 +69,16 @@ export default function Plugin({
               <Text
                 as="a"
                 {...defaultStyles.value}
-                _hover={{ textDecoration: 'underline', color: 'primary' }}
+                _hover={
+                  kubeSphereURL
+                    ? { textDecoration: 'underline', color: 'primary' }
+                    : undefined
+                }
                 onClick={(event) => {
-                  // TODO: temp
-                  window.open('.', '_blank');
-                  event.stopPropagation();
+                  if (kubeSphereURL) {
+                    window.open(kubeSphereURL, '_blank');
+                    event.stopPropagation();
+                  }
                 }}
               >
                 {metadata.name}
