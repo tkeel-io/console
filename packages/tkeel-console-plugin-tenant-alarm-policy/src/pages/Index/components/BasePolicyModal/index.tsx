@@ -108,7 +108,6 @@ const getRequestDeviceConditions = (deviceConditions: DeviceCondition[]) => {
     let value = numberValue;
     let key = '';
 
-    // TODO: 遥测属性暂时不支持添加枚举类型值，支持后需要做处理
     const isBoolean = telemetryType === RequestTelemetryType.Bool;
     const isEnum = telemetryType === RequestTelemetryType.Enum;
 
@@ -126,15 +125,23 @@ const getRequestDeviceConditions = (deviceConditions: DeviceCondition[]) => {
       key = parseBooleanEnumValue(enumValue).key;
     }
 
-    return {
+    const baseDeviceConditions = {
       telemetryId,
       telemetryName,
       telemetryType: requestTelemetryType,
-      time: time as Time,
-      polymerize: polymerize as Polymerize,
       operator: operator as Operator,
       value,
       key,
+    };
+
+    if (isBoolean || isEnum) {
+      return baseDeviceConditions;
+    }
+
+    return {
+      ...baseDeviceConditions,
+      time: time as Time,
+      polymerize: polymerize as Polymerize,
     };
   });
 };
@@ -177,6 +184,7 @@ export default function BasePolicyModal({
       deviceId,
       deviceName,
       alarmRuleType,
+      alarmSourceObject,
     } = policy;
 
     defaultValues = {
@@ -184,7 +192,10 @@ export default function BasePolicyModal({
       alarmType: String(alarmType),
       alarmRuleType: String(alarmRuleType),
       alarmLevel: String(alarmLevel),
-      alarmSourceObject: AlarmSourceObjectValue.Device, // TODO: 需要处理值为 platform 的情况
+      alarmSourceObject:
+        alarmSourceObject === AlarmSourceObject.Platform
+          ? AlarmSourceObjectValue.Platform
+          : AlarmSourceObjectValue.Device,
       deviceInfo: JSON.stringify({
         tempId: tempId || '',
         tempName: tempName || '',
@@ -319,6 +330,7 @@ export default function BasePolicyModal({
           telemetryName,
           operator,
           value,
+          key,
           time,
           polymerize,
         } = ruleDesc;
@@ -333,16 +345,15 @@ export default function BasePolicyModal({
           return {
             telemetry,
             booleanOperator: operator as BooleanOperator,
-            booleanValue: value || '',
+            booleanValue: JSON.stringify({ key, value }),
           };
         }
 
-        // TODO: 需要处理遥测属性为枚举类型的情况
         if (telemetryType === RequestTelemetryType.Enum) {
           return {
             telemetry,
             enumOperator: operator as BooleanOperator,
-            enumValue: value || '',
+            enumValue: JSON.stringify({ key, value }),
           };
         }
 

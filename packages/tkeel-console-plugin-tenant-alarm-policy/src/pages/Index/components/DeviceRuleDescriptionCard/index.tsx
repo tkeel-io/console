@@ -110,7 +110,6 @@ export default function DeviceRuleDescriptionCard<FormValues>({
         type = RequestTelemetryType.Bool;
       }
 
-      // TODO: 处理枚举类型值
       if (value.type === TelemetryType.Enum) {
         type = RequestTelemetryType.Enum;
       }
@@ -186,7 +185,6 @@ export default function DeviceRuleDescriptionCard<FormValues>({
           ].includes(type);
           const telemetryIsNumber = !telemetryId || typeIsNumber;
 
-          // TODO: 遥测属性暂时不支持添加枚举类型值，支持后需要做处理
           const telemetryIsBoolean = type === TelemetryType.Bool;
           const telemetryIsEnum = type === TelemetryType.Enum;
 
