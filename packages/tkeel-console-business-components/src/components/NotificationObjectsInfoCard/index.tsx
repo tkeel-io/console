@@ -13,32 +13,19 @@ import {
   ChevronDownFilledIcon,
   ChevronUpFilledIcon,
 } from '@tkeel/console-icons';
+import { AlarmNoticeGroup } from '@tkeel/console-request-hooks';
 
 import { notificationTypeArr } from './constants';
 import InfoPanel from './InfoPanel';
 
 interface Props {
+  groups: AlarmNoticeGroup[];
   styles?: {
     wrapper?: StyleProps;
   };
 }
 
-export default function NotificationObjectsInfoCard({ styles }: Props) {
-  const info = [
-    {
-      name: '平台运维部门',
-      mail: 3,
-      dingding: 0,
-      wechat: 0,
-    },
-    {
-      name: '平台运维部门',
-      mail: 3,
-      dingding: 0,
-      wechat: 0,
-    },
-  ];
-
+export default function NotificationObjectsInfoCard({ groups, styles }: Props) {
   return (
     <Flex
       flexDirection="column"
@@ -47,9 +34,14 @@ export default function NotificationObjectsInfoCard({ styles }: Props) {
       {...styles?.wrapper}
     >
       <Accordion allowToggle>
-        {info.map((item) => {
+        {groups.map((group) => {
+          const emailAddressArr = group.emailAddress.split(',');
           return (
-            <AccordionItem key={item.name} marginBottom="12px" border="none">
+            <AccordionItem
+              key={group.groupName}
+              marginBottom="12px"
+              border="none"
+            >
               {({ isExpanded }) => (
                 <>
                   <AccordionButton
@@ -79,7 +71,7 @@ export default function NotificationObjectsInfoCard({ styles }: Props) {
                                 color="gray.800"
                                 fontSize="12px"
                               >
-                                {item[value]}
+                                {value === 'mail' ? emailAddressArr.length : 0}
                               </Text>
                             </Flex>
                           )
@@ -101,7 +93,7 @@ export default function NotificationObjectsInfoCard({ styles }: Props) {
                     borderRadius="4px"
                     backgroundColor="gray.50"
                   >
-                    <InfoPanel />
+                    <InfoPanel info={{ email: emailAddressArr }} />
                   </AccordionPanel>
                 </>
               )}

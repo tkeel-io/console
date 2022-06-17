@@ -1,3 +1,5 @@
+export { default as useAlarmNoticeGroupsQuery } from './useAlarmNoticeGroupsQuery';
+export * from './useAlarmNoticeGroupsQuery';
 export { default as useConfigAppearanceQuery } from './useConfigAppearanceQuery';
 export { default as useConfigQuery } from './useConfigQuery';
 export { default as useConfigThemeColorsQuery } from './useConfigThemeColorsQuery';
