@@ -100,7 +100,7 @@ export default [
       },
       {
         id: 'console-plugin-tenant-notification-objects',
-        name: '通知对象配置',
+        name: '通知对象',
         path: '/tenant-notification-objects',
         entry:
           'http://127.0.0.1:3018/static/console-plugin-tenant-notification-objects/',
