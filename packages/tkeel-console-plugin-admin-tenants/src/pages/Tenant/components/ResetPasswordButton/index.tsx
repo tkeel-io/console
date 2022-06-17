@@ -76,23 +76,20 @@ export default function ResetPasswordButton({ data }: Props) {
           isOpen={isSetPasswordModalOpen}
           title="重置密码请求成功"
           description={
-            <>
-              <Text display="none">
-                可
-                <LinkButton
-                  onClick={() =>
-                    jumpToPage({
-                      path: setPasswordUrl,
-                      isNewWindow: true,
-                    })
-                  }
-                >
-                  「立即重置」
-                </LinkButton>
-                该用户密码；或复制下方链接，邀请您的同事完成重置。
-              </Text>
-              复制下方链接，邀请您的同事完成重置。
-            </>
+            <Text>
+              可
+              <LinkButton
+                onClick={() =>
+                  jumpToPage({
+                    path: setPasswordUrl,
+                    isNewWindow: true,
+                  })
+                }
+              >
+                「立即重置」
+              </LinkButton>
+              该用户密码；或复制下方链接，邀请您的同事完成重置。
+            </Text>
           }
           url={setPasswordUrl}
           isLoading={isSetPasswordUrlLoading}
