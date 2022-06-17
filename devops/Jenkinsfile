@@ -156,6 +156,8 @@ pipeline {
                                 docker image
                                 */
                                 sh 'yarn build:production-and-docker:build --package-names=@tkeel/$APP_NAME --docker-image-tag=cache --docker-image-push=false'
+                                sh 'docker image ls'
+                                sh 'sleep 1m'
                                 sh 'docker tag tkeelio/$APP_NAME:cache $DOCKER'
                                 sh 'docker push $DOCKER'
 
