@@ -2,6 +2,7 @@ export * from './utils/auth';
 export * from './utils/date-time';
 export * as env from './utils/env';
 export * from './utils/global-config';
+export * as numeral from './utils/numeral';
 export * as plugin from './utils/plugin';
 export * from './utils/raw-data';
 export * from './utils/request';

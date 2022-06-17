@@ -1,5 +1,6 @@
 export * from './hooks/react-query';
 export { default as useColor } from './hooks/useColor';
+export { default as useColors } from './hooks/useColors';
 export { default as useDocuments } from './hooks/useDocuments';
 export { default as useLocationChange } from './hooks/useLocationChange';
 export { default as useMutation } from './hooks/useMutation';

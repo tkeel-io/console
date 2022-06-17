@@ -12,6 +12,8 @@ import {
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
 import { GroupTwoToneIcon } from '@tkeel/console-icons';
+import type { Tenant, TenantAdmin } from '@tkeel/console-request-hooks';
+import { useTenantsQuery } from '@tkeel/console-request-hooks';
 import { formatDateTimeByTimestamp, plugin } from '@tkeel/console-utils';
 
 import DeleteTenantButton from '@/tkeel-console-plugin-admin-tenants/components/DeleteTenantButton';
@@ -20,10 +22,6 @@ import {
   AUTH_TYPE_MAP,
   DEFAULT_AUTH_TYPE_VALUE,
 } from '@/tkeel-console-plugin-admin-tenants/constants';
-import useTenantsQuery, {
-  Admin,
-  Tenant,
-} from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useTenantsQuery';
 
 import CreateTenantButton from './components/CreateTenantButton';
 
@@ -109,7 +107,7 @@ export default function Tenants() {
     {
       Header: '管理员账号',
       accessor: 'admins',
-      Cell: ({ value = [] }: { value: Admin[] }) => {
+      Cell: ({ value = [] }: { value: TenantAdmin[] }) => {
         const usernames = value.map(({ username }) => username);
         return useMemo(
           () => <Text noOfLines={1}>{usernames.join('，')}</Text>,
