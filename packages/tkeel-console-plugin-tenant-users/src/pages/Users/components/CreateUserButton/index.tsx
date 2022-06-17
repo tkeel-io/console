@@ -8,7 +8,6 @@ import { CreateButton, LinkButton } from '@tkeel/console-components';
 import { jumpToPage } from '@tkeel/console-utils';
 
 import useCreateUserMutation from '@/tkeel-console-plugin-tenant-users/hooks/mutations/useCreateUserMutation';
-import useLogoutMutation from '@/tkeel-console-plugin-tenant-users/hooks/mutations/useLogoutMutation';
 import { FormValues } from '@/tkeel-console-plugin-tenant-users/pages/Users/components/BaseUserModal';
 import CreateUserModal from '@/tkeel-console-plugin-tenant-users/pages/Users/components/CreateUserModal';
 
@@ -40,16 +39,6 @@ export default function CreateUserButton({ onSuccess }: Props) {
       data: { reset_key: data?.reset_key ?? '' },
     });
 
-  const {
-    refreshToken,
-    isLoading: isLogoutLoading,
-    mutate: logoutMutate,
-  } = useLogoutMutation({
-    onSuccess() {
-      jumpToPage({ path: setPasswordUrl });
-    },
-  });
-
   const handleConfirm = (formValues: FormValues) => {
     createUserMutate({
       data: {
@@ -78,16 +67,7 @@ export default function CreateUserButton({ onSuccess }: Props) {
           description={
             <Text>
               可
-              <LinkButton
-                isLoading={isLogoutLoading}
-                onClick={() =>
-                  logoutMutate({
-                    data: {
-                      refresh_token: refreshToken,
-                    },
-                  })
-                }
-              >
+              <LinkButton onClick={() => jumpToPage({ path: setPasswordUrl })}>
                 「立即设置」
               </LinkButton>
               该用户密码；或复制下方链接，邀请您的同事完成设置。
