@@ -51,6 +51,9 @@
       "@/tkeel-console-plugin-admin-tenants/*": [
         "./packages/tkeel-console-plugin-admin-tenants/src/*"
       ],
+      "@/tkeel-console-plugin-admin-usage-statistics/*": [
+        "./packages/tkeel-console-plugin-admin-usage-statistics/src/*"
+      ],
       "@/tkeel-console-plugin-example/*": [
         "./packages/tkeel-console-plugin-example/src/*"
       ],
@@ -122,6 +125,7 @@
     { "path": "./packages/tkeel-console-plugin-admin-plugins/" },
     { "path": "./packages/tkeel-console-plugin-admin-service-monitoring/" },
     { "path": "./packages/tkeel-console-plugin-admin-tenants/" },
+    { "path": "./packages/tkeel-console-plugin-admin-usage-statistics/" },
     { "path": "./packages/tkeel-console-plugin-example/" },
     { "path": "./packages/tkeel-console-plugin-tenant-alarm-policy/" },
     { "path": "./packages/tkeel-console-plugin-tenant-alarms/" },

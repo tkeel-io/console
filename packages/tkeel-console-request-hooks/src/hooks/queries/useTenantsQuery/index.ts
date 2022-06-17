@@ -1,9 +1,6 @@
 import { useQuery } from '@tkeel/console-hooks';
 import { AuthType } from '@tkeel/console-types';
 
-const url = '/security/v1/tenants';
-const method = 'GET';
-
 type RequestParams = {
   page_num?: number;
   page_size?: number;
@@ -12,16 +9,16 @@ type RequestParams = {
   key_words?: string;
 };
 
-export interface Admin {
+interface TenantAdmin {
   username: '';
   password: '';
 }
 
-export interface Tenant {
+interface Tenant {
   tenant_id: string;
   title: string;
   auth_type: AuthType;
-  admins: Admin[];
+  admins: TenantAdmin[];
   remark: string;
 
   num_user: number;
@@ -37,14 +34,13 @@ interface AipData {
   tenants: Tenant[];
 }
 
-export default function useTenantsQuery({
-  params,
-}: {
-  params?: RequestParams;
-}) {
+export type { Tenant, TenantAdmin };
+
+export default function useTenantsQuery(options?: { params?: RequestParams }) {
+  const params = options?.params;
   const { data, ...rest } = useQuery<AipData, RequestParams>({
-    url,
-    method,
+    url: '/security/v1/tenants',
+    method: 'GET',
     params,
   });
   const tenants = data?.tenants ?? [];

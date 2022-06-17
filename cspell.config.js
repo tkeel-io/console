@@ -79,6 +79,9 @@ module.exports = {
     'tinycolor',
     'rawdata',
     'fluxswitch',
+    'tkmeter',
+    'tkapi',
+    'iothub',
     'dingding',
     // fonts
     'truetype',

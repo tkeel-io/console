@@ -2,8 +2,6 @@ import SvgComponent from '@/tkeel-console-icons/assets/icons/filled/chain.svg?sv
 import FilledIcon from '@/tkeel-console-icons/components/Icon/FilledIcon';
 import { FilledIconProps } from '@/tkeel-console-icons/components/Icon/types';
 
-function ChainFilledIcon(props: FilledIconProps) {
+export default function ChainFilledIcon(props: FilledIconProps) {
   return <FilledIcon {...props} svgComponent={SvgComponent} />;
 }
-
-export default ChainFilledIcon;
