@@ -12,7 +12,7 @@ pipeline {
 
         string(
             name: 'PLUGINS',
-            defaultValue: 'console-plugin-admin-custom-config,console-plugin-admin-notification-configs,console-plugin-admin-plugins,console-plugin-admin-service-monitoring,console-plugin-admin-tenants,console-plugin-admin-usage-statistics,console-plugin-tenant-alarm-policy,console-plugin-tenant-alarms,console-plugin-tenant-data-query,console-plugin-tenant-data-subscription,console-plugin-tenant-device-templates,console-plugin-tenant-devices,console-plugin-tenant-networks,console-plugin-tenant-plugins,console-plugin-tenant-roles,console-plugin-tenant-routing-rules,console-plugin-tenant-users,console-portal-admin,console-portal-tenant-notification-objects,console-portal-tenant',
+            defaultValue: 'console-plugin-admin-custom-config,console-plugin-admin-notification-configs,console-plugin-admin-plugins,console-plugin-admin-service-monitoring,console-plugin-admin-tenants,console-plugin-admin-usage-statistics,console-plugin-tenant-alarm-policy,console-plugin-tenant-alarms,console-plugin-tenant-data-query,console-plugin-tenant-data-subscription,console-plugin-tenant-device-templates,console-plugin-tenant-devices,console-plugin-tenant-networks,console-plugin-tenant-plugins,console-plugin-tenant-roles,console-plugin-tenant-routing-rules,console-plugin-tenant-users,console-portal-admin,console-portal-tenant,console-portal-tenant-notification-objects,',
             description: 'whice ones ?',
         )
 
