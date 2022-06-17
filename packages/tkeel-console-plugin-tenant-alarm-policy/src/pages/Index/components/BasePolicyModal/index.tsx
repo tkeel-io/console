@@ -76,11 +76,11 @@ interface FormValues {
 function parseBooleanEnumValue(value: string | undefined) {
   if (value && hasJsonStructure(value)) {
     return JSON.parse(value) as {
-      key: string;
+      label: string;
       value: string;
     };
   }
-  return { key: '', value: '' };
+  return { label: '', value: '' };
 }
 
 const getRequestDeviceConditions = (deviceConditions: DeviceCondition[]) => {
@@ -106,7 +106,7 @@ const getRequestDeviceConditions = (deviceConditions: DeviceCondition[]) => {
     let requestTelemetryType = RequestTelemetryType.Common;
     let operator = numberOperator;
     let value = numberValue;
-    let key = '';
+    let label = '';
 
     const isBoolean = telemetryType === RequestTelemetryType.Bool;
     const isEnum = telemetryType === RequestTelemetryType.Enum;
@@ -115,14 +115,14 @@ const getRequestDeviceConditions = (deviceConditions: DeviceCondition[]) => {
       requestTelemetryType = RequestTelemetryType.Bool;
       operator = booleanOperator;
       value = parseBooleanEnumValue(booleanValue).value;
-      key = parseBooleanEnumValue(booleanValue).key;
+      label = parseBooleanEnumValue(booleanValue).label;
     }
 
     if (isEnum) {
       requestTelemetryType = RequestTelemetryType.Enum;
       operator = enumOperator;
       value = parseBooleanEnumValue(enumValue).value;
-      key = parseBooleanEnumValue(enumValue).key;
+      label = parseBooleanEnumValue(enumValue).label;
     }
 
     const baseDeviceConditions = {
@@ -131,7 +131,7 @@ const getRequestDeviceConditions = (deviceConditions: DeviceCondition[]) => {
       telemetryType: requestTelemetryType,
       operator: operator as Operator,
       value,
-      key,
+      label,
     };
 
     if (isBoolean || isEnum) {
@@ -330,7 +330,7 @@ export default function BasePolicyModal({
           telemetryName,
           operator,
           value,
-          key,
+          label,
           time,
           polymerize,
         } = ruleDesc;
@@ -345,7 +345,7 @@ export default function BasePolicyModal({
           return {
             telemetry,
             booleanOperator: operator as BooleanOperator,
-            booleanValue: JSON.stringify({ key, value }),
+            booleanValue: JSON.stringify({ label, value }),
           };
         }
 
@@ -353,7 +353,7 @@ export default function BasePolicyModal({
           return {
             telemetry,
             enumOperator: operator as BooleanOperator,
-            enumValue: JSON.stringify({ key, value }),
+            enumValue: JSON.stringify({ label, value }),
           };
         }
 

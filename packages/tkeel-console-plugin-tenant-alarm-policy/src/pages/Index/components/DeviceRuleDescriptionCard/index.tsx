@@ -87,7 +87,7 @@ export function parseTelemetryInfo(telemetry: string | null) {
 function getOptionsByDefine(define: object) {
   return Object.entries(define || {}).map(([key, value]) => ({
     label: value as string,
-    value: JSON.stringify({ key, value: value as string }),
+    value: JSON.stringify({ label: value as string, value: key }),
   }));
 }
 

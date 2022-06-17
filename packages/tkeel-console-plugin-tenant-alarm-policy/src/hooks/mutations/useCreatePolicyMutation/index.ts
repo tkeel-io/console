@@ -52,7 +52,7 @@ interface DeviceConditionItem {
   polymerize?: Polymerize;
   operator: Operator;
   value?: string;
-  key?: string;
+  label?: string;
 }
 
 export enum Condition {

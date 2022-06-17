@@ -1,12 +1,11 @@
-import { useDisclosure } from '@chakra-ui/react';
-
 import { Modal } from '@tkeel/console-components';
 
-export default function ConfigureNotificationModal() {
-  const { isOpen, onClose } = useDisclosure({
-    isOpen: true,
-  });
+interface Props {
+  isOpen: boolean;
+  onClose: () => void;
+}
 
+export default function ConfigureNotificationModal({ isOpen, onClose }: Props) {
   const handleConfirm = () => {
     onClose();
   };

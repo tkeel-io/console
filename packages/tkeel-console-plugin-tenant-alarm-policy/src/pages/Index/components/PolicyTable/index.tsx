@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, Text, useDisclosure } from '@chakra-ui/react';
 import { useCallback, useState } from 'react';
 import { CellProps, Column } from 'react-table';
 
@@ -37,6 +37,7 @@ import type {
 } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
 import usePolicyListQuery from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
 
+import ConfigureNotificationModal from '../ConfigureNotificationModal';
 import CreatePolicyButton from '../CreatePolicyButton';
 import SwitchStatusButton from '../SwitchStatusButton';
 import ViewPolicyDetailButton from '../ViewPolicyDetailButton';
@@ -49,6 +50,7 @@ export default function PolicyTable({ alarmRuleType }: Props) {
   const [keywords, setKeywords] = useState('');
   const [alarmLevel, setAlarmLevel] = useState<AlarmLevel>();
   const [alarmType, setAlarmType] = useState<AlarmType>();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const pagination = usePagination();
   const { pageNum, pageSize, setPageNum, setTotalSize } = pagination;
@@ -124,13 +126,16 @@ export default function PolicyTable({ alarmRuleType }: Props) {
     },
     {
       Header: '通知配置',
-      Cell: useCallback(() => {
+      accessor: 'noticeId',
+      Cell: useCallback(({ value }: CellProps<Policy, string>) => {
         return (
           <MailFilledIcon
-            color="primary"
+            onClick={onOpen}
+            color={value ? 'primary' : 'gray.300'}
             style={{ marginLeft: '10px', cursor: 'pointer' }}
           />
         );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []),
     },
     {
@@ -254,6 +259,9 @@ export default function PolicyTable({ alarmRuleType }: Props) {
           },
         }}
       />
+      {isOpen && (
+        <ConfigureNotificationModal isOpen={isOpen} onClose={onClose} />
+      )}
     </Flex>
   );
 }

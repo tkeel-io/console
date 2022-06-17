@@ -18,7 +18,7 @@ export interface RuleDesc {
   telemetryType: RequestTelemetryType | null;
   time: Time | null;
   value: string | null;
-  key: string | null;
+  label: string | null;
 }
 
 interface ApiData {

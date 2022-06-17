@@ -68,7 +68,12 @@ export default function CreatePolicyButton({ refetch }: Props) {
           setIsShowAlert(false);
         }}
       />
-      {isShowNotificationModal && <ConfigureNotificationModal />}
+      {isShowNotificationModal && (
+        <ConfigureNotificationModal
+          isOpen={isShowNotificationModal}
+          onClose={onClose}
+        />
+      )}
     </>
   );
 }
