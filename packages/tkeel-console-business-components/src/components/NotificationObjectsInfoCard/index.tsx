@@ -14,24 +14,26 @@ import {
   ChevronDownFilledIcon,
   ChevronUpFilledIcon,
 } from '@tkeel/console-icons';
-import { AlarmNoticeGroup } from '@tkeel/console-request-hooks';
+import { useAlarmNoticeGroupsQuery } from '@tkeel/console-request-hooks';
 
 import { notificationTypeArr } from './constants';
 import InfoPanel from './InfoPanel';
 
 interface Props {
-  isFetched: boolean;
-  groups: AlarmNoticeGroup[];
+  noticeId: string;
   styles?: {
     wrapper?: StyleProps;
   };
 }
 
 export default function NotificationObjectsInfoCard({
-  isFetched,
-  groups,
+  noticeId,
   styles,
 }: Props) {
+  const { alarmNoticeGroups, isFetched } = useAlarmNoticeGroupsQuery({
+    noticeId,
+  });
+
   return (
     <Flex
       flexDirection="column"
@@ -40,17 +42,17 @@ export default function NotificationObjectsInfoCard({
       {...styles?.wrapper}
     >
       {(() => {
-        if (!isFetched) {
+        if (noticeId && !isFetched) {
           return null;
         }
 
-        if (groups.length === 0) {
+        if (alarmNoticeGroups.length === 0) {
           return <Empty type="component" />;
         }
 
         return (
           <Accordion allowToggle defaultIndex={0}>
-            {groups.map((group) => {
+            {alarmNoticeGroups.map((group) => {
               const emailAddressArr = group.emailAddress.split(',');
               return (
                 <AccordionItem

@@ -8,7 +8,6 @@ import {
 } from '@tkeel/console-business-components';
 import { Drawer, MoreAction, Tooltip } from '@tkeel/console-components';
 import { ComputingLampTwoToneIcon } from '@tkeel/console-icons';
-import { useAlarmNoticeGroupsQuery } from '@tkeel/console-request-hooks';
 import { AlarmSourceObject } from '@tkeel/console-types';
 
 import DeletePolicyButton from '@/tkeel-console-plugin-tenant-alarm-policy/components/DeletePolicyButton';
@@ -34,10 +33,6 @@ export default function PolicyDetailDrawer({
   onClose,
   refetchData,
 }: Props) {
-  const { alarmNoticeGroups, isFetched } = useAlarmNoticeGroupsQuery({
-    noticeId: policy.noticeId,
-  });
-
   const alarmInfoArr = [
     {
       label: '告警策略名称',
@@ -135,10 +130,7 @@ export default function PolicyDetailDrawer({
         <Text marginBottom="8px" {...titleStyle} marginTop="20px">
           通知对象
         </Text>
-        <NotificationObjectsInfoCard
-          isFetched={isFetched}
-          groups={alarmNoticeGroups}
-        />
+        <NotificationObjectsInfoCard noticeId={policy.noticeId || ''} />
       </Flex>
     </Drawer>
   );
