@@ -66,6 +66,7 @@ export default function BasicInfoPart({
           styles={{
             treeTitle: 'font-size:14px;height:32px;line-height:32px;',
           }}
+          onClick={(e) => e.stopPropagation()}
           treeData={groupOptions}
           defaultValue={watchFields.parentId}
           notFoundContent="暂无选项"
