@@ -34,7 +34,7 @@ export default function PolicyDetailDrawer({
   onClose,
   refetchData,
 }: Props) {
-  const { alarmNoticeGroups } = useAlarmNoticeGroupsQuery({
+  const { alarmNoticeGroups, isFetched } = useAlarmNoticeGroupsQuery({
     noticeId: policy.noticeId,
   });
 
@@ -135,7 +135,10 @@ export default function PolicyDetailDrawer({
         <Text marginBottom="8px" {...titleStyle} marginTop="20px">
           通知对象
         </Text>
-        <NotificationObjectsInfoCard groups={alarmNoticeGroups} />
+        <NotificationObjectsInfoCard
+          isFetched={isFetched}
+          groups={alarmNoticeGroups}
+        />
       </Flex>
     </Drawer>
   );
