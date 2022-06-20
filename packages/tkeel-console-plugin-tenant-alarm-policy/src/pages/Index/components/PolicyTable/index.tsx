@@ -199,21 +199,21 @@ export default function PolicyTable({ alarmRuleType }: Props) {
   return (
     <Flex height="100%" flexDirection="column">
       <PageHeaderToolbar
-        name={
-          <Flex>
-            <AlarmLevelSelect
-              onChange={(level) => {
-                setAlarmLevel(level === -1 ? undefined : level);
-              }}
-            />
-            <AlarmTypeSelect
-              onChange={(type) => {
-                setAlarmType(type === -1 ? undefined : type);
-              }}
-              styles={{ wrapper: { marginLeft: '12px' } }}
-            />
-          </Flex>
-        }
+        selectElements={[
+          <AlarmLevelSelect
+            key="alarmLevel"
+            onChange={(level) => {
+              setAlarmLevel(level === -1 ? undefined : level);
+            }}
+          />,
+          <AlarmTypeSelect
+            key="alarmType"
+            onChange={(type) => {
+              setAlarmType(type === -1 ? undefined : type);
+            }}
+            styles={{ wrapper: { marginLeft: '12px' } }}
+          />,
+        ]}
         hasSearchInput
         searchInputProps={{
           placeholder: '支持搜索告警策略名称',

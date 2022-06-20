@@ -114,7 +114,8 @@ export default function PolicyDetailDrawer({
               onSuccess={() => refetchData()}
             />
             <MoreAction
-              styles={{ actionList: { marginLeft: '4px', width: '124px' } }}
+              sx={{ marginLeft: '4px' }}
+              styles={{ actionList: { width: '124px' } }}
               buttons={[
                 <ModifyPolicyButton
                   key="modify"

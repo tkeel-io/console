@@ -19,13 +19,15 @@ export default function SwitchStatusButton({
 }: Props) {
   const toast = plugin.getPortalToast();
   const { mutate } = useSwitchRuleStatus({
-    onSuccess(_, requestData) {
+    onSuccess(_, variables) {
       const isEnabled =
-        (requestData as SwitchStatusRequestData).enable === RuleStatus.Enabled;
+        (variables as { data: SwitchStatusRequestData }).data.enable ===
+        RuleStatus.Enabled;
       toast.success(`${isEnabled ? '启用' : '停用'}告警策略成功`);
       onSuccess();
     },
   });
+
   return (
     <Switch
       size="sm"
