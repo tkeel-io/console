@@ -5,6 +5,7 @@ export const paths = {
       '/admin-guide/tenant-mgt/tenant_create#配置认证协议',
     plugins: '/admin-guide/plugin-mgt/plugin_intro',
     customConfig: '/admin-guide/platform-config/config_intro',
+    serviceMonitoring: '/admin-guide/maintenance-mgt/service_monitor',
   },
   tenantGuide: {
     users: '/tenant-guide/user-mgt/user_mgt',

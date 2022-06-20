@@ -126,7 +126,7 @@ export const getDeviceConditionsByRuleDesc = (ruleDescList: RuleDesc[]) => {
     if (telemetryType === RequestTelemetryType.Bool) {
       return {
         telemetry,
-        booleanOperator: operator as BaseOperator,
+        booleanOperator: operator,
         booleanValue: JSON.stringify({ label, value }),
       };
     }
@@ -134,7 +134,7 @@ export const getDeviceConditionsByRuleDesc = (ruleDescList: RuleDesc[]) => {
     if (telemetryType === RequestTelemetryType.Enum) {
       return {
         telemetry,
-        enumOperator: operator as BaseOperator,
+        enumOperator: operator,
         enumValue: JSON.stringify({ label, value }),
       };
     }

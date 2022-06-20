@@ -1,0 +1,6 @@
+replicaCount: 1
+imagePullSecrets: ''
+image:
+  repository: tkeelio/console-plugin-tenant-notification-objects
+# tag: 0.4.3
+  pullPolicy: Always

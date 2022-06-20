@@ -17,8 +17,8 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^2.2.1",
-    "@emotion/react": "^11.9.0",
-    "@emotion/styled": "^11.8.1",
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
     "@tkeel/console-business-components": "workspace:^",
     "@tkeel/console-components": "workspace:^",
     "@tkeel/console-hooks": "workspace:^",
@@ -31,11 +31,11 @@
     "framer-motion": "^6.3.11",
     "js-base64": "^3.7.2",
     "markdown": "^0.5.0",
-    "marked": "^4.0.16",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
-    "react-hook-form": "^7.31.2",
-    "react-query": "^3.39.0",
+    "marked": "^4.0.17",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.32.1",
+    "react-query": "^3.39.1",
     "react-router-dom": "^6.3.0",
     "react-use": "^17.4.0"
   }
