@@ -6,6 +6,7 @@ import {
   AlarmType,
   RuleStatus,
 } from '@tkeel/console-types';
+import { RequestResult } from '@tkeel/console-utils';
 
 export interface Policy {
   ruleId: number;
@@ -38,14 +39,14 @@ export interface RequestParams {
   pageSize: number;
 }
 
-export default function usePolicyListQuery({
-  alarmLevel,
-  alarmRuleType,
-  alarmType,
-  ruleName,
-  pageNum,
-  pageSize,
-}: RequestParams) {
+interface Props {
+  params: RequestParams;
+  onSuccess?: (data: RequestResult<ApiData, RequestParams, undefined>) => void;
+}
+
+export default function usePolicyListQuery({ params, onSuccess }: Props) {
+  const { alarmLevel, alarmRuleType, alarmType, ruleName, pageNum, pageSize } =
+    params;
   const { data, ...rest } = useQuery<ApiData, RequestParams>({
     url: '/tkeel-alarm/v1/rule/query',
     method: 'GET',
@@ -56,6 +57,9 @@ export default function usePolicyListQuery({
       ruleName,
       pageNum,
       pageSize,
+    },
+    reactQueryOptions: {
+      onSuccess,
     },
   });
   const policyList = data?.list || [];

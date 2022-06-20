@@ -1,5 +1,5 @@
 import { Box, Flex, Text, useDisclosure } from '@chakra-ui/react';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { CellProps, Column } from 'react-table';
 
 import {
@@ -51,7 +51,9 @@ export default function PolicyTable({ alarmRuleType }: Props) {
   const [alarmLevel, setAlarmLevel] = useState<AlarmLevel>();
   const [alarmType, setAlarmType] = useState<AlarmType>();
   const [ruleId, setRuleId] = useState<number>();
+  const [noticeId, setNoticeId] = useState<string | null>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isShowLoading, setIsShowLoading] = useState(false);
 
   const pagination = usePagination();
   const { pageNum, pageSize, setPageNum, setTotalSize } = pagination;
@@ -65,8 +67,13 @@ export default function PolicyTable({ alarmRuleType }: Props) {
     pageSize,
   };
 
-  const { policyList, total, isFetching, isSuccess, refetch } =
-    usePolicyListQuery(params);
+  const { policyList, total, isLoading, isSuccess, refetch } =
+    usePolicyListQuery({
+      params,
+      onSuccess() {
+        setIsShowLoading(false);
+      },
+    });
   if (isSuccess) {
     setTotalSize(total);
   }
@@ -134,6 +141,7 @@ export default function PolicyTable({ alarmRuleType }: Props) {
             onClick={() => {
               onOpen();
               setRuleId(row.original.ruleId);
+              setNoticeId(row.original.noticeId);
             }}
             color={value ? 'primary' : 'gray.300'}
             style={{ marginLeft: '10px', cursor: 'pointer' }}
@@ -195,6 +203,10 @@ export default function PolicyTable({ alarmRuleType }: Props) {
     },
   ];
 
+  useEffect(() => {
+    setIsShowLoading(isLoading);
+  }, [isLoading]);
+
   return (
     <Flex height="100%" flexDirection="column">
       <PageHeaderToolbar
@@ -228,7 +240,10 @@ export default function PolicyTable({ alarmRuleType }: Props) {
           },
         }}
         hasRefreshIcon
-        onRefresh={() => refetch()}
+        onRefresh={() => {
+          setIsShowLoading(true);
+          refetch();
+        }}
         buttons={[
           <CreatePolicyButton key="create" onSuccess={() => refetch()} />,
         ]}
@@ -245,7 +260,7 @@ export default function PolicyTable({ alarmRuleType }: Props) {
         data={policyList}
         paginationProps={pagination}
         scroll={{ y: '100%' }}
-        isLoading={isFetching}
+        isLoading={isShowLoading}
         styles={{
           wrapper: {
             flex: 1,
@@ -265,6 +280,7 @@ export default function PolicyTable({ alarmRuleType }: Props) {
       {isOpen && (
         <ConfigureNotificationModal
           ruleId={ruleId}
+          noticeId={noticeId || ''}
           isOpen={isOpen}
           onClose={onClose}
           onSuccess={() => refetch()}
