@@ -1,7 +1,7 @@
 import { Flex, Text } from '@chakra-ui/react';
-import { useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { CellProps, Column } from 'react-table';
+import type { CellProps, Column } from 'react-table';
 
 import {
   ButtonsHStack,
@@ -51,15 +51,14 @@ export default function Users() {
     {
       Header: '用户账号',
       accessor: 'username',
-      Cell: ({ value }: { value: string }) =>
-        useMemo(
-          () => (
-            <Text color="gray.800" fontWeight="600">
-              {value}
-            </Text>
-          ),
-          [value]
+      Cell: useCallback(
+        ({ value }: CellProps<User, User['username']>) => (
+          <Text color="gray.800" fontWeight="600">
+            {value}
+          </Text>
         ),
+        []
+      ),
     },
     {
       Header: '用户名称',
@@ -68,41 +67,44 @@ export default function Users() {
     {
       Header: '创建时间',
       accessor: 'created_at',
-      Cell: ({ value }) =>
-        useMemo(() => {
-          return value ? (
+      Cell: useCallback(
+        ({ value }: CellProps<User, User['created_at']>) =>
+          value ? (
             <Text>{formatDateTimeByTimestamp({ timestamp: value })}</Text>
-          ) : null;
-        }, [value]),
+          ) : null,
+        []
+      ),
     },
     {
       Header: '用户角色',
       accessor: 'roles',
-      Cell: ({ value = [] }) =>
-        useMemo(() => {
-          return <Text>{value.map(({ name }) => name).join('，')}</Text>;
-        }, [value]),
+      Cell: useCallback(
+        ({ value = [] }: CellProps<User, User['roles']>) => (
+          <Text>{value.map(({ name }) => name).join('，')}</Text>
+        ),
+        []
+      ),
     },
   ];
 
   let columns = [...baseColumns];
+  const actionsCell = useCallback(({ row }: CellProps<User>) => {
+    const { original } = row;
+
+    return (
+      <ButtonsHStack>
+        <ResetPasswordButton data={original} />
+        {/* <LoginUserButton data={original} /> */}
+      </ButtonsHStack>
+    );
+  }, []);
 
   if (isInternal) {
     columns = [
       ...columns,
       {
         Header: '操作',
-        Cell: ({ row }: CellProps<User>) =>
-          useMemo(() => {
-            const { original } = row;
-
-            return (
-              <ButtonsHStack>
-                <ResetPasswordButton data={original} />
-                {/* <LoginUserButton data={original} /> */}
-              </ButtonsHStack>
-            );
-          }, [row]),
+        Cell: actionsCell,
       },
     ];
   }
