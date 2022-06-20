@@ -1,0 +1,7 @@
+replicaCount: 1
+imagePullSecrets: ''
+httpPort: 80
+image:
+  repository: tkeelio/console-plugin-admin-usage-statistics
+# tag: 0.4.3
+  pullPolicy: Always

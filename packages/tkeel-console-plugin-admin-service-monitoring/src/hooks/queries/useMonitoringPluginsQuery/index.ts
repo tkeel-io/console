@@ -12,6 +12,7 @@ interface RequestParams {
 }
 
 interface Plugin {
+  ks_addr: string;
   metadata: {
     uid: string;
     name: string;

@@ -1,4 +1,4 @@
-import { Box, Flex, Switch, Text } from '@chakra-ui/react';
+import { Box, Flex, Text, useDisclosure } from '@chakra-ui/react';
 import { useCallback, useState } from 'react';
 import { CellProps, Column } from 'react-table';
 
@@ -6,6 +6,7 @@ import {
   AlarmLevelSelect,
   AlarmLevelTag,
   AlarmLevelTips,
+  AlarmRuleTypeTag,
   AlarmTypeSelect,
 } from '@tkeel/console-business-components';
 import {
@@ -14,9 +15,11 @@ import {
   Table,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
-import type {
+import { MailFilledIcon } from '@tkeel/console-icons';
+import {
   AlarmLevel,
   AlarmRuleType,
+  AlarmSourceObject,
   AlarmType,
   RuleStatus,
 } from '@tkeel/console-types';
@@ -24,17 +27,19 @@ import type {
 import DeletePolicyButton from '@/tkeel-console-plugin-tenant-alarm-policy/components/DeletePolicyButton';
 import ModifyPolicyButton from '@/tkeel-console-plugin-tenant-alarm-policy/components/ModifyPolicyButton';
 import {
-  ALARM_RULE_TYPE_MAP,
+  ALARM_SOURCE_OBJECT_MAP,
   ALARM_TYPE_MAP,
   RULE_STATUS_MAP,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/constants';
 import type {
   Policy,
-  Props as usePolicyListQueryProps,
+  RequestParams as usePolicyListQueryProps,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
 import usePolicyListQuery from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
 
+import ConfigureNotificationModal from '../ConfigureNotificationModal';
 import CreatePolicyButton from '../CreatePolicyButton';
+import SwitchStatusButton from '../SwitchStatusButton';
 import ViewPolicyDetailButton from '../ViewPolicyDetailButton';
 
 interface Props {
@@ -45,9 +50,11 @@ export default function PolicyTable({ alarmRuleType }: Props) {
   const [keywords, setKeywords] = useState('');
   const [alarmLevel, setAlarmLevel] = useState<AlarmLevel>();
   const [alarmType, setAlarmType] = useState<AlarmType>();
+  const [ruleId, setRuleId] = useState<number>();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const pagination = usePagination();
-  const { pageNum, pageSize, setTotalSize } = pagination;
+  const { pageNum, pageSize, setPageNum, setTotalSize } = pagination;
 
   const params: usePolicyListQueryProps = {
     alarmRuleType,
@@ -58,7 +65,7 @@ export default function PolicyTable({ alarmRuleType }: Props) {
     pageSize,
   };
 
-  const { policyList, total, isLoading, isSuccess } =
+  const { policyList, total, isLoading, isFetching, isSuccess, refetch } =
     usePolicyListQuery(params);
   if (isSuccess) {
     setTotalSize(total);
@@ -85,7 +92,7 @@ export default function PolicyTable({ alarmRuleType }: Props) {
       accessor: 'alarmRuleType',
       Cell: useCallback(
         ({ value }: CellProps<Policy, AlarmRuleType>) => (
-          <Box>{ALARM_RULE_TYPE_MAP[value] || ''}</Box>
+          <AlarmRuleTypeTag type={value} />
         ),
         []
       ),
@@ -97,6 +104,12 @@ export default function PolicyTable({ alarmRuleType }: Props) {
     {
       Header: '告警源对象',
       accessor: 'alarmSourceObject',
+      Cell: useCallback(
+        ({ value }: CellProps<Policy, AlarmSourceObject>) => (
+          <Box>{ALARM_SOURCE_OBJECT_MAP[value] || ''}</Box>
+        ),
+        []
+      ),
     },
     {
       Header: '规则描述',
@@ -114,22 +127,38 @@ export default function PolicyTable({ alarmRuleType }: Props) {
     },
     {
       Header: '通知配置',
-      Cell: useCallback(() => {
-        return <Flex>通知配置 icon</Flex>;
+      accessor: 'noticeId',
+      Cell: useCallback(({ value, row }: CellProps<Policy, string>) => {
+        return (
+          <MailFilledIcon
+            onClick={() => {
+              onOpen();
+              setRuleId(row.original.ruleId);
+            }}
+            color={value ? 'primary' : 'gray.300'}
+            style={{ marginLeft: '10px', cursor: 'pointer' }}
+          />
+        );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []),
     },
     {
       Header: '状态',
       accessor: 'enable',
       Cell: useCallback(
-        ({ value }: CellProps<Policy, RuleStatus>) => (
+        ({ value, row }: CellProps<Policy, RuleStatus>) => (
           <Flex alignItems="center">
-            <Switch size="sm" />
+            <SwitchStatusButton
+              status={value}
+              ruleId={row.original.ruleId}
+              onSuccess={() => refetch()}
+            />
             <Text marginLeft="8px" color="gray.700" fontSize="12px">
               {RULE_STATUS_MAP[value] || ''}
             </Text>
           </Flex>
         ),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         []
       ),
     },
@@ -143,38 +172,48 @@ export default function PolicyTable({ alarmRuleType }: Props) {
           <MoreAction
             styles={{ actionList: { width: '124px' } }}
             buttons={[
-              <ModifyPolicyButton key="modify" />,
-              <ViewPolicyDetailButton policy={original} key="viewDetail" />,
+              <ModifyPolicyButton
+                key="modify"
+                policy={original}
+                onSuccess={() => refetch()}
+              />,
+              <ViewPolicyDetailButton
+                policy={original}
+                key="viewDetail"
+                refetchData={() => refetch()}
+              />,
               <DeletePolicyButton
                 key="delete"
                 policy={original}
-                onSuccess={() => {}}
+                onSuccess={() => refetch()}
               />,
             ]}
           />
         );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []),
     },
   ];
 
+  const isShowLoading = keywords ? isFetching : isLoading;
   return (
     <Flex height="100%" flexDirection="column">
       <PageHeaderToolbar
-        name={
-          <Flex>
-            <AlarmLevelSelect
-              onChange={(level) => {
-                setAlarmLevel(level === -1 ? undefined : level);
-              }}
-            />
-            <AlarmTypeSelect
-              onChange={(type) => {
-                setAlarmType(type === -1 ? undefined : type);
-              }}
-              styles={{ wrapper: { marginLeft: '12px' } }}
-            />
-          </Flex>
-        }
+        selectElements={[
+          <AlarmLevelSelect
+            key="alarmLevel"
+            onChange={(level) => {
+              setAlarmLevel(level === -1 ? undefined : level);
+            }}
+          />,
+          <AlarmTypeSelect
+            key="alarmType"
+            onChange={(type) => {
+              setAlarmType(type === -1 ? undefined : type);
+            }}
+            styles={{ wrapper: { marginLeft: '12px' } }}
+          />,
+        ]}
         hasSearchInput
         searchInputProps={{
           placeholder: '支持搜索告警策略名称',
@@ -185,11 +224,15 @@ export default function PolicyTable({ alarmRuleType }: Props) {
             backgroundColor: 'gray.50',
           },
           onSearch(value) {
-            // setPageNum(1);
+            setPageNum(1);
             setKeywords(value);
           },
         }}
-        buttons={[<CreatePolicyButton key="create" />]}
+        hasRefreshIcon
+        onRefresh={() => refetch()}
+        buttons={[
+          <CreatePolicyButton key="create" onSuccess={() => refetch()} />,
+        ]}
         styles={{
           wrapper: {
             zIndex: 1,
@@ -203,7 +246,7 @@ export default function PolicyTable({ alarmRuleType }: Props) {
         data={policyList}
         paginationProps={pagination}
         scroll={{ y: '100%' }}
-        isLoading={isLoading}
+        isLoading={isShowLoading}
         styles={{
           wrapper: {
             flex: 1,
@@ -220,6 +263,14 @@ export default function PolicyTable({ alarmRuleType }: Props) {
           },
         }}
       />
+      {isOpen && (
+        <ConfigureNotificationModal
+          ruleId={ruleId}
+          isOpen={isOpen}
+          onClose={onClose}
+          onSuccess={() => refetch()}
+        />
+      )}
     </Flex>
   );
 }

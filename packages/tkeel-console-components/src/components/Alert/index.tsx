@@ -16,6 +16,7 @@ type Props = {
   title: ReactNode;
   description?: ReactNode;
   children?: ReactNode;
+  hasCloseButton?: boolean;
   hasCancelButton?: boolean;
   hasConfirmButton?: boolean;
   isConfirmButtonDisabled?: boolean;
@@ -24,20 +25,22 @@ type Props = {
     title?: StyleProps;
     description?: StyleProps;
   };
-  onClose: () => unknown;
-  onCancel?: () => unknown;
+  onClose: () => void;
+  onCancel?: () => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onConfirm?: (arg: any) => unknown;
+  onConfirm?: (arg: any) => void;
 };
 
 const defaultProps = {
   iconPosition: 'top',
+  onclose: noop,
   onConfirm: noop,
 };
 
 const defaultPropsIconTop = {
   width: '400px',
   iconPosition: 'top',
+  hasCloseButton: true,
   hasCancelButton: false,
   hasConfirmButton: false,
 };
@@ -45,6 +48,7 @@ const defaultPropsIconTop = {
 const defaultPropsIconLeft = {
   width: '500px',
   iconPosition: 'left',
+  hasCloseButton: true,
   hasCancelButton: true,
   hasConfirmButton: true,
 };
@@ -58,8 +62,16 @@ export default function Alert(props: Props) {
     properties = { ...defaultProps, ...defaultPropsIconLeft, ...props };
   }
 
-  const { iconPosition, icon, title, description, children, styles, ...rest } =
-    properties;
+  const {
+    iconPosition,
+    icon,
+    title,
+    description,
+    children,
+    hasCloseButton,
+    styles,
+    ...rest
+  } = properties;
 
   const renderIcon = () => {
     let [paddingRight, paddingBottom] = ['', ''];
@@ -130,7 +142,7 @@ export default function Alert(props: Props) {
       modalBodyStyle={{ padding: '40px 20px' }}
       {...rest}
     >
-      <ModalCloseButton _focus={{ boxShadow: 0 }} />
+      {hasCloseButton && <ModalCloseButton _focus={{ boxShadow: 0 }} />}
       <Flex style={style}>
         {renderIcon()}
         <Flex

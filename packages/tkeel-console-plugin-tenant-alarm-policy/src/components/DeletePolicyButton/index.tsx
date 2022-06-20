@@ -2,34 +2,38 @@ import { useDisclosure } from '@chakra-ui/react';
 
 import { MoreActionButton } from '@tkeel/console-components';
 import { TrashFilledIcon } from '@tkeel/console-icons';
+import { plugin } from '@tkeel/console-utils';
 
+import useDeletePolicyMutation from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/mutations/useDeletePolicyMutation';
 import type { Policy } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
 
 import DeletePolicyModal from '../DeletePolicyModal';
 
 type Props = {
   policy: Policy;
-  onSuccess: () => void;
-};
-
-const handleConfirm = () => {
-  // mutate({})
+  onSuccess: () => unknown;
 };
 
 export default function DeletePolicyButton({ policy, onSuccess }: Props) {
   const { ruleId, ruleName } = policy;
-  // eslint-disable-next-line no-console
-  console.log('DeletePolicyButton ~ ruleId', ruleId);
-  // eslint-disable-next-line no-console
-  console.log('DeletePolicyButton ~ onSuccess', onSuccess);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  // const { mutate, isLoading } = useDeletePolicyMutation({
-  //   ruleId,
-  //   onSuccess() {
-  //     onSuccess();
-  //     onClose();
-  //   },
-  // });
+  const toast = plugin.getPortalToast();
+  const { mutate, isLoading } = useDeletePolicyMutation({
+    onSuccess() {
+      onSuccess();
+      onClose();
+      toast.success('删除告警策略成功');
+    },
+  });
+
+  const handleConfirm = () => {
+    mutate({
+      data: {
+        ruleId,
+        deleted: 1,
+      },
+    });
+  };
 
   return (
     <>
@@ -42,7 +46,7 @@ export default function DeletePolicyButton({ policy, onSuccess }: Props) {
         <DeletePolicyModal
           ruleName={ruleName}
           isOpen={isOpen}
-          isConfirmButtonLoading={false}
+          isConfirmButtonLoading={isLoading}
           onClose={onClose}
           onConfirm={handleConfirm}
         />

@@ -9,6 +9,8 @@ interface Props {
   title?: ReactNode;
   description?: ReactNode;
   content?: ReactNode;
+  isFullWidth?: boolean;
+  isFullHeight?: boolean;
   styles?: {
     wrapper?: StyleProps;
     image?: StyleProps;
@@ -24,6 +26,8 @@ export default function Empty({
   title = '暂无数据',
   description,
   content,
+  isFullWidth,
+  isFullHeight,
   styles,
 }: Props) {
   const typeIsComponent = type === 'component';
@@ -33,6 +37,8 @@ export default function Empty({
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
+      width={isFullWidth ? '100%' : ''}
+      height={isFullHeight ? '100%' : ''}
       {...styles?.wrapper}
     >
       <Box {...styles?.image}>{image}</Box>

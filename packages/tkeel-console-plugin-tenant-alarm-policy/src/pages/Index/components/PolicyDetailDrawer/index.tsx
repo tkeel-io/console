@@ -1,4 +1,4 @@
-import { Flex, StyleProps, Switch, Text } from '@chakra-ui/react';
+import { Flex, StyleProps, Text } from '@chakra-ui/react';
 
 import {
   AlarmInfoCard,
@@ -6,20 +6,38 @@ import {
   AlarmRuleTypeTag,
   NotificationObjectsInfoCard,
 } from '@tkeel/console-business-components';
-import { Drawer, MoreAction } from '@tkeel/console-components';
+import { Drawer, MoreAction, Tooltip } from '@tkeel/console-components';
+import { ComputingLampTwoToneIcon } from '@tkeel/console-icons';
+import { useAlarmNoticeGroupsQuery } from '@tkeel/console-request-hooks';
+import { AlarmSourceObject } from '@tkeel/console-types';
 
 import DeletePolicyButton from '@/tkeel-console-plugin-tenant-alarm-policy/components/DeletePolicyButton';
 import ModifyPolicyButton from '@/tkeel-console-plugin-tenant-alarm-policy/components/ModifyPolicyButton';
-import { ALARM_TYPE_MAP } from '@/tkeel-console-plugin-tenant-alarm-policy/constants';
+import {
+  ALARM_SOURCE_OBJECT_MAP,
+  ALARM_TYPE_MAP,
+} from '@/tkeel-console-plugin-tenant-alarm-policy/constants';
 import type { Policy } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
+
+import SwitchStatusButton from '../SwitchStatusButton';
 
 type Props = {
   policy: Policy;
   isOpen: boolean;
   onClose: () => void;
+  refetchData: () => unknown;
 };
 
-export default function PolicyDetailDrawer({ policy, isOpen, onClose }: Props) {
+export default function PolicyDetailDrawer({
+  policy,
+  isOpen,
+  onClose,
+  refetchData,
+}: Props) {
+  const { alarmNoticeGroups, isFetched } = useAlarmNoticeGroupsQuery({
+    noticeId: policy.noticeId,
+  });
+
   const alarmInfoArr = [
     {
       label: '告警策略名称',
@@ -39,11 +57,29 @@ export default function PolicyDetailDrawer({ policy, isOpen, onClose }: Props) {
     },
     {
       label: '告警源对象',
-      value: policy.alarmSourceObject,
+      value:
+        policy.alarmSourceObject === AlarmSourceObject.Device ? (
+          <Flex alignItems="center">
+            <ComputingLampTwoToneIcon />
+            <Tooltip label={policy.deviceName}>
+              <Text marginLeft="2px" width="170px" noOfLines={1}>
+                {policy.deviceName}
+              </Text>
+            </Tooltip>
+          </Flex>
+        ) : (
+          ALARM_SOURCE_OBJECT_MAP[policy.alarmSourceObject] || ''
+        ),
     },
     {
       label: '告警源对象ID',
-      value: policy.deviceId || '',
+      value: (
+        <Tooltip label={policy.deviceId || ''}>
+          <Text width="200px" noOfLines={1}>
+            {policy.deviceId || '-'}
+          </Text>
+        </Tooltip>
+      ),
     },
     {
       label: '规则描述',
@@ -72,15 +108,24 @@ export default function PolicyDetailDrawer({ policy, isOpen, onClose }: Props) {
             <Text color="gray.700" fontSize="12px" fontWeight="500">
               状态：
             </Text>
-            <Switch size="sm" marginRight="10px" />
+            <SwitchStatusButton
+              status={policy.enable}
+              ruleId={policy.ruleId}
+              onSuccess={() => refetchData()}
+            />
             <MoreAction
+              sx={{ marginLeft: '4px' }}
               styles={{ actionList: { width: '124px' } }}
               buttons={[
-                <ModifyPolicyButton key="modify" />,
+                <ModifyPolicyButton
+                  key="modify"
+                  policy={policy}
+                  onSuccess={() => refetchData()}
+                />,
                 <DeletePolicyButton
                   key="delete"
                   policy={policy}
-                  onSuccess={() => {}}
+                  onSuccess={() => refetchData()}
                 />,
               ]}
             />
@@ -90,7 +135,10 @@ export default function PolicyDetailDrawer({ policy, isOpen, onClose }: Props) {
         <Text marginBottom="8px" {...titleStyle} marginTop="20px">
           通知对象
         </Text>
-        <NotificationObjectsInfoCard />
+        <NotificationObjectsInfoCard
+          isFetched={isFetched}
+          groups={alarmNoticeGroups}
+        />
       </Flex>
     </Drawer>
   );

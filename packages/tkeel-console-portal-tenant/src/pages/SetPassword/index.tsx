@@ -4,7 +4,10 @@ import { useSearchParams } from 'react-router-dom';
 
 import { LoginBackgroundLogo } from '@tkeel/console-business-components';
 import { Alert, Form, FormField, toast } from '@tkeel/console-components';
-import { useConfigAppearanceQuery } from '@tkeel/console-request-hooks';
+import {
+  useConfigAppearanceQuery,
+  useRevokePortalTenantTokenMutation,
+} from '@tkeel/console-request-hooks';
 import { jumpToAuthLoginPage, schemas } from '@tkeel/console-utils';
 
 import useSetPasswordMutation from '@/tkeel-console-portal-tenant/hooks/mutations/useSetPasswordMutation';
@@ -55,14 +58,36 @@ export default function SetPassword() {
     enabled: !!resetKey,
   });
 
-  const { isOpen, onOpen } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     data: resetPasswordData,
-    mutate,
-    isLoading,
+    mutate: setPasswordMutate,
+    isLoading: isSetPasswordLoading,
   } = useSetPasswordMutation({
     onSuccess() {
       onOpen();
+    },
+  });
+
+  const navigateToLoginPage = () => {
+    const tenantId = resetPasswordData?.tenant_id ?? '';
+    jumpToAuthLoginPage({
+      portalName: 'tenant',
+      tenantId,
+      searchParams: {
+        username: resetPasswordData?.username ?? '',
+      },
+      isReplace: true,
+    });
+  };
+  const {
+    tokenInfo,
+    refreshToken,
+    isLoading: isLogoutLoading,
+    mutate: logoutMutate,
+  } = useRevokePortalTenantTokenMutation({
+    onSuccess() {
+      navigateToLoginPage();
     },
   });
 
@@ -74,24 +99,11 @@ export default function SetPassword() {
       return;
     }
 
-    mutate({
+    setPasswordMutate({
       data: {
         reset_key: resetKey,
         new_password: newPassword,
       },
-    });
-  };
-
-  const navigateToLoginPage = () => {
-    const tenantId = resetPasswordData?.tenant_id ?? '';
-    jumpToAuthLoginPage({
-      portalName: 'tenant',
-      tenantId,
-      searchParams: {
-        username: resetPasswordData?.username ?? '',
-      },
-      isRemoveLocalTokenInfo: false,
-      isReplace: true,
     });
   };
 
@@ -162,7 +174,7 @@ export default function SetPassword() {
               borderRadius="4px"
               shadow="none"
               isDisabled={!isSuccess}
-              isLoading={isLoading}
+              isLoading={isSetPasswordLoading}
             >
               确定
             </Button>
@@ -174,9 +186,17 @@ export default function SetPassword() {
         icon="success"
         iconPosition="left"
         title="密码设置成功"
+        hasCloseButton={false}
         hasCancelButton={false}
-        onClose={navigateToLoginPage}
-        onConfirm={navigateToLoginPage}
+        isConfirmButtonLoading={isLogoutLoading}
+        onClose={onClose}
+        onConfirm={() => {
+          if (tokenInfo && refreshToken) {
+            logoutMutate({ data: { refresh_token: refreshToken } });
+          } else {
+            navigateToLoginPage();
+          }
+        }}
       />
     </>
   );

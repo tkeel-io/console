@@ -15,6 +15,8 @@ export interface Policy {
   alarmSourceObject: AlarmSourceObject; // 告警源对象 0：平台；1：设备
   ruleDesc: string;
   alarmType: AlarmType; // 0：基础告警；1：持续告警
+  tempId?: string;
+  tempName?: string;
   deviceId?: string;
   deviceName?: string;
   noticeId: string;
@@ -27,9 +29,9 @@ interface ApiData {
   list: Policy[];
 }
 
-export interface Props {
-  alarmRuleType?: AlarmRuleType;
+export interface RequestParams {
   alarmLevel?: AlarmLevel;
+  alarmRuleType?: AlarmRuleType;
   alarmType?: AlarmType;
   ruleName?: string;
   pageNum: number;
@@ -40,16 +42,18 @@ export default function usePolicyListQuery({
   alarmLevel,
   alarmRuleType,
   alarmType,
+  ruleName,
   pageNum,
   pageSize,
-}: Props) {
-  const { data, ...rest } = useQuery<ApiData, Props>({
+}: RequestParams) {
+  const { data, ...rest } = useQuery<ApiData, RequestParams>({
     url: '/tkeel-alarm/v1/rule/query',
     method: 'GET',
     params: {
       alarmLevel,
       alarmRuleType,
       alarmType,
+      ruleName,
       pageNum,
       pageSize,
     },

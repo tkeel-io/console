@@ -20,7 +20,7 @@ module.exports = {
           children: [
             {
               id: 'console-plugin-tenant-notification-objects',
-              name: '通知对象配置',
+              name: '通知对象',
               path: '/tenant-notification-objects',
               entry: '/static/console-plugin-tenant-notification-objects/',
               portal: 1,
