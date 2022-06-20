@@ -148,48 +148,47 @@ export default function MoreAction({
   return (
     <Box
       position="relative"
+      onClick={handleClick}
       onMouseLeave={handleMouseLeave}
       {...styles.wrapper}
     >
-      <Box onClick={handleClick}>
-        {element ||
-          (type === 'icon' ? (
-            <Circle
-              size="28px"
-              backgroundColor={showActionList ? 'gray.100' : 'transparent'}
-              cursor="pointer"
-              _hover={{
-                backgroundColor: 'gray.100',
-                '& > svg': {
-                  fill: `${colors.primary} !important`,
-                },
-              }}
-            >
-              <MoreVerticalFilledIcon
-                color={showActionList ? 'primary' : 'grayAlternatives.300'}
-              />
-            </Circle>
-          ) : (
-            <Button
-              rightIcon={
-                isActionListOpen ? (
-                  <CaretUpFilledIcon color="white" />
-                ) : (
-                  <CaretDownFilledIcon color="white" />
-                )
+      {element ||
+        (type === 'icon' ? (
+          <Circle
+            size="28px"
+            backgroundColor={showActionList ? 'gray.100' : 'transparent'}
+            cursor="pointer"
+            _hover={{
+              backgroundColor: 'gray.100',
+              '& > svg': {
+                fill: `${colors.primary} !important`,
+              },
+            }}
+          >
+            <MoreVerticalFilledIcon
+              color={showActionList ? 'primary' : 'grayAlternatives.300'}
+            />
+          </Circle>
+        ) : (
+          <Button
+            rightIcon={
+              isActionListOpen ? (
+                <CaretUpFilledIcon color="white" />
+              ) : (
+                <CaretDownFilledIcon color="white" />
+              )
+            }
+            width="92px"
+            paddingRight="18px"
+            css={`
+              > span {
+                margin-left: 1px;
               }
-              width="92px"
-              paddingRight="18px"
-              css={`
-                > span {
-                  margin-left: 1px;
-                }
-              `}
-            >
-              更多操作
-            </Button>
-          ))}
-      </Box>
+            `}
+          >
+            更多操作
+          </Button>
+        ))}
       <Box
         display={showActionList ? 'block' : 'none'}
         position="absolute"
