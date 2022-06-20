@@ -65,7 +65,7 @@ export default function PolicyTable({ alarmRuleType }: Props) {
     pageSize,
   };
 
-  const { policyList, total, isLoading, isFetching, isSuccess, refetch } =
+  const { policyList, total, isFetching, isSuccess, refetch } =
     usePolicyListQuery(params);
   if (isSuccess) {
     setTotalSize(total);
@@ -195,7 +195,6 @@ export default function PolicyTable({ alarmRuleType }: Props) {
     },
   ];
 
-  const isShowLoading = keywords ? isFetching : isLoading;
   return (
     <Flex height="100%" flexDirection="column">
       <PageHeaderToolbar
@@ -246,7 +245,7 @@ export default function PolicyTable({ alarmRuleType }: Props) {
         data={policyList}
         paginationProps={pagination}
         scroll={{ y: '100%' }}
-        isLoading={isShowLoading}
+        isLoading={isFetching}
         styles={{
           wrapper: {
             flex: 1,

@@ -10,7 +10,10 @@ import {
 import { noop } from 'lodash';
 import { ReactNode } from 'react';
 
-import { BookOpenedFilledIcon, RefreshFilledIcon } from '@tkeel/console-icons';
+import {
+  BookOpenedFilledIcon,
+  RefreshCircleFilledIcon,
+} from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
 import SearchInput, {
@@ -25,6 +28,7 @@ type Props = {
   documentsPath?: string;
   hasSearchInput?: boolean;
   hasRefreshIcon?: boolean;
+  isShowRefreshIconBg?: boolean;
   searchInputProps?: SearchInputProps;
   onRefresh?: () => unknown;
   buttons?: ReactNode[];
@@ -50,6 +54,7 @@ function PageHeaderToolbar({
   documentsPath = '',
   hasSearchInput = false,
   hasRefreshIcon = false,
+  isShowRefreshIconBg = false,
   searchInputProps = defaultSearchInputProps,
   onRefresh,
   buttons = [],
@@ -101,11 +106,19 @@ function PageHeaderToolbar({
         {hasSearchInput && <SearchInput {...siProps} />}
       </Flex>
       {hasRefreshIcon && (
-        <RefreshFilledIcon
-          color="grayAlternatives.300"
-          style={{ marginLeft: '12px', cursor: 'pointer' }}
-          onClick={() => onRefresh && onRefresh()}
-        />
+        <Center
+          marginLeft="12px"
+          width="32px"
+          height="32px"
+          borderRadius="20px"
+          cursor="pointer"
+          backgroundColor={isShowRefreshIconBg ? 'gray.100' : 'transparent'}
+        >
+          <RefreshCircleFilledIcon
+            color="grayAlternatives.300"
+            onClick={() => onRefresh && onRefresh()}
+          />
+        </Center>
       )}
       {buttons.length > 0 && (
         <Flex paddingLeft="12px">
