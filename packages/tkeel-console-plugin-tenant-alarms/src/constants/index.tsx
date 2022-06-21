@@ -12,6 +12,7 @@ import {
   LightningFilledIcon,
   WarningFilledIcon,
 } from '@tkeel/console-icons';
+import { plugin } from '@tkeel/console-utils';
 // import { AlarmSourceObject } from '@tkeel/console-types';
 
 // 告警级别 1-4 紧急-提示
@@ -114,7 +115,20 @@ export const AlarmInfoCardArr = (details: AlarmDetailType) => [
 export const AlarmPolicyInfoCardArr = (details: AlarmDetailType) => [
   {
     label: '告警策略名称',
-    value: details?.ruleName,
+    value: (
+      <Text
+        textDecoration="underline"
+        cursor="pointer"
+        onClick={() => {
+          if (details.ruleId) {
+            const { navigate } = plugin.getPortalProps().client;
+            navigate(`/tenant-alarm-policy/?id=${details.ruleId}`);
+          }
+        }}
+      >
+        {details?.ruleName}
+      </Text>
+    ),
   },
   {
     label: '告警类型',
