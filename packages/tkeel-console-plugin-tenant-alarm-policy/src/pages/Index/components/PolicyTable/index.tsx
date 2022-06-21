@@ -1,5 +1,12 @@
-import { Box, Flex, Text, useDisclosure } from '@chakra-ui/react';
-import { useCallback, useState } from 'react';
+import { Box, Flex, Text } from '@chakra-ui/react';
+import {
+  Dispatch,
+  memo,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { CellProps, Column } from 'react-table';
 
 import {
@@ -9,11 +16,7 @@ import {
   AlarmRuleTypeTag,
   AlarmTypeSelect,
 } from '@tkeel/console-business-components';
-import {
-  MoreAction,
-  PageHeaderToolbar,
-  Table,
-} from '@tkeel/console-components';
+import { PageHeaderToolbar, Table } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
 import { MailFilledIcon } from '@tkeel/console-icons';
 import {
@@ -24,12 +27,9 @@ import {
   RuleStatus,
 } from '@tkeel/console-types';
 
-import DeletePolicyButton from '@/tkeel-console-plugin-tenant-alarm-policy/components/DeletePolicyButton';
-import ModifyPolicyButton from '@/tkeel-console-plugin-tenant-alarm-policy/components/ModifyPolicyButton';
 import {
   ALARM_SOURCE_OBJECT_MAP,
   ALARM_TYPE_MAP,
-  RULE_STATUS_MAP,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/constants';
 import type {
   Policy,
@@ -39,19 +39,21 @@ import usePolicyListQuery from '@/tkeel-console-plugin-tenant-alarm-policy/hooks
 
 import ConfigureNotificationModal from '../ConfigureNotificationModal';
 import CreatePolicyButton from '../CreatePolicyButton';
-import SwitchStatusButton from '../SwitchStatusButton';
-import ViewPolicyDetailButton from '../ViewPolicyDetailButton';
+import PolicyMoreAction from '../PolicyMoreAction';
+import PolicyStatus from '../PolicyStatus';
 
 interface Props {
   alarmRuleType?: AlarmRuleType;
+  setRuleId: Dispatch<SetStateAction<number | null>>;
 }
 
-export default function PolicyTable({ alarmRuleType }: Props) {
+function PolicyTable({ alarmRuleType, setRuleId }: Props) {
   const [keywords, setKeywords] = useState('');
   const [alarmLevel, setAlarmLevel] = useState<AlarmLevel>();
   const [alarmType, setAlarmType] = useState<AlarmType>();
-  const [ruleId, setRuleId] = useState<number>();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [id, setId] = useState<number | null>();
+  const [noticeId, setNoticeId] = useState<string | null>(null);
+  const [isShowLoading, setIsShowLoading] = useState(false);
 
   const pagination = usePagination();
   const { pageNum, pageSize, setPageNum, setTotalSize } = pagination;
@@ -65,8 +67,13 @@ export default function PolicyTable({ alarmRuleType }: Props) {
     pageSize,
   };
 
-  const { policyList, total, isFetching, isSuccess, refetch } =
-    usePolicyListQuery(params);
+  const { policyList, total, isLoading, isSuccess, refetch } =
+    usePolicyListQuery({
+      params,
+      onSuccess() {
+        setIsShowLoading(false);
+      },
+    });
   if (isSuccess) {
     setTotalSize(total);
   }
@@ -80,12 +87,9 @@ export default function PolicyTable({ alarmRuleType }: Props) {
         </Flex>
       ),
       accessor: 'alarmLevel',
-      Cell: useCallback(
-        ({ value }: CellProps<Policy, AlarmLevel>) => (
-          <AlarmLevelTag level={value} />
-        ),
-        []
-      ),
+      Cell: useCallback(({ value }: CellProps<Policy, AlarmLevel>) => {
+        return <AlarmLevelTag level={value} />;
+      }, []),
     },
     {
       Header: '告警策略类型',
@@ -132,8 +136,8 @@ export default function PolicyTable({ alarmRuleType }: Props) {
         return (
           <MailFilledIcon
             onClick={() => {
-              onOpen();
-              setRuleId(row.original.ruleId);
+              setId(row.original.ruleId);
+              setNoticeId(row.original.noticeId);
             }}
             color={value ? 'primary' : 'gray.300'}
             style={{ marginLeft: '10px', cursor: 'pointer' }}
@@ -147,16 +151,13 @@ export default function PolicyTable({ alarmRuleType }: Props) {
       accessor: 'enable',
       Cell: useCallback(
         ({ value, row }: CellProps<Policy, RuleStatus>) => (
-          <Flex alignItems="center">
-            <SwitchStatusButton
-              status={value}
-              ruleId={row.original.ruleId}
-              onSuccess={() => refetch()}
-            />
-            <Text marginLeft="8px" color="gray.700" fontSize="12px">
-              {RULE_STATUS_MAP[value] || ''}
-            </Text>
-          </Flex>
+          <PolicyStatus
+            status={value}
+            ruleId={row.original.ruleId}
+            onSuccess={() => {
+              refetch();
+            }}
+          />
         ),
         // eslint-disable-next-line react-hooks/exhaustive-deps
         []
@@ -169,31 +170,20 @@ export default function PolicyTable({ alarmRuleType }: Props) {
         const { original } = row;
 
         return (
-          <MoreAction
-            styles={{ actionList: { width: '124px' } }}
-            buttons={[
-              <ModifyPolicyButton
-                key="modify"
-                policy={original}
-                onSuccess={() => refetch()}
-              />,
-              <ViewPolicyDetailButton
-                policy={original}
-                key="viewDetail"
-                refetchData={() => refetch()}
-              />,
-              <DeletePolicyButton
-                key="delete"
-                policy={original}
-                onSuccess={() => refetch()}
-              />,
-            ]}
+          <PolicyMoreAction
+            policy={original}
+            onSuccess={() => refetch()}
+            setRuleId={setRuleId}
           />
         );
         // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []),
     },
   ];
+
+  useEffect(() => {
+    setIsShowLoading(isLoading);
+  }, [isLoading]);
 
   return (
     <Flex height="100%" flexDirection="column">
@@ -228,7 +218,10 @@ export default function PolicyTable({ alarmRuleType }: Props) {
           },
         }}
         hasRefreshIcon
-        onRefresh={() => refetch()}
+        onRefresh={() => {
+          setIsShowLoading(true);
+          refetch();
+        }}
         buttons={[
           <CreatePolicyButton key="create" onSuccess={() => refetch()} />,
         ]}
@@ -245,7 +238,7 @@ export default function PolicyTable({ alarmRuleType }: Props) {
         data={policyList}
         paginationProps={pagination}
         scroll={{ y: '100%' }}
-        isLoading={isFetching}
+        isLoading={isShowLoading}
         styles={{
           wrapper: {
             flex: 1,
@@ -262,14 +255,17 @@ export default function PolicyTable({ alarmRuleType }: Props) {
           },
         }}
       />
-      {isOpen && (
+      {id !== null && (
         <ConfigureNotificationModal
-          ruleId={ruleId}
-          isOpen={isOpen}
-          onClose={onClose}
+          ruleId={id}
+          noticeId={noticeId || ''}
+          isOpen={!!id}
+          onClose={() => setId(null)}
           onSuccess={() => refetch()}
         />
       )}
     </Flex>
   );
 }
+
+export default memo(PolicyTable);
