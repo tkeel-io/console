@@ -12,7 +12,6 @@ import {
 import { Drawer } from '@tkeel/console-components';
 
 import useAlarmDetailQuery from '@/tkeel-console-plugin-tenant-alarms/hooks/queries/useAlarmDetailQuery';
-// import useAlarmNoticeQuery from '@/tkeel-console-plugin-tenant-alarms/hooks/queries/useAlarmNoticeQuery';
 import type {
   AlarmDetailType,
   AlarmItem,
@@ -38,18 +37,7 @@ function ShowDetailDrawer({ isOpen, onClose, details, enabled }: Props) {
   const alarmDetails: AlarmDetailType = {
     ...details,
     ...data,
-    // alarmSource: 1,
-    // deviceId: 'iotd-test-test-test-test',
   };
-
-  // const { data: noticeInfo } = useAlarmNoticeQuery(
-  //   {
-  //     noticeId: alarmDetails.noticeId,
-  //   },
-  //   !!alarmDetails.noticeId && enabled
-  // );
-
-  // if (noticeInfo) console.log(noticeInfo);
 
   const alarmCardArr = AlarmInfoCardArr(alarmDetails);
   const alarmPolicyInfoCardArr = AlarmPolicyInfoCardArr(alarmDetails);
@@ -67,7 +55,6 @@ function ShowDetailDrawer({ isOpen, onClose, details, enabled }: Props) {
     <Drawer title="告警详情" width="700px" isOpen={isOpen} onClose={onClose}>
       <Box padding="20px 32px">
         <DetailHeader record={details} />
-        {/* <NotificationObjectsInfoCard /> */}
 
         <Text {...titleStyle}>告警信息</Text>
         <AlarmInfoCard
@@ -91,12 +78,10 @@ function ShowDetailDrawer({ isOpen, onClose, details, enabled }: Props) {
           }}
         />
 
-        {/* {alarmDetails.noticeId && ( */}
         <>
           <Text {...titleStyle}>通知对象</Text>
-          <NotificationObjectsInfoCard />
+          <NotificationObjectsInfoCard noticeId={alarmDetails.noticeId || ''} />
         </>
-        {/* )} */}
       </Box>
     </Drawer>
   );
