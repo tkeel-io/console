@@ -1,4 +1,5 @@
 import { useDisclosure } from '@chakra-ui/react';
+import { memo } from 'react';
 
 import { MoreActionButton } from '@tkeel/console-components';
 import { TrashFilledIcon } from '@tkeel/console-icons';
@@ -14,7 +15,7 @@ type Props = {
   onSuccess: () => unknown;
 };
 
-export default function DeletePolicyButton({ policy, onSuccess }: Props) {
+function DeletePolicyButton({ policy, onSuccess }: Props) {
   const { ruleId, ruleName } = policy;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = plugin.getPortalToast();
@@ -54,3 +55,5 @@ export default function DeletePolicyButton({ policy, onSuccess }: Props) {
     </>
   );
 }
+
+export default memo(DeletePolicyButton);

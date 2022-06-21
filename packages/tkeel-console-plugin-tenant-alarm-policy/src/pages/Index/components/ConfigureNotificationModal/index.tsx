@@ -8,6 +8,7 @@ import useSetNotice from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/mutat
 
 interface Props {
   ruleId: number | undefined;
+  noticeId?: string;
   isOpen: boolean;
   onClose: () => void;
   onSuccess: () => unknown;
@@ -21,11 +22,14 @@ interface FormValues {
 
 export default function ConfigureNotificationModal({
   ruleId,
+  noticeId,
   isOpen,
   onClose,
   onSuccess,
 }: Props) {
-  const { notificationData } = useNotificationQuery({ pageSize: 100_000 });
+  const { notificationData, isFetched } = useNotificationQuery({
+    pageSize: 100_000,
+  });
 
   const { mutate } = useSetNotice({
     onSuccess() {
@@ -36,9 +40,9 @@ export default function ConfigureNotificationModal({
     },
   });
 
-  const options = notificationData.map(({ groupName, noticeId }) => ({
+  const options = notificationData.map(({ groupName, noticeId: id }) => ({
     label: groupName,
-    value: String(noticeId),
+    value: String(id),
   }));
 
   const {
@@ -67,22 +71,26 @@ export default function ConfigureNotificationModal({
     <Modal
       isOpen={isOpen}
       title="配置通知"
+      height="240px"
       onClose={onClose}
       onConfirm={handleConfirm}
     >
-      <SelectField<FormValues>
-        id="notificationObjects"
-        name="notificationObjects"
-        label="通知对象"
-        placeholder="请选择"
-        options={options}
-        mode="multiple"
-        control={control}
-        error={errors.notificationObjects}
-        rules={{
-          required: { value: true, message: '请输入告警类型' },
-        }}
-      />
+      {isFetched && (
+        <SelectField<FormValues>
+          id="notificationObjects"
+          name="notificationObjects"
+          label="通知对象"
+          placeholder="请选择"
+          options={options}
+          defaultValue={noticeId || undefined}
+          mode="multiple"
+          control={control}
+          error={errors.notificationObjects}
+          rules={{
+            required: { value: true, message: '请输入告警类型' },
+          }}
+        />
+      )}
     </Modal>
   );
 }

@@ -1,6 +1,6 @@
 import { Flex, Text } from '@chakra-ui/react';
-import { useMemo, useState } from 'react';
-import { CellProps, Column } from 'react-table';
+import { useCallback, useState } from 'react';
+import type { CellProps, Column } from 'react-table';
 
 import {
   ButtonsHStack,
@@ -64,29 +64,18 @@ export default function Users() {
     refetch();
   };
 
-  const handleModifyUserSuccess = () => {
-    toast('修改成功', { status: 'success' });
-    refetch();
-  };
-
-  const handleDeleteUserSuccess = () => {
-    toast('删除成功', { status: 'success' });
-    refetch();
-  };
-
   const columns: ReadonlyArray<Column<User>> = [
     {
       Header: '用户账号',
       accessor: 'username',
-      Cell: ({ value }: { value: string }) =>
-        useMemo(
-          () => (
-            <Text color="gray.800" fontWeight="600">
-              {value}
-            </Text>
-          ),
-          [value]
+      Cell: useCallback(
+        ({ value }: CellProps<User, User['username']>) => (
+          <Text color="gray.800" fontWeight="600">
+            {value}
+          </Text>
         ),
+        []
+      ),
     },
     {
       Header: '用户名称',
@@ -95,27 +84,39 @@ export default function Users() {
     {
       Header: '创建时间',
       accessor: 'created_at',
-      Cell: ({ value }) =>
-        useMemo(() => {
-          return value ? (
+      Cell: useCallback(
+        ({ value }: CellProps<User, User['created_at']>) =>
+          value ? (
             <Text>{formatDateTimeByTimestamp({ timestamp: value })}</Text>
-          ) : null;
-        }, [value]),
+          ) : null,
+        []
+      ),
     },
     {
       Header: '用户角色',
       accessor: 'roles',
-      Cell: ({ value = [] }) =>
-        useMemo(
-          () => <Text>{value.map(({ name }) => name).join('，')}</Text>,
-          [value]
+      Cell: useCallback(
+        ({ value = [] }: CellProps<User, User['roles']>) => (
+          <Text>{value.map(({ name }) => name).join('，')}</Text>
         ),
+        []
+      ),
     },
     {
       Header: '操作',
-      Cell: ({ row }: CellProps<User>) =>
-        useMemo(() => {
+      Cell: useCallback(
+        ({ row }: CellProps<User>) => {
           const { original } = row;
+
+          const handleModifyUserSuccess = () => {
+            toast('修改成功', { status: 'success' });
+            refetch();
+          };
+
+          const handleDeleteUserSuccess = () => {
+            toast('删除成功', { status: 'success' });
+            refetch();
+          };
 
           return (
             <ButtonsHStack>
@@ -132,7 +133,9 @@ export default function Users() {
               />
             </ButtonsHStack>
           );
-        }, [row]),
+        },
+        [authType, isInternal, refetch, toast]
+      ),
     },
   ];
 

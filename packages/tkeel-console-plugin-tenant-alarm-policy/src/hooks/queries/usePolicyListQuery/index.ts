@@ -6,19 +6,20 @@ import {
   AlarmType,
   RuleStatus,
 } from '@tkeel/console-types';
+import { RequestResult } from '@tkeel/console-utils';
 
 export interface Policy {
   ruleId: number;
+  ruleName: string;
+  ruleDesc: string;
   alarmLevel: AlarmLevel; // 告警级别：1 2 3 4; 1级最高，4级最低
   alarmRuleType: AlarmRuleType; // 0：阈值告警；1：系统告警
-  ruleName: string;
   alarmSourceObject: AlarmSourceObject; // 告警源对象 0：平台；1：设备
-  ruleDesc: string;
   alarmType: AlarmType; // 0：基础告警；1：持续告警
   tempId?: string;
   tempName?: string;
-  deviceId?: string;
-  deviceName?: string;
+  deviceId?: string | null;
+  deviceName?: string | null;
   noticeId: string;
   enable: RuleStatus; // 0：停用；1：启用
 }
@@ -38,14 +39,14 @@ export interface RequestParams {
   pageSize: number;
 }
 
-export default function usePolicyListQuery({
-  alarmLevel,
-  alarmRuleType,
-  alarmType,
-  ruleName,
-  pageNum,
-  pageSize,
-}: RequestParams) {
+interface Props {
+  params: RequestParams;
+  onSuccess?: (data: RequestResult<ApiData, RequestParams, undefined>) => void;
+}
+
+export default function usePolicyListQuery({ params, onSuccess }: Props) {
+  const { alarmLevel, alarmRuleType, alarmType, ruleName, pageNum, pageSize } =
+    params;
   const { data, ...rest } = useQuery<ApiData, RequestParams>({
     url: '/tkeel-alarm/v1/rule/query',
     method: 'GET',
@@ -56,6 +57,10 @@ export default function usePolicyListQuery({
       ruleName,
       pageNum,
       pageSize,
+    },
+    reactQueryOptions: {
+      onSuccess,
+      queryKey: 'policyList',
     },
   });
   const policyList = data?.list || [];
