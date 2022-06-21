@@ -15,14 +15,47 @@ function getQueryParamsLastTimes({
   unit,
   timeValue,
   step,
+  endTimeType = 'now',
+  startTimeType = 'fromEndTime',
 }: GetQueryParamsLastTimesOptions) {
-  const current = getTimestamp();
-  const et = dayjs(current).startOf(unit).valueOf();
-  const st = dayjs(et)
+  const now = getTimestamp();
+  let [et, endTimeForStartTime] = [0, 0];
+
+  switch (endTimeType) {
+    case 'now':
+      et = now;
+      break;
+    case 'startOfNow':
+      et = dayjs(now).startOf(unit).valueOf();
+      break;
+    case 'nextStartOfUnit':
+      et = dayjs(now).endOf(unit).valueOf() + 1;
+      break;
+    default:
+      et = now;
+      break;
+  }
+
+  switch (startTimeType) {
+    case 'fromEndTime':
+      endTimeForStartTime = et;
+      break;
+    case 'fromStartOfEndTime':
+      endTimeForStartTime = dayjs(et).startOf(unit).valueOf();
+      break;
+    case 'fromEndOfEndTime':
+      endTimeForStartTime = dayjs(et).endOf(unit).valueOf();
+      break;
+    default:
+      endTimeForStartTime = et;
+      break;
+  }
+
+  const st = dayjs(endTimeForStartTime)
     .subtract(timeValue - 1, unit)
     .valueOf();
 
-  return { st, et: current, step };
+  return { st, et, step };
 }
 
 export function getQueryParamsLast24Hours() {
@@ -30,6 +63,7 @@ export function getQueryParamsLast24Hours() {
     unit: 'hour',
     timeValue: 24,
     step: '1h',
+    startTimeType: 'fromStartOfEndTime',
   });
 }
 
@@ -38,11 +72,17 @@ export function getQueryParamsLast24HoursPer5Mins() {
     unit: 'hour',
     timeValue: 24,
     step: '5m',
+    startTimeType: 'fromStartOfEndTime',
   });
 }
 
 export function getQueryParamsLast7Days() {
-  return getQueryParamsLastTimes({ unit: 'day', timeValue: 7, step: '24h' });
+  return getQueryParamsLastTimes({
+    unit: 'day',
+    timeValue: 7,
+    step: '24h',
+    endTimeType: 'nextStartOfUnit',
+  });
 }
 
 function findQueryItemInResults({
