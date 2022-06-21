@@ -26,6 +26,7 @@ export default function PortalTenantLogin({
             | string
             | undefined
         }
+        styles={{ logo: styles?.logo }}
         sx={{ flex: 1 }}
       />
       <Center flexDirection="column" width="42%" minWidth="370px">
