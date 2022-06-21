@@ -37,16 +37,19 @@ export default function DataTypeConfigs({
   const watchFields = watch();
   const { fields, append, remove } = fieldArrayHandler;
   const { append: extendedAppend, remove: extendedRemove } =
-    extendedArrayHandler as UseFieldArrayReturn<
+    (extendedArrayHandler as UseFieldArrayReturn<
       TelemetryFormField,
       'extendInfo',
       'id'
-    >;
+    >) || {
+      append: () => {},
+      remove: () => {},
+    };
 
   const item = DATA_TYPE.find((v) => v.value === dataType);
 
   const extendedAppendEnum = (key: string) => {
-    if (key === 'enum') {
+    if (key === 'enum' && supportExtendedConfig) {
       extendedAppend([
         {
           label: '1',
@@ -91,7 +94,7 @@ export default function DataTypeConfigs({
                         (v) => v.key === key
                       );
                       remove(index);
-                      if (key === 'enum') {
+                      if (key === 'enum' && supportExtendedConfig) {
                         extendedRemove();
                       }
                     }
