@@ -14,14 +14,31 @@ import type {
   GetHourTimestampOptions,
 } from './types';
 
-function fillDataLastTimes({ data, unit, timeValue }: FillDataLastTimes) {
-  const current = getTimestamp();
-  const startOfTime = dayjs(current).startOf(unit).valueOf();
+function fillDataLastTimes({
+  data,
+  unit,
+  timeValue,
+  endTimeType = 'startOfNow',
+}: FillDataLastTimes) {
+  const now = getTimestamp();
+  let endTime = 0;
+
+  switch (endTimeType) {
+    case 'startOfNow':
+      endTime = dayjs(now).startOf(unit).valueOf();
+      break;
+    case 'nextStartOfUnit':
+      endTime = dayjs(now).endOf(unit).valueOf() + 1;
+      break;
+    default:
+      endTime = dayjs(now).startOf(unit).valueOf();
+      break;
+  }
 
   return Array.from({ length: timeValue })
     .fill(1)
     .map((_, index) => {
-      const timestamp = dayjs(startOfTime)
+      const timestamp = dayjs(endTime)
         .subtract(timeValue - index - 1, unit)
         .valueOf();
       const item = find(data, { timestamp });
@@ -35,11 +52,21 @@ function fillDataLastTimes({ data, unit, timeValue }: FillDataLastTimes) {
 }
 
 export function fillDataLast24Hours({ data }: FillDataLastCommonTimes) {
-  return fillDataLastTimes({ data, unit: 'hour', timeValue: 24 });
+  return fillDataLastTimes({
+    data,
+    unit: 'hour',
+    timeValue: 24,
+    endTimeType: 'startOfNow',
+  });
 }
 
 export function fillDataLast7Days({ data }: FillDataLastCommonTimes) {
-  return fillDataLastTimes({ data, unit: 'day', timeValue: 7 });
+  return fillDataLastTimes({
+    data,
+    unit: 'day',
+    timeValue: 7,
+    endTimeType: 'nextStartOfUnit',
+  });
 }
 
 export function formatTimestampItem({

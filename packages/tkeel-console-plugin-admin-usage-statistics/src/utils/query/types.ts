@@ -9,6 +9,8 @@ interface GetQueryParamsLastTimesOptions {
   unit: ManipulateType;
   timeValue: number;
   step: string;
+  endTimeType?: 'now' | 'startOfNow' | 'nextStartOfUnit';
+  startTimeType?: 'fromEndTime' | 'fromStartOfEndTime' | 'fromEndOfEndTime';
 }
 
 interface FindQueryItemInResultsOptions {
