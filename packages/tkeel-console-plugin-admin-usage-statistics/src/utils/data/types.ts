@@ -9,6 +9,7 @@ interface FillDataLastTimes {
   data: ValueItem[];
   unit: ManipulateType;
   timeValue: number;
+  endTimeType?: 'startOfNow' | 'nextStartOfUnit';
 }
 
 type FillDataLastCommonTimes = Omit<FillDataLastTimes, 'unit' | 'timeValue'>;

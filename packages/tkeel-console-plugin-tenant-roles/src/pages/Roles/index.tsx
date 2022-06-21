@@ -1,6 +1,6 @@
 import { Flex, Text, Tooltip } from '@chakra-ui/react';
-import { useMemo, useState } from 'react';
-import { CellProps, Column } from 'react-table';
+import { useCallback, useState } from 'react';
+import type { CellProps, Column } from 'react-table';
 
 import {
   ButtonsHStack,
@@ -48,29 +48,18 @@ export default function Roles() {
     refetch();
   };
 
-  const handleModifyRoleSuccess = () => {
-    toast('修改成功', { status: 'success' });
-    refetch();
-  };
-
-  const handleDeleteRoleSuccess = () => {
-    toast('删除成功', { status: 'success' });
-    refetch();
-  };
-
   const columns: ReadonlyArray<Column<Role>> = [
     {
       Header: '角色名称',
       accessor: 'name',
-      Cell: ({ value }: { value: string }) =>
-        useMemo(
-          () => (
-            <Text color="gray.800" fontWeight="600">
-              {value}
-            </Text>
-          ),
-          [value]
+      Cell: useCallback(
+        ({ value }: CellProps<Role, Role['name']>) => (
+          <Text color="gray.800" fontWeight="600">
+            {value}
+          </Text>
         ),
+        []
+      ),
     },
     {
       Header: '描述',
@@ -79,17 +68,19 @@ export default function Roles() {
     {
       Header: '权限资源',
       accessor: 'permission_list',
-      Cell: ({ value = [] }) => {
-        const names = value.map(({ permission }) => permission.name).join('，');
-        return useMemo(
-          () => (
+      Cell: useCallback(
+        ({ value = [] }: CellProps<Role, Role['permission_list']>) => {
+          const names = value
+            .map(({ permission }) => permission.name)
+            .join('，');
+          return (
             <Tooltip label={names}>
               <Text noOfLines={1}>{names}</Text>
             </Tooltip>
-          ),
-          [names]
-        );
-      },
+          );
+        },
+        []
+      ),
     },
     {
       Header: '绑定用户数',
@@ -97,18 +88,28 @@ export default function Roles() {
     },
     {
       Header: '操作',
-      Cell({ row }: CellProps<Role>) {
-        const { original } = row;
-        const {
-          id,
-          name,
-          desc,
-          uneditable,
-          permission_list: permissionList,
-        } = original;
-        const permissionPaths = permissionList.map(({ path }) => path);
+      Cell: useCallback(
+        ({ row }: CellProps<Role>) => {
+          const { original } = row;
+          const {
+            id,
+            name,
+            desc,
+            uneditable,
+            permission_list: permissionList,
+          } = original;
+          const permissionPaths = permissionList.map(({ path }) => path);
 
-        return useMemo(() => {
+          const handleModifyRoleSuccess = () => {
+            toast('修改成功', { status: 'success' });
+            refetch();
+          };
+
+          const handleDeleteRoleSuccess = () => {
+            toast('删除成功', { status: 'success' });
+            refetch();
+          };
+
           if (uneditable) {
             return null;
           }
@@ -130,8 +131,9 @@ export default function Roles() {
               />
             </ButtonsHStack>
           );
-        }, [id, name, desc, uneditable, permissionPaths]);
-      },
+        },
+        [refetch, toast]
+      ),
     },
   ];
 
