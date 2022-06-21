@@ -1,5 +1,6 @@
 import { Flex, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+import { useQueryClient } from 'react-query';
 import { useSearchParams } from 'react-router-dom';
 
 import {
@@ -17,6 +18,7 @@ export default function Index() {
   const id = searchParams.get('id');
   const defaultRuleId = !!id && !Number.isNaN(Number(id)) ? Number(id) : null;
   const [ruleId, setRuleId] = useState<number | null>(defaultRuleId);
+  const queryClient = useQueryClient();
 
   const mapTabs = [
     {
@@ -79,7 +81,9 @@ export default function Index() {
         <PolicyDetailDrawer
           ruleId={ruleId}
           onClose={() => setRuleId(null)}
-          refetchData={() => {}}
+          refetchData={() => {
+            queryClient.invalidateQueries('policyList');
+          }}
         />
       )}
     </Flex>

@@ -29,7 +29,7 @@ type Props = {
 };
 
 function PolicyDetailDrawer({ ruleId, onClose, refetchData }: Props) {
-  const { ruleDetail } = useAlarmRuleDetailQuery({ ruleId });
+  const { ruleDetail, refetch } = useAlarmRuleDetailQuery({ ruleId });
   let alarmSourceObject: ReactNode = '-';
   if (ruleDetail?.alarmSourceObject === AlarmSourceObject.Device) {
     alarmSourceObject = (
@@ -101,6 +101,11 @@ function PolicyDetailDrawer({ ruleId, onClose, refetchData }: Props) {
     lineHeight: '24px',
   };
 
+  const handleSuccess = () => {
+    refetch();
+    refetchData();
+  };
+
   return (
     <Drawer
       id="policyDetail"
@@ -120,7 +125,7 @@ function PolicyDetailDrawer({ ruleId, onClose, refetchData }: Props) {
               <SwitchStatusButton
                 status={ruleDetail?.enable}
                 ruleId={ruleDetail?.ruleId}
-                onSuccess={() => refetchData()}
+                onSuccess={handleSuccess}
               />
             )}
             <MoreAction
@@ -132,12 +137,12 @@ function PolicyDetailDrawer({ ruleId, onClose, refetchData }: Props) {
                       <ModifyPolicyButton
                         key="modify"
                         policy={ruleDetail as Policy}
-                        onSuccess={() => refetchData()}
+                        onSuccess={handleSuccess}
                       />,
                       <DeletePolicyButton
                         key="delete"
                         policy={ruleDetail as Policy}
-                        onSuccess={() => refetchData()}
+                        onSuccess={handleSuccess}
                       />,
                     ]
                   : []
