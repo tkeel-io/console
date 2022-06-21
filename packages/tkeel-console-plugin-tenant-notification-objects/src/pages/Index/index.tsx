@@ -45,7 +45,7 @@ export default function Index() {
       <PageHeader
         icon={<HornTwoToneIcon size={40} />}
         name="通知对象"
-        desc="通知对象配置"
+        desc="通知对象"
       />
       <Flex
         m="16px 0 0"

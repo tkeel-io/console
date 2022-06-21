@@ -1,0 +1,15 @@
+annotations:
+  tkeel.io/deployment-name: console-plugin-tenant-notification-objects
+  tkeel.io/enable: 'true'
+  tkeel.io/plugin-port: '80'
+  tkeel.io/tag: manager
+  tkeel.io/version: v0.4.0
+apiVersion: v2
+appVersion: 0.4.0-alpha.2
+description: tenant and user console
+maintainers:
+  - email: caoyue@yunify.com
+    name: caoyue
+name: console-plugin-tenant-notification-objects
+type: application
+version: 0.4.3

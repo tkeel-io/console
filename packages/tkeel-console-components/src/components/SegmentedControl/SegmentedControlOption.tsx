@@ -17,7 +17,7 @@ interface Props extends UseRadioProps {
 
 export type { Props };
 
-export default function Radio({
+export default function SegmentedControlOption({
   label,
   sx,
   styles: customStyles,

@@ -1,16 +1,16 @@
 import { useMutation } from '@tkeel/console-hooks';
 
-type RequestData = {
+interface RequestData {
   reset_key: string;
   new_password: string;
-};
+}
 
-type ApiData = {
+interface ApiData {
   '@type': string;
   has_reset: boolean;
   tenant_id: string;
   username: string;
-};
+}
 
 export default function useSetPasswordMutation({
   onSuccess,
