@@ -1,5 +1,5 @@
 import { Flex, StyleProps, Text } from '@chakra-ui/react';
-import { ReactNode } from 'react';
+import { memo, ReactNode } from 'react';
 
 import {
   AlarmInfoCard,
@@ -28,11 +28,7 @@ type Props = {
   refetchData: () => void;
 };
 
-export default function PolicyDetailDrawer({
-  ruleId,
-  onClose,
-  refetchData,
-}: Props) {
+function PolicyDetailDrawer({ ruleId, onClose, refetchData }: Props) {
   const { ruleDetail } = useAlarmRuleDetailQuery({ ruleId });
   let alarmSourceObject: ReactNode = '-';
   if (ruleDetail?.alarmSourceObject === AlarmSourceObject.Device) {
@@ -158,3 +154,5 @@ export default function PolicyDetailDrawer({
     </Drawer>
   );
 }
+
+export default memo(PolicyDetailDrawer);

@@ -16,14 +16,9 @@ import {
   AlarmRuleTypeTag,
   AlarmTypeSelect,
 } from '@tkeel/console-business-components';
-import {
-  MoreAction,
-  MoreActionButton,
-  PageHeaderToolbar,
-  Table,
-} from '@tkeel/console-components';
+import { PageHeaderToolbar, Table } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
-import { EyeFilledIcon, MailFilledIcon } from '@tkeel/console-icons';
+import { MailFilledIcon } from '@tkeel/console-icons';
 import {
   AlarmLevel,
   AlarmRuleType,
@@ -32,12 +27,9 @@ import {
   RuleStatus,
 } from '@tkeel/console-types';
 
-import DeletePolicyButton from '@/tkeel-console-plugin-tenant-alarm-policy/components/DeletePolicyButton';
-import ModifyPolicyButton from '@/tkeel-console-plugin-tenant-alarm-policy/components/ModifyPolicyButton';
 import {
   ALARM_SOURCE_OBJECT_MAP,
   ALARM_TYPE_MAP,
-  RULE_STATUS_MAP,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/constants';
 import type {
   Policy,
@@ -47,7 +39,8 @@ import usePolicyListQuery from '@/tkeel-console-plugin-tenant-alarm-policy/hooks
 
 import ConfigureNotificationModal from '../ConfigureNotificationModal';
 import CreatePolicyButton from '../CreatePolicyButton';
-import SwitchStatusButton from '../SwitchStatusButton';
+import PolicyMoreAction from '../PolicyMoreAction';
+import PolicyStatus from '../PolicyStatus';
 
 interface Props {
   alarmRuleType?: AlarmRuleType;
@@ -158,16 +151,13 @@ function PolicyTable({ alarmRuleType, setRuleId }: Props) {
       accessor: 'enable',
       Cell: useCallback(
         ({ value, row }: CellProps<Policy, RuleStatus>) => (
-          <Flex alignItems="center">
-            <SwitchStatusButton
-              status={value}
-              ruleId={row.original.ruleId}
-              onSuccess={() => refetch()}
-            />
-            <Text marginLeft="8px" color="gray.700" fontSize="12px">
-              {RULE_STATUS_MAP[value] || ''}
-            </Text>
-          </Flex>
+          <PolicyStatus
+            status={value}
+            ruleId={row.original.ruleId}
+            onSuccess={() => {
+              refetch();
+            }}
+          />
         ),
         // eslint-disable-next-line react-hooks/exhaustive-deps
         []
@@ -180,30 +170,10 @@ function PolicyTable({ alarmRuleType, setRuleId }: Props) {
         const { original } = row;
 
         return (
-          <MoreAction
-            styles={{ actionList: { width: '124px' } }}
-            buttons={[
-              <ModifyPolicyButton
-                key="modify"
-                policy={original}
-                onSuccess={() => refetch()}
-              />,
-              <MoreActionButton
-                key="viewDetail"
-                icon={
-                  <EyeFilledIcon size="12px" color="grayAlternatives.300" />
-                }
-                title="查看策略详情"
-                onClick={() => {
-                  setRuleId(original.ruleId);
-                }}
-              />,
-              <DeletePolicyButton
-                key="delete"
-                policy={original}
-                onSuccess={() => refetch()}
-              />,
-            ]}
+          <PolicyMoreAction
+            policy={original}
+            onSuccess={() => refetch()}
+            setRuleId={setRuleId}
           />
         );
         // eslint-disable-next-line react-hooks/exhaustive-deps

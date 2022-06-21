@@ -51,7 +51,13 @@ export default function Index() {
         // TODO: 加文档
         // documentsPath={}
       />
-      <Tabs flex="1" overflow="hidden" display="flex" flexDirection="column">
+      <Tabs
+        isLazy
+        flex="1"
+        overflow="hidden"
+        display="flex"
+        flexDirection="column"
+      >
         <SegmentedControlTabList
           sx={{ margin: '10px 0', width: 'max-content' }}
         >

@@ -1,4 +1,5 @@
 import { useDisclosure } from '@chakra-ui/react';
+import { memo } from 'react';
 
 import { MoreActionButton } from '@tkeel/console-components';
 import { PencilFilledIcon } from '@tkeel/console-icons';
@@ -14,7 +15,7 @@ interface Props {
   onSuccess: () => unknown;
 }
 
-export default function ModifyPolicyButton({ policy, onSuccess }: Props) {
+function ModifyPolicyButton({ policy, onSuccess }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { ruleDescList } = useRuleDescQuery({
@@ -53,3 +54,5 @@ export default function ModifyPolicyButton({ policy, onSuccess }: Props) {
     </>
   );
 }
+
+export default memo(ModifyPolicyButton);
