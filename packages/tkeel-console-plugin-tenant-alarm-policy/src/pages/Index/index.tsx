@@ -1,4 +1,6 @@
 import { Flex, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import {
   PageHeader,
@@ -7,26 +9,38 @@ import {
 } from '@tkeel/console-components';
 import { BellGearTwoToneIcon } from '@tkeel/console-icons';
 
+import PolicyDetailDrawer from './components/PolicyDetailDrawer';
 import PolicyTable from './components/PolicyTable';
 
 export default function Index() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const id = searchParams.get('id');
+  const defaultRuleId = !!id && !Number.isNaN(Number(id)) ? Number(id) : null;
+  const [ruleId, setRuleId] = useState<number | null>(defaultRuleId);
+
   const mapTabs = [
     {
       label: '全部策略',
       key: 'all',
-      component: <PolicyTable />,
+      component: <PolicyTable setRuleId={setRuleId} />,
     },
     {
       label: '阈值告警',
       key: 'threshold',
-      component: <PolicyTable alarmRuleType={0} />,
+      component: <PolicyTable alarmRuleType={0} setRuleId={setRuleId} />,
     },
     {
       label: '系统告警',
       key: 'system',
-      component: <PolicyTable alarmRuleType={1} />,
+      component: <PolicyTable alarmRuleType={1} setRuleId={setRuleId} />,
     },
   ];
+
+  useEffect(() => {
+    searchParams.delete('id');
+    setSearchParams(searchParams);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Flex paddingTop="8px" flexDirection="column" height="100%">
@@ -55,6 +69,13 @@ export default function Index() {
           ))}
         </TabPanels>
       </Tabs>
+      {ruleId && (
+        <PolicyDetailDrawer
+          ruleId={ruleId}
+          onClose={() => setRuleId(null)}
+          refetchData={() => {}}
+        />
+      )}
     </Flex>
   );
 }

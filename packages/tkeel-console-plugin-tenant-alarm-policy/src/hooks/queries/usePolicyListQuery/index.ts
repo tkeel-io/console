@@ -10,16 +10,16 @@ import { RequestResult } from '@tkeel/console-utils';
 
 export interface Policy {
   ruleId: number;
+  ruleName: string;
+  ruleDesc: string;
   alarmLevel: AlarmLevel; // 告警级别：1 2 3 4; 1级最高，4级最低
   alarmRuleType: AlarmRuleType; // 0：阈值告警；1：系统告警
-  ruleName: string;
   alarmSourceObject: AlarmSourceObject; // 告警源对象 0：平台；1：设备
-  ruleDesc: string;
   alarmType: AlarmType; // 0：基础告警；1：持续告警
   tempId?: string;
   tempName?: string;
-  deviceId?: string;
-  deviceName?: string;
+  deviceId?: string | null;
+  deviceName?: string | null;
   noticeId: string;
   enable: RuleStatus; // 0：停用；1：启用
 }

@@ -1,5 +1,12 @@
-import { Box, Flex, Text, useDisclosure } from '@chakra-ui/react';
-import { useCallback, useEffect, useState } from 'react';
+import { Box, Flex, Text } from '@chakra-ui/react';
+import {
+  Dispatch,
+  memo,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { CellProps, Column } from 'react-table';
 
 import {
@@ -11,11 +18,12 @@ import {
 } from '@tkeel/console-business-components';
 import {
   MoreAction,
+  MoreActionButton,
   PageHeaderToolbar,
   Table,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
-import { MailFilledIcon } from '@tkeel/console-icons';
+import { EyeFilledIcon, MailFilledIcon } from '@tkeel/console-icons';
 import {
   AlarmLevel,
   AlarmRuleType,
@@ -40,19 +48,18 @@ import usePolicyListQuery from '@/tkeel-console-plugin-tenant-alarm-policy/hooks
 import ConfigureNotificationModal from '../ConfigureNotificationModal';
 import CreatePolicyButton from '../CreatePolicyButton';
 import SwitchStatusButton from '../SwitchStatusButton';
-import ViewPolicyDetailButton from '../ViewPolicyDetailButton';
 
 interface Props {
   alarmRuleType?: AlarmRuleType;
+  setRuleId: Dispatch<SetStateAction<number | null>>;
 }
 
-export default function PolicyTable({ alarmRuleType }: Props) {
+function PolicyTable({ alarmRuleType, setRuleId }: Props) {
   const [keywords, setKeywords] = useState('');
   const [alarmLevel, setAlarmLevel] = useState<AlarmLevel>();
   const [alarmType, setAlarmType] = useState<AlarmType>();
-  const [ruleId, setRuleId] = useState<number>();
+  const [id, setId] = useState<number | null>();
   const [noticeId, setNoticeId] = useState<string | null>(null);
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [isShowLoading, setIsShowLoading] = useState(false);
 
   const pagination = usePagination();
@@ -87,12 +94,9 @@ export default function PolicyTable({ alarmRuleType }: Props) {
         </Flex>
       ),
       accessor: 'alarmLevel',
-      Cell: useCallback(
-        ({ value }: CellProps<Policy, AlarmLevel>) => (
-          <AlarmLevelTag level={value} />
-        ),
-        []
-      ),
+      Cell: useCallback(({ value }: CellProps<Policy, AlarmLevel>) => {
+        return <AlarmLevelTag level={value} />;
+      }, []),
     },
     {
       Header: '告警策略类型',
@@ -139,8 +143,7 @@ export default function PolicyTable({ alarmRuleType }: Props) {
         return (
           <MailFilledIcon
             onClick={() => {
-              onOpen();
-              setRuleId(row.original.ruleId);
+              setId(row.original.ruleId);
               setNoticeId(row.original.noticeId);
             }}
             color={value ? 'primary' : 'gray.300'}
@@ -185,10 +188,15 @@ export default function PolicyTable({ alarmRuleType }: Props) {
                 policy={original}
                 onSuccess={() => refetch()}
               />,
-              <ViewPolicyDetailButton
-                policy={original}
+              <MoreActionButton
                 key="viewDetail"
-                refetchData={() => refetch()}
+                icon={
+                  <EyeFilledIcon size="12px" color="grayAlternatives.300" />
+                }
+                title="查看策略详情"
+                onClick={() => {
+                  setRuleId(original.ruleId);
+                }}
               />,
               <DeletePolicyButton
                 key="delete"
@@ -277,15 +285,17 @@ export default function PolicyTable({ alarmRuleType }: Props) {
           },
         }}
       />
-      {isOpen && (
+      {id !== null && (
         <ConfigureNotificationModal
-          ruleId={ruleId}
+          ruleId={id}
           noticeId={noticeId || ''}
-          isOpen={isOpen}
-          onClose={onClose}
+          isOpen={!!id}
+          onClose={() => setId(null)}
           onSuccess={() => refetch()}
         />
       )}
     </Flex>
   );
 }
+
+export default memo(PolicyTable);

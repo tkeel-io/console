@@ -1,4 +1,5 @@
 import { Flex, StyleProps, Text } from '@chakra-ui/react';
+import { ReactNode } from 'react';
 
 import {
   AlarmInfoCard,
@@ -8,6 +9,7 @@ import {
 } from '@tkeel/console-business-components';
 import { Drawer, MoreAction, Tooltip } from '@tkeel/console-components';
 import { ComputingLampTwoToneIcon } from '@tkeel/console-icons';
+import { useAlarmRuleDetailQuery } from '@tkeel/console-request-hooks';
 import { AlarmSourceObject } from '@tkeel/console-types';
 
 import DeletePolicyButton from '@/tkeel-console-plugin-tenant-alarm-policy/components/DeletePolicyButton';
@@ -21,64 +23,78 @@ import type { Policy } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/qu
 import SwitchStatusButton from '../SwitchStatusButton';
 
 type Props = {
-  policy: Policy;
-  isOpen: boolean;
+  ruleId: number;
   onClose: () => void;
-  refetchData: () => unknown;
+  refetchData: () => void;
 };
 
 export default function PolicyDetailDrawer({
-  policy,
-  isOpen,
+  ruleId,
   onClose,
   refetchData,
 }: Props) {
+  const { ruleDetail } = useAlarmRuleDetailQuery({ ruleId });
+  let alarmSourceObject: ReactNode = '-';
+  if (ruleDetail?.alarmSourceObject === AlarmSourceObject.Device) {
+    alarmSourceObject = (
+      <Flex alignItems="center">
+        <ComputingLampTwoToneIcon />
+        <Tooltip label={ruleDetail?.deviceName}>
+          <Text marginLeft="2px" width="170px" noOfLines={1}>
+            {ruleDetail?.deviceName}
+          </Text>
+        </Tooltip>
+      </Flex>
+    );
+  } else if (ruleDetail?.alarmSourceObject) {
+    alarmSourceObject = ALARM_SOURCE_OBJECT_MAP[ruleDetail?.alarmSourceObject];
+  }
+
   const alarmInfoArr = [
     {
       label: '告警策略名称',
-      value: policy.ruleName,
+      value: ruleDetail?.ruleName,
     },
     {
       label: '告警类型',
-      value: ALARM_TYPE_MAP[policy.alarmType] || '',
+      value:
+        ruleDetail?.alarmType === undefined
+          ? '-'
+          : ALARM_TYPE_MAP[ruleDetail?.alarmType],
     },
     {
       label: '告警策略类型',
-      value: <AlarmRuleTypeTag type={policy.alarmRuleType} />,
+      value: ruleDetail?.alarmRuleType ? (
+        <AlarmRuleTypeTag type={ruleDetail?.alarmRuleType} />
+      ) : (
+        '-'
+      ),
     },
     {
       label: '告警级别',
-      value: <AlarmLevelTag level={policy.alarmLevel} />,
+      value: ruleDetail?.alarmLevel ? (
+        <AlarmLevelTag level={ruleDetail?.alarmLevel} />
+      ) : (
+        ''
+      ),
     },
     {
       label: '告警源对象',
-      value:
-        policy.alarmSourceObject === AlarmSourceObject.Device ? (
-          <Flex alignItems="center">
-            <ComputingLampTwoToneIcon />
-            <Tooltip label={policy.deviceName}>
-              <Text marginLeft="2px" width="170px" noOfLines={1}>
-                {policy.deviceName}
-              </Text>
-            </Tooltip>
-          </Flex>
-        ) : (
-          ALARM_SOURCE_OBJECT_MAP[policy.alarmSourceObject] || ''
-        ),
+      value: alarmSourceObject,
     },
     {
       label: '告警源对象ID',
       value: (
-        <Tooltip label={policy.deviceId || ''}>
+        <Tooltip label={ruleDetail?.deviceId || ''}>
           <Text width="200px" noOfLines={1}>
-            {policy.deviceId || '-'}
+            {ruleDetail?.deviceId || '-'}
           </Text>
         </Tooltip>
       ),
     },
     {
       label: '规则描述',
-      value: policy.ruleDesc,
+      value: ruleDetail?.ruleDesc,
     },
   ];
 
@@ -91,9 +107,10 @@ export default function PolicyDetailDrawer({
 
   return (
     <Drawer
+      id="policyDetail"
+      isOpen
       title="告警策略详情"
       width="700px"
-      isOpen={isOpen}
       onClose={onClose}
     >
       <Flex flexDirection="column" padding="16px 32px">
@@ -103,26 +120,32 @@ export default function PolicyDetailDrawer({
             <Text color="gray.700" fontSize="12px" fontWeight="500">
               状态：
             </Text>
-            <SwitchStatusButton
-              status={policy.enable}
-              ruleId={policy.ruleId}
-              onSuccess={() => refetchData()}
-            />
+            {ruleDetail && (
+              <SwitchStatusButton
+                status={ruleDetail?.enable}
+                ruleId={ruleDetail?.ruleId}
+                onSuccess={() => refetchData()}
+              />
+            )}
             <MoreAction
               sx={{ marginLeft: '4px' }}
               styles={{ actionList: { width: '124px' } }}
-              buttons={[
-                <ModifyPolicyButton
-                  key="modify"
-                  policy={policy}
-                  onSuccess={() => refetchData()}
-                />,
-                <DeletePolicyButton
-                  key="delete"
-                  policy={policy}
-                  onSuccess={() => refetchData()}
-                />,
-              ]}
+              buttons={
+                ruleDetail
+                  ? [
+                      <ModifyPolicyButton
+                        key="modify"
+                        policy={ruleDetail as Policy}
+                        onSuccess={() => refetchData()}
+                      />,
+                      <DeletePolicyButton
+                        key="delete"
+                        policy={ruleDetail as Policy}
+                        onSuccess={() => refetchData()}
+                      />,
+                    ]
+                  : []
+              }
             />
           </Flex>
         </Flex>
@@ -130,7 +153,7 @@ export default function PolicyDetailDrawer({
         <Text marginBottom="8px" {...titleStyle} marginTop="20px">
           通知对象
         </Text>
-        <NotificationObjectsInfoCard noticeId={policy.noticeId || ''} />
+        <NotificationObjectsInfoCard noticeId={ruleDetail?.noticeId || ''} />
       </Flex>
     </Drawer>
   );
