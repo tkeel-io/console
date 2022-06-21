@@ -162,6 +162,7 @@ export default function Select({
               >
                 {showSearchInput && (
                   <SearchInput
+                    placeholder="搜索"
                     onSearch={(keywords) => {
                       setSelectOptions(
                         newOptions.filter((option) =>
