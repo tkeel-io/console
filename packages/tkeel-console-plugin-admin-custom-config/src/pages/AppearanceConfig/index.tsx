@@ -229,6 +229,9 @@ export default function AppearanceConfig() {
                         height: `${(loginWrapperWidth / 1.77).toFixed(2)}px`,
                         transform: 'scale(.9)',
                       },
+                      logo: {
+                        height: '40px',
+                      },
                     }}
                   />
                 )}
