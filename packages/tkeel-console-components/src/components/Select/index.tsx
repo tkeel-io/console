@@ -1,6 +1,6 @@
 import { Box, Flex, StyleProps, Text } from '@chakra-ui/react';
 import Downshift from 'downshift';
-import { ReactNode, useEffect, useMemo, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 
 import { CaretDownFilledIcon, CaretUpFilledIcon } from '@tkeel/console-icons';
 
@@ -53,10 +53,11 @@ export default function Select({
   sx,
   styles,
 }: SelectProps) {
-  const newOptions = useMemo(
-    () => (showDefaultOption ? [defaultOption, ...options] : options),
-    [showDefaultOption, defaultOption, options]
-  );
+  const getNewOptions = (propOptions: Option[]) => {
+    return showDefaultOption ? [defaultOption, ...propOptions] : propOptions;
+  };
+
+  const newOptions = getNewOptions(options);
 
   const [selectOptions, setSelectOptions] = useState([...newOptions]);
 
@@ -68,8 +69,9 @@ export default function Select({
   };
 
   useEffect(() => {
-    setSelectOptions(newOptions);
-  }, [newOptions, setSelectOptions]);
+    setSelectOptions(getNewOptions(options));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [options]);
 
   return (
     <Downshift<Option>

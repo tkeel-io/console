@@ -60,7 +60,7 @@ export default function usePolicyListQuery({ params, onSuccess }: Props) {
     },
     reactQueryOptions: {
       onSuccess,
-      queryKey: 'policyList',
+      queryKey: ['policyList', ruleName],
     },
   });
   const policyList = data?.list || [];
