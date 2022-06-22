@@ -4,8 +4,8 @@ module.exports = {
   portalName: 'tenant',
   publicPath: '/',
   client: {
-    brand: 'tkeel', // qingcloud
-    themeName: 'qingcloud-light',
+    themeName: 'tkeel-light',
+    appearanceName: 'tkeel',
   },
   backend: {
     api: {

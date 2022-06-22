@@ -5126,6 +5126,8 @@ __metadata:
     "@chakra-ui/theme-tools": ^2.0.2
     "@emotion/react": ^11.9.3
     "@emotion/styled": ^11.9.3
+    "@tkeel/console-types": "workspace:^"
+    "@tkeel/console-utils": "workspace:^"
     framer-motion: ^6.3.11
     react: ^18.2.0
     react-dom: ^18.2.0
@@ -5136,7 +5138,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tkeel/console-types@workspace:packages/tkeel-console-types"
   dependencies:
-    "@tkeel/console-constants": "workspace:^"
     react: ^18.2.0
     react-router-dom: ^6.3.0
     react-toastify: ^9.0.4

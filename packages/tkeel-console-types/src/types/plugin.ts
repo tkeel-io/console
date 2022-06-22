@@ -1,13 +1,16 @@
-import { NavigateFunction } from 'react-router-dom';
+import type { NavigateFunction } from 'react-router-dom';
 
-import { TenantInfo, TokenInfo } from './auth';
-import { UserDocumentsReturns } from './documents';
-import { ToastFunction } from './toast';
+import type { Appearance } from './appearance';
+import type { TenantInfo, TokenInfo } from './auth';
+import type { UserDocumentsReturns } from './documents';
+import type { ToastFunction } from './toast';
 
 export interface GlobalPluginPropsPortalProps {
   portalName: 'admin' | 'tenant';
   client: {
-    theme: Record<string, unknown>;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    theme: Record<string, any>;
+    appearance: Appearance;
     tenantInfo: TenantInfo;
     tokenInfo: TokenInfo;
     toast: ToastFunction;

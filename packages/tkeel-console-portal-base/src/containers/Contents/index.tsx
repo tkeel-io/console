@@ -10,12 +10,7 @@ import {
   useDeploymentConfigQuery,
 } from '@tkeel/console-request-hooks';
 import type { Colors } from '@tkeel/console-themes';
-import {
-  DEFAULT_THEME,
-  DEFAULT_THEME_NAME,
-  ThemeNames,
-  themes,
-} from '@tkeel/console-themes';
+import { getTheme } from '@tkeel/console-themes';
 
 import Routes from '@/tkeel-console-portal-base/routes';
 import GlobalStyles from '@/tkeel-console-portal-base/styles/GlobalStyles';
@@ -31,9 +26,7 @@ interface Props {
   userActionMenusComponent: ReactNode;
 }
 
-const themeName =
-  (GLOBAL_PORTAL_CONFIG.client.themeName as ThemeNames) || DEFAULT_THEME_NAME;
-const theme = themes[themeName] || DEFAULT_THEME;
+const theme = getTheme();
 
 export type { Props };
 

@@ -12,7 +12,6 @@
   "license": "Apache-2.0",
   "main": "./src/index.ts",
   "dependencies": {
-    "@tkeel/console-constants": "workspace:^",
     "react": "^18.2.0",
     "react-router-dom": "^6.3.0",
     "react-toastify": "^9.0.4"

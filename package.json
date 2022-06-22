@@ -14,8 +14,8 @@
     "packages/*"
   ],
   "scripts": {
-    "build:development:portal-admin": "node ./scripts/run/build-development-portal-admin",
-    "build:development:portal-tenant": "node ./scripts/run/build-development-portal-tenant",
+    "build:development:portal-admin": "node ./scripts/run/build-development --package-names=@tkeel/console-portal-admin",
+    "build:development:portal-tenant": "node ./scripts/run/build-development --package-names=@tkeel/console-portal-tenant",
     "build:development-and-start:portal-admin": "yarn build:development:portal-admin && yarn start:portal-admin",
     "build:development-and-start:portal-tenant": "yarn build:development:portal-tenant && yarn start:portal-tenant",
     "build:production": "node ./scripts/run/build-production",
@@ -26,8 +26,8 @@
     "commit": "git-cz",
     "create:plugin": "node ./scripts/create-plugin",
     "dev": "node ./scripts/run/dev",
-    "dev:portal-admin": "node ./scripts/run/dev-portal-admin",
-    "dev:portal-tenant": "node ./scripts/run/dev-portal-tenant",
+    "dev:portal-admin": "yarn dev --package-names=@tkeel/console-portal-admin",
+    "dev:portal-tenant": "yarn dev --package-names=@tkeel/console-portal-tenant",
     "docker:build": "node ./scripts/run/docker-build",
     "docker:build:all": "yarn docker:build --package-names=all",
     "docker:push": "node ./scripts/docker/push-cli",
