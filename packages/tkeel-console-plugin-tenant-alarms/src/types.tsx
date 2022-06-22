@@ -54,14 +54,10 @@ export interface AlarmDetail {
   ruleDesc: string;
   ruleId: number;
   ruleName: string;
-  // tenantId: "ZQ8mV0rk";
 }
 
 export interface AlarmNotice {
-  // "pageNum": null,
-  // "pageSize": null,
-  noticeId: number;
-  // "tenantId": "Hx7e-TcQ",
+  noticeId: string;
   groupName: string;
   noticeDesc: string;
   emailAddress: string;

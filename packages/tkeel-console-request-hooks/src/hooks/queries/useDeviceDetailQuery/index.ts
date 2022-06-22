@@ -66,9 +66,10 @@ export interface Properties {
 
 export enum TelemetryType {
   Int = 'int',
-  Bool = 'bool',
   Float = 'float',
   Double = 'double',
+  Bool = 'bool',
+  Enum = 'enum',
 }
 
 interface TelemetryField {
