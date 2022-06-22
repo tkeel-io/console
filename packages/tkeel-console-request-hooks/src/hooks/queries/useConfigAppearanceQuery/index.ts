@@ -1,5 +1,5 @@
-import type { Appearance } from '@tkeel/console-constants';
-import { APPEARANCE } from '@tkeel/console-constants';
+import type { Appearance } from '@tkeel/console-themes';
+import { appearances } from '@tkeel/console-themes';
 
 import useConfigQuery from '../useConfigQuery';
 
@@ -14,7 +14,7 @@ export default function useConfigAppearanceQuery() {
     path: 'config',
   });
   if (isSuccess) {
-    config = { ...APPEARANCE, ...configByServer };
+    config = { ...appearances.tkeel, ...configByServer };
   }
 
   return { ...rest, isSuccess, configByServer, config };

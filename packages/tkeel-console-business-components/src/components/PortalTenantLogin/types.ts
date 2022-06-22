@@ -1,6 +1,6 @@
 import { StyleProps } from '@chakra-ui/react';
 
-import type { Appearance } from '@tkeel/console-constants';
+import type { Appearance } from '@tkeel/console-themes';
 import type { AuthType } from '@tkeel/console-types';
 
 interface BaseProps {
