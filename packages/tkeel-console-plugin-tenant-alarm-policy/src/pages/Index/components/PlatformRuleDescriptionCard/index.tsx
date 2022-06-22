@@ -29,7 +29,7 @@ export default function PlatformRuleDescriptionCard({
     }
   };
 
-  const allChecked = selectedRules.length === rules.length;
+  const allChecked = rules.length > 0 && selectedRules.length === rules.length;
 
   return (
     <Flex flex="1" flexDirection="column">
