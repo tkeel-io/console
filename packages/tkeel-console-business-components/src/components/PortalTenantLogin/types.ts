@@ -29,6 +29,7 @@ interface TenantLoginProps extends BaseProps {
 
   styles?: {
     wrapper?: StyleProps;
+    logo?: StyleProps;
   };
 }
 
