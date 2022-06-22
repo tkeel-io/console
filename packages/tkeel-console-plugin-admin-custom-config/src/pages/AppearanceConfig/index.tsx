@@ -15,14 +15,14 @@ import {
   CustomTab as CustomDetailTab,
   CustomTabList,
 } from '@tkeel/console-components';
-import type {
-  CommonConfig as CommonConfigType,
-  PlatformConfig as PlatformConfigType,
-} from '@tkeel/console-constants';
 import {
   useConfigAppearanceQuery,
   useUpdatePortalConfigMutation,
 } from '@tkeel/console-request-hooks';
+import type {
+  CommonConfig as CommonConfigType,
+  PlatformConfig as PlatformConfigType,
+} from '@tkeel/console-themes';
 
 import adminMenuDark from '@/tkeel-console-plugin-admin-custom-config/assets/images/admin-menu-dark.svg';
 import adminMenuLight from '@/tkeel-console-plugin-admin-custom-config/assets/images/admin-menu-light.svg';
