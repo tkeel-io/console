@@ -1,8 +1,10 @@
 import { Box, Flex, StyleProps, Text } from '@chakra-ui/react';
 import Downshift from 'downshift';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useMemo, useState } from 'react';
 
 import { CaretDownFilledIcon, CaretUpFilledIcon } from '@tkeel/console-icons';
+
+import SearchInput from '../SearchInput';
 
 interface Option {
   label: ReactNode;
@@ -19,6 +21,8 @@ export interface SelectProps {
   defaultValue?: string;
   value?: string;
   onChange?: (value: string) => unknown;
+  showSearchInput?: boolean;
+  sx?: StyleProps;
   styles?: {
     wrapper?: StyleProps;
     selector?: StyleProps;
@@ -45,12 +49,16 @@ export default function Select({
   defaultValue = '',
   value,
   onChange,
+  showSearchInput = false,
+  sx,
   styles,
 }: SelectProps) {
-  const newOptions = [...options];
-  if (showDefaultOption) {
-    newOptions.unshift(defaultOption);
-  }
+  const newOptions = useMemo(
+    () => (showDefaultOption ? [defaultOption, ...options] : options),
+    [showDefaultOption, defaultOption, options]
+  );
+
+  const [selectOptions, setSelectOptions] = useState([...newOptions]);
 
   const getSelectedLabelByValue = (selectedValue: string) => {
     const selectedOption = newOptions.find(
@@ -58,6 +66,10 @@ export default function Select({
     );
     return selectedOption?.label ?? '';
   };
+
+  useEffect(() => {
+    setSelectOptions(newOptions);
+  }, [newOptions, setSelectOptions]);
 
   return (
     <Downshift<Option>
@@ -99,7 +111,7 @@ export default function Select({
         }
 
         return (
-          <Box width="118px" position="relative" {...styles?.wrapper}>
+          <Box width="118px" position="relative" {...styles?.wrapper} {...sx}>
             <Flex
               justifyContent="space-between"
               alignItems="center"
@@ -108,6 +120,7 @@ export default function Select({
               color="gray.800"
               fontSize="12px"
               cursor="pointer"
+              backgroundColor="white"
               {...selectorStyle}
               {...styles?.selector}
               /* eslint-disable @typescript-eslint/no-unsafe-call */
@@ -151,7 +164,28 @@ export default function Select({
                 boxShadow="0px 10px 15px rgba(113, 128, 150, 0.1), 0px 4px 6px rgba(113, 128, 150, 0.2)"
                 {...styles?.selectDropdown}
               >
-                {newOptions.map((item, index) => {
+                {showSearchInput && (
+                  <SearchInput
+                    placeholder="搜索"
+                    onSearch={(keywords) => {
+                      setSelectOptions(
+                        newOptions.filter((option) =>
+                          option.label?.toString().includes(keywords)
+                        )
+                      );
+                    }}
+                    inputGroupStyle={{
+                      marginBottom: '8px',
+                      width: '100%',
+                      backgroundColor: 'gray.100',
+                    }}
+                    inputStyle={{
+                      borderColor: 'transparent',
+                      borderRadius: '4px',
+                    }}
+                  />
+                )}
+                {selectOptions.map((item, index) => {
                   const { label, value: key, disabled } = item;
                   return (
                     // eslint-disable-next-line react/jsx-key

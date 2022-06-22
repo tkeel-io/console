@@ -31,6 +31,7 @@ type Props = {
   onActionListOpen?: () => unknown;
   onActionListClose?: () => unknown;
   onActionListToggle?: (show: boolean) => unknown;
+  sx?: StyleProps;
   styles?: MoreActionStyles;
 };
 
@@ -58,6 +59,7 @@ export default function MoreAction({
   onActionListToggle,
   buttonProps = {},
   styles = {},
+  sx = {},
 }: Props) {
   const [placement, setPlacement] = useState<Placement>(defaultPlacement);
   const [showActionList, setShowActionList] = useState(isActionListOpen);
@@ -151,6 +153,7 @@ export default function MoreAction({
       onClick={handleClick}
       onMouseLeave={handleMouseLeave}
       {...styles.wrapper}
+      {...sx}
     >
       {element ||
         (type === 'icon' ? (

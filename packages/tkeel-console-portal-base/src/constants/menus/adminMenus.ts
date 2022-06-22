@@ -47,4 +47,18 @@ export default [
       },
     ],
   },
+  {
+    id: 'devops',
+    name: '运维与管理',
+    icon: 'MgmtNodeTwoToneIcon',
+    children: [
+      {
+        id: 'console-plugin-admin-usage-statistics',
+        name: '用量统计',
+        path: '/admin-usage-statistics',
+        entry:
+          'http://127.0.0.1:3019/static/console-plugin-admin-usage-statistics/',
+      },
+    ],
+  },
 ];

@@ -99,7 +99,7 @@ export default function SelectStyles({ prefixCls, styles }: Props) {
           left: 16px;
           color: ${colors.grayAlternatives[700]};
           font-size: 14px;
-          line-height: 24px;
+          line-height: 26px;
           cursor: pointer;
           pointer-events: none;
         }

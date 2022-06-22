@@ -1,6 +1,6 @@
 import { Box, Center, Flex, HStack, Text } from '@chakra-ui/react';
 import { isEmpty, values } from 'lodash';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 import { MoreAction, PageHeaderToolbar } from '@tkeel/console-components';
 import { useColor, usePagination } from '@tkeel/console-hooks';
@@ -237,13 +237,14 @@ function Index(): JSX.Element {
     refetch: refetchDeviceList,
     deviceList,
     isLoading,
+    total,
   } = useDeviceListQuery({
     params,
-    onSuccess: (data) => {
-      const total = data?.data?.listDeviceObject?.total ?? 0;
-      setTotalSize(total);
-    },
   });
+
+  useEffect(() => {
+    setTotalSize(total);
+  }, [total, setTotalSize]);
 
   return (
     <Flex flexDirection="column" h="100%">

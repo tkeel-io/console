@@ -9,11 +9,13 @@ import {
 
 import { notificationTypeArr } from './constants';
 
-export default function InfoPanel() {
-  const emailList = Array.from({ length: 9 }).fill(
-    'delorse_Johnson@email.com'
-  ) as string[];
+interface Props {
+  info: {
+    email: string[];
+  };
+}
 
+export default function InfoPanel({ info }: Props) {
   return (
     <Tabs index={0}>
       <TabList paddingLeft="20px" height="34px" borderBottomWidth="1px">
@@ -39,9 +41,9 @@ export default function InfoPanel() {
       </TabList>
       <TabPanels>
         <TabPanel display="flex" flexWrap="wrap" padding="20px 20px 12px">
-          {emailList.map((email) => (
+          {info.email.map((item) => (
             <Text
-              key={email}
+              key={item}
               width="50%"
               marginBottom="8px"
               color="grayAlternatives.700"
@@ -49,7 +51,7 @@ export default function InfoPanel() {
               fontWeight="500"
               lineHeight="24px"
             >
-              {email}
+              {item}
             </Text>
           ))}
         </TabPanel>
