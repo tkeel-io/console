@@ -17,7 +17,6 @@ function SubMenuLinks({ data }: Props) {
       position="absolute"
       left="56px"
       top="0"
-      zIndex="1"
       padding="8px"
       width="144px"
       borderRadius="4px"
