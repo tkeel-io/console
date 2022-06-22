@@ -32,6 +32,7 @@ export default function SwitchStatusButton({
     <Switch
       size="sm"
       isChecked={status === RuleStatus.Enabled}
+      colorScheme="brand"
       onChange={(e) => {
         mutate({
           data: {
