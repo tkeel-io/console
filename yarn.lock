@@ -4508,6 +4508,8 @@ __metadata:
   dependencies:
     "@chakra-ui/react": ^2.2.1
     "@chakra-ui/theme-tools": ^2.0.2
+    "@chakra-ui/utils": ^2.0.2
+    "@ctrl/tinycolor": ^3.4.1
     "@tkeel/console-business-components": "workspace:^"
     "@tkeel/console-components": "workspace:^"
     "@tkeel/console-constants": "workspace:^"

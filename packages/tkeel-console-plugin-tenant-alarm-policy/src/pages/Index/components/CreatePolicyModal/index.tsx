@@ -1,10 +1,12 @@
+import { RequestData } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/mutations/useCreatePolicyMutation';
+
 import BasePolicyModal from '../BasePolicyModal';
 
 type Props = {
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm: (data: RequestData) => void;
 };
 
 export default function CreatePolicyModal({
