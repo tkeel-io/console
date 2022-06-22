@@ -58,7 +58,7 @@ export default function TemplateDeviceList({
           </Flex>
         </Flex>
       )}
-      <Flex marginTop="8px" flex="1">
+      <Flex flexDirection="column" marginTop="8px" flex="1">
         {(() => {
           if (isLoading) {
             return (
