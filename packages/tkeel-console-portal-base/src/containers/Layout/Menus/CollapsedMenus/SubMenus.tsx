@@ -38,7 +38,7 @@ function SubMenus({ icon, subMenus }: Props) {
   return (
     <Box
       position="relative"
-      zIndex="2"
+      zIndex="10"
       marginTop="10px"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
