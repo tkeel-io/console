@@ -1,4 +1,4 @@
-import { Box, Button, Circle, StyleProps, useTheme } from '@chakra-ui/react';
+import { Box, Button, Circle, StyleProps } from '@chakra-ui/react';
 import {
   cloneElement,
   MouseEventHandler,
@@ -8,12 +8,12 @@ import {
   useState,
 } from 'react';
 
+import { useColors } from '@tkeel/console-hooks';
 import {
   CaretDownFilledIcon,
   CaretUpFilledIcon,
   MoreVerticalFilledIcon,
 } from '@tkeel/console-icons';
-import { Theme } from '@tkeel/console-themes';
 
 type Placement = 'bottom' | 'top';
 export type MoreActionStyles = {
@@ -61,7 +61,7 @@ export default function MoreAction({
 }: Props) {
   const [placement, setPlacement] = useState<Placement>(defaultPlacement);
   const [showActionList, setShowActionList] = useState(isActionListOpen);
-  const { colors } = useTheme<Theme>();
+  const colors = useColors();
   let timer: number | null = null;
 
   const handleSetShowActionList = (show: boolean) => {

@@ -9,15 +9,16 @@ import {
   useConfigThemeColorsQuery,
   useDeploymentConfigQuery,
 } from '@tkeel/console-request-hooks';
-import { Colors } from '@tkeel/console-themes';
-
-import Routes from '@/tkeel-console-portal-base/routes';
-import GlobalStyles from '@/tkeel-console-portal-base/styles/GlobalStyles';
-import themes, {
+import type { Colors } from '@tkeel/console-themes';
+import {
   DEFAULT_THEME,
   DEFAULT_THEME_NAME,
   ThemeNames,
-} from '@/tkeel-console-themes/index';
+  themes,
+} from '@tkeel/console-themes';
+
+import Routes from '@/tkeel-console-portal-base/routes';
+import GlobalStyles from '@/tkeel-console-portal-base/styles/GlobalStyles';
 
 import DocumentsContainer from '../DocumentsContainer';
 
