@@ -87,7 +87,7 @@ export default function ConfigureNotificationModal({
           control={control}
           error={errors.notificationObjects}
           rules={{
-            required: { value: true, message: '请输入告警类型' },
+            required: { value: !noticeId, message: '请选择通知对象' },
           }}
         />
       )}
