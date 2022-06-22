@@ -1,9 +1,9 @@
 interface PortalConfig {
-  // edition: 'free' | 'paid';
   portalName: 'admin' | 'tenant';
   publicPath: string;
   client: {
     themeName: 'tkeel-light' | 'qingcloud-light';
+    appearanceName: 'tkeel' | 'qingcloud';
     showDevTools?: boolean;
   };
   backend: {

@@ -3,8 +3,8 @@ import { ChangeEvent, Dispatch, SetStateAction, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { FormField, Radio } from '@tkeel/console-components';
-import type { CommonConfig as CommonConfigType } from '@tkeel/console-constants';
 import { useDeletePortalConfigMutation } from '@tkeel/console-request-hooks';
+import type { CommonConfig as CommonConfigType } from '@tkeel/console-themes';
 
 import ButtonStack from '@/tkeel-console-plugin-admin-custom-config/components/ButtonStack';
 

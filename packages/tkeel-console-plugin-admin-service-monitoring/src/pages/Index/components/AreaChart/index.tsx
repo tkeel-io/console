@@ -1,4 +1,3 @@
-import { useTheme } from '@chakra-ui/react';
 import {
   Area,
   AreaChart as RechartsAreaChart,
@@ -8,7 +7,7 @@ import {
 } from 'recharts';
 
 import { useTooltipProps } from '@tkeel/console-charts';
-import type { Theme } from '@tkeel/console-themes';
+import { useColors } from '@tkeel/console-hooks';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 interface Props {
@@ -17,7 +16,7 @@ interface Props {
 }
 
 export default function AreaChart({ data, yFormatter }: Props) {
-  const { colors }: Theme = useTheme();
+  const colors = useColors();
   const defaultTooltipProps = useTooltipProps();
 
   return (

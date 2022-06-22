@@ -7,7 +7,7 @@ const { runNpmScripts } = require('./commands');
   const packageInfos = await getSelectedCanRunPackageInfos();
   const data = packageInfos.map(({ packageJson, env }) => ({
     packageName: packageJson.name,
-    npmScriptName: 'dev',
+    npmScriptName: 'build:development',
     env,
   }));
   runNpmScripts({ data });

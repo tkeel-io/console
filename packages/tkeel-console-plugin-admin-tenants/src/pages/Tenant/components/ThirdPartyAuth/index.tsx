@@ -1,9 +1,9 @@
-import { Button, Flex, Text, useTheme } from '@chakra-ui/react';
+import { Button, Flex, Text } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 
 import { DeprecatedSelect, PageHeaderToolbar } from '@tkeel/console-components';
+import { useColors } from '@tkeel/console-hooks';
 import { InformationFilledIcon } from '@tkeel/console-icons';
-import { Theme } from '@tkeel/console-themes';
 import { plugin } from '@tkeel/console-utils';
 
 import { ID_PROVIDER_TYPES } from '@/tkeel-console-plugin-admin-tenants/constants';
@@ -12,7 +12,7 @@ import useAuthIdProviderQuery from '@/tkeel-console-plugin-admin-tenants/hooks/q
 import Config from './Config';
 
 export default function ThirdPartyAuth() {
-  const { colors }: Theme = useTheme();
+  const colors = useColors();
 
   const { tenantId = '' } = useParams();
   const { data } = useAuthIdProviderQuery({ tenantId });
