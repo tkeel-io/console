@@ -4,7 +4,7 @@ export const paths = {
     tenantThirdPartyAuthConfig:
       '/admin-guide/tenant-mgt/tenant_create#配置认证协议',
     plugins: '/admin-guide/plugin-mgt/plugin_intro',
-    customConfig: '/admin-guide/platform-config/config_intro',
+    customConfig: '/admin-guide/platform-config/config_customize',
     serviceMonitoring: '/admin-guide/maintenance-mgt/service_monitor',
   },
   tenantGuide: {
