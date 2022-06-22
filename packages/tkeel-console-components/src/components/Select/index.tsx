@@ -1,6 +1,6 @@
 import { Box, Flex, StyleProps, Text } from '@chakra-ui/react';
 import Downshift from 'downshift';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useMemo, useState } from 'react';
 
 import { CaretDownFilledIcon, CaretUpFilledIcon } from '@tkeel/console-icons';
 
@@ -53,12 +53,12 @@ export default function Select({
   sx,
   styles,
 }: SelectProps) {
-  const newOptions = [...options];
-  if (showDefaultOption) {
-    newOptions.unshift(defaultOption);
-  }
+  const newOptions = useMemo(
+    () => (showDefaultOption ? [defaultOption, ...options] : options),
+    [showDefaultOption, defaultOption, options]
+  );
 
-  const [selectOptions, setSelectOptions] = useState(newOptions);
+  const [selectOptions, setSelectOptions] = useState([...newOptions]);
 
   const getSelectedLabelByValue = (selectedValue: string) => {
     const selectedOption = newOptions.find(
@@ -66,6 +66,10 @@ export default function Select({
     );
     return selectedOption?.label ?? '';
   };
+
+  useEffect(() => {
+    setSelectOptions(newOptions);
+  }, [newOptions, setSelectOptions]);
 
   return (
     <Downshift<Option>
