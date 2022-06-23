@@ -1,5 +1,5 @@
 import type { Appearance } from '../types';
-import background01 from './assets/images/background.webp';
+import background from './assets/images/background.webp';
 import logoMark from './assets/images/logo-mark.svg';
 import logoTypeAdminDark from './assets/images/logo-type-admin-dark.svg';
 import logoTypeAdminLight from './assets/images/logo-type-admin-light.svg';
@@ -10,7 +10,7 @@ const APPEARANCE: Appearance = {
   common: {
     slogan: '构建和管理物联网解决方案的数字平台', // 100% Cloud Native, Any language, Everything is plugin, Simply
     logoMark,
-    backgroundImage: background01,
+    backgroundImage: background,
     backgroundImageLogo: 'logoTypeLight',
   },
   platform: {
