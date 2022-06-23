@@ -28,6 +28,7 @@ export { default as ChevronLeftFilledIcon } from './components/ChevronLeftFilled
 export { default as ChevronRightFilledIcon } from './components/ChevronRightFilledIcon';
 export { default as ChevronUpFilledIcon } from './components/ChevronUpFilledIcon';
 export { default as ClickHouseFilledIcon } from './components/ClickHouseFilledIcon';
+export { default as CloseCircleTwoToneIcon } from './components/CloseCircleTwoToneIcon';
 export { default as CloseFilledIcon } from './components/CloseFilledIcon';
 export { default as ClusterTwoToneIcon } from './components/ClusterTwoToneIcon';
 export { default as CodeFilledIcon } from './components/CodeFilledIcon';
@@ -59,6 +60,7 @@ export { default as EyeTwoToneIcon } from './components/EyeTwoToneIcon';
 export { default as FileBoxTwoToneIcon } from './components/FileBoxTwoToneIcon';
 export { default as FireFilledIcon } from './components/FireFilledIcon';
 export { default as FloppyDiskFilledIcon } from './components/FloppyDiskFilledIcon';
+export { default as FloppyDiskTwoToneIcon } from './components/FloppyDiskTwoToneIcon';
 export { default as FolderCloseTwoToneIcon } from './components/FolderCloseTwoToneIcon';
 export { default as FolderOpenTwoToneIcon } from './components/FolderOpenTwoToneIcon';
 export { default as GearTwoToneIcon } from './components/GearTwoToneIcon';
