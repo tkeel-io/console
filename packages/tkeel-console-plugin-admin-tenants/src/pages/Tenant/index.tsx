@@ -6,6 +6,7 @@ import { useTenantQuery } from '@tkeel/console-request-hooks';
 
 import BasicInfoCard from './components/BasicInfoCard';
 import ThirdPartyAuth from './components/ThirdPartyAuth';
+import UsageConfig from './components/UsageConfig';
 import Users from './components/Users';
 
 export default function Tenant() {
@@ -23,6 +24,7 @@ export default function Tenant() {
         <CustomTabList>
           <CustomTab>用户列表</CustomTab>
           {isExternal && <CustomTab>单点登录</CustomTab>}
+          <CustomTab>用量配置</CustomTab>
         </CustomTabList>
         <TabPanels
           flex="1"
@@ -38,6 +40,9 @@ export default function Tenant() {
               <ThirdPartyAuth />
             </TabPanel>
           )}
+          <TabPanel height="100%" padding="0px 20px">
+            <UsageConfig />
+          </TabPanel>
         </TabPanels>
       </Tabs>
     </Flex>
