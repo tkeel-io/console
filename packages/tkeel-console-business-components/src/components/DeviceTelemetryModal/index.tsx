@@ -175,6 +175,11 @@ export default function DeviceTelemetryModal({
         registerReturn={register('id', {
           required: { value: true, message: '请填写遥测ID' },
           maxLength: { value: 32, message: '长度最多32' },
+          pattern: {
+            value: /^[A-Z_a-z]\w{1,32}$/,
+            message:
+              '以字母或下划线开头，长度最多32，只能包含字母、数字和下划线',
+          },
         })}
       />
       <DeviceDataType
