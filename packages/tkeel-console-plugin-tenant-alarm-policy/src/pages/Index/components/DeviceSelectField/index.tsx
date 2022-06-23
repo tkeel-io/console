@@ -9,6 +9,7 @@ import {
   useDeviceListQuery,
   useTemplatesQuery,
 } from '@tkeel/console-request-hooks';
+import { hasJsonStructure } from '@tkeel/console-utils';
 
 import TemplateDeviceList from '../TemplateDeviceList';
 
@@ -29,7 +30,7 @@ interface DeviceInfo {
 
 export const getDeviceInfo = (deviceInfo: string) => {
   return (
-    deviceInfo
+    hasJsonStructure(deviceInfo)
       ? JSON.parse(deviceInfo)
       : { tempId: '', tempName: '', deviceId: '', deviceName: '' }
   ) as DeviceInfo;

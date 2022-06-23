@@ -91,7 +91,7 @@ export default function BasePolicyModal({
     ruleName: '',
     alarmRuleType: thresholdAlarm,
     alarmSourceObject: AlarmSourceObjectValue.Device,
-    deviceInfo: '{}',
+    deviceInfo: '',
     condition: Condition.Or,
     deviceConditions: [defaultDeviceCondition],
   };
