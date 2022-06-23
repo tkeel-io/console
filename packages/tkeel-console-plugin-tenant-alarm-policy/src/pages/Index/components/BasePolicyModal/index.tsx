@@ -139,6 +139,7 @@ export default function BasePolicyModal({
     watch,
   } = useForm<FormValues>({
     defaultValues,
+    mode: 'onChange',
   });
 
   const fieldArrayReturn = useFieldArray({
