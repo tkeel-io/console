@@ -1,4 +1,11 @@
-import { Flex, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
+import {
+  Flex,
+  StyleProps,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Text,
+} from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
 import { BasicInfoBg } from '@tkeel/console-business-components';
@@ -11,9 +18,25 @@ import { AppsRhombusTwoToneIcon } from '@tkeel/console-icons';
 
 export default function ThemeColorConfig() {
   const navigate = useNavigate();
+  const labelStyle: StyleProps = {
+    color: 'gray.800',
+    fontSize: '14px',
+    fontWeight: '600',
+  };
+
+  const descStyle: StyleProps = {
+    color: 'gray.500',
+    fontSize: '12px',
+  };
+
   return (
-    <Flex>
-      <Flex flexDirection="column" width="360px" flexShrink={0}>
+    <Flex flex="1">
+      <Flex
+        flexDirection="column"
+        width="360px"
+        flexShrink={0}
+        backgroundColor="white"
+      >
         <Flex
           position="relative"
           flexDirection="column"
@@ -22,7 +45,7 @@ export default function ThemeColorConfig() {
           padding="16px 20px 20px"
           backgroundColor="gray.50"
         >
-          <BackButton onClick={() => navigate('/')} />
+          <BackButton marginLeft="-6px" onClick={() => navigate('/')} />
           <Flex alignItems="center">
             <AppsRhombusTwoToneIcon size={22} />
             <Text
@@ -36,6 +59,10 @@ export default function ThemeColorConfig() {
           </Flex>
           <BasicInfoBg />
         </Flex>
+        <Flex flex="1" padding="20px 24px">
+          <Text {...labelStyle}>颜色编号</Text>
+          <Text {...descStyle} />
+        </Flex>
       </Flex>
       <Tabs
         display="flex"
@@ -43,6 +70,7 @@ export default function ThemeColorConfig() {
         marginLeft="20px"
         flex="1"
         boxShadow="0px 10px 15px -3px rgba(113, 128, 150, 0.1), 0px 4px 6px -2px rgba(113, 128, 150, 0.05);"
+        backgroundColor="white"
       >
         <CustomTabList>
           <CustomTab borderTopLeftRadius="4px" width="110px">

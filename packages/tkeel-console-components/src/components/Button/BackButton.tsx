@@ -10,7 +10,7 @@ function BackButton({ onClick, ...rest }: Props) {
   return (
     <Flex
       width="57px"
-      paddingLeft="7px"
+      paddingLeft="6px"
       paddingRight="10px"
       alignItems="center"
       height="32px"
