@@ -9,14 +9,14 @@ import {
 } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
-type Props = {
+interface Props extends DrawerProps {
   title: string;
   children: ReactNode;
   placement?: 'top' | 'left' | 'bottom' | 'right';
   width?: string;
   isOpen: boolean;
   onClose: () => unknown;
-};
+}
 
 function Drawer({
   title,
@@ -26,7 +26,7 @@ function Drawer({
   isOpen,
   onClose,
   ...rest
-}: Props & DrawerProps) {
+}: Props) {
   return (
     <ChakraDrawer
       placement={placement}
@@ -39,7 +39,7 @@ function Drawer({
         <DrawerCloseButton
           top="11px"
           right="20px"
-          _focus={{ outline: 'none' }}
+          _focus={{ boxShadow: 'none' }}
         />
         <DrawerHeader
           color="gray.800"
