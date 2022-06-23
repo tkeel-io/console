@@ -2,6 +2,7 @@ export { default as AddFilledIcon } from './components/AddFilledIcon';
 export { default as AlarmLampFilledIcon } from './components/AlarmLampFilledIcon';
 export { default as AlarmLampTwoToneIcon } from './components/AlarmLampTwoToneIcon';
 export { default as AppsAddFilledIcon } from './components/AppsAddFilledIcon';
+export { default as AppsRhombusTwoToneIcon } from './components/AppsRhombusTwoToneIcon';
 export { default as AppsTwoToneIcon } from './components/AppsTwoToneIcon';
 export { default as AppsTwoToneIcon4 } from './components/AppsTwoToneIcon4';
 export { default as ArrowDownFilledIcon } from './components/ArrowDownFilledIcon';
