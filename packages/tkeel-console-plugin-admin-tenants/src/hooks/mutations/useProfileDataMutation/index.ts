@@ -1,8 +1,5 @@
 import { useMutation } from '@tkeel/console-hooks';
 
-const url = '/security/v1/tenants';
-const method = 'POST';
-
 interface RequestData {
   profiles: {
     [propName: string]: string;
@@ -19,8 +16,8 @@ export default function useProfileDataMutation({
   onSuccess: () => void;
 }) {
   return useMutation<ApiData, undefined, RequestData>({
-    url,
-    method,
+    url: '/rudder/v1/profile/data',
+    method: 'POST',
     reactQueryOptions: { onSuccess },
   });
 }

@@ -15,7 +15,7 @@ interface Options {
 
 export default function useProfileSchemaQuery({ params }: Options) {
   return useQuery<AipData, RequestParams>({
-    url: '/rudder/v1/profile/data',
+    url: '/rudder/v1/profile/schema',
     method: 'GET',
     params,
   });

@@ -1,6 +1,7 @@
 import type { ButtonProps } from '@chakra-ui/react';
 import { Box, Flex, HStack, Text } from '@chakra-ui/react';
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { Empty, IconButton } from '@tkeel/console-components';
 import {
@@ -9,6 +10,9 @@ import {
   PencilTwoToneIcon,
   RestartTwoToneIcon,
 } from '@tkeel/console-icons';
+
+import useProfileDataQuery from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useProfileDataQuery';
+import useProfileSchemaQuery from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useProfileSchemaQuery';
 
 const buttonProps: ButtonProps = {
   backgroundColor: 'gray.50',
@@ -21,6 +25,9 @@ const buttonProps: ButtonProps = {
 
 export default function UsageConfig() {
   const [currentMode, setCurrentMode] = useState<'view' | 'edit'>('view');
+  const { tenantId = '' } = useParams();
+  useProfileDataQuery({ params: { tenant_id: tenantId } });
+  useProfileSchemaQuery({ params: { profile: 'abc' } });
 
   return (
     <Flex flexDirection="column" height="100%" padding="12px 0">
