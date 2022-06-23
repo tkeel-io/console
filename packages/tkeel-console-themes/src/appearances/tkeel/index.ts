@@ -15,12 +15,12 @@ const APPEARANCE: Appearance = {
   },
   platform: {
     admin: {
-      platformName: 'QingCloud IoT 物联网运维管理平台',
+      platformName: 'tKeel 管理运维平台',
       logoTypeLight: logoTypeAdminLight,
       logoTypeDark: logoTypeAdminDark,
     },
     tenant: {
-      platformName: 'QingCloud IoT 物联网平台',
+      platformName: 'tKeel 物联网平台',
       logoTypeLight: logoTypeTenantLight,
       logoTypeDark: logoTypeTenantDark,
     },
