@@ -1,5 +1,6 @@
 import type { ButtonProps } from '@chakra-ui/react';
 import { Box, Flex, HStack, Text } from '@chakra-ui/react';
+import Ajv from 'ajv';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -23,11 +24,28 @@ const buttonProps: ButtonProps = {
   variant: 'outline',
 };
 
+const ajv = new Ajv();
+
 export default function UsageConfig() {
   const [currentMode, setCurrentMode] = useState<'view' | 'edit'>('view');
   const { tenantId = '' } = useParams();
   useProfileDataQuery({ params: { tenant_id: tenantId } });
-  useProfileSchemaQuery({ params: { profile: 'abc' } });
+
+  const { profiles } = useProfileSchemaQuery();
+  const schema = {
+    type: 'object',
+    properties: profiles,
+  };
+  const validate = ajv.compile(schema);
+
+  const data = {
+    foo: 1,
+    bar: 'abc',
+  };
+  const valid = validate(data);
+  if (!valid) {
+    return null;
+  }
 
   return (
     <Flex flexDirection="column" height="100%" padding="12px 0">

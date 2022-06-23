@@ -1,22 +1,24 @@
+import type { JSONSchemaType } from 'ajv';
+
 import { useQuery } from '@tkeel/console-hooks';
 
-interface RequestParams {
-  profile: string;
+interface MyData {
+  [propName: string]: number | string;
 }
 
 interface AipData {
   '@type': string;
-  config: string;
+  profiles: {
+    [propName: string]: JSONSchemaType<MyData>;
+  };
 }
 
-interface Options {
-  params: RequestParams;
-}
-
-export default function useProfileSchemaQuery({ params }: Options) {
-  return useQuery<AipData, RequestParams>({
+export default function useProfileSchemaQuery() {
+  const result = useQuery<AipData>({
     url: '/rudder/v1/profile/schema',
     method: 'GET',
-    params,
   });
+  const profiles = result.data?.profiles;
+
+  return { ...result, profiles };
 }
