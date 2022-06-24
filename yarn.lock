@@ -3126,6 +3126,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hookform/resolvers@npm:^2.9.2":
+  version: 2.9.2
+  resolution: "@hookform/resolvers@npm:2.9.2"
+  peerDependencies:
+    react-hook-form: ^7.0.0
+  checksum: fa4cdb7165c07b9317e0955046814510e61ca75bd8b70a64d6d79fe3a297544d3c6bcfe3811538d7435d314cb11592013b64f6e766309254b423fa30ae099506
+  languageName: node
+  linkType: hard
+
 "@humanwhocodes/config-array@npm:^0.9.2":
   version: 0.9.5
   resolution: "@humanwhocodes/config-array@npm:0.9.5"
@@ -3792,6 +3801,7 @@ __metadata:
     "@chakra-ui/react": ^2.2.1
     "@emotion/react": ^11.9.3
     "@emotion/styled": ^11.9.3
+    "@hookform/resolvers": ^2.9.2
     "@tkeel/console-business-components": "workspace:^"
     "@tkeel/console-components": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
@@ -3802,6 +3812,7 @@ __metadata:
     "@tkeel/console-utils": "workspace:^"
     "@types/lodash": ^4.14.182
     ajv: ^8.11.0
+    ajv-i18n: ^4.2.0
     framer-motion: ^6.3.13
     js-base64: ^3.7.2
     react: ^18.2.0
@@ -5352,6 +5363,15 @@ __metadata:
     ajv:
       optional: true
   checksum: 4a287d937f1ebaad4683249a4c40c0fa3beed30d9ddc0adba04859026a622da0d317851316ea64b3680dc60f5c3c708105ddd5d5db8fe595d9d0207fd19f90b7
+  languageName: node
+  linkType: hard
+
+"ajv-i18n@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "ajv-i18n@npm:4.2.0"
+  peerDependencies:
+    ajv: ^8.0.0-beta.0
+  checksum: 6fa53eeafb13dc11dd99119039cd1e4394c949ca3ec407b2b421b8aae20ad2acd2f615f134ab9de64a636d66c6e0df1e15dcfca50b45683ebb9044e6667735e9
   languageName: node
   linkType: hard
 
