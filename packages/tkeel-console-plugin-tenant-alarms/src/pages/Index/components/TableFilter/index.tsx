@@ -5,6 +5,7 @@ import type {
   AlarmLevel,
   AlarmPolicyType,
   AlarmSource,
+  AlarmStatus,
   AlarmType,
   RequestParams,
 } from 'packages/tkeel-console-plugin-tenant-alarms/src/types';
@@ -22,9 +23,13 @@ import { CalendarFilledIcon } from '@tkeel/console-icons';
 import { Theme } from '@tkeel/console-themes';
 
 import AlarmPolicyTypeSelect from '@/tkeel-console-plugin-tenant-alarms/components/AlarmPolicyTypeSelect';
-import { ALARMS_SOURCE } from '@/tkeel-console-plugin-tenant-alarms/constants';
+import {
+  ALARMS_SOURCE,
+  ALARMS_STATUS,
+} from '@/tkeel-console-plugin-tenant-alarms/constants';
 
-const { combine, allowedMaxDays, afterToday } = DateRangePicker.PickerUtils;
+// combine, allowedMaxDays, afterToday
+const { before, combine, afterToday } = DateRangePicker.PickerUtils;
 export type ValueType = [Date?, Date?];
 
 const selectorStyle = {
@@ -39,16 +44,36 @@ export interface Props {
 }
 function Filter({ onChange }: Props) {
   const { colors } = useTheme<Theme>();
+
+  // combine && allowedMaxDays && afterToday
   const dateDisabled =
-    combine && allowedMaxDays && afterToday
+    before && combine && afterToday
       ? {
-          disabledDate: combine(allowedMaxDays(7), afterToday()),
+          disabledDate: combine(
+            before(dayjs().subtract(7, 'day').format('YYYY-MM-DD HH:mm:ss')),
+            afterToday()
+          ), // combine(allowedMaxDays(7), afterToday()),
         }
       : {};
   return (
     <PageHeaderToolbar
       name={
         <Flex gap="12px" className="alarms-page-header-filters">
+          <Select
+            labelPrefix="状态："
+            showDefaultOption
+            options={ALARMS_STATUS}
+            onChange={(alarmStatus) => {
+              onChange({ alarmStatus: Number(alarmStatus) as AlarmStatus });
+            }}
+            styles={{
+              wrapper: {
+                width: '120px',
+              },
+              ...selectorStyle,
+            }}
+          />
+
           <AlarmLevelSelect
             styles={selectorStyle}
             onChange={(alarmLevel) => {

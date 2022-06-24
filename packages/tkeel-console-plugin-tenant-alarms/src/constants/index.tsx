@@ -152,9 +152,11 @@ export const ALARMS_STATUS = [
   {
     label: '未处理',
     color: 'red.300',
+    value: '0',
   },
   {
     label: '已处理',
     color: 'success.300',
+    value: '1',
   },
 ];
