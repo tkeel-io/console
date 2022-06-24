@@ -53,7 +53,7 @@ export default function NotificationObjectsInfoCard({
         return (
           <Accordion allowToggle defaultIndex={0}>
             {alarmNoticeGroups.map((group) => {
-              const emailAddressArr = group.emailAddress.split(',');
+              const emailAddressArr = group.emailAddress?.split(',') || [];
               return (
                 <AccordionItem
                   key={group.groupName}

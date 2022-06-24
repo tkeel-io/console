@@ -4,6 +4,7 @@ import { FormField, Modal } from '@tkeel/console-components';
 import { useNotificationQuery } from '@tkeel/console-request-hooks';
 import { plugin } from '@tkeel/console-utils';
 
+import type { RequestData as SetNoticeRequestData } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/mutations/useSetNotice';
 import useSetNotice from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/mutations/useSetNotice';
 
 interface Props {
@@ -32,11 +33,15 @@ export default function ConfigureNotificationModal({
   });
 
   const { mutate } = useSetNotice({
-    onSuccess() {
+    onSuccess(_, variables) {
       onClose();
       onSuccess();
       const toast = plugin.getPortalToast();
-      toast.success('配置通知成功');
+      const toastText =
+        (variables as { data: SetNoticeRequestData }).data.noticeId === ''
+          ? '取消配置通知成功'
+          : '配置通知成功';
+      toast.success(toastText);
     },
   });
 
