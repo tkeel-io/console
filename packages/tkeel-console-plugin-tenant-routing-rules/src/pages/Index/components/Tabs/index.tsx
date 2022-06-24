@@ -1,11 +1,16 @@
-import { Box, Flex } from '@chakra-ui/react';
+import { Tabs } from '@chakra-ui/react';
 import { useState } from 'react';
+
+import {
+  SegmentedControlTab,
+  SegmentedControlTabList,
+} from '@tkeel/console-components';
 
 type Props = {
   onClick: (e: number) => unknown;
 };
 
-export default function Tabs({ onClick }: Props) {
+export default function TabsComponent({ onClick }: Props) {
   const tabArrInfo = [
     {
       key: '1',
@@ -29,43 +34,24 @@ export default function Tabs({ onClick }: Props) {
   const [tabArr, setTabArr] = useState(tabArrInfo);
 
   return (
-    <Flex
-      w="240px"
-      p="2px"
-      alignItems="center"
-      justifyContent="space-between"
-      bg="white"
-      borderRadius="70px"
-      borderWidth="1px"
-      borderStyle="solid"
-      borderColor="grayAlternatives.100"
-    >
-      {tabArr.map((item, index) => {
-        const { key, name, keyWords, active } = item;
-        return (
-          <Box
-            key={key}
-            w="76px"
-            p="6px 0"
-            borderRadius="70px"
-            cursor="pointer"
-            fontSize="12px"
-            textAlign="center"
-            bg={active ? 'gray.700' : 'white'}
-            color={active ? 'white' : 'gray.600'}
+    <Tabs>
+      <SegmentedControlTabList sx={{ margin: '10px 0', width: 'max-content' }}>
+        {tabArr.map((item, index) => (
+          <SegmentedControlTab
+            key={item.key}
             onClick={() => {
               const newTabArr = tabArr.map((tab, i) => {
                 tabArr[i].active = i === index;
                 return tab;
               });
               setTabArr(newTabArr);
-              onClick(keyWords);
+              onClick(item.keyWords);
             }}
           >
-            {name}
-          </Box>
-        );
-      })}
-    </Flex>
+            {item.name}
+          </SegmentedControlTab>
+        ))}
+      </SegmentedControlTabList>
+    </Tabs>
   );
 }
