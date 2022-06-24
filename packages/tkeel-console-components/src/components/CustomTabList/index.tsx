@@ -1,8 +1,15 @@
-import { Box, BoxProps, useStyles, useTabList } from '@chakra-ui/react';
+import {
+  Box,
+  TabListProps,
+  useMultiStyleConfig,
+  useTabList,
+} from '@chakra-ui/react';
+import { forwardRef, Ref } from 'react';
 
-function CustomTabList(props: BoxProps) {
-  const styles = useStyles();
-  const tabListProps = useTabList(props);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const CustomTabList = forwardRef((props: TabListProps, ref: Ref<any>) => {
+  const tabListProps = useTabList({ ...props, ref });
+  const styles = useMultiStyleConfig('tabList', tabListProps);
 
   return (
     <Box
@@ -18,6 +25,6 @@ function CustomTabList(props: BoxProps) {
       {tabListProps.children}
     </Box>
   );
-}
+});
 
 export default CustomTabList;

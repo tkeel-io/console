@@ -3,25 +3,21 @@ import { useDisclosure } from '@chakra-ui/react';
 import { Alert, MoreActionButton } from '@tkeel/console-components';
 import { LeftRightFilledIcon } from '@tkeel/console-icons';
 import { useRevokePortalTenantTokenMutation } from '@tkeel/console-request-hooks';
-import {
-  getLocalTokenInfo,
-  jumpToTenantAuthTenantPage,
-} from '@tkeel/console-utils';
+import { jumpToTenantAuthTenantPage } from '@tkeel/console-utils';
 
 export default function LogoutTenantButton() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { isLoading, mutate } = useRevokePortalTenantTokenMutation({
-    onSuccess() {
-      jumpToTenantAuthTenantPage({
-        isRemoveLocalTenantInfo: true,
-        isRemoveLocalTokenInfo: true,
-        isReplace: true,
-      });
-    },
-  });
+  const { isLoading, mutate, refreshToken } =
+    useRevokePortalTenantTokenMutation({
+      onSuccess() {
+        jumpToTenantAuthTenantPage({
+          isRemoveLocalTenantInfo: true,
+          isReplace: true,
+        });
+      },
+    });
   const handleConfirm = () => {
-    const tokenInfo = getLocalTokenInfo();
-    mutate({ data: { refresh_token: tokenInfo.refresh_token } });
+    mutate({ data: { refresh_token: refreshToken } });
   };
 
   return (

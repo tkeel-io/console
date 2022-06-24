@@ -39,6 +39,7 @@ type Props<TFieldValues> = FormControlProps & {
   control: Control<TFieldValues>;
   selectStyles?: SelectStyles;
   disabled?: boolean;
+  notFoundContent?: string;
 };
 
 const defaultProps = {
@@ -60,8 +61,11 @@ export default function SelectField<TFieldValues>({
   control,
   selectStyles,
   disabled = false,
+  notFoundContent = '暂无选项',
   ...rest
 }: Props<TFieldValues>) {
+  const isMultipleMode = mode === 'multiple';
+
   return (
     <FormControl id={id} {...rest}>
       <Controller<TFieldValues, FieldPath<TFieldValues>>
@@ -78,8 +82,17 @@ export default function SelectField<TFieldValues>({
             loading={loading}
             dropdownStyle={{ boxShadow: 'none' }}
             options={options}
-            onChange={onChange}
-            value={value}
+            notFoundContent={notFoundContent}
+            onChange={(selectValue) => {
+              if (isMultipleMode && Array.isArray(selectValue)) {
+                onChange(selectValue.join(','));
+              } else {
+                onChange(selectValue);
+              }
+            }}
+            value={
+              isMultipleMode && value ? (value as string).split(',') : value
+            }
             menuItemSelectedIcon={
               <Center width="30px" height="32px">
                 <CheckFilledIcon color="primary" />

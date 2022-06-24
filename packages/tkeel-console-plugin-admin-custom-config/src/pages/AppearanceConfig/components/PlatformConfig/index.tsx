@@ -2,8 +2,8 @@ import { Flex, StyleProps, Text } from '@chakra-ui/react';
 import { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
 import { FieldError, useForm } from 'react-hook-form';
 
-import type { PlatformConfig as PlatformConfigType } from '@tkeel/console-constants';
 import { useDeletePortalConfigMutation } from '@tkeel/console-request-hooks';
+import type { PlatformConfig as PlatformConfigType } from '@tkeel/console-themes';
 
 import ButtonStack from '@/tkeel-console-plugin-admin-custom-config/components/ButtonStack';
 

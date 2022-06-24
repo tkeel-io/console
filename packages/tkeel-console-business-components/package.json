@@ -13,8 +13,8 @@
   "main": "./src/index.ts",
   "dependencies": {
     "@chakra-ui/react": "^2.2.1",
-    "@emotion/react": "^11.9.0",
-    "@emotion/styled": "^11.8.1",
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
     "@tkeel/console-components": "workspace:^",
     "@tkeel/console-hooks": "workspace:^",
     "@tkeel/console-icons": "workspace:^",
@@ -22,13 +22,13 @@
     "@tkeel/console-themes": "workspace:^",
     "@tkeel/console-types": "workspace:^",
     "@tkeel/console-utils": "workspace:^",
-    "framer-motion": "^6.3.11",
+    "framer-motion": "^6.3.13",
     "lodash": "^4.17.21",
-    "qs": "^6.10.3",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
-    "react-hook-form": "^7.31.2",
-    "react-query": "^3.39.0",
+    "qs": "^6.10.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.32.2",
+    "react-query": "^3.39.1",
     "react-router-dom": "^6.3.0"
   }
 }

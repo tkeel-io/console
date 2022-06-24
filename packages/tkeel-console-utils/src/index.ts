@@ -1,4 +1,5 @@
 export * from './utils/auth';
+export * as crossEnv from './utils/cross-env';
 export * from './utils/date-time';
 export * as env from './utils/env';
 export * from './utils/global-config';

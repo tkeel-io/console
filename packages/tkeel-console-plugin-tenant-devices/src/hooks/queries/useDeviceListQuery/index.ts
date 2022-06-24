@@ -81,5 +81,6 @@ export default function useDeviceListQuery({
     reactQueryOptions: { onSuccess },
   });
   const deviceList = data?.listDeviceObject?.items ?? [];
-  return { deviceList, data, ...rest };
+  const total = data?.listDeviceObject?.total ?? 0;
+  return { deviceList, data, total, ...rest };
 }

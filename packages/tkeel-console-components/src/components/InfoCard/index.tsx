@@ -39,7 +39,7 @@ function InfoCard({ title, data, styles }: Props) {
       </Text>
       <Box
         marginTop="4px"
-        minH="108px"
+        minH="88px"
         maxH="300px"
         overflowY="auto"
         {...styles?.content}

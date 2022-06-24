@@ -1,4 +1,4 @@
-import { Box, Button, Circle, StyleProps, useTheme } from '@chakra-ui/react';
+import { Box, Button, Circle, StyleProps } from '@chakra-ui/react';
 import {
   cloneElement,
   MouseEventHandler,
@@ -8,12 +8,12 @@ import {
   useState,
 } from 'react';
 
+import { useColors } from '@tkeel/console-hooks';
 import {
   CaretDownFilledIcon,
   CaretUpFilledIcon,
   MoreVerticalFilledIcon,
 } from '@tkeel/console-icons';
-import { Theme } from '@tkeel/console-themes';
 
 type Placement = 'bottom' | 'top';
 export type MoreActionStyles = {
@@ -31,6 +31,7 @@ type Props = {
   onActionListOpen?: () => unknown;
   onActionListClose?: () => unknown;
   onActionListToggle?: (show: boolean) => unknown;
+  sx?: StyleProps;
   styles?: MoreActionStyles;
 };
 
@@ -58,10 +59,11 @@ export default function MoreAction({
   onActionListToggle,
   buttonProps = {},
   styles = {},
+  sx = {},
 }: Props) {
   const [placement, setPlacement] = useState<Placement>(defaultPlacement);
   const [showActionList, setShowActionList] = useState(isActionListOpen);
-  const { colors } = useTheme<Theme>();
+  const colors = useColors();
   let timer: number | null = null;
 
   const handleSetShowActionList = (show: boolean) => {
@@ -148,48 +150,48 @@ export default function MoreAction({
   return (
     <Box
       position="relative"
+      onClick={handleClick}
       onMouseLeave={handleMouseLeave}
       {...styles.wrapper}
+      {...sx}
     >
-      <Box onClick={handleClick}>
-        {element ||
-          (type === 'icon' ? (
-            <Circle
-              size="28px"
-              backgroundColor={showActionList ? 'gray.100' : 'transparent'}
-              cursor="pointer"
-              _hover={{
-                backgroundColor: 'gray.100',
-                '& > svg': {
-                  fill: `${colors.primary} !important`,
-                },
-              }}
-            >
-              <MoreVerticalFilledIcon
-                color={showActionList ? 'primary' : 'grayAlternatives.300'}
-              />
-            </Circle>
-          ) : (
-            <Button
-              rightIcon={
-                isActionListOpen ? (
-                  <CaretUpFilledIcon color="white" />
-                ) : (
-                  <CaretDownFilledIcon color="white" />
-                )
+      {element ||
+        (type === 'icon' ? (
+          <Circle
+            size="28px"
+            backgroundColor={showActionList ? 'gray.100' : 'transparent'}
+            cursor="pointer"
+            _hover={{
+              backgroundColor: 'gray.100',
+              '& > svg': {
+                fill: `${colors.primary} !important`,
+              },
+            }}
+          >
+            <MoreVerticalFilledIcon
+              color={showActionList ? 'primary' : 'grayAlternatives.300'}
+            />
+          </Circle>
+        ) : (
+          <Button
+            rightIcon={
+              isActionListOpen ? (
+                <CaretUpFilledIcon color="white" />
+              ) : (
+                <CaretDownFilledIcon color="white" />
+              )
+            }
+            width="92px"
+            paddingRight="18px"
+            css={`
+              > span {
+                margin-left: 1px;
               }
-              width="92px"
-              paddingRight="18px"
-              css={`
-                > span {
-                  margin-left: 1px;
-                }
-              `}
-            >
-              更多操作
-            </Button>
-          ))}
-      </Box>
+            `}
+          >
+            更多操作
+          </Button>
+        ))}
       <Box
         display={showActionList ? 'block' : 'none'}
         position="absolute"

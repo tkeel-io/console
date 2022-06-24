@@ -1,9 +1,8 @@
 import 'rc-select/assets/index.less';
 
-import { useTheme } from '@chakra-ui/react';
 import { css, Global } from '@emotion/react';
 
-import { Theme } from '@tkeel/console-themes';
+import { useColors } from '@tkeel/console-hooks';
 
 import { SelectExtrasProps } from './types';
 
@@ -13,7 +12,7 @@ interface Props extends SelectExtrasProps {
 
 export default function SelectStyles({ prefixCls, styles }: Props) {
   const selectPrefix = prefixCls;
-  const { colors } = useTheme<Theme>();
+  const colors = useColors();
   const globalStyles = css`
     * {
       box-sizing: border-box;
@@ -100,7 +99,7 @@ export default function SelectStyles({ prefixCls, styles }: Props) {
           left: 16px;
           color: ${colors.grayAlternatives[700]};
           font-size: 14px;
-          line-height: 24px;
+          line-height: 26px;
           cursor: pointer;
           pointer-events: none;
         }

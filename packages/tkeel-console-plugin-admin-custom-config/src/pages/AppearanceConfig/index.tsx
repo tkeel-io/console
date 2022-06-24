@@ -15,14 +15,14 @@ import {
   CustomTab as CustomDetailTab,
   CustomTabList,
 } from '@tkeel/console-components';
-import type {
-  CommonConfig as CommonConfigType,
-  PlatformConfig as PlatformConfigType,
-} from '@tkeel/console-constants';
 import {
   useConfigAppearanceQuery,
   useUpdatePortalConfigMutation,
 } from '@tkeel/console-request-hooks';
+import type {
+  CommonConfig as CommonConfigType,
+  PlatformConfig as PlatformConfigType,
+} from '@tkeel/console-themes';
 
 import adminMenuDark from '@/tkeel-console-plugin-admin-custom-config/assets/images/admin-menu-dark.svg';
 import adminMenuLight from '@/tkeel-console-plugin-admin-custom-config/assets/images/admin-menu-light.svg';
@@ -228,6 +228,9 @@ export default function AppearanceConfig() {
                         minHeight: '550px',
                         height: `${(loginWrapperWidth / 1.77).toFixed(2)}px`,
                         transform: 'scale(.9)',
+                      },
+                      logo: {
+                        height: '40px',
                       },
                     }}
                   />

@@ -7,6 +7,8 @@ import {
 } from '@tkeel/console-types';
 import { RequestResult } from '@tkeel/console-utils';
 
+import type { PlatformRule } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePlatformRulesQuery';
+
 export interface ApiData {
   '@types': string;
   value: object;
@@ -14,32 +16,77 @@ export interface ApiData {
 
 const method = 'POST';
 
-type RequestData = {
-  ruleId: string;
+export enum Time {
+  Immediate,
+  OneMinute,
+  ThreeMinutes,
+  FiveMinutes,
+}
+
+export enum Polymerize {
+  Avg = 'avg',
+  Max = 'max',
+  Min = 'min',
+}
+
+export enum Operator {
+  Eq = 'eq',
+  Ne = 'ne',
+  Gt = 'gt',
+  Lt = 'lt',
+  Ge = 'ge',
+  Le = 'le',
+}
+
+export enum RequestTelemetryType {
+  Enum,
+  Bool,
+  Common,
+}
+
+interface DeviceConditionItem {
+  telemetryId: string;
+  telemetryName: string;
+  telemetryType: RequestTelemetryType;
+  time?: Time;
+  polymerize?: Polymerize;
+  operator: Operator;
+  value?: string;
+  label?: string;
+}
+
+export enum Condition {
+  Or = 'or',
+  And = 'and',
+}
+
+export interface RequestData {
+  ruleId?: number;
   ruleName: string;
   alarmType: AlarmType;
   alarmRuleType: AlarmRuleType;
   alarmLevel: AlarmLevel;
   alarmSourceObject: AlarmSourceObject;
-  deviceId: string;
-  deviceName: string;
-  telemetryId: string;
-  // platformAlarmRule;
-  // deviceCondition;
-  condition: 'or' | 'and'; // 条件 or | and
-  telemetryType: 0 | 1 | 2; // 0：枚举；1：布尔；2：普通
-};
+  tempId?: string;
+  tempName?: string;
+  deviceId?: string;
+  deviceName?: string;
+  platformRuleList?: PlatformRule[];
+  deviceCondition?: DeviceConditionItem[];
+  condition: Condition;
+}
 
-type Props = {
-  onSuccess: (
+interface Props {
+  onSuccess?: (
     data: RequestResult<ApiData, undefined, RequestData>,
     variables: unknown,
     context: unknown
   ) => void | Promise<unknown>;
-};
+}
 
 export default function useCreatePolicyMutation({ onSuccess }: Props) {
   return useMutation<ApiData, undefined, RequestData>({
+    url: '/tkeel-alarm/v1/rule/create',
     method,
     reactQueryOptions: {
       onSuccess,

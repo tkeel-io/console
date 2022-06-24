@@ -1,7 +1,7 @@
 import { Button, Flex, Text, Theme, useTheme } from '@chakra-ui/react';
-import { useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CellProps, Column } from 'react-table';
+import type { CellProps, Column } from 'react-table';
 
 import {
   ButtonsHStack,
@@ -12,7 +12,7 @@ import {
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
 import { GroupTwoToneIcon } from '@tkeel/console-icons';
-import type { Tenant, TenantAdmin } from '@tkeel/console-request-hooks';
+import type { Tenant } from '@tkeel/console-request-hooks';
 import { useTenantsQuery } from '@tkeel/console-request-hooks';
 import { formatDateTimeByTimestamp, plugin } from '@tkeel/console-utils';
 
@@ -58,80 +58,79 @@ export default function Tenants() {
     refetch();
   };
 
-  const handleModifyTenantSuccess = () => {
-    toast('编辑成功', { status: 'success' });
-    refetch();
-  };
-
-  const handleDeleteTenantSuccess = () => {
-    toast('删除成功', { status: 'success' });
-    refetch();
-  };
-
   const columns: ReadonlyArray<Column<Tenant>> = [
     {
       Header: '租户空间',
       accessor: 'title',
-      Cell: ({ value, row }: CellProps<Tenant>) =>
-        useMemo(
-          () => (
-            <Button
-              size="small"
-              variant="link"
-              color="gray.800"
-              onClick={() => navigate(`${row?.original?.tenant_id}`)}
-            >
-              {value}
-            </Button>
-          ),
-          [row?.original?.tenant_id, value]
+      Cell: useCallback(
+        ({ value, row }: CellProps<Tenant, Tenant['title']>) => (
+          <Button
+            size="small"
+            variant="link"
+            color="gray.800"
+            onClick={() => navigate(`${row?.original?.tenant_id}`)}
+          >
+            {value}
+          </Button>
         ),
+        [navigate]
+      ),
     },
     {
       Header: '认证方式',
       accessor: 'auth_type',
-      Cell: ({ value }) =>
-        useMemo(
-          () => (
-            <Text>
-              {
-                (AUTH_TYPE_MAP[value] ?? AUTH_TYPE_MAP[DEFAULT_AUTH_TYPE_VALUE])
-                  .label
-              }
-            </Text>
-          ),
-          [value]
+      Cell: useCallback(
+        ({ value }: CellProps<Tenant, Tenant['auth_type']>) => (
+          <Text>
+            {
+              (AUTH_TYPE_MAP[value] ?? AUTH_TYPE_MAP[DEFAULT_AUTH_TYPE_VALUE])
+                .label
+            }
+          </Text>
         ),
+        []
+      ),
     },
     { Header: '租户 ID', accessor: 'tenant_id' },
     {
       Header: '管理员账号',
       accessor: 'admins',
-      Cell: ({ value = [] }: { value: TenantAdmin[] }) => {
-        const usernames = value.map(({ username }) => username);
-        return useMemo(
-          () => <Text noOfLines={1}>{usernames.join('，')}</Text>,
-          [usernames]
-        );
-      },
+      Cell: useCallback(
+        ({ value = [] }: CellProps<Tenant, Tenant['admins']>) => {
+          const usernames = value.map(({ username }) => username);
+          return <Text noOfLines={1}>{usernames.join('，')}</Text>;
+        },
+        []
+      ),
     },
     {
       Header: '创建时间',
       accessor: 'created_at',
-      Cell: ({ value }) =>
-        useMemo(() => {
-          return value ? (
+      Cell: useCallback(
+        ({ value }: CellProps<Tenant, Tenant['created_at']>) =>
+          value ? (
             <Text>{formatDateTimeByTimestamp({ timestamp: value })}</Text>
-          ) : null;
-        }, [value]),
+          ) : null,
+        []
+      ),
     },
     { Header: '备注', accessor: 'remark' },
     { Header: '用户数', accessor: 'num_user' },
     {
       Header: '操作',
-      Cell: ({ row }: CellProps<Tenant>) =>
-        useMemo(() => {
+      Cell: useCallback(
+        ({ row }: CellProps<Tenant>) => {
           const { original } = row;
+
+          const handleModifyTenantSuccess = () => {
+            toast('编辑成功', { status: 'success' });
+            refetch();
+          };
+
+          const handleDeleteTenantSuccess = () => {
+            toast('删除成功', { status: 'success' });
+            refetch();
+          };
 
           return (
             <ButtonsHStack>
@@ -147,7 +146,9 @@ export default function Tenants() {
               />
             </ButtonsHStack>
           );
-        }, [row]),
+        },
+        [refetch, toast]
+      ),
     },
   ];
 

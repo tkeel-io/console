@@ -36,7 +36,7 @@ export default function Plugin({
   isExpanded,
   styles,
 }: Props) {
-  const { metadata, status } = data;
+  const { ks_addr: kubeSphereURL, metadata, status } = data;
 
   const statusInfo = usePluginStatusInfo({
     status: statusValue as PluginStatus,
@@ -64,9 +64,27 @@ export default function Plugin({
       >
         <AppsTwoToneIcon4 size="32px" />
         <Box flex="1" margin="0 120px 0 16px">
-          <Text {...defaultStyles.value} noOfLines={1}>
-            <Tooltip label={metadata.name}>{metadata.name}</Tooltip>
-          </Text>
+          <Box as={Text} noOfLines={1}>
+            <Tooltip label={metadata.name}>
+              <Text
+                as="a"
+                {...defaultStyles.value}
+                _hover={
+                  kubeSphereURL
+                    ? { textDecoration: 'underline', color: 'primary' }
+                    : undefined
+                }
+                onClick={(event) => {
+                  if (kubeSphereURL) {
+                    window.open(kubeSphereURL, '_blank');
+                    event.stopPropagation();
+                  }
+                }}
+              >
+                {metadata.name}
+              </Text>
+            </Tooltip>
+          </Box>
           <Text {...defaultStyles.label} fontSize="14px">
             名称
           </Text>
