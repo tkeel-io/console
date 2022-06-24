@@ -250,6 +250,13 @@ export default function BasePolicyModal({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ruleDescList]);
 
+  const watchDeviceInfo = watch('deviceInfo');
+  useEffect(() => {
+    if (watchDeviceInfo === '') {
+      setValue('deviceConditions', [defaultDeviceCondition]);
+    }
+  }, [setValue, watchDeviceInfo]);
+
   return (
     <Modal
       width="800px"

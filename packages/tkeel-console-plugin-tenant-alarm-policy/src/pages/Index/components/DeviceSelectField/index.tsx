@@ -121,7 +121,7 @@ export default function DeviceSelectField({ value, onChange, styles }: Props) {
               removeCondition={() => {
                 setTemplateId('');
                 setTemplateCondition(null);
-                onChange('{}');
+                onChange('');
                 setDeviceCondition(null);
               }}
               styles={filterConditionTagStyles}
