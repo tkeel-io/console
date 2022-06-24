@@ -1,4 +1,4 @@
-import { Flex } from '@chakra-ui/react';
+import { Flex, useTheme } from '@chakra-ui/react';
 import { css, Global } from '@emotion/react';
 import dayjs from 'dayjs';
 import type {
@@ -18,6 +18,8 @@ import {
   PageHeaderToolbar,
   Select,
 } from '@tkeel/console-components';
+import { CalendarFilledIcon } from '@tkeel/console-icons';
+import { Theme } from '@tkeel/console-themes';
 
 import AlarmPolicyTypeSelect from '@/tkeel-console-plugin-tenant-alarms/components/AlarmPolicyTypeSelect';
 import { ALARMS_SOURCE } from '@/tkeel-console-plugin-tenant-alarms/constants';
@@ -31,19 +33,12 @@ const selectorStyle = {
     fontWeight: 'normal',
   },
 };
-// export interface ParamsType {
-//   alarmLevel?: number;
-//   alarmType?: number;
-//   alarmStrategy?: number;
-//   alarmSource?: number;
-//   startTime?: string;
-//   endTime?: string;
-// }
 
 export interface Props {
   onChange: (params: Omit<RequestParams, 'pageNum' | 'pageSize'>) => void;
 }
 function Filter({ onChange }: Props) {
+  const { colors } = useTheme<Theme>();
   const dateDisabled =
     combine && allowedMaxDays && afterToday
       ? {
@@ -91,6 +86,7 @@ function Filter({ onChange }: Props) {
           <DateRangePicker
             {...dateDisabled}
             cleanable
+            caretAs={CalendarFilledIcon}
             onOk={([start, end]: ValueType) => {
               onChange({
                 startTime: dayjs(start).valueOf(),
@@ -118,6 +114,7 @@ function Filter({ onChange }: Props) {
 
                 .rs-picker-toggle-caret {
                   top: 5px !important;
+                  color: ${colors.gray[300]};
                 }
               }
             `}
@@ -128,7 +125,6 @@ function Filter({ onChange }: Props) {
         wrapper: {
           zIndex: 1,
           padding: '0 20px',
-          mt: '16px',
           backgroundColor: 'gray.100',
         },
       }}

@@ -7,7 +7,7 @@ import AlarmsTable from './components/AlarmsTable';
 
 export default function Index() {
   return (
-    <Stack>
+    <Stack h="100%">
       <PageHeader
         icon={<MethodIcon size={40} />}
         name="告警记录"

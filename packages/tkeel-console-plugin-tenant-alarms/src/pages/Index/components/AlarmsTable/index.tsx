@@ -156,7 +156,7 @@ function AlarmsTable() {
 
   return (
     <AlarmContext.Provider value={store}>
-      <Flex flex="1" direction="column">
+      <Flex flex="1" direction="column" overflow="hidden" mt="16px !important">
         <Filter
           onChange={(p) =>
             setParams((r) => {
@@ -181,6 +181,9 @@ function AlarmsTable() {
               flex: 1,
               overflow: 'auto',
               backgroundColor: 'whiteAlias',
+            },
+            body: {
+              overflow: 'auto',
             },
             pagination: {
               px: '20px',
