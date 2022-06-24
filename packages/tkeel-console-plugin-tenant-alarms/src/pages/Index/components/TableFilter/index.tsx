@@ -50,7 +50,7 @@ function Filter({ onChange }: Props) {
     before && combine && afterToday
       ? {
           disabledDate: combine(
-            before(dayjs().subtract(7, 'day').format('YYYY-MM-DD HH:mm:ss')),
+            before(dayjs().subtract(30, 'day').format('YYYY-MM-DD HH:mm:ss')),
             afterToday()
           ), // combine(allowedMaxDays(7), afterToday()),
         }

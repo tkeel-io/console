@@ -7,7 +7,7 @@ import { plugin } from '@tkeel/console-utils';
 type Props = {
   icon: ReactNode;
   name: string;
-  desc?: string;
+  desc?: string | ReactNode;
   documentsPath?: string;
 };
 
