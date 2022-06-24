@@ -29,6 +29,7 @@ export { default as ChevronRightFilledIcon } from './components/ChevronRightFill
 export { default as ChevronUpFilledIcon } from './components/ChevronUpFilledIcon';
 export { default as ClickHouseFilledIcon } from './components/ClickHouseFilledIcon';
 export { default as CloseFilledIcon } from './components/CloseFilledIcon';
+export { default as ClusterTwoToneIcon } from './components/ClusterTwoToneIcon';
 export { default as CodeFilledIcon } from './components/CodeFilledIcon';
 export { default as CollapseFilledIcon } from './components/CollapseFilledIcon';
 export { default as CommandWindowFilledIcon } from './components/CommandWindowFilledIcon';
@@ -112,6 +113,7 @@ export { default as RightFilledIcon } from './components/RightFilledIcon';
 export { default as RoleTwoToneIcon } from './components/RoleTwoToneIcon';
 export { default as RoutesMsgIcon } from './components/RoutesMsgIcon';
 export { default as RoutesTimeIcon } from './components/RoutesTimeIcon';
+export { default as ServerNodeTwoToneIcon } from './components/ServerNodeTwoToneIcon';
 export { default as ShutdownFilledIcon } from './components/ShutdownFilledIcon';
 export { default as SmartObjectTwoToneIcon } from './components/SmartObjectTwoToneIcon';
 export { default as SmcFilledIcon } from './components/SmcFilledIcon';
