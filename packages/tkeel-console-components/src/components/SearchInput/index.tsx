@@ -105,7 +105,7 @@ function SearchInput({
         color="gray.700"
         fontSize="12px"
         {...inputStyle}
-        _focus={{ borderColor: 'gray.400' }}
+        _focus={{ borderColor: 'gray.400', boxShadow: 'none' }}
         _placeholder={{ fontWeight: 500 }}
         placeholder={placeholder}
         {...valueProps}
