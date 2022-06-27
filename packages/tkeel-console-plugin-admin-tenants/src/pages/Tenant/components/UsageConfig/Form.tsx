@@ -74,6 +74,7 @@ export default function Form({ schema, data, isLoading, onSubmit }: Props) {
   const {
     register,
     handleSubmit,
+    reset,
     // formState: { errors },
   } = useForm({
     defaultValues: data,
@@ -87,7 +88,7 @@ export default function Form({ schema, data, isLoading, onSubmit }: Props) {
     localizeZh(validate.errors);
   }
 
-  const handleReset = () => {
+  const handleResetDefaultValues = () => {
     const defaultValues: Data = {};
     Object.entries(properties).forEach(([key, property]) => {
       const { default: defaultValue } = property;
@@ -96,6 +97,11 @@ export default function Form({ schema, data, isLoading, onSubmit }: Props) {
       }
       onSubmit(defaultValues);
     });
+  };
+
+  const handleReset = () => {
+    reset(data);
+    setCurrentMode('view');
   };
 
   return (
@@ -153,8 +159,9 @@ export default function Form({ schema, data, isLoading, onSubmit }: Props) {
                 </IconButton>
                 <IconButton
                   {...buttonProps}
+                  type="reset"
                   icon={<CloseCircleTwoToneIcon size="16px" />}
-                  onClick={() => setCurrentMode('view')}
+                  onClick={handleReset}
                 >
                   取消
                 </IconButton>
@@ -198,7 +205,7 @@ export default function Form({ schema, data, isLoading, onSubmit }: Props) {
         title="确定要「恢复默认配置」吗？"
         isConfirmButtonLoading={isLoading}
         onClose={onClose}
-        onConfirm={handleReset}
+        onConfirm={handleResetDefaultValues}
       />
     </>
   );
