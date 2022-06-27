@@ -7,7 +7,6 @@ import {
   FieldPathValue,
   Path,
   RegisterOptions,
-  UnpackNestedValue,
 } from 'react-hook-form';
 
 import { CheckFilledIcon } from '@tkeel/console-icons';
@@ -28,9 +27,8 @@ type Props<TFieldValues> = FormControlProps & {
   showArrow?: boolean;
   allowClear?: boolean;
   loading?: boolean;
-  defaultValue?: UnpackNestedValue<
-    FieldPathValue<TFieldValues, Path<TFieldValues>>
-  >;
+  // TODO: https://github.com/react-hook-form/react-hook-form/blob/master/CHANGELOG.md#7330---2022-6-24
+  defaultValue?: FieldPathValue<TFieldValues, Path<TFieldValues>>;
   placeholder?: string;
   rules?: Omit<
     RegisterOptions,
