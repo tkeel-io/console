@@ -138,7 +138,11 @@ function AlarmsTable() {
           <MoreAction
             key={alarmId}
             buttons={[
-              <DisposeAlarmButton key={alarmId} alarmId={alarmId} />,
+              <DisposeAlarmButton
+                key={alarmId}
+                alarmId={alarmId}
+                ruleId={ruleId}
+              />,
               <ShowDetailButton key={ruleId} details={original} />,
             ]}
           />

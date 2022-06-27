@@ -133,6 +133,10 @@ function Filter({ onChange }: Props) {
                   padding-bottom: 5px;
                 }
 
+                .rs-picker-toggle-clean {
+                  top: 5px !important;
+                }
+
                 .rs-picker .rs-btn-default {
                   border-radius: 4px;
                 }
