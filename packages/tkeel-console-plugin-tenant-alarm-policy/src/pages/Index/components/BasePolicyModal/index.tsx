@@ -91,7 +91,7 @@ export default function BasePolicyModal({
     ruleName: '',
     alarmRuleType: thresholdAlarm,
     alarmSourceObject: AlarmSourceObjectValue.Device,
-    deviceInfo: '{}',
+    deviceInfo: '',
     condition: Condition.Or,
     deviceConditions: [defaultDeviceCondition],
   };
@@ -139,6 +139,7 @@ export default function BasePolicyModal({
     watch,
   } = useForm<FormValues>({
     defaultValues,
+    mode: 'onChange',
   });
 
   const fieldArrayReturn = useFieldArray({
@@ -248,6 +249,13 @@ export default function BasePolicyModal({
     setValue('deviceConditions', deviceConditions);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ruleDescList]);
+
+  const watchDeviceInfo = watch('deviceInfo');
+  useEffect(() => {
+    if (watchDeviceInfo === '') {
+      setValue('deviceConditions', [defaultDeviceCondition]);
+    }
+  }, [setValue, watchDeviceInfo]);
 
   return (
     <Modal

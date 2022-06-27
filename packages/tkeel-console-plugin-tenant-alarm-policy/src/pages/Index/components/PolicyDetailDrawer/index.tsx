@@ -60,11 +60,12 @@ function PolicyDetailDrawer({ ruleId, onClose, refetchData }: Props) {
     },
     {
       label: '告警策略类型',
-      value: ruleDetail?.alarmRuleType ? (
-        <AlarmRuleTypeTag type={ruleDetail?.alarmRuleType} />
-      ) : (
-        '-'
-      ),
+      value:
+        ruleDetail?.alarmRuleType === undefined ? (
+          '-'
+        ) : (
+          <AlarmRuleTypeTag type={ruleDetail?.alarmRuleType} />
+        ),
     },
     {
       label: '告警级别',

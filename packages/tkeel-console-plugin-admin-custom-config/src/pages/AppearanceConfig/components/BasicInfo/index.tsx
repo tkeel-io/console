@@ -4,9 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { BasicInfoBg } from '@tkeel/console-business-components';
 import { BackButton } from '@tkeel/console-components';
 import { AppsTwoToneIcon } from '@tkeel/console-icons';
+import { plugin } from '@tkeel/console-utils';
 
 export default function BasicInfo() {
   const navigate = useNavigate();
+  const documents = plugin.getPortalDocuments();
 
   return (
     <Box
@@ -43,9 +45,15 @@ export default function BasicInfo() {
         fontSize="12px"
       >
         <Text color="grayAlternatives.300">更改通用与平台级外观配置。</Text>
-        {/* <Text color="primary" cursor="pointer">
+        <Text
+          color="primary"
+          cursor="pointer"
+          onClick={() =>
+            documents.open(documents.config.paths.adminGuide.appearanceConfig)
+          }
+        >
           查看文档
-        </Text> */}
+        </Text>
       </Flex>
     </Box>
   );

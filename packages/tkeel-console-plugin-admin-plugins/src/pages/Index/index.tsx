@@ -9,7 +9,7 @@ import useReposQuery from '@/tkeel-console-plugin-admin-plugins/hooks/queries/us
 
 import AddRepoButton from './components/AddRepoButton';
 import Content from './components/Content';
-import CustomTab from './components/CustomTab';
+import CustomRepoTab from './components/CustomRepoTab';
 
 function Index(): JSX.Element {
   const { repos, refetch, isLoading } = useReposQuery();
@@ -49,11 +49,11 @@ function Index(): JSX.Element {
           borderRadius="22px"
         >
           {repos.map((repo) => (
-            <CustomTab key={repo.name} num={repo.installer_num}>
+            <CustomRepoTab key={repo.name} num={repo.installer_num}>
               {repo.name}
-            </CustomTab>
+            </CustomRepoTab>
           ))}
-          {!isLoading && <CustomTab num={total}>已安装</CustomTab>}
+          {!isLoading && <CustomRepoTab num={total}>已安装</CustomRepoTab>}
         </TabList>
         <TabPanels flex="1" overflow="hidden" marginTop="16px">
           {repos.map((repo) => (

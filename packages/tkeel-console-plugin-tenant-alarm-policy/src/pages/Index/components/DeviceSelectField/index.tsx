@@ -1,5 +1,5 @@
-import { Flex, StyleProps, Text } from '@chakra-ui/react';
-import { useState } from 'react';
+import { Flex, StyleProps, Text, useOutsideClick } from '@chakra-ui/react';
+import { useRef, useState } from 'react';
 
 import { DeviceTemplateList } from '@tkeel/console-business-components';
 import type { FilterConditionInfo } from '@tkeel/console-components';
@@ -9,6 +9,7 @@ import {
   useDeviceListQuery,
   useTemplatesQuery,
 } from '@tkeel/console-request-hooks';
+import { hasJsonStructure } from '@tkeel/console-utils';
 
 import TemplateDeviceList from '../TemplateDeviceList';
 
@@ -29,7 +30,7 @@ interface DeviceInfo {
 
 export const getDeviceInfo = (deviceInfo: string) => {
   return (
-    deviceInfo
+    hasJsonStructure(deviceInfo)
       ? JSON.parse(deviceInfo)
       : { tempId: '', tempName: '', deviceId: '', deviceName: '' }
   ) as DeviceInfo;
@@ -76,32 +77,11 @@ export default function DeviceSelectField({ value, onChange, styles }: Props) {
     enabled: !!templateId,
   });
 
-  let timer: number | null = null;
-  // const handleDocumentClick = () => {
-  //   setIsShowDropdown(false);
-  // };
-
-  // useEffect(() => {
-  //   window.addEventListener('click', handleDocumentClick);
-
-  //   return () => {
-  //     window.removeEventListener('click', handleDocumentClick);
-  //   };
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
-  const handleMouseLeave = () => {
-    timer = window.setTimeout(() => {
-      setIsShowDropdown(false);
-    }, 500);
-  };
-
-  const handleDropdownMouseEnter = () => {
-    if (timer) {
-      clearTimeout(timer);
-      timer = null;
-    }
-  };
+  const ref = useRef<HTMLDivElement>(null);
+  useOutsideClick({
+    ref,
+    handler: () => setIsShowDropdown(false),
+  });
 
   const filterConditionTagStyles = {
     value: {
@@ -112,10 +92,10 @@ export default function DeviceSelectField({ value, onChange, styles }: Props) {
 
   return (
     <Flex
+      ref={ref}
       height="40px"
       position="relative"
       alignItems="flex-end"
-      onMouseLeave={handleMouseLeave}
       {...styles?.wrapper}
     >
       <Flex
@@ -141,7 +121,7 @@ export default function DeviceSelectField({ value, onChange, styles }: Props) {
               removeCondition={() => {
                 setTemplateId('');
                 setTemplateCondition(null);
-                onChange('{}');
+                onChange('');
                 setDeviceCondition(null);
               }}
               styles={filterConditionTagStyles}
@@ -175,7 +155,6 @@ export default function DeviceSelectField({ value, onChange, styles }: Props) {
           borderRadius="4px"
           backgroundColor="white"
           onClick={(e) => e.stopPropagation()}
-          onMouseEnter={handleDropdownMouseEnter}
         >
           {templateId ? (
             <TemplateDeviceList

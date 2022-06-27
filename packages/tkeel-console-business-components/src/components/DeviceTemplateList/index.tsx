@@ -27,7 +27,13 @@ export default function DeviceTemplateList({
   styles,
 }: Props) {
   return (
-    <Flex width="100%" height="100%" {...styles?.root} {...sx}>
+    <Flex
+      flexDirection="column"
+      width="100%"
+      height="100%"
+      {...styles?.root}
+      {...sx}
+    >
       {(() => {
         if (isLoading) {
           return (

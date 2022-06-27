@@ -24,8 +24,9 @@ export default function TenantSelector({ value, onChange }: Props) {
       defaultOption={ALL_TENANTS_OPTION}
       options={options}
       value={value}
+      showSearchInput
       labelPrefix="租户空间："
-      styles={{ wrapper: { width: '200px', backgroundColor: 'white' } }}
+      styles={{ wrapper: { width: '200px' } }}
       onChange={onChange}
     />
   );

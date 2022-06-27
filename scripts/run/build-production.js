@@ -5,9 +5,10 @@ const { runNpmScripts } = require('./commands');
 
 (async () => {
   const packageInfos = await getSelectedCanRunPackageInfos();
-  const data = packageInfos.map(({ packageJson }) => ({
+  const data = packageInfos.map(({ packageJson, env }) => ({
     packageName: packageJson.name,
     npmScriptName: 'build',
+    env,
   }));
   runNpmScripts({ data });
 })();

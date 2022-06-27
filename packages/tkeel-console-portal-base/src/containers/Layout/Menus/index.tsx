@@ -22,14 +22,14 @@ type Props = {
   menus: Menu[];
 };
 
-function Menus({ menus }: Props) {
+export default function Menus({ menus }: Props) {
   const [searchParams] = useSearchParams();
   const menuCollapsed = searchParams?.get('menu-collapsed') === 'true' || false;
   const [collapsed, setCollapsed] = useState(menuCollapsed);
 
   const localMenuTheme = getLocalMenuTheme();
   const isQingCloudTheme =
-    GLOBAL_PORTAL_CONFIG.client.themeName === ThemeNames.QingcloudLight;
+    GLOBAL_PORTAL_CONFIG.client.themeName === ThemeNames.QingCloudLight;
   const defaultMenuTheme = isQingCloudTheme ? 'dark' : 'light';
   const [menuTheme, setMenuTheme] = useState(
     localMenuTheme || defaultMenuTheme
@@ -87,5 +87,3 @@ function Menus({ menus }: Props) {
     </Box>
   );
 }
-
-export default Menus;

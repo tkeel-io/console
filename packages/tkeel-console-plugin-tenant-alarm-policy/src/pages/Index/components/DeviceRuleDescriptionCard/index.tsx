@@ -218,7 +218,7 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                   formControlStyle={{
                     marginBottom: '0',
                     flexShrink: 0,
-                    width: '140px',
+                    width: '120px',
                   }}
                 />
                 {telemetryIsNumber && (
@@ -250,7 +250,7 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                     {...selectProps}
                     formControlStyle={{
                       flexShrink: 0,
-                      width: '122px',
+                      width: '130px',
                     }}
                   />
                 )}
@@ -280,6 +280,9 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                       placeholder="运算符"
                       options={enumOperatorOptions}
                       {...selectProps}
+                      formControlStyle={{
+                        width: '140px',
+                      }}
                     />
                     <SelectField<FormValues>
                       id={getFieldId(i, 'booleanValue')}
@@ -287,6 +290,9 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                       placeholder="请选择"
                       options={booleanValueOptions}
                       {...selectProps}
+                      formControlStyle={{
+                        width: '140px',
+                      }}
                     />
                   </>
                 )}

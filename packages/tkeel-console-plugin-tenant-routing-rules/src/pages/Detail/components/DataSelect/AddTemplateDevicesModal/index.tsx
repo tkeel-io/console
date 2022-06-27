@@ -41,7 +41,7 @@ export default function AddTemplateDevicesModal({
   const { deviceIds } = useRuleDevicesIdArrayQuery(id || '');
   const templateId = ruleDetail?.model_id ?? '';
   const templateName = ruleDetail?.model_name ?? '';
-  useDeviceListQuery({
+  const { isLoading: isDeviceListLoading } = useDeviceListQuery({
     requestData: {
       condition: [
         {
@@ -96,7 +96,8 @@ export default function AddTemplateDevicesModal({
           backgroundColor="gray.50"
         >
           <CheckDeviceList
-            isLoading={false}
+            isLoading={isDeviceListLoading}
+            isMultipleChoice
             deviceList={deviceList}
             keywords={keywords}
             empty={

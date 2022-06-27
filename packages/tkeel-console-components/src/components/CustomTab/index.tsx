@@ -1,15 +1,16 @@
-import { Box, BoxProps, TabProps, useStyles, useTab } from '@chakra-ui/react';
-import { ReactNode } from 'react';
+import { Box, TabProps, useMultiStyleConfig, useTab } from '@chakra-ui/react';
+import { forwardRef, ReactNode, Ref } from 'react';
 
-type Props = BoxProps &
-  TabProps & {
-    children: ReactNode;
-  };
+interface Props extends TabProps {
+  children: ReactNode;
+}
 
-function CustomTab(props: Props) {
-  const styles = useStyles();
-  const tabProps = useTab(props);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const CustomTab = forwardRef((props: Props, ref: Ref<any>) => {
+  const tabProps = useTab({ ...props, ref });
   const isSelected = !!tabProps['aria-selected'];
+
+  const styles = useMultiStyleConfig('Tabs', tabProps);
 
   return (
     <Box
@@ -32,6 +33,6 @@ function CustomTab(props: Props) {
       {tabProps.children}
     </Box>
   );
-}
+});
 
 export default CustomTab;
