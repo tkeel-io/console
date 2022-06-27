@@ -47,21 +47,17 @@ export default function Form({ schema, data }: Props) {
   const fields: Omit<InputProps, 'registerReturn'>[] = Object.entries(
     properties
   ).map(([key, property]) => {
-    const { type, default: defaultValue } = property;
-    const value = data?.[key];
+    const { title, description, type } = property;
 
     let field: Omit<InputProps, 'registerReturn'> = {
       id: key,
+      title,
       type: type === 'number' ? 'number' : 'text',
       isDisabled: currentMode === 'view',
     };
 
-    if (defaultValue) {
-      field = { ...field, defaultValue };
-    }
-
-    if (value) {
-      field = { ...field, value };
+    if (description) {
+      field = { ...field, description };
     }
 
     return field;
@@ -72,6 +68,7 @@ export default function Form({ schema, data }: Props) {
     handleSubmit,
     // formState: { errors },
   } = useForm({
+    defaultValues: data,
     resolver: ajvResolver(schema),
   });
 
@@ -144,16 +141,32 @@ export default function Form({ schema, data }: Props) {
       </Flex>
       <Box overflowY="auto" flex="1">
         {fields.length > 0 ? (
-          fields.map((field) => {
-            const { id } = field;
+          <Flex flexWrap="wrap">
+            {fields.map((field) => {
+              const { id, type } = field;
 
-            return <Input key={id} {...field} registerReturn={register(id)} />;
-          })
+              return (
+                <Box
+                  key={id}
+                  marginBottom="20px"
+                  width="calc(50% - 10px)"
+                  _odd={{ marginRight: '20px' }}
+                >
+                  <Input
+                    {...field}
+                    registerReturn={register(id, {
+                      valueAsNumber: type === 'number',
+                    })}
+                  />
+                </Box>
+              );
+            })}
+          </Flex>
         ) : (
           <Empty isFullHeight />
         )}
       </Box>
-      <Box>{JSON.stringify(validate.errors)}</Box>
+      <Box paddingTop="32px">{JSON.stringify(validate.errors)}</Box>
     </BaseForm>
   );
 }

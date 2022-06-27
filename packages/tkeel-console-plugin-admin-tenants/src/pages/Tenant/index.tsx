@@ -32,6 +32,10 @@ export default function Tenant() {
           borderRadius="4px"
           backgroundColor="white"
         >
+          {/* TODO: recover */}
+          <TabPanel height="100%" padding="0px 20px">
+            <UsageConfig />
+          </TabPanel>
           <TabPanel height="100%" padding="0px 20px">
             <Users />
           </TabPanel>
@@ -40,9 +44,6 @@ export default function Tenant() {
               <ThirdPartyAuth />
             </TabPanel>
           )}
-          <TabPanel height="100%" padding="0px 20px">
-            <UsageConfig />
-          </TabPanel>
         </TabPanels>
       </Tabs>
     </Flex>
