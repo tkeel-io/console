@@ -39,14 +39,12 @@ export default [
     icon: 'MgmtNodeTwoToneIcon',
     children: [
       {
-        key: 'devices',
         id: 'console-plugin-tenant-devices',
         name: '设备列表',
         path: '/tenant-devices',
         entry: 'http://127.0.0.1:3004/static/console-plugin-tenant-devices/',
       },
       {
-        key: 'templates',
         id: 'console-plugin-tenant-device-templates',
         name: '设备模板',
         path: '/tenant-device-templates',
@@ -82,7 +80,7 @@ export default [
   },
   {
     name: '监控告警',
-    icon: 'MgmtNodeTwoToneIcon', // TODO: 需修改
+    icon: 'AlarmLampTwoToneIcon',
     id: 'tenant-monitoring-alarms',
     children: [
       {

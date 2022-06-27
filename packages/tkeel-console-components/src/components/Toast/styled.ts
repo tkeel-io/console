@@ -3,7 +3,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Box } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
-import { Theme } from '@tkeel/console-themes';
+import type { Theme } from '@tkeel/console-themes';
 import { StatusInfos } from '@tkeel/console-utils';
 
 interface StyledWrapperProps extends Pick<Theme, 'colors'> {

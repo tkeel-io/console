@@ -1,11 +1,11 @@
-import { Box, Button, Flex, HStack, Text, useTheme } from '@chakra-ui/react';
+import { Box, Button, Flex, HStack, Text } from '@chakra-ui/react';
 import { Base64 } from 'js-base64';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { AceEditor } from '@tkeel/console-components';
+import { useColors } from '@tkeel/console-hooks';
 import { InformationFilledIcon } from '@tkeel/console-icons';
-import { Theme } from '@tkeel/console-themes';
 import { IdProviderType } from '@tkeel/console-types';
 import { plugin } from '@tkeel/console-utils';
 
@@ -23,7 +23,7 @@ const buttonStyleProps = {
 export default function Config() {
   const [currentMode, setCurrentMode] = useState<'view' | 'edit'>('view');
   const [config, setConfig] = useState<string>('');
-  const { colors }: Theme = useTheme();
+  const colors = useColors();
   const { tenantId = '' } = useParams();
 
   const {

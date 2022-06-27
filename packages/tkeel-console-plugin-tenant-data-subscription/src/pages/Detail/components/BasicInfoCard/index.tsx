@@ -119,6 +119,7 @@ export default function BasicInfoCard({ data, refetchData }: Props) {
               ml="26px"
               maxWidth="200px"
               noOfLines={1}
+              wordBreak="break-all"
               title={endpoint}
             >
               {endpoint}

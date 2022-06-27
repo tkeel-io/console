@@ -27,7 +27,7 @@
     "@tkeel/console-themes": "workspace:^",
     "@tkeel/console-types": "workspace:^",
     "@tkeel/console-utils": "workspace:^",
-    "framer-motion": "^6.3.11",
+    "framer-motion": "^6.3.13",
     "lodash": "^4.17.21",
     "numeral": "^2.0.6",
     "react": "^18.2.0",

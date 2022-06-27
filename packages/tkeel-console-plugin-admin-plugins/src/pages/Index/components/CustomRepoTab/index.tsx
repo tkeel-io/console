@@ -1,18 +1,28 @@
-import { Badge, Box, Text, useStyles, useTab } from '@chakra-ui/react';
-import { ReactNode } from 'react';
+import {
+  Badge,
+  Box,
+  TabProps,
+  Text,
+  useMultiStyleConfig,
+  useTab,
+} from '@chakra-ui/react';
+import { forwardRef, ReactNode, Ref } from 'react';
 
-type Props = {
+interface Props extends TabProps {
   children: ReactNode;
   num: number;
-};
+}
 
-function CustomTab(props: Props) {
-  const styles = useStyles();
-  const tabProps = useTab(props);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const CustomRepoTab = forwardRef((props: Props, ref: Ref<any>) => {
+  const tabProps = useTab({ ...props, ref });
   const isSelected = !!tabProps['aria-selected'];
+
+  const styles = useMultiStyleConfig('Tabs', tabProps);
 
   const { children, num } = props;
   const backgroundColor = isSelected ? 'gray.800' : 'transparent';
+
   return (
     <Box
       as="button"
@@ -54,6 +64,6 @@ function CustomTab(props: Props) {
       </Badge>
     </Box>
   );
-}
+});
 
-export default CustomTab;
+export default CustomRepoTab;

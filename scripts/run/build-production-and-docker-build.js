@@ -8,9 +8,9 @@ const { runNpmScript } = require('./commands');
 (async () => {
   const packageInfos = await getSelectedCanRunPackageInfos();
   packageInfos.forEach((packageInfo) => {
-    const { packageJson, docker } = packageInfo;
+    const { packageJson, env, docker } = packageInfo;
     const packageName = packageJson.name;
-    runNpmScript({ data: { packageName, npmScriptName: 'build' } });
+    runNpmScript({ data: { packageName, npmScriptName: 'build', env } });
     build(packageInfo);
     if (docker?.isDockerImagePush) {
       push(packageInfo);

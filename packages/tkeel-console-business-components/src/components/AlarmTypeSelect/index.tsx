@@ -1,4 +1,4 @@
-import { Select, SelectProps } from '@tkeel/console-components';
+import { Select, SelectProps, Tooltip } from '@tkeel/console-components';
 import { AlarmType, AlarmTypeSelectValue } from '@tkeel/console-types';
 
 interface Props extends Omit<SelectProps, 'options' | 'onChange'> {
@@ -11,7 +11,7 @@ export const ALARM_TYPE_OPTIONS = [
     value: '0',
   },
   {
-    label: '持续告警',
+    label: <Tooltip label="敬请期待">持续告警</Tooltip>,
     value: '1',
     disabled: true,
   },
