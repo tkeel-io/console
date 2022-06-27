@@ -22,12 +22,12 @@
     "@tkeel/console-themes": "workspace:^",
     "@tkeel/console-types": "workspace:^",
     "@tkeel/console-utils": "workspace:^",
-    "framer-motion": "^6.3.13",
+    "framer-motion": "^6.3.15",
     "lodash": "^4.17.21",
     "qs": "^6.10.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-hook-form": "^7.32.2",
+    "react-hook-form": "^7.33.0",
     "react-query": "^3.39.1",
     "react-router-dom": "^6.3.0"
   }
