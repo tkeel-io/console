@@ -6,7 +6,9 @@ interface RequestParams {
 
 interface AipData {
   '@type': string;
-  config: string;
+  profiles: {
+    [key: string]: number | string;
+  };
 }
 
 interface Options {
@@ -14,9 +16,12 @@ interface Options {
 }
 
 export default function useProfileDataQuery({ params }: Options) {
-  return useQuery<AipData, RequestParams>({
+  const result = useQuery<AipData, RequestParams>({
     url: '/rudder/v1/profile/data',
     method: 'GET',
     params,
   });
+  const dataValues = result?.data?.profiles;
+
+  return { ...result, dataValues };
 }

@@ -9,12 +9,9 @@ export default function UsageConfig() {
   const { tenantId = '' } = useParams();
 
   const { schema } = useProfileSchemaQuery();
-  useProfileDataQuery({ params: { tenant_id: tenantId } });
+  const { dataValues } = useProfileDataQuery({
+    params: { tenant_id: tenantId },
+  });
 
-  const data = {
-    foo: 23,
-    bar: 'abc',
-  };
-
-  return schema ? <Form schema={schema} data={data} /> : null;
+  return schema ? <Form schema={schema} data={dataValues} /> : null;
 }

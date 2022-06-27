@@ -10,6 +10,7 @@ interface Props {
   type: 'text' | 'number';
   defaultValue?: string | number;
   value?: string | number;
+  isDisabled?: boolean;
   registerReturn: UseFormRegisterReturn;
 }
 
@@ -20,6 +21,7 @@ export default function Input({
   type,
   defaultValue = '',
   value = '',
+  isDisabled,
   registerReturn,
 }: Props) {
   return (
@@ -29,6 +31,7 @@ export default function Input({
         type={type}
         defaultValue={String(defaultValue)}
         value={String(value)}
+        isDisabled={isDisabled}
         registerReturn={registerReturn}
       />
     </Box>

@@ -1,4 +1,4 @@
-/* import type { ButtonProps } from '@chakra-ui/react';
+import type { ButtonProps } from '@chakra-ui/react';
 import { Box, Flex, HStack, Text } from '@chakra-ui/react';
 import { ajvResolver } from '@hookform/resolvers/ajv';
 import Ajv from 'ajv';
@@ -16,8 +16,9 @@ import {
 
 import type {
   Data,
+  Properties,
   Schema,
-} from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useProfileSchemaQuery';
+} from '@/tkeel-console-plugin-admin-tenants/types/usage-config';
 
 import type { Props as InputProps } from './Input';
 import Input from './Input';
@@ -35,19 +36,36 @@ const ajv = new Ajv({ allErrors: true, messages: true });
 
 interface Props {
   schema: Schema;
-  data: Data;
+  data?: Data;
 }
 
 export default function Form({ schema, data }: Props) {
   const [currentMode, setCurrentMode] = useState<'view' | 'edit'>('view');
 
-  let propertyList: InputProps[] = [];
-  propertyList = Object.entries<Omit<InputProps, 'id'>>(schema.properties).map(
-    ([id, rest]) => ({
-      id,
-      ...rest,
-    })
-  );
+  const properties = schema?.properties as Properties;
+
+  const fields: Omit<InputProps, 'registerReturn'>[] = Object.entries(
+    properties
+  ).map(([key, property]) => {
+    const { type, default: defaultValue } = property;
+    const value = data?.[key];
+
+    let field: Omit<InputProps, 'registerReturn'> = {
+      id: key,
+      type: type === 'number' ? 'number' : 'text',
+      isDisabled: currentMode === 'view',
+    };
+
+    if (defaultValue) {
+      field = { ...field, defaultValue };
+    }
+
+    if (value) {
+      field = { ...field, value };
+    }
+
+    return field;
+  });
 
   const {
     register,
@@ -62,7 +80,6 @@ export default function Form({ schema, data }: Props) {
   const valid = validate(data);
   if (!valid) {
     localizeZh(validate.errors);
-    console.log(validate.errors);
   }
 
   return (
@@ -71,7 +88,7 @@ export default function Form({ schema, data }: Props) {
       flexDirection="column"
       height="100%"
       padding="12px 0"
-      onSubmit={handleSubmit((d) => console.log(d))}
+      onSubmit={handleSubmit(() => {})}
     >
       <Flex
         justifyContent="space-between"
@@ -109,6 +126,7 @@ export default function Form({ schema, data }: Props) {
             <>
               <IconButton
                 {...buttonProps}
+                type="submit"
                 icon={<FloppyDiskTwoToneIcon size="16px" />}
               >
                 保存
@@ -125,39 +143,17 @@ export default function Form({ schema, data }: Props) {
         </HStack>
       </Flex>
       <Box overflowY="auto" flex="1">
-        {propertyList.length > 0 ? (
-          propertyList.map(({ id, type, defaultValue }) => (
-            <Input
-              key={id}
-              id={id}
-              type={type}
-              defaultValue={defaultValue}
-              registerReturn={register(id)}
-            />
-          ))
+        {fields.length > 0 ? (
+          fields.map((field) => {
+            const { id } = field;
+
+            return <Input key={id} {...field} registerReturn={register(id)} />;
+          })
         ) : (
           <Empty isFullHeight />
         )}
       </Box>
+      <Box>{JSON.stringify(validate.errors)}</Box>
     </BaseForm>
-  );
-} */
-
-import type {
-  Data,
-  Schema,
-} from '@/tkeel-console-plugin-admin-tenants/hooks/queries/useProfileSchemaQuery';
-
-interface Props {
-  schema: Schema;
-  data: Data;
-}
-
-export default function Form({ schema, data }: Props) {
-  return (
-    <div>
-      <p>{JSON.stringify(schema)}</p>
-      <p>{JSON.stringify(data)}</p>
-    </div>
   );
 }
