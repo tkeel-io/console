@@ -5,7 +5,7 @@ import { useFieldArray, useForm } from 'react-hook-form';
 
 import { FormField, Modal } from '@tkeel/console-components';
 import { TelemetryFormFields } from '@tkeel/console-request-hooks';
-import { plugin } from '@tkeel/console-utils';
+import { plugin, schemas } from '@tkeel/console-utils';
 
 import DeviceDataType from '../DeviceDataType';
 import { DATA_TYPE_CONFIG } from '../DeviceDataType/constants';
@@ -174,12 +174,7 @@ export default function DeviceTelemetryModal({
         error={errors.id}
         registerReturn={register('id', {
           required: { value: true, message: '请填写遥测ID' },
-          maxLength: { value: 32, message: '长度最多32' },
-          pattern: {
-            value: /^[A-Z_a-z]\w{1,32}$/,
-            message:
-              '以字母或下划线开头，长度最多32，只能包含字母、数字和下划线',
-          },
+          pattern: schemas.idPattern,
         })}
       />
       <DeviceDataType

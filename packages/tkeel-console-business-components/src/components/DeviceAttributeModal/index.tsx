@@ -10,6 +10,7 @@ import {
   FormField,
   Modal,
 } from '@tkeel/console-components';
+import { schemas } from '@tkeel/console-utils';
 
 export type ReadWriteType = 'rw' | 'r' | 'w';
 
@@ -193,11 +194,7 @@ function DeviceAttributeModal({
         error={errors.id}
         registerReturn={register('id', {
           required: { value: true, message: '请填写属性ID' },
-          pattern: {
-            value: /^[A-Z_a-z]\w{1,32}$/,
-            message:
-              '以字母或下划线开头，长度最多32，只能包含字母、数字和下划线',
-          },
+          pattern: schemas.idPattern,
         })}
       />
       <FormControl id="type" label="数据类型">
