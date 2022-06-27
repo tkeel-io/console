@@ -15,6 +15,7 @@ export interface RequestParams {
   alarmType?: AlarmType;
   alarmStrategy?: AlarmPolicyType;
   alarmSource?: AlarmSource;
+  alarmStatus?: AlarmStatus;
   startTime?: number;
   endTime?: number;
 }
