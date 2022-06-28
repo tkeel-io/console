@@ -90,6 +90,11 @@ export default function DeviceSelectField({ value, onChange, styles }: Props) {
     },
   };
 
+  // const newDeviceCondition = { ...deviceCondition };
+  // if (deviceCondition?.id === '') {
+  //   newDeviceCondition.id = '全部';
+  // }
+
   return (
     <Flex
       ref={ref}

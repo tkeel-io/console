@@ -3,7 +3,7 @@ import { Box, Center, Flex, StyleProps, Text } from '@chakra-ui/react';
 import { Loading } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 import {
-  // BoxTwoToneIcon,
+  BoxTwoToneIcon,
   GoBackFilledIcon,
   SmartObjectTwoToneIcon,
 } from '@tkeel/console-icons';
@@ -92,7 +92,7 @@ export default function TemplateDeviceList({
 
           return (
             <>
-              {/* <Flex
+              <Flex
                 paddingLeft="10px"
                 alignItems="center"
                 cursor="pointer"
@@ -105,7 +105,7 @@ export default function TemplateDeviceList({
               >
                 <BoxTwoToneIcon size={20} />
                 <Text {...deviceNameStyle}>全部设备</Text>
-              </Flex> */}
+              </Flex>
               {devices.map((device, i) => {
                 const { id, properties } = device;
                 const name = properties?.basicInfo?.name ?? '';
