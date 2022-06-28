@@ -16,13 +16,12 @@ import {
   AlarmRuleTypeTag,
   AlarmTypeSelect,
 } from '@tkeel/console-business-components';
-import { PageHeaderToolbar, Table } from '@tkeel/console-components';
+import { PageHeaderToolbar, Table, Tooltip } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
 import { MailFilledIcon } from '@tkeel/console-icons';
 import {
   AlarmLevel,
   AlarmRuleType,
-  AlarmSourceObject,
   AlarmType,
   RuleStatus,
 } from '@tkeel/console-types';
@@ -87,15 +86,18 @@ function PolicyTable({ alarmRuleType, setRuleId }: Props) {
         </Flex>
       ),
       accessor: 'alarmLevel',
-      Cell: useCallback(({ value }: CellProps<Policy, AlarmLevel>) => {
-        return <AlarmLevelTag level={value} />;
-      }, []),
+      Cell: useCallback(
+        ({ value }: CellProps<Policy, Policy['alarmLevel']>) => {
+          return <AlarmLevelTag level={value} />;
+        },
+        []
+      ),
     },
     {
       Header: '告警策略类型',
       accessor: 'alarmRuleType',
       Cell: useCallback(
-        ({ value }: CellProps<Policy, AlarmRuleType>) => (
+        ({ value }: CellProps<Policy, Policy['alarmRuleType']>) => (
           <AlarmRuleTypeTag type={value} />
         ),
         []
@@ -109,7 +111,7 @@ function PolicyTable({ alarmRuleType, setRuleId }: Props) {
       Header: '告警源对象',
       accessor: 'alarmSourceObject',
       Cell: useCallback(
-        ({ value }: CellProps<Policy, AlarmSourceObject>) => (
+        ({ value }: CellProps<Policy, Policy['alarmSourceObject']>) => (
           <Box>{ALARM_SOURCE_OBJECT_MAP[value] || ''}</Box>
         ),
         []
@@ -118,12 +120,20 @@ function PolicyTable({ alarmRuleType, setRuleId }: Props) {
     {
       Header: '规则描述',
       accessor: 'ruleDesc',
+      Cell: useCallback(
+        ({ value }: CellProps<Policy, Policy['ruleDesc']>) => (
+          <Tooltip label={value}>
+            <Text noOfLines={1}>{value}</Text>
+          </Tooltip>
+        ),
+        []
+      ),
     },
     {
       Header: '告警类型',
       accessor: 'alarmType',
       Cell: useCallback(
-        ({ value }: CellProps<Policy, AlarmType>) => (
+        ({ value }: CellProps<Policy, Policy['alarmType']>) => (
           <Box>{ALARM_TYPE_MAP[value] || ''}</Box>
         ),
         []
