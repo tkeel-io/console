@@ -49,14 +49,21 @@ export default function DeviceSelectField({ value, onChange, styles }: Props) {
         }
       : null;
 
-  const defaultDeviceCondition =
-    deviceId && deviceName
-      ? {
-          id: deviceId,
-          label: '',
-          value: deviceName,
-        }
-      : null;
+  let defaultDeviceCondition = null;
+  if (tempId) {
+    defaultDeviceCondition =
+      deviceId && deviceName
+        ? {
+            id: deviceId,
+            label: '',
+            value: deviceName,
+          }
+        : {
+            id: '',
+            label: '',
+            value: '全部',
+          };
+  }
 
   const [templateCondition, setTemplateCondition] =
     useState<FilterConditionInfo | null>(defaultTemplateCondition);
