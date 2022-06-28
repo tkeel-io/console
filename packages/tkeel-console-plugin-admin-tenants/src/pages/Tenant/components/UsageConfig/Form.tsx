@@ -1,9 +1,9 @@
 import type { ButtonProps } from '@chakra-ui/react';
 import { Box, Flex, HStack, Text, useDisclosure } from '@chakra-ui/react';
-import { ajvResolver } from '@hookform/resolvers/ajv';
-// import Ajv from 'ajv';
-// import localizeZh from 'ajv-i18n/localize/zh';
+import Ajv from 'ajv';
+import localizeZh from 'ajv-i18n/localize/zh';
 import { useState } from 'react';
+import type { FieldError } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 
@@ -68,7 +68,42 @@ export default function Form({ schema, data, refetchData }: Props) {
     formState: { errors },
   } = useForm({
     defaultValues: data,
-    resolver: ajvResolver(schema),
+    // resolver: ajvResolver(schema),
+    resolver: (values) => {
+      const ajv = new Ajv({ allErrors: true, messages: true });
+      const validate = ajv.compile(schema);
+      const valid = validate(values);
+
+      if (!valid) {
+        const { errors: ajvErrors } = validate;
+
+        localizeZh(ajvErrors);
+
+        // eslint-disable-next-line unicorn/no-array-reduce
+        const formErrors = (ajvErrors ?? []).reduce<Record<string, FieldError>>(
+          (prev, ajvError) => {
+            const { instancePath, keyword, message } = ajvError;
+            const key = instancePath.slice(1);
+
+            return {
+              ...prev,
+              [key]: { type: keyword, message },
+            };
+          },
+          {}
+        );
+
+        return {
+          values: {},
+          errors: formErrors,
+        };
+      }
+
+      return {
+        values,
+        errors: {},
+      };
+    },
   });
 
   const properties = schema?.properties as Properties;

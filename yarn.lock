@@ -3126,15 +3126,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hookform/resolvers@npm:^2.9.2":
-  version: 2.9.2
-  resolution: "@hookform/resolvers@npm:2.9.2"
-  peerDependencies:
-    react-hook-form: ^7.0.0
-  checksum: fa4cdb7165c07b9317e0955046814510e61ca75bd8b70a64d6d79fe3a297544d3c6bcfe3811538d7435d314cb11592013b64f6e766309254b423fa30ae099506
-  languageName: node
-  linkType: hard
-
 "@humanwhocodes/config-array@npm:^0.9.2":
   version: 0.9.5
   resolution: "@humanwhocodes/config-array@npm:0.9.5"
@@ -3801,7 +3792,6 @@ __metadata:
     "@chakra-ui/react": ^2.2.1
     "@emotion/react": ^11.9.3
     "@emotion/styled": ^11.9.3
-    "@hookform/resolvers": ^2.9.2
     "@tkeel/console-business-components": "workspace:^"
     "@tkeel/console-components": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
