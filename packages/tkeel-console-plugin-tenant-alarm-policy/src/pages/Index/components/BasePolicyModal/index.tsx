@@ -258,6 +258,7 @@ export default function BasePolicyModal({
     }
   }, [setValue, watchDeviceInfo]);
 
+  const { tempId, deviceId } = getDeviceInfo(watch('deviceInfo'));
   return (
     <Modal
       width="800px"
@@ -377,7 +378,8 @@ export default function BasePolicyModal({
               />
             ) : (
               <DeviceRuleDescriptionCard<FormValues>
-                deviceId={getDeviceInfo(watch('deviceInfo'))?.deviceId}
+                tempId={tempId}
+                deviceId={deviceId}
                 register={register}
                 control={control}
                 deviceConditionsErrors={deviceConditionsErrors}
