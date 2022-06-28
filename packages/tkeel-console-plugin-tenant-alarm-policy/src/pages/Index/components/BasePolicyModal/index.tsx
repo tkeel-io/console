@@ -1,4 +1,4 @@
-import { Flex } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 import { ReactNode, useEffect, useState } from 'react';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 
@@ -7,6 +7,7 @@ import {
   FormField,
   Modal,
   RadioButton,
+  Tip,
 } from '@tkeel/console-components';
 import { AlarmRuleType, AlarmSourceObject } from '@tkeel/console-types';
 
@@ -323,24 +324,41 @@ export default function BasePolicyModal({
           />
         </FormCard>
         <FormCard title="告警资源">
-          <SelectField<FormValues>
-            id="alarmSourceObject"
-            name="alarmSourceObject"
-            label="告警源对象"
-            placeholder="请选择"
-            options={
-              isSystemAlarm
-                ? systemAlarmSourceObjectOptions
-                : thresholdAlarmSourceObjectOptions
-            }
-            control={control}
-          />
+          <Box>
+            <SelectField<FormValues>
+              id="alarmSourceObject"
+              name="alarmSourceObject"
+              label="告警源对象"
+              placeholder="请选择"
+              options={
+                isSystemAlarm
+                  ? systemAlarmSourceObjectOptions
+                  : thresholdAlarmSourceObjectOptions
+              }
+              control={control}
+              formControlStyle={{
+                marginBottom: '10px',
+              }}
+            />
+            <Tip title="告警源对象支持模板下全部设备或单个设备" />
+          </Box>
           {!isSystemAlarm && (
-            <FormControl id="deviceInfo" error={errors.deviceInfo}>
+            <FormControl
+              id="deviceInfo"
+              error={errors.deviceInfo}
+              formControlStyle={{
+                marginBottom: '0',
+              }}
+            >
               <Controller
                 name="deviceInfo"
                 control={control}
-                rules={{ required: { value: true, message: '请选择设备' } }}
+                rules={{
+                  required: {
+                    value: true,
+                    message: '请选择模板下全部设备或单个设备',
+                  },
+                }}
                 render={({ field: { value, onChange } }) => (
                   <DeviceSelectField
                     value={value}
