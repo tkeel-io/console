@@ -3,7 +3,6 @@ import { Box, Flex, HStack, Text, useDisclosure } from '@chakra-ui/react';
 import { ajvResolver } from '@hookform/resolvers/ajv';
 import Ajv from 'ajv';
 import localizeZh from 'ajv-i18n/localize/zh';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import {
@@ -43,11 +42,19 @@ interface Props {
   schema: Schema;
   data?: Data;
   isLoading: boolean;
+  isDisabled: boolean;
+  setIsDisabled: (isDisabled: boolean) => void;
   onSubmit: (formValues: Data) => void;
 }
 
-export default function Form({ schema, data, isLoading, onSubmit }: Props) {
-  const [currentMode, setCurrentMode] = useState<'view' | 'edit'>('view');
+export default function Form({
+  schema,
+  data,
+  isLoading,
+  isDisabled,
+  setIsDisabled,
+  onSubmit,
+}: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const properties = schema?.properties as Properties;
@@ -61,7 +68,7 @@ export default function Form({ schema, data, isLoading, onSubmit }: Props) {
       id: key,
       title,
       type: type === 'number' ? 'number' : 'text',
-      isDisabled: currentMode === 'view',
+      isDisabled,
     };
 
     if (description) {
@@ -101,7 +108,7 @@ export default function Form({ schema, data, isLoading, onSubmit }: Props) {
 
   const handleReset = () => {
     reset(data);
-    setCurrentMode('view');
+    setIsDisabled(true);
   };
 
   return (
@@ -128,12 +135,12 @@ export default function Form({ schema, data, isLoading, onSubmit }: Props) {
             用量配置
           </Text>
           <HStack alignItems="center" spacing="12px">
-            {currentMode === 'view' && (
+            {isDisabled ? (
               <>
                 <IconButton
                   {...buttonProps}
                   icon={<PencilTwoToneIcon size="16px" />}
-                  onClick={() => setCurrentMode('edit')}
+                  onClick={() => setIsDisabled(false)}
                 >
                   编辑
                 </IconButton>
@@ -146,8 +153,7 @@ export default function Form({ schema, data, isLoading, onSubmit }: Props) {
                   恢复默认配置
                 </IconButton>
               </>
-            )}
-            {currentMode === 'edit' && (
+            ) : (
               <>
                 <IconButton
                   {...buttonProps}

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import useProfileDataMutation from '@/tkeel-console-plugin-admin-tenants/hooks/mutations/useProfileDataMutation';
@@ -9,6 +10,7 @@ import Form from './Form';
 
 export default function UsageConfig() {
   const { tenantId = '' } = useParams();
+  const [isDisabled, setIsDisabled] = useState(true);
 
   const { schema } = useProfileSchemaQuery();
   const { dataValues, refetch } = useProfileDataQuery({
@@ -21,6 +23,7 @@ export default function UsageConfig() {
     },
     onSuccess() {
       refetch();
+      setIsDisabled(true);
     },
   });
 
@@ -33,6 +36,8 @@ export default function UsageConfig() {
       schema={schema}
       data={dataValues}
       isLoading={isSetLoading}
+      isDisabled={isDisabled}
+      setIsDisabled={setIsDisabled}
       onSubmit={handleSubmit}
     />
   ) : null;
