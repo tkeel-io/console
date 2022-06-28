@@ -19,7 +19,7 @@ import {
 } from '@/tkeel-console-plugin-tenant-alarm-policy/constants';
 import {
   Condition,
-  RequestData,
+  RequestData as CreatePolicyRequestData,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/mutations/useCreatePolicyMutation';
 import type { PlatformRule } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePlatformRulesQuery';
 import usePlatformRulesQuery from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePlatformRulesQuery';
@@ -47,7 +47,7 @@ type Props = {
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
   onClose: () => void;
-  onConfirm: (data: RequestData) => void;
+  onConfirm: (data: CreatePolicyRequestData) => void;
 };
 
 enum AlarmSourceObjectValue {
@@ -194,9 +194,10 @@ export default function BasePolicyModal({
       return;
     }
 
-    let data: RequestData = {
+    let data: CreatePolicyRequestData = {
       ruleId: policy?.ruleId,
       ruleName,
+      enable: policy?.enable,
       alarmType: Number(alarmType),
       alarmRuleType: Number(alarmRuleType),
       alarmLevel: Number(alarmLevel),
@@ -257,6 +258,7 @@ export default function BasePolicyModal({
     }
   }, [setValue, watchDeviceInfo]);
 
+  const { tempId, deviceId } = getDeviceInfo(watch('deviceInfo'));
   return (
     <Modal
       width="800px"
@@ -376,7 +378,8 @@ export default function BasePolicyModal({
               />
             ) : (
               <DeviceRuleDescriptionCard<FormValues>
-                deviceId={getDeviceInfo(watch('deviceInfo'))?.deviceId}
+                tempId={tempId}
+                deviceId={deviceId}
                 register={register}
                 control={control}
                 deviceConditionsErrors={deviceConditionsErrors}

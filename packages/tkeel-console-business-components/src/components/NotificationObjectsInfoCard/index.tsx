@@ -72,7 +72,7 @@ export default function NotificationObjectsInfoCard({
                         _focus={{ boxShadow: 'none' }}
                       >
                         <Text color="gray.700" fontSize="12px" fontWeight="500">
-                          平台运维部门
+                          {group.groupName}
                         </Text>
                         <Flex alignItems="center">
                           <HStack marginRight="40px" spacing="18px">
