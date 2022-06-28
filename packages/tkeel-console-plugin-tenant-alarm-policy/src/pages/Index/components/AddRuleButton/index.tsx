@@ -27,6 +27,7 @@ export default function AddRuleButton({ disabled, onClick }: Props) {
     <Tooltip label={disabled ? '告警规则最多限制 5 条' : ''}>
       <Flex
         alignItems="center"
+        opacity={disabled ? '.5' : '1'}
         cursor={disabled ? 'not-allowed' : 'pointer'}
         _hover={hoverStyle}
         onClick={() => {
