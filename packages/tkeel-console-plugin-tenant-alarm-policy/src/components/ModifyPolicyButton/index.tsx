@@ -29,7 +29,7 @@ function ModifyPolicyButton({ policy, onSuccess }: Props) {
     onSuccess() {
       onClose();
       onSuccess();
-      toast.success('编辑告警策略成功');
+      toast.success('修改告警策略成功');
     },
   });
 
