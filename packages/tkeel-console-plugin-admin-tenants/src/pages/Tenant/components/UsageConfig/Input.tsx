@@ -1,5 +1,5 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { UseFormRegisterReturn } from 'react-hook-form';
+import type { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 
 import { FormField } from '@tkeel/console-components';
 
@@ -11,6 +11,7 @@ interface Props {
   description?: string;
   type: 'text' | 'number';
   isDisabled?: boolean;
+  error?: FieldError;
   registerReturn: UseFormRegisterReturn;
 }
 
@@ -22,6 +23,7 @@ export default function Input({
   description = '',
   type,
   isDisabled,
+  error,
   registerReturn,
 }: Props) {
   return (
@@ -58,6 +60,7 @@ export default function Input({
           </Flex>
         }
         isDisabled={isDisabled}
+        error={error}
         registerReturn={registerReturn}
         inputStyle={{ backgroundColor: 'white' }}
       />

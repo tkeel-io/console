@@ -1,8 +1,8 @@
 import type { ButtonProps } from '@chakra-ui/react';
 import { Box, Flex, HStack, Text, useDisclosure } from '@chakra-ui/react';
 import { ajvResolver } from '@hookform/resolvers/ajv';
-import Ajv from 'ajv';
-import localizeZh from 'ajv-i18n/localize/zh';
+// import Ajv from 'ajv';
+// import localizeZh from 'ajv-i18n/localize/zh';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
@@ -39,8 +39,6 @@ const buttonProps: ButtonProps = {
   variant: 'outline',
 };
 
-const ajv = new Ajv({ allErrors: true, messages: true });
-
 interface Props {
   schema: Schema;
   data?: Data;
@@ -51,6 +49,27 @@ export default function Form({ schema, data, refetchData }: Props) {
   const { tenantId = '' } = useParams();
   const [currentMode, setCurrentMode] = useState<'view' | 'edit'>('view');
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const { mutate, isLoading } = useProfileDataMutation({
+    params: {
+      tenant_id: tenantId,
+    },
+    onSuccess() {
+      refetchData();
+      setCurrentMode('view');
+      onClose();
+    },
+  });
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    defaultValues: data,
+    resolver: ajvResolver(schema),
+  });
 
   const properties = schema?.properties as Properties;
   const fields: Omit<InputProps, 'registerReturn'>[] = Object.entries(
@@ -69,36 +88,12 @@ export default function Form({ schema, data, refetchData }: Props) {
       field = { ...field, description };
     }
 
+    if (errors[key]) {
+      field = { ...field, error: errors[key] };
+    }
+
     return field;
   });
-
-  const { mutate, isLoading } = useProfileDataMutation({
-    params: {
-      tenant_id: tenantId,
-    },
-    onSuccess() {
-      refetchData();
-      setCurrentMode('view');
-      onClose();
-    },
-  });
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    // formState: { errors },
-  } = useForm({
-    defaultValues: data,
-    resolver: ajvResolver(schema),
-  });
-
-  const validate = ajv.compile(schema);
-
-  const valid = validate(data);
-  if (!valid) {
-    localizeZh(validate.errors);
-  }
 
   const onSubmit = (formValues: Data) => {
     mutate({ data: { profiles: formValues } });
@@ -212,7 +207,6 @@ export default function Form({ schema, data, refetchData }: Props) {
             <Empty isFullHeight />
           )}
         </Box>
-        <Box paddingTop="32px">{JSON.stringify(validate.errors)}</Box>
       </BaseForm>
       <Alert
         iconPosition="left"
