@@ -48,7 +48,7 @@ function DeleteButton({ cruxData, refetch, onDeleteSuccess }: Props) {
               <TrashFilledIcon size="24px" color="red.300" />
             </Circle>
           }
-          title={`确认删除设备「${name}」？`}
+          title={`确认删除规则「${name}」？`}
           isOpen={isOpen}
           isConfirmButtonLoading={isLoading}
           onClose={onClose}

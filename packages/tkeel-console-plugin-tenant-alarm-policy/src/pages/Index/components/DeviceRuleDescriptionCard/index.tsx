@@ -13,6 +13,7 @@ import { TrashFilledIcon } from '@tkeel/console-icons';
 import {
   TelemetryType,
   useDeviceDetailQuery,
+  useTemplateTelemetryQuery,
 } from '@tkeel/console-request-hooks';
 
 import {
@@ -58,6 +59,7 @@ export const defaultDeviceCondition: DeviceCondition = {
 };
 
 interface Props<FormValues> {
+  tempId: string;
   deviceId: string;
   register: UseFormRegister<FormValues>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -75,6 +77,7 @@ function getOptionsByDefine(define: object) {
 }
 
 export default function DeviceRuleDescriptionCard<FormValues>({
+  tempId,
   deviceId,
   register,
   control,
@@ -82,9 +85,15 @@ export default function DeviceRuleDescriptionCard<FormValues>({
   append,
   fieldArrayReturn,
 }: Props<FormValues>) {
+  const { telemetry: templateTelemetryFields } = useTemplateTelemetryQuery({
+    id: tempId,
+  });
   const { deviceObject } = useDeviceDetailQuery({ id: deviceId });
-  const telemetryFields =
-    deviceObject?.configs?.telemetry?.define?.fields || {};
+
+  let telemetryFields = templateTelemetryFields;
+  if (deviceId) {
+    telemetryFields = deviceObject?.configs?.telemetry?.define?.fields || {};
+  }
 
   const telemetryOptions = Object.entries(telemetryFields).map(
     ([key, value]) => {
@@ -150,7 +159,7 @@ export default function DeviceRuleDescriptionCard<FormValues>({
           </FormControl>
           <Text>条件时，触发告警。</Text>
         </Flex>
-        <AddRuleButton onClick={() => append()} />
+        <AddRuleButton disabled={fields.length > 4} onClick={() => append()} />
       </Flex>
       <Flex flexDirection="column" marginTop="20px">
         {fields.map((item, i) => {
