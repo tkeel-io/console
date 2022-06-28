@@ -61,7 +61,7 @@ export default function DeviceSelectField({ value, onChange, styles }: Props) {
         : {
             id: '',
             label: '',
-            value: '全部',
+            value: '全部设备',
           };
   }
 
@@ -100,7 +100,8 @@ export default function DeviceSelectField({ value, onChange, styles }: Props) {
   const newDeviceCondition = deviceCondition
     ? {
         ...deviceCondition,
-        value: deviceCondition.value === '' ? '全部' : deviceCondition.value,
+        value:
+          deviceCondition.value === '' ? '全部设备' : deviceCondition.value,
       }
     : { id: '', label: '', value: '' };
 
