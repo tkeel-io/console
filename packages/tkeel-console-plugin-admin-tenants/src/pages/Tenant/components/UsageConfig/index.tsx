@@ -9,11 +9,11 @@ export default function UsageConfig() {
   const { tenantId = '' } = useParams();
 
   const { schema } = useProfileSchemaQuery();
-  const { dataValues, refetch } = useProfileDataQuery({
+  const { isFetching, dataValues, refetch } = useProfileDataQuery({
     params: { tenant_id: tenantId },
   });
 
-  return schema ? (
+  return schema && !isFetching ? (
     <Form schema={schema} data={dataValues} refetchData={refetch} />
   ) : null;
 }

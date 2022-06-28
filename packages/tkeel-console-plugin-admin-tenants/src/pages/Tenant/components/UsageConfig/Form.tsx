@@ -68,7 +68,6 @@ export default function Form({ schema, data, refetchData }: Props) {
     formState: { errors },
   } = useForm({
     defaultValues: data,
-    // resolver: ajvResolver(schema),
     resolver: (values) => {
       const ajv = new Ajv({ allErrors: true, messages: true });
       const validate = ajv.compile(schema);
