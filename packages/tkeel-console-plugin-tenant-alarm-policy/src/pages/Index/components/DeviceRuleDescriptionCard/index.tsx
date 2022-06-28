@@ -150,7 +150,7 @@ export default function DeviceRuleDescriptionCard<FormValues>({
           </FormControl>
           <Text>条件时，触发告警。</Text>
         </Flex>
-        <AddRuleButton onClick={() => append()} />
+        <AddRuleButton disabled={fields.length > 4} onClick={() => append()} />
       </Flex>
       <Flex flexDirection="column" marginTop="20px">
         {fields.map((item, i) => {
