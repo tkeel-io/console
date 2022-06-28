@@ -3,6 +3,7 @@ import { Box, Flex, HStack, Text, useDisclosure } from '@chakra-ui/react';
 import { ajvResolver } from '@hookform/resolvers/ajv';
 import Ajv from 'ajv';
 import localizeZh from 'ajv-i18n/localize/zh';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import {
@@ -42,19 +43,11 @@ interface Props {
   schema: Schema;
   data?: Data;
   isLoading: boolean;
-  isDisabled: boolean;
-  setIsDisabled: (isDisabled: boolean) => void;
   onSubmit: (formValues: Data) => void;
 }
 
-export default function Form({
-  schema,
-  data,
-  isLoading,
-  isDisabled,
-  setIsDisabled,
-  onSubmit,
-}: Props) {
+export default function Form({ schema, data, isLoading, onSubmit }: Props) {
+  const [currentMode, setCurrentMode] = useState<'view' | 'edit'>('view');
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const properties = schema?.properties as Properties;
@@ -68,7 +61,7 @@ export default function Form({
       id: key,
       title,
       type: type === 'number' ? 'number' : 'text',
-      isDisabled,
+      isDisabled: currentMode === 'view',
     };
 
     if (description) {
@@ -108,7 +101,7 @@ export default function Form({
 
   const handleReset = () => {
     reset(data);
-    setIsDisabled(true);
+    setCurrentMode('view');
   };
 
   return (
@@ -135,12 +128,12 @@ export default function Form({
             用量配置
           </Text>
           <HStack alignItems="center" spacing="12px">
-            {isDisabled ? (
+            {currentMode === 'view' && (
               <>
                 <IconButton
                   {...buttonProps}
                   icon={<PencilTwoToneIcon size="16px" />}
-                  onClick={() => setIsDisabled(false)}
+                  onClick={() => setCurrentMode('edit')}
                 >
                   编辑
                 </IconButton>
@@ -153,7 +146,8 @@ export default function Form({
                   恢复默认配置
                 </IconButton>
               </>
-            ) : (
+            )}
+            {currentMode === 'edit' && (
               <>
                 <IconButton
                   {...buttonProps}
