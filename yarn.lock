@@ -1895,7 +1895,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chakra-ui/react@npm:^2.2.1":
+"@chakra-ui/react@npm:2.2.1, @chakra-ui/react@npm:^2.2.1":
   version: 2.2.1
   resolution: "@chakra-ui/react@npm:2.2.1"
   dependencies:
@@ -3016,7 +3016,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/react@npm:^11.9.3":
+"@emotion/react@npm:^11.9.0, @emotion/react@npm:^11.9.3":
   version: 11.9.3
   resolution: "@emotion/react@npm:11.9.3"
   dependencies:
@@ -3059,7 +3059,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/styled@npm:^11.9.3":
+"@emotion/styled@npm:^11.8.1, @emotion/styled@npm:^11.9.3":
   version: 11.9.3
   resolution: "@emotion/styled@npm:11.9.3"
   dependencies:
@@ -3896,6 +3896,7 @@ __metadata:
     "@tkeel/console-components": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
     "@tkeel/console-icons": "workspace:^"
+    "@tkeel/console-themes": "workspace:^"
     "@tkeel/console-types": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
     "@types/react-table": ^7.7.12
@@ -4052,16 +4053,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@tkeel/console-plugin-tenant-notification-objects@workspace:packages/tkeel-console-plugin-tenant-notification-objects"
   dependencies:
-    "@chakra-ui/react": ^2.2.1
-    "@emotion/react": ^11.9.3
-    "@emotion/styled": ^11.9.3
+    "@chakra-ui/react": 2.2.1
+    "@emotion/react": ^11.9.0
+    "@emotion/styled": ^11.8.1
     "@tkeel/console-business-components": "workspace:^"
     "@tkeel/console-components": "workspace:^"
     "@tkeel/console-hooks": "workspace:^"
     "@tkeel/console-icons": "workspace:^"
     "@tkeel/console-types": "workspace:^"
     "@tkeel/console-utils": "workspace:^"
-    framer-motion: ^6.3.13
+    framer-motion: 6.3.11
     lodash: ^4.17.21
     react: ^18.2.0
     react-dom: ^18.2.0
@@ -9567,6 +9568,26 @@ __metadata:
   dependencies:
     map-cache: ^0.2.2
   checksum: 1cbbd0b0116b67d5790175de0038a11df23c1cd2e8dcdbade58ebba5594c2d641dade6b4f126d82a7b4a6ffc2ea12e3d387dbb64ea2ae97cf02847d436f60fdc
+  languageName: node
+  linkType: hard
+
+"framer-motion@npm:6.3.11":
+  version: 6.3.11
+  resolution: "framer-motion@npm:6.3.11"
+  dependencies:
+    "@emotion/is-prop-valid": ^0.8.2
+    framesync: 6.0.1
+    hey-listen: ^1.0.8
+    popmotion: 11.0.3
+    style-value-types: 5.0.0
+    tslib: ^2.1.0
+  peerDependencies:
+    react: ">=16.8 || ^17.0.0 || ^18.0.0"
+    react-dom: ">=16.8 || ^17.0.0 || ^18.0.0"
+  dependenciesMeta:
+    "@emotion/is-prop-valid":
+      optional: true
+  checksum: 2333b296a109ec0ef86421453f66a92b63e07930a491102f1007bbe48f40594d8c51a96ca937f8f3f013ba658147049bf1fa9feebc44487b8e7617bb674fb254
   languageName: node
   linkType: hard
 
