@@ -5,6 +5,7 @@ import Ajv from 'ajv';
 import localizeZh from 'ajv-i18n/localize/zh';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useParams } from 'react-router-dom';
 
 import {
   Alert,
@@ -19,6 +20,7 @@ import {
   RestartTwoToneIcon,
 } from '@tkeel/console-icons';
 
+import useProfileDataMutation from '@/tkeel-console-plugin-admin-tenants/hooks/mutations/useProfileDataMutation';
 import type {
   Data,
   Properties,
@@ -42,16 +44,15 @@ const ajv = new Ajv({ allErrors: true, messages: true });
 interface Props {
   schema: Schema;
   data?: Data;
-  isLoading: boolean;
-  onSubmit: (formValues: Data) => void;
+  refetchData: () => void;
 }
 
-export default function Form({ schema, data, isLoading, onSubmit }: Props) {
+export default function Form({ schema, data, refetchData }: Props) {
+  const { tenantId = '' } = useParams();
   const [currentMode, setCurrentMode] = useState<'view' | 'edit'>('view');
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const properties = schema?.properties as Properties;
-
   const fields: Omit<InputProps, 'registerReturn'>[] = Object.entries(
     properties
   ).map(([key, property]) => {
@@ -71,6 +72,17 @@ export default function Form({ schema, data, isLoading, onSubmit }: Props) {
     return field;
   });
 
+  const { mutate, isLoading } = useProfileDataMutation({
+    params: {
+      tenant_id: tenantId,
+    },
+    onSuccess() {
+      refetchData();
+      setCurrentMode('view');
+      onClose();
+    },
+  });
+
   const {
     register,
     handleSubmit,
@@ -87,6 +99,10 @@ export default function Form({ schema, data, isLoading, onSubmit }: Props) {
   if (!valid) {
     localizeZh(validate.errors);
   }
+
+  const onSubmit = (formValues: Data) => {
+    mutate({ data: { profiles: formValues } });
+  };
 
   const handleResetDefaultValues = () => {
     const defaultValues: Data = {};
