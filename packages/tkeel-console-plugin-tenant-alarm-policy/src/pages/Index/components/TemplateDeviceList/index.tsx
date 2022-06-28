@@ -3,7 +3,7 @@ import { Box, Center, Flex, StyleProps, Text } from '@chakra-ui/react';
 import { Loading } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 import {
-  // BoxTwoToneIcon,
+  BoxTwoToneIcon,
   GoBackFilledIcon,
   SmartObjectTwoToneIcon,
 } from '@tkeel/console-icons';
@@ -32,6 +32,13 @@ export default function TemplateDeviceList({
     marginLeft: '10px',
     color: 'gray.700',
     fontSize: '14px',
+  };
+
+  const deviceItemStyle: StyleProps = {
+    alignItems: 'center',
+    paddingLeft: '10px',
+    height: '32px',
+    cursor: 'pointer',
   };
 
   return (
@@ -92,10 +99,12 @@ export default function TemplateDeviceList({
 
           return (
             <>
-              {/* <Flex
-                paddingLeft="10px"
-                alignItems="center"
-                cursor="pointer"
+              <Flex
+                marginBottom="4px"
+                _hover={{
+                  backgroundColor: 'grayAlternatives.50',
+                }}
+                {...deviceItemStyle}
                 onClick={() => {
                   onClick({
                     id: '',
@@ -105,19 +114,16 @@ export default function TemplateDeviceList({
               >
                 <BoxTwoToneIcon size={20} />
                 <Text {...deviceNameStyle}>全部设备</Text>
-              </Flex> */}
+              </Flex>
               {devices.map((device, i) => {
                 const { id, properties } = device;
                 const name = properties?.basicInfo?.name ?? '';
                 return (
                   <Flex
                     key={id || i}
-                    alignItems="center"
                     width="100%"
                     marginBottom={i === devices.length - 1 ? '0' : '4px'}
-                    paddingLeft="10px"
-                    height="32px"
-                    cursor="pointer"
+                    {...deviceItemStyle}
                     _hover={{
                       backgroundColor: 'grayAlternatives.50',
                     }}
