@@ -42,6 +42,7 @@ const selectorStyle = {
 export interface Props {
   onChange: (params: Omit<RequestParams, 'pageNum' | 'pageSize'>) => void;
 }
+
 function Filter({ onChange }: Props) {
   const { colors } = useTheme<Theme>();
 
@@ -64,7 +65,11 @@ function Filter({ onChange }: Props) {
             showDefaultOption
             options={ALARMS_STATUS}
             onChange={(alarmStatus) => {
-              onChange({ alarmStatus: Number(alarmStatus) as AlarmStatus });
+              onChange({
+                alarmStatus: Number(
+                  alarmStatus === '' ? -1 : alarmStatus
+                ) as AlarmStatus,
+              });
             }}
             styles={{
               wrapper: {
@@ -99,7 +104,11 @@ function Filter({ onChange }: Props) {
             showDefaultOption
             options={ALARMS_SOURCE}
             onChange={(alarmSource) => {
-              onChange({ alarmSource: Number(alarmSource) as AlarmSource });
+              onChange({
+                alarmSource: Number(
+                  alarmSource === '' ? -1 : alarmSource
+                ) as AlarmSource,
+              });
             }}
             styles={{
               wrapper: {
@@ -114,8 +123,8 @@ function Filter({ onChange }: Props) {
             caretAs={CalendarFilledIcon}
             onOk={([start, end]: ValueType) => {
               onChange({
-                startTime: dayjs(start).valueOf(),
-                endTime: dayjs(end).valueOf(),
+                startTime: dayjs(start).unix(),
+                endTime: dayjs(end).unix(),
               });
             }}
             onClean={() => {
