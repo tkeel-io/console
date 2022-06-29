@@ -96,10 +96,13 @@ export const getRequestDeviceConditions = (
       return baseDeviceConditions;
     }
 
+    const polymerizeObj =
+      time === Time.Immediate ? {} : { polymerize: polymerize as Polymerize };
+
     return {
       ...baseDeviceConditions,
       time: time as Time,
-      polymerize: polymerize as Polymerize,
+      ...polymerizeObj,
     };
   });
 };

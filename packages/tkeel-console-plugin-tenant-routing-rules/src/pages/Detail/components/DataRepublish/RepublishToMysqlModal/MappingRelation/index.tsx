@@ -8,11 +8,11 @@ import {
   FormField,
   Loading,
   Table,
+  Tip,
 } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 import { SuccessFilledIcon, WarningCircleIcon } from '@tkeel/console-icons';
 
-import Tip from '@/tkeel-console-plugin-tenant-routing-rules/components/Tip';
 import useCreateRelationMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useCreateRelationMutation';
 import useEditRelationMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useEditRelationMutation';
 import useDeviceMsgQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useDeviceMsgQuery';
