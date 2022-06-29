@@ -17,11 +17,11 @@
     "@emotion/styled": "^11.9.3",
     "@tkeel/console-hooks": "workspace:^",
     "@tkeel/console-themes": "workspace:^",
-    "framer-motion": "^6.3.13",
+    "framer-motion": "^6.3.16",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-transition-group": "^4.4.2",
-    "recharts": "^2.1.10"
+    "recharts": "^2.1.12"
   }
 }

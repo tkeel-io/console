@@ -1,10 +1,12 @@
 import { Flex, Text } from '@chakra-ui/react';
+import dayjs from 'dayjs';
 import {
   AlarmDetailType,
   AlarmPolicyType,
 } from 'packages/tkeel-console-plugin-tenant-alarms/src/types';
 
 import { AlarmRuleTypeTag } from '@tkeel/console-business-components';
+import { Tooltip, TooltipText } from '@tkeel/console-components';
 import {
   ComputingLampTwoToneIcon,
   FireFilledIcon,
@@ -88,15 +90,19 @@ export const AlarmInfoCardArr = (details: AlarmDetailType) => [
       details.alarmSource === 0 ? (
         ALARMS_SOURCE[0].label
       ) : (
-        <Flex>
-          <ComputingLampTwoToneIcon />
-          <Text ml="4px">{details?.deviceId}</Text>
-        </Flex>
+        <Tooltip label={details?.deviceId}>
+          <Flex alignItems="center" flex="1">
+            <ComputingLampTwoToneIcon />
+            <Text flex="1" ml="4px" noOfLines={1}>
+              {details?.deviceId}
+            </Text>
+          </Flex>
+        </Tooltip>
       ),
   },
   {
     label: '告警源对象ID',
-    value: details?.objectId,
+    value: <TooltipText label={details?.objectId} />,
   },
   {
     label: '告警上报值',
@@ -104,11 +110,11 @@ export const AlarmInfoCardArr = (details: AlarmDetailType) => [
   },
   {
     label: '告警发生时间',
-    value: details?.startTime,
+    value: dayjs.unix(details?.startTime || 0).format('YYYY-MM-DD HH:mm:ss'),
   },
   {
     label: '告警描述',
-    value: details?.alarmDesc,
+    value: <TooltipText label={details?.alarmDesc} />,
   },
 ];
 
@@ -144,7 +150,7 @@ export const AlarmPolicyInfoCardArr = (details: AlarmDetailType) => [
   },
   {
     label: '规则描述',
-    value: details.ruleDesc,
+    value: <TooltipText label={details?.ruleDesc} />,
   },
 ];
 

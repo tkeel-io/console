@@ -25,7 +25,7 @@ export default function Usage() {
           stroke: colors.blue[300],
         },
         {
-          key: 'sum_iothub_connected',
+          key: 'sum_device_online',
           label: '在线',
           fill: colors.green[50],
           stroke: colors.green[300],
