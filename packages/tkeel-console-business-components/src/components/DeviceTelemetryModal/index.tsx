@@ -105,7 +105,7 @@ export default function DeviceTelemetryModal({
 
     const result = await trigger();
     if (result) {
-      const formValues = getValues() as TelemetryFormField;
+      const formValues = getValues();
       const defineAtt = {};
       (formValues?.fields ?? []).forEach((item) => {
         defineAtt[item.key] = item.value as string;
