@@ -40,7 +40,7 @@ export default function Tenant() {
             <Users />
           </TabPanel>
           {isExternal && (
-            <TabPanel overflowY="auto" height="100%" padding="0px 20px">
+            <TabPanel height="100%" padding="0px 20px">
               <ThirdPartyAuth />
             </TabPanel>
           )}
