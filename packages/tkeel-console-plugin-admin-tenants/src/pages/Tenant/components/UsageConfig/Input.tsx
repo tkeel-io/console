@@ -1,7 +1,7 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import type { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 
-import { FormField } from '@tkeel/console-components';
+import { FormField, Tooltip } from '@tkeel/console-components';
 
 const { TextField } = FormField;
 
@@ -31,7 +31,8 @@ export default function Input({
       border="1px solid"
       borderColor="gray.100"
       borderRadius="4px"
-      padding="12px 20px"
+      height="120px"
+      padding="12px 20px 0"
       backgroundColor="gray.50"
     >
       <TextField
@@ -39,22 +40,31 @@ export default function Input({
         type={type}
         label={
           <Flex alignItems="center">
-            <Text
-              fontWeight="500"
-              fontSize="14px"
-              lineHeight="24px"
-              color="gray.700"
-            >
-              {title}
+            <Text noOfLines={1}>
+              <Tooltip label={title}>
+                <Text
+                  as="span"
+                  fontWeight="500"
+                  fontSize="14px"
+                  lineHeight="24px"
+                  color="gray.700"
+                >
+                  {title}
+                </Text>
+              </Tooltip>
             </Text>
             {description && (
-              <Text
-                paddingLeft="8px"
-                fontSize="12px"
-                lineHeight="24px"
-                color="grayAlternatives.400"
-              >
-                {description}
+              <Text flex="1" minWidth="100px" marginLeft="8px" noOfLines={1}>
+                <Tooltip label={description}>
+                  <Text
+                    as="span"
+                    fontSize="12px"
+                    lineHeight="24px"
+                    color="grayAlternatives.400"
+                  >
+                    {description}
+                  </Text>
+                </Tooltip>
               </Text>
             )}
           </Flex>
@@ -62,6 +72,7 @@ export default function Input({
         isDisabled={isDisabled}
         error={error}
         registerReturn={registerReturn}
+        formControlStyle={{ marginBottom: '0' }}
         inputStyle={{ backgroundColor: 'white' }}
       />
     </Box>
