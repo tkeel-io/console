@@ -188,6 +188,7 @@ function AlarmsTable() {
             },
             body: {
               overflow: 'auto',
+              flex: 1,
             },
             pagination: {
               px: '20px',

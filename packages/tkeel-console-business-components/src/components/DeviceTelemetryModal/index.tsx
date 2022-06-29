@@ -5,7 +5,7 @@ import { useFieldArray, useForm } from 'react-hook-form';
 
 import { FormField, Modal } from '@tkeel/console-components';
 import { TelemetryFormFields } from '@tkeel/console-request-hooks';
-import { plugin } from '@tkeel/console-utils';
+import { plugin, schemas } from '@tkeel/console-utils';
 
 import DeviceDataType from '../DeviceDataType';
 import { DATA_TYPE_CONFIG } from '../DeviceDataType/constants';
@@ -105,7 +105,7 @@ export default function DeviceTelemetryModal({
 
     const result = await trigger();
     if (result) {
-      const formValues = getValues() as TelemetryFormField;
+      const formValues = getValues();
       const defineAtt = {};
       (formValues?.fields ?? []).forEach((item) => {
         defineAtt[item.key] = item.value as string;
@@ -174,7 +174,7 @@ export default function DeviceTelemetryModal({
         error={errors.id}
         registerReturn={register('id', {
           required: { value: true, message: '请填写遥测ID' },
-          maxLength: { value: 32, message: '长度最多32' },
+          pattern: schemas.idPattern,
         })}
       />
       <DeviceDataType
