@@ -2,12 +2,11 @@ import { HStack, useRadioGroup } from '@chakra-ui/react';
 import { ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { FormControl, FormField, Modal } from '@tkeel/console-components';
+import { FormControl, FormField, Modal, Tip } from '@tkeel/console-components';
 // import { schemas } from '@tkeel/console-utils';
 import { RoutesMsgIcon, RoutesTimeIcon } from '@tkeel/console-icons';
 import { TemplateItem, useTemplatesQuery } from '@tkeel/console-request-hooks';
 
-import Tip from '@/tkeel-console-plugin-tenant-routing-rules/components/Tip';
 import RadioCard from '@/tkeel-console-plugin-tenant-routing-rules/pages/Index/components/RadioCard';
 
 const { TextField, TextareaField, SelectField } = FormField;
@@ -169,7 +168,7 @@ export default function BaseRulesModal({
       </FormControl>
       <Tip
         title={routeType === 'time' ? options[1].tipTitle : options[0].tipTitle}
-        styles={{ wrapper: { mb: '20px' } }}
+        styles={{ root: { mb: '20px' } }}
       />
       {routeType === 'time' && (
         <SelectField<FormValues>

@@ -85,7 +85,7 @@ interface TelemetryField {
 }
 
 export interface TelemetryFields {
-  [key: string]: TelemetryField;
+  [propName: string]: TelemetryField;
 }
 
 export interface DeviceObject {

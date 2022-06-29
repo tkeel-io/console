@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 
-import { FormField, Modal } from '@tkeel/console-components';
+import { FormField, Modal, Tip } from '@tkeel/console-components';
 import { useNotificationQuery } from '@tkeel/console-request-hooks';
 import { plugin } from '@tkeel/console-utils';
 
@@ -96,6 +96,7 @@ export default function ConfigureNotificationModal({
           }}
         />
       )}
+      {noticeId && <Tip title="清空通知对象则取消告警配置" />}
     </Modal>
   );
 }

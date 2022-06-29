@@ -20,7 +20,6 @@ export const label: StyleProps = {
   padding: '4px 12px',
   minWidth: '124px',
   minHeight: '28px',
-  fontWeight: '600',
   fontSize: '12px',
   lineHeight: '20px',
   color: 'gray.800',
@@ -29,6 +28,7 @@ export const label: StyleProps = {
 export const labelActive: StyleProps = {
   backgroundColor: 'gray.800',
   color: 'white',
+  fontWeight: '600',
 };
 
 export const labelDisabled: StyleProps = {

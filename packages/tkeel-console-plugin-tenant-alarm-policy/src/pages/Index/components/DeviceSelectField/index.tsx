@@ -90,6 +90,13 @@ export default function DeviceSelectField({ value, onChange, styles }: Props) {
     },
   };
 
+  const newDeviceCondition = deviceCondition
+    ? {
+        ...deviceCondition,
+        value: deviceCondition.value === '' ? '全部' : deviceCondition.value,
+      }
+    : { id: '', label: '', value: '' };
+
   return (
     <Flex
       ref={ref}
@@ -129,7 +136,7 @@ export default function DeviceSelectField({ value, onChange, styles }: Props) {
           )}
           {deviceCondition && (
             <FilterConditionTag
-              condition={deviceCondition}
+              condition={newDeviceCondition}
               removeCondition={() => {
                 setDeviceCondition(null);
               }}
