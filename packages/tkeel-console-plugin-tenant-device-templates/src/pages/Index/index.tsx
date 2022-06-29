@@ -90,7 +90,7 @@ function Index() {
                   buttons={[
                     <SaveAsOtherTemplateButton
                       id={item.id}
-                      key="modify"
+                      key={`${item.id}_modify`}
                       refetch={refetch}
                     />,
                     <ModifyTemplateButton
@@ -101,7 +101,7 @@ function Index() {
                       }}
                     />,
                     <DeleteTemplateButton
-                      key="delete"
+                      key={`${item.id}_delete`}
                       id={item.id}
                       name={item.title}
                       refetchData={() => {
