@@ -2138,7 +2138,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chakra-ui/theme-tools@npm:^2.0.2, @chakra-ui/theme-tools@npm:^2.0.3":
+"@chakra-ui/theme-tools@npm:^2.0.2":
   version: 2.0.3
   resolution: "@chakra-ui/theme-tools@npm:2.0.3"
   dependencies:
@@ -3651,7 +3651,7 @@ __metadata:
   resolution: "@tkeel/console-hooks@workspace:packages/tkeel-console-hooks"
   dependencies:
     "@chakra-ui/react": ^2.2.1
-    "@chakra-ui/theme-tools": ^2.0.3
+    "@chakra-ui/theme-tools": ^2.0.2
     "@chakra-ui/utils": ^2.0.2
     "@ctrl/tinycolor": ^3.4.1
     "@tkeel/console-business-components": "workspace:^"
@@ -3674,7 +3674,7 @@ __metadata:
   resolution: "@tkeel/console-icons@workspace:packages/tkeel-console-icons"
   dependencies:
     "@chakra-ui/react": ^2.2.1
-    "@chakra-ui/theme-tools": ^2.0.3
+    "@chakra-ui/theme-tools": ^2.0.2
     "@emotion/react": ^11.9.3
     "@emotion/styled": ^11.9.3
     framer-motion: ^6.3.16
@@ -4272,7 +4272,7 @@ __metadata:
   resolution: "@tkeel/console-themes@workspace:packages/tkeel-console-themes"
   dependencies:
     "@chakra-ui/react": ^2.2.1
-    "@chakra-ui/theme-tools": ^2.0.3
+    "@chakra-ui/theme-tools": ^2.0.2
     "@emotion/react": ^11.9.3
     "@emotion/styled": ^11.9.3
     "@tkeel/console-types": "workspace:^"
