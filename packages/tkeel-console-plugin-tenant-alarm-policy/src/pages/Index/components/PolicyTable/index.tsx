@@ -40,6 +40,7 @@ import ConfigureNotificationModal from '../ConfigureNotificationModal';
 import CreatePolicyButton from '../CreatePolicyButton';
 import PolicyMoreAction from '../PolicyMoreAction';
 import PolicyStatus from '../PolicyStatus';
+import RuleStatusSelect from '../RuleStatusSelect';
 
 interface Props {
   alarmRuleType?: AlarmRuleType;
@@ -50,6 +51,7 @@ function PolicyTable({ alarmRuleType, setRuleId }: Props) {
   const [keywords, setKeywords] = useState('');
   const [alarmLevel, setAlarmLevel] = useState<AlarmLevel>();
   const [alarmType, setAlarmType] = useState<AlarmType>();
+  const [ruleStatus, setRuleStatus] = useState<RuleStatus>();
   const [id, setId] = useState<number | null>();
   const [noticeId, setNoticeId] = useState<string | null>(null);
   const [isShowLoading, setIsShowLoading] = useState(false);
@@ -61,6 +63,7 @@ function PolicyTable({ alarmRuleType, setRuleId }: Props) {
     alarmRuleType,
     alarmLevel,
     alarmType,
+    enable: ruleStatus,
     ruleName: keywords,
     pageNum,
     pageSize,
@@ -223,6 +226,12 @@ function PolicyTable({ alarmRuleType, setRuleId }: Props) {
               setAlarmType(type === -1 ? undefined : type);
             }}
             styles={{ wrapper: { marginLeft: '12px' } }}
+          />,
+          <RuleStatusSelect
+            key="ruleStatus"
+            onChange={(status) => {
+              setRuleStatus(status === -1 ? undefined : status);
+            }}
           />,
         ]}
         hasSearchInput
