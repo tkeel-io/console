@@ -10,6 +10,7 @@ import {
   FormField,
   Modal,
 } from '@tkeel/console-components';
+import { schemas } from '@tkeel/console-utils';
 
 export type ReadWriteType = 'rw' | 'r' | 'w';
 
@@ -193,6 +194,7 @@ function DeviceAttributeModal({
         error={errors.id}
         registerReturn={register('id', {
           required: { value: true, message: '请填写属性ID' },
+          pattern: schemas.idPattern,
         })}
       />
       <FormControl id="type" label="数据类型">

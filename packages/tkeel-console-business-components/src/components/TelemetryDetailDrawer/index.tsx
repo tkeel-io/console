@@ -8,6 +8,7 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
+import { get } from 'lodash';
 import { useState } from 'react';
 
 import { AceEditor, Drawer } from '@tkeel/console-components';
@@ -37,6 +38,14 @@ const defineType = {
 };
 
 function getDetailData(data: TelemetryTableItem) {
+  const ext = get(data, 'define.ext', {}) as object;
+  const extArray = Object.keys(ext).map((key) => {
+    return {
+      label: key,
+      value: ext[key] as string,
+    };
+  });
+
   return [
     { label: '遥测ID', value: data.id },
     { label: '遥测值', value: data.value || '-' },
@@ -56,6 +65,7 @@ function getDetailData(data: TelemetryTableItem) {
           value: data.define[key],
         };
       }),
+    ...extArray,
   ];
 }
 function getJsonString(data: unknown) {

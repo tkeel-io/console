@@ -16,8 +16,8 @@ import {
 } from '@tkeel/console-request-hooks';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
-// import LoginUserButton from '../LoginUserButton';
-import ResetPasswordButton from '../ResetPasswordButton';
+// import LoginUserButton from './LoginUserButton';
+import ResetPasswordButton from './ResetPasswordButton';
 
 export default function Users() {
   const { tenantId = '' } = useParams();
