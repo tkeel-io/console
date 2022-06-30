@@ -106,6 +106,18 @@ function PolicyTable({ alarmRuleType, setRuleId }: Props) {
     {
       Header: '告警策略名称',
       accessor: 'ruleName',
+      Cell: useCallback(
+        ({ value, row }: CellProps<Policy, Policy['ruleName']>) => (
+          <Text
+            fontWeight="500"
+            cursor="pointer"
+            onClick={() => setRuleId(row.original.ruleId)}
+          >
+            {value}
+          </Text>
+        ),
+        [setRuleId]
+      ),
     },
     {
       Header: '告警源对象',
