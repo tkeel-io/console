@@ -24,7 +24,7 @@ export default function UsageConfig() {
     return <Empty isFullHeight />;
   }
 
-  return schema && !isFetching ? (
+  return schema ? (
     <Form schema={schema} data={dataValues} refetchData={refetch} />
   ) : null;
 }
