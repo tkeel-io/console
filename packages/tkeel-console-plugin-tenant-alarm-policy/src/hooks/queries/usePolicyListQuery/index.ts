@@ -4,6 +4,7 @@ import {
   AlarmRuleType,
   AlarmSourceObject,
   AlarmType,
+  Condition,
   RuleStatus,
 } from '@tkeel/console-types';
 import { RequestResult } from '@tkeel/console-utils';
@@ -22,6 +23,7 @@ export interface Policy {
   deviceName?: string | null;
   noticeId: string;
   enable: RuleStatus; // 0：停用；1：启用
+  condition: Condition;
 }
 
 interface ApiData {
@@ -60,7 +62,15 @@ export default function usePolicyListQuery({ params, onSuccess }: Props) {
     },
     reactQueryOptions: {
       onSuccess,
-      queryKey: ['policyList', ruleName, alarmRuleType, alarmLevel, alarmType],
+      queryKey: [
+        'policyList',
+        ruleName,
+        alarmRuleType,
+        alarmLevel,
+        alarmType,
+        pageNum,
+        pageSize,
+      ],
     },
   });
   const policyList = data?.list || [];

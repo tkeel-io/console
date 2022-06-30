@@ -4,6 +4,7 @@ import {
   AlarmRuleType,
   AlarmSourceObject,
   AlarmType,
+  Condition,
   RuleStatus,
 } from '@tkeel/console-types';
 
@@ -20,6 +21,7 @@ export interface RuleDetail {
   deviceName?: string | null;
   noticeId: string;
   enable: RuleStatus;
+  condition: Condition;
 }
 
 interface RequestParams {

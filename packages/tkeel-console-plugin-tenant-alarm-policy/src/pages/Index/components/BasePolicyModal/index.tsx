@@ -9,7 +9,11 @@ import {
   RadioButton,
   Tip,
 } from '@tkeel/console-components';
-import { AlarmRuleType, AlarmSourceObject } from '@tkeel/console-types';
+import {
+  AlarmRuleType,
+  AlarmSourceObject,
+  Condition,
+} from '@tkeel/console-types';
 
 import {
   ALARM_LEVEL_OPTIONS,
@@ -18,10 +22,7 @@ import {
   systemAlarmSourceObjectOptions,
   thresholdAlarmSourceObjectOptions,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/constants';
-import {
-  Condition,
-  RequestData as CreatePolicyRequestData,
-} from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/mutations/useCreatePolicyMutation';
+import { RequestData as CreatePolicyRequestData } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/mutations/useCreatePolicyMutation';
 import type { PlatformRule } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePlatformRulesQuery';
 import usePlatformRulesQuery from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePlatformRulesQuery';
 import type { Policy } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
@@ -108,6 +109,7 @@ export default function BasePolicyModal({
       deviceName,
       alarmRuleType,
       alarmSourceObject,
+      condition,
     } = policy;
 
     defaultValues = {
@@ -125,7 +127,7 @@ export default function BasePolicyModal({
         deviceId: deviceId || '',
         deviceName: deviceName || '',
       }),
-      condition: Condition.Or,
+      condition,
       deviceConditions: [],
     };
   }
