@@ -13,7 +13,7 @@ import {
   MoreAction,
   Tooltip,
 } from '@tkeel/console-components';
-import { ComputingLampTwoToneIcon } from '@tkeel/console-icons';
+import { BoxTwoToneIcon, ComputingLampTwoToneIcon } from '@tkeel/console-icons';
 import { useAlarmRuleDetailQuery } from '@tkeel/console-request-hooks';
 import { AlarmSourceObject } from '@tkeel/console-types';
 
@@ -36,9 +36,11 @@ type Props = {
 function PolicyDetailDrawer({ ruleId, onClose, refetchData }: Props) {
   const { ruleDetail, refetch } = useAlarmRuleDetailQuery({ ruleId });
   const {
-    deviceId,
     alarmSourceObject,
+    deviceId,
     deviceName,
+    tempId,
+    tempName,
     ruleName,
     alarmType,
     alarmRuleType,
@@ -48,12 +50,13 @@ function PolicyDetailDrawer({ ruleId, onClose, refetchData }: Props) {
 
   let alarmSourceObjectValue: ReactNode = '-';
   if (alarmSourceObject === AlarmSourceObject.Device) {
+    const name = deviceName || tempName;
     alarmSourceObjectValue = (
       <Flex alignItems="center">
-        <ComputingLampTwoToneIcon />
-        <Tooltip label={deviceName}>
+        {deviceName ? <ComputingLampTwoToneIcon /> : <BoxTwoToneIcon />}
+        <Tooltip label={name}>
           <Text marginLeft="2px" width="170px" noOfLines={1}>
-            {deviceName}
+            {name}
           </Text>
         </Tooltip>
       </Flex>
@@ -61,6 +64,8 @@ function PolicyDetailDrawer({ ruleId, onClose, refetchData }: Props) {
   } else if (alarmSourceObject) {
     alarmSourceObjectValue = ALARM_SOURCE_OBJECT_MAP[alarmSourceObject];
   }
+
+  const alarmSourceObjectId = deviceId || tempId || '';
 
   const alarmInfoArr = [
     {
@@ -91,14 +96,16 @@ function PolicyDetailDrawer({ ruleId, onClose, refetchData }: Props) {
     {
       label: '告警源对象ID',
       value: (
-        <Tooltip label={deviceId || ''}>
-          <Flex>
+        <Flex>
+          <Tooltip label={alarmSourceObjectId}>
             <Text width="140px" noOfLines={1}>
-              {deviceId || '-'}
+              {alarmSourceObjectId}
             </Text>
-            {deviceId && <Clipboard text={deviceId} />}
-          </Flex>
-        </Tooltip>
+          </Tooltip>
+          {alarmSourceObjectId !== '-' && (
+            <Clipboard text={alarmSourceObjectId} />
+          )}
+        </Flex>
       ),
     },
     {

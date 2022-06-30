@@ -11,6 +11,7 @@ interface Props {
   content?: ReactNode;
   isFullWidth?: boolean;
   isFullHeight?: boolean;
+  sx?: StyleProps;
   styles?: {
     wrapper?: StyleProps;
     image?: StyleProps;
@@ -28,6 +29,7 @@ export default function Empty({
   content,
   isFullWidth,
   isFullHeight,
+  sx,
   styles,
 }: Props) {
   const typeIsComponent = type === 'component';
@@ -40,6 +42,7 @@ export default function Empty({
       width={isFullWidth ? '100%' : ''}
       height={isFullHeight ? '100%' : ''}
       {...styles?.wrapper}
+      {...sx}
     >
       <Box {...styles?.image}>{image}</Box>
       <Box
