@@ -305,6 +305,7 @@ export default function BasePolicyModal({
               control={control}
               render={({ field: { value, onChange } }) => (
                 <RadioButton
+                  disable={!!policy}
                   options={ALARM_RULE_TYPE_MAP_OPTIONS}
                   value={value}
                   onChange={onChange}
