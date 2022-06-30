@@ -30,3 +30,8 @@ export enum AlarmSourceObject {
   Platform,
   Device,
 } // 0：平台；1：设备
+
+export enum Condition {
+  Or = 'or',
+  And = 'and',
+}

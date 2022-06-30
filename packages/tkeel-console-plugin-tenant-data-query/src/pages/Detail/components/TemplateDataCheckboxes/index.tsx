@@ -1,10 +1,8 @@
-import { Box, Center, Image } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { Dispatch, SetStateAction } from 'react';
 
-import { Loading, Tree } from '@tkeel/console-components';
+import { Empty, Loading, Tree } from '@tkeel/console-components';
 import { TelemetryFields } from '@tkeel/console-request-hooks';
-
-import propertiesEmpty from '@/tkeel-console-plugin-tenant-data-query/assets/images/properties-empty.svg';
 
 type Props = {
   telemetry: TelemetryFields;
@@ -41,11 +39,7 @@ export default function TemplateDataCheckboxes({
   }
 
   if (children.length === 0) {
-    return (
-      <Center flex="1">
-        <Image src={propertiesEmpty} />
-      </Center>
-    );
+    return <Empty type="component" sx={{ flex: '1' }} />;
   }
 
   return (
