@@ -4,6 +4,7 @@ import {
   AlarmRuleType,
   AlarmSourceObject,
   AlarmType,
+  Condition,
   RuleStatus,
 } from '@tkeel/console-types';
 import { RequestResult } from '@tkeel/console-utils';
@@ -22,6 +23,7 @@ export interface Policy {
   deviceName?: string | null;
   noticeId: string;
   enable: RuleStatus; // 0：停用；1：启用
+  condition: Condition;
 }
 
 interface ApiData {
@@ -34,6 +36,7 @@ export interface RequestParams {
   alarmLevel?: AlarmLevel;
   alarmRuleType?: AlarmRuleType;
   alarmType?: AlarmType;
+  enable?: RuleStatus;
   ruleName?: string;
   pageNum: number;
   pageSize: number;
@@ -45,8 +48,16 @@ interface Props {
 }
 
 export default function usePolicyListQuery({ params, onSuccess }: Props) {
-  const { alarmLevel, alarmRuleType, alarmType, ruleName, pageNum, pageSize } =
-    params;
+  const {
+    alarmLevel,
+    alarmRuleType,
+    alarmType,
+    enable,
+    ruleName,
+    pageNum,
+    pageSize,
+  } = params;
+
   const { data, ...rest } = useQuery<ApiData, RequestParams>({
     url: '/tkeel-alarm/v1/rule/query',
     method: 'GET',
@@ -54,13 +65,23 @@ export default function usePolicyListQuery({ params, onSuccess }: Props) {
       alarmLevel,
       alarmRuleType,
       alarmType,
+      enable,
       ruleName,
       pageNum,
       pageSize,
     },
     reactQueryOptions: {
       onSuccess,
-      queryKey: ['policyList', ruleName],
+      queryKey: [
+        'policyList',
+        ruleName,
+        alarmRuleType,
+        alarmLevel,
+        alarmType,
+        enable,
+        pageNum,
+        pageSize,
+      ],
     },
   });
   const policyList = data?.list || [];

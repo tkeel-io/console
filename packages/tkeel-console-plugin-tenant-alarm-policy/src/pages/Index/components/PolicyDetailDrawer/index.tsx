@@ -7,8 +7,13 @@ import {
   AlarmRuleTypeTag,
   NotificationObjectsInfoCard,
 } from '@tkeel/console-business-components';
-import { Drawer, MoreAction, Tooltip } from '@tkeel/console-components';
-import { ComputingLampTwoToneIcon } from '@tkeel/console-icons';
+import {
+  Clipboard,
+  Drawer,
+  MoreAction,
+  Tooltip,
+} from '@tkeel/console-components';
+import { BoxTwoToneIcon, ComputingLampTwoToneIcon } from '@tkeel/console-icons';
 import { useAlarmRuleDetailQuery } from '@tkeel/console-request-hooks';
 import { AlarmSourceObject } from '@tkeel/console-types';
 
@@ -30,68 +35,82 @@ type Props = {
 
 function PolicyDetailDrawer({ ruleId, onClose, refetchData }: Props) {
   const { ruleDetail, refetch } = useAlarmRuleDetailQuery({ ruleId });
-  let alarmSourceObject: ReactNode = '-';
-  if (ruleDetail?.alarmSourceObject === AlarmSourceObject.Device) {
-    alarmSourceObject = (
+  const {
+    alarmSourceObject,
+    deviceId,
+    deviceName,
+    tempId,
+    tempName,
+    ruleName,
+    alarmType,
+    alarmRuleType,
+    alarmLevel,
+    ruleDesc,
+  } = ruleDetail || {};
+
+  let alarmSourceObjectValue: ReactNode = '-';
+  if (alarmSourceObject === AlarmSourceObject.Device) {
+    const name = deviceName || tempName;
+    alarmSourceObjectValue = (
       <Flex alignItems="center">
-        <ComputingLampTwoToneIcon />
-        <Tooltip label={ruleDetail?.deviceName}>
-          <Text marginLeft="2px" width="170px" noOfLines={1}>
-            {ruleDetail?.deviceName}
+        {deviceName ? <ComputingLampTwoToneIcon /> : <BoxTwoToneIcon />}
+        <Tooltip label={name}>
+          <Text marginLeft="2px" maxWidth="170px" noOfLines={1}>
+            {name}
           </Text>
         </Tooltip>
       </Flex>
     );
-  } else if (ruleDetail?.alarmSourceObject) {
-    alarmSourceObject = ALARM_SOURCE_OBJECT_MAP[ruleDetail?.alarmSourceObject];
+  } else if (alarmSourceObject) {
+    alarmSourceObjectValue = ALARM_SOURCE_OBJECT_MAP[alarmSourceObject];
   }
+
+  const alarmSourceObjectId = deviceId || tempId || '';
 
   const alarmInfoArr = [
     {
       label: '告警策略名称',
-      value: ruleDetail?.ruleName,
+      value: ruleName,
     },
     {
       label: '告警类型',
-      value:
-        ruleDetail?.alarmType === undefined
-          ? '-'
-          : ALARM_TYPE_MAP[ruleDetail?.alarmType],
+      value: alarmType === undefined ? '-' : ALARM_TYPE_MAP[alarmType],
     },
     {
       label: '告警策略类型',
       value:
-        ruleDetail?.alarmRuleType === undefined ? (
+        alarmRuleType === undefined ? (
           '-'
         ) : (
-          <AlarmRuleTypeTag type={ruleDetail?.alarmRuleType} />
+          <AlarmRuleTypeTag type={alarmRuleType} />
         ),
     },
     {
       label: '告警级别',
-      value: ruleDetail?.alarmLevel ? (
-        <AlarmLevelTag level={ruleDetail?.alarmLevel} />
-      ) : (
-        ''
-      ),
+      value: alarmLevel ? <AlarmLevelTag level={alarmLevel} /> : '',
     },
     {
       label: '告警源对象',
-      value: alarmSourceObject,
+      value: alarmSourceObjectValue,
     },
     {
       label: '告警源对象ID',
       value: (
-        <Tooltip label={ruleDetail?.deviceId || ''}>
-          <Text width="200px" noOfLines={1}>
-            {ruleDetail?.deviceId || '-'}
-          </Text>
-        </Tooltip>
+        <Flex>
+          <Tooltip label={alarmSourceObjectId}>
+            <Text width="140px" noOfLines={1}>
+              {alarmSourceObjectId}
+            </Text>
+          </Tooltip>
+          {alarmSourceObjectId !== '-' && (
+            <Clipboard text={alarmSourceObjectId} />
+          )}
+        </Flex>
       ),
     },
     {
       label: '规则描述',
-      value: ruleDetail?.ruleDesc,
+      value: ruleDesc,
     },
   ];
 
@@ -117,7 +136,7 @@ function PolicyDetailDrawer({ ruleId, onClose, refetchData }: Props) {
     >
       <Flex flexDirection="column" padding="16px 32px">
         <Flex justifyContent="space-between">
-          <Text {...titleStyle}>告警信息</Text>
+          <Text {...titleStyle}>告警策略信息</Text>
           <Flex alignItems="center">
             <Text color="gray.700" fontSize="12px" fontWeight="500">
               状态：

@@ -316,6 +316,7 @@ export default function OperateDeviceModal({
                 mode={mode}
                 groupOptions={deviceGroupOptions}
                 templateOptions={templateOptions}
+                defaultFormValues={defaultFormValues}
                 // handleSelectTemplate={handleSelectTemplate}
               />
             )}

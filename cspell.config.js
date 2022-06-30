@@ -83,6 +83,7 @@ module.exports = {
     'tkapi',
     'iothub',
     'dingding',
+    'hookform',
     // fonts
     'truetype',
     'Roboto',

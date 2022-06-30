@@ -9,6 +9,7 @@ import {
   useDeviceListQuery,
   useTemplatesQuery,
 } from '@tkeel/console-request-hooks';
+import { hasJsonStructure } from '@tkeel/console-utils';
 
 import TemplateDeviceList from '../TemplateDeviceList';
 
@@ -29,7 +30,7 @@ interface DeviceInfo {
 
 export const getDeviceInfo = (deviceInfo: string) => {
   return (
-    deviceInfo
+    hasJsonStructure(deviceInfo)
       ? JSON.parse(deviceInfo)
       : { tempId: '', tempName: '', deviceId: '', deviceName: '' }
   ) as DeviceInfo;
@@ -48,14 +49,21 @@ export default function DeviceSelectField({ value, onChange, styles }: Props) {
         }
       : null;
 
-  const defaultDeviceCondition =
-    deviceId && deviceName
-      ? {
-          id: deviceId,
-          label: '',
-          value: deviceName,
-        }
-      : null;
+  let defaultDeviceCondition = null;
+  if (tempId) {
+    defaultDeviceCondition =
+      deviceId && deviceName
+        ? {
+            id: deviceId,
+            label: '',
+            value: deviceName,
+          }
+        : {
+            id: '',
+            label: '',
+            value: '全部设备',
+          };
+  }
 
   const [templateCondition, setTemplateCondition] =
     useState<FilterConditionInfo | null>(defaultTemplateCondition);
@@ -89,6 +97,14 @@ export default function DeviceSelectField({ value, onChange, styles }: Props) {
     },
   };
 
+  const newDeviceCondition = deviceCondition
+    ? {
+        ...deviceCondition,
+        value:
+          deviceCondition.value === '' ? '全部设备' : deviceCondition.value,
+      }
+    : { id: '', label: '', value: '' };
+
   return (
     <Flex
       ref={ref}
@@ -120,7 +136,7 @@ export default function DeviceSelectField({ value, onChange, styles }: Props) {
               removeCondition={() => {
                 setTemplateId('');
                 setTemplateCondition(null);
-                onChange('{}');
+                onChange('');
                 setDeviceCondition(null);
               }}
               styles={filterConditionTagStyles}
@@ -128,7 +144,7 @@ export default function DeviceSelectField({ value, onChange, styles }: Props) {
           )}
           {deviceCondition && (
             <FilterConditionTag
-              condition={deviceCondition}
+              condition={newDeviceCondition}
               removeCondition={() => {
                 setDeviceCondition(null);
               }}

@@ -53,7 +53,7 @@ export default function NotificationObjectsInfoCard({
         return (
           <Accordion allowToggle defaultIndex={0}>
             {alarmNoticeGroups.map((group) => {
-              const emailAddressArr = group.emailAddress.split(',');
+              const emailAddressArr = group.emailAddress?.split(',') || [];
               return (
                 <AccordionItem
                   key={group.groupName}
@@ -72,7 +72,7 @@ export default function NotificationObjectsInfoCard({
                         _focus={{ boxShadow: 'none' }}
                       >
                         <Text color="gray.700" fontSize="12px" fontWeight="500">
-                          平台运维部门
+                          {group.groupName}
                         </Text>
                         <Flex alignItems="center">
                           <HStack marginRight="40px" spacing="18px">

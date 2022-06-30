@@ -4,6 +4,8 @@ import {
   AlarmRuleType,
   AlarmSourceObject,
   AlarmType,
+  Condition,
+  RuleStatus,
 } from '@tkeel/console-types';
 import { RequestResult } from '@tkeel/console-utils';
 
@@ -55,14 +57,10 @@ interface DeviceConditionItem {
   label?: string;
 }
 
-export enum Condition {
-  Or = 'or',
-  And = 'and',
-}
-
 export interface RequestData {
   ruleId?: number;
   ruleName: string;
+  enable?: RuleStatus;
   alarmType: AlarmType;
   alarmRuleType: AlarmRuleType;
   alarmLevel: AlarmLevel;

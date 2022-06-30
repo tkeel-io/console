@@ -12,10 +12,11 @@ import DisposeAlarmModal, { DisposeAlarmModalForm } from '../DisposeAlarmModal';
 
 interface Props {
   alarmId: number;
+  ruleId: number;
   type?: 'action' | 'button';
 }
 
-function DisposeAlarmButton({ alarmId, type = 'action' }: Props) {
+function DisposeAlarmButton({ alarmId, ruleId, type = 'action' }: Props) {
   const toast = plugin.getPortalToast();
   const { refetch } = useAlarmContext();
 
@@ -32,6 +33,7 @@ function DisposeAlarmButton({ alarmId, type = 'action' }: Props) {
     mutate({
       data: {
         alarmId,
+        ruleId,
         ...formValues,
       },
     });

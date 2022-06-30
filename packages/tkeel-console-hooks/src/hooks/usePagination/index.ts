@@ -59,7 +59,7 @@ export default function usePagination(props?: Props): UsePaginationReturnType {
   }, [total, size]);
 
   useEffect(() => {
-    if (page > totalPages) {
+    if (totalPages !== 0 && page > totalPages) {
       setPage(getSafePage(totalPages));
     }
   }, [page, totalPages]);

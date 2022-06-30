@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 
-import { FormField, Modal } from '@tkeel/console-components';
+import { FormField, Modal, Tip } from '@tkeel/console-components';
 import { useNotificationQuery } from '@tkeel/console-request-hooks';
 import { plugin } from '@tkeel/console-utils';
 
@@ -50,6 +50,11 @@ export default function ConfigureNotificationModal({
     value: String(id),
   }));
 
+  const newNoticeId = noticeId
+    ?.split(',')
+    .filter((id) => options.some((option) => option.value === id))
+    .join(',');
+
   const {
     formState: { errors },
     control,
@@ -87,7 +92,7 @@ export default function ConfigureNotificationModal({
           label="通知对象"
           placeholder="请选择"
           options={options}
-          defaultValue={noticeId || undefined}
+          defaultValue={newNoticeId || undefined}
           mode="multiple"
           control={control}
           error={errors.notificationObjects}
@@ -96,6 +101,7 @@ export default function ConfigureNotificationModal({
           }}
         />
       )}
+      {noticeId && <Tip title="清空通知对象则取消告警配置" />}
     </Modal>
   );
 }

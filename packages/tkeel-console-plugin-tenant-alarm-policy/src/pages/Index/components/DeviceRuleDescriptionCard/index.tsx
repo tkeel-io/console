@@ -13,6 +13,7 @@ import { TrashFilledIcon } from '@tkeel/console-icons';
 import {
   TelemetryType,
   useDeviceDetailQuery,
+  useTemplateTelemetryQuery,
 } from '@tkeel/console-request-hooks';
 
 import {
@@ -58,6 +59,7 @@ export const defaultDeviceCondition: DeviceCondition = {
 };
 
 interface Props<FormValues> {
+  tempId: string;
   deviceId: string;
   register: UseFormRegister<FormValues>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -75,6 +77,7 @@ function getOptionsByDefine(define: object) {
 }
 
 export default function DeviceRuleDescriptionCard<FormValues>({
+  tempId,
   deviceId,
   register,
   control,
@@ -82,9 +85,15 @@ export default function DeviceRuleDescriptionCard<FormValues>({
   append,
   fieldArrayReturn,
 }: Props<FormValues>) {
+  const { telemetry: templateTelemetryFields } = useTemplateTelemetryQuery({
+    id: tempId,
+  });
   const { deviceObject } = useDeviceDetailQuery({ id: deviceId });
-  const telemetryFields =
-    deviceObject?.configs?.telemetry?.define?.fields || {};
+
+  let telemetryFields = templateTelemetryFields;
+  if (deviceId) {
+    telemetryFields = deviceObject?.configs?.telemetry?.define?.fields || {};
+  }
 
   const telemetryOptions = Object.entries(telemetryFields).map(
     ([key, value]) => {
@@ -150,7 +159,7 @@ export default function DeviceRuleDescriptionCard<FormValues>({
           </FormControl>
           <Text>条件时，触发告警。</Text>
         </Flex>
-        <AddRuleButton onClick={() => append()} />
+        <AddRuleButton disabled={fields.length > 4} onClick={() => append()} />
       </Flex>
       <Flex flexDirection="column" marginTop="20px">
         {fields.map((item, i) => {
@@ -209,6 +218,13 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                 >
                   if
                 </Text>
+                {/* <Box
+                  css={`
+                    .rc-select-selector {
+                      border-color: red !important;
+                    }
+                  `}
+                > */}
                 <SelectField<FormValues>
                   id={telemetryFieldId}
                   name={telemetryFieldId}
@@ -218,9 +234,10 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                   formControlStyle={{
                     marginBottom: '0',
                     flexShrink: 0,
-                    width: '140px',
+                    width: '120px',
                   }}
                 />
+                {/* </Box> */}
                 {telemetryIsNumber && (
                   <>
                     <SelectField<FormValues>
@@ -250,7 +267,7 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                     {...selectProps}
                     formControlStyle={{
                       flexShrink: 0,
-                      width: '122px',
+                      width: '130px',
                     }}
                   />
                 )}
@@ -280,6 +297,9 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                       placeholder="运算符"
                       options={enumOperatorOptions}
                       {...selectProps}
+                      formControlStyle={{
+                        width: '140px',
+                      }}
                     />
                     <SelectField<FormValues>
                       id={getFieldId(i, 'booleanValue')}
@@ -287,6 +307,9 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                       placeholder="请选择"
                       options={booleanValueOptions}
                       {...selectProps}
+                      formControlStyle={{
+                        width: '140px',
+                      }}
                     />
                   </>
                 )}
