@@ -55,7 +55,7 @@ function PolicyDetailDrawer({ ruleId, onClose, refetchData }: Props) {
       <Flex alignItems="center">
         {deviceName ? <ComputingLampTwoToneIcon /> : <BoxTwoToneIcon />}
         <Tooltip label={name}>
-          <Text marginLeft="2px" width="170px" noOfLines={1}>
+          <Text marginLeft="2px" maxWidth="170px" noOfLines={1}>
             {name}
           </Text>
         </Tooltip>

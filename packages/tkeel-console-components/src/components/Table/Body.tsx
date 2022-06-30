@@ -67,6 +67,7 @@ function Body<D extends object>({
                 isShowStripe ? {} : { backgroundColor: 'grayAlternatives.50' }
               }
               borderBottom="1px"
+              borderStyle="solid"
               borderColor={borderColor}
               {...getRowProps()}
               {...styles?.tr}

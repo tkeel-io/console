@@ -218,6 +218,13 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                 >
                   if
                 </Text>
+                {/* <Box
+                  css={`
+                    .rc-select-selector {
+                      border-color: red !important;
+                    }
+                  `}
+                > */}
                 <SelectField<FormValues>
                   id={telemetryFieldId}
                   name={telemetryFieldId}
@@ -230,6 +237,7 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                     width: '120px',
                   }}
                 />
+                {/* </Box> */}
                 {telemetryIsNumber && (
                   <>
                     <SelectField<FormValues>
