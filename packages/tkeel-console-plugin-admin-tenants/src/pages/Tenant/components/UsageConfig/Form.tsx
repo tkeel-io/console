@@ -75,7 +75,6 @@ export default function Form({ schema, data, refetchData }: Props) {
 
       if (!valid) {
         const { errors: ajvErrors } = validate;
-
         localizeZh(ajvErrors);
 
         // eslint-disable-next-line unicorn/no-array-reduce
