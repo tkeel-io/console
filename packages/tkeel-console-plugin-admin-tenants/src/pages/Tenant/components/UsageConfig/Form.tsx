@@ -80,7 +80,11 @@ export default function Form({ schema, data, refetchData }: Props) {
         // eslint-disable-next-line unicorn/no-array-reduce
         const formErrors = (ajvErrors ?? []).reduce<Record<string, FieldError>>(
           (prev, ajvError) => {
-            const { instancePath, keyword, message } = ajvError;
+            const { keyword, message, params } = ajvError;
+            let { instancePath } = ajvError;
+            if (keyword === 'required') {
+              instancePath = `/${params.missingProperty as string}`;
+            }
             const key = instancePath.slice(1);
 
             return {
