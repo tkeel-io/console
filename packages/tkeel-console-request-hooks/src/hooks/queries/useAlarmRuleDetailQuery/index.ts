@@ -24,6 +24,7 @@ export interface RuleDetail {
   noticeId: string;
   enable: RuleStatus;
   condition: Condition;
+  deleted: number;
 }
 
 interface RequestParams {
