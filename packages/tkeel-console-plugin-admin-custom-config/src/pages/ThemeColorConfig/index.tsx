@@ -29,6 +29,7 @@ import {
 import ButtonStack from '@/tkeel-console-plugin-admin-custom-config/components/ButtonStack';
 
 import HexColorInput, { getThemeColors } from './HexColorInput';
+import PreviewPanel from './PreviewPanel';
 
 interface ExtraThemeColors {
   primary?: string;
@@ -187,6 +188,8 @@ export default function ThemeColorConfig() {
         flexDirection="column"
         marginLeft="20px"
         flex="1"
+        borderTopLeftRadius="4px"
+        borderTopRightRadius="4px"
         boxShadow="0px 10px 15px -3px rgba(113, 128, 150, 0.1), 0px 4px 6px -2px rgba(113, 128, 150, 0.05);"
         backgroundColor="white"
       >
@@ -202,7 +205,9 @@ export default function ThemeColorConfig() {
           borderBottomLeftRadius="4px"
           borderBottomRightRadius="4px"
         >
-          <TabPanel>效果预览</TabPanel>
+          <TabPanel>
+            <PreviewPanel />
+          </TabPanel>
           <TabPanel>颜色声明</TabPanel>
         </TabPanels>
       </Tabs>
