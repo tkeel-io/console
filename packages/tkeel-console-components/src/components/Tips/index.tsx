@@ -33,9 +33,7 @@ export default function Tips({
         borderStyle="solid"
         borderColor="gray.100"
       >
-        <Box>
-          <InformationFilledIcon size={iconSize} color={iconColor} />
-        </Box>
+        <InformationFilledIcon size={iconSize} color={iconColor} />
       </Tooltip>
     </Box>
   );
