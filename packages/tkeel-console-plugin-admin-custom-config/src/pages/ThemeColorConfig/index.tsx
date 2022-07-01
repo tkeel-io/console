@@ -1,11 +1,16 @@
 import {
+  ColorHues,
+  Colors,
   Flex,
   StyleProps,
   TabPanel,
   TabPanels,
   Tabs,
   Text,
+  useTheme,
 } from '@chakra-ui/react';
+import { useState } from 'react';
+import { HexColorPicker } from 'react-colorful';
 import { useNavigate } from 'react-router-dom';
 
 import { BasicInfoBg } from '@tkeel/console-business-components';
@@ -15,8 +20,69 @@ import {
   CustomTabList,
 } from '@tkeel/console-components';
 import { AppsRhombusTwoToneIcon } from '@tkeel/console-icons';
+import { useUpdatePortalConfigMutation } from '@tkeel/console-request-hooks';
+
+import ButtonStack from '@/tkeel-console-plugin-admin-custom-config/components/ButtonStack';
+
+import HexColorInput, { getThemeColors } from './HexColorInput';
+
+interface ExtraThemeColors {
+  primary?: string;
+  brand?: ColorHues;
+}
+
+interface CustomColor extends Colors {
+  primary: string;
+}
 
 export default function ThemeColorConfig() {
+  const { colors: themeColors }: { colors: CustomColor } = useTheme();
+  const defaultColor = themeColors.primary;
+  const [color, setColor] = useState(defaultColor);
+
+  const defaultColors = getThemeColors(defaultColor);
+  const [colors, setColors] = useState(defaultColors);
+
+  const { mutate: mutatePortalConfig } = useUpdatePortalConfigMutation({
+    key: 'theme',
+    path: 'colors',
+    onSuccess() {
+      window.location.reload();
+    },
+  });
+
+  const handleUpdateThemeColors = (extraThemeColors: ExtraThemeColors) => {
+    mutatePortalConfig({
+      data: {
+        ...extraThemeColors,
+      },
+    });
+  };
+
+  const onConfirm = () => {
+    if (color.length < 7) {
+      handleUpdateThemeColors({});
+      return;
+    }
+
+    const brand = {};
+    colors.forEach((item, i) => {
+      if (i === 0) {
+        brand[50] = item;
+      } else {
+        brand[i * 100] = item;
+      }
+    });
+    brand[500] = color;
+
+    const primary = brand[500] as string;
+    const extraThemeColors: ExtraThemeColors = {
+      primary,
+      brand: brand as ColorHues,
+    };
+    handleUpdateThemeColors(extraThemeColors);
+  };
+
   const navigate = useNavigate();
   const labelStyle: StyleProps = {
     color: 'gray.800',
@@ -25,6 +91,8 @@ export default function ThemeColorConfig() {
   };
 
   const descStyle: StyleProps = {
+    marginTop: '4px',
+    marginBottom: '7px',
     color: 'gray.500',
     fontSize: '12px',
   };
@@ -59,9 +127,34 @@ export default function ThemeColorConfig() {
           </Flex>
           <BasicInfoBg />
         </Flex>
-        <Flex flex="1" padding="20px 24px">
+        <Flex flex="1" flexDirection="column" padding="20px 24px">
           <Text {...labelStyle}>颜色编号</Text>
-          <Text {...descStyle} />
+          <Text {...descStyle}>
+            如果您有固定的品牌色，可直接输入对应的十六进制颜色编号，默认为系统主题色
+          </Text>
+          <HexColorInput
+            color={color}
+            setColor={setColor}
+            setColors={setColors}
+          />
+          <Text marginTop="24px" {...labelStyle}>
+            自定义颜色
+          </Text>
+          <Text {...descStyle} marginBottom="14px">
+            或者您可以调整下方工具滑块，挑选您的目标颜色
+          </Text>
+          <HexColorPicker
+            color={color}
+            onChange={(value) => {
+              setColor(value);
+              setColors(getThemeColors(value));
+            }}
+          />
+          <ButtonStack
+            sx={{ marginTop: '24px' }}
+            onConfirm={onConfirm}
+            onReset={() => handleUpdateThemeColors({})}
+          />
         </Flex>
       </Flex>
       <Tabs
