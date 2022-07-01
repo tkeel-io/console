@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { BasicInfoBg } from '@tkeel/console-business-components';
 import {
   BackButton,
+  Checkbox,
   CustomTab,
   CustomTabList,
 } from '@tkeel/console-components';
@@ -42,6 +43,8 @@ export default function ThemeColorConfig() {
 
   const defaultColors = getThemeColors(defaultColor);
   const [colors, setColors] = useState(defaultColors);
+
+  const [enableColorCoordination, setEnableColorCoordination] = useState(false);
 
   const { mutate: mutatePortalConfig } = useUpdatePortalConfigMutation({
     key: 'theme',
@@ -73,7 +76,10 @@ export default function ThemeColorConfig() {
         brand[i * 100] = item;
       }
     });
-    brand[500] = color;
+
+    if (!enableColorCoordination) {
+      brand[500] = color;
+    }
 
     const primary = brand[500] as string;
     const extraThemeColors: ExtraThemeColors = {
@@ -150,6 +156,15 @@ export default function ThemeColorConfig() {
               setColors(getThemeColors(value));
             }}
           />
+          <Checkbox
+            marginTop="16px"
+            isChecked={enableColorCoordination}
+            onChange={(e) => {
+              setEnableColorCoordination(e.target.checked);
+            }}
+          >
+            开启颜色协调
+          </Checkbox>
           <ButtonStack
             sx={{ marginTop: '24px' }}
             onConfirm={onConfirm}
