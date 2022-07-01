@@ -21,7 +21,10 @@ import {
   CustomTabList,
 } from '@tkeel/console-components';
 import { AppsRhombusTwoToneIcon } from '@tkeel/console-icons';
-import { useUpdatePortalConfigMutation } from '@tkeel/console-request-hooks';
+import {
+  useConfigThemeColorsQuery,
+  useUpdatePortalConfigMutation,
+} from '@tkeel/console-request-hooks';
 
 import ButtonStack from '@/tkeel-console-plugin-admin-custom-config/components/ButtonStack';
 
@@ -46,6 +49,12 @@ export default function ThemeColorConfig() {
 
   const [enableColorCoordination, setEnableColorCoordination] = useState(false);
 
+  useConfigThemeColorsQuery({
+    onSuccess(data) {
+      setEnableColorCoordination(data.data.value.enableColorCoordination);
+    },
+  });
+
   const { mutate: mutatePortalConfig } = useUpdatePortalConfigMutation({
     key: 'theme',
     path: 'colors',
@@ -58,6 +67,7 @@ export default function ThemeColorConfig() {
     mutatePortalConfig({
       data: {
         ...extraThemeColors,
+        enableColorCoordination,
       },
     });
   };
