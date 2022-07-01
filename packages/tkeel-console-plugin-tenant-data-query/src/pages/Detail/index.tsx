@@ -372,7 +372,9 @@ export default function Detail() {
   ];
 
   const isExportButtonDisabled =
-    rawDataList.length === 0 || originDataItems.length === 0;
+    (isRawDataRequested && rawDataList.length === 0) ||
+    (isTemplateDataRequested && originDataItems.length === 0);
+
   return (
     <Flex height="100%" justifyContent="space-between">
       <Flex flexDirection="column" width="360px">
