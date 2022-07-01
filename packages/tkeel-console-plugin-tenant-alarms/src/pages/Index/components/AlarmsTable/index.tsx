@@ -74,16 +74,16 @@ function AlarmsTable() {
     },
     {
       Header: '告警源对象',
-      width: 100,
+      // width: 100,
       accessor: 'alarmSource',
       Cell: useCallback(({ value, row }: CellProps<Item, AlarmType>) => {
-        const { deviceId } = row.original;
+        const { objectId } = row.original;
         return (
           <Box>
             {value === 1 ? (
               <Flex alignItems="center">
                 <ComputingLampTwoToneIcon />
-                <Text ml="4px">{deviceId}</Text>
+                <Text ml="4px">{objectId}</Text>
               </Flex>
             ) : (
               '平台'
@@ -132,7 +132,7 @@ function AlarmsTable() {
       // accessor: 'alarmId',
       Cell: useCallback(({ row }: CellProps<Item, number>) => {
         const { original } = row;
-        const { alarmId, ruleId } = original;
+        const { alarmId, ruleId, handOpinions } = original;
 
         return (
           <MoreAction
@@ -142,6 +142,7 @@ function AlarmsTable() {
                 key={alarmId}
                 alarmId={alarmId}
                 ruleId={ruleId}
+                handOpinions={handOpinions || ''}
               />,
               <ShowDetailButton key={ruleId} details={original} />,
             ]}

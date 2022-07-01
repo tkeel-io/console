@@ -12,6 +12,7 @@ export interface DisposeAlarmModalForm {
 export interface Props {
   isOpen: boolean;
   isConfirmButtonLoading?: boolean;
+  handOpinions: string | null;
   onClose: () => unknown;
   onSubmit: (value: DisposeAlarmModalForm) => void;
 }
@@ -20,6 +21,7 @@ function DisposeAlarmModal({
   isOpen,
   onClose,
   isConfirmButtonLoading,
+  handOpinions,
   onSubmit,
 }: Props) {
   const {
@@ -27,7 +29,11 @@ function DisposeAlarmModal({
     getValues,
     trigger,
     formState: { errors },
-  } = useForm<DisposeAlarmModalForm>();
+  } = useForm<DisposeAlarmModalForm>({
+    defaultValues: {
+      handOpinions: handOpinions || '',
+    },
+  });
 
   const handleConfirm = async () => {
     const result = await trigger();

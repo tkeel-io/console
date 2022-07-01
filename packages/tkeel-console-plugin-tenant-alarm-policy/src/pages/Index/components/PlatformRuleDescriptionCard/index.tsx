@@ -35,7 +35,7 @@ export default function PlatformRuleDescriptionCard({
     <Flex flex="1" flexDirection="column">
       <Flex justifyContent="space-between">
         <Text color="gray.700" fontSize="14px">
-          满足条件时，触发告警。
+          满足以下任一条件时，触发告警。
         </Text>
         <Checkbox
           color="gray.700"

@@ -89,7 +89,11 @@ function Body<D extends object>({
                     {...styles?.td}
                   >
                     {funcName === 'defaultRenderer' ? (
-                      <Text title={String(cell.value)} noOfLines={1}>
+                      <Text
+                        title={String(cell.value)}
+                        noOfLines={1}
+                        wordBreak="break-all"
+                      >
                         {cell.value}
                       </Text>
                     ) : (

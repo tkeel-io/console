@@ -83,50 +83,57 @@ export const ALARMS_SOURCE = [
   },
 ];
 
-export const AlarmInfoCardArr = (details: AlarmDetailType) => [
-  {
-    label: '告警源对象',
-    value:
-      details.alarmSource === 0 ? (
-        ALARMS_SOURCE[0].label
-      ) : (
-        <Tooltip label={details?.deviceId}>
-          <Flex alignItems="center" flex="1">
-            <ComputingLampTwoToneIcon />
-            <Text flex="1" ml="4px" noOfLines={1}>
-              {details?.deviceId}
-            </Text>
-          </Flex>
-        </Tooltip>
-      ),
-  },
-  {
-    label: '告警源对象ID',
-    value: <TooltipText label={details?.objectId} />,
-  },
-  {
-    label: '告警上报值',
-    value: details?.alarmValue,
-  },
-  {
-    label: '告警发生时间',
-    value: dayjs.unix(details?.startTime || 0).format('YYYY-MM-DD HH:mm:ss'),
-  },
-  {
-    label: '告警描述',
-    value: <TooltipText label={details?.alarmDesc} />,
-  },
-];
+export const AlarmInfoCardArr = (details: AlarmDetailType) => {
+  const arr = [
+    {
+      label: '告警源对象',
+      value:
+        details.alarmSource === 0 ? (
+          ALARMS_SOURCE[0].label
+        ) : (
+          <Tooltip label={details?.deviceId}>
+            <Flex alignItems="center" flex="1">
+              <ComputingLampTwoToneIcon />
+              <Text flex="1" ml="4px" noOfLines={1}>
+                {details?.deviceId}
+              </Text>
+            </Flex>
+          </Tooltip>
+        ),
+    },
+    {
+      label: '告警上报值',
+      value: details?.alarmValue || '',
+    },
+    {
+      label: '告警发生时间',
+      value: dayjs.unix(details?.startTime || 0).format('YYYY-MM-DD HH:mm:ss'),
+    },
+    {
+      label: '告警描述',
+      value: <TooltipText label={details?.alarmDesc} />,
+    },
+  ];
+  if (details.alarmSource === 1) {
+    arr.splice(1, 0, {
+      label: '告警源对象ID',
+      value: <TooltipText label={details?.objectId} />,
+    });
+  }
+
+  return arr;
+};
 
 export const AlarmPolicyInfoCardArr = (details: AlarmDetailType) => [
   {
     label: '告警策略名称',
     value: (
       <Text
-        textDecoration="underline"
-        cursor="pointer"
+        {...(details.deleted !== 1
+          ? { textDecoration: 'underline', cursor: 'pointer' }
+          : {})}
         onClick={() => {
-          if (details.ruleId) {
+          if (details.ruleId && details.deleted !== 1) {
             const { navigate } = plugin.getPortalProps().client;
             navigate(`/tenant-alarm-policy/?id=${details.ruleId}`);
           }
