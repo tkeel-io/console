@@ -18,7 +18,7 @@ interface Props {
 const { SelectField } = FormField;
 
 interface FormValues {
-  notificationObjects: string;
+  notificationObjects: string[];
 }
 
 export default function ConfigureNotificationModal({
@@ -50,10 +50,9 @@ export default function ConfigureNotificationModal({
     value: String(id),
   }));
 
-  const newNoticeId = noticeId
+  const noticeIdArr = noticeId
     ?.split(',')
-    .filter((id) => options.some((option) => option.value === id))
-    .join(',');
+    .filter((id) => options.some((option) => option.value === id));
 
   const {
     formState: { errors },
@@ -70,7 +69,7 @@ export default function ConfigureNotificationModal({
         mutate({
           data: {
             ruleId,
-            noticeId: notificationObjects,
+            noticeId: notificationObjects.join(','),
           },
         });
       }
@@ -92,7 +91,7 @@ export default function ConfigureNotificationModal({
           label="通知对象"
           placeholder="请选择"
           options={options}
-          defaultValue={newNoticeId || undefined}
+          defaultValue={noticeIdArr}
           mode="multiple"
           control={control}
           error={errors.notificationObjects}

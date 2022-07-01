@@ -26,6 +26,8 @@ export enum RuleStatus {
   Enabled,
 } // 0：停用；1：启用
 
+export type RuleStatusSelectValue = -1 | RuleStatus;
+
 export enum AlarmSourceObject {
   Platform,
   Device,

@@ -67,6 +67,7 @@ function Body<D extends object>({
                 isShowStripe ? {} : { backgroundColor: 'grayAlternatives.50' }
               }
               borderBottom="1px"
+              borderStyle="solid"
               borderColor={borderColor}
               {...getRowProps()}
               {...styles?.tr}
@@ -88,7 +89,11 @@ function Body<D extends object>({
                     {...styles?.td}
                   >
                     {funcName === 'defaultRenderer' ? (
-                      <Text title={String(cell.value)} noOfLines={1}>
+                      <Text
+                        title={String(cell.value)}
+                        noOfLines={1}
+                        wordBreak="break-all"
+                      >
                         {cell.value}
                       </Text>
                     ) : (

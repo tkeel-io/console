@@ -1,7 +1,7 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, Text, Tooltip } from '@chakra-ui/react';
 import type { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 
-import { FormField, Tooltip } from '@tkeel/console-components';
+import { FormField } from '@tkeel/console-components';
 
 const { TextField } = FormField;
 
