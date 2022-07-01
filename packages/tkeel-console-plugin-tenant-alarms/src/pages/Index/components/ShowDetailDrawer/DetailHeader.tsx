@@ -73,6 +73,7 @@ export default function DetailHeader({ record }: Props) {
             type="button"
             alarmId={record.alarmId}
             ruleId={Number(record.ruleId)}
+            handOpinions={record.handOpinions || ''}
           />
         )}
       </Flex>

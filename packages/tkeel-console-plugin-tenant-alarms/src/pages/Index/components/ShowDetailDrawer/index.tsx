@@ -10,8 +10,8 @@ import {
   NotificationObjectsInfoCard,
 } from '@tkeel/console-business-components';
 import { Drawer } from '@tkeel/console-components';
+import { useAlarmRuleDetailQuery } from '@tkeel/console-request-hooks';
 
-import useAlarmDetailQuery from '@/tkeel-console-plugin-tenant-alarms/hooks/queries/useAlarmDetailQuery';
 import type {
   AlarmDetailType,
   AlarmItem,
@@ -27,16 +27,14 @@ export interface Props {
 }
 
 function ShowDetailDrawer({ isOpen, onClose, details, enabled }: Props) {
-  const { data } = useAlarmDetailQuery(
-    {
-      ruleId: details.ruleId,
-    },
-    enabled
-  );
+  const { ruleDetail } = useAlarmRuleDetailQuery({
+    ruleId: details.ruleId,
+    enabled,
+  });
 
   const alarmDetails: AlarmDetailType = {
     ...details,
-    ...data,
+    ...ruleDetail,
   };
 
   const alarmCardArr = AlarmInfoCardArr(alarmDetails);
