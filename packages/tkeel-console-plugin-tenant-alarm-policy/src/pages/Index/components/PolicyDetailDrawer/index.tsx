@@ -19,10 +19,7 @@ import { AlarmSourceObject } from '@tkeel/console-types';
 
 import DeletePolicyButton from '@/tkeel-console-plugin-tenant-alarm-policy/components/DeletePolicyButton';
 import ModifyPolicyButton from '@/tkeel-console-plugin-tenant-alarm-policy/components/ModifyPolicyButton';
-import {
-  ALARM_SOURCE_OBJECT_MAP,
-  ALARM_TYPE_MAP,
-} from '@/tkeel-console-plugin-tenant-alarm-policy/constants';
+import { ALARM_TYPE_MAP } from '@/tkeel-console-plugin-tenant-alarm-policy/constants';
 import type { Policy } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
 
 import SwitchStatusButton from '../SwitchStatusButton';
@@ -49,23 +46,35 @@ function PolicyDetailDrawer({ ruleId, onClose, refetchData }: Props) {
   } = ruleDetail || {};
 
   let alarmSourceObjectValue: ReactNode = '-';
+  let alarmSourceObjectIdValue: ReactNode = '-';
   if (alarmSourceObject === AlarmSourceObject.Device) {
     const name = deviceName || tempName;
+    const alarmSourceObjectId = deviceId || tempId || '';
+
     alarmSourceObjectValue = (
       <Flex alignItems="center">
         {deviceName ? <ComputingLampTwoToneIcon /> : <BoxTwoToneIcon />}
         <Tooltip label={name}>
-          <Text marginLeft="2px" width="170px" noOfLines={1}>
+          <Text marginLeft="2px" maxWidth="170px" noOfLines={1}>
             {name}
           </Text>
         </Tooltip>
       </Flex>
     );
-  } else if (alarmSourceObject) {
-    alarmSourceObjectValue = ALARM_SOURCE_OBJECT_MAP[alarmSourceObject];
-  }
 
-  const alarmSourceObjectId = deviceId || tempId || '';
+    alarmSourceObjectIdValue = (
+      <Flex>
+        <Tooltip label={alarmSourceObjectId}>
+          <Text width="140px" noOfLines={1}>
+            {alarmSourceObjectId}
+          </Text>
+        </Tooltip>
+        {alarmSourceObjectId && <Clipboard text={alarmSourceObjectId} />}
+      </Flex>
+    );
+  } else if (alarmSourceObject === AlarmSourceObject.Platform) {
+    alarmSourceObjectValue = '平台';
+  }
 
   const alarmInfoArr = [
     {
@@ -95,18 +104,7 @@ function PolicyDetailDrawer({ ruleId, onClose, refetchData }: Props) {
     },
     {
       label: '告警源对象ID',
-      value: (
-        <Flex>
-          <Tooltip label={alarmSourceObjectId}>
-            <Text width="140px" noOfLines={1}>
-              {alarmSourceObjectId}
-            </Text>
-          </Tooltip>
-          {alarmSourceObjectId !== '-' && (
-            <Clipboard text={alarmSourceObjectId} />
-          )}
-        </Flex>
-      ),
+      value: alarmSourceObjectIdValue,
     },
     {
       label: '规则描述',
