@@ -18,7 +18,7 @@ module.exports = {
           path: '{{basePath}}',
           entry: '/static/console-plugin-{{name}}/',
           portal: {{portalValue}},
-          notifications: []
+          notifications: [],
         },
       ],
       dependence: [],
