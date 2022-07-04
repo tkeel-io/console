@@ -28,8 +28,8 @@ import {
 
 import ButtonStack from '@/tkeel-console-plugin-admin-custom-config/components/ButtonStack';
 
-import HexColorInput, { getThemeColors } from './HexColorInput';
-import PreviewPanel from './PreviewPanel';
+import HexColorInput, { getThemeColors } from './components/HexColorInput';
+import PreviewPanel from './components/PreviewPanel';
 
 interface ExtraThemeColors {
   primary?: string;
@@ -64,11 +64,17 @@ export default function ThemeColorConfig() {
     },
   });
 
-  const handleUpdateThemeColors = (extraThemeColors: ExtraThemeColors) => {
+  const handleUpdateThemeColors = ({
+    extraThemeColors = {},
+    enableCoordination,
+  }: {
+    extraThemeColors?: ExtraThemeColors;
+    enableCoordination?: boolean;
+  }) => {
     mutatePortalConfig({
       data: {
         ...extraThemeColors,
-        enableColorCoordination,
+        enableColorCoordination: enableCoordination,
       },
     });
   };
@@ -97,7 +103,10 @@ export default function ThemeColorConfig() {
       primary,
       brand: brand as ColorHues,
     };
-    handleUpdateThemeColors(extraThemeColors);
+    handleUpdateThemeColors({
+      extraThemeColors,
+      enableCoordination: enableColorCoordination,
+    });
   };
 
   const navigate = useNavigate();
@@ -174,7 +183,9 @@ export default function ThemeColorConfig() {
               setEnableColorCoordination(e.target.checked);
             }}
           >
-            开启颜色协调
+            <Text color="gray.500" fontSize="12px">
+              开启颜色协调
+            </Text>
           </Checkbox>
           <ButtonStack
             sx={{ marginTop: '24px' }}
@@ -205,7 +216,7 @@ export default function ThemeColorConfig() {
           borderBottomLeftRadius="4px"
           borderBottomRightRadius="4px"
         >
-          <TabPanel>
+          <TabPanel height="100%">
             <PreviewPanel />
           </TabPanel>
           <TabPanel>颜色声明</TabPanel>
