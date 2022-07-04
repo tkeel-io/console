@@ -247,10 +247,6 @@ export default function Detail() {
     }
   };
 
-  const handleSearch = (value: string) => {
-    setKeywords(value);
-  };
-
   const originDataItems = telemetryData?.items ?? [];
   const rangeStartTime = startTime + rangeIndex * intervalTime;
   const rangeEndTime = rangeStartTime + intervalTime;
@@ -395,7 +391,7 @@ export default function Detail() {
           setRawDataCheckedKeys={setRawDataCheckedKeys}
           isDeviceDetailLoading={isDeviceDetailLoading}
           isTelemetryDataLoading={isTelemetryDataLoading}
-          onSearch={handleSearch}
+          onSearch={setKeywords}
           onConfirm={() => handleRequestData()}
         />
       </Flex>
