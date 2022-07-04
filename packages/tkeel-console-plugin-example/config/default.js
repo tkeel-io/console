@@ -18,6 +18,7 @@ module.exports = {
           path: '/example',
           entry: '/static/console-plugin-example/',
           portal: 1,
+          notifications: [],
         },
       ],
       dependence: [],
