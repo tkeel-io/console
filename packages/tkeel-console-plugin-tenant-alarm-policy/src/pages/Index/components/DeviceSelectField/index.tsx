@@ -49,14 +49,21 @@ export default function DeviceSelectField({ value, onChange, styles }: Props) {
         }
       : null;
 
-  const defaultDeviceCondition =
-    deviceId && deviceName
-      ? {
-          id: deviceId,
-          label: '',
-          value: deviceName,
-        }
-      : null;
+  let defaultDeviceCondition = null;
+  if (tempId) {
+    defaultDeviceCondition =
+      deviceId && deviceName
+        ? {
+            id: deviceId,
+            label: '',
+            value: deviceName,
+          }
+        : {
+            id: '',
+            label: '',
+            value: '全部设备',
+          };
+  }
 
   const [templateCondition, setTemplateCondition] =
     useState<FilterConditionInfo | null>(defaultTemplateCondition);
@@ -89,6 +96,14 @@ export default function DeviceSelectField({ value, onChange, styles }: Props) {
       noOfLines: 1,
     },
   };
+
+  const newDeviceCondition = deviceCondition
+    ? {
+        ...deviceCondition,
+        value:
+          deviceCondition.value === '' ? '全部设备' : deviceCondition.value,
+      }
+    : { id: '', label: '', value: '' };
 
   return (
     <Flex
@@ -129,7 +144,7 @@ export default function DeviceSelectField({ value, onChange, styles }: Props) {
           )}
           {deviceCondition && (
             <FilterConditionTag
-              condition={deviceCondition}
+              condition={newDeviceCondition}
               removeCondition={() => {
                 setDeviceCondition(null);
               }}

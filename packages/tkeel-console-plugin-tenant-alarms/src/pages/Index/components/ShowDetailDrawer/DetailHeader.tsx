@@ -69,7 +69,12 @@ export default function DetailHeader({ record }: Props) {
           }}
         />
         {isDispose && record.alarmId && (
-          <DisposeAlarmButton type="button" alarmId={record.alarmId} />
+          <DisposeAlarmButton
+            type="button"
+            alarmId={record.alarmId}
+            ruleId={Number(record.ruleId)}
+            handOpinions={record.handOpinions || ''}
+          />
         )}
       </Flex>
     </Alert>

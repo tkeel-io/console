@@ -7,7 +7,6 @@ import {
   FieldPathValue,
   Path,
   RegisterOptions,
-  UnpackNestedValue,
 } from 'react-hook-form';
 
 import { CheckFilledIcon } from '@tkeel/console-icons';
@@ -28,9 +27,8 @@ type Props<TFieldValues> = FormControlProps & {
   showArrow?: boolean;
   allowClear?: boolean;
   loading?: boolean;
-  defaultValue?: UnpackNestedValue<
-    FieldPathValue<TFieldValues, Path<TFieldValues>>
-  >;
+  // TODO: https://github.com/react-hook-form/react-hook-form/blob/master/CHANGELOG.md#7330---2022-6-24
+  defaultValue?: FieldPathValue<TFieldValues, Path<TFieldValues>>;
   placeholder?: string;
   rules?: Omit<
     RegisterOptions,
@@ -64,8 +62,6 @@ export default function SelectField<TFieldValues>({
   notFoundContent = '暂无选项',
   ...rest
 }: Props<TFieldValues>) {
-  const isMultipleMode = mode === 'multiple';
-
   return (
     <FormControl id={id} {...rest}>
       <Controller<TFieldValues, FieldPath<TFieldValues>>
@@ -84,15 +80,9 @@ export default function SelectField<TFieldValues>({
             options={options}
             notFoundContent={notFoundContent}
             onChange={(selectValue) => {
-              if (isMultipleMode && Array.isArray(selectValue)) {
-                onChange(selectValue.join(','));
-              } else {
-                onChange(selectValue);
-              }
+              onChange(selectValue);
             }}
-            value={
-              isMultipleMode && value ? (value as string).split(',') : value
-            }
+            value={value}
             menuItemSelectedIcon={
               <Center width="30px" height="32px">
                 <CheckFilledIcon color="primary" />

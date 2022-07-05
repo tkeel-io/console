@@ -8,6 +8,7 @@ export interface ApiData {
 const method = 'PUT';
 
 type RequestData = {
+  ruleId: number;
   alarmId: number;
   handOpinions: string;
 };

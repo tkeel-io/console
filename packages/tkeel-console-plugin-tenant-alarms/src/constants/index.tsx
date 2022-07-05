@@ -1,10 +1,12 @@
 import { Flex, Text } from '@chakra-ui/react';
+import dayjs from 'dayjs';
 import {
   AlarmDetailType,
   AlarmPolicyType,
 } from 'packages/tkeel-console-plugin-tenant-alarms/src/types';
 
 import { AlarmRuleTypeTag } from '@tkeel/console-business-components';
+import { Tooltip, TooltipText } from '@tkeel/console-components';
 import {
   ComputingLampTwoToneIcon,
   FireFilledIcon,
@@ -81,46 +83,57 @@ export const ALARMS_SOURCE = [
   },
 ];
 
-export const AlarmInfoCardArr = (details: AlarmDetailType) => [
-  {
-    label: '告警源对象',
-    value:
-      details.alarmSource === 0 ? (
-        ALARMS_SOURCE[0].label
-      ) : (
-        <Flex>
-          <ComputingLampTwoToneIcon />
-          <Text ml="4px">{details?.deviceId}</Text>
-        </Flex>
-      ),
-  },
-  {
-    label: '告警源对象ID',
-    value: details?.objectId,
-  },
-  {
-    label: '告警上报值',
-    value: details?.alarmValue,
-  },
-  {
-    label: '告警发生时间',
-    value: details?.startTime,
-  },
-  {
-    label: '告警描述',
-    value: details?.alarmDesc,
-  },
-];
+export const AlarmInfoCardArr = (details: AlarmDetailType) => {
+  const arr = [
+    {
+      label: '告警源对象',
+      value:
+        details.alarmSource === 0 ? (
+          ALARMS_SOURCE[0].label
+        ) : (
+          <Tooltip label={details?.deviceId}>
+            <Flex alignItems="center" flex="1">
+              <ComputingLampTwoToneIcon />
+              <Text flex="1" ml="4px" noOfLines={1}>
+                {details?.deviceId}
+              </Text>
+            </Flex>
+          </Tooltip>
+        ),
+    },
+    {
+      label: '告警上报值',
+      value: details?.alarmValue || '',
+    },
+    {
+      label: '告警发生时间',
+      value: dayjs.unix(details?.startTime || 0).format('YYYY-MM-DD HH:mm:ss'),
+    },
+    {
+      label: '告警描述',
+      value: <TooltipText label={details?.alarmDesc} />,
+    },
+  ];
+  if (details.alarmSource === 1) {
+    arr.splice(1, 0, {
+      label: '告警源对象ID',
+      value: <TooltipText label={details?.objectId} />,
+    });
+  }
+
+  return arr;
+};
 
 export const AlarmPolicyInfoCardArr = (details: AlarmDetailType) => [
   {
     label: '告警策略名称',
     value: (
       <Text
-        textDecoration="underline"
-        cursor="pointer"
+        {...(details.deleted !== 1
+          ? { textDecoration: 'underline', cursor: 'pointer' }
+          : {})}
         onClick={() => {
-          if (details.ruleId) {
+          if (details.ruleId && details.deleted !== 1) {
             const { navigate } = plugin.getPortalProps().client;
             navigate(`/tenant-alarm-policy/?id=${details.ruleId}`);
           }
@@ -144,7 +157,7 @@ export const AlarmPolicyInfoCardArr = (details: AlarmDetailType) => [
   },
   {
     label: '规则描述',
-    value: details.ruleDesc,
+    value: <TooltipText label={details?.ruleDesc} />,
   },
 ];
 
@@ -152,9 +165,11 @@ export const ALARMS_STATUS = [
   {
     label: '未处理',
     color: 'red.300',
+    value: '0',
   },
   {
     label: '已处理',
     color: 'success.300',
+    value: '1',
   },
 ];

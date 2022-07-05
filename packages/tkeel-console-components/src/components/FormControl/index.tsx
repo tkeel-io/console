@@ -6,12 +6,12 @@ import {
   StyleProps,
 } from '@chakra-ui/react';
 import { ReactNode } from 'react';
-import { FieldError } from 'react-hook-form';
+import { FieldError, Merge } from 'react-hook-form';
 
 export interface FormControlProps {
   label?: ReactNode;
   help?: ReactNode;
-  error?: FieldError;
+  error?: FieldError | Merge<FieldError, (FieldError | undefined)[]>;
   formControlStyle?: StyleProps;
   formLabelStyle?: StyleProps;
   formHelperStyle?: StyleProps;

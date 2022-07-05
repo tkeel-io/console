@@ -3,6 +3,7 @@ import { memo } from 'react';
 
 import { MoreActionButton } from '@tkeel/console-components';
 import { PencilFilledIcon } from '@tkeel/console-icons';
+import { plugin } from '@tkeel/console-utils';
 
 import useCreatePolicyMutation from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/mutations/useCreatePolicyMutation';
 import type { Policy } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
@@ -23,10 +24,12 @@ function ModifyPolicyButton({ policy, onSuccess }: Props) {
     enabled: isOpen,
   });
 
+  const toast = plugin.getPortalToast();
   const { mutate, isLoading } = useCreatePolicyMutation({
     onSuccess() {
       onClose();
       onSuccess();
+      toast.success('修改告警策略成功');
     },
   });
 

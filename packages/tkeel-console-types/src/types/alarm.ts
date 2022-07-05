@@ -26,7 +26,14 @@ export enum RuleStatus {
   Enabled,
 } // 0：停用；1：启用
 
+export type RuleStatusSelectValue = -1 | RuleStatus;
+
 export enum AlarmSourceObject {
   Platform,
   Device,
 } // 0：平台；1：设备
+
+export enum Condition {
+  Or = 'or',
+  And = 'and',
+}
