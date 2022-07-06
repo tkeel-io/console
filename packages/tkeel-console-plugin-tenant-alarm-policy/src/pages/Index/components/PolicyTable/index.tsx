@@ -16,7 +16,12 @@ import {
   AlarmRuleTypeTag,
   AlarmTypeSelect,
 } from '@tkeel/console-business-components';
-import { PageHeaderToolbar, Table, Tooltip } from '@tkeel/console-components';
+import {
+  Badge,
+  PageHeaderToolbar,
+  Table,
+  Tooltip,
+} from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
 import { MailFilledIcon } from '@tkeel/console-icons';
 import {
@@ -111,13 +116,16 @@ function PolicyTable({ alarmRuleType, setRuleId }: Props) {
       accessor: 'ruleName',
       Cell: useCallback(
         ({ value, row }: CellProps<Policy, Policy['ruleName']>) => (
-          <Text
-            fontWeight="500"
-            cursor="pointer"
-            onClick={() => setRuleId(row.original.ruleId)}
-          >
-            {value}
-          </Text>
+          // TODO: count 指定为接口返回的数量
+          <Badge count={1} dot>
+            <Text
+              fontWeight="500"
+              cursor="pointer"
+              onClick={() => setRuleId(row.original.ruleId)}
+            >
+              {value}
+            </Text>
+          </Badge>
         ),
         [setRuleId]
       ),

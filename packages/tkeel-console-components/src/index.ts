@@ -1,5 +1,6 @@
 export { default as AceEditor } from './components/AceEditor';
 export { default as Alert } from './components/Alert';
+export { default as Badge } from './components/Badge';
 export * from './components/Button';
 export { default as ButtonsHStack } from './components/ButtonsHStack';
 export * from './components/Checkbox';
