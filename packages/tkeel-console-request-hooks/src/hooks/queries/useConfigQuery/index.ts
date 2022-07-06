@@ -3,6 +3,10 @@ import { isEmpty } from 'lodash';
 import { useQuery } from '@tkeel/console-hooks';
 import { RequestResult } from '@tkeel/console-utils';
 
+export type UseConfigQueryOnSuccess<Config> = (
+  data: RequestResult<ApiData<Config>, undefined, undefined>
+) => void;
+
 interface ApiData<Config> {
   '@type': string;
   value: Config;
@@ -12,9 +16,7 @@ interface Props<Config> {
   key: string;
   path?: string;
   defaultConfig?: Config;
-  onSuccess?: (
-    data: RequestResult<ApiData<Config>, undefined, undefined>
-  ) => void;
+  onSuccess?: UseConfigQueryOnSuccess<Config>;
 }
 
 export default function useConfigQuery<Config>({

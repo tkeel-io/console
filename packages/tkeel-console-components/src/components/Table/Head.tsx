@@ -9,6 +9,7 @@ type Props<D extends object> = {
   styles?: {
     head?: StyleProps;
     tr?: StyleProps;
+    th?: StyleProps;
   };
 };
 
@@ -56,6 +57,7 @@ function Head<D extends object>({
                   fontSize="12px"
                   border="none"
                   {...headerProps}
+                  {...styles?.th}
                 >
                   <>
                     {column.render('Header')}

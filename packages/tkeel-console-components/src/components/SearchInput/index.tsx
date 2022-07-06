@@ -112,7 +112,13 @@ function SearchInput({
         onKeyDown={handleKeyDown}
       />
       {showCloseButton && (
-        <Center position="absolute" right="10px" top="0" height={height}>
+        <Center
+          position="absolute"
+          right="10px"
+          top="0"
+          zIndex="1"
+          height={height}
+        >
           <CloseFilledIcon
             style={{ cursor: 'pointer' }}
             onClick={() => {

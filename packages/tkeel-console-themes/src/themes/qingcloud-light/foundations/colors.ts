@@ -1,14 +1,30 @@
-// const primaryColors = ['#55BC8A', '#E9F5F2', '#C4E6D4', '#479E88'];
-const primaryColors = ['#00A971', '#EBF8F4', '#CCEEE3', '#047857'];
+const primaryColors = [
+  '#EBF8F4',
+  '#DFF2EC',
+  '#CCEEE3',
+  '#8FCCB8',
+  '#6CB49C',
+  '#00A971',
+  '#31876A',
+  '#047857',
+  '#095E41',
+  '#014831',
+];
 
 const colors = {
-  primary: primaryColors[0],
+  primary: primaryColors[5],
 
   brand: {
-    50: primaryColors[1],
+    50: primaryColors[0],
+    100: primaryColors[1],
     200: primaryColors[2],
-    500: primaryColors[0],
-    700: primaryColors[3],
+    300: primaryColors[3],
+    400: primaryColors[4],
+    500: primaryColors[5],
+    600: primaryColors[6],
+    700: primaryColors[7],
+    800: primaryColors[8],
+    900: primaryColors[9],
   },
 };
 

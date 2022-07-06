@@ -48,6 +48,7 @@ export default function RawDataTable({
       {
         Header: 'topic',
         accessor: 'topic',
+        width: 300,
       },
       {
         Header: '时间',
