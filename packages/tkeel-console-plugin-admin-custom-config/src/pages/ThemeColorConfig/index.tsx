@@ -19,6 +19,7 @@ import {
   Checkbox,
   CustomTab,
   CustomTabList,
+  Tips,
 } from '@tkeel/console-components';
 import { AppsRhombusTwoToneIcon } from '@tkeel/console-icons';
 import {
@@ -177,17 +178,19 @@ export default function ThemeColorConfig() {
               setColors(getThemeColors(value));
             }}
           />
-          <Checkbox
-            marginTop="16px"
-            isChecked={enableColorCoordination}
-            onChange={(e) => {
-              setEnableColorCoordination(e.target.checked);
-            }}
-          >
-            <Text color="gray.500" fontSize="12px">
-              开启颜色协调
-            </Text>
-          </Checkbox>
+          <Flex marginTop="16px" alignItems="center">
+            <Checkbox
+              isChecked={enableColorCoordination}
+              onChange={(e) => {
+                setEnableColorCoordination(e.target.checked);
+              }}
+            >
+              <Text color="gray.500" fontSize="12px">
+                开启颜色协调
+              </Text>
+            </Checkbox>
+            <Tips label="开启后将采用算法生成主色" sx={{ marginLeft: '4px' }} />
+          </Flex>
           <ButtonStack
             sx={{ marginTop: '24px' }}
             onConfirm={onConfirm}
