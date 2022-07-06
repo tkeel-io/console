@@ -11,8 +11,17 @@ interface ColorsData {
   remark: string;
 }
 
+function Cell({ value }: { value: string }) {
+  return (
+    <Text color="grayAlternatives.400" fontSize="14px">
+      {value}
+    </Text>
+  );
+}
+
 export default function ColorsPanel() {
   const colors = useColors();
+
   const columns: ReadonlyArray<Column<ColorsData>> = [
     {
       Header: '变量',
@@ -42,10 +51,22 @@ export default function ColorsPanel() {
     {
       Header: '默认值',
       accessor: 'default',
+      Cell: useCallback(
+        ({ value }: CellProps<ColorsData, ColorsData['default']>) => (
+          <Cell value={value} />
+        ),
+        []
+      ),
     },
     {
       Header: '备注',
       accessor: 'remark',
+      Cell: useCallback(
+        ({ value }: CellProps<ColorsData, ColorsData['remark']>) => (
+          <Cell value={value} />
+        ),
+        []
+      ),
     },
   ];
 
@@ -95,6 +116,7 @@ export default function ColorsPanel() {
           borderTopStyle: 'solid',
           borderTopColor: 'grayAlternatives.50',
         },
+        headTh: { fontSize: '14px', fontWeight: 'normal' },
         body: { backgroundColor: 'gray.50' },
         bodyTr: { borderBottom: 'none' },
       }}
