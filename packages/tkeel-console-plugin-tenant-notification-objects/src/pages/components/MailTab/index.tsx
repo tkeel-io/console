@@ -7,6 +7,7 @@ import { InformationFilledIcon } from '@tkeel/console-icons';
 import { plugin, schemas } from '@tkeel/console-utils';
 
 import useModifyNotificationMutation from '@/tkeel-console-plugin-tenant-notification-objects/hooks/mutations/useModifyNotificationMutation';
+import useGetBindQuery from '@/tkeel-console-plugin-tenant-notification-objects/hooks/queries/useGetBindQuery';
 
 const { TextField } = FormField;
 
@@ -26,12 +27,17 @@ interface MailFormFields {
 }
 
 function MailTab({ noticeId, emailAddress, refetch }: Props) {
+  const [send, setSend] = useState(false);
   const [mailKey, setMailKey] = useState('');
   const [editKey, setEditKey] = useState('');
   const [deleteOperation, setDeleteOperation] = useState(false);
   const [editBtnShow, setEditBtnShow] = useState(true);
   const [mails, setMails] = useState<MailItem[]>([]);
   const toast = plugin.getPortalToast();
+  const { isBind } = useGetBindQuery({
+    noticeId,
+    sendRequest: send,
+  });
   useEffect(() => {
     if (mails.length === 0 && emailAddress !== '' && !deleteOperation) {
       const mailArr = emailAddress.split(',').map((item) => ({
@@ -123,6 +129,7 @@ function MailTab({ noticeId, emailAddress, refetch }: Props) {
         break;
       }
       case 'delete': {
+        setSend(true);
         newMails?.splice(index ?? 0, 1);
         newMails.forEach((r, i) => {
           values += `${i > 0 ? ',' : ''}${r.mail}`;
@@ -135,6 +142,59 @@ function MailTab({ noticeId, emailAddress, refetch }: Props) {
       default:
         setMails(mails);
     }
+    //   if (type === 'create') {
+    //     const resultAdd = await trigger('name');
+    //     if (!resultAdd) {
+    //       setError('name', {
+    //         type: 'manual',
+    //         message: '请输入正确的邮箱格式',
+    //       });
+    //       return;
+    //     }
+    //     values = emailAddress === '' ? name : `${emailAddress},${name}`;
+    //     const add: MailItem[] = name
+    //       .replaceAll(' ', '')
+    //       .split(',')
+    //       .map((r) => ({
+    //         mail: r,
+    //         key: Math.random().toString(16).slice(2),
+    //       }));
+    //     setMails([...mails, ...add]);
+    //     reset({ ...defaultValues, name: '' });
+    //     sendRequest(values);
+    //   } else if (type === 'edit') {
+    //     const resultEdit = await trigger(Object.keys(forms));
+    //     if (!resultEdit) {
+    //       setEditKey(key);
+    //       setFocus(key);
+    //       return;
+    //     }
+    //     const mailNameArr = Object.values(forms);
+    //     values = mailNameArr.join(',');
+    //     setMails((m) => {
+    //       return m.map<MailItem>((r, i) => {
+    //         if (i === index) {
+    //           return { key: r.key, mail: getValues(r.key) };
+    //         }
+    //         return r;
+    //       });
+    //     });
+    //     setEditBtnShow(true);
+    //     setMailKey('');
+    //     sendRequest(values);
+    //     setEditKey('');
+    //   } else if (type === 'delete' && newMails.length === 1 && isBind > 0) {
+    //     setSend(true);
+    //     newMails?.splice(index ?? 0, 1);
+    //     newMails.forEach((r, i) => {
+    //       values += `${i > 0 ? ',' : ''}${r.mail}`;
+    //     });
+    //     setDeleteOperation(true);
+    //     setMails(newMails);
+    //     sendRequest(values);
+    //   } else {
+    //     toast('该对象组已绑定，至少保留一个邮件', { status: 'warning' });
+    //   }
   };
 
   return (
@@ -220,7 +280,10 @@ function MailTab({ noticeId, emailAddress, refetch }: Props) {
                     编辑
                   </LinkButton>
                   <LinkButton
-                    disabled={mailKey !== key && !editBtnShow}
+                    disabled={
+                      (mailKey !== key && !editBtnShow) ||
+                      (mails.length === 1 && isBind > 0)
+                    }
                     onClick={() => onMail('delete', index)}
                   >
                     删除
