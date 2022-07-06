@@ -75,6 +75,7 @@ export default function PreviewPanel() {
       component: <CollapsedMenuPreview theme="dark" sx={{ flex: '1' }} />,
     },
   ];
+
   return (
     <Flex height="100%" flexDirection="column">
       <Text {...labelStyle}>主按钮</Text>

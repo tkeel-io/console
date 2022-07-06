@@ -28,6 +28,7 @@ import {
 
 import ButtonStack from '@/tkeel-console-plugin-admin-custom-config/components/ButtonStack';
 
+import ColorsPanel from './components/ColorsPanel';
 import HexColorInput, { getThemeColors } from './components/HexColorInput';
 import PreviewPanel from './components/PreviewPanel';
 
@@ -219,7 +220,9 @@ export default function ThemeColorConfig() {
           <TabPanel height="100%">
             <PreviewPanel />
           </TabPanel>
-          <TabPanel>颜色声明</TabPanel>
+          <TabPanel>
+            <ColorsPanel />
+          </TabPanel>
         </TabPanels>
       </Tabs>
     </Flex>
