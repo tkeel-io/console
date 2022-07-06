@@ -9,6 +9,12 @@ import {
 } from '@tkeel/console-types';
 import { RequestResult } from '@tkeel/console-utils';
 
+export enum Status {
+  Unchanged,
+  Deleted,
+  Modified,
+}
+
 export interface Policy {
   ruleId: number;
   ruleName: string;
@@ -24,6 +30,9 @@ export interface Policy {
   noticeId: string;
   enable: RuleStatus; // 0：停用；1：启用
   condition: Condition;
+  tempStatus: Status;
+  deviceStatus: Status;
+  telemetryStatus: Status;
 }
 
 interface ApiData {

@@ -16,12 +16,7 @@ import {
   AlarmRuleTypeTag,
   AlarmTypeSelect,
 } from '@tkeel/console-business-components';
-import {
-  Badge,
-  PageHeaderToolbar,
-  Table,
-  Tooltip,
-} from '@tkeel/console-components';
+import { PageHeaderToolbar, Table, Tooltip } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
 import { MailFilledIcon } from '@tkeel/console-icons';
 import {
@@ -31,6 +26,7 @@ import {
   RuleStatus,
 } from '@tkeel/console-types';
 
+import PolicyBadge from '@/tkeel-console-plugin-tenant-alarm-policy/components/PolicyBadge';
 import {
   ALARM_SOURCE_OBJECT_MAP,
   ALARM_TYPE_MAP,
@@ -116,8 +112,7 @@ function PolicyTable({ alarmRuleType, setRuleId }: Props) {
       accessor: 'ruleName',
       Cell: useCallback(
         ({ value, row }: CellProps<Policy, Policy['ruleName']>) => (
-          // TODO: count 指定为接口返回的数量
-          <Badge count={1} dot>
+          <PolicyBadge policy={row.original}>
             <Text
               fontWeight="500"
               cursor="pointer"
@@ -125,7 +120,7 @@ function PolicyTable({ alarmRuleType, setRuleId }: Props) {
             >
               {value}
             </Text>
-          </Badge>
+          </PolicyBadge>
         ),
         [setRuleId]
       ),

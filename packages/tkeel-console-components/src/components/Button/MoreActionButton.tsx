@@ -5,7 +5,7 @@ import { useColor } from '@tkeel/console-hooks';
 
 type Props = {
   icon?: ReactNode;
-  title: string;
+  title: ReactNode;
   onClick: () => unknown;
 };
 
