@@ -21,11 +21,11 @@
     "@tkeel/console-types": "workspace:^",
     "@tkeel/console-utils": "workspace:^",
     "@types/lodash": "^4.14.182",
-    "ace-builds": "^1.7.0",
+    "ace-builds": "^1.7.1",
     "dayjs": "^1.11.3",
     "downshift": "^6.1.7",
     "file-loader": "^6.2.0",
-    "framer-motion": "^6.3.16",
+    "framer-motion": "^6.4.2",
     "lodash": "^4.17.21",
     "rc-pagination": "^3.1.17",
     "rc-select": "^14.1.8",
@@ -34,12 +34,12 @@
     "react": "^18.2.0",
     "react-ace": "^10.1.0",
     "react-dom": "^18.2.0",
-    "react-hook-form": "^7.33.0",
+    "react-hook-form": "^7.33.1",
     "react-rnd": "^10.3.7",
     "react-table": "^7.8.0",
     "react-toastify": "^9.0.5",
     "react-use": "^17.4.0",
-    "rsuite": "^5.15.1"
+    "rsuite": "^5.15.2"
   },
   "devDependencies": {
     "@types/react-table": "^7.7.12"

@@ -29,11 +29,11 @@
     "@tkeel/console-utils": "workspace:^",
     "@types/react-table": "^7.7.12",
     "dayjs": "^1.11.3",
-    "framer-motion": "^6.3.16",
+    "framer-motion": "^6.4.2",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-hook-form": "^7.33.0",
+    "react-hook-form": "^7.33.1",
     "react-query": "^3.39.1",
     "react-router-dom": "^6.3.0"
   }
