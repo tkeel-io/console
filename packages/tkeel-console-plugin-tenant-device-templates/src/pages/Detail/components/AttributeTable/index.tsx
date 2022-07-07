@@ -103,7 +103,7 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
                 />,
                 <DeleteAttributeButton
                   key="delete"
-                  defaultValues={original}
+                  selectedDevices={[original]}
                   uid={id}
                   refetch={refetch}
                 />,

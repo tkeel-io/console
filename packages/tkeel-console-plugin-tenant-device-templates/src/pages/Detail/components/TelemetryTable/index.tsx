@@ -94,7 +94,7 @@ function Index({ id, title }: { id: string; title: string }) {
                 />,
                 <DeleteTelemetryButton
                   key="delete"
-                  defaultValues={original}
+                  selectedDevices={[original]}
                   uid={id}
                   refetch={refetch}
                 />,
