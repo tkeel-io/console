@@ -27,6 +27,6 @@ export default function useGetBindQuery({ noticeId, sendRequest }: Props) {
       enabled: sendRequest && !!noticeId,
     },
   });
-  const isBind = data ?? 0;
+  const isBind = data;
   return { isBind, data, ...rest };
 }

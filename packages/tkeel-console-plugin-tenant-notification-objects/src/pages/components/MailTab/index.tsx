@@ -1,9 +1,23 @@
-import { Box, Button, Center, Flex, Input, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Center,
+  Circle,
+  Flex,
+  Input,
+  Text,
+  useDisclosure,
+} from '@chakra-ui/react';
 import { memo, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { FormField, LinkButton, Tooltip } from '@tkeel/console-components';
-import { InformationFilledIcon } from '@tkeel/console-icons';
+import {
+  Alert,
+  FormField,
+  LinkButton,
+  Tooltip,
+} from '@tkeel/console-components';
+import { InformationFilledIcon, TrashFilledIcon } from '@tkeel/console-icons';
 import { plugin, schemas } from '@tkeel/console-utils';
 
 import useModifyNotificationMutation from '@/tkeel-console-plugin-tenant-notification-objects/hooks/mutations/useModifyNotificationMutation';
@@ -27,7 +41,8 @@ interface MailFormFields {
 }
 
 function MailTab({ noticeId, emailAddress, refetch }: Props) {
-  const [send, setSend] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [delIndex, setDelIndex] = useState(0);
   const [mailKey, setMailKey] = useState('');
   const [editKey, setEditKey] = useState('');
   const [deleteOperation, setDeleteOperation] = useState(false);
@@ -36,7 +51,7 @@ function MailTab({ noticeId, emailAddress, refetch }: Props) {
   const toast = plugin.getPortalToast();
   const { isBind } = useGetBindQuery({
     noticeId,
-    sendRequest: send,
+    sendRequest: isOpen,
   });
   useEffect(() => {
     if (mails.length === 0 && emailAddress !== '' && !deleteOperation) {
@@ -80,7 +95,6 @@ function MailTab({ noticeId, emailAddress, refetch }: Props) {
 
   const onMail = async (type: string, index?: number, key = '') => {
     let values = '';
-    const newMails = [...mails];
     const { name, ...forms } = getValues();
     switch (type) {
       case 'create': {
@@ -129,72 +143,29 @@ function MailTab({ noticeId, emailAddress, refetch }: Props) {
         break;
       }
       case 'delete': {
-        setSend(true);
-        newMails?.splice(index ?? 0, 1);
-        newMails.forEach((r, i) => {
-          values += `${i > 0 ? ',' : ''}${r.mail}`;
-        });
-        setDeleteOperation(true);
-        setMails(newMails);
-        sendRequest(values);
+        setDelIndex(index ?? 0);
+        onOpen();
         break;
       }
       default:
         setMails(mails);
     }
-    //   if (type === 'create') {
-    //     const resultAdd = await trigger('name');
-    //     if (!resultAdd) {
-    //       setError('name', {
-    //         type: 'manual',
-    //         message: '请输入正确的邮箱格式',
-    //       });
-    //       return;
-    //     }
-    //     values = emailAddress === '' ? name : `${emailAddress},${name}`;
-    //     const add: MailItem[] = name
-    //       .replaceAll(' ', '')
-    //       .split(',')
-    //       .map((r) => ({
-    //         mail: r,
-    //         key: Math.random().toString(16).slice(2),
-    //       }));
-    //     setMails([...mails, ...add]);
-    //     reset({ ...defaultValues, name: '' });
-    //     sendRequest(values);
-    //   } else if (type === 'edit') {
-    //     const resultEdit = await trigger(Object.keys(forms));
-    //     if (!resultEdit) {
-    //       setEditKey(key);
-    //       setFocus(key);
-    //       return;
-    //     }
-    //     const mailNameArr = Object.values(forms);
-    //     values = mailNameArr.join(',');
-    //     setMails((m) => {
-    //       return m.map<MailItem>((r, i) => {
-    //         if (i === index) {
-    //           return { key: r.key, mail: getValues(r.key) };
-    //         }
-    //         return r;
-    //       });
-    //     });
-    //     setEditBtnShow(true);
-    //     setMailKey('');
-    //     sendRequest(values);
-    //     setEditKey('');
-    //   } else if (type === 'delete' && newMails.length === 1 && isBind > 0) {
-    //     setSend(true);
-    //     newMails?.splice(index ?? 0, 1);
-    //     newMails.forEach((r, i) => {
-    //       values += `${i > 0 ? ',' : ''}${r.mail}`;
-    //     });
-    //     setDeleteOperation(true);
-    //     setMails(newMails);
-    //     sendRequest(values);
-    //   } else {
-    //     toast('该对象组已绑定，至少保留一个邮件', { status: 'warning' });
-    //   }
+  };
+  const handleConfirm = () => {
+    let values = '';
+    const newMails = [...mails];
+    if (isBind !== undefined && isBind > 0 && newMails.length === 1) {
+      toast('该对象组已绑定，请至少保留一个邮件地址', { status: 'warning' });
+    } else {
+      newMails?.splice(delIndex ?? 0, 1);
+      newMails.forEach((r, i) => {
+        values += `${i > 0 ? ',' : ''}${r.mail}`;
+      });
+      setDeleteOperation(true);
+      setMails(newMails);
+      sendRequest(values);
+    }
+    onClose();
   };
 
   return (
@@ -281,8 +252,8 @@ function MailTab({ noticeId, emailAddress, refetch }: Props) {
                   </LinkButton>
                   <LinkButton
                     disabled={
-                      (mailKey !== key && !editBtnShow) ||
-                      (mails.length === 1 && isBind > 0)
+                      mailKey !== key && !editBtnShow
+                      // (mails.length === 1 && isBind !== undefined && isBind > 0)
                     }
                     onClick={() => onMail('delete', index)}
                   >
@@ -310,6 +281,20 @@ function MailTab({ noticeId, emailAddress, refetch }: Props) {
           </Flex>
         );
       })}
+      {isOpen && (
+        <Alert
+          iconPosition="left"
+          icon={
+            <Circle size="44px" backgroundColor="red.50">
+              <TrashFilledIcon size="24px" color="red.300" />
+            </Circle>
+          }
+          title="确认删除邮件？"
+          isOpen={isOpen}
+          onClose={onClose}
+          onConfirm={handleConfirm}
+        />
+      )}
     </Box>
   );
 }
