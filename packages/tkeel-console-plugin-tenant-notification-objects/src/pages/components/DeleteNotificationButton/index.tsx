@@ -1,5 +1,4 @@
 import { Circle, useDisclosure } from '@chakra-ui/react';
-import { useState } from 'react';
 
 import { Alert, MoreActionButton } from '@tkeel/console-components';
 import { TrashFilledIcon } from '@tkeel/console-icons';
@@ -17,13 +16,12 @@ interface Props {
 }
 
 function DeleteNotificationButton({ cruxData, refetch }: Props) {
-  const [send, setSend] = useState(false);
   const { id, name } = cruxData;
   const toast = plugin.getPortalToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isBind } = useGetBindQuery({
     noticeId: id,
-    sendRequest: send,
+    sendRequest: isOpen,
   });
   const { mutate, isLoading } = useDeleteNotificationMutation({
     onSuccess() {
@@ -34,16 +32,15 @@ function DeleteNotificationButton({ cruxData, refetch }: Props) {
   });
 
   const handleConfirm = () => {
-    setSend(true);
-    if (isBind <= 0) {
+    if (isBind !== undefined && isBind > 0) {
+      toast('该对象组已绑定，暂无法删除', { status: 'warning' });
+    } else {
       mutate({
         data: {
           noticeId: id,
           deleted: 1,
         },
       });
-    } else {
-      toast('该对象组已绑定，暂无法删除', { status: 'warning' });
     }
   };
 
