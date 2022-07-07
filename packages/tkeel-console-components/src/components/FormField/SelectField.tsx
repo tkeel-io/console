@@ -79,9 +79,7 @@ export default function SelectField<TFieldValues>({
             dropdownStyle={{ boxShadow: 'none' }}
             options={options}
             notFoundContent={notFoundContent}
-            onChange={(selectValue) => {
-              onChange(selectValue);
-            }}
+            onChange={onChange}
             value={value}
             menuItemSelectedIcon={
               <Center width="30px" height="32px">

@@ -67,28 +67,26 @@ export default function TreeStyles({ prefixCls, extras, styles }: Props) {
           }
 
           &.${treePrefixCls}-switcher {
-            background-image: none;
+            background-image: none !important;
           }
 
           &.${treePrefixCls}-checkbox {
-            width: 16px;
-            height: 16px;
+            width: 16px !important;
+            height: 16px !important;
             margin-right: 4px;
             margin-left: 0;
-            background-image: url(${iconCheckbox});
-            background-position: center;
-            background-size: 12px 12px;
+            background-image: url(${iconCheckbox}) !important;
+            background-position: center !important;
+            background-size: 12px 12px !important;
 
             &-checked {
-              background-image: url(${iconCheckboxChecked});
-              background-position: center;
-              background-size: 100% 100%;
+              background-image: url(${iconCheckboxChecked}) !important;
+              background-size: 100% 100% !important;
             }
 
             &-indeterminate {
-              background-image: url(${iconCheckboxIndeterminate});
-              background-position: center;
-              background-size: 100% 100%;
+              background-image: url(${iconCheckboxIndeterminate}) !important;
+              background-size: 100% 100% !important;
             }
           }
 

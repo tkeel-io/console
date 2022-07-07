@@ -40,7 +40,7 @@ type Props = {
   setRawDataCheckedKeys: CheckedKeysDispatch;
   isDeviceDetailLoading: boolean;
   isTelemetryDataLoading: boolean;
-  onSearch: (value: string) => unknown;
+  onSearch: (value: string) => void;
   onConfirm: () => unknown;
 };
 
