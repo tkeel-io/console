@@ -12,7 +12,7 @@
   "license": "Apache-2.0",
   "types": "index.d.ts",
   "dependencies": {
-    "@types/react": "^18.0.14",
+    "@types/react": "^18.0.15",
     "@types/react-table": "^7.7.12"
   }
 }
