@@ -46,15 +46,19 @@ export interface ApiData {
   };
 }
 
-export default function useTemplateTelemetryQuery({
-  id,
-  onSuccess,
-}: {
+interface Props {
   id: string;
   onSuccess?: (
     data: RequestResult<ApiData, undefined, RequestParams>
   ) => unknown;
-}) {
+  enabled?: boolean;
+}
+
+export default function useTemplateTelemetryQuery({
+  id,
+  onSuccess,
+  enabled,
+}: Props) {
   const url = `/tkeel-device/v1/templates/${id}/telemetry`;
 
   const { data, ...rest } = useQuery<ApiData, undefined, RequestParams>({
@@ -62,7 +66,7 @@ export default function useTemplateTelemetryQuery({
     method,
     reactQueryOptions: {
       onSuccess,
-      enabled: !!id,
+      enabled: !!id && enabled,
     },
   });
 

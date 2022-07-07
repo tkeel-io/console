@@ -28,7 +28,11 @@ import {
   RequestTelemetryType,
   Time,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/mutations/useCreatePolicyMutation';
-import { parseTelemetryInfo } from '@/tkeel-console-plugin-tenant-alarm-policy/utils';
+import { Status } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
+import {
+  parseBooleanEnumValue,
+  parseTelemetryInfo,
+} from '@/tkeel-console-plugin-tenant-alarm-policy/utils';
 
 import AddRuleButton from '../AddRuleButton';
 
@@ -61,6 +65,7 @@ export const defaultDeviceCondition: DeviceCondition = {
 interface Props<FormValues> {
   tempId: string;
   deviceId: string;
+  tempStatus: Status | undefined;
   register: UseFormRegister<FormValues>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<FormValues, any>;
@@ -76,9 +81,35 @@ function getOptionsByDefine(define: object) {
   }));
 }
 
+// function isStatusUnchanged(status: Status | undefined) {
+//   return (
+//     status === undefined || ![Status.Deleted, Status.Modified].includes(status)
+//   );
+// }
+
+function getNewValueOptions({
+  value,
+  options,
+}: {
+  value: string;
+  options: { label: string; value: string }[];
+}) {
+  const { label, value: optionValue } = parseBooleanEnumValue(value);
+  const defaultBooleanValueOption = {
+    label,
+    value: JSON.stringify({ label, value: optionValue }),
+    disabled: true,
+  };
+  if (value && !options.some((option) => option.value === value)) {
+    return [defaultBooleanValueOption, ...options];
+  }
+  return options;
+}
+
 export default function DeviceRuleDescriptionCard<FormValues>({
   tempId,
   deviceId,
+  tempStatus,
   register,
   control,
   deviceConditionsErrors,
@@ -87,6 +118,7 @@ export default function DeviceRuleDescriptionCard<FormValues>({
 }: Props<FormValues>) {
   const { telemetry: templateTelemetryFields } = useTemplateTelemetryQuery({
     id: tempId,
+    enabled: tempStatus !== Status.Deleted,
   });
   const { deviceObject } = useDeviceDetailQuery({ id: deviceId });
 
@@ -165,7 +197,7 @@ export default function DeviceRuleDescriptionCard<FormValues>({
         {fields.map((item, i) => {
           /* eslint-disable @typescript-eslint/no-unsafe-member-access */
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          const { telemetry, time } = output[i] || {};
+          const { telemetry, time, booleanValue, enumValue } = output[i] || {};
           const {
             id: telemetryId,
             name,
@@ -185,21 +217,28 @@ export default function DeviceRuleDescriptionCard<FormValues>({
           }
 
           const booleanValueOptions = getOptionsByDefine(define);
+          const newBooleanValueOptions = getNewValueOptions({
+            value: booleanValue as string,
+            options: booleanValueOptions,
+          });
 
           const enumValueOptions = getOptionsByDefine(define?.ext as object);
+          const newEnumValueOptions = getNewValueOptions({
+            value: enumValue as string,
+            options: enumValueOptions,
+          });
 
           const telemetryFieldId =
             `deviceConditions.${i}.telemetry` as Path<FormValues>;
 
-          let newTelemetryOptions = [...telemetryOptions];
+          const newTelemetryOptions = [...telemetryOptions];
           const defaultTelemetryOptions = {
             label: name,
             value: telemetry as string,
             disabled: true,
           };
-          if (telemetryOptions.length === 0) {
-            newTelemetryOptions = [defaultTelemetryOptions];
-          } else if (
+
+          if (
             telemetry &&
             !telemetryOptions.some((option) => option.value === telemetry)
           ) {
@@ -299,7 +338,7 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                       id={getFieldId(i, 'enumValue')}
                       name={getFieldId(i, 'enumValue')}
                       placeholder="请选择"
-                      options={enumValueOptions}
+                      options={newEnumValueOptions}
                       {...selectProps}
                     />
                   </>
@@ -320,7 +359,7 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                       id={getFieldId(i, 'booleanValue')}
                       name={getFieldId(i, 'booleanValue')}
                       placeholder="请选择"
-                      options={booleanValueOptions}
+                      options={newBooleanValueOptions}
                       {...selectProps}
                       formControlStyle={{
                         width: '140px',

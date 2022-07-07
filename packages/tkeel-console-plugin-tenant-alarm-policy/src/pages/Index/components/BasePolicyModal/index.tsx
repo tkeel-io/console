@@ -401,6 +401,7 @@ export default function BasePolicyModal({
               <DeviceRuleDescriptionCard<FormValues>
                 tempId={tempId}
                 deviceId={deviceId}
+                tempStatus={policy?.tempStatus}
                 register={register}
                 control={control}
                 deviceConditionsErrors={deviceConditionsErrors}
