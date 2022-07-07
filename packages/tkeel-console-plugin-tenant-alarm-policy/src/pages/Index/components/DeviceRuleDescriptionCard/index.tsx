@@ -166,22 +166,22 @@ export default function DeviceRuleDescriptionCard<FormValues>({
           /* eslint-disable @typescript-eslint/no-unsafe-member-access */
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           const { telemetry, time } = output[i] || {};
-          const { id: telemetryId } = parseTelemetryInfo(telemetry as string);
+          const {
+            id: telemetryId,
+            name,
+            type,
+          } = parseTelemetryInfo(telemetry as string);
           /* eslint-enable */
 
-          const { type, define } = telemetryFields[telemetryId] || {};
-          const typeIsNumber = [
-            TelemetryType.Int,
-            TelemetryType.Float,
-            TelemetryType.Double,
-          ].includes(type);
-          const telemetryIsNumber = !telemetryId || typeIsNumber;
+          const { define } = telemetryFields[telemetryId] || {};
 
-          const telemetryIsBoolean = type === TelemetryType.Bool;
-          const telemetryIsEnum = type === TelemetryType.Enum;
+          const telemetryIsNumber =
+            !telemetryId || type === RequestTelemetryType.Common;
+          const telemetryIsBoolean = type === RequestTelemetryType.Bool;
+          const telemetryIsEnum = type === RequestTelemetryType.Enum;
 
           if (telemetryIsBoolean) {
-            delete define.ext;
+            delete define?.ext;
           }
 
           const booleanValueOptions = getOptionsByDefine(define);
@@ -190,6 +190,21 @@ export default function DeviceRuleDescriptionCard<FormValues>({
 
           const telemetryFieldId =
             `deviceConditions.${i}.telemetry` as Path<FormValues>;
+
+          let newTelemetryOptions = [...telemetryOptions];
+          const defaultTelemetryOptions = {
+            label: name,
+            value: telemetry as string,
+            disabled: true,
+          };
+          if (telemetryOptions.length === 0) {
+            newTelemetryOptions = [defaultTelemetryOptions];
+          } else if (
+            telemetry &&
+            !telemetryOptions.some((option) => option.value === telemetry)
+          ) {
+            newTelemetryOptions.unshift(defaultTelemetryOptions);
+          }
 
           return (
             <Flex
@@ -229,7 +244,7 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                   id={telemetryFieldId}
                   name={telemetryFieldId}
                   placeholder="请选择"
-                  options={telemetryOptions}
+                  options={newTelemetryOptions}
                   control={control}
                   formControlStyle={{
                     marginBottom: '0',

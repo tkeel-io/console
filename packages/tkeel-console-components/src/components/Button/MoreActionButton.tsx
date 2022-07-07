@@ -1,4 +1,4 @@
-import { Flex, Text } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 import { useColor } from '@tkeel/console-hooks';
@@ -34,16 +34,16 @@ export default function MoreActionButton({ icon, title, onClick }: Props) {
         '& > svg': {
           fill: whiteColor,
         },
-        '& > p': {
+        '& > div': {
           color: whiteColor,
         },
       }}
       onClick={onClick}
     >
       {icon}
-      <Text marginLeft={icon ? '6px' : '0'} fontSize="12px">
+      <Box marginLeft={icon ? '6px' : '0'} fontSize="12px">
         {title}
-      </Text>
+      </Box>
     </Flex>
   );
 }

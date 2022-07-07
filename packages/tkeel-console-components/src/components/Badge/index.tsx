@@ -12,7 +12,7 @@ interface Props {
   children?: ReactNode;
 }
 
-const defaultRightOffset = -4;
+const defaultRightOffset = -8;
 export default function Badge({
   color = 'red.300',
   count = 0,
@@ -20,7 +20,7 @@ export default function Badge({
   showZero = false,
   overflowCount = 99,
   size = 8,
-  offset = [defaultRightOffset, -2],
+  offset = [defaultRightOffset, -1],
   children,
 }: Props) {
   const [right, top] = offset;
