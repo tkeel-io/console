@@ -10,15 +10,11 @@ interface Props {
   children: ReactNode;
 }
 
-const hasModified = (status: Status) => {
-  return [Status.Modified, Status.Deleted].includes(status);
-};
-
 const getBadgeCount = (policy: Policy) => {
   if (
-    hasModified(policy.tempStatus) ||
-    hasModified(policy.deviceStatus) ||
-    hasModified(policy.telemetryStatus)
+    policy.tempStatus === Status.Deleted ||
+    policy.deviceStatus === Status.Deleted ||
+    [Status.Modified, Status.Deleted].includes(policy.telemetryStatus)
   ) {
     return 1;
   }

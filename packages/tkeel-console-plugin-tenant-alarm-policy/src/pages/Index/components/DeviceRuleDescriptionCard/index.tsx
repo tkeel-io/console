@@ -66,6 +66,7 @@ interface Props<FormValues> {
   tempId: string;
   deviceId: string;
   tempStatus: Status | undefined;
+  deviceStatus: Status | undefined;
   register: UseFormRegister<FormValues>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<FormValues, any>;
@@ -110,6 +111,7 @@ export default function DeviceRuleDescriptionCard<FormValues>({
   tempId,
   deviceId,
   tempStatus,
+  deviceStatus,
   register,
   control,
   deviceConditionsErrors,
@@ -120,7 +122,10 @@ export default function DeviceRuleDescriptionCard<FormValues>({
     id: tempId,
     enabled: tempStatus !== Status.Deleted,
   });
-  const { deviceObject } = useDeviceDetailQuery({ id: deviceId });
+  const { deviceObject } = useDeviceDetailQuery({
+    id: deviceId,
+    enabled: deviceStatus !== Status.Deleted,
+  });
 
   let telemetryFields = templateTelemetryFields;
   if (deviceId) {
@@ -272,18 +277,12 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                 >
                   if
                 </Text>
-                {/* <Box
-                  css={`
-                    .rc-select-selector {
-                      border-color: red !important;
-                    }
-                  `}
-                > */}
                 <SelectField<FormValues>
                   id={telemetryFieldId}
                   name={telemetryFieldId}
                   placeholder="请选择"
                   options={newTelemetryOptions}
+                  showSearch
                   control={control}
                   formControlStyle={{
                     marginBottom: '0',
@@ -291,7 +290,6 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                     width: '120px',
                   }}
                 />
-                {/* </Box> */}
                 {telemetryIsNumber && (
                   <>
                     <SelectField<FormValues>

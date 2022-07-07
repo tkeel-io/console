@@ -26,6 +26,7 @@ type Props<TFieldValues> = FormControlProps & {
   mode?: 'combobox' | 'multiple' | 'tags';
   showArrow?: boolean;
   allowClear?: boolean;
+  showSearch?: boolean;
   loading?: boolean;
   // TODO: https://github.com/react-hook-form/react-hook-form/blob/master/CHANGELOG.md#7330---2022-6-24
   defaultValue?: FieldPathValue<TFieldValues, Path<TFieldValues>>;
@@ -52,6 +53,7 @@ export default function SelectField<TFieldValues>({
   mode,
   showArrow = true,
   allowClear = false,
+  showSearch = false,
   loading = false,
   placeholder,
   defaultValue,
@@ -81,6 +83,7 @@ export default function SelectField<TFieldValues>({
             notFoundContent={notFoundContent}
             onChange={onChange}
             value={value}
+            showSearch={showSearch}
             menuItemSelectedIcon={
               <Center width="30px" height="32px">
                 <CheckFilledIcon color="primary" />

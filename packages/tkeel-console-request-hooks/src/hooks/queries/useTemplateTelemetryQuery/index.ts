@@ -57,7 +57,7 @@ interface Props {
 export default function useTemplateTelemetryQuery({
   id,
   onSuccess,
-  enabled,
+  enabled = true,
 }: Props) {
   const url = `/tkeel-device/v1/templates/${id}/telemetry`;
 
