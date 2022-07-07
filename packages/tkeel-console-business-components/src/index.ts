@@ -38,6 +38,8 @@ export { default as PortalTenantLogin } from './components/PortalTenantLogin';
 export { default as RawDataConnectTypeLabel } from './components/RawDataConnectTypeLabel';
 export * from './components/RawDataConnectTypeLabel';
 export { default as SaveAsOtherTemplateButton } from './components/SaveAsOtherTemplateButton';
+export { default as SaveAttributeButton } from './components/SaveAttributeButton';
+export { default as SaveTelemetryButton } from './components/SaveTelemetryButton';
 export * from './components/SetPasswordModal';
 export { default as TelemetryDetailButton } from './components/TelemetryDetailButton';
 export { default as TelemetryDrawer } from './components/TelemetryDrawer';
