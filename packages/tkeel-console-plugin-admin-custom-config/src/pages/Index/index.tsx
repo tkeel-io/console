@@ -10,7 +10,6 @@ import curlyBracesImg from '@/tkeel-console-plugin-admin-custom-config/assets/im
 
 import ConfigButton from './components/ConfigButton';
 import ConfigCard from './components/ConfigCard';
-import ThemeColorConfig from './components/ThemeColorConfig';
 
 export default function Index() {
   const navigate = useNavigate();
@@ -19,14 +18,19 @@ export default function Index() {
     {
       title: '主题色配置',
       desc: '设定系统主题色，采用定制化配置插件实现一键换肤',
-      children: <ThemeColorConfig />,
+      children: (
+        <ConfigButton
+          title="更改配置"
+          onClick={() => navigate('/theme-color-config?menu-collapsed=true')}
+        />
+      ),
     },
     {
       title: '外观配置',
       desc: '更改通用与平台级外观配置',
       children: (
         <ConfigButton
-          title="更改外观配置"
+          title="更改配置"
           onClick={() => navigate('/appearance-config?menu-collapsed=true')}
         />
       ),

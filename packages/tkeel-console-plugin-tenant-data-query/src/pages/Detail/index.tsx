@@ -46,12 +46,11 @@ type RawValue = {
   values: string;
 };
 
-// TODO: eslint 提示待解决
-// eslint-disable-next-line sonarjs/cognitive-complexity
 export default function Detail() {
   const [dataType, setDataType] = useState<DataType>(DataType.RAW_DATA);
   const isTemplateData = dataType === DataType.TEMPLATE_DATA;
   const [keywords, setKeywords] = useState('');
+
   const [telemetry, setTelemetry] = useState<TelemetryFields>({});
   const [filteredTelemetry, setFilteredTelemetry] = useState<TelemetryFields>(
     {}
@@ -76,6 +75,7 @@ export default function Detail() {
     useState<string[]>(rawDataCheckboxKeys);
   const [filteredRawDataCheckboxItems, setFilteredRawDataCheckboxItems] =
     useState<{ label: string; value: string }[]>(rawDataCheckboxItems);
+
   const [templateDataCheckedKeys, setTemplateDataCheckedKeys] = useState<
     string[]
   >([]);
@@ -247,10 +247,6 @@ export default function Detail() {
     }
   };
 
-  const handleSearch = (value: string) => {
-    setKeywords(value);
-  };
-
   const originDataItems = telemetryData?.items ?? [];
   const rangeStartTime = startTime + rangeIndex * intervalTime;
   const rangeEndTime = rangeStartTime + intervalTime;
@@ -395,7 +391,7 @@ export default function Detail() {
           setRawDataCheckedKeys={setRawDataCheckedKeys}
           isDeviceDetailLoading={isDeviceDetailLoading}
           isTelemetryDataLoading={isTelemetryDataLoading}
-          onSearch={handleSearch}
+          onSearch={setKeywords}
           onConfirm={() => handleRequestData()}
         />
       </Flex>
@@ -407,128 +403,134 @@ export default function Detail() {
         borderRadius="4px"
         backgroundColor="white"
       >
-        {isRawDataRequested || isTemplateDataRequested ? (
-          <>
-            <Flex
-              justifyContent="space-between"
-              alignItems="center"
-              padding="12px 20px 0"
-            >
-              <Flex alignItems="center">
-                <DataResultTitle />
-                <Flex>
-                  <DateSelect
-                    timeType={timeType}
-                    canRequest={canRequest}
-                    setTimeType={setTimeType}
-                    setStartTime={setStartTime}
-                    setEndTime={setEndTime}
-                    handleRequestData={handleRequestData}
+        {(() => {
+          if (isRawDataRequested || isTemplateDataRequested) {
+            return (
+              <>
+                <Flex
+                  justifyContent="space-between"
+                  alignItems="center"
+                  padding="12px 20px 0"
+                >
+                  <Flex alignItems="center">
+                    <DataResultTitle />
+                    <Flex>
+                      <DateSelect
+                        timeType={timeType}
+                        canRequest={canRequest}
+                        setTimeType={setTimeType}
+                        setStartTime={setStartTime}
+                        setEndTime={setEndTime}
+                        handleRequestData={handleRequestData}
+                      />
+                      {timeType === TimeType.Custom && (
+                        <DateRangePicker
+                          startTime={startDate}
+                          endTime={endDate}
+                          defaultValue={[startDate, endDate]}
+                          disabledDate={(date: Date) => {
+                            return (
+                              dayjs(date).isBefore(
+                                dayjs().subtract(3, 'day'),
+                                'day'
+                              ) || dayjs(date).isAfter(dayjs(), 'day')
+                            );
+                          }}
+                          onOk={(date: [Date, Date]) => {
+                            const requestStartTime = dayjs(date[0]).unix();
+                            const requestEndTime = dayjs(date[1]).unix();
+                            setStartTime(requestStartTime);
+                            setEndTime(requestEndTime);
+                            if (hasIdentifiers) {
+                              handleRequestData();
+                            }
+                          }}
+                        />
+                      )}
+                    </Flex>
+                  </Flex>
+                  <HStack spacing="12px">
+                    {isRawDataRequested && (
+                      <MoreActionSelect
+                        options={rawDataTypeOptions}
+                        value={rawDataType}
+                        onChange={(value) => setRawDataType(value)}
+                      />
+                    )}
+                    <RefreshButton
+                      onClick={() => handleRequestData()}
+                      disabled={!canRequest}
+                    />
+                    <ExportButton
+                      exportData={exportData}
+                      disabled={isExportButtonDisabled}
+                    />
+                  </HStack>
+                </Flex>
+                {isTemplateDataRequested && (
+                  <Flex
+                    padding="12px 20px 8px"
+                    justifyContent="space-between"
+                    alignItems="center"
+                  >
+                    <Text fontSize="12px">遥测数据</Text>
+                    {/* <RangeSearchButton
+                        isRangeSearch={isRangeSearch}
+                        setIsRangeSearch={setIsRangeSearch}
+                      /> */}
+                  </Flex>
+                )}
+                {isRangeSearch && (
+                  <DateRangeIndicator
+                    startTime={startTime}
+                    rangeIndex={rangeIndex}
+                    dateRangeLength={dateRangeLength}
+                    intervalTime={intervalTime}
+                    setRangeIndex={setRangeIndex}
                   />
-                  {timeType === TimeType.Custom && (
-                    <DateRangePicker
-                      startTime={startDate}
-                      endTime={endDate}
-                      defaultValue={[startDate, endDate]}
-                      disabledDate={(date: Date) => {
-                        return (
-                          dayjs(date).isBefore(
-                            dayjs().subtract(3, 'day'),
-                            'day'
-                          ) || dayjs(date).isAfter(dayjs(), 'day')
-                        );
+                )}
+                <Flex flex="1" marginTop="10px" overflowY="auto">
+                  {isTemplateDataRequested ? (
+                    <DataTable
+                      originalData={originDataItems}
+                      data={tableDataItems}
+                      isLoading={isTelemetryDataLoading}
+                      telemetry={tableTelemetry}
+                      styles={{
+                        wrapper: {
+                          width: '100%',
+                          height: 'max-content',
+                          padding: '0 20px 10px',
+                        },
+                        loading: { flex: '1' },
+                        empty: { flex: '1' },
                       }}
-                      onOk={(date: [Date, Date]) => {
-                        const requestStartTime = dayjs(date[0]).unix();
-                        const requestEndTime = dayjs(date[1]).unix();
-                        setStartTime(requestStartTime);
-                        setEndTime(requestEndTime);
-                        if (hasIdentifiers) {
-                          handleRequestData();
-                        }
-                      }}
+                    />
+                  ) : (
+                    <RawDataTable
+                      rawDataType={rawDataType}
+                      rawDataList={rawDataList}
+                      pagination={pagination}
+                      isLoading={isRawDataLoading}
                     />
                   )}
                 </Flex>
-              </Flex>
-              <HStack spacing="12px">
-                {isRawDataRequested && (
-                  <MoreActionSelect
-                    options={rawDataTypeOptions}
-                    value={rawDataType}
-                    onChange={(value) => setRawDataType(value)}
-                  />
-                )}
-                <RefreshButton
-                  onClick={() => handleRequestData()}
-                  disabled={!canRequest}
+              </>
+            );
+          }
+
+          return (
+            <>
+              <DataResultTitle padding="12px 20px 0" />
+              <Center flex="1">
+                <SearchEmpty
+                  title="请选择查询条件后，点击确定按钮"
+                  styles={{ image: { marginBottom: '8px', width: '104px' } }}
                 />
-                <ExportButton
-                  exportData={exportData}
-                  disabled={isExportButtonDisabled}
-                />
-              </HStack>
-            </Flex>
-            {isTemplateDataRequested && (
-              <Flex
-                padding="12px 20px 8px"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <Text fontSize="12px">遥测数据</Text>
-                {/* <RangeSearchButton
-                  isRangeSearch={isRangeSearch}
-                  setIsRangeSearch={setIsRangeSearch}
-                /> */}
-              </Flex>
-            )}
-            {isRangeSearch && (
-              <DateRangeIndicator
-                startTime={startTime}
-                rangeIndex={rangeIndex}
-                dateRangeLength={dateRangeLength}
-                intervalTime={intervalTime}
-                setRangeIndex={setRangeIndex}
-              />
-            )}
-            <Flex flex="1" marginTop="10px" overflowY="auto">
-              {isTemplateDataRequested ? (
-                <DataTable
-                  originalData={originDataItems}
-                  data={tableDataItems}
-                  isLoading={isTelemetryDataLoading}
-                  telemetry={tableTelemetry}
-                  styles={{
-                    wrapper: {
-                      width: '100%',
-                      height: 'max-content',
-                      padding: '0 20px 10px',
-                    },
-                    loading: { flex: '1' },
-                    empty: { flex: '1' },
-                  }}
-                />
-              ) : (
-                <RawDataTable
-                  rawDataType={rawDataType}
-                  rawDataList={rawDataList}
-                  pagination={pagination}
-                  isLoading={isRawDataLoading}
-                />
-              )}
-            </Flex>
-          </>
-        ) : (
-          <>
-            <DataResultTitle padding="12px 20px 0" />
-            <Center flex="1">
-              <SearchEmpty
-                title="请选择查询条件后，点击确定按钮"
-                styles={{ image: { marginBottom: '8px', width: '104px' } }}
-              />
-            </Center>
-          </>
-        )}
+              </Center>
+            </>
+          );
+        })()}
       </Flex>
     </Flex>
   );
