@@ -11,6 +11,7 @@ interface Props {
   uid: string;
   refetch?: () => void;
   deleteCallback?: (selectedDevices: TelemetryItem[]) => void;
+  source: 'temp' | 'device';
 }
 
 function DeleteTelemetryButton({
@@ -18,6 +19,7 @@ function DeleteTelemetryButton({
   refetch = () => {},
   uid,
   deleteCallback,
+  source,
 }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const names: string[] = [];
@@ -43,7 +45,7 @@ function DeleteTelemetryButton({
     });
 
   const handleConfirm = () => {
-    deleteTemplateMutate({ data: { ids } });
+    deleteTemplateMutate({ data: { ids, source } });
   };
   return (
     <>

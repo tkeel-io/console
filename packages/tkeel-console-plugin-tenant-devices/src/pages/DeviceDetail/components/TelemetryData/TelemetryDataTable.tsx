@@ -58,12 +58,14 @@ export default function TelemetryDataTable({
               uid={deviceId}
               selectedDevices={[original]}
               refetch={refetchDeviceDetail}
+              source="device"
             />,
             <UpdateTelemetryButton
               key="modify"
               uid={deviceId}
               refetch={refetchDeviceDetail}
               defaultValues={original}
+              source="device"
             />,
             <DeleteTelemetryButton
               key="delete"
@@ -71,6 +73,7 @@ export default function TelemetryDataTable({
               uid={deviceId}
               refetch={refetchDeviceDetail}
               deleteCallback={deleteCallback}
+              source="device"
             />,
           ]}
         />
