@@ -282,6 +282,7 @@ export default function TelemetryData({
                   variant="iconButton"
                   key="save"
                   id={deviceId}
+                  refetch={refetchDeviceDetail}
                 />
               ),
             ]}
