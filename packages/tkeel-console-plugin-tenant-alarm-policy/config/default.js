@@ -24,6 +24,9 @@ module.exports = {
               path: '/tenant-alarm-policy',
               entry: '/static/console-plugin-tenant-alarm-policy/',
               portal: 1,
+              notifications: [
+                { api_path: '/apis/tkeel-alarm/v1/notifications' },
+              ],
             },
           ],
         },
