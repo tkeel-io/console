@@ -1,5 +1,7 @@
-import { Link } from '@chakra-ui/react';
+import { Link, Text } from '@chakra-ui/react';
 import { Link as ReactRouterLink } from 'react-router-dom';
+
+import { Badge } from '@tkeel/console-components';
 
 import { useActive } from '@/tkeel-console-portal-base/containers/Layout/Menus/ExpandMenus/MenuLink';
 
@@ -24,10 +26,10 @@ function SubMenuLink({ path, name, isDarkMenu }: Props) {
   return (
     <Link
       as={ReactRouterLink}
-      display="block"
+      display="flex"
+      alignItems="center"
       paddingLeft="16px"
       height="32px"
-      lineHeight="32px"
       color={color}
       fontWeight={active ? '500' : 'normal'}
       fontSize="12px"
@@ -35,7 +37,11 @@ function SubMenuLink({ path, name, isDarkMenu }: Props) {
       to={path}
       _hover={hoverStyle}
     >
-      {name}
+      <Badge dot count={1}>
+        <Text height="22px" lineHeight="22px">
+          {name}
+        </Text>
+      </Badge>
     </Link>
   );
 }

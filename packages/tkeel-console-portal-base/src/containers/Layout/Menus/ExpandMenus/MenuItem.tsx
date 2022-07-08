@@ -1,6 +1,8 @@
 import { Flex, Text } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
+import { Badge } from '@tkeel/console-components';
+
 import MenuIcon from './MenuIcon';
 
 type Props = {
@@ -34,7 +36,9 @@ function MenuItem({
           active={menuIconActive ?? active}
           style={{ marginRight: '10px' }}
         />
-        <Text className="menu-name">{name}</Text>
+        <Badge dot count={1}>
+          <Text className="menu-name">{name}</Text>
+        </Badge>
       </Flex>
       {rightIcon}
     </Flex>

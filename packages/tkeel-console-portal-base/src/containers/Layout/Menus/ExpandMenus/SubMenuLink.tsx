@@ -1,5 +1,7 @@
 import { Link, Text } from '@chakra-ui/react';
 
+import { Badge } from '@tkeel/console-components';
+
 import { getLinkStyle, getTextColor, useMenuLinkProps } from './MenuLink';
 import Rectangle from './Rectangle';
 
@@ -16,14 +18,16 @@ function SubMenuLink({ path, name }: Props) {
   return (
     <Link position="relative" {...linkStyle} as={as} to={to}>
       <Rectangle style={{ display: 'none' }} />
-      <Text
-        className="menu-name"
-        paddingLeft="60px"
-        color={color}
-        fontWeight={active ? '600' : 'normal'}
-      >
-        {name}
-      </Text>
+      <Badge dot count={1}>
+        <Text
+          className="menu-name"
+          paddingLeft="60px"
+          color={color}
+          fontWeight={active ? '600' : 'normal'}
+        >
+          {name}
+        </Text>
+      </Badge>
     </Link>
   );
 }

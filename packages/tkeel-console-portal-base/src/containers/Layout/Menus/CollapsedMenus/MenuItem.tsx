@@ -1,5 +1,6 @@
 import { Box, Center } from '@chakra-ui/react';
 
+import { Badge } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 
 import MenuIcon from '@/tkeel-console-portal-base/containers/Layout/Menus/ExpandMenus/MenuIcon';
@@ -32,7 +33,9 @@ function MenuItem({ icon, active }: Props) {
       cursor="pointer"
     >
       <Center width="36px" height="36px">
-        <MenuIcon icon={icon} active={active} />
+        <Badge dot count={1}>
+          <MenuIcon icon={icon} active={active} />
+        </Badge>
       </Center>
     </Box>
   );

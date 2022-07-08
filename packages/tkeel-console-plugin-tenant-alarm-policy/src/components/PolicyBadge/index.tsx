@@ -23,7 +23,7 @@ const getBadgeCount = (policy: Policy) => {
 
 export default function PolicyBadge({ policy, children }: Props) {
   return (
-    <Badge count={getBadgeCount(policy)} dot>
+    <Badge dot count={getBadgeCount(policy)}>
       {children}
     </Badge>
   );
