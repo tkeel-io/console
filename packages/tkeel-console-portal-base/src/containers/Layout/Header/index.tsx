@@ -6,7 +6,7 @@ import { useColors } from '@tkeel/console-hooks';
 import { BellTipsTwoToneIcon } from '@tkeel/console-icons';
 import { Menu } from '@tkeel/console-types';
 
-import Notifications from './Notifications';
+import NotificationsPanel from './NotificationsPanel';
 
 type Props = {
   menus: Menu[];
@@ -91,7 +91,7 @@ export default function Header({ menus, userActionMenusComponent }: Props) {
           />
           {/* <BellFilledIcon color="grayAlternatives.300" /> */}
           {isShowNotifications && (
-            <Notifications
+            <NotificationsPanel
               sx={{
                 position: 'absolute',
                 zIndex: 10,

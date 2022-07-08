@@ -9,7 +9,7 @@ interface Props {
   };
 }
 
-export default function Notifications({ sx, styles }: Props) {
+export default function NotificationsPanel({ sx, styles }: Props) {
   return (
     <Flex
       flexDirection="column"
