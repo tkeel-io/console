@@ -61,7 +61,7 @@ export default function Header({ menus, userActionMenusComponent }: Props) {
       </Flex>
       <Flex alignItems="center">
         <Center
-          marginRight="16px"
+          marginRight="12px"
           position="relative"
           width="24px"
           height="24px"

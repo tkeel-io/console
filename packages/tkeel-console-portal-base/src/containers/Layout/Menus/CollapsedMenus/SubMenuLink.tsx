@@ -37,7 +37,7 @@ function SubMenuLink({ path, name, isDarkMenu }: Props) {
       to={path}
       _hover={hoverStyle}
     >
-      <Badge dot count={1}>
+      <Badge dot count={0}>
         <Text height="22px" lineHeight="22px">
           {name}
         </Text>

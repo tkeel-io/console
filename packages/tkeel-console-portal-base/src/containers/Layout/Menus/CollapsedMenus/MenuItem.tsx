@@ -33,7 +33,7 @@ function MenuItem({ icon, active }: Props) {
       cursor="pointer"
     >
       <Center width="36px" height="36px">
-        <Badge dot count={1}>
+        <Badge dot count={0}>
           <MenuIcon icon={icon} active={active} />
         </Badge>
       </Center>

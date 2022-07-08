@@ -18,7 +18,7 @@ function SubMenuLink({ path, name }: Props) {
   return (
     <Link position="relative" {...linkStyle} as={as} to={to}>
       <Rectangle style={{ display: 'none' }} />
-      <Badge dot count={1}>
+      <Badge dot count={0}>
         <Text
           className="menu-name"
           paddingLeft="60px"

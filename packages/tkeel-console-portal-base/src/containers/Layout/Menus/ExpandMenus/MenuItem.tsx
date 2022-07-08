@@ -36,7 +36,7 @@ function MenuItem({
           active={menuIconActive ?? active}
           style={{ marginRight: '10px' }}
         />
-        <Badge dot count={1}>
+        <Badge dot count={0}>
           <Text className="menu-name">{name}</Text>
         </Badge>
       </Flex>
