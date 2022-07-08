@@ -1,7 +1,10 @@
-import { Flex, Text } from '@chakra-ui/react';
+import { Center, Flex, Text } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
 
+import { useColors } from '@tkeel/console-hooks';
+// BellTipsTwoToneIcon
+import { BellFilledIcon } from '@tkeel/console-icons';
 import { Menu } from '@tkeel/console-types';
 
 type Props = {
@@ -12,6 +15,8 @@ type Props = {
 export default function Header({ menus, userActionMenusComponent }: Props) {
   const { pathname } = useLocation();
   let breadcrumbs: string[] = [];
+
+  const colors = useColors();
 
   menus.forEach((menu) => {
     const { name, path, children } = menu;
@@ -54,7 +59,29 @@ export default function Header({ menus, userActionMenusComponent }: Props) {
           </Flex>
         ))}
       </Flex>
-      <Flex alignItems="center">{userActionMenusComponent}</Flex>
+      <Flex alignItems="center">
+        <Center
+          marginRight="16px"
+          position="relative"
+          width="24px"
+          height="24px"
+          borderRadius="50%"
+          cursor="pointer"
+          _hover={{
+            backgroundColor: 'brand.50',
+            svg: {
+              fill: `${colors.primary} !important`,
+            },
+          }}
+        >
+          {/* <BellTipsTwoToneIcon
+            color="grayAlternatives.300"
+            twoToneColor="red.300"
+          /> */}
+          <BellFilledIcon color="grayAlternatives.300" />
+        </Center>
+        {userActionMenusComponent}
+      </Flex>
     </Flex>
   );
 }
