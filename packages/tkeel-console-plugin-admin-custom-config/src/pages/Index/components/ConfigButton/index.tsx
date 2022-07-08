@@ -1,4 +1,4 @@
-import { Flex, Text } from '@chakra-ui/react';
+import { Center, Text } from '@chakra-ui/react';
 import { MouseEventHandler } from 'react';
 
 import { Tooltip } from '@tkeel/console-components';
@@ -18,21 +18,20 @@ export default function ConfigButton({
   const textColor = disable ? 'grayAlternatives.200' : 'primary';
   return (
     <Tooltip label={disable ? '敬请期待' : ''}>
-      <Flex
-        justifyContent="center"
-        alignItems="center"
+      <Center
         width="124px"
         height="40px"
         borderRadius="4px"
         backgroundColor={disable ? 'gray.50' : 'brand.50'}
         cursor={disable ? 'not-allowed' : 'pointer'}
+        _hover={{ backgroundColor: disable ? 'gray.50' : 'brand.200' }}
         onClick={disable ? undefined : onClick}
       >
         <Text color={textColor} fontSize="12px">
           {title}
         </Text>
         <RightFilledIcon color={textColor} style={{ marginLeft: '8px' }} />
-      </Flex>
+      </Center>
     </Tooltip>
   );
 }

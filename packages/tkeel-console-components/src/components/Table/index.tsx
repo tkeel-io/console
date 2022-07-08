@@ -64,6 +64,7 @@ interface Props<D extends object> {
     table?: StyleProps;
     head?: StyleProps;
     headTr?: StyleProps;
+    headTh?: StyleProps;
     body?: StyleProps;
     bodyTr?: StyleProps;
     bodyTd?: StyleProps;
@@ -230,7 +231,11 @@ function Table<D extends object>({
                 fixHead={!!scroll?.y}
                 canSort={!!onSort}
                 isShowStripe={isShowStripe}
-                styles={{ head: styles?.head, tr: styles?.headTr }}
+                styles={{
+                  head: styles?.head,
+                  tr: styles?.headTr,
+                  th: styles?.headTh,
+                }}
               />
               <Body
                 page={rows}

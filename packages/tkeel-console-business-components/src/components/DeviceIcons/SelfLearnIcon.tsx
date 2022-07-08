@@ -12,12 +12,14 @@ type Props = {
   styles?: {
     wrapper?: StyleProps;
   };
+  handleClick?: () => void;
 };
 
 export default function SelfLearnIcon({
   isSelfLearn,
   showTooltip = true,
   styles,
+  handleClick,
 }: Props) {
   let label: ReactNode = '';
   if (showTooltip) {
@@ -31,6 +33,8 @@ export default function SelfLearnIcon({
             size={20}
             color={isSelfLearn ? 'green.300' : 'gray.500'}
             twoToneColor={isSelfLearn ? 'green.300' : 'gray.500'}
+            style={{ cursor: handleClick ? 'pointer' : 'default' }}
+            onClick={handleClick}
           />
         </IconWrapper>
       </Tooltip>

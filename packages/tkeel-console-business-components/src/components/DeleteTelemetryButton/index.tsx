@@ -2,25 +2,33 @@ import { useDisclosure } from '@chakra-ui/react';
 
 import { Alert, MoreActionButton } from '@tkeel/console-components';
 import { TrashFilledIcon } from '@tkeel/console-icons';
-import {
-  TelemetryFormFields,
-  useDeleteTelemetryMutation,
-} from '@tkeel/console-request-hooks';
+import { useDeleteTelemetryMutation } from '@tkeel/console-request-hooks';
+import { TelemetryItem } from '@tkeel/console-types';
 import { plugin } from '@tkeel/console-utils';
 
 interface Props {
-  defaultValues: TelemetryFormFields;
+  selectedDevices: TelemetryItem[];
   uid: string;
   refetch?: () => void;
+  deleteCallback?: (selectedDevices: TelemetryItem[]) => void;
+  source: 'temp' | 'device';
 }
 
 function DeleteTelemetryButton({
-  defaultValues,
+  selectedDevices,
   refetch = () => {},
   uid,
+  deleteCallback,
+  source,
 }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { name, id } = defaultValues;
+  const names: string[] = [];
+  const ids: string[] = [];
+
+  selectedDevices.forEach((item) => {
+    names.push(item.name);
+    ids.push(item.id);
+  });
   const toast = plugin.getPortalToast();
 
   const { mutate: deleteTemplateMutate, isLoading } =
@@ -28,13 +36,16 @@ function DeleteTelemetryButton({
       uid,
       onSuccess() {
         toast('删除成功', { status: 'success' });
+        if (deleteCallback) {
+          deleteCallback(selectedDevices);
+        }
         refetch();
         onClose();
       },
     });
 
   const handleConfirm = () => {
-    deleteTemplateMutate({ data: { ids: [id] } });
+    deleteTemplateMutate({ data: { ids, source } });
   };
   return (
     <>
@@ -47,8 +58,8 @@ function DeleteTelemetryButton({
         icon="warning"
         iconPosition="left"
         isOpen={isOpen}
-        description={`遥测ID: ${id}`}
-        title={`确定要删除遥测「${name}」吗？`}
+        description={`遥测ID: ${ids.join('，')}`}
+        title={`确定要删除遥测「${names.join('，')}」吗？`}
         onClose={onClose}
         isConfirmButtonLoading={isLoading}
         onConfirm={handleConfirm}

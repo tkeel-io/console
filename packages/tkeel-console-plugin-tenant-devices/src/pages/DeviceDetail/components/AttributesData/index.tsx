@@ -1,6 +1,7 @@
 import {
   Box,
   Center,
+  Checkbox,
   Flex,
   HStack,
   Input,
@@ -8,16 +9,16 @@ import {
   Spacer,
   Switch,
   Text,
-  Tooltip,
 } from '@chakra-ui/react';
-import { fromPairs, isEmpty } from 'lodash';
-import { useEffect, useState } from 'react';
+import { filter, fromPairs, isEmpty, omit, some, throttle } from 'lodash';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import {
   CreateAttributeButton,
   DeleteAttributeButton,
   SaveAsOtherTemplateButton,
+  SaveAttributeButton,
   UpdateAttributeButton,
 } from '@tkeel/console-business-components';
 import {
@@ -30,12 +31,15 @@ import {
   IconButton,
   MoreAction,
   PageHeaderToolbar,
+  Tooltip,
 } from '@tkeel/console-components';
 import { getFocusStyle } from '@tkeel/console-components/src/components/FormField/utils';
 import {
+  BoxFilledIcon,
   MoreVerticalFilledIcon,
   QuestionFilledIcon,
   SmcFilledIcon,
+  VpcFilledIcon,
 } from '@tkeel/console-icons';
 import { AttributeItem, AttributeValue } from '@tkeel/console-types';
 import { plugin } from '@tkeel/console-utils';
@@ -44,8 +48,6 @@ import useSetAttributeMutation from '@/tkeel-console-plugin-tenant-devices/hooks
 import { BasicInfo } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 import JsonInfoButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/JsonInfoButton';
 import SaveAsSelfTemplateButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/SaveAsSelfTemplateButton';
-
-import SetSelfLearnButton from '../SetSelfLearnButton';
 
 const TOOLTIP_OPTIONS = [
   { label: '数据类型', key: 'type' },
@@ -119,45 +121,20 @@ function AttributesData({
   deviceId,
   basicInfo,
   attributeFields,
-  attributeValues,
+  attributeValues, // ws 数据
   refetch: refetchDeviceDetail = () => {},
   wsReadyState,
-  attributeDefaultValues,
+  attributeDefaultValues, // 自学习数据+模板数据
 }: Props) {
   const [renderAttributeValue, setRenderAttributeValue] = useState(
     attributeDefaultValues
   );
+  const [allAttributes, setAllAttributes] = useState<Array<AttributeItem>>([]);
+  const [selectedDevices, setSelectedDevices] = useState<AttributeItem[]>([]);
+  const [selectedAll, setSelectedAll] = useState<boolean>(false);
+  const [attributeValuesHistory, setAttributeValuesHistory] =
+    useState<AttributeValue>(attributeValues);
 
-  useEffect(() => {
-    if (wsReadyState === 1 && !isEmpty(attributeValues)) {
-      setRenderAttributeValue(attributeValues);
-    }
-  }, [wsReadyState, attributeValues]);
-  const attributeFieldsExtra = !basicInfo?.selfLearn
-    ? []
-    : Object.entries(attributeValues)
-        .filter((val) => !attributeFields.some((v) => v.id === val[0]))
-        .map((item) => {
-          const id = item[0];
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          const value = item[1];
-          const existItem = attributeFields.find((v) => v.id === id);
-          if (existItem) {
-            return existItem;
-          }
-          const type = typeof value;
-          return {
-            id,
-            type: formatType(type),
-            name: id,
-            define: {
-              default_value: '',
-              rw: 'rw' as ReadWriteType,
-            },
-            description: '',
-            last_time: Date.now(),
-          };
-        });
   const [currentId, setCurrentId] = useState('');
   const [focusId, setFocusId] = useState('');
   const toast = plugin.getPortalToast();
@@ -206,9 +183,103 @@ function AttributesData({
     const type = item?.type ?? '';
     const id = item?.id ?? '';
     const rw = define?.rw ?? 'rw';
+    const ts = item?.last_time ?? '';
+    const description = item?.description ?? Date.now();
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    return { defaultValue, define, name, type, id, rw };
+    return { defaultValue, define, name, type, id, rw, ts, description };
   };
+
+  const attributeFieldsExtra = useMemo(() => {
+    return !basicInfo?.selfLearn
+      ? []
+      : Object.entries(attributeValuesHistory)
+          .filter((val) => !attributeFields.some((v) => v.id === val[0]))
+          .map((item) => {
+            const id = item[0];
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            const value = item[1];
+            const existItem = attributeFields.find((v) => v.id === id);
+            if (existItem) {
+              return existItem;
+            }
+            const type = typeof value;
+            return {
+              id,
+              type: formatType(type),
+              name: id,
+              define: {
+                default_value: '',
+                rw: 'rw' as ReadWriteType,
+              },
+              description: '',
+              last_time: Date.now(),
+            };
+          });
+  }, [attributeFields, attributeValuesHistory, basicInfo?.selfLearn]);
+
+  const handleChange = useCallback(
+    (selected: boolean, selectedFlatRows: AttributeItem) => {
+      if (selected) {
+        setSelectedDevices([...selectedDevices, selectedFlatRows]);
+      } else {
+        setSelectedDevices(
+          filter(selectedDevices, (item) => {
+            return item.id !== selectedFlatRows.id;
+          })
+        );
+      }
+    },
+    [setSelectedDevices, selectedDevices]
+  );
+
+  const deleteCallback = useCallback(
+    (callSelectedDevices: AttributeItem[]) => {
+      const shouldDelete = Object.keys(attributeValuesHistory).filter((key) => {
+        return some(callSelectedDevices, (select) => {
+          return select.id === key;
+        });
+      });
+      setAttributeValuesHistory(omit(attributeValuesHistory, shouldDelete));
+      setSelectedDevices(
+        filter(selectedDevices, (item) => {
+          return some(callSelectedDevices, (select) => {
+            return select.id !== item.id;
+          });
+        })
+      );
+    },
+    [attributeValuesHistory, selectedDevices]
+  );
+
+  useEffect(() => {
+    if (selectedDevices.length === allAttributes.length) {
+      setSelectedAll(true);
+    } else {
+      setSelectedAll(false);
+    }
+  }, [selectedDevices, setSelectedAll, allAttributes, attributeFields]);
+
+  useEffect(() => {
+    setAllAttributes([...attributeFields, ...attributeFieldsExtra]);
+  }, [attributeFieldsExtra, attributeFields]);
+
+  useEffect(() => {
+    if (wsReadyState === 1 && !isEmpty(attributeValuesHistory)) {
+      setRenderAttributeValue({
+        ...attributeDefaultValues,
+        ...attributeValuesHistory,
+      });
+    }
+  }, [wsReadyState, attributeDefaultValues, attributeValuesHistory]);
+
+  const func = throttle(setAttributeValuesHistory, 10 * 1000);
+  useEffect(() => {
+    func((preState) => {
+      if (isEmpty(attributeValues)) return preState;
+      return { ...preState, ...attributeValues };
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [attributeValues]);
 
   return (
     <Flex flex="1" direction="column" height="100%">
@@ -244,9 +315,49 @@ function AttributesData({
             }}
             name={
               <Flex align="center">
-                <Text mr="12px">属性数据</Text>
-                {basicInfo?.directConnection && (
-                  <SetSelfLearnButton deviceId={deviceId} />
+                {allAttributes.length > 0 ? (
+                  <>
+                    <Checkbox
+                      colorScheme="brand"
+                      size="sm"
+                      marginRight="20px"
+                      isChecked={selectedAll}
+                      onChange={(e) => {
+                        setSelectedAll(e.target.checked);
+                        if (e.target.checked) {
+                          setSelectedDevices([
+                            ...attributeFields,
+                            ...attributeFieldsExtra,
+                          ]);
+                        } else {
+                          setSelectedDevices([]);
+                        }
+                      }}
+                    >
+                      全选
+                    </Checkbox>
+                    <MoreAction
+                      styles={{ actionList: { width: '110px' } }}
+                      type="text"
+                      buttons={[
+                        <SaveAttributeButton
+                          key="save"
+                          uid={deviceId}
+                          selectedDevices={selectedDevices}
+                          refetch={refetchDeviceDetail}
+                        />,
+                        <DeleteAttributeButton
+                          key="delete"
+                          selectedDevices={selectedDevices}
+                          uid={deviceId}
+                          refetch={refetchDeviceDetail}
+                          deleteCallback={deleteCallback}
+                        />,
+                      ]}
+                    />
+                  </>
+                ) : (
+                  <Text mr="12px">属性数据</Text>
                 )}
               </Flex>
             }
@@ -283,13 +394,14 @@ function AttributesData({
                   variant="iconButton"
                   key="save"
                   id={deviceId}
+                  refetch={refetchDeviceDetail}
                 />
               ),
             ]}
           />
           <Box flex="1" overflowY="scroll" pb="30px">
             {getFilterList({
-              list: [...attributeFields, ...attributeFieldsExtra],
+              list: allAttributes,
               keywords,
             }).length === 0 && (
               <Empty
@@ -301,19 +413,35 @@ function AttributesData({
             )}
             <SimpleGrid columns={2} spacingX="20px" spacingY="12px">
               {getFilterList({
-                list: [...attributeFields, ...attributeFieldsExtra],
+                list: allAttributes,
                 keywords,
               }).map((item: AttributeItem) => {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                const { defaultValue, name, type, id, define, rw } =
-                  getFormValue(item);
+                const {
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                  defaultValue,
+                  name,
+                  type,
+                  id,
+                  define,
+                  rw,
+                  ts,
+                  description,
+                } = getFormValue(item);
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                 const defaultValueCopy = [
                   renderAttributeValue[item.id],
                   defaultValue,
                   defaultFormValue[item.id],
                 ].find((v) => !Object.is(undefined, v));
-                const editFormValues = { name, id, type, define };
+                const editFormValues = {
+                  name,
+                  id,
+                  type,
+                  define,
+                  description,
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                  last_time: ts,
+                };
                 return (
                   <Box
                     w="100%"
@@ -328,6 +456,28 @@ function AttributesData({
                       <Box mr="0px" mb="8px">
                         <Flex alignItems="center">
                           <HStack h="24px" lineHeight="24px">
+                            <Checkbox
+                              colorScheme="brand"
+                              size="sm"
+                              isChecked={some(
+                                selectedDevices,
+                                (currentItem) => currentItem.id === item.id
+                              )}
+                              onChange={(e) => {
+                                handleChange(e.target.checked, item);
+                              }}
+                            />
+
+                            {some(attributeFields, item) ? (
+                              <Tooltip label="模板属性">
+                                <BoxFilledIcon color="primary" />
+                              </Tooltip>
+                            ) : (
+                              <Tooltip label="自学习属性">
+                                <VpcFilledIcon />
+                              </Tooltip>
+                            )}
+
                             <Text
                               color="gray.700"
                               fontSize="14px"
@@ -370,10 +520,10 @@ function AttributesData({
                               </Center>
                             }
                             buttons={[
-                              <DeleteAttributeButton
-                                key="delete"
-                                defaultValues={editFormValues}
+                              <SaveAttributeButton
+                                key="save"
                                 uid={deviceId}
+                                selectedDevices={[editFormValues]}
                                 refetch={refetchDeviceDetail}
                               />,
                               <UpdateAttributeButton
@@ -381,6 +531,13 @@ function AttributesData({
                                 uid={deviceId}
                                 defaultValues={editFormValues}
                                 refetch={refetchDeviceDetail}
+                              />,
+                              <DeleteAttributeButton
+                                key="delete"
+                                selectedDevices={[editFormValues]}
+                                uid={deviceId}
+                                refetch={refetchDeviceDetail}
+                                deleteCallback={deleteCallback}
                               />,
                             ]}
                           />

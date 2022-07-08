@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require('node:path');
 
 const nodeConfig = require('config');
 const dotenvExpand = require('dotenv-expand');

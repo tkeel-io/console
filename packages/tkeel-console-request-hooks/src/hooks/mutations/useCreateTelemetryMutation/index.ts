@@ -13,7 +13,10 @@ export interface TelemetryFormFields {
 }
 
 export interface RequestData {
-  [propName: string]: TelemetryFormFields;
+  tele: {
+    [propName: string]: TelemetryFormFields;
+  };
+  source: 'temp' | 'device';
 }
 
 export interface ApiData {
