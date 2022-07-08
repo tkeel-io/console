@@ -51,6 +51,7 @@ export interface DeviceCondition {
   booleanOperator?: BaseOperator | null;
   booleanValue?: string;
   numberValue?: string;
+  telemetryStatus?: Status;
 }
 
 export const defaultDeviceCondition: DeviceCondition = {
@@ -61,6 +62,7 @@ export const defaultDeviceCondition: DeviceCondition = {
   numberValue: '',
   booleanOperator: Operator.Eq,
   enumOperator: Operator.Eq,
+  telemetryStatus: Status.Unchanged,
 };
 
 interface Props<FormValues> {
@@ -83,10 +85,17 @@ function getOptionsByDefine(define: object) {
   }));
 }
 
-function ErrorTip({ disabled }: { disabled: boolean }) {
-  return disabled ? (
+function ErrorTip({
+  telemetryIsDeleted,
+  telemetryIsModified,
+}: {
+  telemetryIsDeleted: boolean;
+  telemetryIsModified: boolean;
+}) {
+  return telemetryIsDeleted || telemetryIsModified ? (
     <Text marginTop="4px" color="red.300" fontSize="12px" lineHeight="24px">
-      该模板遥测信息已更新/已删除，请重新设置告警规则
+      该模板遥测信息{telemetryIsModified ? '已更新' : '已删除'}
+      ，请重新设置告警规则
     </Text>
   ) : null;
 }
@@ -170,7 +179,8 @@ export default function DeviceRuleDescriptionCard<FormValues>({
         {fields.map((item, i) => {
           /* eslint-disable @typescript-eslint/no-unsafe-member-access */
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          const { telemetry, time, booleanValue, enumValue } = output[i] || {};
+          const { telemetry, time, booleanValue, enumValue, telemetryStatus } =
+            output[i] || {};
           const {
             id: telemetryId,
             name,
@@ -210,7 +220,9 @@ export default function DeviceRuleDescriptionCard<FormValues>({
             telemetryOptions,
           });
 
-          const disabled = false;
+          const telemetryIsDeleted = telemetryStatus === Status.Deleted;
+          const telemetryIsModified = telemetryStatus === Status.Modified;
+          const disabled = telemetryIsDeleted || telemetryIsModified;
           return (
             <Box key={item.id} _notLast={{ marginBottom: '8px' }}>
               <Flex
@@ -276,21 +288,19 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                           {...selectProps}
                         />
                       )}
+                      <SelectField<FormValues>
+                        id={getFieldId(i, 'numberOperator')}
+                        name={getFieldId(i, 'numberOperator')}
+                        placeholder="运算符"
+                        options={numberOperatorOptions}
+                        disabled={disabled}
+                        {...selectProps}
+                        formControlStyle={{
+                          flexShrink: 0,
+                          width: '130px',
+                        }}
+                      />
                     </>
-                  )}
-                  {telemetryIsNumber && (
-                    <SelectField<FormValues>
-                      id={getFieldId(i, 'numberOperator')}
-                      name={getFieldId(i, 'numberOperator')}
-                      placeholder="运算符"
-                      options={numberOperatorOptions}
-                      disabled={disabled}
-                      {...selectProps}
-                      formControlStyle={{
-                        flexShrink: 0,
-                        width: '130px',
-                      }}
-                    />
                   )}
                   {telemetryIsEnum && (
                     <>
@@ -344,7 +354,7 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                       registerReturn={register(getFieldId(i, 'numberValue'))}
                       type="number"
                       formControlStyle={{ marginBottom: '0' }}
-                      disabled={disabled}
+                      isDisabled={disabled}
                     />
                   )}
                   <Box
@@ -373,7 +383,10 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                   </Text>
                 )}
               </Flex>
-              <ErrorTip disabled={disabled} />
+              <ErrorTip
+                telemetryIsDeleted={telemetryIsDeleted}
+                telemetryIsModified={telemetryIsModified}
+              />
             </Box>
           );
         })}

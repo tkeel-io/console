@@ -186,6 +186,7 @@ export const getDeviceConditionsByRuleDesc = (ruleDescList: RuleDesc[]) => {
       label,
       time,
       polymerize,
+      telemetryStatus,
     } = ruleDesc;
 
     const telemetry = JSON.stringify({
@@ -199,6 +200,7 @@ export const getDeviceConditionsByRuleDesc = (ruleDescList: RuleDesc[]) => {
         telemetry,
         booleanOperator: operator as BaseOperator,
         booleanValue: JSON.stringify({ label, value }),
+        telemetryStatus,
       };
     }
 
@@ -207,6 +209,7 @@ export const getDeviceConditionsByRuleDesc = (ruleDescList: RuleDesc[]) => {
         telemetry,
         enumOperator: operator as BaseOperator,
         enumValue: JSON.stringify({ label, value }),
+        telemetryStatus,
       };
     }
 
@@ -216,6 +219,7 @@ export const getDeviceConditionsByRuleDesc = (ruleDescList: RuleDesc[]) => {
       polymerize,
       numberOperator: operator,
       numberValue: value || '',
+      telemetryStatus,
     };
   });
 };

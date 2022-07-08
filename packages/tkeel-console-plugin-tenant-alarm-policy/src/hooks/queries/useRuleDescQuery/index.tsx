@@ -6,6 +6,7 @@ import type {
   RequestTelemetryType,
   Time,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/mutations/useCreatePolicyMutation';
+import { Status } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
 
 export interface RuleDesc {
   alarmSourceObject: number | null;
@@ -19,6 +20,7 @@ export interface RuleDesc {
   time: Time | null;
   value: string | null;
   label: string | null;
+  telemetryStatus: Status;
 }
 
 interface ApiData {
