@@ -1,11 +1,12 @@
-import { Center, Flex, Text } from '@chakra-ui/react';
-import { ReactNode } from 'react';
+import { Center, Flex, Text, useOutsideClick } from '@chakra-ui/react';
+import { ReactNode, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { useColors } from '@tkeel/console-hooks';
-// BellTipsTwoToneIcon
-import { BellFilledIcon } from '@tkeel/console-icons';
+import { BellTipsTwoToneIcon } from '@tkeel/console-icons';
 import { Menu } from '@tkeel/console-types';
+
+import Notifications from './Notifications';
 
 type Props = {
   menus: Menu[];
@@ -15,6 +16,14 @@ type Props = {
 export default function Header({ menus, userActionMenusComponent }: Props) {
   const { pathname } = useLocation();
   let breadcrumbs: string[] = [];
+
+  const [isShowNotifications, setIsShowNotifications] = useState(false);
+
+  const ref = useRef<HTMLDivElement>(null);
+  useOutsideClick({
+    ref,
+    handler: () => setIsShowNotifications(false),
+  });
 
   const colors = useColors();
 
@@ -61,6 +70,7 @@ export default function Header({ menus, userActionMenusComponent }: Props) {
       </Flex>
       <Flex alignItems="center">
         <Center
+          ref={ref}
           marginRight="12px"
           position="relative"
           width="24px"
@@ -69,16 +79,27 @@ export default function Header({ menus, userActionMenusComponent }: Props) {
           cursor="pointer"
           _hover={{
             backgroundColor: 'brand.50',
-            svg: {
+            '& > svg': {
               fill: `${colors.primary} !important`,
             },
           }}
         >
-          {/* <BellTipsTwoToneIcon
+          <BellTipsTwoToneIcon
             color="grayAlternatives.300"
             twoToneColor="red.300"
-          /> */}
-          <BellFilledIcon color="grayAlternatives.300" />
+            onClick={() => setIsShowNotifications(!isShowNotifications)}
+          />
+          {/* <BellFilledIcon color="grayAlternatives.300" /> */}
+          {isShowNotifications && (
+            <Notifications
+              sx={{
+                position: 'absolute',
+                zIndex: 10,
+                left: '-272px',
+                top: '28px',
+              }}
+            />
+          )}
         </Center>
         {userActionMenusComponent}
       </Flex>

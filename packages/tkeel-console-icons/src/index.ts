@@ -13,6 +13,7 @@ export { default as AutoFilledIcon } from './components/AutoFilledIcon';
 export { default as Bell2TwoToneIcon } from './components/Bell2TwoToneIcon';
 export { default as BellFilledIcon } from './components/BellFilledIcon';
 export { default as BellGearTwoToneIcon } from './components/BellGearTwoToneIcon';
+export { default as BellLightningFilledIcon } from './components/BellLightningFilledIcon';
 export { default as BellTipsTwoToneIcon } from './components/BellTipsTwoToneIcon';
 export { default as BellTwoToneIcon } from './components/BellTwoToneIcon';
 export { default as BookOpenedFilledIcon } from './components/BookOpenedFilledIcon';
