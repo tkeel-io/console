@@ -14,12 +14,14 @@ type Props = {
   uid: string;
   refetch?: () => void;
   defaultValues?: TelemetryFormFields;
+  source: 'temp' | 'device';
 };
 
 export default function UpdateTelemetryButton({
   uid,
   refetch = () => {},
   defaultValues,
+  source,
 }: Props) {
   const toast = plugin.getPortalToast();
 
@@ -38,7 +40,10 @@ export default function UpdateTelemetryButton({
         [formValues.id]: { ...formValues },
       };
       mutate({
-        data: params,
+        data: {
+          tele: params,
+          source,
+        },
       });
     }
     return null;

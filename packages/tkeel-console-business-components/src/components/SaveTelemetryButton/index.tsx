@@ -12,12 +12,14 @@ interface Props {
   selectedDevices: TelemetryFormFields[];
   uid: string;
   refetch?: () => void;
+  source: 'temp' | 'device';
 }
 
 function SaveTelemetryButton({
   selectedDevices,
   refetch = () => {},
   uid,
+  source,
 }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = plugin.getPortalToast();
@@ -38,7 +40,10 @@ function SaveTelemetryButton({
         params[item.id] = item;
       });
       mutate({
-        data: params,
+        data: {
+          tele: params,
+          source,
+        },
       });
     }
     return null;

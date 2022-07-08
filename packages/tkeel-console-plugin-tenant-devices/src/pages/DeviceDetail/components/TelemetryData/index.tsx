@@ -212,6 +212,7 @@ export default function TelemetryData({
             <CreateTelemetryButton
               uid={deviceId}
               refetch={refetchDeviceDetail}
+              source="device"
             />
           }
         />
@@ -234,6 +235,7 @@ export default function TelemetryData({
                         uid={deviceId}
                         selectedDevices={selectedDevices}
                         refetch={refetchDeviceDetail}
+                        source="device"
                       />,
                       <DeleteTelemetryButton
                         key="delete"
@@ -241,6 +243,7 @@ export default function TelemetryData({
                         uid={deviceId}
                         refetch={refetchDeviceDetail}
                         deleteCallback={deleteCallback}
+                        source="device"
                       />,
                     ]}
                   />
@@ -258,6 +261,7 @@ export default function TelemetryData({
                 key="add"
                 uid={deviceId}
                 refetch={refetchDeviceDetail}
+                source="device"
               />,
               templateId ? (
                 <MoreAction
