@@ -3,14 +3,14 @@ import { RequestResult } from '@tkeel/console-utils';
 
 const method = 'GET';
 
-type RequestParams = {
+interface RequestParams {
   page_num?: number;
   page_size?: number;
   order_by?: string;
   is_descending?: boolean;
   key_words?: string;
   id?: string;
-};
+}
 
 enum TelemetryType {
   Int = 'int',
@@ -20,26 +20,26 @@ enum TelemetryType {
   Enum = 'enum',
 }
 
-export type TelemetryField = {
+interface TelemetryField {
   define: Record<string, unknown>;
   description: string;
   id: string;
   name: string;
   type: TelemetryType;
   last_time: number;
-};
+}
 
-export interface TelemetryFields {
+export interface TemplateTelemetryFields {
   [propName: string]: TelemetryField;
 }
 
-export interface ApiData {
+interface ApiData {
   '@type': string;
   templateTeleObject: {
     configs?: {
       telemetry?: {
         define?: {
-          fields?: TelemetryFields;
+          fields?: TemplateTelemetryFields;
         };
       };
     };

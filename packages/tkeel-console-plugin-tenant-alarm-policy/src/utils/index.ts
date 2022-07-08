@@ -1,3 +1,7 @@
+import {
+  TelemetryType,
+  TemplateTelemetryFields,
+} from '@tkeel/console-request-hooks';
 import { hasJsonStructure } from '@tkeel/console-utils';
 
 import {
@@ -37,6 +41,70 @@ export const parseTelemetryInfo = (telemetry: string | null) => {
     name: '',
     type: RequestTelemetryType.Common,
   };
+};
+
+export const getTelemetryOptionsByFields = (
+  telemetryFields: TemplateTelemetryFields
+) => {
+  return Object.entries(telemetryFields).map(([key, value]) => {
+    let type = RequestTelemetryType.Common;
+    if (value.type === TelemetryType.Bool) {
+      type = RequestTelemetryType.Bool;
+    }
+
+    if (value.type === TelemetryType.Enum) {
+      type = RequestTelemetryType.Enum;
+    }
+
+    return {
+      label: value.name,
+      value: JSON.stringify({ id: key, name: value.name, type }),
+    };
+  });
+};
+
+export const getTelemetryOptionsByTelemetry = ({
+  name,
+  telemetry,
+  telemetryOptions,
+}: {
+  name: string;
+  telemetry: string;
+  telemetryOptions: { label: string; value: string }[];
+}) => {
+  const defaultTelemetryOptions = {
+    label: name,
+    value: telemetry,
+    disabled: true,
+  };
+
+  if (
+    telemetry &&
+    !telemetryOptions.some((option) => option.value === telemetry)
+  ) {
+    return [defaultTelemetryOptions, ...telemetryOptions];
+  }
+
+  return telemetryOptions;
+};
+
+export const getNewValueOptions = ({
+  value,
+  options,
+}: {
+  value: string;
+  options: { label: string; value: string }[];
+}) => {
+  const { label, value: optionValue } = parseBooleanEnumValue(value);
+  const defaultBooleanValueOption = {
+    label,
+    value: JSON.stringify({ label, value: optionValue }),
+    disabled: true,
+  };
+  if (value && !options.some((option) => option.value === value)) {
+    return [defaultBooleanValueOption, ...options];
+  }
+  return options;
 };
 
 export const getRequestDeviceConditions = (

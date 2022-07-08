@@ -21,6 +21,7 @@ export * from './useSubscribeListQuery';
 export { default as useTemplatesQuery } from './useTemplatesQuery';
 export * from './useTemplatesQuery';
 export { default as useTemplateTelemetryQuery } from './useTemplateTelemetryQuery';
+export * from './useTemplateTelemetryQuery';
 export { default as useTenantQuery } from './useTenantQuery';
 export {
   type Tenant,
