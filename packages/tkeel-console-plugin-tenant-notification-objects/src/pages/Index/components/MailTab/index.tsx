@@ -11,13 +11,8 @@ import {
 import { memo, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import {
-  Alert,
-  FormField,
-  LinkButton,
-  Tooltip,
-} from '@tkeel/console-components';
-import { InformationFilledIcon, TrashFilledIcon } from '@tkeel/console-icons';
+import { Alert, FormField, LinkButton } from '@tkeel/console-components';
+import { TrashFilledIcon } from '@tkeel/console-icons';
 import { plugin, schemas } from '@tkeel/console-utils';
 
 import useModifyNotificationMutation from '@/tkeel-console-plugin-tenant-notification-objects/hooks/mutations/useModifyNotificationMutation';
@@ -35,6 +30,7 @@ interface MailItem {
   key: string;
   mail: string;
 }
+
 interface MailFormFields {
   name: string;
   [mailName: string]: string;
@@ -172,19 +168,34 @@ function MailTab({ noticeId, emailAddress, refetch }: Props) {
     <Box>
       <Flex alignItems="center" mb="16px">
         <TextField
-          formControlStyle={{ width: '450px', mb: '0' }}
           placeholder="请输入接收人邮箱"
-          id="name"
-          error={errors.name}
-          registerReturn={register('name', schemas.multiMail.registerOptions)}
+          id="emailAddress"
+          error={errors.emailAddress}
+          registerReturn={register(
+            'emailAddress',
+            schemas.singleMail.registerOptions
+          )}
           formHelperStyle={{ fontSize: '12px', position: 'absolute' }}
+          formControlStyle={{ width: '450px', mb: '0' }}
+          inputStyle={{ backgroundColor: 'white' }}
+        />
+        <TextField
+          placeholder="请输入接收人名称"
+          id="userName"
+          error={errors.userName}
+          registerReturn={register('userName')}
+          formHelperStyle={{ fontSize: '12px', position: 'absolute' }}
+          formControlStyle={{
+            width: '160px',
+            margin: '0 12px 0 8px',
+          }}
+          inputStyle={{ backgroundColor: 'white' }}
         />
         <Button
           type="button"
           variant="outline"
           color="gray.700"
           bgColor="grayAlternatives.50"
-          m="0 10px 0 20px"
           borderWidth="1px"
           borderColor="grayAlternatives.100"
           boxShadow="none"
@@ -194,19 +205,11 @@ function MailTab({ noticeId, emailAddress, refetch }: Props) {
         >
           添加联系邮箱
         </Button>
-        <Tooltip
-          label="支持多个联系邮箱添加，中间请用【,】英文逗号隔开"
-          boxShadow=" 0px 10px 15px rgba(113, 128, 150, 0.1), 0px 4px 6px rgba(113, 128, 150, 0.2)"
-          borderRadius="4px"
-          color="gray.700"
-          mb="10px"
-          h="60px"
-          w="204px"
-        >
-          <InformationFilledIcon color="primary" />
-        </Tooltip>
       </Flex>
       {mails.map(({ key, mail }, index) => {
+        const isReadOnly = mailKey !== key;
+        const focusBorderColor = editKey === key ? 'red.500' : 'primary';
+
         return (
           <Flex
             key={key}
@@ -216,19 +219,30 @@ function MailTab({ noticeId, emailAddress, refetch }: Props) {
             borderRadius="4px"
             p="10px 20px"
             mb="8px"
+            backgroundColor="white"
           >
             <Flex alignItems="center">
               <Input
                 color="gray.700"
-                border="none"
                 w="450px"
                 m="1px"
+                boxShadow="none"
+                outline="none"
+                border="1px solid"
+                // borderColor={isReadOnly ? 'transparent' : 'gray.200'}
+                borderColor="transparent"
+                // focusBorderColor={editKey === key ? 'red.500' : 'primary'}
                 size="xs"
                 fontSize="14px"
+                _hover={{ borderColor: 'transparent' }}
+                _focus={{
+                  boxShadow: 'none',
+                  outline: 'none',
+                  borderColor: isReadOnly ? 'transparent' : focusBorderColor,
+                }}
                 defaultValue={mail}
-                isReadOnly={mailKey !== key}
+                isReadOnly={isReadOnly}
                 {...register(key, schemas.singleMail.registerOptions)}
-                focusBorderColor={editKey === key ? 'red.500' : 'primary'}
               />
               {editKey === key && (
                 <Text fontSize="12px" color="red.500" ml="10px">

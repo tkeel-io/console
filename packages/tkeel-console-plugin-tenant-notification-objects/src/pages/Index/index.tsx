@@ -14,9 +14,10 @@ import { HornTwoToneIcon, RefreshCircleFilledIcon } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
 import useNotificationQuery from '@/tkeel-console-plugin-tenant-notification-objects/hooks/queries/useNotificationQuery';
-import CreateNotificationButton from '@/tkeel-console-plugin-tenant-notification-objects/pages/components/CreateNotificationButton';
-import MoreOperationButton from '@/tkeel-console-plugin-tenant-notification-objects/pages/components/MoreOperationButton';
-import NotificationSelectCard from '@/tkeel-console-plugin-tenant-notification-objects/pages/components/NotificationSelectCard';
+
+import CreateNotificationButton from './components/CreateNotificationButton';
+import MoreOperationButton from './components/MoreOperationButton';
+import NotificationSelectCard from './components/NotificationSelectCard';
 
 export default function Index() {
   const [keyWords, setKeywords] = useState('');
