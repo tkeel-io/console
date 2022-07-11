@@ -152,9 +152,12 @@ function DeviceAttributeModal({
       }
     }
   };
-  const getEditorValue = () => {
+  const getEditorValue = (): string => {
     try {
-      return JSON.stringify(getValues('define.default_value'), null, '\t');
+      if (typeof getValues(DEFAULT_VALUE_STR) === 'object') {
+        return JSON.stringify(getValues(DEFAULT_VALUE_STR), null, '\t');
+      }
+      return getValues(DEFAULT_VALUE_STR) as string;
     } catch {
       return '';
     }
@@ -284,8 +287,7 @@ function DeviceAttributeModal({
               height="180px"
               readOnly={false}
               theme="light"
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-              value={getValues(DEFAULT_VALUE_STR) as string}
+              value={getEditorValue()}
               onChange={(value) => {
                 setValue(DEFAULT_VALUE_STR, value);
               }}
