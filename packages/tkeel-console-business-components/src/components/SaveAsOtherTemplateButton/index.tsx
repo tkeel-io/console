@@ -5,6 +5,7 @@ import { FloppyDiskFilledIcon } from '@tkeel/console-icons';
 import useSaveAsOtherTemplateMutation, {
   RequestData as TemplateBasicField,
 } from '@tkeel/console-request-hooks/src/hooks/mutations/useSaveAsOtherTemplateMutation';
+import useSaveAsTemplateAndRef from '@tkeel/console-request-hooks/src/hooks/mutations/useSaveAsTemplateAndRef';
 import { plugin } from '@tkeel/console-utils';
 
 import CreateTemplateBasicModal from '../CreateTemplateBasicModal';
@@ -27,11 +28,25 @@ export default function SaveAsOtherTemplateButton({
     onSuccess: () => {
       onClose();
       refetch();
-      toast.success('另存为模板成功');
+      toast.success('保存模板成功');
     },
   });
+  const { mutate: mutateRef, isLoading: isLoadingRef } =
+    useSaveAsTemplateAndRef({
+      id,
+      onSuccess: () => {
+        onClose();
+        refetch();
+        toast.success('保存并引用成功');
+      },
+    });
+
   const handleConfirm = (formValues: TemplateBasicField) => {
     mutate({ data: formValues });
+  };
+
+  const handleConfirmRef = (formValues: TemplateBasicField) => {
+    mutateRef({ data: formValues });
   };
   return (
     <>
@@ -58,6 +73,9 @@ export default function SaveAsOtherTemplateButton({
         isConfirmButtonLoading={isLoading}
         onClose={onClose}
         onConfirm={handleConfirm}
+        supportRef
+        isConfirmRefButtonLoading={isLoadingRef}
+        onConfirmRef={handleConfirmRef}
       />
     </>
   );

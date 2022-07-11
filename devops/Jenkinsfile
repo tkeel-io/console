@@ -12,7 +12,7 @@ pipeline {
 
         string(
             name: 'PLUGINS',
-            defaultValue: 'console-plugin-admin-custom-config,console-plugin-admin-plugins,console-plugin-admin-service-monitoring,console-plugin-admin-tenants,console-plugin-tenant-data-query,console-plugin-tenant-data-subscription,console-plugin-tenant-device-templates,console-plugin-tenant-devices,console-plugin-tenant-networks,console-plugin-tenant-plugins,console-plugin-tenant-roles,console-plugin-tenant-routing-rules,console-plugin-tenant-users,console-portal-admin,console-portal-tenant',
+            defaultValue: 'console-plugin-admin-custom-config,console-plugin-admin-notification-configs,console-plugin-admin-plugins,console-plugin-admin-service-monitoring,console-plugin-admin-tenants,console-plugin-admin-usage-statistics,console-plugin-tenant-alarm-policy,console-plugin-tenant-alarms,console-plugin-tenant-data-query,console-plugin-tenant-data-subscription,console-plugin-tenant-device-templates,console-plugin-tenant-devices,console-plugin-tenant-networks,console-plugin-tenant-notification-objects,console-plugin-tenant-plugins,console-plugin-tenant-roles,console-plugin-tenant-routing-rules,console-plugin-tenant-users,console-portal-admin,console-portal-tenant',
             description: 'whice ones ?',
         )
 
@@ -35,6 +35,17 @@ pipeline {
             name:'HELM_CHART_VERSION',
             defaultValue: '0.1.0',
             description:'plugin version')
+
+        string(
+            name:'APPEARANCE',
+            defaultValue: 'tkeel-light',
+            description:'appearance')
+
+        string(
+            name:'THEME',
+            defaultValue: 'tkeel',
+            description:'theme')
+
     }
 
     environment {    
@@ -131,6 +142,13 @@ pipeline {
                                     env.DOCKER_IMAGE_TAG = params.DOCKER_IMAGE_TAG
                                     env.DOCKER = "${env.REGISTRY}/${env.REPOSITORY}/${env.APP_NAME}:${env.DOCKER_IMAGE_TAG}"
                                     env.CHART = params.HELM_CHART_VERSION
+
+                                    /*
+                                    theme & appearance
+                                    */
+                                    env.APPEARANCE= "qingcloud-light"
+                                    env.THEME = "qingcloud"
+
                                 }else{
                                     /*
                                     Docker tag & chart version
@@ -138,6 +156,12 @@ pipeline {
                                     env.DOCKER_IMAGE_TAG = env.COMMIT_ID
                                     env.DOCKER = "${env.REGISTRY}/${env.REPOSITORY}/${env.APP_NAME}:${env.DOCKER_IMAGE_TAG}"
                                     env.CHART = "${env.TIMESTAMP.trim()}-${env.BRANCH_NAME}"
+
+                                    /*
+                                    theme & appearance
+                                    */
+                                    env.APPEARANCE= params.APPEARANCE
+                                    env.THEME = params.THEME
                                 }
 
                                 /*
@@ -155,7 +179,7 @@ pipeline {
                                 /*
                                 docker image
                                 */
-                                sh 'yarn build:production-and-docker:build --package-names=@tkeel/$APP_NAME --docker-image-tag=cache --docker-image-push=false'
+                                sh 'yarn build:production-and-docker:build --package-names=@tkeel/$APP_NAME --docker-image-tag=cache --docker-image-push=false --theme-name=$THEME --appearance-name=$APPEARANCE'
                                 sh 'docker tag tkeelio/$APP_NAME:cache $DOCKER'
                                 sh 'docker push $DOCKER'
 

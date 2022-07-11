@@ -13,10 +13,7 @@ export interface BasicInfo {
   name: string;
   type: string;
   ext: {
-    [propName: string]: {
-      value: string;
-      name: string;
-    };
+    [propName: string]: string;
   };
   parentId: string;
   selfLearn: boolean;
@@ -66,9 +63,10 @@ export interface Properties {
 
 export enum TelemetryType {
   Int = 'int',
-  Bool = 'bool',
   Float = 'float',
   Double = 'double',
+  Bool = 'bool',
+  Enum = 'enum',
 }
 
 interface TelemetryField {
@@ -84,7 +82,7 @@ interface TelemetryField {
 }
 
 export interface TelemetryFields {
-  [key: string]: TelemetryField;
+  [propName: string]: TelemetryField;
 }
 
 export interface DeviceObject {

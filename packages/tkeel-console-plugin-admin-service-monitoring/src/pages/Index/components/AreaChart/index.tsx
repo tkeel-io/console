@@ -1,13 +1,13 @@
-import { useTheme } from '@chakra-ui/react';
 import {
   Area,
   AreaChart as RechartsAreaChart,
   ResponsiveContainer,
+  Tooltip,
   XAxis,
 } from 'recharts';
 
-import { Tooltip } from '@tkeel/console-charts';
-import type { Theme } from '@tkeel/console-themes';
+import { useTooltipProps } from '@tkeel/console-charts';
+import { useColors } from '@tkeel/console-hooks';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 interface Props {
@@ -16,7 +16,8 @@ interface Props {
 }
 
 export default function AreaChart({ data, yFormatter }: Props) {
-  const { colors }: Theme = useTheme();
+  const colors = useColors();
+  const defaultTooltipProps = useTooltipProps();
 
   return (
     <ResponsiveContainer width="100%" height="100%">
@@ -27,6 +28,7 @@ export default function AreaChart({ data, yFormatter }: Props) {
         <Area dataKey="y" stroke={colors.primary} fill={colors.brand[50]} />
         <XAxis hide dataKey="x" type="number" domain={['dataMin', 'dataMax']} />
         <Tooltip
+          {...defaultTooltipProps}
           labelFormatter={(label: number) =>
             formatDateTimeByTimestamp({ timestamp: label * 1000 })
           }

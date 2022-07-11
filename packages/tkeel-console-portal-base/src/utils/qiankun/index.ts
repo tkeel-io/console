@@ -3,6 +3,7 @@ import { FrameworkLifeCycles, registerMicroApps, start } from 'qiankun';
 import { NavigateFunction } from 'react-router-dom';
 
 import { toast } from '@tkeel/console-components';
+import { getAppearance } from '@tkeel/console-themes';
 import {
   GlobalPluginPropsPortalProps,
   Menu,
@@ -53,12 +54,14 @@ export function menusToApps({
   refetchMenus,
 }: InitOptions): App[] {
   const totalMenus: MenuInfo[] = getTotalMenus(menus);
+  const appearance = getAppearance();
   const tokenInfo = getLocalTokenInfo();
   const tenantInfo = getLocalTenantInfo();
   const portalProps: GlobalPluginPropsPortalProps = {
     portalName: GLOBAL_PORTAL_CONFIG.portalName,
     client: {
       theme,
+      appearance,
       tenantInfo,
       tokenInfo,
       toast,

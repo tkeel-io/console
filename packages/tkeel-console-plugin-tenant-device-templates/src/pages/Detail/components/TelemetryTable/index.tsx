@@ -91,12 +91,14 @@ function Index({ id, title }: { id: string; title: string }) {
                   key="modify"
                   defaultValues={original}
                   refetch={refetch}
+                  source="temp"
                 />,
                 <DeleteTelemetryButton
                   key="delete"
-                  defaultValues={original}
+                  selectedDevices={[original]}
                   uid={id}
                   refetch={refetch}
+                  source="temp"
                 />,
               ]}
             />
@@ -122,7 +124,12 @@ function Index({ id, title }: { id: string; title: string }) {
         // eslint-disable-next-line react/no-unstable-nested-components
         buttons={useMemo(() => {
           return [
-            <CreateTelemetryButton key="create" uid={id} refetch={refetch} />,
+            <CreateTelemetryButton
+              key="create"
+              uid={id}
+              refetch={refetch}
+              source="temp"
+            />,
           ];
         }, [id, refetch])}
       />

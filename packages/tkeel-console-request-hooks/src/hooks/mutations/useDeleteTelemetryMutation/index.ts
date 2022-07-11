@@ -2,6 +2,7 @@ import { useMutation } from '@tkeel/console-hooks';
 
 export interface RequestData {
   ids: string[];
+  source: 'temp' | 'device';
 }
 
 export interface ApiData {

@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, StyleProps } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 import { useColor } from '@tkeel/console-hooks';
@@ -10,12 +10,18 @@ interface Props {
   label: ReactNode;
   iconSize?: string | number;
   iconColor?: string;
+  sx?: StyleProps;
+  styles?: {
+    root?: StyleProps;
+  };
 }
 
 export default function Tips({
   label,
   iconSize = 16,
   iconColor = 'grayAlternatives.300',
+  sx,
+  styles,
 }: Props) {
   const primaryColor = useColor('primary');
 
@@ -26,6 +32,8 @@ export default function Tips({
           fill: `${primaryColor} !important`,
         },
       }}
+      {...styles?.root}
+      {...sx}
     >
       <Tooltip
         label={label}

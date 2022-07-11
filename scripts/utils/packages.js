@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require('node:path');
 
 const nodeConfig = require('config');
 const dotenvExpand = require('dotenv-expand');
@@ -257,8 +257,16 @@ function getCliArgv() {
   const { argv } = yargs(hideBin(process.argv))
     .options({
       'package-names': {
-        type: 'csv',
+        type: 'string',
         desc: 'package names, "all" is all portal and plugin packages',
+      },
+      'theme-name': {
+        type: 'string',
+        desc: '"tkeel-light" or "qingcloud-light"',
+      },
+      'appearance-name': {
+        type: 'string',
+        desc: '"tkeel" or "qingcloud"',
       },
       'docker-image-tag': {
         type: 'string',
@@ -314,10 +322,16 @@ async function getSelectedCanRunPackageInfos() {
   const inputPackageNamesString = argv?.packageNames ?? '';
   const dockerImageTag = argv?.dockerImageTag ?? 'dev';
   const isDockerImagePush = argv?.dockerImagePush;
+  const themeName = argv?.themeName;
+  const appearanceName = argv?.appearanceName;
   const inputPackageNames = inputPackageNamesString.split(',').filter(Boolean);
 
   const packageInfos = readPackageInfos().map((packageInfo) =>
     _.merge({}, packageInfo, {
+      env: {
+        THEME_NAME: themeName,
+        APPEARANCE_NAME: appearanceName,
+      },
       docker: { imageTag: dockerImageTag, isDockerImagePush },
     })
   );

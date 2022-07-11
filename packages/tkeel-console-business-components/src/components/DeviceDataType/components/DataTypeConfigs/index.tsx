@@ -1,6 +1,10 @@
 import { Box, Button, Flex, Wrap } from '@chakra-ui/react';
-import { indexOf, keys } from 'lodash';
-import { UseFieldArrayReturn, UseFormReturn } from 'react-hook-form';
+import { get, indexOf, keys } from 'lodash';
+import {
+  FieldError,
+  UseFieldArrayReturn,
+  UseFormReturn,
+} from 'react-hook-form';
 
 import { FormField } from '@tkeel/console-components';
 
@@ -31,22 +35,29 @@ export default function DataTypeConfigs({
   supportExtendedConfig,
   extendedArrayHandler,
 }: Props) {
-  const { register, watch } = formHandler as UseFormReturn<
-    TelemetryFormField | CommandParamFormField
-  >;
+  const {
+    register,
+    watch,
+    setError,
+    clearErrors,
+    formState: { errors },
+  } = formHandler as UseFormReturn<TelemetryFormField | CommandParamFormField>;
   const watchFields = watch();
   const { fields, append, remove } = fieldArrayHandler;
   const { append: extendedAppend, remove: extendedRemove } =
-    extendedArrayHandler as UseFieldArrayReturn<
+    (extendedArrayHandler as UseFieldArrayReturn<
       TelemetryFormField,
       'extendInfo',
       'id'
-    >;
+    >) || {
+      append: () => {},
+      remove: () => {},
+    };
 
   const item = DATA_TYPE.find((v) => v.value === dataType);
 
   const extendedAppendEnum = (key: string) => {
-    if (key === 'enum') {
+    if (key === 'enum' && supportExtendedConfig) {
       extendedAppend([
         {
           label: '1',
@@ -91,7 +102,7 @@ export default function DataTypeConfigs({
                         (v) => v.key === key
                       );
                       remove(index);
-                      if (key === 'enum') {
+                      if (key === 'enum' && supportExtendedConfig) {
                         extendedRemove();
                       }
                     }
@@ -122,9 +133,19 @@ export default function DataTypeConfigs({
                 key={field.id}
                 label={label}
                 id={field.id}
+                error={get(errors, `fields.${index}.value`) as FieldError}
                 registerReturn={register(`fields.${index}.value` as const, {
-                  required: { value: true, message: 'required' },
-                  valueAsNumber: type === 'number',
+                  required: { value: true, message: '必填项' },
+                  onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+                    if (type === 'number' && !/^\d+$/.test(e.target.value)) {
+                      setError(`fields.${index}.value`, {
+                        type: 'custom',
+                        message: '请输入数字',
+                      });
+                    } else {
+                      clearErrors(`fields.${index}.value`);
+                    }
+                  },
                 })}
               />
             );

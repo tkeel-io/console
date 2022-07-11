@@ -13,11 +13,16 @@ import {
   OfficialFilledIcon,
   SmartObjectTwoToneIcon,
 } from '@tkeel/console-icons';
+import { plugin } from '@tkeel/console-utils';
 
 import AddSubscribeButton from '@/tkeel-console-plugin-tenant-devices/components/AddSubscribeButton';
 import DeleteDevicesButton from '@/tkeel-console-plugin-tenant-devices/components/DeleteDevicesButton';
 import UpdateDeviceButton from '@/tkeel-console-plugin-tenant-devices/components/UpdateDeviceButton';
-import { DeviceObject } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
+import useUpdateDeviceMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useUpdateDeviceMutation';
+import {
+  BasicInfo,
+  DeviceObject,
+} from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 import { SUBSCRIBES } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
 import handleSubscribeAddr from '@/tkeel-console-plugin-tenant-devices/utils';
 
@@ -38,12 +43,33 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
   // eslint-disable-next-line no-underscore-dangle
   const subscribeAddr = sysField?._subscribeAddr ?? '';
   const addrList = handleSubscribeAddr(subscribeAddr);
+  const toast = plugin.getPortalToast();
 
   const sub = addrList.length > 0 ? '1' : '0';
   const deviceName = basicInfo?.name ?? '';
   const isSelfLearn = basicInfo?.selfLearn;
   // eslint-disable-next-line no-underscore-dangle
   const isOnline = connectInfo?._online ?? false;
+
+  const { mutate } = useUpdateDeviceMutation({
+    id,
+    onSuccess: () => {
+      toast.success('操作成功');
+      if (refetch) {
+        refetch();
+      }
+    },
+  });
+
+  const handleClick = () => {
+    if (deviceObject) {
+      const data = {
+        ...basicInfo,
+        selfLearn: !isSelfLearn,
+      };
+      mutate({ data: data as BasicInfo });
+    }
+  };
 
   const {
     name,
@@ -132,7 +158,10 @@ function DeviceInfoCard({ deviceObject, refetch }: Props): JSX.Element {
                 twoToneColor={useColor(SUBSCRIBES[sub].twoToneColor)}
               />
             </IconWrapper>
-            <SelfLearnIcon isSelfLearn={isSelfLearn} />
+            <SelfLearnIcon
+              isSelfLearn={isSelfLearn}
+              handleClick={handleClick}
+            />
           </HStack>
         </CardContentFlex>
       </Box>

@@ -1,4 +1,5 @@
-import { Flex, StyleProps, Switch, Text } from '@chakra-ui/react';
+import { Flex, StyleProps, Text } from '@chakra-ui/react';
+import { memo, ReactNode } from 'react';
 
 import {
   AlarmInfoCard,
@@ -6,48 +7,108 @@ import {
   AlarmRuleTypeTag,
   NotificationObjectsInfoCard,
 } from '@tkeel/console-business-components';
-import { Drawer, MoreAction } from '@tkeel/console-components';
+import {
+  Clipboard,
+  Drawer,
+  MoreAction,
+  Tooltip,
+} from '@tkeel/console-components';
+import { BoxTwoToneIcon, ComputingLampTwoToneIcon } from '@tkeel/console-icons';
+import { useAlarmRuleDetailQuery } from '@tkeel/console-request-hooks';
+import { AlarmSourceObject } from '@tkeel/console-types';
 
 import DeletePolicyButton from '@/tkeel-console-plugin-tenant-alarm-policy/components/DeletePolicyButton';
 import ModifyPolicyButton from '@/tkeel-console-plugin-tenant-alarm-policy/components/ModifyPolicyButton';
 import { ALARM_TYPE_MAP } from '@/tkeel-console-plugin-tenant-alarm-policy/constants';
 import type { Policy } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
 
+import SwitchStatusButton from '../SwitchStatusButton';
+
 type Props = {
-  policy: Policy;
-  isOpen: boolean;
+  ruleId: number;
   onClose: () => void;
+  refetchData: () => void;
 };
 
-export default function PolicyDetailDrawer({ policy, isOpen, onClose }: Props) {
+function PolicyDetailDrawer({ ruleId, onClose, refetchData }: Props) {
+  const { ruleDetail, refetch } = useAlarmRuleDetailQuery({ ruleId });
+  const {
+    alarmSourceObject,
+    deviceId,
+    deviceName,
+    tempId,
+    tempName,
+    ruleName,
+    alarmType,
+    alarmRuleType,
+    alarmLevel,
+    ruleDesc,
+  } = ruleDetail || {};
+
+  let alarmSourceObjectValue: ReactNode = '-';
+  let alarmSourceObjectIdValue: ReactNode = '-';
+  if (alarmSourceObject === AlarmSourceObject.Device) {
+    const name = deviceName || tempName;
+    const alarmSourceObjectId = deviceId || tempId || '';
+
+    alarmSourceObjectValue = (
+      <Flex alignItems="center">
+        {deviceName ? <ComputingLampTwoToneIcon /> : <BoxTwoToneIcon />}
+        <Tooltip label={name}>
+          <Text marginLeft="2px" maxWidth="170px" noOfLines={1}>
+            {name}
+          </Text>
+        </Tooltip>
+      </Flex>
+    );
+
+    alarmSourceObjectIdValue = (
+      <Flex>
+        <Tooltip label={alarmSourceObjectId}>
+          <Text width="140px" noOfLines={1}>
+            {alarmSourceObjectId}
+          </Text>
+        </Tooltip>
+        {alarmSourceObjectId && <Clipboard text={alarmSourceObjectId} />}
+      </Flex>
+    );
+  } else if (alarmSourceObject === AlarmSourceObject.Platform) {
+    alarmSourceObjectValue = '平台';
+  }
+
   const alarmInfoArr = [
     {
       label: '告警策略名称',
-      value: policy.ruleName,
+      value: ruleName,
     },
     {
       label: '告警类型',
-      value: ALARM_TYPE_MAP[policy.alarmType] || '',
+      value: alarmType === undefined ? '-' : ALARM_TYPE_MAP[alarmType],
     },
     {
       label: '告警策略类型',
-      value: <AlarmRuleTypeTag type={policy.alarmRuleType} />,
+      value:
+        alarmRuleType === undefined ? (
+          '-'
+        ) : (
+          <AlarmRuleTypeTag type={alarmRuleType} />
+        ),
     },
     {
       label: '告警级别',
-      value: <AlarmLevelTag level={policy.alarmLevel} />,
+      value: alarmLevel ? <AlarmLevelTag level={alarmLevel} /> : '',
     },
     {
       label: '告警源对象',
-      value: policy.alarmSourceObject,
+      value: alarmSourceObjectValue,
     },
     {
       label: '告警源对象ID',
-      value: policy.deviceId || '',
+      value: alarmSourceObjectIdValue,
     },
     {
       label: '规则描述',
-      value: policy.ruleDesc,
+      value: ruleDesc,
     },
   ];
 
@@ -58,31 +119,52 @@ export default function PolicyDetailDrawer({ policy, isOpen, onClose }: Props) {
     lineHeight: '24px',
   };
 
+  const handleSuccess = () => {
+    refetch();
+    refetchData();
+  };
+
   return (
     <Drawer
+      id="policyDetail"
+      isOpen
       title="告警策略详情"
       width="700px"
-      isOpen={isOpen}
       onClose={onClose}
     >
       <Flex flexDirection="column" padding="16px 32px">
         <Flex justifyContent="space-between">
-          <Text {...titleStyle}>告警信息</Text>
+          <Text {...titleStyle}>告警策略信息</Text>
           <Flex alignItems="center">
             <Text color="gray.700" fontSize="12px" fontWeight="500">
               状态：
             </Text>
-            <Switch size="sm" marginRight="10px" />
+            {ruleDetail && (
+              <SwitchStatusButton
+                status={ruleDetail?.enable}
+                ruleId={ruleDetail?.ruleId}
+                onSuccess={handleSuccess}
+              />
+            )}
             <MoreAction
+              sx={{ marginLeft: '4px' }}
               styles={{ actionList: { width: '124px' } }}
-              buttons={[
-                <ModifyPolicyButton key="modify" />,
-                <DeletePolicyButton
-                  key="delete"
-                  policy={policy}
-                  onSuccess={() => {}}
-                />,
-              ]}
+              buttons={
+                ruleDetail
+                  ? [
+                      <ModifyPolicyButton
+                        key="modify"
+                        policy={ruleDetail as Policy}
+                        onSuccess={handleSuccess}
+                      />,
+                      <DeletePolicyButton
+                        key="delete"
+                        policy={ruleDetail as Policy}
+                        onSuccess={handleSuccess}
+                      />,
+                    ]
+                  : []
+              }
             />
           </Flex>
         </Flex>
@@ -90,8 +172,10 @@ export default function PolicyDetailDrawer({ policy, isOpen, onClose }: Props) {
         <Text marginBottom="8px" {...titleStyle} marginTop="20px">
           通知对象
         </Text>
-        <NotificationObjectsInfoCard />
+        <NotificationObjectsInfoCard noticeId={ruleDetail?.noticeId || ''} />
       </Flex>
     </Drawer>
   );
 }
+
+export default memo(PolicyDetailDrawer);

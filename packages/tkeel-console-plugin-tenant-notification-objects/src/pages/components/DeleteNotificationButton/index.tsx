@@ -5,6 +5,7 @@ import { TrashFilledIcon } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
 import useDeleteNotificationMutation from '@/tkeel-console-plugin-tenant-notification-objects/hooks/mutations/useDeleteNotificationMutation';
+import useGetBindQuery from '@/tkeel-console-plugin-tenant-notification-objects/hooks/queries/useGetBindQuery';
 
 interface Props {
   cruxData: {
@@ -18,6 +19,10 @@ function DeleteNotificationButton({ cruxData, refetch }: Props) {
   const { id, name } = cruxData;
   const toast = plugin.getPortalToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isBind } = useGetBindQuery({
+    noticeId: id,
+    sendRequest: isOpen,
+  });
   const { mutate, isLoading } = useDeleteNotificationMutation({
     onSuccess() {
       toast('删除成功', { status: 'success' });
@@ -27,12 +32,16 @@ function DeleteNotificationButton({ cruxData, refetch }: Props) {
   });
 
   const handleConfirm = () => {
-    mutate({
-      data: {
-        noticeId: id,
-        deleted: 1,
-      },
-    });
+    if (isBind !== undefined && isBind > 0) {
+      toast('该对象组已绑定，暂无法删除', { status: 'warning' });
+    } else {
+      mutate({
+        data: {
+          noticeId: id,
+          deleted: 1,
+        },
+      });
+    }
   };
 
   return (

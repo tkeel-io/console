@@ -17,7 +17,7 @@ export default function AlarmRuleTypeTag({ type, styles }: Props) {
     1: {
       label: '系统告警',
       bgColor: 'blue.50',
-      color: 'blue.200',
+      color: 'blue.300',
     },
   };
 

@@ -2,6 +2,7 @@ import { Flex } from '@chakra-ui/react';
 import { ReactNode, useState } from 'react';
 
 interface Props {
+  disable?: boolean;
   options: {
     label: ReactNode;
     value: string;
@@ -12,6 +13,7 @@ interface Props {
 }
 
 export default function RadioButton({
+  disable,
   options,
   value,
   defaultValue,
@@ -22,7 +24,7 @@ export default function RadioButton({
   const newValue = value || valueState;
 
   return (
-    <Flex>
+    <Flex opacity={disable ? '.5' : '1'}>
       {options.map(({ label, value: optionValue }, index) => {
         const selected = newValue === optionValue;
         const selectedIndex = options.findIndex(
@@ -45,7 +47,7 @@ export default function RadioButton({
             color={selected ? 'primary' : 'gray.500'}
             fontSize="14px"
             fontWeight={selected ? '600' : '400'}
-            cursor="pointer"
+            cursor={disable ? 'not-allowed' : 'pointer'}
             backgroundColor={selected ? 'brand.50' : 'white'}
             _notFirst={{
               borderLeftColor: selected ? 'primary' : 'transparent',
@@ -60,7 +62,7 @@ export default function RadioButton({
             }}
             onClick={() => {
               setValueState(optionValue);
-              if (onChange) {
+              if (!disable && onChange) {
                 onChange(optionValue);
               }
             }}

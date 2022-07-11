@@ -1,5 +1,6 @@
 import { ColorProps, Theme, useTheme } from '@chakra-ui/react';
-import { getColor, transparentize } from '@chakra-ui/theme-tools';
+import { memoizedGet as get } from '@chakra-ui/utils';
+import { TinyColor } from '@ctrl/tinycolor';
 
 type Color =
   | ColorProps['color']
@@ -13,6 +14,22 @@ type Color =
   | 'grayAlternatives.300'
   | 'grayAlternatives.400'
   | 'grayAlternatives.700';
+
+const getColor = (
+  theme: Record<string, unknown>,
+  color: string,
+  fallback?: string
+) => {
+  const hex = get(theme, `colors.${color}`, color) as string;
+  const { isValid } = new TinyColor(hex);
+  return isValid ? hex : fallback;
+};
+
+export const transparentize =
+  (color: string, opacity: number) => (theme: Record<string, unknown>) => {
+    const raw = getColor(theme, color);
+    return new TinyColor(raw).setAlpha(opacity).toRgbString();
+  };
 
 export default function useColor(color: Color, opacity?: number): string {
   const theme: Theme = useTheme();

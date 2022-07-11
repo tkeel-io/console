@@ -11,10 +11,12 @@ import {
   FormField,
   TreeSelect,
 } from '@tkeel/console-components';
+import { plugin } from '@tkeel/console-utils';
 
 import {
   ConnectInfoType,
   ConnectOption,
+  DeviceDefaultInfoType,
   DeviceFormFields,
   GroupOptions,
   ModalMode,
@@ -31,6 +33,7 @@ interface Props {
   groupOptions: GroupOptions[];
   handleSelectTemplate?: (selected: boolean) => void;
   templateOptions: Array<{ label: string; id: string }>;
+  defaultFormValues?: DeviceDefaultInfoType;
 }
 export default function BasicInfoPart({
   type,
@@ -40,9 +43,57 @@ export default function BasicInfoPart({
   groupOptions,
   // handleSelectTemplate,
   templateOptions,
+  defaultFormValues,
 }: Props) {
+  const toast = plugin.getPortalToast();
   const { register, formState, setValue, clearErrors } = formHandler;
   const { errors } = formState;
+  const { id = '' } = defaultFormValues || {};
+
+  const getCurrentTree = (
+    cur: string,
+    tree: GroupOptions
+  ): GroupOptions | null => {
+    let findTree = null;
+    if (tree.key === cur) {
+      return tree;
+    }
+    if (tree.children.length > 0) {
+      for (let i = 0; i < tree.children.length; i += 1) {
+        const item = tree.children[i];
+        findTree = getCurrentTree(cur, item);
+        if (findTree) {
+          return findTree;
+        }
+      }
+    }
+
+    return findTree;
+  };
+
+  const getTreeKey = (tree: GroupOptions, keyArray: Array<string> = []) => {
+    const { children, key } = tree;
+    keyArray.push(key);
+    children.forEach((element) => {
+      if (element.children.length > 0) {
+        getTreeKey(element, keyArray);
+      } else {
+        keyArray.push(element.key);
+      }
+    });
+    return keyArray;
+  };
+
+  const findTree = getCurrentTree(id, {
+    key: 'root',
+    title: '',
+    children: groupOptions,
+  });
+
+  let disableKeys: Array<string> = [];
+  if (findTree) {
+    disableKeys = getTreeKey(findTree, []);
+  }
   return (
     <>
       <TextField
@@ -66,12 +117,19 @@ export default function BasicInfoPart({
           styles={{
             treeTitle: 'font-size:14px;height:32px;line-height:32px;',
           }}
+          onClick={(e) => e.stopPropagation()}
           treeData={groupOptions}
-          defaultValue={watchFields.parentId}
+          value={watchFields.parentId}
           notFoundContent="暂无选项"
           onChange={(value: string, label: ReactNode[]) => {
-            setValue('parentId', value);
-            setValue('parentName', label[0] as string);
+            if (disableKeys.includes(value)) {
+              toast('不能移动到当前节点及其子孙节点', { status: 'error' });
+              setValue('parentId', '');
+              setValue('parentName', '');
+            } else {
+              setValue('parentId', value);
+              setValue('parentName', label[0] as string);
+            }
           }}
         />
       </FormControl>

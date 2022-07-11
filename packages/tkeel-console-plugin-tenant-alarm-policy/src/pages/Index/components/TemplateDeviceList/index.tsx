@@ -1,8 +1,12 @@
 import { Box, Center, Flex, StyleProps, Text } from '@chakra-ui/react';
 
-import { Empty, Loading } from '@tkeel/console-components';
+import { Loading } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
-import { GoBackFilledIcon, SmartObjectTwoToneIcon } from '@tkeel/console-icons';
+import {
+  BoxTwoToneIcon,
+  GoBackFilledIcon,
+  SmartObjectTwoToneIcon,
+} from '@tkeel/console-icons';
 import { DeviceItem } from '@tkeel/console-request-hooks';
 
 type Props = {
@@ -23,6 +27,19 @@ export default function TemplateDeviceList({
   styles,
 }: Props) {
   const primaryColor = useColor('primary');
+
+  const deviceNameStyle: StyleProps = {
+    marginLeft: '10px',
+    color: 'gray.700',
+    fontSize: '14px',
+  };
+
+  const deviceItemStyle: StyleProps = {
+    alignItems: 'center',
+    paddingLeft: '10px',
+    height: '32px',
+    cursor: 'pointer',
+  };
 
   return (
     <Flex
@@ -58,7 +75,7 @@ export default function TemplateDeviceList({
           </Flex>
         </Flex>
       )}
-      <Flex marginTop="8px" flex="1">
+      <Flex flexDirection="column" marginTop="8px" flex="1">
         {(() => {
           if (isLoading) {
             return (
@@ -68,49 +85,64 @@ export default function TemplateDeviceList({
             );
           }
 
-          if (devices.length === 0) {
-            return (
-              <Empty
-                type="component"
-                title="暂无设备,请重新选择"
-                styles={{
-                  wrapper: { flex: 1 },
-                }}
-              />
-            );
-          }
+          // if (devices.length === 0) {
+          //   return (
+          //     <Empty
+          //       type="component"
+          //       title="暂无设备,请重新选择"
+          //       styles={{
+          //         wrapper: { flex: 1 },
+          //       }}
+          //     />
+          //   );
+          // }
 
-          return devices.map((device, i) => {
-            const { id, properties } = device;
-            const name = properties?.basicInfo?.name ?? '';
-            return (
+          return (
+            <>
               <Flex
-                key={id || i}
-                alignItems="center"
-                width="100%"
-                marginBottom={i === devices.length - 1 ? '0' : '4px'}
-                paddingLeft="10px"
-                height="32px"
-                cursor="pointer"
+                marginBottom="4px"
                 _hover={{
                   backgroundColor: 'grayAlternatives.50',
                 }}
-                onClick={() =>
+                {...deviceItemStyle}
+                onClick={() => {
                   onClick({
-                    id,
-                    name,
-                  })
-                }
+                    id: '',
+                    name: '',
+                  });
+                }}
               >
-                <Flex alignItems="center">
-                  <SmartObjectTwoToneIcon size={20} />
-                  <Text marginLeft="10px" color="gray.700" fontSize="14px">
-                    {name}
-                  </Text>
-                </Flex>
+                <BoxTwoToneIcon size={20} />
+                <Text {...deviceNameStyle}>全部设备</Text>
               </Flex>
-            );
-          });
+              {devices.map((device, i) => {
+                const { id, properties } = device;
+                const name = properties?.basicInfo?.name ?? '';
+                return (
+                  <Flex
+                    key={id || i}
+                    width="100%"
+                    marginBottom={i === devices.length - 1 ? '0' : '4px'}
+                    {...deviceItemStyle}
+                    _hover={{
+                      backgroundColor: 'grayAlternatives.50',
+                    }}
+                    onClick={() => {
+                      onClick({
+                        id,
+                        name,
+                      });
+                    }}
+                  >
+                    <Flex alignItems="center">
+                      <SmartObjectTwoToneIcon size={20} />
+                      <Text {...deviceNameStyle}>{name}</Text>
+                    </Flex>
+                  </Flex>
+                );
+              })}
+            </>
+          );
         })()}
       </Flex>
     </Flex>

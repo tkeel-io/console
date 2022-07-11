@@ -1,4 +1,4 @@
-import { Box, Button, Circle, StyleProps, useTheme } from '@chakra-ui/react';
+import { Box, Button, Circle, StyleProps } from '@chakra-ui/react';
 import {
   cloneElement,
   MouseEventHandler,
@@ -8,12 +8,12 @@ import {
   useState,
 } from 'react';
 
+import { useColors } from '@tkeel/console-hooks';
 import {
   CaretDownFilledIcon,
   CaretUpFilledIcon,
   MoreVerticalFilledIcon,
 } from '@tkeel/console-icons';
-import { Theme } from '@tkeel/console-themes';
 
 type Placement = 'bottom' | 'top';
 export type MoreActionStyles = {
@@ -31,6 +31,7 @@ type Props = {
   onActionListOpen?: () => unknown;
   onActionListClose?: () => unknown;
   onActionListToggle?: (show: boolean) => unknown;
+  sx?: StyleProps;
   styles?: MoreActionStyles;
 };
 
@@ -58,10 +59,11 @@ export default function MoreAction({
   onActionListToggle,
   buttonProps = {},
   styles = {},
+  sx = {},
 }: Props) {
   const [placement, setPlacement] = useState<Placement>(defaultPlacement);
   const [showActionList, setShowActionList] = useState(isActionListOpen);
-  const { colors } = useTheme<Theme>();
+  const colors = useColors();
   let timer: number | null = null;
 
   const handleSetShowActionList = (show: boolean) => {
@@ -151,6 +153,7 @@ export default function MoreAction({
       onClick={handleClick}
       onMouseLeave={handleMouseLeave}
       {...styles.wrapper}
+      {...sx}
     >
       {element ||
         (type === 'icon' ? (
@@ -180,6 +183,7 @@ export default function MoreAction({
             }
             width="92px"
             paddingRight="18px"
+            fontSize="12px"
             css={`
               > span {
                 margin-left: 1px;

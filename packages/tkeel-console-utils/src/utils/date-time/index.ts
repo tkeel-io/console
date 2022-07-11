@@ -1,5 +1,6 @@
 import 'dayjs/locale/zh-cn';
 
+import type { ConfigType } from 'dayjs';
 import * as dayjs from 'dayjs';
 
 dayjs.locale('zh-cn');
@@ -27,4 +28,9 @@ export function formatDateTimeByTimestamp({
     date: timestamp ? Number(timestamp) : undefined,
     template,
   });
+}
+
+export function getTimestamp(options?: { date?: ConfigType }) {
+  const date = options?.date;
+  return dayjs(date).valueOf();
 }

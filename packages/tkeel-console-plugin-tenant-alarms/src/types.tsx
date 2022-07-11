@@ -1,3 +1,5 @@
+// import { type RuleDetail } from '@tkeel/console-request-hooks';
+
 export type AlarmLevel = 1 | 2 | 3 | 4;
 
 export type AlarmPolicyType = 0 | 1;
@@ -8,6 +10,7 @@ export type AlarmSource = 0 | 1;
 
 export type AlarmStatus = 0 | 1;
 
+// export type AlarmDetail = RuleDetail;
 export interface RequestParams {
   pageSize: number;
   pageNum: number;
@@ -15,6 +18,7 @@ export interface RequestParams {
   alarmType?: AlarmType;
   alarmStrategy?: AlarmPolicyType;
   alarmSource?: AlarmSource;
+  alarmStatus?: AlarmStatus;
   startTime?: number;
   endTime?: number;
 }
@@ -33,8 +37,8 @@ export interface AlarmItem {
   ruleId: number;
   alarmValue: string;
   deviceId?: string | null;
+  handOpinions: string | null;
   // deleted: 0
-  // handOpinions: null
   // handTime: null
   // telemetryId: "202071003"
   // tenantId: "ZQ8mV0rk"
@@ -48,20 +52,17 @@ export interface AlarmDetail {
   createTime: string;
   deviceId?: string | null;
   deviceName?: string | null;
+  deleted?: number;
   // enable: 0;
   noticeId: string;
   promQl: string;
   ruleDesc: string;
   ruleId: number;
   ruleName: string;
-  // tenantId: "ZQ8mV0rk";
 }
 
 export interface AlarmNotice {
-  // "pageNum": null,
-  // "pageSize": null,
-  noticeId: number;
-  // "tenantId": "Hx7e-TcQ",
+  noticeId: string;
   groupName: string;
   noticeDesc: string;
   emailAddress: string;

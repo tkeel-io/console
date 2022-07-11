@@ -12,11 +12,13 @@ import DeviceTelemetryModal from '../DeviceTelemetryModal';
 type Props = {
   uid: string;
   refetch: () => void;
+  source: 'temp' | 'device';
 };
 
 export default function CreateTelemetryButton({
   uid,
   refetch = () => {},
+  source,
 }: Props) {
   const toast = plugin.getPortalToast();
 
@@ -31,7 +33,10 @@ export default function CreateTelemetryButton({
   });
   const handleConfirm = (formValues: TelemetryFormFields) => {
     mutate({
-      data: { [formValues.id]: formValues },
+      data: {
+        tele: { [formValues.id]: formValues },
+        source,
+      },
     });
   };
 

@@ -4,70 +4,59 @@ import { ChangeEvent } from 'react';
 import { Checkbox } from '@tkeel/console-components';
 import { CheckFilledIcon } from '@tkeel/console-icons';
 
-export interface PlatformCondition {
-  label: string;
-  value: string;
-}
+import type { PlatformRule } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePlatformRulesQuery';
 
 interface Props {
-  conditions: PlatformCondition[];
-  onChange: (condition: PlatformCondition[]) => void;
+  rules: PlatformRule[];
+  selectedRules: PlatformRule[];
+  isShowPlatformRuleListError: boolean;
+  onChange: (condition: PlatformRule[]) => void;
 }
 
 export default function PlatformRuleDescriptionCard({
-  conditions,
+  rules,
+  selectedRules,
+  isShowPlatformRuleListError,
   onChange,
 }: Props) {
-  const data = [
-    {
-      label: '当前账号每秒发送设备的请求达到上限',
-      value: '当前账号每秒发送设备的请求达到上限',
-    },
-    {
-      label: '边端应用升级失败',
-      value: '边端应用升级失败',
-    },
-    {
-      label: '驱动安装失败',
-      value: '驱动安装失败',
-    },
-  ];
-
-  const handleConditionClick = (condition: PlatformCondition) => {
-    const { value } = condition;
-    const hasSelected = conditions.some((item) => item.value === value);
+  const handleConditionClick = (condition: PlatformRule) => {
+    const { promQl } = condition;
+    const hasSelected = selectedRules.some((rule) => rule.promQl === promQl);
     if (hasSelected) {
-      onChange(conditions.filter((item) => item.value !== value));
+      onChange(selectedRules.filter((rule) => rule.promQl !== promQl));
     } else {
-      onChange([...conditions, condition]);
+      onChange([...selectedRules, condition]);
     }
   };
+
+  const allChecked = rules.length > 0 && selectedRules.length === rules.length;
 
   return (
     <Flex flex="1" flexDirection="column">
       <Flex justifyContent="space-between">
         <Text color="gray.700" fontSize="14px">
-          满足条件时，触发告警。
+          满足以下任意一个条件时，触发告警。
         </Text>
         <Checkbox
           color="gray.700"
+          isChecked={allChecked}
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            const newData = e.target.checked ? data : [];
-            onChange(newData);
+            const newPlatformRules = e.target.checked ? rules : [];
+            onChange(newPlatformRules);
           }}
         >
           全选
         </Checkbox>
       </Flex>
       <Flex marginTop="8px" justifyContent="space-between" flexWrap="wrap">
-        {data.map((item) => {
-          const { label, value } = item;
-          const selected = conditions.some(
-            (condition) => condition.value === value
+        {rules.map((rule) => {
+          const { alarmDesc, promQl } = rule;
+          const selected = selectedRules.some(
+            (condition) => condition.promQl === promQl
           );
           return (
             <Flex
-              key={value}
+              key={promQl}
               marginTop="12px"
               paddingX="20px"
               justifyContent="space-between"
@@ -80,22 +69,27 @@ export default function PlatformRuleDescriptionCard({
               borderRadius="4px"
               backgroundColor={selected ? 'brand.50' : 'white'}
               cursor="pointer"
-              onClick={() => handleConditionClick(item)}
+              onClick={() => handleConditionClick(rule)}
             >
               <Text
                 maxWidth="260px"
                 noOfLines={1}
                 color="gray.700"
                 fontSize="14px"
-                title={label}
+                title={alarmDesc}
               >
-                {label}
+                {alarmDesc}
               </Text>
               {selected && <CheckFilledIcon color="primary" />}
             </Flex>
           );
         })}
       </Flex>
+      {isShowPlatformRuleListError && (
+        <Text marginTop="6px" color="red.500" fontSize="14px">
+          请选择一条或多条触发告警条件
+        </Text>
+      )}
     </Flex>
   );
 }

@@ -1,10 +1,12 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { isEmpty, throttle } from 'lodash';
-import { useEffect, useState } from 'react';
+import { filter, isEmpty, omit, some, throttle } from 'lodash';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import {
   CreateTelemetryButton,
+  DeleteTelemetryButton,
   SaveAsOtherTemplateButton,
+  SaveTelemetryButton,
 } from '@tkeel/console-business-components';
 import {
   Empty,
@@ -22,7 +24,6 @@ import {
 import { BasicInfo } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 import SaveAsSelfTemplateButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/SaveAsSelfTemplateButton';
 
-import SetSelfLearnButton from '../SetSelfLearnButton';
 import TelemetryDataTable from './TelemetryDataTable';
 
 function formatType(type: string) {
@@ -91,6 +92,34 @@ export default function TelemetryData({
     useState<TelemetryValue>(telemetryValues);
   const func = throttle(setTelemetryValuesHistory, 10 * 1000);
 
+  const [selectedDevices, setSelectedDevices] = useState<TelemetryItem[]>([]);
+
+  const handleSelect = useCallback(
+    ({ selectedFlatRows }: { selectedFlatRows: TelemetryItem[] }) => {
+      setSelectedDevices(selectedFlatRows);
+    },
+    [setSelectedDevices]
+  );
+
+  const deleteCallback = useCallback(
+    (callSelectedDevices: TelemetryItem[]) => {
+      const shouldDelete = Object.keys(telemetryValuesHistory).filter((key) => {
+        return some(callSelectedDevices, (select) => {
+          return select.id === key;
+        });
+      });
+      setTelemetryValuesHistory(omit(telemetryValuesHistory, shouldDelete));
+      setSelectedDevices(
+        filter(selectedDevices, (item) => {
+          return some(callSelectedDevices, (select) => {
+            return select.id !== item.id;
+          });
+        })
+      );
+    },
+    [telemetryValuesHistory, selectedDevices]
+  );
+
   useEffect(() => {
     func((preState) => {
       if (isEmpty(telemetryValues)) return preState;
@@ -107,32 +136,60 @@ export default function TelemetryData({
       });
     }
   }, [wsReadyState, telemetryValuesHistory, telemetryDefaultValues]);
-  const telemetryFieldsExtra = !basicInfo?.selfLearn
-    ? []
-    : Object.entries(telemetryValues)
-        .filter((val) => !telemetryFields.some((v) => v.id === val[0]))
-        .map((item) => {
-          const id = item[0];
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          const { ts, value } = item[1];
-          const existItem = telemetryFields.find((v) => v.id === id);
-          if (existItem) {
-            return existItem;
-          }
-          const type = typeof value;
-          return {
-            id,
-            type: formatType(type),
-            name: id,
-            define: {
-              default_value: '',
-              rw: 'rw' as ReadWriteType,
-            },
-            description: '',
+
+  const dataTable = useMemo(() => {
+    const telemetryFieldsExtra = !basicInfo?.selfLearn
+      ? []
+      : Object.entries(telemetryValuesHistory)
+          .filter((val) => !telemetryFields.some((v) => v.id === val[0]))
+          .map((item) => {
+            const id = item[0];
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-            last_time: ts || Date.now(),
-          };
-        });
+            const { ts, value } = item[1];
+            const existItem = telemetryFields.find((v) => v.id === id);
+            if (existItem) {
+              return existItem;
+            }
+            const type = typeof value;
+            return {
+              id,
+              type: formatType(type),
+              name: id,
+              define: {
+                default_value: '',
+                rw: 'rw' as ReadWriteType,
+              },
+
+              description: '',
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+              last_time: ts || Date.now(),
+            };
+          });
+    return (
+      <TelemetryDataTable
+        telemetryFields={getFilterList({
+          list: [...telemetryFields, ...telemetryFieldsExtra],
+          keywords,
+        })}
+        templateTelemetryFields={telemetryFields}
+        telemetryValues={renderTelemetryValue}
+        deviceId={deviceId}
+        handleSelect={handleSelect}
+        refetch={refetchDeviceDetail}
+        deleteCallback={deleteCallback}
+      />
+    );
+  }, [
+    renderTelemetryValue,
+    deleteCallback,
+    deviceId,
+    keywords,
+    telemetryFields,
+    telemetryValuesHistory,
+    basicInfo?.selfLearn,
+    handleSelect,
+    refetchDeviceDetail,
+  ]);
   return (
     <Box h="100%">
       {isEmpty(telemetryFields) && !basicInfo?.selfLearn ? (
@@ -155,6 +212,7 @@ export default function TelemetryData({
             <CreateTelemetryButton
               uid={deviceId}
               refetch={refetchDeviceDetail}
+              source="device"
             />
           }
         />
@@ -167,9 +225,30 @@ export default function TelemetryData({
             }}
             name={
               <Flex align="center">
-                <Text mr="12px">遥测数据</Text>
-                {basicInfo?.directConnection && (
-                  <SetSelfLearnButton deviceId={deviceId} />
+                {selectedDevices.length > 0 ? (
+                  <MoreAction
+                    styles={{ actionList: { width: '110px' } }}
+                    type="text"
+                    buttons={[
+                      <SaveTelemetryButton
+                        key="save"
+                        uid={deviceId}
+                        selectedDevices={selectedDevices}
+                        refetch={refetchDeviceDetail}
+                        source="device"
+                      />,
+                      <DeleteTelemetryButton
+                        key="delete"
+                        selectedDevices={selectedDevices}
+                        uid={deviceId}
+                        refetch={refetchDeviceDetail}
+                        deleteCallback={deleteCallback}
+                        source="device"
+                      />,
+                    ]}
+                  />
+                ) : (
+                  <Text mr="12px">遥测数据</Text>
                 )}
               </Flex>
             }
@@ -182,6 +261,7 @@ export default function TelemetryData({
                 key="add"
                 uid={deviceId}
                 refetch={refetchDeviceDetail}
+                source="device"
               />,
               templateId ? (
                 <MoreAction
@@ -206,19 +286,12 @@ export default function TelemetryData({
                   variant="iconButton"
                   key="save"
                   id={deviceId}
+                  refetch={refetchDeviceDetail}
                 />
               ),
             ]}
           />
-          <TelemetryDataTable
-            telemetryFields={getFilterList({
-              list: [...telemetryFields, ...telemetryFieldsExtra],
-              keywords,
-            })}
-            telemetryValues={renderTelemetryValue}
-            deviceId={deviceId}
-            refetch={refetchDeviceDetail}
-          />
+          {dataTable}
         </Flex>
       )}
     </Box>

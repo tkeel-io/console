@@ -1,12 +1,27 @@
-import { Box, Button, Center, Flex, Input, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Center,
+  Circle,
+  Flex,
+  Input,
+  Text,
+  useDisclosure,
+} from '@chakra-ui/react';
 import { memo, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { FormField, LinkButton, Tooltip } from '@tkeel/console-components';
-import { InformationFilledIcon } from '@tkeel/console-icons';
+import {
+  Alert,
+  FormField,
+  LinkButton,
+  Tooltip,
+} from '@tkeel/console-components';
+import { InformationFilledIcon, TrashFilledIcon } from '@tkeel/console-icons';
 import { plugin, schemas } from '@tkeel/console-utils';
 
 import useModifyNotificationMutation from '@/tkeel-console-plugin-tenant-notification-objects/hooks/mutations/useModifyNotificationMutation';
+import useGetBindQuery from '@/tkeel-console-plugin-tenant-notification-objects/hooks/queries/useGetBindQuery';
 
 const { TextField } = FormField;
 
@@ -26,12 +41,18 @@ interface MailFormFields {
 }
 
 function MailTab({ noticeId, emailAddress, refetch }: Props) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [delIndex, setDelIndex] = useState(0);
   const [mailKey, setMailKey] = useState('');
   const [editKey, setEditKey] = useState('');
   const [deleteOperation, setDeleteOperation] = useState(false);
   const [editBtnShow, setEditBtnShow] = useState(true);
   const [mails, setMails] = useState<MailItem[]>([]);
   const toast = plugin.getPortalToast();
+  const { isBind } = useGetBindQuery({
+    noticeId,
+    sendRequest: isOpen,
+  });
   useEffect(() => {
     if (mails.length === 0 && emailAddress !== '' && !deleteOperation) {
       const mailArr = emailAddress.split(',').map((item) => ({
@@ -74,7 +95,6 @@ function MailTab({ noticeId, emailAddress, refetch }: Props) {
 
   const onMail = async (type: string, index?: number, key = '') => {
     let values = '';
-    const newMails = [...mails];
     const { name, ...forms } = getValues();
     switch (type) {
       case 'create': {
@@ -123,18 +143,29 @@ function MailTab({ noticeId, emailAddress, refetch }: Props) {
         break;
       }
       case 'delete': {
-        newMails?.splice(index ?? 0, 1);
-        newMails.forEach((r, i) => {
-          values += `${i > 0 ? ',' : ''}${r.mail}`;
-        });
-        setDeleteOperation(true);
-        setMails(newMails);
-        sendRequest(values);
+        setDelIndex(index ?? 0);
+        onOpen();
         break;
       }
       default:
         setMails(mails);
     }
+  };
+  const handleConfirm = () => {
+    let values = '';
+    const newMails = [...mails];
+    if (isBind !== undefined && isBind > 0 && newMails.length === 1) {
+      toast('该对象组已绑定，请至少保留一个邮件地址', { status: 'warning' });
+    } else {
+      newMails?.splice(delIndex ?? 0, 1);
+      newMails.forEach((r, i) => {
+        values += `${i > 0 ? ',' : ''}${r.mail}`;
+      });
+      setDeleteOperation(true);
+      setMails(newMails);
+      sendRequest(values);
+    }
+    onClose();
   };
 
   return (
@@ -220,7 +251,10 @@ function MailTab({ noticeId, emailAddress, refetch }: Props) {
                     编辑
                   </LinkButton>
                   <LinkButton
-                    disabled={mailKey !== key && !editBtnShow}
+                    disabled={
+                      mailKey !== key && !editBtnShow
+                      // (mails.length === 1 && isBind !== undefined && isBind > 0)
+                    }
                     onClick={() => onMail('delete', index)}
                   >
                     删除
@@ -247,6 +281,20 @@ function MailTab({ noticeId, emailAddress, refetch }: Props) {
           </Flex>
         );
       })}
+      {isOpen && (
+        <Alert
+          iconPosition="left"
+          icon={
+            <Circle size="44px" backgroundColor="red.50">
+              <TrashFilledIcon size="24px" color="red.300" />
+            </Circle>
+          }
+          title="确认删除邮件？"
+          isOpen={isOpen}
+          onClose={onClose}
+          onConfirm={handleConfirm}
+        />
+      )}
     </Box>
   );
 }

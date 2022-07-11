@@ -1,5 +1,5 @@
-import { Flex } from '@chakra-ui/react';
-import { ReactNode, useState } from 'react';
+import { Box, Flex } from '@chakra-ui/react';
+import { ReactNode, useEffect, useState } from 'react';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 
 import {
@@ -7,70 +7,142 @@ import {
   FormField,
   Modal,
   RadioButton,
+  Tip,
 } from '@tkeel/console-components';
+import {
+  AlarmRuleType,
+  AlarmSourceObject,
+  Condition,
+} from '@tkeel/console-types';
 
 import {
   ALARM_LEVEL_OPTIONS,
   ALARM_RULE_TYPE_MAP_OPTIONS,
   ALARM_TYPE_OPTIONS,
+  systemAlarmSourceObjectOptions,
+  thresholdAlarmSourceObjectOptions,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/constants';
+import { RequestData as CreatePolicyRequestData } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/mutations/useCreatePolicyMutation';
+import type { PlatformRule } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePlatformRulesQuery';
+import usePlatformRulesQuery from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePlatformRulesQuery';
+import type { Policy } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
+import type { RuleDesc } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/useRuleDescQuery';
+import {
+  getDeviceConditionsByRuleDesc,
+  getRequestDeviceConditions,
+} from '@/tkeel-console-plugin-tenant-alarm-policy/utils';
 
-import type { DeviceCondition } from '../DeviceRuleDescriptionCard';
 import DeviceRuleDescriptionCard, {
   defaultDeviceCondition,
+  DeviceCondition,
 } from '../DeviceRuleDescriptionCard';
-import DeviceSelectField from '../DeviceSelectField';
+import DeviceSelectField, { getDeviceInfo } from '../DeviceSelectField';
 import FormCard from '../FormCard';
-import type { PlatformCondition } from '../PlatformRuleDescriptionCard';
 import PlatformRuleDescriptionCard from '../PlatformRuleDescriptionCard';
 
 const { TextField, SelectField } = FormField;
 
 type Props = {
+  policy?: Policy;
+  ruleDescList?: RuleDesc[];
   title: ReactNode;
   isOpen: boolean;
   isConfirmButtonLoading: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm: (data: CreatePolicyRequestData) => void;
 };
 
+enum AlarmSourceObjectValue {
+  Device = 'device',
+  Platform = 'platform',
+}
+
 interface FormValues {
-  name: string;
-  alarmType: string;
+  ruleName: string;
+  alarmType?: string;
   alarmRuleType: string;
-  alarmLevel: string;
-  thresholdAlarmSourceObject: 'device';
-  systemAlarmSourceObject: 'platform';
-  deviceId: string;
-  conditionsOperator: 'or' | 'and';
+  alarmLevel?: string;
+  alarmSourceObject:
+    | AlarmSourceObjectValue.Device
+    | AlarmSourceObjectValue.Platform;
+  deviceInfo: string;
+  condition: Condition;
   deviceConditions: DeviceCondition[];
 }
 
 export default function BasePolicyModal({
+  policy,
+  ruleDescList,
   title,
   isOpen,
   isConfirmButtonLoading,
   onClose,
   onConfirm,
 }: Props) {
-  const [platformConditions, setPlatformConditions] = useState<
-    PlatformCondition[]
+  const { platformRules } = usePlatformRulesQuery();
+
+  const [platformRuleList, setPlatformRuleList] = useState<PlatformRule[]>([]);
+  const [deviceConditionsErrors, setDeviceConditionsErrors] = useState<
+    number[]
   >([]);
+  const [isShowPlatformRuleListError, setIsShowPlatformRuleListError] =
+    useState(false);
+
+  const thresholdAlarm = String(AlarmRuleType.Threshold);
+  let defaultValues: FormValues = {
+    ruleName: '',
+    alarmRuleType: thresholdAlarm,
+    alarmSourceObject: AlarmSourceObjectValue.Device,
+    deviceInfo: '',
+    condition: Condition.Or,
+    deviceConditions: [defaultDeviceCondition],
+  };
+
+  if (policy) {
+    const {
+      ruleName,
+      alarmType,
+      alarmLevel,
+      tempId,
+      tempName,
+      deviceId,
+      deviceName,
+      alarmRuleType,
+      alarmSourceObject,
+      condition,
+    } = policy;
+
+    defaultValues = {
+      ruleName,
+      alarmType: String(alarmType),
+      alarmRuleType: String(alarmRuleType),
+      alarmLevel: String(alarmLevel),
+      alarmSourceObject:
+        alarmSourceObject === AlarmSourceObject.Platform
+          ? AlarmSourceObjectValue.Platform
+          : AlarmSourceObjectValue.Device,
+      deviceInfo: JSON.stringify({
+        tempId: tempId || '',
+        tempName: tempName || '',
+        deviceId: deviceId || '',
+        deviceName: deviceName || '',
+      }),
+      condition,
+      deviceConditions: [],
+    };
+  }
+
   const {
     register,
     formState: { errors },
     control,
     trigger,
+    setValue,
     getValues,
     watch,
   } = useForm<FormValues>({
-    defaultValues: {
-      alarmRuleType: '0',
-      thresholdAlarmSourceObject: 'device',
-      systemAlarmSourceObject: 'platform',
-      conditionsOperator: 'or',
-      deviceConditions: [defaultDeviceCondition],
-    },
+    defaultValues,
+    mode: 'onChange',
   });
 
   const fieldArrayReturn = useFieldArray({
@@ -80,34 +152,116 @@ export default function BasePolicyModal({
 
   const { append } = fieldArrayReturn;
 
-  const handleConfirm = async () => {
-    const result = await trigger();
-    if (result) {
-      const values = getValues();
-      // eslint-disable-next-line no-console
-      console.log('values', values);
-      // eslint-disable-next-line no-console
-      console.log('platformConditions', platformConditions);
-    }
-    onConfirm();
+  const handleSetDeviceConditionsErrors = () => {
+    const { deviceConditions } = getValues();
+
+    const errorIndexArr: number[] = [];
+    getRequestDeviceConditions(deviceConditions).forEach((condition, i) => {
+      const { telemetryId, operator, value } = condition;
+      if (!telemetryId || !operator || !value) {
+        errorIndexArr.push(i);
+      }
+    });
+
+    setDeviceConditionsErrors(errorIndexArr);
+
+    return errorIndexArr.length > 0;
   };
 
-  const thresholdAlarmSourceObjectOptions = [
-    {
-      label: '设备',
-      value: 'device',
-    },
-  ];
+  const handleConfirm = async () => {
+    const result = await trigger();
+    if (!result) {
+      return;
+    }
 
-  const systemAlarmSourceObjectOptions = [
-    {
-      label: '平台',
-      value: 'platform',
-    },
-  ];
+    const values = getValues();
+    const {
+      ruleName,
+      alarmType,
+      alarmRuleType,
+      alarmLevel,
+      deviceInfo,
+      condition,
+      deviceConditions,
+    } = values;
 
-  const isSystemAlarm = watch('alarmRuleType') === '1';
+    const isThresholdAlarm = alarmRuleType === thresholdAlarm;
+    const isSystemAlarm = alarmRuleType === String(AlarmRuleType.System);
 
+    if (isThresholdAlarm && handleSetDeviceConditionsErrors()) {
+      return;
+    }
+
+    if (isSystemAlarm && platformRuleList.length === 0) {
+      setIsShowPlatformRuleListError(true);
+      return;
+    }
+
+    let data: CreatePolicyRequestData = {
+      ruleId: policy?.ruleId,
+      ruleName,
+      enable: policy?.enable,
+      alarmType: Number(alarmType),
+      alarmRuleType: Number(alarmRuleType),
+      alarmLevel: Number(alarmLevel),
+      alarmSourceObject: isThresholdAlarm
+        ? AlarmSourceObject.Device
+        : AlarmSourceObject.Platform,
+      condition,
+    };
+
+    data =
+      Number(alarmRuleType) === AlarmRuleType.System
+        ? {
+            ...data,
+            platformRuleList,
+          }
+        : {
+            ...data,
+            ...getDeviceInfo(deviceInfo),
+            deviceCondition: getRequestDeviceConditions(deviceConditions),
+          };
+
+    onConfirm(data);
+  };
+
+  const isSystemAlarm = watch('alarmRuleType') === String(AlarmRuleType.System);
+
+  useEffect(() => {
+    setValue(
+      'alarmSourceObject',
+      isSystemAlarm
+        ? AlarmSourceObjectValue.Platform
+        : AlarmSourceObjectValue.Device
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSystemAlarm]);
+
+  useEffect(() => {
+    if (policy?.alarmSourceObject === AlarmSourceObject.Platform) {
+      const platformRuleIdStr = ruleDescList?.[0]?.platRuleId || '';
+      const platformRuleIds = platformRuleIdStr.split(',');
+      const ruleList = platformRules.filter((rule) =>
+        platformRuleIds.includes(String(rule.id))
+      );
+      setPlatformRuleList(ruleList);
+    }
+  }, [ruleDescList, platformRules, policy]);
+
+  useEffect(() => {
+    const deviceConditions = getDeviceConditionsByRuleDesc(ruleDescList || []);
+    setValue('deviceConditions', deviceConditions);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ruleDescList]);
+
+  const watchDeviceInfo = watch('deviceInfo');
+  useEffect(() => {
+    if (watchDeviceInfo === '') {
+      setValue('deviceConditions', [defaultDeviceCondition]);
+    }
+  }, [setValue, watchDeviceInfo]);
+
+  const { tempId, deviceId } = getDeviceInfo(watch('deviceInfo'));
   return (
     <Modal
       width="800px"
@@ -126,10 +280,10 @@ export default function BasePolicyModal({
       >
         <FormCard title="告警信息">
           <TextField
-            id="name"
+            id="ruleName"
             label="告警策略名称"
-            error={errors.name}
-            registerReturn={register('name', {
+            error={errors.ruleName}
+            registerReturn={register('ruleName', {
               required: { value: true, message: '请输入告警策略名称' },
             })}
           />
@@ -140,7 +294,6 @@ export default function BasePolicyModal({
             placeholder="请选择"
             options={ALARM_TYPE_OPTIONS}
             control={control}
-            // defaultValue={defaultValues?.alarmType}
             error={errors.alarmType}
             rules={{
               required: { value: true, message: '请输入告警类型' },
@@ -152,6 +305,7 @@ export default function BasePolicyModal({
               control={control}
               render={({ field: { value, onChange } }) => (
                 <RadioButton
+                  disable={!!policy}
                   options={ALARM_RULE_TYPE_MAP_OPTIONS}
                   value={value}
                   onChange={onChange}
@@ -166,7 +320,6 @@ export default function BasePolicyModal({
             placeholder="请选择"
             options={ALARM_LEVEL_OPTIONS}
             control={control}
-            // defaultValue={defaultValues?.alarmLevel}
             error={errors.alarmLevel}
             rules={{
               required: { value: true, message: '请输入告警级别' },
@@ -174,39 +327,50 @@ export default function BasePolicyModal({
           />
         </FormCard>
         <FormCard title="告警资源">
-          {isSystemAlarm ? (
+          <Box>
             <SelectField<FormValues>
-              id="systemAlarmSourceObject"
-              name="systemAlarmSourceObject"
+              id="alarmSourceObject"
+              name="alarmSourceObject"
               label="告警源对象"
               placeholder="请选择"
-              options={systemAlarmSourceObjectOptions}
+              options={
+                isSystemAlarm
+                  ? systemAlarmSourceObjectOptions
+                  : thresholdAlarmSourceObjectOptions
+              }
               control={control}
+              formControlStyle={{
+                marginBottom: '10px',
+              }}
             />
-          ) : (
-            <>
-              <SelectField<FormValues>
-                id="thresholdAlarmSourceObject"
-                name="thresholdAlarmSourceObject"
-                label="告警源对象"
-                placeholder="请选择"
-                options={thresholdAlarmSourceObjectOptions}
+            <Tip title="告警源对象支持模板下全部设备或单个设备" />
+          </Box>
+          {!isSystemAlarm && (
+            <FormControl
+              id="deviceInfo"
+              error={errors.deviceInfo}
+              formControlStyle={{
+                marginBottom: '0',
+              }}
+            >
+              <Controller
+                name="deviceInfo"
                 control={control}
+                rules={{
+                  required: {
+                    value: true,
+                    message: '请选择模板下全部设备或单个设备',
+                  },
+                }}
+                render={({ field: { value, onChange } }) => (
+                  <DeviceSelectField
+                    value={value}
+                    onChange={onChange}
+                    styles={{ wrapper: { marginTop: '32px' } }}
+                  />
+                )}
               />
-              <FormControl id="deviceId" error={errors.deviceId}>
-                <Controller
-                  name="deviceId"
-                  control={control}
-                  rules={{ required: { value: true, message: '请选择设备' } }}
-                  render={({ field: { onChange } }) => (
-                    <DeviceSelectField
-                      onChange={onChange}
-                      styles={{ wrapper: { marginTop: '32px' } }}
-                    />
-                  )}
-                />
-              </FormControl>
-            </>
+            </FormControl>
           )}
         </FormCard>
         <FormCard
@@ -228,14 +392,18 @@ export default function BasePolicyModal({
           >
             {isSystemAlarm ? (
               <PlatformRuleDescriptionCard
-                conditions={platformConditions}
-                onChange={setPlatformConditions}
+                rules={platformRules}
+                selectedRules={platformRuleList}
+                isShowPlatformRuleListError={isShowPlatformRuleListError}
+                onChange={setPlatformRuleList}
               />
             ) : (
               <DeviceRuleDescriptionCard<FormValues>
-                deviceId={watch('deviceId')}
+                tempId={tempId}
+                deviceId={deviceId}
                 register={register}
                 control={control}
+                deviceConditionsErrors={deviceConditionsErrors}
                 append={() => {
                   append(defaultDeviceCondition);
                 }}

@@ -1,4 +1,5 @@
 export * from './types/alarm';
+export * from './types/appearance';
 export * from './types/auth';
 export * from './types/device';
 export * from './types/documents';
@@ -7,4 +8,5 @@ export * from './types/menu';
 export * from './types/pagination';
 export * from './types/plugin';
 export * from './types/tenant';
+export * from './types/theme';
 export * from './types/toast';

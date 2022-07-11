@@ -11,8 +11,6 @@ import {
 } from '@tkeel/console-request-hooks';
 import { jumpToPage } from '@tkeel/console-utils';
 
-import useLogoutMutation from '@/tkeel-console-plugin-tenant-users/hooks/mutations/useLogoutMutation';
-
 type Props = {
   data: User;
 };
@@ -47,16 +45,6 @@ export default function ResetPasswordButton({ data }: Props) {
       data: { reset_key: resetData?.reset_key ?? '' },
     });
 
-  const {
-    refreshToken,
-    isLoading: isLogoutLoading,
-    mutate: logoutMutate,
-  } = useLogoutMutation({
-    onSuccess() {
-      jumpToPage({ path: setPasswordUrl });
-    },
-  });
-
   const handleConfirm = () => {
     mutate({});
   };
@@ -90,16 +78,7 @@ export default function ResetPasswordButton({ data }: Props) {
           description={
             <Text>
               可
-              <LinkButton
-                isLoading={isLogoutLoading}
-                onClick={() =>
-                  logoutMutate({
-                    data: {
-                      refresh_token: refreshToken,
-                    },
-                  })
-                }
-              >
+              <LinkButton onClick={() => jumpToPage({ path: setPasswordUrl })}>
                 「立即重置」
               </LinkButton>
               该用户密码；或复制下方链接，邀请您的同事完成重置。

@@ -71,3 +71,8 @@ export const singleMail = {
     },
   },
 };
+
+export const idPattern = {
+  value: /^[A-Z_a-z]\w{1,32}$/,
+  message: '以字母或下划线开头，长度最多32，只能包含字母、数字和下划线',
+};

@@ -1,3 +1,5 @@
+const { tkeel } = require('../../../config/default');
+
 module.exports = {
   portalName: 'tenant',
   publicPath: '/static/console-plugin-tenant-alarm-policy/',
@@ -14,7 +16,7 @@ module.exports = {
         {
           id: 'monitoring-alarms',
           name: '监控告警',
-          icon: 'MgmtNodeTwoToneIcon', // TODO: 需修改
+          icon: 'AlarmLampTwoToneIcon',
           children: [
             {
               id: 'console-plugin-tenant-alarm-policy',
@@ -26,7 +28,7 @@ module.exports = {
           ],
         },
       ],
-      dependence: [],
+      dependence: [{ id: 'tkeel-alarm', version: tkeel.version }],
     },
   },
 };

@@ -105,14 +105,20 @@ function SearchInput({
         color="gray.700"
         fontSize="12px"
         {...inputStyle}
-        _focus={{ borderColor: 'gray.400' }}
+        _focus={{ borderColor: 'gray.400', boxShadow: 'none' }}
         _placeholder={{ fontWeight: 500 }}
         placeholder={placeholder}
         {...valueProps}
         onKeyDown={handleKeyDown}
       />
       {showCloseButton && (
-        <Center position="absolute" right="10px" top="0" height={height}>
+        <Center
+          position="absolute"
+          right="10px"
+          top="0"
+          zIndex="1"
+          height={height}
+        >
           <CloseFilledIcon
             style={{ cursor: 'pointer' }}
             onClick={() => {

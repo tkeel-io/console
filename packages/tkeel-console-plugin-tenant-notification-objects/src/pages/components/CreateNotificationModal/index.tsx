@@ -19,7 +19,7 @@ export default function CreateNetworkModal({
 }: Props) {
   return (
     <BaseNotificationModal
-      title="通知对象配置"
+      title="通知对象"
       defaultValues={{
         groupName: groupName ?? '',
         description: description ?? '',
