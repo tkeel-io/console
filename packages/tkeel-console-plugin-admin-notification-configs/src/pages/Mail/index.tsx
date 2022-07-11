@@ -1,13 +1,14 @@
-import { Box, Button, HStack } from '@chakra-ui/react';
+import { Box, Button, HStack, useDisclosure } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Checkbox, FormField } from '@tkeel/console-components';
-import { plugin } from '@tkeel/console-utils';
+import { plugin, schemas } from '@tkeel/console-utils';
 
 import ContentHeader from '@/tkeel-console-plugin-admin-notification-configs/components/ContentHeader';
 import useOperateMailConfigMutation from '@/tkeel-console-plugin-admin-notification-configs/hooks/mutations/useOperateMailConfigMutation';
 import useMailConfigQuery from '@/tkeel-console-plugin-admin-notification-configs/hooks/queries/useMailConfigQuery';
+import EmailTestModal from '@/tkeel-console-plugin-admin-notification-configs/pages/Mail/components/EmailTestModal';
 import { MailFormField } from '@/tkeel-console-plugin-admin-notification-configs/types';
 
 const { TextField } = FormField;
@@ -38,15 +39,13 @@ export default function Email({ defaultValues = DEFAULT_VALUES }: Props) {
     defaultValues,
   });
 
-  const EmailReg =
-    /^[\da-z]+([.\\_-]*[\da-z])*@([\da-z]+[\da-z-]*[\da-z]+.){1,63}[\da-z]+$/;
-
   const watchAllFields = watch();
   const toast = plugin.getPortalToast();
 
   const [btnDisable, setBtnDisable] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [preValues, setPreValues] = useState(defaultValues);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { data } = useMailConfigQuery();
 
@@ -70,6 +69,19 @@ export default function Email({ defaultValues = DEFAULT_VALUES }: Props) {
       }
       mutate({ data: values });
       setPreValues(values);
+    }
+  };
+
+  const handleConfirmTest = async () => {
+    const result = await trigger();
+    if (result) {
+      const values = getValues();
+      if (!values.id) {
+        delete values.id;
+      }
+      onOpen();
+    } else {
+      toast.error('请输入正确数据');
     }
   };
 
@@ -181,10 +193,7 @@ export default function Email({ defaultValues = DEFAULT_VALUES }: Props) {
             placeholder="例：admin@example.com"
             registerReturn={register('fromAddress', {
               required: { value: true, message: '请填写发件人邮箱' },
-              pattern: {
-                value: EmailReg,
-                message: '请输入正确发件人邮箱',
-              },
+              pattern: schemas.emailPattern,
               onBlur: () => trigger('fromAddress'),
             })}
           />
@@ -201,6 +210,18 @@ export default function Email({ defaultValues = DEFAULT_VALUES }: Props) {
           >
             保存
           </Button>
+          <Button
+            boxShadow="none"
+            borderRadius="4px"
+            onClick={handleConfirmTest}
+          >
+            发送测试邮件
+          </Button>
+          <EmailTestModal
+            isOpen={isOpen}
+            formValues={getValues()}
+            onClose={onClose}
+          />
         </HStack>
       </Box>
     </Box>
