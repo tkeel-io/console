@@ -3,7 +3,7 @@ import { ReactNode, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { useColors } from '@tkeel/console-hooks';
-import { BellTipsTwoToneIcon } from '@tkeel/console-icons';
+import { BellFilledIcon, BellTipsTwoToneIcon } from '@tkeel/console-icons';
 import { Menu } from '@tkeel/console-types';
 
 import useNotificationsQuery from '@/tkeel-console-portal-base/hooks/queries/useNotificationsQuery';
@@ -22,8 +22,6 @@ export default function Header({ menus, userActionMenusComponent }: Props) {
   const [isShowNotifications, setIsShowNotifications] = useState(false);
 
   const { notifications } = useNotificationsQuery();
-  // eslint-disable-next-line no-console
-  console.log('Header ~ notifications', notifications);
 
   const ref = useRef<HTMLDivElement>(null);
   useOutsideClick({
@@ -52,6 +50,8 @@ export default function Header({ menus, userActionMenusComponent }: Props) {
     fontSize: '12px',
     fontWeight: '500',
   };
+
+  const iconColor = isShowNotifications ? 'primary' : 'grayAlternatives.300';
 
   return (
     <Flex
@@ -83,21 +83,23 @@ export default function Header({ menus, userActionMenusComponent }: Props) {
           height="24px"
           borderRadius="50%"
           cursor="pointer"
+          backgroundColor={isShowNotifications ? 'brand.50' : 'transparent'}
           _hover={{
             backgroundColor: 'brand.50',
             '& > svg': {
               fill: `${colors.primary} !important`,
             },
           }}
+          onClick={() => setIsShowNotifications(!isShowNotifications)}
         >
-          <BellTipsTwoToneIcon
-            color="grayAlternatives.300"
-            twoToneColor="red.300"
-            onClick={() => setIsShowNotifications(!isShowNotifications)}
-          />
-          {/* <BellFilledIcon color="grayAlternatives.300" /> */}
+          {notifications.length > 0 ? (
+            <BellTipsTwoToneIcon color={iconColor} twoToneColor="red.300" />
+          ) : (
+            <BellFilledIcon color={iconColor} />
+          )}
           {isShowNotifications && (
             <NotificationsPanel
+              notifications={notifications}
               sx={{
                 position: 'absolute',
                 zIndex: 10,

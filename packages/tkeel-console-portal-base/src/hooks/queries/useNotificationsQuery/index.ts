@@ -8,7 +8,7 @@ enum NotificationActionTypes {
   // ExternalJump = 'external-jump', // 举例 type，目前不需要
 }
 
-interface Notification {
+export interface Notification {
   notification: {
     id: string;
     title?: string;
