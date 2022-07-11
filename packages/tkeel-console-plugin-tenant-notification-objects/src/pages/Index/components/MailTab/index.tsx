@@ -1,8 +1,7 @@
 import { Box, Button, Flex, VStack } from '@chakra-ui/react';
-import { memo } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { FormField } from '@tkeel/console-components';
+import { Empty, FormField, Loading } from '@tkeel/console-components';
 import { schemas } from '@tkeel/console-utils';
 
 import useEmailQuery from '@/tkeel-console-plugin-tenant-notification-objects/hooks/queries/useEmailQuery';
@@ -21,13 +20,38 @@ interface MailFormFields {
 }
 
 function MailTab({ noticeId }: Props) {
-  const { emails, refetch } = useEmailQuery({ params: { noticeId } });
+  const { isLoading, emails, refetch } = useEmailQuery({
+    params: { noticeId },
+  });
   const totalCount = emails.length;
 
   const {
     register,
     formState: { errors },
   } = useForm<MailFormFields>();
+
+  const renderEmails = () => {
+    if (isLoading) {
+      return <Loading styles={{ wrapper: { padding: '64px' } }} />;
+    }
+
+    if (totalCount === 0) {
+      return <Empty />;
+    }
+
+    return (
+      <VStack width="100%" spacing="8px">
+        {emails.map((data) => (
+          <MailForm
+            key={data.id}
+            data={data}
+            totalCount={totalCount}
+            refetch={refetch}
+          />
+        ))}
+      </VStack>
+    );
+  };
 
   return (
     <Box>
@@ -71,18 +95,9 @@ function MailTab({ noticeId }: Props) {
           添加联系邮箱
         </Button>
       </Flex>
-      <VStack spacing="8px">
-        {emails.map((data) => (
-          <MailForm
-            key={data.id}
-            data={data}
-            totalCount={totalCount}
-            refetch={refetch}
-          />
-        ))}
-      </VStack>
+      {renderEmails()}
     </Box>
   );
 }
 
-export default memo(MailTab);
+export default MailTab;

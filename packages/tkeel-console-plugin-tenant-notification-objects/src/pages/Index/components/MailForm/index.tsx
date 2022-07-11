@@ -87,7 +87,7 @@ export default function EmailForm({ data, totalCount, refetch }: Props) {
 
   return (
     <>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form width="100%" onSubmit={handleSubmit(onSubmit)}>
         <Flex
           justifyContent="space-between"
           border="1px solid"
