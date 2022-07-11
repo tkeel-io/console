@@ -6,12 +6,10 @@ import { useColor } from '@tkeel/console-hooks';
 import MailTab from '../MailTab';
 
 interface Props {
-  emailAddress: string;
   noticeId: number;
-  refetch?: () => void;
 }
 
-function NotificationTabs({ noticeId, emailAddress, refetch }: Props) {
+function NotificationTabs({ noticeId }: Props) {
   const primaryColor = useColor('primary');
   const styles = {
     padding: '0 0 4px',
@@ -48,12 +46,7 @@ function NotificationTabs({ noticeId, emailAddress, refetch }: Props) {
 
       <TabPanels>
         <TabPanel p="16px 0 0">
-          <MailTab
-            key={noticeId}
-            refetch={refetch}
-            noticeId={noticeId}
-            emailAddress={emailAddress}
-          />
+          <MailTab key={noticeId} noticeId={noticeId} />
         </TabPanel>
       </TabPanels>
     </Tabs>

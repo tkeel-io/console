@@ -24,11 +24,10 @@ interface Props {
     emailAddress: string;
     noticeId: number;
   };
-  refetch: () => void;
   operatorButton: ReactNode;
 }
 
-function NotificationSelectCard({ briefInfo, operatorButton, refetch }: Props) {
+function NotificationSelectCard({ briefInfo, operatorButton }: Props) {
   const mailNum =
     briefInfo.emailAddress === ''
       ? 0
@@ -92,11 +91,7 @@ function NotificationSelectCard({ briefInfo, operatorButton, refetch }: Props) {
         <AccordionIcon />
       </AccordionButton>
       <AccordionPanel bgColor="gray.100" p="12px 0 0">
-        <NotificationTabs
-          refetch={refetch}
-          noticeId={briefInfo.noticeId}
-          emailAddress={briefInfo.emailAddress}
-        />
+        <NotificationTabs noticeId={briefInfo.noticeId} />
       </AccordionPanel>
     </AccordionItem>
   );

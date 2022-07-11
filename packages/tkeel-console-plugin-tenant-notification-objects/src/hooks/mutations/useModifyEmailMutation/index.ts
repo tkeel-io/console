@@ -1,9 +1,8 @@
 import { useMutation } from '@tkeel/console-hooks';
 
-interface RequestData {
-  id: number;
-  userName: string;
-  emailAddress: string;
+import type { Email } from '@/tkeel-console-plugin-tenant-notification-objects/types/email';
+
+interface RequestData extends Omit<Email, 'noticeId'> {
   deleted?: 0 | 1;
 }
 

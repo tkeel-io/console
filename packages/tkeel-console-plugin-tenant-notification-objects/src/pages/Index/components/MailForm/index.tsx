@@ -31,7 +31,7 @@ interface Props {
   refetch: () => void;
 }
 
-export default function MailForm({ data, totalCount, refetch }: Props) {
+export default function EmailForm({ data, totalCount, refetch }: Props) {
   const toast = plugin.getPortalToast();
 
   const { id, noticeId } = data;

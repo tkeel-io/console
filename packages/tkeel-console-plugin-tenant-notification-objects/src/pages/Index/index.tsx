@@ -152,9 +152,6 @@ export default function Index() {
                         emailAddress: emailAddress || '',
                         noticeId,
                       }}
-                      refetch={() => {
-                        refetch();
-                      }}
                       operatorButton={
                         <MoreOperationButton
                           cruxData={{

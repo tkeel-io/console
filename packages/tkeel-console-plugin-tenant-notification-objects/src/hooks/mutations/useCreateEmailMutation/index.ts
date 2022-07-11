@@ -1,14 +1,10 @@
 import { useMutation } from '@tkeel/console-hooks';
 
-interface RequestData {
-  noticeId: number;
-  userName: string;
-  emailAddress: string;
-}
+import type { Email } from '@/tkeel-console-plugin-tenant-notification-objects/types/email';
 
-interface ApiData {
-  '@type': string;
-}
+type RequestData = Omit<Email, 'id'>;
+
+type ApiData = number;
 
 interface Options {
   onSuccess: () => void;
