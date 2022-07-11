@@ -6,6 +6,8 @@ import { useColors } from '@tkeel/console-hooks';
 import { BellTipsTwoToneIcon } from '@tkeel/console-icons';
 import { Menu } from '@tkeel/console-types';
 
+import useNotificationsQuery from '@/tkeel-console-portal-base/hooks/queries/useNotificationsQuery';
+
 import NotificationsPanel from './NotificationsPanel';
 
 type Props = {
@@ -18,6 +20,10 @@ export default function Header({ menus, userActionMenusComponent }: Props) {
   let breadcrumbs: string[] = [];
 
   const [isShowNotifications, setIsShowNotifications] = useState(false);
+
+  const { notifications } = useNotificationsQuery();
+  // eslint-disable-next-line no-console
+  console.log('Header ~ notifications', notifications);
 
   const ref = useRef<HTMLDivElement>(null);
   useOutsideClick({
