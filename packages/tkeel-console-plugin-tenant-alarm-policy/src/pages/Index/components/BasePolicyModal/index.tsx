@@ -181,6 +181,7 @@ export default function BasePolicyModal({
     const errorIndexArr: number[] = [];
     getRequestDeviceConditions(deviceConditions).forEach((condition, i) => {
       const { telemetryId, operator, value } = condition;
+
       if (!telemetryId || !operator || !value) {
         errorIndexArr.push(i);
       }
@@ -189,6 +190,20 @@ export default function BasePolicyModal({
     setDeviceConditionsErrors(errorIndexArr);
 
     return errorIndexArr.length > 0;
+  };
+
+  const containModifiedTelemetry = () => {
+    const { deviceConditions } = getValues();
+
+    return getRequestDeviceConditions(deviceConditions).some(
+      ({ telemetryId, telemetryName }) =>
+        ruleDescList?.some(
+          (rule) =>
+            [Status.Deleted, Status.Modified].includes(rule.telemetryStatus) &&
+            rule.telemetryId === telemetryId &&
+            rule.telemetryName === telemetryName
+        )
+    );
   };
 
   const handleConfirm = async () => {
@@ -212,6 +227,10 @@ export default function BasePolicyModal({
     const isSystemAlarm = alarmRuleType === String(AlarmRuleType.System);
 
     if (isThresholdAlarm && handleSetDeviceConditionsErrors()) {
+      return;
+    }
+
+    if (containModifiedTelemetry()) {
       return;
     }
 
@@ -453,6 +472,7 @@ export default function BasePolicyModal({
                 register={register}
                 control={control}
                 deviceConditionsErrors={deviceConditionsErrors}
+                ruleDescList={ruleDescList}
                 append={() => {
                   append(defaultDeviceCondition);
                 }}

@@ -9,6 +9,7 @@ import {
 } from 'react-hook-form';
 
 import { FormControl, FormField, Radio } from '@tkeel/console-components';
+import { useColors } from '@tkeel/console-hooks';
 import { TrashFilledIcon } from '@tkeel/console-icons';
 import {
   useDeviceDetailQuery,
@@ -28,6 +29,7 @@ import {
   Time,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/mutations/useCreatePolicyMutation';
 import { Status } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
+import type { RuleDesc } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/useRuleDescQuery';
 import {
   getNewValueOptions,
   getTelemetryOptionsByFields,
@@ -74,6 +76,7 @@ interface Props<FormValues> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<FormValues, any>;
   deviceConditionsErrors: number[];
+  ruleDescList?: RuleDesc[];
   append: () => void;
   fieldArrayReturn: UseFieldArrayReturn<FormValues>;
 }
@@ -86,16 +89,16 @@ function getOptionsByDefine(define: object) {
 }
 
 function ErrorTip({
-  telemetryIsDeleted,
+  disabled,
   telemetryIsModified,
 }: {
-  telemetryIsDeleted: boolean;
+  disabled: boolean;
   telemetryIsModified: boolean;
 }) {
-  return telemetryIsDeleted || telemetryIsModified ? (
+  return disabled ? (
     <Text marginTop="4px" color="red.300" fontSize="12px" lineHeight="24px">
       该模板遥测信息{telemetryIsModified ? '已更新' : '已删除'}
-      ，请重新设置告警规则
+      ，请重新修改告警规则
     </Text>
   ) : null;
 }
@@ -108,9 +111,11 @@ export default function DeviceRuleDescriptionCard<FormValues>({
   register,
   control,
   deviceConditionsErrors,
+  ruleDescList,
   append,
   fieldArrayReturn,
 }: Props<FormValues>) {
+  const colors = useColors();
   const { telemetry: templateTelemetryFields } = useTemplateTelemetryQuery({
     id: tempId,
     enabled: tempStatus !== Status.Deleted,
@@ -222,16 +227,16 @@ export default function DeviceRuleDescriptionCard<FormValues>({
 
           const telemetryIsDeleted = telemetryStatus === Status.Deleted;
           const telemetryIsModified = telemetryStatus === Status.Modified;
-          const disabled = telemetryIsDeleted || telemetryIsModified;
+          const disabled =
+            name === ruleDescList?.[i]?.telemetryName &&
+            (telemetryIsDeleted || telemetryIsModified);
+
           return (
             <Box key={item.id} _notLast={{ marginBottom: '8px' }}>
               <Flex
                 flexDirection="column"
                 padding="0 16px"
                 borderRadius="4px"
-                borderWidth="1px"
-                borderStyle="solid"
-                borderColor={disabled ? 'red.300' : 'transparent'}
                 backgroundColor="white"
               >
                 <HStack
@@ -254,20 +259,29 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                   >
                     if
                   </Text>
-                  <SelectField<FormValues>
-                    id={telemetryFieldId}
-                    name={telemetryFieldId}
-                    placeholder="请选择"
-                    options={newTelemetryOptions}
-                    showSearch
-                    disabled={disabled}
-                    control={control}
-                    formControlStyle={{
-                      marginBottom: '0',
-                      flexShrink: 0,
-                      width: '120px',
-                    }}
-                  />
+                  <Box
+                    css={`
+                      .rc-select-selector {
+                        border-color: ${disabled
+                          ? colors.red[300]
+                          : 'grayAlternatives.50'} !important;
+                      }
+                    `}
+                  >
+                    <SelectField<FormValues>
+                      id={telemetryFieldId}
+                      name={telemetryFieldId}
+                      placeholder="请选择"
+                      options={newTelemetryOptions}
+                      showSearch
+                      control={control}
+                      formControlStyle={{
+                        marginBottom: '0',
+                        flexShrink: 0,
+                        width: '120px',
+                      }}
+                    />
+                  </Box>
                   {telemetryIsNumber && (
                     <>
                       <SelectField<FormValues>
@@ -275,7 +289,6 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                         name={getFieldId(i, 'time')}
                         placeholder="请选择"
                         options={durationOptions}
-                        disabled={disabled}
                         {...selectProps}
                       />
                       {time !== Time.Immediate && (
@@ -284,7 +297,6 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                           name={getFieldId(i, 'polymerize')}
                           placeholder="请选择"
                           options={polymerizeOptions}
-                          disabled={disabled}
                           {...selectProps}
                         />
                       )}
@@ -293,7 +305,6 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                         name={getFieldId(i, 'numberOperator')}
                         placeholder="运算符"
                         options={numberOperatorOptions}
-                        disabled={disabled}
                         {...selectProps}
                         formControlStyle={{
                           flexShrink: 0,
@@ -309,7 +320,6 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                         name={getFieldId(i, 'enumOperator')}
                         placeholder="运算符"
                         options={enumOperatorOptions}
-                        disabled={disabled}
                         {...selectProps}
                       />
                       <SelectField<FormValues>
@@ -317,7 +327,6 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                         name={getFieldId(i, 'enumValue')}
                         placeholder="请选择"
                         options={newEnumValueOptions}
-                        disabled={disabled}
                         {...selectProps}
                       />
                     </>
@@ -329,7 +338,6 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                         name={getFieldId(i, 'booleanOperator')}
                         placeholder="运算符"
                         options={enumOperatorOptions}
-                        disabled={disabled}
                         {...selectProps}
                         formControlStyle={{
                           width: '140px',
@@ -340,7 +348,6 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                         name={getFieldId(i, 'booleanValue')}
                         placeholder="请选择"
                         options={newBooleanValueOptions}
-                        disabled={disabled}
                         {...selectProps}
                         formControlStyle={{
                           width: '140px',
@@ -354,7 +361,6 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                       registerReturn={register(getFieldId(i, 'numberValue'))}
                       type="number"
                       formControlStyle={{ marginBottom: '0' }}
-                      isDisabled={disabled}
                     />
                   )}
                   <Box
@@ -364,11 +370,11 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                     width="16px"
                     flexShrink={0}
                   >
-                    {(fields.length > 1 || disabled) && (
+                    {fields.length > 1 && (
                       <TrashFilledIcon
                         color="grayAlternatives.300"
                         style={{
-                          display: disabled ? 'block' : 'none',
+                          display: 'none',
                           flexShrink: 0,
                           cursor: 'pointer',
                         }}
@@ -378,13 +384,13 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                   </Box>
                 </HStack>
                 {deviceConditionsErrors.includes(i) && (
-                  <Text marginBottom="6px" color="red.500" fontSize="14px">
+                  <Text marginBottom="6px" color="red.300" fontSize="12px">
                     请将规则填写完整
                   </Text>
                 )}
               </Flex>
               <ErrorTip
-                telemetryIsDeleted={telemetryIsDeleted}
+                disabled={disabled}
                 telemetryIsModified={telemetryIsModified}
               />
             </Box>
