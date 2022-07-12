@@ -19,10 +19,11 @@ type FormFieldValues = Omit<AlarmMail, 'id' | 'noticeId'>;
 interface Props {
   data: AlarmMail;
   totalCount: number;
-  refetch: () => void;
+  refetchCounts: () => void;
+  refetchMails: () => void;
 }
 
-function EmailForm({ data, totalCount, refetch }: Props) {
+function MailForm({ data, totalCount, refetchCounts, refetchMails }: Props) {
   const toast = plugin.getPortalToast();
 
   const { id, noticeId } = data;
@@ -47,18 +48,21 @@ function EmailForm({ data, totalCount, refetch }: Props) {
   const { isLoading: isDeleteLoading, mutate: deleteMutate } =
     useDeleteMailMutation({
       onSuccess() {
-        refetch();
-        toast.success('删除成功！');
+        refetchCounts();
+        refetchMails();
         onClose();
+        toast.success('删除成功！');
       },
     });
 
-  const { mutate: modifyMutate } = useModifyMailMutation({
-    onSuccess() {
-      refetch();
-      toast.success('修改成功！');
-    },
-  });
+  const { isLoading: isModifyLoading, mutate: modifyMutate } =
+    useModifyMailMutation({
+      onSuccess() {
+        refetchMails();
+        setIsReadOnly(true);
+        toast.success('修改成功！');
+      },
+    });
 
   const handleDelete = () => {
     if (isBind !== undefined && isBind > 0 && totalCount === 1) {
@@ -70,7 +74,6 @@ function EmailForm({ data, totalCount, refetch }: Props) {
 
   const onSubmit: SubmitHandler<FormFieldValues> = (formFieldValues) => {
     modifyMutate({ data: { id, ...formFieldValues } });
-    setIsReadOnly(true);
   };
 
   const handleReset = () => {
@@ -137,7 +140,11 @@ function EmailForm({ data, totalCount, refetch }: Props) {
                 <LinkButton key="reset" type="reset" onClick={handleReset}>
                   取消
                 </LinkButton>
-                <LinkButton key="submit" type="submit">
+                <LinkButton
+                  key="submit"
+                  type="submit"
+                  isLoading={isModifyLoading}
+                >
                   确定
                 </LinkButton>
               </>
@@ -164,4 +171,4 @@ function EmailForm({ data, totalCount, refetch }: Props) {
   );
 }
 
-export default EmailForm;
+export default MailForm;

@@ -43,7 +43,7 @@ export const multiMail = {
 
 export const singleMail = {
   registerOptions: {
-    required: { value: true, message: '请输入邮箱格式' },
+    required: { value: true, message: '请输入邮箱' },
     pattern: {
       value: /^([\d._a-z-]+)@([\d.a-z-]+)\.([.a-z]{2,6})$/,
       message: '请输入正确的邮箱格式',

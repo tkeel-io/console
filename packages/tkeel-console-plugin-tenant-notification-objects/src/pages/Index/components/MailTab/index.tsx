@@ -38,10 +38,6 @@ function MailTab({ noticeId, refetchCounts }: Props) {
     params: { noticeId },
   });
   const totalCount = mails.length;
-  const refetch = () => {
-    refetchMails();
-    refetchCounts();
-  };
 
   const {
     register,
@@ -66,7 +62,8 @@ function MailTab({ noticeId, refetchCounts }: Props) {
             key={data.id}
             data={data}
             totalCount={totalCount}
-            refetch={refetch}
+            refetchCounts={refetchCounts}
+            refetchMails={refetchMails}
           />
         ))}
       </VStack>
@@ -76,7 +73,8 @@ function MailTab({ noticeId, refetchCounts }: Props) {
   const { isLoading: isCreateLoading, mutate: createMutate } =
     useCreateMailMutation({
       onSuccess() {
-        refetch();
+        refetchCounts();
+        refetchMails();
         reset();
         toast.success('添加成功！');
       },
