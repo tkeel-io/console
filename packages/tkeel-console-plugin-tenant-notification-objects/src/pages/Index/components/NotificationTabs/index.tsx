@@ -1,5 +1,4 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
-import { memo } from 'react';
 
 import { useColor } from '@tkeel/console-hooks';
 
@@ -58,4 +57,4 @@ function NotificationTabs({ noticeId, refetchMailCounts }: Props) {
   );
 }
 
-export default memo(NotificationTabs);
+export default NotificationTabs;
