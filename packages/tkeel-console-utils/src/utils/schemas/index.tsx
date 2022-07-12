@@ -76,3 +76,9 @@ export const idPattern = {
   value: /^[A-Z_a-z]\w{1,32}$/,
   message: '以字母或下划线开头，长度最多32，只能包含字母、数字和下划线',
 };
+
+export const emailPattern = {
+  value:
+    /^[\da-z]+([.\\_-]*[\da-z])*@([\da-z]+[\da-z-]*[\da-z]+.){1,63}[\da-z]+$/,
+  message: '请输入正确邮箱',
+};
