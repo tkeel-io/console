@@ -40,6 +40,9 @@ export default function useNotificationsQuery() {
   const { data, ...rest } = useQuery<ApiData>({
     url,
     method,
+    reactQueryOptions: {
+      refetchInterval: 5000,
+    },
   });
   const notifications = data?.notifications || [];
 
