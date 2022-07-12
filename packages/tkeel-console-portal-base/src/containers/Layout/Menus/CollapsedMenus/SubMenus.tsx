@@ -4,6 +4,8 @@ import { useLocation } from 'react-router-dom';
 
 import { Menu } from '@tkeel/console-types';
 
+import useNotificationsQuery from '@/tkeel-console-portal-base/hooks/queries/useNotificationsQuery';
+
 import MenuItem from './MenuItem';
 import SubMenuLinks from './SubMenuLinks';
 
@@ -20,6 +22,11 @@ function SubMenus({ icon, subMenus }: Props) {
 
   const [showSubMenus, setShowSubMenus] = useState(false);
   let timer: number | null = null;
+
+  const { notifications } = useNotificationsQuery();
+  const hasNotification = notifications.some(({ entry }) =>
+    subMenus?.some((item) => item.id === entry?.id)
+  );
 
   const handleMouseEnter = () => {
     if (timer) {
@@ -43,7 +50,7 @@ function SubMenus({ icon, subMenus }: Props) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <MenuItem icon={icon} active={active} />
+      <MenuItem icon={icon} active={active} hasNotification={hasNotification} />
       {showSubMenus && <SubMenuLinks data={subMenus} />}
     </Box>
   );

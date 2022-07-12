@@ -5,12 +5,14 @@ import {
   useResolvedPath,
 } from 'react-router-dom';
 
+import useMenuNotification from '@/tkeel-console-portal-base/hooks/useMenuNotification';
 import { isDarkMenuTheme } from '@/tkeel-console-portal-base/utils';
 
 import MenuItem from './MenuItem';
 import Rectangle from './Rectangle';
 
 type Props = {
+  id: string;
   path: string;
   name: string;
   icon: string;
@@ -85,14 +87,20 @@ export function getLinkStyle(active: boolean) {
   };
 }
 
-export default function MenuLink({ path, name, icon }: Props) {
+export default function MenuLink({ id, path, name, icon }: Props) {
+  const hasNotification = useMenuNotification(id);
   const { as, to, active } = useMenuLinkProps(path || '');
   const linkStyle = getLinkStyle(active);
 
   return (
     <Link position="relative" {...linkStyle} as={as} to={to}>
       <Rectangle style={{ display: 'none' }} />
-      <MenuItem active={active} name={name} leftIcon={icon} />
+      <MenuItem
+        active={active}
+        name={name}
+        hasNotification={hasNotification}
+        leftIcon={icon}
+      />
     </Link>
   );
 }

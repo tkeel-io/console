@@ -9,6 +9,7 @@ type Props = {
   active: boolean;
   menuIconActive?: boolean;
   name: string;
+  hasNotification: boolean;
   leftIcon: string;
   rightIcon?: ReactNode;
 };
@@ -17,6 +18,7 @@ function MenuItem({
   active,
   menuIconActive,
   name,
+  hasNotification,
   leftIcon,
   rightIcon = null,
 }: Props) {
@@ -36,7 +38,7 @@ function MenuItem({
           active={menuIconActive ?? active}
           style={{ marginRight: '10px' }}
         />
-        <Badge dot count={0}>
+        <Badge dot count={hasNotification ? 1 : 0}>
           <Text className="menu-name">{name}</Text>
         </Badge>
       </Flex>

@@ -1,7 +1,5 @@
 import { useQuery } from '@tkeel/console-hooks';
 
-import mockNotifications from './mockData';
-
 const url = '/rudder/v1/notifications';
 const method = 'GET';
 
@@ -43,8 +41,7 @@ export default function useNotificationsQuery() {
     url,
     method,
   });
-  const notifications =
-    (mockNotifications as Notification[]) || data?.notifications || [];
+  const notifications = data?.notifications || [];
 
   return { notifications, data, ...rest };
 }

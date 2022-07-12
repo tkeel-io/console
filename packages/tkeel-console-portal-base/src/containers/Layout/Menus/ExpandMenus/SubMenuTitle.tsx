@@ -7,6 +7,7 @@ import {
 } from '@tkeel/console-icons';
 import { Menu } from '@tkeel/console-types';
 
+import useNotificationsQuery from '@/tkeel-console-portal-base/hooks/queries/useNotificationsQuery';
 import { isDarkMenuTheme } from '@/tkeel-console-portal-base/utils';
 
 import MenuItem from './MenuItem';
@@ -24,6 +25,10 @@ export default function SubMenuTitle({
   spread,
   handleMenuClick,
 }: Props) {
+  const { notifications } = useNotificationsQuery();
+  const hasNotification = notifications.some(({ entry }) =>
+    children?.some((item) => item.id === entry?.id)
+  );
   const location = useLocation();
   const active: boolean = (children as Menu[]).some((item) => {
     return item.path && location.pathname.includes(item.path);
@@ -61,6 +66,7 @@ export default function SubMenuTitle({
         active={active}
         menuIconActive={isDarkMenu && active}
         name={name}
+        hasNotification={hasNotification}
         leftIcon={icon as string}
         rightIcon={
           spread ? (
