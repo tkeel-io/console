@@ -1,10 +1,11 @@
 import { Box, Center, Circle, Flex, useDisclosure } from '@chakra-ui/react';
-import { memo, useCallback, useState } from 'react';
+import { useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
 import { Alert, Form, FormField, LinkButton } from '@tkeel/console-components';
 import { TrashFilledIcon } from '@tkeel/console-icons';
+import type { AlarmMail } from '@tkeel/console-request-hooks';
 import { plugin, schemas } from '@tkeel/console-utils';
 
 import useDeleteMailMutation from '@/tkeel-console-plugin-tenant-notification-objects/hooks/mutations/useDeleteMailMutation';
@@ -13,20 +14,10 @@ import useGetBindQuery from '@/tkeel-console-plugin-tenant-notification-objects/
 
 const { TextField } = FormField;
 
-interface FormFieldValues {
-  // id: number;
-  // noticeId: number;
-  userName: string;
-  emailAddress: string;
-}
+type FormFieldValues = Omit<AlarmMail, 'id' | 'noticeId'>;
 
 interface Props {
-  data: {
-    id: number;
-    noticeId: number;
-    userName: string;
-    emailAddress: string;
-  };
+  data: AlarmMail;
   totalCount: number;
   refetch: () => void;
 }
@@ -68,13 +59,13 @@ function EmailForm({ data, totalCount, refetch }: Props) {
     },
   });
 
-  const handleDelete = useCallback(() => {
+  const handleDelete = () => {
     if (isBind !== undefined && isBind > 0 && totalCount === 1) {
       toast('该对象组已绑定，请至少保留一个邮件地址', { status: 'warning' });
     } else {
       deleteMutate({ data: { id, deleted: 1 } });
     }
-  }, [deleteMutate, id, isBind, toast, totalCount]);
+  };
 
   const onSubmit: SubmitHandler<FormFieldValues> = (formFieldValues) => {
     modifyMutate({ data: { id, ...formFieldValues } });
@@ -93,28 +84,40 @@ function EmailForm({ data, totalCount, refetch }: Props) {
           border="1px solid"
           borderColor="grayAlternatives.50"
           borderRadius="4px"
-          padding="10px 20px"
+          padding="20px"
           backgroundColor="white"
         >
           <Flex alignItems="center">
             <TextField
               id="emailAddress"
+              placeholder="请输入接收人邮箱"
               error={errors.emailAddress}
               isDisabled={isReadOnly}
-              formControlStyle={{ width: '300px' }}
               registerReturn={register(
                 'emailAddress',
                 schemas.singleMail.registerOptions
               )}
+              formControlStyle={{ width: '300px', margin: '0' }}
+              formErrorMessageStyle={{
+                position: 'absolute',
+                marginTop: '2px',
+                fontSize: '12px',
+              }}
             />
             <TextField
               id="userName"
+              placeholder="请输入接收人名称"
               error={errors.userName}
               isDisabled={isReadOnly}
-              formControlStyle={{ width: '300px' }}
               registerReturn={register('userName', {
                 required: { value: true, message: '请输入接收人名称' },
               })}
+              formControlStyle={{ width: '160px', margin: '0' }}
+              formErrorMessageStyle={{
+                position: 'absolute',
+                marginTop: '2px',
+                fontSize: '12px',
+              }}
             />
           </Flex>
           <Center>
@@ -154,4 +157,4 @@ function EmailForm({ data, totalCount, refetch }: Props) {
   );
 }
 
-export default memo(EmailForm);
+export default EmailForm;

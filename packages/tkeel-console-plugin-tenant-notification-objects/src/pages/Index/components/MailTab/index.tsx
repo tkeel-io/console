@@ -1,11 +1,15 @@
 import type { StyleProps } from '@chakra-ui/react';
 import { Box, Button, Flex, VStack } from '@chakra-ui/react';
-import { memo, useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
+import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
-import { Empty, FormField, Loading } from '@tkeel/console-components';
+import { Empty, Form, FormField, Loading } from '@tkeel/console-components';
+import type { AlarmMail } from '@tkeel/console-request-hooks';
 import { useAlarmMailsQuery } from '@tkeel/console-request-hooks';
-import { schemas } from '@tkeel/console-utils';
+import { plugin, schemas } from '@tkeel/console-utils';
+
+import useCreateMailMutation from '@/tkeel-console-plugin-tenant-notification-objects/hooks/mutations/useCreateMailMutation';
 
 import MailForm from '../MailForm';
 
@@ -17,17 +21,16 @@ const emptyStyles: { wrapper: StyleProps } = {
   },
 };
 
+type FormFieldValues = Omit<AlarmMail, 'id' | 'noticeId'>;
+
 interface Props {
   noticeId: number;
   setTotalCount: (mailTotalCount: number) => void;
 }
 
-interface MailFormFields {
-  name: string;
-  [mailName: string]: string;
-}
-
 function MailTab({ noticeId, setTotalCount }: Props) {
+  const toast = plugin.getPortalToast();
+
   const { isLoading, mails, refetch } = useAlarmMailsQuery({
     params: { noticeId },
   });
@@ -35,10 +38,12 @@ function MailTab({ noticeId, setTotalCount }: Props) {
 
   const {
     register,
+    handleSubmit,
+    reset,
     formState: { errors },
-  } = useForm<MailFormFields>();
+  } = useForm<FormFieldValues>();
 
-  const renderEmails = useCallback(() => {
+  const renderEmails = () => {
     if (isLoading) {
       return <Loading styles={emptyStyles} />;
     }
@@ -59,7 +64,19 @@ function MailTab({ noticeId, setTotalCount }: Props) {
         ))}
       </VStack>
     );
-  }, [isLoading, mails, refetch, totalCount]);
+  };
+
+  const { mutate: createMutate } = useCreateMailMutation({
+    onSuccess() {
+      refetch();
+      reset();
+      toast.success('添加成功！');
+    },
+  });
+
+  const onSubmit: SubmitHandler<FormFieldValues> = (formFieldValues) => {
+    createMutate({ data: { noticeId, ...formFieldValues } });
+  };
 
   useEffect(() => {
     setTotalCount(totalCount);
@@ -67,49 +84,59 @@ function MailTab({ noticeId, setTotalCount }: Props) {
 
   return (
     <Box>
-      <Flex alignItems="center" mb="16px">
-        <TextField
-          placeholder="请输入接收人邮箱"
-          id="emailAddress"
-          error={errors.emailAddress}
-          registerReturn={register(
-            'emailAddress',
-            schemas.singleMail.registerOptions
-          )}
-          formHelperStyle={{ fontSize: '12px', position: 'absolute' }}
-          formControlStyle={{ width: '450px', mb: '0' }}
-          inputStyle={{ backgroundColor: 'white' }}
-        />
-        <TextField
-          placeholder="请输入接收人名称"
-          id="userName"
-          error={errors.userName}
-          registerReturn={register('userName')}
-          formHelperStyle={{ fontSize: '12px', position: 'absolute' }}
-          formControlStyle={{
-            width: '160px',
-            margin: '0 12px 0 8px',
-          }}
-          inputStyle={{ backgroundColor: 'white' }}
-        />
-        <Button
-          type="button"
-          variant="outline"
-          color="gray.700"
-          bgColor="grayAlternatives.50"
-          borderWidth="1px"
-          borderColor="grayAlternatives.100"
-          boxShadow="none"
-          _hover={{ bgColor: 'grayAlternatives.50' }}
-          _focus={{ bgColor: 'grayAlternatives.50' }}
-          onClick={() => {}}
-        >
-          添加联系邮箱
-        </Button>
-      </Flex>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Flex alignItems="center" margin="16px 0 24px">
+          <TextField
+            id="emailAddress"
+            placeholder="请输入接收人邮箱"
+            error={errors.emailAddress}
+            registerReturn={register(
+              'emailAddress',
+              schemas.singleMail.registerOptions
+            )}
+            formControlStyle={{ width: '300px', margin: '0' }}
+            inputStyle={{ backgroundColor: 'white' }}
+            formErrorMessageStyle={{
+              position: 'absolute',
+              marginTop: '2px',
+              fontSize: '12px',
+            }}
+          />
+          <TextField
+            id="userName"
+            placeholder="请输入接收人名称"
+            error={errors.userName}
+            registerReturn={register('userName', {
+              required: { value: true, message: '请输入接收人名称' },
+            })}
+            formControlStyle={{
+              width: '160px',
+              margin: '0 12px 0 8px',
+            }}
+            inputStyle={{ backgroundColor: 'white' }}
+            formErrorMessageStyle={{
+              position: 'absolute',
+              marginTop: '2px',
+              fontSize: '12px',
+            }}
+          />
+          <Button
+            color="gray.700"
+            backgroundColor="grayAlternatives.50"
+            border="1px solid"
+            borderColor="grayAlternatives.100"
+            boxShadow="none"
+            type="submit"
+            colorScheme="gray"
+            variant="outline"
+          >
+            添加
+          </Button>
+        </Flex>
+      </Form>
       {renderEmails()}
     </Box>
   );
 }
 
-export default memo(MailTab);
+export default MailTab;

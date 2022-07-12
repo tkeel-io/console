@@ -1,24 +1,3 @@
-/* import { ReactNode } from 'react';
-import { RegisterOptions } from 'react-hook-form';
-
-interface Schema {
-  help?: ReactNode;
-  registerOptions: Pick<
-    RegisterOptions,
-    | 'required'
-    | 'maxLength'
-    | 'minLength'
-    | 'max'
-    | 'min'
-    | 'pattern'
-    | 'validate'
-    | 'valueAsNumber'
-    | 'valueAsDate'
-    | 'setValueAs'
-    | 'disabled'
-  >;
-} */
-
 const usernameHelp = '只能包含英文字母、数字、下划线和 @';
 const passwordHelp = '支持 6 ~ 18 位字符串, 只能包含英文字母、数字、下划线和 @';
 
@@ -64,10 +43,10 @@ export const multiMail = {
 
 export const singleMail = {
   registerOptions: {
-    required: { value: true, message: '' },
+    required: { value: true, message: '请输入邮箱格式' },
     pattern: {
       value: /^([\d._a-z-]+)@([\d.a-z-]+)\.([.a-z]{2,6})$/,
-      message: '',
+      message: '请输入正确的邮箱格式',
     },
   },
 };
