@@ -192,6 +192,21 @@ export default function BasePolicyModal({
     return errorIndexArr.length > 0;
   };
 
+  const statusIsModified = (status: Status) => {
+    return [Status.Deleted, Status.Modified].includes(status);
+  };
+
+  const containDeletedTemplateOrDevice = () => {
+    const { deviceInfo } = getValues();
+    const { tempId, deviceId } = getDeviceInfo(deviceInfo);
+    const tempIsDeleted =
+      policy?.tempStatus === Status.Deleted && tempId === policy?.tempId;
+    const deviceIsDeleted =
+      policy?.deviceStatus === Status.Deleted && deviceId === policy?.deviceId;
+
+    return tempIsDeleted || deviceIsDeleted;
+  };
+
   const containModifiedTelemetry = () => {
     const { deviceConditions } = getValues();
 
@@ -199,7 +214,7 @@ export default function BasePolicyModal({
       ({ telemetryId, telemetryName }) =>
         ruleDescList?.some(
           (rule) =>
-            [Status.Deleted, Status.Modified].includes(rule.telemetryStatus) &&
+            statusIsModified(rule.telemetryStatus) &&
             rule.telemetryId === telemetryId &&
             rule.telemetryName === telemetryName
         )
@@ -230,7 +245,7 @@ export default function BasePolicyModal({
       return;
     }
 
-    if (containModifiedTelemetry()) {
+    if (containDeletedTemplateOrDevice() || containModifiedTelemetry()) {
       return;
     }
 
@@ -422,19 +437,21 @@ export default function BasePolicyModal({
                     message: '请选择模板下全部设备或单个设备',
                   },
                 }}
-                render={({ field: { value, onChange } }) => (
-                  <DeviceSelectField
-                    value={value}
-                    onChange={onChange}
-                    styles={{
-                      root: { marginTop: '32px' },
-                      input:
-                        isTemplateDeleted || isDeviceDeleted
-                          ? { borderColor: 'red.300' }
-                          : {},
-                    }}
-                  />
-                )}
+                render={({ field: { value, onChange } }) => {
+                  return (
+                    <DeviceSelectField
+                      value={value}
+                      onChange={onChange}
+                      styles={{
+                        root: { marginTop: '32px' },
+                        input:
+                          isTemplateDeleted || isDeviceDeleted
+                            ? { borderColor: 'red.300' }
+                            : {},
+                      }}
+                    />
+                  );
+                }}
               />
             </FormControl>
           )}

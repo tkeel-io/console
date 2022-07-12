@@ -37,7 +37,7 @@ interface ApiData {
   '@type': string;
   templateTeleObject: {
     configs?: {
-      attributes?: {
+      telemetry?: {
         define?: {
           fields?: TemplateTelemetryFields;
         };
@@ -71,6 +71,6 @@ export default function useTemplateTelemetryQuery({
   });
 
   const telemetry =
-    data?.templateTeleObject?.configs?.attributes?.define?.fields ?? {};
+    data?.templateTeleObject?.configs?.telemetry?.define?.fields ?? {};
   return { telemetry, data, ...rest };
 }

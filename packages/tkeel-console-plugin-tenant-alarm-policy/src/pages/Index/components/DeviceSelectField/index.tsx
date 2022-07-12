@@ -213,7 +213,7 @@ export default function DeviceSelectField({ value, onChange, styles }: Props) {
                   label: '设备模板',
                   value: name,
                 });
-                if (templateId && id !== templateId) {
+                if (id !== templateId) {
                   setDeviceCondition(null);
                 }
               }}
