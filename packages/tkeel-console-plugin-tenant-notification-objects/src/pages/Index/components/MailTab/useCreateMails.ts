@@ -11,6 +11,7 @@ export default function useCreateMails(noticeId: number) {
     const max = 100;
     const maxLength = `${max}`.length;
     let index = 0;
+
     while (index < max) {
       let sn = `${index}`;
 
@@ -20,7 +21,7 @@ export default function useCreateMails(noticeId: number) {
 
       const data = {
         noticeId,
-        emailAddress: `email-${sn}`,
+        emailAddress: `email-${sn}@site.com`,
         userName: `name-${sn}`,
       };
       mutate({ data });
