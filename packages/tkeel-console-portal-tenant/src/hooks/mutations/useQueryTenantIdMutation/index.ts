@@ -19,5 +19,8 @@ export default function useQueryTenantIdMutation({ onSuccess }: Options) {
     url: '/security/v1/tenants/exact',
     method: 'GET',
     reactQueryOptions: { onSuccess },
+    extras: {
+      handleNoAuth: false,
+    },
   });
 }
