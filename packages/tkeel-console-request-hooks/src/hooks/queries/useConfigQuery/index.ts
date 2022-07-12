@@ -36,6 +36,7 @@ export default function useConfigQuery<Config>({
     reactQueryOptions,
     extras: {
       isWithToken: false,
+      handleNoAuth: false,
     },
   });
   const { data, isSuccess } = result;

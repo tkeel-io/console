@@ -12,7 +12,7 @@
   "license": "Apache-2.0",
   "main": "./src/index.ts",
   "dependencies": {
-    "@chakra-ui/react": "^2.2.1",
+    "@chakra-ui/react": "^2.2.3",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@tkeel/console-business-components": "workspace:^",
@@ -25,7 +25,7 @@
     "@tkeel/console-types": "workspace:^",
     "@tkeel/console-utils": "workspace:^",
     "dayjs": "^1.11.3",
-    "framer-motion": "^6.4.2",
+    "framer-motion": "^6.4.3",
     "js-base64": "^3.7.2",
     "qiankun": "^2.7.3",
     "react": "^18.2.0",
