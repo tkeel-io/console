@@ -1,4 +1,5 @@
 import { Accordion, Center, Flex, Text } from '@chakra-ui/react';
+import { find } from 'lodash';
 import { useState } from 'react';
 
 import {
@@ -13,10 +14,12 @@ import { usePagination } from '@tkeel/console-hooks';
 import { HornTwoToneIcon, RefreshCircleFilledIcon } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
+import useMailCountsQuery from '@/tkeel-console-plugin-tenant-notification-objects/hooks/queries/useMailCountsQuery';
 import useNotificationQuery from '@/tkeel-console-plugin-tenant-notification-objects/hooks/queries/useNotificationQuery';
-import CreateNotificationButton from '@/tkeel-console-plugin-tenant-notification-objects/pages/components/CreateNotificationButton';
-import MoreOperationButton from '@/tkeel-console-plugin-tenant-notification-objects/pages/components/MoreOperationButton';
-import NotificationSelectCard from '@/tkeel-console-plugin-tenant-notification-objects/pages/components/NotificationSelectCard';
+
+import CreateNotificationButton from './components/CreateNotificationButton';
+import MoreOperationButton from './components/MoreOperationButton';
+import NotificationSelectCard from './components/NotificationSelectCard';
 
 export default function Index() {
   const [keyWords, setKeywords] = useState('');
@@ -33,13 +36,18 @@ export default function Index() {
       tenantId: tenantInfo.tenant_id,
     });
   const totalNum = data?.total ?? 0;
+
+  const { counts, refetch: refetchMailCounts } = useMailCountsQuery();
+
   if (isSuccess) {
     setTotalSize(totalNum);
   }
+
   const handleCreateNetworkSuccess = () => {
     toast('创建成功', { status: 'success' });
     refetch();
   };
+
   return (
     <Flex flexDirection="column" h="100%" padding="8px 20px 20px">
       <PageHeader
@@ -142,17 +150,17 @@ export default function Index() {
                 {notificationData.map((item) => {
                   const { noticeId, groupName, noticeDesc, emailAddress } =
                     item;
+                  const mailTotalCount = find(counts, { noticeId })?.count ?? 0;
+
                   return (
                     <NotificationSelectCard
                       key={noticeId}
                       briefInfo={{
+                        noticeId,
                         name: groupName,
                         desc: noticeDesc,
                         emailAddress: emailAddress || '',
-                        noticeId,
-                      }}
-                      refetch={() => {
-                        refetch();
+                        mailTotalCount,
                       }}
                       operatorButton={
                         <MoreOperationButton
@@ -166,6 +174,7 @@ export default function Index() {
                           }}
                         />
                       }
+                      refetchMailCounts={refetchMailCounts}
                     />
                   );
                 })}

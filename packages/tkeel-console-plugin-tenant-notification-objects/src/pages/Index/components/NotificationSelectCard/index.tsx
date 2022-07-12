@@ -5,7 +5,7 @@ import {
   AccordionPanel,
   Flex,
 } from '@chakra-ui/react';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 import {
   DingDingFilledIcon,
@@ -23,18 +23,24 @@ interface Props {
     desc: string;
     emailAddress: string;
     noticeId: number;
+    mailTotalCount: number;
   };
-  refetch: () => void;
   operatorButton: ReactNode;
+  refetchMailCounts: () => void;
 }
 
-function NotificationSelectCard({ briefInfo, operatorButton, refetch }: Props) {
-  const mailNum =
-    briefInfo.emailAddress === ''
-      ? 0
-      : briefInfo.emailAddress.split(',').length;
+function NotificationSelectCard({
+  briefInfo,
+  operatorButton,
+  refetchMailCounts,
+}: Props) {
   const message = [
-    { id: 'email', name: '邮件', icon: MailFilledIcon, num: mailNum },
+    {
+      id: 'email',
+      name: '邮件',
+      icon: MailFilledIcon,
+      num: briefInfo.mailTotalCount,
+    },
     { id: 'ding', name: '钉钉', icon: DingDingFilledIcon, num: 0 },
     { id: 'wechat', name: '企业微信', icon: WechatFilledIcon, num: 0 },
   ];
@@ -93,9 +99,8 @@ function NotificationSelectCard({ briefInfo, operatorButton, refetch }: Props) {
       </AccordionButton>
       <AccordionPanel bgColor="gray.100" p="12px 0 0">
         <NotificationTabs
-          refetch={refetch}
           noticeId={briefInfo.noticeId}
-          emailAddress={briefInfo.emailAddress}
+          refetchMailCounts={refetchMailCounts}
         />
       </AccordionPanel>
     </AccordionItem>
