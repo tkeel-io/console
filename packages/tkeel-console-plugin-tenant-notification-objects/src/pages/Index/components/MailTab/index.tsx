@@ -31,7 +31,7 @@ function MailTab({ noticeId, refetchCounts }: Props) {
   const toast = plugin.getPortalToast();
 
   const {
-    isLoading,
+    isLoading: isQueryLoading,
     mails,
     refetch: refetchMails,
   } = useAlarmMailsQuery({
@@ -51,7 +51,7 @@ function MailTab({ noticeId, refetchCounts }: Props) {
   } = useForm<FormFieldValues>();
 
   const renderEmails = () => {
-    if (isLoading) {
+    if (isQueryLoading) {
       return <Loading styles={emptyStyles} />;
     }
 
@@ -73,13 +73,14 @@ function MailTab({ noticeId, refetchCounts }: Props) {
     );
   };
 
-  const { mutate: createMutate } = useCreateMailMutation({
-    onSuccess() {
-      refetch();
-      reset();
-      toast.success('添加成功！');
-    },
-  });
+  const { isLoading: isCreateLoading, mutate: createMutate } =
+    useCreateMailMutation({
+      onSuccess() {
+        refetch();
+        reset();
+        toast.success('添加成功！');
+      },
+    });
 
   const onSubmit: SubmitHandler<FormFieldValues> = (formFieldValues) => {
     createMutate({ data: { noticeId, ...formFieldValues } });
@@ -132,6 +133,7 @@ function MailTab({ noticeId, refetchCounts }: Props) {
             type="submit"
             colorScheme="gray"
             variant="outline"
+            isLoading={isCreateLoading}
           >
             添加
           </Button>

@@ -1,4 +1,4 @@
-import { Box, Center, Circle, Flex, useDisclosure } from '@chakra-ui/react';
+import { Circle, Flex, HStack, useDisclosure } from '@chakra-ui/react';
 import { useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
@@ -44,13 +44,14 @@ function EmailForm({ data, totalCount, refetch }: Props) {
     sendRequest: isOpen,
   });
 
-  const { mutate: deleteMutate } = useDeleteMailMutation({
-    onSuccess() {
-      refetch();
-      toast.success('删除成功！');
-      onClose();
-    },
-  });
+  const { isLoading: isDeleteLoading, mutate: deleteMutate } =
+    useDeleteMailMutation({
+      onSuccess() {
+        refetch();
+        toast.success('删除成功！');
+        onClose();
+      },
+    });
 
   const { mutate: modifyMutate } = useModifyMailMutation({
     onSuccess() {
@@ -87,7 +88,7 @@ function EmailForm({ data, totalCount, refetch }: Props) {
           padding="20px"
           backgroundColor="white"
         >
-          <Flex alignItems="center">
+          <HStack alignItems="center" spacing="8px">
             <TextField
               id="emailAddress"
               placeholder="请输入接收人邮箱"
@@ -119,24 +120,24 @@ function EmailForm({ data, totalCount, refetch }: Props) {
                 fontSize: '12px',
               }}
             />
-          </Flex>
-          <Center>
+          </HStack>
+          <HStack paddingLeft="32px" spacing="16px">
             {isReadOnly ? (
-              <Box>
+              <>
                 <LinkButton onClick={() => setIsReadOnly(false)}>
                   编辑
                 </LinkButton>
                 <LinkButton onClick={onOpen}>删除</LinkButton>
-              </Box>
+              </>
             ) : (
-              <Box>
+              <>
                 <LinkButton type="submit">确定</LinkButton>
                 <LinkButton type="reset" onClick={handleReset}>
                   取消
                 </LinkButton>
-              </Box>
+              </>
             )}
-          </Center>
+          </HStack>
         </Flex>
       </Form>
       {isOpen && (
@@ -149,6 +150,7 @@ function EmailForm({ data, totalCount, refetch }: Props) {
           }
           title="确认删除邮件？"
           isOpen={isOpen}
+          isConfirmButtonLoading={isDeleteLoading}
           onClose={onClose}
           onConfirm={handleDelete}
         />
