@@ -39,7 +39,8 @@ import DeviceRuleDescriptionCard, {
   defaultDeviceCondition,
   DeviceCondition,
 } from '../DeviceRuleDescriptionCard';
-import DeviceSelectField, { getDeviceInfo } from '../DeviceSelectField';
+import type { DeviceInfo } from '../DeviceSelectField';
+import DeviceSelectField, { parseDeviceInfo } from '../DeviceSelectField';
 import FormCard from '../FormCard';
 import PlatformRuleDescriptionCard from '../PlatformRuleDescriptionCard';
 
@@ -196,9 +197,8 @@ export default function BasePolicyModal({
     return [Status.Deleted, Status.Modified].includes(status);
   };
 
-  const containDeletedTemplateOrDevice = () => {
-    const { deviceInfo } = getValues();
-    const { tempId, deviceId } = getDeviceInfo(deviceInfo);
+  const containDeletedTemplateOrDevice = (deviceInfo: DeviceInfo) => {
+    const { tempId, deviceId } = deviceInfo;
     const tempIsDeleted =
       policy?.tempStatus === Status.Deleted && tempId === policy?.tempId;
     const deviceIsDeleted =
@@ -245,7 +245,10 @@ export default function BasePolicyModal({
       return;
     }
 
-    if (containDeletedTemplateOrDevice() || containModifiedTelemetry()) {
+    if (
+      containDeletedTemplateOrDevice(parseDeviceInfo(deviceInfo)) ||
+      containModifiedTelemetry()
+    ) {
       return;
     }
 
@@ -275,7 +278,7 @@ export default function BasePolicyModal({
           }
         : {
             ...data,
-            ...getDeviceInfo(deviceInfo),
+            ...parseDeviceInfo(deviceInfo),
             deviceCondition: getRequestDeviceConditions(deviceConditions),
           };
 
@@ -318,7 +321,7 @@ export default function BasePolicyModal({
     }
   }, [setValue, watchDeviceInfo]);
 
-  const { tempId, deviceId } = getDeviceInfo(watch('deviceInfo'));
+  const { tempId, deviceId } = parseDeviceInfo(watch('deviceInfo'));
 
   const alarmSourceObjectOptions = isSystemAlarm
     ? systemAlarmSourceObjectOptions
@@ -408,7 +411,8 @@ export default function BasePolicyModal({
                 marginBottom: '10px',
               }}
             />
-            {isTemplateDeleted || isDeviceDeleted ? (
+            {policy &&
+            containDeletedTemplateOrDevice(parseDeviceInfo(watchDeviceInfo)) ? (
               <Text color="red.300" fontSize="12px">
                 {getErrorMessage({
                   policy,
@@ -438,16 +442,16 @@ export default function BasePolicyModal({
                   },
                 }}
                 render={({ field: { value, onChange } }) => {
+                  const isError = containDeletedTemplateOrDevice(
+                    parseDeviceInfo(value)
+                  );
                   return (
                     <DeviceSelectField
                       value={value}
                       onChange={onChange}
                       styles={{
                         root: { marginTop: '32px' },
-                        input:
-                          isTemplateDeleted || isDeviceDeleted
-                            ? { borderColor: 'red.300' }
-                            : {},
+                        input: isError ? { borderColor: 'red.300' } : {},
                       }}
                     />
                   );

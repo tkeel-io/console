@@ -23,14 +23,14 @@ interface Props {
   };
 }
 
-interface DeviceInfo {
+export interface DeviceInfo {
   tempId: string;
   tempName: string;
   deviceId: string;
   deviceName: string;
 }
 
-export const getDeviceInfo = (deviceInfo: string) => {
+export const parseDeviceInfo = (deviceInfo: string) => {
   return (
     hasJsonStructure(deviceInfo)
       ? JSON.parse(deviceInfo)
@@ -39,7 +39,7 @@ export const getDeviceInfo = (deviceInfo: string) => {
 };
 
 export default function DeviceSelectField({ value, onChange, styles }: Props) {
-  const { tempId, tempName, deviceId, deviceName } = getDeviceInfo(value);
+  const { tempId, tempName, deviceId, deviceName } = parseDeviceInfo(value);
   const [isShowDropdown, setIsShowDropdown] = useState(false);
   const [templateId, setTemplateId] = useState(tempId);
   const defaultTemplateCondition =
