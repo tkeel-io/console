@@ -1,8 +1,8 @@
-interface Email {
+interface Mail {
   id: number;
   noticeId: number;
   emailAddress: string;
   userName: string;
 }
 
-export type { Email };
+export type { Mail };

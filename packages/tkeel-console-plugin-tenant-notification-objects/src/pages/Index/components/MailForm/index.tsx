@@ -7,8 +7,8 @@ import { Alert, Form, FormField, LinkButton } from '@tkeel/console-components';
 import { TrashFilledIcon } from '@tkeel/console-icons';
 import { plugin, schemas } from '@tkeel/console-utils';
 
-import useDeleteEmailMutation from '@/tkeel-console-plugin-tenant-notification-objects/hooks/mutations/useDeleteEmailMutation';
-import useModifyEmailMutation from '@/tkeel-console-plugin-tenant-notification-objects/hooks/mutations/useModifyEmailMutation';
+import useDeleteMailMutation from '@/tkeel-console-plugin-tenant-notification-objects/hooks/mutations/useDeleteMailMutation';
+import useModifyMailMutation from '@/tkeel-console-plugin-tenant-notification-objects/hooks/mutations/useModifyMailMutation';
 import useGetBindQuery from '@/tkeel-console-plugin-tenant-notification-objects/hooks/queries/useGetBindQuery';
 
 const { TextField } = FormField;
@@ -53,7 +53,7 @@ export default function EmailForm({ data, totalCount, refetch }: Props) {
     sendRequest: isOpen,
   });
 
-  const { mutate: deleteMutate } = useDeleteEmailMutation({
+  const { mutate: deleteMutate } = useDeleteMailMutation({
     onSuccess() {
       refetch();
       toast.success('删除成功！');
@@ -61,7 +61,7 @@ export default function EmailForm({ data, totalCount, refetch }: Props) {
     },
   });
 
-  const { mutate: modifyMutate } = useModifyEmailMutation({
+  const { mutate: modifyMutate } = useModifyMailMutation({
     onSuccess() {
       refetch();
       toast.success('修改成功！');

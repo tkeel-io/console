@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { Empty, FormField, Loading } from '@tkeel/console-components';
 import { schemas } from '@tkeel/console-utils';
 
-import useEmailQuery from '@/tkeel-console-plugin-tenant-notification-objects/hooks/queries/useEmailQuery';
+import useMailsQuery from '@/tkeel-console-plugin-tenant-notification-objects/hooks/queries/useMailsQuery';
 
 import MailForm from '../MailForm';
 
@@ -19,11 +19,11 @@ interface MailFormFields {
   [mailName: string]: string;
 }
 
-function MailTab({ noticeId }: Props) {
-  const { isLoading, emails, refetch } = useEmailQuery({
+export default function MailTab({ noticeId }: Props) {
+  const { isLoading, mails, refetch } = useMailsQuery({
     params: { noticeId },
   });
-  const totalCount = emails.length;
+  const totalCount = mails.length;
 
   const {
     register,
@@ -41,7 +41,7 @@ function MailTab({ noticeId }: Props) {
 
     return (
       <VStack width="100%" spacing="8px">
-        {emails.map((data) => (
+        {mails.map((data) => (
           <MailForm
             key={data.id}
             data={data}
@@ -99,5 +99,3 @@ function MailTab({ noticeId }: Props) {
     </Box>
   );
 }
-
-export default MailTab;
