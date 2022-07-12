@@ -40,7 +40,7 @@ interface Props {
   refetchInterval?: number;
 }
 
-export default function useNotificationsQuery(props: Props) {
+export default function useNotificationsQuery(props?: Props) {
   const refetchInterval = props?.refetchInterval ?? 5000;
   const { data, ...rest } = useQuery<ApiData>({
     url,
