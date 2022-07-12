@@ -1,6 +1,7 @@
 import { Box, Flex, StyleProps, Text } from '@chakra-ui/react';
 import * as dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime.js';
+import { useNavigate } from 'react-router-dom';
 
 import { Empty } from '@tkeel/console-components';
 import { BellLightningFilledIcon } from '@tkeel/console-icons';
@@ -22,6 +23,7 @@ export default function NotificationsPanel({
   sx,
   styles,
 }: Props) {
+  const navigate = useNavigate();
   return (
     <Flex
       flexDirection="column"
@@ -53,44 +55,60 @@ export default function NotificationsPanel({
       </Box>
       <Flex flex="1" overflowY="auto" flexDirection="column">
         {notifications.length > 0 ? (
-          notifications.map((_, i) => (
-            <Flex
-              key={String(i + 1)}
-              flexDirection="column"
-              height="112px"
-              flexShrink={0}
-              padding="10px 20px"
-              cursor="pointer"
-              _hover={{ backgroundColor: 'gray.100' }}
-            >
-              <Flex alignItems="center">
-                <BellLightningFilledIcon color="grayAlternatives.300" />
+          notifications.map(({ notification }) => {
+            const {
+              id,
+              action,
+              title,
+              content,
+              create_timestamp: createTimestamp,
+            } = notification;
+            const url = action.value;
+
+            return (
+              <Flex
+                key={id}
+                flexDirection="column"
+                height="112px"
+                flexShrink={0}
+                padding="10px 20px"
+                cursor="pointer"
+                _hover={{ backgroundColor: 'gray.100' }}
+                onClick={() => {
+                  if (url) {
+                    navigate(url);
+                  }
+                }}
+              >
+                <Flex alignItems="center">
+                  <BellLightningFilledIcon color="grayAlternatives.300" />
+                  <Text
+                    marginLeft="2px"
+                    color="grayAlternatives.700"
+                    fontSize="12px"
+                    fontWeight="600"
+                  >
+                    {title}
+                  </Text>
+                </Flex>
                 <Text
-                  marginLeft="2px"
+                  marginY="4px"
                   color="grayAlternatives.700"
                   fontSize="12px"
-                  fontWeight="600"
+                  lineHeight="22px"
                 >
-                  告警标题名称
+                  {content}
+                </Text>
+                <Text
+                  color="grayAlternatives.500"
+                  fontSize="12px"
+                  lineHeight="24px"
+                >
+                  {createTimestamp ? dayjs(createTimestamp).fromNow() : ''}
                 </Text>
               </Flex>
-              <Text
-                marginY="4px"
-                color="grayAlternatives.700"
-                fontSize="12px"
-                lineHeight="22px"
-              >
-                这是一条报警信息这是一条报警信息这是一条报警信息这是一条报警信息
-              </Text>
-              <Text
-                color="grayAlternatives.500"
-                fontSize="12px"
-                lineHeight="24px"
-              >
-                {dayjs('2022-07-08 12:22:19').fromNow()}
-              </Text>
-            </Flex>
-          ))
+            );
+          })
         ) : (
           <Empty type="component" title="暂无通知" sx={{ flex: '1' }} />
         )}
