@@ -1,3 +1,5 @@
+// TODO: temp
+
 import { useEffect } from 'react';
 
 import useCreateMailMutation from '@/tkeel-console-plugin-tenant-notification-objects/hooks/mutations/useCreateMailMutation';
