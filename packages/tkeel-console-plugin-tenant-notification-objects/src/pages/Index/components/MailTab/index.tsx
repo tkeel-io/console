@@ -1,6 +1,5 @@
 import type { StyleProps } from '@chakra-ui/react';
 import { Box, Button, Flex, VStack } from '@chakra-ui/react';
-import { useEffect } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
@@ -25,16 +24,24 @@ type FormFieldValues = Omit<AlarmMail, 'id' | 'noticeId'>;
 
 interface Props {
   noticeId: number;
-  setTotalCount: (mailTotalCount: number) => void;
+  refetchCounts: () => void;
 }
 
-function MailTab({ noticeId, setTotalCount }: Props) {
+function MailTab({ noticeId, refetchCounts }: Props) {
   const toast = plugin.getPortalToast();
 
-  const { isLoading, mails, refetch } = useAlarmMailsQuery({
+  const {
+    isLoading,
+    mails,
+    refetch: refetchMails,
+  } = useAlarmMailsQuery({
     params: { noticeId },
   });
   const totalCount = mails.length;
+  const refetch = () => {
+    refetchMails();
+    refetchCounts();
+  };
 
   const {
     register,
@@ -77,10 +84,6 @@ function MailTab({ noticeId, setTotalCount }: Props) {
   const onSubmit: SubmitHandler<FormFieldValues> = (formFieldValues) => {
     createMutate({ data: { noticeId, ...formFieldValues } });
   };
-
-  useEffect(() => {
-    setTotalCount(totalCount);
-  }, [setTotalCount, totalCount]);
 
   return (
     <Box>

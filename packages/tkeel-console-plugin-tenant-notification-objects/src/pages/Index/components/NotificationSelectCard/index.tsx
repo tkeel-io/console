@@ -6,7 +6,6 @@ import {
   Flex,
 } from '@chakra-ui/react';
 import type { ReactNode } from 'react';
-import { useState } from 'react';
 
 import {
   DingDingFilledIcon,
@@ -24,14 +23,24 @@ interface Props {
     desc: string;
     emailAddress: string;
     noticeId: number;
+    mailTotalCount: number;
   };
   operatorButton: ReactNode;
+  refetchMailCounts: () => void;
 }
 
-function NotificationSelectCard({ briefInfo, operatorButton }: Props) {
-  const [mailTotalCount, setMailTotalCount] = useState(0);
+function NotificationSelectCard({
+  briefInfo,
+  operatorButton,
+  refetchMailCounts,
+}: Props) {
   const message = [
-    { id: 'email', name: '邮件', icon: MailFilledIcon, num: mailTotalCount },
+    {
+      id: 'email',
+      name: '邮件',
+      icon: MailFilledIcon,
+      num: briefInfo.mailTotalCount,
+    },
     { id: 'ding', name: '钉钉', icon: DingDingFilledIcon, num: 0 },
     { id: 'wechat', name: '企业微信', icon: WechatFilledIcon, num: 0 },
   ];
@@ -91,7 +100,7 @@ function NotificationSelectCard({ briefInfo, operatorButton }: Props) {
       <AccordionPanel bgColor="gray.100" p="12px 0 0">
         <NotificationTabs
           noticeId={briefInfo.noticeId}
-          setMailTotalCount={setMailTotalCount}
+          refetchMailCounts={refetchMailCounts}
         />
       </AccordionPanel>
     </AccordionItem>
