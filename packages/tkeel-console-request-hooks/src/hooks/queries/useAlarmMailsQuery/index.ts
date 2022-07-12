@@ -1,16 +1,23 @@
 import { useQuery } from '@tkeel/console-hooks';
 
-import type { Mail } from '@/tkeel-console-plugin-tenant-notification-objects/types/mail';
+interface AlarmMail {
+  id: number;
+  noticeId: number;
+  emailAddress: string;
+  userName: string;
+}
 
-type RequestParams = Pick<Mail, 'noticeId'>;
+type RequestParams = Pick<AlarmMail, 'noticeId'>;
 
-type ApiData = Mail[];
+type ApiData = AlarmMail[];
 
 interface Options {
   params: RequestParams;
 }
 
-export default function useMailQuery({ params }: Options) {
+export type { AlarmMail };
+
+export default function useAlarmMailsQuery({ params }: Options) {
   const result = useQuery<ApiData, RequestParams>({
     url: '/tkeel-alarm/v1/alarm/email/query',
     method: 'GET',

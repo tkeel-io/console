@@ -1,5 +1,5 @@
 import { Box, Center, Circle, Flex, useDisclosure } from '@chakra-ui/react';
-import { useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
@@ -31,7 +31,7 @@ interface Props {
   refetch: () => void;
 }
 
-export default function EmailForm({ data, totalCount, refetch }: Props) {
+function EmailForm({ data, totalCount, refetch }: Props) {
   const toast = plugin.getPortalToast();
 
   const { id, noticeId } = data;
@@ -68,13 +68,13 @@ export default function EmailForm({ data, totalCount, refetch }: Props) {
     },
   });
 
-  const handleDelete = () => {
+  const handleDelete = useCallback(() => {
     if (isBind !== undefined && isBind > 0 && totalCount === 1) {
       toast('该对象组已绑定，请至少保留一个邮件地址', { status: 'warning' });
     } else {
       deleteMutate({ data: { id, deleted: 1 } });
     }
-  };
+  }, [deleteMutate, id, isBind, toast, totalCount]);
 
   const onSubmit: SubmitHandler<FormFieldValues> = (formFieldValues) => {
     modifyMutate({ data: { id, ...formFieldValues } });
@@ -153,3 +153,5 @@ export default function EmailForm({ data, totalCount, refetch }: Props) {
     </>
   );
 }
+
+export default memo(EmailForm);

@@ -1,14 +1,21 @@
+import type { StyleProps } from '@chakra-ui/react';
 import { Box, Button, Flex, VStack } from '@chakra-ui/react';
+import { memo, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Empty, FormField, Loading } from '@tkeel/console-components';
+import { useAlarmMailsQuery } from '@tkeel/console-request-hooks';
 import { schemas } from '@tkeel/console-utils';
-
-import useMailsQuery from '@/tkeel-console-plugin-tenant-notification-objects/hooks/queries/useMailsQuery';
 
 import MailForm from '../MailForm';
 
 const { TextField } = FormField;
+
+const emptyStyles: { wrapper: StyleProps } = {
+  wrapper: {
+    height: '200px',
+  },
+};
 
 interface Props {
   noticeId: number;
@@ -19,8 +26,8 @@ interface MailFormFields {
   [mailName: string]: string;
 }
 
-export default function MailTab({ noticeId }: Props) {
-  const { isLoading, mails, refetch } = useMailsQuery({
+function MailTab({ noticeId }: Props) {
+  const { isLoading, mails, refetch } = useAlarmMailsQuery({
     params: { noticeId },
   });
   const totalCount = mails.length;
@@ -30,13 +37,13 @@ export default function MailTab({ noticeId }: Props) {
     formState: { errors },
   } = useForm<MailFormFields>();
 
-  const renderEmails = () => {
+  const renderEmails = useCallback(() => {
     if (isLoading) {
-      return <Loading styles={{ wrapper: { padding: '64px' } }} />;
+      return <Loading styles={emptyStyles} />;
     }
 
     if (totalCount === 0) {
-      return <Empty />;
+      return <Empty styles={emptyStyles} />;
     }
 
     return (
@@ -51,7 +58,7 @@ export default function MailTab({ noticeId }: Props) {
         ))}
       </VStack>
     );
-  };
+  }, [isLoading, mails, refetch, totalCount]);
 
   return (
     <Box>
@@ -99,3 +106,5 @@ export default function MailTab({ noticeId }: Props) {
     </Box>
   );
 }
+
+export default memo(MailTab);

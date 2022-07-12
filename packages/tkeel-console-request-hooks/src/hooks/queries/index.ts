@@ -1,3 +1,5 @@
+export * from './useAlarmMailsQuery';
+export { default as useAlarmMailsQuery } from './useAlarmMailsQuery';
 export { default as useAlarmNoticeGroupsQuery } from './useAlarmNoticeGroupsQuery';
 export * from './useAlarmNoticeGroupsQuery';
 export { default as useAlarmRuleDetailQuery } from './useAlarmRuleDetailQuery';

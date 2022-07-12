@@ -1,14 +1,11 @@
 import { useMutation } from '@tkeel/console-hooks';
+import type { AlarmMail } from '@tkeel/console-request-hooks';
 
-import type { Mail } from '@/tkeel-console-plugin-tenant-notification-objects/types/mail';
-
-interface RequestData extends Omit<Mail, 'noticeId'> {
+interface RequestData extends Omit<AlarmMail, 'noticeId'> {
   deleted?: 0 | 1;
 }
 
-interface ApiData {
-  '@type': string;
-}
+type ApiData = number;
 
 interface Options {
   onSuccess: () => void;
@@ -17,7 +14,7 @@ interface Options {
 export default function useModifyMailMutation({ onSuccess }: Options) {
   return useMutation<ApiData, undefined, RequestData>({
     url: '/tkeel-alarm/v1/alarm/email/update',
-    method: 'PUT',
+    method: 'POST',
     reactQueryOptions: { onSuccess },
   });
 }

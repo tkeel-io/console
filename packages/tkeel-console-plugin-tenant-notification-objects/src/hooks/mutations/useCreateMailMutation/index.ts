@@ -1,8 +1,7 @@
 import { useMutation } from '@tkeel/console-hooks';
+import type { AlarmMail } from '@tkeel/console-request-hooks';
 
-import type { Mail } from '@/tkeel-console-plugin-tenant-notification-objects/types/mail';
-
-type RequestData = Omit<Mail, 'id'>;
+type RequestData = Omit<AlarmMail, 'id'>;
 
 type ApiData = number;
 
