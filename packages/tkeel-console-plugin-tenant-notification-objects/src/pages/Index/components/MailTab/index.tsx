@@ -1,6 +1,6 @@
 import type { StyleProps } from '@chakra-ui/react';
 import { Box, Button, Flex, VStack } from '@chakra-ui/react';
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Empty, FormField, Loading } from '@tkeel/console-components';
@@ -19,6 +19,7 @@ const emptyStyles: { wrapper: StyleProps } = {
 
 interface Props {
   noticeId: number;
+  setTotalCount: (mailTotalCount: number) => void;
 }
 
 interface MailFormFields {
@@ -26,7 +27,7 @@ interface MailFormFields {
   [mailName: string]: string;
 }
 
-function MailTab({ noticeId }: Props) {
+function MailTab({ noticeId, setTotalCount }: Props) {
   const { isLoading, mails, refetch } = useAlarmMailsQuery({
     params: { noticeId },
   });
@@ -59,6 +60,10 @@ function MailTab({ noticeId }: Props) {
       </VStack>
     );
   }, [isLoading, mails, refetch, totalCount]);
+
+  useEffect(() => {
+    setTotalCount(totalCount);
+  }, [setTotalCount, totalCount]);
 
   return (
     <Box>

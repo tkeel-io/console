@@ -5,7 +5,8 @@ import {
   AccordionPanel,
   Flex,
 } from '@chakra-ui/react';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import { useState } from 'react';
 
 import {
   DingDingFilledIcon,
@@ -28,12 +29,9 @@ interface Props {
 }
 
 function NotificationSelectCard({ briefInfo, operatorButton }: Props) {
-  const mailNum =
-    briefInfo.emailAddress === ''
-      ? 0
-      : briefInfo.emailAddress.split(',').length;
+  const [mailTotalCount, setMailTotalCount] = useState(0);
   const message = [
-    { id: 'email', name: '邮件', icon: MailFilledIcon, num: mailNum },
+    { id: 'email', name: '邮件', icon: MailFilledIcon, num: mailTotalCount },
     { id: 'ding', name: '钉钉', icon: DingDingFilledIcon, num: 0 },
     { id: 'wechat', name: '企业微信', icon: WechatFilledIcon, num: 0 },
   ];
@@ -91,7 +89,10 @@ function NotificationSelectCard({ briefInfo, operatorButton }: Props) {
         <AccordionIcon />
       </AccordionButton>
       <AccordionPanel bgColor="gray.100" p="12px 0 0">
-        <NotificationTabs noticeId={briefInfo.noticeId} />
+        <NotificationTabs
+          noticeId={briefInfo.noticeId}
+          setMailTotalCount={setMailTotalCount}
+        />
       </AccordionPanel>
     </AccordionItem>
   );

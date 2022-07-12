@@ -7,9 +7,10 @@ import MailTab from '../MailTab';
 
 interface Props {
   noticeId: number;
+  setMailTotalCount: (totalCount: number) => void;
 }
 
-function NotificationTabs({ noticeId }: Props) {
+function NotificationTabs({ noticeId, setMailTotalCount }: Props) {
   const primaryColor = useColor('primary');
   const styles = {
     padding: '0 0 4px',
@@ -46,7 +47,11 @@ function NotificationTabs({ noticeId }: Props) {
 
       <TabPanels>
         <TabPanel p="16px 0 0">
-          <MailTab key={noticeId} noticeId={noticeId} />
+          <MailTab
+            key={noticeId}
+            noticeId={noticeId}
+            setTotalCount={setMailTotalCount}
+          />
         </TabPanel>
       </TabPanels>
     </Tabs>
