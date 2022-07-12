@@ -70,6 +70,7 @@ function EmailForm({ data, totalCount, refetch }: Props) {
 
   const onSubmit: SubmitHandler<FormFieldValues> = (formFieldValues) => {
     modifyMutate({ data: { id, ...formFieldValues } });
+    setIsReadOnly(true);
   };
 
   const handleReset = () => {
@@ -124,16 +125,20 @@ function EmailForm({ data, totalCount, refetch }: Props) {
           <HStack paddingLeft="32px" spacing="16px">
             {isReadOnly ? (
               <>
-                <LinkButton onClick={() => setIsReadOnly(false)}>
+                <LinkButton key="modify" onClick={() => setIsReadOnly(false)}>
                   编辑
                 </LinkButton>
-                <LinkButton onClick={onOpen}>删除</LinkButton>
+                <LinkButton key="delete" onClick={onOpen}>
+                  删除
+                </LinkButton>
               </>
             ) : (
               <>
-                <LinkButton type="submit">确定</LinkButton>
-                <LinkButton type="reset" onClick={handleReset}>
+                <LinkButton key="reset" type="reset" onClick={handleReset}>
                   取消
+                </LinkButton>
+                <LinkButton key="submit" type="submit">
+                  确定
                 </LinkButton>
               </>
             )}
