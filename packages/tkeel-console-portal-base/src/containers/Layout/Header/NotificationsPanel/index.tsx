@@ -55,9 +55,8 @@ export default function NotificationsPanel({
       </Box>
       <Flex flex="1" overflowY="auto" flexDirection="column">
         {notifications.length > 0 ? (
-          notifications.map(({ notification }) => {
+          notifications.map(({ notification }, i) => {
             const {
-              id,
               action,
               title,
               content,
@@ -67,7 +66,7 @@ export default function NotificationsPanel({
 
             return (
               <Flex
-                key={id}
+                key={String(i + 1)}
                 flexDirection="column"
                 height="112px"
                 flexShrink={0}
@@ -75,7 +74,13 @@ export default function NotificationsPanel({
                 cursor="pointer"
                 _hover={{ backgroundColor: 'gray.100' }}
                 onClick={() => {
-                  if (url) {
+                  if (!url) {
+                    return;
+                  }
+
+                  if (action.extras?.is_open_in_new_window) {
+                    window.open(url);
+                  } else {
                     navigate(url);
                   }
                 }}
