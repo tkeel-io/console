@@ -11,7 +11,6 @@ import { plugin, schemas } from '@tkeel/console-utils';
 import useCreateMailMutation from '@/tkeel-console-plugin-tenant-notification-objects/hooks/mutations/useCreateMailMutation';
 
 import MailForm from '../MailForm';
-// import useCreateMails from './useCreateMails';
 
 const { TextField } = FormField;
 
@@ -29,9 +28,6 @@ interface Props {
 }
 
 function MailTab({ noticeId, refetchCounts }: Props) {
-  // TODO: temp
-  // useCreateMails(noticeId);
-
   const toast = plugin.getPortalToast();
 
   const {
