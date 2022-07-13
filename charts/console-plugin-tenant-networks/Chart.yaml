@@ -6,7 +6,7 @@ annotations:
   tkeel.io/version: v0.4.0
 apiVersion: v2
 appVersion: 0.4.0-alpha.2
-description: tenant and user console
+description: 前端租户平台的「网络服务」插件
 maintainers:
   - email: caoyue@yunify.com
     name: caoyue
