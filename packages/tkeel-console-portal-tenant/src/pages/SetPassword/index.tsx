@@ -121,6 +121,7 @@ export default function SetPassword() {
           paddingLeft="20px"
           backgroundRepeat="no-repeat"
           backgroundSize="cover"
+          backgroundPosition="center"
           backgroundImage={config?.common.backgroundImage}
         >
           {logo && <LoginBackgroundLogo src={logo} />}

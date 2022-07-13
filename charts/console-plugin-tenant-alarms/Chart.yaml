@@ -6,7 +6,7 @@ annotations:
   tkeel.io/version: v0.4.0
 apiVersion: v2
 appVersion: 0.4.2
-description: 告警记录
+description: 前端租户平台的「告警记录」插件
 maintainers:
   - email: donniean@yunify.com
     name: donniean

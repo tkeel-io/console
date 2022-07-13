@@ -9,11 +9,13 @@ import {
   SegmentedControlTabList,
 } from '@tkeel/console-components';
 import { BellGearTwoToneIcon } from '@tkeel/console-icons';
+import { plugin } from '@tkeel/console-utils';
 
 import PolicyDetailDrawer from './components/PolicyDetailDrawer';
 import PolicyTable from './components/PolicyTable';
 
 export default function Index() {
+  const documents = plugin.getPortalDocuments();
   const [searchParams, setSearchParams] = useSearchParams();
   const id = searchParams.get('id');
   const defaultRuleId = !!id && !Number.isNaN(Number(id)) ? Number(id) : null;
@@ -50,8 +52,7 @@ export default function Index() {
         icon={<BellGearTwoToneIcon />}
         name="告警策略"
         desc="告警策略配置"
-        // TODO: 加文档
-        // documentsPath={}
+        documentsPath={documents.config.paths.tenantGuide.alarmPolicy}
       />
       <Tabs
         isLazy
