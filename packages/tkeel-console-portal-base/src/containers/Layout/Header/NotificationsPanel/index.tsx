@@ -60,7 +60,7 @@ export default function NotificationsPanel({
               action,
               title,
               content,
-              create_timestamp: createTimestamp,
+              // create_timestamp: createTimestamp,
             } = notification;
             const url = action.value;
 
@@ -68,7 +68,6 @@ export default function NotificationsPanel({
               <Flex
                 key={String(i + 1)}
                 flexDirection="column"
-                height="112px"
                 flexShrink={0}
                 padding="10px 20px"
                 cursor="pointer"
@@ -97,20 +96,20 @@ export default function NotificationsPanel({
                   </Text>
                 </Flex>
                 <Text
-                  marginY="4px"
+                  marginTop="4px"
                   color="grayAlternatives.700"
                   fontSize="12px"
                   lineHeight="22px"
                 >
                   {content}
                 </Text>
-                <Text
+                {/* <Text
                   color="grayAlternatives.500"
                   fontSize="12px"
                   lineHeight="24px"
                 >
                   {createTimestamp ? dayjs(createTimestamp).fromNow() : ''}
-                </Text>
+                </Text> */}
               </Flex>
             );
           })
