@@ -22,6 +22,7 @@ import MoreOperationButton from './components/MoreOperationButton';
 import NotificationSelectCard from './components/NotificationSelectCard';
 
 export default function Index() {
+  const documents = plugin.getPortalDocuments();
   const [keyWords, setKeywords] = useState('');
   const toast = plugin.getPortalToast();
   const { tenantInfo } = plugin.getPortalProps().client;
@@ -53,6 +54,9 @@ export default function Index() {
       <PageHeader
         icon={<HornTwoToneIcon size={40} />}
         name="通知对象"
+        documentsPath={
+          documents.config.paths.tenantGuide.alarmNotificationObjects
+        }
         desc="通知对象"
       />
       <Flex

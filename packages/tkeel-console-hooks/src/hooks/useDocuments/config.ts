@@ -9,6 +9,8 @@ export const paths = {
       '/admin-guide/platform-config/config_customize#主题色配置',
     appearanceConfig: '/admin-guide/platform-config/config_customize#外观配置',
     serviceMonitoring: '/admin-guide/maintenance-mgt/service_monitor',
+    usageStatistics: '/admin-guide/maintenance-mgt/usage_statistics',
+    alarmNotificationConfigs: '/admin-guide/monitor/monitor_notify',
   },
   tenantGuide: {
     users: '/tenant-guide/user-mgt/user_mgt',
@@ -20,5 +22,8 @@ export const paths = {
     deviceList: '/tenant-guide/device-mgt/device_mgt_list',
     deviceTemplate:
       '/tenant-guide/device-mgt/device_template/device_template_intro',
+    alarmPolicy: '/tenant-guide/alarm-monitor/alarm_policy',
+    alarms: '/tenant-guide/alarm-monitor/alarm_record',
+    alarmNotificationObjects: '/tenant-guide/alarm-monitor/alarm_notify',
   },
 };

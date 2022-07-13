@@ -27,7 +27,6 @@ type Props<TFieldValues> = FormControlProps & {
   showArrow?: boolean;
   allowClear?: boolean;
   loading?: boolean;
-  // TODO: https://github.com/react-hook-form/react-hook-form/blob/master/CHANGELOG.md#7330---2022-6-24
   defaultValue?: FieldPathValue<TFieldValues, Path<TFieldValues>>;
   placeholder?: string;
   rules?: Omit<
