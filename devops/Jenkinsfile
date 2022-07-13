@@ -18,22 +18,22 @@ pipeline {
 
         string(
             name:'REGISTRY',
-            defaultValue: 'harbor.wuxs.vip:30003',
+            defaultValue: 'harbor.tkeel.io:30003',
             description:'REGISTRY')
 
         string(
             name:'REPOSITORY',
-            defaultValue: 'tkeel-io-dev',
+            defaultValue: 'tkeel-io',
             description:'REPOSITORY')
 
         string(
             name:'DOCKER_IMAGE_TAG',
-            defaultValue: '0.1.0',
+            defaultValue: '2.0.0',
             description:'docker image tag')
 
         string(
             name:'HELM_CHART_VERSION',
-            defaultValue: '0.1.0',
+            defaultValue: '2.0.0',
             description:'plugin version')
 
         string(
@@ -146,8 +146,8 @@ pipeline {
                                     /*
                                     theme & appearance
                                     */
-                                    env.APPEARANCE= "qingcloud-light"
-                                    env.THEME = "qingcloud"
+                                    env.APPEARANCE= "qingcloud"
+                                    env.THEME = "qingcloud-light"
 
                                 }else{
                                     /*

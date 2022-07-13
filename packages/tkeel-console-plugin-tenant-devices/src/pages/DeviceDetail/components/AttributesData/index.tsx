@@ -394,6 +394,7 @@ function AttributesData({
                   variant="iconButton"
                   key="save"
                   id={deviceId}
+                  supportRef
                   refetch={refetchDeviceDetail}
                 />
               ),
