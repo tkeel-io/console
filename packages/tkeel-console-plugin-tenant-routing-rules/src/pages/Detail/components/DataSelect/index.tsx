@@ -26,6 +26,7 @@ import TitleWrapper from '../TitleWrapper';
 import AddDevicesButton from './AddDevicesButton';
 import DeleteDevicesButton from './DeleteDevicesButton';
 import MoveRoutingRuleButton from './MoveRoutingRuleButton';
+import RuleSQL from './RuleSQL';
 
 type DeviceColumnData = {
   id: string;
@@ -336,6 +337,7 @@ export default function DataSelect({ routeType }: Props) {
                   />
                 </Flex>
               )}
+              <RuleSQL sx={{ marginTop: '20px' }} />
             </Flex>
           );
         })()}

@@ -84,6 +84,7 @@ export { default as KeyFilledIcon } from './components/KeyFilledIcon';
 export { default as LeftFilledIcon } from './components/LeftFilledIcon';
 export { default as LeftRightFilledIcon } from './components/LeftRightFilledIcon';
 export { default as LightningFilledIcon } from './components/LightningFilledIcon';
+export { default as LoadingCircleFilledIcon } from './components/LoadingCircleFilledIcon';
 export { default as LoadingFilledIcon } from './components/LoadingFilledIcon';
 export { default as MagnifierFilledIcon } from './components/MagnifierFilledIcon';
 export { default as MagnifierTwoToneIcon } from './components/MagnifierTwoToneIcon';
