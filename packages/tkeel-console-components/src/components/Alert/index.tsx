@@ -27,8 +27,7 @@ type Props = {
   };
   onClose: () => void;
   onCancel?: () => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onConfirm?: (arg: any) => void;
+  onConfirm?: () => void;
 };
 
 const defaultProps = {

@@ -27,9 +27,9 @@ type Props = {
   isConfirmButtonDisabled?: boolean;
   isConfirmButtonLoading?: boolean;
   modalBodyStyle?: StyleProps;
-  onClose: () => unknown;
-  onCancel?: () => unknown;
-  onConfirm?: (arg: unknown) => unknown;
+  onClose: () => void;
+  onCancel?: () => void;
+  onConfirm?: () => void;
 };
 
 const modalFooterProps = {
