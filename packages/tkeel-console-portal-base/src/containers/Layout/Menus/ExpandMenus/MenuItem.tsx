@@ -1,12 +1,15 @@
 import { Flex, Text } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
+import { Badge } from '@tkeel/console-components';
+
 import MenuIcon from './MenuIcon';
 
 type Props = {
   active: boolean;
   menuIconActive?: boolean;
   name: string;
+  hasNotification: boolean;
   leftIcon: string;
   rightIcon?: ReactNode;
 };
@@ -15,6 +18,7 @@ function MenuItem({
   active,
   menuIconActive,
   name,
+  hasNotification,
   leftIcon,
   rightIcon = null,
 }: Props) {
@@ -34,7 +38,9 @@ function MenuItem({
           active={menuIconActive ?? active}
           style={{ marginRight: '10px' }}
         />
-        <Text className="menu-name">{name}</Text>
+        <Badge dot count={hasNotification ? 1 : 0}>
+          <Text className="menu-name">{name}</Text>
+        </Badge>
       </Flex>
       {rightIcon}
     </Flex>

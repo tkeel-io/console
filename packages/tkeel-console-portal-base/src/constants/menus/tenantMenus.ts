@@ -90,7 +90,7 @@ export default [
         entry: 'http://127.0.0.1:3015/static/console-plugin-tenant-alarms/',
       },
       {
-        id: 'tenant-alarm-policy',
+        id: 'console-plugin-tenant-alarm-policy',
         name: '告警策略',
         path: '/tenant-alarm-policy',
         entry:

@@ -8,6 +8,12 @@ import {
   RuleStatus,
 } from '@tkeel/console-types';
 
+enum Status {
+  Unchanged,
+  Deleted,
+  Modified,
+}
+
 export interface RuleDetail {
   ruleId: number;
   ruleName: string;
@@ -25,6 +31,9 @@ export interface RuleDetail {
   enable: RuleStatus;
   condition: Condition;
   deleted: number;
+  tempStatus: Status;
+  deviceStatus: Status;
+  telemetryStatus: Status;
 }
 
 interface RequestParams {

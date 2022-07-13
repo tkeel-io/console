@@ -26,6 +26,7 @@ type Props<TFieldValues> = FormControlProps & {
   mode?: 'combobox' | 'multiple' | 'tags';
   showArrow?: boolean;
   allowClear?: boolean;
+  showSearch?: boolean;
   loading?: boolean;
   defaultValue?: FieldPathValue<TFieldValues, Path<TFieldValues>>;
   placeholder?: string;
@@ -51,6 +52,7 @@ export default function SelectField<TFieldValues>({
   mode,
   showArrow = true,
   allowClear = false,
+  showSearch = false,
   loading = false,
   placeholder,
   defaultValue,
@@ -80,6 +82,7 @@ export default function SelectField<TFieldValues>({
             notFoundContent={notFoundContent}
             onChange={onChange}
             value={value}
+            showSearch={showSearch}
             menuItemSelectedIcon={
               <Center width="30px" height="32px">
                 <CheckFilledIcon color="primary" />

@@ -108,6 +108,7 @@ export default function ExpandMenus({ isDarkMenu }: Props) {
                       />
                     ) : (
                       <MenuLink
+                        id={id}
                         path={path as string}
                         name={name}
                         icon={icon as string}
@@ -118,6 +119,7 @@ export default function ExpandMenus({ isDarkMenu }: Props) {
                         {children.map((subMenu) => (
                           <SubMenuLink
                             key={subMenu.id}
+                            id={subMenu.id}
                             name={subMenu.name}
                             path={subMenu.path as string}
                           />

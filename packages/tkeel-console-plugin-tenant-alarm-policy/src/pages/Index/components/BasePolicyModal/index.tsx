@@ -1,4 +1,4 @@
-import { Box, Flex } from '@chakra-ui/react';
+import { Box, Flex, Text } from '@chakra-ui/react';
 import { ReactNode, useEffect, useState } from 'react';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 
@@ -25,7 +25,10 @@ import {
 import { RequestData as CreatePolicyRequestData } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/mutations/useCreatePolicyMutation';
 import type { PlatformRule } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePlatformRulesQuery';
 import usePlatformRulesQuery from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePlatformRulesQuery';
-import type { Policy } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
+import {
+  Policy,
+  Status,
+} from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
 import type { RuleDesc } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/useRuleDescQuery';
 import {
   getDeviceConditionsByRuleDesc,
@@ -36,7 +39,8 @@ import DeviceRuleDescriptionCard, {
   defaultDeviceCondition,
   DeviceCondition,
 } from '../DeviceRuleDescriptionCard';
-import DeviceSelectField, { getDeviceInfo } from '../DeviceSelectField';
+import type { DeviceInfo } from '../DeviceSelectField';
+import DeviceSelectField, { parseDeviceInfo } from '../DeviceSelectField';
 import FormCard from '../FormCard';
 import PlatformRuleDescriptionCard from '../PlatformRuleDescriptionCard';
 
@@ -68,6 +72,26 @@ interface FormValues {
   deviceInfo: string;
   condition: Condition;
   deviceConditions: DeviceCondition[];
+}
+
+function getErrorMessage({
+  policy,
+  isTemplateDeleted,
+  isDeviceDeleted,
+}: {
+  policy: Policy;
+  isTemplateDeleted: boolean;
+  isDeviceDeleted: boolean;
+}) {
+  let errorMessage = '';
+  if (isTemplateDeleted) {
+    errorMessage = `${
+      policy.tempName ? `「${policy.tempName}」` : '该'
+    }设备模板已删除，请重新选择告警源对象。`;
+  } else if (isDeviceDeleted) {
+    errorMessage = '该设备已删除，请重新选择告警源对象。';
+  }
+  return errorMessage;
 }
 
 export default function BasePolicyModal({
@@ -158,6 +182,7 @@ export default function BasePolicyModal({
     const errorIndexArr: number[] = [];
     getRequestDeviceConditions(deviceConditions).forEach((condition, i) => {
       const { telemetryId, operator, value } = condition;
+
       if (!telemetryId || !operator || !value) {
         errorIndexArr.push(i);
       }
@@ -166,6 +191,34 @@ export default function BasePolicyModal({
     setDeviceConditionsErrors(errorIndexArr);
 
     return errorIndexArr.length > 0;
+  };
+
+  const statusIsModified = (status: Status) => {
+    return [Status.Deleted, Status.Modified].includes(status);
+  };
+
+  const containDeletedTemplateOrDevice = (deviceInfo: DeviceInfo) => {
+    const { tempId, deviceId } = deviceInfo;
+    const tempIsDeleted =
+      policy?.tempStatus === Status.Deleted && tempId === policy?.tempId;
+    const deviceIsDeleted =
+      policy?.deviceStatus === Status.Deleted && deviceId === policy?.deviceId;
+
+    return tempIsDeleted || deviceIsDeleted;
+  };
+
+  const containModifiedTelemetry = () => {
+    const { deviceConditions } = getValues();
+
+    return getRequestDeviceConditions(deviceConditions).some(
+      ({ telemetryId, telemetryName }) =>
+        ruleDescList?.some(
+          (rule) =>
+            statusIsModified(rule.telemetryStatus) &&
+            rule.telemetryId === telemetryId &&
+            rule.telemetryName === telemetryName
+        )
+    );
   };
 
   const handleConfirm = async () => {
@@ -189,6 +242,13 @@ export default function BasePolicyModal({
     const isSystemAlarm = alarmRuleType === String(AlarmRuleType.System);
 
     if (isThresholdAlarm && handleSetDeviceConditionsErrors()) {
+      return;
+    }
+
+    if (
+      containDeletedTemplateOrDevice(parseDeviceInfo(deviceInfo)) ||
+      containModifiedTelemetry()
+    ) {
       return;
     }
 
@@ -218,7 +278,7 @@ export default function BasePolicyModal({
           }
         : {
             ...data,
-            ...getDeviceInfo(deviceInfo),
+            ...parseDeviceInfo(deviceInfo),
             deviceCondition: getRequestDeviceConditions(deviceConditions),
           };
 
@@ -226,6 +286,19 @@ export default function BasePolicyModal({
   };
 
   const isSystemAlarm = watch('alarmRuleType') === String(AlarmRuleType.System);
+
+  const { tempId, deviceId } = parseDeviceInfo(watch('deviceInfo'));
+
+  const alarmSourceObjectOptions = isSystemAlarm
+    ? systemAlarmSourceObjectOptions
+    : thresholdAlarmSourceObjectOptions;
+
+  const isTemplateDeleted =
+    !!policy?.tempId &&
+    !policy.deviceId &&
+    policy?.tempStatus === Status.Deleted;
+  const isDeviceDeleted =
+    !!policy?.deviceId && policy.deviceStatus === Status.Deleted;
 
   useEffect(() => {
     setValue(
@@ -254,6 +327,10 @@ export default function BasePolicyModal({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ruleDescList]);
 
+  useEffect(() => {
+    setValue('deviceConditions', [defaultDeviceCondition]);
+  }, [tempId, deviceId, setValue]);
+
   const watchDeviceInfo = watch('deviceInfo');
   useEffect(() => {
     if (watchDeviceInfo === '') {
@@ -261,7 +338,6 @@ export default function BasePolicyModal({
     }
   }, [setValue, watchDeviceInfo]);
 
-  const { tempId, deviceId } = getDeviceInfo(watch('deviceInfo'));
   return (
     <Modal
       width="800px"
@@ -333,17 +409,24 @@ export default function BasePolicyModal({
               name="alarmSourceObject"
               label="告警源对象"
               placeholder="请选择"
-              options={
-                isSystemAlarm
-                  ? systemAlarmSourceObjectOptions
-                  : thresholdAlarmSourceObjectOptions
-              }
+              options={alarmSourceObjectOptions}
               control={control}
               formControlStyle={{
                 marginBottom: '10px',
               }}
             />
-            <Tip title="告警源对象支持模板下全部设备或单个设备" />
+            {policy &&
+            containDeletedTemplateOrDevice(parseDeviceInfo(watchDeviceInfo)) ? (
+              <Text color="red.300" fontSize="12px">
+                {getErrorMessage({
+                  policy,
+                  isTemplateDeleted,
+                  isDeviceDeleted,
+                })}
+              </Text>
+            ) : (
+              <Tip title="告警源对象支持模板下全部设备或单个设备" />
+            )}
           </Box>
           {!isSystemAlarm && (
             <FormControl
@@ -362,13 +445,21 @@ export default function BasePolicyModal({
                     message: '请选择模板下全部设备或单个设备',
                   },
                 }}
-                render={({ field: { value, onChange } }) => (
-                  <DeviceSelectField
-                    value={value}
-                    onChange={onChange}
-                    styles={{ wrapper: { marginTop: '32px' } }}
-                  />
-                )}
+                render={({ field: { value, onChange } }) => {
+                  const isError = containDeletedTemplateOrDevice(
+                    parseDeviceInfo(value)
+                  );
+                  return (
+                    <DeviceSelectField
+                      value={value}
+                      onChange={onChange}
+                      styles={{
+                        root: { marginTop: '32px' },
+                        input: isError ? { borderColor: 'red.300' } : {},
+                      }}
+                    />
+                  );
+                }}
               />
             </FormControl>
           )}
@@ -399,11 +490,15 @@ export default function BasePolicyModal({
               />
             ) : (
               <DeviceRuleDescriptionCard<FormValues>
+                policy={policy}
                 tempId={tempId}
                 deviceId={deviceId}
+                tempStatus={policy?.tempStatus}
+                deviceStatus={policy?.deviceStatus}
                 register={register}
                 control={control}
                 deviceConditionsErrors={deviceConditionsErrors}
+                ruleDescList={ruleDescList}
                 append={() => {
                   append(defaultDeviceCondition);
                 }}

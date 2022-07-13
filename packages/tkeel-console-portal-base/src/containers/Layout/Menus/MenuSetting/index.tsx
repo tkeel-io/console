@@ -110,7 +110,7 @@ export default function MenuSetting({
       flexDirection="column"
       padding="20px"
       width="100%"
-      height="600px"
+      height="640px"
       maxHeight="100vh"
       borderTopWidth="1px"
       borderTopStyle="solid"
@@ -123,20 +123,22 @@ export default function MenuSetting({
         top="20px"
         onClick={onClose}
       />
-      <HStack flex="1" spacing="20px">
-        <Tree
-          treeData={treeData}
-          checkable
-          defaultExpandAll
-          checkedKeys={checkedKeys}
-          selectable={false}
-          styles={{ tree: 'width: 200px; padding-left: 10px;' }}
-          onCheck={(keys) => {
-            const checkedIds = keys as string[];
-            setCheckedKeys(checkedIds);
-            setMockMenus(getMockMenusByIds(checkedIds));
-          }}
-        />
+      <HStack flex="1" overflow="hidden" spacing="20px">
+        <Flex height="100%" overflowY="auto">
+          <Tree
+            treeData={treeData}
+            checkable
+            defaultExpandAll
+            checkedKeys={checkedKeys}
+            selectable={false}
+            styles={{ tree: 'width: 200px; padding-left: 10px;' }}
+            onCheck={(keys) => {
+              const checkedIds = keys as string[];
+              setCheckedKeys(checkedIds);
+              setMockMenus(getMockMenusByIds(checkedIds));
+            }}
+          />
+        </Flex>
         <AceEditor
           language="json"
           value={mockMenus}

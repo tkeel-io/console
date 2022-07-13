@@ -10,6 +10,7 @@ import type { Policy } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/qu
 import useRuleDescQuery from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/useRuleDescQuery';
 
 import ModifyPolicyModal from '../ModifyPolicyModal';
+import PolicyBadge from '../PolicyBadge';
 
 interface Props {
   policy: Policy;
@@ -37,7 +38,7 @@ function ModifyPolicyButton({ policy, onSuccess }: Props) {
     <>
       <MoreActionButton
         icon={<PencilFilledIcon size="12px" color="grayAlternatives.300" />}
-        title="修改告警策略"
+        title={<PolicyBadge policy={policy}>修改告警策略</PolicyBadge>}
         onClick={() => {
           onOpen();
         }}

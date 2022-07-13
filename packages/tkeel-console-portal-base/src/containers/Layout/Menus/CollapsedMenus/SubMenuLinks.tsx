@@ -28,6 +28,7 @@ function SubMenuLinks({ data }: Props) {
       {data.map((menu) => (
         <SubMenuLink
           key={menu.id}
+          id={menu.id}
           path={menu.path as string}
           name={menu.name}
           isDarkMenu={isDarkMenu}

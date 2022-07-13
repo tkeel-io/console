@@ -26,6 +26,7 @@ import {
   RuleStatus,
 } from '@tkeel/console-types';
 
+import PolicyBadge from '@/tkeel-console-plugin-tenant-alarm-policy/components/PolicyBadge';
 import {
   ALARM_SOURCE_OBJECT_MAP,
   ALARM_TYPE_MAP,
@@ -111,13 +112,15 @@ function PolicyTable({ alarmRuleType, setRuleId }: Props) {
       accessor: 'ruleName',
       Cell: useCallback(
         ({ value, row }: CellProps<Policy, Policy['ruleName']>) => (
-          <Text
-            fontWeight="500"
-            cursor="pointer"
-            onClick={() => setRuleId(row.original.ruleId)}
-          >
-            {value}
-          </Text>
+          <PolicyBadge policy={row.original}>
+            <Text
+              fontWeight="500"
+              cursor="pointer"
+              onClick={() => setRuleId(row.original.ruleId)}
+            >
+              {value}
+            </Text>
+          </PolicyBadge>
         ),
         [setRuleId]
       ),
