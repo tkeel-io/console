@@ -1,8 +1,8 @@
-import { Box, Flex, ModalCloseButton, StyleProps } from '@chakra-ui/react';
+import { Box, Flex, StyleProps } from '@chakra-ui/react';
 import { noop } from 'lodash';
 import { ReactNode } from 'react';
 
-import { Modal } from '@/tkeel-console-components/components/Modal';
+import Modal from '@/tkeel-console-components/components/Modal';
 import * as StatusIcon from '@/tkeel-console-components/components/StatusIcon';
 
 import { ICON_SIZE } from './constants';
@@ -137,12 +137,7 @@ export default function Alert(props: Props) {
   }
 
   return (
-    <Modal
-      hasCloseButton={false}
-      modalBodyStyle={{ padding: '40px 20px' }}
-      {...rest}
-    >
-      {hasCloseButton && <ModalCloseButton _focus={{ boxShadow: 0 }} />}
+    <Modal modalBodyStyle={{ padding: '40px 20px' }} {...rest}>
       <Flex style={style}>
         {renderIcon()}
         <Flex
