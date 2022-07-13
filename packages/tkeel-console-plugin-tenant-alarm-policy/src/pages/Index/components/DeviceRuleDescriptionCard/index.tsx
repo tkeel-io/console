@@ -28,6 +28,7 @@ import {
   RequestTelemetryType,
   Time,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/mutations/useCreatePolicyMutation';
+import type { Policy } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
 import { Status } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/usePolicyListQuery';
 import type { RuleDesc } from '@/tkeel-console-plugin-tenant-alarm-policy/hooks/queries/useRuleDescQuery';
 import {
@@ -68,6 +69,7 @@ export const defaultDeviceCondition: DeviceCondition = {
 };
 
 interface Props<FormValues> {
+  policy: Policy | undefined;
   tempId: string;
   deviceId: string;
   tempStatus: Status | undefined;
@@ -104,6 +106,7 @@ function ErrorTip({
 }
 
 export default function DeviceRuleDescriptionCard<FormValues>({
+  policy,
   tempId,
   deviceId,
   tempStatus,
@@ -116,13 +119,23 @@ export default function DeviceRuleDescriptionCard<FormValues>({
   fieldArrayReturn,
 }: Props<FormValues>) {
   const colors = useColors();
+
+  const templateIdChanged =
+    tempStatus === Status.Deleted && tempId !== policy?.tempId;
+  const queryTemplateTelemetryEnabled =
+    tempStatus !== Status.Deleted || templateIdChanged;
   const { telemetry: templateTelemetryFields } = useTemplateTelemetryQuery({
     id: tempId,
-    enabled: tempStatus !== Status.Deleted,
+    enabled: queryTemplateTelemetryEnabled,
   });
+
+  const deviceIdChanged =
+    deviceStatus === Status.Deleted && deviceId !== policy?.deviceId;
+  const queryDeviceDetailEnabled =
+    deviceStatus !== Status.Deleted || deviceIdChanged;
   const { deviceObject } = useDeviceDetailQuery({
     id: deviceId,
-    enabled: deviceStatus !== Status.Deleted,
+    enabled: queryDeviceDetailEnabled,
   });
 
   let telemetryFields = templateTelemetryFields;

@@ -287,6 +287,19 @@ export default function BasePolicyModal({
 
   const isSystemAlarm = watch('alarmRuleType') === String(AlarmRuleType.System);
 
+  const { tempId, deviceId } = parseDeviceInfo(watch('deviceInfo'));
+
+  const alarmSourceObjectOptions = isSystemAlarm
+    ? systemAlarmSourceObjectOptions
+    : thresholdAlarmSourceObjectOptions;
+
+  const isTemplateDeleted =
+    !!policy?.tempId &&
+    !policy.deviceId &&
+    policy?.tempStatus === Status.Deleted;
+  const isDeviceDeleted =
+    !!policy?.deviceId && policy.deviceStatus === Status.Deleted;
+
   useEffect(() => {
     setValue(
       'alarmSourceObject',
@@ -314,25 +327,16 @@ export default function BasePolicyModal({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ruleDescList]);
 
+  useEffect(() => {
+    setValue('deviceConditions', [defaultDeviceCondition]);
+  }, [tempId, deviceId, setValue]);
+
   const watchDeviceInfo = watch('deviceInfo');
   useEffect(() => {
     if (watchDeviceInfo === '') {
       setValue('deviceConditions', [defaultDeviceCondition]);
     }
   }, [setValue, watchDeviceInfo]);
-
-  const { tempId, deviceId } = parseDeviceInfo(watch('deviceInfo'));
-
-  const alarmSourceObjectOptions = isSystemAlarm
-    ? systemAlarmSourceObjectOptions
-    : thresholdAlarmSourceObjectOptions;
-
-  const isTemplateDeleted =
-    !!policy?.tempId &&
-    !policy.deviceId &&
-    policy?.tempStatus === Status.Deleted;
-  const isDeviceDeleted =
-    !!policy?.deviceId && policy.deviceStatus === Status.Deleted;
 
   return (
     <Modal
@@ -486,6 +490,7 @@ export default function BasePolicyModal({
               />
             ) : (
               <DeviceRuleDescriptionCard<FormValues>
+                policy={policy}
                 tempId={tempId}
                 deviceId={deviceId}
                 tempStatus={policy?.tempStatus}
