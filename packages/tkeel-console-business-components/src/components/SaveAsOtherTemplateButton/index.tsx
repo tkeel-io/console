@@ -14,12 +14,14 @@ type Props = {
   id: string;
   variant?: string;
   refetch?: () => void;
+  supportRef?: boolean;
 };
 
 export default function SaveAsOtherTemplateButton({
   id,
   variant,
   refetch = () => {},
+  supportRef = false,
 }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = plugin.getPortalToast();
@@ -73,7 +75,7 @@ export default function SaveAsOtherTemplateButton({
         isConfirmButtonLoading={isLoading}
         onClose={onClose}
         onConfirm={handleConfirm}
-        supportRef
+        supportRef={supportRef}
         isConfirmRefButtonLoading={isLoadingRef}
         onConfirmRef={handleConfirmRef}
       />
