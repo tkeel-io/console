@@ -193,10 +193,6 @@ export default function BasePolicyModal({
     return errorIndexArr.length > 0;
   };
 
-  const statusIsModified = (status: Status) => {
-    return [Status.Deleted, Status.Modified].includes(status);
-  };
-
   const containDeletedTemplateOrDevice = (deviceInfo: DeviceInfo) => {
     const { tempId, deviceId } = deviceInfo;
     const tempIsDeleted =
@@ -207,14 +203,14 @@ export default function BasePolicyModal({
     return tempIsDeleted || deviceIsDeleted;
   };
 
-  const containModifiedTelemetry = () => {
+  const containDeletedTelemetry = () => {
     const { deviceConditions } = getValues();
 
     return getRequestDeviceConditions(deviceConditions).some(
       ({ telemetryId, telemetryName }) =>
         ruleDescList?.some(
           (rule) =>
-            statusIsModified(rule.telemetryStatus) &&
+            rule.telemetryStatus === Status.Deleted &&
             rule.telemetryId === telemetryId &&
             rule.telemetryName === telemetryName
         )
@@ -247,7 +243,7 @@ export default function BasePolicyModal({
 
     if (
       containDeletedTemplateOrDevice(parseDeviceInfo(deviceInfo)) ||
-      containModifiedTelemetry()
+      containDeletedTelemetry()
     ) {
       return;
     }
