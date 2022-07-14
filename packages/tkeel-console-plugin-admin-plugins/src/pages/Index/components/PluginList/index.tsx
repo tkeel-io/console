@@ -132,6 +132,7 @@ function PluginList({
                           maxWidth="120px"
                           marginLeft="20px"
                           noOfLines={1}
+                          wordBreak="break-all"
                           title={repo}
                         >
                           插件源：{repo}
