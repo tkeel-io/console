@@ -129,7 +129,7 @@ function PluginList({
                           版本：{version}
                         </Text>
                         <Text
-                          maxWidth="50%"
+                          maxWidth="120px"
                           marginLeft="20px"
                           noOfLines={1}
                           title={repo}
