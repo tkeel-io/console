@@ -28,7 +28,7 @@ export default function NotificationsPanel({
     <Flex
       flexDirection="column"
       width="400px"
-      minHeight="300px"
+      minHeight="266px"
       maxHeight="622px"
       borderWidth="1px"
       borderStyle="solid"
