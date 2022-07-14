@@ -1,7 +1,9 @@
-import { Box, Flex, StyleProps, Text } from '@chakra-ui/react';
+import { Box, Flex, StyleProps, Text, useDisclosure } from '@chakra-ui/react';
 
 import { IconButton } from '@tkeel/console-components';
 import { LoadingCircleFilledIcon } from '@tkeel/console-icons';
+
+import EditSQLModal from '../EditSQLModal';
 
 interface Props {
   sx?: StyleProps;
@@ -11,6 +13,7 @@ interface Props {
 }
 
 export default function RuleSQL({ sx, styles }: Props) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Box
       padding="20px"
@@ -40,9 +43,11 @@ export default function RuleSQL({ sx, styles }: Props) {
           backgroundColor="gray.700"
           boxShadow="none"
           _hover={{ backgroundColor: 'gray.700' }}
+          onClick={() => onOpen()}
         >
-          编写 SQL
+          编写SQL
         </IconButton>
+        <EditSQLModal isOpen={isOpen} onClose={onClose} />
       </Flex>
     </Box>
   );
