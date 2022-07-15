@@ -1,5 +1,5 @@
 import { Box, HStack, Text } from '@chakra-ui/react';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CellProps, Column } from 'react-table';
 
@@ -198,8 +198,8 @@ function DeviceListTable({
     {
       Header: '操作',
       width: 80,
-      Cell: ({ row }: CellProps<DeviceItem>) =>
-        useMemo(() => {
+      Cell: useCallback(
+        ({ row }: CellProps<DeviceItem>) => {
           const originData = row.original.originData as DeviceApiItem;
           const id = originData?.id ?? '';
           const name = originData?.properties?.basicInfo?.name ?? '';
@@ -254,7 +254,9 @@ function DeviceListTable({
               ]}
             />
           );
-        }, [row]),
+        },
+        [refetch, groupTree]
+      ),
     },
   ];
   return (

@@ -14,6 +14,7 @@ module.exports = {
   plugins: ['simple-import-sort'],
   rules: {
     'sort-imports': 'off',
+    'import/no-cycle': ['error', { ignoreExternal: true }],
     'import/order': 'off',
     'simple-import-sort/imports': [
       'error',
