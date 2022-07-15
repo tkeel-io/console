@@ -110,8 +110,7 @@ export default function DataRepublish({
           请添加相关产品转发数据
         </Text>
         <HStack marginTop="8px" spacing="8px">
-          {products.map((product) => {
-            const { id, icon, name } = product;
+          {products.map(({ id, icon, name }) => {
             return (
               <ProductTab
                 key={id}
