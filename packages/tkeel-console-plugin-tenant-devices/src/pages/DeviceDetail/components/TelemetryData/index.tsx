@@ -117,7 +117,8 @@ export default function TelemetryData({
         })
       );
     },
-    [telemetryValuesHistory, selectedDevices]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [telemetryValuesHistory]
   );
 
   useEffect(() => {
@@ -286,6 +287,7 @@ export default function TelemetryData({
                   variant="iconButton"
                   key="save"
                   id={deviceId}
+                  supportRef
                   refetch={refetchDeviceDetail}
                 />
               ),

@@ -383,17 +383,15 @@ export default function DeviceRuleDescriptionCard<FormValues>({
                     width="16px"
                     flexShrink={0}
                   >
-                    {fields.length > 1 && (
-                      <TrashFilledIcon
-                        color="grayAlternatives.300"
-                        style={{
-                          display: 'none',
-                          flexShrink: 0,
-                          cursor: 'pointer',
-                        }}
-                        onClick={() => remove(i)}
-                      />
-                    )}
+                    <TrashFilledIcon
+                      color="grayAlternatives.300"
+                      style={{
+                        display: 'none',
+                        flexShrink: 0,
+                        cursor: 'pointer',
+                      }}
+                      onClick={() => remove(i)}
+                    />
                   </Box>
                 </HStack>
                 {deviceConditionsErrors.includes(i) && (
