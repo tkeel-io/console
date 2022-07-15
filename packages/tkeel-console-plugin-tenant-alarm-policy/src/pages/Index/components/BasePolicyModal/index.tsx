@@ -318,14 +318,14 @@ export default function BasePolicyModal({
   }, [ruleDescList, platformRules, policy]);
 
   useEffect(() => {
+    setValue('deviceConditions', [defaultDeviceCondition]);
+  }, [tempId, deviceId, setValue]);
+
+  useEffect(() => {
     const deviceConditions = getDeviceConditionsByRuleDesc(ruleDescList || []);
     setValue('deviceConditions', deviceConditions);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ruleDescList]);
-
-  useEffect(() => {
-    setValue('deviceConditions', [defaultDeviceCondition]);
-  }, [tempId, deviceId, setValue]);
 
   const watchDeviceInfo = watch('deviceInfo');
   useEffect(() => {
