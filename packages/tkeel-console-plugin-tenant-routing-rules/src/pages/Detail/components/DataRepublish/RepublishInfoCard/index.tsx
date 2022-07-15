@@ -137,13 +137,7 @@ export default function RepublishInfoCard({
         <Box width="5px" height="40px" backgroundColor="success.300" />
         <Image marginLeft="20px" width={imageWidth} src={image} />
       </Flex>
-      <Text
-        flex="1"
-        color="grayAlternatives.700"
-        fontSize="14px"
-        noOfLines={1}
-        title={target.value}
-      >
+      <Text flex="1" color="grayAlternatives.700" fontSize="14px" noOfLines={1}>
         {imgType[target.sink_type] === 'kafka'
           ? `主题 Topic：${target.value}`
           : `数据库地址：${target.endpoint}`}
