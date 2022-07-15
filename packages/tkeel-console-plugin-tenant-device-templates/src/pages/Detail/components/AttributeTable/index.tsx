@@ -1,5 +1,5 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { CellProps, Column } from 'react-table';
 
 import {
@@ -88,8 +88,8 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
     {
       Header: '操作',
       width: 80,
-      Cell: ({ row }: CellProps<AttributeItem>) =>
-        useMemo(() => {
+      Cell: useCallback(
+        ({ row }: CellProps<AttributeItem>) => {
           const { original } = row;
 
           return (
@@ -110,7 +110,9 @@ function AttributeTable({ id, title }: { id: string; title: string }) {
               ]}
             />
           );
-        }, [row]),
+        },
+        [id, refetch]
+      ),
     },
   ];
 
