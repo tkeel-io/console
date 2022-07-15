@@ -1,5 +1,5 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { CellProps, Column } from 'react-table';
 
 import {
@@ -79,8 +79,8 @@ function Index({ id, title }: { id: string; title: string }) {
     {
       Header: '操作',
       width: 80,
-      Cell: ({ row }: CellProps<TelemetryItem>) =>
-        useMemo(() => {
+      Cell: useCallback(
+        ({ row }: CellProps<TelemetryItem>) => {
           const { original } = row;
           return (
             <MoreAction
@@ -103,7 +103,9 @@ function Index({ id, title }: { id: string; title: string }) {
               ]}
             />
           );
-        }, [row]),
+        },
+        [id, refetch]
+      ),
     },
   ];
 
