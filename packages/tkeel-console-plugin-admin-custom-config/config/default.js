@@ -22,7 +22,6 @@ module.exports = {
               path: '/admin-custom-config',
               entry: '/static/console-plugin-admin-custom-config/',
               portal: 0,
-              disable_manual_activation: true,
             },
           ],
         },

@@ -24,7 +24,6 @@ module.exports = {
               path: '/admin-notification-configs',
               entry: '/static/console-plugin-admin-notification-configs/',
               portal: 0,
-              disable_manual_activation: true,
             },
           ],
         },
