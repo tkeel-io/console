@@ -117,7 +117,8 @@ export default function TelemetryData({
         })
       );
     },
-    [telemetryValuesHistory, selectedDevices]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [telemetryValuesHistory]
   );
 
   useEffect(() => {
