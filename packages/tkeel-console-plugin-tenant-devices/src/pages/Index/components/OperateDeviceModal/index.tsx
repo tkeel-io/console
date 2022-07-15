@@ -196,7 +196,8 @@ export default function OperateDeviceModal({
     } else {
       reset(defaultFormInfo);
     }
-  }, [defaultFormValues, isOpen, mode, reset, type]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, mode, reset, type]);
   useEffect(() => {
     if (currentStep === 1 && isSuccess && !isLoading) {
       if (mode === ModalMode.EDIT) {
