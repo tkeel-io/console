@@ -1,6 +1,6 @@
 import { Box, Flex, StyleProps, Text, useDisclosure } from '@chakra-ui/react';
 
-import { IconButton } from '@tkeel/console-components';
+import { AceEditor, IconButton } from '@tkeel/console-components';
 import { LoadingCircleFilledIcon } from '@tkeel/console-icons';
 
 import EditSQLModal from '../EditSQLModal';
@@ -25,7 +25,7 @@ export default function RuleSQL({ sx, styles }: Props) {
       {...styles?.root}
       {...sx}
     >
-      <Flex justifyContent="space-between">
+      <Flex marginBottom="20px" justifyContent="space-between">
         <Flex alignItems="center">
           <LoadingCircleFilledIcon size={22} color="grayAlternatives.300" />
           <Text
@@ -49,6 +49,14 @@ export default function RuleSQL({ sx, styles }: Props) {
         </IconButton>
         <EditSQLModal isOpen={isOpen} onClose={onClose} />
       </Flex>
+      <AceEditor
+        language="ruleql"
+        readOnly={false}
+        highlightActiveLine={false}
+        enableLiveAutocompletion
+        height="48px"
+        value=""
+      />
     </Box>
   );
 }

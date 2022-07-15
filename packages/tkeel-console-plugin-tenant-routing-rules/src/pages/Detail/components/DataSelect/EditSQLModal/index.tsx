@@ -1,6 +1,11 @@
-import { Box, Flex, StyleProps, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, StyleProps, Text } from '@chakra-ui/react';
 
-import { AceEditor, Modal } from '@tkeel/console-components';
+import {
+  AceEditor,
+  ButtonsHStack,
+  Modal,
+  // Tip,
+} from '@tkeel/console-components';
 
 interface Props {
   title?: string;
@@ -30,8 +35,27 @@ export default function EditSQLModal({
   };
 
   return (
-    <Modal title={title} isOpen={isOpen} onClose={onClose} width="790px">
+    <Modal
+      title={title}
+      isOpen={isOpen}
+      onClose={onClose}
+      width="790px"
+      footer={
+        <ButtonsHStack>
+          <Button onClick={() => {}}>重置</Button>
+          <Button
+            isDisabled={false}
+            isLoading={false}
+            colorScheme="brand"
+            onClick={() => {}}
+          >
+            确定
+          </Button>
+        </ButtonsHStack>
+      }
+    >
       <Box
+        marginBottom="12px"
         height="310px"
         padding="20px 24px"
         borderRadius="2px"
@@ -39,18 +63,22 @@ export default function EditSQLModal({
       >
         <Text {...labelStyle}>字段 Fields</Text>
         <AceEditor
-          language="sql"
+          language="ruleql"
           readOnly={false}
+          highlightActiveLine={false}
+          enableLiveAutocompletion
           height="48px"
           value="SELECT *"
         />
         <Text {...descStyle}>默认查询设备上报的全部数据。</Text>
         <Flex marginTop="20px" alignItems="center">
           <Text {...labelStyle}>条件 Conditions</Text>
-          <Text {...descStyle}>（可选）</Text>
+          <Text {...descStyle} marginTop="0">
+            （可选）
+          </Text>
         </Flex>
         <AceEditor
-          language="sql"
+          language="ruleql"
           readOnly={false}
           height="48px"
           value="WHERE"
@@ -59,6 +87,7 @@ export default function EditSQLModal({
           规则引擎提供多种函数，您可以在编写SQL时使用这些函数，实现多样化数据处理。
         </Text>
       </Box>
+      {/* <Tip title="" /> */}
     </Modal>
   );
 }
