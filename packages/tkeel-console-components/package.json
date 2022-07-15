@@ -12,7 +12,7 @@
   "license": "Apache-2.0",
   "main": "./src/index.ts",
   "dependencies": {
-    "@chakra-ui/react": "^2.2.3",
+    "@chakra-ui/react": "^2.2.4",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@tkeel/console-hooks": "workspace:^",
@@ -25,7 +25,7 @@
     "dayjs": "^1.11.3",
     "downshift": "^6.1.7",
     "file-loader": "^6.2.0",
-    "framer-motion": "^6.4.3",
+    "framer-motion": "^6.5.1",
     "lodash": "^4.17.21",
     "rc-pagination": "^3.1.17",
     "rc-select": "^14.1.8",
@@ -39,7 +39,7 @@
     "react-table": "^7.8.0",
     "react-toastify": "^9.0.5",
     "react-use": "^17.4.0",
-    "rsuite": "^5.16.0"
+    "rsuite": "^5.16.1"
   },
   "devDependencies": {
     "@types/react-table": "^7.7.12"
