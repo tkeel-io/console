@@ -80,7 +80,7 @@ export default function TelemetryDataTable({
       );
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [deleteCallback]
+    []
   );
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
