@@ -24,6 +24,7 @@ module.exports = {
               path: '/admin-service-monitoring',
               entry: '/static/console-plugin-admin-service-monitoring/',
               portal: 0,
+              disable_manual_activation: true,
             },
           ],
         },

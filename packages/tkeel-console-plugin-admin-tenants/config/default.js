@@ -18,6 +18,7 @@ module.exports = {
           path: '/admin-tenants',
           entry: '/static/console-plugin-admin-tenants/',
           portal: 0,
+          disable_manual_activation: true,
         },
       ],
       dependence: [{ id: 'rudder', version: tkeel.version }],

@@ -24,6 +24,7 @@ module.exports = {
               path: '/admin-usage-statistics',
               entry: '/static/console-plugin-admin-usage-statistics/',
               portal: 0,
+              disable_manual_activation: true,
             },
           ],
         },
