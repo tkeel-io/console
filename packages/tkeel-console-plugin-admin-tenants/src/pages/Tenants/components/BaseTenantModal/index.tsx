@@ -1,7 +1,6 @@
 import { Box, FormControl, FormLabel } from '@chakra-ui/react';
 import { omit } from 'lodash';
 import { ReactNode } from 'react';
-import type { FieldErrors } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
 import { FormField, Modal } from '@tkeel/console-components';
@@ -140,10 +139,7 @@ export default function BaseTenantModal({
               label="管理员账号"
               isDisabled={formFields?.admin?.username?.disabled}
               help={schemas.username.help}
-              error={
-                // TODO: https://github.com/react-hook-form/react-hook-form/issues/8584#issuecomment-1169356926
-                (errors.admin as FieldErrors<{ username: string }>)?.username
-              }
+              error={errors.admin?.username}
               registerReturn={register(
                 'admin.username',
                 schemas.username.registerOptions
@@ -153,10 +149,7 @@ export default function BaseTenantModal({
               id="nickName"
               label="管理员名称"
               isDisabled={formFields?.admin?.nick_name?.disabled}
-              error={
-                // TODO: https://github.com/react-hook-form/react-hook-form/issues/8584#issuecomment-1169356926
-                (errors.admin as FieldErrors<{ nick_name: string }>)?.nick_name
-              }
+              error={errors.admin?.nick_name}
               registerReturn={register('admin.nick_name')}
             />
           </>

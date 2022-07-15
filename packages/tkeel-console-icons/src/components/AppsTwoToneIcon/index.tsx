@@ -2,8 +2,6 @@ import SvgComponent from '@/tkeel-console-icons/assets/icons/two-tone/apps-5.svg
 import TwoToneIcon from '@/tkeel-console-icons/components/Icon/TwoToneIcon';
 import { TwoToneIconProps } from '@/tkeel-console-icons/components/Icon/types';
 
-function AppsTwoToneIcon(props: TwoToneIconProps) {
+export default function AppsTwoToneIcon(props: TwoToneIconProps) {
   return <TwoToneIcon {...props} svgComponent={SvgComponent} />;
 }
-
-export default AppsTwoToneIcon;

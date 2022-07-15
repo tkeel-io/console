@@ -1,16 +1,21 @@
-import { Link } from '@chakra-ui/react';
+import { Link, Text } from '@chakra-ui/react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 
+import { Badge } from '@tkeel/console-components';
+
 import { useActive } from '@/tkeel-console-portal-base/containers/Layout/Menus/ExpandMenus/MenuLink';
+import useMenuNotification from '@/tkeel-console-portal-base/hooks/useMenuNotification';
 
 type Props = {
+  id: string;
   path: string;
   name: string;
   isDarkMenu: boolean;
 };
 
-function SubMenuLink({ path, name, isDarkMenu }: Props) {
+function SubMenuLink({ id, path, name, isDarkMenu }: Props) {
   const active = useActive(path);
+  const hasNotification = useMenuNotification(id);
 
   const defaultColor = isDarkMenu ? 'gray.400' : 'gray.600';
   const color = active ? 'primary' : defaultColor;
@@ -24,10 +29,10 @@ function SubMenuLink({ path, name, isDarkMenu }: Props) {
   return (
     <Link
       as={ReactRouterLink}
-      display="block"
+      display="flex"
+      alignItems="center"
       paddingLeft="16px"
       height="32px"
-      lineHeight="32px"
       color={color}
       fontWeight={active ? '500' : 'normal'}
       fontSize="12px"
@@ -35,7 +40,11 @@ function SubMenuLink({ path, name, isDarkMenu }: Props) {
       to={path}
       _hover={hoverStyle}
     >
-      {name}
+      <Badge dot count={hasNotification ? 1 : 0}>
+        <Text height="22px" lineHeight="22px">
+          {name}
+        </Text>
+      </Badge>
     </Link>
   );
 }

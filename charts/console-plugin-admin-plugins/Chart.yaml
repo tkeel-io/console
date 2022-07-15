@@ -6,7 +6,7 @@ annotations:
   tkeel.io/version: v0.4.0
 apiVersion: v2
 appVersion: 0.4.0-alpha.2
-description: console of plugin manager
+description: 前端管理平台的「插件管理」插件
 maintainers:
   - email: caoyue@yunify.com
     name: caoyue

@@ -1,5 +1,6 @@
 import { Box, Center } from '@chakra-ui/react';
 
+import { Badge } from '@tkeel/console-components';
 import { useColor } from '@tkeel/console-hooks';
 
 import MenuIcon from '@/tkeel-console-portal-base/containers/Layout/Menus/ExpandMenus/MenuIcon';
@@ -7,9 +8,10 @@ import MenuIcon from '@/tkeel-console-portal-base/containers/Layout/Menus/Expand
 type Props = {
   icon: string;
   active: boolean;
+  hasNotification: boolean;
 };
 
-function MenuItem({ icon, active }: Props) {
+function MenuItem({ icon, active, hasNotification }: Props) {
   const primaryColor = useColor('primary');
   const primarySub2Color = useColor('brand.200');
 
@@ -32,7 +34,9 @@ function MenuItem({ icon, active }: Props) {
       cursor="pointer"
     >
       <Center width="36px" height="36px">
-        <MenuIcon icon={icon} active={active} />
+        <Badge dot count={hasNotification ? 1 : 0}>
+          <MenuIcon icon={icon} active={active} />
+        </Badge>
       </Center>
     </Box>
   );

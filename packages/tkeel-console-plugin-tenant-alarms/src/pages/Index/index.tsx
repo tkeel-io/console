@@ -2,16 +2,19 @@ import { Flex, Stack, Text } from '@chakra-ui/react';
 
 import { PageHeader } from '@tkeel/console-components';
 import { MethodIcon } from '@tkeel/console-icons';
+import { plugin } from '@tkeel/console-utils';
 
 import AlarmsTable from './components/AlarmsTable';
 
 export default function Index() {
+  const documents = plugin.getPortalDocuments();
+
   return (
     <Stack h="100%">
       <PageHeader
         icon={<MethodIcon size={40} />}
         name="告警记录"
-        // documentsPath={documents.config.paths.adminGuide.plugins}
+        documentsPath={documents.config.paths.tenantGuide.alarms}
         desc={
           <Flex lineHeight="1" alignItems="center">
             <Text>

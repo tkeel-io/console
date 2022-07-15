@@ -31,7 +31,12 @@ function CollapsedMenus() {
             );
           }
           return (
-            <MenuLink key={id} path={path as string} icon={icon as string} />
+            <MenuLink
+              key={id}
+              id={id}
+              path={path as string}
+              icon={icon as string}
+            />
           );
         })}
       </Flex>

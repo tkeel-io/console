@@ -23,7 +23,9 @@ export default function Index() {
         icon={<Bell2TwoToneIcon />}
         name="通知管理"
         desc="通知管理"
-        documentsPath={documents.config.paths.adminGuide.tenantIntro}
+        documentsPath={
+          documents.config.paths.adminGuide.alarmNotificationConfigs
+        }
       />
       <Flex flexDirection="column" overflowY="hidden" paddingTop="16px">
         <SegmentedControl options={ROUTES} defaultValue={defaultValue} />

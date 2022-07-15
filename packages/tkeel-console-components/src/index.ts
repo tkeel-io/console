@@ -1,5 +1,6 @@
 export { default as AceEditor } from './components/AceEditor';
 export { default as Alert } from './components/Alert';
+export { default as Badge } from './components/Badge';
 export * from './components/Button';
 export { default as ButtonsHStack } from './components/ButtonsHStack';
 export * from './components/Checkbox';
@@ -17,7 +18,7 @@ export { default as FormControl } from './components/FormControl';
 export { default as FormField } from './components/FormField';
 export { default as InfoCard } from './components/InfoCard';
 export { default as Loading } from './components/Loading';
-export * from './components/Modal';
+export { default as Modal } from './components/Modal';
 export { default as MoreAction } from './components/MoreAction';
 export { default as MoreActionSelect } from './components/MoreActionSelect';
 export { default as PageHeader } from './components/PageHeader';
