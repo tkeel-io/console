@@ -52,7 +52,7 @@ export default function Device() {
       ) : (
         <>
           <DeviceBox>
-            <Box flex="1" paddingRight="70px">
+            <Box width="66%">
               <Flex justifyContent="space-between" paddingBottom="8px">
                 <DeviceItem
                   label="设备 (台)"
@@ -71,7 +71,13 @@ export default function Device() {
             <DeviceItem
               label="模版 (个)"
               value={sumTemplateNum}
-              sx={{ flex: '1' }}
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'end',
+                flex: '1',
+                paddingLeft: '20px',
+              }}
             />
           </DeviceBox>
 
@@ -92,7 +98,7 @@ export default function Device() {
             <DeviceItem
               label="路由数 (个)"
               value={ruleNum}
-              sx={{ width: '40%', paddingRight: '48px' }}
+              sx={{ width: '33%', paddingRight: '20px' }}
             />
             <Box flex="1" marginRight="8px">
               <Flex justifyContent="space-between" paddingBottom="8px">
