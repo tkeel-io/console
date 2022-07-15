@@ -14,6 +14,9 @@ interface Props {
 
 export default function RuleSQL({ sx, styles }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  //   const mockValue = `SELECT deviceName() as deviceName, items.CurrentHumidity.value as Humidity, items.CurrentTemperature.value as Temperature
+  // WHERE items.CurrentTemperature.value > 38`;
+
   return (
     <Box
       padding="20px"
