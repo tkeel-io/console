@@ -18,7 +18,7 @@ import useRuleTargetsQuery from '@/tkeel-console-plugin-tenant-routing-rules/hoo
 import ProductTab from '../ProductTab';
 import TitleWrapper from '../TitleWrapper';
 import RepublishInfoCard from './RepublishInfoCard';
-import RepublishToInfluxdbModal from './RepublishToInfluxdbModal';
+// import RepublishToInfluxDBModal from './RepublishToInfluxDBModal';
 import RepublishToKafkaModal, {
   FormValues as KafkaRepublishInfo,
 } from './RepublishToKafkaModal';
@@ -167,13 +167,13 @@ export default function DataRepublish({
           refetch={() => refetch()}
         />
       )}
-      {selectedProductId === 'influxdb' && (
-        <RepublishToInfluxdbModal
+      {/* {selectedProductId === 'influxdb' && (
+        <RepublishToInfluxDBModal
           isOpen
           isLoading={isLoading}
           onClose={() => setSelectedProductId('')}
         />
-      )}
+      )} */}
     </Flex>
   );
 }

@@ -15,12 +15,14 @@ import { PencilFilledIcon, TrashFilledIcon } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
 import clickHouseImg from '@/tkeel-console-plugin-tenant-routing-rules/assets/images/click-house.svg';
+import influxdbImg from '@/tkeel-console-plugin-tenant-routing-rules/assets/images/influxdb.svg';
 import kafkaImg from '@/tkeel-console-plugin-tenant-routing-rules/assets/images/kafka.svg';
 import mysqlImg from '@/tkeel-console-plugin-tenant-routing-rules/assets/images/mysql.svg';
 import useCreateRuleTargetMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useCreateRuleTargetMutation';
 import useDeleteTargetMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useDeleteTargetMutation';
 import { Target } from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleTargetsQuery';
 
+// import RepublishToInfluxDBModal from '../RepublishToInfluxDBModal';
 import RepublishToKafkaModal, {
   FormValues as KafkaRepublishInfo,
 } from '../RepublishToKafkaModal';
@@ -49,6 +51,7 @@ export default function RepublishInfoCard({
     kafka: kafkaImg,
     mysql: mysqlImg,
     clickhouse: clickHouseImg,
+    influxdb: influxdbImg,
   };
   const image = imgType[target.sink_type] as string;
   const [publishType, setPublishType] = useState('');
@@ -106,6 +109,12 @@ export default function RepublishInfoCard({
     }
   };
 
+  let imageWidth = '95px';
+  if (target.sink_type === 'mysql') {
+    imageWidth = '64px';
+  } else if (target.sink_type === 'influxdb') {
+    imageWidth = '44px';
+  }
   return (
     <Flex
       alignItems="center"
@@ -126,11 +135,7 @@ export default function RepublishInfoCard({
     >
       <Flex alignItems="center" w="260px">
         <Box width="5px" height="40px" backgroundColor="success.300" />
-        <Image
-          marginLeft="20px"
-          width={target.sink_type === 'mysql' ? '48px' : '95px'}
-          src={image}
-        />
+        <Image marginLeft="20px" width={imageWidth} src={image} />
       </Flex>
       <Text
         flex="1"
@@ -214,6 +219,14 @@ export default function RepublishInfoCard({
           onClose={onModalClose}
         />
       )}
+      {/* {publishType === 'influxdb' && (
+        <RepublishToInfluxDBModal
+          info={{ org: '', bucket: '', url: '', token: '', tags: [] }}
+          isOpen={isModalOpen}
+          onClose={onModalClose}
+          isLoading={isEditRuleTargetLoading}
+        />
+      )} */}
       <Alert
         iconPosition="left"
         icon={
