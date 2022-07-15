@@ -8,7 +8,6 @@ import {
   InfluxdbFilledIcon,
   KafkaFilledIcon,
   MySqlFilledIcon,
-  // ObjectStorageFilledIcon,
 } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
@@ -18,7 +17,7 @@ import useRuleTargetsQuery from '@/tkeel-console-plugin-tenant-routing-rules/hoo
 import ProductTab from '../ProductTab';
 import TitleWrapper from '../TitleWrapper';
 import RepublishInfoCard from './RepublishInfoCard';
-// import RepublishToInfluxDBModal from './RepublishToInfluxDBModal';
+import RepublishToInfluxDBModal from './RepublishToInfluxDBModal';
 import RepublishToKafkaModal, {
   FormValues as KafkaRepublishInfo,
 } from './RepublishToKafkaModal';
@@ -167,13 +166,13 @@ export default function DataRepublish({
           refetch={() => refetch()}
         />
       )}
-      {/* {selectedProductId === 'influxdb' && (
+      {selectedProductId === 'influxdb' && (
         <RepublishToInfluxDBModal
           isOpen
           isLoading={isLoading}
           onClose={() => setSelectedProductId('')}
         />
-      )} */}
+      )}
     </Flex>
   );
 }

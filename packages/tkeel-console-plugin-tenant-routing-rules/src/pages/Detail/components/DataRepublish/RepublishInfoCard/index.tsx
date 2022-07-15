@@ -22,7 +22,7 @@ import useCreateRuleTargetMutation from '@/tkeel-console-plugin-tenant-routing-r
 import useDeleteTargetMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useDeleteTargetMutation';
 import { Target } from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleTargetsQuery';
 
-// import RepublishToInfluxDBModal from '../RepublishToInfluxDBModal';
+import RepublishToInfluxDBModal from '../RepublishToInfluxDBModal';
 import RepublishToKafkaModal, {
   FormValues as KafkaRepublishInfo,
 } from '../RepublishToKafkaModal';
@@ -219,14 +219,14 @@ export default function RepublishInfoCard({
           onClose={onModalClose}
         />
       )}
-      {/* {publishType === 'influxdb' && (
+      {publishType === 'influxdb' && (
         <RepublishToInfluxDBModal
           info={{ org: '', bucket: '', url: '', token: '', tags: [] }}
           isOpen={isModalOpen}
           onClose={onModalClose}
           isLoading={isEditRuleTargetLoading}
         />
-      )} */}
+      )}
       <Alert
         iconPosition="left"
         icon={
