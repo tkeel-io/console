@@ -21,7 +21,9 @@ export default function MoveSubscriptionButton({
 }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { subscribeList } = useSubscribeListQuery({ pageSize: 100_000 });
+  const { subscribeList } = useSubscribeListQuery({
+    pageSize: Number.MAX_SAFE_INTEGER,
+  });
   const { id } = useParams();
   const newSubscribeList = subscribeList.filter(
     (subscribe) => subscribe.id !== id

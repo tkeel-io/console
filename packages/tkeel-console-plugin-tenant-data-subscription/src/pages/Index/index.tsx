@@ -16,7 +16,7 @@ import CreateSubscriptionButton from './components/CreateSubscriptionButton';
 
 function SubscriptionCard() {
   const { isLoading, subscribeList, refetch } = useSubscribeListQuery({
-    pageSize: 100_000,
+    pageSize: Number.MAX_SAFE_INTEGER,
   });
   return (
     <Box
@@ -88,7 +88,7 @@ function Index(): JSX.Element {
   const toast = plugin.getPortalToast();
 
   const { subscribeList, refetch } = useSubscribeListQuery({
-    pageSize: 100_000,
+    pageSize: Number.MAX_SAFE_INTEGER,
   });
   const defaultInfo = subscribeList.find((item) => item.is_default);
 
