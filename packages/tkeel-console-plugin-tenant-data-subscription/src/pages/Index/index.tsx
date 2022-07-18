@@ -15,7 +15,9 @@ import ModifySubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscri
 import CreateSubscriptionButton from './components/CreateSubscriptionButton';
 
 function SubscriptionCard() {
-  const { isLoading, subscribeList, refetch } = useSubscribeListQuery();
+  const { isLoading, subscribeList, refetch } = useSubscribeListQuery({
+    pageSize: Number.MAX_SAFE_INTEGER,
+  });
   return (
     <Box
       flex="1"
@@ -85,7 +87,9 @@ function SubscriptionCard() {
 function Index(): JSX.Element {
   const toast = plugin.getPortalToast();
 
-  const { subscribeList, refetch } = useSubscribeListQuery();
+  const { subscribeList, refetch } = useSubscribeListQuery({
+    pageSize: Number.MAX_SAFE_INTEGER,
+  });
   const defaultInfo = subscribeList.find((item) => item.is_default);
 
   const documents = plugin.getPortalDocuments();

@@ -7,6 +7,7 @@ import {
   PageHeader,
   PageHeaderToolbar,
   Table,
+  Tooltip,
 } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
 import { CrowdTwoToneIcon } from '@tkeel/console-icons';
@@ -97,7 +98,11 @@ export default function Users() {
       accessor: 'roles',
       Cell: useCallback(
         ({ value = [] }: CellProps<User, User['roles']>) => (
-          <Text>{value.map(({ name }) => name).join('，')}</Text>
+          <Tooltip label={value.map(({ name }) => name).join('，')}>
+            <Text noOfLines={1}>
+              {value.map(({ name }) => name).join('，')}
+            </Text>
+          </Tooltip>
         ),
         []
       ),
@@ -144,7 +149,7 @@ export default function Users() {
       <PageHeader
         icon={<CrowdTwoToneIcon />}
         name="用户管理"
-        desc="管理用户包括新增和删除用户，查看平台用户账号、基本信息和状态，编辑角色权限和密码重置"
+        desc="管理用户包括新增和删除用户，查看平台用户账号、基本信息和状态，编辑角色权限和密码重置。"
         documentsPath={documents.config.paths.tenantGuide.users}
       />
       <PageHeaderToolbar

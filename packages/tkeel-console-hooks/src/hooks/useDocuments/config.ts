@@ -19,9 +19,9 @@ export const paths = {
     dataQuery: '/tenant-guide/data-mgt/data_mgt_query',
     dataSubscribe: '/tenant-guide/data-mgt/data-subscribe/data_subscribe_intro',
     routingRules: '/tenant-guide/data-mgt/data-route/data_route_intro',
-    deviceList: '/tenant-guide/device-mgt/device_mgt_list',
+    deviceList: '/tenant-guide/device-mgt/device-list/device_list_quickmgt',
     deviceTemplate:
-      '/tenant-guide/device-mgt/device_template/device_template_intro',
+      '/tenant-guide/device-mgt/device-template/device_template_intro',
     alarmPolicy: '/tenant-guide/alarm-monitor/alarm_policy',
     alarms: '/tenant-guide/alarm-monitor/alarm_record',
     alarmNotificationObjects: '/tenant-guide/alarm-monitor/alarm_notify',

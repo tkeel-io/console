@@ -101,6 +101,7 @@ module.exports = {
     'userid',
     'endswith',
     'rparen',
+    'quickmgt',
   ],
   ignorePaths: [
     '**/.idea/**',
