@@ -12,6 +12,7 @@ module.exports = {
   plugin: {
     identify: {
       plugin_id: 'console-plugin-admin-service-monitoring',
+      disable_manual_activation: true,
       entries: [
         {
           id: 'devops',
