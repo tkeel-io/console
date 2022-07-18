@@ -85,6 +85,7 @@ export default function AddDevicesModal({
       condition: deviceGroupConditions,
     },
     enabled: ['group', 'all'].includes(type),
+    staleTime: 0,
     onSuccess(data) {
       const groupTree = data?.data?.GroupTree ?? {};
       const groupTreeNodeData = getTreeNodeData({ data: groupTree });
