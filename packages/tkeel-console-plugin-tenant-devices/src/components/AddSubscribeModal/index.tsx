@@ -68,11 +68,17 @@ function AddSubscribeModal({
   useEffect(() => {
     setValue(
       'subscribe_ids',
-      addrList.map((item) => {
-        return item.id;
-      })
+      subscribeList
+        .filter((sub) => {
+          return addrList.some((ad) => {
+            return ad.id === sub.id;
+          });
+        })
+        .map((item) => {
+          return item.id;
+        })
     );
-  }, [addrList, setValue]);
+  }, [subscribeList, setValue, addrList]);
 
   const onSubmit: SubmitHandler<FormValues> = (values) => {
     onConfirm(values);
