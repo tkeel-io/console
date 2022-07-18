@@ -1,9 +1,15 @@
 import { Box, Flex, StyleProps, Text, useDisclosure } from '@chakra-ui/react';
+import { useParams } from 'react-router-dom';
 
 import { AceEditor, IconButton } from '@tkeel/console-components';
 import { LoadingCircleFilledIcon } from '@tkeel/console-icons';
 
-import EditSQLModal from '../EditSQLModal';
+import useRuleDetailQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDetailQuery';
+
+import EditSQLModal, {
+  DEFAULT_SELECT_EXPR,
+  DEFAULT_WHERE_EXPR,
+} from '../EditSQLModal';
 
 interface Props {
   sx?: StyleProps;
@@ -14,8 +20,13 @@ interface Props {
 
 export default function RuleSQL({ sx, styles }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  //   const mockValue = `SELECT deviceName() as deviceName, items.CurrentHumidity.value as Humidity, items.CurrentTemperature.value as Temperature
-  // WHERE items.CurrentTemperature.value > 38`;
+  const { id } = useParams();
+  const ruleId = id || '';
+  const { data, refetch } = useRuleDetailQuery(ruleId);
+  const selectExpr = data?.select_expr || DEFAULT_SELECT_EXPR;
+  const whereExpr = data?.where_expr || DEFAULT_WHERE_EXPR;
+  const sql = `${selectExpr}
+${whereExpr}`;
 
   return (
     <Box
@@ -28,7 +39,7 @@ export default function RuleSQL({ sx, styles }: Props) {
       {...styles?.root}
       {...sx}
     >
-      <Flex marginBottom="20px" justifyContent="space-between">
+      <Flex justifyContent="space-between">
         <Flex alignItems="center">
           <LoadingCircleFilledIcon size={22} color="grayAlternatives.300" />
           <Text
@@ -50,15 +61,21 @@ export default function RuleSQL({ sx, styles }: Props) {
         >
           编写SQL
         </IconButton>
-        <EditSQLModal isOpen={isOpen} onClose={onClose} />
+        <EditSQLModal
+          ruleId={ruleId}
+          isOpen={isOpen}
+          selectExpr={selectExpr}
+          whereExpr={whereExpr}
+          onClose={onClose}
+          onSuccess={() => refetch()}
+        />
       </Flex>
       <AceEditor
         language="ruleql"
-        readOnly={false}
         highlightActiveLine={false}
-        enableLiveAutocompletion
         height="48px"
-        value=""
+        value={sql}
+        style={{ marginTop: '20px' }}
       />
     </Box>
   );

@@ -1,4 +1,5 @@
 import { Box, Button, Flex, StyleProps, Text } from '@chakra-ui/react';
+import { useState } from 'react';
 
 import {
   AceEditor,
@@ -7,17 +8,42 @@ import {
   // Tip,
 } from '@tkeel/console-components';
 
-interface Props {
-  title?: string;
-  isOpen: boolean;
-  onClose: () => void;
-}
+import useEditSQLMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useEditSQLMutation';
 
+interface Props {
+  ruleId: string;
+  isOpen: boolean;
+  selectExpr: string;
+  whereExpr: string;
+  onClose: () => void;
+  onSuccess: () => void;
+}
+export const DEFAULT_SELECT_EXPR = 'SELECT * ';
+export const DEFAULT_WHERE_EXPR = 'WHERE ';
 export default function EditSQLModal({
-  title = '生成SQL',
+  ruleId,
   isOpen,
+  selectExpr,
+  whereExpr,
   onClose,
+  onSuccess,
 }: Props) {
+  const [selectExpression, setSelectExpression] = useState(
+    selectExpr || DEFAULT_SELECT_EXPR
+  );
+
+  const [whereExpression, setWhereExpression] = useState(
+    whereExpr || DEFAULT_WHERE_EXPR
+  );
+
+  const { mutate, isLoading } = useEditSQLMutation({
+    ruleId,
+    onSuccess() {
+      onClose();
+      onSuccess();
+    },
+  });
+
   const baseStyle: StyleProps = {
     fontSize: '12px',
     lineHeight: '20px',
@@ -34,20 +60,37 @@ export default function EditSQLModal({
     color: 'gray.500',
   };
 
+  const handleReset = () => {
+    setSelectExpression(DEFAULT_SELECT_EXPR);
+    setWhereExpression(DEFAULT_WHERE_EXPR);
+  };
+
+  const handleConfirm = () => {
+    if (ruleId) {
+      mutate({
+        data: {
+          id: Number(ruleId),
+          select_expr: selectExpression,
+          where_expr: whereExpression,
+        },
+      });
+    }
+  };
+
   return (
     <Modal
-      title={title}
+      title="生成SQL"
       isOpen={isOpen}
       onClose={onClose}
       width="790px"
       footer={
         <ButtonsHStack>
-          <Button onClick={() => {}}>重置</Button>
+          <Button onClick={handleReset}>重置</Button>
           <Button
             isDisabled={false}
-            isLoading={false}
+            isLoading={isLoading}
             colorScheme="brand"
-            onClick={() => {}}
+            onClick={handleConfirm}
           >
             确定
           </Button>
@@ -68,7 +111,8 @@ export default function EditSQLModal({
           highlightActiveLine={false}
           enableLiveAutocompletion
           height="48px"
-          value="SELECT *"
+          value={selectExpression}
+          onChange={(value) => setSelectExpression(value)}
         />
         <Text {...descStyle}>默认查询设备上报的全部数据。</Text>
         <Flex marginTop="20px" alignItems="center">
@@ -80,8 +124,11 @@ export default function EditSQLModal({
         <AceEditor
           language="ruleql"
           readOnly={false}
+          highlightActiveLine={false}
+          enableLiveAutocompletion
           height="48px"
-          value="WHERE"
+          value={whereExpression}
+          onChange={(value) => setWhereExpression(value)}
         />
         <Text {...descStyle}>
           规则引擎提供多种函数，您可以在编写SQL时使用这些函数，实现多样化数据处理。
