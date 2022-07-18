@@ -15,7 +15,9 @@ import ModifySubscriptionButton from '@/tkeel-console-plugin-tenant-data-subscri
 import CreateSubscriptionButton from './components/CreateSubscriptionButton';
 
 function SubscriptionCard() {
-  const { isLoading, subscribeList, refetch } = useSubscribeListQuery();
+  const { isLoading, subscribeList, refetch } = useSubscribeListQuery({
+    pageSize: 10_000,
+  });
   return (
     <Box
       flex="1"
