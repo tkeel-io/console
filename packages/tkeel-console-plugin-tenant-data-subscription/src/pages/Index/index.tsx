@@ -87,7 +87,9 @@ function SubscriptionCard() {
 function Index(): JSX.Element {
   const toast = plugin.getPortalToast();
 
-  const { subscribeList, refetch } = useSubscribeListQuery();
+  const { subscribeList, refetch } = useSubscribeListQuery({
+    pageSize: 10_000,
+  });
   const defaultInfo = subscribeList.find((item) => item.is_default);
 
   const documents = plugin.getPortalDocuments();
