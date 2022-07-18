@@ -89,6 +89,7 @@ module.exports = {
     'Roboto',
     'Noto',
     'WenQuanYi',
+    'quickmgt',
   ],
   ignorePaths: [
     '**/.idea/**',
