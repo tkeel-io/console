@@ -53,7 +53,7 @@ const handleSubscribeOptions = (
 function AddSubscribeModal({
   isOpen,
   onClose,
-  addrList,
+  addrList = [],
   isConfirmButtonLoading,
   onConfirm,
 }: Props) {
@@ -62,17 +62,17 @@ function AddSubscribeModal({
     pageSize: 20,
     keyWords: '',
   });
-  const selectOptions = handleSubscribeOptions(addrList ?? [], subscribeList);
+  const selectOptions = handleSubscribeOptions(addrList, subscribeList);
   const isSelectDisabled = addrList.length === subscribeList.length;
-  const defaultSelectValue = selectOptions.filter((r) => r.disabled);
   const { setValue, trigger, getValues, control } = useForm<FormValues>();
   useEffect(() => {
     setValue(
       'subscribe_ids',
-      defaultSelectValue.map((v) => v.value)
+      addrList.map((item) => {
+        return item.id;
+      })
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [defaultSelectValue]);
+  }, [addrList, setValue]);
 
   const onSubmit: SubmitHandler<FormValues> = (values) => {
     onConfirm(values);
