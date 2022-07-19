@@ -6,10 +6,7 @@ import { LoadingCircleFilledIcon } from '@tkeel/console-icons';
 
 import useRuleDetailQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDetailQuery';
 
-import EditSQLModal, {
-  DEFAULT_SELECT_EXPR,
-  DEFAULT_WHERE_EXPR,
-} from '../EditSQLModal';
+import EditSQLModal from '../EditSQLModal';
 
 interface Props {
   sx?: StyleProps;
@@ -23,8 +20,8 @@ export default function RuleSQL({ sx, styles }: Props) {
   const { id } = useParams();
   const ruleId = id || '';
   const { data, refetch } = useRuleDetailQuery(ruleId);
-  const selectExpr = data?.select_expr || DEFAULT_SELECT_EXPR;
-  const whereExpr = data?.where_expr || DEFAULT_WHERE_EXPR;
+  const selectExpr = data?.select_expr || '';
+  const whereExpr = data?.where_expr || '';
   const sql = `${selectExpr}
 ${whereExpr}`;
 
@@ -70,13 +67,15 @@ ${whereExpr}`;
           onSuccess={() => refetch()}
         />
       </Flex>
-      <AceEditor
-        language="ruleql"
-        highlightActiveLine={false}
-        height="48px"
-        value={sql}
-        style={{ marginTop: '20px' }}
-      />
+      {selectExpr && (
+        <AceEditor
+          language="ruleql"
+          highlightActiveLine={false}
+          height="48px"
+          value={sql}
+          style={{ marginTop: '20px' }}
+        />
+      )}
     </Box>
   );
 }
