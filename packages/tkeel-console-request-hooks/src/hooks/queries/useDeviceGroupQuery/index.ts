@@ -1,3 +1,4 @@
+import { MAX_INT32 } from '@tkeel/console-constants';
 import { useQuery, UseQueryOptionsExtended } from '@tkeel/console-hooks';
 import { RequestResult } from '@tkeel/console-utils';
 
@@ -58,7 +59,7 @@ type Props = {
 
 const defaultRequestData = {
   page_num: 1,
-  page_size: Number.MAX_SAFE_INTEGER,
+  page_size: MAX_INT32,
   order_by: 'name',
   is_descending: false,
   query: '',
