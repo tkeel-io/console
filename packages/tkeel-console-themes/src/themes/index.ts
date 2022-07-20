@@ -16,9 +16,7 @@ function getThemeNameInPortal() {
   const { themeName } = GLOBAL_PORTAL_CONFIG.client;
   const currentThemeName = THEME_NAME ?? themeName;
 
-  return (
-    currentThemeName in ThemeNames ? currentThemeName : DEFAULT_THEME_NAME
-  ) as ThemeName;
+  return (currentThemeName as ThemeNames) ?? DEFAULT_THEME_NAME;
 }
 
 const themes = {
@@ -36,5 +34,6 @@ export function getTheme() {
   }
 
   const name = getThemeNameInPortal();
+
   return themes[name] ?? DEFAULT_THEME;
 }
