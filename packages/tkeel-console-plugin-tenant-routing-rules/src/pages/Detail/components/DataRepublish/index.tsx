@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import {
   AutoFilledIcon,
   ClickHouseFilledIcon,
-  InfluxdbFilledIcon,
+  // InfluxdbFilledIcon,
   KafkaFilledIcon,
   MySqlFilledIcon,
 } from '@tkeel/console-icons';
@@ -85,7 +85,8 @@ export default function DataRepublish({
     },
     {
       id: 'influxdb',
-      icon: <InfluxdbFilledIcon size={22} color={iconColor} />,
+      // icon: <InfluxdbFilledIcon size={22} color={iconColor} />,
+      icon: '',
       name: 'InfluxDB',
     },
   ];

@@ -4,7 +4,7 @@ import { FieldError, useFieldArray, useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 
 import { FormField, Modal, TextButton, Tip } from '@tkeel/console-components';
-import { InfluxdbFilledIcon } from '@tkeel/console-icons';
+// import { InfluxdbFilledIcon } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
 import useCreateRuleTargetMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useCreateRuleTargetMutation';
@@ -183,7 +183,8 @@ export default function RepublishToInfluxDBModal({
       onConfirm={handleConfirm}
     >
       <ModalContentTitle
-        icon={<InfluxdbFilledIcon size={24} />}
+        // icon={<InfluxdbFilledIcon size={24} />}
+        icon=""
         title="将数据发送到 InfluxDB"
       />
       {formFields.map((field) => (
@@ -192,7 +193,7 @@ export default function RepublishToInfluxDBModal({
           id={field}
           type={field === 'token' ? 'password' : 'text'}
           isDisabled={!!info}
-          autoComplete="new-password"
+          autoComplete={field === 'token' ? 'new-password' : 'off'}
           label={field}
           error={errors[field] as FieldError}
           registerReturn={register(field as keyof FormValues, {
