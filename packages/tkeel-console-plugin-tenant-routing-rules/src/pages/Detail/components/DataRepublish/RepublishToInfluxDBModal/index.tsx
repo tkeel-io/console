@@ -43,7 +43,8 @@ export default function RepublishToInfluxDBModal({
   onClose,
   refetchData,
 }: Props) {
-  const [validated, setValidated] = useState(true);
+  const [validated, setValidated] = useState(false);
+  const [isShowVerifyErrorTip, setIsShowVerifyErrorTip] = useState(false);
   const [sinkId, setSinkId] = useState('');
 
   const formHandler = useForm<FormValues>({
@@ -78,6 +79,7 @@ export default function RepublishToInfluxDBModal({
         toast('验证成功', { status: 'success' });
         setValidated(true);
         setSinkId(data.data.id);
+        setIsShowVerifyErrorTip(false);
       },
       onError() {
         toast('验证失败', { status: 'error' });
@@ -160,6 +162,8 @@ export default function RepublishToInfluxDBModal({
     if (!result) return;
     if (validated) {
       handleSubmit();
+    } else {
+      setIsShowVerifyErrorTip(true);
     }
   };
 
@@ -198,13 +202,20 @@ export default function RepublishToInfluxDBModal({
         />
       ))}
       {!info && (
-        <Button
-          colorScheme="brand"
-          isLoading={isVerifying}
-          onClick={handleVerify}
-        >
-          验证
-        </Button>
+        <Flex alignItems="center">
+          <Button
+            colorScheme="brand"
+            isLoading={isVerifying}
+            onClick={handleVerify}
+          >
+            验证
+          </Button>
+          {isShowVerifyErrorTip && (
+            <Text marginLeft="20px" color="red.500" fontSize="14px">
+              请先验证完成，再进行确认保存
+            </Text>
+          )}
+        </Flex>
       )}
       <Flex marginTop="20px" justifyContent="space-between" alignItems="center">
         <Text color="gray.800" fontSize="14px" fontWeight="500">
