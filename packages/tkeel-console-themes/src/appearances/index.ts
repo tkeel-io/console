@@ -16,11 +16,7 @@ function getAppearanceNameInPortal() {
   const appearanceName = GLOBAL_PORTAL_CONFIG.client?.appearanceName;
   const currentAppearanceName = APPEARANCE_NAME ?? appearanceName;
 
-  return (
-    currentAppearanceName in AppearanceNames
-      ? currentAppearanceName
-      : DEFAULT_APPEARANCE_NAME
-  ) as AppearanceName;
+  return (currentAppearanceName as AppearanceName) ?? DEFAULT_APPEARANCE_NAME;
 }
 
 export const appearances = {
@@ -38,5 +34,6 @@ export function getAppearance() {
   }
 
   const name = getAppearanceNameInPortal();
+
   return appearances[name] ?? DEFAULT_APPEARANCE;
 }
