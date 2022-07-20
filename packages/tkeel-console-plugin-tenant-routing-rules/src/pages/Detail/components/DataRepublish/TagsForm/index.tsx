@@ -42,9 +42,7 @@ export default function TagsForm<FormValues>({
           fontWeight="500"
           pl="2px"
           isReadOnly={labelId !== field.id}
-          {...register(`tags.${index}.label` as Path<FormValues>, {
-            required: { value: false, message: 'required' },
-          })}
+          {...register(`tags.${index}.label` as Path<FormValues>)}
           focusBorderColor="primary"
           onBlur={() => {
             setLabelId('');
@@ -82,9 +80,7 @@ export default function TagsForm<FormValues>({
         key={field.id}
         label={renderLabel({ field, index })}
         id={field.id}
-        registerReturn={register(`tags.${index}.value` as Path<FormValues>, {
-          required: { value: false, message: 'required' },
-        })}
+        registerReturn={register(`tags.${index}.value` as Path<FormValues>)}
       />
     );
   });
