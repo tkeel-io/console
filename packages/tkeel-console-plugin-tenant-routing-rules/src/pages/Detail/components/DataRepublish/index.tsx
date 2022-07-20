@@ -27,14 +27,16 @@ type Props = {
   routeType: string;
   status: number;
   deviceTemplateId: string;
-  styles?: { wrapper: StyleProps };
+  sx?: StyleProps;
+  styles?: { root: StyleProps };
 };
 
 export default function DataRepublish({
-  styles,
-  deviceTemplateId,
   routeType,
   status,
+  deviceTemplateId,
+  sx,
+  styles,
 }: Props) {
   const [selectedProductId, setSelectedProductId] = useState('');
 
@@ -93,7 +95,7 @@ export default function DataRepublish({
     routeType === 'msg' ? baseProducts : [...baseProducts, ...upgradeProducts];
 
   return (
-    <Flex flexDirection="column" {...styles?.wrapper}>
+    <Flex flexDirection="column" {...styles?.root} {...sx}>
       <TitleWrapper
         icon={<AutoFilledIcon color={iconColor} size="20px" />}
         title="选择转发"
