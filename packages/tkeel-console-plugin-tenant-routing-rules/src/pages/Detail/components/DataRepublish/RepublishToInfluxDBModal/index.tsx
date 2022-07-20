@@ -1,12 +1,14 @@
 import { Button, Flex, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 import { FieldError, useFieldArray, useForm } from 'react-hook-form';
+import { useParams } from 'react-router-dom';
 
 import { FormField, Modal, TextButton, Tip } from '@tkeel/console-components';
 import { InfluxdbFilledIcon } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
-import useVerifyKafkaMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useVerifyKafkaMutation';
+import useCreateRuleTargetMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useCreateRuleTargetMutation';
+import useVerifyInfluxDBMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useVerifyInfluxDBMutation';
 import ModalContentTitle from '@/tkeel-console-plugin-tenant-routing-rules/pages/Detail/components/ModalContentTitle';
 
 import TagsForm from '../TagsForm';
@@ -38,6 +40,7 @@ export default function RepublishToInfluxDBModal({
   onClose,
 }: Props) {
   const [validated, setValidated] = useState(true);
+  const [sinkId, setSinkId] = useState('');
 
   const formHandler = useForm<FormValues>({
     mode: 'onChange',
@@ -59,37 +62,75 @@ export default function RepublishToInfluxDBModal({
   const { fields, append } = fieldArrayReturn;
 
   const toast = plugin.getPortalToast();
-  const { isLoading: isVerifying } = useVerifyKafkaMutation({
-    onSuccess() {
-      toast('验证成功', { status: 'success' });
-      setValidated(true);
-    },
-    onError() {
-      toast('验证失败', { status: 'error' });
-      setValidated(false);
-    },
-  });
+  const { mutate: verifyInfluxDBMutate, isLoading: isVerifying } =
+    useVerifyInfluxDBMutation({
+      onSuccess(data) {
+        toast('验证成功', { status: 'success' });
+        setValidated(true);
+        setSinkId(data.data.id);
+      },
+      onError() {
+        toast('验证失败', { status: 'error' });
+        setValidated(false);
+      },
+    });
 
   const handleVerify = async () => {
     const result = await trigger();
     if (result) {
-      const values = getValues();
-      // eslint-disable-next-line no-console
-      console.log('handleVerify ~ values', values);
+      const { url, org, bucket, token } = getValues();
+      verifyInfluxDBMutate({
+        data: {
+          urls: url,
+          meta: {
+            org,
+            bucket,
+            token,
+          },
+        },
+      });
     }
   };
 
-  const handleSubmit = (formValues: FormValues) => {
-    // eslint-disable-next-line no-console
-    console.log('handleSubmit ~ formValues', formValues);
+  const { id } = useParams();
+  const { mutate: createRuleTargetMutate } = useCreateRuleTargetMutation<{
+    sink_type: string;
+    sink_id: string;
+    tags: Record<string, string>;
+  }>({
+    ruleId: id || '',
+    onSuccess() {
+      toast('添加转发成功', { status: 'success' });
+      onClose();
+      // refetch();
+    },
+  });
+
+  const handleSubmit = () => {
+    const formValues = getValues();
+
+    const { tags } = formValues;
+    const tagsObject = {};
+    tags.forEach(({ label, value }) => {
+      tagsObject[label] = value;
+    });
+
+    if (sinkId) {
+      createRuleTargetMutate({
+        data: {
+          sink_type: 'influxdb',
+          sink_id: sinkId,
+          tags: tagsObject,
+        },
+      });
+    }
   };
 
   const handleConfirm = async () => {
     const result = await trigger();
     if (!result) return;
     if (validated) {
-      const formValues = getValues();
-      handleSubmit(formValues);
+      handleSubmit();
     }
   };
 
