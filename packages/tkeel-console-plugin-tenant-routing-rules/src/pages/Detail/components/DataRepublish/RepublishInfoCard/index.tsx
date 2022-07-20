@@ -232,6 +232,7 @@ export default function RepublishInfoCard({
             token: '',
             tags: tagsArr,
           }}
+          targetId={target.id}
           isOpen={isModalOpen}
           onClose={onModalClose}
           isLoading={isEditRuleTargetLoading}

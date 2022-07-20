@@ -28,6 +28,7 @@ export interface FormValues {
 
 type Props = {
   info?: FormValues;
+  targetId?: string;
   isOpen: boolean;
   isLoading: boolean;
   onClose: () => void;
@@ -36,6 +37,7 @@ type Props = {
 
 export default function RepublishToInfluxDBModal({
   info,
+  targetId,
   isOpen,
   isLoading,
   onClose,
@@ -114,6 +116,19 @@ export default function RepublishToInfluxDBModal({
     },
   });
 
+  const { mutate: editRuleTargetMutate } = useCreateRuleTargetMutation<{
+    tags: Record<string, string>;
+  }>({
+    method: 'PUT',
+    ruleId: id || '',
+    targetId: targetId || '',
+    onSuccess() {
+      toast('编辑转发成功', { status: 'success' });
+      onClose();
+      refetchData();
+    },
+  });
+
   const handleSubmit = () => {
     const formValues = getValues();
 
@@ -123,7 +138,13 @@ export default function RepublishToInfluxDBModal({
       tagsObject[label] = value;
     });
 
-    if (sinkId) {
+    if (info) {
+      editRuleTargetMutate({
+        data: {
+          tags: tagsObject,
+        },
+      });
+    } else if (sinkId) {
       createRuleTargetMutate({
         data: {
           sink_type: 'influxdb',
@@ -143,6 +164,10 @@ export default function RepublishToInfluxDBModal({
   };
 
   const formFields = ['org', 'bucket', 'url', 'token'];
+  if (info) {
+    formFields.pop();
+  }
+
   const addTagButtonDisabled = fields.length >= 5;
 
   return (
@@ -162,6 +187,7 @@ export default function RepublishToInfluxDBModal({
           key={field}
           id={field}
           type={field === 'token' ? 'password' : 'text'}
+          isDisabled={!!info}
           autoComplete="new-password"
           label={field}
           error={errors[field] as FieldError}
@@ -171,13 +197,15 @@ export default function RepublishToInfluxDBModal({
           formControlStyle={{ marginTop: '20px' }}
         />
       ))}
-      <Button
-        colorScheme="brand"
-        isLoading={isVerifying}
-        onClick={handleVerify}
-      >
-        验证
-      </Button>
+      {!info && (
+        <Button
+          colorScheme="brand"
+          isLoading={isVerifying}
+          onClick={handleVerify}
+        >
+          验证
+        </Button>
+      )}
       <Flex marginTop="20px" justifyContent="space-between" alignItems="center">
         <Text color="gray.800" fontSize="14px" fontWeight="500">
           自定义标签
