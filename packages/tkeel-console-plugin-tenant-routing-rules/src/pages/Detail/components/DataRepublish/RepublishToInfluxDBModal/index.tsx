@@ -1,9 +1,9 @@
 import { Button, Flex, Text } from '@chakra-ui/react';
 import { useState } from 'react';
-import { useFieldArray, useForm } from 'react-hook-form';
+import { FieldError, useFieldArray, useForm } from 'react-hook-form';
 
-import { FormField, Modal, Tip, Tooltip } from '@tkeel/console-components';
-import { AddFilledIcon, InfluxdbFilledIcon } from '@tkeel/console-icons';
+import { FormField, Modal, TextButton, Tip } from '@tkeel/console-components';
+import { InfluxdbFilledIcon } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
 import useVerifyKafkaMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useVerifyKafkaMutation';
@@ -93,6 +93,7 @@ export default function RepublishToInfluxDBModal({
     }
   };
 
+  const formFields = ['org', 'bucket', 'url', 'token'];
   const addTagButtonDisabled = fields.length >= 5;
 
   return (
@@ -107,43 +108,19 @@ export default function RepublishToInfluxDBModal({
         icon={<InfluxdbFilledIcon size={24} />}
         title="将数据发送到 InfluxDB"
       />
-      <TextField
-        id="org"
-        label="org"
-        error={errors.org}
-        defaultValue={info?.org ?? ''}
-        registerReturn={register('org', {
-          required: { value: true, message: '请输入 org' },
-        })}
-        formControlStyle={{ marginTop: '20px' }}
-      />
-      <TextField
-        id="bucket"
-        label="bucket"
-        error={errors.bucket}
-        defaultValue={info?.bucket ?? ''}
-        registerReturn={register('bucket', {
-          required: { value: true, message: '请输入 bucket' },
-        })}
-      />
-      <TextField
-        id="url"
-        label="url"
-        error={errors.url}
-        defaultValue={info?.url ?? ''}
-        registerReturn={register('url', {
-          required: { value: true, message: '请输入 url' },
-        })}
-      />
-      <TextField
-        id="token"
-        label="token"
-        error={errors.token}
-        defaultValue={info?.token ?? ''}
-        registerReturn={register('token', {
-          required: { value: true, message: '请输入 token' },
-        })}
-      />
+      {formFields.map((field) => (
+        <TextField
+          key={field}
+          id={field}
+          label={field}
+          error={errors[field] as FieldError}
+          defaultValue={(info?.[field] as string) ?? ''}
+          registerReturn={register(field as keyof FormValues, {
+            required: { value: true, message: `请输入 ${field}` },
+          })}
+          formControlStyle={{ marginTop: '20px' }}
+        />
+      ))}
       <Button
         colorScheme="brand"
         isLoading={isVerifying}
@@ -155,24 +132,19 @@ export default function RepublishToInfluxDBModal({
         <Text color="gray.800" fontSize="14px" fontWeight="500">
           自定义标签
         </Text>
-        <Tooltip label={addTagButtonDisabled ? '自定义标签最多限制 5 个' : ''}>
-          <Flex
-            marginBottom="8px"
-            alignItems="center"
-            cursor={addTagButtonDisabled ? 'not-allowed' : 'pointer'}
-            opacity={addTagButtonDisabled ? '.5' : '1'}
-            onClick={() => {
-              if (!addTagButtonDisabled) {
-                append({ label: '请输入自定义标签字符串', value: '' });
-              }
-            }}
-          >
-            <AddFilledIcon color="grayAlternatives.300" />
-            <Text color="grayAlternatives.300" fontSize="12px">
-              添加标签
-            </Text>
-          </Flex>
-        </Tooltip>
+        <TextButton
+          showIcon
+          showTooltip
+          tooltipLabel="自定义标签最多限制 5 个"
+          onClick={() => {
+            if (!addTagButtonDisabled) {
+              append({ label: '请输入自定义标签字符串', value: '' });
+            }
+          }}
+          sx={{ marginBottom: '8px' }}
+        >
+          添加标签
+        </TextButton>
       </Flex>
       <Tip
         title="用户自定义标签仅支持输入字符串"

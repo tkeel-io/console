@@ -8,7 +8,12 @@ import {
   useWatch,
 } from 'react-hook-form';
 
-import { FormControl, FormField, Radio } from '@tkeel/console-components';
+import {
+  FormControl,
+  FormField,
+  Radio,
+  TextButton,
+} from '@tkeel/console-components';
 import { useColors } from '@tkeel/console-hooks';
 import { TrashFilledIcon } from '@tkeel/console-icons';
 import {
@@ -37,8 +42,6 @@ import {
   getTelemetryOptionsByTelemetry,
   parseTelemetryInfo,
 } from '@/tkeel-console-plugin-tenant-alarm-policy/utils';
-
-import AddRuleButton from '../AddRuleButton';
 
 const { TextField, SelectField } = FormField;
 
@@ -191,7 +194,15 @@ export default function DeviceRuleDescriptionCard<FormValues>({
           </FormControl>
           <Text>条件时，触发告警。</Text>
         </Flex>
-        <AddRuleButton disabled={fields.length > 4} onClick={() => append()} />
+        <TextButton
+          showIcon
+          showTooltip
+          tooltipLabel="告警规则最多限制 5 条"
+          disabled={fields.length > 4}
+          onClick={() => append()}
+        >
+          添加规则
+        </TextButton>
       </Flex>
       <Flex flexDirection="column" marginTop="20px">
         {fields.map((item, i) => {
