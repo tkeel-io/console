@@ -43,7 +43,7 @@ export default function RepublishToInfluxDBModal({
   onClose,
   refetchData,
 }: Props) {
-  const [validated, setValidated] = useState(false);
+  const [validated, setValidated] = useState(!!info);
   const [isShowVerifyErrorTip, setIsShowVerifyErrorTip] = useState(false);
   const [sinkId, setSinkId] = useState('');
 
