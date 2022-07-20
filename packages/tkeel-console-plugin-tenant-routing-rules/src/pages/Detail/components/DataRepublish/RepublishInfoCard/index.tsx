@@ -55,6 +55,7 @@ export default function RepublishInfoCard({
   };
   const image = imgType[target.sink_type] as string;
   const [publishType, setPublishType] = useState('');
+
   const {
     isOpen: isAlertOpen,
     onClose: onAlertClose,
@@ -109,12 +110,11 @@ export default function RepublishInfoCard({
     }
   };
 
-  let imageWidth = '95px';
-  if (target.sink_type === 'mysql') {
-    imageWidth = '64px';
-  } else if (target.sink_type === 'influxdb') {
-    imageWidth = '44px';
-  }
+  const tagsArr = Object.entries(target.tags || {}).map(([key, value]) => ({
+    label: key,
+    value,
+  }));
+
   return (
     <Flex
       alignItems="center"
@@ -135,7 +135,17 @@ export default function RepublishInfoCard({
     >
       <Flex alignItems="center" w="260px">
         <Box width="5px" height="40px" backgroundColor="success.300" />
-        <Image marginLeft="20px" width={imageWidth} src={image} />
+        <Image marginLeft="20px" height="40px" src={image} />
+        {target.sink_type === 'influxdb' && (
+          <Text
+            marginLeft="10px"
+            color="gray.800"
+            fontSize="14px"
+            fontWeight="500"
+          >
+            InfluxDB
+          </Text>
+        )}
       </Flex>
       <Text flex="1" color="grayAlternatives.700" fontSize="14px" noOfLines={1}>
         {imgType[target.sink_type] === 'kafka'
@@ -215,10 +225,17 @@ export default function RepublishInfoCard({
       )}
       {publishType === 'influxdb' && (
         <RepublishToInfluxDBModal
-          info={{ org: '', bucket: '', url: '', token: '', tags: [] }}
+          info={{
+            org: target.org || '',
+            bucket: target.bucket || '',
+            url: target.host,
+            token: '',
+            tags: tagsArr,
+          }}
           isOpen={isModalOpen}
           onClose={onModalClose}
           isLoading={isEditRuleTargetLoading}
+          refetchData={refetchData}
         />
       )}
       <Alert
@@ -228,7 +245,7 @@ export default function RepublishInfoCard({
             <TrashFilledIcon size="24px" color="red.300" />
           </Circle>
         }
-        title={`确认删除转发「${target.value || ''}」？`}
+        title="确认删除转发？"
         isOpen={isAlertOpen}
         isConfirmButtonLoading={isDeleteTargetLoading}
         onClose={onAlertClose}

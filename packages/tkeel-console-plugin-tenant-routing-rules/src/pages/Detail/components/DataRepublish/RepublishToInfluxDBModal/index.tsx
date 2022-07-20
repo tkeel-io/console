@@ -30,7 +30,8 @@ type Props = {
   info?: FormValues;
   isOpen: boolean;
   isLoading: boolean;
-  onClose: () => unknown;
+  onClose: () => void;
+  refetchData: () => void;
 };
 
 export default function RepublishToInfluxDBModal({
@@ -38,12 +39,19 @@ export default function RepublishToInfluxDBModal({
   isOpen,
   isLoading,
   onClose,
+  refetchData,
 }: Props) {
   const [validated, setValidated] = useState(true);
   const [sinkId, setSinkId] = useState('');
 
   const formHandler = useForm<FormValues>({
     mode: 'onChange',
+    defaultValues: {
+      org: info?.org ?? '',
+      bucket: info?.bucket ?? '',
+      url: info?.url ?? '',
+      tags: info?.tags ?? [],
+    },
   });
 
   const {
@@ -102,7 +110,7 @@ export default function RepublishToInfluxDBModal({
     onSuccess() {
       toast('添加转发成功', { status: 'success' });
       onClose();
-      // refetch();
+      refetchData();
     },
   });
 
@@ -153,9 +161,10 @@ export default function RepublishToInfluxDBModal({
         <TextField
           key={field}
           id={field}
+          type={field === 'token' ? 'password' : 'text'}
+          autoComplete="new-password"
           label={field}
           error={errors[field] as FieldError}
-          defaultValue={(info?.[field] as string) ?? ''}
           registerReturn={register(field as keyof FormValues, {
             required: { value: true, message: `请输入 ${field}` },
           })}

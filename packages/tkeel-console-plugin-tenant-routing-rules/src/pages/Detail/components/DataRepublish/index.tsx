@@ -170,6 +170,7 @@ export default function DataRepublish({
           isOpen
           isLoading={isLoading}
           onClose={() => setSelectedProductId('')}
+          refetchData={() => refetch()}
         />
       )}
     </Flex>
