@@ -38,12 +38,12 @@ pipeline {
 
         string(
             name:'APPEARANCE',
-            defaultValue: 'tkeel-light',
+            defaultValue: 'qingcloud',
             description:'appearance')
 
         string(
             name:'THEME',
-            defaultValue: 'tkeel',
+            defaultValue: 'qingcloud-light',
             description:'theme')
 
     }
