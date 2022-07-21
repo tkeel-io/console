@@ -1,5 +1,10 @@
 import { useQuery } from '@tkeel/console-hooks';
 
+export enum RuleType {
+  Msg = 1,
+  Time = 2,
+}
+
 export enum RuleStatus {
   Stop,
   Start,
@@ -10,7 +15,7 @@ export interface ApiData {
   id: string;
   name: string;
   desc: string;
-  type: 1 | 2;
+  type: RuleType;
   status: RuleStatus;
   devices_status: number;
   targets_status: number;
