@@ -63,7 +63,6 @@ interface Props<D extends object> {
     wrapper?: StyleProps;
     loading?: StyleProps;
     empty?: StyleProps;
-    searchEmpty?: StyleProps;
     table?: StyleProps;
     head?: StyleProps;
     headTr?: StyleProps;
@@ -216,22 +215,14 @@ function Table<D extends object>({
               return empty;
             }
 
+            const emptyStyles = { height: '100%', ...styles?.empty };
             if (hasKeywords) {
               return (
-                <SearchEmpty
-                  title="没有符合条件的数据"
-                  styles={{
-                    wrapper: { height: '100%', ...styles?.searchEmpty },
-                  }}
-                />
+                <SearchEmpty title="没有符合条件的数据" sx={emptyStyles} />
               );
             }
 
-            return (
-              <Empty
-                styles={{ wrapper: { height: '100%', ...styles?.empty } }}
-              />
-            );
+            return <Empty sx={emptyStyles} />;
           }
 
           return (

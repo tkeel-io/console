@@ -177,6 +177,7 @@ export default function Roles() {
         paginationProps={pagination}
         scroll={{ y: '100%' }}
         isLoading={isLoading}
+        hasKeywords={!!keywords}
         styles={{
           wrapper: {
             flex: 1,

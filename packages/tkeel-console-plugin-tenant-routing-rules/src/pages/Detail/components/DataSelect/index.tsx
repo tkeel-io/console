@@ -301,6 +301,7 @@ export default function DataSelect({ routeType }: Props) {
                     columns={columns}
                     data={deviceTableData}
                     isLoading={isLoading}
+                    hasKeywords={!!keywords}
                     onSelect={handleSelect}
                     paginationProps={pagination}
                     scroll={{ y: '296px' }}
