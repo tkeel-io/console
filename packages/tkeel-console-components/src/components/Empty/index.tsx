@@ -33,6 +33,7 @@ export default function Empty({
   styles,
 }: Props) {
   const typeIsComponent = type === 'component';
+
   return (
     <Box
       display="flex"
@@ -47,7 +48,7 @@ export default function Empty({
       <Box {...styles?.image}>{image}</Box>
       <Box
         marginTop={typeIsComponent ? '0' : '28px'}
-        fontSize={typeIsComponent ? '12px' : '16px'}
+        fontSize={typeIsComponent ? '12px' : '14px'}
         lineHeight={typeIsComponent ? '18px' : '28px'}
         color="gray.600"
         {...styles?.title}
@@ -56,7 +57,7 @@ export default function Empty({
       </Box>
       <Box
         marginTop="8px"
-        fontSize="14px"
+        fontSize="12px"
         lineHeight="20px"
         color="gray.600"
         {...styles?.description}
