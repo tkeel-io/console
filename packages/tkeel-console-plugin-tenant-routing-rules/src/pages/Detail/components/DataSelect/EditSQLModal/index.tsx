@@ -74,7 +74,7 @@ export default function EditSQLModal({
 
   return (
     <Modal
-      title="生成SQL"
+      title="生成 SQL"
       isOpen={isOpen}
       onClose={onClose}
       width="790px"

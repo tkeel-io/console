@@ -62,7 +62,7 @@ ${whereExpr}`;
         <Tooltip
           label={
             editSqlButtonDisabled
-              ? '规则启动状态下无法编写 SQL ，如需编写SQL请先停用规则。'
+              ? '规则启动状态下无法编写 SQL ，如需编写 SQL 请先停用规则。'
               : ''
           }
         >
@@ -82,7 +82,7 @@ ${whereExpr}`;
               }
             }}
           >
-            编写SQL
+            编写 SQL
           </Button>
         </Tooltip>
         <EditSQLModal
