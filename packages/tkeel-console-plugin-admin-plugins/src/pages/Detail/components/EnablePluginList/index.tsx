@@ -100,6 +100,7 @@ function EnablePluginList({ pluginName, installed }: Props) {
         data={tenants}
         isLoading={isLoading}
         isShowStripe
+        hasKeywords={!!keyWords}
         scroll={{ y: '100%' }}
         paginationProps={{
           pageNum,
