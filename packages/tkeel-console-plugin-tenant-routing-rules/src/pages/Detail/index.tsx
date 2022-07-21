@@ -149,7 +149,7 @@ export default function Detail() {
         >
           <DataSelect routeType={routeType} />
           <DataRepublish
-            styles={{ wrapper: { margin: '40px 0' } }}
+            sx={{ margin: '40px 0' }}
             deviceTemplateId={deviceTemplateId}
             routeType={routeType}
             status={status}
