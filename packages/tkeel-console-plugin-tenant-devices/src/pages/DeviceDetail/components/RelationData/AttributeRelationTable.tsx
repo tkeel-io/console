@@ -303,6 +303,7 @@ export default function AttributeRelationTable({
       columns={columns}
       data={tableData}
       hasPagination={false}
+      hasKeywords={!!keywords}
     />
   );
 }

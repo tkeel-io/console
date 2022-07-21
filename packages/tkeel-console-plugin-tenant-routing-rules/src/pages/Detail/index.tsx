@@ -2,9 +2,8 @@ import { Box, Flex, Square, Text } from '@chakra-ui/react';
 import { useQueryClient } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { BackButton } from '@tkeel/console-components';
+import { BackButton, Loading } from '@tkeel/console-components';
 import { PingTwoToneIcon } from '@tkeel/console-icons';
-// import { DeviceItem } from '@tkeel/console-request-hooks';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import MoreActionButton from '@/tkeel-console-plugin-tenant-routing-rules/components/MoreActionButton';
@@ -12,7 +11,9 @@ import RouteLabel, {
   RouteType,
 } from '@/tkeel-console-plugin-tenant-routing-rules/components/RouteLabel';
 import StatusLabel from '@/tkeel-console-plugin-tenant-routing-rules/components/StatusLabel';
-import useRuleDetailQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDetailQuery';
+import useRuleDetailQuery, {
+  RuleType,
+} from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDetailQuery';
 
 import DataRepublish from './components/DataRepublish';
 import DataSelect from './components/DataSelect';
@@ -29,13 +30,19 @@ export default function Detail() {
   const { id } = useParams();
   const queryClient = useQueryClient();
 
-  const { data: ruleDetail, refetch } = useRuleDetailQuery(id || '');
+  const {
+    data: ruleDetail,
+    isLoading,
+    isFetched,
+    refetch,
+  } = useRuleDetailQuery(id || '');
+
   const createTime = getFormattedDateTime(ruleDetail?.created_at);
   const updateTime = getFormattedDateTime(ruleDetail?.updated_at);
 
   let routeType: RouteType = 'msg';
   const type = ruleDetail?.type ?? 1;
-  if (type === 2) {
+  if (type === RuleType.Time) {
     routeType = 'time';
   }
 
@@ -72,52 +79,60 @@ export default function Detail() {
         }}
       />
       <Flex position="relative" flexDirection="column" width="82%">
-        <Flex justifyContent="space-between">
-          <Flex alignItems="center" maxWidth="80%">
-            <Square size="40px" backgroundColor="gray.50" borderRadius="4px">
-              <PingTwoToneIcon size={24} />
-            </Square>
-            <Text
-              marginLeft="8px"
-              marginRight="20px"
-              color="gray.700"
-              fontSize="18px"
-              fontWeight="600"
-              lineHeight="24px"
-              noOfLines={1}
-              title={name}
-            >
-              {name}
-            </Text>
-            <RouteLabel
-              routeType={routeType}
-              styles={{ wrapper: { flexShrink: 0 } }}
-            />
-          </Flex>
-          <Flex alignItems="center">
-            <StatusLabel
-              status={status}
-              styles={{ wrapper: { marginRight: '15px' } }}
-            />
-            <MoreActionButton
-              cruxData={{
-                id: id || '',
-                name,
-                status,
-                desc,
-                type,
-                deviceTemplateId,
-                deviceTemplateName,
-              }}
-              refetch={() => {
-                refetch();
-              }}
-              onDeleteSuccess={() => {
-                queryClient.invalidateQueries('routeRules');
-                navigate('/');
-              }}
-            />
-          </Flex>
+        <Flex justifyContent="space-between" height="40px" flexShrink={0}>
+          {isFetched && (
+            <>
+              <Flex alignItems="center" maxWidth="80%">
+                <Square
+                  size="40px"
+                  backgroundColor="gray.50"
+                  borderRadius="4px"
+                >
+                  <PingTwoToneIcon size={24} />
+                </Square>
+                <Text
+                  marginLeft="8px"
+                  marginRight="20px"
+                  color="gray.700"
+                  fontSize="18px"
+                  fontWeight="600"
+                  lineHeight="24px"
+                  noOfLines={1}
+                  title={name}
+                >
+                  {name}
+                </Text>
+                <RouteLabel
+                  routeType={routeType}
+                  styles={{ wrapper: { flexShrink: 0 } }}
+                />
+              </Flex>
+              <Flex alignItems="center">
+                <StatusLabel
+                  status={status}
+                  styles={{ wrapper: { marginRight: '15px' } }}
+                />
+                <MoreActionButton
+                  cruxData={{
+                    id: id || '',
+                    name,
+                    status,
+                    desc,
+                    type,
+                    deviceTemplateId,
+                    deviceTemplateName,
+                  }}
+                  refetch={() => {
+                    refetch();
+                  }}
+                  onDeleteSuccess={() => {
+                    queryClient.invalidateQueries('routeRules');
+                    navigate('/');
+                  }}
+                />
+              </Flex>
+            </>
+          )}
         </Flex>
         <TextWrapper
           label="描述"
@@ -147,17 +162,23 @@ export default function Detail() {
           borderRadius="4px"
           backgroundColor="white"
         >
-          <DataSelect routeType={routeType} />
-          <DataRepublish
-            sx={{ margin: '40px 0' }}
-            deviceTemplateId={deviceTemplateId}
-            routeType={routeType}
-            status={status}
-          />
-          <ErrorAction
-            subscribeId={ruleDetail?.sub_id ?? 0}
-            refetchDetail={() => refetch()}
-          />
+          {isLoading ? (
+            <Loading sx={{ height: '646px' }} />
+          ) : (
+            <>
+              <DataSelect routeType={routeType} />
+              <DataRepublish
+                sx={{ margin: '40px 0' }}
+                deviceTemplateId={deviceTemplateId}
+                routeType={routeType}
+                status={status}
+              />
+              <ErrorAction
+                subscribeId={ruleDetail?.sub_id ?? 0}
+                refetchDetail={() => refetch()}
+              />
+            </>
+          )}
         </Flex>
       </Flex>
     </Flex>

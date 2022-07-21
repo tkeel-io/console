@@ -21,17 +21,11 @@ export default [
     ],
   },
   {
-    id: 'console-plugin-admin-tenants1',
+    id: 'console-plugin-admin-tenants',
     name: '租户管理',
     icon: 'GroupTwoToneIcon',
-    children: [
-      {
-        id: 'console-plugin-admin-tenants',
-        name: '租户管理',
-        path: '/admin-tenants',
-        entry: 'http://127.0.0.1:3003/static/console-plugin-admin-tenants/',
-      },
-    ],
+    path: '/admin-tenants',
+    entry: 'http://127.0.0.1:3003/static/console-plugin-admin-tenants/',
   },
   {
     id: 'monitoring-alarms',

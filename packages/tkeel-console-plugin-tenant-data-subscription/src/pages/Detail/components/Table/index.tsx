@@ -1,5 +1,5 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { CellProps, Column } from 'react-table';
 
 import { DeviceStatusIcon } from '@tkeel/console-business-components';
@@ -83,92 +83,93 @@ export default function Index({ id, title, refetchSubscribeInfo }: Props) {
     {
       Header: '设备名称',
       accessor: 'name',
-      Cell: ({ value }: { value: string }) =>
-        useMemo(
-          () => (
-            <Flex alignItems="center" justifyContent="space-between">
-              <SmartObjectTwoToneIcon size={24} />
-              <Text color="gray.800" fontWeight="600" marginLeft="14px">
-                {value}
-              </Text>
-            </Flex>
-          ),
-          [value]
-        ),
+      Cell: useCallback(({ value }: CellProps<Data, Data['name']>) => {
+        return (
+          <Flex alignItems="center" justifyContent="space-between">
+            <SmartObjectTwoToneIcon size={24} />
+            <Text color="gray.800" fontWeight="600" marginLeft="14px">
+              {value}
+            </Text>
+          </Flex>
+        );
+      }, []),
     },
     {
       Header: '设备状态',
       width: 100,
       accessor: 'status',
-      Cell: ({ value }: { value: string }) =>
-        useMemo(
-          () => <DeviceStatusIcon isOnline={value === 'online'} />,
-          [value]
+      Cell: useCallback(
+        ({ value }: CellProps<Data, Data['status']>) => (
+          <DeviceStatusIcon isOnline={value === 'online'} />
         ),
+        []
+      ),
     },
     {
       Header: '设备模板',
       width: 100,
       accessor: 'template',
-      Cell: ({ value }: { value: string }) =>
-        useMemo(
-          () => (
-            <Box color="gray.700" overflow="hidden">
-              {value}
-            </Box>
-          ),
-          [value]
+      Cell: useCallback(
+        ({ value }: CellProps<Data, Data['template']>) => (
+          <Box color="gray.700" overflow="hidden">
+            {value}
+          </Box>
         ),
+        []
+      ),
     },
     {
       Header: '设备分组',
       width: 110,
       accessor: 'group',
-      Cell: ({ value }: { value: string }) =>
-        useMemo(() => <Box color="gray.700">{value}</Box>, [value]),
+      Cell: useCallback(
+        ({ value }: CellProps<Data, Data['group']>) => (
+          <Box color="gray.700">{value}</Box>
+        ),
+        []
+      ),
     },
     {
       Header: '最后更新时间',
       accessor: 'updated_at',
       width: 200,
-      Cell: ({ value }: { value: string }) =>
-        useMemo(
-          () => (
-            <Box>
-              {formatDateTimeByTimestamp({
-                timestamp: value,
-              })}
-            </Box>
-          ),
-          [value]
+      Cell: useCallback(
+        ({ value }: CellProps<Data, Data['updated_at']>) => (
+          <Box>
+            {formatDateTimeByTimestamp({
+              timestamp: value,
+            })}
+          </Box>
         ),
+        []
+      ),
     },
     {
       Header: '操作',
       width: 80,
-      Cell: ({ row }: CellProps<Data>) =>
-        useMemo(() => {
-          const { original } = row;
+      Cell: useCallback(({ row }: CellProps<Data>) => {
+        const { original } = row;
 
-          return (
-            <MoreAction
-              buttons={[
-                <MoveSubscriptionButton
-                  selected_ids={[original.ID]}
-                  key="modify"
-                  onSuccess={() => handleRefetch()}
-                />,
-                <DeleteDeviceButton
-                  onSuccess={() => {}}
-                  name={[original.name]}
-                  key="delete"
-                  selected_ids={[original.ID]}
-                  refetchData={() => handleRefetch()}
-                />,
-              ]}
-            />
-          );
-        }, [row]),
+        return (
+          <MoreAction
+            buttons={[
+              <MoveSubscriptionButton
+                selected_ids={[original.ID]}
+                key="modify"
+                onSuccess={() => handleRefetch()}
+              />,
+              <DeleteDeviceButton
+                onSuccess={() => {}}
+                name={[original.name]}
+                key="delete"
+                selected_ids={[original.ID]}
+                refetchData={() => handleRefetch()}
+              />,
+            ]}
+          />
+        );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, []),
     },
   ];
 
