@@ -84,11 +84,6 @@ module.exports = {
     'iothub',
     'dingding',
     'hookform',
-    // fonts
-    'truetype',
-    'Roboto',
-    'Noto',
-    'WenQuanYi',
     'ruleql',
     'behaviour',
     'cstyle',
@@ -102,6 +97,11 @@ module.exports = {
     'endswith',
     'rparen',
     'quickmgt',
+    // fonts
+    'truetype',
+    'Roboto',
+    'Noto',
+    'WenQuanYi',
   ],
   ignorePaths: [
     '**/.idea/**',
