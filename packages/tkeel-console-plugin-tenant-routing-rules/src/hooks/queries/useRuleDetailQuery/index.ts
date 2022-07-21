@@ -9,6 +9,8 @@ export interface ApiData {
   status: 0 | 1;
   devices_status: number;
   targets_status: number;
+  select_expr: string;
+  where_expr: string;
   sub_id: number;
   model_id: string;
   model_name: string;

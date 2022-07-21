@@ -28,6 +28,9 @@ export interface Target {
   fields: PublishedFields[] | [];
   database: string;
   table_name: string;
+  org?: string;
+  bucket?: string;
+  tags?: Record<string, string>;
 }
 
 export interface ApiData {

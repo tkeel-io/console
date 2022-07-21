@@ -68,23 +68,28 @@ export default function AddDeviceButton({
           添加设备
         </Text>
       )}
-      {routeType === 'time' ? (
-        <AddTemplateDevicesModal
-          isOpen={isOpen}
-          isLoading={isLoading}
-          onClose={onClose}
-          onConfirm={onConfirm}
-        />
-      ) : (
-        <AddDevicesModal
-          type="group"
-          isOpen={isOpen}
-          isLoading={isLoading}
-          hasSelectedDeviceIds={hasSelectedDeviceIds}
-          onClose={onClose}
-          onConfirm={onConfirm}
-        />
-      )}
+      {(() => {
+        if (isOpen) {
+          return routeType === 'time' ? (
+            <AddTemplateDevicesModal
+              isOpen={isOpen}
+              isLoading={isLoading}
+              onClose={onClose}
+              onConfirm={onConfirm}
+            />
+          ) : (
+            <AddDevicesModal
+              type="group"
+              isOpen={isOpen}
+              isLoading={isLoading}
+              hasSelectedDeviceIds={hasSelectedDeviceIds}
+              onClose={onClose}
+              onConfirm={onConfirm}
+            />
+          );
+        }
+        return null;
+      })()}
     </>
   );
 }

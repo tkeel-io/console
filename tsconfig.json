@@ -12,7 +12,7 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "allowJs": false,
+    "allowJs": true,
     "jsx": "react-jsx",
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,

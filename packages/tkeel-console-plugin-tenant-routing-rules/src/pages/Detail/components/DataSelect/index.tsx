@@ -6,7 +6,6 @@ import { CellProps, Column } from 'react-table';
 import { DeviceStatusIcon } from '@tkeel/console-business-components';
 import {
   Loading,
-  // LinkButton,
   MoreAction,
   SearchInput,
   Table,
@@ -26,6 +25,7 @@ import TitleWrapper from '../TitleWrapper';
 import AddDevicesButton from './AddDevicesButton';
 import DeleteDevicesButton from './DeleteDevicesButton';
 import MoveRoutingRuleButton from './MoveRoutingRuleButton';
+import RuleSQL from './RuleSQL';
 
 type DeviceColumnData = {
   id: string;
@@ -71,14 +71,6 @@ export default function DataSelect({ routeType }: Props) {
           const { name } = row.original;
           const deviceName = name || '';
           return (
-            // <LinkButton
-            // onClick={() => {
-            //   navigate(`/detail?id=${id}&menu-collapsed=true`);
-            // }}
-            // color="gray.600"
-            // fontWeight="600"
-            // _hover={{ color: 'primary' }}
-            // >
             <HStack>
               <SmartObjectTwoToneIcon size="24px" />
               <Text
@@ -92,7 +84,6 @@ export default function DataSelect({ routeType }: Props) {
                 {deviceName}
               </Text>
             </HStack>
-            // </LinkButton>
           );
         }, [row]),
     },
@@ -253,6 +244,7 @@ export default function DataSelect({ routeType }: Props) {
               />
             );
           }
+
           return (
             <Flex flex="1" flexDirection="column" padding="20px">
               <Flex
@@ -311,7 +303,7 @@ export default function DataSelect({ routeType }: Props) {
                     isLoading={isLoading}
                     onSelect={handleSelect}
                     paginationProps={pagination}
-                    scroll={{ y: '400px' }}
+                    scroll={{ y: '296px' }}
                     styles={{
                       wrapper: {
                         flex: 1,
@@ -320,7 +312,10 @@ export default function DataSelect({ routeType }: Props) {
                         backgroundColor: 'gray.50',
                       },
                       loading: {
-                        height: '500px',
+                        height: '340px',
+                      },
+                      empty: {
+                        height: '340px',
                       },
                       head: { backgroundColor: 'gray.100' },
                       headTr: { height: '44px', border: 'none' },
@@ -329,10 +324,14 @@ export default function DataSelect({ routeType }: Props) {
                         border: 'none',
                         backgroundColor: 'white',
                       },
+                      pagination: {
+                        padding: '0 20px',
+                      },
                     }}
                   />
                 </Flex>
               )}
+              {isMsgRouter && <RuleSQL sx={{ marginTop: '20px' }} />}
             </Flex>
           );
         })()}
