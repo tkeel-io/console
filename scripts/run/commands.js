@@ -16,7 +16,7 @@ function runNpmScript({ data }) {
   const command = `yarn workspace ${packageName} ${npmScriptName}`;
   logger.info(`${command}\n`);
 
-  concurrently([{ command, name: npmScriptName, env }]);
+  return concurrently([{ command, name: npmScriptName, env }]);
 }
 
 /**
@@ -34,7 +34,7 @@ function runNpmScripts({ data }) {
     logger.info(command);
     return { command, name: npmScriptName, env };
   });
-  concurrently(commands);
+  return concurrently(commands);
 }
 
 module.exports = { runNpmScript, runNpmScripts };
