@@ -82,7 +82,6 @@ export default function EditSQLModal({
         <ButtonsHStack>
           <Button onClick={handleReset}>重置</Button>
           <Button
-            isDisabled={false}
             isLoading={isLoading}
             colorScheme="brand"
             onClick={handleConfirm}
