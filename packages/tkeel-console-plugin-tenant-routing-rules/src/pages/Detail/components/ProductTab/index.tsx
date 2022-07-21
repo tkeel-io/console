@@ -20,7 +20,6 @@ export default function ProductTab({
 }: Props) {
   return (
     <Flex
-      marginRight="8px"
       justifyContent="center"
       alignItems="center"
       width="200px"
