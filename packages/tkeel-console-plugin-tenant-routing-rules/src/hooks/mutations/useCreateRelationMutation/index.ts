@@ -4,15 +4,6 @@ type Field = { name: string; type: string };
 
 type Fields = { t_field: Field; m_field: Field };
 
-// type MysqlRequest = {
-//   sink_type: string;
-//   sink_id: string;
-//   table_name: string;
-//   fields: Fields[];
-// };
-// export interface RequestData {
-//   mysqlrequest: MysqlRequest;
-// }
 export interface RequestData {
   sink_type: string;
   sink_id: string;

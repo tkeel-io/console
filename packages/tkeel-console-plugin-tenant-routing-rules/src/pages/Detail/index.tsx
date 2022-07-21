@@ -4,7 +4,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { BackButton, Loading } from '@tkeel/console-components';
 import { PingTwoToneIcon } from '@tkeel/console-icons';
-// import { DeviceItem } from '@tkeel/console-request-hooks';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import MoreActionButton from '@/tkeel-console-plugin-tenant-routing-rules/components/MoreActionButton';

@@ -36,7 +36,6 @@ export default function TagsForm<FormValues>({
           border="none"
           m="1px"
           size="xs"
-          // placeholder="请输入自定义标签字符串"
           defaultValue="请输入自定义标签字符串"
           fontSize="14px"
           fontWeight="500"

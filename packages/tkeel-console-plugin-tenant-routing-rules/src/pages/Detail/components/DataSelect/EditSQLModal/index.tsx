@@ -1,12 +1,7 @@
 import { Box, Button, Flex, StyleProps, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 
-import {
-  AceEditor,
-  ButtonsHStack,
-  Modal,
-  // Tip,
-} from '@tkeel/console-components';
+import { AceEditor, ButtonsHStack, Modal } from '@tkeel/console-components';
 
 import useEditSQLMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useEditSQLMutation';
 
