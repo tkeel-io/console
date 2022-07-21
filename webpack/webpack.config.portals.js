@@ -2,9 +2,7 @@ const path = require('node:path');
 
 const config = require('config');
 const CopyPlugin = require('copy-webpack-plugin');
-// const fs = require('fs-extra');
 const _ = require('lodash');
-// const shell = require('shelljs');
 const { DefinePlugin } = require('webpack');
 const { merge } = require('webpack-merge');
 
