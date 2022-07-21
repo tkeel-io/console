@@ -1,12 +1,17 @@
 import { useQuery } from '@tkeel/console-hooks';
 
+export enum RuleStatus {
+  Stop,
+  Start,
+}
+
 export interface ApiData {
   '@type': string;
   id: string;
   name: string;
   desc: string;
   type: 1 | 2;
-  status: 0 | 1;
+  status: RuleStatus;
   devices_status: number;
   targets_status: number;
   select_expr: string;

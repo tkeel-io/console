@@ -1,10 +1,19 @@
-import { Box, Flex, StyleProps, Text, useDisclosure } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Flex,
+  StyleProps,
+  Text,
+  useDisclosure,
+} from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 
-import { AceEditor, IconButton } from '@tkeel/console-components';
+import { AceEditor, Tooltip } from '@tkeel/console-components';
 import { LoadingCircleFilledIcon } from '@tkeel/console-icons';
 
-import useRuleDetailQuery from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDetailQuery';
+import useRuleDetailQuery, {
+  RuleStatus,
+} from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDetailQuery';
 
 import EditSQLModal from '../EditSQLModal';
 
@@ -24,6 +33,8 @@ export default function RuleSQL({ sx, styles }: Props) {
   const whereExpr = data?.where_expr || '';
   const sql = `${selectExpr}
 ${whereExpr}`;
+
+  const editSqlButtonDisabled = data?.status === RuleStatus.Start;
 
   return (
     <Box
@@ -48,16 +59,32 @@ ${whereExpr}`;
             规则转换
           </Text>
         </Flex>
-        <IconButton
-          icon={<LoadingCircleFilledIcon color="white" />}
-          padding="0 10px"
-          backgroundColor="gray.700"
-          boxShadow="none"
-          _hover={{ backgroundColor: 'gray.700' }}
-          onClick={() => onOpen()}
+        <Tooltip
+          label={
+            editSqlButtonDisabled
+              ? '规则启动状态下无法编写 SQL ，如需编写SQL请先停用规则。'
+              : ''
+          }
         >
-          编写SQL
-        </IconButton>
+          <Button
+            leftIcon={<LoadingCircleFilledIcon color="white" />}
+            disabled={editSqlButtonDisabled}
+            padding="0 10px"
+            backgroundColor="gray.700"
+            boxShadow="none"
+            fontWeight={600}
+            fontSize="12px"
+            lineHeight="24px"
+            _hover={{ backgroundColor: 'gray.700' }}
+            onClick={() => {
+              if (!editSqlButtonDisabled) {
+                onOpen();
+              }
+            }}
+          >
+            编写SQL
+          </Button>
+        </Tooltip>
         <EditSQLModal
           ruleId={ruleId}
           isOpen={isOpen}
