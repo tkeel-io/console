@@ -3333,12 +3333,12 @@ __metadata:
   linkType: hard
 
 "@npmcli/fs@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "@npmcli/fs@npm:2.1.0"
+  version: 2.1.1
+  resolution: "@npmcli/fs@npm:2.1.1"
   dependencies:
     "@gar/promisify": ^1.1.3
     semver: ^7.3.5
-  checksum: 6ec6d678af6da49f9dac50cd882d7f661934dd278972ffbaacde40d9eaa2871292d634000a0cca9510f6fc29855fbd4af433e1adbff90a524ec3eaf140f1219b
+  checksum: 4944a0545d38d3e6e29780eeb3cd4be6059c1e9627509d2c9ced635c53b852d28b37cdc615a2adf815b51ab8673adb6507e370401a20a7e90c8a6dc4fac02389
   languageName: node
   linkType: hard
 
@@ -3685,7 +3685,7 @@ __metadata:
     "@tkeel/console-utils": "workspace:^"
     "@types/lodash": ^4.14.182
     "@types/react-table": ^7.7.12
-    ace-builds: ^1.7.1
+    ace-builds: ^1.8.0
     dayjs: ^1.11.4
     downshift: ^6.1.7
     file-loader: ^6.2.0
@@ -5341,10 +5341,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ace-builds@npm:^1.4.14, ace-builds@npm:^1.7.1":
-  version: 1.7.1
-  resolution: "ace-builds@npm:1.7.1"
-  checksum: da1a550ab3332c055b15fa0fe804d8705e5527d687866f57d5931f080883b2d1c517f2f7bc652169d37aa9aa5eabeb74ffe168f4394e59dc34db3291061ceb41
+"ace-builds@npm:^1.4.14, ace-builds@npm:^1.8.0":
+  version: 1.8.0
+  resolution: "ace-builds@npm:1.8.0"
+  checksum: 92f1814df1135c9c8cc9577de20cd34474f6dfd4097db3980b5138bdb4fc92aa86734a91d16979f45abad13b8025d1970ce11c93582c27a10528f0367c1ecd2f
   languageName: node
   linkType: hard
 
@@ -14943,8 +14943,8 @@ __metadata:
   linkType: hard
 
 "rc-util@npm:^5.15.0, rc-util@npm:^5.16.1, rc-util@npm:^5.19.2, rc-util@npm:^5.2.0, rc-util@npm:^5.21.0, rc-util@npm:^5.3.0":
-  version: 5.22.5
-  resolution: "rc-util@npm:5.22.5"
+  version: 5.23.0
+  resolution: "rc-util@npm:5.23.0"
   dependencies:
     "@babel/runtime": ^7.18.3
     react-is: ^16.12.0
@@ -14952,7 +14952,7 @@ __metadata:
   peerDependencies:
     react: ">=16.9.0"
     react-dom: ">=16.9.0"
-  checksum: 006c172fdba5de580430ed5b921a098e455d8115d020e801822731a63578749cc7fea70aaab3e40ce5947846b68c814532c924195723042d4ecaa1f19f9508e3
+  checksum: 58cebf9744fa67c1b1d666e8d8eea2ed24e911198c3ecf2c729132a39b4716b1d150f8717a7aeb2ce08ad7b8bea5124d1a65662b020cb9714e21b8d13ea97ce1
   languageName: node
   linkType: hard
 
@@ -18023,9 +18023,9 @@ __metadata:
   linkType: hard
 
 "type-fest@npm:^2.13.0":
-  version: 2.16.0
-  resolution: "type-fest@npm:2.16.0"
-  checksum: 897fc5f6833de5ade5c4841d034bdfb6aaa168f24f725354ad13320b2a463b9df03a7a664b836b4c3bc7d9f92b22a25c26fe24668a35caf3b7a9ea5fcb847b8d
+  version: 2.17.0
+  resolution: "type-fest@npm:2.17.0"
+  checksum: cb626b7434f463632643ee8681c900d17739decd820f28ed2e77de7fb8fc406f30f3e86b1b8f26a76f94fbf781e96347febaa8d06b5cef21fdc5f65ded86ad05
   languageName: node
   linkType: hard
 
