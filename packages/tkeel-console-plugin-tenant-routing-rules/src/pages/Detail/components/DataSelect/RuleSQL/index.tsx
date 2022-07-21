@@ -29,8 +29,8 @@ export default function RuleSQL({ sx, styles }: Props) {
   const { id } = useParams();
   const ruleId = id || '';
   const { data, refetch } = useRuleDetailQuery(ruleId);
-  const selectExpr = data?.select_expr || '';
-  const whereExpr = data?.where_expr || '';
+  const selectExpr = data?.select_expr ?? '';
+  const whereExpr = data?.where_expr ?? '';
   const sql = `${selectExpr}
 ${whereExpr}`;
 

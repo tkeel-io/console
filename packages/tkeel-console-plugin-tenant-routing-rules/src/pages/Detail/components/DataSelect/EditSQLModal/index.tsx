@@ -13,8 +13,10 @@ interface Props {
   onClose: () => void;
   onSuccess: () => void;
 }
+
 export const DEFAULT_SELECT_EXPR = 'SELECT * ';
 export const DEFAULT_WHERE_EXPR = 'WHERE ';
+
 export default function EditSQLModal({
   ruleId,
   isOpen,
@@ -128,7 +130,6 @@ export default function EditSQLModal({
           规则引擎提供多种函数，您可以在编写SQL时使用这些函数，实现多样化数据处理。
         </Text>
       </Box>
-      {/* <Tip title="" /> */}
     </Modal>
   );
 }
