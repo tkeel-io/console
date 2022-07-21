@@ -3,6 +3,7 @@ import { Box, Spinner, SpinnerProps, StyleProps } from '@chakra-ui/react';
 interface Props extends SpinnerProps {
   isFullWidth?: boolean;
   isFullHeight?: boolean;
+  sx?: StyleProps;
   styles?: {
     wrapper?: StyleProps;
   };
@@ -11,6 +12,7 @@ interface Props extends SpinnerProps {
 export default function Loading({
   isFullWidth,
   isFullHeight,
+  sx,
   styles,
   ...rest
 }: Props) {
@@ -23,6 +25,7 @@ export default function Loading({
       width={isFullWidth ? '100%' : ''}
       height={isFullHeight ? '100%' : ''}
       {...styles?.wrapper}
+      {...sx}
     >
       <Spinner {...rest} />
     </Box>
