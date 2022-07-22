@@ -20,6 +20,7 @@ import kafkaImg from '@/tkeel-console-plugin-tenant-routing-rules/assets/images/
 import mysqlImg from '@/tkeel-console-plugin-tenant-routing-rules/assets/images/mysql.svg';
 import useCreateRuleTargetMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useCreateRuleTargetMutation';
 import useDeleteTargetMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useDeleteTargetMutation';
+import { RuleStatus } from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDetailQuery';
 import { Target } from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleTargetsQuery';
 
 import RepublishToInfluxDBModal from '../RepublishToInfluxDBModal';
@@ -153,7 +154,7 @@ export default function RepublishInfoCard({
           : `数据库地址：${target.endpoint}`}
       </Text>
       <HStack display="none" spacing="20px">
-        {status !== 1 && (
+        {status !== RuleStatus.Start && (
           <>
             <PencilFilledIcon
               size={20}

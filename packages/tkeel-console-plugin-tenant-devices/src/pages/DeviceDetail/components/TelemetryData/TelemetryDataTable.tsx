@@ -28,6 +28,7 @@ type Props = {
   telemetryFields: TelemetryItem[];
   templateTelemetryFields?: TelemetryItem[];
   telemetryValues: TelemetryValue;
+  hasKeywords: boolean;
   refetch: () => void;
   handleSelect: ({
     selectedFlatRows,
@@ -41,6 +42,7 @@ export default function TelemetryDataTable({
   deviceId,
   telemetryFields,
   templateTelemetryFields = [],
+  hasKeywords,
   refetch: refetchDeviceDetail,
   telemetryValues,
   handleSelect,
@@ -217,6 +219,7 @@ export default function TelemetryDataTable({
       data={telemetryTableData || []}
       isShowStripe
       hasPagination={false}
+      hasKeywords={hasKeywords}
     />
   );
 }

@@ -1,6 +1,6 @@
 import { Flex, Text } from '@chakra-ui/react';
-import { useMemo, useState } from 'react';
-import { Column } from 'react-table';
+import { useCallback, useState } from 'react';
+import { CellProps, Column } from 'react-table';
 
 import { SearchInput, Table } from '@tkeel/console-components';
 import { usePagination } from '@tkeel/console-hooks';
@@ -36,14 +36,16 @@ function EnablePluginList({ pluginName, installed }: Props) {
       Header: '启用时间',
       accessor: 'enable_timestamp',
       width: 200,
-      Cell: ({ value }) =>
-        useMemo(() => {
+      Cell: useCallback(
+        ({ value }: CellProps<Tenant, Tenant['enable_timestamp']>) => {
           return value ? (
             <Text>
               {formatDateTimeByTimestamp({ timestamp: `${value}000` })}
             </Text>
           ) : null;
-        }, [value]),
+        },
+        []
+      ),
     },
     {
       Header: '租户空间',
@@ -100,6 +102,7 @@ function EnablePluginList({ pluginName, installed }: Props) {
         data={tenants}
         isLoading={isLoading}
         isShowStripe
+        hasKeywords={!!keyWords}
         scroll={{ y: '100%' }}
         paginationProps={{
           pageNum,

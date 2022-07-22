@@ -66,43 +66,43 @@ export default function DataSelect({ routeType }: Props) {
   const columns: ReadonlyArray<Column<DeviceColumnData>> = [
     {
       Header: '设备名称',
-      Cell: ({ row }: CellProps<DeviceColumnData>) =>
-        useMemo(() => {
-          const { name } = row.original;
-          const deviceName = name || '';
-          return (
-            <HStack>
-              <SmartObjectTwoToneIcon size="24px" />
-              <Text
-                maxWidth="150px"
-                color="gray.600"
-                fontSize="12px"
-                fontWeight="500"
-                noOfLines={1}
-                title={deviceName}
-              >
-                {deviceName}
-              </Text>
-            </HStack>
-          );
-        }, [row]),
+      Cell: useCallback(({ row }: CellProps<DeviceColumnData>) => {
+        const { name } = row.original;
+        const deviceName = name || '';
+        return (
+          <HStack>
+            <SmartObjectTwoToneIcon size="24px" />
+            <Text
+              maxWidth="150px"
+              color="gray.600"
+              fontSize="12px"
+              fontWeight="500"
+              noOfLines={1}
+              title={deviceName}
+            >
+              {deviceName}
+            </Text>
+          </HStack>
+        );
+      }, []),
     },
     {
       Header: '设备状态',
       width: 100,
-      Cell: ({ row }: CellProps<DeviceColumnData>) =>
-        useMemo(() => {
-          const { status } = row.original;
-          return <DeviceStatusIcon isOnline={status === 'online'} />;
-        }, [row]),
+      Cell: useCallback(({ row }: CellProps<DeviceColumnData>) => {
+        const { status } = row.original;
+        return <DeviceStatusIcon isOnline={status === 'online'} />;
+      }, []),
     },
     {
       Header: '设备模板',
       accessor: 'templateName',
-      Cell: ({ value }: { value: string }) => {
-        const templateName = value || '-';
-        return useMemo(
-          () => (
+      Cell: useCallback(
+        ({
+          value,
+        }: CellProps<DeviceColumnData, DeviceColumnData['templateName']>) => {
+          const templateName = value || '-';
+          return (
             <Text
               color="gray.700"
               maxWidth="150px"
@@ -111,18 +111,20 @@ export default function DataSelect({ routeType }: Props) {
             >
               {templateName}
             </Text>
-          ),
-          [templateName]
-        );
-      },
+          );
+        },
+        []
+      ),
     },
     {
       Header: '设备分组',
       accessor: 'parentName',
-      Cell: ({ value }: { value: string }) => {
-        const parentName = value || '-';
-        return useMemo(
-          () => (
+      Cell: useCallback(
+        ({
+          value,
+        }: CellProps<DeviceColumnData, DeviceColumnData['parentName']>) => {
+          const parentName = value || '-';
+          return (
             <Text
               color="gray.700"
               maxWidth="180px"
@@ -131,16 +133,16 @@ export default function DataSelect({ routeType }: Props) {
             >
               {parentName}
             </Text>
-          ),
-          [parentName]
-        );
-      },
+          );
+        },
+        []
+      ),
     },
     {
       Header: '操作',
       width: 60,
-      Cell: ({ row }: CellProps<DeviceColumnData>) =>
-        useMemo(() => {
+      Cell: useCallback(
+        ({ row }: CellProps<DeviceColumnData>) => {
           const { id, name } = row.original;
           const buttons = [
             <DeleteDevicesButton
@@ -159,7 +161,9 @@ export default function DataSelect({ routeType }: Props) {
             );
           }
           return <MoreAction buttons={buttons} />;
-        }, [row]),
+        },
+        [isMsgRouter, refetch]
+      ),
     },
   ];
 
@@ -301,6 +305,7 @@ export default function DataSelect({ routeType }: Props) {
                     columns={columns}
                     data={deviceTableData}
                     isLoading={isLoading}
+                    hasKeywords={!!keywords}
                     onSelect={handleSelect}
                     paginationProps={pagination}
                     scroll={{ y: '296px' }}

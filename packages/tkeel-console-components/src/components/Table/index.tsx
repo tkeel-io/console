@@ -33,6 +33,7 @@ import Empty from '@/tkeel-console-components/components/Empty';
 import Loading from '@/tkeel-console-components/components/Loading';
 import Pagination from '@/tkeel-console-components/components/Pagination';
 
+import SearchEmpty from '../SearchEmpty';
 import Body from './Body';
 import Head from './Head';
 import { SelectCell, SelectHeader } from './Select';
@@ -46,6 +47,7 @@ type OnSelectProps<D extends object> = {
 interface Props<D extends object> {
   columns: ReadonlyArray<Column<D>>;
   data: readonly D[];
+  hasKeywords?: boolean;
   hasPagination?: boolean;
   paginationProps?: UsePaginationReturnType & {
     showBoxShadow?: boolean;
@@ -82,6 +84,7 @@ interface Props<D extends object> {
 function Table<D extends object>({
   columns,
   data = [],
+  hasKeywords = false,
   hasPagination = true,
   paginationProps,
   scroll,
@@ -208,13 +211,18 @@ function Table<D extends object>({
           }
 
           if (data?.length === 0) {
-            return (
-              empty || (
-                <Empty
-                  styles={{ wrapper: { height: '100%', ...styles?.empty } }}
-                />
-              )
-            );
+            if (empty) {
+              return empty;
+            }
+
+            const emptyStyles = { height: '100%', ...styles?.empty };
+            if (hasKeywords) {
+              return (
+                <SearchEmpty title="没有符合条件的数据" sx={emptyStyles} />
+              );
+            }
+
+            return <Empty sx={emptyStyles} />;
           }
 
           return (
