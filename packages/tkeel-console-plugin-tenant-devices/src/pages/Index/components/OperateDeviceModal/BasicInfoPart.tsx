@@ -197,7 +197,7 @@ export default function BasicInfoPart({
                   ) && (
                     <>
                       <DeprecatedSelect
-                        placeholder="请选择设备模版"
+                        placeholder="请选择设备模板"
                         id="templateId"
                         value={watchFields.templateId}
                         style={{ width: '100%' }}
@@ -225,7 +225,7 @@ export default function BasicInfoPart({
                       </DeprecatedSelect>
                       {errors.templateId && (
                         <Text color="red.500" fontSize="sm">
-                          请选择设备模版
+                          请选择设备模板
                         </Text>
                       )}
                     </>
