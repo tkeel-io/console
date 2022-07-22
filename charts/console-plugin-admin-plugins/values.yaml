@@ -3,4 +3,4 @@ imagePullSecrets: ''
 image:
   repository: tkeelio/console-plugin-admin-plugins
 # tag: 0.4.3
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
