@@ -10,6 +10,7 @@ interface Plugin {
     repo: string;
   };
   tenant_enable: boolean;
+  switchable: boolean;
 }
 
 interface ApiData {
