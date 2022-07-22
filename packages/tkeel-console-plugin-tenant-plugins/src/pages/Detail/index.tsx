@@ -16,7 +16,7 @@ type Props = {
 };
 
 function Detail({ pluginName }: Props) {
-  const { plugin, refetch } = usePluginDetailQuery({ pluginName });
+  const { plugin, refetch, isFetched } = usePluginDetailQuery({ pluginName });
   const installerBrief = plugin?.installer_brief;
   const basicInfo = [
     {
@@ -110,7 +110,7 @@ function Detail({ pluginName }: Props) {
           >
             {desc}
           </Text>
-          {operatorButton}
+          {isFetched && operatorButton}
         </Box>
       </Flex>
       <Box padding="24px 24px">
