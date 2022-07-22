@@ -183,6 +183,7 @@ export default function MoreAction({
             }
             width="92px"
             paddingRight="18px"
+            fontSize="12px"
             css={`
               > span {
                 margin-left: 1px;

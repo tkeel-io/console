@@ -20,7 +20,7 @@ export default function CreateRoleModal({
 }: Props) {
   return (
     <BaseRoleModal
-      title="编辑用户"
+      title="编辑角色"
       isOpen={isOpen}
       isConfirmButtonLoading={isConfirmButtonLoading}
       defaultValues={defaultValues}

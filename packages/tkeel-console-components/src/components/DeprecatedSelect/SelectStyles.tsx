@@ -82,6 +82,10 @@ export default function SelectStyles({ prefixCls, styles }: Props) {
             border-color: ${colors.grayAlternatives[50]};
             ${styles?.selector}
           }
+
+          .${selectPrefix}-selection-search-input {
+            background: white !important;
+          }
         }
       }
 

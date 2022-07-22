@@ -1,3 +1,5 @@
+export * from './useAlarmMailsQuery';
+export { default as useAlarmMailsQuery } from './useAlarmMailsQuery';
 export { default as useAlarmNoticeGroupsQuery } from './useAlarmNoticeGroupsQuery';
 export * from './useAlarmNoticeGroupsQuery';
 export { default as useAlarmRuleDetailQuery } from './useAlarmRuleDetailQuery';
@@ -22,6 +24,7 @@ export * from './useSubscribeListQuery';
 export { default as useTemplatesQuery } from './useTemplatesQuery';
 export * from './useTemplatesQuery';
 export { default as useTemplateTelemetryQuery } from './useTemplateTelemetryQuery';
+export * from './useTemplateTelemetryQuery';
 export { default as useTenantQuery } from './useTenantQuery';
 export {
   type Tenant,

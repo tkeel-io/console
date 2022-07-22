@@ -16,19 +16,21 @@ import TemplateDeviceList from '../TemplateDeviceList';
 interface Props {
   value: string;
   onChange: (deviceInfo: string) => void;
+  sx?: StyleProps;
   styles?: {
-    wrapper?: StyleProps;
+    root?: StyleProps;
+    input?: StyleProps;
   };
 }
 
-interface DeviceInfo {
+export interface DeviceInfo {
   tempId: string;
   tempName: string;
   deviceId: string;
   deviceName: string;
 }
 
-export const getDeviceInfo = (deviceInfo: string) => {
+export const parseDeviceInfo = (deviceInfo: string) => {
   return (
     hasJsonStructure(deviceInfo)
       ? JSON.parse(deviceInfo)
@@ -37,7 +39,7 @@ export const getDeviceInfo = (deviceInfo: string) => {
 };
 
 export default function DeviceSelectField({ value, onChange, styles }: Props) {
-  const { tempId, tempName, deviceId, deviceName } = getDeviceInfo(value);
+  const { tempId, tempName, deviceId, deviceName } = parseDeviceInfo(value);
   const [isShowDropdown, setIsShowDropdown] = useState(false);
   const [templateId, setTemplateId] = useState(tempId);
   const defaultTemplateCondition =
@@ -111,7 +113,7 @@ export default function DeviceSelectField({ value, onChange, styles }: Props) {
       height="40px"
       position="relative"
       alignItems="flex-end"
-      {...styles?.wrapper}
+      {...styles?.root}
     >
       <Flex
         width="100%"
@@ -124,6 +126,7 @@ export default function DeviceSelectField({ value, onChange, styles }: Props) {
         borderColor={isShowDropdown ? 'primary' : 'grayAlternatives.50'}
         borderRadius="4px"
         cursor="pointer"
+        {...styles?.input}
         onClick={(e) => {
           e.stopPropagation();
           setIsShowDropdown(!isShowDropdown);
@@ -210,7 +213,7 @@ export default function DeviceSelectField({ value, onChange, styles }: Props) {
                   label: '设备模板',
                   value: name,
                 });
-                if (templateId && id !== templateId) {
+                if (id !== templateId) {
                   setDeviceCondition(null);
                 }
               }}

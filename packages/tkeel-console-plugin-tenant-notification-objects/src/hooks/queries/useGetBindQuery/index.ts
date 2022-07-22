@@ -4,9 +4,6 @@ export interface ApiData {
   '@type': string;
 }
 
-const url = '/tkeel-alarm/v1/alarm/noticeGroup/binding/query';
-const method = 'GET';
-
 interface Props {
   noticeId: number;
   sendRequest: boolean;
@@ -18,8 +15,8 @@ interface TRequestParams {
 
 export default function useGetBindQuery({ noticeId, sendRequest }: Props) {
   const { data, ...rest } = useQuery<number, TRequestParams>({
-    url,
-    method,
+    url: '/tkeel-alarm/v1/alarm/noticeGroup/binding/query',
+    method: 'GET',
     params: {
       noticeId,
     },

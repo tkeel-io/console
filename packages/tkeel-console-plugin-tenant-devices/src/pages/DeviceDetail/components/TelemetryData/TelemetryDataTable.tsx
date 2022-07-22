@@ -1,14 +1,21 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
+import { some } from 'lodash';
 import { useCallback, useMemo } from 'react';
 import { CellProps, Column } from 'react-table';
 
 import {
   DeleteTelemetryButton,
+  SaveTelemetryButton,
   TelemetryDetailButton,
   UpdateTelemetryButton,
 } from '@tkeel/console-business-components';
-import { MoreAction, Table, TooltipText } from '@tkeel/console-components';
-import { DuotoneTwoToneIcon } from '@tkeel/console-icons';
+import {
+  MoreAction,
+  Table,
+  Tooltip,
+  TooltipText,
+} from '@tkeel/console-components';
+import { BoxFilledIcon, VpcFilledIcon } from '@tkeel/console-icons';
 import { TelemetryItem, TelemetryValue } from '@tkeel/console-types';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
@@ -19,15 +26,25 @@ interface TelemetryTableItem extends TelemetryItem {
 type Props = {
   deviceId: string;
   telemetryFields: TelemetryItem[];
+  templateTelemetryFields?: TelemetryItem[];
   telemetryValues: TelemetryValue;
   refetch: () => void;
+  handleSelect: ({
+    selectedFlatRows,
+  }: {
+    selectedFlatRows: TelemetryItem[];
+  }) => void;
+  deleteCallback?: (selectedDevices: TelemetryItem[]) => void;
 };
 
 export default function TelemetryDataTable({
   deviceId,
   telemetryFields,
+  templateTelemetryFields = [],
   refetch: refetchDeviceDetail,
   telemetryValues,
+  handleSelect,
+  deleteCallback,
 }: Props) {
   const operateCell = useCallback(
     ({ row }: CellProps<TelemetryItem>) => {
@@ -36,17 +53,27 @@ export default function TelemetryDataTable({
         <MoreAction
           buttons={[
             <TelemetryDetailButton defaultValues={original} key="detail" />,
+            <SaveTelemetryButton
+              key="save"
+              uid={deviceId}
+              selectedDevices={[original]}
+              refetch={refetchDeviceDetail}
+              source="device"
+            />,
             <UpdateTelemetryButton
               key="modify"
               uid={deviceId}
               refetch={refetchDeviceDetail}
               defaultValues={original}
+              source="device"
             />,
             <DeleteTelemetryButton
               key="delete"
-              defaultValues={original}
+              selectedDevices={[original]}
               uid={deviceId}
               refetch={refetchDeviceDetail}
+              deleteCallback={deleteCallback}
+              source="device"
             />,
           ]}
         />
@@ -63,25 +90,39 @@ export default function TelemetryDataTable({
       accessor: 'name',
       width: 160,
       Cell: useCallback(
-        ({ value }: CellProps<TelemetryTableItem, string>) => (
-          <Flex
-            alignItems="center"
-            justifyContent="space-between"
-            overflow="hidden"
-          >
-            <Box flexShrink={0}>
-              <DuotoneTwoToneIcon />
-            </Box>
-            <TooltipText
-              label={value}
-              color="gray.800"
-              fontWeight="600"
-              fontSize="12px"
-              marginLeft="12px"
-            />
-          </Flex>
-        ),
-        []
+        ({ value, row }: CellProps<TelemetryTableItem, string>) => {
+          const { original } = row;
+          return (
+            <Flex
+              alignItems="center"
+              justifyContent="space-between"
+              overflow="hidden"
+            >
+              <Box flexShrink={0}>
+                {some(
+                  templateTelemetryFields,
+                  (current) => current.id === original.id
+                ) ? (
+                  <Tooltip label="模板属性">
+                    <BoxFilledIcon color="primary" />
+                  </Tooltip>
+                ) : (
+                  <Tooltip label="自学习属性">
+                    <VpcFilledIcon />
+                  </Tooltip>
+                )}
+              </Box>
+              <TooltipText
+                label={value}
+                color="gray.800"
+                fontWeight="600"
+                fontSize="12px"
+                marginLeft="12px"
+              />
+            </Flex>
+          );
+        },
+        [templateTelemetryFields]
       ),
     },
     {
@@ -172,6 +213,7 @@ export default function TelemetryDataTable({
         bodyTr: { fontSize: '12px' },
       }}
       columns={columns}
+      onSelect={handleSelect}
       data={telemetryTableData || []}
       isShowStripe
       hasPagination={false}

@@ -5,15 +5,15 @@ export interface ApiData {
   '@types': string;
 }
 
-type RequestData = {
+interface DefaultRequestData {
   type?: 1 | 2;
   host: string;
   value: string;
-};
+}
 
 const baseRuleUrl = '/rule-manager/v1/rules';
 
-type Props = {
+interface Props<RequestData> {
   method?: 'POST' | 'PUT';
   ruleId: string;
   targetId?: string;
@@ -22,14 +22,11 @@ type Props = {
     variables: unknown,
     context: unknown
   ) => void | Promise<unknown>;
-};
+}
 
-export default function useCreateRuleTargetMutation({
-  method = 'POST',
-  ruleId,
-  targetId = '',
-  onSuccess,
-}: Props) {
+export default function useCreateRuleTargetMutation<
+  RequestData = DefaultRequestData
+>({ method = 'POST', ruleId, targetId = '', onSuccess }: Props<RequestData>) {
   let url = `${baseRuleUrl}/${ruleId}/target`;
   url = method === 'POST' ? url : `${url}/${targetId}`;
   return useMutation<ApiData, undefined, RequestData>({

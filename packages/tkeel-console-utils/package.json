@@ -12,7 +12,7 @@
   "license": "Apache-2.0",
   "main": "./src/index.ts",
   "dependencies": {
-    "@chakra-ui/react": "^2.2.1",
+    "@chakra-ui/react": "^2.2.4",
     "@tkeel/console-components": "workspace:^",
     "@tkeel/console-constants": "workspace:^",
     "@tkeel/console-icons": "workspace:^",
@@ -22,13 +22,13 @@
     "@types/lodash": "^4.14.182",
     "add": "^2.0.6",
     "axios": "^0.27.2",
-    "dayjs": "^1.11.3",
+    "dayjs": "^1.11.4",
     "js-base64": "^3.7.2",
     "numeral": "^2.0.6",
     "qs": "^6.11.0",
     "react": "^18.2.0",
-    "react-hook-form": "^7.33.0",
+    "react-hook-form": "^7.33.1",
     "react-router-dom": "^6.3.0",
-    "store2": "^2.13.2"
+    "store2": "^2.14.2"
   }
 }

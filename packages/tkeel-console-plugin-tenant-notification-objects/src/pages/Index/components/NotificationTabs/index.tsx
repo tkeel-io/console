@@ -1,17 +1,15 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
-import { memo } from 'react';
 
 import { useColor } from '@tkeel/console-hooks';
 
 import MailTab from '../MailTab';
 
 interface Props {
-  emailAddress: string;
   noticeId: number;
-  refetch?: () => void;
+  refetchMailCounts: () => void;
 }
 
-function NotificationTabs({ noticeId, emailAddress, refetch }: Props) {
+function NotificationTabs({ noticeId, refetchMailCounts }: Props) {
   const primaryColor = useColor('primary');
   const styles = {
     padding: '0 0 4px',
@@ -50,9 +48,8 @@ function NotificationTabs({ noticeId, emailAddress, refetch }: Props) {
         <TabPanel p="16px 0 0">
           <MailTab
             key={noticeId}
-            refetch={refetch}
             noticeId={noticeId}
-            emailAddress={emailAddress}
+            refetchCounts={refetchMailCounts}
           />
         </TabPanel>
       </TabPanels>
@@ -60,4 +57,4 @@ function NotificationTabs({ noticeId, emailAddress, refetch }: Props) {
   );
 }
 
-export default memo(NotificationTabs);
+export default NotificationTabs;

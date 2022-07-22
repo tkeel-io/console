@@ -38,14 +38,13 @@ export default function RepublishToKafkaModal({
     setError,
     trigger,
     getValues,
-  } = useForm<FormValues>();
-
-  const handleSetAddressError = () => {
-    setError('address', {
-      type: 'manual',
-      message: '请输入正确的数据库（集群）地址',
-    });
-  };
+  } = useForm<FormValues>({
+    mode: 'onChange',
+    defaultValues: {
+      address: info?.address ?? '',
+      topic: info?.topic ?? '',
+    },
+  });
 
   const toast = plugin.getPortalToast();
   const { mutate, isLoading: isVerifyKafkaLoading } = useVerifyKafkaMutation({
@@ -56,7 +55,6 @@ export default function RepublishToKafkaModal({
     onError() {
       toast('验证失败', { status: 'error' });
       setValidated(false);
-      handleSetAddressError();
     },
   });
 
@@ -69,8 +67,6 @@ export default function RepublishToKafkaModal({
           host: address,
         },
       });
-    } else {
-      handleSetAddressError();
     }
   };
 
@@ -105,7 +101,7 @@ export default function RepublishToKafkaModal({
         id="address"
         label="数据库（集群）地址"
         error={errors.address}
-        defaultValue={info?.address ?? ''}
+        isDisabled={!!info}
         registerReturn={register('address', {
           required: { value: true, message: '请输入数据库（集群）地址' },
           onChange() {
@@ -114,18 +110,19 @@ export default function RepublishToKafkaModal({
         })}
         formControlStyle={{ margin: '20px 0' }}
       />
-      <Button
-        colorScheme="brand"
-        isLoading={isVerifyKafkaLoading}
-        onClick={handleVerifyAddress}
-      >
-        验证
-      </Button>
+      {!info && (
+        <Button
+          colorScheme="brand"
+          isLoading={isVerifyKafkaLoading}
+          onClick={handleVerifyAddress}
+        >
+          验证
+        </Button>
+      )}
       <TextField
         id="topic"
         label="主题 Topic"
         error={errors.topic}
-        defaultValue={info?.topic ?? ''}
         registerReturn={register('topic', {
           required: { value: true, message: '请输入 Topic' },
         })}

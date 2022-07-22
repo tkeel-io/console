@@ -16,7 +16,7 @@ interface Props {
 function PolicyMoreAction({ policy, setRuleId, onSuccess }: Props) {
   return (
     <MoreAction
-      styles={{ actionList: { width: '124px' } }}
+      styles={{ actionList: { width: '128px' } }}
       buttons={[
         <ModifyPolicyButton
           key="modify"

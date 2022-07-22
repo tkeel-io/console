@@ -1,10 +1,10 @@
 import type { Appearance } from '../types';
+import background from './assets/images/background-tkeel.webp';
 import logoMark from './assets/images/logo-mark.svg';
 import logoTypeAdminDark from './assets/images/logo-type-admin-dark.svg';
 import logoTypeAdminLight from './assets/images/logo-type-admin-light.svg';
 import logoTypeTenantDark from './assets/images/logo-type-tenant-dark.svg';
 import logoTypeTenantLight from './assets/images/logo-type-tenant-light.svg';
-import background from './assets/images/tkeel-background.webp';
 
 const APPEARANCE: Appearance = {
   common: {

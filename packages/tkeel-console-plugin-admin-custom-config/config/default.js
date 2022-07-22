@@ -10,6 +10,7 @@ module.exports = {
   plugin: {
     identify: {
       plugin_id: 'console-plugin-admin-custom-config',
+      disable_manual_activation: true,
       entries: [
         {
           id: 'platform-config',

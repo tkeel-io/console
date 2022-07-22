@@ -7,13 +7,14 @@ import 'ace-builds/src-noconflict/theme-dracula';
 import 'ace-builds/src-noconflict/theme-github';
 import 'ace-builds/src-noconflict/ext-language_tools';
 import 'ace-builds/webpack-resolver';
+import './mode-ruleql';
 
 import Ace from 'react-ace';
 
 import AceEditorStyles from './AceEditorStyles';
 
 type Props = {
-  language?: 'text' | 'json' | 'yaml' | 'sql';
+  language?: 'text' | 'json' | 'yaml' | 'sql' | 'ruleql';
   theme?: 'dark' | 'light';
   width?: string;
   height?: string;
@@ -21,6 +22,8 @@ type Props = {
   readOnly?: boolean;
   highlightGutterLine?: boolean;
   highlightActiveLine?: boolean;
+  enableBasicAutocompletion?: boolean;
+  enableLiveAutocompletion?: boolean;
   showPrintMargin?: boolean;
   options?: {
     highlightGutterLine?: boolean;
@@ -39,11 +42,15 @@ export default function AceEditor({
   value = '',
   readOnly = true,
   highlightActiveLine,
+  enableBasicAutocompletion = false,
+  enableLiveAutocompletion = false,
   showPrintMargin = false,
   options,
   style,
   onChange,
 }: Props) {
+  const newHighlightActiveLine =
+    highlightActiveLine !== undefined ? highlightActiveLine : !readOnly;
   return (
     <>
       <Ace
@@ -56,7 +63,9 @@ export default function AceEditor({
         value={value}
         readOnly={readOnly}
         style={style}
-        highlightActiveLine={highlightActiveLine || !readOnly}
+        highlightActiveLine={newHighlightActiveLine}
+        enableBasicAutocompletion={enableBasicAutocompletion}
+        enableLiveAutocompletion={enableLiveAutocompletion}
         showPrintMargin={showPrintMargin}
         setOptions={{
           highlightGutterLine: options?.highlightGutterLine ?? !readOnly,

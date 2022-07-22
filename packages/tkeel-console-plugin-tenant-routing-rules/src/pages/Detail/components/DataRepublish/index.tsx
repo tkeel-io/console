@@ -2,13 +2,12 @@ import { Flex, HStack, StyleProps, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { Tooltip } from '@tkeel/console-components';
 import {
   AutoFilledIcon,
   ClickHouseFilledIcon,
+  InfluxDBFilledIcon,
   KafkaFilledIcon,
   MySqlFilledIcon,
-  // ObjectStorageFilledIcon,
 } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
@@ -18,6 +17,7 @@ import useRuleTargetsQuery from '@/tkeel-console-plugin-tenant-routing-rules/hoo
 import ProductTab from '../ProductTab';
 import TitleWrapper from '../TitleWrapper';
 import RepublishInfoCard from './RepublishInfoCard';
+import RepublishToInfluxDBModal from './RepublishToInfluxDBModal';
 import RepublishToKafkaModal, {
   FormValues as KafkaRepublishInfo,
 } from './RepublishToKafkaModal';
@@ -27,14 +27,16 @@ type Props = {
   routeType: string;
   status: number;
   deviceTemplateId: string;
-  styles?: { wrapper: StyleProps };
+  sx?: StyleProps;
+  styles?: { root: StyleProps };
 };
 
 export default function DataRepublish({
-  styles,
-  deviceTemplateId,
   routeType,
   status,
+  deviceTemplateId,
+  sx,
+  styles,
 }: Props) {
   const [selectedProductId, setSelectedProductId] = useState('');
 
@@ -69,14 +71,7 @@ export default function DataRepublish({
       id: 'kafka',
       icon: <KafkaFilledIcon size={22} color={iconColor} />,
       name: 'Kafka',
-      disable: false,
     },
-    // {
-    //   id: 'objectStorage',
-    //   icon: <ObjectStorageFilledIcon size={22} color={iconColor} />,
-    //   name: '对象存储',
-    //   disable: true,
-    // },
   ];
 
   const upgradeProducts = [
@@ -84,20 +79,23 @@ export default function DataRepublish({
       id: 'mysql',
       icon: <MySqlFilledIcon size={38} color={iconColor} />,
       name: 'MySQL',
-      disable: false,
     },
     {
       id: 'clickHouse',
       icon: <ClickHouseFilledIcon size={22} color={iconColor} />,
       name: 'ClickHouse',
-      disable: false,
+    },
+    {
+      id: 'influxdb',
+      icon: <InfluxDBFilledIcon size={22} color={iconColor} />,
+      name: 'InfluxDB',
     },
   ];
   const products =
     routeType === 'msg' ? baseProducts : [...baseProducts, ...upgradeProducts];
 
   return (
-    <Flex flexDirection="column" {...styles?.wrapper}>
+    <Flex flexDirection="column" {...styles?.root} {...sx}>
       <TitleWrapper
         icon={<AutoFilledIcon color={iconColor} size="20px" />}
         title="选择转发"
@@ -114,19 +112,16 @@ export default function DataRepublish({
           请添加相关产品转发数据
         </Text>
         <HStack marginTop="8px" spacing="8px">
-          {products.map((product) => {
-            const { id, icon, name, disable } = product;
+          {products.map(({ id, icon, name }) => {
             return (
-              <Tooltip key={id} label={disable ? '敬请期待' : ''}>
-                <ProductTab
-                  name={name}
-                  icon={icon}
-                  disable={disable}
-                  onClick={() => {
-                    setSelectedProductId(id);
-                  }}
-                />
-              </Tooltip>
+              <ProductTab
+                key={id}
+                name={name}
+                icon={icon}
+                onClick={() => {
+                  setSelectedProductId(id);
+                }}
+              />
             );
           })}
         </HStack>
@@ -170,6 +165,14 @@ export default function DataRepublish({
           deviceTemplateId={deviceTemplateId}
           onClose={() => setSelectedProductId('')}
           refetch={() => refetch()}
+        />
+      )}
+      {selectedProductId === 'influxdb' && (
+        <RepublishToInfluxDBModal
+          isOpen
+          isLoading={isLoading}
+          onClose={() => setSelectedProductId('')}
+          refetchData={() => refetch()}
         />
       )}
     </Flex>

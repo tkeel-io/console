@@ -16,7 +16,7 @@
     "dev": "cross-env NODE_ENV=development webpack serve --config ../../webpack/webpack.config.plugins"
   },
   "dependencies": {
-    "@chakra-ui/react": "^2.2.1",
+    "@chakra-ui/react": "^2.2.4",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@tkeel/console-business-components": "workspace:^",
@@ -27,14 +27,14 @@
     "@tkeel/console-types": "workspace:^",
     "@tkeel/console-utils": "workspace:^",
     "@types/lodash": "^4.14.182",
-    "dayjs": "^1.11.3",
-    "framer-motion": "^6.3.16",
+    "dayjs": "^1.11.4",
+    "framer-motion": "^6.5.1",
     "js-base64": "^3.7.2",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-csv": "^2.2.2",
     "react-dom": "^18.2.0",
-    "react-query": "^3.39.1",
+    "react-query": "^3.39.2",
     "react-router-dom": "^6.3.0",
     "react-table": "^7.8.0"
   },

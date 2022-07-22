@@ -1,5 +1,5 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { CellProps, Column } from 'react-table';
 
 import {
@@ -79,8 +79,8 @@ function Index({ id, title }: { id: string; title: string }) {
     {
       Header: '操作',
       width: 80,
-      Cell: ({ row }: CellProps<TelemetryItem>) =>
-        useMemo(() => {
+      Cell: useCallback(
+        ({ row }: CellProps<TelemetryItem>) => {
           const { original } = row;
           return (
             <MoreAction
@@ -91,17 +91,21 @@ function Index({ id, title }: { id: string; title: string }) {
                   key="modify"
                   defaultValues={original}
                   refetch={refetch}
+                  source="temp"
                 />,
                 <DeleteTelemetryButton
                   key="delete"
-                  defaultValues={original}
+                  selectedDevices={[original]}
                   uid={id}
                   refetch={refetch}
+                  source="temp"
                 />,
               ]}
             />
           );
-        }, [row]),
+        },
+        [id, refetch]
+      ),
     },
   ];
 
@@ -122,7 +126,12 @@ function Index({ id, title }: { id: string; title: string }) {
         // eslint-disable-next-line react/no-unstable-nested-components
         buttons={useMemo(() => {
           return [
-            <CreateTelemetryButton key="create" uid={id} refetch={refetch} />,
+            <CreateTelemetryButton
+              key="create"
+              uid={id}
+              refetch={refetch}
+              source="temp"
+            />,
           ];
         }, [id, refetch])}
       />

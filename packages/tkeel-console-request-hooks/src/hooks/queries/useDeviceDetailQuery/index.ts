@@ -13,10 +13,7 @@ export interface BasicInfo {
   name: string;
   type: string;
   ext: {
-    [propName: string]: {
-      value: string;
-      name: string;
-    };
+    [propName: string]: string;
   };
   parentId: string;
   selfLearn: boolean;
@@ -108,15 +105,20 @@ interface ApiData {
 type Props = {
   id: string;
   onSuccess?: (data: RequestResult<ApiData, undefined, undefined>) => void;
+  enabled?: boolean;
 };
 
-export default function useDeviceDetailQuery({ id, onSuccess }: Props) {
+export default function useDeviceDetailQuery({
+  id,
+  onSuccess,
+  enabled = true,
+}: Props) {
   const url = `/tkeel-device/v1/devices/${id}`;
   const { data, ...rest } = useQuery<ApiData>({
     url,
     method: 'GET',
     reactQueryOptions: {
-      enabled: !!id,
+      enabled: !!id && enabled,
       onSuccess,
     },
   });
