@@ -213,6 +213,12 @@ function PolicyTable({ alarmRuleType, setRuleId }: Props) {
     setIsShowLoading(isLoading);
   }, [isLoading]);
 
+  const hasKeywords =
+    !!keywords ||
+    alarmLevel !== undefined ||
+    alarmType !== undefined ||
+    ruleStatus !== undefined;
+
   return (
     <Flex height="100%" flexDirection="column">
       <PageHeaderToolbar
@@ -273,7 +279,7 @@ function PolicyTable({ alarmRuleType, setRuleId }: Props) {
         paginationProps={pagination}
         scroll={{ y: '100%' }}
         isLoading={isShowLoading}
-        hasKeywords={!!keywords}
+        hasKeywords={hasKeywords}
         styles={{
           wrapper: {
             flex: 1,

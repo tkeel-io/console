@@ -1,5 +1,5 @@
 import { Box, Flex, Grid, Text, useDisclosure } from '@chakra-ui/react';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 
 import { PluginCard, PluginNum } from '@tkeel/console-business-components';
 import {
@@ -102,45 +102,51 @@ function Index(): JSX.Element {
                   id,
                   installer_brief: installerBrief,
                   tenant_enable: tenantEnable,
+                  switchable,
                 } = info;
                 const name = installerBrief?.name ?? '';
+
+                let operatorButton: ReactNode = tenantEnable ? (
+                  <Box position="relative" width="28px" height="100%">
+                    <MoreAction
+                      buttons={[
+                        <DisableButton
+                          key="disable"
+                          pluginName={name}
+                          refetchData={() => {
+                            refetch();
+                          }}
+                        />,
+                      ]}
+                      styles={{
+                        wrapper: {
+                          position: 'absolute',
+                          top: '0',
+                          right: '0',
+                          marginRight: '-4px',
+                        },
+                      }}
+                    />
+                  </Box>
+                ) : (
+                  <EnableButton
+                    pluginName={name}
+                    buttonCanHover
+                    refetchData={() => {
+                      refetch();
+                    }}
+                  />
+                );
+
+                if (switchable === false) {
+                  operatorButton = null;
+                }
+
                 return (
                   <PluginCard
                     key={id}
                     briefPluginInfo={installerBrief}
-                    operatorButton={
-                      tenantEnable ? (
-                        <Box position="relative" width="28px" height="100%">
-                          <MoreAction
-                            buttons={[
-                              <DisableButton
-                                key="disable"
-                                pluginName={name}
-                                refetchData={() => {
-                                  refetch();
-                                }}
-                              />,
-                            ]}
-                            styles={{
-                              wrapper: {
-                                position: 'absolute',
-                                top: '0',
-                                right: '0',
-                                marginRight: '-4px',
-                              },
-                            }}
-                          />
-                        </Box>
-                      ) : (
-                        <EnableButton
-                          pluginName={name}
-                          buttonCanHover
-                          refetchData={() => {
-                            refetch();
-                          }}
-                        />
-                      )
-                    }
+                    operatorButton={operatorButton}
                     bottomInfo={
                       <Flex>
                         {bottomData.map((item) => {

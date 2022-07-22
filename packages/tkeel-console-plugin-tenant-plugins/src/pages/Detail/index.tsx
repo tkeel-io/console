@@ -1,4 +1,5 @@
 import { Box, Circle, Flex, Image, Text } from '@chakra-ui/react';
+import { ReactNode } from 'react';
 
 import { DeveloperInfo } from '@tkeel/console-business-components';
 import { InfoCard } from '@tkeel/console-components';
@@ -54,6 +55,26 @@ function Detail({ pluginName }: Props) {
 
   const maintainers = installerBrief?.maintainers ?? [];
 
+  let operatorButton: ReactNode = plugin?.tenant_enable ? (
+    <DisableButton
+      pluginName={name}
+      refetchData={() => {
+        refetch();
+      }}
+    />
+  ) : (
+    <EnableButton
+      pluginName={name}
+      refetchData={() => {
+        refetch();
+      }}
+    />
+  );
+
+  if (plugin?.switchable === false) {
+    operatorButton = null;
+  }
+
   return (
     <Box>
       <Flex
@@ -89,21 +110,7 @@ function Detail({ pluginName }: Props) {
           >
             {desc}
           </Text>
-          {plugin?.tenant_enable ? (
-            <DisableButton
-              pluginName={name}
-              refetchData={() => {
-                refetch();
-              }}
-            />
-          ) : (
-            <EnableButton
-              pluginName={name}
-              refetchData={() => {
-                refetch();
-              }}
-            />
-          )}
+          {operatorButton}
         </Box>
       </Flex>
       <Box padding="24px 24px">
