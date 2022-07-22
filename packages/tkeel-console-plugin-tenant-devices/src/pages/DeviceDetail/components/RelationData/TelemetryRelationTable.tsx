@@ -309,6 +309,7 @@ export default function TelemetryRelationTable({
       columns={columns}
       data={tableData}
       hasPagination={false}
+      hasKeywords={!!keywords}
     />
   );
 }

@@ -187,6 +187,7 @@ export default function Users() {
         paginationProps={pagination}
         scroll={{ y: '100%' }}
         isLoading={isLoading}
+        hasKeywords={!!keyWords}
         styles={{
           wrapper: {
             flex: 1,

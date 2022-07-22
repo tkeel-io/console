@@ -359,6 +359,7 @@ function Index(): JSX.Element {
             deviceList={deviceList}
             groupTree={groupTree}
             isLoading={isLoading}
+            hasKeywords={!!keyWords}
             refetch={refetchDeviceList}
           />
         </Flex>

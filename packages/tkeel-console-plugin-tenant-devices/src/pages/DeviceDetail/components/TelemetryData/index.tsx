@@ -175,6 +175,7 @@ export default function TelemetryData({
         templateTelemetryFields={telemetryFields}
         telemetryValues={renderTelemetryValue}
         deviceId={deviceId}
+        hasKeywords={!!keywords}
         handleSelect={handleSelect}
         refetch={refetchDeviceDetail}
         deleteCallback={deleteCallback}

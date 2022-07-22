@@ -273,6 +273,7 @@ function PolicyTable({ alarmRuleType, setRuleId }: Props) {
         paginationProps={pagination}
         scroll={{ y: '100%' }}
         isLoading={isShowLoading}
+        hasKeywords={!!keywords}
         styles={{
           wrapper: {
             flex: 1,

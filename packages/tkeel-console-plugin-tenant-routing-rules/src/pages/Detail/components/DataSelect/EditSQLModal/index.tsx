@@ -1,12 +1,7 @@
 import { Box, Button, Flex, StyleProps, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 
-import {
-  AceEditor,
-  ButtonsHStack,
-  Modal,
-  // Tip,
-} from '@tkeel/console-components';
+import { AceEditor, ButtonsHStack, Modal } from '@tkeel/console-components';
 
 import useEditSQLMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useEditSQLMutation';
 
@@ -18,8 +13,10 @@ interface Props {
   onClose: () => void;
   onSuccess: () => void;
 }
+
 export const DEFAULT_SELECT_EXPR = 'SELECT * ';
 export const DEFAULT_WHERE_EXPR = 'WHERE ';
+
 export default function EditSQLModal({
   ruleId,
   isOpen,
@@ -79,7 +76,7 @@ export default function EditSQLModal({
 
   return (
     <Modal
-      title="生成SQL"
+      title="生成 SQL"
       isOpen={isOpen}
       onClose={onClose}
       width="790px"
@@ -87,7 +84,6 @@ export default function EditSQLModal({
         <ButtonsHStack>
           <Button onClick={handleReset}>重置</Button>
           <Button
-            isDisabled={false}
             isLoading={isLoading}
             colorScheme="brand"
             onClick={handleConfirm}
@@ -134,7 +130,6 @@ export default function EditSQLModal({
           规则引擎提供多种函数，您可以在编写SQL时使用这些函数，实现多样化数据处理。
         </Text>
       </Box>
-      {/* <Tip title="" /> */}
     </Modal>
   );
 }

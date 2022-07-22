@@ -3,7 +3,6 @@ import { ReactNode, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { FormControl, FormField, Modal, Tip } from '@tkeel/console-components';
-// import { schemas } from '@tkeel/console-utils';
 import { RoutesMsgIcon, RoutesTimeIcon } from '@tkeel/console-icons';
 import { TemplateItem, useTemplatesQuery } from '@tkeel/console-request-hooks';
 
