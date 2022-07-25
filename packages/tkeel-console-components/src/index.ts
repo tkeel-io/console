@@ -37,6 +37,7 @@ export { default as Select } from './components/Select';
 export { default as SpreadButton } from './components/SpreadButton';
 export * as StatusIcon from './components/StatusIcon';
 export { default as Table } from './components/Table';
+export { default as TextButton } from './components/TextButton';
 export { default as Tip } from './components/Tip';
 export { default as Tips } from './components/Tips';
 export * from './components/Toast';

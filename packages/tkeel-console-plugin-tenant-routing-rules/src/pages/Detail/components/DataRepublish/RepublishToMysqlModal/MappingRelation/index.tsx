@@ -149,6 +149,13 @@ export default function MappingRelation({
     defaultValues,
   });
 
+  const [loading, setLoading] = useState(true);
+  if (backFieldsData.length > 0 || data.length > 0) {
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  }
+
   const handlePrev = () => {
     fields = modalKey === 'edit' ? editFields : fields;
     onPrev(fields);
@@ -225,49 +232,57 @@ export default function MappingRelation({
         useMemo(() => {
           const { original, index } = row;
           return (
-            <Box bgColor="gray.50" padding="0 4px">
-              <SelectField<MapFormValues>
-                id={original.name}
-                name={`word${index}`}
-                placeholder="请选择"
-                options={deviceMsgOption}
-                control={control}
-                defaultValue={original?.id}
-                formLabelStyle={{ mb: 0 }}
-                formHelperStyle={{ mt: 0 }}
-                formControlStyle={{ mb: 0, height: '42px', width: '100%' }}
-                selectStyles={{ selector: 'border-width: 0' }}
-                rules={{
-                  required: { value: true, message: '' },
-                  onChange(e: SelectEle) {
-                    const val = e.target.value;
-                    const templateObj = deviceMsgOption.find(
-                      (i) => i.value === val
-                    );
-                    const fieldsItem = {
-                      index,
-                      t_field: { name: original.name, type: original.type },
-                      m_field: {
-                        type: templateObj?.type || '',
-                        name: templateObj?.value || '',
-                      },
-                    };
-                    if (modalKey === 'edit') {
-                      setEditFields([
-                        ...editFields.filter(
-                          (i) => i.index !== fieldsItem.index
-                        ),
-                        fieldsItem,
-                      ]);
-                    } else {
-                      fields = [
-                        ...fields.filter((i) => i.index !== fieldsItem.index),
-                        fieldsItem,
-                      ];
-                    }
-                  },
-                }}
-              />
+            <Box bgColor="gray.50" padding="0 4px" width="100%">
+              {loading ? (
+                <Loading
+                  isFullWidth
+                  isFullHeight
+                  styles={{ wrapper: { color: 'gray.500' } }}
+                />
+              ) : (
+                <SelectField<MapFormValues>
+                  id={original.name}
+                  name={`word${index}`}
+                  placeholder="请选择"
+                  options={deviceMsgOption}
+                  control={control}
+                  defaultValue={original?.id}
+                  formLabelStyle={{ mb: 0 }}
+                  formHelperStyle={{ mt: 0 }}
+                  formControlStyle={{ mb: 0, height: '42px', width: '100%' }}
+                  selectStyles={{ selector: 'border-width: 0' }}
+                  rules={{
+                    required: { value: true, message: '' },
+                    onChange(e: SelectEle) {
+                      const val = e.target.value;
+                      const templateObj = deviceMsgOption.find(
+                        (i) => i.value === val
+                      );
+                      const fieldsItem = {
+                        index,
+                        t_field: { name: original.name, type: original.type },
+                        m_field: {
+                          type: templateObj?.type || '',
+                          name: templateObj?.value || '',
+                        },
+                      };
+                      if (modalKey === 'edit') {
+                        setEditFields([
+                          ...editFields.filter(
+                            (i) => i.index !== fieldsItem.index
+                          ),
+                          fieldsItem,
+                        ]);
+                      } else {
+                        fields = [
+                          ...fields.filter((i) => i.index !== fieldsItem.index),
+                          fieldsItem,
+                        ];
+                      }
+                    },
+                  }}
+                />
+              )}
             </Box>
           );
         }, [row]),

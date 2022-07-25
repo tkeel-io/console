@@ -132,6 +132,7 @@ export default function Users() {
         scroll={{ y: '100%' }}
         isLoading={isLoading}
         isShowStripe
+        hasKeywords={!!keyWords}
         styles={{
           wrapper: {
             flex: 1,

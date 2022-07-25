@@ -1,3 +1,4 @@
+import { MAX_INT32 } from '@tkeel/console-constants';
 import { useQuery, UseQueryOptionsExtended } from '@tkeel/console-hooks';
 import { RequestResult } from '@tkeel/console-utils';
 
@@ -52,12 +53,13 @@ type RequestData = {
 type Props = {
   requestData: RequestData;
   enabled?: boolean;
+  staleTime?: number;
   onSuccess?: (data: RequestResult<ApiData, undefined, RequestData>) => void;
 };
 
 const defaultRequestData = {
   page_num: 1,
-  page_size: 10_000,
+  page_size: MAX_INT32,
   order_by: 'name',
   is_descending: false,
   query: '',
@@ -67,6 +69,8 @@ export default function useDeviceGroupQuery(props?: Props) {
   const requestData: RequestData | undefined = props?.requestData;
   const enabled = props?.enabled ?? true;
   const onSuccess = props?.onSuccess;
+  const staleTime = props?.staleTime;
+
   let requestConditions = requestData?.condition || [];
   requestConditions = requestConditions.filter(
     (condition) => !(condition.field === 'type' && condition.value === 'group')
@@ -89,9 +93,15 @@ export default function useDeviceGroupQuery(props?: Props) {
     undefined,
     RequestData
   > = { enabled };
+
   if (onSuccess) {
     reactQueryOptions.onSuccess = onSuccess;
   }
+
+  if (staleTime !== undefined) {
+    reactQueryOptions.staleTime = staleTime;
+  }
+
   const { data, ...rest } = useQuery<ApiData, undefined, RequestData>({
     url,
     method,

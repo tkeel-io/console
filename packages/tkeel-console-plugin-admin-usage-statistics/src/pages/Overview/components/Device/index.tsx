@@ -69,7 +69,7 @@ export default function Device() {
               <Progress value={rateOnline} />
             </Box>
             <DeviceItem
-              label="模版 (个)"
+              label="模板 (个)"
               value={sumTemplateNum}
               sx={{
                 display: 'flex',

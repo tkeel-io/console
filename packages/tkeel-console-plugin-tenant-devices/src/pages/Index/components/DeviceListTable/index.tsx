@@ -41,6 +41,7 @@ interface Props {
   pagination: UsePaginationReturnType;
   deviceList: DeviceApiItem[];
   isLoading: boolean;
+  hasKeywords: boolean;
   refetch?: () => void;
 }
 
@@ -49,6 +50,7 @@ function DeviceListTable({
   deviceList,
   pagination,
   isLoading,
+  hasKeywords,
   refetch,
 }: Props): JSX.Element {
   const navigate = useNavigate();
@@ -266,6 +268,7 @@ function DeviceListTable({
       scroll={{ y: '100%' }}
       paginationProps={pagination}
       isLoading={isLoading}
+      hasKeywords={hasKeywords}
       styles={{
         wrapper: { flex: 1, overflow: 'hidden', backgroundColor: 'whiteAlias' },
       }}

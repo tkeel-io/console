@@ -6,7 +6,6 @@ import { CellProps, Column } from 'react-table';
 import { DeviceStatusIcon } from '@tkeel/console-business-components';
 import {
   Loading,
-  // LinkButton,
   MoreAction,
   SearchInput,
   Table,
@@ -26,6 +25,7 @@ import TitleWrapper from '../TitleWrapper';
 import AddDevicesButton from './AddDevicesButton';
 import DeleteDevicesButton from './DeleteDevicesButton';
 import MoveRoutingRuleButton from './MoveRoutingRuleButton';
+import RuleSQL from './RuleSQL';
 
 type DeviceColumnData = {
   id: string;
@@ -66,52 +66,43 @@ export default function DataSelect({ routeType }: Props) {
   const columns: ReadonlyArray<Column<DeviceColumnData>> = [
     {
       Header: '设备名称',
-      Cell: ({ row }: CellProps<DeviceColumnData>) =>
-        useMemo(() => {
-          const { name } = row.original;
-          const deviceName = name || '';
-          return (
-            // <LinkButton
-            // onClick={() => {
-            //   navigate(`/detail?id=${id}&menu-collapsed=true`);
-            // }}
-            // color="gray.600"
-            // fontWeight="600"
-            // _hover={{ color: 'primary' }}
-            // >
-            <HStack>
-              <SmartObjectTwoToneIcon size="24px" />
-              <Text
-                maxWidth="150px"
-                color="gray.600"
-                fontSize="12px"
-                fontWeight="500"
-                noOfLines={1}
-                title={deviceName}
-              >
-                {deviceName}
-              </Text>
-            </HStack>
-            // </LinkButton>
-          );
-        }, [row]),
+      Cell: useCallback(({ row }: CellProps<DeviceColumnData>) => {
+        const { name } = row.original;
+        const deviceName = name || '';
+        return (
+          <HStack>
+            <SmartObjectTwoToneIcon size="24px" />
+            <Text
+              maxWidth="150px"
+              color="gray.600"
+              fontSize="12px"
+              fontWeight="500"
+              noOfLines={1}
+              title={deviceName}
+            >
+              {deviceName}
+            </Text>
+          </HStack>
+        );
+      }, []),
     },
     {
       Header: '设备状态',
       width: 100,
-      Cell: ({ row }: CellProps<DeviceColumnData>) =>
-        useMemo(() => {
-          const { status } = row.original;
-          return <DeviceStatusIcon isOnline={status === 'online'} />;
-        }, [row]),
+      Cell: useCallback(({ row }: CellProps<DeviceColumnData>) => {
+        const { status } = row.original;
+        return <DeviceStatusIcon isOnline={status === 'online'} />;
+      }, []),
     },
     {
       Header: '设备模板',
       accessor: 'templateName',
-      Cell: ({ value }: { value: string }) => {
-        const templateName = value || '-';
-        return useMemo(
-          () => (
+      Cell: useCallback(
+        ({
+          value,
+        }: CellProps<DeviceColumnData, DeviceColumnData['templateName']>) => {
+          const templateName = value || '-';
+          return (
             <Text
               color="gray.700"
               maxWidth="150px"
@@ -120,18 +111,20 @@ export default function DataSelect({ routeType }: Props) {
             >
               {templateName}
             </Text>
-          ),
-          [templateName]
-        );
-      },
+          );
+        },
+        []
+      ),
     },
     {
       Header: '设备分组',
       accessor: 'parentName',
-      Cell: ({ value }: { value: string }) => {
-        const parentName = value || '-';
-        return useMemo(
-          () => (
+      Cell: useCallback(
+        ({
+          value,
+        }: CellProps<DeviceColumnData, DeviceColumnData['parentName']>) => {
+          const parentName = value || '-';
+          return (
             <Text
               color="gray.700"
               maxWidth="180px"
@@ -140,16 +133,16 @@ export default function DataSelect({ routeType }: Props) {
             >
               {parentName}
             </Text>
-          ),
-          [parentName]
-        );
-      },
+          );
+        },
+        []
+      ),
     },
     {
       Header: '操作',
       width: 60,
-      Cell: ({ row }: CellProps<DeviceColumnData>) =>
-        useMemo(() => {
+      Cell: useCallback(
+        ({ row }: CellProps<DeviceColumnData>) => {
           const { id, name } = row.original;
           const buttons = [
             <DeleteDevicesButton
@@ -168,7 +161,9 @@ export default function DataSelect({ routeType }: Props) {
             );
           }
           return <MoreAction buttons={buttons} />;
-        }, [row]),
+        },
+        [isMsgRouter, refetch]
+      ),
     },
   ];
 
@@ -253,6 +248,7 @@ export default function DataSelect({ routeType }: Props) {
               />
             );
           }
+
           return (
             <Flex flex="1" flexDirection="column" padding="20px">
               <Flex
@@ -309,9 +305,10 @@ export default function DataSelect({ routeType }: Props) {
                     columns={columns}
                     data={deviceTableData}
                     isLoading={isLoading}
+                    hasKeywords={!!keywords}
                     onSelect={handleSelect}
                     paginationProps={pagination}
-                    scroll={{ y: '400px' }}
+                    scroll={{ y: '296px' }}
                     styles={{
                       wrapper: {
                         flex: 1,
@@ -320,7 +317,10 @@ export default function DataSelect({ routeType }: Props) {
                         backgroundColor: 'gray.50',
                       },
                       loading: {
-                        height: '500px',
+                        height: '340px',
+                      },
+                      empty: {
+                        height: '340px',
                       },
                       head: { backgroundColor: 'gray.100' },
                       headTr: { height: '44px', border: 'none' },
@@ -329,10 +329,14 @@ export default function DataSelect({ routeType }: Props) {
                         border: 'none',
                         backgroundColor: 'white',
                       },
+                      pagination: {
+                        padding: '0 20px',
+                      },
                     }}
                   />
                 </Flex>
               )}
+              {isMsgRouter && <RuleSQL sx={{ marginTop: '20px' }} />}
             </Flex>
           );
         })()}

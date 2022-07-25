@@ -85,6 +85,7 @@ export default function AddDevicesModal({
       condition: deviceGroupConditions,
     },
     enabled: ['group', 'all'].includes(type),
+    staleTime: 0,
     onSuccess(data) {
       const groupTree = data?.data?.GroupTree ?? {};
       const groupTreeNodeData = getTreeNodeData({ data: groupTree });
@@ -231,12 +232,6 @@ export default function AddDevicesModal({
   };
 
   useEffect(() => {
-    if (!isOpen) {
-      clearState();
-    }
-  }, [isOpen]);
-
-  useEffect(() => {
     handleSetSelectedDevices([]);
     setDeviceKeywords('');
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -247,7 +242,10 @@ export default function AddDevicesModal({
       title={title}
       width={isMultipleChoice ? '900px' : '580px'}
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={() => {
+        clearState();
+        onClose();
+      }}
       onConfirm={() =>
         onConfirm(selectedDevices.filter((device) => !device.hasSelected))
       }

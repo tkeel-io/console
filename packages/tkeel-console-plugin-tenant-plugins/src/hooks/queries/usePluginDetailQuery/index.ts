@@ -4,6 +4,7 @@ type Plugin = {
   id: string;
   register_timestamp: string;
   tenant_enable: boolean;
+  switchable: boolean;
   installer_brief: {
     name: string;
     icon: string;

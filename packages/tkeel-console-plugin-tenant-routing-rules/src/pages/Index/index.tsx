@@ -50,7 +50,7 @@ export default function Index(): JSX.Element {
         documentsPath={documents.config.paths.tenantGuide.routingRules}
         desc="平台接入的设备数据可以通过自定义的路由规则进行数据的简单处理并流转向其它服务。"
       />
-      <Flex justifyContent="space-between" m="8px 0">
+      <Flex alignItems="center" justifyContent="space-between" m="8px 0">
         <Tabs
           onClick={(e: number) => {
             setKeyWords(e);

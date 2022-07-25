@@ -1,6 +1,6 @@
 import { Flex, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 
-import { PageHeader } from '@tkeel/console-components';
+import { Loading, PageHeader } from '@tkeel/console-components';
 import { PuzzleTwoToneIcon } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
@@ -24,50 +24,54 @@ function Index(): JSX.Element {
         documentsPath={documents.config.paths.adminGuide.plugins}
         desc="展示平台安装完成后静默注册的核心插件。"
       />
-      <Tabs
-        position="relative"
-        display="flex"
-        flexDirection="column"
-        flex="1"
-        overflow="hidden"
-        marginTop="16px"
-        borderTopLeftRadius="4px"
-        isLazy
-      >
-        <AddRepoButton
-          refetchRepos={() => {
-            refetch();
-          }}
-        />
-        <TabList
-          padding="2px"
-          width="max-content"
-          borderWidth="1px"
-          borderStyle="solid"
-          borderColor="gray.200"
-          backgroundColor="gray.50"
-          borderRadius="22px"
+      {isLoading ? (
+        <Loading sx={{ flex: 1 }} />
+      ) : (
+        <Tabs
+          position="relative"
+          display="flex"
+          flexDirection="column"
+          flex="1"
+          overflow="hidden"
+          marginTop="16px"
+          borderTopLeftRadius="4px"
+          isLazy
         >
-          {repos.map((repo) => (
-            <CustomRepoTab key={repo.name} num={repo.installer_num}>
-              {repo.name}
-            </CustomRepoTab>
-          ))}
-          {!isLoading && <CustomRepoTab num={total}>已安装</CustomRepoTab>}
-        </TabList>
-        <TabPanels flex="1" overflow="hidden" marginTop="16px">
-          {repos.map((repo) => (
-            <TabPanel key={repo.name} height="100%" padding="0">
-              <Content repo={repo.name} />
-            </TabPanel>
-          ))}
-          {!isLoading && (
-            <TabPanel height="100%" padding="0">
-              <Content isInstalledPlugins />
-            </TabPanel>
-          )}
-        </TabPanels>
-      </Tabs>
+          <AddRepoButton
+            refetchRepos={() => {
+              refetch();
+            }}
+          />
+          <TabList
+            padding="2px"
+            width="max-content"
+            borderWidth="1px"
+            borderStyle="solid"
+            borderColor="gray.200"
+            backgroundColor="gray.50"
+            borderRadius="22px"
+          >
+            {repos.map((repo) => (
+              <CustomRepoTab key={repo.name} num={repo.installer_num}>
+                {repo.name}
+              </CustomRepoTab>
+            ))}
+            {!isLoading && <CustomRepoTab num={total}>已安装</CustomRepoTab>}
+          </TabList>
+          <TabPanels flex="1" overflow="hidden" marginTop="16px">
+            {repos.map((repo) => (
+              <TabPanel key={repo.name} height="100%" padding="0">
+                <Content repo={repo.name} />
+              </TabPanel>
+            ))}
+            {!isLoading && (
+              <TabPanel height="100%" padding="0">
+                <Content isInstalledPlugins />
+              </TabPanel>
+            )}
+          </TabPanels>
+        </Tabs>
+      )}
     </Flex>
   );
 }

@@ -15,12 +15,15 @@ import { PencilFilledIcon, TrashFilledIcon } from '@tkeel/console-icons';
 import { plugin } from '@tkeel/console-utils';
 
 import clickHouseImg from '@/tkeel-console-plugin-tenant-routing-rules/assets/images/click-house.svg';
+import influxdbImg from '@/tkeel-console-plugin-tenant-routing-rules/assets/images/influxdb.svg';
 import kafkaImg from '@/tkeel-console-plugin-tenant-routing-rules/assets/images/kafka.svg';
 import mysqlImg from '@/tkeel-console-plugin-tenant-routing-rules/assets/images/mysql.svg';
 import useCreateRuleTargetMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useCreateRuleTargetMutation';
 import useDeleteTargetMutation from '@/tkeel-console-plugin-tenant-routing-rules/hooks/mutations/useDeleteTargetMutation';
+import { RuleStatus } from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleDetailQuery';
 import { Target } from '@/tkeel-console-plugin-tenant-routing-rules/hooks/queries/useRuleTargetsQuery';
 
+import RepublishToInfluxDBModal from '../RepublishToInfluxDBModal';
 import RepublishToKafkaModal, {
   FormValues as KafkaRepublishInfo,
 } from '../RepublishToKafkaModal';
@@ -49,9 +52,11 @@ export default function RepublishInfoCard({
     kafka: kafkaImg,
     mysql: mysqlImg,
     clickhouse: clickHouseImg,
+    influxdb: influxdbImg,
   };
   const image = imgType[target.sink_type] as string;
   const [publishType, setPublishType] = useState('');
+
   const {
     isOpen: isAlertOpen,
     onClose: onAlertClose,
@@ -106,6 +111,11 @@ export default function RepublishInfoCard({
     }
   };
 
+  const tagsArr = Object.entries(target.tags || {}).map(([key, value]) => ({
+    label: key,
+    value,
+  }));
+
   return (
     <Flex
       alignItems="center"
@@ -126,25 +136,25 @@ export default function RepublishInfoCard({
     >
       <Flex alignItems="center" w="260px">
         <Box width="5px" height="40px" backgroundColor="success.300" />
-        <Image
-          marginLeft="20px"
-          width={target.sink_type === 'mysql' ? '48px' : '95px'}
-          src={image}
-        />
+        <Image marginLeft="20px" height="40px" src={image} />
+        {target.sink_type === 'influxdb' && (
+          <Text
+            marginLeft="10px"
+            color="gray.800"
+            fontSize="14px"
+            fontWeight="500"
+          >
+            InfluxDB
+          </Text>
+        )}
       </Flex>
-      <Text
-        flex="1"
-        color="grayAlternatives.700"
-        fontSize="14px"
-        noOfLines={1}
-        title={target.value}
-      >
+      <Text flex="1" color="grayAlternatives.700" fontSize="14px" noOfLines={1}>
         {imgType[target.sink_type] === 'kafka'
           ? `主题 Topic：${target.value}`
           : `数据库地址：${target.endpoint}`}
       </Text>
       <HStack display="none" spacing="20px">
-        {status !== 1 && (
+        {status !== RuleStatus.Start && (
           <>
             <PencilFilledIcon
               size={20}
@@ -214,6 +224,22 @@ export default function RepublishInfoCard({
           onClose={onModalClose}
         />
       )}
+      {publishType === 'influxdb' && (
+        <RepublishToInfluxDBModal
+          info={{
+            org: target.org || '',
+            bucket: target.bucket || '',
+            url: target.host,
+            token: '',
+            tags: tagsArr,
+          }}
+          targetId={target.id}
+          isOpen={isModalOpen}
+          onClose={onModalClose}
+          isLoading={isEditRuleTargetLoading}
+          refetchData={refetchData}
+        />
+      )}
       <Alert
         iconPosition="left"
         icon={
@@ -221,7 +247,7 @@ export default function RepublishInfoCard({
             <TrashFilledIcon size="24px" color="red.300" />
           </Circle>
         }
-        title={`确认删除转发「${target.value || ''}」？`}
+        title="确认删除转发？"
         isOpen={isAlertOpen}
         isConfirmButtonLoading={isDeleteTargetLoading}
         onClose={onAlertClose}
