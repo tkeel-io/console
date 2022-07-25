@@ -138,6 +138,10 @@ function Detail(): JSX.Element {
                 }),
               },
               {
+                label: '模板ID',
+                value: defaultValues?.id,
+              },
+              {
                 label: '描述',
                 value: defaultValues?.description,
               },
