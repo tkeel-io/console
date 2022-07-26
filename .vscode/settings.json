@@ -33,5 +33,6 @@
     "@/tkeel-console-themes": "${workspaceFolder}/packages/tkeel-console-themes/src",
     "@/tkeel-console-types": "${workspaceFolder}/packages/tkeel-console-types/src",
     "@/tkeel-console-utils": "${workspaceFolder}/packages/tkeel-console-utils/src"
-  }
+  },
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
