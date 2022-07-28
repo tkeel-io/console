@@ -1,11 +1,16 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
+import { omit } from 'lodash';
 import { useSearchParams } from 'react-router-dom';
 
 import {
   DeviceStatusIcon,
   SelfLearnIcon,
 } from '@tkeel/console-business-components';
-import { BackButton } from '@tkeel/console-components';
+import {
+  BackButton,
+  NavigateToDeviceDetailInOtherPlugins,
+  NavigateToDeviceTemplateDetailInOtherPlugins,
+} from '@tkeel/console-components';
 import { DeviceObject } from '@tkeel/console-request-hooks';
 import { plugin } from '@tkeel/console-utils';
 
@@ -19,7 +24,7 @@ export default function DeviceDetailCard({ detailData }: Props) {
   const portalProps = plugin.getPortalProps();
   const { navigate } = portalProps.client;
   const [searchParams] = useSearchParams();
-  const { properties } = detailData || {};
+  const { id = '', properties } = detailData || {};
   const { basicInfo, connectInfo } = properties || {};
   // eslint-disable-next-line no-underscore-dangle
   const isOnline = connectInfo?._online ?? false;
@@ -49,7 +54,18 @@ export default function DeviceDetailCard({ detailData }: Props) {
           justifyContent="space-between"
           alignItems="center"
         >
-          <DeviceIconName name={basicInfo?.name ?? ''} />
+          <DeviceIconName
+            name={
+              <NavigateToDeviceDetailInOtherPlugins
+                fontSize="inherit"
+                fontWeight="inherit"
+                lineHeight="inherit"
+                id={id}
+              >
+                {basicInfo?.name ?? ''}
+              </NavigateToDeviceDetailInOtherPlugins>
+            }
+          />
           <Flex>
             <DeviceStatusIcon
               isOnline={isOnline}
@@ -66,7 +82,14 @@ export default function DeviceDetailCard({ detailData }: Props) {
         height="48px"
       >
         <Text {...textStyle}>{basicInfo?.parentName ?? ''}</Text>
-        <Text {...textStyle}>{basicInfo?.templateName ?? ''}</Text>
+        <Text>
+          <NavigateToDeviceTemplateDetailInOtherPlugins
+            id={basicInfo?.templateId ?? ''}
+            {...omit(textStyle, 'color')}
+          >
+            {basicInfo?.templateName ?? ''}
+          </NavigateToDeviceTemplateDetailInOtherPlugins>{' '}
+        </Text>
       </Flex>
     </Box>
   );
