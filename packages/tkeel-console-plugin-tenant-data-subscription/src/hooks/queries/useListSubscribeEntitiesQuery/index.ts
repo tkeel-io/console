@@ -16,6 +16,7 @@ export type Device = {
   group: string;
   name: string;
   status: string;
+  template_id: string;
   template: string;
   updated_at: string;
 };

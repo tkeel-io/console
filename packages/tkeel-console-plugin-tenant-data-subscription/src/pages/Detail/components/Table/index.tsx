@@ -6,6 +6,7 @@ import { DeviceStatusIcon } from '@tkeel/console-business-components';
 import {
   MoreAction,
   NavigateToDeviceDetailInOtherPlugins,
+  NavigateToDeviceTemplateDetailInOtherPlugins,
   PageHeaderToolbar,
   SearchEmpty,
   Table,
@@ -26,6 +27,7 @@ type Data = {
   group: string;
   name: string;
   status: string;
+  template_id: string;
   template: string;
   updated_at: string;
 };
@@ -116,10 +118,12 @@ export default function Index({ id, title, refetchSubscribeInfo }: Props) {
       width: 100,
       accessor: 'template',
       Cell: useCallback(
-        ({ value }: CellProps<Data, Data['template']>) => (
-          <Box color="gray.700" overflow="hidden">
-            {value}
-          </Box>
+        ({ value, row }: CellProps<Data, Data['template']>) => (
+          <NavigateToDeviceTemplateDetailInOtherPlugins
+            id={row.original.template_id}
+          >
+            <Text overflow="hidden">{value}</Text>
+          </NavigateToDeviceTemplateDetailInOtherPlugins>
         ),
         []
       ),
