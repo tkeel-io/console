@@ -5,6 +5,7 @@ import { CellProps, Column } from 'react-table';
 import { DeviceStatusIcon } from '@tkeel/console-business-components';
 import {
   MoreAction,
+  NavigateToDeviceDetailInOtherPlugins,
   PageHeaderToolbar,
   SearchEmpty,
   Table,
@@ -83,12 +84,17 @@ export default function Index({ id, title, refetchSubscribeInfo }: Props) {
     {
       Header: '设备名称',
       accessor: 'name',
-      Cell: useCallback(({ value }: CellProps<Data, Data['name']>) => {
+      Cell: useCallback(({ value, row }: CellProps<Data, Data['name']>) => {
         return (
           <Flex alignItems="center" justifyContent="space-between">
             <SmartObjectTwoToneIcon size={24} />
             <Text color="gray.800" fontWeight="600" marginLeft="14px">
-              {value}
+              <NavigateToDeviceDetailInOtherPlugins
+                fontWeight="inherit"
+                id={row.original.ID}
+              >
+                {value}
+              </NavigateToDeviceDetailInOtherPlugins>
             </Text>
           </Flex>
         );
