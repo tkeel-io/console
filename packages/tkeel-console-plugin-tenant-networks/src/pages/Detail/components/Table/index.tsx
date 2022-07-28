@@ -16,8 +16,8 @@ import { CellProps, Column } from 'react-table';
 import { DeviceStatusIcon } from '@tkeel/console-business-components';
 import {
   Empty,
-  LinkButton,
   MoreAction,
+  NavigateToDeviceTemplateDetailInOtherPlugins,
   PageHeaderToolbar,
   SearchEmpty,
   Table,
@@ -67,7 +67,6 @@ interface Props {
 export default function Index({ id }: Props) {
   const boxShadow =
     '0px 10px 15px rgba(113, 128, 150, 0.1), 0px 4px 6px rgba(113, 128, 150, 0.2)';
-  const { navigate } = plugin.getPortalProps().client;
   const [keywords, setKeyWords] = useState('');
   const toast = plugin.getPortalToast();
   const pagination = usePagination();
@@ -260,21 +259,14 @@ export default function Index({ id }: Props) {
           () => (
             <Box>
               {original?.device_name && (
-                <LinkButton
-                  onClick={() => {
-                    navigate(
-                      `tenant-devices/detail?id=${original?.device_id}&menu-collapsed=true`
-                    );
-                  }}
-                  color="gray.600"
-                  fontWeight="600"
-                  _hover={{ color: 'primary' }}
+                <NavigateToDeviceTemplateDetailInOtherPlugins
+                  id={original?.device_id}
                 >
                   <HStack>
                     <SmartObjectTwoToneIcon size="16px" />
                     <Text ml="8px">{original?.device_name}</Text>
                   </HStack>
-                </LinkButton>
+                </NavigateToDeviceTemplateDetailInOtherPlugins>
               )}
             </Box>
           ),
