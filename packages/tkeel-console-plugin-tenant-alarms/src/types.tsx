@@ -52,6 +52,8 @@ export interface AlarmDetail {
   createTime: string;
   deviceId?: string | null;
   deviceName?: string | null;
+  tempName?: string | null;
+  tempId?: string | null;
   deleted?: number;
   // enable: 0;
   noticeId: string;
