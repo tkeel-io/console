@@ -11,6 +11,8 @@ import {
   Clipboard,
   Drawer,
   MoreAction,
+  NavigateToDeviceDetailInOtherPlugins,
+  NavigateToDeviceTemplateDetailInOtherPlugins,
   Tooltip,
 } from '@tkeel/console-components';
 import { BoxTwoToneIcon, ComputingLampTwoToneIcon } from '@tkeel/console-icons';
@@ -30,6 +32,7 @@ type Props = {
   refetchData: () => void;
 };
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function PolicyDetailDrawer({ ruleId, onClose, refetchData }: Props) {
   const { ruleDetail, refetch } = useAlarmRuleDetailQuery({ ruleId });
   const {
@@ -50,14 +53,19 @@ function PolicyDetailDrawer({ ruleId, onClose, refetchData }: Props) {
   if (alarmSourceObject === AlarmSourceObject.Device) {
     const name = deviceName || tempName;
     const alarmSourceObjectId = deviceId || tempId || '';
+    const NavigateToOtherPlugin = deviceName
+      ? NavigateToDeviceDetailInOtherPlugins
+      : NavigateToDeviceTemplateDetailInOtherPlugins;
 
     alarmSourceObjectValue = (
       <Flex alignItems="center">
         {deviceName ? <ComputingLampTwoToneIcon /> : <BoxTwoToneIcon />}
         <Tooltip label={name}>
-          <Text marginLeft="2px" maxWidth="170px" noOfLines={1}>
-            {name}
-          </Text>
+          <NavigateToOtherPlugin marginLeft="2px" id={alarmSourceObjectId}>
+            <Text maxWidth="170px" noOfLines={1}>
+              {name}
+            </Text>
+          </NavigateToOtherPlugin>
         </Tooltip>
       </Flex>
     );
