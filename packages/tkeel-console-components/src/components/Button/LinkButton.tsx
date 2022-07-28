@@ -1,7 +1,7 @@
 import type { ButtonProps } from '@chakra-ui/react';
 import { Button } from '@chakra-ui/react';
 
-function LinkButton({ children, ...rest }: ButtonProps) {
+export default function LinkButton({ children, ...rest }: ButtonProps) {
   return (
     <Button
       variant="link"
@@ -17,5 +17,3 @@ function LinkButton({ children, ...rest }: ButtonProps) {
     </Button>
   );
 }
-
-export default LinkButton;
