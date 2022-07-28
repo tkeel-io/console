@@ -92,6 +92,7 @@ function getDefaultFormValues({ groupItem }: { groupItem: TreeNodeData }) {
 function Index(): JSX.Element {
   const [groupId, setGroupId] = useState('');
   const [keyWords, setKeyWords] = useState('');
+  const [searchKey, setSearchKey] = useState('');
   const pagination = usePagination();
   const { setPageNum, pageNum, pageSize, setTotalSize } = pagination;
   const documents = plugin.getPortalDocuments();
@@ -199,18 +200,6 @@ function Index(): JSX.Element {
     groupItem: isEmpty(groupItem) ? defaultGroupItem : groupItem,
   });
 
-  const keywordCondition = [
-    {
-      field: 'basicInfo.name',
-      operator: '$wildcard',
-      value: keyWords || '',
-    },
-    {
-      field: 'id',
-      operator: '$wildcard',
-      value: keyWords || '',
-    },
-  ];
   const basicCondition = [
     {
       field: 'sysField._spacePath',
@@ -229,9 +218,8 @@ function Index(): JSX.Element {
     page_size: pageSize,
     order_by: 'name',
     is_descending: false,
-    condition: keyWords
-      ? [...keywordCondition, ...basicCondition]
-      : basicCondition,
+    condition: basicCondition,
+    query: searchKey,
   };
   const {
     refetch: refetchDeviceList,
@@ -256,6 +244,7 @@ function Index(): JSX.Element {
           onSearch(value) {
             setPageNum(1);
             setKeyWords(value.trim());
+            setSearchKey(value.trim());
           },
           onChange(value) {
             setKeyWords(value);
