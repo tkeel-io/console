@@ -5,7 +5,7 @@ import { SmartObjectTwoToneIcon } from '@tkeel/console-icons';
 
 type Props = {
   icon?: ReactNode;
-  name?: string;
+  name?: ReactNode;
 };
 
 export default function DeviceIconName({
