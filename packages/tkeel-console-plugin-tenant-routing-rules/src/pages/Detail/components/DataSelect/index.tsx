@@ -8,6 +8,7 @@ import {
   Loading,
   MoreAction,
   NavigateToDeviceDetailInOtherPlugins,
+  NavigateToDeviceTemplateDetailInOtherPlugins,
   SearchInput,
   Table,
 } from '@tkeel/console-components';
@@ -32,6 +33,7 @@ type DeviceColumnData = {
   id: string;
   name: string;
   status: 'online' | 'offline';
+  templateId: string;
   templateName: string;
   parentName: string;
 };
@@ -104,17 +106,22 @@ export default function DataSelect({ routeType }: Props) {
       Cell: useCallback(
         ({
           value,
+          row,
         }: CellProps<DeviceColumnData, DeviceColumnData['templateName']>) => {
           const templateName = value || '-';
           return (
-            <Text
-              color="gray.700"
-              maxWidth="150px"
-              noOfLines={1}
-              title={templateName}
+            <NavigateToDeviceTemplateDetailInOtherPlugins
+              id={row.original.templateId}
             >
-              {templateName}
-            </Text>
+              <Text
+                // color="gray.700"
+                maxWidth="150px"
+                noOfLines={1}
+                title={templateName}
+              >
+                {templateName}
+              </Text>
+            </NavigateToDeviceTemplateDetailInOtherPlugins>
           );
         },
         []
@@ -173,11 +180,19 @@ export default function DataSelect({ routeType }: Props) {
 
   const deviceTableData = useMemo(() => {
     return deviceList.map((item) => {
-      const { id, name, template, group_name: groupName, status } = item;
+      const {
+        id,
+        name,
+        template_id: templateId,
+        template,
+        group_name: groupName,
+        status,
+      } = item;
       return {
         id,
         name,
         status,
+        templateId,
         templateName: template,
         parentName: groupName,
       };

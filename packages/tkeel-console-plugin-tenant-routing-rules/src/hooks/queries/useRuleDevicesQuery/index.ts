@@ -3,6 +3,7 @@ import { useQuery } from '@tkeel/console-hooks';
 export interface DeviceItem {
   id: string;
   name: string;
+  template_id: string;
   template: string;
   group_name: string;
   status: 'online' | 'offline';
