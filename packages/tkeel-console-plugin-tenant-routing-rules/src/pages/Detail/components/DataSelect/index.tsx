@@ -7,6 +7,7 @@ import { DeviceStatusIcon } from '@tkeel/console-business-components';
 import {
   Loading,
   MoreAction,
+  NavigateToDeviceDetailInOtherPlugins,
   SearchInput,
   Table,
 } from '@tkeel/console-components';
@@ -67,21 +68,24 @@ export default function DataSelect({ routeType }: Props) {
     {
       Header: '设备名称',
       Cell: useCallback(({ row }: CellProps<DeviceColumnData>) => {
-        const { name } = row.original;
+        const { id, name } = row.original;
         const deviceName = name || '';
+
         return (
           <HStack>
             <SmartObjectTwoToneIcon size="24px" />
-            <Text
-              maxWidth="150px"
-              color="gray.600"
-              fontSize="12px"
-              fontWeight="500"
-              noOfLines={1}
-              title={deviceName}
-            >
-              {deviceName}
-            </Text>
+            <NavigateToDeviceDetailInOtherPlugins id={id}>
+              <Text
+                maxWidth="150px"
+                // color="gray.600"
+                fontSize="12px"
+                fontWeight="500"
+                noOfLines={1}
+                title={deviceName}
+              >
+                {deviceName}
+              </Text>
+            </NavigateToDeviceDetailInOtherPlugins>
           </HStack>
         );
       }, []),

@@ -69,7 +69,7 @@ export default function SetPassword() {
     },
   });
 
-  const navigateToLoginPage = () => {
+  const jumpToLoginPage = () => {
     const tenantId = resetPasswordData?.tenant_id ?? '';
     jumpToAuthLoginPage({
       portalName: 'tenant',
@@ -87,7 +87,7 @@ export default function SetPassword() {
     mutate: logoutMutate,
   } = useRevokePortalTenantTokenMutation({
     onSuccess() {
-      navigateToLoginPage();
+      jumpToLoginPage();
     },
   });
 
@@ -195,7 +195,7 @@ export default function SetPassword() {
           if (tokenInfo && refreshToken) {
             logoutMutate({ data: { refresh_token: refreshToken } });
           } else {
-            navigateToLoginPage();
+            jumpToLoginPage();
           }
         }}
       />
