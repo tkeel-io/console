@@ -4,10 +4,18 @@ import {
   AlarmDetailType,
   AlarmPolicyType,
 } from 'packages/tkeel-console-plugin-tenant-alarms/src/types';
+import { ReactNode } from 'react';
 
 import { AlarmRuleTypeTag } from '@tkeel/console-business-components';
-import { Tooltip, TooltipText } from '@tkeel/console-components';
 import {
+  Clipboard,
+  NavigateToDeviceDetailInOtherPlugins,
+  NavigateToDeviceTemplateDetailInOtherPlugins,
+  Tooltip,
+  TooltipText,
+} from '@tkeel/console-components';
+import {
+  BoxTwoToneIcon,
   ComputingLampTwoToneIcon,
   FireFilledIcon,
   InformationFilledIcon,
@@ -72,6 +80,10 @@ export const ALARMS_POLICY: AlarmPolicyTypes[] = [
 
 export const ALARMS_TYPES = ['基础告警', '持续告警'];
 
+export enum AlarmSourceObject {
+  Platform,
+  Device,
+} // 0：平台；1：设备
 export const ALARMS_SOURCE = [
   {
     label: '平台',
@@ -84,22 +96,44 @@ export const ALARMS_SOURCE = [
 ];
 
 export const AlarmInfoCardArr = (details: AlarmDetailType) => {
+  let alarmSourceObjectValue: ReactNode = '-';
+  let alarmSourceObjectIdValue: ReactNode = '-';
+  if (details.alarmSource === AlarmSourceObject.Device) {
+    const alarmSourceObjectId = (details.deviceId || details.tempId) ?? '';
+    const NavigateToOtherPlugin = details.deviceName
+      ? NavigateToDeviceDetailInOtherPlugins
+      : NavigateToDeviceTemplateDetailInOtherPlugins;
+
+    alarmSourceObjectValue = (
+      <Flex alignItems="center">
+        {details.deviceName ? <ComputingLampTwoToneIcon /> : <BoxTwoToneIcon />}
+        <Tooltip label={alarmSourceObjectId}>
+          <NavigateToOtherPlugin marginLeft="2px" id={alarmSourceObjectId}>
+            <Text display="block" maxWidth="170px" noOfLines={1}>
+              {alarmSourceObjectId}
+            </Text>
+          </NavigateToOtherPlugin>
+        </Tooltip>
+      </Flex>
+    );
+
+    alarmSourceObjectIdValue = (
+      <Flex>
+        <Tooltip label={alarmSourceObjectId}>
+          <Text maxWidth="140px" noOfLines={1}>
+            {alarmSourceObjectId}
+          </Text>
+        </Tooltip>
+        {alarmSourceObjectId && <Clipboard text={alarmSourceObjectId} />}
+      </Flex>
+    );
+  } else if (details.alarmSource === AlarmSourceObject.Platform) {
+    alarmSourceObjectValue = '平台';
+  }
   const arr = [
     {
       label: '告警源对象',
-      value:
-        details.alarmSource === 0 ? (
-          ALARMS_SOURCE[0].label
-        ) : (
-          <Tooltip label={details?.deviceId}>
-            <Flex alignItems="center" flex="1">
-              <ComputingLampTwoToneIcon />
-              <Text flex="1" ml="4px" noOfLines={1}>
-                {details?.deviceId}
-              </Text>
-            </Flex>
-          </Tooltip>
-        ),
+      value: alarmSourceObjectValue,
     },
     {
       label: '告警上报值',
@@ -117,7 +151,7 @@ export const AlarmInfoCardArr = (details: AlarmDetailType) => {
   if (details.alarmSource === 1) {
     arr.splice(1, 0, {
       label: '告警源对象ID',
-      value: <TooltipText label={details?.objectId} />,
+      value: alarmSourceObjectIdValue, // <TooltipText label={details?.objectId} />,
     });
   }
 
