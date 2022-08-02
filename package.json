@@ -50,7 +50,8 @@
     "show:dev-server-ports": "node ./scripts/show/dev-server-ports",
     "sort-package-json": "sort-package-json 'package.json' 'packages/*/package.json'",
     "start:portal-admin": "node ./scripts/run/start-portal-admin",
-    "start:portal-tenant": "node ./scripts/run/start-portal-tenant"
+    "start:portal-tenant": "node ./scripts/run/start-portal-tenant",
+    "helm:package": "node ./scripts/run/helm-package"
   },
   "config": {
     "commitizen": {
