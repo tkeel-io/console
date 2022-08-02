@@ -5,11 +5,11 @@ annotations:
   tkeel.io/tag: manager
   tkeel.io/version: v0.4.0
 apiVersion: v2
-appVersion: 0.4.0-alpha.2
+appVersion: 1.0.0 # image tag
 description: 前端管理平台的「用量统计」插件。
 maintainers:
   - email: caoyue@yunify.com
     name: caoyue
 name: console-plugin-admin-usage-statistics
 type: application
-version: 0.4.3
+version: 1.0.0 # chart version
