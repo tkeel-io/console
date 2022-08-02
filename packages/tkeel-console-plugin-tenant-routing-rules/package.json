@@ -1,6 +1,6 @@
 {
   "name": "@tkeel/console-plugin-tenant-routing-rules",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "homepage": "https://github.com/tkeel-io/console#readme",
   "bugs": {
     "url": "https://github.com/tkeel-io/console/issues"
