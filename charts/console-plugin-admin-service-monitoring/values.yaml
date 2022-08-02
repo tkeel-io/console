@@ -3,5 +3,4 @@ imagePullSecrets: ''
 httpPort: 80
 image:
   repository: tkeelio/console-plugin-admin-service-monitoring
-# tag: 0.4.3
   pullPolicy: IfNotPresent

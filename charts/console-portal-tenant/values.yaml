@@ -3,5 +3,4 @@ imagePullSecrets: ''
 httpPort: 80
 image:
   repository: tkeelio/console-portal-tenant
-# tag: 0.4.3
   pullPolicy: IfNotPresent
