@@ -14,6 +14,8 @@ const resolveRoot = (...relativePaths) =>
   path.resolve(rootPath, ...relativePaths);
 const resolvePackages = (...relativePaths) =>
   resolveRoot('packages', ...relativePaths);
+const resolveCharts = (...relativePaths) =>
+  resolveRoot('charts', ...relativePaths);
 const resolveCwd = (...relativePaths) =>
   path.resolve(currentWorkingPath, ...relativePaths);
 
@@ -32,6 +34,7 @@ const commonPackages = () => {
 module.exports = {
   resolveRoot,
   resolvePackages,
+  resolveCharts,
   resolveCwd,
   root: {
     self: rootPath,
@@ -39,6 +42,7 @@ module.exports = {
     scripts: resolveRoot('scripts'),
     webpack: resolveRoot('webpack'),
     tsconfig: resolveRoot('tsconfig.json'),
+    charts: resolveRoot('charts'),
   },
   packages: {
     self: resolvePackages('.'),
