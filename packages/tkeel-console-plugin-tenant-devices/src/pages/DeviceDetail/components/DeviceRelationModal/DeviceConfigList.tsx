@@ -7,7 +7,7 @@ import { AttributeItem, TelemetryItem } from '@tkeel/console-types';
 const textStyle = {
   color: 'gray.800',
   fontSize: '14px',
-  lineHeight: '32px',
+  // lineHeight: '32px',
 };
 
 interface Props {
@@ -42,7 +42,7 @@ export default function DeviceConfigList({
             return (
               <Flex
                 key={id}
-                height="32px"
+                minHeight="32px"
                 paddingLeft="20px"
                 alignItems="center"
                 cursor="pointer"
