@@ -192,20 +192,22 @@ export default function TelemetryDataTable({
     },
   ];
 
-  const telemetryTableData: TelemetryTableItem[] = telemetryFields.map(
-    (item) => {
-      const valueObject =
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        (telemetryValues[item.id] as {
-          value?: string | number | boolean;
-          ts?: number;
-        }) || {};
-      return {
-        ...item,
-        last_time: valueObject?.ts ?? item.last_time,
-        value: valueObject?.value ?? '',
-      };
-    }
+  const telemetryTableData: TelemetryTableItem[] = useMemo(
+    () =>
+      telemetryFields.map((item) => {
+        const valueObject =
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          (telemetryValues[item.id] as {
+            value?: string | number | boolean;
+            ts?: number;
+          }) || {};
+        return {
+          ...item,
+          last_time: valueObject?.ts ?? item.last_time,
+          value: valueObject?.value ?? '',
+        };
+      }),
+    [telemetryFields, telemetryValues]
   );
   return (
     <Table
@@ -215,11 +217,12 @@ export default function TelemetryDataTable({
         bodyTr: { fontSize: '12px' },
       }}
       columns={columns}
-      onSelect={handleSelect}
       data={telemetryTableData || []}
       isShowStripe
       hasPagination={false}
       hasKeywords={hasKeywords}
+      autoResetSelectedRows={false}
+      onSelect={handleSelect}
     />
   );
 }
