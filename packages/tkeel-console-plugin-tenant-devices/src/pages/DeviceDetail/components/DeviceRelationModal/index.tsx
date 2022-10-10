@@ -72,7 +72,6 @@ const inputGroupStyle = {
 };
 
 const contentStyle = {
-  flex: '1',
   padding: '12px 0',
   height: '463px',
   borderRadius: '4px',
@@ -313,7 +312,7 @@ export default function DeviceRelationModal({
                   inputGroupStyle={inputGroupStyle}
                 />
                 <Flex justifyContent="space-between">
-                  <Box {...contentStyle}>
+                  <Box width="50%" {...contentStyle}>
                     <DeviceGroupTree
                       isLoading={isDeviceGroupFetching}
                       treeNodeData={treeNodeData}
@@ -322,7 +321,7 @@ export default function DeviceRelationModal({
                       setGroupId={(key: string) => setGroupId(key)}
                     />
                   </Box>
-                  <Flex marginLeft="20px" {...contentStyle}>
+                  <Flex width="50%" marginLeft="20px" {...contentStyle}>
                     <DeviceList
                       uid={uid}
                       isLoading={isDeviceListLoading}

@@ -73,6 +73,7 @@ interface Props<D extends object> {
     pagination?: StyleProps;
   };
   expandRow?: (data: D) => ReactNode;
+  autoResetSelectedRows?: boolean;
   onSelect?: ({
     isAllRowsSelected,
     selectedRowIds,
@@ -91,10 +92,11 @@ function Table<D extends object>({
   isLoading,
   isShowStripe = false,
   empty,
+  expandRow,
+  autoResetSelectedRows = true,
+  styles,
   onSelect,
   onSort,
-  expandRow,
-  styles,
 }: Props<D>) {
   const canExpandRow = !!expandRow;
   const expandCell = useCallback(
@@ -175,6 +177,7 @@ function Table<D extends object>({
       data,
       manualSortBy: true,
       autoResetExpanded: false,
+      autoResetSelectedRows,
     } as TableOptions<D>,
     useFlexLayout,
     ...plugins

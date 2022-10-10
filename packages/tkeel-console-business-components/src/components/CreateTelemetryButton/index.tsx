@@ -11,14 +11,16 @@ import DeviceTelemetryModal from '../DeviceTelemetryModal';
 
 type Props = {
   uid: string;
-  refetch: () => void;
   source: 'temp' | 'device';
+  isDisabled?: boolean;
+  refetch: () => void;
 };
 
 export default function CreateTelemetryButton({
   uid,
-  refetch = () => {},
   source,
+  isDisabled,
+  refetch = () => {},
 }: Props) {
   const toast = plugin.getPortalToast();
 
@@ -42,7 +44,9 @@ export default function CreateTelemetryButton({
 
   return (
     <>
-      <CreateButton onClick={onOpen}>添加遥测</CreateButton>
+      <CreateButton onClick={onOpen} isDisabled={isDisabled}>
+        添加遥测
+      </CreateButton>
       <DeviceTelemetryModal
         isEdit={false}
         isOpen={isOpen}
