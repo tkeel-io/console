@@ -46,6 +46,7 @@ import { plugin } from '@tkeel/console-utils';
 
 import useSetAttributeMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useSetAttributeValueMutation';
 import { BasicInfo } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
+import AttributesValueButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/AttributesValueButton';
 import JsonInfoButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/JsonInfoButton';
 import SaveAsSelfTemplateButton from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/SaveAsSelfTemplateButton';
 
@@ -168,11 +169,23 @@ function AttributesData({
   };
   const { mutate: setAttributeMutate, isLoading } =
     useSetAttributeMutation(params);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const setAttributeData = ({ id, value }: { id: string; value: any }) => {
+
+  const setAttributeData = ({
+    id,
+    value,
+    cb,
+  }: {
+    id: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    value: any;
+    cb?: () => void;
+  }) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const reqData = { id, value };
     setAttributeMutate({ data: reqData });
+    if (cb) {
+      cb();
+    }
   };
 
   const getFormValue = (item: AttributeItem) => {
@@ -416,6 +429,7 @@ function AttributesData({
               {getFilterList({
                 list: allAttributes,
                 keywords,
+                // eslint-disable-next-line sonarjs/cognitive-complexity
               }).map((item: AttributeItem) => {
                 const {
                   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -547,37 +561,52 @@ function AttributesData({
                       {['int', 'float', 'double', 'string'].includes(
                         item.type
                       ) && (
-                        <Input
-                          id={item.id}
-                          bg="white"
-                          defaultValue={defaultValueCopy as number | string}
-                          isDisabled={isLoading && currentId === item.id}
-                          borderColor="gray.200"
-                          fontSize="14px"
-                          boxShadow="none!important"
-                          _placeholder={{ color: 'blackAlpha.500' }}
-                          _focus={getFocusStyle(!!errors[item.id])}
-                          {...register(
-                            focusId === item.id
-                              ? `default_edit_${item.id}`
-                              : item.id
-                          )}
-                          onFocus={() => {
-                            setValue(`default_edit_${item.id}`, defaultValue);
-                            setFocusId(item.id);
-                          }}
-                          onBlur={(e) => {
-                            const { value } = e.target;
-                            setValue(item.id, value.trim());
-                            setCurrentId(item.id);
-                            if (value !== defaultValue) {
-                              setAttributeData({
-                                id: item.id,
-                                value: value.trim(),
-                              });
-                            }
-                          }}
-                        />
+                        <Flex align="center">
+                          <Input
+                            id={item.id}
+                            bg="white"
+                            mr="3"
+                            defaultValue={defaultValueCopy as number | string}
+                            isDisabled
+                            borderColor="gray.200"
+                            fontSize="14px"
+                            boxShadow="none!important"
+                            _placeholder={{ color: 'blackAlpha.500' }}
+                            _focus={getFocusStyle(!!errors[item.id])}
+                            {...register(
+                              focusId === item.id
+                                ? `default_edit_${item.id}`
+                                : item.id
+                            )}
+                            onFocus={() => {
+                              setValue(`default_edit_${item.id}`, defaultValue);
+                              setFocusId(item.id);
+                            }}
+                            onBlur={(e) => {
+                              const { value } = e.target;
+                              setValue(item.id, value.trim());
+                              setCurrentId(item.id);
+                              if (value !== defaultValue) {
+                                setAttributeData({
+                                  id: item.id,
+                                  value: value.trim(),
+                                });
+                              }
+                            }}
+                          />
+                          <AttributesValueButton
+                            defaultValue={defaultValueCopy as string}
+                            onSubmit={(value: string, cb?: () => void) => {
+                              if (value !== defaultValue) {
+                                setAttributeData({
+                                  id: item.id,
+                                  value: value.trim(),
+                                  cb,
+                                });
+                              }
+                            }}
+                          />
+                        </Flex>
                       )}
                       {item.type === 'bool' && (
                         <Flex
