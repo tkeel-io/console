@@ -213,8 +213,8 @@ export default function TelemetryData({
           content={
             <CreateTelemetryButton
               uid={deviceId}
-              refetch={refetchDeviceDetail}
               source="device"
+              refetch={refetchDeviceDetail}
             />
           }
         />
@@ -262,8 +262,9 @@ export default function TelemetryData({
               <CreateTelemetryButton
                 key="add"
                 uid={deviceId}
-                refetch={refetchDeviceDetail}
                 source="device"
+                isDisabled={selectedDevices.length > 0}
+                refetch={refetchDeviceDetail}
               />,
               templateId ? (
                 <MoreAction
