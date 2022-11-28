@@ -597,13 +597,11 @@ function AttributesData({
                           <AttributesValueButton
                             defaultValue={defaultValueCopy as string}
                             onSubmit={(value: string, cb?: () => void) => {
-                              if (value !== defaultValue) {
-                                setAttributeData({
-                                  id: item.id,
-                                  value: value.trim(),
-                                  cb,
-                                });
-                              }
+                              setAttributeData({
+                                id: item.id,
+                                value: value.trim(),
+                                cb,
+                              });
                             }}
                           />
                         </Flex>
