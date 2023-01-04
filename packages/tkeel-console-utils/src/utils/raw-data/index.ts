@@ -13,7 +13,7 @@ export const formatRawValue = ({
   type,
 }: {
   value: string;
-  type: string;
+  type: 'text' | 'hex';
 }) => {
   if (type === 'text') {
     if (hasJsonStructure(value)) {
