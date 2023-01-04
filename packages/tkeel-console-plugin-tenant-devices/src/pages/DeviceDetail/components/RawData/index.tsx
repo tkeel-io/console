@@ -12,9 +12,11 @@ import {
 import { Base64 } from 'js-base64';
 import { isEmpty, throttle } from 'lodash';
 import { useEffect, useState } from 'react';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { materialLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 import { RawDataConnectTypeLabel } from '@tkeel/console-business-components';
-import { AceEditor, Empty, MoreActionSelect } from '@tkeel/console-components';
+import { Empty, MoreActionSelect } from '@tkeel/console-components';
 import {
   formatDateTimeByTimestamp,
   formatRawValue,
@@ -36,7 +38,7 @@ type TRawData = RawData[];
 
 function RawDataPanel({ data, online, deviceId }: Props) {
   const [rawDataList, setRawDataList] = useState<TRawData>([]);
-  const [selected, setSelected] = useState('text');
+  const [selected, setSelected] = useState<'text' | 'hex'>('text');
   const func = throttle(setRawDataList, 10 * 1000);
 
   useEffect(() => {
@@ -67,7 +69,7 @@ function RawDataPanel({ data, online, deviceId }: Props) {
         <MoreActionSelect
           options={rawDataTypeOptions}
           value={selected}
-          onChange={(value) => setSelected(value)}
+          onChange={(value) => setSelected(value as 'text' | 'hex')}
           styles={{ wrapper: { marginRight: '8px' } }}
         />
         <CreateUpstreamDataButton deviceId={deviceId} />
@@ -134,7 +136,7 @@ function RawDataPanel({ data, online, deviceId }: Props) {
                     <AccordionIcon />
                   </AccordionButton>
                   <AccordionPanel p="12px 0 0 0">
-                    <AceEditor
+                    {/* <AceEditor
                       theme="light"
                       value={formatRawValue({
                         value,
@@ -144,7 +146,20 @@ function RawDataPanel({ data, online, deviceId }: Props) {
                       readOnly
                       width="100%"
                       height="144px"
-                    />
+                    /> */}
+                    <SyntaxHighlighter
+                      language={language}
+                      style={materialLight}
+                      customStyle={{ fontSize: '12px' }}
+                      showLineNumbers
+                      wrapLines
+                      wrapLongLines
+                    >
+                      {formatRawValue({
+                        value,
+                        type: selected,
+                      })}
+                    </SyntaxHighlighter>
                   </AccordionPanel>
                 </AccordionItem>
               )

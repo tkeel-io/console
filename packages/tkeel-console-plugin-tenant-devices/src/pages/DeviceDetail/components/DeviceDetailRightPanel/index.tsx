@@ -126,6 +126,7 @@ function DeviceDetailRightPanel({
   };
   return (
     <Tabs
+      overflowX="hidden"
       flex="1"
       bg="white"
       borderRadius="4px"
@@ -152,7 +153,7 @@ function DeviceDetailRightPanel({
         {tabs.map(
           (r) =>
             r.isVisible && (
-              <TabPanel key={r.key} p="12px 20px" flex="1">
+              <TabPanel key={r.key} overflowX="hidden" p="12px 20px" flex="1">
                 {r.component}
               </TabPanel>
             )
