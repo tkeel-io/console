@@ -279,7 +279,7 @@ export default function Detail() {
         const nameKey = telemetry[key].name ?? '';
         valueObj[nameKey] = dataItem.value[key];
 
-        if (!valueObj[nameKey]) {
+        if (valueObj[nameKey] === undefined || valueObj[nameKey] === null) {
           valueObj[nameKey] = '-';
         }
       });
