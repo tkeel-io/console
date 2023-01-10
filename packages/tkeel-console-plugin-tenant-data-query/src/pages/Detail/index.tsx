@@ -90,7 +90,7 @@ export default function Detail() {
   const startDate = dayjs(startTime * 1000).toDate();
   const endDate = dayjs(endTime * 1000).toDate();
 
-  const [rawDataType, setRawDataType] = useState('text');
+  const [rawDataType, setRawDataType] = useState<'text' | 'hex'>('text');
 
   const [rangeIndex, setRangeIndex] = useState(0);
   const [isRangeSearch] = useState(false);
