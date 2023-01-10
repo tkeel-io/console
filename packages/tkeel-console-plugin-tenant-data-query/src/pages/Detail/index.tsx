@@ -454,7 +454,9 @@ export default function Detail() {
                       <MoreActionSelect
                         options={rawDataTypeOptions}
                         value={rawDataType}
-                        onChange={(value) => setRawDataType(value)}
+                        onChange={(value) =>
+                          setRawDataType(value as 'text' | 'hex')
+                        }
                       />
                     )}
                     <RefreshButton
