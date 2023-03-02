@@ -36,7 +36,7 @@ export default function DataTable({
   data.forEach((item) => {
     const { value } = item;
     originalDataKeys.forEach((key) => {
-      if (!value[key]) {
+      if (value[key] === undefined || value[key] === null) {
         value[key] = '-';
       }
     });
