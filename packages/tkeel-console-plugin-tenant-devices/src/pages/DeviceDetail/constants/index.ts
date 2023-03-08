@@ -19,3 +19,5 @@ export const SELF_LEARN_COLORS = [
     twoToneColor: 'blue.300',
   },
 ];
+
+export const TELEMETRY_TABLE_PAGE_SIZE = 10;
