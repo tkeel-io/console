@@ -1,6 +1,6 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { some } from 'lodash';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { CellProps, Column } from 'react-table';
 
 import {
@@ -15,6 +15,7 @@ import {
   Tooltip,
   TooltipText,
 } from '@tkeel/console-components';
+import { usePagination } from '@tkeel/console-hooks';
 import { BoxFilledIcon, VpcFilledIcon } from '@tkeel/console-icons';
 import { TelemetryItem, TelemetryValue } from '@tkeel/console-types';
 import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
@@ -48,7 +49,43 @@ export default function TelemetryDataTable({
   handleSelect,
   deleteCallback,
 }: Props) {
-  const operateCell = useCallback(
+  /* const renderName = ({
+    value,
+    row,
+  }: CellProps<TelemetryTableItem, string>) => {
+    const { original } = row;
+    return (
+      <Flex
+        alignItems="center"
+        justifyContent="space-between"
+        overflow="hidden"
+      >
+        <Box flexShrink={0}>
+          {some(
+            templateTelemetryFields,
+            (current) => current.id === original.id
+          ) ? (
+            <Tooltip label="模板属性">
+              <BoxFilledIcon color="primary" />
+            </Tooltip>
+          ) : (
+            <Tooltip label="自学习属性">
+              <VpcFilledIcon />
+            </Tooltip>
+          )}
+        </Box>
+        <TooltipText
+          label={value}
+          color="gray.800"
+          fontWeight="600"
+          fontSize="12px"
+          marginLeft="12px"
+        />
+      </Flex>
+    );
+  }; */
+
+  const renderActions = useCallback(
     ({ row }: CellProps<TelemetryItem>) => {
       const { original } = row;
       return (
@@ -188,7 +225,7 @@ export default function TelemetryDataTable({
     {
       Header: '操作',
       width: 80,
-      Cell: operateCell,
+      Cell: renderActions,
     },
   ];
 
@@ -209,6 +246,17 @@ export default function TelemetryDataTable({
       }),
     [telemetryFields, telemetryValues]
   );
+
+  const pagination = usePagination({ pageSize: 15 });
+  const { pageNum, pageSize, setTotalSize } = pagination;
+  const start = (pageNum - 1) * pageSize;
+  const end = start + pageSize;
+  const data = telemetryTableData.slice(start, end) || [];
+
+  useEffect(() => {
+    setTotalSize(telemetryTableData.length);
+  }, [setTotalSize, telemetryTableData.length]);
+
   return (
     <Table
       scroll={{ y: '100%' }}
@@ -217,11 +265,11 @@ export default function TelemetryDataTable({
         bodyTr: { fontSize: '12px' },
       }}
       columns={columns}
-      data={telemetryTableData || []}
+      data={data}
       isShowStripe
-      hasPagination={false}
       hasKeywords={hasKeywords}
       autoResetSelectedRows={false}
+      paginationProps={{ ...pagination, showPageSizeSelector: false }}
       onSelect={handleSelect}
     />
   );

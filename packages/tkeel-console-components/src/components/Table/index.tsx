@@ -50,6 +50,7 @@ interface Props<D extends object> {
   hasKeywords?: boolean;
   hasPagination?: boolean;
   paginationProps?: UsePaginationReturnType & {
+    showPageSizeSelector?: boolean;
     showBoxShadow?: boolean;
   };
   paginationStyle?: StyleProps;
