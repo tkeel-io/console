@@ -1,6 +1,5 @@
 import { TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { mapValues, values } from 'lodash';
-import { useState } from 'react';
 
 import { CustomTab, CustomTabList } from '@tkeel/console-components';
 import { CommandItem } from '@tkeel/console-types';
@@ -120,21 +119,18 @@ function DeviceDetailRightPanel({
       component: <RelationData deviceObject={deviceObject} />,
     },
   ];
-  const [tabIndex, setTabIndex] = useState(0);
-  const handleTabChange = (index: number) => {
-    setTabIndex(index);
-  };
+
   return (
     <Tabs
-      overflowX="hidden"
-      flex="1"
-      bg="white"
-      borderRadius="4px"
       variant="unstyled"
-      index={tabIndex}
-      onChange={handleTabChange}
+      isLazy
+      lazyBehavior="keepMounted"
       display="flex"
       flexDirection="column"
+      flex="1"
+      overflowX="hidden"
+      bg="white"
+      borderRadius="4px"
     >
       <CustomTabList>
         {tabs.map(
