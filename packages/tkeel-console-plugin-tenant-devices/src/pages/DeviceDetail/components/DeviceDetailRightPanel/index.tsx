@@ -2,7 +2,7 @@ import { TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { mapValues, values } from 'lodash';
 
 import { CustomTab, CustomTabList } from '@tkeel/console-components';
-import { CommandItem } from '@tkeel/console-types';
+import type { CommandItem, TelemetryValue } from '@tkeel/console-types';
 
 import { DeviceObject } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 import AttributesData from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/AttributesData';
@@ -16,12 +16,14 @@ type Props = {
   deviceObject: DeviceObject;
   refetch?: () => void;
   wsReadyState: number;
+  openTelemetryDetailDrawer: () => void;
 };
 
 function DeviceDetailRightPanel({
   deviceObject,
   refetch,
   wsReadyState,
+  openTelemetryDetailDrawer,
 }: Props): JSX.Element {
   const { properties, configs, id } = deviceObject;
   const attributeFields = configs?.attributes?.define?.fields ?? {};
@@ -32,7 +34,7 @@ function DeviceDetailRightPanel({
     rawData,
     basicInfo,
     attributes: attributeValues,
-    telemetry: telemetryValues,
+    // telemetry: telemetryValues,
     commands: commandValues,
     telemetryDefaultValues,
     attributeDefaultValues,
@@ -84,10 +86,12 @@ function DeviceDetailRightPanel({
           deviceId={id}
           refetch={refetch}
           telemetryFields={values(telemetryFields)}
-          telemetryValues={telemetryValues}
+          // telemetryValues={telemetryValues}
+          telemetryValues={telemetryDefaultValues as TelemetryValue}
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           telemetryDefaultValues={telemetryDefaultValues}
-          wsReadyState={wsReadyState}
+          // wsReadyState={wsReadyState}
+          openTelemetryDetailDrawer={openTelemetryDetailDrawer}
         />
       ),
     },

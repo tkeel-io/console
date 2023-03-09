@@ -6,7 +6,7 @@ import { CellProps, Column } from 'react-table';
 import {
   DeleteTelemetryButton,
   SaveTelemetryButton,
-  TelemetryDetailButton,
+  TelemetryDetailButtonWithoutDrawer,
   UpdateTelemetryButton,
 } from '@tkeel/console-business-components';
 import {
@@ -22,7 +22,9 @@ import { formatDateTimeByTimestamp } from '@tkeel/console-utils';
 
 import { TELEMETRY_TABLE_PAGE_SIZE } from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/constants';
 
-interface TelemetryTableItem extends TelemetryItem {
+import { useTelemetryTableRowDataStore } from '../../stores';
+
+export interface TelemetryTableItem extends TelemetryItem {
   value?: string | number | boolean;
 }
 
@@ -39,6 +41,7 @@ type Props = {
     selectedFlatRows: TelemetryItem[];
   }) => void;
   deleteCallback?: (selectedDevices: TelemetryItem[]) => void;
+  openTelemetryDetailDrawer: () => void;
 };
 
 export default function TelemetryDataTable({
@@ -50,7 +53,12 @@ export default function TelemetryDataTable({
   telemetryValues,
   handleSelect,
   deleteCallback,
+  openTelemetryDetailDrawer,
 }: Props) {
+  const setTelemetryTableRowData = useTelemetryTableRowDataStore(
+    (state) => state.setRowData
+  );
+
   const renderName = useCallback(
     ({ value, row }: CellProps<TelemetryTableItem, string>) => {
       const { original } = row;
@@ -115,7 +123,13 @@ export default function TelemetryDataTable({
       return (
         <MoreAction
           buttons={[
-            <TelemetryDetailButton defaultValues={original} key="detail" />,
+            <TelemetryDetailButtonWithoutDrawer
+              key="detail"
+              onClick={() => {
+                setTelemetryTableRowData(original);
+                openTelemetryDetailDrawer();
+              }}
+            />,
             <SaveTelemetryButton
               key="save"
               uid={deviceId}
@@ -142,7 +156,13 @@ export default function TelemetryDataTable({
         />
       );
     },
-    [deleteCallback, deviceId, refetchDeviceDetail]
+    [
+      deleteCallback,
+      deviceId,
+      openTelemetryDetailDrawer,
+      refetchDeviceDetail,
+      setTelemetryTableRowData,
+    ]
   );
 
   const columns: ReadonlyArray<Column<TelemetryTableItem>> = useMemo(
@@ -216,7 +236,8 @@ export default function TelemetryDataTable({
   );
   const data = useMemo(
     () => telemetryTableData.slice(start, end),
-    [end, start, telemetryTableData]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [end, start, JSON.stringify(telemetryTableData)]
   );
 
   useEffect(() => {
