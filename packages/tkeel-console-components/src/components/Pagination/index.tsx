@@ -17,6 +17,7 @@ type Props = {
   canNextPage?: boolean;
   setPageNum?: (pageNum: number) => unknown;
   setPageSize?: (pageSize: number) => unknown;
+  showPageSizeSelector?: boolean;
   showBoxShadow?: boolean;
   styles?: {
     wrapper?: StyleProps;
@@ -32,6 +33,7 @@ function Pagination({
   canNextPage = false,
   setPageNum,
   setPageSize,
+  showPageSizeSelector = true,
   showBoxShadow = false,
   styles,
 }: Props) {
@@ -56,26 +58,28 @@ function Pagination({
         项数据
       </Flex>
       <Flex alignItems="center">
-        <Select
-          marginRight="16px"
-          width="68px"
-          borderColor="gray.200"
-          _focus={{ boxShadow: 'none' }}
-          value={pageSize}
-          onChange={(e) => {
-            if (setPageSize) {
-              setPageSize(Number(e.target.value));
-            }
-          }}
-          size="sm"
-          fontSize="12px"
-        >
-          {pageSizeArr.map((size) => (
-            <option key={size} value={size}>
-              {size}
-            </option>
-          ))}
-        </Select>
+        {showPageSizeSelector && (
+          <Select
+            marginRight="16px"
+            width="68px"
+            borderColor="gray.200"
+            _focus={{ boxShadow: 'none' }}
+            value={pageSize}
+            onChange={(e) => {
+              if (setPageSize) {
+                setPageSize(Number(e.target.value));
+              }
+            }}
+            size="sm"
+            fontSize="12px"
+          >
+            {pageSizeArr.map((size) => (
+              <option key={size} value={size}>
+                {size}
+              </option>
+            ))}
+          </Select>
+        )}
         <RCPagination
           current={pageNum}
           pageSize={pageSize}

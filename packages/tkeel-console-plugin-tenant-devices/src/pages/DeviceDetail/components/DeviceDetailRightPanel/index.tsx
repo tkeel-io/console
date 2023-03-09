@@ -1,9 +1,8 @@
 import { TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { mapValues, values } from 'lodash';
-import { useState } from 'react';
 
 import { CustomTab, CustomTabList } from '@tkeel/console-components';
-import { CommandItem } from '@tkeel/console-types';
+import type { CommandItem, TelemetryValue } from '@tkeel/console-types';
 
 import { DeviceObject } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 import AttributesData from '@/tkeel-console-plugin-tenant-devices/pages/DeviceDetail/components/AttributesData';
@@ -17,12 +16,14 @@ type Props = {
   deviceObject: DeviceObject;
   refetch?: () => void;
   wsReadyState: number;
+  openTelemetryDetailDrawer: () => void;
 };
 
 function DeviceDetailRightPanel({
   deviceObject,
   refetch,
   wsReadyState,
+  openTelemetryDetailDrawer,
 }: Props): JSX.Element {
   const { properties, configs, id } = deviceObject;
   const attributeFields = configs?.attributes?.define?.fields ?? {};
@@ -33,7 +34,7 @@ function DeviceDetailRightPanel({
     rawData,
     basicInfo,
     attributes: attributeValues,
-    telemetry: telemetryValues,
+    // telemetry: telemetryValues,
     commands: commandValues,
     telemetryDefaultValues,
     attributeDefaultValues,
@@ -85,10 +86,12 @@ function DeviceDetailRightPanel({
           deviceId={id}
           refetch={refetch}
           telemetryFields={values(telemetryFields)}
-          telemetryValues={telemetryValues}
+          // telemetryValues={telemetryValues}
+          telemetryValues={telemetryDefaultValues as TelemetryValue}
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           telemetryDefaultValues={telemetryDefaultValues}
-          wsReadyState={wsReadyState}
+          // wsReadyState={wsReadyState}
+          openTelemetryDetailDrawer={openTelemetryDetailDrawer}
         />
       ),
     },
@@ -120,21 +123,18 @@ function DeviceDetailRightPanel({
       component: <RelationData deviceObject={deviceObject} />,
     },
   ];
-  const [tabIndex, setTabIndex] = useState(0);
-  const handleTabChange = (index: number) => {
-    setTabIndex(index);
-  };
+
   return (
     <Tabs
-      overflowX="hidden"
-      flex="1"
-      bg="white"
-      borderRadius="4px"
       variant="unstyled"
-      index={tabIndex}
-      onChange={handleTabChange}
+      isLazy
+      lazyBehavior="keepMounted"
       display="flex"
       flexDirection="column"
+      flex="1"
+      overflowX="hidden"
+      bg="white"
+      borderRadius="4px"
     >
       <CustomTabList>
         {tabs.map(

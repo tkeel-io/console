@@ -1,5 +1,5 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { filter, isEmpty, omit, some, throttle } from 'lodash';
+import { debounce, filter, isEmpty, omit, some } from 'lodash';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import {
@@ -51,7 +51,8 @@ type Props = {
   telemetryFields: TelemetryItem[];
   telemetryValues: TelemetryValue;
   telemetryDefaultValues: TelemetryValue;
-  wsReadyState: number;
+  // wsReadyState: number;
+  openTelemetryDetailDrawer: () => void;
 };
 const FILTER_COLUMNS = ['name', 'id', 'type'];
 function getFilterList({
@@ -74,10 +75,12 @@ export default function TelemetryData({
   deviceId,
   basicInfo,
   refetch: refetchDeviceDetail = () => {},
+
   telemetryFields,
   telemetryValues,
   telemetryDefaultValues,
-  wsReadyState,
+  // wsReadyState,
+  openTelemetryDetailDrawer,
 }: Props) {
   const [keywords, setKeywords] = useState('');
   const deviceName = basicInfo?.name ?? '';
@@ -85,12 +88,12 @@ export default function TelemetryData({
   const handleSearch = (value: string) => {
     setKeywords(value.trim());
   };
-  const [renderTelemetryValue, setRenderTelemetryValue] = useState(
+  /* const [renderTelemetryValue, setRenderTelemetryValue] = useState(
     telemetryDefaultValues
-  );
+  ); */
   const [telemetryValuesHistory, setTelemetryValuesHistory] =
     useState<TelemetryValue>(telemetryValues);
-  const func = throttle(setTelemetryValuesHistory, 10 * 1000);
+  const func = debounce(setTelemetryValuesHistory, 10 * 1000);
 
   const [selectedDevices, setSelectedDevices] = useState<TelemetryItem[]>([]);
 
@@ -129,14 +132,14 @@ export default function TelemetryData({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [telemetryValues]);
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (wsReadyState === 1 && !isEmpty(telemetryValuesHistory)) {
       setRenderTelemetryValue({
         ...telemetryDefaultValues,
         ...telemetryValuesHistory,
       });
     }
-  }, [wsReadyState, telemetryValuesHistory, telemetryDefaultValues]);
+  }, [wsReadyState, telemetryValuesHistory, telemetryDefaultValues]); */
 
   const dataTable = useMemo(() => {
     const telemetryFieldsExtra = !basicInfo?.selfLearn
@@ -173,24 +176,27 @@ export default function TelemetryData({
           keywords,
         })}
         templateTelemetryFields={telemetryFields}
-        telemetryValues={renderTelemetryValue}
+        // telemetryValues={renderTelemetryValue}
+        telemetryValues={telemetryDefaultValues}
         deviceId={deviceId}
         hasKeywords={!!keywords}
         handleSelect={handleSelect}
         refetch={refetchDeviceDetail}
         deleteCallback={deleteCallback}
+        openTelemetryDetailDrawer={openTelemetryDetailDrawer}
       />
     );
   }, [
-    renderTelemetryValue,
-    deleteCallback,
-    deviceId,
-    keywords,
-    telemetryFields,
-    telemetryValuesHistory,
     basicInfo?.selfLearn,
+    telemetryValuesHistory,
+    telemetryFields,
+    keywords,
+    telemetryDefaultValues,
+    deviceId,
     handleSelect,
     refetchDeviceDetail,
+    deleteCallback,
+    openTelemetryDetailDrawer,
   ]);
   return (
     <Box h="100%">
