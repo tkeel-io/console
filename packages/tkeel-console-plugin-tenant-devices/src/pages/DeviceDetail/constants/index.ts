@@ -20,4 +20,4 @@ export const SELF_LEARN_COLORS = [
   },
 ];
 
-export const TELEMETRY_TABLE_PAGE_SIZE = 10;
+export const TELEMETRY_TABLE_PAGE_SIZE = 15;
