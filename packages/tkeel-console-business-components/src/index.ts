@@ -41,7 +41,8 @@ export { default as SaveAsOtherTemplateButton } from './components/SaveAsOtherTe
 export { default as SaveAttributeButton } from './components/SaveAttributeButton';
 export { default as SaveTelemetryButton } from './components/SaveTelemetryButton';
 export * from './components/SetPasswordModal';
-export { default as TelemetryDetailButton } from './components/TelemetryDetailButton';
+export * from './components/TelemetryDetailButton';
+export { default as TelemetryDetailDrawer } from './components/TelemetryDetailDrawer';
 export { default as TelemetryDrawer } from './components/TelemetryDrawer';
 export { default as TemplateCard } from './components/TemplateCard';
 export { default as UpdateAttributeButton } from './components/UpdateAttributeButton';
