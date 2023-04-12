@@ -1,7 +1,7 @@
 import { Flex, useDisclosure } from '@chakra-ui/react';
 import { merge } from 'lodash';
 import qs from 'qs';
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { TelemetryDetailDrawer } from '@tkeel/console-business-components';
@@ -88,19 +88,25 @@ function DeviceDetail(): JSX.Element {
     };
   }, []);
 
-  const telemetryInfo = useMemo(() => {
+  const [telemetryInfo, setTelemetryInfo] = useState(null);
+  useEffect(() => {
     const telemetryTableRowId = telemetryTableRowData?.id;
 
     if (!telemetryTableRowId) {
-      return null;
+      setTelemetryInfo(null);
+      return;
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const info = telemetry[telemetryTableRowId];
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-    const newInfo = { value: info?.value, last_time: info?.ts };
 
-    return merge({}, telemetryTableRowData, newInfo);
+    if (info) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+      const newInfo = { value: info?.value, last_time: info?.ts };
+      const newTelemetryInfo = merge({}, telemetryTableRowData, newInfo);
+      // @ts-ignore
+      setTelemetryInfo(newTelemetryInfo);
+    }
   }, [telemetry, telemetryTableRowData]);
 
   return (
