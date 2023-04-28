@@ -48,7 +48,7 @@ function getDetailData(data: TelemetryTableItem) {
 
   return [
     { label: '遥测ID', value: data.id },
-    { label: '遥测值', value: data.value || '-' },
+    { label: '遥测值', value: data.value ?? '-' },
     {
       label: '时间戳',
       value: formatDateTimeByTimestamp({ timestamp: data.last_time }),
