@@ -1,6 +1,6 @@
 import { Box, Center, Flex, HStack, Text } from '@chakra-ui/react';
 import { isEmpty, values } from 'lodash';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useState } from 'react';
 
 import { MoreAction, PageHeaderToolbar } from '@tkeel/console-components';
 import { useColor, usePagination } from '@tkeel/console-hooks';
@@ -94,7 +94,7 @@ function Index(): JSX.Element {
   const [keyWords, setKeyWords] = useState('');
   const [searchKey, setSearchKey] = useState('');
   const pagination = usePagination();
-  const { setPageNum, pageNum, pageSize, setTotalSize } = pagination;
+  const { pageNum, pageSize, setPageNum, setTotalSize } = pagination;
   const documents = plugin.getPortalDocuments();
 
   const { groupTree, refetch: refetchGroupTree } = useGroupTreeQuery();
@@ -225,14 +225,13 @@ function Index(): JSX.Element {
     refetch: refetchDeviceList,
     deviceList,
     isLoading,
-    total,
   } = useDeviceListQuery({
     params,
+    onSuccess(data) {
+      const total = data?.data?.listDeviceObject?.total;
+      setTotalSize(total);
+    },
   });
-
-  useEffect(() => {
-    setTotalSize(total);
-  }, [total, setTotalSize]);
 
   return (
     <Flex flexDirection="column" h="100%">
