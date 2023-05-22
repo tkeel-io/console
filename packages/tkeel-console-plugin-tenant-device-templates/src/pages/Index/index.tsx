@@ -34,8 +34,12 @@ function Index() {
   const pagination = usePagination();
   const { pageNum, pageSize, setTotalSize, ...rest } = pagination;
 
-  const { templates, total, refetch } = useTemplatesQuery({
+  const { templates, refetch } = useTemplatesQuery({
     requestData: { query: keyWord, page_num: pageNum, page_size: pageSize },
+    onSuccess(data) {
+      const total = data?.data?.listDeviceObject?.total;
+      setTotalSize(total);
+    },
   });
 
   const keyData: KeyDataType[] = templates.map((val: TemplateItem) => {
@@ -50,7 +54,6 @@ function Index() {
       }),
     };
   });
-  setTotalSize(total);
 
   const handleCreateSuccess = (id?: string) => {
     toast('创建模板成功', { status: 'success' });
