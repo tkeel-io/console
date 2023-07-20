@@ -121,13 +121,13 @@ export default function TelemetryRelationTable({
       return (
         <AddRelationButton
           type="telemetry"
-          deviceObject={deviceObject}
+          uid={uid}
           configInfo={original}
           refetch={refetch}
         />
       );
     },
-    [deviceObject, refetch]
+    [uid, refetch]
   );
 
   const renderDeviceId = useCallback(
