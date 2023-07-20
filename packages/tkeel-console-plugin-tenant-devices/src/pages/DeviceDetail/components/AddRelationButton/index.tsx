@@ -6,7 +6,6 @@ import { AttributeItem, TelemetryItem } from '@tkeel/console-types';
 import { plugin } from '@tkeel/console-utils';
 
 import useCreateDeviceRelationMutation from '@/tkeel-console-plugin-tenant-devices/hooks/mutations/useCreateDeviceRelationMutation';
-import { DeviceObject } from '@/tkeel-console-plugin-tenant-devices/hooks/queries/useDeviceDetailQuery/types';
 import {
   AttributeRelationItem,
   TelemetryRelationItem,
@@ -16,18 +15,17 @@ import DeviceRelationModal from '../DeviceRelationModal';
 
 interface Props {
   type: 'telemetry' | 'attributes';
-  deviceObject: DeviceObject;
+  uid: string;
   configInfo: TelemetryRelationItem | AttributeRelationItem;
   refetch?: () => void;
 }
 export default function AddRelationButton({
   type,
-  deviceObject,
+  uid,
   configInfo,
   refetch = () => {},
 }: Props) {
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const { id: uid } = deviceObject;
   const toast = plugin.getPortalToast();
   const { mutate, isLoading } = useCreateDeviceRelationMutation({
     uid,
