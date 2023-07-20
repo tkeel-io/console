@@ -188,14 +188,13 @@ export default function AttributeRelationTable({
           return (
             <AddRelationButton
               type="attributes"
-              deviceObject={deviceObject}
+              uid={uid}
               configInfo={original}
               refetch={refetch}
             />
           );
         },
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        []
+        [uid, refetch]
       ),
     },
     {
