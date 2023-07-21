@@ -343,7 +343,7 @@ export default function DeviceRelationModal({
                   inputGroupStyle={inputGroupStyle}
                 />
                 <Flex justifyContent="space-between">
-                  <Box {...contentStyle} overflowY="auto">
+                  <Box {...contentStyle} overflowY="auto" width="50%">
                     <DeviceTemplates
                       isLoading={isDeviceTemplateFetching}
                       templates={templates}
@@ -352,7 +352,7 @@ export default function DeviceRelationModal({
                       onTemplateClick={(id) => setTemplateId(id)}
                     />
                   </Box>
-                  <Flex ml="20px" {...contentStyle}>
+                  <Flex ml="20px" width="50%" {...contentStyle}>
                     <DeviceList
                       uid={uid}
                       isLoading={isDeviceListLoading}
